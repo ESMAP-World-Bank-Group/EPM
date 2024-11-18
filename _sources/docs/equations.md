@@ -13,6 +13,17 @@ _Last update: 2023_
   - [Variables](#variables)
   - [Parameters](#parameters)
 - [Model Formulation](#model-formulation)
+    - [Objective function and its components](#objective-function-and-its-components)
+    - [Transmission network constraints](#transmission-network-constraints)
+    - [System requirements](#system-requirements)
+    - [Generation constraints](#generation-constraints)
+    - [Renewable generation](#renewable-generation)
+    - [Time consistency of power system additions and retirements](#time-consistency-of-power-system-additions-and-retirements)
+    - [Storage constraints](#storage-constraints)
+    - [Investment constraints](#investment-constraints)
+    - [Environmental policy](#environmental-policy)
+    - [CCS retrofits](#css-retrofits)
+    - [Green hydrogen production](#green-hydrogen-production)
 - [Description of the Model](#description-of-the-model)
   - [Indices and Sets](#indices-and-sets)
   - [Objective Function](#objective-function)
@@ -272,7 +283,7 @@ The model is derived based on the following assumptions:
 
 ## Model formulation
 
-### Objective function and its component
+### Objective function and its components
 
 $$
 \text{npvcost} = \sum_{z,y} (\text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y})
