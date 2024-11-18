@@ -521,6 +521,68 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#model-formulation">
    Model formulation
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#objective-function-and-its-component">
+     Objective function and its component
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-network-constraints">
+     Transmission network constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#system-requirements">
+     System requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generation-constraints">
+     Generation constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#renewable-generation">
+     Renewable generation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#concentrated-solar-power-csp-generation">
+     Concentrated Solar Power (CSP) Generation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+     Time consistency of power system additions and retirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#storage-constraints">
+     Storage constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#investment-constraints">
+     Investment constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#environmental-policy">
+     Environmental policy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ccs-retrofits">
+     CCS retrofits
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#green-hydrogen-production">
+     Green hydrogen production
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#description-of-the-model">
@@ -548,17 +610,17 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-network-constraints">
+    <a class="reference internal nav-link" href="#id2">
      Transmission network constraints
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#system-requirements">
+    <a class="reference internal nav-link" href="#id3">
      System requirements
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generation-constraints">
+    <a class="reference internal nav-link" href="#id4">
      Generation constraints
     </a>
    </li>
@@ -573,7 +635,7 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+    <a class="reference internal nav-link" href="#id5">
      Time consistency of power system additions and retirements
     </a>
    </li>
@@ -583,12 +645,12 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#investment-constraints">
+    <a class="reference internal nav-link" href="#id6">
      Investment constraints
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#environmental-policy">
+    <a class="reference internal nav-link" href="#id7">
      Environmental policy
     </a>
    </li>
@@ -882,7 +944,7 @@ title="Print to PDF"
 <td><p>Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in ( MMBTU per quarter and year)</p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑓𝑢𝑒𝑙𝐻2𝑧,𝑞,𝑦\)</span></p></td>
-<td><p>Hydrogen fuel consumption for electricity production (hydrogen produced intended for re-circulation in the power sector in ( MMBTU per year)</p></td>
+<td><p>Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in ( MMBTU per year)</p></td>
 </tr>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑓𝑢𝑒𝑙𝑧,𝑓,𝑦\)</span></p></td>
 <td><p>Fuel consumption in MMBTU</p></td>
@@ -1283,342 +1345,436 @@ title="Print to PDF"
 </section>
 <section id="model-formulation">
 <h2>Model formulation<a class="headerlink" href="#model-formulation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Objective function and its components</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(1)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(2)</p></td>
-</tr>
-<tr class="row-even"><td><p>+</p></td>
-<td><p>(3)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(4)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(5)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(6)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(7)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(8)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(9)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(10)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(11)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(12)</p></td>
-</tr>
-<tr class="row-odd"><td><p>SurplusPenalty</p></td>
-<td><p>(13)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Transmission network constraints</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(14)</p></td>
-</tr>
-<tr class="row-odd"><td><p>+</p></td>
-<td><p>(15)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(16)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(17)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(18)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>System requirements</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(19)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(20)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(21)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Generation constraints</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(22)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(23)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(24)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(25)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(26)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(27)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Renewable generation</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(28)</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Concentrated Solar Power (CSP) Generation</strong></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(29)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(30)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(31)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(32)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(33)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Time consistency of power system additions and retirements</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(34)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(35)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(36)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(37)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(38)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(39)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(40)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(41)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Storage constraints</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(42)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(43)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(44)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(45)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(46)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(47)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(48)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(49)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(50)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(51)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(52)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(53)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(54)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Investment constraints</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(55)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(56)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(57)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(58)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(59)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(60)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(61)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(62)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(63)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(64)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Environmental policy</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(65)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(66)</p></td>
-</tr>
-<tr class="row-even"><td><p></p></td>
-<td><p>(67)</p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p>(68)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>CCS retrofits</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p>(69)</p></td>
-</tr>
-</tbody>
-</table>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Green hydrogen production</strong></p></th>
-<th class="head"><p></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p></p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
+<section id="objective-function-and-its-component">
+<h3>Objective function and its component<a class="headerlink" href="#objective-function-and-its-component" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{npvcost} = \sum_{z,y} (\text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{totalcost}_{z,y} = \text{fixedcost}_{z,y} + \text{variablecost}_{z,y} + \text{reservecost}_{z,y} + \text{usecost}_{z,y} + \text{usrcost}_{z,y} + \text{carboncost}_{z,y} + \text{CO2backCost}_y + \text{TradeCost}_{z,y} + \text{CostTransmissionAdditions}_{z1,z2,y} + \text{CurtailmentCost}_{z,y} + \text{SurplusCost}_{z,y} + \text{usrcostH2}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{fixedcost}_{z,y} = \sum_{g \in \text{NG} \cap \text{NDC}} (\text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y}) +
+\sum_{g \in \text{NG} \cap \text{DC}} \text{AnnCapex}_{\text{NG},y} +
+\sum_g (\text{FixedOM}_{g,y} \cdot \text{cap}_{g,y}) +
+\sum_{h \in \text{NH} \cap \text{NDH}} (\text{CRF}_{\text{NH}} \cdot \text{CapCostH2}_{\text{NH},y} \cdot \text{cap}_{h,y}) +
+\sum_{h \in \text{NH} \cap \text{DH}} \text{AnnCapexH2}_{\text{NH},y} +
+\sum_h (\text{FixedOMH2}_{h,y} \cdot \text{capH2}_{h,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AnnCapex}_{g \in \text{DC},y} = \text{CFR}_{g \in \text{DC}} \cdot \text{CapCost}_{g \in \text{DC}} \cdot \text{CapexTrajectories}_{g \in \text{DC},y} \cdot \text{build}_{g \in \text{DC},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AnnCapexH2}_{h \in \text{DH},y} = \text{CFR}_{h \in \text{DH}} \cdot \text{CapCost}_{h \in \text{DH}} \cdot \text{CapexTrajectories}_{h \in \text{DH},y} \cdot \text{build}_{h \in \text{DH},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{variablecost}_{z,y} = \sum_{g \in \text{G},f,q,d,t} (\text{GenCost}_{g,f,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y}) +
+\sum_{h \in \text{H},q,d,t} (\text{VOM}_{\text{H2},h,y} \cdot \text{EfficiencyH2}_h \cdot \text{vH2PwrIn}_{h,g,q,d,t,y} \cdot \text{pHours}_{q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{reservecost}_{z,y} = \sum_{g \in \text{Z},q,d,t} (\text{ResCost}_g \cdot \text{Duration}_{q,d,t,y} \cdot \text{reserve}_{g,q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VOLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{usrcost}_{z,y} = \sum_{q,d,t} (\text{RESVoLL} \cdot \text{unmetRes}_{z,y}) +
+\sum_{z,q,d,t,y} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResZo}_{z,q,d,t,y}) +
+\sum_{q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResSY}_{q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
+\sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
+\text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{CO2backCost}_{,y} = \text{CO2backstopPenalty} \cdot \text{CO2backstop}_y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{YearlyTradeCost}_{z,y} = \sum_{q,d,t} ((\text{ImportPrice}_{z,q,d,t,y} - \text{ExportPrice}_{z,q,d,t,y}) \cdot \text{TradePrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{CurtailmentCost}_{z,y} = \text{CurtailmentPenalty} \cdot \text{Curtailment}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPEX}_{z1,z2})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{SurplusCost}_{z,y} = \text{SurplusPenalty} \cdot \text{Surplus}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{usrcostH2}_{z,y} = \sum_q (\text{CostH2Unserved} \cdot \text{unmetH2External}_{z,q,y})
+\]</div>
+</section>
+<section id="transmission-network-constraints">
+<h3>Transmission network constraints<a class="headerlink" href="#transmission-network-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
+\sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
+\text{storage\_out}_{z,q,d,t,y} - \text{storage\_inj}_{z,q,d,t,y} +
+\text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
+\text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
+\text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{trans}_{z,z2,q,d,t,y} \leq \text{TransLimit}_{z,z2,q,y} + \text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z,z2,y-1} + \text{BuildTransmission}_{z,z2,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z2,z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c,q,d,t} \left( \text{importPrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq
+\sum_{z \in c,q,d,t} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EEfactor}_{z,y} \cdot \text{MaxPriceImShare}_{y,c} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c} \text{importPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxImport} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c} \text{exportPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxExport} \right)
+\]</div>
+</section>
+<section id="system-requirements">
+<h3>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g \in z} \text{reserve}_{g,q,d,t,y} +
+\text{unmetSResSY}_{z,q,d,t,y} +
+\sum_{z2} \left( \text{TransLimit}_{z,z2,q,y} +
+\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
+\text{SResSY}_{z,y} + 0.2 \cdot \sum_{VRE \in z} \text{gen}_{VRE,f,q,d,t,y} \quad \forall z,q,d,t,y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g \in Z} \text{cap}_{g,y} \cdot \text{CapCredit}_{g,y} +
+\text{unmetRes}_{z,y} +
+\sum_{z2} \sum_q \left( \text{TransLimit}_{z,z2,q,y} +
+\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
+(1 + \text{PRM}_z) \cdot \max_{q,d,t} \text{Demand}_{z,q,d,t,y} \quad \forall z,y
+\]</div>
+</section>
+<section id="generation-constraints">
+<h3>Generation constraints<a class="headerlink" href="#generation-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t,y} + \text{reserve}_{g,q,d,t,y} \leq (1 + \text{OverLoadFactor}_g) \cdot \text{cap}_{g,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t-1,y} - \sum_f \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{RampDn}_g \quad \forall t &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t,y} - \sum_f \text{gen}_{g,f,q,d,t-1,y} \leq \text{cap}_{g,y} \cdot \text{RampUp}_g \quad \forall t &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t,y} \geq \text{MinCapFac}_g \cdot \text{cap}_{g,y} \quad \forall d \in M
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{f,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y} \right) \leq
+\text{Availability}_{g,q} \cdot \sum_{d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{cap}_{g,y} \right)
+\]</div>
+</section>
+<section id="renewable-generation">
+<h3>Renewable generation<a class="headerlink" href="#renewable-generation" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{gen}_{g,f,q,d,t,y} \leq \text{RPprofile}_{g,\text{RE},q,d,y,t} \cdot \text{cap}_{g,y} \quad \forall \text{RE} \notin \text{CSP}
+\]</div>
+</section>
+<section id="concentrated-solar-power-csp-generation">
+<h3>Concentrated Solar Power (CSP) Generation<a class="headerlink" href="#concentrated-solar-power-csp-generation" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSP\_storage} \quad \forall \text{map}(g,\text{CSP})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{f \in \text{CSP}} \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency\_CSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
+\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency\_CSP}} \quad \forall g,z,q,d,t,y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storageCSP}_{g,z,q,d,t,y} = \text{storageCSP}_{g,z,q,d,t-1,y} + \text{storageCSPinj}_{g,z,q,d,t,y} - \text{storageCSPout}_{g,z,q,d,t,y}
+\]</div>
+</section>
+<section id="time-consistency-of-power-system-additions-and-retirements">
+<h3>Time consistency of power system additions and retirements<a class="headerlink" href="#time-consistency-of-power-system-additions-and-retirements" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = \text{cap}_{\text{EG},y-1} + \text{build}_{\text{EG},y} - \text{retire}_{\text{EG},y} \quad \forall (y, g \in \text{EG}), \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} &gt; \text{Commission\_year}_g)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{Commission\_year}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{Commission\_year}_g \wedge \text{ord}(y) &lt; \text{Retirement\_year}_{\text{EG}})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{NG},y} = \text{cap}_{\text{NG},y-1} + \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{NG},y} = \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) = 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_g \leq \text{GenCap}_g
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) &lt; \text{Commission\_year}_g)
+\]</div>
+</section>
+<section id="storage-constraints">
+<h3>Storage constraints<a class="headerlink" href="#storage-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{storage}_{\text{st},z,q,d,t=1,y} = \text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage}_{\text{st},z,q,d,t&gt;1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
+\text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage}_{\text{st},q,d,t,y} \leq \text{Storage\_Capacity}_{\text{st},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{st},q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{st},q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Storage\_Capacity}_{\text{EG},y} = \text{Storage\_Capacity}_{\text{EG},y-1} +
+\text{Build\_Storage\_Capacity}_{\text{EG},y-1} - \text{Retire}_{\text{Storage\_Capacity}_{\text{EG},y-1}} \quad \forall y&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Storage\_Capacity}_{\text{NG},y} = \text{Storage\_Capacity}_{\text{NG},y-1} +
+\text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Storage\_Capacity}_{\text{NG},y} = \text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y=1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{StorageCapacity}_{\text{st},y} \geq \text{Cap}_{\text{st},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{StorageCapacity}_{\text{st},y} \leq \text{Maximum\_Storage\_Energy}_{\text{st},y} + \text{Maximum\_Storage\_Energy}_{\text{CSP},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y} \text{Build\_Storage\_Capacity}_{\text{EG},y} \leq \text{Maximum\_Storage\_Energy}_{\text{EG},y}
+\]</div>
+</section>
+<section id="investment-constraints">
+<h3>Investment constraints<a class="headerlink" href="#investment-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_y \text{build}_{g \in \text{NG},y} \leq \text{MaxNewCap}_{\text{NG}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_y \text{build}_{g \in \text{NG},y} \geq \text{MinNewCap}_{\text{NG}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{Commission\_year}_g &gt; \text{StartYear})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{g \in \text{NG},y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{builtCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{retire}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{retireCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{Commission\_year}_g)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{fuel}_{z,f,y} \leq \text{MaxFuelOff}_{f,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{fuel}_{z,f,y} = \sum_{g \in Z,q,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{gen}_{g,f,q,d,t,y} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{MaxCapital}
+\]</div>
+</section>
+<section id="environmental-policy">
+<h3>Environmental policy<a class="headerlink" href="#environmental-policy" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions\_Zo}_{z,y} \leq \text{Zo\_emission\_cap}_{y,z}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions}_{z,y} \leq \text{Sy\_emission\_cap}_y
+\]</div>
+</section>
+<section id="ccs-retrofits">
+<h3>CCS retrofits<a class="headerlink" href="#ccs-retrofits" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{\text{ng},y} - \text{retire}_{\text{eg},y} \leq 0 \quad \forall \text{ng},\text{eg} \in \text{GG}
+\]</div>
+</section>
+<section id="green-hydrogen-production">
+<h3>Green hydrogen production<a class="headerlink" href="#green-hydrogen-production" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{capH2}_{\text{eh},y} = \text{capH2}_{\text{eh},y-1} + \text{buildH2}_{\text{eh},y} - \text{retireH2}_{\text{eh},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{capH2}_{\text{nh},y} = \text{capH2}_{\text{nh},y-1} + \text{buildH2}_{\text{nh},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{capH2}_{h,y} = \text{H2Cap}_{h \in \text{EH},y} + \text{buildH2}_{h,y} - \text{retireH2}_{\text{EH},y} \quad \forall \text{ord}(y) = 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y \in Y} \text{buildH2}_{\text{eh},y} \leq \text{H2Cap}_{\text{eh}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y \in Y} \text{buildH2}_{\text{nh},y} \leq \text{MaxNewCapH2}_{\text{nh}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{buildH2}_{\text{nh},y} = \text{UnitSizeH2}_{\text{nh}} \cdot \text{buildCapVarH2}_{\text{nh},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{retireH2}_{\text{eh},y} = \text{UnitSizeH2}_{\text{eh}} \cdot \text{retireCapVarH2}_{\text{eh},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{d,t} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq \text{AvailabilityH2}_{h,q} \cdot \text{CapH2}_{h,y} \cdot \sum_{d,t} \text{Duration}_{q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_z \left( \text{ExternalH2}_{z,q,y} - \text{unmetH2External}_{z,q,y} + \text{fuelH2Quarter}_{z,q,y} \right) \leq \sum_{z,h \in \text{map}(h,z)} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EfficiencyH2}_h \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_z \text{fuelH2Quarter}_{z,q,y} = \text{fuelH2}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{H2PwrIn}_{h,q,d,t-1,y} - \text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y} \cdot \text{RampDnH2}_h
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{H2PwrIn}_{h,q,d,t,y} - \text{H2PwrIn}_{h,q,d,t-1,y} \leq \text{CapH2}_{h,y} \cdot \text{RampUpH2}_h
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Gen}_{\text{RE},f,d,t,y} = \text{REPwr2Grid}_{\text{RE},f,d,t,y} + \text{REPwr2H2}_{\text{RE},f,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z,h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2H2}_{\text{RE},f,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2Grid}_{\text{RE},f,q,d,t,y} = \text{PwrREGrid}_{z,q,d,t,y}
+\]</div>
+</section>
 </section>
 <section id="description-of-the-model">
 <h2>Description of the model<a class="headerlink" href="#description-of-the-model" title="Permalink to this heading">#</a></h2>
@@ -1647,8 +1803,8 @@ title="Print to PDF"
 <p>VoLL affects both the total-non served energy in the system and peaking supply investment decisions. In some cases, allowing for some loss of load might be preferable compared to investing into supply options that will only operate for a tiny amount of the annual time. The user will need to calibrate the model considering the local realities and system rules since the maximum allowed number of hours failing to meet demand is constrained by reliability criteria. When a value for VoLL is not available in global literature the EPM user can select a reported VoLL from a country with similar economic characteristics. Alternatively, the assessment of VoLL can be based on analytical expressions or based on the assumption that demand is sensitive to electricity price. In the latter case VoLL can take the value of cost of generation of the most expensive asset in the system which are usually backup diesel generators [2].</p>
 <p>Typically, back-up generators are fueled with expensive diesel, and if they are used in the mode just described, the system VOLL would take the value of the variable cost of these generators (~500 $/MWh).</p>
 </section>
-<section id="transmission-network-constraints">
-<h3>Transmission network constraints<a class="headerlink" href="#transmission-network-constraints" title="Permalink to this heading">#</a></h3>
+<section id="id2">
+<h3>Transmission network constraints<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
 <p>Kirchhoff’s laws are physical laws governing the flows over transmission lines in a network. According to first Kirchhoff law, also known as KCL (Kirchhoff’s Current Law), the sum of injections in a node should equal zero. In our formulation, KCL corresponds to equation <em>(14)</em>. There, we can see that the power provided by generators and storage should be equal to demand (minus the unmet demand) plus/min outflows/inflows from the node to adjacent nodes. This equation additionally includes price-driven import and export volumes from external zones. The demand is adjusted with the potential improvements in the energy efficiency using parameter.</p>
 <table class="table">
 <thead>
@@ -1670,8 +1826,8 @@ title="Print to PDF"
 </table>
 <p>The modelled zones, countries and regions are usually not isolated from the external systems and markets not included in the model. Therefore, we allow trading with these zones at time-varying predefined price. Equations <em>(16)</em>, <em>(17)</em> and <em>(18)</em> define the limits of this exchange. Equation <em>(16)</em> sets the annual limit on the energy imported from external zones as a percentage of the annual demand using parameter . Equations <em>(17)</em> and <em>(18)</em> introduce the hourly limit on the imported and exported power, defined as a percentage of hourly demand.</p>
 </section>
-<section id="system-requirements">
-<h3>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">#</a></h3>
+<section id="id3">
+<h3>System requirements<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
 <p>In our formulation, we model two products that the system operator might require generators to provide during operation: (1) energy and (2) spinning reserves. Per NERC’s definition, spinning reserves refers to “unloaded generation that is synchronized and ready to serve additional demand” [3]. Note that more products exist, especially in organized U.S. wholesale markets such as non-spinning reserves or flex ramp. Operating reserves (spinning and non-spinning reserves) provide the capability above firm system demand required to provide for regulation, load-forecasting error, equipment forced and scheduled outages and local area protection [3]. Moreover, under the spinning reserves different products might exist with respect to the response times required etc.</p>
 <p>The amount of spinning reserve required depends on several factors that the planner/operator considers such as the load level and the associated forecasting error, the forecasting error attached to the renewable generation and the size of the largest unit committed on the system to be able to accommodate N-1 outages. Equation <em>(19)</em> indicates that spinning reserve can be provided by interconnections. On top of system-wide reserve requirements, zonal requirements apply to accommodate for outages on transmission lines connecting adjacent regions/zones/nodes.</p>
 <table class="table">
@@ -1690,8 +1846,8 @@ title="Print to PDF"
 </thead>
 </table>
 </section>
-<section id="generation-constraints">
-<h3>Generation constraints<a class="headerlink" href="#generation-constraints" title="Permalink to this heading">#</a></h3>
+<section id="id4">
+<h3>Generation constraints<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
 <p>Spinning reserve capacity is modeled as it is a very important dimension of a system flexibility and ability to integrate VRE.</p>
 <table class="table">
 <thead>
@@ -1793,8 +1949,8 @@ title="Print to PDF"
 </thead>
 </table>
 </section>
-<section id="time-consistency-of-power-system-additions-and-retirements">
-<h3>Time consistency of power system additions and retirements<a class="headerlink" href="#time-consistency-of-power-system-additions-and-retirements" title="Permalink to this heading">#</a></h3>
+<section id="id5">
+<h3>Time consistency of power system additions and retirements<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
 <p>We use constraint (34) to track the capacity in consecutive years. In particular, generation capacity at year equals capacity at previous year plus any investment minus any retirement at year .</p>
 <table class="table">
 <thead>
@@ -1940,8 +2096,8 @@ title="Print to PDF"
 <p>(54)</p>
 <p>The first constraint ensures that the deployed energy storage (in MWh) is larger than the peak storage capacity (in MW) at any time.<sup><span class="xref myst">[7]</span></sup> The second constraint limits the total deployed energy storage (in MWh) to the maximum deployable energy storage (in MWh). Equation (54) constrains the deployment of existing storage units for which the commission year is later than the starting year of the modelling horizon.</p>
 </section>
-<section id="investment-constraints">
-<h3>Investment constraints<a class="headerlink" href="#investment-constraints" title="Permalink to this heading">#</a></h3>
+<section id="id6">
+<h3>Investment constraints<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
 <p>Planners consider several constraints when they decide on a generation investment plan. Common constraints refer to budget, land use, scheduling of new construction and consumption of specific fuels for energy security considerations.</p>
 <p>Constraint (55) usually reflects land use considerations, regulation that imposes an upper bound on capacity of specific technologies or simply resource potential (e.g., for wind there is a finite amount of locations where wind farms can provide the capacity factor modeled).</p>
 <table class="table">
@@ -1989,8 +2145,8 @@ title="Print to PDF"
 </thead>
 </table>
 </section>
-<section id="environmental-policy">
-<h3>Environmental policy<a class="headerlink" href="#environmental-policy" title="Permalink to this heading">#</a></h3>
+<section id="id7">
+<h3>Environmental policy<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
 <p>Environmental concerns often lead policymakers to adoption of caps on the amount of emissions of certain pollutants. Several countries have announced targets to reduce their carbon dioxide emissions below particular amounts. Given that the power system is a big contributor to carbon dioxide emissions, power system caps are usually enforced at the country or at multi-country level. Constraints (65) and (66) impose the caps decided by regulators. Note that constraints (67) and (68) are modeled as “hard” constraints with no violation allowed. We would like to note that environmental policy might impose caps on more pollutants beyond carbon dioxide. For example, in the USA certain caps apply on and emissions. The dual variables of constraint (66) and (68) provide valuable information to the planner since they estimate the additional cost the planner would have to bear to decrease the amount of the pollutant by an infinitely small amount. In other words, the dual prices of (66) and (68) provide an approximation of the prices that the planner would pay per unit of pollutant if slightly stricter regulation would be applied.</p>
 <table class="table">
 <thead>
@@ -2265,6 +2421,68 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#model-formulation">
    Model formulation
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#objective-function-and-its-component">
+     Objective function and its component
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-network-constraints">
+     Transmission network constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#system-requirements">
+     System requirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generation-constraints">
+     Generation constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#renewable-generation">
+     Renewable generation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#concentrated-solar-power-csp-generation">
+     Concentrated Solar Power (CSP) Generation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+     Time consistency of power system additions and retirements
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#storage-constraints">
+     Storage constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#investment-constraints">
+     Investment constraints
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#environmental-policy">
+     Environmental policy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ccs-retrofits">
+     CCS retrofits
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#green-hydrogen-production">
+     Green hydrogen production
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#description-of-the-model">
@@ -2292,17 +2510,17 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-network-constraints">
+    <a class="reference internal nav-link" href="#id2">
      Transmission network constraints
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#system-requirements">
+    <a class="reference internal nav-link" href="#id3">
      System requirements
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generation-constraints">
+    <a class="reference internal nav-link" href="#id4">
      Generation constraints
     </a>
    </li>
@@ -2317,7 +2535,7 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+    <a class="reference internal nav-link" href="#id5">
      Time consistency of power system additions and retirements
     </a>
    </li>
@@ -2327,12 +2545,12 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#investment-constraints">
+    <a class="reference internal nav-link" href="#id6">
      Investment constraints
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#environmental-policy">
+    <a class="reference internal nav-link" href="#id7">
      Environmental policy
     </a>
    </li>
