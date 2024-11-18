@@ -1,0 +1,10 @@
+format: jb-book
+root: home
+
+parts:
+  - caption: Energy Planning Model
+    chapters:
+      - file: docs/introduction
+  - caption: Equations
+    chapters:
+        - file: docs/equations
