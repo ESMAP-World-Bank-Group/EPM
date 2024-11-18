@@ -1,0 +1,52 @@
+# Book settings
+title: Energy Planning Model 
+author: XX (ESMAP)
+logo: docs/images/esmap.png
+exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
+only_build_toc_files: true
+
+repository:
+    url: https://github.com/ESMAP-World-Bank-Group/EPM
+    branch: main
+
+html:
+    home_page_in_navbar: false
+    favicon: "docs/images/favicon.ico"
+    extra_navbar: ""
+    use_edit_page_button: true
+    use_repository_button: true
+    use_issues_button: true
+    baseurl: https://github.com/ESMAP-World-Bank-Group/EPM
+    extra_footer: |
+        <div>Cite as: <i>"XX (ESMAP) - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+            <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+        </div>
+
+#######################################################################################
+# Execution settings
+execute:
+    execute_notebooks: off
+    allow_errors: true
+    exclude_patterns:
+        - tools/notebooks/**/*.ipynb
+
+#######################################################################################
+# Root-level configuration
+markdown_extensions:
+  - attr_list
+  - md_in_html
+
+plugins:
+  - search
+  - mkdocs-simple-hooks:
+      hooks:
+        on_page_markdown: "hooks:on_page_markdown"
+
+
+#######################################################################################
+# Sphinx settings
+sphinx:
+    config:
+        mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+        html_last_updated_fmt: "%b %d, %Y"
+        html_show_copyright: false
