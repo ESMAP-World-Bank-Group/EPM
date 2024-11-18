@@ -1,55 +1,33 @@
 
-# Mathematical formulation of the World Bank Electricity Planning Modeling (EPM)
+# Mathematical formulation
 
 _Last update: 2023_
 
 ## Contents
 
-[1.1 Introduction 1](#_Toc97557920)
-
-[1.1.1 Modeling Assumptions 3](#_Toc97557921)
-
-[1.1.2 What can the model do? 3](#_Toc97557922)
-
-[1.2 Notation 4](#_Toc97557923)
-
-[1.2.1 Indices and Sets 4](#_Toc97557924)
-
-[1.2.2 Variables 5](#_Toc97557925)
-
-[1.2.3 Parameters 6](#_Toc97557926)
-
-[1.3 Model formulation 9](#_Toc97557927)
-
-[1.4 Description of the model 14](#_Toc97557928)
-
-[1.4.1 Indices and Sets 15](#_Toc97557929)
-
-[1.4.2 Objective function 15](#_Toc97557930)
-
-[1.4.3 Load approximation 16](#_Toc97557931)
-
-[1.4.4 Value of Lost Load 17](#_Toc97557932)
-
-[1.4.5 Transmission network constraints 17](#_Toc97557933)
-
-[1.4.6 System requirements 18](#_Toc97557934)
-
-[1.4.7 Generation constraints 19](#_Toc97557935)
-
-[1.4.8 Renewable generation modeling 21](#_Toc97557936)
-
-[1.4.9 Concentrated Solar Power (CSP) modeling 21](#_Toc97557937)
-
-[1.4.10 Time consistency of power system additions and retirements 22](#_Toc97557938)
-
-[1.4.11 Storage modeling 23](#_Toc97557939)
-
-[1.4.12 Investment constraints 25](#_Toc97557940)
-
-[1.4.13 Environmental policy 26](#_Toc97557941)
-
-[1.5 Limitations of the model 27](#_Toc97557942)
+- [Introduction](#introduction)
+- [Modeling Assumptions](#modeling-assumptions)
+- [Outcomes](#outcomes)
+- [Notation](#notation)
+  - [Indices and Sets](#indices-and-sets)
+  - [Variables](#variables)
+  - [Parameters](#parameters)
+- [Model Formulation](#model-formulation)
+- [Description of the Model](#description-of-the-model)
+  - [Indices and Sets](#indices-and-sets)
+  - [Objective Function](#objective-function)
+  - [Load Approximation](#load-approximation)
+  - [Value of Lost Load](#value-of-lost-load)
+  - [Transmission Network Constraints](#transmission-network-constraints)
+  - [System Requirements](#system-requirements)
+  - [Generation Constraints](#generation-constraints)
+  - [Renewable Generation Modeling](#renewable-generation-modeling)
+  - [Concentrated Solar Power (CSP) Modeling](#concentrated-solar-power-csp-modeling)
+  - [Time Consistency of Power System Additions and Retirements](#time-consistency-of-power-system-additions-and-retirements)
+  - [Storage Modeling](#storage-modeling)
+  - [Investment Constraints](#investment-constraints)
+  - [Environmental Policy](#environmental-policy)
+- [Limitations of the Model](#limitations-of-the-model)
 
 ## Introduction
 
@@ -96,7 +74,7 @@ The model is derived based on the following assumptions:
 3. The trade among regions/countries is economically efficient (optimal), which translates to a single objective of minimization of cost for the whole region/country.
 4. The pricing is efficient and does not provide incentives to market participants to deviate from the optimal behavior.
 
-### What can the model do?
+### Outcomes
 
 - Identify investment needs (generation mostly) to meet the demand under various policy scenarios
 - Determine where and by how much renewable resources should be deployed to maximize their value to the system.
