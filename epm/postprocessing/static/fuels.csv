@@ -1,24 +1,12 @@
-﻿Processing,EPM_Fuel,Color,RE
-Coal,1.CoalEx,darkgray,
-Coal,2.CoalNew,darkgray,
-Coal,3.Coal_CCS,darkgray,
-Oil,21.Diesel,rosybrown,
-Gas,4.CCGTEx,tan,
-Gas,5.CCGTNew,tan,
-Gas,6.OCGTEx,tan,
-Gas,7.OCGTNew,tan,
-Gas,8.CCGT_CCS,wheat,
-Battery Storage,22.BESS,slateblue,
-Pumped-Hydro,23.PumpedHy,cornflowerblue,yes
-H2,9.GreenHydrogen,lightcyan,
-Biomass,15.Biomass,darkseagreen,yes
-Biomass,16.Biomass_CCS,lightgreen,yes
-Hydro,10.RoREx,lightskyblue,yes
-Hydro,11.RoRNew,lightskyblue,yes
-Hydro,12.HydroStorEx,lightskyblue,yes
-Hydro,13.HydroStorNew,lightskyblue,yes
-Wind,17.WindEx,lightsteelblue,yes
-Wind,18.WindNew,lightsteelblue,yes
-Solar,19.PVEx,"(1,0.93464052,0.53594771)",yes
-Solar,20.PVNew,"(1,0.93464052,0.53594771)",yes
-Trade,14.Imports,thistle,
+﻿EPM_Fuel,Processing
+HFO,Oil
+LNG,Gas
+Pumped-Hydro,Pumped-Hydro
+H2,H2
+Biomass,Biomass
+Wind,Wind
+PV,Solar
+Imports,Trade
+Water,Hydro
+Battery,Battery Storage
+Diesel,Oil
