@@ -26,6 +26,12 @@ import base64
 
 from pathlib import Path
 
+COUNTRIES = 'static/countries.csv'
+FUELS = 'static/fuels.csv'
+TECHS = 'static/technologies.csv'
+GEN = 'static/generation.csv'
+EXTERNAL_ZONES = 'static/external_zones.csv'
+
 
 def create_folders(graphs_results_folder, scenario):
     """Creates output folders."""
@@ -58,18 +64,28 @@ def create_folders(graphs_results_folder, scenario):
         os.makedirs(f'{results_scenario}/MixPie_Country')
 
 
-def read_plot_specs(excel_spec):
+def read_plot_specs(excel_spec, mode='csv'):
     """Extracts specifications for plots from excel.
     excel_spec: str
         Path to excel file
     """
-    correspondence_Co = pd.read_excel(excel_spec, sheet_name='Zones_Countries')
-    correspondence_Fu = pd.read_excel(excel_spec, sheet_name='Fuels')
-    correspondence_Te = pd.read_excel(excel_spec, sheet_name='Techs')
-    correspondence_Gen = pd.read_excel(excel_spec, sheet_name='Gen')
+    if mode == 'excel':
+        correspondence_Co = pd.read_excel(excel_spec, sheet_name='Zones_Countries')
+        correspondence_Fu = pd.read_excel(excel_spec, sheet_name='Fuels')
+        correspondence_Te = pd.read_excel(excel_spec, sheet_name='Techs')
+        correspondence_Gen = pd.read_excel(excel_spec, sheet_name='Gen')
+    elif mode == 'csv':
+        correspondence_Co = pd.read_csv(COUNTRIES)
+        correspondence_Fu = pd.read_csv(FUELS)
+        correspondence_Te = pd.read_csv(TECHS)
+        correspondence_Gen = pd.read_csv(GEN)
+        external_zones_locations = pd.read_csv(EXTERNAL_ZONES)
+    else:
+        raise ValueError('Mode should be either "excel" or "csv"')
+
     correspondence_Gen.columns = ['generator', 'fuel', 'tech', 'zone']
-    external_zones_locations = pd.read_excel(excel_spec, sheet_name='External_zones')
     external_zones_locations.columns = ['zone', 'location']
+
     if external_zones_locations.shape[0] == 0:
         external_zones_included = False
     else:
@@ -77,10 +93,11 @@ def read_plot_specs(excel_spec):
         external_zones = list(external_zones_locations['zone'].unique())
 
     # Creating mappings
+    #TODO:  Filter for the zones needed
     fuel_mapping = correspondence_Fu.set_index('EPM_Fuel')['Processing'].to_dict()
     tech_mapping = correspondence_Te.set_index('EPM_Tech')['Processing'].to_dict()
-    fuels_list = list(set(fuel_mapping.values()))
-    techs_list = list(set(tech_mapping.values()))
+    # fuels_list = list(set(fuel_mapping.values()))
+    # techs_list = list(set(tech_mapping.values()))
 
     dict_specs = {
         'correspondence_Co': correspondence_Co,
@@ -130,6 +147,7 @@ def read_input_data(excel_input):
         'pDuration': pDuration
     }
     return dict_inputs
+
 
 def calculate_pRR(discount_rate, y, years_mapping):
     """
@@ -186,6 +204,7 @@ def correspondence_fuel_epm(epm_fuel, fuel_mapping):
     """
     return fuel_mapping.get(epm_fuel)
 
+
 def correspondence_tech_epm(epm_tech, tech_mapping):
     """Gets processed name for a given fuel in gdx output.
     epm_tech: str
@@ -233,6 +252,7 @@ def tech_to_color(tech, color_tech_mapping):
         color_tech = [comp for comp in color_rgb]
     return color_tech
 
+
 def extract_epm_results(results_folder, scenario):
     """Extracts all information from the gdx files outputed by EPM."""
     # Getting all the epmresults.gdx of the different cases
@@ -277,6 +297,10 @@ def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
 
     pSummary = epmresults['pSummary']
     pDemandSupplyCountry = epmresults['pDemandSupplyCountry']
+    if years is None:
+        years = list(pDemandSupplyCountry['y'].unique())
+
+    #TODO: Make dict {'c': 'country', ...} to rename columns and use method
     pDemandSupplyCountry.columns = ['country', 'attribute', 'year', 'value', 'scenario']
 
     pDemandSupply = epmresults['pDemandSupply']
@@ -303,7 +327,8 @@ def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
     pCostSummaryCountry.columns = ['country', 'uni', 'year', 'value', 'scenario']
 
     pEmissions = epmresults['pEmissions']
-    pEmissions = pEmissions.drop(columns=['uni'])
+    if 'uni' in list(pEmissions.columns):
+        pEmissions = pEmissions.drop(columns=['uni'])
     pEmissions.columns = ['zone', 'year', 'value', 'scenario']
 
     pPrice = epmresults['pPrice']
@@ -330,6 +355,8 @@ def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
         fuel_dispatch = False
         pFuelDispatch = None
         pPlantDispatch = epmresults['pPlantDispatch']
+        if 'uni' in list(pPlantDispatch.columns):
+            pPlantDispatch = pPlantDispatch.drop(columns=['uni'])
         pPlantDispatch.columns = ['zone', 'year', 'season', 'day', 'generator', 't', 'value', 'scenario']
         pPlantFuelDispatch = pPlantDispatch.merge(correspondence_Gen, on=['generator'], how='left')
 
@@ -406,7 +433,8 @@ def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
         AdditiononalCapacity_trans = pAdditiononalCapacity_trans.pivot(index=['zone_from', 'zone_to', 'scenario'],
                                                                        columns='year', values='value')
         AdditiononalCapacity_trans.reset_index(inplace=True)
-        AdditiononalCapacity_trans[years[7:]] = AdditiononalCapacity_trans[years[7:]] / 1000  # To GW
+        #AdditiononalCapacity_trans[years[7:]] = AdditiononalCapacity_trans[years[7:]] / 1000  # To GW
+        AdditiononalCapacity_trans = AdditiononalCapacity_trans / 1000
     else:
         add_line_capa = False
         AdditiononalCapacity_trans = None
@@ -446,6 +474,120 @@ def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
     }
     return epm_dict
 
+
+def make_line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(10, 6)):
+    """Makes a line plot.
+
+    df: pd.DataFrame
+    x: str
+        Column name for x-axis
+    y: str
+        Column name for y-axis
+    xlabel: str, optional
+        Label for x-axis
+    ylabel: str, optional
+        Label for y-axis
+    title: str, optional
+        Title of the plot
+    filename: str, optional
+        Path to save the plot
+    figsize: tuple, optional, default=(8, 5)
+        Size of the figure
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.plot(df[x], df[y])
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    ax.legend()
+
+    if filename is not None:
+        plt.savefig(filename)
+
+    plt.show()
+    return None
+
+
+def make_bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(8, 5), round_tot=0):
+    """Makes a bar plot.
+
+    df: pd.DataFrame
+    x: str
+        Column name for x-axis
+    y: str
+        Column name for y-axis
+    xlabel: str, optional
+        Label for x-axis
+    ylabel: str, optional
+        Label for y-axis
+    title: str, optional
+        Title of the plot
+    filename: str, optional
+        Path to save the plot
+    figsize: tuple, optional, default=(8, 5)
+        Size of the figure
+    round_tot: int
+        Number of decimal places to round the values
+
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+    bars = ax.bar(df[x], df[y], width=0.5)
+
+    for bar in bars:
+        yval = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2.0, yval, round(yval, round_tot), va='bottom', ha='center')
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+
+    if filename is not None:
+        plt.savefig(filename)
+    plt.show()
+    return None
+
+
+def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar', selected_scenario=None, unit='GWh'):
+    """Makes a plot of demand for all countries.
+
+    pDemandSupplyCountry: pd.DataFrame
+        Contains demand data for all countries
+    folder: str
+        Path to folder where the plot will be saved
+    years: list, optional
+        List of years to include in the plot
+    plot_option: str, optional, default='bar'
+        Type of plot. Choose between 'line' and 'bar'
+    selected_scenario: str, optional
+        Name of the scenario
+    unit: str, optional, default='GWh'
+        Unit of the demand. Choose between 'GWh' and 'TWh'
+    """
+    df_tot = pDemandSupplyCountry.loc[pDemandSupplyCountry['attribute'] == 'Demand: GWh'].groupby(['year']).agg(
+        {'country': 'first', 'attribute': 'first', 'value': 'sum'}).reset_index()
+    df_tot['country'] = 'all'
+
+    if unit == 'TWh':
+        df_tot['value'] = df_tot['value'] / 1000
+
+    if years is not None:
+        df_tot = df_tot.loc[df_tot['year'].isin(years)]
+
+    if plot_option == 'line':
+        make_line_plot(df_tot, 'year', 'value',
+                       xlabel='Years',
+                       ylabel=f'Demand {unit}',
+                       title=f'Total demand - {selected_scenario} scenario',
+                       filename=f'{folder}/TotalDemand_{plot_option}.png')
+    elif plot_option == 'bar':
+        make_bar_plot(df_tot, 'year', 'value',
+                      xlabel='Years',
+                      ylabel=f'Demand {unit}',
+                      title=f'Total demand - {selected_scenario} scenario',
+                      filename=f'{folder}/TotalDemand_{plot_option}.png')
+    else:
+        raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
 if __name__ == '__main__':

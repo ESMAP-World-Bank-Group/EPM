@@ -6,6 +6,7 @@
 # Postprocessing
 /epm/postprocessing/*.ipynb
 /epm/postprocessing/*.xlsx
+/epm/postprocessing/EPM_Results
 
 # Doc
 /doc/todo.md
@@ -30,6 +31,9 @@ __pycache__/
 
 # C extensions
 *.so
+
+# Pycharm
+/.idea/
 
 # Distribution / packaging
 .Python

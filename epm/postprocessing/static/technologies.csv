@@ -1,0 +1,11 @@
+﻿Processing,EPM_Tech,Color,RE
+Coal,COAL,darkgray,
+Gas,GT,tan,
+Gas,CCGT,bisque,
+Oil,ICE,rosybrown,
+Storage,STORAGE,slateblue,
+Biomass,BIOMAS,darkseagreen,yes
+Hydro,ROR,lightskyblue,yes
+Hydro,STO HY,lightskyblue,yes
+Wind,WIND,lightsteelblue,yes
+Solar,PV,"(1,0.93464052,0.53594771)",yes
