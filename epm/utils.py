@@ -31,6 +31,7 @@ FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 GEN = 'static/generation.csv'
 EXTERNAL_ZONES = 'static/external_zones.csv'
+COLORS = 'static/colors.csv'
 
 
 def create_folders(graphs_results_folder, scenario):
@@ -64,50 +65,41 @@ def create_folders(graphs_results_folder, scenario):
         os.makedirs(f'{results_scenario}/MixPie_Country')
 
 
-def read_plot_specs(excel_spec, mode='csv'):
+def read_plot_specs():
     """Extracts specifications for plots from excel.
     excel_spec: str
         Path to excel file
     """
-    if mode == 'excel':
-        correspondence_Co = pd.read_excel(excel_spec, sheet_name='Zones_Countries')
-        correspondence_Fu = pd.read_excel(excel_spec, sheet_name='Fuels')
-        correspondence_Te = pd.read_excel(excel_spec, sheet_name='Techs')
-        correspondence_Gen = pd.read_excel(excel_spec, sheet_name='Gen')
-    elif mode == 'csv':
-        correspondence_Co = pd.read_csv(COUNTRIES)
-        correspondence_Fu = pd.read_csv(FUELS)
-        correspondence_Te = pd.read_csv(TECHS)
-        correspondence_Gen = pd.read_csv(GEN)
-        external_zones_locations = pd.read_csv(EXTERNAL_ZONES)
-    else:
-        raise ValueError('Mode should be either "excel" or "csv"')
 
-    correspondence_Gen.columns = ['generator', 'fuel', 'tech', 'zone']
+    #correspondence_Co = pd.read_csv(COUNTRIES)
+    #correspondence_Fu = pd.read_csv(FUELS)
+    #correspondence_Te = pd.read_csv(TECHS)
+    #correspondence_Gen = pd.read_csv(GEN)
+    colors = pd.read_csv(COLORS)
+    external_zones_locations = pd.read_csv(EXTERNAL_ZONES)
+    fuel_mapping = pd.read_csv(FUELS)
+    tech_mapping = pd.read_csv(TECHS)
+
+
+    """correspondence_Gen.columns = ['generator', 'fuel', 'tech', 'zone']
     external_zones_locations.columns = ['zone', 'location']
 
     if external_zones_locations.shape[0] == 0:
         external_zones_included = False
     else:
         external_zones_included = True
-        external_zones = list(external_zones_locations['zone'].unique())
-
-    # Creating mappings
-    #TODO:  Filter for the zones needed
-    fuel_mapping = correspondence_Fu.set_index('EPM_Fuel')['Processing'].to_dict()
-    tech_mapping = correspondence_Te.set_index('EPM_Tech')['Processing'].to_dict()
-    # fuels_list = list(set(fuel_mapping.values()))
-    # techs_list = list(set(tech_mapping.values()))
+        external_zones = list(external_zones_locations['zone'].unique())"""
 
     dict_specs = {
-        'correspondence_Co': correspondence_Co,
-        'correspondence_Fu': correspondence_Fu,
-        'correspondence_Te': correspondence_Te,
-        'correspondence_Gen': correspondence_Gen,
-        'external_zones_locations': external_zones_locations,
-        'external_zones_included': external_zones_included,
-        'fuel_mapping': fuel_mapping,
-        'tech_mapping': tech_mapping
+        #'correspondence_Co': correspondence_Co,
+        #'correspondence_Fu': correspondence_Fu,
+        #'correspondence_Te': correspondence_Te,
+        #'correspondence_Gen': correspondence_Gen,
+        #'external_zones_locations': external_zones_locations,
+        #'external_zones_included': external_zones_included,
+        'colors': colors.set_index('Processing')['Color'].to_dict(),
+        'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
+        'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict()
     }
     return dict_specs
 
@@ -176,83 +168,6 @@ def calculate_pRR(discount_rate, y, years_mapping):
     return pRR
 
 
-def country_to_color(epm_country, color_country_mapping):
-    """Gets color to represent a country.
-    epm_country: str
-        A given country such as 'Liberia'
-    color_country_mapping: dict
-        Dictionary mapping country names to colours. For instance, {'Liberia': 'tan'}
-    """
-    return color_country_mapping.get(epm_country)
-
-def zone_to_country(zone, zone_mapping):
-    """Gets country corresponding to zone.
-    zone: str
-        A given zone such as 'Liberia'
-    zone_mapping: dict
-        Dictionary mapping zones to countries. For instance, {'Liberia': 'Liberia'}
-    """
-    return zone_mapping.get(zone)
-
-
-def correspondence_fuel_epm(epm_fuel, fuel_mapping):
-    """Gets processed name for a given fuel in gdx output.
-    epm_fuel: str
-        A given fuel such as 'HydroMC'
-    fuel_mapping: dict
-        Dictionary mapping fuel names from EPM gdx to values for plots. For instance, {'HydroMC': 'Hydro'}
-    """
-    return fuel_mapping.get(epm_fuel)
-
-
-def correspondence_tech_epm(epm_tech, tech_mapping):
-    """Gets processed name for a given fuel in gdx output.
-    epm_tech: str
-        A given tech such as 'ROR'
-    tech_mapping: dict
-        Dictionary mapping tech names from EPM gdx to values for plots. For instance, {'ROR': 'Hydro'}
-    """
-    return tech_mapping.get(epm_tech)
-
-
-def generation_to_fuel(generation, gen_to_fuel_mapping):
-    """Gets fuel corresponding to a given generation power plant.
-    generation: str
-        A given generation plant such as 'MTCoffee'
-    gen_to_fuel_mapping: dict
-        Dictionary mapping generation name to fuel. For instance, {'MTCoffee': 'HydroMC'}
-    """
-    return gen_to_fuel_mapping.get(generation)
-
-
-def fuel_to_color(fuel, color_fuel_mapping):
-    """Gets color corresponding to fuel.
-    fuel: str
-        A given fuel such as 'Hydro'
-    color_fuel_mapping: dict
-        Dictionary mapping fuels to colors. For instance, {'Hydro': 'lightskyblue'}
-    """
-    color_fuel = color_fuel_mapping.get(fuel)
-    if color_fuel.startswith('('):
-        color_rgb = eval(color_fuel)
-        color_fuel = [comp for comp in color_rgb]
-    return color_fuel
-
-
-def tech_to_color(tech, color_tech_mapping):
-    """Gets color corresponding to tech.
-    tech: str
-        A given tech such as 'Hydro'
-    color_tech_mapping: dict
-        Dictionary mapping techs to colors. For instance, {'Coal': 'darkgray'}
-    """
-    color_tech = color_tech_mapping.get(tech)
-    if color_tech.startswith('('):
-        color_rgb = eval(color_tech)
-        color_tech = [comp for comp in color_rgb]
-    return color_tech
-
-
 def extract_epm_results(results_folder, scenario):
     """Extracts all information from the gdx files outputed by EPM."""
     # Getting all the epmresults.gdx of the different cases
@@ -286,79 +201,63 @@ def extract_epm_results(results_folder, scenario):
             else:
                 # print(f'Empty parameter for {parameter}')
                 continue
-
-
     return epmresults
 
 
-def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
+def process_epmresults(epmresults, dict_specs):
     """Processing EPM results to use in plots."""
-    pSolverParameters = epmresults['pSolverParameters']
 
-    pSummary = epmresults['pSummary']
-    pDemandSupplyCountry = epmresults['pDemandSupplyCountry']
-    if years is None:
-        years = list(pDemandSupplyCountry['y'].unique())
+    # TODO: 'zone_from', 'zone_to'
+    # TODO: 'uni' is sometimes replaced by attribute sometimes not. Now always attribute. Change code accordingly.
+    # TODO: remove correspondence_fuel_epm
 
-    #TODO: Make dict {'c': 'country', ...} to rename columns and use method
-    pDemandSupplyCountry.columns = ['country', 'attribute', 'year', 'value', 'scenario']
+    rename_columns = {'c': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
+                      'z': 'zone', 'g': 'generator', 'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
 
-    pDemandSupply = epmresults['pDemandSupply']
-    pDemandSupply.columns = ['zone', 'attribute', 'year', 'value', 'scenario']
+    keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel',
+            'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
+            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
+            'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
+            'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
+            'AdditiononalCapacity_trans'}
 
-    pEnergyByPlant = epmresults['pEnergyByPlant']
-    pEnergyByPlant.columns = ['zone', 'generator', 'year', 'value', 'scenario']
+    # Rename columns
+    epm_dict = {k: i.rename(columns=rename_columns) for k, i in epmresults.items() if k in keys and k in epmresults.keys()}
 
-    pEnergyByFuel = epmresults['pEnergyByFuel']
-    pEnergyByFuel.columns = ['zone', 'fuel', 'year', 'value', 'scenario']
-    pEnergyByFuel['fuel'] = pEnergyByFuel['fuel'].copy().apply(lambda x:correspondence_fuel_epm(x, fuel_mapping))
+    # Convert columns to the right type
+    for k, i in epm_dict.items():
+        if 'year' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'year': 'int'})
+        if 'value' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'value': 'float'})
+        if 'zone' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'zone': 'str'})
+        if 'country' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'country': 'str'})
+        if 'generator' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'generator': 'str'})
+        if 'fuel' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'fuel': 'str'})
+        if 'scenario' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'scenario': 'str'})
 
-    pCapacityByFuel = epmresults['pCapacityByFuel']
-    pCapacityByFuel.columns = ['zone', 'fuel', 'year', 'value', 'scenario']
-    pCapacityByFuel['fuel'] = pCapacityByFuel['fuel'].copy().apply(lambda x:correspondence_fuel_epm(x, fuel_mapping))
+    # Standardize names
+    def standardize_names(key, mapping):
+        if key in epm_dict.keys():
+            epm_dict[key].replace(mapping, inplace=True)
+            epm_dict[key].groupby(
+                [i for i in epm_dict[key].columns if i != 'value']).sum().reset_index()
 
-    pPlantUtilization = epmresults['pPlantUtilization']
-    pPlantUtilization.columns = ['zone', 'generator', 'year', 'value', 'scenario']
+    standardize_names('pEnergyByFuel', dict_specs['fuel_mapping'])
+    standardize_names('pCapacityByFuel', dict_specs['fuel_mapping'])
+    standardize_names('pPlantFuelDispatch', dict_specs['tech_mapping'])
 
-    pCostSummary = epmresults['pCostSummary']
-    pCostSummary.columns = ['zone', 'uni', 'year', 'value', 'scenario']
+    return epm_dict
 
-    pCostSummaryCountry = epmresults['pCostSummaryCountry']
-    pCostSummaryCountry.columns = ['country', 'uni', 'year', 'value', 'scenario']
+def for_later(epmresults, years):
+    # TODO: no need to set False or None. Just check if in epm_dict.keys().
+    # TODO: best practice
 
-    pEmissions = epmresults['pEmissions']
-    if 'uni' in list(pEmissions.columns):
-        pEmissions = pEmissions.drop(columns=['uni'])
-    pEmissions.columns = ['zone', 'year', 'value', 'scenario']
-
-    pPrice = epmresults['pPrice']
-    pPrice.columns = ['zone', 'season', 'day', 't', 'year', 'value', 'scenario']
-
-    if 'pHourlyFlow' in list(epmresults.keys()):
-        no_pHourlyFlow = False
-        pHourlyFlow = epmresults['pHourlyFlow']
-        pHourlyFlow.columns = ['zone_from', 'zone_to', 'season', 'day', 't', 'year', 'value', 'scenario']
-    else:
-        no_pHourlyFlow = True
-        pHourlyFlow = None
-
-    pDispatch = epmresults['pDispatch']
-    pDispatch.columns = ['zone', 'year', 'season', 'day', 'uni', 't', 'value', 'scenario']
-
-    if 'pFuelDispatch' in list(epmresults.keys()):
-        fuel_dispatch = True
-        pFuelDispatch = epmresults['pFuelDispatch']
-        pFuelDispatch.columns = ['zone', 'season', 'day', 't', 'year', 'fuel', 'value', 'scenario']
-        pPlantFuelDispatch = None
-
-    else:
-        fuel_dispatch = False
-        pFuelDispatch = None
-        pPlantDispatch = epmresults['pPlantDispatch']
-        if 'uni' in list(pPlantDispatch.columns):
-            pPlantDispatch = pPlantDispatch.drop(columns=['uni'])
-        pPlantDispatch.columns = ['zone', 'year', 'season', 'day', 'generator', 't', 'value', 'scenario']
-        pPlantFuelDispatch = pPlantDispatch.merge(correspondence_Gen, on=['generator'], how='left')
 
     if 'pInterconUtilization' in list(epmresults.keys()):
 
@@ -438,41 +337,7 @@ def process_epmresults(epmresults, correspondence_Gen, fuel_mapping, years):
     else:
         add_line_capa = False
         AdditiononalCapacity_trans = None
-
-    epm_dict = {
-        'pSolverParameters': pSolverParameters,
-        'pSummary': pSummary,
-        'pDemandSupplyCountry': pDemandSupplyCountry,
-        'pDemandSupply': pDemandSupply,
-        'pEnergyByPlant': pEnergyByPlant,
-        'pEnergyByFuel': pEnergyByFuel,
-        'pCapacityByFuel': pCapacityByFuel,
-        'pPlantUtilization': pPlantUtilization,
-        'pCostSummary': pCostSummary,
-        'pCostSummaryCountry': pCostSummaryCountry,
-        'pEmissions': pEmissions,
-        'pPrice': pPrice,
-        'pHourlyFlow': pHourlyFlow,
-        'no_pHourlyFlow': no_pHourlyFlow,
-        'pDispatch': pDispatch,
-        'pFuelDispatch': pFuelDispatch,
-        'fuel_dispatch': fuel_dispatch,
-        'pPlantFuelDispatch': pPlantFuelDispatch,
-        'pInterconUtilization': pInterconUtilization,
-        'InterconUtilization': InterconUtilization,
-        'pInterchange': pInterchange,
-        'Interchange': Interchange,
-        'interchanges': interchanges,
-        'pInterconUtilizationExt': pInterconUtilizationExt,
-        'InterconUtilizationExt': InterconUtilizationExt,
-        'pInterchangeExt': pInterchangeExt,
-        'InterchangeExt': InterchangeExt,
-        'pAnnualTransmissionCapacity': pAnnualTransmissionCapacity,
-        'annual_line_capa': annual_line_capa,
-        'AdditiononalCapacity_trans': AdditiononalCapacity_trans,
-        'add_line_capa': add_line_capa
-    }
-    return epm_dict
+    return None
 
 
 def make_line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(10, 6)):
@@ -564,12 +429,13 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
     unit: str, optional, default='GWh'
         Unit of the demand. Choose between 'GWh' and 'TWh'
     """
-    df_tot = pDemandSupplyCountry.loc[pDemandSupplyCountry['attribute'] == 'Demand: GWh'].groupby(['year']).agg(
-        {'country': 'first', 'attribute': 'first', 'value': 'sum'}).reset_index()
-    df_tot['country'] = 'all'
+    df_tot = pDemandSupplyCountry.loc[pDemandSupplyCountry['attribute'] == 'Demand: GWh']
+    df_tot = df_tot.groupby(['year']).agg({'value': 'sum'}).reset_index()
 
     if unit == 'TWh':
         df_tot['value'] = df_tot['value'] / 1000
+    elif unit == '000 TWh':
+        df_tot['value'] = df_tot['value'] / 1000000
 
     if years is not None:
         df_tot = df_tot.loc[df_tot['year'].isin(years)]
@@ -588,6 +454,124 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
                       filename=f'{folder}/TotalDemand_{plot_option}.png')
     else:
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
+
+
+def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', selected_scenario=None, unit='GWh',
+                         BESS_included=True, Hydro_stor_included=True):
+    """Makes a plot of demand for all countries.
+
+    pDemandSupplyCountry: pd.DataFrame
+        Contains demand data for all countries
+    folder: str
+        Path to folder where the plot will be saved
+    years: list, optional
+        List of years to include in the plot
+    plot_option: str, optional, default='bar'
+        Type of plot. Choose between 'line' and 'bar'
+    selected_scenario: str, optional
+        Name of the scenario
+    unit: str, optional, default='GWh'
+        Unit of the demand. Choose between 'GWh' and 'TWh'
+    """
+
+    if not BESS_included:
+        pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['fuel'] != 'Battery Storage']
+
+    if not Hydro_stor_included:
+        pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['fuel'] != 'Pumped-Hydro Storage']
+
+    df_tot = pEnergyByFuel.groupby('year').agg({'value': 'sum'}).reset_index()
+
+    if unit == 'TWh':
+        df_tot['value'] = df_tot['value'] / 1000
+    elif unit == '000 TWh':
+        df_tot['value'] = df_tot['value'] / 1000000
+
+    if years is not None:
+        df_tot = df_tot.loc[df_tot['year'].isin(years)]
+
+    if plot_option == 'line':
+        make_line_plot(df_tot, 'year', 'value',
+                       xlabel='Years',
+                       ylabel=f'Generation {unit}',
+                       title=f'Total generation - {selected_scenario} scenario',
+                       filename=f'{folder}/TotalGeneration_{plot_option}.png')
+    elif plot_option == 'bar':
+        make_bar_plot(df_tot, 'year', 'value',
+                      xlabel='Years',
+                      ylabel=f'Generation {unit}',
+                      title=f'Total generation - {selected_scenario} scenario',
+                      filename=f'{folder}/TotalGeneration_{plot_option}.png')
+    else:
+        raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
+
+
+def make_subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4), percent_cap=6, filename=None):
+
+    # Group by the column for subplots
+    groups = df.groupby(subplot_column)
+
+    # Calculate the number of subplots
+    num_subplots = len(groups)
+    fig, axes = plt.subplots(1, num_subplots, figsize=figsize, constrained_layout=True)
+    if num_subplots == 1:
+        axes = [axes]  # Ensure axes is iterable for a single subplot
+
+    # Plot each group as a pie chart
+    all_labels = set()  # Collect all labels for the combined legend
+    for ax, (name, group) in zip(axes, groups):
+        colors = [dict_colors[f] for f in group[index]]
+        group.plot.pie(
+            ax=ax,
+            y='value',
+            autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
+            startangle=140,
+            legend=False,
+            colors=colors,
+            labels=None
+        )
+        ax.set_ylabel('')
+        ax.set_title(name)
+        all_labels.update(group[index])  # Collect unique labels
+
+    # Create a shared legend below the graphs
+    all_labels = sorted(all_labels)  # Sort labels for consistency
+    handles = [plt.Line2D([0], [0], marker='o', color=dict_colors[label], linestyle='', markersize=10) for label in all_labels]
+    fig.legend(
+        handles,
+        all_labels,
+        loc='lower center',
+        bbox_to_anchor=(0.5, -0.1),
+        ncol=len(handles),  # Adjust number of columns based on subplots
+        title="Legend"
+    )
+
+    # Add title for the whole figure
+    fig.suptitle(title, fontsize=16)
+
+    # Save the figure if filename is provided
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+    plt.show()
+
+
+def make_fuel_mix_pie_plot(df, years, graphs_folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
+                           figsize=(16, 4), percent_cap=6, selected_scenario=None):
+    if not BESS_included:
+        df = df[df['fuel'] != 'Battery Storage']
+    if not Hydro_stor_included:
+        df = df[df['fuel'] != 'Pumped-Hydro Storage']
+
+    df = df.loc[df['year'].isin(years)].groupby(['year', 'fuel']).agg({'value': 'sum'}).reset_index()
+    df['value'] = df['value'].apply(lambda x: 0 if x < 0 else x)
+
+    title = f'Energy mix - {selected_scenario} scenario'
+    temp = '_'.join([str(y) for y in years])
+    filename = f'{graphs_folder}/EnergyMixPie_{temp}_{selected_scenario}.png'
+
+    make_subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
+                     percent_cap=percent_cap, filename=filename)
+
 
 
 if __name__ == '__main__':
