@@ -7,7 +7,7 @@ sys.path.append('..')
 from utils import create_folders, read_plot_specs, read_input_data, extract_epm_results, process_epmresults, \
     make_demand_plot, make_generation_plot, calculate_pRR, make_fuel_energy_mix_pie_plot, \
     make_fuel_capacity_mix_pie_plot, stacked_area_plot, dispatch_plot, make_fuel_dispatch_plot, \
-    make_complete_fuel_dispatch_plot, stacked_bar_plot
+    make_complete_fuel_dispatch_plot, stacked_bar_plot, make_capacity_plot
 
 
 # TODO: Add interpolation for years for missing years in order to calculate total year
@@ -131,3 +131,6 @@ if True:
                                      zone=REGION_NAME,
                                      year=YEAR, scenario=SCENARIO, fuel_grouping=fuel_grouping,
                                      select_time=select_time)
+
+    make_capacity_plot(epm_dict['pCapacityByFuel'], GRAPHS_RESULTS, dict_specs['colors'], zone='Liberia',
+                       select_stacked=[2023, 2027, 2028, 2029, 2030, 2033], fuel_grouping=fuel_grouping)
