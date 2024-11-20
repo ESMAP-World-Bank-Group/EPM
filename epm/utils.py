@@ -240,6 +240,8 @@ def process_epmresults(epmresults, dict_specs):
             epm_dict[k] = epm_dict[k].astype({'fuel': 'str'})
         if 'scenario' in i.columns:
             epm_dict[k] = epm_dict[k].astype({'scenario': 'str'})
+        if 'attribute' in i.columns:
+            epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
     # Standardize names
     def standardize_names(key, mapping):
@@ -248,99 +250,54 @@ def process_epmresults(epmresults, dict_specs):
             epm_dict[key].groupby(
                 [i for i in epm_dict[key].columns if i != 'value']).sum().reset_index()
 
+            new_fuels = [f for f in epm_dict[key]['fuel'].unique() if f not in mapping.values()]
+            if new_fuels:
+                raise ValueError(f'New fuels found in {key}: {new_fuels}. '
+                                 f'Add fuels to the mapping in the /static folder and add in the colors.csv file.')
+        else:
+            print(f'{key} not found in epm_dict')
+
     standardize_names('pEnergyByFuel', dict_specs['fuel_mapping'])
     standardize_names('pCapacityByFuel', dict_specs['fuel_mapping'])
+    standardize_names('pFuelDispatch', dict_specs['fuel_mapping'])
     standardize_names('pPlantFuelDispatch', dict_specs['tech_mapping'])
 
     return epm_dict
 
-def for_later(epmresults, years):
-    # TODO: no need to set False or None. Just check if in epm_dict.keys().
-    # TODO: best practice
+
+def format_ax(ax, linewidth=True):
+    """
+    Format the given Matplotlib axis:
+    - Removes the background.
+    - Removes the grid.
+    - Ensures the entire frame is displayed.
+
+    Parameters:
+        ax (matplotlib.axes.Axes): The axis to format.
+    """
+    # Remove the background
+    ax.set_facecolor('none')
+
+    # Remove grid lines
+    ax.grid(False)
+
+    # Optionally, make spines more prominent (if needed)
+    if linewidth:
+        for spine in ax.spines.values():
+            spine.set_color('black')  # Ensure spines are visible
+            spine.set_linewidth(1)  # Adjust spine thickness
+
+    # Remove ticks if necessary (optional, can comment out)
+    ax.tick_params(top=False, right=False, left=True, bottom=True, direction='in', width=0.8)
+
+    # Ensure the entire frame is displayed
+    ax.spines['top'].set_visible(True)
+    ax.spines['right'].set_visible(True)
+    ax.spines['bottom'].set_visible(True)
+    ax.spines['left'].set_visible(True)
 
 
-    if 'pInterconUtilization' in list(epmresults.keys()):
-
-        interchanges = True
-
-        pInterconUtilization = epmresults['pInterconUtilization']
-        pInterconUtilization.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        InterconUtilization = pInterconUtilization.pivot(index=['zone_from', 'zone_to', 'scenario'], columns='year',
-                                                         values='value')
-        InterconUtilization.reset_index(inplace=True)
-        InterconUtilization[years] = InterconUtilization[years] * 100  # %
-
-        pInterchange = epmresults['pInterchange']
-        pInterchange.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        Interchange = pInterchange.pivot(index=['zone_from', 'zone_to', 'scenario'], columns='year', values='value')
-        Interchange.reset_index(inplace=True)
-        Interchange[years] = Interchange[years]
-
-    else:
-        interchanges = False
-        pInterconUtilization = None
-        InterconUtilization = None
-        pInterchange = None
-        Interchange = None
-
-    if 'pInterconUtilizationExtExp' in list(epmresults.keys()):
-
-        interchanges_ext = True
-        # Getting the imports and exmports and concatening them
-        pInterconUtilizationExtExp = epmresults['pInterconUtilizationExtExp']
-        pInterconUtilizationExtExp.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        pInterconUtilizationExtImp = epmresults['pInterconUtilizationExtImp']
-        pInterconUtilizationExtImp.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        pInterconUtilizationExt = pd.concat([pInterconUtilizationExtExp, pInterconUtilizationExtImp])
-
-        InterconUtilizationExt = pInterconUtilizationExt.pivot(index=['zone_from', 'zone_to', 'scenario'],
-                                                               columns='year', values='value')
-        InterconUtilizationExt.reset_index(inplace=True)
-        InterconUtilizationExt[years] = InterconUtilizationExt[years] * 100  # %
-        InterconUtilizationExt[years] = InterconUtilizationExt[years].fillna(0)
-
-        pInterchangeExtExp = epmresults['pInterchangeExtExp']
-        pInterchangeExtExp.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        pInterchangeExtImp = epmresults['pInterchangeExtImp']
-        pInterchangeExtImp.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        pInterchangeExt = pd.concat([pInterchangeExtExp, pInterchangeExtImp])
-
-        InterchangeExt = pInterchangeExt.pivot(index=['zone_from', 'zone_to', 'scenario'], columns='year',
-                                               values='value')
-        InterchangeExt.reset_index(inplace=True)
-        InterchangeExt[years] = InterchangeExt[years].fillna(0)
-
-    else:
-        interchanges = False
-        pInterconUtilizationExt = None
-        InterconUtilizationExt = None
-        pInterchangeExt = None
-        InterchangeExt = None
-
-    if 'pAnnualTransmissionCapacity' in list(epmresults.keys()):
-        annual_line_capa = True
-        pAnnualTransmissionCapacity = epmresults['pAnnualTransmissionCapacity']
-        pAnnualTransmissionCapacity.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-    else:
-        annual_line_capa = False
-        pAnnualTransmissionCapacity = None
-
-    if 'pAdditionalCapacity' in list(epmresults.keys()):
-        add_line_capa = True
-        pAdditiononalCapacity_trans = epmresults['pAdditionalCapacity']
-        pAdditiononalCapacity_trans.columns = ['zone_from', 'zone_to', 'year', 'value', 'scenario']
-        AdditiononalCapacity_trans = pAdditiononalCapacity_trans.pivot(index=['zone_from', 'zone_to', 'scenario'],
-                                                                       columns='year', values='value')
-        AdditiononalCapacity_trans.reset_index(inplace=True)
-        #AdditiononalCapacity_trans[years[7:]] = AdditiononalCapacity_trans[years[7:]] / 1000  # To GW
-        AdditiononalCapacity_trans = AdditiononalCapacity_trans / 1000
-    else:
-        add_line_capa = False
-        AdditiononalCapacity_trans = None
-    return None
-
-
-def make_line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(10, 6)):
+def line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(10, 6)):
     """Makes a line plot.
 
     df: pd.DataFrame
@@ -374,7 +331,7 @@ def make_line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None
     return None
 
 
-def make_bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(8, 5), round_tot=0):
+def bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(8, 5), round_tot=0):
     """Makes a bar plot.
 
     df: pd.DataFrame
@@ -441,13 +398,13 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
         df_tot = df_tot.loc[df_tot['year'].isin(years)]
 
     if plot_option == 'line':
-        make_line_plot(df_tot, 'year', 'value',
+        line_plot(df_tot, 'year', 'value',
                        xlabel='Years',
                        ylabel=f'Demand {unit}',
                        title=f'Total demand - {selected_scenario} scenario',
                        filename=f'{folder}/TotalDemand_{plot_option}.png')
     elif plot_option == 'bar':
-        make_bar_plot(df_tot, 'year', 'value',
+        bar_plot(df_tot, 'year', 'value',
                       xlabel='Years',
                       ylabel=f'Demand {unit}',
                       title=f'Total demand - {selected_scenario} scenario',
@@ -491,13 +448,13 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         df_tot = df_tot.loc[df_tot['year'].isin(years)]
 
     if plot_option == 'line':
-        make_line_plot(df_tot, 'year', 'value',
+        line_plot(df_tot, 'year', 'value',
                        xlabel='Years',
                        ylabel=f'Generation {unit}',
                        title=f'Total generation - {selected_scenario} scenario',
                        filename=f'{folder}/TotalGeneration_{plot_option}.png')
     elif plot_option == 'bar':
-        make_bar_plot(df_tot, 'year', 'value',
+        bar_plot(df_tot, 'year', 'value',
                       xlabel='Years',
                       ylabel=f'Generation {unit}',
                       title=f'Total generation - {selected_scenario} scenario',
@@ -506,7 +463,7 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-def make_subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4), percent_cap=6, filename=None):
+def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4), percent_cap=6, filename=None):
 
     # Group by the column for subplots
     groups = df.groupby(subplot_column)
@@ -552,11 +509,13 @@ def make_subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(
     # Save the figure if filename is provided
     if filename:
         plt.savefig(filename, bbox_inches='tight')
-    plt.show()
+    else:
+        plt.tight_layout()
+        plt.show()
 
 
-def make_fuel_mix_pie_plot(df, years, graphs_folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
-                           figsize=(16, 4), percent_cap=6, selected_scenario=None):
+def make_fuel_energy_mix_pie_plot(df, years, graphs_folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
+                                  figsize=(16, 4), percent_cap=6, selected_scenario=None):
     if not BESS_included:
         df = df[df['fuel'] != 'Battery Storage']
     if not Hydro_stor_included:
@@ -565,13 +524,156 @@ def make_fuel_mix_pie_plot(df, years, graphs_folder, dict_colors, BESS_included=
     df = df.loc[df['year'].isin(years)].groupby(['year', 'fuel']).agg({'value': 'sum'}).reset_index()
     df['value'] = df['value'].apply(lambda x: 0 if x < 0 else x)
 
-    title = f'Energy mix - {selected_scenario} scenario'
+    title = f'Energy generation mix - {selected_scenario} scenario'
     temp = '_'.join([str(y) for y in years])
-    filename = f'{graphs_folder}/EnergyMixPie_{temp}_{selected_scenario}.png'
+    filename = f'{graphs_folder}/EnergyGenerationMixPie_{temp}_{selected_scenario}.png'
 
-    make_subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
+    subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
                      percent_cap=percent_cap, filename=filename)
 
+
+def make_fuel_capacity_mix_pie_plot(df, years, graphs_folder, dict_colors, figsize=(16, 4), percent_cap=6,
+                                    selected_scenario=None):
+
+    df = df.loc[df['year'].isin(years)].groupby(['year', 'fuel']).agg({'value': 'sum'}).reset_index()
+    df['value'] = df['value'].apply(lambda x: 0 if x < 0 else x)
+
+    title = f'Energy capacity mix - {selected_scenario} scenario'
+    temp = '_'.join([str(y) for y in years])
+    filename = f'{graphs_folder}/EnergyCapacityMixPie_{temp}_{selected_scenario}.png'
+
+    subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
+                     percent_cap=percent_cap, filename=filename)
+
+
+def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
+                      df_2=None, title='', x_label='Years', y_label='',
+                      legend_title='', y2_label='', figsize=(10, 6)):
+    """
+    Generate a stacked area chart with a secondary y-axis.
+
+    Parameters:
+        df (pd.DataFrame): DataFrame containing the data
+        filename (str): Path to save the plot
+        dict_colors (dict): Dictionary mapping fuel types to colors, optional
+        x_column (str): Column for x-axis, default is 'year'
+        y_column (str): Column for y-axis, default is 'value'
+        stack_column (str): Column for stacking, default is 'fuel'
+        legend_title (str): Title for the legend
+        df_2 (pd.DataFrame): DataFrame containing data for the secondary y-axis, optional
+        title (str): Title of the plot
+        x_label (str): Label for the x-axis
+        y_label (str): Label for the primary y-axis
+        y2_label (str): Label for the secondary y-axis
+        figsize (tuple): Size of the figure
+    """
+    fig, ax1 = plt.subplots(figsize=figsize)
+
+    # Plot stacked area for generation
+    temp = df.groupby([x_column, stack_column])[y_column].sum().unstack(stack_column)
+    temp.plot.area(ax=ax1, stacked=True, alpha=0.8, color=dict_colors)
+    ax1.set_xlabel(x_label)
+    ax1.set_ylabel(y_label)
+    ax1.set_title(title)
+    format_ax(ax1)
+
+    # Secondary y-axis
+    if df_2 is not None:
+        # Remove legend ax1
+        ax1.get_legend().remove()
+
+        temp = df_2.groupby([x_column])[y_column].sum()
+        ax2 = ax1.twinx()
+        line, = ax2.plot(temp.index, temp, color='brown', label=y2_label)
+        ax2.set_ylabel(y2_label, color='brown')
+        format_ax(ax2, linewidth=False)
+
+        # Combine legends for ax1 and ax2
+        handles_ax1, labels_ax1 = ax1.get_legend_handles_labels()  # Collect from ax1
+        handles_ax2, labels_ax2 = [line], [y2_label]  # Collect from ax2
+        handles = handles_ax1 + handles_ax2  # Combine handles
+        labels = labels_ax1 + labels_ax2  # Combine labels
+        fig.legend(
+            handles,
+            labels,
+            loc='center left',
+            bbox_to_anchor=(1.1, 0.5),  # Right side, centered vertically
+            frameon=False,
+        )
+    else:
+        ax1.legend(
+            loc='center left',
+            bbox_to_anchor=(1.1, 0.5),  # Right side, centered vertically
+            title=legend_title,
+            frameon=False,
+        )
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+    else:
+        plt.tight_layout()
+        plt.show()
+
+
+def dispatch_plot(df, filename, dict_colors=None, figsize=(10, 6)):
+
+    fig, ax = plt.subplots(figsize=figsize)
+    df.plot.area(ax=ax, stacked=True, color=dict_colors)
+
+    # Adding the representative days and seasons
+    n_rep_days = len(df.index.get_level_values('day').unique())
+    dispatch_seasons = df.index.get_level_values('season').unique()
+    total_days = len(dispatch_seasons) * n_rep_days
+    y_max = ax.get_ylim()[1]
+
+    for d in range(total_days):
+        x_d = 24 * d
+
+        # Add vertical lines to separate days
+        is_end_of_season = d % n_rep_days == 0
+        linestyle = '-' if is_end_of_season else '--'
+        ax.axvline(x=x_d, color='slategrey', linestyle=linestyle, linewidth=0.8)
+
+        # Add day labels (d1, d2, ...)
+        ax.text(
+            x=x_d + 12,  # Center of the day (24 hours per day)
+            y=y_max * 0.99,
+            s=f'd{(d % n_rep_days) + 1}',
+            ha='center',
+            fontsize=7
+        )
+
+    # Add season labels
+    season_x_positions = [24 * n_rep_days * s + 12 * n_rep_days for s in range(len(dispatch_seasons))]
+    ax.set_xticks(season_x_positions)
+    ax.set_xticklabels(dispatch_seasons, fontsize=8)
+    ax.set_xlim(left=0, right=24 * total_days)
+
+    # Add axis labels and title
+    ax.set_xlabel('Hours')
+    ax.set_ylabel('Generation (GWh)', fontweight='bold')
+    ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
+
+    # Add legend bottom center
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df.columns), frameon=False)
+
+    # Remove grid
+    ax.grid(False)
+    if filename is not None:
+        fig.savefig(filename, bbox_inches='tight')
+    else:
+        plt.show()
+
+
+def make_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year, scenario, column_stacked='fuel',
+                       selected_scenario=None):
+    df = pFuelDispatch
+    df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+    df = df.drop(columns=['zone', 'year', 'scenario'])
+    df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
+    df = df.droplevel(0, axis=1)
+
+    filename = f'{graph_folder}/Dispatch_{selected_scenario}.png'
+    dispatch_plot(df, filename, dict_colors)
 
 
 if __name__ == '__main__':
