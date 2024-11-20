@@ -697,7 +697,7 @@ def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year
         df['fuel'] = df['fuel'].replace(
             fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index()
+    df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
     if select_time is not None:
         if 'season' in select_time.keys():
@@ -745,7 +745,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
                 df['fuel'] = df['fuel'].replace(
                     fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-        df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
+        df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
         if select_time is not None:
             if 'season' in select_time.keys():
@@ -768,7 +768,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
                 df['fuel'] = df['fuel'].replace(
                     fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-        df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
+        df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
         if select_time is not None:
             if 'season' in select_time.keys():
