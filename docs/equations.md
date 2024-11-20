@@ -61,7 +61,7 @@ The model is derived based on the following assumptions:
 - Determine the impact of different market conditions (e.g., fuel prices, fuel subsidies, carbon limits, etc.) and technology cost assumptions on the optimal capacity expansion plan and the optimal energy mix.
 - Determine the cost of implementing specific environmental policies: renewable portfolio standard, cap on carbon emissions, tax on carbon emissions, and carbon emissions rate.
 
-# Notation
+## Notation
 
 ### Indices and Sets
 

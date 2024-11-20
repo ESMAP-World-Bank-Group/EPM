@@ -14,18 +14,17 @@ The practical deployment of EPM consists of a 7-step process, which is illustrat
 ---
 
 ## Quick start
-EPM is a model formulated in the General Algebraic Modeling System (GAMS), a high-level modeling system for mathematical optimization. GAMS and Excel are required to be installed to run EPM. Furthermore, to work with EPM, additional licensing of GAMS is necessary. To install GAMS or obtain the appropriate license, go to the following website and follow the provided instructions:
 
-https://www.gams.com/download/
+EPM is a model formulated in the General Algebraic Modeling System (GAMS), a high-level modeling system for mathematical optimization. GAMS and Excel are required to be installed to run EPM. Furthermore, to work with EPM, additional licensing of GAMS is necessary. To install GAMS or obtain the appropriate license, go to the [website](https://www.gams.com/download/) and follow the instructions.
 
-The Excel file, labeled *EPM_input.xlsx*, serves the interface of the EPM tool. This file should store all the input data required to run the model. When using the EPM interface, it is advisable to address one tab at a time and start at the left-most tab and sequentially address the right-neighboring tab. When the Excel file is appropriately filled, the user might proceed to the GAMS software and run the model. Otherwise, the run will produce errors, which need to be addressed.
+The Excel file, labeled `EPM_input.xlsx`, serves the interface of the EPM tool. This file should store all the input data required to run the model. When using the EPM interface, it is advisable to address one tab at a time and start at the left-most tab and sequentially address the right-neighboring tab. When the Excel file is appropriately filled, the user might proceed to the GAMS software and run the model. Otherwise, the run will produce errors, which need to be addressed.
 
 Model is composed of three .gms files:
-- _*base.gms_   - contains the introduction of all the variables, parameters, and equations of the model.
-- _*report.gms_ - processes the model's outcomes and produces the results files.
-- _*main.gms_   - controls the overall flow of the program and is used to run the model.
+- `*base.gms`   - contains the introduction of all the variables, parameters, and equations of the model.
+- `*report.gms` - processes the model's outcomes and produces the results files.
+- `*main.gms`   - controls the overall flow of the program and is used to run the model.
 
-To run the model, open _*main.gms_ file in GAMS IDE or GAMS Studio in the same directory with _*report.gms_, _*base.gms_ and filled *EPM_input.xlsx*, and run the script. The model will automatically include all the input data and files, solve the model and produce the results.
+To run the model, open `*main.gms` file in GAMS IDE or GAMS Studio in the same directory with `*report.gms`, `*base.gms` and filled `EPM_input.xlsx`, and run the script. The model will automatically include all the input data and files, solve the model and produce the results.
 
 ## Works deploying EPM
 
@@ -40,9 +39,6 @@ To run the model, open _*main.gms_ file in GAMS IDE or GAMS Studio in the same d
 - Spyrou, E., Hobbs, B. F., Bazilian, M. D., & Chattopadhyay, D. (2019). Planning power systems in fragile and conflict-affected states. Nature energy, 4(4), 300-310.
 - World Bank Group. Poland Energy Transition: The Path to Sustainability in the Electricity and Heating Sector. World Bank, 2018.
 
-## Documentation
-
-Documentation is available here: https://github.com/worldbank/EPM/blob/main/WB_Electricity_Planning_Model_Documentation_2023.pdf
 
 ## Citing EPM
 
@@ -50,10 +46,18 @@ Please cite EPM as:
 
 Chattopadhyay, D., De Sisternes, F., Oguah, S. K. W., World Bank Electricity Planning Model (EPM) Mathematical Formulation, 2018, Energy Sector Management Assistance Program (ESMAP), International Bank for Reconstruction and Development, The World Bank, Washington DC
 
+```bibtex
+@article{
+  author = {Chattopadhyay, Debabrata and De Sisternes, Fernando and Oguah, Samuel Kofi Wilson},
+  title = {World Bank Electricity Planning Model (EPM) Mathematical Formulation},
+  year = {2018},
+  institution = {Energy Sector Management Assistance Program (ESMAP), International Bank for Reconstruction and Development, The World Bank},
+  address = {Washington DC}
+}
+```
+
 ## License
 
 Licensed under the Areative Commons Zero v1.0 Universal (the "License"); you
 may not use this file except in compliance with the License. You may
-obtain a copy of the License at
-
-<https://creativecommons.org/publicdomain/zero/1.0/>
+obtain a copy of the License at <https://creativecommons.org/publicdomain/zero/1.0/>
