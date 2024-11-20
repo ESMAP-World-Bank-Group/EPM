@@ -715,6 +715,20 @@ def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year
     dispatch_plot(df, filename, dict_colors)
 
 
+def select_time_period(df, select_time):
+    """Select a specific time period in a dataframe.
+    df: pd.DataFrame
+        Columns contain season and day
+    select_time: dict
+        For each key, specifies a subset of the dataframe
+    """
+    if 'season' in select_time.keys():
+        df = df.loc[df.season.isin(select_time['season'])]
+    if 'day' in select_time.keys():
+        df = df.loc[df.day.isin(select_time['day'])]
+    return df
+
+
 def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, zone, year, scenario,
                                 selected_scenario=None, fuel_grouping=None, select_time=None):
     """
@@ -748,10 +762,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
         df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
         if select_time is not None:
-            if 'season' in select_time.keys():
-                df = df.loc[df.season.isin(select_time['season'])]
-            if 'day' in select_time.keys():
-                df = df.loc[df.day.isin(select_time['day'])]
+            df = select_time_period(df, select_time)
 
         df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
         tmp_concat_area.append(df)
@@ -771,10 +782,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
         df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
         if select_time is not None:
-            if 'season' in select_time.keys():
-                df = df.loc[df.season.isin(select_time['season'])]
-            if 'day' in select_time.keys():
-                df = df.loc[df.day.isin(select_time['day'])]
+            df = select_time_period(df, select_time)
         df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
         tmp_concat_line.append(df)
 
@@ -794,6 +802,98 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
 
     filename = f'{graph_folder}/Dispatch_{selected_scenario}.png'
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors)
+
+
+def make_capacity_plot(pCapacityByFuel, graph_folder, dict_colors, zone, column_stacked='year', column_group='fuel',
+                       select_stacked=None, fuel_grouping=None):
+    df = pCapacityByFuel
+    df = df[(df['zone'] == zone)]
+    df = df.drop(columns=['zone'])
+
+    if fuel_grouping is not None:
+        assert 'fuel' in df.columns, 'Fuel grouping is used but fuel is not in the columns.'
+        df['fuel'] = df['fuel'].replace(
+            fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+    df = (df.groupby([column_stacked, column_group, 'scenario'], observed=False).sum().reset_index())
+
+    df = df.set_index([column_group, 'scenario', column_stacked]).squeeze().unstack(column_stacked)
+
+    if select_stacked is not None:
+        df = df[select_stacked]
+
+    filename = f'{graph_folder}/CapacityEvolution.png'
+    capacity_plot(df, column_group, filename, dict_colors)
+
+
+def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
+                  rotation=0, fonttick=14, legend=True):
+    list_keys = list(df.columns)
+    n_columns = int(len(list_keys))
+    n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
+    n_rows = 1
+    if year_ini is not None:
+        width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
+    else:
+        width_ratios = [1] * n_columns
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
+                             gridspec_kw={'width_ratios': width_ratios})
+    handles, labels = None, None
+    for k in range(n_rows * n_columns):
+        column = k % n_columns
+        ax = axes[column]
+
+        try:
+            key = list_keys[k]
+            df_temp = df[key].unstack(column_group)
+
+            if key == year_ini:
+                df_temp = df_temp.iloc[0, :]
+                df_temp = df_temp.to_frame().T
+                df_temp.index = ['Initial']
+            else:
+                if order_scenarios is not None:
+                    df_temp = df_temp.loc[order_scenarios, :]
+
+            df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=dict_colors if dict_colors is not None else None)
+
+            ax.spines['left'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+
+            plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
+            # put tick label in bold
+            ax.tick_params(axis='both', which='major', bottom=False, labelbottom=True)
+
+            title = key
+            if isinstance(key, tuple):
+                title = '{}-{}'.format(key[0], key[1])
+            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
+            if k == 0:
+                handles, labels = ax.get_legend_handles_labels()
+                labels = [l.replace('_', ' ') for l in labels]
+                ax.tick_params(axis='y', which='both', left=False, labelleft=True)
+                # ax.yaxis.set_major_formatter(FuncFormatter(formatter))
+            if k>0:
+                ax.set_ylabel('')
+                ax.tick_params(axis='y', which='both', left=False, labelleft=False)
+            ax.get_legend().remove()
+
+        except IndexError:
+            ax.axis('off')
+
+        # if figtitle is not None:
+        #     fig.suptitle(figtitle, x=0.5, y=1.05, weight='bold', color='black', size=20)
+
+        if legend:
+            fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
+                       bbox_to_anchor=(1, 0.5))
+
+        if filename is not None:
+            fig.savefig(filename, bbox_inches='tight')
+        else:
+            plt.show()
 
 
 def cluster_stackedbar_plot(df, group_column, colors=None, rotation=0, year_ini=None, order_scenarios=None,
