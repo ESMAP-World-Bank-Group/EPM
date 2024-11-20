@@ -4,7 +4,9 @@ root: home
 parts:
   - caption: Energy Planning Model
     chapters:
-      - file: docs/introduction
+      - file: docs/README
+      - file: docs/run_epm
+      - file: docs/run_engine_remote_server
   - caption: Equations
     chapters:
         - file: docs/equations

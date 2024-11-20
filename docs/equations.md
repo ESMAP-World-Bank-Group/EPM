@@ -3,43 +3,6 @@
 
 _Last update: 2023_
 
-## Contents
-
-- [Introduction](#introduction)
-- [Modeling Assumptions](#modeling-assumptions)
-- [Outcomes](#outcomes)
-- [Notation](#notation)
-  - [Indices and Sets](#indices-and-sets)
-  - [Variables](#variables)
-  - [Parameters](#parameters)
-- [Model Formulation](#model-formulation)
-    - [Objective function and its components](#objective-function-and-its-components)
-    - [Transmission network constraints](#transmission-network-constraints)
-    - [System requirements](#system-requirements)
-    - [Generation constraints](#generation-constraints)
-    - [Renewable generation](#renewable-generation)
-    - [Time consistency of power system additions and retirements](#time-consistency-of-power-system-additions-and-retirements)
-    - [Storage constraints](#storage-constraints)
-    - [Investment constraints](#investment-constraints)
-    - [Environmental policy](#environmental-policy)
-    - [CCS retrofits](#css-retrofits)
-    - [Green hydrogen production](#green-hydrogen-production)
-- [Description of the Model](#description-of-the-model)
-  - [Indices and Sets](#indices-and-sets)
-  - [Objective Function](#objective-function)
-  - [Load Approximation](#load-approximation)
-  - [Value of Lost Load](#value-of-lost-load)
-  - [Transmission Network Constraints](#transmission-network-constraints)
-  - [System Requirements](#system-requirements)
-  - [Generation Constraints](#generation-constraints)
-  - [Renewable Generation Modeling](#renewable-generation-modeling)
-  - [Concentrated Solar Power (CSP) Modeling](#concentrated-solar-power-csp-modeling)
-  - [Time Consistency of Power System Additions and Retirements](#time-consistency-of-power-system-additions-and-retirements)
-  - [Storage Modeling](#storage-modeling)
-  - [Investment Constraints](#investment-constraints)
-  - [Environmental Policy](#environmental-policy)
-- [Limitations of the Model](#limitations-of-the-model)
-
 ## Introduction
 
 The World Bank’s Electricity Planning Model (EPM) is a long-term, multi-year, multi-zone capacity expansion and dispatch model. The objective of the model is to minimize the sum of fixed (including annualized capital costs) and variable generation costs (discounted for time) for all zones and all years considered, subject to:
