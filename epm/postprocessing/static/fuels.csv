@@ -9,4 +9,10 @@ PV,Solar
 Imports,Trade
 Water,Hydro
 Battery,Battery Storage
-Diesel,Oil
+Diesel,Oil diesel
+HydroMC,Hydro MC
+HydroRoR,Hydro RoR
+HydroStor,Hydro Storage
+BESS4hr,Battery Storage 4h
+BESS8hr,Battery Storage 8h
+Import,Import
