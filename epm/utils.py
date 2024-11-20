@@ -33,6 +33,11 @@ GEN = 'static/generation.csv'
 EXTERNAL_ZONES = 'static/external_zones.csv'
 COLORS = 'static/colors.csv'
 
+NAME_COLUMNS = {
+    'pFuelDispatch': 'fuel',
+    'pDispatch': 'attribute'
+}
+
 
 def create_folders(graphs_results_folder, scenario):
     """Creates output folders."""
@@ -70,7 +75,6 @@ def read_plot_specs():
     excel_spec: str
         Path to excel file
     """
-
     #correspondence_Co = pd.read_csv(COUNTRIES)
     #correspondence_Fu = pd.read_csv(FUELS)
     #correspondence_Te = pd.read_csv(TECHS)
@@ -210,7 +214,6 @@ def process_epmresults(epmresults, dict_specs):
     # TODO: 'zone_from', 'zone_to'
     # TODO: 'uni' is sometimes replaced by attribute sometimes not. Now always attribute. Change code accordingly.
     # TODO: remove correspondence_fuel_epm
-
     rename_columns = {'c': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                       'z': 'zone', 'g': 'generator', 'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
 
@@ -614,14 +617,28 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
         plt.show()
 
 
-def dispatch_plot(df, filename, dict_colors=None, figsize=(10, 6)):
+def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10, 6)):
+    """
 
+    :param df_area: pd.DataFrame
+        Data to be displayed as stacked areas
+    :param filename:
+    :param dict_colors:
+    :param df_line: pd.DataFrame
+        Optional, data to be displayed as a line (e.g., demand)
+    :param figsize:
+    :return:
+    """
+    if df_line is not None:
+        assert df_area.index.equals(df_line.index), 'Dataframes used for area and line do not share the same index. Update the input dataframes.'
     fig, ax = plt.subplots(figsize=figsize)
-    df.plot.area(ax=ax, stacked=True, color=dict_colors)
+    df_area.plot.area(ax=ax, stacked=True, color=dict_colors, linewidth=0)
+    if df_line is not None:
+        df_line.plot(ax=ax, color=dict_colors)
 
     # Adding the representative days and seasons
-    n_rep_days = len(df.index.get_level_values('day').unique())
-    dispatch_seasons = df.index.get_level_values('season').unique()
+    n_rep_days = len(df_area.index.get_level_values('day').unique())
+    dispatch_seasons = df_area.index.get_level_values('season').unique()
     total_days = len(dispatch_seasons) * n_rep_days
     y_max = ax.get_ylim()[1]
 
@@ -654,7 +671,7 @@ def dispatch_plot(df, filename, dict_colors=None, figsize=(10, 6)):
     ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
 
     # Add legend bottom center
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df.columns), frameon=False)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
 
     # Remove grid
     ax.grid(False)
@@ -664,17 +681,116 @@ def dispatch_plot(df, filename, dict_colors=None, figsize=(10, 6)):
         plt.show()
 
 
-def make_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year, scenario, column_stacked='fuel',
-                       selected_scenario=None):
+def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year, scenario, column_stacked='fuel',
+                       selected_scenario=None, fuel_grouping=None, select_time=None):
+    """Returns fuel dispatch plot, including only generation plants.
+    fuel_grouping: dict
+        A mapping to create aggregate fuel categories. E.g., {'Battery Storage 4h': 'Battery Storage'}
+    select_time: dict
+
+    """
     df = pFuelDispatch
     df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
     df = df.drop(columns=['zone', 'year', 'scenario'])
+
+    if fuel_grouping is not None:
+        df['fuel'] = df['fuel'].replace(fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+    df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
+
+    if select_time is not None:
+        if 'season' in select_time.keys():
+            df = df.loc[df.season.isin(select_time['season'])]
+        if 'day' in select_time.keys():
+            df = df.loc[df.day.isin(select_time['day'])]
+
     df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
     df = df.droplevel(0, axis=1)
 
-    filename = f'{graph_folder}/Dispatch_{selected_scenario}.png'
+    df = df.where((df > 1e-6) | (df < -1e-6), np.nan)  # get rid of small values to avoid unneeded labels
+    df = df.dropna(axis=1, how='all')
+
+    filename = f'{graph_folder}/FuelDispatch_{selected_scenario}.png'
     dispatch_plot(df, filename, dict_colors)
 
+
+def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, zone, year, scenario,
+                       selected_scenario=None, fuel_grouping=None, select_time=None):
+    """
+    Returns complete dispatch plot, with option to customize which data to include
+    :param dfs_area: dict of DataFrame
+        Dictionary with all the dataframe to be displayed as stacked areas
+    :param dfs_line: dict of DataFrame
+        Dictionary with all the dataframe to be displayed as lines
+    :param graph_folder:
+    :param dict_colors:
+    :param zone:
+    :param year:
+    :param scenario:
+    :param selected_scenario:
+    :param fuel_grouping:
+    :param select_time:
+    :return:
+    """
+    tmp_concat_area = []
+    for key in dfs_area:
+        df = dfs_area[key]
+        column_stacked = NAME_COLUMNS[key]
+        df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+        df = df.drop(columns=['zone', 'year', 'scenario'])
+
+        if column_stacked == 'fuel':
+            if fuel_grouping is not None:
+                df['fuel'] = df['fuel'].replace(fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+        df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
+
+        if select_time is not None:
+            if 'season' in select_time.keys():
+                df = df.loc[df.season.isin(select_time['season'])]
+            if 'day' in select_time.keys():
+                df = df.loc[df.day.isin(select_time['day'])]
+        df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
+        tmp_concat_area.append(df)
+
+    tmp_concat_line = []
+    for key in dfs_line:
+        df = dfs_line[key]
+        column_stacked = NAME_COLUMNS[key]
+        df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+        df = df.drop(columns=['zone', 'year', 'scenario'])
+
+        if column_stacked == 'fuel':
+            if fuel_grouping is not None:
+                df['fuel'] = df['fuel'].replace(fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+        df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
+
+        if select_time is not None:
+            if 'season' in select_time.keys():
+                df = df.loc[df.season.isin(select_time['season'])]
+            if 'day' in select_time.keys():
+                df = df.loc[df.day.isin(select_time['day'])]
+        df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
+        tmp_concat_line.append(df)
+
+    df_tot_area = pd.concat(tmp_concat_area, axis=1)
+    df_tot_area = df_tot_area.droplevel(0, axis=1)
+
+    df_tot_area = df_tot_area.where((df_tot_area > 1e-6) | (df_tot_area < -1e-6), np.nan)  # get rid of small values to avoid unneeded labels
+    df_tot_area = df_tot_area.dropna(axis=1, how='all')
+
+    df_tot_line = pd.concat(tmp_concat_line, axis=1)
+    df_tot_line = df_tot_line.droplevel(0, axis=1)
+
+    df_tot_line = df_tot_line.where((df_tot_line > 1e-6) | (df_tot_line < -1e-6), np.nan)  # get rid of small values to avoid unneeded labels
+    df_tot_line = df_tot_line.dropna(axis=1, how='all')
+
+    filename = f'{graph_folder}/Dispatch_{selected_scenario}.png'
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors)
+
+
+    return 0
 
 if __name__ == '__main__':
     print(0)

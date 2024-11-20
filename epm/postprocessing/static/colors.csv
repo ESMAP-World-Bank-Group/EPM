@@ -1,8 +1,11 @@
 ﻿Processing,Color
 Coal,darkgray
 Oil,rosybrown
+Oil diesel,rosybrown
 Gas,tan
 Battery Storage,slateblue
+Battery Storage 4h,slateblue
+Battery Storage 8h,slateblue
 Pumped-Hydro,cornflowerblue
 H2,lightcyan
 Biomass,darkseagreen
@@ -10,3 +13,10 @@ Hydro,lightskyblue
 Wind,lightsteelblue
 Solar,orange
 Trade,thistle
+Import,thistle
+Hydro MC,lightskyblue
+Hydro RoR,lightskyblue
+Hydro Storage,lightskyblue
+Unmet demand,black
+Demand,red
+Exports,green
