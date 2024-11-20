@@ -7,6 +7,9 @@
 /epm/postprocessing/*.ipynb
 /epm/postprocessing/*.xlsx
 /epm/postprocessing/EPM_Results
+/epm/postprocessing/Results
+
+_OLD.py
 
 # Doc
 /doc/todo.md
