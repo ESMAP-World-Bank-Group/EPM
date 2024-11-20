@@ -682,7 +682,7 @@ def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10
 
 
 def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year, scenario, column_stacked='fuel',
-                       selected_scenario=None, fuel_grouping=None, select_time=None):
+                            selected_scenario=None, fuel_grouping=None, select_time=None):
     """Returns fuel dispatch plot, including only generation plants.
     fuel_grouping: dict
         A mapping to create aggregate fuel categories. E.g., {'Battery Storage 4h': 'Battery Storage'}
@@ -694,9 +694,10 @@ def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year
     df = df.drop(columns=['zone', 'year', 'scenario'])
 
     if fuel_grouping is not None:
-        df['fuel'] = df['fuel'].replace(fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+        df['fuel'] = df['fuel'].replace(
+            fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
+    df = df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index()
 
     if select_time is not None:
         if 'season' in select_time.keys():
@@ -715,7 +716,7 @@ def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year
 
 
 def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, zone, year, scenario,
-                       selected_scenario=None, fuel_grouping=None, select_time=None):
+                                selected_scenario=None, fuel_grouping=None, select_time=None):
     """
     Returns complete dispatch plot, with option to customize which data to include
     :param dfs_area: dict of DataFrame
@@ -741,7 +742,8 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
 
         if column_stacked == 'fuel':
             if fuel_grouping is not None:
-                df['fuel'] = df['fuel'].replace(fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+                df['fuel'] = df['fuel'].replace(
+                    fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
         df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
 
@@ -750,6 +752,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
                 df = df.loc[df.season.isin(select_time['season'])]
             if 'day' in select_time.keys():
                 df = df.loc[df.day.isin(select_time['day'])]
+
         df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
         tmp_concat_area.append(df)
 
@@ -762,7 +765,8 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
 
         if column_stacked == 'fuel':
             if fuel_grouping is not None:
-                df['fuel'] = df['fuel'].replace(fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+                df['fuel'] = df['fuel'].replace(
+                    fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
         df = (df.groupby(['season', 'day', 't', column_stacked]).sum().reset_index())
 
@@ -777,20 +781,101 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
     df_tot_area = pd.concat(tmp_concat_area, axis=1)
     df_tot_area = df_tot_area.droplevel(0, axis=1)
 
-    df_tot_area = df_tot_area.where((df_tot_area > 1e-6) | (df_tot_area < -1e-6), np.nan)  # get rid of small values to avoid unneeded labels
+    df_tot_area = df_tot_area.where((df_tot_area > 1e-6) | (df_tot_area < -1e-6),
+                                    np.nan)  # get rid of small values to avoid unneeded labels
     df_tot_area = df_tot_area.dropna(axis=1, how='all')
 
     df_tot_line = pd.concat(tmp_concat_line, axis=1)
     df_tot_line = df_tot_line.droplevel(0, axis=1)
 
-    df_tot_line = df_tot_line.where((df_tot_line > 1e-6) | (df_tot_line < -1e-6), np.nan)  # get rid of small values to avoid unneeded labels
+    df_tot_line = df_tot_line.where((df_tot_line > 1e-6) | (df_tot_line < -1e-6),
+                                    np.nan)  # get rid of small values to avoid unneeded labels
     df_tot_line = df_tot_line.dropna(axis=1, how='all')
 
     filename = f'{graph_folder}/Dispatch_{selected_scenario}.png'
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors)
 
 
-    return 0
+def cluster_stackedbar_plot(df, group_column, colors=None, rotation=0, year_ini=None, order_scenarios=None,
+                                filename=None, fonttick=14, ymin=0, legend=True, figtitle=None, ymax=None,
+                                display_total=False, figsize=(12.8, 9.6)):
+    # TODO: Adapt to EPM output
+    # TODO: Add ymax and ymin
+
+    list_keys = list(df.columns)
+    if ymax is None:
+        temp = df.copy()
+        temp[temp < 0] = 0
+        ymax = temp.groupby([i for i in temp.index.names if i != group_column]).sum().max().max() * 1.1
+
+    n_columns = int(len(list_keys))
+    n_scenario = df.index.get_level_values([i for i in df.index.names if i != group_column][0]).unique()
+    n_rows = 1
+    if year_ini is not None:
+        width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
+    else:
+        width_ratios = [1] * n_columns
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
+                             gridspec_kw={'width_ratios': width_ratios})
+    handles, labels = None, None
+    for k in range(n_rows * n_columns):
+
+        column = k % n_columns
+        ax = axes[column]
+
+        try:
+            key = list_keys[k]
+            df_temp = df[key].unstack(group_column)
+
+            if key == year_ini:
+                df_temp = df_temp.iloc[0, :]
+                df_temp = df_temp.to_frame().T
+                df_temp.index = ['Initial']
+            else:
+                if order_scenarios is not None:
+                    df_temp = df_temp.loc[order_scenarios, :]
+
+            df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=colors if colors is not None else None)
+
+            if display_total:
+                for i, (index, row) in enumerate(df_temp.iterrows()):
+                    total = row.sum()
+                    # Format the number as an integer without decimals
+                    ax.annotate(f'{int(total)}€', (i, total), ha='center', va='bottom', fontsize=fonttick)
+                    ax.plot(i, total, marker='d', color='black', markersize=5)
+
+            ax.spines['left'].set_visible(False)
+            ax.set_xlabel('')
+
+            plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
+            # put tick label in bold
+            ax.tick_params(axis='both', which='major', labelsize=fonttick)
+
+            title = key
+            if isinstance(key, tuple):
+                title = '{}-{}'.format(key[0], key[1])
+            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
+            if k == 0:
+                handles, labels = ax.get_legend_handles_labels()
+                labels = [l.replace('_', ' ') for l in labels]
+            ax.get_legend().remove()
+
+        except IndexError:
+            ax.axis('off')
+
+    if figtitle is not None:
+        fig.suptitle(figtitle, x=0.5, y=1.05, weight='bold', color='black', size=20)
+
+    if legend:
+        fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
+                   bbox_to_anchor=(1, 0.5))
+
+    if filename is not None:
+        fig.savefig(filename, bbox_inches='tight')
+    else:
+        plt.show()
+
 
 if __name__ == '__main__':
     print(0)
