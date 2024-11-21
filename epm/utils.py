@@ -1010,7 +1010,7 @@ def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacke
 
 
 def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
-                  rotation=0, fonttick=14, legend=True):
+                  rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y)):
     list_keys = list(df.columns)
     n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
@@ -1044,7 +1044,7 @@ def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6)
             for container in ax.containers:
                 for bar in container:
                     height = bar.get_height()
-                    if height > 1e-6:  # Only annotate bars with a height
+                    if height > 1e-1:  # Only annotate bars with a height
                         ax.text(
                             bar.get_x() + bar.get_width() / 2,  # X position: center of the bar
                             bar.get_y() + height / 2,  # Y position: middle of the bar
@@ -1059,7 +1059,8 @@ def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6)
 
             plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
             # put tick label in bold
-            ax.tick_params(axis='both', which='major', bottom=False, labelbottom=True)
+            ax.tick_params(axis='both', which=u'both', length=0)
+            ax.set_xlabel('')
 
             title = key
             if isinstance(key, tuple):
@@ -1069,8 +1070,7 @@ def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6)
             if k == 0:
                 handles, labels = ax.get_legend_handles_labels()
                 labels = [l.replace('_', ' ') for l in labels]
-                ax.tick_params(axis='y', which='both', left=False, labelleft=True)
-                # ax.yaxis.set_major_formatter(FuncFormatter(formatter))
+                ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
             if k>0:
                 ax.set_ylabel('')
                 ax.tick_params(axis='y', which='both', left=False, labelleft=False)
