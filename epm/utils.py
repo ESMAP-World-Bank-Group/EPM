@@ -386,7 +386,7 @@ def bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figs
     return None
 
 
-def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar', selected_scenario=None, unit='GWh'):
+def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar', selected_scenario=None, unit='MWh'):
     """Makes a plot of demand for all countries.
 
     pDemandSupplyCountry: pd.DataFrame
@@ -1026,7 +1026,7 @@ def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacke
         df = df[select_stacked]
 
     filename = f'{folder}/CapacityEvolution.png'
-    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GW'.format(y))
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MW'.format(y))
 
 
 def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
@@ -1068,7 +1068,7 @@ def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked
         df = df[select_stacked]
 
     filename = f'{folder}/ReserveEvolution.png'
-    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GWh'.format(y))
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MWh'.format(y))
 
 
 def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
