@@ -132,5 +132,6 @@ if True:
                                      year=YEAR, scenario=SCENARIO, fuel_grouping=fuel_grouping,
                                      select_time=select_time)
 
+    # works for multiple scenarios as well
     make_capacity_plot(epm_dict['pCapacityByFuel'], GRAPHS_RESULTS, dict_specs['colors'], zone='Liberia',
                        select_stacked=[2023, 2027, 2028, 2029, 2030, 2033], fuel_grouping=fuel_grouping)
