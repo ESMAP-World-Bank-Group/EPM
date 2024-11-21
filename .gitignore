@@ -8,6 +8,7 @@
 /epm/postprocessing/*.xlsx
 /epm/postprocessing/EPM_Results
 /epm/postprocessing/Results
+/epm/postprocessing/main_postprocessing.py
 
 _OLD.py
 
