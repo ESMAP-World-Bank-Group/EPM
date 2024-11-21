@@ -172,7 +172,7 @@ def calculate_pRR(discount_rate, y, years_mapping):
     return pRR
 
 
-def extract_epm_results(results_folder, scenario):
+def extract_epm_results(results_folder, scenario=None):
     """Extracts all information from the gdx files outputed by EPM."""
     # Getting all the epmresults.gdx of the different cases
     containers = {}
@@ -184,8 +184,8 @@ def extract_epm_results(results_folder, scenario):
     print(f' Scenarios in the folder: {scenarios}')
     print('')
 
-    # Get only the selected scenario
-    scenarios = [scenario]
+    if scenario is not None:# Get only the selected scenario
+        scenarios = [scenario]
 
     epmresults = {}
     parameters = [p.name for p in containers[scenarios[0]].getParameters()]
@@ -392,7 +392,11 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
     unit: str, optional, default='GWh'
         Unit of the demand. Choose between 'GWh' and 'TWh'
     """
+    # TODO: add scenario grouping, currently only works when selected_scenario is not None
+
     df_tot = pDemandSupplyCountry.loc[pDemandSupplyCountry['attribute'] == 'Demand: GWh']
+    if selected_scenario is not None:
+        df_tot = df_tot[df_tot['scenario'] == selected_scenario]
     df_tot = df_tot.groupby(['year']).agg({'value': 'sum'}).reset_index()
 
     if unit == 'TWh':
@@ -436,6 +440,9 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
     unit: str, optional, default='GWh'
         Unit of the demand. Choose between 'GWh' and 'TWh'
     """
+    # TODO: add scenario grouping, currently only works when selected_scenario is not None
+    if selected_scenario is not None:
+        pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['scenario'] == selected_scenario]
 
     if not BESS_included:
         pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['fuel'] != 'Battery Storage']
@@ -522,6 +529,9 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
 
 def make_fuel_energy_mix_pie_plot(df, years, folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
                                   figsize=(16, 4), percent_cap=6, selected_scenario=None):
+    # TODO: add scenario grouping, currently only works when selected_scenario is not None
+    if selected_scenario is not None:
+        df = df[df['scenario'] == selected_scenario]
     if not BESS_included:
         df = df[df['fuel'] != 'Battery Storage']
     if not Hydro_stor_included:
