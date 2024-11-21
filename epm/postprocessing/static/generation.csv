@@ -270,3 +270,12 @@ PV_2029_Kos,20.PVNew,PV,Kosovo
 Wind_2028_Kos,18.WindNew,WIND,Kosovo
 Wind_2030_Kos,18.WindNew,WIND,Kosovo
 PHP_Vrilo,23.PumpedHy,STORAGE,BiH
+MTCoffee,HydroMC,ROR,Liberia
+SP2_150,HydroRoR,ROR,Liberia
+SP2_161,HydroRoR,ROR,Liberia
+Existing_gen_lib,Diesel,ICE,Liberia
+Bushrod,HFO,ICE,Liberia
+CLSG_CIV,Import,INT,Liberia
+Bess_4h,BESS_4h,STORAGE,Liberia
+Bess_8h,BESS_8h,STORAGE,Liberia
+PV_CAND_LIB,PV,PV,Liberia

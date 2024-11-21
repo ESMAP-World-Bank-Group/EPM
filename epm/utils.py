@@ -29,7 +29,7 @@ from pathlib import Path
 COUNTRIES = 'static/countries.csv'
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
-GEN = 'static/generation.csv'
+GENERATION = 'static/generation.csv'
 EXTERNAL_ZONES = 'static/external_zones.csv'
 COLORS = 'static/colors.csv'
 
@@ -75,10 +75,11 @@ def read_plot_specs():
     excel_spec: str
         Path to excel file
     """
+    # TODO: generation_mapping should be extracted from EPM results automatically, not specified by each user
     #correspondence_Co = pd.read_csv(COUNTRIES)
     #correspondence_Fu = pd.read_csv(FUELS)
     #correspondence_Te = pd.read_csv(TECHS)
-    #correspondence_Gen = pd.read_csv(GEN)
+    generation_mapping = pd.read_csv(GENERATION)
     colors = pd.read_csv(COLORS)
     external_zones_locations = pd.read_csv(EXTERNAL_ZONES)
     fuel_mapping = pd.read_csv(FUELS)
@@ -98,7 +99,7 @@ def read_plot_specs():
         #'correspondence_Co': correspondence_Co,
         #'correspondence_Fu': correspondence_Fu,
         #'correspondence_Te': correspondence_Te,
-        #'correspondence_Gen': correspondence_Gen,
+        'generation_mapping': generation_mapping.set_index('EPM_Gen')['EPM_Fuel'].to_dict(),
         #'external_zones_locations': external_zones_locations,
         #'external_zones_included': external_zones_included,
         'colors': colors.set_index('Processing')['Color'].to_dict(),
@@ -219,13 +220,18 @@ def process_epmresults(epmresults, dict_specs):
 
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel',
             'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
-            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
+            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization', 'pReserveByPlant',
             'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epmresults.items() if k in keys and k in epmresults.keys()}
+
+    # TODO: improve postprocessing of results (for the generation) to avoid having to do this step
+    # Get rid of zero values which correspond to plants not used in the model
+    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].where((epm_dict['pReserveByPlant']['value'] > 2e-6) | (epm_dict['pReserveByPlant']['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
+    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].dropna(subset=['value'])
 
     # Convert columns to the right type
     for k, i in epm_dict.items():
@@ -264,6 +270,10 @@ def process_epmresults(epmresults, dict_specs):
     standardize_names('pCapacityByFuel', dict_specs['fuel_mapping'])
     standardize_names('pFuelDispatch', dict_specs['fuel_mapping'])
     standardize_names('pPlantFuelDispatch', dict_specs['tech_mapping'])
+
+    epm_dict['pReserveByPlant'].replace(dict_specs['generation_mapping'], inplace=True)  # map generator to fuel
+    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
+    standardize_names('pReserveByPlant', dict_specs['fuel_mapping'])
 
     return epm_dict
 
@@ -1016,11 +1026,53 @@ def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacke
         df = df[select_stacked]
 
     filename = f'{folder}/CapacityEvolution.png'
-    capacity_plot(df, column_group, filename, dict_colors)
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GW'.format(y))
 
 
-def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
-                  rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y)):
+def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
+                       select_stacked=None, generator_grouping=None):
+    """
+    Returns evolution of reserve contribution, over different years and different scenarios
+    :param pReserveByPlant: pd.DataFrame
+        Dataframe containing capacity evolution per technology, zone, scenario
+    :param folder: str
+        Folder to save
+    :param dict_colors: dict
+        Dictionary with colors
+    :param zone: str
+        Selected zone
+    :param column_stacked: str
+        Column to use to select horizontal subplots. Default is 'year'
+    :param column_group: str
+        Column to use in the stacked bar plot. Default is 'fuel'
+    :param select_stacked: list
+        Selects horizontal subplots. For e.g., selected years.
+    :param generator_grouping: dict
+        Grouping to create aggregate generator categories.
+    :return:
+    """
+    df = pReserveByPlant
+    df = df[(df['zone'] == zone)]
+    df = df.drop(columns=['zone'])
+
+    if generator_grouping is not None:
+        assert 'generator' in df.columns, 'Generator grouping is used but generator is not in the columns.'
+        df['generator'] = df['generator'].replace(
+            generator_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+    df = (df.groupby([column_stacked, column_group, 'scenario'], observed=False).sum().reset_index())
+
+    df = df.set_index([column_group, 'scenario', column_stacked]).squeeze().unstack(column_stacked)
+
+    if select_stacked is not None:
+        df = df[select_stacked]
+
+    filename = f'{folder}/ReserveEvolution.png'
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GWh'.format(y))
+
+
+def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
+                  rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
     list_keys = list(df.columns)
     n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
@@ -1054,7 +1106,7 @@ def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6)
             for container in ax.containers:
                 for bar in container:
                     height = bar.get_height()
-                    if height > 1e-1:  # Only annotate bars with a height
+                    if height > cap:  # Only annotate bars with a height
                         ax.text(
                             bar.get_x() + bar.get_width() / 2,  # X position: center of the bar
                             bar.get_y() + height / 2,  # Y position: middle of the bar
