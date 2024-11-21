@@ -329,8 +329,9 @@ def line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, fig
 
     if filename is not None:
         plt.savefig(filename)
-
-    plt.show()
+    else:
+        plt.tight_layout()
+        plt.show()
     return None
 
 
@@ -369,7 +370,9 @@ def bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figs
 
     if filename is not None:
         plt.savefig(filename)
-    plt.show()
+    else:
+        plt.tight_layout()
+        plt.show()
     return None
 
 
@@ -517,7 +520,7 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         plt.show()
 
 
-def make_fuel_energy_mix_pie_plot(df, years, graphs_folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
+def make_fuel_energy_mix_pie_plot(df, years, folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
                                   figsize=(16, 4), percent_cap=6, selected_scenario=None):
     if not BESS_included:
         df = df[df['fuel'] != 'Battery Storage']
@@ -529,13 +532,13 @@ def make_fuel_energy_mix_pie_plot(df, years, graphs_folder, dict_colors, BESS_in
 
     title = f'Energy generation mix - {selected_scenario} scenario'
     temp = '_'.join([str(y) for y in years])
-    filename = f'{graphs_folder}/EnergyGenerationMixPie_{temp}_{selected_scenario}.png'
+    filename = f'{folder}/EnergyGenerationMixPie_{temp}_{selected_scenario}.png'
 
     subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
                      percent_cap=percent_cap, filename=filename)
 
 
-def make_fuel_capacity_mix_pie_plot(df, years, graphs_folder, dict_colors, figsize=(16, 4), percent_cap=6,
+def make_fuel_capacity_mix_pie_plot(df, years, folder, dict_colors, figsize=(16, 4), percent_cap=6,
                                     selected_scenario=None):
 
     df = df.loc[df['year'].isin(years)].groupby(['year', 'fuel']).agg({'value': 'sum'}).reset_index()
@@ -543,7 +546,7 @@ def make_fuel_capacity_mix_pie_plot(df, years, graphs_folder, dict_colors, figsi
 
     title = f'Energy capacity mix - {selected_scenario} scenario'
     temp = '_'.join([str(y) for y in years])
-    filename = f'{graphs_folder}/EnergyCapacityMixPie_{temp}_{selected_scenario}.png'
+    filename = f'{folder}/EnergyCapacityMixPie_{temp}_{selected_scenario}.png'
 
     subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
                      percent_cap=percent_cap, filename=filename)
@@ -830,7 +833,7 @@ def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10
         plt.show()
 
 
-def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year, scenario, column_stacked='fuel',
+def make_fuel_dispatch_plot(pFuelDispatch, folder, dict_colors, zone, year, scenario, column_stacked='fuel',
                             fuel_grouping=None, select_time=None):
     """Returns fuel dispatch plot, including only generation plants.
     fuel_grouping: dict
@@ -849,10 +852,7 @@ def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year
     df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
     if select_time is not None:
-        if 'season' in select_time.keys():
-            df = df.loc[df.season.isin(select_time['season'])]
-        if 'day' in select_time.keys():
-            df = df.loc[df.day.isin(select_time['day'])]
+        df, temp = select_time_period(df, select_time)
 
     df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
     df = df.droplevel(0, axis=1)
@@ -860,7 +860,10 @@ def make_fuel_dispatch_plot(pFuelDispatch, graph_folder, dict_colors, zone, year
     df = df.where((df > 1e-6) | (df < -1e-6), np.nan)  # get rid of small values to avoid unneeded labels
     df = df.dropna(axis=1, how='all')
 
-    filename = f'{graph_folder}/FuelDispatch_{scenario}.png'
+    if select_time is None:
+        temp = 'all'
+
+    filename = f'{folder}/FuelDispatch_{scenario}_{temp}.png'
     dispatch_plot(df, filename, dict_colors)
 
 def select_time_period(df, select_time):
@@ -870,13 +873,16 @@ def select_time_period(df, select_time):
     select_time: dict
         For each key, specifies a subset of the dataframe
     """
+    temp = ''
     if 'season' in select_time.keys():
         df = df.loc[df.season.isin(select_time['season'])]
+        temp += '_'.join(select_time['season'])
     if 'day' in select_time.keys():
         df = df.loc[df.day.isin(select_time['day'])]
-    return df
+        temp += '_'.join(select_time['day'])
+    return df, temp
 
-def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, graph_folder, dict_colors, zone, year, scenario,
+def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, folder, dict_colors, zone, year, scenario,
                                 fuel_grouping=None, select_time=None, dfs_line_2=None):
     """Returns fuel dispatch plot, including only generation plants.
 
@@ -917,7 +923,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
         df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
         if select_time is not None:
-            df = select_time_period(df, select_time)
+            df, temp = select_time_period(df, select_time)
 
         df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
         tmp_concat_area.append(df)
@@ -937,7 +943,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
         df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
 
         if select_time is not None:
-            df = select_time_period(df, select_time)
+            df, temp = select_time_period(df, select_time)
         df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
         tmp_concat_line.append(df)
 
@@ -955,12 +961,34 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
                                     np.nan)  # get rid of small values to avoid unneeded labels
     df_tot_line = df_tot_line.dropna(axis=1, how='all')
 
-    filename = f'{graph_folder}/Dispatch_{scenario}.png'
+    if select_time is None:
+        temp = 'all'
+    filename = f'{folder}/Dispatch_{scenario}_{temp}.png'
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors)
 
 
-def make_capacity_plot(pCapacityByFuel, graph_folder, dict_colors, zone, column_stacked='year', column_group='fuel',
+def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
                        select_stacked=None, fuel_grouping=None):
+    """
+    Returns evolution of capacity, over different years and different scenarios
+    :param pCapacityByFuel: pd.DataFrame
+        Dataframe containing capacity evolution per technology, zone, scenario
+    :param folder: str
+        Folder to save
+    :param dict_colors: dict
+        Dictionary with colors
+    :param zone: str
+        Selected zone
+    :param column_stacked: str
+        Column to use to select horizontal subplots. Default is 'year'
+    :param column_group: str
+        Column to use in the stacked bar plot. Default is 'fuel'
+    :param select_stacked: list
+        Selects horizontal subplots. For e.g., selected years.
+    :param fuel_grouping: dict
+        Grouping to create aggregate fuel categories.
+    :return:
+    """
     df = pCapacityByFuel
     df = df[(df['zone'] == zone)]
     df = df.drop(columns=['zone'])
@@ -977,7 +1005,7 @@ def make_capacity_plot(pCapacityByFuel, graph_folder, dict_colors, zone, column_
     if select_stacked is not None:
         df = df[select_stacked]
 
-    filename = f'{graph_folder}/CapacityEvolution.png'
+    filename = f'{folder}/CapacityEvolution.png'
     capacity_plot(df, column_group, filename, dict_colors)
 
 
@@ -1011,6 +1039,19 @@ def capacity_plot(df, column_group, filename,  dict_colors=None, figsize=(10, 6)
                     df_temp = df_temp.loc[order_scenarios, :]
 
             df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=dict_colors if dict_colors is not None else None)
+
+            # Annotate each bar
+            for container in ax.containers:
+                for bar in container:
+                    height = bar.get_height()
+                    if height > 1e-6:  # Only annotate bars with a height
+                        ax.text(
+                            bar.get_x() + bar.get_width() / 2,  # X position: center of the bar
+                            bar.get_y() + height / 2,  # Y position: middle of the bar
+                            f"{height:.0f}",  # Annotation text (formatted value)
+                            ha="center", va="center",  # Center align the text
+                            fontsize=10, color="black"  # Font size and color
+                        )
 
             ax.spines['left'].set_visible(False)
             ax.spines['right'].set_visible(False)
