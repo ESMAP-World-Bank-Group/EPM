@@ -42,7 +42,7 @@ Sets
    re(g)       'renewable generators'
    RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
 
-   sth(g)
+   sth(g)      'Storage hydro powerplants'
 
 ************** H2 model specific sets ***************************
    eh(hh)           'existing hydrogen generation plants'
@@ -116,6 +116,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
 * Generators
    pGenData(g,ghdr)                 'generator data'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
+   pAvailabilityDaily(g,q,d)             'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
    pCapexTrajectories(g,y)          'capex trajectory  final'
 * Exchanges
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
@@ -344,6 +345,8 @@ Equations
 
    eMaxCF(g,q,y)                   'max capacity factor'
    eMaxCFReserve(g,q,y,d,t)        'Constraining production and reserve based on max capacity factor over a time period'
+   eMaxCFDaily(g,q,d,y)            'max capacity factor daily for hydrostorage'
+   eMaxCFDailyReserveOperation(g,q,y,d,t)  'New constraint for reserve operation for hydro with daily storage'
    eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
 
    eFuel(z,f,y)                    'fuel balance'
@@ -353,7 +356,6 @@ Equations
    eRampDnLimit(g,q,d,t,y)         'Ramp down limit'
 
    eReslim(g,q,d,t,y)              'Reserve limit as a share of capacity'
-   eResLimVRE(g,f,q,d,t,y)         'Reserve limit as a share of capacity for VRE generation'
    eJointResCap(g,q,d,t,y)         'Joint reserve and generation limit'
    eResReqLocal(c,q,d,t,y)         'Country spinning reserve requirement'
    eResReqSystem(q,d,t,y)          'System spinning reserve requirement'
@@ -627,11 +629,19 @@ eMaxCF(g,q,y)..
    sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailability(g,q)*vCap(g,y)*sum((d,t), pHours(q,d,y,t));
 
 * Following equation constraints the production and reserve at a given time to be below total energy available over the availability interval
-* Mostly necessary for hydro, where we could expect to have a limit on total energy over the time period that is very low compared to installed capacity
 alias(t, t1);
 alias(d, d1);
 eMaxCFReserve(g,q,y,d,t)..
-    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1), pHours(q,d1,y,t1));
+    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1),pHours(q,d1,y,t1));
+
+eMaxCFDaily(sth,q,d,y)..
+   sum((gfmap(sth,f),t), vPwrOut(sth,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t, pHours(q,d,y,t));
+
+* Equation to control the operation of daily hydro storage: we cannot allocate reserve that is not available, depending on how the plant
+* has been operated during the previous hours. Only relevant for t > 1
+eMaxCFDailyReserveOperation(sth,q,y,d,t)$(not sFirstHour(t))..
+   sum(gfmap(sth,f),vPwrOut(sth,f,q,d,t,y)) + vReserve(sth,q,d,t,y) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t1,pHours(q,d,y,t1))
+                                                                - sum((gfmap(sth,f),t1)$(ord(t1) < ord(t)),vPwrOut(sth,f,q,d,t1,y));
 
 
 eFuel(zfmap(z,f),y)..
@@ -659,9 +669,6 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
 *--- Reserve equations
 eResLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
    vReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
-
-eResLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
-    vReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,f,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
@@ -1036,13 +1043,14 @@ Model PA /
    eMinGenRE
    eMaxCF
    eMaxCFReserve
+   eMaxCFDaily
+   eMaxCFDailyReserveOperation
    eMinGen
 
    eFuel
    eRampUpLimit
    eRampDnLimit
    eResLim
-   eResLimVRE
 *  eResLim_CSP
    eJointResCap
    eResReqLocal
