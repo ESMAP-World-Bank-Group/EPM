@@ -23,7 +23,16 @@ $if %DEBUG%==1 $onUELlist onUELXRef onListing
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 * Only include base if we don't restart
-$if "x%gams.restart%" == "x" $include WB_EPM_v8_5_base.gms
+* Only include base if we don't restart
+$ifThen not set BASE_FILE
+$set BASE_FILE "WB_EPM_v8_5_base_V3.gms"
+$endIf
+
+$if "x%gams.restart%" == "x" $include "%BASE_FILE%"
+
+$ifThen not set REPORT_FILE
+$set REPORT_FILE "WB_EPM_v8_5_Report.gms"
+$endIf
 
 $call 'rm -f miro.log'
 file log / miro.log /;
@@ -954,7 +963,6 @@ option savepoint=1;
 
 
 Solve PA using MIP minimizing vNPVcost;
-$include WB_EPM_v8_5_Report.gms
 
 display pRR, pWeightYear;
 
