@@ -14,9 +14,10 @@ from gams.engine.api import jobs_api
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main_V3_CONNECT_CSV_ENDOGENOUS.gms',
-    'path_base_file': 'WB_EPM_v8_5_base_V3.gms',
-    'path_report_file': 'WB_EPM_v8_5_Report_V3.gms',
+    'path_main_file': 'WB_EPM_v8_5_main.gms',
+    'path_base_file': 'WB_EPM_v8_5_base.gms',
+    'path_report_file': 'WB_EPM_v8_5_Report.gms',
+    'path_reader_file': 'WB_EPM_input_readers.gms',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -39,6 +40,18 @@ def get_configuration():
 
 
 def post_job_engine(scenario_name, path_zipfile):
+    """
+    Post a job to the GAMS Engine.
+
+    Parameters
+    ----------
+    scenario_name
+    path_zipfile
+
+    Returns
+    -------
+
+    """
 
     auth = get_auth_engine()
 
@@ -57,9 +70,10 @@ def post_job_engine(scenario_name, path_zipfile):
 
 def launch_epm(scenario,
                scenario_name='',
-               path_main_file='WB_EPM_v8_5_main_V3_CONNECT_CSV_ENDOGENOUS.gms',
-               path_base_file='WB_EPM_v8_5_base_V3.gms',
-               path_report_file='WB_EPM_v8_5_Report_V3.gms',
+               path_main_file='WB_EPM_v8_5_main.gms',
+               path_base_file='WB_EPM_v8_5_base.gms',
+               path_report_file='WB_EPM_v8_5_Report.gms',
+               path_reader_file='WB_EPM_input_readers.gms',
                path_cplex_file='cplex.opt',
                path_engine_file=False):
     """
@@ -114,7 +128,8 @@ def launch_epm(scenario,
 
     command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
                                                     "--REPORT_FILE {}".format(path_report_file),
-                                                    "--EXCELREADER CONNECT"
+                                                    "--READER_FILE {}".format(path_reader_file),
+                                                    "--READER CONNECT_CSV_PYTHON"
                                                     ] + path_args
 
     # Print the command
@@ -124,26 +139,27 @@ def launch_epm(scenario,
 
     result = None
     # Generate the command for Engine
-    if path_engine_file:
-        # Open Engine_Base.gms as text file and replace
-        with open(path_engine_file, 'r') as file:
-            filedata = file.read()
+    if False:
+        if path_engine_file:
+            # Open Engine_Base.gms as text file and replace
+            with open(path_engine_file, 'r') as file:
+                filedata = file.read()
 
-            # Replace the target string
-            filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
+                # Replace the target string
+                filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
 
-        # Store the new file in the simulation folder
-        with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
-            file.write(filedata)
+            # Store the new file in the simulation folder
+            with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
+                file.write(filedata)
 
-        # Make a ZipFile that can be sent to the server
-        with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
-            files_ziped.write(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'engine_{}.gms'.format(scenario_name))
-            files_ziped.write(os.path.join(cwd, 'engine_{}.g00'.format(scenario_name)), 'engine_{}.g00'.format(scenario_name))
+            # Make a ZipFile that can be sent to the server
+            with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
+                files_ziped.write(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'engine_{}.gms'.format(scenario_name))
+                files_ziped.write(os.path.join(cwd, 'engine_{}.g00'.format(scenario_name)), 'engine_{}.g00'.format(scenario_name))
 
-        path_zipfile = os.path.join(cwd, 'engine_{}.zip'.format(scenario_name))
-        req = post_job_engine(scenario_name, path_zipfile)
-        result = {'name': scenario_name, 'path': cwd, 'token': req.json()['token']}
+            path_zipfile = os.path.join(cwd, 'engine_{}.zip'.format(scenario_name))
+            req = post_job_engine(scenario_name, path_zipfile)
+            result = {'name': scenario_name, 'path': cwd, 'token': req.json()['token']}
 
     return result
 
@@ -155,7 +171,8 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False
 def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=None,
-                               cpu=1, path_engine_file=False):
+                               cpu=1,
+                               path_engine_file=False):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -177,7 +194,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
         path_engine_file = os.path.join(os.getcwd(), path_engine_file)
 
     # Read the scenario CSV file
-    path_gams = {k: os.path.join(os.getcwd(), 'input', i) for k, i in PATH_GAMS.items()}
+    path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
 
     # Read scenario baseline
     scenario_baseline = pd.read_csv(scenario_baseline).set_index('paramNames').squeeze()
@@ -197,12 +214,17 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
 
     # Add full path to the files
     for k in s.keys():
-        s[k] = s[k].apply(lambda i: os.path.join(os.getcwd(), i))
+        s[k] = s[k].apply(lambda i: os.path.join(os.getcwd(), 'input', i))
 
     # Create dir for simulation and change current working directory
+    if 'output' not in os.listdir():
+        os.mkdir('output')
+
     folder = 'simulations_run_{}'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+    folder = os.path.join('output', folder)
     if not os.path.exists(folder):
         os.mkdir(folder)
+        print('Folder created:', folder)
     os.chdir(folder)
 
     with Pool(cpu) as pool:
@@ -235,8 +257,8 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
-                                   scenarios_specification='scenarios_specification.csv',
+        launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+                                   scenarios_specification='input/scenarios_specification.csv',
                                    selected_scenarios=['baseline'],
                                    cpu=1,
-                                   path_engine_file='Engine_Base.gms')
+                                   path_engine_file=None)
