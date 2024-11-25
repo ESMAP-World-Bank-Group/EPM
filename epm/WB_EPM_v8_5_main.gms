@@ -15,19 +15,31 @@ $endIf.mode
 ***
 *** Declarations
 ***
+
+
 * Turn on/off additional information to the listing file
 Option limRow=0, limCol=0, sysOut=off, solPrint=off;
-$if %DEBUG%==1 $onUELlist onUELXRef onListing
+$if %DEBUG%==1 $onUELlist onUELXRef onListing 
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 * Only include base if we don't restart
-$if "x%gams.restart%" == "x" $include WB_EPM_v8_5_base.gms
+* Only include base if we don't restart
+$ifThen not set BASE_FILE
+$set BASE_FILE "WB_EPM_v8_5_base_V3.gms"
+$endIf
+
+$if "x%gams.restart%" == "x" $include "%BASE_FILE%"
+
+$ifThen not set REPORT_FILE
+$set REPORT_FILE "WB_EPM_v8_5_Report.gms"
+$endIf
 
 $call 'rm -f miro.log'
 file log / miro.log /;
 put log '------------------------------------'/;
 put log '        Data validation'/;
 put log '------------------------------------'/;
+
 Set
    tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
