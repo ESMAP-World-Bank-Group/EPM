@@ -34,6 +34,10 @@ $ifThen not set REPORT_FILE
 $set REPORT_FILE "WB_EPM_v8_5_Report.gms"
 $endIf
 
+$ifThen not set READER_FILE
+$set READER_FILE "WB_EPM_input_readers.gms"
+$endIf
+
 $call 'rm -f miro.log'
 file log / miro.log /;
 put log '------------------------------------'/;
@@ -266,7 +270,7 @@ Parameter
    ftfindex(ft<,f<)
    pZoneIndex(z<);
 
-$include WB_EPM_input_readers.gms
+$include %READER_FILE%
 
 * Domain defining symbols
 $load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
