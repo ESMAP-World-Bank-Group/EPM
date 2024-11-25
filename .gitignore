@@ -10,6 +10,8 @@
 /epm/postprocessing/Results
 /epm/postprocessing/main_postprocessing.py
 
+output/*
+
 # Ignore everything in the input directory
 input/*
 
