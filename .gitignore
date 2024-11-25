@@ -10,6 +10,14 @@
 /epm/postprocessing/Results
 /epm/postprocessing/main_postprocessing.py
 
+# Ignore everything in the input directory
+input/*
+
+# Exceptions: do not ignore these files
+!input/scenario_baseline.csv
+!input/scenarios_specification.csv
+
+
 _OLD.py
 
 # Doc
