@@ -422,13 +422,13 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
                        xlabel='Years',
                        ylabel=f'Demand {unit}',
                        title=f'Total demand - {selected_scenario} scenario',
-                       filename=f'{folder}/TotalDemand_{plot_option}.png')
+                       filename=f'{folder}/TotalDemand_{plot_option}_{selected_scenario}.png')
     elif plot_option == 'bar':
         bar_plot(df_tot, 'year', 'value',
                       xlabel='Years',
                       ylabel=f'Demand {unit}',
                       title=f'Total demand - {selected_scenario} scenario',
-                      filename=f'{folder}/TotalDemand_{plot_option}.png')
+                      filename=f'{folder}/TotalDemand_{plot_option}_{selected_scenario}.png')
     else:
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
@@ -475,13 +475,13 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
                        xlabel='Years',
                        ylabel=f'Generation {unit}',
                        title=f'Total generation - {selected_scenario} scenario',
-                       filename=f'{folder}/TotalGeneration_{plot_option}.png')
+                       filename=f'{folder}/TotalGeneration_{plot_option}_{selected_scenario}.png')
     elif plot_option == 'bar':
         bar_plot(df_tot, 'year', 'value',
                       xlabel='Years',
                       ylabel=f'Generation {unit}',
                       title=f'Total generation - {selected_scenario} scenario',
-                      filename=f'{folder}/TotalGeneration_{plot_option}.png')
+                      filename=f'{folder}/TotalGeneration_{plot_option}_{selected_scenario}.png')
     else:
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
@@ -839,8 +839,8 @@ def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10
 
     # Add axis labels and title
     ax.set_xlabel('Hours')
-    ax.set_ylabel('Generation (GWh)', fontweight='bold')
-    ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
+    ax.set_ylabel('Generation (MWh)', fontweight='bold')
+    # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
 
     # Add legend bottom center
     ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
@@ -988,7 +988,7 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
 
 
 def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                       select_stacked=None, fuel_grouping=None):
+                       select_stacked=None, fuel_grouping=None, order_scenarios=None):
     """
     Returns evolution of capacity, over different years and different scenarios
     :param pCapacityByFuel: pd.DataFrame
@@ -1026,11 +1026,12 @@ def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacke
         df = df[select_stacked]
 
     filename = f'{folder}/CapacityEvolution.png'
-    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MW'.format(y))
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MW'.format(y),
+                        rotation=90, order_scenarios=order_scenarios)
 
 
 def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                       select_stacked=None, generator_grouping=None):
+                       select_stacked=None, generator_grouping=None, order_scenarios=None):
     """
     Returns evolution of reserve contribution, over different years and different scenarios
     :param pReserveByPlant: pd.DataFrame
@@ -1068,7 +1069,8 @@ def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked
         df = df[select_stacked]
 
     filename = f'{folder}/ReserveEvolution.png'
-    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MWh'.format(y))
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MWh'.format(y),
+                        rotation=90, order_scenarios=order_scenarios)
 
 
 def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
