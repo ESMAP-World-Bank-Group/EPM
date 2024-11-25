@@ -31,7 +31,6 @@ def get_auth_engine():
 
 
 def get_configuration():
-
     configuration = gams.engine.Configuration(
         host='https://engine.gams.com/api',
         username='lucas',
@@ -83,6 +82,11 @@ def launch_epm(scenario,
     path_engine_file: str, optional, default False
         The path to the GAMS engine file
 
+
+    Returns
+    -------
+    dict
+        A dictionary with the name of the scenario, the path to the simulation folder and the token for the job
     """
 
     # If no scenario name is provided, use the current date and time
@@ -118,7 +122,7 @@ def launch_epm(scenario,
 
     subprocess.run(command, cwd=cwd)
 
-    req = None
+    result = None
     # Generate the command for Engine
     if path_engine_file:
         # Open Engine_Base.gms as text file and replace
@@ -173,7 +177,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
         path_engine_file = os.path.join(os.getcwd(), path_engine_file)
 
     # Read the scenario CSV file
-    path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
+    path_gams = {k: os.path.join(os.getcwd(), 'input', i) for k, i in PATH_GAMS.items()}
 
     # Read scenario baseline
     scenario_baseline = pd.read_csv(scenario_baseline).set_index('paramNames').squeeze()
@@ -233,6 +237,6 @@ if __name__ == '__main__':
     if True:
         launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                                    scenarios_specification='scenarios_specification.csv',
-                                   selected_scenarios=None,
+                                   selected_scenarios=['baseline'],
                                    cpu=1,
                                    path_engine_file='Engine_Base.gms')
