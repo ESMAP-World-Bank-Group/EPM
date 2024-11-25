@@ -23,7 +23,6 @@ pH2DataExcel,input/pH2DataExcel.csv
 pHours,input/pHours.csv
 pLossFactor,input/pLossFactor.csv
 pMaxFuellimit,input/pMaxFuellimit.csv
-pMaxPriceImportShare,input/pMaxPriceImportShare.csv
 pNewTransmission,input/pNewTransmission.csv
 pReserveMargin,input/pReserveMargin.csv
 pReserveReqLoc,input/pReserveReqLoc.csv
