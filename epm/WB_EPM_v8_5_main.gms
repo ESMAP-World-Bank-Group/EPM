@@ -15,11 +15,9 @@ $endIf.mode
 ***
 *** Declarations
 ***
-
-
 * Turn on/off additional information to the listing file
 Option limRow=0, limCol=0, sysOut=off, solPrint=off;
-$if %DEBUG%==1 $onUELlist onUELXRef onListing 
+$if %DEBUG%==1 $onUELlist onUELXRef onListing
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 * Only include base if we don't restart
@@ -30,7 +28,6 @@ file log / miro.log /;
 put log '------------------------------------'/;
 put log '        Data validation'/;
 put log '------------------------------------'/;
-
 Set
    tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
@@ -80,18 +77,18 @@ Set
                         zonal_spinning_reserve_constraints
                         IncludeDecomCom
 **
-                        MaxLoadFractionCCCalc            
-                                    
-**                        
-                        
+                        MaxLoadFractionCCCalc
 
-********************************************************************                        
+**
+
+
+********************************************************************
                         IncludeH2
-                        H2UnservedCost 
+                        H2UnservedCost
 ********************************************************************
 
                        /
-                       
+
 
 
 ***********H2 model addition
@@ -117,10 +114,10 @@ Set
    Peak(t)                          'peak period hours'
    Relevant(d)                      'relevant day and hours when MinGen limit is applied'
    mipopt(mipline<)                 / system.empty /;
-;   
+;
 Parameter
    pCSPData(g,csphrd,shdr)
-   pCapexTrajectory(tech,y)         'Capex trajectory'
+   pCapexTrajectory(g,y)            'capex trajectory'
    pTechData(tech<,techhdr)         'Technology data'
    pFuelTypeCarbonContent(ft)       'Fuel type carbon content in tCO2 per MMBTu'
    pStorDataInput(g,g2,shdr)        'Storage data'
@@ -140,10 +137,10 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pVREgenProfile(g,f,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
-   pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
+   pReserveReqLoc(c,y)              'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
+   pReserveReqSys(y)                'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
    pScalars(sc)                     'Flags and penalties to load'
-   pPlanningReserveMargin(c)        'Country planning reserve margin'
+   pReserveMargin(c)                'country reserve margin'
    pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
    pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
 
@@ -154,12 +151,12 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
   pCapexTrajectoryH2(hh,y)          'CAPEX trajectory for hydrogen generation unit'
 ***************************************************************************
 
-;   
+;
 Scalar
    solverThreads 'Number of threads available to the solvers' /1/
    solverOptCR   'Relative gap for MIP Solver'                /0.05/
    solverResLim  'Solver time limit'                          /300000/
-;   
+;
 Singleton Set
    NLPSolver 'Selected NLP Solver' / '' 'conopt4' /
    MIPSolver 'Selected MIP Solver' / '' 'cplex' /
@@ -186,7 +183,7 @@ Parameters
    pSystem_CO2_constraints
    pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
    pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
-   pMaxLoadFractionCCCalc           'maximum percentage difference between hourly load and peak load to consider in the capacity credit calculation' 
+   pMaxLoadFractionCCCalc           'maximum percentage difference between hourly load and peak load to consider in the capacity credit calculation'
    pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
 
 ;
@@ -203,8 +200,8 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    Zd(z)
    Zt(z)
    stg(g)                'Grid tied storage'
-   ror(g)                'ROR generators'   
-************H2 model related sets ************************************  
+   ror(g)                'ROR generators'
+************H2 model related sets ************************************
    H2statusmap(hh,H2status)
 ;
 $onmulti
@@ -245,17 +242,13 @@ Set
    zcmapExcel(z,c<);
 Parameter
    pGenDataExcel(g<,*)
-   pStorDataExcel(g,*,shdr)   
+   pStorDataExcel(g,*,shdr)
 *****************Hydrogen model related sets************************
    pH2DataExcel(hh<,*)
 
-$onMulti   
+$onMulti
    pTechDataExcel(tech<,*)
 ;
-
-
-
-
 
 $set XLSXMAXROWS 1048576
 
@@ -281,15 +274,15 @@ set=y                       rdim=1 cdim=0 rng=LoadDefinition!A6:A%XLSXMAXROWS%  
 set=sTopology               rdim=1 cdim=1 rng=Topology!A6
 set=peak                    rdim=1 cdim=0 rng=LoadDefinition!H6:H%XLSXMAXROWS% Values=NoData
 set=Relevant                rdim=1 cdim=0 rng=LoadDefinition!E6:E%XLSXMAXROWS% Values=NoData
-set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60  
-par=pPlanningReserveMargin  rdim=1 cdim=0 rng=PlanningReserve!A6
+set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60
+par=pReserveMargin          rdim=1 cdim=0 rng=Reserve!A6
 par=pEnergyEfficiencyFactor rdim=1 cdim=1 rng=EnergyEfficiency!A5
 par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C70
 par=pAvailability           rdim=1 cdim=1 rng=GenAvailability!A6
 par=pVREProfile             rdim=4 cdim=1 rng=REProfile!A6
 par=pLossFactor             rdim=2 cdim=1 rng=LossFactor!A5
 par=pTransferLimit          rdim=3 cdim=1 rng=TransferLimit!A5
-par=pExtTransferLimit       rdim=4 cdim=1 rng=ExtTransferLimit!A5     
+par=pExtTransferLimit       rdim=4 cdim=1 rng=ExternalLimits!A5
 par=pCarbonPrice            rdim=1 cdim=0 rng=EmissionFactors!A3:B24
 par=pDemandData             rdim=4 cdim=1 rng=Demand!A6
 par=pDemandForecast         rdim=2 cdim=1 rng=Demand_Forecast!A6
@@ -302,8 +295,8 @@ par=pCSPData                rdim=2 cdim=1 rng=CSP!A6                            
 par=pStorDataExcel          rdim=2 cdim=1 rng=Storage!A6
 par=pFuelTypeCarbonContent  rdim=1 cdim=0 rng=EmissionFactors!J3
 
-par=pSpinningReserveReqCountry          rdim=1 cdim=1 rng=SpinReserve!F5
-par=pSpinningReserveReqSystem          rdim=1 cdim=0 rng=SpinReserve!A6
+par=pReserveReqLoc          rdim=1 cdim=1 rng=SpinReserve!F5
+par=pReserveReqSys          rdim=1 cdim=0 rng=SpinReserve!A6
 par=pEmissionsCountry       rdim=1 cdim=1 rng=Emissions!A17
 par=pEmissionsTotal         rdim=0 cdim=1 rng=Emissions!A5
 par=pFuelPrice              rdim=2 cdim=1 rng=FuelPrices!A6
@@ -318,17 +311,17 @@ par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
 par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
 par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
 par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
+
+
 $offecho
-$call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
-$call rm gdxxrw.in
+
+$  call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
 
 $elseIfI.excelreader %EXCELREADER% == CONNECT
 $log ### reading from %XLS_INPUT% using Connect
 $onEmbeddedCode Connect:
 - ExcelReader:
     file: %XLS_INPUT%
-    valueSubstitutions: {0: .nan}  # drop zeroes
-    indexSubstitutions: {.nan: ""}  # keep empty labels
     symbols:
       - name: ftfindex
         range: FuelTechnologies!A3
@@ -389,8 +382,8 @@ $onEmbeddedCode Connect:
         rowDimension: 1
         columnDimension: 0
         type: set
-      - name: pPlanningReserveMargin
-        range: PlanningReserve!A6
+      - name: pReserveMargin
+        range: Reserve!A6
         rowDimension: 1
         columnDimension: 0
       - name: pEnergyEfficiencyFactor
@@ -419,7 +412,7 @@ $onEmbeddedCode Connect:
         rowDimension: 3
         columnDimension: 1
       - name: pExtTransferLimit
-        range: ExtTransferLimit!A5
+        range: ExternalLimits!A5
         rowDimension: 4
         columnDimension: 1
       - name: pCarbonPrice
@@ -463,16 +456,16 @@ $onEmbeddedCode Connect:
         range: Storage!A6
         rowDimension: 2
         columnDimension: 1
-        indexSubstitutions: {"": .nan}
+        indexSubstitutions: {.nan: ""}  # keep empty labels
       - name: pFuelTypeCarbonContent
         range: EmissionFactors!J3
         rowDimension: 1
         columnDimension: 0
-      - name: pSpinningReserveReqCountry
+      - name: pReserveReqLoc
         range: SpinReserve!F5
         rowDimension: 1
         columnDimension: 1
-      - name: pSpinningReserveReqSystem
+      - name: pReserveReqSys
         range: SpinReserve!A6
         rowDimension: 1
         columnDimension: 0
@@ -507,7 +500,6 @@ $onEmbeddedCode Connect:
         rowDimension: 1
         columnDimension: 0
         type: set
-        ignoreText: True
       - name: pH2DataExcel
         range: H2Data!A6
         rowDimension: 1
@@ -519,6 +511,7 @@ $onEmbeddedCode Connect:
       - name: pFuelData
         range: FuelTechnologies!J3:K17  # range: FuelTechnologies!J3:K44
         columnDimension: 0
+        valueSubstitutions: {0: .nan}  # drop zeroes
       - name: pCapexTrajectoryH2
         range: CapexTrajectoriesH2!A5
         rowDimension: 1
@@ -530,17 +523,17 @@ $onEmbeddedCode Connect:
       #- name: pRETargetSeriesYr
       #  range: REtargets!A6
       #  rowDimension: 1
-      #  columnDimension: 1      
+      #  columnDimension: 1
 - GDXWriter:
     file: %GDX_INPUT%_fromConnect.gdx
     symbols: all
 $offEmbeddedCode
 
+
 $else.excelreader
 $abort 'No valid EXCELREADER specified. Allowed are GDXXRW and CONNECT.'
 $endif.excelreader
 $endIf.errorLevel
-
 
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
 
@@ -550,19 +543,19 @@ Parameter
 
 $onmulti
 $ifThen %EXCELREADER% == CONNECT
-$gdxIn %GDX_INPUT%_fromConnect.gdx
+$  gdxIn %GDX_INPUT%_fromConnect.gdx
 $else
-$gdxIn %GDX_INPUT%
+$  gdxIn %GDX_INPUT%
 $endIf
 * Domain defining symbols
 $load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
-$load zext   
+$load zext
 * Other symbols
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-$load pStorDataExcel pCSPData pCapexTrajectory pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
-$load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+$load pStorDataExcel pCSPData pCapexTrajectory pReserveReqLoc pReserveReqSys pScalars
+$load sTopology pReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 $load pExtTransferLimit
 $load pNewTransmission, MapGG
 ************************************************Hydrogen model related symbols*************************************
@@ -571,6 +564,7 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 
 $gdxIn
 $offmulti
+
 display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
 
 
@@ -599,7 +593,7 @@ gtechmap(g,tech) = pGenDataExcel(g,'Type')=pTechDataExcel(tech,'Assigned Value')
 gstatusmap(g,gstatus) = pGenDataExcel(g,'status')=gstatIndex(gstatus);
 zcmap(z,c) = zcmapExcel(z,c);
 
-gprimf(gfmap(g,f)) = pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f)); 
+gprimf(gfmap(g,f)) = pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f));
 pHeatrate(gfmap(g,f)) = pGenDataExcel(g,"Heatrate2");
 pHeatrate(gprimf(g,f)) = pGenDataExcel(g,"Heatrate");
 
@@ -622,7 +616,7 @@ Parameter
    pMaxFuellimitMIRO(*,c,f,*,y)
    pFuelPriceMIRO(*,c,f,*,y)
 ;
-Set actscen / BaseCase /;   
+Set actscen / BaseCase /;
 
 loop((gzmap(g,z),gtechmap(g,tech),gstatusmap(g,gstatus),gprimf(g,f)),
   if (sum(gfmap(g,f2),1)=1,
@@ -662,17 +656,17 @@ execute_unload '%GDX_INPUT%_miro'
    pStorDataInput
    pCSPData
    pCapexTrajectory
-   pSpinningReserveReqCountry
-   pSpinningReserveReqSystem
+   pReserveReqLoc
+   pReserveReqSys
    pEmissionsCountry
    pEmissionsTotal
    pScalars
    sTopology
-   pPlanningReserveMargin
+   pReserveMargin
    pEnergyEfficiencyFactor
    pTradePrice
    pMaxExchangeShare
-   pExtTransferLimit  
+   pExtTransferLimit
    pNewTransmission
    solverThreads
    solverOptCR
@@ -681,7 +675,7 @@ execute_unload '%GDX_INPUT%_miro'
    mipsolver
    mipopt
    MapGG
-   
+
 ***************Hydrogen production related parameters
 pH2Data
 pAvailabilityH2
@@ -692,7 +686,7 @@ pExternalH2
 abort.noError 'Created %GDX_INPUT%_miro. Done!';
 $endif
 
-set cfmap(c,f); 
+set cfmap(c,f);
 parameter Error01(c,f);
 option cfmap<pFuelPrice, Error01<cfmap;
 Error01(c,f)$(Error01(c,f)=1) = 0;
@@ -844,7 +838,7 @@ $onIDCProtect
 );
 
 ptotalenergy(z,y) =  sum((q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,y,t))/1e3;
-
+pdemanddata(z,q,d,y,t)$(pDemandProfile(z,q,d,t)=0)=0;
 *--- end of parameter initialisation for same demand profile for all years
 
 *--- Start of initialisation of other parameters
@@ -900,14 +894,14 @@ pSystemResultReporting               = pScalars("Systemresultreporting");
 
 pMaxLoadFractionCCCalc               = pScalars("MaxLoadFractionCCCalc");
 
-          
-  
+
+
 
 
 
 *****************Related to hydrogen model***************************************
 pIncludeH2                       = pScalars("IncludeH2");
-pH2UnservedCost                  = pScalars("H2UnservedCost");  
+pH2UnservedCost                  = pScalars("H2UnservedCost");
 ********************************************************************************
 
 
@@ -943,9 +937,9 @@ sFirstDay(d) = d.first;
 pDR              = pScalars("DR");
 pWACC            = pScalars("WACC");
 pVOLL            = pScalars("VOLL");
-pPlanningReserveVoLL     = pScalars("ReserveVoLL");
+pReserveVoLL     = pScalars("ReserveVoLL");
 pMaxCapital      = pScalars("MaxCapital")*1e6;
-pSpinningReserveVoLL = pScalars("SpinReserveVoLL");
+pSpinReserveVoLL = pScalars("SpinReserveVoLL");
 pIncludeCarbon   = pScalars("includeCarbonPrice");
 pinterconMode    = pScalars("interconMode");
 pnoTransferLim   = pScalars("noTransferLim");
@@ -995,9 +989,12 @@ so(g)  = gtechmap(g,"PVwSTO");
 stp(g) = gtechmap(g,"STOPV");
 stg(g) = gtechmap(g,"STORAGE");
 st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"STORAGE");
-dc(g)  = sum(y, sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y)));
+dc(g)  = sum(y, pCapexTrajectory(g,y));
 ndc(g) = not dc(g);
 ror(g) = gtechmap(g,"ROR");
+
+sth(g) = gtechmap(g,"Sto Hy");
+
 
 RampRate(g) = pGenData(g,"RampDnRate");
 
@@ -1024,7 +1021,7 @@ sTopology(z,z2)$(not pinterconMode) = no;
 * if ignore transfer limit, set limits to high value
 pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 * Default life for transmission lines
-pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
+pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30;
 
 $onIDCProtect
 * VRE does not fully contribute to reserve margin
@@ -1048,11 +1045,7 @@ pCSPProfile(cs,q,d,t)    = sum((z,f)$(gfmap(cs,f) and gzmap(cs,z)), pVREProfile(
 pStoPVProfile(so,q,d,t)  =  sum((z,f)$(gfmap(so,f) and gzmap(so,z)), pVREProfile(z,f,q,d,t));
 $if %DEBUG%==1 display pVREgenProfile;
 pCapexTrajectories(g,y) =  1;
-* execute_unload 'debug_output.gdx', g, gtechmap, pCapexTrajectory;
-
-*pCapexTrajectories(dc,y)$pCaptraj = sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y));
-pCapexTrajectories(dc, y)$pCaptraj = sum(tech$(pCapexTrajectory(tech, y) > 0 and gtechmap(dc, tech)), pCapexTrajectory(tech, y));
-
+pCapexTrajectories(dc,y)$pCaptraj = pCapexTrajectory(dc,y);
 
 ***********************H2 model parameters********************
 pCapexTrajectoriesH2(hh,y) =1;
@@ -1069,15 +1062,15 @@ pWeightYear(y)$(not sStartYear(y)) = y.val - sum(sameas(y2+1,y), y2.val) ;
 *pRR(y) = 1/[(1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2)))];
 
 pRR(y) = 1.0;
-pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + sum(sameas(y2,y), pWeightYear(y2)/2))) ;        
-                                    
+pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + sum(sameas(y2,y), pWeightYear(y2)/2))) ;
+
 **
 
 *-------------------------------------------------------------------
 * Parameter Processing
 *-------------------------------------------------------------------
 $offIDCProtect
-pLossFactor(z2,z,y)$(pLossFactor(z,z2,y) and not pLossFactor(z2,z,y)) = pLossFactor(z,z2,y);
+pLossFactor(z2,z,y) = pLossFactor(z,z2,y);
 
 
 pEnergyEfficiencyFactor(z,y)$(not pincludeEE) = 1;
@@ -1158,6 +1151,7 @@ vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
 
 
+vPwrOut.fx(st,f,q,d,t,y)$(not pincludeStorage) = 0;
 ********************* Equations for hydrogen production**********************************************************
 *Maximum capacity is equal to "Capacity"
 vCapH2.up(hh,y) = pH2Data(hh,"Capacity");
@@ -1189,14 +1183,20 @@ sH2PwrIn(hh,q,d,t,y) = yes;
 
 
 
-vREPwr2H2.fx(nRE,f,q,d,t,y)=0;       
-vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;     
-  
+vREPwr2H2.fx(nRE,f,q,d,t,y)=0;
+vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;
+
 
 *******************************************************************************************************************
 
+*****************Liberia related constraints*************************
+vStorInj.fx(st,q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t))  =0)   =0;
+vPwrOut.fx(g,f,q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t))  =0)   =0;
+vStorInj.up(st,q,d,t,y) =pGenData(st,"Capacity");
+vStorInj.fx(st,q,d,t,y)$(not pincludeStorage) = 0;
+*vPwrOut.fx(st,q,d,t,y)$(not pincludeStorage) = 0
 
-
+*****************Liberia related constraints*************************
 
 
 
@@ -1225,8 +1225,8 @@ sAdditionalTransfer(z,z2,y) $(y.val < pNewTransmission(z,z2,"EarliestEntry")) = 
 sFlow(z,z2,q,d,t,y) = yes;
 sFlow(z,z2,q,d,t,y)$(not sTopology(z,z2)) = no;
 
-sSpinningReserve(g,q,d,t,y) = yes;
-sSpinningReserve(g,q,d,t,y)$(not (pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints) ) = no;
+sReserve(g,q,d,t,y) = yes;
+sReserve(g,q,d,t,y)$(not (pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints) ) = no;
 
 *To avoid bugs when there is no candidate transmission expansion line
 $offIDCProtect
@@ -1242,17 +1242,23 @@ if (card(mipopt),
  put fmipopt;
  loop(mipline, put mipopt.te(mipline) /);
  putclose;
-); 
+);
 
 PA.optfile = 1;
 option savepoint=1;
 
 
+
+*$ontext
 Solve PA using MIP minimizing vNPVcost;
 $include WB_EPM_v8_5_Report.gms
 
-display pRR, pWeightYear;
 
+*$offText
+
+
+display pRR, pWeightYear, z, zext, pTransferLimit, pExtTransferLimit, pAllowExports, pExtTransferLimitOut, pTradePrice;
+display pMaxExchangeShare
 
 $ifThen %gams.ProcTreeMemMonitor%==1
 embeddedCode Python:
