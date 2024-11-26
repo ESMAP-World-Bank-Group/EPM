@@ -38,7 +38,7 @@ $log REPORT_FILE is "%REPORT_FILE%"
 
 
 $ifThen not set READER_FILE
-$set READER_FILE "WB_EPM_input_readers.gms"
+$set READER_FILE "WB_EPM_daily_storage_input_readers.gms"
 $endIf
 
 $call 'rm -f miro.log'
@@ -156,6 +156,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pVREgenProfile(g,f,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
+    pAvailabilityDaily(g,q,d)        'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
    pReserveReqLoc(c,y)              'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
    pReserveReqSys(y)                'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
    pScalars(sc)                     'Flags and penalties to load'
@@ -283,14 +284,13 @@ $load zext
 * Other symbols
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
-$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability pAvailabilityDaily
 $load pStorDataExcel pCSPData pCapexTrajectory pReserveReqLoc pReserveReqSys pScalars
 $load sTopology pReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 $load pExtTransferLimit
 $load pNewTransmission, MapGG
 ************************************************Hydrogen model related symbols*************************************
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
-
 
 $gdxIn
 $offmulti
@@ -383,6 +383,7 @@ execute_unload '%GDX_INPUT%_miro'
    pVREProfile
    pVREgenProfile
    pAvailability
+   pAvailabilityDaily
    pStorDataInput
    pCSPData
    pCapexTrajectory

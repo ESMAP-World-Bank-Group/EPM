@@ -38,7 +38,7 @@ $log REPORT_FILE is "%REPORT_FILE%"
 
 
 $ifThen not set READER_FILE
-$set READER_FILE "WB_EPM_input_readers.gms"
+$set READER_FILE "WB_EPM_daily_storage_input_readers.gms"
 $endIf
 
 $call 'rm -f miro.log'
@@ -290,7 +290,6 @@ $load pExtTransferLimit
 $load pNewTransmission, MapGG
 ************************************************Hydrogen model related symbols*************************************
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
-
 
 $gdxIn
 $offmulti

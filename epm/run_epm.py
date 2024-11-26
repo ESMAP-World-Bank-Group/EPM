@@ -21,7 +21,15 @@ PATH_GAMS = {
     'path_cplex_file': 'cplex.opt'
 }
 
-#,
+PATH_GAMS = {
+    'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',#'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+    'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
+    'path_report_file': 'WB_EPM_v8_5_Report.gms',
+    'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
+    'path_cplex_file': 'cplex.opt'
+}
+
+
 
 URL_ENGINE = "https://engine.gams.com/api"
 
@@ -259,6 +267,12 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
+        launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+                                   scenarios_specification='input/scenarios_specification.csv',
+                                   selected_scenarios=None,
+                                   cpu=1,
+                                   path_engine_file='Engine_Base.gms')
+
         launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
                                    scenarios_specification='input/scenarios_specification.csv',
                                    selected_scenarios=None,
