@@ -1,4 +1,4 @@
-paramNames,Baseline,High
+paramNames,DemandHigh,HydroHigh
 ftfindex,,
 mapGG,,
 pAvailability,,
@@ -8,10 +8,11 @@ pCapexTrajectoryH2,,
 pCarbonPrice,,
 pCSPData,,
 pDemandData,,
-pDemandForecast,input/pDemandForecast.csv,input/pDemandForecast_high.csv
+pDemandForecast,input/pDemandForecast_high.csv,
 pDemandProfile,,
 peak,,
 pEmissionsTotal,,
+pEmissionsCountry,,
 pEmissionsZone,,
 pEnergyEfficiencyFactor,,
 pExternalH2,,
@@ -35,7 +36,7 @@ pTechDataExcel,,
 pTradePrice,,
 pTransferLimit,,
 pVREgenProfile,,
-pVREProfile,,
+pVREProfile,,input/pVREProfileHigh.csv
 pZoneIndex,,
 relevant,,
 reserve,,

@@ -12,6 +12,7 @@ pDemandForecast,input/pDemandForecast.csv
 pDemandProfile,input/pDemandProfile.csv
 peak,input/peak.csv
 pEmissionsTotal,input/pEmissionsTotal.csv
+pEmissionsCountry,input/pEmissionsCountry.csv
 pEmissionsZone,input/pEmissionsZone.csv
 pEnergyEfficiencyFactor,input/pEnergyEfficiencyFactor.csv
 pExternalH2,input/pExternalH2.csv
