@@ -1,6 +1,6 @@
 paramNames,file
-pFuelPrice,input/FuelPrice.csv
 ftfindex,input/ftfindex.csv
+mapGG,input/mapGG.csv
 pAvailability,input/pAvailability.csv
 pAvailabilityH2,input/pAvailabilityH2.csv
 pCapexTrajectory,input/pCapexTrajectory.csv
@@ -15,6 +15,7 @@ pEmissionsTotal,input/pEmissionsTotal.csv
 pEmissionsZone,input/pEmissionsZone.csv
 pEnergyEfficiencyFactor,input/pEnergyEfficiencyFactor.csv
 pExternalH2,input/pExternalH2.csv
+pExtTransferLimit,input/pExtTransferLimit.csv
 pFuelData,input/pFuelData.csv
 pFuelPrice,input/pFuelPrice.csv
 pFuelTypeCarbonContent,input/pFuelTypeCarbonContent.csv
@@ -22,6 +23,7 @@ pGenDataExcel,input/pGenDataExcel.csv
 pH2DataExcel,input/pH2DataExcel.csv
 pHours,input/pHours.csv
 pLossFactor,input/pLossFactor.csv
+pMaxExchangeShare,input/pMaxExchangeShare.csv
 pMaxFuellimit,input/pMaxFuellimit.csv
 pNewTransmission,input/pNewTransmission.csv
 pReserveMargin,input/pReserveMargin.csv
