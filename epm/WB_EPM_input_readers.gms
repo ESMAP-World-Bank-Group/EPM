@@ -22,15 +22,15 @@ set=y                       rdim=1 cdim=0 rng=LoadDefinition!A6:A%XLSXMAXROWS%  
 set=sTopology               rdim=1 cdim=1 rng=Topology!A6
 set=peak                    rdim=1 cdim=0 rng=LoadDefinition!H6:H%XLSXMAXROWS% Values=NoData
 set=Relevant                rdim=1 cdim=0 rng=LoadDefinition!E6:E%XLSXMAXROWS% Values=NoData
-set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60  
-par=pPlanningReserveMargin  rdim=1 cdim=0 rng=PlanningReserve!A6
+set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60
+par=pReserveMargin          rdim=1 cdim=0 rng=Reserve!A6
 par=pEnergyEfficiencyFactor rdim=1 cdim=1 rng=EnergyEfficiency!A5
 par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C70
 par=pAvailability           rdim=1 cdim=1 rng=GenAvailability!A6
 par=pVREProfile             rdim=4 cdim=1 rng=REProfile!A6
 par=pLossFactor             rdim=2 cdim=1 rng=LossFactor!A5
 par=pTransferLimit          rdim=3 cdim=1 rng=TransferLimit!A5
-par=pExtTransferLimit       rdim=4 cdim=1 rng=ExtTransferLimit!A5     
+par=pExtTransferLimit       rdim=4 cdim=1 rng=ExternalLimits!A5
 par=pCarbonPrice            rdim=1 cdim=0 rng=EmissionFactors!A3:B24
 par=pDemandData             rdim=4 cdim=1 rng=Demand!A6
 par=pDemandForecast         rdim=2 cdim=1 rng=Demand_Forecast!A6
@@ -43,8 +43,8 @@ par=pCSPData                rdim=2 cdim=1 rng=CSP!A6                            
 par=pStorDataExcel          rdim=2 cdim=1 rng=Storage!A6
 par=pFuelTypeCarbonContent  rdim=1 cdim=0 rng=EmissionFactors!J3
 
-par=pSpinningReserveReqCountry          rdim=1 cdim=1 rng=SpinReserve!F5
-par=pSpinningReserveReqSystem          rdim=1 cdim=0 rng=SpinReserve!A6
+par=pReserveReqLoc          rdim=1 cdim=1 rng=SpinReserve!F5
+par=pReserveReqSys          rdim=1 cdim=0 rng=SpinReserve!A6
 par=pEmissionsCountry       rdim=1 cdim=1 rng=Emissions!A17
 par=pEmissionsTotal         rdim=0 cdim=1 rng=Emissions!A5
 par=pFuelPrice              rdim=2 cdim=1 rng=FuelPrices!A6
@@ -59,7 +59,10 @@ par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
 par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
 par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
 par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
+
+
 $offecho
+
 $call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
 $call rm gdxxrw.in
 
@@ -69,8 +72,6 @@ $log ### Reading from %XLS_INPUT% using Connect and Excel Input
 $onEmbeddedCode Connect:
 - ExcelReader:
     file: %XLS_INPUT%
-    valueSubstitutions: {0: .nan}  # drop zeroes
-    indexSubstitutions: {.nan: ""}  # keep empty labels
     symbols:
       - name: ftfindex
         range: FuelTechnologies!A3
@@ -131,8 +132,8 @@ $onEmbeddedCode Connect:
         rowDimension: 1
         columnDimension: 0
         type: set
-      - name: pPlanningReserveMargin
-        range: PlanningReserve!A6
+      - name: pReserveMargin
+        range: Reserve!A6
         rowDimension: 1
         columnDimension: 0
       - name: pEnergyEfficiencyFactor
@@ -161,7 +162,7 @@ $onEmbeddedCode Connect:
         rowDimension: 3
         columnDimension: 1
       - name: pExtTransferLimit
-        range: ExtTransferLimit!A5
+        range: ExternalLimits!A5
         rowDimension: 4
         columnDimension: 1
       - name: pCarbonPrice
@@ -205,16 +206,16 @@ $onEmbeddedCode Connect:
         range: Storage!A6
         rowDimension: 2
         columnDimension: 1
-        indexSubstitutions: {"": .nan}
+        indexSubstitutions: {.nan: ""}  # keep empty labels
       - name: pFuelTypeCarbonContent
         range: EmissionFactors!J3
         rowDimension: 1
         columnDimension: 0
-      - name: pSpinningReserveReqCountry
+      - name: pReserveReqLoc
         range: SpinReserve!F5
         rowDimension: 1
         columnDimension: 1
-      - name: pSpinningReserveReqSystem
+      - name: pReserveReqSys
         range: SpinReserve!A6
         rowDimension: 1
         columnDimension: 0
@@ -249,7 +250,6 @@ $onEmbeddedCode Connect:
         rowDimension: 1
         columnDimension: 0
         type: set
-        ignoreText: True
       - name: pH2DataExcel
         range: H2Data!A6
         rowDimension: 1
@@ -261,6 +261,7 @@ $onEmbeddedCode Connect:
       - name: pFuelData
         range: FuelTechnologies!J3:K17  # range: FuelTechnologies!J3:K44
         columnDimension: 0
+        valueSubstitutions: {0: .nan}  # drop zeroes
       - name: pCapexTrajectoryH2
         range: CapexTrajectoriesH2!A5
         rowDimension: 1
@@ -272,9 +273,9 @@ $onEmbeddedCode Connect:
       #- name: pRETargetSeriesYr
       #  range: REtargets!A6
       #  rowDimension: 1
-      #  columnDimension: 1      
+      #  columnDimension: 1
 - GDXWriter:
-    file: %GDX_INPUT%_fromConnect.gdx
+    file: %GDX_INPUT%.gdx
     symbols: all
 $offEmbeddedCode
 
@@ -402,7 +403,7 @@ $onEmbeddedCode Connect:
     trace: 0
     file: input/pScalars.csv
     name: pScalars
-    indexSubstitutions: {.nan: ""}
+    indexSubstitutions: {.nan: "", " IncludeH2": "IncludeH2"}
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
@@ -473,16 +474,6 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/pMaxPriceImportShare.csv
-    name: pMaxPriceImportShare
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
     header: [1]
     type: par
     
@@ -653,7 +644,7 @@ $onEmbeddedCode Connect:
     file: input/pFuelData.csv
     name: pFuelData
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
     type: par
@@ -683,7 +674,7 @@ $onEmbeddedCode Connect:
     file: input/sTopology.csv
     name: sTopology
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {1: "", "": .nan}
     indexColumns: [1, 2]
     type: set
 
@@ -888,16 +879,6 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: %pMaxPriceImportShare%
-    name: pMaxPriceImportShare
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
     header: [1]
     type: par
     
