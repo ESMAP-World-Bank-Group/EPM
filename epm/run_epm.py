@@ -14,12 +14,14 @@ from gams.engine.api import jobs_api
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main.gms',
+    'path_main_file': 'WB_EPM_v8_5_main.gms',#'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
     'path_base_file': 'WB_EPM_v8_5_base.gms',
     'path_report_file': 'WB_EPM_v8_5_Report.gms',
     'path_reader_file': 'WB_EPM_input_readers.gms',
     'path_cplex_file': 'cplex.opt'
 }
+
+#,
 
 URL_ENGINE = "https://engine.gams.com/api"
 
