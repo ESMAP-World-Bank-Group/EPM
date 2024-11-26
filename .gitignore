@@ -10,7 +10,7 @@
 /epm/postprocessing/Results
 /epm/postprocessing/main_postprocessing.py
 
-output/*
+epm/output/*
 
 # Ignore everything in the input directory
 input/*
@@ -27,13 +27,19 @@ _OLD.py
 /doc/master_plan_guidance.md
 
 # GAMS file
-/epm/*.gdx
-/epm/*.in
-/epm/*.log
-/epm/*.gsp
-/epm/*.txt
-/epm/*.lxi
-/epm/*.lst
+*.gsp
+*.gdx
+*.in
+*.log
+*.txt
+*.lxi
+*.lst
+*~
+*.log~1
+*.log~2
+*.log~3
+*.log~4
+*.log~5
 
 # Mac OS X
 *.DS_Store
