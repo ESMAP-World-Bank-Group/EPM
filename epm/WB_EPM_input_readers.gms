@@ -289,8 +289,6 @@ $onEmbeddedCode Connect:
     trace: 0
     file: input/pDemandData.csv
     name: pDemandData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan} 
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
@@ -304,7 +302,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/relevant.csv
@@ -313,7 +311,7 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     type: set
-
+    
 - CSVReader:
     trace: 0
     file: input/peak.csv
@@ -322,16 +320,15 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     type: set
     indexColumns: [1]
-
+    
 - CSVReader:
     file: input/pFuelPrice.csv
     name: pFuelPrice
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan} 
     header: [1]
     indexColumns: [1, 2]
     type: par
-
+    
 - CSVReader:
     file: input/ftfindex.csv
     name: ftfindex
@@ -340,7 +337,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     valueColumns: [3]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pHours.csv
@@ -360,7 +357,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pTechDataExcel.csv
@@ -388,7 +385,7 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     type: set
-
+    
 - CSVReader:
     trace: 0
     file: input/pEnergyEfficiencyFactor.csv
@@ -398,12 +395,12 @@ $onEmbeddedCode Connect:
     header: [1]
     indexColumns: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pScalars.csv
     name: pScalars
-    indexSubstitutions: {.nan: "", " IncludeH2": "IncludeH2"}
+    indexSubstitutions: {" IncludeH2": "IncludeH2"}
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
@@ -413,10 +410,11 @@ $onEmbeddedCode Connect:
     trace: 0
     file: input/pAvailability.csv
     name: pAvailability
+    indexSubstitutions: {.nan: ""}
     indexColumns: [1]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pVREProfile.csv
@@ -446,7 +444,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pCarbonPrice.csv
@@ -466,7 +464,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pDemandProfile.csv
@@ -496,7 +494,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pCapexTrajectory.csv
@@ -516,7 +514,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pStorDataExcel.csv
@@ -536,7 +534,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pReserveMargin.csv
@@ -565,16 +563,6 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     valueColumns: [2]
-    type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/pEmissionsZone.csv
-    name: pEmissionsZone
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
     type: par
 
 
@@ -607,7 +595,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pH2DataExcel.csv
@@ -628,7 +616,6 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
     
-
 - CSVReader:
     trace: 0
     file: input/pAvailabilityH2.csv
@@ -643,12 +630,11 @@ $onEmbeddedCode Connect:
     trace: 0
     file: input/pFuelData.csv
     name: pFuelData
-    indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/pCapexTrajectoryH2.csv
@@ -668,14 +654,13 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     type: set
-
-
+    
 - CSVReader:
     file: input/sTopology.csv
     name: sTopology
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {1: "", "": .nan}
-    indexColumns: [1, 2]
+    indexColumns: [1]
     type: set
 
 
@@ -808,7 +793,7 @@ $onEmbeddedCode Connect:
     trace: 0
     file: %pScalars%
     name: pScalars
-    indexSubstitutions: {.nan: ""}
+    indexSubstitutions: {.nan: "", " IncludeH2": "IncludeH2"}
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
