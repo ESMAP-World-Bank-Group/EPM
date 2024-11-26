@@ -1,6 +1,7 @@
 $set XLSXMAXROWS 1048576
 
 $if not set READER $set READER CONNECT_EXCEL
+
 $log ### READER = %READER%
 
 *ff remove gdx for testing
@@ -59,10 +60,7 @@ par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
 par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
 par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
 par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
-
-
 $offecho
-
 $call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
 $call rm gdxxrw.in
 
@@ -280,7 +278,7 @@ $onEmbeddedCode Connect:
 $offEmbeddedCode
 
 $elseIfI.READER %READER% == CONNECT_CSV
-*$log ### reading from %XLS_INPUT% using Connect and CSV Input
+$log ### reading using Connect and CSV Input
 
 
 $onEmbeddedCode Connect:
@@ -718,6 +716,7 @@ $offEmbeddedCode
 
 
 $elseIfI.READER %READER% == CONNECT_CSV_PYTHON
+$log ### reading using Connect and CSV Input with Python
 
 
 $onEmbeddedCode Connect:
@@ -1121,7 +1120,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: pMaxExchangeShare%
+    file: %pMaxExchangeShare%
     name: pMaxExchangeShare
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -1159,8 +1158,4 @@ $abort 'No valid READER specified. Allowed are GDXXRW and CONNECT.'
 $endif.READER
 $endIf.errorLevel
 
-
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
-
-
-$gdxIn %GDX_INPUT%

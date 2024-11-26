@@ -216,7 +216,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
 
     # Add full path to the files
     for k in s.keys():
-        s[k] = s[k].apply(lambda i: os.path.join(os.getcwd(), 'input', i))
+        s[k] = s[k].apply(lambda i: os.path.join(os.getcwd(), i))
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -261,6 +261,6 @@ if __name__ == '__main__':
     if True:
         launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
                                    scenarios_specification='input/scenarios_specification.csv',
-                                   selected_scenarios=['Baseline'],
+                                   selected_scenarios=None,
                                    cpu=1,
                                    path_engine_file=None)
