@@ -1,0 +1,1409 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Description of the model &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/model_description';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/model_description.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Notations" href="model_notations.html" />
+    <link rel="prev" title="Mathematical formulation" href="model_overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_epm.html">
+                        How to Run EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
+                        Launch on the GAMS Engine remote server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="launch_multiple_simulation.html">
+                        Engine Looping Tool
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_overview.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Description of the model
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
+                        Model formulation
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_epm.html">
+                        How to Run EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
+                        Launch on the GAMS Engine remote server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="launch_multiple_simulation.html">
+                        Engine Looping Tool
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_overview.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Description of the model
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
+                        Model formulation
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Energy Planning Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="run_epm.html">How to Run EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Launch on the GAMS Engine remote server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_multiple_simulation.html">Engine Looping Tool</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model_overview.html">Mathematical formulation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Description of the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_notations.html">Notations</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="model_formulation.html">Model formulation</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/model_description.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/model_description.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/docs/model_description.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Description of the model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indices-and-sets">
+   Indices and Sets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#objective-function">
+   Objective function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-approximation">
+   Load approximation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#value-of-lost-load">
+     Value of Lost Load
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transmission-network-constraints">
+   Transmission network constraints
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#system-requirements">
+   System requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generation-constraints">
+   Generation constraints
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#renewable-generation-modeling">
+   Renewable generation modeling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#concentrated-solar-power-csp-modeling">
+   Concentrated Solar Power (CSP) modeling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+   Time consistency of power system additions and retirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#storage-modeling">
+   Storage modeling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#investment-constraints">
+   Investment constraints
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#environmental-policy">
+   Environmental policy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modelling-ccs">
+   Modelling CCS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modelling-of-green-hydrogen">
+   Modelling of Green Hydrogen
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limitations-of-the-model">
+   Limitations of the model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="description-of-the-model">
+<h1>Description of the model<a class="headerlink" href="#description-of-the-model" title="Permalink to this heading">#</a></h1>
+<p>EPM cand be used (i) as a least-cost capacity expansion model to optimize investments in the power sector over a specified horizon that could extend from a few years to decades or as (ii) an economic dispatch model to optimize the operation of a specified power system over a relatively short period compared to Capacity Expansion Model (1-week to 1-year). Like every optimization software the problem is mathematically described through an objective function and several accompanying equations (system constraints). System constraints are used to describe mathematically the physical part of the system, laws of physics, policy targets and other realities specific to the system (for example fuel availability). More detailed description of system constraints can be found on subsequent sections.</p>
+<section id="indices-and-sets">
+<h2>Indices and Sets<a class="headerlink" href="#indices-and-sets" title="Permalink to this heading">#</a></h2>
+<p>All sets used in the formulation can be classified in two major categories: time and power system-related. Four sets belong to the first category: which represent different time scales considered in the model: days, quarters, hours and years. Hour is the smallest unit of time used in this formulation and we could use the same formulation using just one set for time containing as many hours as the set . It is convenient though to keep all the four sets since they reveal some fundamental assumptions of the model: (1) days are used to reflect the chronological sequence of the time slices used for ramping and storage constraints as we will further explain in the constraints section; (2) quarters are used to reflect seasonality in the load patterns, the availability of thermal power units and the thermal limits of transmission lines; (3) years are used to represent annual trends on demand growth and keep track of the lifetime of units; and finally (4) hours are commonly used as the smallest time unit in long term models since the day ahead scheduling models schedule generation units on an hourly basis.</p>
+<p>Three sets are power system related. Set includes all generating units. Depending on the size of the system, we might decide to use set to model individual units of the power system for a small system or aggregated units that represent multiple units of the same technology for a large system. We use the term technology to refer to different technologies or different fuels used: e.g. coal steam turbines, natural gas combined cycle, natural gas combustion turbines, wind farms, solar photovoltaic panels, geothermal, hydropower and diesel generators. Depending on the resources available in a country, some technologies might not be present. As the model stands now, elements of set are mapped to sets and , which stand for fuel and zones respectively. Set is one of the major sets used in power systems since the power system is a network and physical laws (widely known as Kirchhoff’s laws) govern the flow of power over the transmission lines. Given that, a set such as set which captures the spatial dimension of the system is necessary. At the finest granularity, set might contain buses of the power system but in case we model larger systems, set might contain zones of a power system or even countries. Note that the modeler usually decides on the spatial granularity based on the presence of common regulatory rules or pricing schemes in a zone or/and based on the congestion observed on transmission lines connecting adjacent regions. Finally, set includes the different fuels used and we model it to keep track of the consumption of different fuels since for certain fuels domestic upper bounds on consumption might apply and/or issues of energy security might be involved in case of imported fuels. In addition, different types of fuels have different carbon content and lead to different emissions of carbon dioxide, which are important to track in case environmental policies exist.</p>
+</section>
+<section id="objective-function">
+<h2>Objective function<a class="headerlink" href="#objective-function" title="Permalink to this heading">#</a></h2>
+<p>The objective function in this model minimizes the total system cost including violation/penalty terms for constraints that are not met. All generation, transmission and emissions costs of the system are considered including: (1) Fixed costs including annualized capital cost payments for new generators<sup><span class="xref myst">[4]</span></sup> and any additional transmission capacity and fixed operation and maintenance costs (2) variable costs including the fuel cost and any variable operation and maintenance costs (3) cost to procure spinning reserves (4) carbon tax payments and (5) penalties for unmet demand and unmet capacity and spinning reserve requirements, breaching the emissions and renewable rejection at the system or the zonal level.</p>
+<p>In the case of a least-cost expansion model the objective function typically represents total system costs over the study horizon. Depending on the type of the problem (for example linear or non-linear) the user chooses an appropriate solver to minimize the value of the objective function. Total system costs are broken into several components the most important of which are the fixed and variable costs of electricity generation. CAPEX costs typically dominate fixed costs while fuel costs dominate variable costs of generation. In systems with very high shares of renewables VOM costs are higher than fuel costs. Other types of system costs included in the objective function are costs of reserve provision by generators, the cost of carbon (when applicable), the cost of electricity trading (it could be a net benefit if revenues from electricity trade exceed costs) and the cost of transmission enhancements.</p>
+<p>When EPM is used as a dispatch model, there are no capex costs in the objective function. In dispatch mode, the model does not consider unit commitment related decisions in its current form, albeit minimum generation constraints and ramp rates are modeled.</p>
+</section>
+<section id="load-approximation">
+<h2>Load approximation<a class="headerlink" href="#load-approximation" title="Permalink to this heading">#</a></h2>
+<p>The size of the optimization problem (i.e. the number of decision variables to be determined) depends significantly on the study horizon and the optimization step. An EPM user needs to find the balance between precision and computational effort (practicality) to complete the analysis. This is especially important when little gains in precision impact significantly the running time. In most cases representing the full year at the hourly level (8760 hours) over a study horizon that extends to multiple years, usually 15 to 20 years, is neither practical nor required to assess in detail the capacity mix of most supply options. For capacity expansion analyses, the load is typically approximated through a number of representative days which are assumed to repeat several times throughout the calendar year. Such representative days are carefully selected to capture the hourly profile (including the peak) of electricity demand on a monthly or quarterly basis. It is common practice to select the following three types of representative days: (i) an average day which is assumed to be representative of the bulk of electricity production (repeats several times over a quarter (or month)), (ii) a typical day of high demand (which also need to include the peak) and (iii) a typical day of low demand. The last two types of days typically represent a much smaller portion of the quarterly (or monthly) demand compared to the average day. The EPM input file includes tabs where a user can provide the hourly profile of each of the selected typical days on the “Demand” tab. Also, a user needs to provide the relative contribution of each typical day on total quarterly/monthly/seasonal demand represented as number of repeats over a typical quarter (or month), in the “Duration” tab.</p>
+<p>The above-mentioned representation of the load has been widely used in power sector analysis to estimate the capacity mix of conventional supply options both efficiently and accurately. However, application of this methodology has weaknesses in power systems with very high shares of variable renewable energy (VRE) sources. In such systems detailed representation of chronology might have significant impact on results. VRE generation profiles are inputs on EPM. Selection of a representative day for load need to be accompanied by the respective VRE generation profile that corresponds to the selected day. This requires extensive data processing.</p>
+<p>A weakness of selecting representative demand days is that the analysis might undersize electricity storage, the simulation of which requires full description of chronology. This is especially true in the case multi-hour and seasonal storage. For that reason, running EPM on dispatch mode (full chronology) of a full (selected) year might be required to supplement capacity expansion analysis.</p>
+<p>An EPM user can represent demand in detail for each year of the study horizon or provide annual projections (single value) of demand and peak demand together with typical day profiles over a base (historical) year. When the latter option is activated, the model uses the above data to calculate the projected demand in detail.</p>
+<section id="value-of-lost-load">
+<h3>Value of Lost Load<a class="headerlink" href="#value-of-lost-load" title="Permalink to this heading">#</a></h3>
+<p>The Value of Lost Load (VoLL) is an economic penalty used to ensure that the model will invest to meet the demand and avoid unserved energy if it is economic to do so. The VoLL represents the damage on the local economy from missing to supply 1MWh of demand. Without assigning VoLL matching supply and demand would be economically suboptimal as it is cheaper to fall short on supply rather than paying for the cost of electricity generation and associated investments. Thus, the selection of VoLL need to be based on research. There is no universally acceptable Value of Lost Load and different methods have been applied to estimate a reasonable value for the unserved energy. Typical values used in developed economies vary between 4,000 and 40,000<span class="math notranslate nohighlight">\(/MWh while in developing countries between 500 and 10,000\)</span>/MWh [1].</p>
+<p>VoLL affects both the total-non served energy in the system and peaking supply investment decisions. In some cases, allowing for some loss of load might be preferable compared to investing into supply options that will only operate for a tiny amount of the annual time. The user will need to calibrate the model considering the local realities and system rules since the maximum allowed number of hours failing to meet demand is constrained by reliability criteria. When a value for VoLL is not available in global literature the EPM user can select a reported VoLL from a country with similar economic characteristics. Alternatively, the assessment of VoLL can be based on analytical expressions or based on the assumption that demand is sensitive to electricity price. In the latter case VoLL can take the value of cost of generation of the most expensive asset in the system which are usually backup diesel generators [2].</p>
+<p>Typically, back-up generators are fueled with expensive diesel, and if they are used in the mode just described, the system VOLL would take the value of the variable cost of these generators (~500 $/MWh).</p>
+</section>
+</section>
+<section id="transmission-network-constraints">
+<h2>Transmission network constraints<a class="headerlink" href="#transmission-network-constraints" title="Permalink to this heading">#</a></h2>
+<p>Kirchhoff’s laws are physical laws governing the flows over transmission lines in a network. According to first Kirchhoff law, also known as KCL (Kirchhoff’s Current Law), the sum of injections in a node should equal zero. In our formulation, KCL corresponds to equation <em>(14)</em>. There, we can see that the power provided by generators and storage should be equal to demand (minus the unmet demand) plus/min outflows/inflows from the node to adjacent nodes. This equation additionally includes price-driven import and export volumes from external zones. The demand is adjusted with the potential improvements in the energy efficiency using parameter.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(14)</p></th>
+</tr>
+</thead>
+</table>
+<p>Note that the second Kirchhoff Law (or widely known as KVL- Kirchhoff’s Voltage Law) is valid for power systems but for reduced power system, it might not apply depending on the method of network reduction followed. In this particular formulation, KVL is not considered.</p>
+<p>Another important feature of our model relates to modeling of transmission losses. We model transmission losses as a percent reduction of the imported electricity at each node. In particular, term</p>
+<p>at equation <em>(14)</em> models injections to node <em>z</em> and we can see how the loss factor reduces the amount of energy imported. On the contrary, the outflow is fully considered at the origin node of the network: .</p>
+<p>Another common constraint for transmission networks refers to the capacity limits of transmission lines. In particular, as equation <em>(15)</em> implies, the flow over a specific line cannot exceed a certain limit, which is defined either by thermal limit of the line or upper bounds imposed by reliability considerations. Note that we model flows over a particular transmission line with two positive variables, one for each direction. Please observe that the transmission limit parameter might change per year to reflect planned upgrades and the additions to the transmission network. There are also maximum built limits of additional transmission capacity between zones due to budget or technical constraints. Moreover, the transmission limit differs per season since ambient temperature affects the capacity available for power transfers.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>+</p></th>
+<th class="head"><p>(15)</p></th>
+</tr>
+</thead>
+</table>
+<p>The modelled zones, countries and regions are usually not isolated from the external systems and markets not included in the model. Therefore, we allow trading with these zones at time-varying predefined price. Equations <em>(16)</em>, <em>(17)</em> and <em>(18)</em> define the limits of this exchange. Equation <em>(16)</em> sets the annual limit on the energy imported from external zones as a percentage of the annual demand using parameter . Equations <em>(17)</em> and <em>(18)</em> introduce the hourly limit on the imported and exported power, defined as a percentage of hourly demand.</p>
+</section>
+<section id="system-requirements">
+<h2>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">#</a></h2>
+<p>In our formulation, we model two products that the system operator might require generators to provide during operation: (1) energy and (2) spinning reserves. Per NERC’s definition, spinning reserves refers to “unloaded generation that is synchronized and ready to serve additional demand” [3]. Note that more products exist, especially in organized U.S. wholesale markets such as non-spinning reserves or flex ramp. Operating reserves (spinning and non-spinning reserves) provide the capability above firm system demand required to provide for regulation, load-forecasting error, equipment forced and scheduled outages and local area protection [3]. Moreover, under the spinning reserves different products might exist with respect to the response times required etc.</p>
+<p>The amount of spinning reserve required depends on several factors that the planner/operator considers such as the load level and the associated forecasting error, the forecasting error attached to the renewable generation and the size of the largest unit committed on the system to be able to accommodate N-1 outages. Equation <em>(19)</em> indicates that spinning reserve can be provided by interconnections. On top of system-wide reserve requirements, zonal requirements apply to accommodate for outages on transmission lines connecting adjacent regions/zones/nodes.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(19)</p></th>
+</tr>
+</thead>
+</table>
+<p>Planners usually consider a planning reserve margin (PRM) to account for forecasting error in demand projections. Typical values for the PRM vary between 10-15%. Equation <em>(21)</em> indicates that interconnections can be accounted for as reserve margin. Note that intermittent units do not contribute towards the planning reserve constraint at their full capacity but at a fraction specified by the planner (using the Capacity Credit parameter), e.g. in the U.S. markets this fraction is calculated based on available historical data as the capacity factor during a set of peak hours [4].<sup><span class="xref myst">[5]</span></sup></p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(21)</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="generation-constraints">
+<h2>Generation constraints<a class="headerlink" href="#generation-constraints" title="Permalink to this heading">#</a></h2>
+<p>Spinning reserve capacity is modeled as it is a very important dimension of a system flexibility and ability to integrate VRE.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(22)</p></th>
+</tr>
+</thead>
+</table>
+<p>Equation (22) assures that the power generated by the unit along with the spinning reserves provided by the same unit do not exceed the unit’s capacity.<sup><span class="xref myst">[6]</span></sup> Note that the capacity is augmented by an overload factor. This factor is typically 10% for those generators that can handle overload conditions for a short period of time, and zero for those generators that cannot handle such conditions.</p>
+<p>Given that spinning reserve products are usually defined with respect to response time of generator to a certain dispatch signal, only a certain percentage of the generator’s unit qualify as a reserve offer. We capture this characteristic in the model through equation (23).</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(23)</p></th>
+</tr>
+</thead>
+</table>
+<p>Ramping constraints acknowledge that the generation units have inertia in changing their outputs and differences in generation outputs between consecutive hours should be constrained by the ramping up and down capabilities of the unit.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(24)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(25)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Another important feature of generators is the minimum load. The minimum load can either be determined based on technical specifications provided by the manufacturer or be calculated as an “economic” minimum beyond which the unit can provide energy economically. The minimum load constraint is really important for unit commitment and requires the use of binaries variables that make sure the constraint is enforced when the unit is on. However, in generation expansion models operations are approximated through a simple dispatch model for representative hours of the year. In this case, if deemed important, an approximation of the minimum load constraint can be applied for the thermal units for which it is relevant. The constraint can be applied for a subset of the days modeled and the constraint is activated only for those days or to all days. Constraint (26) is forcing all units to generate power equal to at least their minimum loading levels for specific days in the year.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(26)</p></th>
+</tr>
+</thead>
+</table>
+<p>Generating units require maintenance every year. Given that, we should consider the units as unavailable for certain periods during the year. In this particular application, we consider a uniform availability factor per quarter to account for maintenance.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(27)</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="renewable-generation-modeling">
+<h2>Renewable generation modeling<a class="headerlink" href="#renewable-generation-modeling" title="Permalink to this heading">#</a></h2>
+<p>Renewable generation differs from conventional units in that its output is, to a certain extent, uncontrollable and intermittent. The power generated by renewables such as wind or solar depends on wind velocity or solar irradiation. Collecting historical data that records weather information (such as wind speed, temperature, wind direction, etc.) or the power generation output by installed renewables at specific locations, analysts usually employ statistical methods such as k-means to reduce the number of hours required to approximate the intermittent nature of renewables [5]. In this particular application, the generation profile for each renewable energy technology (such as wind or solar PV) is defined by the hourly capacity factor, in a year, of a generic power plant of each type, modeled at a specified location. Then, given this hourly profile for a year, we choose the amount of days modeled based on the days selected for the load approximation (see Section 1.4.3), i.e., the renewable profile during the 12 days in the year selected, for load, is maintained.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(28)</p></th>
+</tr>
+</thead>
+</table>
+<p>Note that the renewable profile is highly dependent on the region/location the resource is located. This formulation implicitly models that aspect since might have different elements for the same generation technology at different locations.</p>
+</section>
+<section id="concentrated-solar-power-csp-modeling">
+<h2>Concentrated Solar Power (CSP) modeling<a class="headerlink" href="#concentrated-solar-power-csp-modeling" title="Permalink to this heading">#</a></h2>
+<p>CSP technology modeling differs from other renewable technologies due to the complexity derived by its storage capabilities. The CSP configuration considered in this model consists of two integrated subsystems; these include the thermal storage system, and power cycle. Thermal storage is modeled using a simple energy balance approach that includes charging and discharging energy. The power cycle model provides a simple mechanism for modeling the conversion from thermal energy output from the solar field, and thermal storage into electrical energy.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(29)</p></th>
+</tr>
+</thead>
+</table>
+<p>Equation (29) indicate that at any time the CSP storage level cannot exceed its storage capability.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(30)</p></th>
+</tr>
+</thead>
+</table>
+<p>The power output of the solar panel is calculated by multiplying the nameplate capacity of the CSP power plant, the capacity factor of the system, and the solar multiple, then, dividing this by the turbine and solar field efficiencies (Equation (30)).</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(31)</p></th>
+</tr>
+</thead>
+</table>
+<p>Equation (31) indicate that all the power output produced by CSP generators at any given zone, cannot exceed the nameplate capacity. Finally, Equations (32) and (33) detail the power balance formulations for the power cycle and thermal storage subsystems.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(32)</p></th>
+</tr>
+</thead>
+</table>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(33)</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="time-consistency-of-power-system-additions-and-retirements">
+<h2>Time consistency of power system additions and retirements<a class="headerlink" href="#time-consistency-of-power-system-additions-and-retirements" title="Permalink to this heading">#</a></h2>
+<p>We use constraint (34) to track the capacity in consecutive years. In particular, generation capacity at year equals capacity at previous year plus any investment minus any retirement at year .</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(34)</p></th>
+</tr>
+</thead>
+</table>
+<p>Several more constraints are formulated to fix the capacity at pre-specified levels in certain years.</p>
+<ul class="simple">
+<li><p>The first constraint sets the capacity of the existing units in the first year to the predefined capacity, if the commissioning year is earlier then the first year of the optimization horizon.</p></li>
+</ul>
+<table><tbody><tr><th></th><th><p>(35)</p></th></tr><tr><td></td><td></td></tr><tr><td colspan="3"><ul><li>The second constraint sets the capacity of the existing units to the predefined capacity, for all the years exceeding the commissioning year, but before the defined retirement year.</li></ul><table><tbody><tr><th></th><th><p>(36)</p></th></tr><tr><td></td><td></td></tr></tbody></table></td><td></td></tr></tbody></table>
+<ul class="simple">
+<li><p>The third constraint forces the capacity of the existing units to 0, when the retirement year is reached.</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(37)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>The fourth constraint states that the total capacity of a new generator equals the capacity of that new generator built the previous year plus the capacity to be built the current year:</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(38)</p></th>
+</tr>
+</thead>
+</table>
+<ul class="simple">
+<li><p>The fifth constraint forces the capacity at the first year of the horizon for new units to be equal to the capacity installed that year</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(39)</p></th>
+</tr>
+</thead>
+</table>
+<ul class="simple">
+<li><p>The sixth constraint limits the capacity to the predefined available or installed capacity of the unit.</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(40)</p></th>
+</tr>
+</thead>
+</table>
+<ul class="simple">
+<li><p>The seventh constraint forces the capacity of planned and candidate units at zero for years preceding the commission year of the unit.</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(41)</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="storage-modeling">
+<h2>Storage modeling<a class="headerlink" href="#storage-modeling" title="Permalink to this heading">#</a></h2>
+<p>Economically efficient storage in power systems has mainly been pumped hydro storage for a considerable number of years. Nowadays, more storage technologies such as battery energy storage systems are being added to the power system providing energy and/or reserve services.</p>
+<p>Storage is modeled differently compared to conventional units since it requires two more variables: (1) one variable to keep track of the storage level (storage) and (2) one variable (<em>storageinj</em>) to model the injection of energy into the storage unit. The variable <em>gen</em> used to track the generator output of conventional units is used to account for the output of a storage unit when it is discharged. Moreover, the chronological sequence of the time slices is important to make sure that the simulated operation is feasible e.g., we cannot discharge a storage unit if charging of the unit has not preceded. Finally, storage of energy requires the conversion of electricity to another form of energy e.g., mechanical for flywheels or chemical for fuel cells and common batteries. The conversion of one form of energy to another involves losses that we should consider in our models. Equations (30) and (31) represent the storage balance equations on the first hour of a representative day and any other hour of a representative day respectively:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(42)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(43)</p></td>
+</tr>
+</tbody>
+</table>
+<p>The first equation (42) makes sure that the battery is discharged at the start of each representative day. The choice for not making a link between different days and thus having the battery discharged at the start of each day is because the standard formulation of the model works with representative days (e.g peak load, minimum load, and average load days) instead of actual days. Equation (43)in turn keeps track of the energy stored in the storage unit between consecutive hours of the same day: the energy stored in the unit at time slice <em>t</em> (t &gt; 1) equals the energy stored in the unit at time slice <em>t-1</em> plus any injection reduced by the storage efficiency minus any discharge at time <em>t</em>. In case the storage unit is linked to a PV plant, the injection is given by the PV profile:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(44)</p></th>
+</tr>
+</thead>
+</table>
+<p>Two additional constraints are used to make sure that the operation of storage in each time slice is feasible considering the peak storage capacity (in MW):</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(45)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(46)</p></td>
+</tr>
+</tbody>
+</table>
+<p>The first constraint ensures that the hourly energy injection is lower or equal than the maximum hourly energy injection. The second constraint limits the total amount of energy (in MWh) stored to the maximum storage level (in MWh). Storage outputs are constrained by the general equation (22).</p>
+<p>Furthermore, the storage units can be charged or discharged at a rate, which cannot exceed a specific value. To model this behavior, we include constraints (47) and (48) respectively.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(47)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(48)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Three equations keep track of the deployed energy storage capacity (in MWh) of the storage units:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(49)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(50)</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>(51)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Equation (49) keeps track of the energy storage capacity for existing storage units whereas equations (50) and (51) are used for new storage units.</p>
+<p>Three final constraints limit the total deployed energy storage capacity (in MWh):</p>
+<p>(52) (53)</p>
+<p>(54)</p>
+<p>The first constraint ensures that the deployed energy storage (in MWh) is larger than the peak storage capacity (in MW) at any time.<sup><span class="xref myst">[7]</span></sup> The second constraint limits the total deployed energy storage (in MWh) to the maximum deployable energy storage (in MWh). Equation (54) constrains the deployment of existing storage units for which the commission year is later than the starting year of the modelling horizon.</p>
+</section>
+<section id="investment-constraints">
+<h2>Investment constraints<a class="headerlink" href="#investment-constraints" title="Permalink to this heading">#</a></h2>
+<p>Planners consider several constraints when they decide on a generation investment plan. Common constraints refer to budget, land use, scheduling of new construction and consumption of specific fuels for energy security considerations.</p>
+<p>Constraint (55) usually reflects land use considerations, regulation that imposes an upper bound on capacity of specific technologies or simply resource potential (e.g., for wind there is a finite amount of locations where wind farms can provide the capacity factor modeled).</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(55)</p></th>
+</tr>
+</thead>
+</table>
+<p>Constraint (58) is usually employed to reflect practical limitations on construction and spread the construction of new units more uniformly over time. For example, it seems pretty unrealistic that the whole system capacity can be built in one year.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(58)</p></th>
+</tr>
+</thead>
+</table>
+<p>Constraint (62) imposes an upper bound on fuel consumption. This upper bound might correspond to the fuel reserves a country might have at its disposal or the capacities of refinement units or importing units such as size of LNG terminals. Constraint (63) simply estimates the fuel consumption. Note that in case we want to reduce the number of variables in our model, we can get rid of the fuel variable since it is defined in terms of the generation variable.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(62)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(63)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Constraint (64) represents a budget constraint. It limits the capital expenses withdrawal to be lower than a pre-specified amount. In this formulation, we assume that the <em>MaxCapital</em> parameter is similar to the maximum debt payments that a power system planner can do over the horizon.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(64)</p></th>
+</tr>
+</thead>
+</table>
+<p>An alternative constraint that addresses the same concern but relies on different information is expressed by constraint (69). In that case, the planner does not know the maximum amount of debt payments that the power plant owners might do but he has a good understanding of the maximum capital available to the system for investment. In that case, the sum of the overnight capital expenditure is not allowed to exceed this known budget.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(69)</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="environmental-policy">
+<h2>Environmental policy<a class="headerlink" href="#environmental-policy" title="Permalink to this heading">#</a></h2>
+<p>Environmental concerns often lead policymakers to adoption of caps on the amount of emissions of certain pollutants. Several countries have announced targets to reduce their carbon dioxide emissions below particular amounts. Given that the power system is a big contributor to carbon dioxide emissions, power system caps are usually enforced at the country or at multi-country level. Constraints (65) and (66) impose the caps decided by regulators. Note that constraints (67) and (68) are modeled as “hard” constraints with no violation allowed. We would like to note that environmental policy might impose caps on more pollutants beyond carbon dioxide. For example, in the USA certain caps apply on and emissions. The dual variables of constraint (66) and (68) provide valuable information to the planner since they estimate the additional cost the planner would have to bear to decrease the amount of the pollutant by an infinitely small amount. In other words, the dual prices of (66) and (68) provide an approximation of the prices that the planner would pay per unit of pollutant if slightly stricter regulation would be applied.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(65)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>(66)</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>(67)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>(68)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Another policy mechanism related to carbon emissions is a carbon tax (less popular than the cap-and-trade system at present). We model the carbon tax as part of the objective function. Note that the carbon tax does not correspond to an actual cost for the society since it is a transfer payment for emitters to the government. It reflects an actual cost, though, only if it attempts to monetize the public health cost and the damage to the environment. However, it reflects an actual cost for power system since generators would probably have to pay the tax to the government and that explains why it is part of the objective function (8).</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(8)</p></th>
+</tr>
+</thead>
+</table>
+</section>
+<section id="modelling-ccs">
+<h2>Modelling CCS<a class="headerlink" href="#modelling-ccs" title="Permalink to this heading">#</a></h2>
+<p>CCS technology investments can be modelled on EPM as either greenfield or retrofits of existing coal plants. A new CCS plant is modelled similarly as any other coal plant with its techno-economic parameters adjusted. Typically, CCS plants are modelled to have lower efficiency and higher CAPEX and OPEX compared to conventional coal plants. The environmental impact of CO2 storage is modelled through setting fuel burned on a CCS plant to have reduced emissions factor compared to conventional coal (typically reduction 90% to 95%).</p>
+<p>CCS retrofits are modeled as a sudden change on the techno-economic parameters of an existing plant subject to some CAPEX incurred. More specifically, this change is modelled as a decommissioning of the existing plant and a simultaneous commissioning of the retrofitted plan. The retrofit CAPEX and the updated techno-economic parameters need to be carefully selected based on international experience. The mathematical addition of CCS retrofit on EPM is done through equation 69 below:</p>
+<p>(69)</p>
+<p>Set mapGG containing the relevant pairs of the existing plant (candidate for retrofit) and the new plant (retrofitted plant) is automatically generated through the inputs development phase. The relevant connection (pairs of plants) is made by the EPM user on excel tab named LinkedComDecom</p>
+</section>
+<section id="modelling-of-green-hydrogen">
+<h2>Modelling of Green Hydrogen<a class="headerlink" href="#modelling-of-green-hydrogen" title="Permalink to this heading">#</a></h2>
+<p>Modeling of production of green hydrogen is possible on EPM. When the option is activated investments on electrolyzers are optimized similarly as with supply side technologies. The user provides the relevant technoeconomic inputs for electrolyzers (CAPEX, OPEX, efficiency, project lifetime etc). There are two potential uses of green hydrogen in EPM:</p>
+<ol class="arabic simple">
+<li><p>Re-circulation in the power sector. In that case green hydrogen acts as a carrier of renewable energy providing long-term storage to the system. Hydrogen can be burned in modified new CCGTs/OCGTs at 100% per volume or burned in existing dual fuel generators (future versions of EPM will include option for pre-specified per volume mix of hydrogen with natural gas to be burned in conventional turbines). The user needs to define hydrogen as an additional fuel with zero cost and zero emissions factor since it is produced within the system and not imported. Costs of hydrogen are indirectly accounted through the additional investments and relevant OPEX within the system. Also, techno-economic characteristics of new hydrogen turbines need to reflect published figures based on international experience</p></li>
+<li><p>Used in other end-use sectors (residential, industry, transport). This is modeled as an external demand of green hydrogen to be satisfied subject to some penalty for each mmBTU of unserved hydrogen demand. EPM simulates power sector operation and investment requirements to satisfy external hydrogen demand but it does not model any subsequent use outside the power sector. The costs for external hydrogen production are accounted for in the model and thus the power sector is assumed to bear the costs of decarbonization of other sectors.</p></li>
+</ol>
+<p>Description of green hydrogen formulation on EPM follows below:</p>
+<p>Investments on electrolyzers are mathematically constrained to dictate time consistency of capacity additions and retirements, similarly as with generators:</p>
+<p>Generation capacity of existing electrolyzer capacity at year equals capacity at previous year plus any investment minus any retirement at year where y is not the first year of the study horizon (equation 70)</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(70)</p></th>
+</tr>
+</thead>
+</table>
+<p>Equation (71) is the same constraint as (70) modified for candidate capacity</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(71)</p></th>
+</tr>
+</thead>
+</table>
+<p>Equation (72) constraints total electrolyzer capacity at the end of the first year of the optimization horizon. At the beginning of horizon existing capacity is the one defined in the inputs section and by the end of year the capacity is adjusted by any optimized additions or retirement throughout the year.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(72)</p></th>
+</tr>
+</thead>
+</table>
+<p>Total electrolyzer capacity that can be developed into mandatory projects (decision for development has been made) can not exceed the maximum electrolyzer capacity provided as input</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(73)</p></th>
+</tr>
+</thead>
+</table>
+<p>Total new electrolyzer capacity that can be developed in candidate projects (decision to be optimized) cannot exceed the maximum electrolyzer capacity provided as input</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>(74)</p></th>
+</tr>
+</thead>
+</table>
+<p>Electolyzer candidate investments can also be set as integer decisions. In such cases the defined capacity can either be built in one step or stay out of the plan (equation 75). Similarly retirement of existing electrolyzer plant takes place in a single step (76). In equations (75) and (76), variables and can only take positive integer values</p>
+<p>(75)</p>
+<p>(76)</p>
+<p>Equation 77 puts a constraint on operational time of electrolyzers so that it doesn’t exceed their technical availability</p>
+<p>Equation 88 describes the thermal balance of hydrogen within the system (in mmBTU). Total mmBTU of hydrogen produced are equal to hydrogen demand for other sectors minus unmet hydrogen demand plus hydrogen recirculate in the power sector as fuel.</p>
+<p>Equation 79 makes a connection between quarterly an annual amount of hydrogen fuel produced in the system</p>
+<p>Equation 80 puts a constraint on total amount of electricity drawn by an electrolyzer. Max power absorbed can’t be more than the electrolyzer capacity</p>
+<p>Equations 81 and 82 define ramping constraints for electrolyzer operation</p>
+<p>Equations 83 sets an energy balance on renewable electricity. Total renewable electricity generated is equal to renewable electricity consumed by end-use sectors and renewable electricity consumed by electrolyzes</p>
+<p>Equation 84 makes a connection between renewable power produced and electricity drawn by electrolyzers</p>
+<p>Finally, equations 85 and 86 are mapping renewable electricity produced on a zonal basis which is necessary for the architecture of the hydrogen model</p>
+</section>
+<section id="limitations-of-the-model">
+<h2>Limitations of the model<a class="headerlink" href="#limitations-of-the-model" title="Permalink to this heading">#</a></h2>
+<p>As any model, this model also has some limitations in most practical system applications. Two major limitations of the model are the following:</p>
+<p>(1) Transmission network representation: Although in theory, the model can be used to represent the high voltage transmission network down to individual substations, the size limitation of the underlying LP, typically restricts to a small (below 20) number zones and we assume zero congestion within each zone modeled. Transmission expansion is not always an option. The model does not consider voltage angles and DC approximation to power flow in its current form and as such may have unrealistic flows around a loop.</p>
+<p>(2) As noted before, the model does not consider unit commitment (startup and shutdown) decisions. It also does not consider heat rate curves associated with thermal units and uses a single average heat rate for each generating unit.</p>
+<p>(3) In its main version, the model is deterministic and no uncertainty with respect to assumed parameters etc. is considered.</p>
+<p>(4) Hydropower: reservoir optimization is currently not a feature of EPM hence hydropower potential is represented as daily/seasonal/annual energy limits for individual hydro plant/unit. The main version model does not consider any representation of river chain.</p>
+<p>(5) In the current model version, coal plant flexibilization or repurposing is not considered.</p>
+<p>(6) When the model is used as a capacity expansion tool, the use of representative days and seasons limits the possibility to capture the VRE variability, hence the VRE integration costs are approximated. Similarly, the flexibility costs of the system are approximated as ancillary services are not all fully modeled.</p>
+</section>
+<section id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>[1]</p></th>
+<th class="head"><p>A. Van Der Welle and B. Van Der Zwaan, “An overview of selected studies on the value of lost load (VOLL),” <em>Energy Research Centre of the Netherlands (ECN), Amsterdam,</em> 2007.</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>[2]</p></td>
+<td><p>F. De Sisternes, “Investment model for renewable electricity systems (IMRES): an electricity generation capacity expansion formulation with unit commitment constraints,” <em>MIT, Cambridge MA,</em> 2013.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[3]</p></td>
+<td><p>NERC, “Glossary of Terms Used in NERC Reliability Standards,” [Online]. Available: <a class="reference external" href="http://www.nerc.com/pa/stand/glossary">http://www.nerc.com/pa/stand/glossary</a> of terms/glossary_of_terms.pdf. [Accessed 12 December 2016].</p></td>
+</tr>
+<tr class="row-even"><td><p>[4]</p></td>
+<td><p>B. Hobbs and C. Bothwell, “System Adequacy with Intermittent Resources : Capacity Value and Economic Distortions,” ISO New England, 2016. [Online]. Available: <a class="reference external" href="https://www.iso-ne.com/static-assets/documents/2016/09/PSPC09222016_A4_Cindy-Bothwell-Johns-Hopkins-University-System-Adequacy-with-Intermittent-Resources-Capacity-Value-and-Economic-Distortions.pdf">https://www.iso-ne.com/static-assets/documents/2016/09/PSPC09222016_A4_Cindy-Bothwell-Johns-Hopkins-University-System-Adequacy-with-Intermittent-Resources-Capacity-Value-and-Economic-Distortions.pdf</a>. [Accessed 2 October 2016].</p></td>
+</tr>
+<tr class="row-odd"><td><p>[5]</p></td>
+<td><p>L. Baringo and A. J. Conejo, “Correlated wind-power production and electric load scenarios for investment decisions,” <em>Applied Energy,</em> vol. 101, pp. 475-482, 2013.</p></td>
+</tr>
+<tr class="row-even"><td><p>[6]</p></td>
+<td><p>CESI, “Pan-Arab Regional Energy Trade Platform (PA-RETP). Power Market Study: Gas Comsumption Assessment for the Power Sector accross MENA Region,” CESI, 2016.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[7]</p></td>
+<td><p>CESI-Ramboll, “Feasibility Study of the Electrical Interconnection and Energy Trade between Arab Countries,” Arab Fund for Economic and Social Development, 2014.</p></td>
+</tr>
+<tr class="row-even"><td><p>[8]</p></td>
+<td><p>The World Bank, “Energy Efficiency Study in Lebanon,” The World Bank, Washington, DC, 2009.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[9]</p></td>
+<td><p>Presidency of the Council of Ministries Central Administration of Statistics, “Energy”.</p></td>
+</tr>
+<tr class="row-even"><td><p>[10]</p></td>
+<td><p>Palestinian Electricity Regulatory Council, “Annual Report 2011,,” Palestinian Electricity Regulatory Council, 2011.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[11]</p></td>
+<td><p>DSIRE, “N.C. Clean Energy Technology Center,” DSIRE, [Online]. Available: <a class="reference external" href="http://programs.dsireusa.org/system/program/tables">http://programs.dsireusa.org/system/program/tables</a>. [Accessed 12 December 2016].</p></td>
+</tr>
+<tr class="row-even"><td><p>[12]</p></td>
+<td><p>A. Hainoun, “Construction of the hourly load curves and detecting the annual peak load of future Syrian electric power demand using bottom-up approach,” <em>International Journal of Electrical Power &amp; Energy Systems,</em> vol. 31, no. 1, pp. 1-12, 2009.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[13]</p></td>
+<td><p>P. Khajavi, H. Monsef and H. Abniki, “Load profile reformation through demand response programs using smart grid,” in <em>Proceedings of the International Symposium Modern Electric Power Systems (MEPS), 2010</em>, 2010.</p></td>
+</tr>
+<tr class="row-even"><td><p>[14]</p></td>
+<td><p>A. Khazaee, M. Ghasempour, H. Hoseinzadeh and H. Hooshmandi, “DEMAND MANAGEMENT PROGRAM FOR LARGE INDUSTRIAL CONSUMERS BY USING THE AMI SYSTEM,” in <em>23rd International Conference on Electricity Distribution</em>, 2015.</p></td>
+</tr>
+<tr class="row-odd"><td><p>[15]</p></td>
+<td><p>A. Salimi-Beni, D. Farrokhzad, M. Fotuhi-Firuzabad and S. Alemohammad, “A new approach to determine base, intermediate and peak-demand in an electric power system,” in <em>International Conference on Power System Technology, 2006. PowerCon 2006.</em>, 2006.</p></td>
+</tr>
+<tr class="row-even"><td><p>[16]</p></td>
+<td><p>W. Short, P. Sullivan, T. Mai, M. Mowers, C. Uriarte, N. Blair, D. Heimiller and A. Martinez, “Regional Energy Deployment System ( ReEDS),” NREL, 2011.</p></td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple">
+<li><p>The generators already planned are included in any of the two sets depending on criteria such as their capacity, status of their construction process etc. <span class="xref myst">↑</span></p></li>
+<li><p>The electrolyzers already planned are included in any of the two sets depending on criteria such as their capacity, status of their construction process etc. <span class="xref myst">↑</span></p></li>
+<li><p>Type of resources considered as renewables might be different from country to country or state to state. For example, some states do not include hydropower towards their renewable targets (e.g. California does not count large hydropower towards the Renewable portfolio standard) while others such as Oregon do [13]. <span class="xref myst">↑</span></p></li>
+<li><p>Capital costs of existing generators are considered sunk costs and are not included in the objective function. <span class="xref myst">↑</span></p></li>
+<li><p>For the first model runs, capacity credit was considered at full capacity. This will be modified in the next runs but it is not expected to change significantly the model results. <span class="xref myst">↑</span></p></li>
+<li><p>Depending on the scope of the project, the dispatch constraint (14) might be slightly different. For example, ReEDS model implemented by NREL [16] treats quick start capacity service provided by a generator in the same way as spinning reserves under constraint (14) and on top of that, it accounts for planned and forced outages by considering average outage rates. <span class="xref myst">↑</span></p></li>
+<li><p>This constraint is necessary to ensure that the model does not simply build additional storage units just to meet planning or spinning reserve requirements. <span class="xref myst">↑</span></p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="model_overview.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Mathematical formulation</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="model_notations.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Notations</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#indices-and-sets">
+   Indices and Sets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#objective-function">
+   Objective function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-approximation">
+   Load approximation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#value-of-lost-load">
+     Value of Lost Load
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transmission-network-constraints">
+   Transmission network constraints
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#system-requirements">
+   System requirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generation-constraints">
+   Generation constraints
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#renewable-generation-modeling">
+   Renewable generation modeling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#concentrated-solar-power-csp-modeling">
+   Concentrated Solar Power (CSP) modeling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+   Time consistency of power system additions and retirements
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#storage-modeling">
+   Storage modeling
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#investment-constraints">
+   Investment constraints
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#environmental-policy">
+   Environmental policy
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modelling-ccs">
+   Modelling CCS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#modelling-of-green-hydrogen">
+   Modelling of Green Hydrogen
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#limitations-of-the-model">
+   Limitations of the model
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bibliography">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By XX (ESMAP)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Nov 26, 2024.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"XX (ESMAP) - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>

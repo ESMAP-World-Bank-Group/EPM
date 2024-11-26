@@ -1,0 +1,1844 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Notations &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/model_notations';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/model_notations.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Model formulation" href="model_formulation.html" />
+    <link rel="prev" title="Description of the model" href="model_description.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_epm.html">
+                        How to Run EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
+                        Launch on the GAMS Engine remote server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="launch_multiple_simulation.html">
+                        Engine Looping Tool
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_overview.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_description.html">
+                        Description of the model
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
+                        Model formulation
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_epm.html">
+                        How to Run EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
+                        Launch on the GAMS Engine remote server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="launch_multiple_simulation.html">
+                        Engine Looping Tool
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_overview.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_description.html">
+                        Description of the model
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
+                        Model formulation
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Energy Planning Model</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="run_epm.html">How to Run EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Launch on the GAMS Engine remote server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_multiple_simulation.html">Engine Looping Tool</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model_overview.html">Mathematical formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_description.html">Description of the model</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Notations</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="model_formulation.html">Model formulation</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/model_notations.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/model_notations.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/docs/model_notations.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Notations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Notations
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#indices-and-sets">
+     Indices and Sets
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#variables">
+       Variables
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parameters">
+   Parameters
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-formulation">
+     Model formulation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#objective-function-and-its-components">
+       Objective function and its components
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#transmission-network-constraints">
+       Transmission network constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#system-requirements">
+       System requirements
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#generation-constraints">
+       Generation constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#renewable-generation">
+       Renewable generation
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#concentrated-solar-power-csp-generation">
+       Concentrated Solar Power (CSP) Generation
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+       Time consistency of power system additions and retirements
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#storage-constraints">
+       Storage constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#investment-constraints">
+       Investment constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#environmental-policy">
+       Environmental policy
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#ccs-retrofits">
+       CCS retrofits
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#green-hydrogen-production">
+       Green hydrogen production
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="notations">
+<h1>Notations<a class="headerlink" href="#notations" title="Permalink to this heading">#</a></h1>
+<section id="indices-and-sets">
+<h2>Indices and Sets<a class="headerlink" href="#indices-and-sets" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Indices</p></th>
+<th class="head"><p>Set</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(c \in C\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(C\)</span> is the set of countries</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(d \in D\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(D\)</span> is the set of types of days or weeks</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(f \in F\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(F\)</span> is the set of fuels</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(g \in G\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(G\)</span> is the set of generators that can be built or the set of technology-specific types of aggregated generators</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(q \in Q\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(Q\)</span> is the set of seasons or quarters</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(h \in H\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(H\)</span> is the set of electrolyzers that can be built</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(y \in Y\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(Y\)</span> is the set of years considered in the planning model</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(z, z_2 \in Z\)</span></p></td>
+<td><p>where  <span class="math notranslate nohighlight">\(Z\)</span>is the set of zones/regions modeled</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(sc \in S\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(S\)</span> is the set of flags and penalties used to include/exclude certain features of the model</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Subsets considered</strong></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(EN, NG \in G\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(EG\)</span> and <span class="math notranslate nohighlight">\(NG\)</span> is a partition of set <span class="math notranslate nohighlight">\(G\)</span> and the former (EG) contains generators existing at the starting year of the planning horizon and the latter contains candidate generators<sup><sup><span class="xref myst">[1]</span></sup></sup></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(DC and NDC \in G\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(DC\)</span> and <span class="math notranslate nohighlight">\(NDC\)</span> are partitions of set <span class="math notranslate nohighlight">\(G\)</span> separating generators with a CAPEX cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(EH, NH \in H\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(EH\)</span> and <span class="math notranslate nohighlight">\(NH\)</span> is a partition of <span class="math notranslate nohighlight">\(H\)</span> set and the former (<span class="math notranslate nohighlight">\(HG\)</span>) contains electrolyzers existing at the starting year of the planning horizon and the latter contains candidate electrolyzers<sup><sup><span class="xref myst">[2]</span></sup></sup></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(DH and NDH \in H\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(DH\)</span> and <span class="math notranslate nohighlight">\(NDH\)</span> are partitions of set H separating electrolyzers with a CAPEX cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(so \in G\)</span></p></td>
+<td><p>PV unit linked to a storage unit as a partition of set <span class="math notranslate nohighlight">\(G\)</span> (this is the PV part of PV linked with storage)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(stp \in st\)</span></p></td>
+<td><p>Storage unit linked to a PV plant as a partition of set <span class="math notranslate nohighlight">\(G\)</span> (this is the storage part of PV linked with storage)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(MD \in D\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(MD\)</span> is a subset of days the planner expects the minimum load levels to be binding</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(RE \in F\)</span></p></td>
+<td><p>where <span class="math notranslate nohighlight">\(F\)</span> is a subset of set considered as renewable according to regulator’s criteria<sup><sup><span class="xref myst">[3]</span></sup></sup></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(RG \in G\)</span></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(map_{c,z}\)</span></p></td>
+<td><p>includes the subset of zones that correspond to each country</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(map_{g,f}\)</span></p></td>
+<td><p>includes valid combinations of fuels and generators; subset of the set <span class="math notranslate nohighlight">\(G x F\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(map_{eg,ef}\)</span></p></td>
+<td><p>includes combinations of existing and candidate generators; subset of set <span class="math notranslate nohighlight">\(EG x NG\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(map_{g,z}\)</span></p></td>
+<td><p>includes the subset of generators that correspond to each zone</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(map_{h,z}\)</span></p></td>
+<td><p>includes the subset of electrolyzers that correspond to each zone</p></td>
+</tr>
+</tbody>
+</table>
+<section id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Non-negative decision variables</strong></p></th>
+<th class="head"><p></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝐴𝑑𝑑𝑖𝑡𝑖𝑜𝑛𝑎𝑙𝑇𝑟𝑎𝑛𝑠𝑓𝑒𝑟_{𝑧,𝑧2,𝑦}\)</span></p></td>
+<td><p>Additional number of lines between z and z2 in year y</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑏𝑢𝑖𝑙𝑑𝑔,𝑦\)</span></p></td>
+<td><p>Generator investment in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑏𝑢𝑖𝑙𝑑𝐻2ℎ,𝑦\)</span></p></td>
+<td><p>Electrolyzer investment in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟𝑔,𝑦\)</span></p></td>
+<td><p>Integer variable to model discrete unit capacity</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟𝐻2ℎ,𝑦\)</span></p></td>
+<td><p>Integer variable to model discrete unit capacity</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑏𝑢𝑖𝑙𝑡𝑇𝑟𝑎𝑛𝑠𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑧,𝑧2,𝑦\)</span></p></td>
+<td><p>Integer variable to model number of new transmission lines added between z and z2 in year y</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑐𝑎𝑝𝑔,𝑦\)</span></p></td>
+<td><p>Generator capacity available at year in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑐𝑎𝑝𝐻2ℎ,𝑦\)</span></p></td>
+<td><p>Electrolyzer capacity available at year in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝐶𝑂2𝑏𝑎𝑐𝑘𝑠𝑡𝑜𝑝𝑐,𝑦\)</span></p></td>
+<td><p>Annual country CO2 emissions above the system emissions constraint cap</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠𝑧,𝑦\)</span></p></td>
+<td><p>Total system emissions of carbon dioxide in tons</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠_𝑍𝑜𝑧,𝑦\)</span></p></td>
+<td><p>Emissions of carbon dioxide in tons per zone</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑒𝑥𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>External price driven export in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑓𝑢𝑒𝑙𝐻2𝑄𝑢𝑎𝑟𝑡𝑒𝑟𝑧,𝑞,𝑦\)</span></p></td>
+<td><p>Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in ( MMBTU per quarter and year)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑓𝑢𝑒𝑙𝐻2𝑧,𝑞,𝑦\)</span></p></td>
+<td><p>Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in ( MMBTU per year)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑓𝑢𝑒𝑙𝑧,𝑓,𝑦\)</span></p></td>
+<td><p>Fuel consumption in MMBTU</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑔𝑒𝑛𝑔,𝑓,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Generator output in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑔𝑒𝑛𝐶𝑆𝑃𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Power output of the solar panel in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑖𝑚𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>External price driven import in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝐻2𝑃𝑤𝑟𝐼𝑛ℎ,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Power drawn by electrolyzer h in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑟𝑒𝑡𝑖𝑟𝑒𝑔,𝑦\)</span></p></td>
+<td><p>Capacity in MW retired</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟𝑔,𝑦\)</span></p></td>
+<td><p>Supplementary integer variable to model discrete unit capacity</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟𝐻2ℎ,𝑦\)</span></p></td>
+<td><p>Supplementary integer variable to model discrete unit capacity</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑟𝑒𝑠𝑒𝑟𝑣𝑒𝑔,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Spinning reserve requirement met in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝑠𝑡,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Level of energy in MWh stored in storage unit</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑖𝑛𝑗𝑠𝑡,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Power injected in MW in storage unit is charged during hour</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑐𝑎𝑝𝑎𝑐𝑖𝑡𝑦𝑠𝑡,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Total deployed energy storage capacity in MWh for storage unit</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Level of energy in MWh stored in CSP unit at zone</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑖𝑛𝑗𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Power level in MW at which the CSP storage unit is charged during hour</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑜𝑢𝑡𝑔,𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Power level in MW at which the CSP storage unit is discharged during hour</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑠𝑢𝑟𝑝𝑙𝑢𝑠𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Surplus generation in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑢𝑛𝑚𝑒𝑡𝐷𝑒𝑚𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Annual system CO2 emissions above the system emissions constraint cap</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑢𝑛𝑚𝑒𝑡𝐻2𝐸𝑥𝑡𝑒𝑟𝑛𝑎𝑙𝑧,𝑞,𝑦\)</span></p></td>
+<td><p>Active power in MW flowing from to</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑢𝑛𝑚𝑒𝑡𝑅𝑒𝑠𝑧,𝑦\)</span></p></td>
+<td><p>Unmet demand in MW (or equivalently violation of the load balance constraint)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑍𝑜𝑧,𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Unmet quantity of hydrogen in MW (or equivalently violation of the external demand for hydrogen balance constraint)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑆𝑌𝑞,𝑑,𝑡,𝑦\)</span></p></td>
+<td><p>Violation of the planning reserve constraint in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(unmetSResZo\)</span></p></td>
+<td><p>Violation of the zonal/regional spinning reserve constraint in MW</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(unmetSResSY\)</span></p></td>
+<td><p>Violation of the system-level spinning reserve constraint in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Variables for modeling objective function</strong></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(\text{npvcost} = \sum_{z,y} \text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y}\)</span></p></td>
+<td><p>Annualized capex for new generation capacity installed with varying total constructions cost when built in year <em>y</em> carried through planning horizon</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(\text{totalcost}_{z,y} = \text{fixedcost}_{z,y} + \text{variablecost}_{z,y} + \text{reservecost}_{z,y} + \text{usecost}_{z,y} + \text{usrcost}_{z,y} + \text{carboncost}_{z,y} + \text{CO2backCost}_y + \text{TradeCost}_{z,y} + \text{CostTransmissionAdditions}_{z1,z2,y} + \text{CurtailmentCost}_{z,y} + \text{SurplusCost}_{z,y} + \text{usrcostH2}_{z,y}\)</span></p></td>
+<td><p>Annualized capex for new electrolyzer capacity installed with varying total constructions cost when built in year <em>y</em> carried through planning horizon</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Carbon tax payments by generators</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Amount of emissions above meeting target in tons</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Penalty for missing to comply with carbon constraints in USD</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Cost of new transmission capacity in USD</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Curtailed energy in MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Fixed Operation and Maintenance Cost along with capital payments in constant prices</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Net present value of power system cost over the whole planning horizon; objective function that optimization model tries to minimize</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Cost to procure spinning reserves</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Annual system cost in constant prices</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Cost of surplus energy to the system in USE</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Surplus energy in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Damage/economic loss in constant prices because of unmet demand</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Penalty in constant prices for unmet spinning reserve requirements</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Variable cost including fuel and variable operation and maintenance cost in constant prices</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h1>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>Availability of unit to generate power in quarter</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p>Availability of electrolyzer to produce hydrogen in quarter</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Maximum amount of MW allowed to be built per year</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Capital cost of unit g in USD $ or other monetary unit per MW</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Capital cost of electrolyzer h in USD $ or other monetary unit per MW</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Percentage of generator’s stable (firm) capacity per year</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Capital cost variation index for new generators to indicate how new construction costs change during the planning horizon</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Capital cost variation index for new electrolyzers to indicate how new construction costs change during the planning horizon</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Equivalent tons of emitted per MMBTU of fuel consumed</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Carbon price in USD$ per equivalent tons of</p></td>
+</tr>
+<tr class="row-odd"><td><p>CostH2Unserved</p></td>
+<td><p>Penalty for unserved hydrogen ($/mmBTU)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Earliest commission year for generators</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Earliest commission year for electrolyzers</p></td>
+</tr>
+<tr class="row-even"><td><p><em>CO2backstopPenalty</em></p></td>
+<td><p>Penalty per ton of CO2 above expected target</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Cost of the last technology the system can build to reduce to the emissions caps set in the parameters, in $ per equivalent tons</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Capital Recovery factor for new generators</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Capital Recovery factor for new electrolyzers</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Capital Recovery factor for new transmission lines</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Maximum CSP storage capacity in MWh</p></td>
+</tr>
+<tr class="row-even"><td><p>CurtailmentPenalty</p></td>
+<td><p>Penalty per MWh of VRE curtailed</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Hourly load level in MW in hour t, day d, quarter q and year y</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Discrete capacity of the unit for generator</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Discount rate; real or nominal if cost parameters in real or nominal terms respectively</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Duration of each time slice (block) in hours</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Demand scaling factor for energy efficiency measures</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Electrolyzer efficiency in mmBTU of hydrogen produced per MWh of electricity</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>External demand for hydrogen per quarter and year (hydrogen produced for use outside the power sector) (mmBTU)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Efficiency of the CSP solar field</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Fixed Operation and Maintenance Cost in USD $ or other monetary unit per MW per generator capacity</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Fixed Operation and Maintenance Cost in USD $ or other monetary unit per MW of electrolyzer capacity</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Fuel price in USD $/MMBTU</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Generator’s existing/available capacity in MW at initial year</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Electrolyzer’s existing/available capacity in MW at initial year</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Generation variable cost (fuel and VOM) in USD $ or other monetary unit per MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Contains the zone index of the zone the generator belongs to</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Heat Rate in MMBTU/MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Operating life for new generators</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Operating life for new electrolyzers</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>CAPEX of line connecting zones z1 and z2</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>“Linearized” loss factor in % of active power flowing on transmission line</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Maximum amount of annualized capital payments in USD$ billion over the horizon</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Maximum share of the hourly price driven export in terms of demand</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Maximum amount of fuel f (in million MMBTU) that can be consumed in year y</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Maximum share of the hourly price driven import in terms of demand</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Maximum capacity to be built over the horizon in MW</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Maximum number of transmission lines built over the horizon</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Minimum capacity factor (to reflect minimum load requirements)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Overload factor of generator <em>g</em>, as %, of capacity</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Planning reserve margin per zone</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Renewable power used for hydrogen production in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Renewable power which was used for electricity end use sectors (MW)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Ramp-down capability of generator <em>g</em>, as %, of capacity installed</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Ramp-up capability of generator <em>g,</em> as %, of capacity installed</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Ramp-down capability of electrolyzer h, as %, of capacity installed</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Ramp-up capability of generator h_,_ as %, of capacity installed</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Renewable generation that is finally headed for hydrogen production (MW)</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Renewable generation that is finally headed toward electricity end use sectors (MW)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Cost to provide reserves in USD $ or other monetary unit per MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Percentage of the generator’s unit qualify as a reserve offer</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Violation penalty of planning reserve requirement in $/other monetary unit per MW</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Latest retirement year for existing generators</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Latest retirement year for existing electrolyzers</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Discount factor at the starting year of stage ending at year</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Renewable generation profile in % of installed (rated) capacity</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>CSP output to solar field ratio</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>System-level spinning reserve constraint in MW</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Zonal/regional spinning reserve constraint in MW</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Duration of a stage represented by year y in years</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>First year of the horizon</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>First year of generator’s operation</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Efficiency of storage unit st (per charging cycle)</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Maximum energy capability of storage unit</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>SurplusPenalty</em></p></td>
+<td><p>Penalty per MWh of surplus energy</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Cap on emissions within the system at year in equivalent tons</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Network topology: contains 0 for non-existing lines and 1 or -1 to define the direction of positive flow over the line</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Transfer limits by quarter (seasonal) and year between zones</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Transmission capacity of each new line in MW</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Efficiency of the CSP power block</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Variable Operation and Maintenance Cost in USD $ or other monetary unit per MWh electricity produced</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Variable Operation and Maintenance Cost in USD $ or other monetary unit per mmBTU of hydrogen produced</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Penalty/Economic loss consider per MWh of unmet demand</p></td>
+</tr>
+<tr class="row-even"><td><p><em>VREforecastingerror</em></p></td>
+<td><p>Percentage error in VRE forecast [used to estimated required amount of spinning reserve]</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Weighted Average Cost of Capital</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Weight on years</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p>Cap on emissions within country c and year in equivalent tons</p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p>Index of zone , unique number assigned to zone <em>z</em></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<section id="model-formulation">
+<h2>Model formulation<a class="headerlink" href="#model-formulation" title="Permalink to this heading">#</a></h2>
+<section id="objective-function-and-its-components">
+<h3>Objective function and its components<a class="headerlink" href="#objective-function-and-its-components" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{npvcost} = \sum_{z,y} (\text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{totalcost}_{z,y} = \text{fixedcost}_{z,y} + \text{variablecost}_{z,y} + \text{reservecost}_{z,y} + \text{usecost}_{z,y} + \text{usrcost}_{z,y} + \text{carboncost}_{z,y} + \text{CO2backCost}_y + \text{TradeCost}_{z,y} + \text{CostTransmissionAdditions}_{z1,z2,y} + \text{CurtailmentCost}_{z,y} + \text{SurplusCost}_{z,y} + \text{usrcostH2}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{fixedcost}_{z,y} = \sum_{g \in \text{NG} \cap \text{NDC}} (\text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y}) +
+\sum_{g \in \text{NG} \cap \text{DC}} \text{AnnCapex}_{\text{NG},y} +
+\sum_g (\text{FixedOM}_{g,y} \cdot \text{cap}_{g,y}) +
+\sum_{h \in \text{NH} \cap \text{NDH}} (\text{CRF}_{\text{NH}} \cdot \text{CapCostH2}_{\text{NH},y} \cdot \text{cap}_{h,y}) +
+\sum_{h \in \text{NH} \cap \text{DH}} \text{AnnCapexH2}_{\text{NH},y} +
+\sum_h (\text{FixedOMH2}_{h,y} \cdot \text{capH2}_{h,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AnnCapex}_{g \in \text{DC},y} = \text{CFR}_{g \in \text{DC}} \cdot \text{CapCost}_{g \in \text{DC}} \cdot \text{CapexTrajectories}_{g \in \text{DC},y} \cdot \text{build}_{g \in \text{DC},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AnnCapexH2}_{h \in \text{DH},y} = \text{CFR}_{h \in \text{DH}} \cdot \text{CapCost}_{h \in \text{DH}} \cdot \text{CapexTrajectories}_{h \in \text{DH},y} \cdot \text{build}_{h \in \text{DH},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{variablecost}_{z,y} = \sum_{g \in \text{G},f,q,d,t} (\text{GenCost}_{g,f,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y}) +
+\sum_{h \in \text{H},q,d,t} (\text{VOM}_{\text{H2},h,y} \cdot \text{EfficiencyH2}_h \cdot \text{vH2PwrIn}_{h,g,q,d,t,y} \cdot \text{pHours}_{q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{reservecost}_{z,y} = \sum_{g \in \text{Z},q,d,t} (\text{ResCost}_g \cdot \text{Duration}_{q,d,t,y} \cdot \text{reserve}_{g,q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VOLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{usrcost}_{z,y} = \sum_{q,d,t} (\text{RESVoLL} \cdot \text{unmetRes}_{z,y}) +
+\sum_{z,q,d,t,y} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResZo}_{z,q,d,t,y}) +
+\sum_{q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResSY}_{q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
+\sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
+\text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{CO2backCost}_{,y} = \text{CO2backstopPenalty} \cdot \text{CO2backstop}_y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{YearlyTradeCost}_{z,y} = \sum_{q,d,t} ((\text{ImportPrice}_{z,q,d,t,y} - \text{ExportPrice}_{z,q,d,t,y}) \cdot \text{TradePrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{CurtailmentCost}_{z,y} = \text{CurtailmentPenalty} \cdot \text{Curtailment}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPEX}_{z1,z2})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{SurplusCost}_{z,y} = \text{SurplusPenalty} \cdot \text{Surplus}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{usrcostH2}_{z,y} = \sum_q (\text{CostH2Unserved} \cdot \text{unmetH2External}_{z,q,y})
+\]</div>
+</section>
+<section id="transmission-network-constraints">
+<h3>Transmission network constraints<a class="headerlink" href="#transmission-network-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
+\sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
+\text{storage\_out}_{z,q,d,t,y} - \text{storage\_inj}_{z,q,d,t,y} +
+\text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
+\text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
+\text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{trans}_{z,z2,q,d,t,y} \leq \text{TransLimit}_{z,z2,q,y} + \text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z,z2,y-1} + \text{BuildTransmission}_{z,z2,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z2,z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c,q,d,t} \left( \text{importPrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq
+\sum_{z \in c,q,d,t} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EEfactor}_{z,y} \cdot \text{MaxPriceImShare}_{y,c} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c} \text{importPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxImport} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c} \text{exportPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxExport} \right)
+\]</div>
+</section>
+<section id="system-requirements">
+<h3>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g \in z} \text{reserve}_{g,q,d,t,y} +
+\text{unmetSResSY}_{z,q,d,t,y} +
+\sum_{z2} \left( \text{TransLimit}_{z,z2,q,y} +
+\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
+\text{SResSY}_{z,y} + 0.2 \cdot \sum_{VRE \in z} \text{gen}_{VRE,f,q,d,t,y} \quad \forall z,q,d,t,y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g \in Z} \text{cap}_{g,y} \cdot \text{CapCredit}_{g,y} +
+\text{unmetRes}_{z,y} +
+\sum_{z2} \sum_q \left( \text{TransLimit}_{z,z2,q,y} +
+\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
+(1 + \text{PRM}_z) \cdot \max_{q,d,t} \text{Demand}_{z,q,d,t,y} \quad \forall z,y
+\]</div>
+</section>
+<section id="generation-constraints">
+<h3>Generation constraints<a class="headerlink" href="#generation-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t,y} + \text{reserve}_{g,q,d,t,y} \leq (1 + \text{OverLoadFactor}_g) \cdot \text{cap}_{g,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t-1,y} - \sum_f \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{RampDn}_g \quad \forall t &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t,y} - \sum_f \text{gen}_{g,f,q,d,t-1,y} \leq \text{cap}_{g,y} \cdot \text{RampUp}_g \quad \forall t &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f \text{gen}_{g,f,q,d,t,y} \geq \text{MinCapFac}_g \cdot \text{cap}_{g,y} \quad \forall d \in M
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{f,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y} \right) \leq
+\text{Availability}_{g,q} \cdot \sum_{d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{cap}_{g,y} \right)
+\]</div>
+</section>
+<section id="renewable-generation">
+<h3>Renewable generation<a class="headerlink" href="#renewable-generation" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{gen}_{g,f,q,d,t,y} \leq \text{RPprofile}_{g,\text{RE},q,d,y,t} \cdot \text{cap}_{g,y} \quad \forall \text{RE} \notin \text{CSP}
+\]</div>
+</section>
+<section id="concentrated-solar-power-csp-generation">
+<h3>Concentrated Solar Power (CSP) Generation<a class="headerlink" href="#concentrated-solar-power-csp-generation" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSP\_storage} \quad \forall \text{map}(g,\text{CSP})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{f \in \text{CSP}} \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency\_CSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
+\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency\_CSP}} \quad \forall g,z,q,d,t,y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storageCSP}_{g,z,q,d,t,y} = \text{storageCSP}_{g,z,q,d,t-1,y} + \text{storageCSPinj}_{g,z,q,d,t,y} - \text{storageCSPout}_{g,z,q,d,t,y}
+\]</div>
+</section>
+<section id="time-consistency-of-power-system-additions-and-retirements">
+<h3>Time consistency of power system additions and retirements<a class="headerlink" href="#time-consistency-of-power-system-additions-and-retirements" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = \text{cap}_{\text{EG},y-1} + \text{build}_{\text{EG},y} - \text{retire}_{\text{EG},y} \quad \forall (y, g \in \text{EG}), \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} &gt; \text{Commission\_year}_g)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{Commission\_year}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{Commission\_year}_g \wedge \text{ord}(y) &lt; \text{Retirement\_year}_{\text{EG}})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{NG},y} = \text{cap}_{\text{NG},y-1} + \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g \in \text{NG},y} = \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) = 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_g \leq \text{GenCap}_g
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) &lt; \text{Commission\_year}_g)
+\]</div>
+</section>
+<section id="storage-constraints">
+<h3>Storage constraints<a class="headerlink" href="#storage-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{storage}_{\text{st},z,q,d,t=1,y} = \text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage}_{\text{st},z,q,d,t&gt;1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
+\text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage}_{\text{st},q,d,t,y} \leq \text{Storage\_Capacity}_{\text{st},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{st},q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{storage\_inj}_{\text{st},q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Storage\_Capacity}_{\text{EG},y} = \text{Storage\_Capacity}_{\text{EG},y-1} +
+\text{Build\_Storage\_Capacity}_{\text{EG},y-1} - \text{Retire}_{\text{Storage\_Capacity}_{\text{EG},y-1}} \quad \forall y&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Storage\_Capacity}_{\text{NG},y} = \text{Storage\_Capacity}_{\text{NG},y-1} +
+\text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y&gt;1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Storage\_Capacity}_{\text{NG},y} = \text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y=1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{StorageCapacity}_{\text{st},y} \geq \text{Cap}_{\text{st},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{StorageCapacity}_{\text{st},y} \leq \text{Maximum\_Storage\_Energy}_{\text{st},y} + \text{Maximum\_Storage\_Energy}_{\text{CSP},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y} \text{Build\_Storage\_Capacity}_{\text{EG},y} \leq \text{Maximum\_Storage\_Energy}_{\text{EG},y}
+\]</div>
+</section>
+<section id="investment-constraints">
+<h3>Investment constraints<a class="headerlink" href="#investment-constraints" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\sum_y \text{build}_{g \in \text{NG},y} \leq \text{MaxNewCap}_{\text{NG}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_y \text{build}_{g \in \text{NG},y} \geq \text{MinNewCap}_{\text{NG}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{Commission\_year}_g &gt; \text{StartYear})
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{g \in \text{NG},y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{builtCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{retire}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{retireCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{Commission\_year}_g)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{fuel}_{z,f,y} \leq \text{MaxFuelOff}_{f,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{fuel}_{z,f,y} = \sum_{g \in Z,q,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{gen}_{g,f,q,d,t,y} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{MaxCapital}
+\]</div>
+</section>
+<section id="environmental-policy">
+<h3>Environmental policy<a class="headerlink" href="#environmental-policy" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions\_Zo}_{z,y} \leq \text{Zo\_emission\_cap}_{y,z}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{emissions}_{z,y} \leq \text{Sy\_emission\_cap}_y
+\]</div>
+</section>
+<section id="ccs-retrofits">
+<h3>CCS retrofits<a class="headerlink" href="#ccs-retrofits" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{build}_{\text{ng},y} - \text{retire}_{\text{eg},y} \leq 0 \quad \forall \text{ng},\text{eg} \in \text{GG}
+\]</div>
+</section>
+<section id="green-hydrogen-production">
+<h3>Green hydrogen production<a class="headerlink" href="#green-hydrogen-production" title="Permalink to this heading">#</a></h3>
+<div class="math notranslate nohighlight">
+\[
+\text{capH2}_{\text{eh},y} = \text{capH2}_{\text{eh},y-1} + \text{buildH2}_{\text{eh},y} - \text{retireH2}_{\text{eh},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{capH2}_{\text{nh},y} = \text{capH2}_{\text{nh},y-1} + \text{buildH2}_{\text{nh},y} \quad \forall \text{ord}(y) &gt; 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{capH2}_{h,y} = \text{H2Cap}_{h \in \text{EH},y} + \text{buildH2}_{h,y} - \text{retireH2}_{\text{EH},y} \quad \forall \text{ord}(y) = 1
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y \in Y} \text{buildH2}_{\text{eh},y} \leq \text{H2Cap}_{\text{eh}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{y \in Y} \text{buildH2}_{\text{nh},y} \leq \text{MaxNewCapH2}_{\text{nh}}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{buildH2}_{\text{nh},y} = \text{UnitSizeH2}_{\text{nh}} \cdot \text{buildCapVarH2}_{\text{nh},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{retireH2}_{\text{eh},y} = \text{UnitSizeH2}_{\text{eh}} \cdot \text{retireCapVarH2}_{\text{eh},y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{d,t} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq \text{AvailabilityH2}_{h,q} \cdot \text{CapH2}_{h,y} \cdot \sum_{d,t} \text{Duration}_{q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_z \left( \text{ExternalH2}_{z,q,y} - \text{unmetH2External}_{z,q,y} + \text{fuelH2Quarter}_{z,q,y} \right) \leq \sum_{z,h \in \text{map}(h,z)} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EfficiencyH2}_h \right)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_z \text{fuelH2Quarter}_{z,q,y} = \text{fuelH2}_{z,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{H2PwrIn}_{h,q,d,t-1,y} - \text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y} \cdot \text{RampDnH2}_h
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{H2PwrIn}_{h,q,d,t,y} - \text{H2PwrIn}_{h,q,d,t-1,y} \leq \text{CapH2}_{h,y} \cdot \text{RampUpH2}_h
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\text{Gen}_{\text{RE},f,d,t,y} = \text{REPwr2Grid}_{\text{RE},f,d,t,y} + \text{REPwr2H2}_{\text{RE},f,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{z,h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2H2}_{\text{RE},f,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2Grid}_{\text{RE},f,q,d,t,y} = \text{PwrREGrid}_{z,q,d,t,y}
+\]</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="model_description.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Description of the model</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="model_formulation.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Model formulation</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Notations
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#indices-and-sets">
+     Indices and Sets
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#variables">
+       Variables
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parameters">
+   Parameters
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model-formulation">
+     Model formulation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#objective-function-and-its-components">
+       Objective function and its components
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#transmission-network-constraints">
+       Transmission network constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#system-requirements">
+       System requirements
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#generation-constraints">
+       Generation constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#renewable-generation">
+       Renewable generation
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#concentrated-solar-power-csp-generation">
+       Concentrated Solar Power (CSP) Generation
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#time-consistency-of-power-system-additions-and-retirements">
+       Time consistency of power system additions and retirements
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#storage-constraints">
+       Storage constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#investment-constraints">
+       Investment constraints
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#environmental-policy">
+       Environmental policy
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#ccs-retrofits">
+       CCS retrofits
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#green-hydrogen-production">
+       Green hydrogen production
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By XX (ESMAP)
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Nov 26, 2024.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"XX (ESMAP) - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>
