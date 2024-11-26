@@ -25,14 +25,17 @@ $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 * Only include base if we don't restart
 * Only include base if we don't restart
 $ifThen not set BASE_FILE
-$set BASE_FILE "WB_EPM_v8_5_base_V3.gms"
+$set BASE_FILE "WB_EPM_v8_5_base.gms"
 $endIf
+$log BASE_FILE is "%BASE_FILE%"
 
-$if "x%gams.restart%" == "x" $include "%BASE_FILE%"
+$if "x%gams.restart%" == "x" $include %BASE_FILE%
 
 $ifThen not set REPORT_FILE
 $set REPORT_FILE "WB_EPM_v8_5_Report.gms"
 $endIf
+$log REPORT_FILE is "%REPORT_FILE%"
+
 
 $ifThen not set READER_FILE
 $set READER_FILE "WB_EPM_input_readers.gms"
@@ -262,19 +265,21 @@ Parameter
 *****************Hydrogen model related sets************************
    pH2DataExcel(hh<,*)
 
-$onMulti   
+$onMulti
    pTechDataExcel(tech<,*)
 ;
+
+$include %READER_FILE%
 
 Parameter
    ftfindex(ft<,f<)
    pZoneIndex(z<);
 
-$include %READER_FILE%
+$gdxIn %GDX_INPUT%
 
 * Domain defining symbols
 $load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
-$load zext   
+$load zext
 * Other symbols
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
@@ -289,6 +294,7 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 
 $gdxIn
 $offmulti
+
 display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
 
 
