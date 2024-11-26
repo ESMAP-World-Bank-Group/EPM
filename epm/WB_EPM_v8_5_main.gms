@@ -287,6 +287,8 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 $gdxIn
 $offmulti
 
+$exit
+
 display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
 
 
