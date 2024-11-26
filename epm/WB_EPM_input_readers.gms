@@ -578,6 +578,16 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
+    file: input/pEmissionsCountry.csv
+    name: pEmissionsCountry
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan, np.nan: 0}
+    indexColumns: [1]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
     file: input/pMaxFuellimit.csv
     name: pMaxFuellimit
     indexSubstitutions: {.nan: ""}
@@ -660,7 +670,44 @@ $onEmbeddedCode Connect:
     name: sTopology
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {1: "", "": .nan}
+    indexColumns: [1, 2]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: input/zext.csv
+    name: zext
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
     indexColumns: [1]
+    type: set
+
+- CSVReader:
+    trace: 0
+    file: input/pMaxExchangeShare.csv
+    name: pMaxExchangeShare
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/pExtTransferLimit.csv
+    name: pExtTransferLimit
+    valueSubstitutions: {0: .nan} 
+    indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/MapGG.csv
+    name: MapGG
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {1: ""}
+    indexColumns: [1,2]
     type: set
 
 
@@ -679,8 +726,6 @@ $onEmbeddedCode Connect:
     trace: 0
     file: %pDemandData%
     name: pDemandData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan} 
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
@@ -694,7 +739,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %relevant%
@@ -703,7 +748,7 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     type: set
-
+    
 - CSVReader:
     trace: 0
     file: %peak%
@@ -712,16 +757,15 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     type: set
     indexColumns: [1]
-
+    
 - CSVReader:
     file: %pFuelPrice%
     name: pFuelPrice
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan} 
     header: [1]
     indexColumns: [1, 2]
     type: par
-
+    
 - CSVReader:
     file: %ftfindex%
     name: ftfindex
@@ -730,7 +774,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     valueColumns: [3]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pHours%
@@ -750,7 +794,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pTechDataExcel%
@@ -778,7 +822,7 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     type: set
-
+    
 - CSVReader:
     trace: 0
     file: %pEnergyEfficiencyFactor%
@@ -788,12 +832,12 @@ $onEmbeddedCode Connect:
     header: [1]
     indexColumns: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pScalars%
     name: pScalars
-    indexSubstitutions: {.nan: "", " IncludeH2": "IncludeH2"}
+    indexSubstitutions: {" IncludeH2": "IncludeH2"}
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
@@ -803,10 +847,11 @@ $onEmbeddedCode Connect:
     trace: 0
     file: %pAvailability%
     name: pAvailability
+    indexSubstitutions: {.nan: ""}
     indexColumns: [1]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pVREProfile%
@@ -836,7 +881,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pCarbonPrice%
@@ -856,7 +901,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pDemandProfile%
@@ -886,7 +931,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pCapexTrajectory%
@@ -906,7 +951,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pStorDataExcel%
@@ -926,7 +971,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pReserveMargin%
@@ -956,16 +1001,6 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-    
-- CSVReader:
-    trace: 0
-    file: %pEmissionsZone%
-    name: pEmissionsZone
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
 
 
 - CSVReader:
@@ -976,6 +1011,16 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     valueColumns: [2]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: %pEmissionsCountry%
+    name: pEmissionsCountry
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan, np.nan: 0}
+    indexColumns: [1]
+    header: [1]
     type: par
     
 - CSVReader:
@@ -997,7 +1042,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pH2DataExcel%
@@ -1018,7 +1063,6 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
     
-
 - CSVReader:
     trace: 0
     file: %pAvailabilityH2%
@@ -1033,12 +1077,11 @@ $onEmbeddedCode Connect:
     trace: 0
     file: %pFuelData%
     name: pFuelData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: %pCapexTrajectoryH2%
@@ -1058,14 +1101,50 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     type: set
-
-
+    
 - CSVReader:
     file: %sTopology%
     name: sTopology
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {1: "", "": .nan}
     indexColumns: [1, 2]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: %zext%
+    name: zext
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    type: set
+
+- CSVReader:
+    trace: 0
+    file: pMaxExchangeShare%
+    name: pMaxExchangeShare
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: %pExtTransferLimit%
+    name: pExtTransferLimit
+    valueSubstitutions: {0: .nan} 
+    indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: %MapGG%
+    name: MapGG
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {1: ""}
+    indexColumns: [1,2]
     type: set
 
 
