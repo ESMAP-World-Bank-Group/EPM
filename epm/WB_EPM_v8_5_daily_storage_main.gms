@@ -15,19 +15,38 @@ $endIf.mode
 ***
 *** Declarations
 ***
+
+
 * Turn on/off additional information to the listing file
 Option limRow=0, limCol=0, sysOut=off, solPrint=off;
-$if %DEBUG%==1 $onUELlist onUELXRef onListing
+$if %DEBUG%==1 $onUELlist onUELXRef onListing 
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 * Only include base if we don't restart
-$if "x%gams.restart%" == "x" $include WB_EPM_v8_5_base.gms
+* Only include base if we don't restart
+$ifThen not set BASE_FILE
+$set BASE_FILE "WB_EPM_v8_5_base.gms"
+$endIf
+$log BASE_FILE is "%BASE_FILE%"
+
+$if "x%gams.restart%" == "x" $include %BASE_FILE%
+
+$ifThen not set REPORT_FILE
+$set REPORT_FILE "WB_EPM_v8_5_Report.gms"
+$endIf
+$log REPORT_FILE is "%REPORT_FILE%"
+
+
+$ifThen not set READER_FILE
+$set READER_FILE "WB_EPM_input_readers.gms"
+$endIf
 
 $call 'rm -f miro.log'
 file log / miro.log /;
 put log '------------------------------------'/;
 put log '        Data validation'/;
 put log '------------------------------------'/;
+
 Set
    tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
@@ -137,7 +156,6 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pVREgenProfile(g,f,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pAvailabilityDaily(g,q,d)        'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
    pReserveReqLoc(c,y)              'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
    pReserveReqSys(y)                'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
    pScalars(sc)                     'Flags and penalties to load'
@@ -251,315 +269,21 @@ $onMulti
    pTechDataExcel(tech<,*)
 ;
 
-$set XLSXMAXROWS 1048576
-
-$if not set EXCELREADER $set EXCELREADER GDXXRW
-$log ### EXCELREADER = %EXCELREADER%
-
-*ff remove gdx for testing
-$call rm %GDX_INPUT%.gdx
-
-$call test %GDX_INPUT%.gdx -nt "%XLS_INPUT%"
-$ifThen.errorLevel errorlevel 1
-
-$iftheni.excelreader "%EXCELREADER%" == "GDXXRW"
-
-$onecho > gdxxrw.in
-par=ftfindex                rdim=2 cdim=0 rng=FuelTechnologies!A3
-par=pHours                  rdim=3 cdim=1 rng=Duration!A6
-par=pZoneIndex              rdim=1 cdim=0 rng=ZoneData!E7:F200
-par=pGenDataExcel           rdim=1 cdim=1 rng=GenData!A6
-par=pTechDataExcel          rdim=1 cdim=1 rng=FuelTechnologies!B29:F50
-set=zcmapExcel              rdim=2 cdim=0 rng=ZoneData!U7                           Values=NoData
-set=y                       rdim=1 cdim=0 rng=LoadDefinition!A6:A%XLSXMAXROWS%      Values=NoData
-set=sTopology               rdim=1 cdim=1 rng=Topology!A6
-set=peak                    rdim=1 cdim=0 rng=LoadDefinition!H6:H%XLSXMAXROWS% Values=NoData
-set=Relevant                rdim=1 cdim=0 rng=LoadDefinition!E6:E%XLSXMAXROWS% Values=NoData
-set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60
-par=pReserveMargin          rdim=1 cdim=0 rng=Reserve!A6
-par=pEnergyEfficiencyFactor rdim=1 cdim=1 rng=EnergyEfficiency!A5
-par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C70
-par=pAvailability           rdim=1 cdim=1 rng=GenAvailability!A6
-par=pAvailabilityDaily      rdim=3 cdim=0 rng=GenAvailabilityDaily!A2
-par=pVREProfile             rdim=4 cdim=1 rng=REProfile!A6
-par=pLossFactor             rdim=2 cdim=1 rng=LossFactor!A5
-par=pTransferLimit          rdim=3 cdim=1 rng=TransferLimit!A5
-par=pExtTransferLimit       rdim=4 cdim=1 rng=ExternalLimits!A5
-par=pCarbonPrice            rdim=1 cdim=0 rng=EmissionFactors!A3:B24
-par=pDemandData             rdim=4 cdim=1 rng=Demand!A6
-par=pDemandForecast         rdim=2 cdim=1 rng=Demand_Forecast!A6
-par=pDemandProfile          rdim=3 cdim=1 rng=DemandProfile!A6
-par=pMaxExchangeShare       rdim=1 cdim=1 rng=ExchangeShare!A7
-par=pTradePrice             rdim=4 cdim=1 rng=TradePrices!A6
-par=pNewTransmission        rdim=2 cdim=1 rng=ZoneData!J6:Q107
-par=pCapexTrajectory        rdim=1 cdim=1 rng=CapexTrajectories!A5
-par=pCSPData                rdim=2 cdim=1 rng=CSP!A6                                IgnoreColumns=E
-par=pStorDataExcel          rdim=2 cdim=1 rng=Storage!A6
-par=pFuelTypeCarbonContent  rdim=1 cdim=0 rng=EmissionFactors!J3
-
-par=pReserveReqLoc          rdim=1 cdim=1 rng=SpinReserve!F5
-par=pReserveReqSys          rdim=1 cdim=0 rng=SpinReserve!A6
-par=pEmissionsCountry       rdim=1 cdim=1 rng=Emissions!A17
-par=pEmissionsTotal         rdim=0 cdim=1 rng=Emissions!A5
-par=pFuelPrice              rdim=2 cdim=1 rng=FuelPrices!A6
-par=pMaxFuellimit           rdim=2 cdim=1 rng=FuelLimit!A6
-par=pVREgenProfile          rdim=4 cdim=1 rng=REgenProfile!A6
-
-set=MapGG                   rdim=1 cdim=1 rng=Retrofit!A6:ZW1000
-*******************************************************************************************
-set=hh                      rdim=1 cdim=0 rng=H2Data!A7:A%XLSXMAXROWS%      Values=NoData
-par=pH2DataExcel            rdim=1 cdim=1 rng=H2Data!A6
-par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
-par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
-par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
-par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
-
-
-$offecho
-
-$  call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
-
-$elseIfI.excelreader %EXCELREADER% == CONNECT
-$log ### reading from %XLS_INPUT% using Connect
-$onEmbeddedCode Connect:
-- ExcelReader:
-    file: %XLS_INPUT%
-    symbols:
-      - name: ftfindex
-        range: FuelTechnologies!A3
-        rowDimension: 2
-        columnDimension: 0
-      - name: pHours
-        range: Duration!A6
-        rowDimension: 3
-        columnDimension: 1
-      - name: pZoneIndex
-        range: ZoneData!E7:F200
-        rowDimension: 1
-        columnDimension: 0
-      - name: pGenDataExcel
-        range: GenData!A6
-        rowDimension: 1
-        columnDimension: 1
-      - name: pTechDataExcel
-        range: FuelTechnologies!B29:F50
-        rowDimension: 1
-        columnDimension: 1
-        valueSubstitutions: {"NO": .nan, "YES": 1}  # drop "NO" and read "YES" as 1
-      - name: zcmapExcel
-        range: ZoneData!U7
-        rowDimension: 2
-        columnDimension: 0
-        type: set
-        ignoreText: True
-      - name: y
-        range: LoadDefinition!A6:A%XLSXMAXROWS%
-        rowDimension: 1
-        columnDimension: 0
-        type: set
-        ignoreText: True
-      - name: sTopology
-        range: Topology!A6
-        rowDimension: 1
-        columnDimension: 1
-        type: set
-        valueSubstitutions: {
-          "": .nan,  # Some empty cells seem to contain "" (empty string), drop those
-          1: ""  # Read 1 as empty string
-        }
-      - name: peak
-        range: LoadDefinition!H6:H%XLSXMAXROWS%
-        rowDimension: 1
-        columnDimension: 0
-        type: set
-        ignoreText: True
-      - name: Relevant
-        range: LoadDefinition!E6:E%XLSXMAXROWS%
-        rowDimension: 1
-        columnDimension: 0
-        type: set
-        ignoreText: True
-      - name: zext
-        range: ZoneData!G7:G60
-        rowDimension: 1
-        columnDimension: 0
-        type: set
-      - name: pReserveMargin
-        range: Reserve!A6
-        rowDimension: 1
-        columnDimension: 0
-      - name: pEnergyEfficiencyFactor
-        range: EnergyEfficiency!A5
-        rowDimension: 1
-        columnDimension: 1
-      - name: pScalars
-        range: Settings1!B3:C70
-        rowDimension: 1
-        columnDimension: 0
-        indexSubstitutions: {" IncludeH2": "IncludeH2"}
-      - name: pAvailability
-        range: GenAvailability!A6
-        rowDimension: 1
-        columnDimension: 1
-      - name: pAvailabilityDaily
-        range: GenAvailabilityDaily!A2
-        rowDimension: 3
-        columnDimension: 0
-      - name: pVREProfile
-        range: REProfile!A6
-        rowDimension: 4
-        columnDimension: 1
-      - name: pLossFactor
-        range: LossFactor!A5
-        rowDimension: 2
-        columnDimension: 1
-      - name: pTransferLimit
-        range: TransferLimit!A5
-        rowDimension: 3
-        columnDimension: 1
-      - name: pExtTransferLimit
-        range: ExternalLimits!A5
-        rowDimension: 4
-        columnDimension: 1
-      - name: pCarbonPrice
-        range: EmissionFactors!A3:B24
-        rowDimension: 1
-        columnDimension: 0
-      - name: pDemandData
-        range: Demand!A6
-        rowDimension: 4
-        columnDimension: 1
-      - name: pDemandForecast
-        range: Demand_Forecast!A6
-        rowDimension: 2
-        columnDimension: 1
-      - name: pDemandProfile
-        range: DemandProfile!A6
-        rowDimension: 3
-        columnDimension: 1
-      - name: pMaxExchangeShare
-        range: ExchangeShare!A7
-        rowDimension: 1
-        columnDimension: 1
-      - name: pTradePrice
-        range: TradePrices!A6
-        rowDimension: 4
-        columnDimension: 1
-      - name: pNewTransmission
-        range: ZoneData!J6:Q107
-        rowDimension: 2
-        columnDimension: 1
-      - name: pCapexTrajectory
-        range: CapexTrajectories!A5
-        rowDimension: 1
-        columnDimension: 1
-      - name: pCSPData
-        range: CSP!A6
-        ignoreColumns: E
-        rowDimension: 2
-        columnDimension: 1
-      - name: pStorDataExcel
-        range: Storage!A6
-        rowDimension: 2
-        columnDimension: 1
-        indexSubstitutions: {.nan: ""}  # keep empty labels
-      - name: pFuelTypeCarbonContent
-        range: EmissionFactors!J3
-        rowDimension: 1
-        columnDimension: 0
-      - name: pReserveReqLoc
-        range: SpinReserve!F5
-        rowDimension: 1
-        columnDimension: 1
-      - name: pReserveReqSys
-        range: SpinReserve!A6
-        rowDimension: 1
-        columnDimension: 0
-      - name: pEmissionsCountry
-        range: Emissions!A17
-        rowDimension: 1
-        columnDimension: 1
-      - name: pEmissionsTotal
-        range: Emissions!A5
-        rowDimension: 0
-        columnDimension: 1
-      - name: pFuelPrice
-        range: FuelPrices!A6
-        rowDimension: 2
-        columnDimension: 1
-      - name: pMaxFuellimit
-        range: FuelLimit!A6
-        rowDimension: 2
-        columnDimension: 1
-      - name: pVREgenProfile
-        range: REgenProfile!A6
-        rowDimension: 4
-        columnDimension: 1
-      - name: MapGG
-        range: Retrofit!A6:ZW1000
-        rowDimension: 1
-        columnDimension: 1
-        type: set
-        valueSubstitutions: {1: ""}  # Read 1 as empty string
-      - name: hh
-        range: H2Data!A7:A%XLSXMAXROWS%
-        rowDimension: 1
-        columnDimension: 0
-        type: set
-      - name: pH2DataExcel
-        range: H2Data!A6
-        rowDimension: 1
-        columnDimension: 1
-      - name: pAvailabilityH2
-        range: H2Availability!A6
-        rowDimension: 1
-        columnDimension: 1
-      - name: pFuelData
-        range: FuelTechnologies!J3:K17  # range: FuelTechnologies!J3:K44
-        columnDimension: 0
-        valueSubstitutions: {0: .nan}  # drop zeroes
-      - name: pCapexTrajectoryH2
-        range: CapexTrajectoriesH2!A5
-        rowDimension: 1
-        columnDimension: 1
-      - name: pExternalH2
-        range: ExternalH2Demand!A5
-        rowDimension: 2
-        columnDimension: 1
-      #- name: pRETargetSeriesYr
-      #  range: REtargets!A6
-      #  rowDimension: 1
-      #  columnDimension: 1
-- GDXWriter:
-    file: %GDX_INPUT%_fromConnect.gdx
-    symbols: all
-$offEmbeddedCode
-
-
-$else.excelreader
-$abort 'No valid EXCELREADER specified. Allowed are GDXXRW and CONNECT.'
-$endif.excelreader
-$endIf.errorLevel
-
-$setNames "%XLS_INPUT%" fp GDX_INPUT fe
+$include %READER_FILE%
 
 Parameter
    ftfindex(ft<,f<)
    pZoneIndex(z<);
 
-$onmulti
-$ifThen %EXCELREADER% == CONNECT
-$  gdxIn %GDX_INPUT%_fromConnect.gdx
-$else
-$  gdxIn %GDX_INPUT%
-$endIf
+$gdxIn %GDX_INPUT%
+
 * Domain defining symbols
 $load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
 $load zext
 * Other symbols
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
-$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability pAvailabilityDaily
+$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectory pReserveReqLoc pReserveReqSys pScalars
 $load sTopology pReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 $load pExtTransferLimit
@@ -659,7 +383,6 @@ execute_unload '%GDX_INPUT%_miro'
    pVREProfile
    pVREgenProfile
    pAvailability
-   pAvailabilityDaily
    pStorDataInput
    pCSPData
    pCapexTrajectory
@@ -1258,7 +981,7 @@ option savepoint=1;
 
 *$ontext
 Solve PA using MIP minimizing vNPVcost;
-$include WB_EPM_v8_5_Report.gms
+$include %REPORT_FILE%
 
 
 *$offText

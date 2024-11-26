@@ -141,7 +141,7 @@ def launch_epm(scenario,
 
     result = None
     # Generate the command for Engine
-    if False:
+    if True:
         if path_engine_file:
             # Open Engine_Base.gms as text file and replace
             with open(path_engine_file, 'r') as file:
@@ -263,4 +263,4 @@ if __name__ == '__main__':
                                    scenarios_specification='input/scenarios_specification.csv',
                                    selected_scenarios=None,
                                    cpu=1,
-                                   path_engine_file=None)
+                                   path_engine_file='Engine_Base.gms')

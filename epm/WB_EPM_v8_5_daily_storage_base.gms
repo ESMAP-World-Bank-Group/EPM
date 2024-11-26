@@ -383,7 +383,7 @@ Equations
    eTotalEmissions(y)              'total regional CO2eq emissions by year in tons'
    eEmissionsTotal(y)              'Total CO2eq emissions by year in tons'
    eYearlyCO2backstopCost(c,y)     'co2 backstop cost in USD'
-   eTotalEmissionsConstraint(y) 	'constraint on total CO2eq emissions by year in tons'
+   eTotalEmissionsConstraint(y)     'constraint on total CO2eq emissions by year in tons'
 
 
    eRampDownInjLimit(g,q,d,t,y)
@@ -629,14 +629,15 @@ eMaxCF(g,q,y)..
    sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailability(g,q)*vCap(g,y)*sum((d,t), pHours(q,d,y,t));
 
 * Following equation constraints the production and reserve at a given time to be below total energy available over the availability interval
+* Mostly necessary for hydro, where we could expect to have a limit on total energy over the time period that is very low compared to installed capacity
 alias(t, t1);
 alias(d, d1);
 eMaxCFReserve(g,q,y,d,t)..
-    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1),pHours(q,d1,y,t1));
+    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1), pHours(q,d1,y,t1));
 
 eMaxCFDaily(sth,q,d,y)..
    sum((gfmap(sth,f),t), vPwrOut(sth,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t, pHours(q,d,y,t));
-
+   
 * Equation to control the operation of daily hydro storage: we cannot allocate reserve that is not available, depending on how the plant
 * has been operated during the previous hours. Only relevant for t > 1
 eMaxCFDailyReserveOperation(sth,q,y,d,t)$(not sFirstHour(t))..
