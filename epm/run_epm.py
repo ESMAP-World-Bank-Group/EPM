@@ -173,7 +173,7 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False
 def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=None,
-                               cpu=1,
+                               cpu=1, path_gams=None,
                                path_engine_file=False):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
@@ -196,7 +196,10 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
         path_engine_file = os.path.join(os.getcwd(), path_engine_file)
 
     # Read the scenario CSV file
-    path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
+    if path_gams is not None:  # path for required gams file is provided
+        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in path_gams.items()}
+    else:  # use default configuration
+        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
 
     # Read scenario baseline
     scenario_baseline = pd.read_csv(scenario_baseline).set_index('paramNames').squeeze()
