@@ -867,6 +867,15 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
+    file: %pAvailabilityDaily%
+    name: pAvailabilityDaily
+    indexSubstitutions: {.nan: ""}
+    indexColumns: [1,2,3]
+    valueColumns: [4]
+    type: par
+    
+- CSVReader:
+    trace: 0
     file: %pVREProfile%
     name: pVREProfile
     indexSubstitutions: {.nan: ""}

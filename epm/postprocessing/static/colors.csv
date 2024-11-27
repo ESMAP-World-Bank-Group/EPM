@@ -4,6 +4,8 @@ Oil,rosybrown
 Oil diesel,brown
 Gas,tan
 Battery Storage,slateblue
+Battery,slateblue
+Battery Discharge,slateblue
 Battery Storage 4h,slateblue
 Battery Storage 8h,slateblue
 Pumped-Hydro,cornflowerblue
@@ -15,7 +17,9 @@ Solar,orange
 Trade,thistle
 Import,thistle
 Hydro MC,lightskyblue
+MtCoffee,lightskyblue
 Hydro RoR,lightskyblue
+SP2,purple
 Hydro Storage,lightskyblue
 Unmet demand,black
 Demand,red

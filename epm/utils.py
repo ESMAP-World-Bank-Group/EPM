@@ -38,6 +38,14 @@ NAME_COLUMNS = {
     'pDispatch': 'attribute'
 }
 
+def create_folders_imgs(folder):
+    """Creating folders for images"""
+    for p in [path for path in Path(folder).iterdir() if path.is_dir()]:
+        if not (p / Path('images')).is_dir():
+            os.mkdir(p / Path('images'))
+    if not (Path(folder) / Path('images')).is_dir():
+        os.mkdir(Path(folder) / Path('images'))
+
 
 def create_folders(graphs_results_folder, scenario):
     """Creates output folders."""
@@ -173,6 +181,39 @@ def calculate_pRR(discount_rate, y, years_mapping):
     return pRR
 
 
+def extract_epm_results_new(results_folder, scenario=None):
+    containers = {}
+    for p in [path for path in Path(results_folder).iterdir() if path.is_dir()]:
+        if p.name != 'images':
+            name_simulation = '_'.join(p.name.split('_')[1:])
+            containers[name_simulation] = gt.Container(p / Path('epmresults.gdx'))
+    scenarios = list(set(containers.keys()))
+    print(f' Scenarios in the folder: {scenarios}')
+
+    if scenario is not None:# Get only the selected scenario
+        scenarios = [scenario]
+
+    epmresults = {}
+    parameters = [p.name for p in containers[scenarios[0]].getParameters()]
+
+    # noinspection PyUnboundLocalVariable
+    for parameter in parameters:
+        df_parameter_all = []
+
+        for scenario in scenarios:
+            if containers[scenario].data[parameter].records is not None:
+                df_parameter = containers[scenario].data[parameter].records.copy()
+                df_parameter['scenario'] = scenario
+                df_parameter_all.append(df_parameter)
+
+            if not df_parameter_all == []:
+                epmresults[parameter] = pd.concat(df_parameter_all)
+            else:
+                # print(f'Empty parameter for {parameter}')
+                continue
+    return epmresults, scenarios
+
+
 def extract_epm_results(results_folder, scenario=None):
     """Extracts all information from the gdx files outputed by EPM."""
     # Getting all the epmresults.gdx of the different cases
@@ -223,7 +264,7 @@ def process_epmresults(epmresults, dict_specs):
             'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization', 'pReserveByPlant',
             'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans'}
+            'AdditiononalCapacity_trans', 'pPlantReserve'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epmresults.items() if k in keys and k in epmresults.keys()}
@@ -232,6 +273,9 @@ def process_epmresults(epmresults, dict_specs):
     # Get rid of zero values which correspond to plants not used in the model
     epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].where((epm_dict['pReserveByPlant']['value'] > 2e-6) | (epm_dict['pReserveByPlant']['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
     epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].dropna(subset=['value'])
+
+    epm_dict['pPlantReserve'] = epm_dict['pPlantReserve'].where((epm_dict['pPlantReserve']['value'] > 2e-6) | (epm_dict['pPlantReserve']['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
+    epm_dict['pPlantReserve'] = epm_dict['pPlantReserve'].dropna(subset=['value'])
 
     # Convert columns to the right type
     for k, i in epm_dict.items():
@@ -342,6 +386,7 @@ def line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, fig
     else:
         plt.tight_layout()
         plt.show()
+    plt.close(fig)
     return None
 
 
@@ -383,6 +428,7 @@ def bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figs
     else:
         plt.tight_layout()
         plt.show()
+    plt.close(fig)
     return None
 
 
@@ -535,6 +581,7 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
     else:
         plt.tight_layout()
         plt.show()
+    plt.close(fig)
 
 
 def make_fuel_energy_mix_pie_plot(df, years, folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
@@ -638,6 +685,7 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     else:
         plt.tight_layout()
         plt.show()
+    plt.close(fig)
 
 
 def stacked_bar_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
@@ -706,6 +754,7 @@ def stacked_bar_plot(df, filename, dict_colors=None, x_column='year', y_column='
     else:
         plt.tight_layout()
         plt.show()
+    plt.close(fig)
 
 
 def cluster_stackedbar_plot(df, group_column, colors=None, rotation=0, year_ini=None, order_scenarios=None,
@@ -789,7 +838,8 @@ def cluster_stackedbar_plot(df, group_column, colors=None, rotation=0, year_ini=
         plt.show()
 
 
-def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10, 6)):
+def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10, 6), title=None,
+                  season=False):
     """
 
     :param df_area: pd.DataFrame
@@ -814,32 +864,60 @@ def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10
     total_days = len(dispatch_seasons) * n_rep_days
     y_max = ax.get_ylim()[1]
 
-    for d in range(total_days):
-        x_d = 24 * d
+    if season:  # plot with different representative days per season
+        for d in range(total_days):
+            x_d = 24 * d
 
-        # Add vertical lines to separate days
-        is_end_of_season = d % n_rep_days == 0
-        linestyle = '-' if is_end_of_season else '--'
-        ax.axvline(x=x_d, color='slategrey', linestyle=linestyle, linewidth=0.8)
+            # Add vertical lines to separate days
+            is_end_of_season = d % n_rep_days == 0
+            linestyle = '-' if is_end_of_season else '--'
+            ax.axvline(x=x_d, color='slategrey', linestyle=linestyle, linewidth=0.8)
 
-        # Add day labels (d1, d2, ...)
-        ax.text(
-            x=x_d + 12,  # Center of the day (24 hours per day)
-            y=y_max * 0.99,
-            s=f'd{(d % n_rep_days) + 1}',
-            ha='center',
-            fontsize=7
-        )
+            # Add day labels (d1, d2, ...)
+            ax.text(
+                x=x_d + 12,  # Center of the day (24 hours per day)
+                y=y_max * 0.99,
+                s=f'd{(d % n_rep_days) + 1}',
+                ha='center',
+                fontsize=7
+            )
 
-    # Add season labels
-    season_x_positions = [24 * n_rep_days * s + 12 * n_rep_days for s in range(len(dispatch_seasons))]
-    ax.set_xticks(season_x_positions)
-    ax.set_xticklabels(dispatch_seasons, fontsize=8)
-    ax.set_xlim(left=0, right=24 * total_days)
+        # Add season labels
+        season_x_positions = [24 * n_rep_days * s + 12 * n_rep_days for s in range(len(dispatch_seasons))]
+        ax.set_xticks(season_x_positions)
+        ax.set_xticklabels(dispatch_seasons, fontsize=8)
+        ax.set_xlim(left=0, right=24 * total_days)
+
+    else:  # we only show consecutive representative days
+        for i,d in enumerate(list(df_area.index.get_level_values('day').unique())):
+            x_d = 24 * i
+
+            # Add vertical lines to separate days
+            is_end_of_season = i % n_rep_days == 0
+            linestyle = '-' if is_end_of_season else '--'
+            ax.axvline(x=x_d, color='slategrey', linestyle=linestyle, linewidth=0.8)
+
+            # Add day labels (d1, d2, ...)
+            ax.text(
+                x=x_d + 12,  # Center of the day (24 hours per day)
+                y=y_max * 0.99,
+                # s=f'd{(d % n_rep_days) + 1}',
+                s=f'{d}',
+                ha='center',
+                fontsize=7
+            )
+
+        # Add season labels
+        season_x_positions = [24 * n_rep_days * s + 12 * n_rep_days for s in range(len(dispatch_seasons))]
+        ax.set_xticks(season_x_positions)
+        ax.set_xticklabels(dispatch_seasons, fontsize=8)
+        ax.set_xlim(left=0, right=24 * total_days)
 
     # Add axis labels and title
     ax.set_xlabel('Hours')
     ax.set_ylabel('Generation (MWh)', fontweight='bold')
+    if title is not None:
+        ax.set_title(title, fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
 
     # Add legend bottom center
@@ -851,6 +929,7 @@ def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10
         fig.savefig(filename, bbox_inches='tight')
     else:
         plt.show()
+    plt.close(fig)
 
 
 def make_fuel_dispatch_plot(pFuelDispatch, folder, dict_colors, zone, year, scenario, column_stacked='fuel',
@@ -882,6 +961,7 @@ def make_fuel_dispatch_plot(pFuelDispatch, folder, dict_colors, zone, year, scen
 
     if select_time is None:
         temp = 'all'
+    temp = f'{year}_{temp}'
 
     filename = f'{folder}/FuelDispatch_{scenario}_{temp}.png'
     dispatch_plot(df, filename, dict_colors)
@@ -903,7 +983,7 @@ def select_time_period(df, select_time):
     return df, temp
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, folder, dict_colors, zone, year, scenario,
-                                fuel_grouping=None, select_time=None, dfs_line_2=None):
+                                fuel_grouping=None, select_time=None, dfs_line_2=None, reorder_dispatch=None, season=True):
     """Returns fuel dispatch plot, including only generation plants.
 
     dfs_area: dict
@@ -981,14 +1061,21 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
                                     np.nan)  # get rid of small values to avoid unneeded labels
     df_tot_line = df_tot_line.dropna(axis=1, how='all')
 
+    if reorder_dispatch is not None:
+        remaining_columns = [col for col in df_tot_area.columns if col not in reorder_dispatch]
+        df_tot_area = df_tot_area[reorder_dispatch + remaining_columns]
+
+
     if select_time is None:
         temp = 'all'
+    temp = f'{year}_{temp}'
     filename = f'{folder}/Dispatch_{scenario}_{temp}.png'
-    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors)
+    title = f'Year {year}'
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, title=title, season=season)
 
 
 def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                       select_stacked=None, fuel_grouping=None, order_scenarios=None):
+                       select_stacked=None, fuel_grouping=None, order_scenarios=None, dict_scenarios=None):
     """
     Returns evolution of capacity, over different years and different scenarios
     :param pCapacityByFuel: pd.DataFrame
@@ -1027,11 +1114,11 @@ def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacke
 
     filename = f'{folder}/CapacityEvolution.png'
     stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MW'.format(y),
-                        rotation=90, order_scenarios=order_scenarios)
+                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios)
 
 
 def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                       select_stacked=None, generator_grouping=None, order_scenarios=None):
+                       select_stacked=None, generator_grouping=None, order_scenarios=None, dict_scenarios=None):
     """
     Returns evolution of reserve contribution, over different years and different scenarios
     :param pReserveByPlant: pd.DataFrame
@@ -1057,8 +1144,8 @@ def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked
     df = df.drop(columns=['zone'])
 
     if generator_grouping is not None:
-        assert 'generator' in df.columns, 'Generator grouping is used but generator is not in the columns.'
-        df['generator'] = df['generator'].replace(
+        assert 'fuel' in df.columns, 'Generator grouping is used but fuel is not in the columns.'
+        df['fuel'] = df['fuel'].replace(
             generator_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
     df = (df.groupby([column_stacked, column_group, 'scenario'], observed=False).sum().reset_index())
@@ -1070,11 +1157,11 @@ def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked
 
     filename = f'{folder}/ReserveEvolution.png'
     stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MWh'.format(y),
-                        rotation=90, order_scenarios=order_scenarios)
+                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios)
 
 
 def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
-                  rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
+                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
     list_keys = list(df.columns)
     n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
@@ -1099,7 +1186,9 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
                 df_temp = df_temp.to_frame().T
                 df_temp.index = ['Initial']
             else:
-                if order_scenarios is not None:
+                if dict_scenarios is not None:  # Renaming scenarios for plots
+                    df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
+                if order_scenarios is not None:  # Reordering scenarios
                     df_temp = df_temp.loc[order_scenarios, :]
 
             df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=dict_colors if dict_colors is not None else None)
@@ -1154,6 +1243,7 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
             fig.savefig(filename, bbox_inches='tight')
         else:
             plt.show()
+    plt.close(fig)
 
 
 def cluster_stackedbar_plot(df, group_column, colors=None, rotation=0, year_ini=None, order_scenarios=None,
