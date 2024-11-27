@@ -1,11 +1,18 @@
 ﻿EPM_Tech,Processing
-COAL,Coal
-GT,Gas
-CCGT,Gas
-ICE,Oil
-STORAGE,Storage
-BIOMAS,Biomass
-ROR,Hydro
-STO HY,Hydro
+GT,Gas Turbine
+CCGT,Combined Cycle Gas Turbine
+COAL,Coal Plant
+STO HY,Storage hydro
 WIND,Wind
-PV,Solar
+PV,Solar PV
+BIOGAS,Biogas
+INT,Interconnection
+CHP,Combined Heat & Power
+ICE,Internal Combustion Engine
+BIOMAS,Biomass
+ROR,Run of river hydro
+ST,Steam Turbine
+CSP,Concentrated Solar Power
+PVwSTO,Solar PV with Storage
+STOPV,Storage For PV
+STORAGE,Grid Connected Storage
