@@ -885,6 +885,7 @@ pUnmetP(q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))            =sum(z,vUSE.l(z,q,d,
 pFuelDispatch(z,q,d,t,y,f)$pDemandData(z,q,d,y,t)  =sum(gfmap(g,f),vPwrOut.l(g,f,q,d,t,y))+1e-6;
 
 
+
 pStorLevel(c,q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))       =sum((zcmap(z,c),gzmap(st,z)),vStorage.l(st,q,d,t,y))            +1e-6;
 pStorInj(c,q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))         =sum((zcmap(z,c),gzmap(st,z)),vStorInj.l(st,q,d,t,y))            +1e-6;
 pStorOut(c,q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))         =sum((zcmap(z,c),gzmap(st,z),gfmap(st,f)),vPwrOut.l(st,f,q,d,t,y)) +1e-6;

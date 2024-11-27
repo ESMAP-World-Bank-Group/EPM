@@ -1,4 +1,4 @@
-paramNames,DemandHigh,HydroHigh,HighThermalFlex,SolarPessimistic
+paramNames,HydroStorage_DemandHigh,HydroStorage_HydroHigh,HydroStorage_HighThermalFlex,HydroStorage_SolarPessimistic
 ftfindex,,,,
 mapGG,,,,
 pAvailability,,,,
@@ -37,7 +37,7 @@ pTechDataExcel,,,,
 pTradePrice,,,,
 pTransferLimit,,,,
 pVREgenProfile,,,,
-pVREProfile,,input/pVREProfileHigh.csv,,input/pVREProfileHigh.csv
+pVREProfile,,input/pVREProfileHigh.csv,,
 pZoneIndex,,,,
 relevant,,,,
 reserve,,,,
