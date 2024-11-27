@@ -14,14 +14,12 @@ from gams.engine.api import jobs_api
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main.gms',#'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-    'path_base_file': 'WB_EPM_v8_5_base.gms',
-    'path_report_file': 'WB_EPM_v8_5_Report.gms',
+    'path_main_file': 'WB_EPM_v8_5_main_country.gms',
+    'path_base_file': 'WB_EPM_v8_5_base_country.gms',
+    'path_report_file': 'WB_EPM_v8_5_Report_country.gms',
     'path_reader_file': 'WB_EPM_input_readers.gms',
     'path_cplex_file': 'cplex.opt'
 }
-
-#,
 
 URL_ENGINE = "https://engine.gams.com/api"
 
@@ -233,7 +231,8 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
         result = pool.starmap(launch_epm_multiprocess,
                               [(s[k], k, path_gams, path_engine_file) for k in s.keys()])
 
-    pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
+    if path_engine_file:
+        pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
     return result
 
 
@@ -261,6 +260,6 @@ if __name__ == '__main__':
     if True:
         launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
                                    scenarios_specification='input/scenarios_specification.csv',
-                                   selected_scenarios=['baseline'],
+                                   selected_scenarios=['DemandS3'],
                                    cpu=1,
                                    path_engine_file=None)
