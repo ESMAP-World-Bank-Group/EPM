@@ -2,6 +2,27 @@
 
 _Last update: Nov 2024_
 
+## Running code with excel input file
+### From python
+When running the code from python, the function `launch_epm_multi_scenarios_excel` may be used. Here is an example of working code:
+``` 
+        PATH_GAMS = {
+            'path_main_file': 'WB_EPM_v8_5_main.gms',  
+            'path_base_file': 'WB_EPM_v8_5_base.gms',
+            'path_report_file': 'WB_EPM_v8_5_Report.gms',
+            'path_reader_file': 'WB_EPM_input_readers.gms',
+            'path_excel_file': 'input/WB_EPM_8_5.xlsx',
+            'path_cplex_file': 'cplex.opt'
+        }
+        launch_epm_multi_scenarios_excel()
+```
+
+### From GAMS
+When running the code from GAMS Studio, the `main.gams` file must be called with the following arguments: 
+```--READER CONNECT_EXCEL --BASE_FILE WB_EPM_v8_5_base.gms --XLS_INPUT input/WB_EPM_8_5.xlsx --REPORT_FILE WB_EPM_v8_5_Report.gms --READER_FILE WB_EPM_input_readers.gms```
+
+The input file name may be modified depending on your input file.
+
 ## Creating a new branch
 When running a new EPM version for a specific country or region, the recommended procedure is the following:
 1. Create a new branch, with name matching the country or region. This new branch will match the latest version from the code available on the `main` branch.
