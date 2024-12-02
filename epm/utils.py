@@ -571,16 +571,26 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         plt.show()
     plt.close(fig)
 
-def create_df_battery_usage(df_dispatch, df_reserve):
+def create_df_bess_usage(df_dispatch, df_reserve, fuel_list):
+    """
+
+    :param df_dispatch: pd.DataFrame
+        Dataframe containing dispatch data
+    :param df_reserve: pd.DataFrame
+        Dataframe containing reserve data
+    :param fuel_list: list
+        Containing the list of BESS fuel types to include in the plot
+    :return:
+    """
     tmp = df_dispatch.copy()
-    tmp = tmp.loc[(tmp.fuel.isin(['Battery Storage 4h', 'Battery Storage 8h']))]
+    tmp = tmp.loc[(tmp.fuel.isin(fuel_list))]
 
     bess_energy = tmp.groupby(['year', 'zone', 'scenario'])['value'].sum().reset_index()
     bess_energy['fuel'] = 'energy'
 
     tmp2 = df_reserve.copy()
     tmp2['value'] = tmp2['value'] * 1e3  # going to MWh
-    tmp2 = tmp2.loc[(tmp2.fuel.isin(['Battery Storage 4h', 'Battery Storage 8h']))]
+    tmp2 = tmp2.loc[(tmp2.fuel.isin(fuel_list))]
 
     bess_reserve = tmp2.groupby(['year', 'zone', 'scenario'])['value'].sum().reset_index()
     bess_reserve['fuel'] = 'reserve'
@@ -589,8 +599,24 @@ def create_df_battery_usage(df_dispatch, df_reserve):
     return bess_usage
 
 
-def make_batteries_role_plot(df, years, folder, dict_colors, figsize=(16, 4), percent_cap=6, selected_scenario=None):
-    """Plot to discuss battery role"""
+def make_batteries_role_plot(df_dispatch, df_reserve, fuel_list, years, folder, dict_colors, figsize=(16, 4), percent_cap=6, selected_scenario=None):
+    """
+    Plots the share of BESS generation used for energy versus reserve
+    :param df_dispatch: pd.DataFrame
+    :param df_reserve: pd.DataFrame
+    :param fuel_list: list
+        List of BESS fuel types to include in the plot
+    :param years: list
+        List of years to plot
+    :param percent_cap: float
+        Under this cap, we do not display the share through an annotation
+    :param selected_scenario: str
+        Scenario to plot
+    :return:
+    """
+
+    df = create_df_bess_usage(df_dispatch, df_reserve, fuel_list)
+
     if selected_scenario is not None:
         df = df[df['scenario'] == selected_scenario]
 

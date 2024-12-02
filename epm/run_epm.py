@@ -266,11 +266,11 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        # launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-        #                            scenarios_specification='input/scenarios_specification.csv',
-        #                            selected_scenarios=['HighThermalFlex', 'SolarPessimistic'],
-        #                            cpu=1,
-        #                            path_engine_file=None)
+        launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+                                   scenarios_specification='input/scenarios_specification.csv',
+                                   selected_scenarios=['HighThermalFlex', 'SolarPessimistic'],
+                                   cpu=1,
+                                   path_engine_file=None)
 
         path_gams_daily = {
             'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
