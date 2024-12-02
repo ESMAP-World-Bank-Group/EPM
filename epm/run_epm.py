@@ -79,6 +79,17 @@ def launch_epm_excel(scenario_name='',
                path_cplex_file='cplex.opt',
                path_engine_file=False):
 
+    # Create dir for simulation and change current working directory
+    if 'output' not in os.listdir():
+        os.mkdir('output')
+
+    folder = 'simulations_run_{}'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+    folder = os.path.join('output', folder)
+    if not os.path.exists(folder):
+        os.mkdir(folder)
+        print('Folder created:', folder)
+    os.chdir(folder)
+
     if scenario_name == '':
         scenario_name = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 
