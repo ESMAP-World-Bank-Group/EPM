@@ -743,7 +743,7 @@ eStorBal1(st,q,d,sFirstHour(t),y)$pincludeStorage..
 
 
 eStorageOutput(st,q,d,t,y)$pincludeStorage..
-   sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
+   sum(gfmap(st,f), vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
 *--- CSP-specific equations
 eStorageCSPCap(cs,q,d,t,y)$pincludeCSP..
