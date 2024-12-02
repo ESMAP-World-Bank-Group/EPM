@@ -100,7 +100,7 @@ $offExternalOutput
    pReserveCosts(z,g,y)                      'Cost of reserves by plant in dollars per zone'
    pReserveByPlant(z,g,y)                    'Reserve contribution by plant in MWh per zone'
    pReserveCostsCountry(c,g,y)               'Cost of reserves by plant in dollars per country'
-   pReserveByPlantCountry(c,g,y)             'Reserve contribution by plant in MWh per country'
+   pReserveByPlantCountry(c,g,y)             'Reserve contribution by plant in GWh per country'
 
    pReserveMarginRes(z,*,y)                     'Resulting reserve margin calculations by zone'
    pReserveMarginResCountry(c,*,y)              'Resulting reserve margin calculations by country'
