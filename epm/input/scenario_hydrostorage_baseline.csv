@@ -21,7 +21,7 @@ pExtTransferLimit,input/pExtTransferLimit.csv
 pFuelData,input/pFuelData.csv
 pFuelPrice,input/pFuelPrice.csv
 pFuelTypeCarbonContent,input/pFuelTypeCarbonContent.csv
-pGenDataExcel,input/pGenDataExcel.csv
+pGenDataExcel,input/pGenDataExcel_storage.csv
 pH2DataExcel,input/pH2DataExcel.csv
 pHours,input/pHours.csv
 pLossFactor,input/pLossFactor.csv

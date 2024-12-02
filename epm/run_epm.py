@@ -237,6 +237,8 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                               [(s[k], k, path_gams, path_engine_file) for k in s.keys()])
 
     pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
+
+    # TODO: change how the dict is saved to csv
     scenario_baseline.to_csv('scenario_baseline.csv', index=False)  # we want to remember what was the baseline configuration we used
     scenarios_specification.to_csv('scenario_baseline.csv', index=False)
     return result
@@ -264,24 +266,24 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                   scenarios_specification='input/scenarios_specification.csv',
-                                   selected_scenarios=['SolarPessimistic'],
-                                   cpu=1,
-                                   path_engine_file='Engine_Base.gms')
+        # launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+        #                            scenarios_specification='input/scenarios_specification.csv',
+        #                            selected_scenarios=['HighThermalFlex', 'SolarPessimistic'],
+        #                            cpu=1,
+        #                            path_engine_file=None)
 
-        # path_gams_daily = {
-        #     'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-        #     'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
-        #     'path_report_file': 'WB_EPM_v8_5_Report.gms',
-        #     'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
-        #     'path_cplex_file': 'cplex.opt'
-        # }
-        #
-        # launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
-        #                            scenarios_specification='input/scenarios_hydrostorage_specification.csv',
-        #                            selected_scenarios=None,
-        #                            cpu=1, path_gams=path_gams_daily,
-        #                            path_engine_file='Engine_Base.gms')
+        path_gams_daily = {
+            'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+            'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
+            'path_report_file': 'WB_EPM_v8_5_Report.gms',
+            'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
+            'path_cplex_file': 'cplex.opt'
+        }
 
-        get_job_engine('output/simulations_run_20241126_182041/tokens_simulation.csv')
+        launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
+                                   scenarios_specification='input/scenarios_hydrostorage_specification.csv',
+                                   selected_scenarios=None,
+                                   cpu=1, path_gams=path_gams_daily,
+                                   path_engine_file=None)
+
+        # get_job_engine('output/simulations_run_20241128_155523/tokens_simulation.csv')

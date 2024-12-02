@@ -117,41 +117,41 @@ def read_plot_specs():
     return dict_specs
 
 
-def read_input_data(excel_input):
-    """Reads input data required for the plots.
-    excel_input: str
-        Path to excel file containing inputs. Eg, WB_EPM_8_5.xlsx
-    """
-    # Read generation data
-    sheet_name = 'Generator Data'
-    names = ['Plants', 'Zone', 'Type', 'fuel1']  # Columns to select
-    new_column_names = {'Plants': 'EPM_Gen', 'Zone': 'EPM_Zone', 'fuel1': 'EPM_Fuel', 'Type': 'EPM_Tech'}
-
-    # Read the entire sheet starting from A6
-    generation_data = pd.read_excel(excel_input, sheet_name=sheet_name, skiprows=5)
-
-    generation_data = generation_data.loc[:, names]
-    generation_data.rename(columns=new_column_names, inplace=True)
-    generation_data = generation_data.dropna(how='all')
-
-    gen_to_fuel_mapping = generation_data.set_index('EPM_Gen')['EPM_Fuel'].to_dict()
-
-    sheet_name = 'Duration'
-    duration_data = pd.read_excel(excel_input, sheet_name=sheet_name, skiprows=5)
-    duration_data = duration_data.dropna(how='all')
-    duration_data.columns = ['season', 'day', 'year', *duration_data.columns[3:]]
-    pDuration = duration_data.melt(id_vars=['season', 'day', 'year'], var_name='t', value_name='value')
-    pDuration = pDuration.sort_values(by=['season', 'day', 'year', 't'])
-    pDuration.columns = ['season', 'day', 'year', 't', 'duration']
-    pDuration['year'] = pDuration['year'].astype(str)
-
-    dict_inputs = {
-        'generation_data': generation_data,
-        'gen_to_fuel_mapping': gen_to_fuel_mapping,
-        'duration_data': duration_data,
-        'pDuration': pDuration
-    }
-    return dict_inputs
+# def read_input_data(excel_input):
+#     """Reads input data required for the plots.
+#     excel_input: str
+#         Path to excel file containing inputs. Eg, WB_EPM_8_5.xlsx
+#     """
+#     # Read generation data
+#     sheet_name = 'Generator Data'
+#     names = ['Plants', 'Zone', 'Type', 'fuel1']  # Columns to select
+#     new_column_names = {'Plants': 'EPM_Gen', 'Zone': 'EPM_Zone', 'fuel1': 'EPM_Fuel', 'Type': 'EPM_Tech'}
+#
+#     # Read the entire sheet starting from A6
+#     generation_data = pd.read_excel(excel_input, sheet_name=sheet_name, skiprows=5)
+#
+#     generation_data = generation_data.loc[:, names]
+#     generation_data.rename(columns=new_column_names, inplace=True)
+#     generation_data = generation_data.dropna(how='all')
+#
+#     gen_to_fuel_mapping = generation_data.set_index('EPM_Gen')['EPM_Fuel'].to_dict()
+#
+#     sheet_name = 'Duration'
+#     duration_data = pd.read_excel(excel_input, sheet_name=sheet_name, skiprows=5)
+#     duration_data = duration_data.dropna(how='all')
+#     duration_data.columns = ['season', 'day', 'year', *duration_data.columns[3:]]
+#     pDuration = duration_data.melt(id_vars=['season', 'day', 'year'], var_name='t', value_name='value')
+#     pDuration = pDuration.sort_values(by=['season', 'day', 'year', 't'])
+#     pDuration.columns = ['season', 'day', 'year', 't', 'duration']
+#     pDuration['year'] = pDuration['year'].astype(str)
+#
+#     dict_inputs = {
+#         'generation_data': generation_data,
+#         'gen_to_fuel_mapping': gen_to_fuel_mapping,
+#         'duration_data': duration_data,
+#         'pDuration': pDuration
+#     }
+#     return dict_inputs
 
 
 def calculate_pRR(discount_rate, y, years_mapping):
@@ -181,7 +181,7 @@ def calculate_pRR(discount_rate, y, years_mapping):
     return pRR
 
 
-def extract_epm_results_new(results_folder, scenario=None):
+def extract_epm_results(results_folder, scenario=None):
     containers = {}
     for p in [path for path in Path(results_folder).iterdir() if path.is_dir()]:
         if p.name != 'images':
@@ -214,43 +214,34 @@ def extract_epm_results_new(results_folder, scenario=None):
     return epmresults, scenarios
 
 
-def extract_epm_results(results_folder, scenario=None):
-    """Extracts all information from the gdx files outputed by EPM."""
-    # Getting all the epmresults.gdx of the different cases
-    containers = {}
+def remove_unused_tech(epm_dict, list_keys):
+    """
+    Remove rows that correspond to technologies that are never used across the whole time horizon
+    :param epm_dict: dict
+        Containing all the outputs of interest
+    :param list_keys: list
+        List containing the dataframes we want to process
+    :return:
+    """
+    for key in list_keys:
+        epm_dict[key] = epm_dict[key].where((epm_dict[key]['value'] > 2e-6) | (epm_dict[key]['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
+        epm_dict[key] = epm_dict[key].dropna(subset=['value'])
 
-    for all_path in [file.path for file in os.scandir(results_folder) if file.is_dir()]:
-        containers[all_path[12:]] = gt.Container(f'{all_path}/epmresults.gdx')
-
-    scenarios = [all_path[12:] for all_path in [file.path for file in os.scandir(results_folder) if file.is_dir()]]
-    print(f' Scenarios in the folder: {scenarios}')
-    print('')
-
-    if scenario is not None:# Get only the selected scenario
-        scenarios = [scenario]
-
-    epmresults = {}
-    parameters = [p.name for p in containers[scenarios[0]].getParameters()]
-
-    # noinspection PyUnboundLocalVariable
-    for parameter in parameters:
-        df_parameter_all = []
-
-        for scenario in scenarios:
-            if containers[scenario].data[parameter].records is not None:
-                df_parameter = containers[scenario].data[parameter].records.copy()
-                df_parameter['scenario'] = scenario
-                df_parameter_all.append(df_parameter)
-
-            if not df_parameter_all == []:
-                epmresults[parameter] = pd.concat(df_parameter_all)
-            else:
-                # print(f'Empty parameter for {parameter}')
-                continue
-    return epmresults
+    return epm_dict
 
 
-def process_epmresults(epmresults, dict_specs):
+def read_input_data(input = Path('input/')):
+    gen_data_excel = pd.read_csv(input / Path('pGenDataExcel.csv'))
+    gen_data_excel = gen_data_excel[['Plants', 'fuel1']]
+    ftfindex = pd.read_csv(input / Path('ftfindex.csv'))
+    ftfindex = ftfindex[['Fuel Name', 'Index']].rename(columns={'Index': 'fuel1'})
+    generation_mapping = gen_data_excel.merge(ftfindex, on='fuel1')
+    generation_mapping = generation_mapping[['Plants', 'Fuel Name']]
+    generation_mapping = generation_mapping.set_index('Plants')['Fuel Name'].to_dict()
+    return generation_mapping
+
+
+def process_epmresults(epmresults, dict_specs, input= Path('input/')):
     """Processing EPM results to use in plots."""
 
     # TODO: 'zone_from', 'zone_to'
@@ -264,18 +255,15 @@ def process_epmresults(epmresults, dict_specs):
             'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization', 'pReserveByPlant',
             'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans', 'pPlantReserve'}
+            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epmresults.items() if k in keys and k in epmresults.keys()}
 
-    # TODO: improve postprocessing of results (for the generation) to avoid having to do this step
-    # Get rid of zero values which correspond to plants not used in the model
-    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].where((epm_dict['pReserveByPlant']['value'] > 2e-6) | (epm_dict['pReserveByPlant']['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
-    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].dropna(subset=['value'])
+    list_keys = ['pReserveByPlant', 'pPlantReserve']
+    epm_dict = remove_unused_tech(epm_dict, list_keys)
 
-    epm_dict['pPlantReserve'] = epm_dict['pPlantReserve'].where((epm_dict['pPlantReserve']['value'] > 2e-6) | (epm_dict['pPlantReserve']['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
-    epm_dict['pPlantReserve'] = epm_dict['pPlantReserve'].dropna(subset=['value'])
+    generation_mapping = read_input_data(input=input)
 
     # Convert columns to the right type
     for k, i in epm_dict.items():
@@ -315,7 +303,7 @@ def process_epmresults(epmresults, dict_specs):
     standardize_names('pFuelDispatch', dict_specs['fuel_mapping'])
     standardize_names('pPlantFuelDispatch', dict_specs['tech_mapping'])
 
-    epm_dict['pReserveByPlant'].replace(dict_specs['generation_mapping'], inplace=True)  # map generator to fuel
+    epm_dict['pReserveByPlant'].replace(generation_mapping, inplace=True)  # map generator to fuel
     epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
     standardize_names('pReserveByPlant', dict_specs['fuel_mapping'])
 
@@ -582,6 +570,39 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         plt.tight_layout()
         plt.show()
     plt.close(fig)
+
+def create_df_battery_usage(df_dispatch, df_reserve):
+    tmp = df_dispatch.copy()
+    tmp = tmp.loc[(tmp.fuel.isin(['Battery Storage 4h', 'Battery Storage 8h']))]
+
+    bess_energy = tmp.groupby(['year', 'zone', 'scenario'])['value'].sum().reset_index()
+    bess_energy['fuel'] = 'energy'
+
+    tmp2 = df_reserve.copy()
+    tmp2['value'] = tmp2['value'] * 1e3  # going to MWh
+    tmp2 = tmp2.loc[(tmp2.fuel.isin(['Battery Storage 4h', 'Battery Storage 8h']))]
+
+    bess_reserve = tmp2.groupby(['year', 'zone', 'scenario'])['value'].sum().reset_index()
+    bess_reserve['fuel'] = 'reserve'
+
+    bess_usage = pd.concat([bess_energy, bess_reserve], axis=0)
+    return bess_usage
+
+
+def make_batteries_role_plot(df, years, folder, dict_colors, figsize=(16, 4), percent_cap=6, selected_scenario=None):
+    """Plot to discuss battery role"""
+    if selected_scenario is not None:
+        df = df[df['scenario'] == selected_scenario]
+
+    df = df.loc[df['year'].isin(years)].groupby(['year', 'fuel']).agg({'value': 'sum'}).reset_index()
+    df['value'] = df['value'].apply(lambda x: 0 if x < 0 else x)
+
+    title = f'Battery usage - {selected_scenario} scenario'
+    temp = '_'.join([str(y) for y in years])
+    filename = f'{folder}/BatteryUsageMixPie_{temp}_{selected_scenario}.png'
+
+    subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
+                     percent_cap=percent_cap, filename=filename)
 
 
 def make_fuel_energy_mix_pie_plot(df, years, folder, dict_colors, BESS_included=False, Hydro_stor_included=False,
@@ -1156,7 +1177,7 @@ def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked
         df = df[select_stacked]
 
     filename = f'{folder}/ReserveEvolution.png'
-    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MWh'.format(y),
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GWh'.format(y),
                         rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios)
 
 

@@ -43,6 +43,7 @@ Sets
    RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
 
    sth(g)
+   VRE_noROR(g) 'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
 
 ************** H2 model specific sets ***************************
    eh(hh)           'existing hydrogen generation plants'
@@ -343,7 +344,7 @@ Equations
    eMinGenRE(c,y)                  'Min Generation of RE after a target year at country level'
 
    eMaxCF(g,q,y)                   'max capacity factor'
-   eMaxCFReserve(g,q,y,d,t)        'Constraining production and reserve based on max capacity factor over a time period'
+*   eMaxCFReserve(g,q,y,d,t)        'Constraining production and reserve based on max capacity factor over a time period'
    eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
 
    eFuel(z,f,y)                    'fuel balance'
@@ -628,10 +629,10 @@ eMaxCF(g,q,y)..
 
 * Following equation constraints the production and reserve at a given time to be below total energy available over the availability interval
 * Mostly necessary for hydro, where we could expect to have a limit on total energy over the time period that is very low compared to installed capacity
-alias(t, t1);
-alias(d, d1);
-eMaxCFReserve(g,q,y,d,t)..
-    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1), pHours(q,d1,y,t1));
+*alias(t, t1);
+*alias(d, d1);
+*eMaxCFReserve(g,q,y,d,t)..
+*    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1), pHours(q,d1,y,t1));
 
 
 eFuel(zfmap(z,f),y)..
@@ -653,7 +654,7 @@ eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints
 * dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for
 * RE generation to be rejected as well
 eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
-   vPwrOut(VRE,f,q,d,t,y) + vReserve(VRE,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,f,q,d,t)*vCap(VRE,y);
+   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,f,q,d,t)*vCap(VRE,y);
 
 
 *--- Reserve equations
@@ -674,12 +675,12 @@ eResReqLocal(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
                                 + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
                                 - vFlow(z2,z,q,d,t,y))
 
-   =g= pReserveReqLoc(c,y) + sum((zcmap(z,c),gzmap(VRE,z),gfmap(VRE,f)), vPwrOut(VRE,f,q,d,t,y))*pVREForecastError;
+   =g= pReserveReqLoc(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
 
 
 
 eResReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
-   sum(g, vReserve(g,q,d,t,y)) + vUnmetSpin(q,d,t,y) =g= pReserveReqSys(y) + sum(gfmap(VRE,f), vPwrOut(VRE,f,q,d,t,y))*pVREForecastError;
+   sum(g, vReserve(g,q,d,t,y)) + vUnmetSpin(q,d,t,y) =g= pReserveReqSys(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
 
 
 
@@ -801,11 +802,8 @@ eStorBal3(st,q,d,y)$(pincludeStorage)..  pStorData(st,"efficiency")* sum(t,vStor
 
 
 
-
-
-
-eStorageOutput(st,q,d,t,y)$pincludeStorage..
-   sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
+eStorageOutput(st,q,d,t,y)$(pincludeStorage)..
+   sum(gfmap(st,f), vReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
 
 
@@ -1035,7 +1033,7 @@ Model PA /
 
    eMinGenRE
    eMaxCF
-   eMaxCFReserve
+*   eMaxCFReserve
    eMinGen
 
    eFuel
