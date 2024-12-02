@@ -70,14 +70,13 @@ def post_job_engine(scenario_name, path_zipfile):
     return req
 
 
-def launch_epm_excel(scenario_name='',
-               path_main_file='WB_EPM_v8_5_main.gms',
-               path_base_file='WB_EPM_v8_5_base.gms',
-               path_report_file='WB_EPM_v8_5_Report.gms',
-               path_reader_file='WB_EPM_input_readers.gms',
-               path_excel_file='input/WB_EPM_8_5.xlsx',
-               path_cplex_file='cplex.opt',
-               path_engine_file=False):
+def launch_epm_multi_scenarios_excel(scenario_name='', path_gams=None, path_engine_file=False):
+    # TODO: needs to be modified to include handling of multiprocessing for excel users
+
+    if path_gams is not None:  # path for required gams file is provided
+        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in path_gams.items()}
+    else:  # use default configuration
+        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -89,6 +88,18 @@ def launch_epm_excel(scenario_name='',
         os.mkdir(folder)
         print('Folder created:', folder)
     os.chdir(folder)
+
+    launch_epm_excel(scenario_name=scenario_name, path_engine_file=path_engine_file, **path_gams)
+
+
+def launch_epm_excel(scenario_name='',
+               path_main_file='WB_EPM_v8_5_main.gms',
+               path_base_file='WB_EPM_v8_5_base.gms',
+               path_report_file='WB_EPM_v8_5_Report.gms',
+               path_reader_file='WB_EPM_input_readers.gms',
+               path_excel_file='input/WB_EPM_8_5.xlsx',
+               path_cplex_file='cplex.opt',
+               path_engine_file=False):
 
     if scenario_name == '':
         scenario_name = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -342,6 +353,7 @@ def get_job_engine(tokens_simulation):
             zf.extractall(path=scenario)
 
 
+
 if __name__ == '__main__':
 
     if True:
@@ -354,4 +366,12 @@ if __name__ == '__main__':
         #                            path_engine_file=None)
 
         # Launch with excel
-        launch_epm_excel()
+        PATH_GAMS = {
+            'path_main_file': 'WB_EPM_v8_5_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+            'path_base_file': 'WB_EPM_v8_5_base.gms',
+            'path_report_file': 'WB_EPM_v8_5_Report.gms',
+            'path_reader_file': 'WB_EPM_input_readers.gms',
+            'path_excel_file': 'input/WB_EPM_8_5.xlsx',
+            'path_cplex_file': 'cplex.opt'
+        }
+        launch_epm_multi_scenarios_excel()
