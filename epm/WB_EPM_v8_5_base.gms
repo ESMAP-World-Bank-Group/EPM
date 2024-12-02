@@ -803,7 +803,7 @@ eStorBal3(st,q,d,y)$(pincludeStorage)..  pStorData(st,"efficiency")* sum(t,vStor
 
 
 eStorageOutput(st,q,d,t,y)$(pincludeStorage)..
-   sum(gfmap(st,f), vReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
+   vReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
 
 
