@@ -348,6 +348,7 @@ Equations
    eRampDnLimit(g,q,d,t,y)         'Ramp down limit'
 
    eSpinningReserveLim(g,q,d,t,y)              'Reserve limit as a share of capacity'
+   eSpinningReserveLimVRE(g,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
    eJointResCap(g,q,d,t,y)                     'Joint reserve and generation limit'
    eSpinningReserveReqCountry(c,q,d,t,y)          'Country spinning reserve requirement'
    eSpinningReserveReqSystem(q,d,t,y)          'System spinning reserve requirement'
@@ -637,6 +638,9 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
 *--- Reserve equations
 eSpinningReserveLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
+   
+eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+    vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,f,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
@@ -977,6 +981,7 @@ Model PA /
    eRampUpLimit
    eRampDnLimit
    eSpinningReserveLim
+   eSpinningReserveLimVRE
 *  eResLim_CSP
    eJointResCap
    eSpinningReserveReqCountry
