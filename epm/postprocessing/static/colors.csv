@@ -6,8 +6,10 @@ Gas,tan
 Battery Storage,slateblue
 Battery,slateblue
 Battery Discharge,slateblue
-Battery Storage 4h,slateblue
+Battery Storage 4h,limegreen
 Battery Storage 8h,slateblue
+Battery Storage 2h,#377EB8
+Battery Storage 3h,cornflowerblue
 Pumped-Hydro,cornflowerblue
 H2,lightcyan
 Biomass,darkseagreen
@@ -27,3 +29,5 @@ Exports,green
 Storage Charge,pink
 energy,slateblue
 reserve,thistle
+Curtailed VRE,#FF8C00
+Curtailed RoR,red

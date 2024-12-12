@@ -35,6 +35,8 @@ COLORS = 'static/colors.csv'
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
+    'pCurtailedVRET': 'fuel',
+    'pCurtailedStoHY': 'fuel',
     'pDispatch': 'attribute'
 }
 
@@ -250,17 +252,17 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
     rename_columns = {'c': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                       'z': 'zone', 'g': 'generator', 'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
 
-    keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel',
+    keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
             'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
-            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization', 'pReserveByPlant',
+            'pDispatch', 'pFuelDispatch', 'pPlantDispatch', 'pInterconUtilization', 'pReserveByPlant',
             'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason'}
+            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epmresults.items() if k in keys and k in epmresults.keys()}
 
-    list_keys = ['pReserveByPlant', 'pPlantReserve']
+    list_keys = ['pReserveByPlant', 'pPlantReserve', 'pCapacityPlan']
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
     generation_mapping = read_input_data(input=input)
@@ -284,6 +286,9 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
         if 'attribute' in i.columns:
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
+    epm_dict['pCurtailedVRET']['fuel'] = 'Curtailed VRE'  # adding fuel column
+    epm_dict['pCurtailedStoHY']['fuel'] = 'Curtailed RoR'  # adding fuel column
+
     # Standardize names
     def standardize_names(key, mapping):
         if key in epm_dict.keys():
@@ -301,7 +306,9 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
     standardize_names('pEnergyByFuel', dict_specs['fuel_mapping'])
     standardize_names('pCapacityByFuel', dict_specs['fuel_mapping'])
     standardize_names('pFuelDispatch', dict_specs['fuel_mapping'])
-    standardize_names('pPlantFuelDispatch', dict_specs['tech_mapping'])
+    # standardize_names('pPlantDispatch', dict_specs['tech_mapping'])
+
+    # epm_dict['pPlantDispatch'].replace(generation_mapping, inplace=True)  # map generator to fuel
 
     epm_dict['pReserveByPlant'].replace(generation_mapping, inplace=True)  # map generator to fuel
     epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
@@ -557,7 +564,7 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         loc='lower center',
         bbox_to_anchor=(0.5, -0.1),
         ncol=len(handles),  # Adjust number of columns based on subplots
-        frameon=False
+        frameon=False, fontsize=16
     )
 
     # Add title for the whole figure
@@ -599,7 +606,7 @@ def create_df_bess_usage(df_dispatch, df_reserve, fuel_list):
     return bess_usage
 
 
-def make_batteries_role_plot(df_dispatch, df_reserve, fuel_list, years, folder, dict_colors, figsize=(16, 4), percent_cap=6, selected_scenario=None):
+def make_batteries_role_plot(df_dispatch, df_reserve, fuel_list, years, folder, dict_colors, figsize=(16, 4), percent_cap=6, selected_scenario=None, scenario_names=None):
     """
     Plots the share of BESS generation used for energy versus reserve
     :param df_dispatch: pd.DataFrame
@@ -623,7 +630,13 @@ def make_batteries_role_plot(df_dispatch, df_reserve, fuel_list, years, folder, 
     df = df.loc[df['year'].isin(years)].groupby(['year', 'fuel']).agg({'value': 'sum'}).reset_index()
     df['value'] = df['value'].apply(lambda x: 0 if x < 0 else x)
 
-    title = f'Battery usage - {selected_scenario} scenario'
+    if scenario_names is not None:
+        if selected_scenario in scenario_names:
+            title = f'Battery usage - {scenario_names[selected_scenario]} scenario'
+        else:
+            title = f'Battery usage - {selected_scenario} scenario'
+    else:
+        title = f'Battery usage - {selected_scenario} scenario'
     temp = '_'.join([str(y) for y in years])
     filename = f'{folder}/BatteryUsageMixPie_{temp}_{selected_scenario}.png'
 
@@ -961,14 +974,16 @@ def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10
         ax.set_xlim(left=0, right=24 * total_days)
 
     # Add axis labels and title
-    ax.set_xlabel('Hours')
+    ax.set_xlabel('Month')
     ax.set_ylabel('Generation (MWh)', fontweight='bold')
     if title is not None:
         ax.set_title(title, fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
 
     # Add legend bottom center
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
+    max_items_per_row = 6  # Set a reasonable number of items per row
+    ncol = min(len(df_area.columns), max_items_per_row)  # Ensure the legend fits within the figure
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=ncol, frameon=False)
 
     # Remove grid
     ax.grid(False)
@@ -1029,6 +1044,81 @@ def select_time_period(df, select_time):
         temp += '_'.join(select_time['day'])
     return df, temp
 
+
+def make_summary(epm_dict, subset_years=None, subset_scenarios = None, folder=None, select_columns=None,
+                 order_scenarios=None, rename_scenarios=None):
+    """Summary information"""
+    # Information from dispatch
+    if 'pDispatch' in epm_dict.keys():
+        tmp = epm_dict['pDispatch']
+        if subset_years is not None:
+            tmp = tmp.loc[(tmp.year.isin(subset_years))]
+        if subset_scenarios is not None:
+            tmp = tmp.loc[(tmp.scenario.isin(subset_scenarios))]
+        tmp_dispatch = tmp.groupby(['attribute', 'scenario', 'zone', 'year'])['value'].sum()
+        tmp_dispatch = tmp_dispatch * 1e-3  # GWh
+
+    if 'pEnergyByFuel' in epm_dict.keys():
+        tmp = epm_dict['pEnergyByFuel']
+        if subset_years is not None:
+            tmp = tmp.loc[(tmp.year.isin(subset_years))]
+        if subset_scenarios is not None:
+            tmp = tmp.loc[(tmp.scenario.isin(subset_scenarios))]
+        tmp_gen = tmp.groupby(['fuel', 'scenario', 'year'])['value'].sum()
+
+    if 'pCurtailedVRET' in epm_dict.keys():
+        tmp = epm_dict['pCurtailedVRET']
+        if subset_years is not None:
+            tmp = tmp.loc[(tmp.year.isin(subset_years))]
+        if subset_scenarios is not None:
+            tmp = tmp.loc[(tmp.scenario.isin(subset_scenarios))]
+        tmp = tmp.groupby(['fuel', 'scenario', 'year'])['value'].sum()
+        tmp = tmp * 1e-3  # GWh
+        tmp_gen = pd.concat([tmp_gen, tmp])
+
+    if 'pCurtailedStoHY' in epm_dict.keys():  # specific to hydro with daily storage operation
+        tmp = epm_dict['pCurtailedStoHY']
+        if subset_years is not None:
+            tmp = tmp.loc[(tmp.year.isin(subset_years))]
+        if subset_scenarios is not None:
+            tmp = tmp.loc[(tmp.scenario.isin(subset_scenarios))]
+        tmp = tmp.groupby(['fuel', 'scenario', 'year'])['value'].sum()
+        tmp = tmp * 1e-3  # GWh
+        tmp_gen = pd.concat([tmp_gen, tmp])
+
+    tmp_gen = tmp_gen.rename_axis(index={'fuel': 'attribute'})
+    tmp_gen = tmp_gen.unstack('attribute')
+    tmp_dispatch = tmp_dispatch.unstack('attribute')
+    tmp_dispatch = tmp_dispatch.droplevel('zone')
+    tmp_tot = pd.concat([tmp_gen, tmp_dispatch], axis=1)
+
+    if select_columns is not None:
+        tmp_tot = tmp_tot[select_columns]
+    if 'Exports' in tmp_tot.columns:
+        tmp_tot['Exports'] = - tmp_tot['Exports']
+
+    if rename_scenarios is not None:
+        tmp_tot.index = tmp_tot.index.set_levels(
+            tmp_tot.index.levels[0].map(lambda x: rename_scenarios.get(x, x)),
+            level='scenario'
+        )
+    if order_scenarios is not None:
+        tmp_tot = tmp_tot.loc[tmp_tot.index.get_level_values('scenario').isin(order_scenarios)]
+        # Create a new MultiIndex with the desired order
+        ordered_index = pd.MultiIndex.from_tuples(
+            sorted(tmp_tot.index, key=lambda x: order_scenarios.index(x[0])),
+            names=tmp_tot.index.names
+        )
+
+        # Reindex the DataFrame with the ordered index
+        tmp_tot = tmp_tot.reindex(ordered_index)
+    if folder is not None:
+        tmp_tot.to_csv(f'{folder}/summary.csv', float_format='%.3f')
+
+    return tmp_dispatch, tmp_gen
+
+
+
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, folder, dict_colors, zone, year, scenario,
                                 fuel_grouping=None, select_time=None, dfs_line_2=None, reorder_dispatch=None, season=True):
     """Returns fuel dispatch plot, including only generation plants.
@@ -1059,8 +1149,12 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
     for key in dfs_area:
         df = dfs_area[key]
         column_stacked = NAME_COLUMNS[key]
-        df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
-        df = df.drop(columns=['zone', 'year', 'scenario'])
+        if 'zone' in df.columns:
+            df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+            df = df.drop(columns=['zone', 'year', 'scenario'])
+        else:
+            df = df[(df['year'] == year) & (df['scenario'] == scenario)]
+            df = df.drop(columns=['year', 'scenario'])
 
         if column_stacked == 'fuel':
             if fuel_grouping is not None:
@@ -1109,8 +1203,8 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
     df_tot_line = df_tot_line.dropna(axis=1, how='all')
 
     if reorder_dispatch is not None:
-        remaining_columns = [col for col in df_tot_area.columns if col not in reorder_dispatch]
-        df_tot_area = df_tot_area[reorder_dispatch + remaining_columns]
+        new_order = [col for col in reorder_dispatch if col in df_tot_area.columns] + [col for col in df_tot_area.columns if col not in reorder_dispatch]
+        df_tot_area = df_tot_area[new_order]
 
 
     if select_time is None:
@@ -1121,8 +1215,37 @@ def make_dispatch_plot_complete(dfs_area, dfs_line, graph_folder, dict_colors, z
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, title=title, season=season)
 
 
+def make_fuel_capacity_mix_bar_plot(pEnergyByFuel, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
+                                    select_stacked=None, fuel_grouping=None, order_scenarios=None, dict_scenarios=None, filename=None,
+                                    figsize=(6, 8)):
+    df = pEnergyByFuel
+    df = df[(df['zone'] == zone)]
+    df = df.drop(columns=['zone'])
+
+    if fuel_grouping is not None:
+        assert 'fuel' in df.columns, 'Fuel grouping is used but fuel is not in the columns.'
+        df['fuel'] = df['fuel'].replace(
+            fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+    df = (df.groupby([column_stacked, column_group, 'scenario'], observed=False).sum().reset_index())
+
+    df = df.set_index([column_group, 'scenario', column_stacked]).squeeze().unstack(column_stacked)
+
+    if select_stacked is not None:
+        df = df[select_stacked]
+
+    df = df.dropna()  # getting rid of NAN values
+
+    if filename is None:
+        filename = f'{folder}/EnergyMixEvolution.png'
+    else:
+        filename = f'{folder}/{filename}.png'
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GWh'.format(y),
+                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios, figsize=figsize)
+
+
 def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                       select_stacked=None, fuel_grouping=None, order_scenarios=None, dict_scenarios=None):
+                       select_stacked=None, fuel_grouping=None, order_scenarios=None, dict_scenarios=None, filename=None):
     """
     Returns evolution of capacity, over different years and different scenarios
     :param pCapacityByFuel: pd.DataFrame
@@ -1159,13 +1282,70 @@ def make_capacity_plot(pCapacityByFuel, folder, dict_colors, zone, column_stacke
     if select_stacked is not None:
         df = df[select_stacked]
 
-    filename = f'{folder}/CapacityEvolution.png'
+    if filename is None:
+        filename = f'{folder}/CapacityEvolution.png'
+    else:
+        filename = f'{folder}/{filename}.png'
     stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MW'.format(y),
                         rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios)
 
 
+def make_capacity_plot_by_plant(pCapacityPlan, folder, dict_colors, zone, column_stacked='year', column_group='generator',
+                       select_stacked=None, generator_rename=None, generator_grouping=None, order_scenarios=None, dict_scenarios=None,
+                                filename=None, reorder_capacity=None, cap=6):
+    """
+    Returns evolution of capacity for different plants, over different years and different scenarios
+    :param pCapacityByFuel: pd.DataFrame
+        Dataframe containing capacity evolution per technology, zone, scenario
+    :param folder: str
+        Folder to save
+    :param dict_colors: dict
+        Dictionary with colors
+    :param zone: str
+        Selected zone
+    :param column_stacked: str
+        Column to use to select horizontal subplots. Default is 'year'
+    :param column_group: str
+        Column to use in the stacked bar plot. Default is 'fuel'
+    :param select_stacked: list
+        Selects horizontal subplots. For e.g., selected years.
+    :param fuel_grouping: dict
+        Grouping to create aggregate fuel categories.
+    :return:
+    """
+    df = pCapacityPlan
+    df = df[(df['zone'] == zone)]
+    df = df.drop(columns=['zone'])
+
+    if generator_rename is not None:
+        assert 'generator' in df.columns, 'Generator rename is used but generator is not in the columns.'
+        df['generator'] = df['generator'].replace(
+            generator_rename)  # renaming some of the plants to be more explicit
+
+    if generator_grouping is not None:
+        assert 'generator' in df.columns, 'Generator grouping is used but generator is not in the columns.'
+        df['generator'] = df['generator'].replace(
+            generator_grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+    df = (df.groupby([column_stacked, column_group, 'scenario'], observed=False).sum().reset_index())
+
+    df = df.set_index([column_group, 'scenario', column_stacked]).squeeze().unstack(column_stacked)
+
+    if select_stacked is not None:
+        df = df[select_stacked]
+
+    if filename is None:
+        filename = f'{folder}/CapacityEvolutionByPlant.png'
+    else:
+        filename = f'{folder}/{filename}.png'
+    stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} MW'.format(y),
+                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                        order_columns=reorder_capacity, cap=cap)
+
+
 def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                       select_stacked=None, generator_grouping=None, order_scenarios=None, dict_scenarios=None):
+                      select_stacked=None, generator_grouping=None, order_scenarios=None, dict_scenarios=None,
+                      reorder_capacity=None):
     """
     Returns evolution of reserve contribution, over different years and different scenarios
     :param pReserveByPlant: pd.DataFrame
@@ -1204,10 +1384,10 @@ def make_reserve_plot(pReserveByPlant, folder, dict_colors, zone, column_stacked
 
     filename = f'{folder}/ReserveEvolution.png'
     stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GWh'.format(y),
-                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios)
+                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios, order_columns=reorder_capacity)
 
 
-def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None,
+def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None, order_columns=None,
                         dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
     list_keys = list(df.columns)
     n_columns = int(len(list_keys))
@@ -1219,6 +1399,11 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
         width_ratios = [1] * n_columns
     fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
                              gridspec_kw={'width_ratios': width_ratios})
+
+    # Ensure axes is iterable
+    if n_rows == 1 and n_columns == 1:
+        axes = [axes]
+
     handles, labels = None, None
     for k in range(n_rows * n_columns):
         column = k % n_columns
@@ -1236,7 +1421,10 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
                 if dict_scenarios is not None:  # Renaming scenarios for plots
                     df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
                 if order_scenarios is not None:  # Reordering scenarios
-                    df_temp = df_temp.loc[order_scenarios, :]
+                    df_temp = df_temp.loc[[c for c in order_scenarios if c in df_temp.index], :]
+                if order_columns is not None:
+                    new_order = [c for c in order_columns if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_columns]
+                    df_temp = df_temp.loc[:,new_order]
 
             df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=dict_colors if dict_colors is not None else None)
 

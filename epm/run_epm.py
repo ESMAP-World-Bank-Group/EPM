@@ -266,13 +266,13 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                   scenarios_specification='input/scenarios_specification.csv',
-                                   selected_scenarios=['HighThermalFlex', 'SolarPessimistic'],
-                                   cpu=1,
-                                   path_engine_file=None)
+        # launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+        #                            scenarios_specification='input/scenarios_specification.csv',
+        #                            selected_scenarios=None,
+        #                            cpu=1,
+        #                            path_engine_file=None)
 
-        path_gams_daily = {
+        path_gams_storage = {
             'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
             'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
             'path_report_file': 'WB_EPM_v8_5_Report.gms',
@@ -282,8 +282,8 @@ if __name__ == '__main__':
 
         launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
                                    scenarios_specification='input/scenarios_hydrostorage_specification.csv',
-                                   selected_scenarios=None,
-                                   cpu=1, path_gams=path_gams_daily,
+                                   selected_scenarios=['HydroStorage_NoSP2'],
+                                   cpu=1, path_gams=path_gams_storage,
                                    path_engine_file=None)
 
         # get_job_engine('output/simulations_run_20241128_155523/tokens_simulation.csv')
