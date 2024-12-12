@@ -722,6 +722,7 @@ st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"STORAGE");
 dc(g)  = sum(y, sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y)));
 ndc(g) = not dc(g);
 ror(g) = gtechmap(g,"ROR");
+VRE_noROR(g) = vre(g) and not ror(g);
 
 RampRate(g) = pGenData(g,"RampDnRate");
 
