@@ -8,7 +8,6 @@
 /epm/postprocessing/*.xlsx
 /epm/postprocessing/EPM_Results
 /epm/postprocessing/Results
-/epm/postprocessing/postprocessing_liberia.py
 
 # Ignore everything in the input directory
 input/*
