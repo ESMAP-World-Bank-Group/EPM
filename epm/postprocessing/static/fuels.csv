@@ -15,6 +15,10 @@ HydroRoR,Hydro RoR
 HydroStor,Hydro Storage
 BESS4hr,Battery Storage 4h
 BESS8hr,Battery Storage 8h
+BESS2hr,Battery Storage 2h
+BESS3hr,Battery Storage 3h
 BESS_4h,Battery Storage 4h
 BESS_8h,Battery Storage 8h
+BESS_2h,Battery Storage 2h
+BESS_3h,Battery Storage 3h
 Import,Import

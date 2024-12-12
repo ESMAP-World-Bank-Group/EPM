@@ -41,6 +41,8 @@ Sets
    vre(g)      'variable renewable generators'
    re(g)       'renewable generators'
    RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
+   
+
 
    sth(g)
    VRE_noROR(g) 'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
@@ -61,7 +63,7 @@ Sets
 * Time
 Sets
    ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW, MaxTotalBuild,
-                                        MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize /
+                                        MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize, fuel1 /
    shdr         'Header for pStorData' / Capacity, Capex, FixedOM, Efficiency /
    csphrd       'Header for pCSPData' / Storage, "Thermal Field" /
    thdr         'Header for pNewTransmission' / CapacityPerLine, CostPerLine, Life, MaximumNumOfLines /
@@ -460,6 +462,8 @@ eMaxH2PwrInjection(hh,q,d,t,y)
 ****************************************************
 eStorageCap3(g,q,d,t,y)
 eStorageCap4(g,q,d,t,y)
+eStorageCap5(g,q,d,t,y)
+eStorageCap6(g,q,d,t,y)
 
 
 *******************************************
@@ -743,12 +747,28 @@ eStorageCap2(st,q,d,t,y)$pincludeStorage..
 
 
 
+*
+*eStorageCap3(st,q,d,t,y)$(pincludeStorage and pGenData(st,'CAPEX')>1.1)..
+*   vCapStor(st,y) =e= 8*vCap(st,y);
+*
+*eStorageCap4(st,q,d,t,y)$(pincludeStorage and pGenData(st,'CAPEX')<1.1)..
+*   vCapStor(st,y) =e= 4*vCap(st,y);
+*   
 
-eStorageCap3(st,q,d,t,y)$(pincludeStorage and pGenData(st,'CAPEX')>1.1)..
-   vCapStor(st,y) =e= 8*vCap(st,y);
+   
 
-eStorageCap4(st,q,d,t,y)$(pincludeStorage and pGenData(st,'CAPEX')<1.1)..
+eStorageCap3(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=9)..
    vCapStor(st,y) =e= 4*vCap(st,y);
+   
+eStorageCap4(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=10)..
+   vCapStor(st,y) =e= 8*vCap(st,y);
+   
+eStorageCap5(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=11)..
+   vCapStor(st,y) =e= 2*vCap(st,y);
+   
+eStorageCap6(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=12)..
+   vCapStor(st,y) =e= 3*vCap(st,y);
+*   
 
 
 eStorageInjection(st,q,d,t,y)$pincludeStorage..
@@ -1130,6 +1150,8 @@ Model PA /
 *************** Model Liberia**********************
 eStorageCap3
 eStorageCap4
+eStorageCap5
+eStorageCap6
   eStorBal2
  eStorBal3
 

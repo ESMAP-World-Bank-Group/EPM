@@ -726,6 +726,7 @@ sth(g) = gtechmap(g,"Sto Hy");
 VRE_noROR(g) = vre(g) and not ror(g);
 
 
+
 RampRate(g) = pGenData(g,"RampDnRate");
 
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);

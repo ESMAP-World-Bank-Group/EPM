@@ -60,7 +60,7 @@ Sets
 * Time
 Sets
    ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW, MaxTotalBuild,
-                                        MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize /
+                                        MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize, fuel1 /
    shdr         'Header for pStorData' / Capacity, Capex, FixedOM, Efficiency /
    csphrd       'Header for pCSPData' / Storage, "Thermal Field" /
    thdr         'Header for pNewTransmission' / CapacityPerLine, CostPerLine, Life, MaximumNumOfLines /
@@ -345,8 +345,8 @@ Equations
 
    eMaxCF(g,q,y)                   'max capacity factor'
 *   eMaxCFReserve(g,q,y,d,t)        'Constraining production and reserve based on max capacity factor over a time period'
-   eMaxCFDaily(g,q,d,y)            'max capacity factor daily for hydrostorage'
-   eMaxCFDailyReserveOperation(g,q,y,d,t)  'New constraint for reserve operation for hydro with daily storage'
+   eMaxCFDaily(z,g,q,d,y)            'max capacity factor daily for hydrostorage'
+   eMaxCFDailyReserveOperation(z,g,q,y,d,t)  'New constraint for reserve operation for hydro with daily storage'
    eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
 
    eFuel(z,f,y)                    'fuel balance'
@@ -462,6 +462,8 @@ eMaxH2PwrInjection(hh,q,d,t,y)
 ****************************************************
 eStorageCap3(g,q,d,t,y)
 eStorageCap4(g,q,d,t,y)
+eStorageCap5(g,q,d,t,y)
+eStorageCap6(g,q,d,t,y)
 
 
 *******************************************
@@ -636,14 +638,14 @@ eMaxCF(g,q,y)..
 *eMaxCFReserve(g,q,y,d,t)..
 *    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1), pHours(q,d1,y,t1));
 
-eMaxCFDaily(sth,q,d,y)..
-   sum((gfmap(sth,f),t), vPwrOut(sth,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t, pHours(q,d,y,t));
+eMaxCFDaily(z,sth,q,d,y)..
+   sum((gfmap(sth,f),t), vPwrOut(sth,f,q,d,t,y)*pHours(q,d,y,t)) + sum(t, vCurtailedVRE(z,sth,q,d,t,y)*pHours(q,d,y,t)) =e= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t, pHours(q,d,y,t));
    
 * Equation to control the operation of daily hydro storage: we cannot allocate reserve that is not available, depending on how the plant
 * has been operated during the previous hours. Only relevant for t > 1
 alias(t, t1);
-eMaxCFDailyReserveOperation(sth,q,y,d,t)$(not sFirstHour(t))..
-   sum(gfmap(sth,f),vPwrOut(sth,f,q,d,t,y)) + vReserve(sth,q,d,t,y) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t1,pHours(q,d,y,t1))
+eMaxCFDailyReserveOperation(z,sth,q,y,d,t)$(not sFirstHour(t))..
+   sum(gfmap(sth,f),vPwrOut(sth,f,q,d,t,y)) + vReserve(sth,q,d,t,y) + vCurtailedVRE(z,sth,q,d,t,y) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t1,pHours(q,d,y,t1))
                                                                 - sum((gfmap(sth,f),t1)$(ord(t1) < ord(t)),vPwrOut(sth,f,q,d,t1,y));
 
 
@@ -756,11 +758,17 @@ eStorageCap2(st,q,d,t,y)$pincludeStorage..
 
 
 
-eStorageCap3(st,q,d,t,y)$(pincludeStorage and pGenData(st,'CAPEX')>1.1)..
-   vCapStor(st,y) =e= 8*vCap(st,y);
-
-eStorageCap4(st,q,d,t,y)$(pincludeStorage and pGenData(st,'CAPEX')<1.1)..
+eStorageCap3(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=9)..
    vCapStor(st,y) =e= 4*vCap(st,y);
+   
+eStorageCap4(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=10)..
+   vCapStor(st,y) =e= 8*vCap(st,y);
+   
+eStorageCap5(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=11)..
+   vCapStor(st,y) =e= 2*vCap(st,y);
+   
+eStorageCap6(st,q,d,t,y)$(pincludeStorage and pGenData(st,'fuel1')=12)..
+   vCapStor(st,y) =e= 3*vCap(st,y);
 
 
 eStorageInjection(st,q,d,t,y)$pincludeStorage..
@@ -1147,6 +1155,8 @@ Model PA /
 *************** Model Liberia**********************
 eStorageCap3
 eStorageCap4
+eStorageCap5
+eStorageCap6
   eStorBal2
  eStorBal3
 

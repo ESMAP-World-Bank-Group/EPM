@@ -852,6 +852,7 @@ Parameters
 pPlantDispatch2(z,q,d,t,y,g)               'Detailed dispatch by plant in MW'
 pPlantReserve(z,q,d,t,y,g)
 pCurtailedVRET(q,d,t,y)
+pCurtailedStoHY(q,d,t,y)
 
 pDemandTotalP(q,d,t,y)
 
@@ -868,6 +869,7 @@ pPlantReserve(z,q,d,t,y,g)$(zgmap(z,g) and pDemandData(z,q,d,y,t)) =  vReserve.l
 
 
 pCurtailedVRET(q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))                       =sum(gzmap(VRE,z),vCurtailedVRE.l(z,VRE,q,d,t,y)*pHours(q,d,y,t))+1e-6;
+pCurtailedStoHY(q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))                       =sum(gzmap(sth,z),vCurtailedVRE.l(z,sth,q,d,t,y)*pHours(q,d,y,t))+1e-6;
 
 
 pDemandTotalP(q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t)))                        =sum(z,pDemandData(z,q,d,y,t))+1e-6;
@@ -947,7 +949,7 @@ execute_unload 'epmresults',     pScalars, pSummary, pSystemAverageCost, pZonalA
                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
 *******************************************************************************************************************************************
 ***************************************************Ghana model********************************************************
-pUnmetP, pFuelDispatch,  pDemandTotalP, pCurtailedVRET, pPlantDispatch2, pPlantReserve,
+pUnmetP, pFuelDispatch,  pDemandTotalP, pCurtailedVRET, pCurtailedStoHY, pPlantDispatch2, pPlantReserve,
    pStorInj     ,pStorOut,  pStorInjE     ,pStorOutE    ,pStorLevel, pGenHySto,pGenRoR, pExportsE, pImportsE
 ;
 
