@@ -10,6 +10,8 @@
 /epm/postprocessing/Results
 /epm/postprocessing/main_postprocessing.py
 
+/epm/input/data_guinea.xlsx
+
 epm/output/*
 
 # Ignore everything in the input directory
