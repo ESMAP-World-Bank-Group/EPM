@@ -40,7 +40,9 @@ Sets
    ndc(g)      'candidate generators without capec trajectory'
    vre(g)      'variable renewable generators'
    re(g)       'renewable generators'
-   RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster  
+   RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
+   VRE_noROR(g) 'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
+    
 ************** H2 model specific sets ***************************
    eh(hh)           'existing hydrogen generation plants'
    nh(hh)           'new hydrogen generation plants'
@@ -348,6 +350,7 @@ Equations
    eRampDnLimit(g,q,d,t,y)         'Ramp down limit'
 
    eSpinningReserveLim(g,q,d,t,y)              'Reserve limit as a share of capacity'
+   eSpinningReserveLimVRE(g,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
    eJointResCap(g,q,d,t,y)                     'Joint reserve and generation limit'
    eSpinningReserveReqCountry(c,q,d,t,y)          'Country spinning reserve requirement'
    eSpinningReserveReqSystem(q,d,t,y)          'System spinning reserve requirement'
@@ -637,6 +640,9 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
 *--- Reserve equations
 eSpinningReserveLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
+   
+eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+    vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,f,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
@@ -648,11 +654,11 @@ eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
  + sum((zcmap(z,c),sMapNCZ(z2,z)), pTransferLimit(z2,z,q,y)
                                 + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
                                 - vFlow(z2,z,q,d,t,y))
-   =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE,z),gfmap(VRE,f)), vPwrOut(VRE,f,q,d,t,y))*pVREForecastError;
+   =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
    
 
 eSpinningReserveReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
-   sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE,f), vPwrOut(VRE,f,q,d,t,y))*pVREForecastError;
+   sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
 
 
 ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningReserveMargin(c))..
@@ -743,7 +749,7 @@ eStorBal1(st,q,d,sFirstHour(t),y)$pincludeStorage..
 
 
 eStorageOutput(st,q,d,t,y)$pincludeStorage..
-   sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
+   vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
 *--- CSP-specific equations
 eStorageCSPCap(cs,q,d,t,y)$pincludeCSP..
@@ -977,6 +983,7 @@ Model PA /
    eRampUpLimit
    eRampDnLimit
    eSpinningReserveLim
+   eSpinningReserveLimVRE
 *  eResLim_CSP
    eJointResCap
    eSpinningReserveReqCountry
