@@ -614,6 +614,11 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fetch-the-changes-from-the-other-branch">
+     Fetch the changes from the other branch:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#merge-the-changes-from-the-other-branch">
      Merge the changes from the other branch:
     </a>
@@ -682,9 +687,18 @@ title="Print to PDF"
 <p>First, make sure you’re on the branch that needs to receive the changes:
 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">my-branch</span></code></p>
 </section>
+<section id="fetch-the-changes-from-the-other-branch">
+<h3>Fetch the changes from the other branch:<a class="headerlink" href="#fetch-the-changes-from-the-other-branch" title="Permalink to this heading">#</a></h3>
+<p>Second,  <em>Get the latest changes from the remote repository, but don’t apply them to my current branch yet, what is called Fetch.</em></p>
+<p>Fetch the specific branch: <code class="docutils literal notranslate"> <span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin</span> <span class="pre">main</span></code></p>
+<p>This command:</p>
+<ul class="simple">
+<li><p>downloads commits, files, and references from the remote repository.</p></li>
+<li><p>it updates your local copy of the remote branch but does not merge or modify your working branch.</p></li>
+</ul>
+</section>
 <section id="merge-the-changes-from-the-other-branch">
 <h3>Merge the changes from the other branch:<a class="headerlink" href="#merge-the-changes-from-the-other-branch" title="Permalink to this heading">#</a></h3>
-<p>Fetch the specific branch: <code class="docutils literal notranslate"> <span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin</span> <span class="pre">main</span></code></p>
 <p>Then, merge the changes from the branch you want to pull from.
 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">origin/main</span></code></p>
 <p>This may create some conflicts if you have changed your current branch. Resolve those conflicts to only include features you are interested in from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.</p>
@@ -801,6 +815,11 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#switch-to-your-target-branch">
      Switch to your target branch:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fetch-the-changes-from-the-other-branch">
+     Fetch the changes from the other branch:
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
