@@ -19,9 +19,17 @@ I want to update `my-branch` with new interesting features developed in the `mai
 First, make sure you're on the branch that needs to receive the changes:
 ```git checkout my-branch```
 
-### Merge the changes from the other branch:
+### Fetch the changes from the other branch:
+
+Second,  _Get the latest changes from the remote repository, but don’t apply them to my current branch yet, what is called Fetch._ 
 
 Fetch the specific branch: ``` git fetch origin main```
+
+This command:
+- downloads commits, files, and references from the remote repository.
+- it updates your local copy of the remote branch but does not merge or modify your working branch.
+
+### Merge the changes from the other branch:
 
 Then, merge the changes from the branch you want to pull from.
 ```git merge origin/main```
