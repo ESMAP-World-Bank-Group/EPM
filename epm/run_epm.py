@@ -15,7 +15,7 @@ from gams.engine.api import jobs_api
 
 PATH_GAMS = {
     'path_main_file': 'WB_EPM_v8_5_main_country.gms',
-    'path_base_file': 'WB_EPM_v8_5_base_country.gms',
+    'path_base_file': 'WB_EPM_v8_5_base_country_SLP.gms',
     'path_report_file': 'WB_EPM_v8_5_Report_country.gms',
     'path_reader_file': 'WB_EPM_input_readers.gms',
     'path_cplex_file': 'cplex.opt'
@@ -233,7 +233,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
-    return result
+    return folder, result
 
 
 def get_job_engine(tokens_simulation):
@@ -258,8 +258,10 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                   scenarios_specification='input/scenarios_specification.csv',
-                                   selected_scenarios=['DemandS3'],
-                                   cpu=1,
-                                   path_engine_file=None)
+        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+                                                    scenarios_specification='input/scenarios_specification.csv',
+                                                    selected_scenarios=['HydroStochasticStress','HydroStochasticStressHigh'],
+                                                    cpu=1,
+                                                    path_engine_file=None)
+        # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
+
