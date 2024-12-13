@@ -232,6 +232,23 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     return epm_input
 
 
+def remove_unused_tech(epm_dict, list_keys):
+    """
+    Remove rows that correspond to technologies that are never used across the whole time horizon
+    :param epm_dict: dict
+        Containing all the outputs of interest
+    :param list_keys: list
+        List containing the dataframes we want to process
+    :return:
+    """
+    for key in list_keys:
+        epm_dict[key] = epm_dict[key].where((epm_dict[key]['value'] > 2e-6) | (epm_dict[key]['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
+        epm_dict[key] = epm_dict[key].dropna(subset=['value'])
+
+    return epm_dict
+
+
+
 def process_epm_results(epm_results, dict_specs, scenarios_rename=None):
     """Processing EPM results to use in plots."""
 
@@ -257,9 +274,10 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None):
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
     list_keys = ['pReserveByPlant', 'pPlantReserve', 'pCapacityPlan']
+    list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
-    generation_mapping = read_input_data(input=input)
+    #generation_mapping = read_input_data(input=input)
 
     # Convert columns to the right type
     for k, i in epm_dict.items():
@@ -290,9 +308,9 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None):
 
     # epm_dict['pPlantDispatch'].replace(generation_mapping, inplace=True)  # map generator to fuel
 
-    epm_dict['pReserveByPlant'].replace(generation_mapping, inplace=True)  # map generator to fuel
-    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
-    standardize_names('pReserveByPlant', dict_specs['fuel_mapping'])
+    #epm_dict['pReserveByPlant'].replace(generation_mapping, inplace=True)  # map generator to fuel
+    #epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
+    #standardize_names('pReserveByPlant', dict_specs['fuel_mapping'])
 
     return epm_dict
 
@@ -668,157 +686,6 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     plt.close(fig)
 
 
-def stacked_bar_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
-                      df_2=None, title='', x_label='Years', y_label='',
-                      legend_title='', y2_label='', figsize=(10, 6)):
-    """
-    Generate a stacked area chart with a secondary y-axis.
-
-    Parameters:
-        df (pd.DataFrame): DataFrame containing the data
-        filename (str): Path to save the plot
-        dict_colors (dict): Dictionary mapping fuel types to colors, optional
-        x_column (str): Column for x-axis, default is 'year'
-        y_column (str): Column for y-axis, default is 'value'
-        stack_column (str): Column for stacking, default is 'fuel'
-        legend_title (str): Title for the legend
-        df_2 (pd.DataFrame): DataFrame containing data for the secondary y-axis, optional
-        title (str): Title of the plot
-        x_label (str): Label for the x-axis
-        y_label (str): Label for the primary y-axis
-        y2_label (str): Label for the secondary y-axis
-        figsize (tuple): Size of the figure
-    """
-    fig, ax1 = plt.subplots(figsize=figsize)
-
-    # Plot stacked area for generation
-    temp = df.groupby([x_column, stack_column])[y_column].sum().unstack(stack_column)
-    temp.plot.bar(ax=ax1, stacked=True, alpha=0.8, color=dict_colors)
-    ax1.set_xlabel(x_label)
-    ax1.set_ylabel(y_label)
-    ax1.set_title(title)
-    format_ax(ax1)
-
-    # Secondary y-axis
-    if df_2 is not None:
-        # Remove legend ax1
-        ax1.get_legend().remove()
-
-        temp = df_2.groupby([x_column])[y_column].sum()
-        ax2 = ax1.twinx()
-        line, = ax2.plot(temp.index, temp, color='brown', label=y2_label)
-        ax2.set_ylabel(y2_label, color='brown')
-        format_ax(ax2, linewidth=False)
-
-        # Combine legends for ax1 and ax2
-        handles_ax1, labels_ax1 = ax1.get_legend_handles_labels()  # Collect from ax1
-        handles_ax2, labels_ax2 = [line], [y2_label]  # Collect from ax2
-        handles = handles_ax1 + handles_ax2  # Combine handles
-        labels = labels_ax1 + labels_ax2  # Combine labels
-        fig.legend(
-            handles,
-            labels,
-            loc='center left',
-            bbox_to_anchor=(1.1, 0.5),  # Right side, centered vertically
-            frameon=False,
-        )
-    else:
-        ax1.legend(
-            loc='center left',
-            bbox_to_anchor=(1.1, 0.5),  # Right side, centered vertically
-            title=legend_title,
-            frameon=False,
-        )
-    if filename:
-        plt.savefig(filename, bbox_inches='tight')
-        plt.close()
-    else:
-        plt.tight_layout()
-        plt.show()
-    plt.close(fig)
-
-
-def cluster_stackedbar_plot(df, group_column, colors=None, rotation=0, year_ini=None, order_scenarios=None,
-                            filename=None, fonttick=14, ymin=0, legend=True, figtitle=None, ymax=None,
-                            display_total=False, figsize=(12.8, 9.6)):
-    # TODO: Adapt to EPM output
-    # TODO: Add ymax and ymin
-
-    list_keys = list(df.columns)
-    if ymax is None:
-        temp = df.copy()
-        temp[temp < 0] = 0
-        ymax = temp.groupby([i for i in temp.index.names if i != group_column]).sum().max().max() * 1.1
-
-    n_columns = int(len(list_keys))
-    n_scenario = df.index.get_level_values([i for i in df.index.names if i != group_column][0]).unique()
-    n_rows = 1
-    if year_ini is not None:
-        width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
-    else:
-        width_ratios = [1] * n_columns
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
-                             gridspec_kw={'width_ratios': width_ratios})
-    handles, labels = None, None
-    for k in range(n_rows * n_columns):
-
-        column = k % n_columns
-        ax = axes[column]
-
-        try:
-            key = list_keys[k]
-            df_temp = df[key].unstack(group_column)
-
-            if key == year_ini:
-                df_temp = df_temp.iloc[0, :]
-                df_temp = df_temp.to_frame().T
-                df_temp.index = ['Initial']
-            else:
-                if order_scenarios is not None:
-                    df_temp = df_temp.loc[order_scenarios, :]
-
-            df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=colors if colors is not None else None)
-
-            if display_total:
-                for i, (index, row) in enumerate(df_temp.iterrows()):
-                    total = row.sum()
-                    # Format the number as an integer without decimals
-                    ax.annotate(f'{int(total)}€', (i, total), ha='center', va='bottom', fontsize=fonttick)
-                    ax.plot(i, total, marker='d', color='black', markersize=5)
-
-            ax.spines['left'].set_visible(False)
-            ax.set_xlabel('')
-
-            plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
-            # put tick label in bold
-            ax.tick_params(axis='both', which='major', labelsize=fonttick)
-
-            title = key
-            if isinstance(key, tuple):
-                title = '{}-{}'.format(key[0], key[1])
-            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
-
-            if k == 0:
-                handles, labels = ax.get_legend_handles_labels()
-                labels = [l.replace('_', ' ') for l in labels]
-            ax.get_legend().remove()
-
-        except IndexError:
-            ax.axis('off')
-
-    if figtitle is not None:
-        fig.suptitle(figtitle, x=0.5, y=1.05, weight='bold', color='black', size=20)
-
-    if legend:
-        fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
-                   bbox_to_anchor=(1, 0.5))
-
-    if filename is not None:
-        fig.savefig(filename, bbox_inches='tight')
-    else:
-        plt.show()
-
-
 def dispatch_plot(df_area, filename, dict_colors=None, df_line=None, figsize=(10, 6)):
     """
 
@@ -962,19 +829,6 @@ def clean_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=None
         df = clean_dataframe(df, zone='Liberia', year=2025, scenario='Baseline', column_stacked='fuel', fuel_grouping=None, select_time=select_time)
     """
     if 'zone' in df.columns:
-
-def make_dispatch_complete_plot(dfs_area, dfs_line, graph_folder, dict_colors, zone, year, scenario,
-                                fuel_grouping=None, select_time=None):
-
-    # TODO: Simplify code
-    # TODO: Add ax2 to show other data. For example prices would be interesting to show in the same plot.
-
-    temp = 'all'
-
-    tmp_concat_area = []
-    for key in dfs_area:
-        df = dfs_area[key]
-        column_stacked = NAME_COLUMNS[key]
         df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
         df = df.drop(columns=['zone', 'year', 'scenario'])
     else:
@@ -1087,78 +941,6 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, folder, dict_colors, zo
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors)
 
 
-def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                              select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
-                              format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2):
-    """
-    Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
-    Args:
-        df (pd.DataFrame): Dataframe with results
-        filename (path): Path to save the figure
-        dict_colors (dict): Dictionary with color arguments
-        zone (str): Zone to select
-        column_xaxis (str): Column for choosing the subplots
-        column_stacked (str): Column name for choosing the column to stack values
-        column_multiple_bars (str): Column for choosing the type of bars inside a given subplot.
-        select_xaxis (str) Select a subset of subplots (for eg, a number of years)
-        dict_grouping (dict) Dictionary for grouping variables and summing over a given group
-        order_scenarios:
-        dict_scenarios:
-        format_y: Formatting y axis
-        order_stacked (list): Reordering the variables that will be stacked
-        cap (int): Under this cap, no annotation will be displayed
-
-    Example:
-        Stacked bar subplots for capacity (by fuel) evolution
-        filename = Path(RESULTS_FOLDER) / Path('images') / Path('CapacityEvolution.png')
-        fuel_grouping = {
-            'Battery Storage 4h': 'Battery',
-            'Battery Storage 8h': 'Battery',
-            'Hydro RoR': 'Hydro',
-            'Hydro Storage': 'Hydro'
-        }
-        scenario_names = {
-            'baseline': 'Baseline',
-            'HydroHigh': 'High Hydro',
-            'DemandHigh': 'High Demand',
-            'LowImport_LowThermal': 'LowImport_LowThermal'
-        }
-        make_stacked_bar_subplots(epm_dict['pCapacityByFuel'], filename, dict_specs['colors'], zone='Liberia',
-                   select_stacked=[2025, 2028, 2030], fuel_grouping=fuel_grouping, dict_scenarios=scenario_names,
-                   order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
-                   format_y=lambda y, _: '{:.0f} MW'.format(y)
-                   )
-
-        Stacked bar subplots for reserve evolution
-        filename = Path(RESULTS_FOLDER) / Path('images') / Path('ReserveEvolution.png')
-        make_stacked_bar_subplots(epm_dict['pReserveByPlant'], filename, dict_colors=dict_specs['colors'], zone='Liberia',
-                                  column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                                  select_xaxis=[2025, 2028, 2030], dict_grouping=dict_grouping, dict_scenarios=scenario_names,
-                                  order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
-                                  format_y=lambda y, _: '{:.0f} GWh'.format(y),
-                                  order_stacked=['Hydro', 'Oil'], cap=2
-                                   )
-    """
-    df = df[(df['zone'] == zone)]
-    df = df.drop(columns=['zone'])
-
-    if dict_grouping is not None:
-        for key, grouping in dict_grouping.items():
-            assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
-            df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
-
-    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False).sum().reset_index())
-
-    df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
-
-    if select_xaxis is not None:
-        df = df[select_xaxis]
-
-    stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
-                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                        order_columns=order_stacked, cap=cap)
-
-
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(10, 6), year_ini=None,
                         order_scenarios=None, order_columns=None,       dict_scenarios=None, rotation=0, fonttick=14, legend=True,
                         format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6, annotate=True):
@@ -1250,11 +1032,84 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
                        bbox_to_anchor=(1, 0.5))
 
         if filename is not None:
-            fig.savefig(filename, bbox_inches='tight')
-            plt.close()
+            plt.savefig(filename, bbox_inches='tight')
         else:
             plt.show()
     plt.close(fig)
+
+
+def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
+                              column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
+                              format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2):
+    """
+    Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
+    Args:
+        df (pd.DataFrame): Dataframe with results
+        filename (path): Path to save the figure
+        dict_colors (dict): Dictionary with color arguments
+        zone (str): Zone to select
+        column_xaxis (str): Column for choosing the subplots
+        column_stacked (str): Column name for choosing the column to stack values
+        column_multiple_bars (str): Column for choosing the type of bars inside a given subplot.
+        select_xaxis (str) Select a subset of subplots (for eg, a number of years)
+        dict_grouping (dict) Dictionary for grouping variables and summing over a given group
+        order_scenarios:
+        dict_scenarios:
+        format_y: Formatting y axis
+        order_stacked (list): Reordering the variables that will be stacked
+        cap (int): Under this cap, no annotation will be displayed
+
+    Example:
+        Stacked bar subplots for capacity (by fuel) evolution
+        filename = Path(RESULTS_FOLDER) / Path('images') / Path('CapacityEvolution.png')
+        fuel_grouping = {
+            'Battery Storage 4h': 'Battery',
+            'Battery Storage 8h': 'Battery',
+            'Hydro RoR': 'Hydro',
+            'Hydro Storage': 'Hydro'
+        }
+        scenario_names = {
+            'baseline': 'Baseline',
+            'HydroHigh': 'High Hydro',
+            'DemandHigh': 'High Demand',
+            'LowImport_LowThermal': 'LowImport_LowThermal'
+        }
+        make_stacked_bar_subplots(epm_dict['pCapacityByFuel'], filename, dict_specs['colors'], zone='Liberia',
+                   select_stacked=[2025, 2028, 2030], fuel_grouping=fuel_grouping, dict_scenarios=scenario_names,
+                   order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
+                   format_y=lambda y, _: '{:.0f} MW'.format(y)
+                   )
+
+        Stacked bar subplots for reserve evolution
+        filename = Path(RESULTS_FOLDER) / Path('images') / Path('ReserveEvolution.png')
+        make_stacked_bar_subplots(epm_dict['pReserveByPlant'], filename, dict_colors=dict_specs['colors'], zone='Liberia',
+                                  column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
+                                  select_xaxis=[2025, 2028, 2030], dict_grouping=dict_grouping, dict_scenarios=scenario_names,
+                                  order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
+                                  format_y=lambda y, _: '{:.0f} GWh'.format(y),
+                                  order_stacked=['Hydro', 'Oil'], cap=2
+                                   )
+    """
+    if selected_zone is not None:
+        df = df[(df['zone'] == selected_zone)]
+        df = df.drop(columns=['zone'])
+
+    if dict_grouping is not None:
+        for key, grouping in dict_grouping.items():
+            assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
+            df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
+
+    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+
+    df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+
+    if select_xaxis is not None:
+        df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
+
+    stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
+                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                        order_columns=order_stacked, cap=cap)
+
 
 
 
