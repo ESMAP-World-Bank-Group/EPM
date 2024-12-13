@@ -585,6 +585,23 @@ title="Print to PDF"
    Running the Model from Excel
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-code-with-excel-input-file">
+   Running code with excel input file
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-python">
+     From python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-gams">
+     From GAMS
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -635,6 +652,31 @@ title="Print to PDF"
 </li>
 </ol>
 <p>The model will run, and the output file will open automatically with the name specified under <strong>Scenario Name</strong> in the <strong>Home</strong> tab.</p>
+</section>
+<hr class="docutils" />
+<section id="running-code-with-excel-input-file">
+<h2>Running code with excel input file<a class="headerlink" href="#running-code-with-excel-input-file" title="Permalink to this heading">#</a></h2>
+<section id="from-python">
+<h3>From python<a class="headerlink" href="#from-python" title="Permalink to this heading">#</a></h3>
+<p>When running the code from python, the function <code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios_excel</span></code> may be used. Here is an example of working code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="n">PATH_GAMS</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;path_main_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_main.gms&#39;</span><span class="p">,</span>  
+            <span class="s1">&#39;path_base_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_base.gms&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;path_report_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_Report.gms&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;path_reader_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_input_readers.gms&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;path_excel_file&#39;</span><span class="p">:</span> <span class="s1">&#39;input/WB_EPM_8_5.xlsx&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;path_cplex_file&#39;</span><span class="p">:</span> <span class="s1">&#39;cplex.opt&#39;</span>
+        <span class="p">}</span>
+        <span class="n">launch_epm_multi_scenarios_excel</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="from-gams">
+<h3>From GAMS<a class="headerlink" href="#from-gams" title="Permalink to this heading">#</a></h3>
+<p>When running the code from GAMS Studio, the <code class="docutils literal notranslate"><span class="pre">main.gams</span></code> file must be called with the following arguments:
+<code class="docutils literal notranslate"><span class="pre">--READER</span> <span class="pre">CONNECT_EXCEL</span> <span class="pre">--BASE_FILE</span> <span class="pre">WB_EPM_v8_5_base.gms</span> <span class="pre">--XLS_INPUT</span> <span class="pre">input/WB_EPM_8_5.xlsx</span> <span class="pre">--REPORT_FILE</span> <span class="pre">WB_EPM_v8_5_Report.gms</span> <span class="pre">--READER_FILE</span> <span class="pre">WB_EPM_input_readers.gms</span></code></p>
+<p>The input file name may be modified depending on your input file.</p>
+</section>
 </section>
 </section>
 
@@ -705,6 +747,23 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#running-the-model-from-excel">
    Running the Model from Excel
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-code-with-excel-input-file">
+   Running code with excel input file
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-python">
+     From python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-gams">
+     From GAMS
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
