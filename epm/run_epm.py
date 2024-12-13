@@ -356,7 +356,6 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-<<<<<<< HEAD
         folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
                                                     scenarios_specification='input/scenarios_specification.csv',
                                                     selected_scenarios=['HydroStochasticStress','HydroStochasticStressHigh'],
@@ -364,23 +363,3 @@ if __name__ == '__main__':
                                                     path_engine_file=None)
         # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
 
-=======
-
-        # Launch with csv
-        # launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-        #                            scenarios_specification='input/scenarios_specification.csv',
-        #                            selected_scenarios=['baseline'],
-        #                            cpu=1,
-        #                            path_engine_file=None)
-
-        # Launch with excel
-        PATH_GAMS = {
-            'path_main_file': 'WB_EPM_v8_5_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-            'path_base_file': 'WB_EPM_v8_5_base.gms',
-            'path_report_file': 'WB_EPM_v8_5_Report.gms',
-            'path_reader_file': 'WB_EPM_input_readers.gms',
-            'path_excel_file': 'input/WB_EPM_8_5.xlsx',
-            'path_cplex_file': 'cplex.opt'
-        }
-        launch_epm_multi_scenarios_excel()
->>>>>>> origin/main
