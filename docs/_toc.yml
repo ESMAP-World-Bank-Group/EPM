@@ -2,11 +2,15 @@ format: jb-book
 root: home
 
 parts:
-  - caption: Energy Planning Model
+  - caption: Introduction
     chapters:
       - file: docs/README
+  - caption: Run EPM
+    chapters:
+      - file: docs/installation
       - file: docs/run_epm
       - file: docs/run_engine_remote_server
+      - file: docs/run_python
       - file: docs/launch_multiple_simulation
   - caption: Model Description
     chapters:
@@ -14,3 +18,6 @@ parts:
         - file: docs/model_description
         - file: docs/model_notations
         - file: docs/model_formulation
+  - caption: Related Projects
+    chapters:
+        - file: docs/representative_days
