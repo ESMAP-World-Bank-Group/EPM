@@ -110,8 +110,8 @@ if True:
     #temp = temp.set_index([i for i in temp.columns if i != 'value'])
     filename = f'{GRAPHS_RESULTS}/CostSummary_{selected_scenario}.png'
     stacked_area_plot(temp, filename, None, x_column='year', y_column='value',
-                           stack_column='attribute', title='Total Cost (m$/year)',
-                           y_label='Total cost (m$/year)', figsize=(10, 6))
+                      stack_column='attribute', title='Total Cost (m$/year)',
+                      y_label='Total cost (m$/year)', figsize=(10, 6))
 
     # TODO: Make legend on the right side with on column.
 
