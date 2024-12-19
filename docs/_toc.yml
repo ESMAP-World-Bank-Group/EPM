@@ -12,6 +12,7 @@ parts:
       - file: docs/run_engine_remote_server
       - file: docs/run_python
       - file: docs/launch_multiple_simulation
+      - file: docs/git_process.md
   - caption: Model Description
     chapters:
         - file: docs/model_overview
