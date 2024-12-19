@@ -1,13 +1,16 @@
 
 # Engine Looping Tool
 
-Disclamer:
+__This code is not maintained anymore. We know suggest to refer to Run with EPM section to run multiple simulations, and
+to launch directly the simulations on the Engine.__
+
+---
+## Disclamer
 - Be careful when launching multiple simulations as it consume large amount of resources
 - Please do not use too much threads in the CPLEX option file if you don’t need to or you know others are running the models too 
 
-
+## Introduction
 The Engine Looping Tool facilitates running GAMS models efficiently by preparing, executing, and managing input/output files, including support for GAMS Engine. This manual provides step-by-step guidance for using the tool.
-
 
 Specifically, the tool allows users to:
 - Send simulation to the GAMS Engine: `use_engine` function.
@@ -15,8 +18,6 @@ Specifically, the tool allows users to:
   - Change emission constraint year by year.
   - Insert any GAMS command into the model (e.g., add emission constraint, or allowing export).
 
-
----
 ## Structure of the Looping Tool
 
 ### Files and Scripts
