@@ -268,7 +268,7 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False
 
 def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                                scenarios_specification='scenarios_specification.csv',
-                               selected_scenarios=None,
+                               selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
                                path_engine_file=False):
     """
@@ -301,12 +301,16 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
     scenario_baseline = pd.read_csv(scenario_baseline).set_index('paramNames').squeeze()
 
     # Read scenarios specification
-    scenarios = pd.read_csv(scenarios_specification).set_index('paramNames')
+    if scenarios_specification is not None:
+        scenarios = pd.read_csv(scenarios_specification).set_index('paramNames')
 
-    # Generate scenario pd.Series for alternative scenario
-    s = {k: scenario_baseline.copy() for k in scenarios}
-    for k in s.keys():
-        s[k].update(scenarios[k].dropna())
+        # Generate scenario pd.Series for alternative scenario
+        s = {k: scenario_baseline.copy() for k in scenarios}
+        for k in s.keys():
+            s[k].update(scenarios[k].dropna())
+    else:
+        s = {}
+
     # Add the baseline scenario
     s.update({'baseline': scenario_baseline})
 
