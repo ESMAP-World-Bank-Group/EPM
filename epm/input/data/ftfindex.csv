@@ -1,0 +1,17 @@
+﻿Type of fuel,Fuel Name,Index
+Coal,Coal,1
+Gas,Gas,2
+Hydro,Water,3
+Solar,PV,4
+Wind,Wind,5
+Import,Import,6
+HFO,HFO,7
+CustomFuel,Uranium,8
+Solar,CSP,9
+Battery,Battery,10
+Diesel,Diesel,11
+Gas,LNG,12
+Biomass,Biomas,13
+Wind,Offshore,14
+Solar,Rooftop,15
+Hydrogen,Hydrogen,16
