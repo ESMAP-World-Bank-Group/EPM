@@ -644,6 +644,7 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="step-by-step-guide">
 <h1>Step-by-step guide<a class="headerlink" href="#step-by-step-guide" title="Permalink to this heading">#</a></h1>
+<p><em>Last update: Dec 2024</em></p>
 <p>This guide will walk you through the recommended process of running the Electricity Planning Model (EPM).</p>
 <ol class="arabic simple">
 <li><p><strong>Clone the repository</strong>:</p>
@@ -659,19 +660,69 @@ title="Print to PDF"
 <ul>
 <li><p>To see the branch you are in, run the command: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code></p></li>
 <li><p>Create and change to the branch you want to work on: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">&lt;branch_name&gt;</span></code>. <code class="docutils literal notranslate"><span class="pre">branch-name</span></code> should be a descriptive name of the use case you are working on, e.g., <code class="docutils literal notranslate"><span class="pre">guinea</span></code>.</p></li>
-<li><p>You’ve created a new branch locally and now want to push it to the remote repository: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">&lt;branch-name&gt;</span></code></p></li>
+<li><p>You’ve created a new branch locally and now want to push it to the remote repository, to save your changes remotely: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">&lt;branch-name&gt;</span></code></p></li>
 </ul>
 </li>
 </ul>
 <ol class="arabic simple" start="3">
-<li><p><strong>Modify the input</strong>:</p></li>
+<li><p><strong>Modify the input files</strong>:</p></li>
 </ol>
-<ul class="simple">
+<ul>
 <li><p>Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for examples of the input files. We recommend using a folder with a list of <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files with the data. Modify individual files as needed.</p></li>
+<li><p>This step may cause a number of bugs, if you start from an existing EPM version relying on an excel version of the input files. Recommended process is to debug through GAMS Studio.</p>
+<ul>
+<li><p>Following recommendations from section <strong>How to run EPM</strong>, run <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_main.gms</span></code> with the following command line arguments: <code class="docutils literal notranslate"><span class="pre">--READER</span> <span class="pre">CONNECT_CSV</span></code>. This ensures that inputs are read from default csv files in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder (checkout <code class="docutils literal notranslate"><span class="pre">WB_EPM_input_readers.gms</span></code> to see what are the specified default csv file for each parameter). If some of your new csv files are not correctly specified, this will raise some bugs when running the gams file.</p>
+<ul>
+<li><p>To understand and correct the bugs, the recommended approach includes</p>
+<ol class="arabic simple">
+<li><p>Adding successively the corresponding reading lines for each csv file, to understand which file is causing the problems. For instance, simply using at first:</p></li>
+</ol>
+<div class="highlight-gams notranslate"><div class="highlight"><pre><span></span>$onEmbeddedCode Connect:
+  
+- CSVReader:
+    trace: 0
+    file: input/data/pAvailability.csv
+    name: pAvailability
+    indexColumns: [1]
+    header: [1,2]
+    type: par
+
+- GDXWriter:
+    file: %GDX_INPUT%.gdx
+    symbols: all
+$offEmbeddedCode
+</pre></div>
+</div>
+<p>and then, when this line works, add successively the other ones.</p>
+</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Comparing the gdx file obtained with this approach, with the one obtained using the input excel file. To obtain the second one, either use input gdx files from previous case studies, already available. Or run the code with <code class="docutils literal notranslate"><span class="pre">--READER</span> <span class="pre">CONNECT_EXCEL</span></code> to obtain the excel output.</p></li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>Once the code runs with <code class="docutils literal notranslate"><span class="pre">--READER</span> <span class="pre">CONNECT_CSV</span></code>, it is important to modify similarly the code section of <code class="docutils literal notranslate"><span class="pre">WB_EPM_input_readers.gms</span></code> which starts with <code class="docutils literal notranslate"><span class="pre">$elseIfI.READER</span> <span class="pre">%READER%</span> <span class="pre">==</span> <span class="pre">CONNECT_CSV_PYTHON</span></code>. This code section will be used when input files are read from a scenario file. You should use copy paste the same code as before, simply changing for each parameter how the file is specified. For example:</p>
+<div class="highlight-gams notranslate"><div class="highlight"><pre><span></span>- CSVReader:
+trace: 0
+file: %pAvailability%
+name: pAvailability
+indexColumns: [1]
+header: [1,2]
+type: par
+</pre></div>
+</div>
+</li>
 <li><p>Create the <code class="docutils literal notranslate"><span class="pre">scenario_baseline.csv</span></code> file that contains the baseline scenario. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for an example. The <code class="docutils literal notranslate"><span class="pre">scenario_baseline.csv</span></code> provides the path to all the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input data for the baseline scenario.</p></li>
 <li><p>Create the <code class="docutils literal notranslate"><span class="pre">scenarios_specification.csv</span></code> file that contains the specification of the scenarios. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for an example. By default, the model will run the baseline scenario. The <code class="docutils literal notranslate"><span class="pre">scenarios_specification.csv</span></code> provides the path to the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input data that are scenario-specific.</p></li>
 </ul>
 <ol class="arabic simple" start="4">
+<li><p><strong>Modify the code files</strong>:</p></li>
+</ol>
+<ul class="simple">
+<li><p>If there is an existing EPM version for the case study you are doing, erase the <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_base.gms</span></code> and <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_Report.gms</span></code> files, which are specific to the country or region version. Simply copy paste your available files to the <code class="docutils literal notranslate"><span class="pre">country</span></code> branch instead. Otherwise, disregard this step.</p></li>
+</ul>
+<ol class="arabic simple" start="5">
 <li><p><strong>Run the model</strong>:</p></li>
 </ol>
 <ul class="simple">

@@ -649,11 +649,6 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#creating-a-new-branch">
-   Creating a new branch
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#merge-changes-from-the-main-branch-to-my-branch-my-branch-main-my-branch">
    Merge changes from the
    <code class="docutils literal notranslate">
@@ -738,20 +733,6 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="git-procedure">
 <h1>Git procedure<a class="headerlink" href="#git-procedure" title="Permalink to this heading">#</a></h1>
 <p><em>Last update: Nov 2024</em></p>
-<section id="creating-a-new-branch">
-<h2>Creating a new branch<a class="headerlink" href="#creating-a-new-branch" title="Permalink to this heading">#</a></h2>
-<p>When running a new EPM version for a specific country or region, the recommended procedure is the following:</p>
-<ol class="arabic simple">
-<li><p>Create a new branch, with name matching the country or region. This new branch will match the latest version from the code available on the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.</p></li>
-<li><p>Erase the <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_base.gms</span></code> and <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_Report.gms</span></code> files, which are specific to the country or region version. Simply copy paste your available files to the <code class="docutils literal notranslate"><span class="pre">country</span></code> branch instead.</p></li>
-<li><p>Modify the <code class="docutils literal notranslate"><span class="pre">WB_EPM_input_readers.gms</span></code> file to match the specificities of the country version.</p>
-<ol class="arabic simple">
-<li><p>This may require some adaptation of input files. If using the CSV reader, need to break the available input excel files into corresponding csv files in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder.</p></li>
-<li><p>The modification of the <code class="docutils literal notranslate"><span class="pre">WB_EPM_input_readers.gms</span></code> file depends on whether you use the excel or the csv input files. If using the excel input files, the only part of the code that needs to be modified is when <code class="docutils literal notranslate"><span class="pre">READER</span> <span class="pre">=</span> <span class="pre">CONNECT_EXCEL</span></code>. If using the csv input files, two parts of the code need to be modified. First, when <code class="docutils literal notranslate"><span class="pre">READER</span> <span class="pre">=</span> <span class="pre">CONNECT_CSV</span></code>. Second, simply copy paste the changes you made to the section when <code class="docutils literal notranslate"><span class="pre">READER</span> <span class="pre">=</span> <span class="pre">CONNECT_CSV_PYTHON</span></code>. This will allow to use scenario specifications to launch simulations.</p></li>
-</ol>
-</li>
-</ol>
-</section>
 <section id="merge-changes-from-the-main-branch-to-my-branch-my-branch-main-my-branch">
 <h2>Merge changes from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch to my branch (<code class="docutils literal notranslate"><span class="pre">my-branch</span></code>): <code class="docutils literal notranslate"><span class="pre">main</span></code> –&gt; <code class="docutils literal notranslate"><span class="pre">my-branch</span></code><a class="headerlink" href="#merge-changes-from-the-main-branch-to-my-branch-my-branch-main-my-branch" title="Permalink to this heading">#</a></h2>
 <p>I want to update <code class="docutils literal notranslate"><span class="pre">my-branch</span></code> with new interesting features developed in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.</p>
@@ -852,11 +833,6 @@ title="Print to PDF"
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#creating-a-new-branch">
-   Creating a new branch
-  </a>
- </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#merge-changes-from-the-main-branch-to-my-branch-my-branch-main-my-branch">
    Merge changes from the
