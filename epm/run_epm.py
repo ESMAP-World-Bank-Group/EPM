@@ -9,6 +9,7 @@ from requests import post, get
 from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
+import json
 
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
@@ -21,12 +22,15 @@ PATH_GAMS = {
     'path_cplex_file': 'cplex.opt'
 }
 
+
 URL_ENGINE = "https://engine.gams.com/api"
 
 
+CREDENTIALS = json.load(open('credentials_engine.json', 'r'))
+
 def get_auth_engine():
-    user_name = "lucas"
-    password = "Jo@d$293o45Q"
+    user_name = CREDENTIALS['username']
+    password = CREDENTIALS['password']
     auth = HTTPBasicAuth(user_name, password)
     return auth
 
@@ -34,8 +38,8 @@ def get_auth_engine():
 def get_configuration():
     configuration = gams.engine.Configuration(
         host='https://engine.gams.com/api',
-        username='lucas',
-        password='Jo@d$293o45Q')
+        username=CREDENTIALS['username'],
+        password=CREDENTIALS['password'])
     return configuration
 
 
