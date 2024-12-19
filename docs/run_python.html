@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>ESMAP Energy Planning Group Library &#8212; Energy Planning Model</title>
+    <title>Run EPM with Python &#8212; Energy Planning Model</title>
   
   
   
@@ -16,53 +16,54 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'home';</script>
-    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/home.html" />
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation" href="docs/installation.html" />
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run_python';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run_python.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Engine Looping Tool" href="launch_multiple_simulation.html" />
+    <link rel="prev" title="Launch on the GAMS Engine remote server" href="run_engine_remote_server.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -87,7 +88,7 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
       
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
@@ -106,7 +107,7 @@ const thebe_selector_output = ".output, .cell_output"
   
 
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="../home.html">
 
   
   
@@ -117,8 +118,8 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
-    <img src="_static/esmap.png" class="logo__image only-light" alt="Logo image">
-    <img src="_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -137,35 +138,35 @@ const thebe_selector_output = ".output, .cell_output"
     <ul id="navbar-main-elements" class="navbar-nav">
         
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/installation.html">
+                      <a class="nav-link nav-internal" href="installation.html">
                         Installation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run_epm.html">
+                      <a class="nav-link nav-internal" href="run_epm.html">
                         How to Run EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run_engine_remote_server.html">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
                         Launch on the GAMS Engine remote server
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run_python.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         Run EPM with Python
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/launch_multiple_simulation.html">
+                      <a class="nav-link nav-internal" href="launch_multiple_simulation.html">
                         Engine Looping Tool
                       </a>
                     </li>
@@ -177,42 +178,42 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/git_process.html">
+                      <a class="nav-link nav-internal" href="git_process.html">
                         Git procedure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_overview.html">
+                      <a class="nav-link nav-internal" href="model_overview.html">
                         Mathematical formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_description.html">
+                      <a class="nav-link nav-internal" href="model_description.html">
                         Description of the model
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_notations.html">
+                      <a class="nav-link nav-internal" href="model_notations.html">
                         Notations
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_formulation.html">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
                         Model formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/representative_days.html">
+                      <a class="nav-link nav-internal" href="representative_days.html">
                         Representative Days Project
                       </a>
                     </li>
@@ -287,35 +288,35 @@ const thebe_selector_output = ".output, .cell_output"
     <ul id="navbar-main-elements" class="navbar-nav">
         
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/installation.html">
+                      <a class="nav-link nav-internal" href="installation.html">
                         Installation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run_epm.html">
+                      <a class="nav-link nav-internal" href="run_epm.html">
                         How to Run EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run_engine_remote_server.html">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
                         Launch on the GAMS Engine remote server
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run_python.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         Run EPM with Python
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/launch_multiple_simulation.html">
+                      <a class="nav-link nav-internal" href="launch_multiple_simulation.html">
                         Engine Looping Tool
                       </a>
                     </li>
@@ -327,42 +328,42 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/git_process.html">
+                      <a class="nav-link nav-internal" href="git_process.html">
                         Git procedure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_overview.html">
+                      <a class="nav-link nav-internal" href="model_overview.html">
                         Mathematical formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_description.html">
+                      <a class="nav-link nav-internal" href="model_description.html">
                         Description of the model
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_notations.html">
+                      <a class="nav-link nav-internal" href="model_notations.html">
                         Notations
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model_formulation.html">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
                         Model formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/representative_days.html">
+                      <a class="nav-link nav-internal" href="representative_days.html">
                         Representative Days Project
                       </a>
                     </li>
@@ -404,7 +405,7 @@ const thebe_selector_output = ".output, .cell_output"
   
 
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="../home.html">
 
   
   
@@ -415,14 +416,14 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
-    <img src="_static/esmap.png" class="logo__image only-light" alt="Logo image">
-    <img src="_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
     </div>
     <div class="sidebar-start-items__item">
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
@@ -431,25 +432,25 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run_epm.html">How to Run EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run_engine_remote_server.html">Launch on the GAMS Engine remote server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run_python.html">Run EPM with Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/launch_multiple_simulation.html">Engine Looping Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/git_process.html">Git procedure</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_epm.html">How to Run EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Launch on the GAMS Engine remote server</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Run EPM with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="launch_multiple_simulation.html">Engine Looping Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git_process.html">Git procedure</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/model_overview.html">Mathematical formulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/model_description.html">Description of the model</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_overview.html">Mathematical formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_description.html">Description of the model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_notations.html">Notations</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="docs/model_formulation.html">Model formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_formulation.html">Model formulation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related Projects</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/representative_days.html">Representative Days Project</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representative_days.html">Representative Days Project</a></li>
 </ul>
 
     </div>
@@ -525,7 +526,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fhome.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/run_python.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -540,7 +541,7 @@ title="Open an issue"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/home.md" target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/run_python.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -565,7 +566,7 @@ title="Edit this page"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="_sources/home.md" target="_blank"
+      <li><a href="../_sources/docs/run_python.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -606,7 +607,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ESMAP Energy Planning Group Library</h1>
+    <h1>Run EPM with Python</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -617,17 +618,38 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="esmap-energy-planning-group-library">
-<h1>ESMAP Energy Planning Group Library<a class="headerlink" href="#esmap-energy-planning-group-library" title="Permalink to this heading">#</a></h1>
-<p>This documentation offers guidance on electricity system planning and provides pythons tools to quickly produce planning assessment at the regional or national level.</p>
-<p>Ongoing</p>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
+  <section class="tex2jax_ignore mathjax_ignore" id="run-epm-with-python">
+<h1>Run EPM with Python<a class="headerlink" href="#run-epm-with-python" title="Permalink to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p>Activate environement using <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file:</p>
+<ul class="simple">
+<li><p>You need to have Python installed in your computer. If you don’t have it, you can download Anaconda distribution from <a class="reference external" href="https://www.anaconda.com/products/distribution">here</a>.</p></li>
+<li><p>Use the terminal to run the command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
+</ul>
+</li>
+<li><p>Create <code class="docutils literal notranslate"><span class="pre">scenario_baseline.csv</span></code> file that contains the baseline scenario. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for an example.</p></li>
+<li><p>Create <code class="docutils literal notranslate"><span class="pre">scenarios_specification.csv</span></code> file that contains the specification of the scenarios. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for an example. By default, the model will run the baseline scenario.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code>or a notebook to launch the code.</p></li>
+</ol>
+<p>For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="c1"># Define the path to the folder</span>
+<span class="n">PATH_GAMS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;path_main_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_main.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_base_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_base.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_report_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_Report.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_reader_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_input_readers.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_cplex_file&#39;</span><span class="p">:</span> <span class="s1">&#39;cplex.opt&#39;</span>
+<span class="p">}</span>
+
+<span class="c1"># Select the scenarios to run in the selected_scenarios list</span>
+<span class="n">launch_epm_multi_scenarios</span><span class="p">(</span>
+    <span class="n">scenario_baseline</span><span class="o">=</span><span class="s1">&#39;input/scenario_baseline.csv&#39;</span><span class="p">,</span>
+    <span class="n">scenarios_specification</span><span class="o">=</span><span class="s1">&#39;input/scenarios_specification.csv&#39;</span><span class="p">,</span>
+    <span class="n">selected_scenarios</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;baseline&#39;</span><span class="p">],</span>
+    <span class="n">cpu</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+</pre></div>
 </div>
 </section>
 
@@ -644,7 +666,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             name: "python3",
-            path: "./."
+            path: "./docs"
         },
         predefinedOutput: true
     }
@@ -659,10 +681,17 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='right-next' id="next-link" href="docs/installation.html" title="next page">
+  <a class='left-prev' id="prev-link" href="run_engine_remote_server.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Launch on the GAMS Engine remote server</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="launch_multiple_simulation.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Installation</p>
+      <p class="prev-next-title">Engine Looping Tool</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -720,8 +749,8 @@ Last updated on Dec 19, 2024.<br>
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   </body>
 </html>
