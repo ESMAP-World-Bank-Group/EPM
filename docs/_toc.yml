@@ -22,6 +22,9 @@ parts:
         - file: docs/model_description
         - file: docs/model_notations
         - file: docs/model_formulation
+  - caption: Step-by-Step Example
+    chapters:
+        - file: docs/step_by_step
   - caption: Related Projects
     chapters:
         - file: docs/representative_days
