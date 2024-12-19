@@ -24,12 +24,9 @@
 
 1. Create an environment to run the code in python. The goal is to ensure that all required libraries are available (pandas, matplotlib,...). The environment is created using `requirements.txt` file:
     - You need to have Python installed in your computer. If you don't have it, you can download Anaconda distribution from [here](https://www.anaconda.com/products/distribution).
-    - Create a virtual environment called `epm` with the following terminal command: ```python -m venv epm```
-    - Activate the environment on the terminal: 
-      - On windows: `epm\Scripts\activate`
-      - On macOS/Linux: `source epm/bin/activate`
-      - With conda: ```conda activate epm```
-    - Use the terminal to run the command: ```pip install -r requirements.txt```
+    - Create a conda environment called `epm` with the following terminal command: `conda create --name epm --file requirements.txt`
+    - With conda: `conda activate epm`
+    - Use the terminal to run the command: `pip install -r requirements.txt`
     
 
 2. Create `scenario_baseline.csv` file that contains the baseline scenario input specification. Look at the `input` folder for an example. This specifies which csv file to use for each parameter under the baseline scenario.

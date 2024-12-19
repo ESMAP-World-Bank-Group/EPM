@@ -30,7 +30,6 @@ COUNTRIES = 'static/countries.csv'
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 GENERATION = 'static/generation.csv'
-EXTERNAL_ZONES = 'static/external_zones.csv'
 COLORS = 'static/colors.csv'
 
 NAME_COLUMNS = {
@@ -52,65 +51,19 @@ def read_plot_specs():
     excel_spec: str
         Path to excel file
     """
-    # TODO: generation_mapping should be extracted from EPM results automatically, not specified by each user
-    #correspondence_Co = pd.read_csv(COUNTRIES)
-    #correspondence_Fu = pd.read_csv(FUELS)
-    #correspondence_Te = pd.read_csv(TECHS)
+
     generation_mapping = pd.read_csv(GENERATION)
     colors = pd.read_csv(COLORS)
-    external_zones_locations = pd.read_csv(EXTERNAL_ZONES)
     fuel_mapping = pd.read_csv(FUELS)
     tech_mapping = pd.read_csv(TECHS)
 
-
-    """correspondence_Gen.columns = ['generator', 'fuel', 'tech', 'zone']
-    external_zones_locations.columns = ['zone', 'location']
-
-    if external_zones_locations.shape[0] == 0:
-        external_zones_included = False
-    else:
-        external_zones_included = True
-        external_zones = list(external_zones_locations['zone'].unique())"""
-
     dict_specs = {
-        #'correspondence_Co': correspondence_Co,
-        #'correspondence_Fu': correspondence_Fu,
-        #'correspondence_Te': correspondence_Te,
-        'generation_mapping': generation_mapping.set_index('EPM_Gen')['EPM_Fuel'].to_dict(),
-        #'external_zones_locations': external_zones_locations,
-        #'external_zones_included': external_zones_included,
+        #'generation_mapping': generation_mapping.set_index('EPM_Gen')['EPM_Fuel'].to_dict(),
         'colors': colors.set_index('Processing')['Color'].to_dict(),
         'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
         'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict()
     }
     return dict_specs
-
-
-def calculate_pRR(discount_rate, y, years_mapping):
-    """
-    # Discount factor to apply when estimating total system costs.
-    # When years have a weight larger than 1, uses the middle time point (e.g., 2027 when time range is 2025-2030)
-    :param discount_rate: float
-        Yearly discount rate
-    :param y: int
-        Given year
-    :param years_mapping: dict
-        Maps year to a given weight, for use when compiling total cost
-    :return:
-    """
-    # Calcul du facteur de discount pour une année donnée
-
-    years = list(years_mapping.keys())
-    # years_int = [int(y) for y in years_mapping.values()]
-
-    if y == years[0]:
-        pRR = 1.0
-    else:
-        pRR = 1 / (
-                (1 + discount_rate) ** (sum(years_mapping[y2] for y2 in years_mapping if y2 < y) - 1 +
-                            sum(years_mapping[y2] / 2 for y2 in years_mapping if y2 == y))
-        )
-    return pRR
 
 
 def extract_gdx(file):
