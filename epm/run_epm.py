@@ -14,10 +14,10 @@ from gams.engine.api import jobs_api
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main.gms',#'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-    'path_base_file': 'WB_EPM_v8_5_base.gms',
+    'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',#'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+    'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
     'path_report_file': 'WB_EPM_v8_5_Report.gms',
-    'path_reader_file': 'WB_EPM_input_readers.gms',
+    'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -116,7 +116,12 @@ def launch_epm(scenario,
     cwd = os.path.join(os.getcwd(), folder)
 
     # Copy and paste cplex file to the simulation folder
-    shutil.copy(path_cplex_file, cwd)
+    if '_' in path_cplex_file.split('/')[-1]:
+        new_file_name = path_cplex_file.split('/')[-1].split('_')[0] + '.opt'  # renaming file to cplex.opt, which is necessary for GAMS to use it as a solver option file
+        new_file_path = os.path.join(cwd, new_file_name)
+        shutil.copy(path_cplex_file, new_file_path)
+    else:
+        shutil.copy(path_cplex_file, cwd)
 
     # Arguments for GAMS
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
@@ -277,13 +282,13 @@ if __name__ == '__main__':
             'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
             'path_report_file': 'WB_EPM_v8_5_Report.gms',
             'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
-            'path_cplex_file': 'cplex.opt'
+            'path_cplex_file': 'cplex_binary.opt'
         }
 
         launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
                                    scenarios_specification='input/scenarios_hydrostorage_specification.csv',
-                                   selected_scenarios=['HydroStorage_NoSP2'],
+                                   selected_scenarios=['baseline'],
                                    cpu=1, path_gams=path_gams_storage,
                                    path_engine_file=None)
 
-        # get_job_engine('output/simulations_run_20241128_155523/tokens_simulation.csv')
+        # get_job_engine('output/simulations_run_20241218_182931/tokens_simulation.csv')

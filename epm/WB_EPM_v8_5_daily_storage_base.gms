@@ -43,6 +43,7 @@ Sets
    RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
 
    sth(g)      'Storage hydro powerplants'
+   VRE_noROR(g) 'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
 
 ************** H2 model specific sets ***************************
    eh(hh)           'existing hydrogen generation plants'
@@ -106,6 +107,13 @@ Singleton sets
    sLastHour(t)
    sFirstDay(d)
 ;
+
+Set k / 1*10 /;
+Parameter pLevels(k) / 1 0.0, 2 0.1, 3 0.2, 4 0.4, 5 0.5, 6 0.6, 7 0.7, 8 0.8, 9 0.9, 10 1.0 /;
+Parameter UB / 1000 /;
+
+Binary Variable vHydroLevel(g, q, d, t, y, k);
+Positive Variable vHydroAux(g, q, d, t, y, k);
 
 Parameters
    pCostOfCurtailment               'Cost of curtailment'
@@ -348,6 +356,12 @@ Equations
    eMaxCFDaily(z,g,q,d,y)            'max capacity factor daily for hydrostorage'
    eMaxCFDailyReserveOperation(z,g,q,y,d,t)  'New constraint for reserve operation for hydro with daily storage'
    eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
+   
+   eAuxUpper(g,q,d,t,y, k)       'Constraints for auxiliary variable'
+   eAuxBinaryBound(g,q,d,t,y,k)  'Constraints for auxiliary variable'
+   eAuxConsistency(g,q,d,t,y,k)  'Constraints for auxiliary variable'
+   eDiscretePower(g,q,d,t,y)     'Constraining power output to discrete values of capacity for hydro with daily storage'
+   eOneLevelOnly(g,q,d,t,y)      'Discrete variable from combination of binary variables'
 
    eFuel(z,f,y)                    'fuel balance'
    eFuelLimit(c,f,y)               'fuel limit at country level'
@@ -637,17 +651,7 @@ eMaxCF(g,q,y)..
 *alias(d, d1);
 *eMaxCFReserve(g,q,y,d,t)..
 *    sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y)) + vReserve(g,q,d,t,y) =l= pAvailability(g,q)*vCap(g,y)*sum((d1,t1), pHours(q,d1,y,t1));
-
-eMaxCFDaily(z,sth,q,d,y)..
-   sum((gfmap(sth,f),t), vPwrOut(sth,f,q,d,t,y)*pHours(q,d,y,t)) + sum(t, vCurtailedVRE(z,sth,q,d,t,y)*pHours(q,d,y,t)) =e= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t, pHours(q,d,y,t));
-   
-* Equation to control the operation of daily hydro storage: we cannot allocate reserve that is not available, depending on how the plant
-* has been operated during the previous hours. Only relevant for t > 1
-alias(t, t1);
-eMaxCFDailyReserveOperation(z,sth,q,y,d,t)$(not sFirstHour(t))..
-   sum(gfmap(sth,f),vPwrOut(sth,f,q,d,t,y)) + vReserve(sth,q,d,t,y) + vCurtailedVRE(z,sth,q,d,t,y) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t1,pHours(q,d,y,t1))
-                                                                - sum((gfmap(sth,f),t1)$(ord(t1) < ord(t)),vPwrOut(sth,f,q,d,t1,y));
-
+    
 
 eFuel(zfmap(z,f),y)..
    vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t)*pHeatRate(g,f));
@@ -669,7 +673,36 @@ eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints
 * RE generation to be rejected as well
 eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
    vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,f,q,d,t)*vCap(VRE,y);
+   
 
+*---- Hydro daily operation, where storage hydro is assumed to operate with daily capacity
+eMaxCFDaily(z,sth,q,d,y)..
+   sum((gfmap(sth,f),t), vPwrOut(sth,f,q,d,t,y)*pHours(q,d,y,t)) + sum(t, vCurtailedVRE(z,sth,q,d,t,y)*pHours(q,d,y,t)) =e= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t, pHours(q,d,y,t));
+   
+* Equation to control the operation of daily hydro storage: we cannot allocate reserve that is not available, depending on how the plant
+* has been operated during the previous hours. Only relevant for t > 1
+alias(t, t1);
+eMaxCFDailyReserveOperation(z,sth,q,y,d,t)$(not sFirstHour(t))..
+   sum(gfmap(sth,f),vPwrOut(sth,f,q,d,t,y)) + vReserve(sth,q,d,t,y) + vCurtailedVRE(z,sth,q,d,t,y) =l= pAvailabilityDaily(sth,q,d)*vCap(sth,y)*sum(t1,pHours(q,d,y,t1))
+                                                                - sum((gfmap(sth,f),t1)$(ord(t1) < ord(t)),vPwrOut(sth,f,q,d,t1,y));
+
+* Introducing auxiliary variables to correctly define hydro operation
+
+eAuxUpper(sth, q, d, t, y, k)..
+    vHydroAux(sth, q, d, t, y, k) =l= vCap(sth, y);
+    
+eAuxBinaryBound(sth, q, d, t, y, k)..
+    vHydroAux(sth, q, d, t, y, k) =l= vHydroLevel(sth, q, d, t, y, k) * UB;
+    
+eAuxConsistency(sth, q, d, t, y, k)..
+    vHydroAux(sth, q, d, t, y, k) =g= vCap(sth, y) - (1 - vHydroLevel(sth, q, d, t, y, k)) * UB;
+
+eDiscretePower(sth, q, d, t, y)..
+    sum(gfmap(sth,f), vPwrOut(sth, f, q, d, t, y)) =e= sum(k, vHydroAux(sth, q, d, t, y, k) * pLevels(k));
+
+eOneLevelOnly(sth, q, d, t, y)..
+    sum(k, vHydroLevel(sth, q, d, t, y, k)) =e= 1;
+    
 
 *--- Reserve equations
 eResLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
@@ -689,12 +722,12 @@ eResReqLocal(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
                                 + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
                                 - vFlow(z2,z,q,d,t,y))
 
-   =g= pReserveReqLoc(c,y) + sum((zcmap(z,c),gzmap(VRE,z),gfmap(VRE,f)), vPwrOut(VRE,f,q,d,t,y))*pVREForecastError;
+   =g= pReserveReqLoc(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
 
 
 
 eResReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
-   sum(g, vReserve(g,q,d,t,y)) + vUnmetSpin(q,d,t,y) =g= pReserveReqSys(y) + sum(gfmap(VRE,f), vPwrOut(VRE,f,q,d,t,y))*pVREForecastError;
+   sum(g, vReserve(g,q,d,t,y)) + vUnmetSpin(q,d,t,y) =g= pReserveReqSys(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
 
 
 
@@ -1059,6 +1092,11 @@ Model PA /
 *   eMaxCFReserve
    eMaxCFDaily
    eMaxCFDailyReserveOperation
+   eAuxUpper
+   eAuxBinaryBound
+   eAuxConsistency
+   eDiscretePower
+   eOneLevelOnly
    eMinGen
 
    eFuel
