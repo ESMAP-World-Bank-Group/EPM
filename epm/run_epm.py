@@ -352,13 +352,12 @@ def get_job_engine(tokens_simulation):
             zf.extractall(path=scenario)
 
 
-
 if __name__ == '__main__':
 
     if True:
         folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
                                                     scenarios_specification='input/scenarios_specification.csv',
-                                                    selected_scenarios=['HydroStochasticStress','HydroStochasticStressHigh'],
+                                                    selected_scenarios=['baseline'],
                                                     cpu=1,
                                                     path_engine_file=None)
         # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'

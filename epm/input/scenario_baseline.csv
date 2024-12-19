@@ -10,7 +10,7 @@ pCarbonPrice,data/pCarbonPrice.csv
 pCSPData,data/pCSPData.csv
 pDemandData,data/pDemandData.csv
 pDemandForecast,data/pDemandForecast_s5.csv
-pDemandProfile,data/pDemandProfile_monthly.csv
+pDemandProfile,data/pDemandProfile_guinea.csv
 peak,data/peak.csv
 pEmissionsTotal,data/pEmissionsTotal.csv
 pEmissionsZone,data/pEmissionsZone.csv
@@ -21,7 +21,7 @@ pFuelPrice,data/pFuelPrice.csv
 pFuelTypeCarbonContent,data/pFuelTypeCarbonContent.csv
 pGenDataExcel,data/pGenDataExcel_update.csv
 pH2DataExcel,data/pH2DataExcel.csv
-pHours,data/pHours_monthly.csv
+pHours,data/pHours_guinea.csv
 pLossFactor,data/pLossFactor.csv
 pMaxFuellimit,data/pMaxFuellimit.csv
 pMaxPriceImportShare,data/pMaxPriceImportShare.csv
@@ -35,7 +35,7 @@ pTechDataExcel,data/pTechDataExcel.csv
 pTradePrice,data/pTradePrice.csv
 pTransferLimit,data/pTransferLimit_monthly.csv
 pVREgenProfile,data/pVREgenProfile.csv
-pVREProfile,data/pVREProfile_monthly.csv
+pVREProfile,data/pVREProfile_guinea.csv
 pZoneIndex,data/pZoneIndex.csv
 relevant,data/relevant.csv
 reserve,data/reserve.csv
