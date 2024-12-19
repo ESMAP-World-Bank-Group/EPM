@@ -725,6 +725,7 @@ ndc(g) = not dc(g);
 ror(g) = gtechmap(g,"ROR");
 
 sth(g) = gtechmap(g,"Sto Hy");
+VRE_noROR(g) = vre(g) and not ror(g);
 
 
 RampRate(g) = pGenData(g,"RampDnRate");
