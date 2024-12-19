@@ -702,20 +702,6 @@ $log ### reading using Connect and CSV Input with Python
 
 $onEmbeddedCode Connect:
 
-- CSVReader:
-    trace: 0
-    file: %pProbaScenarios%
-    name: s
-    indexColumns: [1]
-    type: set
-    
-- CSVReader:
-    trace: 0
-    file: %pProbaScenarios%
-    name: pProbaScenarios
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
 
 - CSVReader:
     trace: 0
@@ -780,7 +766,7 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan} 
     header: [1]
-    indexColumns: [1, 2]
+    indexColumns: [1, 2, 3]
     type: par
     
 - CSVReader:
