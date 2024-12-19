@@ -4,7 +4,7 @@ root: home
 parts:
   - caption: Introduction
     chapters:
-      - file: docs/README
+      - file: docs/introduction
   - caption: Run EPM
     chapters:
       - file: docs/installation
@@ -13,6 +13,9 @@ parts:
       - file: docs/run_python
       - file: docs/launch_multiple_simulation
       - file: docs/git_process.md
+  - caption: Postprocessing
+    chapters:
+      - file: docs/postprocessing
   - caption: Model Description
     chapters:
         - file: docs/model_overview
