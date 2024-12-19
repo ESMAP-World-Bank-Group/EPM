@@ -1,4 +1,4 @@
-# Representative Days Project
+# Representative Days
 
 ## Disclamer
 
