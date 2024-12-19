@@ -716,8 +716,14 @@ title="Print to PDF"
 <li><p>Create an environment to run the code in python. The goal is to ensure that all required libraries are available (pandas, matplotlib,…). The environment is created using <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file:</p>
 <ul class="simple">
 <li><p>You need to have Python installed in your computer. If you don’t have it, you can download Anaconda distribution from <a class="reference external" href="https://www.anaconda.com/products/distribution">here</a>.</p></li>
-<li><p>Create a conda environment called <code class="docutils literal notranslate"><span class="pre">epm</span></code> with the following terminal command: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">--name</span> <span class="pre">epm</span> <span class="pre">--file</span> <span class="pre">requirements.txt</span></code></p></li>
+<li><p>Create a virtual environment called <code class="docutils literal notranslate"><span class="pre">epm</span></code> with the following terminal command: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">epm</span></code></p></li>
+<li><p>Activate the environment on the terminal:</p>
+<ul>
+<li><p>On windows: <code class="docutils literal notranslate"><span class="pre">epm\Scripts\activate</span></code></p></li>
+<li><p>On macOS/Linux: <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">epm/bin/activate</span></code></p></li>
 <li><p>With conda: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">epm</span></code></p></li>
+</ul>
+</li>
 <li><p>Use the terminal to run the command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
 </ul>
 </li>
