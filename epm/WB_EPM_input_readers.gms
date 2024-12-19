@@ -288,25 +288,10 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pAvailability_scenario.csv
+    file: input/data/pAvailability.csv
     name: pAvailability
     indexColumns: [1]
     header: [1,2]
-    type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/data/pProbaScenarios_scenario.csv
-    name: s
-    indexColumns: [1]
-    type: set
-    
-- CSVReader:
-    trace: 0
-    file: input/data/pProbaScenarios_scenario.csv
-    name: pProbaScenarios
-    indexColumns: [1]
-    valueColumns: [2]
     type: par
 
 - CSVReader:
@@ -367,12 +352,12 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pHours_monthly.csv
+    file: input/data/pHours.csv
     name: pHours
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan} 
     header: [1]
-    indexColumns: [1, 2]
+    indexColumns: [1, 2, 3]
     type: par
     
 - CSVReader:
@@ -435,7 +420,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pVREProfile_monthly.csv
+    file: input/data/pVREProfile.csv
     name: pVREProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -455,7 +440,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pTransferLimit_monthly.csv
+    file: input/data/pTransferLimit.csv
     name: pTransferLimit
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -475,7 +460,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pDemandForecast_s5.csv
+    file: input/data/pDemandForecast.csv
     name: pDemandForecast
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -485,7 +470,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pDemandProfile_monthly.csv
+    file: input/data/pDemandProfile.csv
     name: pDemandProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -657,7 +642,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pAvailabilityH2_monthly.csv
+    file: input/data/pAvailabilityH2.csv
     name: pAvailabilityH2
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
