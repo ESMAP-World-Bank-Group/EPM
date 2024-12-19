@@ -2,6 +2,8 @@ barcrossalg 1
 solutiontype 2 
 lpmethod 4  
 threads 12 
-Names yes 
+names yes 
 barepcomp 1e-5 
 barcolnz 700 
+iis 1
+mipdisplay 5

@@ -15,7 +15,7 @@ $log ### Reading from %XLS_INPUT% using gdxxrw
 
 $onecho > gdxxrw.in
 par=ftfindex                rdim=2 cdim=0 rng=FuelTechnologies!A3
-par=pHours                  rdim=3 cdim=1 rng=Duration!A6
+par=pHours                  rdim=2 cdim=1 rng=Duration!A6
 par=pZoneIndex              rdim=1 cdim=0 rng=ZoneData!E7:F200
 par=pGenDataExcel           rdim=1 cdim=1 rng=GenData!A6
 par=pTechDataExcel          rdim=1 cdim=1 rng=FuelTechnologies!B29:F50
@@ -80,7 +80,7 @@ $onEmbeddedCode Connect:
         columnDimension: 0
       - name: pHours
         range: Duration!A6
-        rowDimension: 3
+        rowDimension: 2
         columnDimension: 1
       - name: pZoneIndex
         range: ZoneData!E7:F200
@@ -285,6 +285,29 @@ $log ### reading using Connect and CSV Input
 
 
 $onEmbeddedCode Connect:
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pAvailability_scenario.csv
+    name: pAvailability
+    indexColumns: [1]
+    header: [1,2]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pProbaScenarios_scenario.csv
+    name: s
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pProbaScenarios_scenario.csv
+    name: pProbaScenarios
+    indexColumns: [1]
+    valueColumns: [2]
+    type: par
 
 - CSVReader:
     trace: 0
@@ -344,12 +367,12 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pHours.csv
+    file: input/data/pHours_monthly.csv
     name: pHours
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan} 
     header: [1]
-    indexColumns: [1, 2, 3]
+    indexColumns: [1, 2]
     type: par
     
 - CSVReader:
@@ -409,18 +432,10 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/data/pAvailability.csv
-    name: pAvailability
-    indexColumns: [1]
-    header: [1]
-    type: par
 
 - CSVReader:
     trace: 0
-    file: input/data/pVREProfile.csv
+    file: input/data/pVREProfile_monthly.csv
     name: pVREProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -440,7 +455,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pTransferLimit.csv
+    file: input/data/pTransferLimit_monthly.csv
     name: pTransferLimit
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -460,7 +475,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pDemandForecast.csv
+    file: input/data/pDemandForecast_s5.csv
     name: pDemandForecast
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -470,7 +485,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pDemandProfile.csv
+    file: input/data/pDemandProfile_monthly.csv
     name: pDemandProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -631,7 +646,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pGenDataExcel.csv
+    file: input/data/pGenDataExcel_update.csv
     name: pGenDataExcel
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -642,7 +657,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pAvailabilityH2.csv
+    file: input/data/pAvailabilityH2_monthly.csv
     name: pAvailabilityH2
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -701,6 +716,21 @@ $log ### reading using Connect and CSV Input with Python
 
 
 $onEmbeddedCode Connect:
+
+- CSVReader:
+    trace: 0
+    file: %pProbaScenarios%
+    name: s
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: %pProbaScenarios%
+    name: pProbaScenarios
+    indexColumns: [1]
+    valueColumns: [2]
+    type: par
 
 - CSVReader:
     trace: 0
@@ -765,7 +795,7 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan} 
     header: [1]
-    indexColumns: [1, 2, 3]
+    indexColumns: [1, 2]
     type: par
     
 - CSVReader:
@@ -831,7 +861,7 @@ $onEmbeddedCode Connect:
     file: %pAvailability%
     name: pAvailability
     indexColumns: [1]
-    header: [1]
+    header: [1,2]
     type: par
 
 - CSVReader:
