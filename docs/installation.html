@@ -278,6 +278,10 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
 
 </div>
   </nav>
@@ -639,7 +643,9 @@ title="Print to PDF"
       
   </ul>
 </div>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
             </div>
@@ -652,6 +658,29 @@ title="Print to PDF"
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clone-the-repository">
+   1. Clone the repository
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-and-activate-branch">
+   2. Create and activate branch
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#launch-the-model">
+   3. Launch the model
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -660,35 +689,37 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
-<ol class="arabic simple">
-<li><p>Clone the repository:</p>
+<section id="clone-the-repository">
+<h2>1. Clone the repository<a class="headerlink" href="#clone-the-repository" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Use the terminal to go to the location you want to clone the repository.</p></li>
 <li><p>Run the command: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/ESMAP-World-Bank-Group/EPM.git</span></code></p></li>
 </ul>
-</li>
-<li><p>Create and activate branch:</p></li>
-</ol>
+</section>
+<section id="create-and-activate-branch">
+<h2>2. Create and activate branch<a class="headerlink" href="#create-and-activate-branch" title="Permalink to this heading">#</a></h2>
 <p>We suggest to create a new branch for your work. This way, you can work on your own branch and merge it to the main branch when you are done.</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- To see the branch you are in, run the command: `git branch` 
-- Create (if it doesn&#39;t exist yet) and change to the branch you want to work on: `git checkout -b &lt;branch_name&gt;`
-- You’ve created a new branch locally and now want to push it to the remote repository: `git push -u origin &lt;branch-name&gt;``
-</pre></div>
-</div>
-<ol class="arabic simple" start="3">
-<li><p>Launch the model:</p></li>
-</ol>
+<ul class="simple">
+<li><p>To see the branch you are in, run the command: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code></p></li>
+<li><p>Create (if it doesn’t exist yet) and change to the branch you want to work on: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">&lt;branch_name&gt;</span></code>. <code class="docutils literal notranslate"><span class="pre">branch-name</span></code> should be a descriptive name of the use case you are working on, e.g., guinea.</p></li>
+<li><p>You’ve created a new branch locally. In order to have your code stored on the remote repository as well, you should push your local branch to the remote repository: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">-u</span> <span class="pre">origin</span> <span class="pre">&lt;branch-name&gt;</span></code></p></li>
+</ul>
+</section>
+<section id="launch-the-model">
+<h2>3. Launch the model<a class="headerlink" href="#launch-the-model" title="Permalink to this heading">#</a></h2>
 <p>There are three ways to run the model:</p>
 <ul class="simple">
 <li><p>Using GAMS Studio (recommended for debugging)</p></li>
+<li><p>Using Python (recommended for running the model with multiple scenarios)</p></li>
 <li><p>Using Excel (not recommended)</p></li>
-<li><p>Using Python (recommended for running the model)</p></li>
 </ul>
 <p>There are two ways to include input data:</p>
 <ul class="simple">
 <li><p>A single .xlsx file with all data</p></li>
 <li><p>A folder with a list of .csv files with the data (recommended)</p></li>
 </ul>
+<p>Those are detailed hereafter.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -739,6 +770,37 @@ title="Print to PDF"
           </div>
           
           
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clone-the-repository">
+   1. Clone the repository
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-and-activate-branch">
+   2. Create and activate branch
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#launch-the-model">
+   3. Launch the model
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
           
           
         </div>
