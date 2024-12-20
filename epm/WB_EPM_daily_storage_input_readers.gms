@@ -630,7 +630,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/pGenDataExcel_storage_forcing_batteries.csv
+    file: input/pGenDataExcel_storage.csv
     name: pGenDataExcel
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}

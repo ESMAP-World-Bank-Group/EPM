@@ -9,6 +9,7 @@ from requests import post, get
 from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
+import textwrap
 
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
@@ -148,16 +149,16 @@ def launch_epm(scenario,
     # Generate the command for Engine
     if True:
         if path_engine_file:
-            # Open Engine_Base.gms as text file and replace
-            with open(path_engine_file, 'r') as file:
-                filedata = file.read()
+            with open(path_cplex_file, 'r') as cplex_file:
+                cplex_content = cplex_file.read()
 
-                # Replace the target string
-                filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
-
-            # Store the new file in the simulation folder
-            with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
-                file.write(filedata)
+            with open(os.path.join(cwd, f'engine_{scenario_name}.gms'), 'w') as file:
+                file.write("$onecho > cplex.opt\n")
+                for line in cplex_content.splitlines():
+                    file.write(f"{line.strip()}\n")  # Write each line with consistent indentation
+                file.write("$offEcho\n")
+                file.write(
+                    f"$if 'x%gams.restart%'=='x' $call gams engine_{scenario_name}.gms r=engine_{scenario_name} lo=3 o=engine_{scenario_name}.lst\n")
 
             # Make a ZipFile that can be sent to the server
             with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
@@ -273,9 +274,9 @@ if __name__ == '__main__':
     if True:
         # launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
         #                            scenarios_specification='input/scenarios_specification.csv',
-        #                            selected_scenarios=None,
+        #                            selected_scenarios=['baseline'],
         #                            cpu=1,
-        #                            path_engine_file=None)
+        #                            path_engine_file='Engine_Base.gms')
 
         path_gams_storage = {
             'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
@@ -289,6 +290,6 @@ if __name__ == '__main__':
                                    scenarios_specification='input/scenarios_hydrostorage_specification.csv',
                                    selected_scenarios=['baseline'],
                                    cpu=1, path_gams=path_gams_storage,
-                                   path_engine_file=None)
+                                   path_engine_file='Engine_Base.gms')
 
-        # get_job_engine('output/simulations_run_20241218_182931/tokens_simulation.csv')
+        # get_job_engine('output/simulations_run_20241220_151545/tokens_simulation.csv')
