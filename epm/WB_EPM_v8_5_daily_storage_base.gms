@@ -108,12 +108,12 @@ Singleton sets
    sFirstDay(d)
 ;
 
-Set k / 1*10 /;
-Parameter pLevels(k) / 1 0.0, 2 0.1, 3 0.2, 4 0.4, 5 0.5, 6 0.6, 7 0.7, 8 0.8, 9 0.9, 10 1.0 /;
-Parameter UB / 1000 /;
-
-Binary Variable vHydroLevel(g, q, d, t, y, k);
-Positive Variable vHydroAux(g, q, d, t, y, k);
+*Set k / 1*10 /;
+*Parameter pLevels(k) / 1 0.0, 2 0.1, 3 0.2, 4 0.4, 5 0.5, 6 0.6, 7 0.7, 8 0.8, 9 0.9, 10 1.0 /;
+*Parameter UB / 1000 /;
+*
+*Binary Variable vHydroLevel(g, q, d, t, y, k);
+*Positive Variable vHydroAux(g, q, d, t, y, k);
 *
 Parameters
    pCostOfCurtailment               'Cost of curtailment'
@@ -357,12 +357,12 @@ Equations
    eMaxCFDailyReserveOperation(z,g,q,y,d,t)  'New constraint for reserve operation for hydro with daily storage'
    eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
    
-   eAuxUpper(g,q,d,t,y, k)       'Constraints for auxiliary variable'
-   eAuxBinaryBound(g,q,d,t,y,k)  'Constraints for auxiliary variable'
-   eAuxConsistency(g,q,d,t,y,k)  'Constraints for auxiliary variable'
-   eOneLevelOnly(g,q,d,t,y)      'Discrete variable from combination of binary variables'
-   eDiscretePower(g,q,d,t,y)     'Constraining power output to discrete values of capacity for hydro with daily storage'
-
+*   eAuxUpper(g,q,d,t,y, k)       'Constraints for auxiliary variable'
+*   eAuxBinaryBound(g,q,d,t,y,k)  'Constraints for auxiliary variable'
+*   eAuxConsistency(g,q,d,t,y,k)  'Constraints for auxiliary variable'
+*   eOneLevelOnly(g,q,d,t,y)      'Discrete variable from combination of binary variables'
+*   eDiscretePower(g,q,d,t,y)     'Constraining power output to discrete values of capacity for hydro with daily storage'
+*
    eFuel(z,f,y)                    'fuel balance'
    eFuelLimit(c,f,y)               'fuel limit at country level'
 
@@ -688,20 +688,20 @@ eMaxCFDailyReserveOperation(z,sth,q,y,d,t)$(not sFirstHour(t))..
 
 * Introducing auxiliary variables to correctly define hydro operation
 
-eAuxUpper(sth, q, d, t, y, k)..
-    vHydroAux(sth, q, d, t, y, k) =l= vCap(sth, y);
-   
-eAuxBinaryBound(sth, q, d, t, y, k)..
-    vHydroAux(sth, q, d, t, y, k) =l= vHydroLevel(sth, q, d, t, y, k) * UB;
-    
-eAuxConsistency(sth, q, d, t, y, k)..
-    vHydroAux(sth, q, d, t, y, k) =g= vCap(sth, y) - (1 - vHydroLevel(sth, q, d, t, y, k)) * UB;
-
-eOneLevelOnly(sth, q, d, t, y)..
-    sum(k, vHydroLevel(sth, q, d, t, y, k)) =e= 1;
-
-eDiscretePower(sth, q, d, t, y)..
-    sum(gfmap(sth,f), vPwrOut(sth, f, q, d, t, y)) =e= sum(k, vHydroAux(sth, q, d, t, y, k) * pLevels(k));
+*eAuxUpper(sth, q, d, t, y, k)..
+*    vHydroAux(sth, q, d, t, y, k) =l= vCap(sth, y);
+*   
+*eAuxBinaryBound(sth, q, d, t, y, k)..
+*    vHydroAux(sth, q, d, t, y, k) =l= vHydroLevel(sth, q, d, t, y, k) * UB;
+*    
+*eAuxConsistency(sth, q, d, t, y, k)..
+*    vHydroAux(sth, q, d, t, y, k) =g= vCap(sth, y) - (1 - vHydroLevel(sth, q, d, t, y, k)) * UB;
+*
+*eOneLevelOnly(sth, q, d, t, y)..
+*    sum(k, vHydroLevel(sth, q, d, t, y, k)) =e= 1;
+*
+*eDiscretePower(sth, q, d, t, y)..
+*    sum(gfmap(sth,f), vPwrOut(sth, f, q, d, t, y)) =e= sum(k, vHydroAux(sth, q, d, t, y, k) * pLevels(k));
     
 
 *--- Reserve equations
@@ -1092,11 +1092,11 @@ Model PA /
 *   eMaxCFReserve
    eMaxCFDaily
    eMaxCFDailyReserveOperation
-   eAuxUpper
-   eAuxBinaryBound
-   eAuxConsistency
-   eOneLevelOnly
-   eDiscretePower
+*   eAuxUpper
+*   eAuxBinaryBound
+*   eAuxConsistency
+*   eOneLevelOnly
+*   eDiscretePower
    eMinGen
 
    eFuel
