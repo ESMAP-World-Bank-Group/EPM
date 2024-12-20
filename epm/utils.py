@@ -189,7 +189,7 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
             'pDispatch', 'pFuelDispatch', 'pPlantDispatch', 'pInterconUtilization', 'pReserveByPlant',
             'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY'}
+            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY', 'pSummary'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epmresults.items() if k in keys and k in epmresults.keys()}
@@ -357,6 +357,111 @@ def bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figs
         plt.show()
     plt.close(fig)
     return None
+
+
+def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_columns=None):
+    if rename_index is not None:
+        df.index = df.index.map(lambda x: rename_index(x))
+    if rename_columns is not None:
+        df.columns = df.columns.map(lambda x: rename_columns(x))
+    if order_index is not None:
+        df = df.loc[order_index, :]
+    if order_columns is not None:
+        df = df.loc[:, order_columns]
+    return df
+
+def bar_plot_new(df, df_low=None, df_high=None, filename=None, figsize=(10, 6), format_y=lambda y, _: '{:.0f} GW'.format(y),
+             rename_grouping=None, order_grouping=None, rename_xaxis=None, order_xaxis=None, dict_colors=None, rotation=0, annotate=False, cap=6, legend=True,
+             stacked=False):
+    """
+    Produces bar plots, which can be grouped or stacked.
+    Args:
+        df (pd.DataFrame): Main dataframe. Index will be represented on the x axis, columns will be used to do either a grouped bar plot, or a stacked bar plot
+        df_low (pd.DataFrame, optional): Dataframe including lower bound for optional error bars.
+        df_high (pd.DataFrame, optional): Dataframe including upper bound for optional error bars.
+        filename (path or str, optional): Path to save the plot
+        figsize:
+        format_y:
+        rename_grouping (function): Function to rename columns of df, which will correspond to grouped bars or stacked bars
+        order_grouping (function): Function to reoder columns of df, which will correspond to grouped bars or stacked bars
+        rename_xaxis (function): Function to rename index of df, which will correspond to grouped bars or stacked bars
+        order_xaxis (function): Function to reoder index of df, which will correspond to grouped bars or stacked bars
+        dict_colors:
+        rotation:
+        annotate:
+        cap:
+        legend:
+        stacked:
+
+    Returns:
+
+    """
+    fig, ax = plt.subplots(figsize=figsize)
+    df = rename_and_reoder(df, rename_index=rename_xaxis, rename_columns=rename_grouping, order_index=order_xaxis, order_columns=order_grouping)
+
+    # Handle colors
+    if dict_colors is not None:
+        colors = [dict_colors.get(idx, 'gray') for idx in df.index]
+    else:
+        default_colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        colors = [default_colors[i % len(default_colors)] for i in range(len(df.columns))]
+
+    if stacked:
+        df.plot.bar(ax=ax, rot=rotation, stacked=True)
+    else:
+        df.plot.bar(ax=ax, rot=rotation)
+
+    if df_low is not None and df_high is not None:
+        df_low = rename_and_reoder(df_low, rename_index=rename_xaxis, rename_columns=rename_grouping, order_index=order_xaxis,
+                               order_columns=order_grouping)
+        df_high = rename_and_reoder(df_high, rename_index=rename_xaxis, rename_columns=rename_grouping, order_index=order_xaxis,
+                               order_columns=order_grouping)
+
+        # Retrieve the x and y positions of the bars
+        x_positions = range(len(df))
+        y_positions = df
+
+        errors_positive = (df_high - y_positions).squeeze()
+        errors_negative = (y_positions - df_low).squeeze()
+        errors = [errors_negative, errors_positive]
+
+        # Plot error bars with dotted lines
+        ax.errorbar(x=x_positions, y=y_positions.squeeze(), yerr=errors, fmt='none', ecolor='darkgray', elinewidth=2,
+                    capsize=5, capthick=2, ls='--')
+
+    if annotate:
+        # Annotate each bar
+        for container in ax.containers:
+            for bar in container:
+                height = bar.get_height()
+                if height > cap:  # Only annotate bars with a height
+                    ax.text(
+                        bar.get_x() + bar.get_width() / 2,  # X position: center of the bar
+                        bar.get_y() + height + 0.1,  # Y position: middle of the bar
+                        f"{height:.0f}",  # Annotation text (formatted value)
+                        ha="center", va="bottom",  # Center align the text
+                        fontsize=10, color="black",  # Font size and color
+                        rotation=90
+                    )
+
+    ax.spines['left'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    # Set x-ticks to the middle of the bar chart
+    ax.set_xticklabels(df.index, fontsize=11, rotation=rotation)
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+    ax.set_xlabel('')
+
+    if legend:
+        if (df.shape[1] if df.ndim > 1 else 1) > 1:
+            ax.legend(loc='center left', frameon=False, bbox_to_anchor=(1, 0.5))
+
+    if filename is not None:
+        fig.savefig(filename, bbox_inches='tight')
+    else:
+        plt.show()
+    plt.close(fig)
 
 
 def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar', selected_scenario=None, unit='MWh'):
@@ -1105,7 +1210,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, folder, dict_colors, zo
 
 
 def make_fuel_capacity_mix_bar_plot(pEnergyByFuel, folder, dict_colors, zone, column_stacked='year', column_group='fuel',
-                                    select_stacked=None, fuel_grouping=None, order_scenarios=None, dict_scenarios=None, filename=None,
+                                    select_stacked=None, fuel_grouping=None, order_scenarios=None, rename_scenarios=None, filename=None,
                                     figsize=(6, 8)):
     df = pEnergyByFuel
     df = df[(df['zone'] == zone)]
@@ -1130,11 +1235,11 @@ def make_fuel_capacity_mix_bar_plot(pEnergyByFuel, folder, dict_colors, zone, co
     else:
         filename = f'{folder}/{filename}.png'
     stacked_bar_subplot(df, column_group, filename, dict_colors, format_y=lambda y, _: '{:.0f} GWh'.format(y),
-                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios, figsize=figsize)
+                        rotation=90, order_scenarios=order_scenarios, rename_scenarios=rename_scenarios, figsize=figsize)
 
 
 def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                              select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
+                              select_xaxis=None, dict_grouping=None, order_scenarios=None, rename_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
@@ -1149,7 +1254,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='yea
         select_xaxis (str) Select a subset of subplots (for eg, a number of years)
         dict_grouping (dict) Dictionary for grouping variables and summing over a given group
         order_scenarios:
-        dict_scenarios:
+        rename_scenarios:
         format_y: Formatting y axis
         order_stacked (list): Reordering the variables that will be stacked
         cap (int): Under this cap, no annotation will be displayed
@@ -1170,7 +1275,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='yea
             'LowImport_LowThermal': 'LowImport_LowThermal'
         }
         make_stacked_bar_subplots(epm_dict['pCapacityByFuel'], filename, dict_specs['colors'], zone='Liberia',
-                   select_stacked=[2025, 2028, 2030], fuel_grouping=fuel_grouping, dict_scenarios=scenario_names,
+                   select_stacked=[2025, 2028, 2030], fuel_grouping=fuel_grouping, rename_scenarios=scenario_names,
                    order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                    format_y=lambda y, _: '{:.0f} MW'.format(y)
                    )
@@ -1179,7 +1284,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='yea
         filename = Path(RESULTS_FOLDER) / Path('images') / Path('ReserveEvolution.png')
         make_stacked_bar_subplots(epm_dict['pReserveByPlant'], filename, dict_colors=dict_specs['colors'], zone='Liberia',
                                   column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                                  select_xaxis=[2025, 2028, 2030], dict_grouping=dict_grouping, dict_scenarios=scenario_names,
+                                  select_xaxis=[2025, 2028, 2030], dict_grouping=dict_grouping, rename_scenarios=scenario_names,
                                   order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                                   format_y=lambda y, _: '{:.0f} GWh'.format(y),
                                   order_stacked=['Hydro', 'Oil'], cap=2
@@ -1201,12 +1306,12 @@ def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='yea
         df = df[select_xaxis]
 
     stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
-                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                        rotation=90, order_scenarios=order_scenarios, rename_scenarios=rename_scenarios,
                         order_columns=order_stacked, cap=cap)
 
 
 def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None, order_columns=None,
-                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
+                        rename_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
     list_keys = list(df.columns)
     n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
@@ -1236,8 +1341,8 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
                 df_temp = df_temp.to_frame().T
                 df_temp.index = ['Initial']
             else:
-                if dict_scenarios is not None:  # Renaming scenarios for plots
-                    df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
+                if rename_scenarios is not None:  # Renaming scenarios for plots
+                    df_temp.index = df_temp.index.map(lambda x: rename_scenarios(x))
                 if order_scenarios is not None:  # Reordering scenarios
                     df_temp = df_temp.loc[[c for c in order_scenarios if c in df_temp.index], :]
                 if order_columns is not None:
