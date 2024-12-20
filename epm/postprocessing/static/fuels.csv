@@ -6,6 +6,9 @@ H2,H2
 Biomass,Biomass
 Wind,Wind
 PV,Solar
+PV_2026,Solar
+PV_2028,Solar
+PV_2030,Solar
 Imports,Trade
 Water,Hydro
 Battery,Battery Storage
@@ -20,5 +23,6 @@ BESS3hr,Battery Storage 3h
 BESS_4h,Battery Storage 4h
 BESS_8h,Battery Storage 8h
 BESS_2h,Battery Storage 2h
+BESS_2h_committed,Battery Storage 2h
 BESS_3h,Battery Storage 3h
 Import,Import

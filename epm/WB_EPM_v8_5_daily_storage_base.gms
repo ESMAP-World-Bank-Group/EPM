@@ -114,7 +114,7 @@ Parameter UB / 1000 /;
 
 Binary Variable vHydroLevel(g, q, d, t, y, k);
 Positive Variable vHydroAux(g, q, d, t, y, k);
-
+*
 Parameters
    pCostOfCurtailment               'Cost of curtailment'
    pCostOfCO2backstop               'Cost of climate backstop techno in $ per ton of CO2'
@@ -360,8 +360,8 @@ Equations
    eAuxUpper(g,q,d,t,y, k)       'Constraints for auxiliary variable'
    eAuxBinaryBound(g,q,d,t,y,k)  'Constraints for auxiliary variable'
    eAuxConsistency(g,q,d,t,y,k)  'Constraints for auxiliary variable'
-   eDiscretePower(g,q,d,t,y)     'Constraining power output to discrete values of capacity for hydro with daily storage'
    eOneLevelOnly(g,q,d,t,y)      'Discrete variable from combination of binary variables'
+   eDiscretePower(g,q,d,t,y)     'Constraining power output to discrete values of capacity for hydro with daily storage'
 
    eFuel(z,f,y)                    'fuel balance'
    eFuelLimit(c,f,y)               'fuel limit at country level'
@@ -690,18 +690,18 @@ eMaxCFDailyReserveOperation(z,sth,q,y,d,t)$(not sFirstHour(t))..
 
 eAuxUpper(sth, q, d, t, y, k)..
     vHydroAux(sth, q, d, t, y, k) =l= vCap(sth, y);
-    
+   
 eAuxBinaryBound(sth, q, d, t, y, k)..
     vHydroAux(sth, q, d, t, y, k) =l= vHydroLevel(sth, q, d, t, y, k) * UB;
     
 eAuxConsistency(sth, q, d, t, y, k)..
     vHydroAux(sth, q, d, t, y, k) =g= vCap(sth, y) - (1 - vHydroLevel(sth, q, d, t, y, k)) * UB;
 
-eDiscretePower(sth, q, d, t, y)..
-    sum(gfmap(sth,f), vPwrOut(sth, f, q, d, t, y)) =e= sum(k, vHydroAux(sth, q, d, t, y, k) * pLevels(k));
-
 eOneLevelOnly(sth, q, d, t, y)..
     sum(k, vHydroLevel(sth, q, d, t, y, k)) =e= 1;
+
+eDiscretePower(sth, q, d, t, y)..
+    sum(gfmap(sth,f), vPwrOut(sth, f, q, d, t, y)) =e= sum(k, vHydroAux(sth, q, d, t, y, k) * pLevels(k));
     
 
 *--- Reserve equations
@@ -1095,8 +1095,8 @@ Model PA /
    eAuxUpper
    eAuxBinaryBound
    eAuxConsistency
-   eDiscretePower
    eOneLevelOnly
+   eDiscretePower
    eMinGen
 
    eFuel
