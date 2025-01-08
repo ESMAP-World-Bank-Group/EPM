@@ -429,6 +429,7 @@ Equations
    eStorageCap(g,q,d,t,y,s)
    eStorageCap2(g,q,d,t,y)         'storage capacity (energy) must be at least 1 hour if installed'
 
+
    eStorageCSPCap(g,q,d,t,y,s)
    eInjCSP(g,q,d,t,y,s)
    eInjCSP1(g,q,d,t,y,s)
@@ -760,6 +761,7 @@ eStorageCap(st,q,d,t,y,s)$pincludeStorage..
 *without this, it builds storage capacity to meet reserve
 eStorageCap2(st,q,d,t,y)$pincludeStorage..
    vCapStor(st,y) =g= vCap(st,y);
+   
 
 eStorageInjection(st,q,d,t,y,s)$pincludeStorage..
    vStorInj(st,q,d,t,y,s) =l= vCap(st,y);

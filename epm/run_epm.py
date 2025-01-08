@@ -26,7 +26,9 @@ PATH_GAMS = {
 URL_ENGINE = "https://engine.gams.com/api"
 
 
-CREDENTIALS = json.load(open('credentials_engine.json', 'r'))
+# CREDENTIALS = json.load(open('credentials_engine.json', 'r'))
+CREDENTIALS = None
+
 
 def get_auth_engine():
     user_name = CREDENTIALS['username']
@@ -237,7 +239,7 @@ def launch_epm(scenario,
 
     result = None
     # Generate the command for Engine
-    if True:
+    if False:
         if path_engine_file:
             # Open Engine_Base.gms as text file and replace
             with open(path_engine_file, 'r') as file:
@@ -359,10 +361,18 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                                    scenarios_specification='input/scenarios_specification.csv',
-                                                    selected_scenarios=['baseline'],
+        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline_hydrostochastic.csv',
+                                                    scenarios_specification='input/scenarios_specification_guinea.csv',
+                                                    selected_scenarios=None,
                                                     cpu=1,
                                                     path_engine_file=None)
+
+        #'HydroStochasticCC'
+        """
+        ['LowStorageCost', 'EmissionCstr', 'NZ', 'HydroLow', 'HigherFuelPrice', 'IndependentHydro', 'HPO_IPP',
+        HydroStochasticCC', 'HydroStochasticCC']
+        
+        """
+        # 'DemandHigh', 'baseline',
         # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
 

@@ -1,8 +1,8 @@
 paramNames,file
 pFuelPrice,data/FuelPrice.csv
 ftfindex,data/ftfindex.csv
-pAvailability,data/pAvailability/pAvailability_baseline.csv
-pProbaScenarios,data/pAvailability/pProbaScenarios_baseline.csv
+pAvailability,data/pAvailability/pAvailability_hydro_3.csv
+pProbaScenarios,data/pAvailability/pProbaScenarios_hydro_3.csv
 pAvailabilityH2,data/pAvailabilityH2_monthly.csv
 pCapexTrajectory,data/pCapexTrajectory.csv
 pCapexTrajectoryH2,data/pCapexTrajectoryH2.csv

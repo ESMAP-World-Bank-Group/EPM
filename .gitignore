@@ -1,7 +1,6 @@
 
 
 /training
-/epm/preprocessing
 
 # Postprocessing
 /epm/postprocessing/*.ipynb

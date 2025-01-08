@@ -1,8 +1,8 @@
 paramNames,file
 pFuelPrice,data/FuelPrice.csv
 ftfindex,data/ftfindex.csv
-pAvailability,data/pAvailability/pAvailability_baseline.csv
-pProbaScenarios,data/pAvailability/pProbaScenarios_baseline.csv
+pAvailability,data/pAvailability/pAvailability_hydro_3_cc.csv
+pProbaScenarios,data/pAvailability/pProbaScenarios_hydro_3_cc.csv
 pAvailabilityH2,data/pAvailabilityH2_monthly.csv
 pCapexTrajectory,data/pCapexTrajectory.csv
 pCapexTrajectoryH2,data/pCapexTrajectoryH2.csv
@@ -13,7 +13,7 @@ pDemandForecast,data/pDemandForecast_linear.csv
 pDemandProfile,data/pDemandProfile_guinea.csv
 peak,data/peak.csv
 pEmissionsTotal,data/pEmissionsTotal.csv
-pEmissionsZone,data/pEmissionsZone.csv
+pEmissionsZone,data/pEmissionsZone_NZ.csv
 pEnergyEfficiencyFactor,data/pEnergyEfficiencyFactor.csv
 pExternalH2,data/pExternalH2.csv
 pFuelData,data/pFuelData.csv
@@ -29,7 +29,7 @@ pNewTransmission,data/pNewTransmission.csv
 pReserveMargin,data/pReserveMargin.csv
 pReserveReqLoc,data/pReserveReqLoc.csv
 pReserveReqSys,data/pReserveReqSys.csv
-pScalars,data/pScalars.csv
+pScalars,data/pScalars_emissioncstr.csv
 pStorDataExcel,data/pStorDataExcel.csv
 pTechDataExcel,data/pTechDataExcel.csv
 pTradePrice,data/pTradePrice.csv
