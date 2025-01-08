@@ -16,6 +16,7 @@ parts:
   - caption: Postprocessing
     chapters:
       - file: docs/postprocessing
+      - file: docs/planning_analysis.ipynb
   - caption: Model Description
     chapters:
         - file: docs/model_overview
