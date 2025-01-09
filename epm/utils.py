@@ -1,4 +1,6 @@
 # General packages
+from fileinput import filename
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
@@ -26,12 +28,14 @@ import base64
 
 from pathlib import Path
 
-COUNTRIES = 'static/countries.csv'
-FUELS = 'static/fuels.csv'
-TECHS = 'static/technologies.csv'
-GENERATION = 'static/generation.csv'
-EXTERNAL_ZONES = 'static/external_zones.csv'
-COLORS = 'static/colors.csv'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+COUNTRIES = Path(BASE_DIR) / Path('postprocessing/static/countries.csv')
+FUELS = Path(BASE_DIR) / Path('postprocessing/static/fuels.csv')
+TECHS = Path(BASE_DIR) / Path('postprocessing/static/technologies.csv')
+GENERATION = Path(BASE_DIR) / Path('postprocessing/static/generation.csv')
+EXTERNAL_ZONES = Path(BASE_DIR) / Path('postprocessing/static/external_zones.csv')
+COLORS = Path(BASE_DIR) / Path('postprocessing/static/colors.csv')
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
@@ -115,7 +119,7 @@ def calculate_pRR(discount_rate, y, years_mapping):
     return pRR
 
 
-def extract_epm_results(results_folder, scenario=None):
+def extract_epm_results(results_folder, scenario=None, subset_params=None):
     containers = {}
     for p in [path for path in Path(results_folder).iterdir() if path.is_dir()]:
         if p.name != 'images':
@@ -129,6 +133,10 @@ def extract_epm_results(results_folder, scenario=None):
 
     epmresults = {}
     parameters = [p.name for p in containers[scenarios[0]].getParameters()]
+
+    if subset_params is not None:
+        assert set(subset_params) <= set(parameters), 'Parameter subset_params is not defined correctly'
+        parameters = subset_params
 
     # noinspection PyUnboundLocalVariable
     for parameter in parameters:
@@ -158,8 +166,9 @@ def remove_unused_tech(epm_dict, list_keys):
     :return:
     """
     for key in list_keys:
-        epm_dict[key] = epm_dict[key].where((epm_dict[key]['value'] > 2e-6) | (epm_dict[key]['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
-        epm_dict[key] = epm_dict[key].dropna(subset=['value'])
+        if key in epm_dict.keys():
+            epm_dict[key] = epm_dict[key].where((epm_dict[key]['value'] > 2e-6) | (epm_dict[key]['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
+            epm_dict[key] = epm_dict[key].dropna(subset=['value'])
 
     return epm_dict
 
@@ -218,8 +227,10 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
         if 'attribute' in i.columns:
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
-    epm_dict['pCurtailedVRET']['fuel'] = 'Curtailed VRE'  # adding fuel column
-    epm_dict['pCurtailedStoHY']['fuel'] = 'Curtailed RoR'  # adding fuel column
+    if 'pCurtailedVRET' in epm_dict.keys():
+        epm_dict['pCurtailedVRET']['fuel'] = 'Curtailed VRE'  # adding fuel column
+    if 'pCurtailedStoHY' in epm_dict.keys():
+        epm_dict['pCurtailedStoHY']['fuel'] = 'Curtailed RoR'  # adding fuel column
 
     # Standardize names
     def standardize_names(key, mapping):
@@ -242,9 +253,10 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
 
     # epm_dict['pPlantDispatch'].replace(generation_mapping, inplace=True)  # map generator to fuel
 
-    epm_dict['pReserveByPlant'].replace(generation_mapping, inplace=True)  # map generator to fuel
-    epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
-    standardize_names('pReserveByPlant', dict_specs['fuel_mapping'])
+    if 'pReserveByPlant' in epm_dict.keys():
+        epm_dict['pReserveByPlant'].replace(generation_mapping, inplace=True)  # map generator to fuel
+        epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].rename(columns={'generator': 'fuel'}).groupby(['zone', 'year', 'scenario', 'fuel'], observed=False).sum().reset_index()
+        standardize_names('pReserveByPlant', dict_specs['fuel_mapping'])
 
     return epm_dict
 
@@ -456,6 +468,8 @@ def bar_plot_new(df, df_low=None, df_high=None, filename=None, figsize=(10, 6), 
     if legend:
         if (df.shape[1] if df.ndim > 1 else 1) > 1:
             ax.legend(loc='center left', frameon=False, bbox_to_anchor=(1, 0.5))
+    else:
+        ax.get_legend().remove()
 
     if filename is not None:
         fig.savefig(filename, bbox_inches='tight')
@@ -675,7 +689,11 @@ def make_batteries_role_plot(df_dispatch, df_reserve, fuel_list, years, folder, 
     else:
         title = f'Battery usage - {selected_scenario} scenario'
     temp = '_'.join([str(y) for y in years])
-    filename = f'{folder}/BatteryUsageMixPie_{temp}_{selected_scenario}.png'
+
+    if folder is not None:
+        filename = f'{folder}/BatteryUsageMixPie_{temp}_{selected_scenario}.png'
+    else:
+        filename = None
 
     subplot_pie(df, 'fuel', dict_colors, 'year', title=title, figsize=figsize,
                      percent_cap=percent_cap, filename=filename)
@@ -1204,7 +1222,11 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, folder, dict_colors, zo
     if select_time is None:
         temp = 'all'
     temp = f'{year}_{temp}'
-    filename = f'{folder}/Dispatch_{scenario}_{temp}.png'
+
+    if folder is not None:
+        filename = f'{folder}/Dispatch_{scenario}_{temp}.png'
+    else:
+        filename = None
     title = f'Year {year}'
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, title=title, season=season)
 
@@ -1397,10 +1419,10 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
             fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
                        bbox_to_anchor=(1, 0.5))
 
-        if filename is not None:
-            fig.savefig(filename, bbox_inches='tight')
-        else:
-            plt.show()
+    if filename is not None:
+        fig.savefig(filename, bbox_inches='tight')
+    else:
+        plt.show()
     plt.close(fig)
 
 
