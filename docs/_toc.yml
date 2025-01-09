@@ -18,6 +18,7 @@ parts:
     chapters:
       - file: docs/postprocessing
       - file: docs/planning_analysis.ipynb
+      - file: docs/planning_analysis_liberia.ipynb
   - caption: Model Description
     chapters:
         - file: docs/model_overview
