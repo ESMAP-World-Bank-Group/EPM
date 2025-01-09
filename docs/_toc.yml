@@ -13,6 +13,7 @@ parts:
       - file: docs/launch_multiple_simulation
       - file: docs/git_process.md
       - file: docs/solver_options.md
+      - file: docs/run_parallel.md
   - caption: Postprocessing
     chapters:
       - file: docs/postprocessing
