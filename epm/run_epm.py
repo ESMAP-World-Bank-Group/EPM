@@ -360,28 +360,29 @@ def new_cost(cost_variation, folder, tech, t0=2024, file='input/pCapexTrajectory
 
 
 
-def create_scenario(scenario, sample, name_scenario, folder, baseline):
-
+def create_scenario(scenario, sample, name_scenario, folder, specs_baseline, scenario_baseline):
+    """Updating some of the input files, based on the scenario under consideration."""
     for key, value in sample.items():
         if key == 'demand':
-            folder_path = new_demand_profile(value, baseline['demand'], folder, file='input/pDemandForecast.csv')
+            folder_path = new_demand_profile(value, specs_baseline['demand'], folder, file=scenario_baseline['pDemandForecast'])
             scenario.loc[VARIABLE_SCENARIOS[key], name_scenario] = folder_path  # update value
         if key == 'import':
-            folder_path = new_gendata(folder, import_capacity=value, file='input/pGenDataExcel_storage.csv')
+            folder_path = new_gendata(folder, import_capacity=value, file=scenario_baseline['pGenDataExcel'])
             scenario.loc[VARIABLE_SCENARIOS[key], name_scenario] = folder_path  # update value
         if key == 'hydro':
-            folder_path = new_hydro(folder, hydro_multiplier=value, file='input/pAvailabilityDaily.csv')
+            folder_path = new_hydro(folder, hydro_multiplier=value, file=scenario_baseline['pAvailabilityDaily'])
             scenario.loc[VARIABLE_SCENARIOS[key], name_scenario] = folder_path  # update value
         if key == 'hfoprice':
-            folder_path = new_price(price=value, folder=folder, t0=2024, file='input/pFuelPrice.csv')
+            folder_path = new_price(price=value, folder=folder, t0=2024, file=scenario_baseline['pFuelPrice'])
             scenario.loc[VARIABLE_SCENARIOS[key], name_scenario] = folder_path  # update value
         if key == 'batterycost':
             folder_path = new_cost(cost_variation=value, folder=folder, tech=['BESS_4h', 'BESS_8h', 'BESS_2h', 'BESS_3h'],
-                                   t0=2024, file='input/pCapexTrajectory.csv')
+                                   t0=2024, file=scenario_baseline['pCapexTrajectory'])
             scenario.loc[VARIABLE_SCENARIOS[key], name_scenario] = folder_path  # update value
     return scenario
 
-def create_scenarios_sensitivity(samples, baseline):
+
+def create_scenarios_sensitivity(samples, specs_baseline, scenario_baseline):
     """Creation of scenario dictionary based on a samples dictionary specifying the scenario for each sample.
     Used for global sensitivity analysis.
     """
@@ -404,6 +405,9 @@ def create_scenarios_sensitivity(samples, baseline):
         "zcmapExcel", "zext"
     ]
 
+    # Read baseline scenario
+    scenario_baseline = pd.read_csv(scenario_baseline).copy().set_index('paramNames').squeeze()
+
     # Create the DataFrame
     scenarios = []
     # iterate over all samples
@@ -411,7 +415,7 @@ def create_scenarios_sensitivity(samples, baseline):
         name_scenario = name_scenario.replace('.', 'p')
         new_df = pd.DataFrame({name_scenario: np.nan for var in scenario_index}, index=scenario_index)
         new_df = new_df.astype('object')
-        new_df = create_scenario(new_df, sample, name_scenario, folder, baseline)
+        new_df = create_scenario(new_df, sample, name_scenario, folder, specs_baseline, scenario_baseline)
         scenarios.append(new_df)
     scenarios = pd.concat(scenarios, axis=1)
     scenarios.index.names = ['paramNames']
@@ -462,11 +466,11 @@ if __name__ == '__main__':
             },
             'hfoprice': {
                 'type': 'Uniform',
-                'args': (12, 18)
+                'args': (11.5, 19.5)
             },
             'batterycost': {
                 'type': 'Uniform',
-                'args': (-0.5, 0)
+                'args': (-0.55, 0)
             }
         }
 
@@ -494,23 +498,26 @@ if __name__ == '__main__':
             for col in samples.columns
         }
 
-        baseline = {
-            'demand': 11
-        }
-        path_scenario_spec = create_scenarios_sensitivity(samples, baseline)
-
-        path_gams_storage = {
-            'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-            'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
-            'path_report_file': 'WB_EPM_v8_5_Report.gms',
-            'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
-            'path_cplex_file': 'cplex.opt'
+        specs_baseline = {
+            'demand': 11,
         }
 
-        launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline_SP2_candidate.csv',
-                                   scenarios_specification=path_scenario_spec,
-                                   selected_scenarios=None,
-                                   cpu=1, path_gams=path_gams_storage,
-                                   path_engine_file='Engine_Base.gms')
+        scenario_baseline = 'input/scenario_hydrostorage_baseline.csv'
 
-        # get_job_engine('output/simulations_run_20250107_141155/tokens_simulation.csv')
+        path_scenario_spec = create_scenarios_sensitivity(samples, specs_baseline, scenario_baseline)
+        #
+        # path_gams_storage = {
+        #     'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+        #     'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
+        #     'path_report_file': 'WB_EPM_v8_5_Report.gms',
+        #     'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
+        #     'path_cplex_file': 'cplex.opt'
+        # }
+        #
+        # launch_epm_multi_scenarios(scenario_baseline=scenario_baseline,
+        #                            scenarios_specification=path_scenario_spec,
+        #                            selected_scenarios=None,
+        #                            cpu=1, path_gams=path_gams_storage,
+        #                            path_engine_file='Engine_Base.gms')
+
+        get_job_engine('output/simulations_run_20250109_184803/tokens_simulation.csv')
