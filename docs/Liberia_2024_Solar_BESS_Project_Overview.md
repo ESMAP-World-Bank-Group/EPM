@@ -15,6 +15,8 @@ All the data changes made in this version of the model are summarized below. We 
   - Second, the flexibility scenario assumes a daily storage capacity. We estimate daily capacity factor from historical hourly hydro generation data. This daily generation can then be dispatched optimally by the model. In this case, hydro generation can be shifted to accomodate middle-of-the-day solar PV production, and to match evening peak demand.
 - demand modeling: LEC provided some demand data accounting for loss load at the monthly resolution. 
 
+### Scenarios
+
 ## Main outcomes
 
 ## Detailed data summary
@@ -35,7 +37,7 @@ We rely on historical dispatch data from 2023, available in the `Suggested Chang
 
 The capacity factor for prospective project SP2 was obtained from Artelia data that estimated monthly capacity factor. The hourly capacity factor was derived from scaling the profile from existing MtCoffee power plant to match the projected monthly capacity factors.
 
-The corresponding processed data is available in the `Raw data` folder.
+The corresponding processed data is available in the `Processed data` folder.
 
 ### Thermal generation
 
