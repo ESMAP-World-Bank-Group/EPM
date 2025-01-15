@@ -15,8 +15,8 @@ $log ### Reading from %XLS_INPUT% using gdxxrw
 
 $onecho > gdxxrw.in
 par=ftfindex                rdim=2 cdim=0 rng=FuelTechnologies!A3
-par=pHours                  rdim=2 cdim=1 rng=Duration!A6
-par=pZoneIndex              rdim=1 cdim=0 rng=ZoneData!E7:F200
+par=pHours                  rdim=3 cdim=1 rng=Duration!A6
+par=pZoneIndex              rdim=1 cdim=0 rng=ZoneData!E7
 par=pGenDataExcel           rdim=1 cdim=1 rng=GenData!A6
 par=pTechDataExcel          rdim=1 cdim=1 rng=FuelTechnologies!B29:F50
 set=zcmapExcel              rdim=2 cdim=0 rng=ZoneData!U7                           Values=NoData
@@ -24,21 +24,20 @@ set=y                       rdim=1 cdim=0 rng=LoadDefinition!A6:A%XLSXMAXROWS%  
 set=sTopology               rdim=1 cdim=1 rng=Topology!A6
 set=peak                    rdim=1 cdim=0 rng=LoadDefinition!H6:H%XLSXMAXROWS% Values=NoData
 set=Relevant                rdim=1 cdim=0 rng=LoadDefinition!E6:E%XLSXMAXROWS% Values=NoData
-set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60  
-par=pPlanningReserveMargin  rdim=1 cdim=0 rng=PlanningReserve!A6
+par=pPlanningReserveMargin  rdim=1 cdim=1 rng=Reserve!A5
 par=pEnergyEfficiencyFactor rdim=1 cdim=1 rng=EnergyEfficiency!A5
-par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C70
+par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C75
 par=pAvailability           rdim=1 cdim=1 rng=GenAvailability!A6
 par=pVREProfile             rdim=4 cdim=1 rng=REProfile!A6
 par=pLossFactor             rdim=2 cdim=1 rng=LossFactor!A5
 par=pTransferLimit          rdim=3 cdim=1 rng=TransferLimit!A5
-par=pExtTransferLimit       rdim=4 cdim=1 rng=ExtTransferLimit!A5     
-par=pCarbonPrice            rdim=1 cdim=0 rng=EmissionFactors!A3:B24
+par=pMinImport              rdim=2 cdim=1 rng=ImportShare!W3 
+ 
+par=pCarbonPrice            rdim=1 cdim=0 rng=EmissionFactors!A3:B37
 par=pDemandData             rdim=4 cdim=1 rng=Demand!A6
 par=pDemandForecast         rdim=2 cdim=1 rng=Demand_Forecast!A6
 par=pDemandProfile          rdim=3 cdim=1 rng=DemandProfile!A6
-par=pMaxExchangeShare       rdim=1 cdim=1 rng=ExchangeShare!A7
-par=pTradePrice             rdim=4 cdim=1 rng=TradePrices!A6
+par=pMaxPriceImportShare    rdim=1 cdim=1 rng=ImportShare!H3   
 par=pNewTransmission        rdim=2 cdim=1 rng=ZoneData!J6:Q107
 par=pCapexTrajectory        rdim=1 cdim=1 rng=CapexTrajectories!A5
 par=pCSPData                rdim=2 cdim=1 rng=CSP!A6                                IgnoreColumns=E
@@ -52,16 +51,9 @@ par=pEmissionsTotal         rdim=0 cdim=1 rng=Emissions!A5
 par=pFuelPrice              rdim=2 cdim=1 rng=FuelPrices!A6
 par=pMaxFuellimit           rdim=2 cdim=1 rng=FuelLimit!A6
 par=pVREgenProfile          rdim=4 cdim=1 rng=REgenProfile!A6
-
-set=MapGG                   rdim=1 cdim=1 rng=Retrofit!A6:ZW1000
-*******************************************************************************************
-set=hh                      rdim=1 cdim=0 rng=H2Data!A7:A%XLSXMAXROWS%      Values=NoData
-par=pH2DataExcel            rdim=1 cdim=1 rng=H2Data!A6
-par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
-par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
-par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
-par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
+par=pHydroVar               rdim=1 cdim=1 rng=HydroSensitivity!D6
 $offecho
+
 $call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
 $call rm gdxxrw.in
 
@@ -291,7 +283,7 @@ $onEmbeddedCode Connect:
     file: input/data/pAvailability.csv
     name: pAvailability
     indexColumns: [1]
-    header: [1,2]
+    header: [1]
     type: par
 
 - CSVReader:
@@ -382,6 +374,14 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
+    file: input/data/pHydroVar.csv
+    name: pHydroVar
+    header: [1]
+    indexColumns: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
     file: input/data/zcmapExcel.csv
     name: zcmapExcel
     indexSubstitutions: {.nan: ""}
@@ -445,6 +445,16 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pMinImport.csv
+    name: pMinImport
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
     header: [1]
     type: par
 
@@ -550,8 +560,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pReserveMargin.csv
-    name: pReserveMargin
+    file: input/data/pPlanningReserveMargin.csv
+    name: pPlanningReserveMargin
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -560,8 +570,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pReserveReqLoc.csv
-    name: pReserveReqLoc
+    file: input/data/pSpinningReserveReqCountry.csv
+    name: pSpinningReserveReqCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -570,8 +580,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pReserveReqSys.csv
-    name: pReserveReqSys
+    file: input/data/pSpinningReserveReqSystem.csv
+    name: pSpinningReserveReqSystem
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -580,8 +590,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pEmissionsZone.csv
-    name: pEmissionsZone
+    file: input/data/pEmissionsCountry.csv
+    name: pEmissionsCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -631,7 +641,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pGenDataExcel_update.csv
+    file: input/data/pGenDataExcel.csv
     name: pGenDataExcel
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -791,6 +801,14 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
+    file: %pHydroVar%
+    name: pHydroVar
+    header: [1]
+    indexColumns: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
     file: %zcmapExcel%
     name: zcmapExcel
     indexSubstitutions: {.nan: ""}
@@ -832,7 +850,7 @@ $onEmbeddedCode Connect:
     file: %pAvailability%
     name: pAvailability
     indexColumns: [1]
-    header: [1,2]
+    header: [1]
     type: par
 
 - CSVReader:
@@ -862,6 +880,16 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: %pMinImport%
+    name: pMinImport
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
     header: [1]
     type: par
 
@@ -967,8 +995,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pReserveMargin%
-    name: pReserveMargin
+    file: %pPlanningReserveMargin%
+    name: pPlanningReserveMargin
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -977,8 +1005,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pReserveReqLoc%
-    name: pReserveReqLoc
+    file: %pSpinningReserveReqCountry%
+    name: pSpinningReserveReqCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -987,8 +1015,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: %pReserveReqSys%
-    name: pReserveReqSys
+    file: %pSpinningReserveReqSystem%
+    name: pSpinningReserveReqSystem
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -997,8 +1025,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: %pEmissionsZone%
-    name: pEmissionsZone
+    file: %pEmissionsCountry%
+    name: pEmissionsCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
