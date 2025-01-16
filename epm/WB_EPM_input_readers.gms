@@ -563,7 +563,7 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
-    valueColumns: [2]
+    header: [1]
     type: par
 
 - CSVReader:
@@ -1005,7 +1005,7 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
-    valueColumns: [2]
+    header: [1]
     type: par
 
 - CSVReader:
