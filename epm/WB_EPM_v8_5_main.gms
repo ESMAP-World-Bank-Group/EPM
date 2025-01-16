@@ -75,6 +75,7 @@ Set
                         maxCapital
                         maxExports
                         maxImports
+                        VREForecastError
                         minREshare
                         mingen_constraints
                         noTransferLim
@@ -132,7 +133,6 @@ Parameter
    pStorDataInput(g,g2,shdr)        'Storage data'
    pNewTransmission(z,z2,thdr)      'new transmission lines'
    pTradePrice(zext,q,d,y,t)           'trade price - export or import driven by prices [assuming each zone in a country can only trade with one external zone]'
-   pMaxExchangeShare(y,c)           'Max share of exchanges by country [same limit for imports or exports for now]'
    pDemandProfile(z,q,d,t)          'Demand profile in per unit'
    pDemandForecast(z,pe,y)          'Peak and Energy demand forecast in MW and GWh'
    pDemandData(z,q,d,y,t)           'hourly load curves by quarter(seasonal) and year'
@@ -151,7 +151,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
    pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
    pScalars(sc)                     'Flags and penalties to load'
-   pPlanningReserveMargin(c)        'Country planning reserve margin'
+   pPlanningReserveMargin(c,y)        'Country planning reserve margin'
    pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
    
    pHydroVar(g,y)                   'Total hydro capacity factor per generator and year'
@@ -187,6 +187,7 @@ Parameters
    pCaptraj                         'allow capex trajectory'
    pIncludeEE                       'energy efficiency factor flag'
    pSystem_CO2_constraints
+   pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
 ;
 
 Set gprimf(g,f)          'primary fuel f for generator g'
@@ -211,7 +212,7 @@ Sets
    thdr         'Additional header for pNewTransmission' / EarliestEntry, MaximumNumOfLines /
 ;
 $offmulti
-
+    
 $eval     SOLVERTHREADS solverThreads
 $eval     SOLVEROPTCR   solverOptCR
 $eval     SOLVERRESLIM  solverResLim
@@ -248,6 +249,7 @@ $gdxIn %GDX_INPUT%
 
 * Domain defining symbols
 $load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
+$load zext
 * Other symbols
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
@@ -258,6 +260,8 @@ $load pNewTransmission
 $load pMinImport
 $gdxIn
 $offmulti
+
+$exit
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -552,6 +556,7 @@ pCostOfCurtailment                   = pScalars("costcurtail");
 pCostOfCO2backstop                   = pScalars("CO2backstop");
 pMaxImport                           = pScalars("MaxImports");
 pMaxExport                           = pScalars("MaxExports");
+pVREForecastError                    = pScalars("VREForecastError");
 pCaptraj                             = pScalars("Captraj");
 pVRECapacityCredits                  = pScalars("VRECapacityCredits");
 pSeasonalReporting                   = pScalars("Seasonalreporting");
@@ -701,14 +706,6 @@ pLossFactor(z2,z,y)$(pLossFactor(z,z2,y) and not pLossFactor(z2,z,y)) = pLossFac
 
 pEnergyEfficiencyFactor(z,y)$(not pincludeEE) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
-
-*pLoadScaleFactor(z,y)   = 1;
-*pFuelPriceFactor(z,f,y) = 1;
-pHydrologyFactor(g,y)   = 1;
-
-*pLoadScaleFactor(z,y)$(pScalars("RunMonteCarlo")*pScalars("testDemand") = 0 ) = 1;
-*pFuelPriceFactor(z,f,y)$(pScalars("RunMonteCarlo")*pScalars("testFuel") = 0 ) = 1;
-pHydrologyFactor(g,y)$(pScalars("RunMonteCarlo")*pScalars("testHydrology") = 0 ) = 1;
 
 $onIDCProtect
 pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")

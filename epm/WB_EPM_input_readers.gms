@@ -24,6 +24,7 @@ set=y                       rdim=1 cdim=0 rng=LoadDefinition!A6:A%XLSXMAXROWS%  
 set=sTopology               rdim=1 cdim=1 rng=Topology!A6
 set=peak                    rdim=1 cdim=0 rng=LoadDefinition!H6:H%XLSXMAXROWS% Values=NoData
 set=Relevant                rdim=1 cdim=0 rng=LoadDefinition!E6:E%XLSXMAXROWS% Values=NoData
+set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60
 par=pPlanningReserveMargin  rdim=1 cdim=1 rng=Reserve!A5
 par=pEnergyEfficiencyFactor rdim=1 cdim=1 rng=EnergyEfficiency!A5
 par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C75
@@ -285,7 +286,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/data/pDemandData.csv
@@ -295,13 +296,11 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/data/pExternalH2.csv
     name: pExternalH2
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan} 
     indexColumns: [1, 2]
     header: [1]
     type: par
@@ -310,8 +309,6 @@ $onEmbeddedCode Connect:
     trace: 0
     file: input/data/relevant.csv
     name: relevant
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     type: set
 
@@ -323,7 +320,7 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan} 
     type: set
     indexColumns: [1]
-
+    
 - CSVReader:
     file: input/data/pFuelPrice.csv
     name: pFuelPrice
@@ -412,11 +409,11 @@ $onEmbeddedCode Connect:
     trace: 0
     file: input/data/pScalars.csv
     name: pScalars
-    indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan} 
     indexColumns: [1]
     valueColumns: [2]
     type: par
+    
 
 - CSVReader:
     trace: 0
@@ -477,6 +474,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
+    
 
 - CSVReader:
     trace: 0
@@ -517,7 +515,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/data/pCapexTrajectory.csv
@@ -557,7 +555,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-
+    
 - CSVReader:
     trace: 0
     file: input/data/pPlanningReserveMargin.csv
@@ -597,8 +595,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     header: [1]
     type: par
-
-
+    
 - CSVReader:
     trace: 0
     file: input/data/pEmissionsTotal.csv
@@ -690,13 +687,21 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     type: set
 
-
 - CSVReader:
     file: input/data/sTopology.csv
     name: sTopology
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: input/data/zext.csv
+    name: zext
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
     type: set
 
 
@@ -1132,6 +1137,15 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: %zext%
+    name: zext
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
     type: set
 
 

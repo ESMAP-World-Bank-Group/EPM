@@ -54,6 +54,7 @@ MaxCapital,200000
 MaxImports,0.9
 NoTransferLim,0
 pAllowHighTransfer,1
+VREForecastError,0.15
 SAImportLimit,0
 ,1
 CSP_SolarMultiple,
