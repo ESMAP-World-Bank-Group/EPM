@@ -106,8 +106,20 @@ Set
 						AllowAllConnectionsLater
 						EmissionBudget
 						pDecarbLevel
+
+********************************************************************                        
+                        IncludeH2
+                        H2UnservedCost 
+********************************************************************
                      
                        /
+***********H2 model addition
+H2status  'H2 generation plant status' / Existing, Candidate, Committed /
+
+**************************
+
+
+
    mipline 'Solver option lines'
 ;
 
@@ -153,8 +165,16 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pScalars(sc)                     'Flags and penalties to load'
    pPlanningReserveMargin(c,y)        'Country planning reserve margin'
    pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
+   pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
    
    pHydroVar(g,y)                   'Total hydro capacity factor per generator and year'
+
+*******************Hydrogen model related parameters***********************
+  pH2Data(hh,hhdr)                  'H2 production unit specs'
+  pAvailabilityH2(hh,q)             'Availability by H2 generation plant and season or quarter in percentage - need to reflect maintenance'
+  pFuelData(f)                     'Hydrogen fuels'
+  pCapexTrajectoryH2(hh,y)          'CAPEX trajectory for hydrogen generation unit'
+***************************************************************************
     
 
 ;   
@@ -187,6 +207,8 @@ Parameters
    pCaptraj                         'allow capex trajectory'
    pIncludeEE                       'energy efficiency factor flag'
    pSystem_CO2_constraints
+   pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
+   pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
    pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
 ;
 
@@ -203,7 +225,8 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    Zt(z)
    stg(g)                'Grid tied storage'
    ror(g)                'ROR generators'
-
+************H2 model related sets ************************************  
+   H2statusmap(hh,H2status)
 ;
 $onmulti
 Sets
@@ -235,6 +258,9 @@ Set
 Parameter
    pGenDataExcel(g<,*)
    pStorDataExcel(g,*,shdr)
+*****************Hydrogen model related sets************************
+   pH2DataExcel(hh<,*)
+
 $onMulti   
    pTechDataExcel(tech<,*)
 ;
@@ -256,12 +282,16 @@ $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFue
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability pHydroVar
 $load pStorDataExcel pCSPData pCapexTrajectory pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
 $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxPriceImportShare 
+$load pExtTransferLimit
 $load pNewTransmission
 $load pMinImport
+************************************************Hydrogen model related symbols*************************************
+$load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 $gdxIn
 $offmulti
 
-$exit
+display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
+
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -271,6 +301,12 @@ $if not errorFree $echo Data errors. Please inspect the listing file for details
 
 * Generate gfmap and others from pGenDataExcel
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
+
+*******************H2 model parameter***********************************************
+parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
+**********************************************************************************
+
+
 set addHdr / fuel1, fuel2, Zone, Type, 'Assigned Value', status, Heatrate2,
              'RE Technology (Yes/No)', 'Hourly Variation? (Yes/No)' /;
 
@@ -292,6 +328,13 @@ pGenData(g,ghdr) = pGenDataExcel(g,ghdr);
 pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
 pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
 pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
+
+***********************H2 model parameters***************************************************
+
+pH2Data(hh,hhdr)=pH2DataExcel(hh,hhdr);
+H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
+h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
+
 
 $ifThen set generateMIROScenario
 Parameter
@@ -350,6 +393,7 @@ execute_unload '%GDX_INPUT%_miro'
    pEnergyEfficiencyFactor
    pTradePrice
    pMaxPriceImportShare
+   pExtTransferLimit  
    pNewTransmission
    solverThreads
    solverOptCR
@@ -358,6 +402,13 @@ execute_unload '%GDX_INPUT%_miro'
    mipsolver
    mipopt
    pHydroVar
+
+***************Hydrogen production related parameters
+pH2Data
+pAvailabilityH2
+pCapexTrajectoryH2
+pExternalH2
+
 ;
 abort.noError 'Created %GDX_INPUT%_miro. Done!';
 $endif
@@ -532,6 +583,9 @@ $set includeCSP                           -1
 $set includeStorage                       -1
 $set zonal_co2_constraints                -1
 $set system_co2_constraints               -1
+***********Hydrogen model specific sets**********************
+$set IncludeH2                            -1
+****************************************************************
 
 *Main parameters
 pzonal_spinning_reserve_constraints  = pScalars("zonal_spinning_reserve_constraints");
@@ -568,6 +622,11 @@ pzonal_planning_Startyr              = pScalars("zonal_planning_Startyr");
 pzonal_planning_reserve_constraints  = pScalars("zonal_planning_reserve_constraints");
 pEmissionBudget                      = pScalars("EmissionBudget");
 
+*****************Related to hydrogen model***************************************
+pIncludeH2                       = pScalars("IncludeH2");
+pH2UnservedCost                  = pScalars("H2UnservedCost");  
+********************************************************************************
+
 
 $IF NOT "%zonal_spinning_reserve_constraints%"  == "-1" pzonal_spinning_reserve_constraints  = %zonal_spinning_reserve_constraints%;
 $IF NOT "%system_spinning_reserve_constraints%" == "-1" psystem_spinning_reserve_constraints = %system_spinning_reserve_constraints%;
@@ -580,6 +639,8 @@ $IF NOT "%includeCSP%"                          == "-1" pincludeCSP             
 $IF NOT "%includeStorage%"                      == "-1" pincludeStorage                      = %includeStorage%;
 $IF NOT "%zonal_co2_constraints%"               == "-1" pzonal_co2_constraints               = %zonal_co2_constraints%;
 $IF NOT "%system_co2_constraints%"              == "-1" psystem_co2_constraints              = %system_co2_constraints%;
+******************* Hydroge model parameters*******************************************************************
+$IF NOT "%IncludeH2%"                           == "-1" pIncludeH2                           = %IncludeH2%;
 
 singleton set sFinalYear(y);
 scalar TimeHorizon;
@@ -606,6 +667,12 @@ pIncludeCarbon   = pScalars("includeCarbonPrice");
 pinterconMode    = pScalars("interconMode");
 pnoTransferLim   = pScalars("noTransferLim");
 pincludeEE       = pScalars("includeEE");
+
+pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
+pExtTransferLimit(z,zext,q,"Export",y)$(not pallowExports)  = 0 ;
+
+pExtTransferLimitIn(z,zext,q,y)$pallowExports   = pExtTransferLimit(z,zext,q,"Import",y) ;
+pExtTransferLimitOut(z,zext,q,y)$pallowExports  = pExtTransferLimit(z,zext,q,"Export",y) ;
 
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 Zd(z) = not Zt(z);
@@ -651,6 +718,21 @@ RampRate(g) = pGenData(g,"RampDnRate");
 
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);
 
+***********H2 model specific sets*****************
+nh(hh)  = H2statusmap(hh,'candidate');
+eh(hh)  = not nh(hh);
+RampRateH2(hh)= pH2Data(hh,"RampDnRate");
+dcH2(hh)  = sum(y, pCapexTrajectoryH2(hh,y));
+ndcH2(hh) = not dcH2(hh);
+nRE(g) = not re(g);
+nVRE(g)=not VRE(g);
+
+REH2(g)= sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1) - sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
+nREH2(g)= not REH2(g);
+********************************************
+
+
+
 $offIDCProtect
 * If not running in interconnected mode, set network to 0
 sTopology(z,z2)$(not pinterconMode) = no;
@@ -682,6 +764,10 @@ pCapexTrajectories(g,y) =  1;
 * execute_unload 'debug_output.gdx', g, gtechmap, pCapexTrajectory;
 pCapexTrajectories(dc, y)$pCaptraj = sum(tech$(pCapexTrajectory(tech, y) > 0 and gtechmap(dc, tech)), pCapexTrajectory(tech, y));
 
+***********************H2 model parameters********************
+pCapexTrajectoriesH2(hh,y) =1;
+pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
+***************************************************************
 
 ** (correcting the weights)
 pWeightYear(sStartYear) = 1.0;
@@ -715,7 +801,21 @@ pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")
                        + pCSPData(g, "Thermal Field", "VOM");
 
 
+
+*************************H2 model****************************************
+pVarCostH2(hh,y) = pH2Data(hh,"VOM");
+
+**********************************************************************
+
+
+
 pCRF(g)$pGenData(g,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(g,'Life'))));
+
+*********************Hydrogen model related parameter*****************************************
+pCRFH2(hh)$pH2Data(hh,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pH2Data(hh,'Life'))));
+
+************************************************************************************************
+
 
 pCRFsst(st)$pStorData(st,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pStorData(st,'Life'))));
 
@@ -778,6 +878,50 @@ vCap.fx(eg,y)$((pScalars("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and 
 vCapTherm.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
+
+
+********************* Equations for hydrogen production**********************************************************
+*Maximum capacity is equal to "Capacity"
+vCapH2.up(hh,y) = pH2Data(hh,"Capacity");
+
+*No new capacity can be built for existing generators
+vBuildH2.fx(eh,y)$(pH2Data(eh,"StYr") <= sStartYear.val) = 0;
+
+*The new capacity for new generators can not exceed the annual limit
+vBuildH2.up(nh,y) = pH2Data(nh,"BuildLimitperYear")*pWeightYear(y);
+
+*Electrolyzers can not operate at days with zero demand (applicable to dispatch model)
+vH2PwrIn.fx(hh,q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t))  =0)   =0;
+
+*The maximum power drawn for H2 production can't be more than the Capacity of the electrolyzer
+vH2PwrIn.up(hh,q,d,t,y)  =pH2Data(hh,"Capacity");
+
+
+vCapH2.fx(hh,y)$(pH2Data(hh,"StYr") > y.val)=0;
+vCapH2.fx(eh,sStartYear)$(pH2Data(eh,"StYr") < sStartYear.val) = pH2Data(eh,"Capacity");
+vCapH2.fx(eh,y)$((pH2Data(eh,"StYr") <= y.val) and (pH2Data(eh,"StYr") >= sStartYear.val)) = pH2Data(eh,"Capacity");
+vCapH2.fx(eh,y)$(pH2Data(eh,"RetrYr") and (pH2Data(eh,"RetrYr") <= y.val)) = 0;
+
+vRetireH2.fx(nh,y) = 0;
+vRetireH2.fx(eh,y)$(pH2Data(eh,"Life") = 99) = 0;
+
+vCapH2.fx(eh,y)$((pScalars("econRetire") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
+
+sH2PwrIn(hh,q,d,t,y) = yes;
+
+
+
+vREPwr2H2.fx(nRE,f,q,d,t,y)=0;       
+vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;     
+  
+
+*******************************************************************************************************************
+
+
+
+
+
+
 
 sPwrOut(gfmap(g,f),q,d,t,y) = yes;
 sPwrOut(gfmap(st,f),q,d,t,y)$(not pincludeStorage) = yes;

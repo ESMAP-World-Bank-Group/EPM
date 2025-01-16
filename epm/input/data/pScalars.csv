@@ -73,3 +73,6 @@ VRECapacityCredits,0
 EmissionBudget,0
 pDecarbLevel,87122154.16
 pGasRetirement,2025
+,
+IncludeH2,0
+H2UnservedCost,3000

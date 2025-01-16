@@ -703,6 +703,15 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     type: set
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pExtTransferLimit.csv
+    name: pExtTransferLimit
+    valueSubstitutions: {0: .nan} 
+    indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
 
 
 - GDXWriter:
@@ -1147,6 +1156,15 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     type: set
+    
+- CSVReader:
+    trace: 0
+    file: %pExtTransferLimit%
+    name: pExtTransferLimit
+    valueSubstitutions: {0: .nan} 
+    indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
 
 
 - GDXWriter:
