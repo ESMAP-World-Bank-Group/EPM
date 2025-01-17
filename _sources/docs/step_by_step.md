@@ -75,7 +75,7 @@ Modifying input files and reading functions may introduce bugs. To debug, use GA
     ```
     Once this works, gradually add other files.
     2. Comparing the gdx file obtained with this approach, with the one obtained using the input excel file. To obtain the second one, either use input gdx files from previous case studies, already available. Or run the code with `--READER CONNECT_EXCEL` to obtain the excel output.
-- Once the model works with --READER CONNECT_CSV, update WB_EPM_input_readers.gms for CONNECT_CSV_PYTHON. This ensures compatibility with scenario-based input selection. Modify the code as follows:
+- **Important**: Update jointly WB_EPM_input_readers.gms for CONNECT_CSV_PYTHON. This ensures compatibility with scenario-based input selection. Modify the code as follows:
     ```gams 
     - CSVReader:
     trace: 0
@@ -85,6 +85,7 @@ Modifying input files and reading functions may introduce bugs. To debug, use GA
     header: [1,2]
     type: par
     ```
+  We recommend modifying both sections of the code **simultaneously**, to ensure that all changes made when reading input data with CONNECT_CSV are implemented for CONNECT_CSV_PYTHON.
   
 ### Setting up scenario files
 - Create the `scenario_baseline.csv` file that contains the baseline scenario. Look at the `input` folder for an example. The `scenario_baseline.csv` provides the path to all the `.csv` input data for the baseline scenario.
