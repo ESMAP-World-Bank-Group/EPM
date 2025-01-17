@@ -12,6 +12,7 @@ parts:
       - file: docs/run_engine_remote_server
       - file: docs/launch_multiple_simulation
       - file: docs/git_process.md
+      - file: docs/input_reading.md
       - file: docs/solver_options.md
       - file: docs/run_parallel.md
   - caption: Postprocessing
