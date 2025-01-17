@@ -1,6 +1,6 @@
 # Input reading through python
 
-_Last update: January 2025_
+_Last update: Jan 2025_
 
 ## Why use csv files ?
 To improve efficiency and reduce errors, the input Excel file is split into multiple CSV files (examples are available in the `input` folder on the main Git branch).
