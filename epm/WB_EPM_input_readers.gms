@@ -550,8 +550,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pReserveMargin.csv
-    name: pReserveMargin
+    file: input/data/pPlanningReserveMargin.csv
+    name: pPlanningReserveMargin
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -560,8 +560,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pReserveReqLoc.csv
-    name: pReserveReqLoc
+    file: input/data/pSpinningReserveReqCountry.csv
+    name: pSpinningReserveReqCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -570,8 +570,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pReserveReqSys.csv
-    name: pReserveReqSys
+    file: input/data/pSpinningReserveReqSystem.csv
+    name: pSpinningReserveReqSystem
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -580,8 +580,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/data/pEmissionsZone.csv
-    name: pEmissionsZone
+    file: input/data/pEmissionsCountry.csv
+    name: pEmissionsCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -688,6 +688,24 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
     type: set
+    
+- CSVReader:
+    trace: 0
+    file: input/data/zext.csv
+    name: zext
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pExtTransferLimit.csv
+    name: pExtTransferLimit
+    valueSubstitutions: {0: .nan} 
+    indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
 
 
 - GDXWriter:
@@ -967,8 +985,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pReserveMargin%
-    name: pReserveMargin
+    file: %pPlanningReserveMargin%
+    name: pPlanningReserveMargin
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -977,8 +995,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pReserveReqLoc%
-    name: pReserveReqLoc
+    file: %pSpinningReserveReqCountry%
+    name: pSpinningReserveReqCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -987,8 +1005,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: %pReserveReqSys%
-    name: pReserveReqSys
+    file: %pSpinningReserveReqSystem%
+    name: pSpinningReserveReqSystem
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -997,8 +1015,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: %pEmissionsZone%
-    name: pEmissionsZone
+    file: %pEmissionsCountry%
+    name: pEmissionsCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
@@ -1105,6 +1123,24 @@ $onEmbeddedCode Connect:
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
     type: set
+    
+- CSVReader:
+    trace: 0
+    file: %zext%
+    name: zext
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: 0
+    file: %pExtTransferLimit%
+    name: pExtTransferLimit
+    valueSubstitutions: {0: .nan} 
+    indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
 
 
 - GDXWriter:
