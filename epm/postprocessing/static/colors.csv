@@ -21,3 +21,8 @@ Unmet demand,black
 Demand,red
 Exports,green
 Storage Charge,pink
+Onshore Wind,green
+Offshore Wind,blue
+Uranium,orange
+Geothermal,brown
+CSP,yellow

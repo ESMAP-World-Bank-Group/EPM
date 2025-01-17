@@ -20,7 +20,15 @@ COLORS = 'static/colors.csv'
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
-    'pDispatch': 'attribute'
+    'pDispatch': 'attribute',
+    'pCostSummary': 'attribute',
+    'pCapacityByFuel': 'fuel',
+    'pEnergyByFuel': 'fuel'
+}
+
+UNIT = {
+    'Capex: $m': 'M$/year',
+    'Unmet demand costs: : $m': 'M$'
 }
 
 
@@ -257,13 +265,13 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
 
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
             'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
-            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization', 'pReserveByPlant',
-            'pReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
+            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
+            'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
+            'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear'}
 
-    rename_keys = {'pReserveByPlantCountry': 'pReserveByPlant'}
+    rename_keys = {'pSpinningReserveByPlantCountry': 'pReserveByPlant'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epm_results.items() if k in keys and k in epm_results.keys()}
@@ -274,7 +282,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             if 'scenario' in i.columns:
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
-    list_keys = ['pReserveByPlant', 'pPlantReserve', 'pCapacityPlan']
+    list_keys = ['pReserveByPlant', 'pCapacityPlan']
     list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
@@ -1387,7 +1395,7 @@ def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color
         plt.show()
 
 
-def heatmap_plot(data, filename=None, percentage=False):
+def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
     """
     Plots a heatmap showing differences from baseline with color scales defined per column.
 
@@ -1402,7 +1410,7 @@ def heatmap_plot(data, filename=None, percentage=False):
     """
 
     # Calculate differences from baseline
-    baseline_values = data.loc['Baseline', :]
+    baseline_values = data.loc[baseline, :]
     diff_from_baseline = data.subtract(baseline_values, axis=1)
 
     # Combine differences and baseline values for annotations
@@ -1451,9 +1459,22 @@ def heatmap_plot(data, filename=None, percentage=False):
         plt.tight_layout()
         plt.show()
 
+def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_columns=None):
+    if rename_index is not None:
+        df.index = df.index.map(lambda x: rename_index.get(x, x))
+    if rename_columns is not None:
+        df.columns = df.columns.map(lambda x: rename_columns.get(x, x))
+    if order_index is not None:
+        df = df.loc[order_index, :]
+    if order_columns is not None:
+        df = df.loc[:, order_columns]
+    return df
 
-def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
-                      discount_rate=0):
+
+def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario_order=None,
+                               discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
+                               fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
+                               rename_columns=None):
     """
     Make a heatmap plot for the results of the EPM model.
 
@@ -1468,8 +1489,113 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     """
     summary = []
 
+    if required_keys is None:
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pCurtailedVRET', 'pCostSummary', 'pNPVByYear']
+
+    assert all(
+        key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
+
+    if fuel_capa_list is None:
+        fuel_capa_list = ['Hydro', 'Solar', 'Wind']
+
+    if fuel_gen_list is None:
+        fuel_gen_list = ['Hydro', 'Oil']
+
+    if summary_metrics_list is None:
+        summary_metrics_list = ['Capex: $m']
+
+    if 'pCapacityByFuel' in required_keys:
+        temp = epm_results['pCapacityByFuel'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityByFuel'], values='value')
+        temp = temp.loc[:, fuel_capa_list]
+        temp = rename_and_reoder(temp, rename_columns=rename_columns)
+        temp.columns = [f'{col} (MW)' for col in temp.columns]
+        temp = temp.round(0)
+        summary.append(temp)
+
+    if 'pEnergyByFuel' in required_keys:
+        temp = epm_results['pEnergyByFuel'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.loc[:, fuel_gen_list]
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyByFuel'], values='value')
+        temp.columns = [f'{col} (GWh)' for col in temp.columns]
+        temp = temp.round(0)
+        summary.append(temp)
+
+    if 'pEmissions' in required_keys:
+        temp = epm_results['pEmissions'].copy()
+        temp = temp[(temp['zone'] == 'Guinea') * (temp['year'] == 2050)]
+        temp = temp.set_index(['scenario'])['value']
+        temp = temp * 1e3
+        temp.rename('ktCO2', inplace=True).to_frame()
+        summary.append(temp)
+
+    if 'pCurtailedVRET' in required_keys:
+        temp = epm_results['pCurtailedVRET'].copy()
+        temp = temp[(temp['year'] == year)]
+        temp = temp.groupby([rows_index])['value'].sum() / 1e3
+        temp.rename('Curtail. (kWh)', inplace=True).to_frame()
+        summary.append(temp)
+
+    if 'pCostSummary' in required_keys:
+        capex_metric = 'Capex: $m'
+        temp = epm_results['pCostSummary'].copy()
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+
+        duration = temp['year'].max() - temp['year'].min() + 1
+        capex_tot = temp.loc[temp.attribute == capex_metric].groupby([rows_index])['value'].sum()
+        capex_tot = capex_tot / duration
+
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCostSummary'], values='value')
+        filtered_metrics = [metric for metric in summary_metrics_list if metric != capex_metric]
+
+        if len(filtered_metrics) > 0:
+            temp = temp.loc[:, filtered_metrics]
+            temp = pd.concat([temp,  capex_tot.to_frame().rename(columns={'value': capex_metric})], axis=1)
+        else:
+            temp = capex_tot.to_frame().rename(columns={'value': capex_metric})
+
+        # temp.rename('Capex ($M/year)', inplace=True).to_frame()
+        summary.append(temp)
+
+
+    summary = pd.concat(summary, axis=1)
+
+    if scenario_order is not None:
+        scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if
+                                                                              i not in scenario_order]
+        summary = summary.loc[scenario_order]
+
+    heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
+
+
+def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
+                      discount_rate=0, year=2050):
+    """
+    Make a heatmap plot for the results of the EPM model.
+
+
+    Parameters
+    ----------
+    epm_results: dict
+    filename: str
+    percentage: bool, optional, default is False
+    scenario_order
+    discount_rate
+    """
+    summary = []
+
+    required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pCurtailedVRET', 'pCostSummary', 'pNPVByYear']
+    assert all(key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
+
     temp = epm_results['pCapacityByFuel'].copy()
-    temp = temp[(temp['year'] == 2050) * (temp['zone'] == 'Guinea')]
+    temp = temp[(temp['year'] == year) * (temp['zone'] == 'Guinea')]
     fuel_list = ['Hydro', 'Solar', 'Battery Storage']
     temp = temp.pivot_table(index=['scenario'], columns='fuel', values='value')
     temp = temp.loc[:, fuel_list]

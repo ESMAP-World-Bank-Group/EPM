@@ -131,6 +131,9 @@ $offExternalOutput
    pPlantDispatch(z,y,q,d,g,t,*)             'Detailed dispatch and reserve by plant in MW'
    pDispatch(z,y,q,d,*,t)                    'Detailed dispatch and flows'
    
+   pCurtailedVRET(q,d,t,y)                   'Curtailed VRE energy'
+   pCurtailedVRETCountry(z,q,d,t,y)          'Curtailed VRE energy per country'
+   
 
                                              
    pCSPBalance(y,g,q,d,*,t)                  'in MW'
@@ -649,6 +652,9 @@ pSolarCost(z,y)$(zSolarpH(z,y) > 0) = (sum((gzmap(ng,z),gtechmap(ng,PVtech)), pC
 
 *--- Dispatch Results
 
+pCurtailedVRET(q,d,t,y)$(sum(z,pDemandData(z,q,d,y,t))) = sum(gzmap(VRE,z),vCurtailedVRE.l(z,VRE,q,d,t,y)*pHours(q,d,y,t))+1e-6;  
+pCurtailedVRETCountry(z,q,d,t,y)$(pDemandData(z,q,d,y,t)) = sum(VRE,vCurtailedVRE.l(z,VRE,q,d,t,y)*pHours(q,d,y,t))+1e-6;
+
 pPlantDispatch(z,y,q,d,g,t,"Generation")$zgmap(z,g) = sum(gfmap(g,f), vPwrOut.l(g,f,q,d,t,y));
 pPlantDispatch(z,y,q,d,g,t,"Reserve")$zgmap(z,g) = vSpinningReserve.l(g,q,d,t,y);
 
@@ -854,7 +860,8 @@ execute_unload 'epmresults',     pScalars, pSummary, pSystemAverageCost, pZonalA
 
                                  pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
                                  pSpinningReserveByPlantZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
-                                 pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,  
+                                 pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
+                                 pCurtailedVRET, pCurtailedVRETCountry,
                                  pPlantDispatch, pDispatch, pPlantUtilization, pPlantAnnualLCOE,
                                  pPlantUtilizationTech,
                                  pCSPBalance, pCSPComponents,pPVwSTOBalance,pPVwSTOComponents,pStorageBalance,pStorageComponents

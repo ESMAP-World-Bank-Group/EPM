@@ -5,6 +5,8 @@ Pumped-Hydro,Pumped-Hydro
 H2,H2
 Biomass,Biomass
 Wind,Wind
+OnshoreWind,Onshore Wind
+OffshoreWind,Offshore Wind
 PV,Solar
 Imports,Trade
 Water,Hydro
@@ -19,3 +21,6 @@ BESS_4h,Battery Storage 4h
 BESS_8h,Battery Storage 8h
 Import,Import
 Coal,Coal
+Uranium,Uranium
+Geothermal,Geothermal
+CSP,Concentrated Solar

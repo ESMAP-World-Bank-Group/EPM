@@ -5,7 +5,7 @@ Hydro,Water,3
 Solar,PV,4
 Wind,OnshoreWind,5
 Import,Import,6
-HFO,FuelOil,7
+HFO,HFO,7
 CustomFuel,Uranium,8
 Solar,CSP,9
 Battery,Battery,10
