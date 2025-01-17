@@ -1,48 +1,81 @@
 
 # Step-by-step guide
 
-_Last update: Dec 2024_
+_Last update: Jan 2025_
 
 This guide will walk you through the recommended process of running the Electricity Planning Model (EPM).
 
-1. **Clone the repository**:
+## 1. **Clone the repository**
     - Use the terminal to go to the location you want to clone the repository.
     - Run the command: `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git`
 
 
-2. **Create and activate branch**:
+## 2. **Create and activate branch**
 
 - Create a new branch for your work. This way, you can work on your own branch (and merge some of the nice feature you have developed to the main branch when you are done):
     - To see the branch you are in, run the command: `git branch` 
     - Create and change to the branch you want to work on: `git checkout -b <branch_name>`. `branch-name` should be a descriptive name of the use case you are working on, e.g., `guinea`.
     - You’ve created a new branch locally and now want to push it to the remote repository, to save your changes remotely: `git push -u origin <branch-name>`
 
-3. **Modify the input files**:
+## 3. **Modify the code files**
 
-- Look at the `input` folder for examples of the input files. We recommend using a folder with a list of `.csv` files with the data. Modify individual files as needed.
-- This step may cause a number of bugs, if you start from an existing EPM version relying on an excel version of the input files. Recommended process is to debug through GAMS Studio. 
+If an existing EPM version is available for your case study, you will need to modify the initial GAMS files — `WB_EPM_v8_5_base.gms`,` WB_EPM_v8_5_main.gms`, and `WB_EPM_v8_5_Report.gms`— to account for country- or region-specific requirements. These files are available on Git and should be adapted carefully while preserving their overall structure.
+
+### Maintaining File Structure for Python Integration
+The structure of the files on Git must remain intact to ensure compatibility with the Python framework. For example, input data is now processed through a separate file, `WB_EPM_input_readers.gms`, which is loaded from the main model file (`WB_EPM_v8_5_main.gms`) using the following directive:
+```python
+$ifThen not set READER_FILE
+$set READER_FILE "WB_EPM_input_readers.gms"
+$endIf
+```
+### Incorporating updates from the generic model on git
+The version available on Git represents the latest iteration of the generic EPM model. When developing a new model version, it is recommended to integrate as many updates from this generic model as possible to benefit from improvements made by other modelers.
+
+To efficiently track and merge modifications, consider using a code editor with file comparison features, such as VS Code or PyCharm. These tools allow you to:
+- Identify changes introduced in the generic model since the country/regional version you are working with was developed.
+- Ensure that necessary modifications are included to maintain compatibility with the Python framework.
+
+### Important considerations
+The generic model includes variable name changes, which must be applied consistently across all EPM files (main.gms, base.gms, and Report.gms). Failure to do so will likely result in errors.
+Modifications should be made holistically, ensuring that all dependent files are updated together to avoid inconsistencies.
+
+The **main structural changes** that were made in this python framework are:
+- how the `base.gms` and `Report.gms` files are read from the `main.gms` file
+- the input reading (see next section)
+
+
+## 4. **Modify the input files**
+
+For an overview of the new methodology to read inputs, refer to **Input Reading Through Python**.
+
+When implementing a new model, it is important to modify the individual csv files as needed. Look at the `input` folder for examples of the input files.
+
+### Debugging
+
+Modifying input files and reading functions may introduce bugs. To debug, use GAMS Studio with the following process:
+
   - Following recommendations from section **How to run EPM**, run `WB_EPM_v8_5_main.gms` with the following command line arguments: `--READER CONNECT_CSV`. This ensures that inputs are read from default csv files in the `input` folder (checkout `WB_EPM_input_readers.gms` to see what are the specified default csv file for each parameter). If some of your new csv files are not correctly specified, this will raise some bugs when running the gams file. 
-    - To understand and correct the bugs, the recommended approach includes
-      1. Adding successively the corresponding reading lines for each csv file, to understand which file is causing the problems. For instance, simply using at first:
-      ```gams
-      $onEmbeddedCode Connect:
+  - To understand and correct the bugs, the recommended approach includes
+    1. Add CSV reading lines incrementally to isolate problematic files. Start with a simple test: 
+    ```gams
+    $onEmbeddedCode Connect:
         
-      - CSVReader:
-          trace: 0
-          file: input/data/pAvailability.csv
-          name: pAvailability
-          indexColumns: [1]
-          header: [1,2]
-          type: par
+    - CSVReader:
+        trace: 0
+        file: input/data/pAvailability.csv
+        name: pAvailability
+        indexColumns: [1]
+        header: [1,2]
+        type: par
     
-      - GDXWriter:
-          file: %GDX_INPUT%.gdx
-          symbols: all
-      $offEmbeddedCode
-      ```
-      and then, when this line works, add successively the other ones.
+    - GDXWriter:
+        file: %GDX_INPUT%.gdx
+        symbols: all
+    $offEmbeddedCode
+    ```
+    Once this works, gradually add other files.
     2. Comparing the gdx file obtained with this approach, with the one obtained using the input excel file. To obtain the second one, either use input gdx files from previous case studies, already available. Or run the code with `--READER CONNECT_EXCEL` to obtain the excel output.
-- Once the code runs with `--READER CONNECT_CSV`, it is important to modify similarly the code section of `WB_EPM_input_readers.gms` which starts with `$elseIfI.READER %READER% == CONNECT_CSV_PYTHON`. This code section will be used when input files are read from a scenario file. You should use copy paste the same code as before, simply changing for each parameter how the file is specified. For example:
+- Once the model works with --READER CONNECT_CSV, update WB_EPM_input_readers.gms for CONNECT_CSV_PYTHON. This ensures compatibility with scenario-based input selection. Modify the code as follows:
     ```gams 
     - CSVReader:
     trace: 0
@@ -52,14 +85,12 @@ This guide will walk you through the recommended process of running the Electric
     header: [1,2]
     type: par
     ```
+  
+### Setting up scenario files
 - Create the `scenario_baseline.csv` file that contains the baseline scenario. Look at the `input` folder for an example. The `scenario_baseline.csv` provides the path to all the `.csv` input data for the baseline scenario.
 - Create the `scenarios_specification.csv` file that contains the specification of the scenarios. Look at the `input` folder for an example. By default, the model will run the baseline scenario. The `scenarios_specification.csv` provides the path to the `.csv` input data that are scenario-specific.
 
-4. **Modify the code files**:
-
-- If there is an existing EPM version for the case study you are doing, erase the `WB_EPM_v8_5_base.gms` and `WB_EPM_v8_5_Report.gms` files, which are specific to the country or region version. Simply copy paste your available files to the `country` branch instead. Otherwise, disregard this step.
-
-5. **Run the model**:
+## 5. **Run the model**:
 
 - Use `run_epm.py` or a notebook to launch the code. We suggest to only limit to one scenario during the debugging phase. Here, we have selected the `baseline` that is automatically included (even if it's not in `scenarios_specification.csv`). For example:
 
@@ -84,7 +115,7 @@ launch_epm_multi_scenarios(
 
 This code will call .gms file to run the model. Ensure that the code works as expected and that the `.gdx` output is as expected. The model will generate output files in the `output` folder, with a specific folder for each simulation defined by the datetime.
 
-5. **Process the results**:
+## 6. **Process the results**:
 
 - Use postprocessing notebook. The postprocessing notebook will help you to visualize the results and compare the scenarios. The notebook will read the output files and generate the plots and tables for the results.
 - You only need to enter the name of the folder that contains the result of the simulation. The code will actually also considers the input file.
