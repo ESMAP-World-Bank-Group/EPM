@@ -26,7 +26,8 @@ PATH_GAMS = {
 URL_ENGINE = "https://engine.gams.com/api"
 
 
-CREDENTIALS = json.load(open('credentials_engine.json', 'r'))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDENTIALS = json.load(open(os.path.join(BASE_DIR, 'credentials_engine.json'), 'r'))
 
 def get_auth_engine():
     user_name = CREDENTIALS['username']
