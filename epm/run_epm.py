@@ -10,14 +10,15 @@ from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
 import json
+import traceback
 
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main_country.gms',
-    'path_base_file': 'WB_EPM_v8_5_base_country_SLP.gms',
-    'path_report_file': 'WB_EPM_v8_5_Report_country.gms',
+    'path_main_file': 'WB_EPM_v8_5_main.gms',
+    'path_base_file': 'WB_EPM_v8_5_base.gms',
+    'path_report_file': 'WB_EPM_v8_5_Report.gms',
     'path_reader_file': 'WB_EPM_input_readers.gms',
     'path_cplex_file': 'cplex.opt'
 }
@@ -26,7 +27,9 @@ PATH_GAMS = {
 URL_ENGINE = "https://engine.gams.com/api"
 
 
-CREDENTIALS = json.load(open('credentials_engine.json', 'r'))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDENTIALS = json.load(open(os.path.join(BASE_DIR, 'credentials_engine.json'), 'r'))
+
 
 def get_auth_engine():
     user_name = CREDENTIALS['username']
@@ -365,9 +368,9 @@ if __name__ == '__main__':
 
     if True:
         folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                                    scenarios_specification='input/scenarios_specification.csv',
-                                                    selected_scenarios=['HydroStochasticStress','HydroStochasticStressHigh'],
+                                                    scenarios_specification=None,
+                                                    selected_scenarios=['baseline'],
                                                     cpu=1,
-                                                    path_engine_file=None)
+                                                    path_engine_file=False)
         # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
 

@@ -53,7 +53,7 @@ VRETargetYr,2025
 MaxCapital,200000
 MaxImports,0.9
 NoTransferLim,0
-pAllowHighTransfer,1
+pAllowHighTransfer,0
 VREForecastError,0.15
 SAImportLimit,0
 ,1
