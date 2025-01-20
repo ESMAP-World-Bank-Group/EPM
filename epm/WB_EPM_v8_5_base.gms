@@ -840,7 +840,6 @@ eCapitalConstraint$pcapital_constraints..
 eZonalEmissions(z,y)..
    vZonalEmissions(z,y) =e=
    sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,y,t));
- 
 
 eEmissionsCountry(c,y)$pzonal_co2_constraints..
 
