@@ -10,6 +10,7 @@ from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
 import json
+from utils import *
 import traceback
 
 
@@ -204,6 +205,7 @@ def launch_epm(scenario,
         A dictionary with the name of the scenario, the path to the simulation folder and the token for the job
     """
 
+    check_data(scenario)
     # If no scenario name is provided, use the current date and time
     if scenario_name == '':
         scenario_name = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')

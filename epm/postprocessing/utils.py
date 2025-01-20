@@ -32,6 +32,74 @@ UNIT = {
 }
 
 
+def check_data(scenario):
+    assert 'config' in scenario.index, "Config should be specified for data preprocessing"
+    # Load the config CSV
+    config_df = pd.read_csv(scenario['config'], index_col=0)
+
+    for _, row in config_df.iterrows():
+        function_name = row['Function']
+        args = [scenario.get(arg) for arg in row[['Argument 1', 'Argument 2', 'Argument 3', 'Argument 4']] if pd.notna(arg)]
+
+        try:
+            function = globals().get(function_name)  # Retrieve function from global namespace
+            if function:
+                function(*args)
+            else:
+                print(f"Warning: Function {function_name} not found in utils.py.")
+        except Exception as e:
+            print(f"Error while executing {function_name}: {e}")
+
+    return 0
+
+
+def process_pavailability(pAvailability_path, pGenData_path, pAvailability_additional_path, techdata_path):
+    # Load CSV files
+    pAvailability = pd.read_csv(pAvailability_path, index_col=0)
+    pGenData = pd.read_csv(pGenData_path)
+    pGenData = pGenData.set_index("Plants")
+    pAvailability_additional = pd.read_csv(pAvailability_additional_path, index_col=0)
+    techdata = pd.read_csv(techdata_path)
+    techdata = techdata.set_index("Assigned Value")
+
+    # Ensure all plants in pGenData exist in pAvailability
+    missing_plants = set(pGenData.index) - set(pAvailability.index)
+    for plant in missing_plants:
+        pAvailability.loc[plant] = [None] * len(pAvailability.columns)
+
+    availability_dict = pAvailability_additional.iloc[:, 0].to_dict()
+
+    def compute_availability(row, quarter):
+        """Specification for availability of power plants"""
+        plant_name = row.name
+        if plant_name not in pGenData.index:
+            return None  # Skip if plant not in pGenData
+
+        plant_type = pGenData.at[plant_name, "Type"]
+        plant_type = techdata.at[plant_type, "Abbreviation"]  # extracting actual type
+        # plant_year = pGenData.loc[plant_name, "StYr"]
+        plant_year = pGenData.at[plant_name, "StYr"]
+
+        # Implement the Excel formula in Python
+        if plant_type in ["STO HY", "ROR"]:
+            ab_value = pGenData.at[plant_name, f"HydroCapacityFactor{quarter}"] if f"HydroCapacityFactor{quarter}" in pGenData.columns else None
+            aa_value = pGenData.at[plant_name, "HydroCapacityFactor"] if "HydroCapacityFactor" in pGenData.columns else None
+            return ab_value if pd.notna(ab_value) else aa_value
+        elif plant_type in ["PV", "CSP", "OnshoreWind", "OffshoreWind", "Battery"]:
+            return availability_dict.get(plant_type, 1)  # Default to 1 if not found
+        elif plant_type == "Uranium":
+            return availability_dict.get("Uranium", 0.9)  # Default to 0.9
+        elif plant_type == "Coal":
+            return availability_dict.get("Coal_Old", 0.65) if plant_year < 2000 else availability_dict.get("Coal_New",
+                                                                                                           0.85)
+        else:
+            return 0.85  # Default for all other cases
+
+    for quarter in ["Q1", "Q2", "Q3", "Q4"]:
+        pAvailability[quarter] = pAvailability.apply(lambda row: compute_availability(row, quarter), axis=1)
+    pAvailability.to_csv(pAvailability_path)
+
+
 def create_folders_imgs(folder):
     """
     Creating folders for images
@@ -1393,6 +1461,142 @@ def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color
         plt.close()
     else:
         plt.show()
+
+
+def scatter_plot_with_colors_new(df, column_xaxis, column_yaxis, column_color, color_dict,
+                             ymax=None, xmax=None, title='', legend=None, filename=None,
+                             size_scale=None, annotate_thresh=None, subplot_column=None):
+    """
+    Creates scatter plots with points colored based on the values in a specific column.
+    Supports optional subplots based on a categorical column.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing the data.
+    column_xaxis : str
+        Column name for x-axis values.
+    column_yaxis : str
+        Column name for y-axis values.
+    column_color : str
+        Column name for categorical values determining color.
+    color_dict : dict
+        Dictionary mapping values in column_color to specific colors.
+    ymax : float, optional
+        Maximum y-axis value.
+    xmax : float, optional
+        Maximum x-axis value.
+    title : str, optional
+        Title of the plot.
+    legend : str, optional
+        Title for the legend.
+    filename : str, optional
+        File name to save the plot. If None, the plot is displayed.
+    size_scale : float, optional
+        Scaling factor for point sizes.
+    annotate_thresh : float, optional
+        Threshold for annotating points with generator names.
+    subplot_column : str, optional
+        Column name to split the data into subplots.
+
+    Returns
+    -------
+    None
+        Displays the scatter plots.
+    """
+    # If subplots are required
+    if subplot_column is not None:
+        unique_values = df[subplot_column].unique()
+        n_subplots = len(unique_values)
+        ncols = min(3, n_subplots)  # Limit to 3 columns per row
+        nrows = int(np.ceil(n_subplots / ncols))
+
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(5 * ncols, 5 * nrows), sharex=True, sharey=True)
+        axes = np.array(axes).flatten()  # Ensure axes is an iterable 1D array
+
+        for i, val in enumerate(unique_values):
+            ax = axes[i]
+            subset_df = df[df[subplot_column] == val]
+
+            scatter_plot_on_ax(ax, subset_df, column_xaxis, column_yaxis, column_color, color_dict,
+                               ymax, xmax, title=f"{title} - {subplot_column}: {val}",
+                               legend=legend, size_scale=size_scale, annotate_thresh=annotate_thresh)
+
+        # Hide unused subplots
+        for j in range(i + 1, len(axes)):
+            fig.delaxes(axes[j])
+
+        plt.tight_layout()
+    else:
+        # If no subplots, plot normally
+        fig, ax = plt.subplots(figsize=(8, 6))
+        scatter_plot_on_ax(ax, df, column_xaxis, column_yaxis, column_color, color_dict,
+                           ymax, xmax, title=title, legend=legend,
+                           size_scale=size_scale, annotate_thresh=annotate_thresh)
+
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+
+
+def scatter_plot_on_ax(ax, df, column_xaxis, column_yaxis, column_color, color_dict,
+                       ymax=None, xmax=None, title='', legend=None,
+                       size_scale=None, annotate_thresh=None):
+    """
+    Helper function to create a scatter plot on a given matplotlib Axes.
+    """
+    unique_values = df[column_color].unique()
+    for val in unique_values:
+        if val not in color_dict:
+            raise ValueError(f"No color specified for value '{val}' in {column_color}")
+
+    color_dict = {val: color_dict[val] for val in unique_values}
+
+    # Determine sizes of points
+    sizes = 50
+    if size_scale is not None:
+        sizes = df[column_xaxis] * size_scale
+
+    # Plot each category separately
+    for value, color in color_dict.items():
+        subset = df[df[column_color] == value]
+        scatter = ax.scatter(subset[column_xaxis], subset[column_yaxis],
+                             label=value, color=color, alpha=0.7,
+                             s=sizes[subset.index] if size_scale else sizes)
+
+        # Annotate points above a certain threshold
+        if annotate_thresh is not None:
+            for i, txt in enumerate(subset['generator']):
+                if subset[column_xaxis].iloc[i] > annotate_thresh:
+                    x_value, y_value = subset[column_xaxis].iloc[i], subset[column_yaxis].iloc[i]
+                    ax.annotate(
+                        txt,
+                        (x_value, y_value),  # Point location
+                        xytext=(5, 10),  # Offset in points (x, y)
+                        textcoords='offset points',  # Use an offset from the data point
+                        fontsize=9,
+                        color='black',
+                        ha='left'
+                    )
+                    # ax.annotate(txt, (subset[column_xaxis].iloc[i], subset[column_yaxis].iloc[i]), color='black')
+
+    if ymax is not None:
+        ax.set_ylim(0, ymax)
+
+    if xmax is not None:
+        ax.set_xlim(0, xmax)
+
+    ax.set_xlabel(column_xaxis)
+    ax.set_ylabel(column_yaxis)
+    ax.set_title(title)
+
+    # Remove legend from each subplot to avoid redundancy
+    if legend is not None:
+        ax.legend(title=legend, frameon=False)
+
+    ax.grid(True, linestyle='--', alpha=0.5)
 
 
 def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):

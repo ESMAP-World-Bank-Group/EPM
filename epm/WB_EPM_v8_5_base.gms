@@ -269,6 +269,7 @@ Positive Variables
    vYearlyTransmissionAdditions(z,y)  'added transmission cost (not included in cost of generation)'
    vYearlyCurtailmentCost(z,y)
    vCurtailedVRE(z,g,q,d,t,y)
+
 *************H2 MODEL SPECIFIC VARIABLES***************************
    vCapH2(hh,y)                'total capacity in place accounting for legacy, new and retired plants (MW)'
    vBuildH2(hh,y)              'Build (MW)'
@@ -302,6 +303,7 @@ Free Variable
    vYearlyCarbonCost(z,y)               'country carbon cost'
    vYearlyUnmetReserveCostSystem(y)                 'system unmet planing reserve'
    vYearlyCO2backCost(c,y)              'ccost of CO2 backstop'
+   
 ;
 
 Integer variable

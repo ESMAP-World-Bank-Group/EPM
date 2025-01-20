@@ -53,8 +53,14 @@ par=pFuelPrice              rdim=2 cdim=1 rng=FuelPrices!A6
 par=pMaxFuellimit           rdim=2 cdim=1 rng=FuelLimit!A6
 par=pVREgenProfile          rdim=4 cdim=1 rng=REgenProfile!A6
 par=pHydroVar               rdim=1 cdim=1 rng=HydroSensitivity!D6
+*******************************************************************************************
+set=hh                      rdim=1 cdim=0 rng=H2Data!A7:A%XLSXMAXROWS%      Values=NoData
+par=pH2DataExcel            rdim=1 cdim=1 rng=H2Data!A6
+par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
+par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
+par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
+par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
 $offecho
-
 $call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
 $call rm gdxxrw.in
 
@@ -413,7 +419,6 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     valueColumns: [2]
     type: par
-    
 
 - CSVReader:
     trace: 0
@@ -474,7 +479,6 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     header: [1]
     type: par
-    
 
 - CSVReader:
     trace: 0

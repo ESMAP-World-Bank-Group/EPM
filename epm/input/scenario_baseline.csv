@@ -1,6 +1,8 @@
 paramNames,file
+config,data/config.csv
 ftfindex,data/ftfindex.csv
 pAvailability,data/pAvailability.csv
+pAvailability_additional,data/pAvailability_additional.csv
 pAvailabilityH2,data/pAvailabilityH2.csv
 pCapexTrajectory,data/pCapexTrajectory.csv
 pCapexTrajectoryH2,data/pCapexTrajectoryH2.csv
