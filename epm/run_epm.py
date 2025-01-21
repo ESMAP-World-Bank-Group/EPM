@@ -76,6 +76,75 @@ def post_job_engine(scenario_name, path_zipfile):
     return req
 
 
+def check_data(scenario):
+    assert 'config' in scenario.index, "Config should be specified for data preprocessing"
+    # Load the config CSV
+    config_df = pd.read_csv(scenario['config'], index_col=0)
+
+    for _, row in config_df.iterrows():
+        function_name = row['Function']
+        args = [scenario.get(arg) for arg in row[['Argument 1', 'Argument 2', 'Argument 3', 'Argument 4']] if pd.notna(arg)]
+
+        try:
+            function = globals().get(function_name)  # Retrieve function from global namespace
+            if function:
+                function(*args)
+            else:
+                print(f"Warning: Function {function_name} not found in utils.py.")
+        except Exception as e:
+            print(f"Error while executing {function_name}: {e}")
+
+    return 0
+
+
+def process_pavailability(pAvailability_path, pGenData_path, pAvailability_additional_path, techdata_path):
+    # Load CSV files
+    pAvailability = pd.read_csv(pAvailability_path, index_col=0)
+    pGenData = pd.read_csv(pGenData_path)
+    pGenData = pGenData.set_index("Plants")
+    pAvailability_additional = pd.read_csv(pAvailability_additional_path, index_col=0)
+    techdata = pd.read_csv(techdata_path)
+    techdata = techdata.set_index("Assigned Value")
+
+    # Ensure all plants in pGenData exist in pAvailability
+    missing_plants = set(pGenData.index) - set(pAvailability.index)
+    for plant in missing_plants:
+        pAvailability.loc[plant] = [None] * len(pAvailability.columns)
+
+    availability_dict = pAvailability_additional.iloc[:, 0].to_dict()
+
+    def compute_availability(row, quarter):
+        """Specification for availability of power plants"""
+        plant_name = row.name
+        if plant_name not in pGenData.index:
+            return None  # Skip if plant not in pGenData
+
+        plant_type = pGenData.at[plant_name, "Type"]
+        plant_type = techdata.at[plant_type, "Abbreviation"]  # extracting actual type
+        # plant_year = pGenData.loc[plant_name, "StYr"]
+        plant_year = pGenData.at[plant_name, "StYr"]
+
+        # Implement the Excel formula in Python
+        if plant_type in ["STO HY", "ROR"]:
+            ab_value = pGenData.at[plant_name, f"HydroCapacityFactor{quarter}"] if f"HydroCapacityFactor{quarter}" in pGenData.columns else None
+            aa_value = pGenData.at[plant_name, "HydroCapacityFactor"] if "HydroCapacityFactor" in pGenData.columns else None
+            return ab_value if pd.notna(ab_value) else aa_value
+        elif plant_type in ["PV", "CSP", "OnshoreWind", "OffshoreWind", "Battery"]:
+            return availability_dict.get(plant_type, 1)  # Default to 1 if not found
+        elif plant_type == "Uranium":
+            return availability_dict.get("Uranium", 0.9)  # Default to 0.9
+        elif plant_type == "Coal":
+            return availability_dict.get("Coal_Old", 0.65) if plant_year < 2000 else availability_dict.get("Coal_New",
+                                                                                                           0.85)
+        else:
+            return 0.85  # Default for all other cases
+
+    for quarter in ["Q1", "Q2", "Q3", "Q4"]:
+        pAvailability[quarter] = pAvailability.apply(lambda row: compute_availability(row, quarter), axis=1)
+    pAvailability.to_csv(pAvailability_path)
+
+
+
 def launch_epm_multi_scenarios_excel(scenario_name='', path_gams=None, path_engine_file=False):
     # TODO: needs to be modified to include handling of multiprocessing for excel users
 
@@ -177,7 +246,7 @@ def launch_epm(scenario,
                path_report_file='WB_EPM_v8_5_Report.gms',
                path_reader_file='WB_EPM_input_readers.gms',
                path_cplex_file='cplex.opt',
-               path_engine_file=False, path_excel_file=None):
+               path_engine_file=False, run_csv=True, path_excel_file=None):
     """
     Launch the EPM model with the given scenario
 
@@ -197,6 +266,10 @@ def launch_epm(scenario,
         The path to the CPLEX file
     path_engine_file: str, optional, default False
         The path to the GAMS engine file
+    run_csv: bool, optional, default True
+        Whether to run the process through csv framework or excel framework
+    path_excel_file: str, optional, default None
+        The path to the input excel file
 
 
     Returns
@@ -229,11 +302,19 @@ def launch_epm(scenario,
 
         options = ['a=c', 'xs=engine_{}'.format(scenario_name)]
 
-    command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
-                                                    "--REPORT_FILE {}".format(path_report_file),
-                                                    "--READER_FILE {}".format(path_reader_file),
-                                                    "--READER CONNECT_CSV_PYTHON"
-                                                    ] + path_args
+    if not run_csv:
+        command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
+                                                        "--REPORT_FILE {}".format(path_report_file),
+                                                        "--READER_FILE {}".format(path_reader_file),
+                                                        "--READER GDXXRW"
+                                                        "--XLS_INPUT {}".format(path_excel_file)
+                                                        ]
+    else:
+        command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
+                                                        "--REPORT_FILE {}".format(path_report_file),
+                                                        "--READER_FILE {}".format(path_reader_file),
+                                                        "--READER CONNECT_CSV_PYTHON"
+                                                        ] + path_args
 
     # Print the command
     print("Command to execute:", command)
@@ -267,15 +348,16 @@ def launch_epm(scenario,
     return result
 
 
-def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False):
-    return launch_epm(df, scenario_name=scenario_name, path_engine_file=path_engine_file, **path_gams)
+def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False, run_csv=True, path_excel_file=None):
+    return launch_epm(df, scenario_name=scenario_name, path_engine_file=path_engine_file, run_csv=run_csv,
+                      path_excel_file=path_excel_file, **path_gams)
 
 
 def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
-                               path_engine_file=False):
+                               path_engine_file=False, run_csv=True, path_excel_file=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -295,6 +377,9 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
     # Add the full path to the files
     if path_engine_file:
         path_engine_file = os.path.join(os.getcwd(), path_engine_file)
+
+    if path_excel_file:
+        path_excel_file = os.path.join(os.getcwd(), path_excel_file)
 
     # Read the scenario CSV file
     if path_gams is not None:  # path for required gams file is provided
@@ -339,7 +424,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
 
     with Pool(cpu) as pool:
         result = pool.starmap(launch_epm_multiprocess,
-                              [(s[k], k, path_gams, path_engine_file) for k in s.keys()])
+                              [(s[k], k, path_gams, path_engine_file, run_csv, path_excel_file) for k in s.keys()])
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)

@@ -32,74 +32,6 @@ UNIT = {
 }
 
 
-def check_data(scenario):
-    assert 'config' in scenario.index, "Config should be specified for data preprocessing"
-    # Load the config CSV
-    config_df = pd.read_csv(scenario['config'], index_col=0)
-
-    for _, row in config_df.iterrows():
-        function_name = row['Function']
-        args = [scenario.get(arg) for arg in row[['Argument 1', 'Argument 2', 'Argument 3', 'Argument 4']] if pd.notna(arg)]
-
-        try:
-            function = globals().get(function_name)  # Retrieve function from global namespace
-            if function:
-                function(*args)
-            else:
-                print(f"Warning: Function {function_name} not found in utils.py.")
-        except Exception as e:
-            print(f"Error while executing {function_name}: {e}")
-
-    return 0
-
-
-def process_pavailability(pAvailability_path, pGenData_path, pAvailability_additional_path, techdata_path):
-    # Load CSV files
-    pAvailability = pd.read_csv(pAvailability_path, index_col=0)
-    pGenData = pd.read_csv(pGenData_path)
-    pGenData = pGenData.set_index("Plants")
-    pAvailability_additional = pd.read_csv(pAvailability_additional_path, index_col=0)
-    techdata = pd.read_csv(techdata_path)
-    techdata = techdata.set_index("Assigned Value")
-
-    # Ensure all plants in pGenData exist in pAvailability
-    missing_plants = set(pGenData.index) - set(pAvailability.index)
-    for plant in missing_plants:
-        pAvailability.loc[plant] = [None] * len(pAvailability.columns)
-
-    availability_dict = pAvailability_additional.iloc[:, 0].to_dict()
-
-    def compute_availability(row, quarter):
-        """Specification for availability of power plants"""
-        plant_name = row.name
-        if plant_name not in pGenData.index:
-            return None  # Skip if plant not in pGenData
-
-        plant_type = pGenData.at[plant_name, "Type"]
-        plant_type = techdata.at[plant_type, "Abbreviation"]  # extracting actual type
-        # plant_year = pGenData.loc[plant_name, "StYr"]
-        plant_year = pGenData.at[plant_name, "StYr"]
-
-        # Implement the Excel formula in Python
-        if plant_type in ["STO HY", "ROR"]:
-            ab_value = pGenData.at[plant_name, f"HydroCapacityFactor{quarter}"] if f"HydroCapacityFactor{quarter}" in pGenData.columns else None
-            aa_value = pGenData.at[plant_name, "HydroCapacityFactor"] if "HydroCapacityFactor" in pGenData.columns else None
-            return ab_value if pd.notna(ab_value) else aa_value
-        elif plant_type in ["PV", "CSP", "OnshoreWind", "OffshoreWind", "Battery"]:
-            return availability_dict.get(plant_type, 1)  # Default to 1 if not found
-        elif plant_type == "Uranium":
-            return availability_dict.get("Uranium", 0.9)  # Default to 0.9
-        elif plant_type == "Coal":
-            return availability_dict.get("Coal_Old", 0.65) if plant_year < 2000 else availability_dict.get("Coal_New",
-                                                                                                           0.85)
-        else:
-            return 0.85  # Default for all other cases
-
-    for quarter in ["Q1", "Q2", "Q3", "Q4"]:
-        pAvailability[quarter] = pAvailability.apply(lambda row: compute_availability(row, quarter), axis=1)
-    pAvailability.to_csv(pAvailability_path)
-
-
 def create_folders_imgs(folder):
     """
     Creating folders for images
@@ -742,6 +674,99 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         plt.close()
     else:
         plt.show()
+
+
+def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
+                percent_cap=1, filename=None, rename=None):
+    """
+    Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
+
+    Parameters:
+    ----------
+    df: pd.DataFrame
+        DataFrame containing the data
+    index: str
+        Column to use for the pie chart
+    dict_colors: dict
+        Dictionary mapping the index values to colors
+    subplot_column: str, optional
+        Column to use for subplots. If None, a single pie chart is created.
+    title: str, optional
+        Title of the plot
+    figsize: tuple, optional, default=(16, 4)
+        Size of the figure
+    percent_cap: float, optional, default=1
+        Minimum percentage to show in the pie chart
+    filename: str, optional
+        Path to save the plot
+    """
+    if rename is not None:
+        df[index] = df[index].replace(rename)
+    if subplot_column is not None:
+        # Group by the column for subplots
+        groups = df.groupby(subplot_column)
+
+        # Calculate the number of subplots
+        num_subplots = len(groups)
+        ncols = min(3, num_subplots)  # Limit to 3 columns per row
+        nrows = int(np.ceil(num_subplots / ncols))
+
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(3 * ncols, 3 * nrows), constrained_layout=True)
+        axes = np.array(axes).flatten()  # Ensure axes is iterable 1D array
+
+
+        all_labels = set()  # Collect all labels for the combined legend
+        for ax, (name, group) in zip(axes, groups):
+            colors = [dict_colors[f] for f in group[index]]
+            plot_pie_on_ax(ax, group, percent_cap, colors, title=f"{title} - {subplot_column}: {name}")
+            all_labels.update(group[index])  # Collect unique labels
+
+        # Hide unused subplots
+        for j in range(len(groups), len(axes)):
+            fig.delaxes(axes[j])
+
+        # Create a shared legend below the graphs
+        all_labels = sorted(all_labels)  # Sort labels for consistency
+        handles = [plt.Line2D([0], [0], marker='o', color=dict_colors[label], linestyle='', markersize=10)
+                   for label in all_labels]
+        fig.legend(
+            handles,
+            all_labels,
+            loc='lower center',
+            bbox_to_anchor=(0.5, -0.1),
+            ncol=len(handles),  # Adjust number of columns based on subplots
+            frameon=False, fontsize=16
+        )
+
+        # Add title for the whole figure
+        fig.suptitle(title, fontsize=16)
+
+    else:
+        # Create a single pie chart if no subplot column is specified
+        fig, ax = plt.subplots(figsize=(8, 6))
+        colors = [dict_colors[f] for f in df[index]]
+        plot_pie_on_ax(ax, df, percent_cap, colors, title)
+
+    # Save the figure if filename is provided
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+
+
+def plot_pie_on_ax(ax, df, percent_cap, colors, title):
+    df.plot.pie(
+        ax=ax,
+        y='value',
+        autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
+        startangle=140,
+        legend=False,
+        colors=colors,
+        labels=None
+    )
+    ax.set_ylabel('')
+    ax.set_title(title)
 
 
 def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
@@ -1463,7 +1488,7 @@ def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color
         plt.show()
 
 
-def scatter_plot_with_colors_new(df, column_xaxis, column_yaxis, column_color, color_dict,
+def subplot_scatter(df, column_xaxis, column_yaxis, column_color, color_dict,
                              ymax=None, xmax=None, title='', legend=None, filename=None,
                              size_scale=None, annotate_thresh=None, subplot_column=None):
     """
