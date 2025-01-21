@@ -70,8 +70,7 @@ $log ### Reading from %XLS_INPUT% using Connect and Excel Input
 $onEmbeddedCode Connect:
 - ExcelReader:
     file: %XLS_INPUT%
-    valueSubstitutions: {0: .nan}  # drop zeroes
-    indexSubstitutions: {.nan: ""}  # keep empty labels
+    trace: 1  # Debugging
     symbols:
       - name: ftfindex
         range: FuelTechnologies!A3
@@ -79,7 +78,7 @@ $onEmbeddedCode Connect:
         columnDimension: 0
       - name: pHours
         range: Duration!A6
-        rowDimension: 2
+        rowDimension: 3
         columnDimension: 1
       - name: pZoneIndex
         range: ZoneData!E7:F200
@@ -111,10 +110,8 @@ $onEmbeddedCode Connect:
         rowDimension: 1
         columnDimension: 1
         type: set
-        valueSubstitutions: {
-          "": .nan,  # Some empty cells seem to contain "" (empty string), drop those
-          1: ""  # Read 1 as empty string
-        }
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
       - name: peak
         range: LoadDefinition!H6:H%XLSXMAXROWS%
         rowDimension: 1
@@ -126,25 +123,31 @@ $onEmbeddedCode Connect:
         rowDimension: 1
         columnDimension: 0
         type: set
-        ignoreText: True
       - name: zext
         range: ZoneData!G7:G60
         rowDimension: 1
         columnDimension: 0
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
         type: set
       - name: pPlanningReserveMargin
         range: PlanningReserve!A6
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
         rowDimension: 1
         columnDimension: 0
       - name: pEnergyEfficiencyFactor
         range: EnergyEfficiency!A5
         rowDimension: 1
         columnDimension: 1
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
       - name: pScalars
-        range: Settings1!B3:C70
+        range: Settings1!B3:C80
         rowDimension: 1
         columnDimension: 0
-        indexSubstitutions: {" IncludeH2": "IncludeH2"}
+        valueSubstitutions: {0: .nan}
+        indexSubstitutions: {.nan: ""}
       - name: pAvailability
         range: GenAvailability!A6
         rowDimension: 1
@@ -153,18 +156,25 @@ $onEmbeddedCode Connect:
         range: REProfile!A6
         rowDimension: 4
         columnDimension: 1
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
       - name: pLossFactor
         range: LossFactor!A5
         rowDimension: 2
         columnDimension: 1
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
       - name: pTransferLimit
         range: TransferLimit!A5
         rowDimension: 3
         columnDimension: 1
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
       - name: pExtTransferLimit
         range: ExtTransferLimit!A5
         rowDimension: 4
         columnDimension: 1
+        valueSubstitutions: {0: .nan}
       - name: pCarbonPrice
         range: EmissionFactors!A3:B24
         rowDimension: 1
@@ -180,10 +190,6 @@ $onEmbeddedCode Connect:
       - name: pDemandProfile
         range: DemandProfile!A6
         rowDimension: 3
-        columnDimension: 1
-      - name: pMaxExchangeShare
-        range: ExchangeShare!A7
-        rowDimension: 1
         columnDimension: 1
       - name: pTradePrice
         range: TradePrices!A6
@@ -239,12 +245,6 @@ $onEmbeddedCode Connect:
         range: REgenProfile!A6
         rowDimension: 4
         columnDimension: 1
-      - name: MapGG
-        range: Retrofit!A6:ZW1000
-        rowDimension: 1
-        columnDimension: 1
-        type: set
-        valueSubstitutions: {1: ""}  # Read 1 as empty string
       - name: hh
         range: H2Data!A7:A%XLSXMAXROWS%
         rowDimension: 1
@@ -270,10 +270,10 @@ $onEmbeddedCode Connect:
         range: ExternalH2Demand!A5
         rowDimension: 2
         columnDimension: 1
-      #- name: pRETargetSeriesYr
-      #  range: REtargets!A6
-      #  rowDimension: 1
-      #  columnDimension: 1      
+
+
+
+
 - GDXWriter:
     file: %GDX_INPUT%.gdx
     symbols: all

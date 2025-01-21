@@ -8,15 +8,18 @@
 # Importing necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import numpy as np
 import os
 import gams.transfer as gt
 import seaborn as sns
 from pathlib import Path
+import geopandas as gpd
 
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 COLORS = 'static/colors.csv'
+GEOJSON = 'static/countries.geojson'
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
@@ -62,11 +65,13 @@ def read_plot_specs():
     colors = pd.read_csv(COLORS)
     fuel_mapping = pd.read_csv(FUELS)
     tech_mapping = pd.read_csv(TECHS)
+    countries = gpd.read_file(GEOJSON)
 
     dict_specs = {
         'colors': colors.set_index('Processing')['Color'].to_dict(),
         'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
-        'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict()
+        'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
+        'map_countries': countries
     }
     return dict_specs
 
@@ -718,7 +723,7 @@ def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsi
         all_labels = set()  # Collect all labels for the combined legend
         for ax, (name, group) in zip(axes, groups):
             colors = [dict_colors[f] for f in group[index]]
-            plot_pie_on_ax(ax, group, percent_cap, colors, title=f"{title} - {subplot_column}: {name}")
+            handles, labels = plot_pie_on_ax(ax, group, percent_cap, colors, title=f"{title} - {subplot_column}: {name}")
             all_labels.update(group[index])  # Collect unique labels
 
         # Hide unused subplots
@@ -745,7 +750,7 @@ def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsi
         # Create a single pie chart if no subplot column is specified
         fig, ax = plt.subplots(figsize=(8, 6))
         colors = [dict_colors[f] for f in df[index]]
-        plot_pie_on_ax(ax, df, percent_cap, colors, title)
+        handles, labels = plot_pie_on_ax(ax, df, percent_cap, colors, title)
 
     # Save the figure if filename is provided
     if filename:
@@ -755,18 +760,40 @@ def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsi
         plt.show()
 
 
-def plot_pie_on_ax(ax, df, percent_cap, colors, title):
-    df.plot.pie(
-        ax=ax,
-        y='value',
-        autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
-        startangle=140,
-        legend=False,
-        colors=colors,
-        labels=None
-    )
+def plot_pie_on_ax(ax, df, index, percent_cap, colors, title, radius=None, annotation_size=8):
+    if radius is not None:
+        df.plot.pie(
+            ax=ax,
+            y='value',
+            autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
+            startangle=140,
+            legend=False,
+            colors=colors,
+            labels=None,
+            radius=radius
+        )
+    else:
+        df.plot.pie(
+            ax=ax,
+            y='value',
+            autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
+            startangle=140,
+            legend=False,
+            colors=colors,
+            labels=None
+        )
     ax.set_ylabel('')
     ax.set_title(title)
+
+    # Adjust annotation font sizes
+    for text in ax.texts:
+        if text.get_text().endswith('%'):  # Check if the text is a percentage annotation
+            text.set_fontsize(annotation_size)
+
+    # Generate legend handles and labels manually
+    handles = [Patch(facecolor=color, label=label) for color, label in zip(colors, df[index])]
+    labels = list(df[index])
+    return handles, labels
 
 
 def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
@@ -1878,6 +1905,133 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
         summary = summary.loc[scenario_order]
 
     heatmap_plot(summary, filename, percentage=percentage)
+
+
+def create_zonemap(zone_map, selected_countries, map_epm_to_geojson):
+    zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries)]
+
+    if zone_map.crs.is_geographic:
+        zone_map = zone_map.to_crs(epsg=3857)
+
+    # Get the coordinates of the centers of the zones, countries, region
+    # centroids = zone_map.centroid
+    centers = {row['ADMIN']: [row.geometry.centroid.x, row.geometry.centroid.y] for index, row in zone_map.iterrows()}
+
+    latitudes = [coords[1] for coords in centers.values()]
+    longitudes = [coords[0] for coords in centers.values()]
+    center_latitude = sum(latitudes) / len(latitudes)
+    center_longitude = sum(longitudes) / len(longitudes)
+    # region_center = [center_latitude, center_longitude]
+
+    # geojson_names = list(correspondence_Co['Geojson_Zone'])
+    # model_names = list(correspondence_Co['EPM_Zone'])
+
+    centers = {map_epm_to_geojson[c]: v for c, v in centers.items()}
+    return zone_map, centers
+
+
+def plot_zone_map_on_ax(ax, zone_map):
+    zone_map.plot(ax=ax, color='white', edgecolor='black')
+
+    # Adjusting the limits to better center the zone_map on the region
+    ax.set_xlim(zone_map.bounds.minx.min() - 1, zone_map.bounds.maxx.max() + 1)
+    ax.set_ylim(zone_map.bounds.miny.min() - 1, zone_map.bounds.maxy.max() + 1)
+
+
+def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year, region, scenario, filename,
+                          map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), bbox_to_anchor=(0.5, -0.1),
+                          loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
+    """
+    Plots a capacity mix map with pie charts overlaid on a regional map.
+
+    Parameters:
+    - zone_map: GeoDataFrame containing the map regions.
+    - CapacityMix_scen: DataFrame containing the capacity mix data per zone.
+    - fuels_list: List of fuels to include in the plot.
+    - centers: Dictionary mapping zones to their center coordinates.
+    - year: The target year for the plot.
+    - region_name: Name of the region for the title.
+    - scenario: Scenario name for the title.
+    - graphs_folder: Path where the plot will be saved.
+    - selected_scenario: The specific scenario being plotted.
+    - geojson_names: List of country names in the GeoJSON file.
+    - model_names: List of country names used in the model.
+    - list_reduced_size: List of zones where pie size should be reduced.
+    - colorf: Function mapping fuel names to colors.
+    """
+
+    # Create figure and axes
+    fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
+
+    # Plot the base zone map
+    plot_zone_map_on_ax(ax, zone_map)
+
+    # Remove axes for a clean map
+    ax.set_aspect('equal')
+    ax.set_axis_off()
+    ax.set_title(f'Capacity mix - {region} \n {scenario} - {year}', loc='center')
+
+    # Compute pie sizes for each zone
+    region_sizes = zone_map.copy()
+    region_sizes['area'] = region_sizes.geometry.area
+    region_sizes['Name'] = region_sizes['ADMIN'].replace(map_epm_to_geojson)
+
+    def calculate_pie_size(zone, CapacityByFuel):
+        """Calculate pie chart size based on region area."""
+        # area = region_sizes.loc[region_sizes['Name'] == zone, 'area'].values[0]
+        # normalized_area = (area - region_sizes['area'].min()) / (region_sizes['area'].max() - region_sizes['area'].min())
+        area = pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)].value.sum()
+        normalized_area = (area - CapacityByFuel.groupby('zone').value.sum().min()) / (CapacityByFuel.groupby('zone').value.sum().max() - CapacityByFuel.groupby('zone').value.sum().min())
+        return min_size + normalized_area * (max_size - min_size)
+
+    handles, labels = [], []
+    # Plot pie charts for each zone
+    for zone in pCapacityByFuel['zone'].unique():
+        # Extract capacity mix for the given zone and year
+        CapacityMix_plot = (pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)]
+                            .set_index(index)['value']
+                            .fillna(0)).reset_index()
+
+        # Skip empty plots
+        if CapacityMix_plot['value'].sum() == 0:
+            continue
+
+        # Get map coordinates
+        coordinates = centers.get(zone, (0, 0))
+        loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
+
+        # Pie chart positioning and size
+        size = [0.03, 0.07]
+        if pie_sizing:
+            if list_reduced_size is not None:
+                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityByFuel)
+            else:
+                pie_size = calculate_pie_size(zone, pCapacityByFuel)
+        else:
+            pie_size = None
+
+        # Create inset pie chart
+        ax_pie = fig.add_axes([loc[0] - 0.45 * size[0], loc[1] - 0.5 * size[1], size[0], size[1]])
+        colors = [dict_colors[f] for f in CapacityMix_plot[index]]
+        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index, 25, colors, None, radius= pie_size)
+        ax_pie.set_axis_off()
+
+        for handle, label in zip(h, l):
+            if label not in labels:  # Avoid duplicates
+                handles.append(handle)
+                labels.append(label)
+
+    fig.legend(handles, labels, loc=loc, frameon=False, ncol=1,
+               bbox_to_anchor=bbox_to_anchor)
+
+    # plt.tight_layout()
+
+    # Save and show figure
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
 
 
 if __name__ == '__main__':
