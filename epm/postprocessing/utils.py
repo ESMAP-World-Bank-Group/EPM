@@ -8,19 +8,30 @@
 # Importing necessary libraries
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import numpy as np
 import os
 import gams.transfer as gt
 import seaborn as sns
 from pathlib import Path
+import geopandas as gpd
 
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 COLORS = 'static/colors.csv'
+GEOJSON = 'static/countries.geojson'
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
-    'pDispatch': 'attribute'
+    'pDispatch': 'attribute',
+    'pCostSummary': 'attribute',
+    'pCapacityByFuel': 'fuel',
+    'pEnergyByFuel': 'fuel'
+}
+
+UNIT = {
+    'Capex: $m': 'M$/year',
+    'Unmet demand costs: : $m': 'M$'
 }
 
 
@@ -54,11 +65,13 @@ def read_plot_specs():
     colors = pd.read_csv(COLORS)
     fuel_mapping = pd.read_csv(FUELS)
     tech_mapping = pd.read_csv(TECHS)
+    countries = gpd.read_file(GEOJSON)
 
     dict_specs = {
         'colors': colors.set_index('Processing')['Color'].to_dict(),
         'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
-        'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict()
+        'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
+        'map_countries': countries
     }
     return dict_specs
 
@@ -257,13 +270,13 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
 
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
             'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
-            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization', 'pReserveByPlant',
-            'pReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
+            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
+            'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
+            'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear'}
 
-    rename_keys = {'pReserveByPlantCountry': 'pReserveByPlant'}
+    rename_keys = {'pSpinningReserveByPlantCountry': 'pReserveByPlant'}
 
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epm_results.items() if k in keys and k in epm_results.keys()}
@@ -274,7 +287,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             if 'scenario' in i.columns:
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
-    list_keys = ['pReserveByPlant', 'pPlantReserve', 'pCapacityPlan']
+    list_keys = ['pReserveByPlant', 'pCapacityPlan']
     list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
@@ -594,10 +607,12 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4), percent_cap=1, filename=None):
+
+def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
+                percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
     """
-    Make a subplot of pie charts.
-    
+    Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
+
     Parameters:
     ----------
     df: pd.DataFrame
@@ -606,8 +621,8 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         Column to use for the pie chart
     dict_colors: dict
         Dictionary mapping the index values to colors
-    subplot_column: str
-        Column to use for subplots
+    subplot_column: str, optional
+        Column to use for subplots. If None, a single pie chart is created.
     title: str, optional
         Title of the plot
     figsize: tuple, optional, default=(16, 4)
@@ -616,56 +631,102 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
         Minimum percentage to show in the pie chart
     filename: str, optional
         Path to save the plot
+    bbox_to_anchor: tuple
+        Position of the legend compared to the figure
+    loc: str
+        Localization of the legend
     """
+    if rename is not None:
+        df[index] = df[index].replace(rename)
+    if subplot_column is not None:
+        # Group by the column for subplots
+        groups = df.groupby(subplot_column)
 
-    # Group by the column for subplots
-    groups = df.groupby(subplot_column)
+        # Calculate the number of subplots
+        num_subplots = len(groups)
+        ncols = min(3, num_subplots)  # Limit to 3 columns per row
+        nrows = int(np.ceil(num_subplots / ncols))
 
-    # Calculate the number of subplots
-    num_subplots = len(groups)
-    fig, axes = plt.subplots(1, num_subplots, figsize=figsize, constrained_layout=True)
-    if num_subplots == 1:
-        axes = [axes]  # Ensure axes is iterable for a single subplot
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(figsize[0], figsize[1]*nrows))
+        axes = np.array(axes).flatten()  # Ensure axes is iterable 1D array
 
-    # Plot each group as a pie chart
-    all_labels = set()  # Collect all labels for the combined legend
-    for ax, (name, group) in zip(axes, groups):
-        colors = [dict_colors[f] for f in group[index]]
-        group.plot.pie(
-            ax=ax,
-            y='value',
-            autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
-            #autopct=lambda p: f'{p:.0f}',
-            startangle=140,
-            legend=False,
-            colors=colors,
-            labels=None
+
+        all_labels = set()  # Collect all labels for the combined legend
+        for ax, (name, group) in zip(axes, groups):
+            colors = [dict_colors[f] for f in group[index]]
+            handles, labels = plot_pie_on_ax(ax, group, index, percent_cap, colors, title=f"{title} - {subplot_column}: {name}")
+            all_labels.update(group[index])  # Collect unique labels
+
+        # Hide unused subplots
+        for j in range(len(groups), len(axes)):
+            fig.delaxes(axes[j])
+
+        # Create a shared legend below the graphs
+        all_labels = sorted(all_labels)  # Sort labels for consistency
+        handles = [plt.Line2D([0], [0], marker='o', color=dict_colors[label], linestyle='', markersize=10)
+                   for label in all_labels]
+        fig.legend(
+            handles,
+            all_labels,
+            loc=loc,
+            bbox_to_anchor=bbox_to_anchor,
+            ncol=1,  # Adjust number of columns based on subplots
+            frameon=False, fontsize=16
         )
-        ax.set_ylabel('')
-        ax.set_title(name)
-        all_labels.update(group[index])  # Collect unique labels
 
-    # Create a shared legend below the graphs
-    all_labels = sorted(all_labels)  # Sort labels for consistency
-    handles = [plt.Line2D([0], [0], marker='o', color=dict_colors[label], linestyle='', markersize=10) for label in all_labels]
-    fig.legend(
-        handles,
-        all_labels,
-        loc='lower center',
-        bbox_to_anchor=(0.5, -0.1),
-        ncol=len(handles),  # Adjust number of columns based on subplots
-        frameon=False, fontsize=16
-    )
+        # Add title for the whole figure
+        fig.suptitle(title, fontsize=16)
 
-    # Add title for the whole figure
-    fig.suptitle(title, fontsize=16)
+    else:  # Create a single pie chart if no subplot column is specified
+        fig, ax = plt.subplots(figsize=(8, 6))
+        colors = [dict_colors[f] for f in df[index]]
+        handles, labels = plot_pie_on_ax(ax, df, index, percent_cap, colors, title)
 
     # Save the figure if filename is provided
+    plt.tight_layout()
+
     if filename:
         plt.savefig(filename, bbox_inches='tight')
         plt.close()
     else:
         plt.show()
+
+
+def plot_pie_on_ax(ax, df, index, percent_cap, colors, title, radius=None, annotation_size=8):
+    """Pie plot on a single axis."""
+    if radius is not None:
+        df.plot.pie(
+            ax=ax,
+            y='value',
+            autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
+            startangle=140,
+            legend=False,
+            colors=colors,
+            labels=None,
+            radius=radius
+        )
+    else:
+        df.plot.pie(
+            ax=ax,
+            y='value',
+            autopct=lambda p: f'{p:.0f}%' if p > percent_cap else '',
+            startangle=140,
+            legend=False,
+            colors=colors,
+            labels=None
+        )
+    ax.set_ylabel('')
+    ax.set_title(title)
+
+    # Adjust annotation font sizes
+    for text in ax.texts:
+        if text.get_text().endswith('%'):  # Check if the text is a percentage annotation
+            text.set_fontsize(annotation_size)
+
+    # Generate legend handles and labels manually
+    handles = [Patch(facecolor=color, label=label) for color, label in zip(colors, df[index])]
+    labels = list(df[index])
+    return handles, labels
 
 
 def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
@@ -1051,8 +1112,9 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc)
 
 
-def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(10, 6), year_ini=None,order_scenarios=None, order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
-                        format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6, annotate=True, show_total=False):
+def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
+                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
+                        cap=6, annotate=True, show_total=False, title=None):
     """
     Create a stacked bar subplot from a DataFrame.
     Parameters
@@ -1095,27 +1157,23 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
     """
     
     list_keys = list(df.columns)
-    n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
-    n_rows = 1
+    num_subplots = int(len(list_keys))
+    n_columns = min(3, num_subplots)  # Limit to 3 columns per row
+    n_rows = int(np.ceil(num_subplots / n_columns))
     if year_ini is not None:
         width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
     else:
         width_ratios = [1] * n_columns
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(10, 6*n_rows), sharey='all',
                              gridspec_kw={'width_ratios': width_ratios})
-
-    # Ensure axes is iterable
-    if n_rows == 1 and n_columns == 1:
-        axes = [axes]
+    axes = np.array(axes).flatten()
 
     handles, labels = None, None
-    for k in range(n_rows * n_columns):
-        column = k % n_columns
-        ax = axes[column]
+    for k, key in enumerate(list_keys):
+        ax = axes[k]
 
         try:
-            key = list_keys[k]
             df_temp = df[key].unstack(column_group)
 
             if key == year_ini:
@@ -1165,10 +1223,17 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
             ax.tick_params(axis='both', which=u'both', length=0)
             ax.set_xlabel('')
 
-            title = key
-            if isinstance(key, tuple):
-                title = '{}-{}'.format(key[0], key[1])
-            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            if len(list_keys) > 1:
+                title = key
+                if isinstance(key, tuple):
+                    title = '{}-{}'.format(key[0], key[1])
+                ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            else:
+                if title is not None:
+                    if isinstance(title, tuple):
+                        title = '{}-{}'.format(title[0], title[1])
+                    ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
 
             if k == 0:
                 handles, labels = ax.get_legend_handles_labels()
@@ -1189,6 +1254,10 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
             fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
                        bbox_to_anchor=(1, 0.5))
 
+    # Hide unused subplots
+    for j in range(k + 1, len(axes)):
+        fig.delaxes(axes[j])
+
     if filename is not None:
         plt.savefig(filename, bbox_inches='tight')
         plt.close(fig)
@@ -1197,10 +1266,11 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
 
 
 
-def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
+def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, column_xaxis='year',
+                              column_stacked='fuel', column_multiple_bars='scenario',
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
-                              show_total=False):
+                              show_total=False, fonttick=12, rotation=0, title=None):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
     
@@ -1275,21 +1345,28 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, col
         df = df[(df['zone'] == selected_zone)]
         df = df.drop(columns=['zone'])
 
+    if selected_year is not None:
+        df = df[(df['year'] == selected_year)]
+        df = df.drop(columns=['year'])
+
     if dict_grouping is not None:
         for key, grouping in dict_grouping.items():
             assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
             df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-
-    df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+    if column_xaxis is not None:
+        df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+    else:  # no subplots in this case
+        df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_multiple_bars])
 
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
 
     stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
-                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total)
+                        rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
@@ -1387,7 +1464,143 @@ def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color
         plt.show()
 
 
-def heatmap_plot(data, filename=None, percentage=False):
+def subplot_scatter(df, column_xaxis, column_yaxis, column_color, color_dict, figsize=(12,8),
+                             ymax=None, xmax=None, title='', legend=None, filename=None,
+                             size_scale=None, annotate_thresh=None, subplot_column=None):
+    """
+    Creates scatter plots with points colored based on the values in a specific column.
+    Supports optional subplots based on a categorical column.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing the data.
+    column_xaxis : str
+        Column name for x-axis values.
+    column_yaxis : str
+        Column name for y-axis values.
+    column_color : str
+        Column name for categorical values determining color.
+    color_dict : dict
+        Dictionary mapping values in column_color to specific colors.
+    ymax : float, optional
+        Maximum y-axis value.
+    xmax : float, optional
+        Maximum x-axis value.
+    title : str, optional
+        Title of the plot.
+    legend : str, optional
+        Title for the legend.
+    filename : str, optional
+        File name to save the plot. If None, the plot is displayed.
+    size_scale : float, optional
+        Scaling factor for point sizes.
+    annotate_thresh : float, optional
+        Threshold for annotating points with generator names.
+    subplot_column : str, optional
+        Column name to split the data into subplots.
+
+    Returns
+    -------
+    None
+        Displays the scatter plots.
+    """
+    # If subplots are required
+    if subplot_column is not None:
+        unique_values = df[subplot_column].unique()
+        n_subplots = len(unique_values)
+        ncols = min(3, n_subplots)  # Limit to 3 columns per row
+        nrows = int(np.ceil(n_subplots / ncols))
+
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(figsize[0] * ncols, figsize[1] * nrows), sharex=True, sharey=True)
+        axes = np.array(axes).flatten()  # Ensure axes is an iterable 1D array
+
+        for i, val in enumerate(unique_values):
+            ax = axes[i]
+            subset_df = df[df[subplot_column] == val]
+
+            scatter_plot_on_ax(ax, subset_df, column_xaxis, column_yaxis, column_color, color_dict,
+                               ymax, xmax, title=f"{title} - {subplot_column}: {val}",
+                               legend=legend, size_scale=size_scale, annotate_thresh=annotate_thresh)
+
+        # Hide unused subplots
+        for j in range(i + 1, len(axes)):
+            fig.delaxes(axes[j])
+
+        plt.tight_layout()
+    else:
+        # If no subplots, plot normally
+        fig, ax = plt.subplots(figsize=(8, 6))
+        scatter_plot_on_ax(ax, df, column_xaxis, column_yaxis, column_color, color_dict,
+                           ymax, xmax, title=title, legend=legend,
+                           size_scale=size_scale, annotate_thresh=annotate_thresh)
+
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+
+
+def scatter_plot_on_ax(ax, df, column_xaxis, column_yaxis, column_color, color_dict,
+                       ymax=None, xmax=None, title='', legend=None,
+                       size_scale=None, annotate_thresh=None):
+    """
+    Helper function to create a scatter plot on a given matplotlib Axes.
+    """
+    unique_values = df[column_color].unique()
+    for val in unique_values:
+        if val not in color_dict:
+            raise ValueError(f"No color specified for value '{val}' in {column_color}")
+
+    color_dict = {val: color_dict[val] for val in unique_values}
+
+    # Determine sizes of points
+    sizes = 50
+    if size_scale is not None:
+        sizes = df[column_xaxis] * size_scale
+
+    # Plot each category separately
+    for value, color in color_dict.items():
+        subset = df[df[column_color] == value]
+        scatter = ax.scatter(subset[column_xaxis], subset[column_yaxis],
+                             label=value, color=color, alpha=0.7,
+                             s=sizes[subset.index] if size_scale else sizes)
+
+        # Annotate points above a certain threshold
+        if annotate_thresh is not None:
+            for i, txt in enumerate(subset['generator']):
+                if subset[column_xaxis].iloc[i] > annotate_thresh:
+                    x_value, y_value = subset[column_xaxis].iloc[i], subset[column_yaxis].iloc[i]
+                    ax.annotate(
+                        txt,
+                        (x_value, y_value),  # Point location
+                        xytext=(5, 10),  # Offset in points (x, y)
+                        textcoords='offset points',  # Use an offset from the data point
+                        fontsize=9,
+                        color='black',
+                        ha='left'
+                    )
+                    # ax.annotate(txt, (subset[column_xaxis].iloc[i], subset[column_yaxis].iloc[i]), color='black')
+
+    if ymax is not None:
+        ax.set_ylim(0, ymax)
+
+    if xmax is not None:
+        ax.set_xlim(0, xmax)
+
+    ax.set_xlabel(column_xaxis)
+    ax.set_ylabel(column_yaxis)
+    ax.set_title(title)
+
+    # Remove legend from each subplot to avoid redundancy
+    if legend is not None:
+        ax.legend(title=legend, frameon=False)
+
+    ax.grid(True, linestyle='--', alpha=0.5)
+
+
+def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
     """
     Plots a heatmap showing differences from baseline with color scales defined per column.
 
@@ -1402,17 +1615,17 @@ def heatmap_plot(data, filename=None, percentage=False):
     """
 
     # Calculate differences from baseline
-    baseline_values = data.loc['Baseline', :]
+    baseline_values = data.loc[baseline, :]
     diff_from_baseline = data.subtract(baseline_values, axis=1)
 
     # Combine differences and baseline values for annotations
-    annotations = data.applymap(lambda x: f"{x:,.0f}")  # Format baseline values
+    annotations = data.map(lambda x: f"{x:,.0f}")  # Format baseline values
     # Format differences in percentage
     if percentage:
         diff_from_baseline = diff_from_baseline / baseline_values
-        diff_annotations = diff_from_baseline.applymap(lambda x: f" ({x:+,.0%})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})")
     else:
-        diff_annotations = diff_from_baseline.applymap(lambda x: f" ({x:+,.0f})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0f})")
     combined_annotations = annotations + diff_annotations  # Combine both
 
     # Normalize the color scale by column
@@ -1451,9 +1664,22 @@ def heatmap_plot(data, filename=None, percentage=False):
         plt.tight_layout()
         plt.show()
 
+def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_columns=None):
+    if rename_index is not None:
+        df.index = df.index.map(lambda x: rename_index.get(x, x))
+    if rename_columns is not None:
+        df.columns = df.columns.map(lambda x: rename_columns.get(x, x))
+    if order_index is not None:
+        df = df.loc[order_index, :]
+    if order_columns is not None:
+        df = df.loc[:, order_columns]
+    return df
 
-def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
-                      discount_rate=0):
+
+def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario_order=None,
+                               discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
+                               fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
+                               rename_columns=None):
     """
     Make a heatmap plot for the results of the EPM model.
 
@@ -1468,61 +1694,222 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     """
     summary = []
 
-    temp = epm_results['pCapacityByFuel'].copy()
-    temp = temp[(temp['year'] == 2050) * (temp['zone'] == 'Guinea')]
-    fuel_list = ['Hydro', 'Solar', 'Battery Storage']
-    temp = temp.pivot_table(index=['scenario'], columns='fuel', values='value')
-    temp = temp.loc[:, fuel_list]
-    temp.rename(columns={'Battery Storage': 'BESS'}, inplace=True)
-    temp.columns = [f'{col} (MW)' for col in temp.columns]
-    temp = temp.round(0)
-    summary.append(temp)
+    if required_keys is None:
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pCurtailedVRET', 'pCostSummary', 'pNPVByYear']
 
-    temp = epm_results['pEnergyByFuel'].copy()
-    temp = temp[(temp['year'] == 2050) * (temp['zone'] == 'Guinea')]
-    fuel_list = ['Hydro', 'Oil']
-    temp = temp.pivot_table(index=['scenario'], columns='fuel', values='value')
-    temp = temp.loc[:, fuel_list]
-    temp.columns = [f'{col} (GWh)' for col in temp.columns]
-    temp = temp.round(0)
-    summary.append(temp)
+    assert all(
+        key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
 
-    temp = epm_results['pEmissions'].copy()
-    temp = temp[(temp['zone'] == 'Guinea') * (temp['year'] == 2050)]
-    temp = temp.set_index(['scenario'])['value']
-    temp = temp * 1e3
-    temp.rename('ktCO2', inplace=True).to_frame()
-    summary.append(temp)
+    if fuel_capa_list is None:
+        fuel_capa_list = ['Hydro', 'Solar', 'Wind']
 
-    temp = epm_results['pCurtailedVRET'].copy()
-    temp = temp[(temp['year'] == 2050)]
-    temp = temp.groupby(['scenario'])['value'].sum() / 1e3
-    temp.rename('Curtail. (kWh)', inplace=True).to_frame()
-    summary.append(temp)
+    if fuel_gen_list is None:
+        fuel_gen_list = ['Hydro', 'Oil']
 
-    temp = epm_results['pCostSummary'].copy()
-    temp = temp[temp['attribute'] == 'Capex: $m']
-    temp = temp[(temp['zone'] == 'Guinea')]
-    duration = temp['year'].max() - temp['year'].min() + 1
-    temp = temp.groupby(['scenario'])['value'].sum()
-    temp = temp / duration
-    temp.rename('Capex ($M/year)', inplace=True).to_frame()
-    summary.append(temp)
-    #temp = temp.pivot_table(index=['scenario'], values='value')
-    #temp.columns = ['Capex ($m)']
+    if summary_metrics_list is None:
+        summary_metrics_list = ['Capex: $m']
 
-    temp = epm_results['pNPVByYear'].copy()
-    temp = calculate_total_system_cost(temp, discount_rate) / 1e9
-    temp.rename('NPV ($B)', inplace=True).to_frame()
-    summary.append(temp)
+    if 'pCapacityByFuel' in required_keys:
+        temp = epm_results['pCapacityByFuel'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityByFuel'], values='value')
+        temp = temp.loc[:, fuel_capa_list]
+        temp = rename_and_reoder(temp, rename_columns=rename_columns)
+        temp.columns = [f'{col} (MW)' for col in temp.columns]
+        temp = temp.round(0)
+        summary.append(temp)
+
+    if 'pEnergyByFuel' in required_keys:
+        temp = epm_results['pEnergyByFuel'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.loc[:, fuel_gen_list]
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyByFuel'], values='value')
+        temp.columns = [f'{col} (GWh)' for col in temp.columns]
+        temp = temp.round(0)
+        summary.append(temp)
+
+    if 'pEmissions' in required_keys:
+        temp = epm_results['pEmissions'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.set_index(['scenario'])['value']
+        temp = temp * 1e3
+        temp.rename('ktCO2', inplace=True).to_frame()
+        summary.append(temp)
+
+    if 'pCurtailedVRET' in required_keys:
+        temp = epm_results['pCurtailedVRET'].copy()
+        temp = temp[(temp['year'] == year)]
+        temp = temp.groupby([rows_index])['value'].sum() / 1e3
+        temp.rename('Curtail. (kWh)', inplace=True).to_frame()
+        summary.append(temp)
+
+    if 'pCostSummary' in required_keys:
+        capex_metric = 'Capex: $m'
+        temp = epm_results['pCostSummary'].copy()
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+
+        duration = temp['year'].max() - temp['year'].min() + 1
+        capex_tot = temp.loc[temp.attribute == capex_metric].groupby([rows_index])['value'].sum()
+        capex_tot = capex_tot / duration
+
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCostSummary'], values='value')
+        filtered_metrics = [metric for metric in summary_metrics_list if metric != capex_metric]
+
+        if len(filtered_metrics) > 0:
+            temp = temp.loc[:, filtered_metrics]
+            temp = pd.concat([temp,  capex_tot.to_frame().rename(columns={'value': capex_metric})], axis=1)
+        else:
+            temp = capex_tot.to_frame().rename(columns={'value': capex_metric})
+
+        # temp.rename('Capex ($M/year)', inplace=True).to_frame()
+        summary.append(temp)
+
 
     summary = pd.concat(summary, axis=1)
 
     if scenario_order is not None:
-        scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if i not in scenario_order]
+        scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if
+                                                                              i not in scenario_order]
         summary = summary.loc[scenario_order]
 
-    heatmap_plot(summary, filename, percentage=percentage)
+    heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
+
+
+
+
+
+def create_zonemap(zone_map, selected_countries, map_epm_to_geojson):
+    zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries)]
+
+    if zone_map.crs.is_geographic:
+        zone_map = zone_map.to_crs(epsg=3857)
+
+    # Get the coordinates of the centers of the zones, countries, region
+    # centroids = zone_map.centroid
+    centers = {row['ADMIN']: [row.geometry.centroid.x, row.geometry.centroid.y] for index, row in zone_map.iterrows()}
+
+    latitudes = [coords[1] for coords in centers.values()]
+    longitudes = [coords[0] for coords in centers.values()]
+    center_latitude = sum(latitudes) / len(latitudes)
+    center_longitude = sum(longitudes) / len(longitudes)
+    # region_center = [center_latitude, center_longitude]
+
+    # geojson_names = list(correspondence_Co['Geojson_Zone'])
+    # model_names = list(correspondence_Co['EPM_Zone'])
+
+    centers = {map_epm_to_geojson[c]: v for c, v in centers.items()}
+    return zone_map, centers
+
+
+def plot_zone_map_on_ax(ax, zone_map):
+    zone_map.plot(ax=ax, color='white', edgecolor='black')
+
+    # Adjusting the limits to better center the zone_map on the region
+    ax.set_xlim(zone_map.bounds.minx.min() - 1, zone_map.bounds.maxx.max() + 1)
+    ax.set_ylim(zone_map.bounds.miny.min() - 1, zone_map.bounds.maxy.max() + 1)
+
+
+def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year, region, scenario, filename,
+                          map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), bbox_to_anchor=(0.5, -0.1),
+                          loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
+    """
+    Plots a capacity mix map with pie charts overlaid on a regional map.
+
+    Parameters:
+    - zone_map: GeoDataFrame containing the map regions.
+    - CapacityMix_scen: DataFrame containing the capacity mix data per zone.
+    - fuels_list: List of fuels to include in the plot.
+    - centers: Dictionary mapping zones to their center coordinates.
+    - year: The target year for the plot.
+    - region_name: Name of the region for the title.
+    - scenario: Scenario name for the title.
+    - graphs_folder: Path where the plot will be saved.
+    - selected_scenario: The specific scenario being plotted.
+    - geojson_names: List of country names in the GeoJSON file.
+    - model_names: List of country names used in the model.
+    - list_reduced_size: List of zones where pie size should be reduced.
+    - colorf: Function mapping fuel names to colors.
+    """
+
+    # Create figure and axes
+    fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
+
+    # Plot the base zone map
+    plot_zone_map_on_ax(ax, zone_map)
+
+    # Remove axes for a clean map
+    ax.set_aspect('equal')
+    ax.set_axis_off()
+    ax.set_title(f'Capacity mix - {region} \n {scenario} - {year}', loc='center')
+
+    # Compute pie sizes for each zone
+    region_sizes = zone_map.copy()
+    region_sizes['area'] = region_sizes.geometry.area
+    region_sizes['Name'] = region_sizes['ADMIN'].replace(map_epm_to_geojson)
+
+    def calculate_pie_size(zone, CapacityByFuel):
+        """Calculate pie chart size based on region area."""
+        # area = region_sizes.loc[region_sizes['Name'] == zone, 'area'].values[0]
+        # normalized_area = (area - region_sizes['area'].min()) / (region_sizes['area'].max() - region_sizes['area'].min())
+        area = pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)].value.sum()
+        normalized_area = (area - CapacityByFuel.groupby('zone').value.sum().min()) / (CapacityByFuel.groupby('zone').value.sum().max() - CapacityByFuel.groupby('zone').value.sum().min())
+        return min_size + normalized_area * (max_size - min_size)
+
+    handles, labels = [], []
+    # Plot pie charts for each zone
+    for zone in pCapacityByFuel['zone'].unique():
+        # Extract capacity mix for the given zone and year
+        CapacityMix_plot = (pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)]
+                            .set_index(index)['value']
+                            .fillna(0)).reset_index()
+
+        # Skip empty plots
+        if CapacityMix_plot['value'].sum() == 0:
+            continue
+
+        # Get map coordinates
+        coordinates = centers.get(zone, (0, 0))
+        loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
+
+        # Pie chart positioning and size
+        size = [0.03, 0.07]
+        if pie_sizing:
+            if list_reduced_size is not None:
+                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityByFuel)
+            else:
+                pie_size = calculate_pie_size(zone, pCapacityByFuel)
+        else:
+            pie_size = None
+
+        # Create inset pie chart
+        ax_pie = fig.add_axes([loc[0] - 0.45 * size[0], loc[1] - 0.5 * size[1], size[0], size[1]])
+        colors = [dict_colors[f] for f in CapacityMix_plot[index]]
+        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index, 25, colors, None, radius= pie_size)
+        ax_pie.set_axis_off()
+
+        for handle, label in zip(h, l):
+            if label not in labels:  # Avoid duplicates
+                handles.append(handle)
+                labels.append(label)
+
+    fig.legend(handles, labels, loc=loc, frameon=False, ncol=1,
+               bbox_to_anchor=bbox_to_anchor)
+
+    # plt.tight_layout()
+
+    # Save and show figure
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
 
 
 if __name__ == '__main__':
