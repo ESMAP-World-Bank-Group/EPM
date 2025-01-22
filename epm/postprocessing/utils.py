@@ -682,7 +682,7 @@ def subplot_pie(df, index, dict_colors, subplot_column, title='', figsize=(16, 4
 
 
 def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
-                percent_cap=1, filename=None, rename=None):
+                percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
     """
     Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
 
@@ -716,14 +716,14 @@ def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsi
         ncols = min(3, num_subplots)  # Limit to 3 columns per row
         nrows = int(np.ceil(num_subplots / ncols))
 
-        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(3 * ncols, 3 * nrows), constrained_layout=True)
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(figsize[0], figsize[1]*nrows))
         axes = np.array(axes).flatten()  # Ensure axes is iterable 1D array
 
 
         all_labels = set()  # Collect all labels for the combined legend
         for ax, (name, group) in zip(axes, groups):
             colors = [dict_colors[f] for f in group[index]]
-            handles, labels = plot_pie_on_ax(ax, group, percent_cap, colors, title=f"{title} - {subplot_column}: {name}")
+            handles, labels = plot_pie_on_ax(ax, group, index, percent_cap, colors, title=f"{title} - {subplot_column}: {name}")
             all_labels.update(group[index])  # Collect unique labels
 
         # Hide unused subplots
@@ -737,22 +737,23 @@ def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsi
         fig.legend(
             handles,
             all_labels,
-            loc='lower center',
-            bbox_to_anchor=(0.5, -0.1),
-            ncol=len(handles),  # Adjust number of columns based on subplots
+            loc=loc,
+            bbox_to_anchor=bbox_to_anchor,
+            ncol=1,  # Adjust number of columns based on subplots
             frameon=False, fontsize=16
         )
 
         # Add title for the whole figure
         fig.suptitle(title, fontsize=16)
 
-    else:
-        # Create a single pie chart if no subplot column is specified
+    else:  # Create a single pie chart if no subplot column is specified
         fig, ax = plt.subplots(figsize=(8, 6))
         colors = [dict_colors[f] for f in df[index]]
-        handles, labels = plot_pie_on_ax(ax, df, percent_cap, colors, title)
+        handles, labels = plot_pie_on_ax(ax, df, index, percent_cap, colors, title)
 
     # Save the figure if filename is provided
+    plt.tight_layout()
+
     if filename:
         plt.savefig(filename, bbox_inches='tight')
         plt.close()
@@ -1179,8 +1180,9 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc)
 
 
-def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(10, 6), year_ini=None,order_scenarios=None, order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
-                        format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6, annotate=True, show_total=False):
+def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
+                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
+                        cap=6, annotate=True, show_total=False, title=None):
     """
     Create a stacked bar subplot from a DataFrame.
     Parameters
@@ -1223,27 +1225,24 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
     """
     
     list_keys = list(df.columns)
-    n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
-    n_rows = 1
+    num_subplots = int(len(list_keys))
+    n_columns = min(3, num_subplots)  # Limit to 3 columns per row
+    n_rows = int(np.ceil(num_subplots / n_columns))
     if year_ini is not None:
         width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
     else:
         width_ratios = [1] * n_columns
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(10, 6*n_rows), sharey='all',
                              gridspec_kw={'width_ratios': width_ratios})
-
-    # Ensure axes is iterable
-    if n_rows == 1 and n_columns == 1:
-        axes = [axes]
+    axes = np.array(axes).flatten()
 
     handles, labels = None, None
-    for k in range(n_rows * n_columns):
-        column = k % n_columns
-        ax = axes[column]
+    for k, key in enumerate(list_keys):
+        ax = axes[k]
 
         try:
-            key = list_keys[k]
+            # key = list_keys[k]
             df_temp = df[key].unstack(column_group)
 
             if key == year_ini:
@@ -1293,10 +1292,17 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
             ax.tick_params(axis='both', which=u'both', length=0)
             ax.set_xlabel('')
 
-            title = key
-            if isinstance(key, tuple):
-                title = '{}-{}'.format(key[0], key[1])
-            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            if len(list_keys) > 1:
+                title = key
+                if isinstance(key, tuple):
+                    title = '{}-{}'.format(key[0], key[1])
+                ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            else:
+                if title is not None:
+                    if isinstance(title, tuple):
+                        title = '{}-{}'.format(title[0], title[1])
+                    ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
 
             if k == 0:
                 handles, labels = ax.get_legend_handles_labels()
@@ -1317,6 +1323,10 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
             fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
                        bbox_to_anchor=(1, 0.5))
 
+    # Hide unused subplots
+    for j in range(k + 1, len(axes)):
+        fig.delaxes(axes[j])
+
     if filename is not None:
         plt.savefig(filename, bbox_inches='tight')
         plt.close(fig)
@@ -1325,10 +1335,11 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
 
 
 
-def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
+def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, column_xaxis='year',
+                              column_stacked='fuel', column_multiple_bars='scenario',
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
-                              show_total=False):
+                              show_total=False, fonttick=12, rotation=0, title=None):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
     
@@ -1403,21 +1414,28 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, col
         df = df[(df['zone'] == selected_zone)]
         df = df.drop(columns=['zone'])
 
+    if selected_year is not None:
+        df = df[(df['year'] == selected_year)]
+        df = df.drop(columns=['year'])
+
     if dict_grouping is not None:
         for key, grouping in dict_grouping.items():
             assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
             df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-
-    df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+    if column_xaxis is not None:
+        df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+    else:
+        df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_multiple_bars])
 
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
 
     stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
-                        rotation=90, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total)
+                        rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
@@ -1515,7 +1533,7 @@ def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color
         plt.show()
 
 
-def subplot_scatter(df, column_xaxis, column_yaxis, column_color, color_dict,
+def subplot_scatter(df, column_xaxis, column_yaxis, column_color, color_dict, figsize=(12,8),
                              ymax=None, xmax=None, title='', legend=None, filename=None,
                              size_scale=None, annotate_thresh=None, subplot_column=None):
     """
@@ -1563,7 +1581,7 @@ def subplot_scatter(df, column_xaxis, column_yaxis, column_color, color_dict,
         ncols = min(3, n_subplots)  # Limit to 3 columns per row
         nrows = int(np.ceil(n_subplots / ncols))
 
-        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(5 * ncols, 5 * nrows), sharex=True, sharey=True)
+        fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(figsize[0] * ncols, figsize[1] * nrows), sharex=True, sharey=True)
         axes = np.array(axes).flatten()  # Ensure axes is an iterable 1D array
 
         for i, val in enumerate(unique_values):
@@ -1670,13 +1688,13 @@ def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
     diff_from_baseline = data.subtract(baseline_values, axis=1)
 
     # Combine differences and baseline values for annotations
-    annotations = data.applymap(lambda x: f"{x:,.0f}")  # Format baseline values
+    annotations = data.map(lambda x: f"{x:,.0f}")  # Format baseline values
     # Format differences in percentage
     if percentage:
         diff_from_baseline = diff_from_baseline / baseline_values
-        diff_annotations = diff_from_baseline.applymap(lambda x: f" ({x:+,.0%})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})")
     else:
-        diff_annotations = diff_from_baseline.applymap(lambda x: f" ({x:+,.0f})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0f})")
     combined_annotations = annotations + diff_annotations  # Combine both
 
     # Normalize the color scale by column
