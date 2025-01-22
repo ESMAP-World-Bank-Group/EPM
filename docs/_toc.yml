@@ -20,6 +20,7 @@ parts:
       - file: docs/postprocessing
       - file: docs/planning_analysis.ipynb
       - file: docs/planning_analysis_liberia.ipynb
+      - file: docs/planning_analysis_sapp.ipynb
   - caption: Model Description
     chapters:
         - file: docs/model_overview
