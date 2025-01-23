@@ -320,6 +320,10 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
 
 </div>
   </nav>
@@ -737,7 +741,9 @@ title="Print to PDF"
       
   </ul>
 </div>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
             </div>
@@ -750,6 +756,114 @@ title="Print to PDF"
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#important-parameters">
+   Important parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-parameters">
+   Other parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#good-options-for-large-scale-models">
+     Good Options for Large Scale Models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#long-presolve-time">
+     Long Presolve Time:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#long-rip-run-time">
+     Long RIP Run Time
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detailed-options">
+     Detailed Options
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#startalg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       startalg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaind">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       scaind
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lpmethod">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       lpmethod
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#threads">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       threads
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predual">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       predual
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baralg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       baralg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcolnz">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcolnz
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additional-options">
+     Additional Options:
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -759,14 +873,155 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="solver-options">
 <h1>Solver options<a class="headerlink" href="#solver-options" title="Permalink to this heading">#</a></h1>
 <p>Solving an instance of the EPM model requires solving a mixed-integer programming instance with thousands of variables and constraints. The solver options chosen will then be determining to reduce computational time.</p>
-<p>Important parameters include:</p>
+<section id="important-parameters">
+<h2>Important parameters<a class="headerlink" href="#important-parameters" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong>lpmethod</strong>: determining the algorithm used to solve the LP problem. Options include primal simplex and barrier algorithm.</p></li>
 <li><p><strong>threads</strong>: number of parallel threads allowed. This parameter can speed up the performance of the algorithm. The speedup is far from linear, there is usually a sweet spot between 8 and 12. When setting the number of threads in the config file, you can specify a value higher than the number of logical threads on your computer, as solvers can benefit from oversubscription through better load balancing, asynchronous task execution, and OS-level scheduling. However, setting the thread count too high leads to excessive context switching, increased memory and cache contention, and diminishing returns due to solver synchronization overhead. In practice, performance often improves when exceeding the available threads slightly (e.g., using 12 threads on an 8-thread machine) but degrades if set too high (e.g., 16 threads), as the system spends more time managing threads than solving the problem. Testing different values is key to finding the optimal balance.</p></li>
 <li><p><strong>predual</strong>: Switch to give dual problem to the optimizer. The setting for this parameter can either be a big winner or big looser or no impact if default makes the “right decision”.</p></li>
 <li><p><strong>barcolnz</strong>: dense column handling. Determines whether or not columns are considered dense for special barrier algorithm handling. At the default setting of 0, this parameter is determined dynamically. Values above 0 specify the number of entries in columns to be considered as dense. This parameter can have a huge impact, but is usually difficult to tune, and is specific to each model instance.</p></li>
 </ul>
+</section>
+<section id="other-parameters">
+<h2>Other parameters<a class="headerlink" href="#other-parameters" title="Permalink to this heading">#</a></h2>
+<section id="good-options-for-large-scale-models">
+<h3>Good Options for Large Scale Models<a class="headerlink" href="#good-options-for-large-scale-models" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>threads</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code></p></li>
+<li><p><strong>lpmethod</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code></p></li>
+<li><p><strong>solutiontype</strong>: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
+<li><p><strong>bardisplay</strong>: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="long-presolve-time">
+<h3>Long Presolve Time:<a class="headerlink" href="#long-presolve-time" title="Permalink to this heading">#</a></h3>
+<p>One can suppress certain “auxiliary tasks” in the root node via the option <code class="docutils literal notranslate"><span class="pre">auxrootthreads</span></code>. After doing so, CPLEX starts solving the root node after a moderate presolve time.</p>
+</section>
+<hr class="docutils" />
+<section id="long-rip-run-time">
+<h3>Long RIP Run Time<a class="headerlink" href="#long-rip-run-time" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">barcolnz</span></code> parameter can have a big impact. For instance, with a value of <code class="docutils literal notranslate"><span class="pre">500</span></code>, CPLEX is significantly faster than with <code class="docutils literal notranslate"><span class="pre">700</span></code>.<br />
+The option <code class="docutils literal notranslate"><span class="pre">lpmethod</span></code> specifies the algorithm for solving LPs, but there is a dedicated option <code class="docutils literal notranslate"><span class="pre">startalg</span></code> for specifying the algorithm for the root LP when solving a MIP.</p>
+<p><strong>Note</strong>: <code class="docutils literal notranslate"><span class="pre">solutiontype</span> <span class="pre">2</span></code> should be used with caution when solving MIPs. A basic solution (e.g., from the simplex algorithm or after crossover when using the barrier) is usually beneficial.</p>
+</section>
+<hr class="docutils" />
+<section id="detailed-options">
+<h3>Detailed Options<a class="headerlink" href="#detailed-options" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="startalg">
+<h3><code class="docutils literal notranslate"><span class="pre">startalg</span></code><a class="headerlink" href="#startalg" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Specifies the algorithm to use for starting the solution process.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Primal simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Dual simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Network</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Barrier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Automatic (CPLEX chooses the algorithm)</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="scaind">
+<h3><code class="docutils literal notranslate"><span class="pre">scaind</span></code><a class="headerlink" href="#scaind" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Controls the use of scaling for the constraint matrices.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code>: No scaling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: No scaling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Automatic scaling</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">1</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="lpmethod">
+<h3><code class="docutils literal notranslate"><span class="pre">lpmethod</span></code><a class="headerlink" href="#lpmethod" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Chooses the method for solving linear programs.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Primal simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Dual simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Network method</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Barrier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Automatic (CPLEX chooses the algorithm)</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="threads">
+<h3><code class="docutils literal notranslate"><span class="pre">threads</span></code><a class="headerlink" href="#threads" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Sets the number of threads to use for solving.</p></li>
+<li><p><strong>Possible Values</strong>: Any positive integer (e.g., <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">4</span></code>, <code class="docutils literal notranslate"><span class="pre">8</span></code>)</p></li>
+<li><p><strong>Recommended</strong>: Depends on hardware; more threads reduce solution time but increase memory usage.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="predual">
+<h3><code class="docutils literal notranslate"><span class="pre">predual</span></code><a class="headerlink" href="#predual" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Controls whether CPLEX solves the dual or primal problem during the presolve phase.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code>: Automatic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Dual</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Primal</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">-1</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="baralg">
+<h3><code class="docutils literal notranslate"><span class="pre">baralg</span></code><a class="headerlink" href="#baralg" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Specifies the barrier algorithm to use.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Standard barrier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Barrier with crossover</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">1</span></code> (Barrier with crossover)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="barcolnz">
+<h3><code class="docutils literal notranslate"><span class="pre">barcolnz</span></code><a class="headerlink" href="#barcolnz" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Limits the number of nonzeros in columns during the barrier solution.</p></li>
+<li><p><strong>Possible Values</strong>: Any positive integer</p></li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">500</span></code> for faster solutions.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="additional-options">
+<h3>Additional Options:<a class="headerlink" href="#additional-options" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">barepcomp</span></code></strong>: Sets the barrier algorithm’s complementarity tolerance.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1e-5</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">barcrossalg</span></code></strong>: Determines the crossover algorithm after the barrier.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1</span></code> (Dual simplex).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">solutiontype</span></code></strong>: Specifies the type of solution to produce.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1</span></code> for a basic solution, <code class="docutils literal notranslate"><span class="pre">2</span></code> for an interior point solution.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">memoryemphasis</span></code></strong>: Emphasizes memory saving during solving.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1</span></code> for large models.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bardisplay</span></code></strong>: Controls the level of detail displayed during the barrier solution.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">2</span></code> for detailed information.</p></li>
+</ul>
 <p><strong>Note</strong>: this list of parameters is far from exhaustive. Detailed information on how to choose the solver options are discussed <a class="reference external" href="https://worldbankgroup.sharepoint.com/:b:/t/PowerSystemPlanning-WBGroup/EU2NwUyeOo9CljzcBCJThbsBac_sVZWv7GWmuUWf0XDIyw?e=wLkYhH">here</a>.</p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -817,6 +1072,122 @@ title="Print to PDF"
           </div>
           
           
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#important-parameters">
+   Important parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-parameters">
+   Other parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#good-options-for-large-scale-models">
+     Good Options for Large Scale Models
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#long-presolve-time">
+     Long Presolve Time:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#long-rip-run-time">
+     Long RIP Run Time
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detailed-options">
+     Detailed Options
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#startalg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       startalg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaind">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       scaind
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lpmethod">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       lpmethod
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#threads">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       threads
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predual">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       predual
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baralg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       baralg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcolnz">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcolnz
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additional-options">
+     Additional Options:
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
           
           
         </div>
