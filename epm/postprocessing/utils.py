@@ -277,8 +277,6 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
             'pSpinningReserveByPlantCountry', 'pPlantDispatch'}
 
-    rename_keys = {'pSpinningReserveByPlantCountry': 'pReserveByPlant'}
-
     # Rename columns
     epm_dict = {k: i.rename(columns=rename_columns) for k, i in epm_results.items() if k in keys and k in epm_results.keys()}
     epm_dict.update({rename_keys[k]: i for k, i in epm_dict.items() if k in rename_keys.keys()})
@@ -602,8 +600,7 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-
-def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
+def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
                 percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
     """
     Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
@@ -860,7 +857,8 @@ def format_dispatch_ax(ax, pd_index):
     ax.spines['top'].set_visible(False)
 
 
-def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', ymin=0):
+def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom',
+                  bottom=0):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -915,8 +913,8 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     ax.set_ylabel('Generation (MWh)', fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
     # set ymin to 0
-    if ymin is not None:
-        ax.set_ylim(bottom=ymin)
+    if bottom is not None:
+        ax.set_ylim(bottom=bottom)
 
     # Add legend bottom center
     if legend_loc == 'bottom':
@@ -1022,7 +1020,7 @@ def remove_na_values(df):
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom'):
+                                    legend_loc='bottom', bottom=0):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -1104,7 +1102,8 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     if filename is not None:
         filename = filename.split('.')[0] + f'_{temp}.png'
 
-    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc)
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc,
+                  bottom=bottom)
 
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
@@ -1617,8 +1616,9 @@ def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
     annotations = data.map(lambda x: f"{x:,.0f}")  # Format baseline values
     # Format differences in percentage
     if percentage:
+        baseline_values = baseline_values.replace(0, float('nan'))  # Avoid division by zero
         diff_from_baseline = diff_from_baseline / baseline_values
-        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})" if not np.isnan(x) and x < 5 else "")
     else:
         diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0f})")
     combined_annotations = annotations + diff_annotations  # Combine both
@@ -1691,7 +1691,7 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
     summary = []
 
     if required_keys is None:
-        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary', 'pNPVByYear']
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary']
 
     assert all(
         key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
@@ -1711,7 +1711,7 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         if zone_list is not None:
             temp = temp[temp['zone'].isin(zone_list)]
         temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityByFuel'], values='value')
-        temp = temp.loc[:, fuel_capa_list]
+        temp = temp.loc[:, [i for i in fuel_capa_list if i in temp.columns]]
         temp = rename_and_reoder(temp, rename_columns=rename_columns)
         temp.columns = [f'{col} (MW)' for col in temp.columns]
         temp = temp.round(0)
@@ -1722,8 +1722,8 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         temp = temp[(temp['year'] == year)]
         if zone_list is not None:
             temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp.loc[:, fuel_gen_list]
         temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyByFuel'], values='value')
+        temp = temp.loc[:, [i for i in fuel_gen_list if i in temp.columns]]
         temp.columns = [f'{col} (GWh)' for col in temp.columns]
         temp = temp.round(0)
         summary.append(temp)
@@ -1733,32 +1733,33 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         temp = temp[(temp['year'] == year)]
         if zone_list is not None:
             temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp.set_index(['scenario'])['value']
+        temp = temp.set_index([rows_index])['value']
         temp = temp * 1e3
         temp.rename('ktCO2', inplace=True).to_frame()
         summary.append(temp)
 
     if 'pDemandSupplyCountry' in required_keys:
+        # Unmet demand
         temp = epm_results['pDemandSupplyCountry'].copy()
         temp = temp[temp['attribute'] == 'Unmet demand: GWh']
-        temp = temp.groupby(['scenario'])['value'].sum()
+        temp = temp.groupby([rows_index])['value'].sum()
 
         t = epm_results['pDemandSupplyCountry'].copy()
         t = t[t['attribute'] == 'Demand: GWh']
-        t = t.groupby(['scenario'])['value'].sum()
+        t = t.groupby([rows_index])['value'].sum()
         temp = (temp / t) * 1e3
+
         temp.rename('Unmet (‰)', inplace=True).to_frame()
         summary.append(temp)
-        
+
+        # Surplus generation
         temp = epm_results['pDemandSupplyCountry'].copy()
-        temp = temp[(temp['zone'] == 'Guinea')]
         temp = temp[temp['attribute'] == 'Surplus generation: GWh']
-        temp = temp.groupby(['scenario'])['value'].sum()
+        temp = temp.groupby([rows_index])['value'].sum()
 
         t = epm_results['pDemandSupplyCountry'].copy()
-        t = t[(t['zone'] == 'Guinea')]
         t = t[t['attribute'] == 'Demand: GWh']
-        t = t.groupby(['scenario'])['value'].sum()
+        t = t.groupby([rows_index])['value'].sum()
         temp = (temp / t) * 1000
 
         temp.rename('Surplus (‰)', inplace=True).to_frame()
@@ -1798,11 +1799,8 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
 
         temp = (temp * 1e6) / (t * 1e3)
 
-        if isinstance(temp, (float, int)):
-            temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
         temp.rename('NPV ($/MWh)', inplace=True).to_frame()
         summary.append(temp)
-
 
     summary = pd.concat(summary, axis=1)
 
@@ -1812,10 +1810,6 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         summary = summary.loc[scenario_order]
 
     heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
-
-
-
-
 
 def create_zonemap(zone_map, selected_countries, map_epm_to_geojson):
     zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries)]
