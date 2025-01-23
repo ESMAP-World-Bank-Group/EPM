@@ -17,8 +17,8 @@ parts:
       - file: docs/run_parallel.md
   - caption: Input
     chapters: 
-      - file: doc/introduction_input.md
-      - file: doc/detailed_input.md
+      - file: docs/introduction_input.md
+      - file: docs/detailed_input.md
   - caption: Postprocessing
     chapters:
       - file: docs/postprocessing
