@@ -4,12 +4,12 @@ DR,0.06
 systemReserve,
 ,
 ,
-VOLL,1000
+VOLL,300
 ReserveVoLL,70000
 SpinReserveVoLL,100
 costSurplus,0
 costcurtail,0
-CO2backstop,300
+CO2backstop,10000
 H2UnservedCost,10000
 ,
 ,
@@ -19,8 +19,8 @@ includeCSP,1
 includeStorage,1
 show0,0
 econRetire,0
-interconMode,1
-allowExports,0
+interconMode,0
+allowExports,1
 NoTransferLim,0
 pAllowHighTransfer,0
 altDemand,1
@@ -41,8 +41,8 @@ zonal_spinning_reserve_constraints,1
 MinREshare,0
 RETargetYr,
 MaxCapital,
-MaxImports,
-MaxExports,
+MaxImports,1
+MaxExports,1
 ,
 VRECapacityCredits,1
 Seasonalreporting,0
@@ -53,4 +53,6 @@ FuelPriceScenario,1
 ,
 CapCreditSolar,0.05
 CapCreditWind,0.1
-IncludeH2,1
+IncludeH2,0
+,
+pAvailabilityVariation,1

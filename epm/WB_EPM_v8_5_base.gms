@@ -97,7 +97,7 @@ Sets
    sH2PwrIn(hh,q,d,t,y)
 ;
 
-Set MapGG(g,g1)  mapping of generators where simultaneous commissioning decommissioning exists;
+*Set MapGG(g,g1)  mapping of generators where simultaneous commissioning decommissioning exists;
 Singleton sets
    sStartYear(y)
    sFirstHour(t)
@@ -108,12 +108,14 @@ Singleton sets
 Parameters
    pCostOfCurtailment               'Cost of curtailment'
    pCostOfCO2backstop               'Cost of climate backstop techno in $ per ton of CO2'
-$ifi     %mode%==MIRO   pHours(q<,d<,y<,t<) 'duration of each block'
-$ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
+$ifi     %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
+$ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pWeightYear(y)                   'weight on years'
 * Generators
    pGenData(g,ghdr)                 'generator data'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
+*   pAvailabilityYearly(g,q,y)       'Availability by generation type, season and year or quarter in percentage - need to reflect maintenance'
+*   pAvailabilityVariation           'Activate availability variation between years'
    pCapexTrajectories(g,y)          'capex trajectory  final'
 * Exchanges
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
@@ -350,7 +352,7 @@ Equations
    eRampDnLimit(g,q,d,t,y)         'Ramp down limit'
 
    eSpinningReserveLim(g,q,d,t,y)              'Reserve limit as a share of capacity'
-   eSpinningReserveLimVRE(g,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
+*eSpinningReserveLimVRE(g,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
    eJointResCap(g,q,d,t,y)                     'Joint reserve and generation limit'
    eSpinningReserveReqCountry(c,q,d,t,y)          'Country spinning reserve requirement'
    eSpinningReserveReqSystem(q,d,t,y)          'System spinning reserve requirement'
@@ -418,7 +420,7 @@ Equations
    eCapThermBalance2(g,y)
    eCapThermBalance3(g,y)
    eBuildThermNew(g)
-   eSimultComDecom(g,g1,y)          Simultaneous commissioning and decommissioning of pair of units
+*   eSimultComDecom(g,g1,y)          Simultaneous commissioning and decommissioning of pair of units
    
 
 ***********************************Hydrogen production model**************************************
@@ -500,43 +502,43 @@ eYearlyFixedCost(z,y)..
 
 eYearlyVariableCost(z,y)..
 
-   vYearlyVariableCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVarCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t))
+   vYearlyVariableCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVarCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))
    
 *********************************************Hydrogen model related costs ************************************
 ***(Units for equation below)                              $/mmBTU_H2    x      mmBTU_H2/MWh_e  x      MW_e       x       Hrs
-                              + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,y,t))$pIncludeH2;
+                              + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pIncludeH2;
 
 * Note: ReserveCost is in $/MWh -- this is the DIRECT cost of holding reserve like wear and tear that a generator bids in a market
 eYearlySpinningReserveCost(z,y)..
-   vYearlySpinningReserveCost(z,y) =e= sum((gzmap(g,z),q,d,t), vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,y,t));
+   vYearlySpinningReserveCost(z,y) =e= sum((gzmap(g,z),q,d,t), vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t));
 
 eYearlyUSECost(z,y)..
-   vYearlyUSECost(z,y) =e= sum((q,d,t), vUSE(z,q,d,t,y)*pVoLL*pHours(q,d,y,t));
+   vYearlyUSECost(z,y) =e= sum((q,d,t), vUSE(z,q,d,t,y)*pVoLL*pHours(q,d,t));
 
 eYearlySurplusCost(z,y)..
-   vYearlySurplus(z,y) =e= sum((q,d,t), vSurplus(z,q,d,t,y)*pSurplusPenalty*pHours(q,d,y,t));
+   vYearlySurplus(z,y) =e= sum((q,d,t), vSurplus(z,q,d,t,y)*pSurplusPenalty*pHours(q,d,t));
 
 eYearlyCurtailmentCost(z,y)..
-   vYearlyCurtailmentCost(z,y) =e= sum((gzmap(g,z),q,d,t), vCurtailedVRE(z,g,q,d,t,y)*pCostOfCurtailment*pHours(q,d,y,t));
+   vYearlyCurtailmentCost(z,y) =e= sum((gzmap(g,z),q,d,t), vCurtailedVRE(z,g,q,d,t,y)*pCostOfCurtailment*pHours(q,d,t));
 
 eYearlyTradeCost(z,y)..
-   vYearlyTradeCost(z,y) =e= sum((zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t))
-                           - sum((zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
+   vYearlyTradeCost(z,y) =e= sum((zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
+                           - sum((zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 eYearlyUnmetReserveCostCountry(c,y)..
    vYearlyUnmetReserveCostCountry(c,y) =e= vUnmetPlanningReserveCountry(c,y)*pPlanningReserveVoLL
-                         + sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,y,t)*pSpinningReserveVoLL);
+                         + sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
                          
 eYearlyCO2backstopCost(c,y)..
    vYearlyCO2backCost(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
 
 eYearlyUnmetReserveCostSystem(y)..
    vYearlyUnmetReserveCostSystem(y) =e= vUnmetPlanningReserveSystem(y)*pPlanningReserveVoLL
-                          + sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,y,t)*pSpinningReserveVoLL);
+                          + sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 
 eYearlyCarbonCost(z,y)..
    vYearlyCarbonCost(z,y) =e= pIncludeCarbon*pCarbonPrice(y)
-                            * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,y,t));
+                            * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 *****************************************H2 model***********************************************************
 eH2UnservedCost(z,y)..
@@ -598,8 +600,8 @@ eMaxBuildTotal(ng)..
 
 
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
-   sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,y,t)) =g=
-   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
+   sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t)) =g=
+   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
 
 eBuiltCap(ng,y)$pGenData(ng,"DescreteCap")..
    vBuild(ng,y) =e= pGenData(ng,"UnitSize")*vBuiltCapVar(ng,y);
@@ -613,10 +615,14 @@ eJointResCap(g,q,d,t,y)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) + vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*(1+pGenData(g,"Overloadfactor"));
 
 eMaxCF(g,q,y)..
-   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailability(g,q)*vCap(g,y)*sum((d,t), pHours(q,d,y,t));
+   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailability(g,q)*vCap(g,y)*sum((d,t), pHours(q,d,t));
+   
+*eMaxCFYearly(g,q,y)$pAvailabilityVariation..
+*   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailabilityYearly(g,q,y)*vCap(g,y)*sum((d,t), pHours(q,d,t));
+   
 
 eFuel(zfmap(z,f),y)..
-   vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,y,t)*pHeatRate(g,f));
+   vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,f));
 
 eFuelLimit(c,f,y)$(pfuel_constraints and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
@@ -641,8 +647,8 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
 eSpinningReserveLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
    
-eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
-    vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,f,q,d,t);
+*eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+*    vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,f,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
@@ -685,12 +691,12 @@ eAdditionalTransfer2(sTopology(z,z2),y)$pAllowHighTransfer..
    
 
 eMaxImportPrice(c,y)$(pallowExports)..
-   sum((zcmap(z,c),zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pHours(q,d,y,t)) =l=
-   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
+   sum((zcmap(z,c),zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
 eMaxExportPrice(c,y)$(pallowExports)..
-   sum((zcmap(z,c),zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pHours(q,d,y,t)) =l=
-   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
+   sum((zcmap(z,c),zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
 
 eMaxhourlyImportsshare(c,q,d,t,y)$(pMaxImport<1 and pallowExports)..
@@ -839,7 +845,7 @@ eCapitalConstraint$pcapital_constraints..
 
 eZonalEmissions(z,y)..
    vZonalEmissions(z,y) =e=
-   sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,y,t));
+   sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 eEmissionsCountry(c,y)$pzonal_co2_constraints..
 
@@ -854,7 +860,7 @@ eTotalEmissions(y)..
 eTotalEmissionsConstraint(y)$pSystem_CO2_constraints..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
-eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
+*eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
 
 
 *********************Hydrogen production equations******************
@@ -898,12 +904,12 @@ eRetireCapH2(eh,y)$(pH2Data(eh,"DescreteCap") and (y.val <= pH2Data(eh,"RetrYr")
 *  Maximum capacity factor of H2 production based on availability
 *Checked
 eMaxCF_H2(hh,q,y)$(pIncludeH2)..
-   sum((d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,y,t)) =l= pAvailabilityH2(hh,q)*vCapH2(hh,y)*sum((d,t), pHours(q,d,y,t));
+   sum((d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)) =l= pAvailabilityH2(hh,q)*vCapH2(hh,y)*sum((d,t), pHours(q,d,t));
 
 *       mmBTU of H2 produced
 eFuel_H2(c,q,y)$(pIncludeH2)..
 *                   mmBTU            mmBTU                    mmBTU                                                                     -MWe-                Hr                mmBTU/MWhe 
-    sum(zcmap(z,c), pExternalH2(z,q,y)-vUnmetExternalH2(z,q,y)$pExternalH2(z,q,y)+vFuelH2Quarter(z,q,y)) =e= sum( (zcmap(z,c),h2zmap(hh,z), d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,y,t)*pH2Data(hh,"HeatRate"));
+    sum(zcmap(z,c), pExternalH2(z,q,y)-vUnmetExternalH2(z,q,y)$pExternalH2(z,q,y)+vFuelH2Quarter(z,q,y)) =e= sum( (zcmap(z,c),h2zmap(hh,z), d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"));
 
 eFuel_H2_2(c,z,y)$(pIncludeH2)..
     sum((zcmap(z,c),q),vFuelH2Quarter(z,q,y)) =e=  sum(zcmap(z,c),vFuelH2(z,y));
@@ -982,7 +988,7 @@ Model PA /
    eRampUpLimit
    eRampDnLimit
    eSpinningReserveLim
-   eSpinningReserveLimVRE
+*eSpinningReserveLimVRE
 *  eResLim_CSP
    eJointResCap
    eSpinningReserveReqCountry
@@ -1059,7 +1065,7 @@ Model PA /
    eAnnCapex
    
 
-   eSimultComDecom
+*   eSimultComDecom
 
 * variable limited domains
    vPwrOut(sPwrOut)

@@ -15,10 +15,10 @@ import json
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main_country.gms',
-    'path_base_file': 'WB_EPM_v8_5_base_country_SLP.gms',
-    'path_report_file': 'WB_EPM_v8_5_Report_country.gms',
-    'path_reader_file': 'WB_EPM_input_readers.gms',
+    'path_main_file': 'WB_EPM_v8_5_main_stochastic.gms',
+    'path_base_file': 'WB_EPM_v8_5_base_stochastic.gms',
+    'path_report_file': 'WB_EPM_v8_5_report_stochastic.gms',
+    'path_reader_file': 'WB_EPM_input_readers_use_case.gms',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -270,6 +270,7 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False
 def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=['baseline'],
+                               scenarios_folder=None,
                                cpu=1, path_gams=None,
                                path_engine_file=False):
     """
@@ -322,6 +323,15 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
     for k in s.keys():
         s[k] = s[k].apply(lambda i: os.path.join(os.getcwd(), 'input', i))
 
+    # To continue
+    if scenarios_folder is not None and len(s.keys()) == 1:
+        for k, folder_path in scenarios_folder.items():
+            files = os.listdir(os.path.join(os.getcwd(), folder_path))
+            s_mc = {'S{}'.format(i): pd.Series({k: os.path.join(os.getcwd(), folder_path, f)}) for i, f in enumerate(files)}
+            temp = {k: scenario_baseline.copy() for k in s_mc.keys()}
+            for k in temp.keys():
+                temp[k].update(s_mc[k])
+
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
         os.mkdir('output')
@@ -361,13 +371,13 @@ def get_job_engine(tokens_simulation):
             zf.extractall(path=scenario)
 
 
-
 if __name__ == '__main__':
 
     if True:
-        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario.csv',
                                                     scenarios_specification='input/scenarios_specification.csv',
-                                                    selected_scenarios=['HydroStochasticStress','HydroStochasticStressHigh'],
+                                                    selected_scenarios=['baseline', 'HydroStochastic2', 'HydroStochasticCC2'],
+                                                    scenarios_folder={'pAvailability': 'input/data/MonteCarlo'},
                                                     cpu=1,
                                                     path_engine_file=None)
         # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
