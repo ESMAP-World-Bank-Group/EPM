@@ -29,15 +29,17 @@ $endIf
 $log BASE_FILE is "%BASE_FILE%"
 
 $if "x%gams.restart%" == "x" $include %BASE_FILE%
+$include "WB_EPM_v8_5_base.gms"
+
 
 $ifThen not set REPORT_FILE
-$set REPORT_FILE "WB_EPM_v8_5_Report.gms"
+$set REPORT_FILE "WB_EPM_v8_5_report.gms"
 $endIf
 $log REPORT_FILE is "%REPORT_FILE%"
 
 
 $ifThen not set READER_FILE
-$set READER_FILE "WB_EPM_input_readers.gms"
+$set READER_FILE "WB_EPM_input_readers_use_case.gms"
 $endIf
 
 $call 'rm -f miro.log'
@@ -148,8 +150,8 @@ Parameter
    pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
    pEmissionsTotal(y)               'Maximum total emissions allowed per year for the region in tns'
    pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
-$ifi     %mode%==MIRO   pHours(q<,d<,y<,t<) 'duration of each block'
-$ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
+$ifi     %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
+$ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
    pLossFactor(z,z2,y)              'loss factor in percentage'
    pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
@@ -286,7 +288,7 @@ $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvail
 $load pStorDataExcel pCSPData pCapexTrajectory pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
 $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 $load pExtTransferLimit
-$load pNewTransmission, MapGG
+$load pNewTransmission
 ************************************************Hydrogen model related symbols*************************************
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 
@@ -294,7 +296,8 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 $gdxIn
 $offmulti
 
-display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
+display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2, zext;
+display pExtTransferLimit, pTradePrice;
 
 
 option ftfmap<ftfindex;
@@ -470,15 +473,15 @@ if (pScalars("altDemand") <> 1,
   );
 );
 
-Set Error04(q,d,y,t);
+Set Error04(q,d,t);
 option Error04<pHours;
-Error04(q,d,y,t)$(pHours(q,d,y,t) >= 0) = 0;
+Error04(q,d,t)$(pHours(q,d,t) >= 0) = 0;
 put 'Validating duration of each block data ...';
 if(card(Error04),
   put / 'pHours:: No negative duration of each block data allowed!'/;
   put / 'SYMBOL' @25 'QUARTER/SEASON' @45 'DAY TYPE' @65 'YEAR' @85 'HOUR OF DAY' @105 'VALUE';
-  loop(Error04(q,d,y,t),
-      put / 'pHours:: '@25 q.tl @45 d.tl @65 y.tl @85 t.tl @105 pHours(q,d,y,t);
+  loop(Error04(q,d,t),
+      put / 'pHours:: '@25 q.tl @45 d.tl @85 t.tl @105 pHours(q,d,t);
     );
   abort 'No negative duration of each block data allowed', Error04;
 else
@@ -542,7 +545,7 @@ equation
 ;
 
 getDivisor(z,q,d,y,t)..  pyval(z,q,d,y,t) =e=  [2*pdiff(z,y)/divisor(z,y) * (pmax(z,y) - pDemandProfile(z,q,d,t))]/sqr(pmax(z,y) - pmin(z,y));
-getArea(z,y)..           sum((q,d,t), pyval(z,q,d,y,t) * pHours(q,d,y,t)) =e=  pdiff(z,y);
+getArea(z,y)..           sum((q,d,t), pyval(z,q,d,y,t) * pHours(q,d,t)) =e=  pdiff(z,y);
 objFn..                  obj =e= sum((z,q,d,y,t), pyval(z,q,d,y,t));
 
 model demand / getDivisor, getArea, objFn /;
@@ -551,7 +554,7 @@ model demand / getDivisor, getArea, objFn /;
 if (pScalars("altDemand") = 1,
    pTempDemand(z,q,d,y,t) = pDemandProfile(z,q,d,t) * pDemandForecast(z,"Peak",y);
 
-   pdiff(z,y) = ((pDemandForecast(z,"Energy",y)*1e3) - sum((q,d,t), pTempDemand(z,q,d,y,t)*pHours(q,d,y,t) )) ;
+   pdiff(z,y) = ((pDemandForecast(z,"Energy",y)*1e3) - sum((q,d,t), pTempDemand(z,q,d,y,t)*pHours(q,d,t) )) ;
 
    pmax(z,y) = smax((q,d,t), pDemandProfile(z,q,d,t));
    pmin(z,y) = smin((q,d,t)$pDemandProfile(z,q,d,t), pDemandProfile(z,q,d,t));
@@ -562,11 +565,11 @@ if (pScalars("altDemand") = 1,
 $offIDCProtect
    pDemandData(z,q,d,y,t) =  pTempDemand(z,q,d,y,t) + pyval.l(z,q,d,y,t);
 $onIDCProtect
-   ptemp(y) = sum((z,q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,y,t))/1000;
+   ptemp(y) = sum((z,q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,t))/1000;
    ptemp2(y) = smax((q,d,t),sum(z, pdemanddata(z,q,d,y,t)));
 );
 
-ptotalenergy(z,y) =  sum((q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,y,t))/1e3;
+ptotalenergy(z,y) =  sum((q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,t))/1e3;
 
 *--- end of parameter initialisation for same demand profile for all years
 
@@ -619,7 +622,6 @@ pCaptraj                             = pScalars("Captraj");
 pVRECapacityCredits                  = pScalars("VRECapacityCredits");
 pSeasonalReporting                   = pScalars("Seasonalreporting");
 pSystemResultReporting               = pScalars("Systemresultreporting");
-
 
 pMaxLoadFractionCCCalc               = pScalars("MaxLoadFractionCCCalc");
 
@@ -764,7 +766,7 @@ pVREgenProfile(gfmap(VRE,f),q,d,t)$(not(pVREgenProfile(VRE,f,q,d,t))) = sum(gzma
 $onIDCProtect
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,f,q,d,t))/sum((q,d,t),1));
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,y,t)))/sum((q,d,t),pHours(q,d,y,t))   ;
+pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t))   ;
 *pCapacityCredit(RE,y) =  Sum((z,q,d,t)$gzmap(RE,z),Sum(f$gfmap(RE,f),pREProfile(z,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(RE,f) and gzmap(RE,z) ),pREProfile(z,f,q,d,t))/sum((q,d,t),1));
 
 
@@ -942,6 +944,8 @@ vExportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y)
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 
+display pTradePrice;
+display sExportPrice;
 
 sAdditionalTransfer(z,z2,y) = yes;
 sAdditionalTransfer(z,z2,y) $(y.val < pNewTransmission(z,z2,"EarliestEntry")) = no;
