@@ -175,7 +175,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast']
+    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pScalars']
     epm_input = {k: i for k, i in epm_input.items() if k in keys}
     if scenarios_rename is not None:
         for k, i in epm_input.items():
@@ -274,7 +274,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
-            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear'}
+            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
+            'pSpinningReserveByPlantCountry', 'pPlantDispatch'}
 
     rename_keys = {'pSpinningReserveByPlantCountry': 'pReserveByPlant'}
 
@@ -287,7 +288,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             if 'scenario' in i.columns:
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
-    list_keys = ['pReserveByPlant', 'pCapacityPlan']
+    list_keys = ['pSpinningReserveByPlantCountry', 'pPlantReserve', 'pCapacityPlan']
     list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
@@ -321,15 +322,9 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     # Add fuel type to the results
     if mapping_gen_fuel is not None:
         # Add fuel type to the results
-        epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].merge(mapping_gen_fuel,
-                                                                              on=['scenario', 'generator'], how='left')
-        epm_dict['pPlantAnnualLCOE'] = epm_dict['pPlantAnnualLCOE'].merge(mapping_gen_fuel,
-                                                                                on=['scenario', 'generator'],
-                                                                                how='left')
-        epm_dict['pEnergyByPlant'] = epm_dict['pEnergyByPlant'].merge(mapping_gen_fuel,
-                                                                            on=['scenario', 'generator'], how='left')
-        epm_dict['pCapacityPlan'] = epm_dict['pCapacityPlan'].merge(mapping_gen_fuel,
-                                                                          on=['scenario', 'generator'], how='left')
+        plant_result = ['pSpinningReserveByPlantCountry', 'pPlantAnnualLCOE', 'pEnergyByPlant', 'pCapacityPlan', 'pPlantDispatch']
+        for key in [k for k in plant_result if k in epm_dict.keys()]:
+            epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
     return epm_dict
 
