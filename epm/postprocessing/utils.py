@@ -602,8 +602,7 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-
-def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
+def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
                 percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
     """
     Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
@@ -860,7 +859,7 @@ def format_dispatch_ax(ax, pd_index):
     ax.spines['top'].set_visible(False)
 
 
-def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', ymin=0):
+def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', bottom=0):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -915,8 +914,8 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     ax.set_ylabel('Generation (MWh)', fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
     # set ymin to 0
-    if ymin is not None:
-        ax.set_ylim(bottom=ymin)
+    if bottom is not None:
+        ax.set_ylim(bottom=bottom)
 
     # Add legend bottom center
     if legend_loc == 'bottom':
@@ -1022,7 +1021,7 @@ def remove_na_values(df):
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom'):
+                                    legend_loc='bottom', bottom=0):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -1104,7 +1103,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     if filename is not None:
         filename = filename.split('.')[0] + f'_{temp}.png'
 
-    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc)
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom)
 
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
