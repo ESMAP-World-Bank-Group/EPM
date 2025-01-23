@@ -15,7 +15,7 @@ import gams.transfer as gt
 import seaborn as sns
 from pathlib import Path
 import geopandas as gpd
-
+from matplotlib.ticker import MaxNLocator, FixedLocator
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 COLORS = 'static/colors.csv'
@@ -782,6 +782,10 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     ax1.set_ylabel(y_label)
     ax1.set_title(title)
     format_ax(ax1)
+    
+    years = temp.index  # Assuming the x-axis data corresponds to years
+    ticks = [year for year in years if year % 5 == 0]
+    ax1.xaxis.set_major_locator(FixedLocator(ticks))
 
     # Secondary y-axis
     if df_2 is not None:
