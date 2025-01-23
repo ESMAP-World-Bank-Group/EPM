@@ -1,0 +1,18 @@
+# Utility models overview
+
+
+Utilities and system operators rely on a variety of advanced tools and methodologies to ensure the reliable, efficient, and sustainable operation of power systems. The table below highlights some of the most widely used tools and studies in the energy sector. These tools support critical functions such as capacity expansion planning, grid reliability assessments, and climate adaptation strategies.
+
+Among these tools, EPM (Energy Planning Model) stands out as a cornerstone for Capacity Expansion Planning, helping utilities identify the necessary infrastructure investments to meet long-term demand growth and decarbonization targets.
+
+| Study                           | Detailed Purpose                                                                                      | Key Outcomes                            | Tools                                    | Time Horizon (Years) |
+|---------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------|------------------------------------------|-----------------------|
+| **Capacity Expansion Planning** | Identify the infrastructure and capacity expansions needed to meet long-term demand growth and decarbonization goals. | Optimal Expansion Plans, Capacity Needs | EPM, PSS-E, PowerFactory, Plexos         | 10-30                |
+| **Grid Interconnection**        | Analyze the feasibility and impact of new grid connections, including generation plants and cross-border interconnections. | Power Transfer Capability, Stability Metrics | PSS-E, PowerFactory, DIgSILENT          | 10-30                |
+| **Adequacy Assessment**         | Evaluate whether the system has enough capacity to meet demand under various scenarios, including peak load and renewable energy variability. | Loss of Load, Unmet Demand, Reserve Margins | EPM, PLEXOS, Antares, Open-Plan, PROMOD | 1-20                 |
+| **Grid Reliability**            | Analyze the system's ability to operate securely under normal and contingency conditions to prevent outages and maintain reliability. | Voltage Profiles, Stability Metrics     | PSS-E, PowerFactory, ETAP                | 0-10                 |
+| **Load Flow**                   | Determine how power flows through the network to identify potential bottlenecks, ensure efficient operation, and minimize losses. | Power Flow Distribution, Losses         | PSS-E, PowerWorld, CYME                  | 0-10                 |
+| **Short-Circuit**               | Assess fault current magnitudes to ensure equipment and protection systems are capable of safely handling electrical faults. | Fault Current Levels, Breaker Ratings   | ETAP, PowerFactory, Aspen                | 0-5                  |
+| **Dynamic and Stability**       | Examine system behavior during and after disturbances to ensure stability and prevent cascading failures or blackouts. | Stability Indices, Oscillation Damping  | DIgSILENT, PSS-E, PSCAD                  | 0-10                 |
+| **Market and Congestion Management** | Evaluate and optimize market operations, including congestion management and locational marginal pricing. | Congestion Costs, Locational Prices     | PLEXOS, BID3, GridSim                    | 0-10                 |
+| **Resilience and Climate Adaptation** | Evaluate grid vulnerabilities to climate risks and propose adaptive measures to enhance resilience and mitigate impacts. | Risk Maps, Infrastructure Vulnerability | OpenCLIM, ARCGIS, Custom Models          | 10-30                |
