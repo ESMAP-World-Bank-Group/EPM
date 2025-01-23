@@ -1664,6 +1664,7 @@ def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
         plt.tight_layout()
         plt.show()
 
+
 def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_columns=None):
     if rename_index is not None:
         df.index = df.index.map(lambda x: rename_index.get(x, x))
@@ -1695,7 +1696,7 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
     summary = []
 
     if required_keys is None:
-        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pCurtailedVRET', 'pCostSummary', 'pNPVByYear']
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary', 'pNPVByYear']
 
     assert all(
         key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
@@ -1742,11 +1743,30 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         temp.rename('ktCO2', inplace=True).to_frame()
         summary.append(temp)
 
-    if 'pCurtailedVRET' in required_keys:
-        temp = epm_results['pCurtailedVRET'].copy()
-        temp = temp[(temp['year'] == year)]
-        temp = temp.groupby([rows_index])['value'].sum() / 1e3
-        temp.rename('Curtail. (kWh)', inplace=True).to_frame()
+    if 'pDemandSupplyCountry' in required_keys:
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        temp = temp[temp['attribute'] == 'Unmet demand: GWh']
+        temp = temp.groupby(['scenario'])['value'].sum()
+
+        t = epm_results['pDemandSupplyCountry'].copy()
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.groupby(['scenario'])['value'].sum()
+        temp = (temp / t) * 1e3
+        temp.rename('Unmet (‰)', inplace=True).to_frame()
+        summary.append(temp)
+        
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        temp = temp[(temp['zone'] == 'Guinea')]
+        temp = temp[temp['attribute'] == 'Surplus generation: GWh']
+        temp = temp.groupby(['scenario'])['value'].sum()
+
+        t = epm_results['pDemandSupplyCountry'].copy()
+        t = t[(t['zone'] == 'Guinea')]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.groupby(['scenario'])['value'].sum()
+        temp = (temp / t) * 1000
+
+        temp.rename('Surplus (‰)', inplace=True).to_frame()
         summary.append(temp)
 
     if 'pCostSummary' in required_keys:
@@ -1769,6 +1789,23 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
             temp = capex_tot.to_frame().rename(columns={'value': capex_metric})
 
         # temp.rename('Capex ($M/year)', inplace=True).to_frame()
+        summary.append(temp)
+        
+    if 'pCostSummary' in required_keys:
+        temp = epm_results['pCostSummary'].copy()
+        temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
+        temp = calculate_total_system_cost(temp, discount_rate)
+
+        t = epm_results['pDemandSupply'].copy()
+        t = t[(t['zone'] == 'Guinea')]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = calculate_total_system_cost(t, discount_rate)
+
+        temp = (temp * 1e6) / (t * 1e3)
+
+        if isinstance(temp, (float, int)):
+            temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
+        temp.rename('NPV ($/MWh)', inplace=True).to_frame()
         summary.append(temp)
 
 
