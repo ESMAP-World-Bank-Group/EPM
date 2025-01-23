@@ -13,7 +13,7 @@ import os
 import gams.transfer as gt
 import seaborn as sns
 from pathlib import Path
-
+from matplotlib.ticker import MaxNLocator, FixedLocator
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 COLORS = 'static/colors.csv'
@@ -162,7 +162,8 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast']
+    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast',
+            'pScalars']
     epm_input = {k: i for k, i in epm_input.items() if k in keys}
     if scenarios_rename is not None:
         for k, i in epm_input.items():
@@ -261,7 +262,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'pReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans', 'pPlantReserve', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
-            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear'}
+            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear', 'pEnergyByPlantSeason',
+            'pCAPEXByFuelByYear'}
 
     rename_keys = {'pReserveByPlantCountry': 'pReserveByPlant'}
 
@@ -301,6 +303,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     standardize_names(epm_dict, 'pEnergyByFuel', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pCapacityByFuel', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pNewCapacityFuelCountry', dict_specs['fuel_mapping'])
+    standardize_names(epm_dict, 'pCAPEXByFuelByYear', dict_specs['fuel_mapping'])
 
     standardize_names(epm_dict, 'pFuelDispatch', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pPlantFuelDispatch', dict_specs['tech_mapping'])
@@ -308,14 +311,18 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     # Add fuel type to the results
     if mapping_gen_fuel is not None:
         # Add fuel type to the results
-        epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].merge(mapping_gen_fuel,
-                                                                              on=['scenario', 'generator'], how='left')
+        if 'pReserveByPlant' in epm_dict.keys():
+            epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].merge(mapping_gen_fuel,
+                                                                            on=['scenario', 'generator'], how='left')
+
         epm_dict['pPlantAnnualLCOE'] = epm_dict['pPlantAnnualLCOE'].merge(mapping_gen_fuel,
                                                                                 on=['scenario', 'generator'],
                                                                                 how='left')
         epm_dict['pEnergyByPlant'] = epm_dict['pEnergyByPlant'].merge(mapping_gen_fuel,
                                                                             on=['scenario', 'generator'], how='left')
         epm_dict['pCapacityPlan'] = epm_dict['pCapacityPlan'].merge(mapping_gen_fuel,
+                                                                          on=['scenario', 'generator'], how='left')
+        epm_dict['pEnergyByPlantSeason'] = epm_dict['pEnergyByPlantSeason'].merge(mapping_gen_fuel,
                                                                           on=['scenario', 'generator'], how='left')
 
     return epm_dict
@@ -728,6 +735,12 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     ax1.set_title(title)
     format_ax(ax1)
 
+    # Set integer x-ticks
+    years = temp.index  # Assuming the x-axis data corresponds to years
+    ticks = [year for year in years if year % 5 == 0]
+    ax1.xaxis.set_major_locator(FixedLocator(ticks))
+    # ax1.xaxis.set_major_locator(MaxNLocator(integer=True))
+
     # Secondary y-axis
     if df_2 is not None:
         # Remove legend ax1
@@ -767,11 +780,11 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     plt.close(fig)
 
 
-def format_dispatch_ax(ax, pd_index):
+def format_dispatch_ax(ax, pd_index, day='day', season='season'):
 
     # Adding the representative days and seasons
-    n_rep_days = len(pd_index.get_level_values('day').unique())
-    dispatch_seasons = pd_index.get_level_values('season').unique()
+    n_rep_days = len(pd_index.get_level_values(day).unique())
+    dispatch_seasons = pd_index.get_level_values(season).unique()
     total_days = len(dispatch_seasons) * n_rep_days
     y_max = ax.get_ylim()[1]
 
@@ -804,7 +817,7 @@ def format_dispatch_ax(ax, pd_index):
     ax.spines['top'].set_visible(False)
 
 
-def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', ymin=0):
+def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', bottom=0):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -856,11 +869,10 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     format_dispatch_ax(ax, pd_index)
 
     # Add axis labels and title
-    ax.set_ylabel('Generation (MWh)', fontweight='bold')
-    # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
-    # set ymin to 0
-    if ymin is not None:
-        ax.set_ylim(bottom=ymin)
+    ax.set_ylabel('Generation (MW)', fontweight='bold')
+
+    if bottom is not None:
+        ax.set_ylim(bottom=bottom)
 
     # Add legend bottom center
     if legend_loc == 'bottom':
@@ -966,7 +978,7 @@ def remove_na_values(df):
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom'):
+                                    legend_loc='bottom', bottom=0):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -1046,12 +1058,14 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
         temp = 'all'
     temp = f'{year}_{temp}'
     if filename is not None:
-        filename = filename.split('.')[0] + f'_{temp}.png'
+        filename = filename.split('.png')[0] + f'_{temp}.png'
 
-    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc)
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom)
 
 
-def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(10, 6), year_ini=None,order_scenarios=None, order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
+def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(10, 6), year_ini=None,
+                        order_scenarios=None, order_columns=None, dict_scenarios=None, rotation=0, fonttick=14,
+                        legend=True,
                         format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6, annotate=True, show_total=False):
     """
     Create a stacked bar subplot from a DataFrame.
@@ -1093,7 +1107,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
     -------
     None
     """
-    
+
     list_keys = list(df.columns)
     n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
@@ -1128,8 +1142,9 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
                 if order_scenarios is not None:  # Reordering scenarios
                     df_temp = df_temp.loc[[c for c in order_scenarios if c in df_temp.index], :]
                 if order_columns is not None:
-                    new_order = [c for c in order_columns if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_columns]
-                    df_temp = df_temp.loc[:,new_order]
+                    new_order = [c for c in order_columns if c in df_temp.columns] + [c for c in df_temp.columns if
+                                                                                      c not in order_columns]
+                    df_temp = df_temp.loc[:, new_order]
 
             df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0,
                          color=dict_colors if dict_colors is not None else None)
@@ -1196,9 +1211,10 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, figsize=(1
         plt.show()
 
 
-
-def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                              column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
+def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, column_xaxis='year', column_stacked='fuel',
+                              column_multiple_bars='scenario',
+                              column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                              dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
                               show_total=False):
     """
@@ -1280,7 +1296,8 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, col
             assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
             df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[
+              column_value].sum().reset_index())
 
     df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
 
@@ -1406,21 +1423,26 @@ def heatmap_plot(data, filename=None, percentage=False):
     diff_from_baseline = data.subtract(baseline_values, axis=1)
 
     # Combine differences and baseline values for annotations
-    annotations = data.applymap(lambda x: f"{x:,.0f}")  # Format baseline values
+    annotations = data.map(lambda x: f"{x:,.0f}")  # Format baseline values
+
     # Format differences in percentage
     if percentage:
+        baseline_values = baseline_values.replace(0, float('nan'))  # Avoid division by zero
         diff_from_baseline = diff_from_baseline / baseline_values
-        diff_annotations = diff_from_baseline.applymap(lambda x: f" ({x:+,.0%})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})" if not np.isnan(x) and x < 5 else "")
     else:
-        diff_annotations = diff_from_baseline.applymap(lambda x: f" ({x:+,.0f})")
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0f})")
     combined_annotations = annotations + diff_annotations  # Combine both
 
     # Normalize the color scale by column
     diff_normalized = diff_from_baseline.copy()
     for column in diff_from_baseline.columns:
-        col_min = diff_from_baseline[column].min()
-        col_max = diff_from_baseline[column].max()
-        diff_normalized[column] = (diff_from_baseline[column] - col_min) / (col_max - col_min)
+        col_min = diff_from_baseline[column].min(skipna=True)
+        col_max = diff_from_baseline[column].max(skipna=True)
+        if np.isnan(col_min) or np.isnan(col_max) or col_min == col_max:
+            diff_normalized[column] = 0.5  # Assign mid-scale value for constant columns
+        else:
+            diff_normalized[column] = (diff_normalized[column] - col_min) / (col_max - col_min)
 
     # Create a figure
     fig, ax = plt.subplots(figsize=(12, 8))
@@ -1475,12 +1497,11 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     temp = temp.loc[:, fuel_list]
     temp.rename(columns={'Battery Storage': 'BESS'}, inplace=True)
     temp.columns = [f'{col} (MW)' for col in temp.columns]
-    temp = temp.round(0)
     summary.append(temp)
 
     temp = epm_results['pEnergyByFuel'].copy()
     temp = temp[(temp['year'] == 2050) * (temp['zone'] == 'Guinea')]
-    fuel_list = ['Hydro', 'Oil']
+    fuel_list = ['Oil']
     temp = temp.pivot_table(index=['scenario'], columns='fuel', values='value')
     temp = temp.loc[:, fuel_list]
     temp.columns = [f'{col} (GWh)' for col in temp.columns]
@@ -1494,26 +1515,110 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     temp.rename('ktCO2', inplace=True).to_frame()
     summary.append(temp)
 
-    temp = epm_results['pCurtailedVRET'].copy()
-    temp = temp[(temp['year'] == 2050)]
-    temp = temp.groupby(['scenario'])['value'].sum() / 1e3
-    temp.rename('Curtail. (kWh)', inplace=True).to_frame()
+    if False:
+        temp = epm_results['pCurtailedVRET'].copy()
+        temp = temp[(temp['year'] == 2050)]
+        temp = temp.groupby(['scenario'])['value'].sum() / 1e3
+        temp.rename('Curtail. (kWh)', inplace=True).to_frame()
+        summary.append(temp)
+
+    temp = epm_results['pDemandSupplyCountry'].copy()
+    temp = temp[(temp['zone'] == 'Guinea')]
+    temp = temp[temp['attribute'] == 'Surplus generation: GWh']
+    temp = temp.groupby(['scenario'])['value'].sum()
+
+    t = epm_results['pDemandSupplyCountry'].copy()
+    t = t[(t['zone'] == 'Guinea')]
+    t = t[t['attribute'] == 'Demand: GWh']
+    t = t.groupby(['scenario'])['value'].sum()
+    temp = (temp / t) * 1000
+
+    temp.rename('Surplus (‰)', inplace=True).to_frame()
     summary.append(temp)
+
+    if False:
+        temp = epm_results['pCostSummary'].copy()
+        temp = temp[temp['attribute'] == 'Unmet demand costs: $m']
+        temp = temp[(temp['zone'] == 'Guinea')]
+        duration = temp['year'].max() - temp['year'].min() + 1
+        temp = temp.groupby(['scenario'])['value'].sum()
+        temp = temp / duration
+        temp.rename('Unmet ($M/y)', inplace=True).to_frame()
+        summary.append(temp)
+
+    if False:
+        # Calculate average unmet demand in GWh per year
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        temp = temp[temp['attribute'] == 'Unmet demand: GWh']
+        temp = temp[(temp['zone'] == 'Guinea')]
+        duration = temp['year'].max() - temp['year'].min() + 1
+        temp = temp.groupby(['scenario'])['value'].sum()
+        temp = temp / duration
+        temp.rename('Unmet (GWh/y)', inplace=True).to_frame()
+        summary.append(temp)
+
+    temp = epm_results['pDemandSupplyCountry'].copy()
+    temp = temp[(temp['zone'] == 'Guinea')]
+    temp = temp[temp['attribute'] == 'Unmet demand: GWh']
+    temp = temp.groupby(['scenario'])['value'].sum()
+
+    t = epm_results['pDemandSupplyCountry'].copy()
+    t = t[(t['zone'] == 'Guinea')]
+    t = t[t['attribute'] == 'Demand: GWh']
+    t = t.groupby(['scenario'])['value'].sum()
+    temp = (temp / t) * 1e3
+    temp.rename('Unmet (‰)', inplace=True).to_frame()
+    summary.append(temp)
+
+
+    if False:
+        temp = epm_results['pCostSummary'].copy()
+        temp = temp[temp['attribute'] == 'Capex: $m']
+        temp = temp[temp['year'] <= 2035]
+        temp = temp[(temp['zone'] == 'Guinea')]
+        duration = temp['year'].max() - temp['year'].min() + 1
+        temp = temp.groupby(['scenario'])['value'].sum()
+        temp = temp / duration
+        temp.rename('2035 ($M/y)', inplace=True).to_frame()
+        summary.append(temp)
 
     temp = epm_results['pCostSummary'].copy()
     temp = temp[temp['attribute'] == 'Capex: $m']
+    temp = temp[temp['year'] <= 2050]
     temp = temp[(temp['zone'] == 'Guinea')]
     duration = temp['year'].max() - temp['year'].min() + 1
     temp = temp.groupby(['scenario'])['value'].sum()
     temp = temp / duration
-    temp.rename('Capex ($M/year)', inplace=True).to_frame()
+    temp.rename('2050 ($M/y)', inplace=True).to_frame()
     summary.append(temp)
-    #temp = temp.pivot_table(index=['scenario'], values='value')
-    #temp.columns = ['Capex ($m)']
 
-    temp = epm_results['pNPVByYear'].copy()
-    temp = calculate_total_system_cost(temp, discount_rate) / 1e9
-    temp.rename('NPV ($B)', inplace=True).to_frame()
+    if False:
+        temp = epm_results['pNPVByYear'].copy()
+        temp = calculate_total_system_cost(temp, discount_rate) / 1e9
+        if isinstance(temp, (float, int)):
+            temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
+        temp.rename('NPV ($B)', inplace=True).to_frame()
+        summary.append(temp)
+
+    if False:
+        temp = epm_results['pNPVByYear'].copy()
+        #temp = temp.groupby(['scenario', 'year'])['value'].sum()
+        temp = calculate_total_system_cost(temp, discount_rate)
+
+    temp = epm_results['pCostSummary'].copy()
+    temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
+    temp = calculate_total_system_cost(temp, discount_rate)
+
+    t = epm_results['pDemandSupply'].copy()
+    t = t[(t['zone'] == 'Guinea')]
+    t = t[t['attribute'] == 'Demand: GWh']
+    t = calculate_total_system_cost(t, discount_rate)
+
+    temp = (temp * 1e6) / (t * 1e3)
+
+    if isinstance(temp, (float, int)):
+        temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
+    temp.rename('NPV ($/MWh)', inplace=True).to_frame()
     summary.append(temp)
 
     summary = pd.concat(summary, axis=1)
@@ -1522,6 +1627,8 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
         scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if i not in scenario_order]
         summary = summary.loc[scenario_order]
 
+    csv_name = filename.split('.png')[0] + '.csv'
+    summary.to_csv(csv_name)
     heatmap_plot(summary, filename, percentage=percentage)
 
 

@@ -4,12 +4,12 @@ DR,0.06
 systemReserve,
 ,
 ,
-VOLL,1000
+VOLL,300
 ReserveVoLL,70000
 SpinReserveVoLL,100
 costSurplus,0
 costcurtail,0
-CO2backstop,300
+CO2backstop,10000
 H2UnservedCost,10000
 ,
 ,
@@ -28,7 +28,7 @@ Captraj,1
 ,
 ,
 ,
-system_co2_constraints,1
+system_co2_constraints,0
 fuel_constraints,1
 capital_constraints,0
 mingen_constraints,0

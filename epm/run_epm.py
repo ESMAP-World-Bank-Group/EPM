@@ -307,6 +307,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
 
     # Generate scenario pd.Series for alternative scenario
     s = {k: scenario_baseline.copy() for k in scenarios}
+    # Update each scenario
     for k in s.keys():
         s[k].update(scenarios[k].dropna())
     # Add the baseline scenario
@@ -361,16 +362,20 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline_hydrostochastic.csv',
-                                                    scenarios_specification='input/scenarios_specification_guinea.csv',
-                                                    selected_scenarios=None,
+        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_nz_base.csv',
+                                                    scenarios_specification='input/scenarios_specification.csv',
+                                                    selected_scenarios=['HydroStochasticCC2'],
                                                     cpu=1,
                                                     path_engine_file=None)
-
-        #'HydroStochasticCC'
+        # ['baseline', 'TradePrice']
+        # 'HydroStochasticCC', 'HydroStochastic2', 'HydroStochasticCC2'
         """
         ['LowStorageCost', 'EmissionCstr', 'NZ', 'HydroLow', 'HigherFuelPrice', 'IndependentHydro', 'HPO_IPP',
         HydroStochasticCC', 'HydroStochasticCC']
+        
+        	
+        
+        ['baseline', 'HydroStochastic', 'HydroStochasticCC', 'HydroHalfReservoirStochastic', 'HydroLow']
         
         """
         # 'DemandHigh', 'baseline',
