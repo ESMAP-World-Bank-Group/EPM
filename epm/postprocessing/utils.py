@@ -1105,7 +1105,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
         temp = 'all'
     temp = f'{year}_{temp}'
     if filename is not None:
-        filename = filename.split('.')[0] + f'_{temp}.png'
+        filename = filename.split('.png')[0] + f'_{temp}.png'
 
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom)
 
