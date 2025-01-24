@@ -15,6 +15,10 @@ parts:
       - file: docs/input_reading
       - file: docs/solver_options.md
       - file: docs/run_parallel.md
+  - caption: Input
+    chapters: 
+      - file: docs/introduction_input.md
+      - file: docs/detailed_input.md
   - caption: Postprocessing
     chapters:
       - file: docs/postprocessing
@@ -33,3 +37,6 @@ parts:
   - caption: Related Projects
     chapters:
         - file: docs/representative_days
+  - caption: Other Resources
+    chapters:
+        - file: docs/models_overview
