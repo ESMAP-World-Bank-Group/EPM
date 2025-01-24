@@ -15,7 +15,7 @@ import gams.transfer as gt
 import seaborn as sns
 from pathlib import Path
 import geopandas as gpd
-
+from matplotlib.ticker import MaxNLocator, FixedLocator
 FUELS = 'static/fuels.csv'
 TECHS = 'static/technologies.csv'
 COLORS = 'static/colors.csv'
@@ -175,7 +175,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast']
+    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pScalars']
     epm_input = {k: i for k, i in epm_input.items() if k in keys}
     if scenarios_rename is not None:
         for k, i in epm_input.items():
@@ -274,7 +274,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
-            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear'}
+            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
+            'pSpinningReserveByPlantCountry', 'pPlantDispatch'}
 
     rename_keys = {'pSpinningReserveByPlantCountry': 'pReserveByPlant'}
 
@@ -287,7 +288,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             if 'scenario' in i.columns:
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
-    list_keys = ['pReserveByPlant', 'pCapacityPlan']
+    list_keys = ['pSpinningReserveByPlantCountry', 'pPlantReserve', 'pCapacityPlan']
     list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
@@ -321,15 +322,9 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     # Add fuel type to the results
     if mapping_gen_fuel is not None:
         # Add fuel type to the results
-        epm_dict['pReserveByPlant'] = epm_dict['pReserveByPlant'].merge(mapping_gen_fuel,
-                                                                              on=['scenario', 'generator'], how='left')
-        epm_dict['pPlantAnnualLCOE'] = epm_dict['pPlantAnnualLCOE'].merge(mapping_gen_fuel,
-                                                                                on=['scenario', 'generator'],
-                                                                                how='left')
-        epm_dict['pEnergyByPlant'] = epm_dict['pEnergyByPlant'].merge(mapping_gen_fuel,
-                                                                            on=['scenario', 'generator'], how='left')
-        epm_dict['pCapacityPlan'] = epm_dict['pCapacityPlan'].merge(mapping_gen_fuel,
-                                                                          on=['scenario', 'generator'], how='left')
+        plant_result = ['pSpinningReserveByPlantCountry', 'pPlantAnnualLCOE', 'pEnergyByPlant', 'pCapacityPlan', 'pPlantDispatch']
+        for key in [k for k in plant_result if k in epm_dict.keys()]:
+            epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
     return epm_dict
 
@@ -607,8 +602,7 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-
-def subplot_pie_new(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
+def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
                 percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
     """
     Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
@@ -788,6 +782,10 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     ax1.set_ylabel(y_label)
     ax1.set_title(title)
     format_ax(ax1)
+    
+    years = temp.index  # Assuming the x-axis data corresponds to years
+    ticks = [year for year in years if year % 5 == 0]
+    ax1.xaxis.set_major_locator(FixedLocator(ticks))
 
     # Secondary y-axis
     if df_2 is not None:
@@ -865,7 +863,7 @@ def format_dispatch_ax(ax, pd_index):
     ax.spines['top'].set_visible(False)
 
 
-def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', ymin=0):
+def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', bottom=0):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -920,8 +918,8 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     ax.set_ylabel('Generation (MWh)', fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
     # set ymin to 0
-    if ymin is not None:
-        ax.set_ylim(bottom=ymin)
+    if bottom is not None:
+        ax.set_ylim(bottom=bottom)
 
     # Add legend bottom center
     if legend_loc == 'bottom':
@@ -1027,7 +1025,7 @@ def remove_na_values(df):
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom'):
+                                    legend_loc='bottom', bottom=0):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -1107,9 +1105,9 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
         temp = 'all'
     temp = f'{year}_{temp}'
     if filename is not None:
-        filename = filename.split('.')[0] + f'_{temp}.png'
+        filename = filename.split('.png')[0] + f'_{temp}.png'
 
-    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc)
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom)
 
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
@@ -1664,6 +1662,7 @@ def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
         plt.tight_layout()
         plt.show()
 
+
 def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_columns=None):
     if rename_index is not None:
         df.index = df.index.map(lambda x: rename_index.get(x, x))
@@ -1695,7 +1694,7 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
     summary = []
 
     if required_keys is None:
-        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pCurtailedVRET', 'pCostSummary', 'pNPVByYear']
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary', 'pNPVByYear']
 
     assert all(
         key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
@@ -1742,11 +1741,30 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         temp.rename('ktCO2', inplace=True).to_frame()
         summary.append(temp)
 
-    if 'pCurtailedVRET' in required_keys:
-        temp = epm_results['pCurtailedVRET'].copy()
-        temp = temp[(temp['year'] == year)]
-        temp = temp.groupby([rows_index])['value'].sum() / 1e3
-        temp.rename('Curtail. (kWh)', inplace=True).to_frame()
+    if 'pDemandSupplyCountry' in required_keys:
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        temp = temp[temp['attribute'] == 'Unmet demand: GWh']
+        temp = temp.groupby(['scenario'])['value'].sum()
+
+        t = epm_results['pDemandSupplyCountry'].copy()
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.groupby(['scenario'])['value'].sum()
+        temp = (temp / t) * 1e3
+        temp.rename('Unmet (‰)', inplace=True).to_frame()
+        summary.append(temp)
+        
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        temp = temp[(temp['zone'] == 'Guinea')]
+        temp = temp[temp['attribute'] == 'Surplus generation: GWh']
+        temp = temp.groupby(['scenario'])['value'].sum()
+
+        t = epm_results['pDemandSupplyCountry'].copy()
+        t = t[(t['zone'] == 'Guinea')]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.groupby(['scenario'])['value'].sum()
+        temp = (temp / t) * 1000
+
+        temp.rename('Surplus (‰)', inplace=True).to_frame()
         summary.append(temp)
 
     if 'pCostSummary' in required_keys:
@@ -1769,6 +1787,23 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
             temp = capex_tot.to_frame().rename(columns={'value': capex_metric})
 
         # temp.rename('Capex ($M/year)', inplace=True).to_frame()
+        summary.append(temp)
+        
+    if 'pCostSummary' in required_keys:
+        temp = epm_results['pCostSummary'].copy()
+        temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
+        temp = calculate_total_system_cost(temp, discount_rate)
+
+        t = epm_results['pDemandSupply'].copy()
+        t = t[(t['zone'] == 'Guinea')]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = calculate_total_system_cost(t, discount_rate)
+
+        temp = (temp * 1e6) / (t * 1e3)
+
+        if isinstance(temp, (float, int)):
+            temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
+        temp.rename('NPV ($/MWh)', inplace=True).to_frame()
         summary.append(temp)
 
 
