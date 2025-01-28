@@ -442,82 +442,82 @@ if __name__ == '__main__':
         # }
         #
         # launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
-        #                            scenarios_specification='input/scenarios_hydrostorage_specification.csv',
-        #                            selected_scenarios=['baseline'],
-        #                            cpu=1, path_gams=path_gams_storage,
-        #                            path_engine_file=None)
-
-        # get_job_engine('output/simulations_run_20250103_150855/tokens_simulation.csv')
-
-        # Run sensitivity analysis with surrogate model
-
-        uncertainties = {
-            # 'demand': {
-            #     'type': 'Uniform',
-            #     'args': (8, 20)
-            # },
-            'import': {
-                'type': 'Uniform',
-                'args': (0, 40)
-            },
-            'hydro': {
-                'type': 'Uniform',
-                'args': (0.7, 1.3)
-            },
-            'hfoprice': {
-                'type': 'Uniform',
-                'args': (11.5, 19.5)
-            },
-            'batterycost': {
-                'type': 'Uniform',
-                'args': (-0.55, 0)
-            }
-        }
-
-        distribution = NamedJ(uncertainties)
-
-        polynomial_degree = 4
-        number_of_uncertainty = len(uncertainties.keys())
-        cardinality = factorial(polynomial_degree + number_of_uncertainty) / (factorial(polynomial_degree) * factorial(number_of_uncertainty))
-        OSR = 2
-        number_of_samples = cardinality * OSR
-
-        samples = distribution.sample(size=number_of_samples, rule='halton')
-
-        # fig, axes = plt.subplots(figsize=(10, 5))
-        # axes.scatter(*samples, marker='.', c='navy')
-        # plt.title('Samples')
-        # plt.xlabel('Demand')
-        # plt.ylabel('Import')
-        # plt.show()
-
-        samples = {
-            f'{"_".join([f"{idx}{samples.loc[idx, col]:.3f}" for idx in samples.index])}': {
-                idx: round(samples.loc[idx, col], 3) for idx in samples.index
-            }
-            for col in samples.columns
-        }
-
-        specs_baseline = {
-            'demand': 11,
-        }
-
-        scenario_baseline = 'input/scenario_hydrostorage_baseline.csv'
-
-        path_scenario_spec = create_scenarios_sensitivity(samples, specs_baseline, scenario_baseline)
-        #
-        # path_gams_storage = {
-        #     'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-        #     'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
-        #     'path_report_file': 'WB_EPM_v8_5_Report.gms',
-        #     'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
-        #     'path_cplex_file': 'cplex.opt'
-        # }
-        #
-        # launch_epm_multi_scenarios(scenario_baseline=scenario_baseline,
-        #                            scenarios_specification=path_scenario_spec,
-        #                            selected_scenarios=None,
+        #                            scenarios_specification='input/scenarios_hydrostorage_spec_workshop.csv',
+        #                            selected_scenarios=['LowBatteryLateSP2'],
         #                            cpu=1, path_gams=path_gams_storage,
         #                            path_engine_file='Engine_Base.gms')
 
-        get_job_engine('output/simulations_run_20250109_184803/tokens_simulation.csv')
+        get_job_engine('output/simulations_run_20250128_113153/tokens_simulation.csv')
+
+        # # Run sensitivity analysis with surrogate model
+        #
+        # uncertainties = {
+        #     # 'demand': {
+        #     #     'type': 'Uniform',
+        #     #     'args': (8, 20)
+        #     # },
+        #     'import': {
+        #         'type': 'Uniform',
+        #         'args': (0, 40)
+        #     },
+        #     'hydro': {
+        #         'type': 'Uniform',
+        #         'args': (0.7, 1.3)
+        #     },
+        #     'hfoprice': {
+        #         'type': 'Uniform',
+        #         'args': (11.5, 19.5)
+        #     },
+        #     'batterycost': {
+        #         'type': 'Uniform',
+        #         'args': (-0.55, 0)
+        #     }
+        # }
+        #
+        # distribution = NamedJ(uncertainties)
+        #
+        # polynomial_degree = 4
+        # number_of_uncertainty = len(uncertainties.keys())
+        # cardinality = factorial(polynomial_degree + number_of_uncertainty) / (factorial(polynomial_degree) * factorial(number_of_uncertainty))
+        # OSR = 2
+        # number_of_samples = cardinality * OSR
+        #
+        # samples = distribution.sample(size=number_of_samples, rule='halton')
+        #
+        # # fig, axes = plt.subplots(figsize=(10, 5))
+        # # axes.scatter(*samples, marker='.', c='navy')
+        # # plt.title('Samples')
+        # # plt.xlabel('Demand')
+        # # plt.ylabel('Import')
+        # # plt.show()
+        #
+        # samples = {
+        #     f'{"_".join([f"{idx}{samples.loc[idx, col]:.3f}" for idx in samples.index])}': {
+        #         idx: round(samples.loc[idx, col], 3) for idx in samples.index
+        #     }
+        #     for col in samples.columns
+        # }
+        #
+        # specs_baseline = {
+        #     'demand': 11,
+        # }
+        #
+        # scenario_baseline = 'input/scenario_hydrostorage_baseline.csv'
+        #
+        # path_scenario_spec = create_scenarios_sensitivity(samples, specs_baseline, scenario_baseline)
+        # #
+        # # path_gams_storage = {
+        # #     'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+        # #     'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
+        # #     'path_report_file': 'WB_EPM_v8_5_Report.gms',
+        # #     'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
+        # #     'path_cplex_file': 'cplex.opt'
+        # # }
+        # #
+        # # launch_epm_multi_scenarios(scenario_baseline=scenario_baseline,
+        # #                            scenarios_specification=path_scenario_spec,
+        # #                            selected_scenarios=None,
+        # #                            cpu=1, path_gams=path_gams_storage,
+        # #                            path_engine_file='Engine_Base.gms')
+        #
+        # get_job_engine('output/simulations_run_20250109_184803/tokens_simulation.csv')

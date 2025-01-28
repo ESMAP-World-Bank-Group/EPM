@@ -473,6 +473,7 @@ def plot_error_vs_order(train_set, test_set, folder, save=False, sklearn=None, m
 if __name__ == '__main__':
     RESULTS_FOLDER = 'output/simulations_run_20250109_141827'
 
+    # TODO: save uncertainties distribution when running model
     uncertainties = {
         # 'demand': {
         #     'type': 'Uniform',
