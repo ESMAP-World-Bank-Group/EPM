@@ -41,6 +41,7 @@ NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
     'pCurtailedVRET': 'fuel',
     'pCurtailedStoHY': 'fuel',
+    'pCostSummary': 'attribute',
     'pDispatch': 'attribute'
 }
 
@@ -1424,6 +1425,247 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
     else:
         plt.show()
     plt.close(fig)
+
+
+def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
+    """
+    Plots a heatmap showing differences from baseline with color scales defined per column.
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Input data with scenarios as rows and metrics as columns.
+    filename : str
+        Path to save the plot.
+    percentage : bool, optional
+        Whether to show differences as percentages.
+    """
+
+    # Calculate differences from baseline
+    baseline_values = data.loc[baseline, :]
+    diff_from_baseline = data.subtract(baseline_values, axis=1)
+
+    # Combine differences and baseline values for annotations
+    annotations = data.map(lambda x: f"{x:,.0f}")  # Format baseline values
+    # Format differences in percentage
+    if percentage:
+        diff_from_baseline = diff_from_baseline / baseline_values
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})")
+    else:
+        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0f})")
+    combined_annotations = annotations + diff_annotations  # Combine both
+
+    # Normalize the color scale by column
+    diff_normalized = diff_from_baseline.copy()
+    for column in diff_from_baseline.columns:
+        col_min = diff_from_baseline[column].min()
+        col_max = diff_from_baseline[column].max()
+        diff_normalized[column] = (diff_from_baseline[column] - col_min) / (col_max - col_min)
+
+    # Create a figure
+    fig, ax = plt.subplots(figsize=(12, 8))
+
+    # Plot the heatmap
+    sns.heatmap(
+        diff_normalized,
+        cmap=sns.diverging_palette(220, 20, as_cmap=True),
+        annot=combined_annotations,  # Show baseline values and differences
+        fmt="",  # Disable default formatting
+        linewidths=0.5,
+        ax=ax,
+        cbar=False  # Remove color bar
+    )
+
+    # Customize the axes
+    ax.xaxis.set_label_position('top')
+    ax.xaxis.tick_top()
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=9)
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.tight_layout()
+        plt.show()
+
+
+def calculate_total_system_cost(data, discount_rate, start_year=None, end_year=None):
+    """
+    Calculate the total system cost with interpolation and discounting.
+
+    Parameters:
+    ----------
+    data: pd.DataFrame
+        DataFrame with columns ['Scenario', 'Year', 'Cost']
+    discount_rate: float
+        Discount rate (e.g., 0.05 for 5%)
+    start_year: int
+        Starting year for cost calculation
+    end_year: int
+        Ending year for cost calculation
+
+    Returns:
+    -------
+        pd.Series: Total system cost for each scenario
+    """
+    if start_year is None:
+        start_year = data['year'].min()
+
+    if end_year is None:
+        end_year = data['year'].max()
+
+    results = []
+
+    # Group data by scenario
+    for scenario, group in data.groupby('scenario'):
+        # Sort data by year
+        group = group.sort_values(by='year')
+
+        # Create a full range of years
+        years = np.arange(start_year, end_year + 1)
+
+        # Interpolate costs
+        interpolated_costs = np.interp(years, group['year'], group['value'])
+
+        # Discount costs
+        discounted_costs = [
+            cost / ((1 + discount_rate) ** (year - start_year))
+            for year, cost in zip(years, interpolated_costs)
+        ]
+
+        # Sum up discounted costs
+        total_cost = sum(discounted_costs)
+
+        # Store result
+        results.append({'scenario': scenario, 'cost': total_cost})
+
+    return pd.DataFrame(results).set_index('scenario').squeeze()
+
+
+def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
+                       discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
+                       fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
+                       rename_columns=None):
+    """
+    Make a heatmap plot for the results of the EPM model.
+
+
+    Parameters
+    ----------
+    epm_results: dict
+    filename: str
+    percentage: bool, optional, default is False
+    scenario_order
+    discount_rate
+    """
+    summary = []
+
+    if required_keys is None:
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary',
+                         'pNPVByYear']
+
+    assert all(
+        key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
+
+    if fuel_capa_list is None:
+        fuel_capa_list = ['Hydro', 'Solar', 'Wind']
+
+    if fuel_gen_list is None:
+        fuel_gen_list = ['Hydro', 'Oil']
+
+    if summary_metrics_list is None:
+        summary_metrics_list = ['Capex: $m']
+
+    if 'pCapacityByFuel' in required_keys:
+        temp = epm_results['pCapacityByFuel'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityByFuel'], values='value')
+        temp = temp.loc[:, fuel_capa_list]
+        temp = rename_and_reoder(temp, rename_columns=rename_columns)
+        temp.columns = [f'{col} (MW)' for col in temp.columns]
+        temp = temp.round(0)
+        summary.append(temp)
+
+    if 'pEnergyByFuel' in required_keys:
+        temp = epm_results['pEnergyByFuel'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.loc[:, fuel_gen_list]
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyByFuel'], values='value')
+        temp.columns = [f'{col} (GWh)' for col in temp.columns]
+        temp = temp.round(0)
+        summary.append(temp)
+
+    if 'pEmissions' in required_keys:
+        temp = epm_results['pEmissions'].copy()
+        temp = temp[(temp['year'] == year)]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp.set_index(['scenario'])['value']
+        temp = temp * 1e3
+        temp.rename('ktCO2', inplace=True).to_frame()
+        summary.append(temp)
+
+    if 'pDemandSupplyCountry' in required_keys:
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        temp = temp[temp['attribute'] == 'Unmet demand: GWh']
+        temp = temp.groupby(['scenario'])['value'].sum()
+
+        t = epm_results['pDemandSupplyCountry'].copy()
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.groupby(['scenario'])['value'].sum()
+        temp = (temp / t) * 1e3
+        temp.rename('Unmet (‰)', inplace=True).to_frame()
+        summary.append(temp)
+
+        temp = epm_results['pDemandSupplyCountry'].copy()
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
+        temp = temp[temp['attribute'] == 'Surplus generation: GWh']
+        temp = temp.groupby(['scenario'])['value'].sum()
+
+        t = epm_results['pDemandSupplyCountry'].copy()
+        if zone_list is not None:
+            t = t[t['zone'].isin(zone_list)]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.groupby(['scenario'])['value'].sum()
+        temp = (temp / t) * 1000
+
+        temp.rename('Surplus (‰)', inplace=True).to_frame()
+        summary.append(temp)
+
+    if 'pCostSummary' in required_keys:
+        temp = epm_results['pCostSummary'].copy()
+        temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
+        temp = calculate_total_system_cost(temp, discount_rate)
+
+        t = epm_results['pDemandSupply'].copy()
+        if zone_list is not None:
+            t = t[t['zone'].isin(zone_list)]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = calculate_total_system_cost(t, discount_rate)
+
+        temp = (temp * 1e6) / (t * 1e3)
+
+        if isinstance(temp, (float, int)):
+            temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
+        temp.rename('NPV ($/MWh)', inplace=True).to_frame()
+        summary.append(temp)
+
+    summary = pd.concat(summary, axis=1)
+
+    if scenario_order is not None:
+        scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if
+                                                                              i not in scenario_order]
+        summary = summary.loc[scenario_order]
+
+    heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
 
 
 
