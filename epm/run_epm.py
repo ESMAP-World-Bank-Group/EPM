@@ -433,21 +433,21 @@ if __name__ == '__main__':
         #                            cpu=1,
         #                            path_engine_file=None)
         #
-        # path_gams_storage = {
-        #     'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
-        #     'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
-        #     'path_report_file': 'WB_EPM_v8_5_Report.gms',
-        #     'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
-        #     'path_cplex_file': 'cplex.opt'
-        # }
-        #
-        # launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
-        #                            scenarios_specification='input/scenarios_hydrostorage_spec_workshop.csv',
-        #                            selected_scenarios=['LowBatteryLateSP2'],
-        #                            cpu=1, path_gams=path_gams_storage,
-        #                            path_engine_file='Engine_Base.gms')
+        path_gams_storage = {
+            'path_main_file': 'WB_EPM_v8_5_daily_storage_main.gms',  # 'WB_EPM_v8_5_main_V3_CONNECT_CSV.gms',
+            'path_base_file': 'WB_EPM_v8_5_daily_storage_base.gms',
+            'path_report_file': 'WB_EPM_v8_5_Report.gms',
+            'path_reader_file': 'WB_EPM_daily_storage_input_readers.gms',
+            'path_cplex_file': 'cplex.opt'
+        }
 
-        get_job_engine('output/simulations_run_20250128_113153/tokens_simulation.csv')
+        launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
+                                   scenarios_specification='input/scenarios_hydrostorage_spec_workshop.csv',
+                                   selected_scenarios=['NoPV'],
+                                   cpu=1, path_gams=path_gams_storage,
+                                   path_engine_file=None)
+
+        # get_job_engine('output/simulations_run_20250130_144840/tokens_simulation.csv')
 
         # # Run sensitivity analysis with surrogate model
         #

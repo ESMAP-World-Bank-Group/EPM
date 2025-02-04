@@ -28,6 +28,8 @@ import base64
 
 from pathlib import Path
 
+from matplotlib.pyplot import annotate
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 COUNTRIES = Path(BASE_DIR) / Path('postprocessing/static/countries.csv')
@@ -195,7 +197,7 @@ def process_epmresults(epmresults, dict_specs, input= Path('input/')):
                       'z': 'zone', 'g': 'generator', 'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
 
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
-            'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
+            'pPlantUtilization', 'pPlantAnnualLCOE', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
             'pDispatch', 'pFuelDispatch', 'pPlantDispatch', 'pInterconUtilization', 'pReserveByPlant',
             'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExt',
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
@@ -1094,6 +1096,38 @@ def make_summary(epm_dict, subset_years=None, subset_scenarios = None, folder=No
     return tmp_dispatch, tmp_gen
 
 
+def make_summary_by_plant(epm_dict, zone, filename=None, subset_years=None, subset_plants=None, subset_scenarios=None):
+    tmp = epm_dict['pPlantAnnualLCOE']
+    tmp = tmp.loc[tmp.zone == zone]
+    if subset_plants is not None:
+        tmp = tmp.loc[(tmp.generator.isin(subset_plants))]
+    if subset_scenarios is not None:
+        tmp = tmp.loc[(tmp.scenario.isin(subset_scenarios))]
+    if subset_years is not None:
+        tmp = tmp.loc[(tmp.year.isin(subset_years))]
+
+    tmp_lcoe = tmp.pivot_table(index=['zone', 'year', 'generator'], columns='scenario', values='value')
+
+    tmp = epm_dict['pPlantUtilization']
+    tmp = tmp.loc[tmp.zone == zone]
+    if subset_plants is not None:
+        tmp = tmp.loc[(tmp.generator.isin(subset_plants))]
+    if subset_scenarios is not None:
+        tmp = tmp.loc[(tmp.scenario.isin(subset_scenarios))]
+    if subset_years is not None:
+        tmp = tmp.loc[(tmp.year.isin(subset_years))]
+
+    tmp_util = tmp.pivot_table(index=['zone', 'year', 'generator'], columns='scenario', values='value')
+
+    result = pd.concat([tmp_lcoe, tmp_util], axis=1, keys=['LCOE', 'Plant Utilization'])
+
+    if filename is not None:
+        result.to_csv(filename, float_format='%.3f')
+
+    return result
+
+
+
 def clean_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=None, select_time=None):
     """
     Transforms a dataframe from the results GDX into a dataframe with season, day, and time as the index, and format ready for plot.
@@ -1261,26 +1295,50 @@ def make_fuel_capacity_mix_bar_plot(pEnergyByFuel, folder, dict_colors, zone, co
                         rotation=90, order_scenarios=order_scenarios, rename_scenarios=rename_scenarios, figsize=figsize)
 
 
-def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                              select_xaxis=None, dict_grouping=None, order_scenarios=None, rename_scenarios=None,
-                              format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2):
+def make_stacked_bar_subplots(df, filename, dict_colors, zone, figsize=(10,6), column_xaxis='year', column_stacked='fuel',
+                              column_multiple_bars='scenario', column_value='value',
+                              select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
+                              format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2,
+                              display_zero_axis=False, rotation=90, annotate=True):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
-    Args:
-        df (pd.DataFrame): Dataframe with results
-        filename (path): Path to save the figure
-        dict_colors (dict): Dictionary with color arguments
-        zone (str): Zone to select
-        column_xaxis (str): Column for choosing the subplots
-        column_stacked (str): Column name for choosing the column to stack values
-        column_multiple_bars (str): Column for choosing the type of bars inside a given subplot.
-        select_xaxis (str) Select a subset of subplots (for eg, a number of years)
-        dict_grouping (dict) Dictionary for grouping variables and summing over a given group
-        order_scenarios:
-        rename_scenarios:
-        format_y: Formatting y axis
-        order_stacked (list): Reordering the variables that will be stacked
-        cap (int): Under this cap, no annotation will be displayed
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Dataframe with results.
+    filename : str
+        Path to save the figure.
+    dict_colors : dict
+        Dictionary with color arguments.
+    selected_zone : str
+        Zone to select.
+    column_xaxis : str
+        Column for choosing the subplots.
+    column_stacked : str
+        Column name for choosing the column to stack values.
+    column_multiple_bars : str
+        Column for choosing the type of bars inside a given subplot.
+    column_value : str
+        Column name for the values to be plotted.
+    select_xaxis : list, optional
+        Select a subset of subplots (e.g., a number of years).
+    dict_grouping : dict, optional
+        Dictionary for grouping variables and summing over a given group.
+    order_scenarios : list, optional
+        Order of scenarios for plotting.
+    dict_scenarios : dict, optional
+        Dictionary for renaming scenarios.
+    format_y : function, optional
+        Function for formatting y-axis labels.
+    order_stacked : list, optional
+        Reordering the variables that will be stacked.
+    cap : int, optional
+        Under this cap, no annotation will be displayed.
+    annotate : bool, optional
+        Whether to annotate the bars.
+    show_total : bool, optional
+        Whether to show the total value on top of each bar.
 
     Example:
         Stacked bar subplots for capacity (by fuel) evolution
@@ -1321,42 +1379,89 @@ def make_stacked_bar_subplots(df, filename, dict_colors, zone, column_xaxis='yea
             assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
             df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False).sum().reset_index())
+    if column_xaxis is not None:
+        df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+    else:  # no subplots in this case
+        df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_multiple_bars])
 
-    df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+    # df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False).sum().reset_index())
+    #
+    # df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
 
     if select_xaxis is not None:
-        df = df[select_xaxis]
+        # df = df[select_xaxis]
+        df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
 
-    stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
-                        rotation=90, order_scenarios=order_scenarios, rename_scenarios=rename_scenarios,
-                        order_columns=order_stacked, cap=cap)
+    stacked_bar_subplot(df, column_stacked, filename, figsize, dict_colors, format_y=format_y,
+                        rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                        order_columns=order_stacked, cap=cap, display_zero_axis=display_zero_axis, annotate=annotate)
 
 
-def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(10, 6), year_ini=None, order_scenarios=None, order_columns=None,
-                        rename_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y), cap=6):
+
+def stacked_bar_subplot(df, column_group, filename, figsize=(10,6), dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
+                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
+                        cap=6, annotate=True, show_total=False, title=None, display_zero_axis=False):
+    """
+    Create a stacked bar subplot from a DataFrame.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame containing the data to plot.
+    column_group : str
+        Column name to group by for the stacked bars.
+    filename : str
+        Path to save the plot image. If None, the plot is shown instead.
+    dict_colors : dict, optional
+        Dictionary mapping column names to colors for the bars. Default is None.
+    figsize : tuple, optional
+        Size of the figure (width, height). Default is (10, 6).
+    year_ini : str, optional
+        Initial year to highlight in the plot. Default is None.
+    order_scenarios : list, optional
+        List of scenario names to order the bars. Default is None.
+    order_columns : list, optional
+        List of column names to order the stacked bars. Default is None.
+    dict_scenarios : dict, optional
+        Dictionary mapping scenario names to new names for the plot. Default is None.
+    rotation : int, optional
+        Rotation angle for x-axis labels. Default is 0.
+    fonttick : int, optional
+        Font size for tick labels. Default is 14.
+    legend : bool, optional
+        Whether to display the legend. Default is True.
+    format_y : function, optional
+        Function to format y-axis labels. Default is a lambda function formatting as '{:.0f} GW'.
+    cap : int, optional
+        Minimum height of bars to annotate. Default is 6.
+    annotate : bool, optional
+        Whether to annotate each bar with its height. Default is True.
+    show_total : bool, optional
+        Whether to show the total value on top of each bar. Default is False.
+    Returns
+    -------
+    None
+    """
+
     list_keys = list(df.columns)
-    n_columns = int(len(list_keys))
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
-    n_rows = 1
+    num_subplots = int(len(list_keys))
+    n_columns = min(3, num_subplots)  # Limit to 3 columns per row
+    n_rows = int(np.ceil(num_subplots / n_columns))
     if year_ini is not None:
         width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
     else:
         width_ratios = [1] * n_columns
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=figsize, sharey='all',
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(figsize[0], figsize[1]*n_rows), sharey='all',
                              gridspec_kw={'width_ratios': width_ratios})
-
-    # Ensure axes is iterable
-    if n_rows == 1 and n_columns == 1:
-        axes = [axes]
+    axes = np.array(axes).flatten()
 
     handles, labels = None, None
-    for k in range(n_rows * n_columns):
-        column = k % n_columns
-        ax = axes[column]
+    for k, key in enumerate(list_keys):
+        ax = axes[k]
 
         try:
-            key = list_keys[k]
             df_temp = df[key].unstack(column_group)
 
             if key == year_ini:
@@ -1364,67 +1469,92 @@ def stacked_bar_subplot(df, column_group, filename,  dict_colors=None, figsize=(
                 df_temp = df_temp.to_frame().T
                 df_temp.index = ['Initial']
             else:
-                if rename_scenarios is not None:  # Renaming scenarios for plots
-                    df_temp.index = df_temp.index.map(lambda x: rename_scenarios(x))
+                if dict_scenarios is not None:  # Renaming scenarios for plots
+                    df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
                 if order_scenarios is not None:  # Reordering scenarios
                     df_temp = df_temp.loc[[c for c in order_scenarios if c in df_temp.index], :]
                 if order_columns is not None:
                     new_order = [c for c in order_columns if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_columns]
                     df_temp = df_temp.loc[:,new_order]
 
-            df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0, color=dict_colors if dict_colors is not None else None)
+            df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0,
+                         color=dict_colors if dict_colors is not None else None)
 
             # Annotate each bar
-            for container in ax.containers:
-                for bar in container:
-                    height = bar.get_height()
-                    if height > cap:  # Only annotate bars with a height
-                        ax.text(
-                            bar.get_x() + bar.get_width() / 2,  # X position: center of the bar
-                            bar.get_y() + height / 2,  # Y position: middle of the bar
-                            f"{height:.0f}",  # Annotation text (formatted value)
-                            ha="center", va="center",  # Center align the text
-                            fontsize=10, color="black"  # Font size and color
-                        )
+            if annotate:
+                for container in ax.containers:
+                    for bar in container:
+                        height = bar.get_height()
+                        if height > cap:  # Only annotate bars with a height
+                            ax.text(
+                                bar.get_x() + bar.get_width() / 2,  # X position: center of the bar
+                                bar.get_y() + height / 2,  # Y position: middle of the bar
+                                f"{height:.0f}",  # Annotation text (formatted value)
+                                ha="center", va="center",  # Center align the text
+                                fontsize=10, color="black"  # Font size and color
+                            )
+
+            if show_total:
+                df_total = df_temp.sum(axis=1)
+                for x, y in zip(df_temp.index, df_total.values):
+                    # Put the total at the y-position equal to the total
+                    ax.text(x, y * (1 + 0.02), f"{y:,.0f}", ha='center', va='bottom', fontsize=10,
+                            color='black', fontweight='bold')
+                ax.scatter(df_temp.index, df_total, color='black', s=20)
 
             ax.spines['left'].set_visible(False)
             ax.spines['right'].set_visible(False)
             ax.spines['top'].set_visible(False)
+
+            if display_zero_axis:
+                ax.axhline(y=0, color='black', linewidth=1)
+                ax.spines['bottom'].set_visible(False)  # Hide bottom spine
 
             plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
             # put tick label in bold
             ax.tick_params(axis='both', which=u'both', length=0)
             ax.set_xlabel('')
 
-            title = key
-            if isinstance(key, tuple):
-                title = '{}-{}'.format(key[0], key[1])
-            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            if len(list_keys) > 1:
+                title = key
+                if isinstance(key, tuple):
+                    title = '{}-{}'.format(key[0], key[1])
+                ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            else:
+                if title is not None:
+                    if isinstance(title, tuple):
+                        title = '{}-{}'.format(title[0], title[1])
+                    ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
 
             if k == 0:
                 handles, labels = ax.get_legend_handles_labels()
                 labels = [l.replace('_', ' ') for l in labels]
                 ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
-            if k>0:
+            if k > 0:
                 ax.set_ylabel('')
                 ax.tick_params(axis='y', which='both', left=False, labelleft=False)
             ax.get_legend().remove()
 
+            # Add a horizontal line at 0
+            ax.axhline(0, color='black', linewidth=0.5)
+
         except IndexError:
             ax.axis('off')
-
-        # if figtitle is not None:
-        #     fig.suptitle(figtitle, x=0.5, y=1.05, weight='bold', color='black', size=20)
 
         if legend:
             fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
                        bbox_to_anchor=(1, 0.5))
 
+    # Hide unused subplots
+    for j in range(k + 1, len(axes)):
+        fig.delaxes(axes[j])
+
     if filename is not None:
-        fig.savefig(filename, bbox_inches='tight')
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
     else:
         plt.show()
-    plt.close(fig)
 
 
 def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
@@ -1545,7 +1675,7 @@ def calculate_total_system_cost(data, discount_rate, start_year=None, end_year=N
     return pd.DataFrame(results).set_index('scenario').squeeze()
 
 
-def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
+def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None, scenario_rename=None,
                        discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
                        fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
                        rename_columns=None):
@@ -1624,21 +1754,21 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
         temp.rename('Unmet (‰)', inplace=True).to_frame()
         summary.append(temp)
 
-        temp = epm_results['pDemandSupplyCountry'].copy()
-        if zone_list is not None:
-            temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp[temp['attribute'] == 'Surplus generation: GWh']
-        temp = temp.groupby(['scenario'])['value'].sum()
-
-        t = epm_results['pDemandSupplyCountry'].copy()
-        if zone_list is not None:
-            t = t[t['zone'].isin(zone_list)]
-        t = t[t['attribute'] == 'Demand: GWh']
-        t = t.groupby(['scenario'])['value'].sum()
-        temp = (temp / t) * 1000
-
-        temp.rename('Surplus (‰)', inplace=True).to_frame()
-        summary.append(temp)
+        # temp = epm_results['pDemandSupplyCountry'].copy()
+        # if zone_list is not None:
+        #     temp = temp[temp['zone'].isin(zone_list)]
+        # temp = temp[temp['attribute'] == 'Surplus generation: GWh']
+        # temp = temp.groupby(['scenario'])['value'].sum()
+        #
+        # t = epm_results['pDemandSupplyCountry'].copy()
+        # if zone_list is not None:
+        #     t = t[t['zone'].isin(zone_list)]
+        # t = t[t['attribute'] == 'Demand: GWh']
+        # t = t.groupby(['scenario'])['value'].sum()
+        # temp = (temp / t) * 1000
+        #
+        # temp.rename('Surplus (‰)', inplace=True).to_frame()
+        # summary.append(temp)
 
     if 'pCostSummary' in required_keys:
         temp = epm_results['pCostSummary'].copy()
@@ -1658,7 +1788,29 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
         temp.rename('NPV ($/MWh)', inplace=True).to_frame()
         summary.append(temp)
 
+        subset_years = [2028, 2030]
+        temp = epm_results['pCostSummary'].copy()
+        temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
+        temp = temp.loc[temp.year.isin(subset_years)]
+        temp = temp.drop(columns=['attribute', 'zone']).pivot_table(index=['scenario'], columns=['year'], values=['value'])
+
+        t = epm_results['pDemandSupply'].copy()
+        if zone_list is not None:
+            t = t[t['zone'].isin(zone_list)]
+        t = t[t['attribute'] == 'Demand: GWh']
+        t = t.loc[t.year.isin(subset_years)]
+        t = t.drop(columns=['attribute', 'zone']).pivot_table(index=['scenario'], columns=['year'],
+                                                                    values=['value'])
+
+        temp = (temp * 1e6) / (t * 1e3)
+        temp.columns = temp.columns.droplevel(0)
+        temp = temp.rename(columns=lambda col: f'NPV {col} ($/MWh)')
+        summary.append(temp)
+
     summary = pd.concat(summary, axis=1)
+
+    if scenario_rename is not None:
+        summary.index = summary.index.map(lambda x: scenario_rename.get(x, x))
 
     if scenario_order is not None:
         scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if

@@ -12,9 +12,13 @@ $offExternalOutput
    pAnncapex(z,y)                            'Annualized capex in USD'
    pFOM(z,y)                                 'FOM in USD'
    pVOM(z,y)                                 'VOM  in USD'
+   pVOMSeason(z,y,q)                         'VOM  per season in USD'
    pFuelCostsZone(z,y)                       'Fuel costs in USD'
+   pFuelCostsZoneSeason(z,y,q)               'Fuel costs per season in USD'
    pImportCosts(z,y)                         'Net import costs from trade with external zones in USD'
+   pImportCostsSeason(z,y,q)                 'Net import costs from trade with external zones per season in USD'
    pExportRevenue(z,y)                       'Export revenue from trade with external zones in USD'
+   pExportRevenueSeason(z,y,q)               'Export revenue from trade with external zones per season in USD'
    pNewTransmissionCosts(z,y)                'Added transmission costs in USD'
    pUSECosts(z,y)                            'Unmet demand costs in USD'
    pCO2backstopCosts(c,y)                    'CO2backstop costs in USD'
@@ -27,6 +31,7 @@ $offExternalOutput
    pCountryPlanReserveCosts(c,y)             'Planning reserve violation cost by zone in USD'
    pCostsbyPlant(z,g,*,y)                    'Yearly Costs by Plant'
    pCostSummary(z,*,y)                       'Summary of costs in millions USD  (unweighted and undiscounted) by zone'
+   pCostSummarySeason(z,*,y,q)               'Summary of variable costs per season in millions USD  (unweighted and undiscounted) by zone'
    pCostSummaryCountry(c,*,y)                'Summary of costs in millions USD  (unweighted and undiscounted) by country'
    pCostSummaryWeighted(z,*,y)               'Summary of costs in millions USD  (weighted and undiscounted) by zone'
    pCostSummaryWeightedCountry(c,*,y)        'Summary of costs in millions USD  (weighted and undiscounted) by country'
@@ -205,6 +210,7 @@ pFOM(z,y) = sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
           + sum(gzmap(cs,z), vCapTherm.l(cs,y)*pCSPData(cs,"Thermal field","FixedOM"))
 **************************H2 model addition**************************************************************
           + sum(h2zmap(hh,z),  vCapH2.l(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2 ;
+          
 
 
 pSpinResCosts(z,y) = vYearlyReserveCost.l(z,y);
@@ -218,14 +224,31 @@ pVOM(z,y) = sum((q,d,t), pHours(q,d,y,t)*(
 **************************H2 model addition**************************************************************
 ***(units for equation below)**********       $/mMBTU_H2          mmBTU_H2/MWh_e        MW_e
                         + sum((h2zmap(hh,z)), pH2Data(hh,"VOM")*pH2Data(hh,"Heatrate")*vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2));
+                        
+
+
+pVOMSeason(z,y,q) = sum((d,t), pHours(q,d,y,t)*(
+                           sum((gzmap(g,z),gfmap(g,f)),   pGenData(g,"VOM")*vPwrOut.l(g,f,q,d,t,y))
+                         + sum((gzmap(st,z),gfmap(st,f)), pStorData(st,"VOM")*vPwrOut.l(st,f,q,d,t,y))
+                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Storage","VOM")*vPwrOut.l(cs,f,q,d,t,y))
+                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Thermal Field","VOM")*vPwrOut.l(cs,f,q,d,t,y))
+**************************H2 model addition**************************************************************
+***(units for equation below)**********       $/mMBTU_H2          mmBTU_H2/MWh_e        MW_e
+                        + sum((h2zmap(hh,z)), pH2Data(hh,"VOM")*pH2Data(hh,"Heatrate")*vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2));
 
 
 pFuelCostsZone(z,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t)*pFuelPrice(c,f,y)*pHeatRate(g,f));
 
+pFuelCostsZoneSeason(z,y,q) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t)*pFuelPrice(c,f,y)*pHeatRate(g,f));
+
 
 pImportCosts(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
 
+pImportCostsSeason(z,y,q) = sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
+
 pExportRevenue(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
+
+pExportRevenueSeason(z,y,q) = sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
 
 pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y);
 pUSECosts(z,y) = vYearlyUSECost.l(z,y);
@@ -293,6 +316,14 @@ pCostSummary(z,"Export revenue: $m"           ,y) = pExportRevenue(z,y)/1e6 +1e-
 pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCosts(z,y) - pExportRevenue(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6 +1e-6;
+                                                    
+
+*--- Cost Summary per Season Unweighted by zone
+pCostSummarySeason(z,"Variable O&M: $m" ,                                y,q) = pVOMSeason(z,y,q)/1e6 +1e-6;
+pCostSummarySeason(z,"Total fuel Costs: $m"         ,                    y,q) = pFuelCostsZoneSeason(z,y,q)/1e6 +1e-6;
+pCostSummarySeason(z,"Import costs: $m"             ,                    y,q) = pImportCostsSeason(z,y,q)/1e6 +1e-6;
+pCostSummarySeason(z,"Export revenue: $m"           ,                    y,q) = pExportRevenueSeason(z,y,q)/1e6 +1e-6;
+pCostSummarySeason(z,"Total Variable Annual Cost per Season by Zone: $m",y,q) = (pVOMSeason(z,y,q) + pFuelCostsZoneSeason(z,y,q) + pImportCostsSeason(z,y,q) + pExportRevenueSeason(z,y,q))/1e6 +1e-6;
 
 
 
@@ -920,7 +951,7 @@ $ifthen.excelreport %DOEXCELREPORT%==1
 execute_unload 'epmresults',     pScalars, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
                                  pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
                                  pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
-                                 pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
+                                 pCostSummary, pCostSummarySeason, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
                                  pCostSummaryWeightedAverageCountry, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
                                  pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
                                  pDemandSupply,  pDemandSupplyCountry

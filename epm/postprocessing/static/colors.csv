@@ -31,3 +31,9 @@ energy,slateblue
 reserve,thistle
 Curtailed VRE,#FF8C00
 Curtailed RoR,red
+Annualised capex,indianred
+Fixed OM,lightcoral
+Variable OM,grey
+Fuel,rosybrown
+Unmet demand,black
+
