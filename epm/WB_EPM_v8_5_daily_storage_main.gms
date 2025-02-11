@@ -162,7 +162,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pScalars(sc)                     'Flags and penalties to load'
    pReserveMargin(c)                'country reserve margin'
    pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
-   pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
+   pExtTransferLimit(z,zext,q,d,y,*,t)  'transfer limits by quarter (seasonal) and year with external zones'
 
 *******************Hydrogen model related parameters***********************
   pH2Data(hh,hhdr)                  'H2 production unit specs'
@@ -201,8 +201,8 @@ Parameters
    pCaptraj                         'allow capex trajectory'
    pIncludeEE                       'energy efficiency factor flag'
    pSystem_CO2_constraints
-   pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
-   pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
+   pExtTransferLimitIn(z,zext,q,d,y,t)  'transfer limit with external zone for import towards internal zone'
+   pExtTransferLimitOut(z,zext,q,d,y,t) 'transfer limit with external zone for export towards external zone'
    pMaxLoadFractionCCCalc           'maximum percentage difference between hourly load and peak load to consider in the capacity credit calculation'
    pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
 
@@ -680,11 +680,11 @@ pIncludeDecomCom = pScalars("IncludeDecomCom");
 
 
 
-pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
-pExtTransferLimit(z,zext,q,"Export",y)$(not pallowExports)  = 0 ;
+pExtTransferLimit(z,zext,q,d,y,"Import",t)$(not pallowExports)  = 0 ;
+pExtTransferLimit(z,zext,q,d,y,"Export",t)$(not pallowExports)  = 0 ;
 
-pExtTransferLimitIn(z,zext,q,y)$pallowExports   = pExtTransferLimit(z,zext,q,"Import",y) ;
-pExtTransferLimitOut(z,zext,q,y)$pallowExports  = pExtTransferLimit(z,zext,q,"Export",y) ;
+pExtTransferLimitIn(z,zext,q,d,y,t)$pallowExports   = pExtTransferLimit(z,zext,q,d,y,"Import",t) ;
+pExtTransferLimitOut(z,zext,q,d,y,t)$pallowExports  = pExtTransferLimit(z,zext,q,d,y,"Export",t) ;
 
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 Zd(z) = not Zt(z);
@@ -943,8 +943,8 @@ sImportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
 sExportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 sImportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 
-vImportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitIn(z,zext,q,y);
-vExportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y);
+vImportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitIn(z,zext,q,d,y,t);
+vExportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,d,y,t);
 
 * Do not allow imports and exports for a zone without import/export prices
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
