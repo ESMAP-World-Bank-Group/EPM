@@ -135,9 +135,9 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
    pTradePrice(zext,q,d,y,t)        'trade price - export or import driven by prices [assuming each zone in a country can only trade with one external zone]'
    pMaxImport                       'Maximum Hourly Imports, based on hourly country demand'
    pMaxExport                       'Maximum Hourly Exports, based on hourly country demand'
-   pExtTransferLimit(z,zext,q,*,y)  'external transfer limit'
-   pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
-   pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
+   pExtTransferLimit(z,zext,q,d,y,*,t)  'external transfer limit'
+   pExtTransferLimitIn(z,zext,q,d,y,t)  'transfer limit with external zone for import towards internal zone'
+   pExtTransferLimitOut(z,zext,q,d,y,t) 'transfer limit with external zone for export towards external zone'
 * Fuels
    pMaxFuellimit(c,f,y)             'Fuel limit in MMBTU*1e6 (million) by country'
 * Demand
@@ -775,10 +775,10 @@ eMaxhourlyExportsshare(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
 
 
 eExtZoneLimitImport(z,zext,q,d,t,y)$pallowExports..
-   vImportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
+   vImportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,d,y,t);
 
 eExtZoneLimitExport(z,zext,q,d,t,y)$pallowExports..
-   vExportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
+   vExportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,d,y,t);
 
 *--- Storage-specific equations
 eStorageCap(st,q,d,t,y)$pincludeStorage..

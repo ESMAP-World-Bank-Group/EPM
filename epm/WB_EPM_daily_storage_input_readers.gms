@@ -166,7 +166,7 @@ $onEmbeddedCode Connect:
         columnDimension: 1
       - name: pExtTransferLimit
         range: ExternalLimits!A5
-        rowDimension: 4
+        rowDimension: 6
         columnDimension: 1
       - name: pCarbonPrice
         range: EmissionFactors!A3:B24
@@ -709,7 +709,7 @@ $onEmbeddedCode Connect:
     file: input/pExtTransferLimit.csv
     name: pExtTransferLimit
     valueSubstitutions: {0: .nan} 
-    indexColumns: [1,2,3,4]
+    indexColumns: [1,2,3,4,5,6]
     header: [1]
     type: par
     
@@ -1156,7 +1156,7 @@ $onEmbeddedCode Connect:
     file: %pExtTransferLimit%
     name: pExtTransferLimit
     valueSubstitutions: {0: .nan} 
-    indexColumns: [1,2,3,4]
+    indexColumns: [1,2,3,4,5,6]
     header: [1]
     type: par
     
