@@ -17,6 +17,10 @@ This guide will walk you through the recommended process of running the Electric
     - Create and change to the branch you want to work on: `git checkout -b <branch_name>`. `branch-name` should be a descriptive name of the use case you are working on, e.g., `guinea`.
     - You’ve created a new branch locally and now want to push it to the remote repository, to save your changes remotely: `git push -u origin <branch-name>`
 
+## 1-2bis. **Download from GitHub**
+
+Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the `main` branch to work with the latest stable version.
+
 ## 3. **Modify the code files**
 
 If an existing EPM version is available for your case study, you will need to modify the initial GAMS files — `WB_EPM_v8_5_base.gms`,` WB_EPM_v8_5_main.gms`, and `WB_EPM_v8_5_Report.gms`— to account for country- or region-specific requirements. These files are available on Git and should be adapted carefully while preserving their overall structure.
@@ -44,11 +48,11 @@ The **main structural changes** that were made in this python framework are:
 - the input reading (see next section)
 
 
-## 4. **Modify the input files**
+## 4. **Modify the csv input files**
 
-For an overview of the new methodology to read inputs, refer to **Input Reading Through Python**.
+For an overview of the new methodology to read inputs from csv, refer to **Input Reading Through Python**.
 
-When implementing a new model, it is important to modify the individual csv files as needed. Look at the `input` folder for examples of the input files.
+When implementing a new model, modify the necessary CSV files accordingly. Refer to the `input` folder for examples. If starting from an Excel version, populate each CSV file based on the corresponding sheet in the Excel file. The structure of the CSV files in the `input` folder should make this process straightforward.
 
 ### Debugging
 
@@ -91,6 +95,10 @@ Modifying input files and reading functions may introduce bugs. To debug, use GA
 - Create the `scenario_baseline.csv` file that contains the baseline scenario. Look at the `input` folder for an example. The `scenario_baseline.csv` provides the path to all the `.csv` input data for the baseline scenario.
 - Create the `scenarios_specification.csv` file that contains the specification of the scenarios. Look at the `input` folder for an example. By default, the model will run the baseline scenario. The `scenarios_specification.csv` provides the path to the `.csv` input data that are scenario-specific.
 
+## 4bis. **Modify the excel input files**
+
+If the user prefers to work with Excel instead of CSV files, the Excel input file may need adjustments to align with the new model (e.g., updating variable names to match the latest version of the generic model). Ensure that sheet names and variable names are modified accordingly. Debugging in GAMS Studio can help identify necessary changes.
+
 ## 5. **Run the model**:
 
 - Use `run_epm.py` or a notebook to launch the code. We suggest to only limit to one scenario during the debugging phase. Here, we have selected the `baseline` that is automatically included (even if it's not in `scenarios_specification.csv`). For example:
@@ -115,6 +123,27 @@ launch_epm_multi_scenarios(
 ```
 
 This code will call .gms file to run the model. Ensure that the code works as expected and that the `.gdx` output is as expected. The model will generate output files in the `output` folder, with a specific folder for each simulation defined by the datetime.
+
+If using Excel-specified input files, update the function to launch accordingly:
+```python
+# Define the path to the folder
+PATH_GAMS = {
+    'path_main_file': 'WB_EPM_v8_5_main.gms',
+    'path_base_file': 'WB_EPM_v8_5_base.gms',
+    'path_report_file': 'WB_EPM_v8_5_Report.gms',
+    'path_reader_file': 'WB_EPM_input_readers.gms',
+    'path_excel_file': 'WB_EPM_SAPP.xlsx',
+    'path_cplex_file': 'cplex.opt'
+}
+
+# Select the scenarios to run in the selected_scenarios list
+launch_epm_multi_scenarios_excel(
+    scenario_name='Baseline',
+    path_gams=PATH_GAMS
+    )
+```
+
+Alternatively, the model can be run directly from GAMS Studio. Refer to the `How to Run EPM` section for details.
 
 ## 6. **Process the results**:
 
