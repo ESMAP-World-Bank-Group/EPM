@@ -811,6 +811,14 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bis-download-from-github">
+   1-2bis.
+   <strong>
+    Download from GitHub
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#modify-the-code-files">
    3.
    <strong>
@@ -836,10 +844,10 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modify-the-input-files">
+  <a class="reference internal nav-link" href="#modify-the-csv-input-files">
    4.
    <strong>
-    Modify the input files
+    Modify the csv input files
    </strong>
   </a>
   <ul class="nav section-nav flex-column">
@@ -854,6 +862,14 @@ title="Print to PDF"
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bis-modify-the-excel-input-files">
+   4bis.
+   <strong>
+    Modify the excel input files
+   </strong>
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#run-the-model">
@@ -905,6 +921,10 @@ title="Print to PDF"
 </li>
 </ul>
 </section>
+<section id="bis-download-from-github">
+<h2>1-2bis. <strong>Download from GitHub</strong><a class="headerlink" href="#bis-download-from-github" title="Permalink to this heading">#</a></h2>
+<p>Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch to work with the latest stable version.</p>
+</section>
 <section id="modify-the-code-files">
 <h2>3. <strong>Modify the code files</strong><a class="headerlink" href="#modify-the-code-files" title="Permalink to this heading">#</a></h2>
 <p>If an existing EPM version is available for your case study, you will need to modify the initial GAMS files — <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_base.gms</span></code>,<code class="docutils literal notranslate"> <span class="pre">WB_EPM_v8_5_main.gms</span></code>, and <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_Report.gms</span></code>— to account for country- or region-specific requirements. These files are available on Git and should be adapted carefully while preserving their overall structure.</p>
@@ -937,10 +957,10 @@ Modifications should be made holistically, ensuring that all dependent files are
 </ul>
 </section>
 </section>
-<section id="modify-the-input-files">
-<h2>4. <strong>Modify the input files</strong><a class="headerlink" href="#modify-the-input-files" title="Permalink to this heading">#</a></h2>
-<p>For an overview of the new methodology to read inputs, refer to <strong>Input Reading Through Python</strong>.</p>
-<p>When implementing a new model, it is important to modify the individual csv files as needed. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for examples of the input files.</p>
+<section id="modify-the-csv-input-files">
+<h2>4. <strong>Modify the csv input files</strong><a class="headerlink" href="#modify-the-csv-input-files" title="Permalink to this heading">#</a></h2>
+<p>For an overview of the new methodology to read inputs from csv, refer to <strong>Input Reading Through Python</strong>.</p>
+<p>When implementing a new model, modify the necessary CSV files accordingly. Refer to the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for examples. If starting from an Excel version, populate each CSV file based on the corresponding sheet in the Excel file. The structure of the CSV files in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder should make this process straightforward.</p>
 <section id="debugging">
 <h3>Debugging<a class="headerlink" href="#debugging" title="Permalink to this heading">#</a></h3>
 <p>Modifying input files and reading functions may introduce bugs. To debug, use GAMS Studio with the following process:</p>
@@ -991,6 +1011,10 @@ type: par
 </ul>
 </section>
 </section>
+<section id="bis-modify-the-excel-input-files">
+<h2>4bis. <strong>Modify the excel input files</strong><a class="headerlink" href="#bis-modify-the-excel-input-files" title="Permalink to this heading">#</a></h2>
+<p>If the user prefers to work with Excel instead of CSV files, the Excel input file may need adjustments to align with the new model (e.g., updating variable names to match the latest version of the generic model). Ensure that sheet names and variable names are modified accordingly. Debugging in GAMS Studio can help identify necessary changes.</p>
+</section>
 <section id="run-the-model">
 <h2>5. <strong>Run the model</strong>:<a class="headerlink" href="#run-the-model" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
@@ -1015,6 +1039,25 @@ type: par
 </pre></div>
 </div>
 <p>This code will call .gms file to run the model. Ensure that the code works as expected and that the <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> output is as expected. The model will generate output files in the <code class="docutils literal notranslate"><span class="pre">output</span></code> folder, with a specific folder for each simulation defined by the datetime.</p>
+<p>If using Excel-specified input files, update the function to launch accordingly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the path to the folder</span>
+<span class="n">PATH_GAMS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;path_main_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_main.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_base_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_base.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_report_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_v8_5_Report.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_reader_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_input_readers.gms&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_excel_file&#39;</span><span class="p">:</span> <span class="s1">&#39;WB_EPM_SAPP.xlsx&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;path_cplex_file&#39;</span><span class="p">:</span> <span class="s1">&#39;cplex.opt&#39;</span>
+<span class="p">}</span>
+
+<span class="c1"># Select the scenarios to run in the selected_scenarios list</span>
+<span class="n">launch_epm_multi_scenarios_excel</span><span class="p">(</span>
+    <span class="n">scenario_name</span><span class="o">=</span><span class="s1">&#39;Baseline&#39;</span><span class="p">,</span>
+    <span class="n">path_gams</span><span class="o">=</span><span class="n">PATH_GAMS</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, the model can be run directly from GAMS Studio. Refer to the <code class="docutils literal notranslate"><span class="pre">How</span> <span class="pre">to</span> <span class="pre">Run</span> <span class="pre">EPM</span></code> section for details.</p>
 </section>
 <section id="process-the-results">
 <h2>6. <strong>Process the results</strong>:<a class="headerlink" href="#process-the-results" title="Permalink to this heading">#</a></h2>
@@ -1119,6 +1162,14 @@ type: par
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bis-download-from-github">
+   1-2bis.
+   <strong>
+    Download from GitHub
+   </strong>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#modify-the-code-files">
    3.
    <strong>
@@ -1144,10 +1195,10 @@ type: par
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modify-the-input-files">
+  <a class="reference internal nav-link" href="#modify-the-csv-input-files">
    4.
    <strong>
-    Modify the input files
+    Modify the csv input files
    </strong>
   </a>
   <ul class="nav section-nav flex-column">
@@ -1162,6 +1213,14 @@ type: par
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bis-modify-the-excel-input-files">
+   4bis.
+   <strong>
+    Modify the excel input files
+   </strong>
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#run-the-model">
@@ -1209,7 +1268,7 @@ By XX (ESMAP)
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Jan 28, 2025.<br>
+Last updated on Feb 13, 2025.<br>
 </p>
   </div>
   
