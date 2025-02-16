@@ -1,6 +1,6 @@
 # Book settings
 title: Energy Planning Model 
-author: XX (ESMAP)
+author: ESMAP
 logo: docs/images/esmap.png
 exclude_patterns: [_build, Thumbs.db, .DS_Store, "**.ipynb_checkpoints"]
 only_build_toc_files: true
@@ -18,7 +18,7 @@ html:
     use_issues_button: true
     baseurl: https://github.com/ESMAP-World-Bank-Group/EPM
     extra_footer: |
-        <div>Cite as: <i>"XX (ESMAP) - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+        <div>Cite as: <i>"ESMAP EPM Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
             <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
         </div>
 
