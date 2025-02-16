@@ -18,7 +18,7 @@ html:
     use_issues_button: true
     baseurl: https://github.com/ESMAP-World-Bank-Group/EPM
     extra_footer: |
-        <div>Cite as: <i>"ESMAP EPM Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+        <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
             <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
         </div>
 
