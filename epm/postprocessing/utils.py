@@ -1676,9 +1676,9 @@ def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=No
 
 
 def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario_order=None,
-                               discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
-                               fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
-                               rename_columns=None):
+                       discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
+                       fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
+                       rename_columns=None):
     """
     Make a heatmap plot for the results of the EPM model.
 
@@ -1694,7 +1694,8 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
     summary = []
 
     if required_keys is None:
-        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary', 'pNPVByYear']
+        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary',
+                         'pNPVByYear']
 
     assert all(
         key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
@@ -1752,14 +1753,16 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         temp = (temp / t) * 1e3
         temp.rename('Unmet (‰)', inplace=True).to_frame()
         summary.append(temp)
-        
+
         temp = epm_results['pDemandSupplyCountry'].copy()
-        temp = temp[(temp['zone'] == 'Guinea')]
+        if zone_list is not None:
+            temp = temp[temp['zone'].isin(zone_list)]
         temp = temp[temp['attribute'] == 'Surplus generation: GWh']
         temp = temp.groupby(['scenario'])['value'].sum()
 
         t = epm_results['pDemandSupplyCountry'].copy()
-        t = t[(t['zone'] == 'Guinea')]
+        if zone_list is not None:
+            t = t[t['zone'].isin(zone_list)]
         t = t[t['attribute'] == 'Demand: GWh']
         t = t.groupby(['scenario'])['value'].sum()
         temp = (temp / t) * 1000
@@ -1768,34 +1771,13 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         summary.append(temp)
 
     if 'pCostSummary' in required_keys:
-        capex_metric = 'Capex: $m'
-        temp = epm_results['pCostSummary'].copy()
-        if zone_list is not None:
-            temp = temp[temp['zone'].isin(zone_list)]
-
-        duration = temp['year'].max() - temp['year'].min() + 1
-        capex_tot = temp.loc[temp.attribute == capex_metric].groupby([rows_index])['value'].sum()
-        capex_tot = capex_tot / duration
-
-        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCostSummary'], values='value')
-        filtered_metrics = [metric for metric in summary_metrics_list if metric != capex_metric]
-
-        if len(filtered_metrics) > 0:
-            temp = temp.loc[:, filtered_metrics]
-            temp = pd.concat([temp,  capex_tot.to_frame().rename(columns={'value': capex_metric})], axis=1)
-        else:
-            temp = capex_tot.to_frame().rename(columns={'value': capex_metric})
-
-        # temp.rename('Capex ($M/year)', inplace=True).to_frame()
-        summary.append(temp)
-        
-    if 'pCostSummary' in required_keys:
         temp = epm_results['pCostSummary'].copy()
         temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
         temp = calculate_total_system_cost(temp, discount_rate)
 
         t = epm_results['pDemandSupply'].copy()
-        t = t[(t['zone'] == 'Guinea')]
+        if zone_list is not None:
+            t = t[t['zone'].isin(zone_list)]
         t = t[t['attribute'] == 'Demand: GWh']
         t = calculate_total_system_cost(t, discount_rate)
 
@@ -1805,7 +1787,6 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
             temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
         temp.rename('NPV ($/MWh)', inplace=True).to_frame()
         summary.append(temp)
-
 
     summary = pd.concat(summary, axis=1)
 
