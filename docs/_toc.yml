@@ -7,18 +7,17 @@ parts:
       - file: docs/introduction
   - caption: Run EPM
     chapters:
-      - file: docs/installation
+      - file: docs/run_installation
       - file: docs/run_epm
       - file: docs/run_engine_remote_server
-      - file: docs/launch_multiple_simulation
-      - file: docs/git_process.md
-      - file: docs/input_reading
-      - file: docs/solver_options.md
+      - file: docs/run_git_process.md
+      - file: docs/run_solver_options.md
       - file: docs/run_parallel.md
   - caption: Input
     chapters: 
-      - file: docs/introduction_input.md
-      - file: docs/detailed_input.md
+      - file: docs/input_overview.md
+      - file: docs/input_reading
+      - file: docs/input_detailed.md
   - caption: Postprocessing
     chapters:
       - file: docs/postprocessing
@@ -36,7 +35,8 @@ parts:
         - file: docs/step_by_step
   - caption: Related Projects
     chapters:
-        - file: docs/representative_days
+        - file: docs/related_projects.md
+        - file: docs/representative_days.ipynb
   - caption: Other Resources
     chapters:
         - file: docs/models_overview
