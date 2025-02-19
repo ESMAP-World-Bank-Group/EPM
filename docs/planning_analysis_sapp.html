@@ -853,11 +853,6 @@ title="Print to PDF"
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summary">
-     Summary
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#lcoe">
      LCOE
     </a>
@@ -873,8 +868,8 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#stacked-plots">
-     Stacked plots
+    <a class="reference internal nav-link" href="#capacity-evolution">
+     Capacity evolution
     </a>
    </li>
   </ul>
@@ -890,7 +885,7 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="sapp-analysis">
 <h1>SAPP analysis<a class="headerlink" href="#sapp-analysis" title="Permalink to this heading">#</a></h1>
-<p><strong>Disclaimer</strong>: notebook in progress, only here to illustrate new graphs for regional model !</p>
+<p><strong>Disclaimer</strong>: notebook in progress, only to illustrate new graphs with regional model !</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -987,26 +982,9 @@ pPlantFuelDispatch not found in epm_dict
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="figures">
 <h1>Figures<a class="headerlink" href="#figures" title="Permalink to this heading">#</a></h1>
-<section id="summary">
-<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">GRAPHS_RESULTS</span><span class="si">}</span><span class="s1">/SummaryTable.png&#39;</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Only for display in the notebook</span>
-
-<span class="n">rename_columns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Battery Storage&#39;</span><span class="p">:</span> <span class="s1">&#39;BESS&#39;</span><span class="p">}</span>
-<span class="n">make_heatmap_regional_plot</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">percentage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scenario_order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;South_Africa&#39;</span><span class="p">],</span> <span class="n">discount_rate</span><span class="o">=</span><span class="n">DISCOUNT_RATE</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span>
-                           <span class="n">required_keys</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">,</span> <span class="s1">&#39;pCostSummary&#39;</span><span class="p">],</span> <span class="n">fuel_capa_list</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Hydro&#39;</span><span class="p">,</span> <span class="s1">&#39;Onshore Wind&#39;</span><span class="p">,</span> <span class="s1">&#39;Oil&#39;</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/23f9a050c0b63529fb9cd22f6490f69437950484490cdf90ebb2e2ee150f715e.png" src="../_images/23f9a050c0b63529fb9cd22f6490f69437950484490cdf90ebb2e2ee150f715e.png" />
-</div>
-</div>
-</section>
 <section id="lcoe">
 <h2>LCOE<a class="headerlink" href="#lcoe" title="Permalink to this heading">#</a></h2>
+<p>Displaying the LCOE of different plants for a subset of countries in the region</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="mi">2025</span>
@@ -1072,10 +1050,6 @@ pPlantFuelDispatch not found in epm_dict
                 <span class="n">percent_cap</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rename</span><span class="o">=</span><span class="n">name_mapping</span><span class="p">,</span> 
                 <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span>
                 <span class="p">)</span>
-
-<span class="c1"># df = df.loc[df.zone == &#39;South_Africa&#39;]</span>
-<span class="c1"># subplot_pie_new(df, index=&#39;attribute&#39;, dict_colors=dict_specs[&#39;colors&#39;], subplot_column=None, title=&#39;Costs&#39;, figsize=(16, 4), </span>
-<span class="c1">#                 percent_cap=1, filename=None, rename=name_mapping)</span>
 </pre></div>
 </div>
 </div>
@@ -1108,49 +1082,39 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 </section>
-<section id="stacked-plots">
-<h2>Stacked plots<a class="headerlink" href="#stacked-plots" title="Permalink to this heading">#</a></h2>
+<section id="capacity-evolution">
+<h2>Capacity evolution<a class="headerlink" href="#capacity-evolution" title="Permalink to this heading">#</a></h2>
+<p>Displaying evolution of capacity across time for a subset of the countries</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">GRAPHS_RESULTS</span><span class="si">}</span><span class="s1">/CapacityMixClusteredStackedAreaPlot.png&#39;</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Only for display in the notebook</span>
-<span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
-                          <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> GW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">cap</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
-
-<span class="c1"># make_stacked_bar_subplots(df, filename, dict_specs[&#39;colors&#39;], column_stacked=&#39;fuel&#39;, column_xaxis=&#39;year&#39;,</span>
-<span class="c1">#                           column_value=&#39;value&#39;, column_multiple_bars=&#39;scenario&#39;, select_xaxis=None,</span>
-<span class="c1">#                           format_y=lambda y, _: &#39;{:.0f} GW&#39;.format(y), cap=20, selected_zone=&#39;South_Africa&#39;)</span>
-
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e3</span>
-<span class="c1"># make_stacked_bar_subplots(df, filename, dict_specs[&#39;colors&#39;], column_stacked=&#39;fuel&#39;, column_xaxis=&#39;year&#39;,</span>
-<span class="c1">#                           column_value=&#39;value&#39;, column_multiple_bars=&#39;scenario&#39;, select_xaxis=None,</span>
-<span class="c1">#                           format_y=lambda y, _: &#39;{:.0f} MW&#39;.format(y), cap=20, selected_zone=&#39;Botswana&#39;, title = &#39;Bostwana - Capacity (MW)&#39;)</span>
 
 
 <span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
                           <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Namibia&#39;</span><span class="p">,</span> <span class="s1">&#39;Tanzania&#39;</span><span class="p">,</span> <span class="s1">&#39;Angola&#39;</span><span class="p">,</span> <span class="s1">&#39;Mozambique&#39;</span><span class="p">],</span>
-                          <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.1f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">cap</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
+                          <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">cap</span><span class="o">=</span><span class="mi">800</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3697fdf2ab9a9c3a5e3658de5740bdc7ea7c0fffbc8dcbae611928cff96337ce.png" src="../_images/3697fdf2ab9a9c3a5e3658de5740bdc7ea7c0fffbc8dcbae611928cff96337ce.png" />
-<img alt="../_images/b0e4d6f304b67c4950ca30809e53ad3a0994f59ce8ad339d7e985f50f713415d.png" src="../_images/b0e4d6f304b67c4950ca30809e53ad3a0994f59ce8ad339d7e985f50f713415d.png" />
+<img alt="../_images/86bf4442de2de5c173a3f1750aea68611d620e9365a3579c9b15a2b238c2f2bf.png" src="../_images/86bf4442de2de5c173a3f1750aea68611d620e9365a3579c9b15a2b238c2f2bf.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># zooming in on a specific country</span>
+
+<span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">cap</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">selected_zone</span><span class="o">=</span><span class="s1">&#39;Botswana&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/47521bb122678b1dae84f64d11fded26e1011b1a32322454cf472c1ff4982116.png" src="../_images/47521bb122678b1dae84f64d11fded26e1011b1a32322454cf472c1ff4982116.png" />
+<img alt="../_images/62a687bbdbd88b911596f377454c1cfafdc6edfb8888e0da9752888edc9a58a0.png" src="../_images/62a687bbdbd88b911596f377454c1cfafdc6edfb8888e0da9752888edc9a58a0.png" />
 </div>
 </div>
 </section>
@@ -1230,11 +1194,6 @@ pPlantFuelDispatch not found in epm_dict
   </a>
   <ul class="visible nav section-nav flex-column">
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#summary">
-     Summary
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#lcoe">
      LCOE
     </a>
@@ -1250,8 +1209,8 @@ pPlantFuelDispatch not found in epm_dict
     </a>
    </li>
    <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#stacked-plots">
-     Stacked plots
+    <a class="reference internal nav-link" href="#capacity-evolution">
+     Capacity evolution
     </a>
    </li>
   </ul>
