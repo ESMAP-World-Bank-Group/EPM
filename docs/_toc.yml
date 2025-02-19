@@ -5,7 +5,7 @@ parts:
   - caption: Introduction
     chapters:
       - file: docs/introduction
-      - file: doct/introduction_case_studies
+      - file: docs/introduction_case_studies
   - caption: Run EPM
     chapters:
       - file: docs/run_installation
