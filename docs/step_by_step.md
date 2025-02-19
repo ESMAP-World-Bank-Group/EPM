@@ -6,11 +6,15 @@ _Last update: Jan 2025_
 This guide will walk you through the recommended process of running the Electricity Planning Model (EPM).
 
 ## 1. **Clone the repository**
-    - Use the terminal to go to the location you want to clone the repository.
-    - Run the command: `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git`
+
+- Create a folder on your local computer for your new case study.
+- Use the terminal to go to the folder where you want to clone the repository.
+- Run the command: `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git`. This will create all the files and folders available on GitHub from the generic model on your local computer.
 
 
 ## 2. **Create and activate branch**
+
+This step is optional, only if you want to push your changes to the remote repository. 
 
 - Create a new branch for your work. This way, you can work on your own branch (and merge some of the nice feature you have developed to the main branch when you are done):
     - To see the branch you are in, run the command: `git branch` 
@@ -19,7 +23,7 @@ This guide will walk you through the recommended process of running the Electric
 
 ## 1-2bis. **Download from GitHub**
 
-Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the `main` branch to work with the latest stable version.
+Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the `main` branch to work with the latest stable version. However, this method is not recommended, as it may limit access to version control features and updates.
 
 ## 3. **Modify the code files**
 
@@ -48,13 +52,15 @@ The **main structural changes** that were made in this python framework are:
 - the input reading (see next section)
 
 
-## 4. **Modify the csv input files**
+## 4. **Modify input files**
+
+### 4.a Using the csv framework
 
 For an overview of the new methodology to read inputs from csv, refer to **Input Reading Through Python**.
 
 When implementing a new model, modify the necessary CSV files accordingly. Refer to the `input` folder for examples. If starting from an Excel version, populate each CSV file based on the corresponding sheet in the Excel file. The structure of the CSV files in the `input` folder should make this process straightforward.
 
-### Debugging
+#### Debugging
 
 Modifying input files and reading functions may introduce bugs. To debug, use GAMS Studio with the following process:
 
@@ -91,16 +97,17 @@ Modifying input files and reading functions may introduce bugs. To debug, use GA
     ```
   We recommend modifying both sections of the code **simultaneously**, to ensure that all changes made when reading input data with CONNECT_CSV are implemented for CONNECT_CSV_PYTHON.
   
-### Setting up scenario files
+#### Setting up scenario files
 - Create the `scenario_baseline.csv` file that contains the baseline scenario. Look at the `input` folder for an example. The `scenario_baseline.csv` provides the path to all the `.csv` input data for the baseline scenario.
 - Create the `scenarios_specification.csv` file that contains the specification of the scenarios. Look at the `input` folder for an example. By default, the model will run the baseline scenario. The `scenarios_specification.csv` provides the path to the `.csv` input data that are scenario-specific.
 
-## 4bis. **Modify the excel input files**
+### 4b. **Using classical excel framework**
 
 If the user prefers to work with Excel instead of CSV files, the Excel input file may need adjustments to align with the new model (e.g., updating variable names to match the latest version of the generic model). Ensure that sheet names and variable names are modified accordingly. Debugging in GAMS Studio can help identify necessary changes.
 
 ## 5. **Run the model**:
 
+### From python 
 - Use `run_epm.py` or a notebook to launch the code. We suggest to only limit to one scenario during the debugging phase. Here, we have selected the `baseline` that is automatically included (even if it's not in `scenarios_specification.csv`). For example:
 
 ```python
@@ -143,15 +150,16 @@ launch_epm_multi_scenarios_excel(
     )
 ```
 
+### From Gams Studio
 Alternatively, the model can be run directly from GAMS Studio. Refer to the `How to Run EPM` section for details.
 
-## 6. **Process the results**:
+## 6. **Process the results**
 
 - Use postprocessing notebook. The postprocessing notebook will help you to visualize the results and compare the scenarios. The notebook will read the output files and generate the plots and tables for the results.
 - You only need to enter the name of the folder that contains the result of the simulation. The code will actually also considers the input file.
 - The code then generates the plots and tables for the results.
 
-6. **Running on remote server**:
+**Note: running code on remote server**
 
 If the code has worked locally, you can run the code on a remote server. This is useful when you have a large number of scenarios to run or when you need to run the model for a long time.
 
