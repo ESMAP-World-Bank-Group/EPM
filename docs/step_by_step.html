@@ -877,32 +877,39 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modify-the-csv-input-files">
+  <a class="reference internal nav-link" href="#modify-input-files">
    4.
    <strong>
-    Modify the csv input files
+    Modify input files
    </strong>
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#debugging">
-     Debugging
+    <a class="reference internal nav-link" href="#a-using-the-csv-framework">
+     4.a Using the csv framework
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#debugging">
+       Debugging
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-up-scenario-files">
+       Setting up scenario files
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setting-up-scenario-files">
-     Setting up scenario files
+    <a class="reference internal nav-link" href="#b-using-classical-excel-framework">
+     4b.
+     <strong>
+      Using classical excel framework
+     </strong>
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bis-modify-the-excel-input-files">
-   4bis.
-   <strong>
-    Modify the excel input files
-   </strong>
-  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#run-the-model">
@@ -912,6 +919,18 @@ title="Print to PDF"
    </strong>
    :
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-python">
+     From python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-gams-studio">
+     From Gams Studio
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#process-the-results">
@@ -919,7 +938,6 @@ title="Print to PDF"
    <strong>
     Process the results
    </strong>
-   :
   </a>
  </li>
 </ul>
@@ -937,13 +955,15 @@ title="Print to PDF"
 <p>This guide will walk you through the recommended process of running the Electricity Planning Model (EPM).</p>
 <section id="clone-the-repository">
 <h2>1. <strong>Clone the repository</strong><a class="headerlink" href="#clone-the-repository" title="Permalink to this heading">#</a></h2>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Use the terminal to go to the location you want to clone the repository.
-- Run the command: `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git`
-</pre></div>
-</div>
+<ul class="simple">
+<li><p>Create a folder on your local computer for your new case study.</p></li>
+<li><p>Use the terminal to go to the folder where you want to clone the repository.</p></li>
+<li><p>Run the command: <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/ESMAP-World-Bank-Group/EPM.git</span></code>. This will create all the files and folders available on GitHub from the generic model on your local computer.</p></li>
+</ul>
 </section>
 <section id="create-and-activate-branch">
 <h2>2. <strong>Create and activate branch</strong><a class="headerlink" href="#create-and-activate-branch" title="Permalink to this heading">#</a></h2>
+<p>This step is optional, only if you want to push your changes to the remote repository.</p>
 <ul class="simple">
 <li><p>Create a new branch for your work. This way, you can work on your own branch (and merge some of the nice feature you have developed to the main branch when you are done):</p>
 <ul>
@@ -956,7 +976,7 @@ title="Print to PDF"
 </section>
 <section id="bis-download-from-github">
 <h2>1-2bis. <strong>Download from GitHub</strong><a class="headerlink" href="#bis-download-from-github" title="Permalink to this heading">#</a></h2>
-<p>Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch to work with the latest stable version.</p>
+<p>Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch to work with the latest stable version. However, this method is not recommended, as it may limit access to version control features and updates.</p>
 </section>
 <section id="modify-the-code-files">
 <h2>3. <strong>Modify the code files</strong><a class="headerlink" href="#modify-the-code-files" title="Permalink to this heading">#</a></h2>
@@ -990,12 +1010,14 @@ Modifications should be made holistically, ensuring that all dependent files are
 </ul>
 </section>
 </section>
-<section id="modify-the-csv-input-files">
-<h2>4. <strong>Modify the csv input files</strong><a class="headerlink" href="#modify-the-csv-input-files" title="Permalink to this heading">#</a></h2>
+<section id="modify-input-files">
+<h2>4. <strong>Modify input files</strong><a class="headerlink" href="#modify-input-files" title="Permalink to this heading">#</a></h2>
+<section id="a-using-the-csv-framework">
+<h3>4.a Using the csv framework<a class="headerlink" href="#a-using-the-csv-framework" title="Permalink to this heading">#</a></h3>
 <p>For an overview of the new methodology to read inputs from csv, refer to <strong>Input Reading Through Python</strong>.</p>
 <p>When implementing a new model, modify the necessary CSV files accordingly. Refer to the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for examples. If starting from an Excel version, populate each CSV file based on the corresponding sheet in the Excel file. The structure of the CSV files in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder should make this process straightforward.</p>
 <section id="debugging">
-<h3>Debugging<a class="headerlink" href="#debugging" title="Permalink to this heading">#</a></h3>
+<h4>Debugging<a class="headerlink" href="#debugging" title="Permalink to this heading">#</a></h4>
 <p>Modifying input files and reading functions may introduce bugs. To debug, use GAMS Studio with the following process:</p>
 <ul>
 <li><p>Following recommendations from section <strong>How to run EPM</strong>, run <code class="docutils literal notranslate"><span class="pre">WB_EPM_v8_5_main.gms</span></code> with the following command line arguments: <code class="docutils literal notranslate"><span class="pre">--READER</span> <span class="pre">CONNECT_CSV</span></code>. This ensures that inputs are read from default csv files in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder (checkout <code class="docutils literal notranslate"><span class="pre">WB_EPM_input_readers.gms</span></code> to see what are the specified default csv file for each parameter). If some of your new csv files are not correctly specified, this will raise some bugs when running the gams file.</p></li>
@@ -1037,19 +1059,22 @@ type: par
 </ul>
 </section>
 <section id="setting-up-scenario-files">
-<h3>Setting up scenario files<a class="headerlink" href="#setting-up-scenario-files" title="Permalink to this heading">#</a></h3>
+<h4>Setting up scenario files<a class="headerlink" href="#setting-up-scenario-files" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
 <li><p>Create the <code class="docutils literal notranslate"><span class="pre">scenario_baseline.csv</span></code> file that contains the baseline scenario. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for an example. The <code class="docutils literal notranslate"><span class="pre">scenario_baseline.csv</span></code> provides the path to all the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input data for the baseline scenario.</p></li>
 <li><p>Create the <code class="docutils literal notranslate"><span class="pre">scenarios_specification.csv</span></code> file that contains the specification of the scenarios. Look at the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder for an example. By default, the model will run the baseline scenario. The <code class="docutils literal notranslate"><span class="pre">scenarios_specification.csv</span></code> provides the path to the <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input data that are scenario-specific.</p></li>
 </ul>
 </section>
 </section>
-<section id="bis-modify-the-excel-input-files">
-<h2>4bis. <strong>Modify the excel input files</strong><a class="headerlink" href="#bis-modify-the-excel-input-files" title="Permalink to this heading">#</a></h2>
+<section id="b-using-classical-excel-framework">
+<h3>4b. <strong>Using classical excel framework</strong><a class="headerlink" href="#b-using-classical-excel-framework" title="Permalink to this heading">#</a></h3>
 <p>If the user prefers to work with Excel instead of CSV files, the Excel input file may need adjustments to align with the new model (e.g., updating variable names to match the latest version of the generic model). Ensure that sheet names and variable names are modified accordingly. Debugging in GAMS Studio can help identify necessary changes.</p>
+</section>
 </section>
 <section id="run-the-model">
 <h2>5. <strong>Run the model</strong>:<a class="headerlink" href="#run-the-model" title="Permalink to this heading">#</a></h2>
+<section id="from-python">
+<h3>From python<a class="headerlink" href="#from-python" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Use <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> or a notebook to launch the code. We suggest to only limit to one scenario during the debugging phase. Here, we have selected the <code class="docutils literal notranslate"><span class="pre">baseline</span></code> that is automatically included (even if it’s not in <code class="docutils literal notranslate"><span class="pre">scenarios_specification.csv</span></code>). For example:</p></li>
 </ul>
@@ -1090,18 +1115,20 @@ type: par
     <span class="p">)</span>
 </pre></div>
 </div>
+</section>
+<section id="from-gams-studio">
+<h3>From Gams Studio<a class="headerlink" href="#from-gams-studio" title="Permalink to this heading">#</a></h3>
 <p>Alternatively, the model can be run directly from GAMS Studio. Refer to the <code class="docutils literal notranslate"><span class="pre">How</span> <span class="pre">to</span> <span class="pre">Run</span> <span class="pre">EPM</span></code> section for details.</p>
 </section>
+</section>
 <section id="process-the-results">
-<h2>6. <strong>Process the results</strong>:<a class="headerlink" href="#process-the-results" title="Permalink to this heading">#</a></h2>
+<h2>6. <strong>Process the results</strong><a class="headerlink" href="#process-the-results" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Use postprocessing notebook. The postprocessing notebook will help you to visualize the results and compare the scenarios. The notebook will read the output files and generate the plots and tables for the results.</p></li>
 <li><p>You only need to enter the name of the folder that contains the result of the simulation. The code will actually also considers the input file.</p></li>
 <li><p>The code then generates the plots and tables for the results.</p></li>
 </ul>
-<ol class="arabic simple" start="6">
-<li><p><strong>Running on remote server</strong>:</p></li>
-</ol>
+<p><strong>Note: running code on remote server</strong></p>
 <p>If the code has worked locally, you can run the code on a remote server. This is useful when you have a large number of scenarios to run or when you need to run the model for a long time.</p>
 <ul class="simple">
 <li><p>Enter your credential.</p></li>
@@ -1228,32 +1255,39 @@ type: par
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modify-the-csv-input-files">
+  <a class="reference internal nav-link" href="#modify-input-files">
    4.
    <strong>
-    Modify the csv input files
+    Modify input files
    </strong>
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#debugging">
-     Debugging
+    <a class="reference internal nav-link" href="#a-using-the-csv-framework">
+     4.a Using the csv framework
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#debugging">
+       Debugging
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-up-scenario-files">
+       Setting up scenario files
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setting-up-scenario-files">
-     Setting up scenario files
+    <a class="reference internal nav-link" href="#b-using-classical-excel-framework">
+     4b.
+     <strong>
+      Using classical excel framework
+     </strong>
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#bis-modify-the-excel-input-files">
-   4bis.
-   <strong>
-    Modify the excel input files
-   </strong>
-  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#run-the-model">
@@ -1263,6 +1297,18 @@ type: par
    </strong>
    :
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-python">
+     From python
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#from-gams-studio">
+     From Gams Studio
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#process-the-results">
@@ -1270,7 +1316,6 @@ type: par
    <strong>
     Process the results
    </strong>
-   :
   </a>
  </li>
 </ul>
