@@ -5,8 +5,6 @@ EPM (Electricity Planning Model) is a least-cost power system planning tool. EPM
 EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via an Excel interface to the model and likewise, the results are collected in an Excel output file. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.
 In short, EPM minimizes the costs of expanding and operating a power system while meeting the system's technical, economic, and environmental requirements. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed operation and maintenance [O&M]), variable costs (variable O&M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.
 
-Documentation is available [here](https://esmap-world-bank-group.github.io/EPM/home.html).
-
 The practical deployment of EPM consists of a 7-step process, which is illustrated below.
 
 <img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
