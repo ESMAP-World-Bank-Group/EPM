@@ -441,9 +441,9 @@ if __name__ == '__main__':
             'path_cplex_file': 'cplex.opt'
         }
 
-        launch_epm_multi_scenarios(scenario_baseline='input/scenario_hydrostorage_baseline.csv',
-                                   scenarios_specification='input/scenarios_hydrostorage_spec_workshop.csv',
-                                   selected_scenarios=['NewBaselineExportsConstrained2032SP2'],
+        launch_epm_multi_scenarios(scenario_baseline='input/data_liberia/scenario_baseline.csv',
+                                   scenarios_specification='input/data_liberia/scenario_specifications.csv',
+                                   selected_scenarios=None,
                                    cpu=1, path_gams=path_gams_storage,
                                    path_engine_file=None)
 
