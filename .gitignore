@@ -1,6 +1,8 @@
 
 # Ignore all temp files
 **/~*
+*.dat
+*.sh
 
 xlsxReport.cmd
 

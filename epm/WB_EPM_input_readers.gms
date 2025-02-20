@@ -10,62 +10,7 @@ $call rm %GDX_INPUT%.gdx
 $call test %GDX_INPUT%.gdx -nt "%XLS_INPUT%"
 $ifThen.errorLevel errorlevel 1
 
-$ifThenI.READER "%READER%" == "GDXXRW"
-$log ### Reading from %XLS_INPUT% using gdxxrw
-
-$onecho > gdxxrw.in
-par=ftfindex                rdim=2 cdim=0 rng=FuelTechnologies!A3
-par=pHours                  rdim=3 cdim=1 rng=Duration!A6
-par=pZoneIndex              rdim=1 cdim=0 rng=ZoneData!E7:F200
-par=pGenDataExcel           rdim=1 cdim=1 rng=GenData!A6
-par=pTechDataExcel          rdim=1 cdim=1 rng=FuelTechnologies!B29:F50
-set=zcmapExcel              rdim=2 cdim=0 rng=ZoneData!U7                           Values=NoData
-set=y                       rdim=1 cdim=0 rng=LoadDefinition!A6:A%XLSXMAXROWS%      Values=NoData
-set=sTopology               rdim=1 cdim=1 rng=Topology!A6
-set=peak                    rdim=1 cdim=0 rng=LoadDefinition!H6:H%XLSXMAXROWS% Values=NoData
-set=Relevant                rdim=1 cdim=0 rng=LoadDefinition!E6:E%XLSXMAXROWS% Values=NoData
-set=zext                    rdim=1 cdim=0 rng=ZoneData!G7:G60
-par=pPlanningReserveMargin  rdim=1 cdim=0 rng=PlanningReserve!A6
-par=pEnergyEfficiencyFactor rdim=1 cdim=1 rng=EnergyEfficiency!A5
-par=pScalars                rdim=1 cdim=0 rng=Settings1!B3:C70
-par=pAvailability           rdim=1 cdim=1 rng=GenAvailability!A6
-par=pVREProfile             rdim=4 cdim=1 rng=REProfile!A6
-par=pLossFactor             rdim=2 cdim=1 rng=LossFactor!A5
-par=pTransferLimit          rdim=3 cdim=1 rng=TransferLimit!A5
-par=pExtTransferLimit       rdim=4 cdim=1 rng=ExtTransferLimit!A5
-par=pCarbonPrice            rdim=1 cdim=0 rng=EmissionFactors!A3:B24
-par=pDemandData             rdim=4 cdim=1 rng=Demand!A6
-par=pDemandForecast         rdim=2 cdim=1 rng=Demand_Forecast!A6
-par=pDemandProfile          rdim=3 cdim=1 rng=DemandProfile!A6
-par=pMaxExchangeShare       rdim=1 cdim=1 rng=ExchangeShare!A7
-par=pTradePrice             rdim=4 cdim=1 rng=TradePrices!A6
-par=pNewTransmission        rdim=2 cdim=1 rng=ZoneData!J6:Q107
-par=pCapexTrajectory        rdim=1 cdim=1 rng=CapexTrajectories!A5
-par=pCSPData                rdim=2 cdim=1 rng=CSP!A6                                IgnoreColumns=E
-par=pStorDataExcel          rdim=2 cdim=1 rng=Storage!A6
-par=pFuelTypeCarbonContent  rdim=1 cdim=0 rng=EmissionFactors!J3
-
-par=pSpinningReserveReqCountry          rdim=1 cdim=1 rng=SpinReserve!F5
-par=pSpinningReserveReqSystem          rdim=1 cdim=0 rng=SpinReserve!A6
-par=pEmissionsCountry       rdim=1 cdim=1 rng=Emissions!A17
-par=pEmissionsTotal         rdim=0 cdim=1 rng=Emissions!A5
-par=pFuelPrice              rdim=2 cdim=1 rng=FuelPrices!A6
-par=pMaxFuellimit           rdim=2 cdim=1 rng=FuelLimit!A6
-par=pVREgenProfile          rdim=4 cdim=1 rng=REgenProfile!A6
-
-set=MapGG                   rdim=1 cdim=1 rng=Retrofit!A6:ZW1000
-*******************************************************************************************
-set=hh                      rdim=1 cdim=0 rng=H2Data!A7:A%XLSXMAXROWS%      Values=NoData
-par=pH2DataExcel            rdim=1 cdim=1 rng=H2Data!A6
-par=pAvailabilityH2         rdim=1 cdim=1 rng=H2Availability!A6
-par=pFuelData               rdim=1 cdim=0 rng=FuelTechnologies!J3:K44
-par=pCapexTrajectoryH2      rdim=1 cdim=1 rng=CapexTrajectoriesH2!A5
-par=pExternalH2             rDim=2 cdim=1 rng=ExternalH2Demand!A5
-$offecho
-$call.checkErrorLevel gdxxrw "%XLS_INPUT%" @gdxxrw.in
-$call rm gdxxrw.in
-
-$elseIfI.READER %READER% == CONNECT_EXCEL
+$ifThenI.READER %READER% == CONNECT_EXCEL
 $log ### Reading from %XLS_INPUT% using Connect and Excel Input
 
 $onEmbeddedCode Connect:
