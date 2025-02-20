@@ -25,7 +25,7 @@ $onEmbeddedCode Connect:
         columnDimension: 0
       - name: pHours
         range: Duration!A6
-        rowDimension: 3
+        rowDimension: 2
         columnDimension: 1
       - name: pZoneIndex
         range: ZoneData!E7:F200
@@ -298,7 +298,7 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     header: [1]
-    indexColumns: [1, 2, 3]
+    indexColumns: [1, 2]
     type: par
 
 - CSVReader:
