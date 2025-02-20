@@ -1,6 +1,0 @@
-﻿Battery,LinkedPlant,Capacity,Capex,VOM,FixedOM,Efficiency,Life
-BESS_4h,,200,,0,0,0.87,20
-BESS_8h,,800,,0,0,0.87,20
-BESS_2h,,800,,0,0,0.87,20
-BESS_2h_committed,,8,,0,0,0.87,20
-BESS_3h,,800,,0,0,0.87,20
