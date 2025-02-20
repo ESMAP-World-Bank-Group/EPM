@@ -242,7 +242,7 @@ $set main Excel
 $set DOEXCELREPORT 1
 $ifThen not set XLS_INPUT
 $  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
-$  if not set GDX_INPUT $set XLS_INPUT data%system.dirsep%input%system.dirsep%WB_EPM_8_5.xlsb
+$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%WB_EPM_8_5.xlsb
 $endIf
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
 $if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx
@@ -1002,7 +1002,7 @@ for t in zip([GamsParameter,GamsVariable,GamsEquation],['Parameter','Variable','
     gams.printLog(f'{s[1].ljust(20)} {str(s[2]).rjust(10)}')
 endEmbeddedCode
 $endif
-$exit
+
 * This demonstrates how to do scenarios of a base with many reports
 scalar xDR;
 scalar mcnt /1/, low, upp;

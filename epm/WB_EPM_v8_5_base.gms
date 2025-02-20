@@ -350,7 +350,7 @@ Equations
    eRampDnLimit(g,q,d,t,y)         'Ramp down limit'
 
    eSpinningReserveLim(g,q,d,t,y)              'Reserve limit as a share of capacity'
-   eSpinningReserveLimVRE(g,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
+   eSpinningReserveLimVRE(g,f,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
    eJointResCap(g,q,d,t,y)                     'Joint reserve and generation limit'
    eSpinningReserveReqCountry(c,q,d,t,y)          'Country spinning reserve requirement'
    eSpinningReserveReqSystem(q,d,t,y)          'System spinning reserve requirement'
