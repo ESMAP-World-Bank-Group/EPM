@@ -11,6 +11,6 @@ The postprocessing is divided into two main parts:
 
 Jupyter notebooks can be downloaded from the documentation to be used for user case studies. The following video summarizes the process:
 <video width="720" controls>
-  <source src="videos/download_notebook.mov" type="video/mov">
+  <source src="videos/download_notebook.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
