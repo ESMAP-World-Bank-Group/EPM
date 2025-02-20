@@ -242,7 +242,7 @@ $set main Excel
 $set DOEXCELREPORT 1
 $ifThen not set XLS_INPUT
 $  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
-$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%WB_EPM_8_5.xlsb
+$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%WB_EPM_8_5.xlsx
 $endIf
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
 $if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx

@@ -80,7 +80,7 @@ $onEmbeddedCode Connect:
         columnDimension: 0
       - name: pHours
         range: Duration!A6
-        rowDimension: 2
+        rowDimension: 3
         columnDimension: 1
       - name: pZoneIndex
         range: ZoneData!E7:F200
