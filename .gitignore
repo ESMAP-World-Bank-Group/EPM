@@ -1,4 +1,8 @@
 
+# Ignore all temp files
+**/~*
+
+xlsxReport.cmd
 
 /training
 /epm/preprocessing
@@ -30,6 +34,7 @@ todo.py
 /doc/master_plan_guidance.md
 
 # GAMS file
+*.g00
 *.gsp
 *.gdx
 *.in
