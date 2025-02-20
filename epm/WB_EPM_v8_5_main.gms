@@ -39,6 +39,51 @@ $log REPORT_FILE is "%REPORT_FILE%"
 $ifThen not set READER_FILE
 $set READER_FILE "WB_EPM_input_readers.gms"
 $endIf
+$log READER_FILE is "%READER_FILE%"
+
+* Solver option
+Scalar
+   solverThreads 'Number of threads available to the solvers' /1/
+   solverOptCR   'Relative gap for MIP Solver'                /0.05/
+   solverResLim  'Solver time limit'                          /300000/
+;   
+Singleton Set
+   NLPSolver 'Selected NLP Solver' / '' 'conopt4' /
+   MIPSolver 'Selected MIP Solver' / '' 'cplex' /
+;
+$eval     SOLVERTHREADS solverThreads
+$eval     SOLVEROPTCR   solverOptCR
+$eval     SOLVERRESLIM  solverResLim
+$eval.set NLPSOLVER     NLPSolver.te
+$eval.set MIPSOLVER     MIPSolver.te
+Option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVEROPTCR%, resLim=%SOLVERRESLIM%;
+
+
+* 
+$ifThenI.mode %mode%==Excel
+*$set main Excel
+$set DOEXCELREPORT 1
+
+$ifThen not set XLS_INPUT
+$  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
+$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%WB_EPM_8_5.xlsx
+$endIf
+
+$setNames "%XLS_INPUT%" fp GDX_INPUT fe
+
+$if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx
+
+$ifThen.timestamp set USETIMESTAMP
+$  setNames "%XLS_OUTPUT%" fp fn fe
+$  onembeddedCode Python:
+   import datetime
+   import os
+   os.environ['MYDATE'] = datetime.datetime.now().strftime("%Y_%m_%d") # we can add hour, minute, or seconds if necessary: %H %M %S
+$  offEmbeddedCode
+$  set XLS_OUTPUT %fp%%fn%_%sysenv.MYDATE%%fe%
+$endIf.timestamp
+
+*-------------------------------------------------------------------------------------
 
 $call 'rm -f miro.log'
 file log / miro.log /;
@@ -148,8 +193,8 @@ Parameter
    pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
    pEmissionsTotal(y)               'Maximum total emissions allowed per year for the region in tns'
    pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
-$ifi     %mode%==MIRO   pHours(q<,d<,y<,t<) 'duration of each block'
-$ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
+$ifi     %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
+$ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
    pLossFactor(z,z2,y)              'loss factor in percentage'
    pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
@@ -170,15 +215,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,y ,t<) 'duration of each block'
 ***************************************************************************
 
 ;   
-Scalar
-   solverThreads 'Number of threads available to the solvers' /1/
-   solverOptCR   'Relative gap for MIP Solver'                /0.05/
-   solverResLim  'Solver time limit'                          /300000/
-;   
-Singleton Set
-   NLPSolver 'Selected NLP Solver' / '' 'conopt4' /
-   MIPSolver 'Selected MIP Solver' / '' 'cplex' /
-;
+
 $ifI %mode%==MIRO
 $offExternalInput
 
@@ -230,31 +267,8 @@ Sets
 ;
 $offmulti
 
-$eval     SOLVERTHREADS solverThreads
-$eval     SOLVEROPTCR   solverOptCR
-$eval     SOLVERRESLIM  solverResLim
-$eval.set NLPSOLVER     NLPSolver.te
-$eval.set MIPSOLVER     MIPSolver.te
-Option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVEROPTCR%, resLim=%SOLVERRESLIM%;
 
-$ifThenI.mode %mode%==Excel
-$set main Excel
-$set DOEXCELREPORT 1
-$ifThen not set XLS_INPUT
-$  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
-$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%WB_EPM_8_5.xlsx
-$endIf
-$setNames "%XLS_INPUT%" fp GDX_INPUT fe
-$if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx
-$ifThen.timestamp set USETIMESTAMP
-$  setNames "%XLS_OUTPUT%" fp fn fe
-$  onembeddedCode Python:
-   import datetime
-   import os
-   os.environ['MYDATE'] = datetime.datetime.now().strftime("%Y_%m_%d") # we can add hour, minute, or seconds if necessary: %H %M %S
-$  offEmbeddedCode
-$  set XLS_OUTPUT %fp%%fn%_%sysenv.MYDATE%%fe%
-$endIf.timestamp
+
 
 Set
    zcmapExcel(z,c<);
@@ -290,12 +304,13 @@ $load pNewTransmission, MapGG
 ************************************************Hydrogen model related symbols*************************************
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 
-
 $gdxIn
 $offmulti
 
 display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
 
+
+$include WB_EPM_verification.gms
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -446,127 +461,15 @@ if(card(Error01),
 else
   put ' OK'/;
 );
+
 $else.mode
 $if not set DOEXCELREPORT $set DOEXCELREPORT 0
 $include WB_EPM_v8_5_miro
 $endIf.mode
 
-Set Error03(z,q,d,y,t);
-option Error03<pDemandData;
-Error03(z,q,d,y,t)$(pDemandData(z,q,d,y,t) >= 0) = 0;
-if (pScalars("altDemand") <> 1,
-  put 'Validating demand data ...';
-  if(card(Error03),
-    put / 'pDemandData: No negative demand data allowed!'/;
-    put 'Note that the setting  "Use same demand profile for all years" has been set to true. '/;
-    put 'Therefore, the demand data was calculated in the model and is not provided by the user. '/;
-    put / 'SYMBOL' @25 'ZONE' @45 'QUARTER/SEASON' @65 'DAY TYPE' @85 'YEAR' @105 'HOUR OF DAY' @125 'VALUE';
-    loop(Error03(z,q,d,y,t),
-        put / 'pDemandData:: '@25 z.tl @45 q.tl @65 d.tl @85 y.tl @105 t.tl @125 pDemandData(z,q,d,y,t);
-      );
-    abort 'No negative demand data allowed', Error03;
-  else
-    put ' OK'/;
-  );
-);
 
-Set Error04(q,d,y,t);
-option Error04<pHours;
-Error04(q,d,y,t)$(pHours(q,d,y,t) >= 0) = 0;
-put 'Validating duration of each block data ...';
-if(card(Error04),
-  put / 'pHours:: No negative duration of each block data allowed!'/;
-  put / 'SYMBOL' @25 'QUARTER/SEASON' @45 'DAY TYPE' @65 'YEAR' @85 'HOUR OF DAY' @105 'VALUE';
-  loop(Error04(q,d,y,t),
-      put / 'pHours:: '@25 q.tl @45 d.tl @65 y.tl @85 t.tl @105 pHours(q,d,y,t);
-    );
-  abort 'No negative duration of each block data allowed', Error04;
-else
-  put ' OK'/;
-);
+$include WB_EPM_demand.gms
 
-Set Error05(z,*,q,d,t);
-option Error05<pVREProfile;
-Error05(z,f,q,d,t)$(pVREProfile(z,f,q,d,t) < 1.01) = 0;
-put 'Validating VRE generation profile by site data ...';
-if(card(Error05),
-  put / 'pVREProfile:: Capacity factor cannot be more than 1!'/;
-  put / 'SYMBOL' @25 'ZONE' @45 'FUEL' @65 'QUARTER/SEASON' @85 'DAY TYPE' @105 'HOUR OF DAY' @125 'VALUE';
-  loop(Error05(z,f,q,d,t),
-      put / 'pVREProfile:: '@25 z.tl @45 f.tl @65 q.tl @85 d.tl @105 t.tl @125 pVREProfile(z,f,q,d,t);
-    );
-  abort 'Capacity factor cannot be greater than 1', Error05;
-else
-  put ' OK'/;
-);
-
-*Set Error06(g,q);
-*option Error06<pAvailability;
-*Error06(g,q)$(pAvailability(g,q) < 1.01) = 0;
-*put 'Validating generator availability data ...';
-*if(card(Error06),
-*  put / 'pAvailability:: Generator availability factor cannot be more than 1!'/;
-*  put / 'SYMBOL' @25 'GENERATOR TYPE' @45 'QUARTER/SEASON' @65 'VALUE';
-*  loop(Error06(g,q),
-*      put / 'pAvailability:: '@25 g.tl @45 q.tl @65 pAvailability(g,q);
-*    );
-*  abort 'Generator availability factor cannot be greater than 1', Error06;
-*else
-*  put ' OK'/;
-*);
-
-*--- Adjust peak and energy in case user selected same demand profile for all years
-
-Parameters
-   pmax(z,y)
-   pmin(z,y)
-   pdiff(z,y)
-   ptotalenergy(z,y)
-   ptemp2(y)
-   ptemp(y)
-   pTempDemand(z,q,d,y,t)
-;
-
-variable
-   pyval(z,q,d,y,t)
-   divisor(z,y)
-   obj
-;
-
-divisor.lo(z,y) = card(q)*card(d)*card(t);
-
-equation
-   getDivisor(z,q,d,y,t)
-   getArea(z,y)
-   objFn
-;
-
-getDivisor(z,q,d,y,t)..  pyval(z,q,d,y,t) =e=  [2*pdiff(z,y)/divisor(z,y) * (pmax(z,y) - pDemandProfile(z,q,d,t))]/sqr(pmax(z,y) - pmin(z,y));
-getArea(z,y)..           sum((q,d,t), pyval(z,q,d,y,t) * pHours(q,d,y,t)) =e=  pdiff(z,y);
-objFn..                  obj =e= sum((z,q,d,y,t), pyval(z,q,d,y,t));
-
-model demand / getDivisor, getArea, objFn /;
-
-* If using alt demand:
-if (pScalars("altDemand") = 1,
-   pTempDemand(z,q,d,y,t) = pDemandProfile(z,q,d,t) * pDemandForecast(z,"Peak",y);
-
-   pdiff(z,y) = ((pDemandForecast(z,"Energy",y)*1e3) - sum((q,d,t), pTempDemand(z,q,d,y,t)*pHours(q,d,y,t) )) ;
-
-   pmax(z,y) = smax((q,d,t), pDemandProfile(z,q,d,t));
-   pmin(z,y) = smin((q,d,t)$pDemandProfile(z,q,d,t), pDemandProfile(z,q,d,t));
-*   option limrow=1000; debugging
-   Solve demand using nlp min obj;
-
-   abort$(demand.modelstat<>%modelstat.Optimal% and demand.modelstat<>%modelstat.locallyOptimal%) 'Demand model not solved successfully';
-$offIDCProtect
-   pDemandData(z,q,d,y,t) =  pTempDemand(z,q,d,y,t) + pyval.l(z,q,d,y,t);
-$onIDCProtect
-   ptemp(y) = sum((z,q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,y,t))/1000;
-   ptemp2(y) = smax((q,d,t),sum(z, pdemanddata(z,q,d,y,t)));
-);
-
-ptotalenergy(z,y) =  sum((q,d,t), pdemanddata(z,q,d,y,t)*phours(q,d,y,t))/1e3;
 
 *--- end of parameter initialisation for same demand profile for all years
 
@@ -764,7 +667,7 @@ pVREgenProfile(gfmap(VRE,f),q,d,t)$(not(pVREgenProfile(VRE,f,q,d,t))) = sum(gzma
 $onIDCProtect
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,f,q,d,t))/sum((q,d,t),1));
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,y,t)))/sum((q,d,t),pHours(q,d,y,t))   ;
+pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t))   ;
 *pCapacityCredit(RE,y) =  Sum((z,q,d,t)$gzmap(RE,z),Sum(f$gfmap(RE,f),pREProfile(z,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(RE,f) and gzmap(RE,z) ),pREProfile(z,f,q,d,t))/sum((q,d,t),1));
 
 
@@ -977,6 +880,7 @@ Solve PA using MIP minimizing vNPVcost;
 display pRR, pWeightYear;
 
 $include %REPORT_FILE%
+
 $ifThen %gams.ProcTreeMemMonitor%==1
 embeddedCode Python:
 gams.printLog('')
