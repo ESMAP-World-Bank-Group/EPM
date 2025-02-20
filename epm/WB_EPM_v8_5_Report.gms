@@ -166,7 +166,7 @@ Scalar MaxZonesperCountry;
 
 *--- START of results
 
-pTotalHoursperYear(y) = sum((q,d,t), pHours(q,d,y,t));
+pTotalHoursperYear(y) = sum((q,d,t), pHours(q,d,t));
 pSpinningReserveCostsZone(z,g,y)          = 0;
 pSpinningReserveCostsCountry(c,g,y)   = 0;
 
@@ -200,7 +200,7 @@ pFOM(z,y) = sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
 pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
 
 
-pVOM(z,y) = sum((q,d,t), pHours(q,d,y,t)*(
+pVOM(z,y) = sum((q,d,t), pHours(q,d,t)*(
                            sum((gzmap(g,z),gfmap(g,f)),   pGenData(g,"VOM")*vPwrOut.l(g,f,q,d,t,y))
                          + sum((gzmap(st,z),gfmap(st,f)), pStorData(st,"VOM")*vPwrOut.l(st,f,q,d,t,y))
                          + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Storage","VOM")*vPwrOut.l(cs,f,q,d,t,y))
@@ -210,12 +210,12 @@ pVOM(z,y) = sum((q,d,t), pHours(q,d,y,t)*(
                         + sum((h2zmap(hh,z)), pH2Data(hh,"VOM")*pH2Data(hh,"Heatrate")*vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2));
 
 
-pFuelCostsZone(z,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t)*pFuelPrice(c,f,y)*pHeatRate(g,f));
+pFuelCostsZone(z,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t)*pFuelPrice(c,f,y)*pHeatRate(g,f));
 
 
-pImportCosts(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
+pImportCosts(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
-pExportRevenue(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t));
+pExportRevenue(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y);
 pUSECosts(z,y) = vYearlyUSECost.l(z,y);
@@ -226,10 +226,10 @@ pVRECurtailment(z,y) = vYearlyCurtailmentCost.l(z,y);
 
 * country level
 pCountryPlanReserveCosts(c,y) = vUnmetPlanningReserveCountry.l(c,y)*pPlanningReserveVoLL;
-pUSRLocCosts(c,y) = sum((q,d,t), vUnmetSpinningReserveCountry.l(c,q,d,t,y)*pHours(q,d,y,t)*pSpinningReserveVoLL);
+pUSRLocCosts(c,y) = sum((q,d,t), vUnmetSpinningReserveCountry.l(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 
 * System level
-pUSRSysCosts(y) = sum((q,d,t), vUnmetSpinningReserveSystem.l(q,d,t,y)*pHours(q,d,y,t)*pSpinningReserveVoLL);
+pUSRSysCosts(y) = sum((q,d,t), vUnmetSpinningReserveSystem.l(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 pUPRSysCosts(y) = vUnmetPlanningReserveSystem.l(y)*pPlanningReserveVoLL;
 
  
@@ -357,7 +357,7 @@ pCostSummaryWeightedAverageCtry(c,"Average Total Annual Cost: $m")          = pC
 *--- Cost and consumption by fuel
 
 * By zone
-pFuelCosts(z,f,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t)*pFuelPrice(c,f,y)*pHeatRate(g,f))/1e6;
+pFuelCosts(z,f,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t)*pFuelPrice(c,f,y)*pHeatRate(g,f))/1e6;
 pFuelConsumption(z,f,y) = vFuel.l(z,f,y)/1e6;
 
 * By country
@@ -371,39 +371,39 @@ set zgmap(z,g); option zgmap<gzmap;
 **************************Hydrogen model****************************
 set zH2map(z,hh); option zH2map<h2zmap;
 
-pEnergyByFuel(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pEnergyByFuel(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyByFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyByFuel(z,f,y));
-pEnergyByTechandFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pEnergyByTechandFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyByTechandFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyByTechandFuel(z,tech,f,y));
 
 pEnergyMix(c,f,y) = pEnergyByFuelCountry(c,f,y)/(sum(f2, pEnergyByFuelCountry(c,f2,y)) + 1e-5);
 
-pEnergyByPlant(zgmap(z,g),y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pEnergyByPlant(zgmap(z,g),y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 
 *--- Demand-Supply Balance
 
 *A. Demand - Production Balance
 
 * By zone
-pDemandSupply(z,"Demand: GWh"            ,y) = sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))/1e3;
+pDemandSupply(z,"Demand: GWh"            ,y) = sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3;
 *********************************************************H2 model addition****************************************************************
-pDemandSupply(z,"Electricity demand for H2 production: GWh",         y) =(sum((h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t) )/1e3)$pIncludeH2+0.000001;
-pDemandSupply(z,"Total Demand (Including P to H2): GWh"      ,y) =(sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))/1e3+sum((h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t) )/1e3)$pIncludeH2+0.000001;
+pDemandSupply(z,"Electricity demand for H2 production: GWh",         y) =(sum((h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
+pDemandSupply(z,"Total Demand (Including P to H2): GWh"      ,y) =(sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3+sum((h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
 
 pDemandSupply(z,"Total production: GWh"  ,y) = sum(gzmap(g,z), pEnergyByPlant(z,g,y));
-pDemandSupply(z,"Unmet demand: GWh"      ,y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pDemandSupply(z,"Surplus generation: GWh",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pDemandSupply(z,"Unmet demand: GWh"      ,y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
+pDemandSupply(z,"Surplus generation: GWh",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 
-pDemandSupply(z,"Imports exchange: GWh"     ,y) = (sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,y,t)) + sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t)))/1e3;
-pDemandSupply(z,"Exports exchange: GWh"     ,y) = (sum((sTopology(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,y,t)) + sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t)))/1e3;
+pDemandSupply(z,"Imports exchange: GWh"     ,y) = (sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pDemandSupply(z,"Exports exchange: GWh"     ,y) = (sum((sTopology(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 pDemandSupply(z,"Net interchange: GWh"      ,y) = pDemandSupply(z,"Imports exchange: GWh",y) - pDemandSupply(z,"Exports exchange: GWh",y);
 pDemandSupply(z,"Net interchange Ratio: GWh",y)$pDemandSupply(z,"Demand: GWh",y) = pDemandSupply(z,"Net interchange: GWh",y)/pDemandSupply(z,"Demand: GWh",y);
 
 
 
 **************************************************************H2 model addition**************************************************************************
-pDemandSupplyH2(z,"Electricity demand for H2 production: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t))/1000)$pIncludeH2+1e-6; 
-pDemandSupplyH2(z,"Total H2 Production: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
+pDemandSupplyH2(z,"Electricity demand for H2 production: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pIncludeH2+1e-6; 
+pDemandSupplyH2(z,"Total H2 Production: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
 pDemandSupplyH2(z,"External Demand of H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pIncludeH2+1e-6;
 pDemandSupplyH2(z,"Unmet External Demand of H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pIncludeH2+1e-6;
 pDemandSupplyH2(z,"H2 produced for power production: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pIncludeH2+1e-6;
@@ -416,21 +416,21 @@ $if %DEBUG%==1 display  pDemandSupplyH2;
 * By Country
 pDemandSupplyCountry(c,"Demand: GWh"            ,y) = sum(zcmap(z,c), pDemandSupply(z,"Demand: GWh"            ,y));
 *********************************************************H2 model addition****************************************************************
-pDemandSupplyCountry(c,"Electricity demand for H2 production: GWh",         y) =(sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t) )/1e3)$pIncludeH2+0.000001;
-pDemandSupplyCountry(c,"Total Demand (Including P to H2): GWh"      ,y) =(sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))/1e3+sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t) )/1e3)$pIncludeH2+0.000001;
+pDemandSupplyCountry(c,"Electricity demand for H2 production: GWh",         y) =(sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
+pDemandSupplyCountry(c,"Total Demand (Including P to H2): GWh"      ,y) =(sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3+sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
 
 pDemandSupplyCountry(c,"Total production: GWh"  ,y) = sum(zcmap(z,c), pDemandSupply(z,"Total production: GWh"  ,y));
 pDemandSupplyCountry(c,"Unmet demand: GWh"      ,y) = sum(zcmap(z,c), pDemandSupply(z,"Unmet demand: GWh"      ,y));
 pDemandSupplyCountry(c,"Surplus generation: GWh",y) = sum(zcmap(z,c), pDemandSupply(z,"Surplus generation: GWh",y));
 
-pDemandSupplyCountry(c,"Imports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapNCZ(z2,z),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,y,t)) + sum((zcmap(z,c),zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t)))/1e3;
-pDemandSupplyCountry(c,"Exports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapNCZ(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,y,t)) + sum((zcmap(z,c),zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t)))/1e3;
+pDemandSupplyCountry(c,"Imports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapNCZ(z2,z),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pDemandSupplyCountry(c,"Exports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapNCZ(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 pDemandSupplyCountry(c,"Net interchange: GWh"      ,y) = pDemandSupplyCountry(c,"Imports exchange: GWh",y) - pDemandSupplyCountry(c,"Exports exchange: GWh",y);
 pDemandSupplyCountry(c,"Net interchange Ratio: GWh",y)$pDemandSupplyCountry(c,"Demand: GWh",y) = pDemandSupplyCountry(c,"Net interchange: GWh",y)/pDemandSupplyCountry(c,"Demand: GWh",y);
 
 ****************************************************H2 model additions*******************************************************************
-pDemandSupplyCountryH2(c,"Total electricity demand for H2 production: GWh",y)   =(sum( (zcmap(z,c),h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t))/1000)$pIncludeH2+1e-6; 
-pDemandSupplyCountryH2(c,"Total H2 Production: mmBTU",           y) =sum((zcmap(z,c),h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
+pDemandSupplyCountryH2(c,"Total electricity demand for H2 production: GWh",y)   =(sum( (zcmap(z,c),h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pIncludeH2+1e-6; 
+pDemandSupplyCountryH2(c,"Total H2 Production: mmBTU",           y) =sum((zcmap(z,c),h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
 pDemandSupplyCountryH2(c,"External Demand of H2: mmBTU",         y) =sum((zcmap(z,c),q),pExternalH2(z,q,y)       )$pIncludeH2+1e-6;
 pDemandSupplyCountryH2(c,"Unmet External Demand of H2: mmBTU",   y) =sum((zcmap(z,c),q),vUnmetExternalH2.l(z,q,y) )$pIncludeH2+1e-6;
 pDemandSupplyCountryH2(c,"H2 for power production: mmBTU",       y) =sum((zcmap(z,c),q),vFuelH2Quarter.l(z,q,y)   )$pIncludeH2+1e-6;
@@ -456,9 +456,9 @@ pSummary("Excess Generation Costs: $m"     ) = sum((z,y), pWeightYear(y)*pRR(y)*
 pSummary("Spinning reserve costs: $m"      ) = sum((z,y), pWeightYear(y)*pRR(y)*pSpinResCosts(z,y))/1e6;
 
 **************************************************************H2 model additions******************************************************************************************************
-pSummary("Total Demand for H2 production: GWh") =(sum((h2zmap(hh,z),y,q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t) )/1e3)$pIncludeH2+0.000001;
-pSummary("Total Demand including demand for H2 production: GWh") =(sum((h2zmap(hh,z),y,q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t) )/1e3+ sum((z,y), pWeightYear(y)*pDemandSupply(z,"Demand: GWh",y))  )$pIncludeH2+0.000001;
-pSummary("Total H2 produced: mmBTU" )                   =sum((h2zmap(hh,z),y, q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,y,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
+pSummary("Total Demand for H2 production: GWh") =(sum((h2zmap(hh,z),y,q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
+pSummary("Total Demand including demand for H2 production: GWh") =(sum((h2zmap(hh,z),y,q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3+ sum((z,y), pWeightYear(y)*pDemandSupply(z,"Demand: GWh",y))  )$pIncludeH2+0.000001;
+pSummary("Total H2 produced: mmBTU" )                   =sum((h2zmap(hh,z),y, q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
 pSummary("Total External Demand of H2: mmBTU")          =sum((z,q,y),pExternalH2(z,q,y)        )$pIncludeH2+1e-6;
 pSummary("Total Unmet External Demand of H2: mmBTU")    =sum((z,q,y),vUnmetExternalH2.l(z,q,y) )$pIncludeH2+1e-6;
 pSummary("Total H2 for power production: mmBTU")        =sum((z,q,y),vFuelH2Quarter.l(z,q,y)   )$pIncludeH2+1e-6;
@@ -466,13 +466,13 @@ pSummary("Total H2 for power production: mmBTU")        =sum((z,q,y),vFuelH2Quar
 *B. Interchange and Losses with INTERNAL zones
 
 * By zone
-pInterchange(sTopology(z,z2),y) = sum((q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pInterchange(sTopology(z,z2),y) = sum((q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))/1e3;
 pInterconUtilization(sTopology(z,z2),y)$pInterchange(z,z2,y) = 1e3*pInterchange(z,z2,y)
                                                               /sum((q,d,t),(pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
                                                                                                      * max(pNewTransmission(z,z2,"CapacityPerLine"),
                                                                                                            pNewTransmission(z2,z,"CapacityPerLine"))
-                                                      )*pHours(q,d,y,t));
-pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pLossFactor(z,z2,y)*pHours(q,d,y,t));
+                                                      )*pHours(q,d,t));
+pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pLossFactor(z,z2,y)*pHours(q,d,t));
 
 **By country
 alias (zcmap, zcmap2);
@@ -486,11 +486,11 @@ pLossesTransmissionCountry(c,y) = sum(zcmap(z,c), pLossesTransmission(z,y));
 set thrd / Imports, Exports /;
 pHourlyTrade(z,y,q,d,"Imports",t) =   sum(zext,vImportPrice.l(z,zext,q,d,t,y)); 
 pHourlyTrade(z,y,q,d,"Exports",t) =   sum(zext,vExportPrice.l(z,zext,q,d,t,y)); 
-pYearlyTrade(z,thrd,y) = sum((q,d,t), pHourlyTrade(z,y,q,d,thrd,t)*pHours(q,d,y,t))/1e3;
-pInterchangeExtExp(z,zext,y) = sum((q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pInterconUtilizationExtExp(z,zext,y)$pInterchangeExtExp(z,zext,y) = 1e3*pInterchangeExtExp(z,zext,y) /sum((q,d,t),pExtTransferLimitOut(z,zext,q,y)*pHours(q,d,y,t));
-pInterchangeExtImp(zext,z,y) = sum((q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pInterconUtilizationExtImp(zext,z,y)$pInterchangeExtImp(zext,z,y) = 1e3*pInterchangeExtImp(zext,z,y) /sum((q,d,t),pExtTransferLimitIn(z,zext,q,y)*pHours(q,d,y,t));
+pYearlyTrade(z,thrd,y) = sum((q,d,t), pHourlyTrade(z,y,q,d,thrd,t)*pHours(q,d,t))/1e3;
+pInterchangeExtExp(z,zext,y) = sum((q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
+pInterconUtilizationExtExp(z,zext,y)$pInterchangeExtExp(z,zext,y) = 1e3*pInterchangeExtExp(z,zext,y) /sum((q,d,t),pExtTransferLimitOut(z,zext,q,y)*pHours(q,d,t));
+pInterchangeExtImp(zext,z,y) = sum((q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
+pInterconUtilizationExtImp(zext,z,y)$pInterchangeExtImp(zext,z,y) = 1e3*pInterchangeExtImp(zext,z,y) /sum((q,d,t),pExtTransferLimitIn(z,zext,q,y)*pHours(q,d,t));
 
 
 * By Country
@@ -501,22 +501,22 @@ pYearlyTradeCountry(c,thrd,y) = sum(zcmap(z,c), pYearlyTrade(z,thrd,y));
 
 * By zone
 
-pPrice(z,q,d,t,y)$(pHours(q,d,y,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,y,t)/pRR(y)/pWeightYear(y);
+pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
 
-pAveragePrice(z,y)$pDemandSupply(z,"Demand: GWh",y) = 1e-3*sum((q,d,t),pPrice(z,q,d,t,y)*pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))
+pAveragePrice(z,y)$pDemandSupply(z,"Demand: GWh",y) = 1e-3*sum((q,d,t),pPrice(z,q,d,t,y)*pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))
                                                      /pDemandSupply(z,"Demand: GWh",y) ;
 
 Parameter zzFlow(z,z2,y), zzFlowpH(z,z2,y);
 zzFlow(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y));
-zzFlowpH(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y)*pHours(q,d,y,t));
+zzFlowpH(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
 
-pAveragePriceExp(z,y) $(sum(Zd, zzFlowpH(z,Zd,y))  > 0) = (sum((sTopology(z,Zd),q,d,t),  pPrice(z,q,d,t,y) *vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,y,t))
-                                                           + sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y) * pHours(q,d,y,t))) 
-                                                         /(sum(Zd, zzFlowpH(z,Zd,y))+ sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)* pHours(q,d,y,t)));
-pAveragePriceImp(z,y) $(sum(Zd, zzFlowpH(Zd,z,y))  > 0) = (sum((sTopology(Zd,z),q,d,t),  pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,y,t))
-                                                            + sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)* pTradePrice(zext,q,d,y,t)  * pHours(q,d,y,t))) 
-                                                         /(sum(Zd, zzFlowpH(Zd,z,y))+ sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)  * pHours(q,d,y,t)));
+pAveragePriceExp(z,y) $(sum(Zd, zzFlowpH(z,Zd,y))  > 0) = (sum((sTopology(z,Zd),q,d,t),  pPrice(z,q,d,t,y) *vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+                                                           + sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y) * pHours(q,d,t))) 
+                                                         /(sum(Zd, zzFlowpH(z,Zd,y))+ sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)* pHours(q,d,t)));
+pAveragePriceImp(z,y) $(sum(Zd, zzFlowpH(Zd,z,y))  > 0) = (sum((sTopology(Zd,z),q,d,t),  pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+                                                            + sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)* pTradePrice(zext,q,d,y,t)  * pHours(q,d,t))) 
+                                                         /(sum(Zd, zzFlowpH(Zd,z,y))+ sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)  * pHours(q,d,t)));
 
 pAveragePriceHub(Zt,y)$(sum(Zd, zzFlow(Zt,Zd,y))   > 0) = sum((sTopology(Zt,Zd),q,d,t), pPrice(Zt,q,d,t,y)*vFlow.l(Zt,Zd,q,d,t,y))
                                                          /sum(Zd, zzFlow(Zt,Zd,y));
@@ -526,10 +526,10 @@ pAveragePriceCountry(c,y)$pDemandSupplyCountry(c,"Demand: GWh",y) = sum(zcmap(z,
 
 Parameter cFlowpH(c,y);
 cFlowpH(c,y) = sum((zcmap(z,c),sMapNCZ(z,Zd)), zzFlowpH(z,Zd,y));
-pAveragePriceExpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapNCZ(z,Zd),q,d,t), pPrice(z,q,d,t,y)* vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,y,t))
+pAveragePriceExpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapNCZ(z,Zd),q,d,t), pPrice(z,q,d,t,y)* vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
                                                  /cFlowpH(c,y);
 cFlowpH(c,y) = sum((zcmap(z,c),sMapNCZ(Zd,z)), zzFlowpH(Zd,z,y));
-pAveragePriceImpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapNCZ(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,y,t))
+pAveragePriceImpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapNCZ(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
                                                  /cFlowpH(c,y);
 *pAveragePriceHubCountry(Zt,y)$(sum((Zd,q,d,t),vFlow.l(Zt,Zd,q,d,t,y))>0) = sum((Zd,q,d,t)$sTopology(Zt,Zd), pPrice(Zt,q,d,t,y) * vFlow.l(Zt,Zd,q,d,t,y))/ sum((Zd,q,d,t),vFlow.l(Zt,Zd,q,d,t,y)) ;
 
@@ -586,8 +586,8 @@ pRetirementsFuelCountry(c,f,y)      = sum(zcmap(z,c),pRetirementsFuel(z,f,y));
 * By Plant
 pCapacityPlan(zgmap(z,g),y)                 = vCap.l(g,y);
 pRetirements(zgmap(z,g),y)                  = vRetire.l(g,y);
-pPlantUtilization(zgmap(z,g),y)$vCap.l(g,y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/vCap.l(g,y)/8760;
-pPlantUtilizationTech(z,tech,y)$sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y)) = sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech),q,d,t)$vCap.l(g,y), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))
+pPlantUtilization(zgmap(z,g),y)$vCap.l(g,y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/vCap.l(g,y)/8760;
+pPlantUtilizationTech(z,tech,y)$sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y)) = sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech),q,d,t)$vCap.l(g,y), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))
                                                                                                         /sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y))/8760;
 
 *--- New TX Capacity by zone
@@ -600,8 +600,8 @@ $if %DEBUG%==1 display pAdditionalCapacity;
 
 *--- Reserve Results
 * By Zone
-pSpinningReserveCostsZone(zgmap(z,g),y)   = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,y,t))/1e6 ;
-pSpinningReserveByPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,y,t))/1e3 ;
+pSpinningReserveCostsZone(zgmap(z,g),y)   = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))/1e6 ;
+pSpinningReserveByPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
 
 pReserveMarginRes(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
 pReserveMarginRes(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
@@ -644,7 +644,7 @@ pSolarEnergy(z,q,d,t,y) = sum((gzmap(g,z),gtechmap(g,PVtech),gfmap(g,f)), vPwrOu
 zSolar(z,y) = sum((q,d,t), pSolarEnergy(z,q,d,t,y));
 pSolarValue(z,y)$(zSolar(z,y) > 0) = sum((q,d,t), pPrice(z,q,d,t,y)*pSolarEnergy(z,q,d,t,y))/zSolar(z,y);
 
-zSolarpH(z,y) = sum((q,d,t), pSolarEnergy(z,q,d,t,y)*pHours(q,d,y,t));
+zSolarpH(z,y) = sum((q,d,t), pSolarEnergy(z,q,d,t,y)*pHours(q,d,t));
 pSolarCost(z,y)$(zSolarpH(z,y) > 0) = (sum((gzmap(ng,z),gtechmap(ng,PVtech)), pCRF(ng)*vCap.l(ng,y)*pGenData(ng,"Capex")*pCapexTrajectories(ng,y))*1e6)/zSolarpH(z,y);
 
 *--- Dispatch Results
@@ -670,15 +670,15 @@ pDenom3(c,y)  = sum(zcmap(z,c), pDenom2(z,y));
 
 
 pSystemAverageCost(y)$sum(z, pDenom2(z,y)) =
-                        (sum((z,zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t))
-*                 max(1,Sum((z,q,d,t),vImportPrice.l(z,q,d,t,y)*pHours(q,d,y,t))));
+                        (sum((z,zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
+*                 max(1,Sum((z,q,d,t),vImportPrice.l(z,q,d,t,y)*pHours(q,d,t))));
                        + sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
                        + sum(ndc$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex"))*1e3
                        + sum(ndc$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","Capex"))*1e3
                        + sum(ndc, pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex"))*1e6
                        + sum(dc, vAnnCapex.l(dc,y))
                        + sum(z, pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y) + pSpinResCosts(z,y))
-                       )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,y,t)) + pDenom2(z,y));
+                       )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t)) + pDenom2(z,y));
 
 
 
@@ -687,8 +687,8 @@ pPlantAnnualLCOE(zgmap(z,ndc),y)$pDenom(z,ndc,y) = (pCRF(ndc)*vCap.l(ndc,y)*pGen
                                                   + vCapStor.l(ndc,y)*pStorData(ndc,"FixedOM")
                                                   + vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","FixedOM")
                                                   + vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal field","FixedOM")
-                                                  + sum((gfmap(ndc,f),q,d,t), pVarCost(ndc,f,y)*vPwrOut.l(ndc,f,q,d,t,y)*pHours(q,d,y,t))
-*                                                 + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,y,t))
+                                                  + sum((gfmap(ndc,f),q,d,t), pVarCost(ndc,f,y)*vPwrOut.l(ndc,f,q,d,t,y)*pHours(q,d,t))
+*                                                 + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))
                                                    )/pDenom(z,ndc,y);
 
 pPlantAnnualLCOE(zgmap(z,dc),y)$pDenom(z,dc,y) =  (vAnnCapex.l(dc,y)
@@ -696,14 +696,14 @@ pPlantAnnualLCOE(zgmap(z,dc),y)$pDenom(z,dc,y) =  (vAnnCapex.l(dc,y)
                                                  + vCapStor.l(dc,y)*pStorData(dc,"FixedOM")
                                                  + vCapStor.l(dc,y)*pCSPData(dc,"Storage","FixedOM")
                                                  + vCapTherm.l(dc,y)*pCSPData(dc,"Thermal field","FixedOM")
-                                                 + sum((gfmap(dc,f),q,d,t), pVarCost(dc,f,y)*vPwrOut.l(dc,f,q,d,t,y)*pHours(q,d,y,t))
-*                                                + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,y,t))
+                                                 + sum((gfmap(dc,f),q,d,t), pVarCost(dc,f,y)*vPwrOut.l(dc,f,q,d,t,y)*pHours(q,d,t))
+*                                                + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))
                                                   )/pDenom(z,dc,y);
 
 
 parameter zctmp(z,y);
-zctmp(z,y) = sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,y,t))
-           + sum((sTopology(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,y,t))
+zctmp(z,y) = sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
+           + sum((sTopology(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
            + sum(zgmap(z,dc), vAnnCapex.l(dc,y))
            + sum(zgmap(z,ndc), pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
            + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex"))*1e3
@@ -711,12 +711,12 @@ zctmp(z,y) = sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(
            + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex"))*1e6
            + pFOM(z,y) + pVOM(z,y)+ pFuelCostsZone(z,y) + pSpinResCosts(z,y);
 
-pZonalAverageCost(z,y)$pDenom2(z,y) = zctmp(z,y)/(sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,y,t))
-                                                + sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,y,t)) + pDenom2(z,y));
+pZonalAverageCost(z,y)$pDenom2(z,y) = zctmp(z,y)/(sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
+                                                + sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t)) + pDenom2(z,y));
 
-pCountryAverageCost(c,y)$pDenom3(c,y) = sum(zcmap(z,c), zctmp(z,y))/(sum((zcmap(z,c),zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,y,t))
+pCountryAverageCost(c,y)$pDenom3(c,y) = sum(zcmap(z,c), zctmp(z,y))/(sum((zcmap(z,c),zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
                                                                    + pDenom3(c,y)
-                                                                   + sum((zcmap(z,c),sMapNCZ(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,y,t)));
+                                                                   + sum((zcmap(z,c),sMapNCZ(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t)));
 
 option clear=zctmp;
 
@@ -747,7 +747,7 @@ pCostsbyPlant(zgmap(z,g),"Fixed Cost in MUSD",y)=       (  vCap.l(g,y)*pGenData(
                                                  + vCapStor.l(g,y)*pCSPData(g,"Storage","FixedOM")
                                                  + vCapTherm.l(g,y)*pCSPData(g,"Thermal field","FixedOM"))/1e6;
 
-pCostsbyPlant(zgmap(z,g),"Variable Cost in MUSD",y)= sum((gfmap(g,f),q,d,t), pVarCost(g,f,y)*vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/1e6;
+pCostsbyPlant(zgmap(z,g),"Variable Cost in MUSD",y)= sum((gfmap(g,f),q,d,t), pVarCost(g,f,y)*vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e6;
 pCostsbyPlant(zgmap(z,g),"Spinning Reserve Cost in MUSD",y)= pSpinningReserveCostsZone(z,g,y);
 pCostsbyPlant(zgmap(z,g),"Capacity Factor",y)= pPlantUtilization(z,g,y);
 
@@ -787,7 +787,7 @@ pStorageComponents(stg,"Storage Capacity in MW",y) = vCap.l(stg,y);
 pStorageComponents(stg,"Storage Capacity MWh"  ,y) = vCapStor.l(stg,y);
 pStorageComponents(stg,"Storage Hours"         ,y) = vCapStor.l(stg,y)/max(vCap.l(stg,y),1);
 
-*pLossesStorage(z,y) = (1-pStorage(z,y,"Efficiency"))*Sum((q,d,t),vStorInj.l(z,q,d,t,y)*pHours(q,d,y,t));
+*pLossesStorage(z,y) = (1-pStorage(z,y,"Efficiency"))*Sum((q,d,t),vStorInj.l(z,q,d,t,y)*pHours(q,d,t));
 
 *--- Solver parameters
 pSolverParameters("Solver Status")               = PA.modelstat + EPS;
@@ -798,24 +798,24 @@ pSolverParameters("Relative gap")$(PA.objVal >0) = pSolverParameters("Absolute g
 *--- Seasonal Results
 
 * A. Seasonal Demand-Supply Balance Results
-pDemandSupplySeason(z,"Demand: GWh"            ,y,q) = sum((d,t), pDemandData(z,q,d,y,t)*pHours(q,d,y,t)*pEnergyEfficiencyFactor(z,y))/1e3;
-pDemandSupplySeason(z,"Total production: GWh"  ,y,q) = sum((zgmap(z,g),gfmap(g,f),d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pDemandSupplySeason(z,"Unmet demand: GWh"      ,y,q) = sum((d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pDemandSupplySeason(z,"Surplus generation: GWh",y,q) = sum((d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pDemandSupplySeason(z,"Demand: GWh"            ,y,q) = sum((d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3;
+pDemandSupplySeason(z,"Total production: GWh"  ,y,q) = sum((zgmap(z,g),gfmap(g,f),d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
+pDemandSupplySeason(z,"Unmet demand: GWh"      ,y,q) = sum((d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
+pDemandSupplySeason(z,"Surplus generation: GWh",y,q) = sum((d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 
-pDemandSupplySeason(z,"Imports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,y,t)) + sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t)))/1e3;
-pDemandSupplySeason(z,"Exports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,y,t)) + sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t)))/1e3;
+pDemandSupplySeason(z,"Imports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pDemandSupplySeason(z,"Exports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 
 * B. Seasonal Energy by Plant
-pEnergyByPlantSeason(zgmap(z,g),y,q) = sum((gfmap(g,f),d,t),vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pEnergyByPlantSeason(zgmap(z,g),y,q) = sum((gfmap(g,f),d,t),vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 
 
 * C.Interchange
 
 * By Zone
-pInterchangeSeason(sTopology(z,z2),y,q) = sum((d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pSeasonTrade(z,"External Zone Imports",y,q) = sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t))/1e3;
-pSeasonTrade(z,"External Zone Exports",y,q) = sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,y,t))/1e3;
+pInterchangeSeason(sTopology(z,z2),y,q) = sum((d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))/1e3;
+pSeasonTrade(z,"External Zone Imports",y,q) = sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
+pSeasonTrade(z,"External Zone Exports",y,q) = sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
 
 * By Country
 pInterchangeSeasonCountry(c,c2,y,q) = sum((zcmap(z,c),zcmap2(z2,c2),sMapNCZ(z,z2)), pInterchangeSeason(z,z2,y,q));
@@ -1075,7 +1075,7 @@ CapacityTypeMIRO(f,tech,y) = CapacityType("Capacity by Type MW",f,tech,y);
 AverageCost(" ","Average cost $/MWh",y) = (sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
                                          + sum(dc, vAnnCapex.l(dc,y))
                                          + sum(z, pFOM(z,y) + pVOM(z,y) + pSpinResCosts(z,y) + pFuelCostsZone(z,y))
-                                          )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,y,t))
+                                          )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
                                                  + pDenom2(z,y));
                                                  
 
