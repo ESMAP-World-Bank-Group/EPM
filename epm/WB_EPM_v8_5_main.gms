@@ -297,6 +297,8 @@ $offmulti
 display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
 
 
+*$include WB_EPM_verification.gms
+
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
 pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
