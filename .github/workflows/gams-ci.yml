@@ -1,0 +1,35 @@
+name: GAMS CI Test
+
+on:
+  push:
+    branches:
+      - main  # Runs only when pushing to the main branch
+  pull_request:
+    branches:
+      - main  # Runs also on PRs to main
+
+jobs:
+  run-gams:
+    runs-on: ubuntu-latest  # Use a machine where GAMS is already installed
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3  # Fetch latest code
+
+    - name: Verify GAMS installation
+      run: |
+        if ! command -v gams &> /dev/null; then
+          echo "Error: GAMS is not installed on this runner."
+          exit 1
+        fi
+
+    - name: Run GAMS model
+      run: |
+        gams epm/main.gms lo=3  # Execute the GAMS script
+
+    - name: Check for GAMS execution errors
+      run: |
+        if grep -q "**** EXECUTION ERROR" epm/main.lst; then
+          echo "GAMS execution failed! Check epm/main.lst for details."
+          exit 1
+        fi
