@@ -1,13 +1,48 @@
+**********************************************************************
+* ELECTRICITY PLANNING MODEL (EPM)
+* Developed at the World Bank
+**********************************************************************
+* Description:
+* This GAMS-based model is designed for electricity system planning, 
+* incorporating capacity expansion, generation dispatch, and policy 
+* constraints such as renewable energy targets, emissions reductions, 
+* and market mechanisms.
+*
+* Author(s): ESMAP Modelling Team
+* Organization: World Bank
+* Version: 
+* License: Creative Commons Zero v1.0 Universal
+*
+* Key Features:
+* - Optimization of electricity generation and capacity planning
+* - Inclusion of renewable energy integration and storage technologies
+* - Multi-period, multi-region modeling framework
+* - CO2 emissions constraints and policy instruments
+*
+* Notes:
+* - Ensure GAMS is installed before running this model.
+* - The model requires input data in .GDX or Excel format.
+*
+* Contact:
+* Claire Nicolas, c.nicolas@worldbank.org
+**********************************************************************
+
+* Set the maximum number of rows for Excel processing
 $set XLSXMAXROWS 1048576
 
+* Set the default reader method to `CONNECT_EXCEL` if not already defined
 $if not set READER $set READER CONNECT_EXCEL
 
+* Log the selected reader method for debugging
 $log ### READER = %READER%
 
-*ff remove gdx for testing
+* Remove the existing GDX file
 $call rm %GDX_INPUT%.gdx
 
+* Attempt to generate a new GDX file from the Excel input
 $call test %GDX_INPUT%.gdx -nt "%XLS_INPUT%"
+
+* Check for errors during the GDX file generation process
 $ifThen.errorLevel errorlevel 1
 
 $ifThenI.READER %READER% == CONNECT_EXCEL
@@ -655,7 +690,6 @@ $offEmbeddedCode
 $elseIfI.READER %READER% == CONNECT_CSV_PYTHON
 $log ### reading using Connect and CSV Input with Python
 
-
 $onEmbeddedCode Connect:
 
 
@@ -1085,10 +1119,10 @@ $onEmbeddedCode Connect:
     symbols: all
 $offEmbeddedCode
 
-
 $else.READER
 $abort 'No valid READER specified. Allowed are GDXXRW and CONNECT.'
 $endif.READER
 $endIf.errorLevel
 
+* Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
