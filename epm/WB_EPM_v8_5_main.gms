@@ -94,9 +94,11 @@ put log '------------------------------------'/;
 Set
    tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
+   H2status  'H2 generation plant status' / Existing, Candidate, Committed /
    techhdr  'techdata headers' / 'Construction Period (years)', 'RE Technology', 'Hourly Variation' /
    pe       'peak energy for demand forecast' /'peak', 'energy'/
    ft       'fuel types'
+   mipline 'Solver option lines'
    sc       'settings' /
                         allowExports
                         altDemand
@@ -139,29 +141,11 @@ Set
                         zonal_co2_constraints
                         zonal_spinning_reserve_constraints
                         IncludeDecomCom
-**
-                        MaxLoadFractionCCCalc            
-                                    
-**                        
-                        
-
-********************************************************************                        
+                        MaxLoadFractionCCCalc                                   
                         IncludeH2
                         H2UnservedCost 
-********************************************************************
-
                        /
                        
-
-
-***********H2 model addition
-H2status  'H2 generation plant status' / Existing, Candidate, Committed /
-
-**************************
-
-
-
-   mipline 'Solver option lines'
 ;
 
 alias (y,y2);
@@ -219,7 +203,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
 $ifI %mode%==MIRO
 $offExternalInput
 
-Parameters
+Parameter
    pCapexTrajectories(g,y)          'capex trajectories for all generators (used in results)'
    pAllHours(q,d,y,t)               'Hour of system peak'
    pFuelPrice(c,f,y)                'Fuel price forecasts by country'
@@ -260,7 +244,7 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    H2statusmap(hh,H2status)
 ;
 $onmulti
-Sets
+Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
    shdr         'Additional headers for pStorData' / Life, VOM /
    thdr         'Additional header for pNewTransmission' / EarliestEntry /
@@ -275,7 +259,6 @@ Set
 Parameter
    pGenDataExcel(g<,*)
    pStorDataExcel(g,*,shdr)   
-*****************Hydrogen model related sets************************
    pH2DataExcel(hh<,*)
 
 $onMulti
@@ -302,17 +285,13 @@ $load pStorDataExcel pCSPData pCapexTrajectory pSpinningReserveReqCountry pSpinn
 $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 $load pExtTransferLimit
 $load pNewTransmission, MapGG
-************************************************Hydrogen model related symbols*************************************
+*Hydrogen model related symbol
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 
 $gdxIn
 $offmulti
 
-display  tech, hh, pH2DataExcel,g, pFuelData,  pDemandData, pExternalH2;
-
-
 $include WB_EPM_verification.gms
-$exit
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -830,4 +809,3 @@ for t in zip([GamsParameter,GamsVariable,GamsEquation],['Parameter','Variable','
     gams.printLog(f'{s[1].ljust(20)} {str(s[2]).rjust(10)}')
 endEmbeddedCode
 $endif
-
