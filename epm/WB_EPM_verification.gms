@@ -51,10 +51,10 @@ if (pDemandData.records['value'] <= 0).any():
 else:
     print("Success: All pDemandData values are valid.")
     
-pFuelPrice = db["pFuelPrice"]
+"""pFuelPrice = db["pFuelPrice"]
 pMaxFuellimit = db["pMaxFuellimit"]
 
-"""# Validate fuel mappings for pFuelPrice
+# Validate fuel mappings for pFuelPrice
 print(pFuelPrice.records)
 if pFuelPrice.records.groupby('c').size().max() > 1:
     raise ValueError("Error: More than one fuel map per country in pFuelPrice.")
