@@ -70,7 +70,7 @@ $log ### Reading from %XLS_INPUT% using Connect and Excel Input
 $onEmbeddedCode Connect:
 - ExcelReader:
     file: %XLS_INPUT%
-    trace: 1  # Debugging
+    trace: 0  # Debugging
     symbols:
       - name: ftfindex
         range: FuelTechnologies!A3
@@ -86,6 +86,8 @@ $onEmbeddedCode Connect:
         columnDimension: 0
       - name: pGenDataExcel
         range: GenData!A6
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan}
         rowDimension: 1
         columnDimension: 1
       - name: pTechDataExcel
@@ -131,11 +133,11 @@ $onEmbeddedCode Connect:
         valueSubstitutions: {0: .nan}
         type: set
       - name: pPlanningReserveMargin
-        range: PlanningReserve!A6
+        range: PlanningReserve!A5
         indexSubstitutions: {.nan: ""}
         valueSubstitutions: {0: .nan}
         rowDimension: 1
-        columnDimension: 0
+        columnDimension: 1
       - name: pEnergyEfficiencyFactor
         range: EnergyEfficiency!A5
         rowDimension: 1
@@ -143,7 +145,7 @@ $onEmbeddedCode Connect:
         indexSubstitutions: {.nan: ""}
         valueSubstitutions: {0: .nan}
       - name: pScalars
-        range: Settings1!B3:C80
+        range: Settings1!B3:C78
         rowDimension: 1
         columnDimension: 0
         valueSubstitutions: {0: .nan}
@@ -169,7 +171,11 @@ $onEmbeddedCode Connect:
         rowDimension: 3
         columnDimension: 1
         indexSubstitutions: {.nan: ""}
-        valueSubstitutions: {0: .nan}
+        valueSubstitutions: {0: .nan}     
+      - name: pMinImport
+        range: ImportShare!W3
+        rowDimension: 2
+        columnDimension: 1
       - name: pExtTransferLimit
         range: ExtTransferLimit!A5
         rowDimension: 4
@@ -190,6 +196,10 @@ $onEmbeddedCode Connect:
       - name: pDemandProfile
         range: DemandProfile!A6
         rowDimension: 3
+        columnDimension: 1
+      - name: pMaxPriceImportShare
+        range: ImportShare!H3
+        rowDimension: 1
         columnDimension: 1
       - name: pTradePrice
         range: TradePrices!A6
@@ -212,7 +222,8 @@ $onEmbeddedCode Connect:
         range: Storage!A6
         rowDimension: 2
         columnDimension: 1
-        indexSubstitutions: {"": .nan}
+        indexSubstitutions: {.nan: ""}
+        valueSubstitutions: {0: .nan} 
       - name: pFuelTypeCarbonContent
         range: EmissionFactors!J3
         rowDimension: 1
@@ -269,6 +280,10 @@ $onEmbeddedCode Connect:
       - name: pExternalH2
         range: ExternalH2Demand!A5
         rowDimension: 2
+        columnDimension: 1
+      - name: pHydroVar
+        range: HydroSensitivity!D6
+        rowDimension: 1
         columnDimension: 1
 
 

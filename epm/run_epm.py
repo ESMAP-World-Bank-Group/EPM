@@ -21,6 +21,7 @@ PATH_GAMS = {
     'path_base_file': 'WB_EPM_v8_5_base.gms',
     'path_report_file': 'WB_EPM_v8_5_Report.gms',
     'path_reader_file': 'WB_EPM_input_readers.gms',
+    'path_excel_file': 'input/WB_EPM_SAPP_Tanzania_v2.xlsx',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -454,10 +455,10 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                                    scenarios_specification=None,
-                                                    selected_scenarios=['baseline'],
-                                                    cpu=1,
-                                                    path_engine_file=False)
-        # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
+        # folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
+        #                                             scenarios_specification=None,
+        #                                             selected_scenarios=['baseline'],
+        #                                             cpu=1,
+        #                                             path_engine_file=False)
+        launch_epm_multi_scenarios_excel(scenario_name='', path_gams=PATH_GAMS, path_engine_file=False)
 
