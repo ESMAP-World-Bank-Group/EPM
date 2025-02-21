@@ -1,3 +1,34 @@
+**********************************************************************
+* ELECTRICITY PLANNING MODEL (EPM)
+* Developed at the World Bank
+**********************************************************************
+* Description:
+* This GAMS-based model is designed for electricity system planning, 
+* incorporating capacity expansion, generation dispatch, and policy 
+* constraints such as renewable energy targets, emissions reductions, 
+* and market mechanisms.
+*
+* Author(s): ESMAP Modelling Team
+* Organization: World Bank
+* Version: 
+* License: Creative Commons Zero v1.0 Universal
+*
+* Key Features:
+* - Optimization of electricity generation and capacity planning
+* - Inclusion of renewable energy integration and storage technologies
+* - Multi-period, multi-region modeling framework
+* - CO2 emissions constraints and policy instruments
+*
+* Notes:
+* - Ensure GAMS is installed before running this model.
+* - The model requires input data in .GDX or Excel format.
+*
+* Contact:
+* Claire Nicolas, c.nicolas@worldbank.org
+**********************************************************************
+
+
+
 $offeolcom
 $offinline
 $inlinecom {  }
@@ -22,6 +53,8 @@ Option limRow=0, limCol=0, sysOut=off, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
+*-------------------------------------------------------------------------------------
+
 * Only include base if we don't restart
 $ifThen not set BASE_FILE
 $set BASE_FILE "base.gms"
@@ -41,7 +74,9 @@ $set READER_FILE "input_readers.gms"
 $endIf
 $log READER_FILE is "%READER_FILE%"
 
-* Solver option
+*-------------------------------------------------------------------------------------
+
+* Define solver-related options
 Scalar
    solverThreads 'Number of threads available to the solvers' /1/
    solverOptCR   'Relative gap for MIP Solver'                /0.05/
@@ -51,28 +86,37 @@ Singleton Set
    NLPSolver 'Selected NLP Solver' / '' 'conopt4' /
    MIPSolver 'Selected MIP Solver' / '' 'cplex' /
 ;
+* Evaluate and assign solver settings as macros
 $eval     SOLVERTHREADS solverThreads
 $eval     SOLVEROPTCR   solverOptCR
 $eval     SOLVERRESLIM  solverResLim
 $eval.set NLPSOLVER     NLPSolver.te
 $eval.set MIPSOLVER     MIPSolver.te
-Option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVEROPTCR%, resLim=%SOLVERRESLIM%;
+* Apply solver settings to GAMS execution
+option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVEROPTCR%, resLim=%SOLVERRESLIM%;
 
+*-------------------------------------------------------------------------------------
 
-* 
+* Determine Excel-based reporting
 $ifThenI.mode %mode%==Excel
 *$set main Excel
 $set DOEXCELREPORT 1
 
+* Set input Excel file if not already defined
 $ifThen not set XLS_INPUT
+* If GDX input is set, derive XLS_INPUT from it (is it used ?)
 $  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
+* Otherwise, set the default input file path
 $  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%input_epm.xlsx
 $endIf
 
+* Extract file path, base name, and extension from XLS_INPUT
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
 
+* Set the default output Excel file if not already defined
 $if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx
 
+* Append a timestamp to the output filename if USETIMESTAMP is enabled
 $ifThen.timestamp set USETIMESTAMP
 $  setNames "%XLS_OUTPUT%" fp fn fe
 $  onembeddedCode Python:
@@ -190,14 +234,10 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pPlanningReserveMargin(c)        'Country planning reserve margin'
    pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
    pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
-
-*******************Hydrogen model related parameters***********************
   pH2Data(hh,hhdr)                  'H2 production unit specs'
   pAvailabilityH2(hh,q)             'Availability by H2 generation plant and season or quarter in percentage - need to reflect maintenance'
   pFuelData(f)                     'Hydrogen fuels'
   pCapexTrajectoryH2(hh,y)          'CAPEX trajectory for hydrogen generation unit'
-***************************************************************************
-
 ;   
 
 $ifi %mode%==MIRO
@@ -240,7 +280,6 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    Zt(z)
    stg(g)                'Grid tied storage'
    ror(g)                'ROR generators'   
-************H2 model related sets ************************************  
    H2statusmap(hh,H2status)
 ;
 $onmulti
@@ -252,8 +291,6 @@ Set
 $offmulti
 
 
-
-
 Set
    zcmapExcel(z,c<);
 Parameter
@@ -261,37 +298,55 @@ Parameter
    pStorDataExcel(g,*,shdr)   
    pH2DataExcel(hh<,*)
 
+* Allow multiple definitions of symbols without raising an error (use with caution)
 $onMulti
    pTechDataExcel(tech<,*)
 ;
 
-
 Parameter
    ftfindex(ft<,f<)
-   pZoneIndex(z<);
+   pZoneIndex(z<)
+;
    
+   
+*-------------------------------------------------------------------------------------
+* Read inputs
+
+* Include the external reader file defined by the macro variable %READER_FILE%
 $include %READER_FILE%
 
+* Open the specified GDX input file for reading
 $gdxIn %GDX_INPUT%
 
-* Domain defining symbols
+* Load domain-defining symbols (sets and indices)
 $load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
 $load zext
-* Other symbols
+* Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
+
+* Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectory pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
 $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+
+* Load external transfer limits and transmission constraints
 $load pExtTransferLimit
 $load pNewTransmission, MapGG
-*Hydrogen model related symbol
+
+* Load Hydrogen model-related symbols
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 
+* Close the GDX file after loading all required data
 $gdxIn
 $offmulti
 
+*-------------------------------------------------------------------------------------
+* Make input verification
+
 $include input_verification.gms
+
+*-------------------------------------------------------------------------------------
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);

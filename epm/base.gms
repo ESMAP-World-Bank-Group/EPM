@@ -1,9 +1,32 @@
-$onText
-*test
-*test2
-December 1, 2018
+**********************************************************************
+* ELECTRICITY PLANNING MODEL (EPM)
+* Developed at the World Bank
+**********************************************************************
+* Description:
+* This GAMS-based model is designed for electricity system planning, 
+* incorporating capacity expansion, generation dispatch, and policy 
+* constraints such as renewable energy targets, emissions reductions, 
+* and market mechanisms.
+*
+* Author(s): ESMAP Modelling Team
+* Organization: World Bank
+* Version: 
+* License: Creative Commons Zero v1.0 Universal
+*
+* Key Features:
+* - Optimization of electricity generation and capacity planning
+* - Inclusion of renewable energy integration and storage technologies
+* - Multi-period, multi-region modeling framework
+* - CO2 emissions constraints and policy instruments
+*
+* Notes:
+* - Ensure GAMS is installed before running this model.
+* - The model requires input data in .GDX or Excel format.
+*
+* Contact:
+* Claire Nicolas, c.nicolas@worldbank.org
+**********************************************************************
 
-$offText
 $offEolCom
 $eolCom //
 
