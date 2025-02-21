@@ -24,20 +24,20 @@ $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 * Only include base if we don't restart
 $ifThen not set BASE_FILE
-$set BASE_FILE "WB_EPM_v8_5_base.gms"
+$set BASE_FILE "base.gms"
 $endIf
 $log BASE_FILE is "%BASE_FILE%"
 
 $if "x%gams.restart%" == "x" $include %BASE_FILE%
 
 $ifThen not set REPORT_FILE
-$set REPORT_FILE "WB_EPM_v8_5_Report.gms"
+$set REPORT_FILE "generate_report.gms"
 $endIf
 $log REPORT_FILE is "%REPORT_FILE%"
 
 
 $ifThen not set READER_FILE
-$set READER_FILE "WB_EPM_input_readers.gms"
+$set READER_FILE "input_readers.gms"
 $endIf
 $log READER_FILE is "%READER_FILE%"
 
@@ -66,7 +66,7 @@ $set DOEXCELREPORT 1
 
 $ifThen not set XLS_INPUT
 $  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
-$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%WB_EPM_8_5.xlsx
+$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%input_epm.xlsx
 $endIf
 
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
@@ -291,7 +291,7 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 $gdxIn
 $offmulti
 
-$include WB_EPM_verification.gms
+$include input_verification.gms
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -416,7 +416,7 @@ $endIf.mode
 
 *--- Parameter initialisation for same demand profile for all years
 
-$include WB_EPM_demand.gms
+$include generate_demand.gms
 
 *--- Part2: Start of initialisation of other parameters
 
