@@ -200,7 +200,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
 
 ;   
 
-$ifI %mode%==MIRO
+$ifi %mode%==MIRO
 $offExternalInput
 
 Parameter
@@ -302,10 +302,8 @@ $if not errorFree $echo Data errors. Please inspect the listing file for details
 * Generate gfmap and others from pGenDataExcel
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
 
-
-*******************H2 model parameter***********************************************
+*H2 model parameter
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
-**********************************************************************************
 
 
 set addHdr / fuel1, fuel2, Zone, Type, 'Assigned Value', status, Heatrate2,
@@ -400,14 +398,13 @@ execute_unload '%GDX_INPUT%_miro'
    mipsolver
    mipopt
    MapGG
-   
-***************Hydrogen production related parameters
-pH2Data
-pAvailabilityH2
-pCapexTrajectoryH2
-pExternalH2
-
+*Hydrogen production related parameters
+   pH2Data
+   pAvailabilityH2
+   pCapexTrajectoryH2
+   pExternalH2
 ;
+
 abort.noError 'Created %GDX_INPUT%_miro. Done!';
 $endif
 
@@ -417,16 +414,12 @@ $if not set DOEXCELREPORT $set DOEXCELREPORT 0
 $include WB_EPM_v8_5_miro
 $endIf.mode
 
+*--- Parameter initialisation for same demand profile for all years
 
 $include WB_EPM_demand.gms
 
+*--- Part2: Start of initialisation of other parameters
 
-*--- end of parameter initialisation for same demand profile for all years
-
-*--- Start of initialisation of other parameters
-***
-*** Part2
-***
 $set zonal_spinning_reserve_constraints   -1
 $set system_spinning_reserve_constraints  -1
 $set planning_reserve_constraints         -1
@@ -438,13 +431,11 @@ $set includeCSP                           -1
 $set includeStorage                       -1
 $set zonal_co2_constraints                -1
 $set system_co2_constraints               -1
-
 $set IncludeDecomCom                      -1
-***********Hydrogen model specific sets**********************
+*Hydrogen model specific sets
 $set IncludeH2                            -1
-****************************************************************
 
-*Main parameters
+* Read main parameters from pScalars
 pzonal_spinning_reserve_constraints  = pScalars("zonal_spinning_reserve_constraints");
 psystem_spinning_reserve_constraints = pScalars("system_spinning_reserve_constraints");
 psys_reserve_margin                  = pScalars("system_reserve_margin");
@@ -473,13 +464,11 @@ pVRECapacityCredits                  = pScalars("VRECapacityCredits");
 pSeasonalReporting                   = pScalars("Seasonalreporting");
 pSystemResultReporting               = pScalars("Systemresultreporting");
 pMaxLoadFractionCCCalc               = pScalars("MaxLoadFractionCCCalc");
-*****************Related to hydrogen model***************************************
+*Related to hydrogen model
 pIncludeH2                       = pScalars("IncludeH2");
 pH2UnservedCost                  = pScalars("H2UnservedCost");  
-********************************************************************************
 
-
-
+* Assign values to model parameters only if their corresponding macro variables are not set to "-1"
 $if not "%zonal_spinning_reserve_constraints%"  == "-1" pzonal_spinning_reserve_constraints  = %zonal_spinning_reserve_constraints%;
 $if not "%system_spinning_reserve_constraints%" == "-1" psystem_spinning_reserve_constraints = %system_spinning_reserve_constraints%;
 $if not "%planning_reserve_constraints%"        == "-1" pplanning_reserve_constraints        = %planning_reserve_constraints%;
@@ -492,7 +481,6 @@ $if not "%includeStorage%"                      == "-1" pincludeStorage         
 $if not "%zonal_co2_constraints%"               == "-1" pzonal_co2_constraints               = %zonal_co2_constraints%;
 $if not "%system_co2_constraints%"              == "-1" psystem_co2_constraints              = %system_co2_constraints%;
 $if not "%IncludeDecomCom%"                     == "-1" pIncludeDecomCom                     = %IncludeDecomCom%;
-******************* Hydroge model parameters*******************************************************************
 $if not "%IncludeH2%"                           == "-1" pIncludeH2                           = %IncludeH2%;
 
 singleton set sFinalYear(y);
@@ -517,22 +505,30 @@ pnoTransferLim   = pScalars("noTransferLim");
 pincludeEE       = pScalars("includeEE");
 pIncludeDecomCom = pScalars("IncludeDecomCom");
 
+* Set external transfer limits to zero if exports are not allowed
 pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
 pExtTransferLimit(z,zext,q,"Export",y)$(not pallowExports)  = 0 ;
 
+* Assign import and export transfer limits only if exports are allowed
 pExtTransferLimitIn(z,zext,q,y)$pallowExports   = pExtTransferLimit(z,zext,q,"Import",y) ;
 pExtTransferLimitOut(z,zext,q,y)$pallowExports  = pExtTransferLimit(z,zext,q,"Export",y) ;
 
+* Define `Zt(z)` to check if total demand in a zone `z` is zero
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
+* Define `Zd(z)` as the complement of `Zt(z)`, indicating zones with demand
 Zd(z) = not Zt(z);
 
+* Compute fuel carbon content by aggregating data from fuel type mappings
 pFuelCarbonContent(f) = sum(ftfmap(ft,f),pFuelTypeCarbonContent(ft));
 
+* Assign storage data from `pStorDataInput` based on the generator-storage mapping
 option gsmap<pStorDataInput;
 loop(gsmap(g2,g), pStorData(g,shdr) = pStorDataInput(g,g2,shdr));
-* Eliminate the g,g pairs which correspond to standalone storage plants from gsmap
+
+* Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
 
+* Write messages to the log file based on parameter values, indicating which data is being ignored
 put / ;
 if(pnoTransferLim                      = 1, put 'Ignoring transfer limits.'/);
 if(pAllowExports                       = 0, put 'Ignoring trade prices data.'/);
@@ -547,26 +543,55 @@ if(pincludeCSP                         = 0, put 'Ignoring CSP characteristics da
 if(pIncludeCarbon                      = 0, put 'Ignoring carbon price data.'/);
 putclose log;
 
+* Define `Offpeak(t)` as the complement of `peak(t)` (i.e., off-peak hours)
 Offpeak(t) = not peak(t);
+
+* Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate');
+
+* Define existing generators (`eg(g)`) as those that are not candidates
 eg(g)  = not ng(g);
+
+* Identify variable renewable energy (VRE) generators (`vre(g)`) based on hourly variation data
 vre(g) = sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
+
+* Identify renewable energy (RE) generators (`re(g)`) based on RE technology classification
 re(g)  = sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1);
+
+* Identify concentrated solar power (CSP) technologies
 cs(g)  = gtechmap(g,"CSP");
+
+* Identify PV with storage technologies
 so(g)  = gtechmap(g,"PVwSTO");
+
+* Identify solar thermal with PV (`STOPV`)
 stp(g) = gtechmap(g,"STOPV");
+
+* Identify storage technologies
 stg(g) = gtechmap(g,"STORAGE");
+
+* Define a general storage category (`st(g)`) as either `STOPV` or `STORAGE`
 st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"STORAGE");
+
+* Compute discounted capital expenditure (`dc(g)`) based on capex trajectory data
 dc(g)  = sum(y, sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y)));
+
+* Identify non-discounted capital generators (`ndc(g)`) as those that do not have a capex trajectory
 ndc(g) = not dc(g);
+
+* Identify run-of-river hydro generators (`ror(g)`)
 ror(g) = gtechmap(g,"ROR");
+
+* Identify VRE generators excluding run-of-river hydro (`VRE_noROR(g)`)
 VRE_noROR(g) = vre(g) and not ror(g);
 
+* Define ramp-down rate for generators
 RampRate(g) = pGenData(g,"RampDnRate");
 
+* Map zones (`z`) to fuels (`f`) based on generator-fuel assignments (`gzmap` and `gfmap`)
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);
 
-***********H2 model specific sets*****************
+* H2 model specific sets
 nh(hh)  = H2statusmap(hh,'candidate');
 eh(hh)  = not nh(hh);
 RampRateH2(hh)= pH2Data(hh,"RampDnRate");
@@ -574,10 +599,9 @@ dcH2(hh)  = sum(y, pCapexTrajectoryH2(hh,y));
 ndcH2(hh) = not dcH2(hh);
 nRE(g) = not re(g);
 nVRE(g)=not VRE(g);
-
 REH2(g)= sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1) - sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
 nREH2(g)= not REH2(g);
-********************************************
+
 
 $offIDCProtect
 * If not running in interconnected mode, set network to 0
@@ -586,42 +610,63 @@ sTopology(z,z2)$(not pinterconMode) = no;
 pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 * Default life for transmission lines
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
-
 $onIDCProtect
-* VRE does not fully contribute to reserve margin
+
+* Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
 
+* Identify hours that are close to the peak demand for capacity credit calculations
 pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<pMaxLoadFractionCCCalc);
 
+* Default capacity credit for all generators is set to 1
 pCapacityCredit(g,y)= 1;
 
+* TODO: REMOVE
 $if %DEBUG%==1 display pVREgenProfile;
+
+* Protect against unintended changes while modifying `pVREgenProfile` with `pVREProfile` data
 $offIDCProtect
 pVREgenProfile(gfmap(VRE,f),q,d,t)$(not(pVREgenProfile(VRE,f,q,d,t))) = sum(gzmap(VRE,z),pVREProfile(z,f,q,d,t));
 $onIDCProtect
+
+* Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,f,q,d,t))/sum((q,d,t),1));
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t))   ;
+
+* Compute capacity credit for run-of-river hydro as an availability-weighted average
+pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+
+* TODO: REMOVE
 *pCapacityCredit(RE,y) =  Sum((z,q,d,t)$gzmap(RE,z),Sum(f$gfmap(RE,f),pREProfile(z,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(RE,f) and gzmap(RE,z) ),pREProfile(z,f,q,d,t))/sum((q,d,t),1));
 
-
+* Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,f)$(gfmap(cs,f) and gzmap(cs,z)), pVREProfile(z,f,q,d,t));
 pStoPVProfile(so,q,d,t)  =  sum((z,f)$(gfmap(so,f) and gzmap(so,z)), pVREProfile(z,f,q,d,t));
+
+* TODO: REMOVE
 $if %DEBUG%==1 display pVREgenProfile;
+
+* Default all capex trajectories to 1
 pCapexTrajectories(g,y) =  1;
+
+* TODO: REMOVE
 * execute_unload 'debug_output.gdx', g, gtechmap, pCapexTrajectory;
 
 *pCapexTrajectories(dc,y)$pCaptraj = sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y));
+
+* Compute capex trajectories only for technologies with available data
 pCapexTrajectories(dc, y)$pCaptraj = sum(tech$(pCapexTrajectory(tech, y) > 0 and gtechmap(dc, tech)), pCapexTrajectory(tech, y));
 
 
-***********************H2 model parameters********************
+* H2 model parameters
 pCapexTrajectoriesH2(hh,y) =1;
 pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
-***************************************************************
 
-** (correcting the weights)
+
+* Set the weight of the start year to 1.0
 pWeightYear(sStartYear) = 1.0;
+
+* Compute weight for each year as the difference from the previous year's cumulative weight
 pWeightYear(y)$(not sStartYear(y)) = y.val - sum(sameas(y2+1,y), y2.val) ;
 *pWeightYear(sFinalYear) = sFinalYear.val - sum(sameas(y2+1,sFinalYear), y2.val)  ;
 
@@ -629,10 +674,10 @@ pWeightYear(y)$(not sStartYear(y)) = y.val - sum(sameas(y2+1,y), y2.val) ;
 ** (mid-year discounting)
 *pRR(y) = 1/[(1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2)))];
 
+* Compute the present value discounting factor considering mid-year adjustments
 pRR(y) = 1.0;
 pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + sum(sameas(y2,y), pWeightYear(y2)/2))) ;        
                                     
-**
 
 *-------------------------------------------------------------------
 * Parameter Processing
@@ -766,24 +811,33 @@ $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
 
+*******************************************************************************************************************
 
+* Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
 PA.HoldFixed=1;
 
+* Declare a file object `fmipopt` and set its name dynamically based on the solver
 file fmipopt / %MIPSOLVER%.opt /;
+* Check if the set `mipopt` contains any elements (i.e., if solver options exist)
 if (card(mipopt),
  put fmipopt;
+* Loop over each entry in `mipopt` and write its text content to the file
  loop(mipline, put mipopt.te(mipline) /);
  putclose;
 ); 
 
+* Enable the solver to read an external solver option file
 PA.optfile = 1;
+* Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
 option savepoint=1;
 
-
+* Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
 Solve PA using MIP minimizing vNPVcost;
 
+* Include the external report file specified by `%REPORT_FILE%`
 $include %REPORT_FILE%
 
+* If memory monitoring is enabled, execute embedded Python code to log memory usage details
 $ifThen %gams.ProcTreeMemMonitor%==1
 embeddedCode Python:
 gams.printLog('')
