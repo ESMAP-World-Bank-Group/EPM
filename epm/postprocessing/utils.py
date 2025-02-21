@@ -183,25 +183,28 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
     # t = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants'], columns='uni', values='value')
+    try:
+        epm_input['pDemandForecast'].rename(columns={'uni_0': 'zone', 'uni_2': 'year'}, inplace=True)
+        epm_input['pDemandForecast']['year'] = epm_input['pDemandForecast']['year'].astype(int)
+        epm_input['ftfindex'].rename(columns={'uni_0': 'fuel1', 'uni_1': 'fuel2'}, inplace=True)
+        mapping_fuel1 = epm_input['ftfindex'].loc[:, ['fuel1', 'value']].drop_duplicates().set_index(
+            'value').squeeze().to_dict()
+        mapping_fuel2 = epm_input['ftfindex'].loc[:, ['fuel2', 'value']].drop_duplicates().set_index(
+            'value').squeeze().to_dict()
 
-    epm_input['pDemandForecast'].rename(columns={'uni_0': 'zone', 'uni_2': 'year'}, inplace=True)
-    epm_input['pDemandForecast']['year'] = epm_input['pDemandForecast']['year'].astype(int)
+        temp = epm_input['pTechDataExcel']
+        temp['uni'] = temp['uni'].astype(str)
+        temp = temp[temp['uni'] == 'Assigned Value']
+        mapping_tech = temp.loc[:, ['Abbreviation', 'value']].drop_duplicates().set_index(
+            'value').squeeze()
+        mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)
 
-    epm_input['ftfindex'].rename(columns={'uni_0': 'fuel1', 'uni_1': 'fuel2'}, inplace=True)
-    mapping_fuel1 = epm_input['ftfindex'].loc[:, ['fuel1', 'value']].drop_duplicates().set_index(
-        'value').squeeze().to_dict()
-    mapping_fuel2 = epm_input['ftfindex'].loc[:, ['fuel2', 'value']].drop_duplicates().set_index(
-        'value').squeeze().to_dict()
+        mapping_zone = epm_input['pZoneIndex'].loc[:, ['value', 'ZONE']].set_index('value').loc[:, 'ZONE'].to_dict()
+        epm_input.update({'mapping_zone': mapping_zone})
 
-    temp = epm_input['pTechDataExcel']
-    temp['uni'] = temp['uni'].astype(str)
-    temp = temp[temp['uni'] == 'Assigned Value']
-    mapping_tech = temp.loc[:, ['Abbreviation', 'value']].drop_duplicates().set_index(
-        'value').squeeze()
-    mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)
+    except:
+        pass
 
-    mapping_zone = epm_input['pZoneIndex'].loc[:, ['value', 'ZONE']].set_index('value').loc[:, 'ZONE'].to_dict()
-    epm_input.update({'mapping_zone': mapping_zone})
 
     # Modify pGenDataExcel
     df = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants'], columns='uni', values='value')
