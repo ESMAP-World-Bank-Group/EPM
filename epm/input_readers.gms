@@ -147,6 +147,10 @@ $onEmbeddedCode Connect:
         range: TransferLimit!A5
         rowDimension: 3
         columnDimension: 1
+      - name: pMinImport
+        range: ImportShare!W3
+        rowDimension: 2
+        columnDimension: 1
       - name: pExtTransferLimit
         range: ExtTransferLimit!A5
         rowDimension: 4
@@ -419,6 +423,16 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pMinImport.csv
+    name: pMinImport
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
     header: [1]
     type: par
 
@@ -868,6 +882,16 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: %pMinImport%
+    name: pMinImport
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
     header: [1]
     type: par
 
