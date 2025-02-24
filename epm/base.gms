@@ -358,6 +358,7 @@ Equations
    eRetireCap(g,y)                 'retired capacity'
 
    eMaxBuildTotal(g)               'max build over all years'
+   eMinBuildTotal                  'min build over all years'
    
 
 
@@ -619,7 +620,9 @@ eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
 
 eMaxBuildTotal(ng)..
    sum(y, vBuild(ng,y)) =l= pGenData(ng,"MaxTotalBuild");
-
+   
+eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
+   sum(y, vBuild(ng,y)) =g= pGenData(ng,"MinTotalBuild");
 
 
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
@@ -998,6 +1001,7 @@ Model PA /
    eCapBalance2
    eBuildNew
    eMaxBuildTotal
+   eMinBuildTotal
 
 
 
