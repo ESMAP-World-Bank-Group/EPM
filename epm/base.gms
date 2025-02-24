@@ -140,6 +140,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pCapexTrajectories(g,y)          'capex trajectory  final'
 * Exchanges
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
+   pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
    pMaxExchangeShare(y,c)           'Max share of exchanges by country [same limit for imports or exports for now]'
 
    pAllowHighTransfer
@@ -357,6 +358,7 @@ Equations
    eRetireCap(g,y)                 'retired capacity'
 
    eMaxBuildTotal(g)               'max build over all years'
+   eMinBuildTotal                  'min build over all years'
    
 
 
@@ -381,6 +383,7 @@ Equations
    ePlanningReserveReqCountry(c,y)                'Minimum capacity reserve over peak demand at country level'
 
    eTransferLimit(z,z2,q,d,t,y)    'Transfer limits'
+   eTransferLimitMin(z2,z,q,d,t,y) 'Minimum transfer across some transmission line defined at the hourly scale'
    eVREProfile(g,f,z,q,d,t,y)      'VRE generation restricted to VRE profile'
    eMaxImportPrice(c,y)            'import limits: max import from external zones'
    eMaxExportPrice(c,y)            'export limits: max export to external zones'
@@ -617,7 +620,9 @@ eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
 
 eMaxBuildTotal(ng)..
    sum(y, vBuild(ng,y)) =l= pGenData(ng,"MaxTotalBuild");
-
+   
+eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
+   sum(y, vBuild(ng,y)) =g= pGenData(ng,"MinTotalBuild");
 
 
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
@@ -699,6 +704,9 @@ ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psys_reserve_mar
 *--- Transfer equations
 eTransferLimit(sTopology(z,z2),q,d,t,y)..
    vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
+   
+eTransferLimitMin(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
+   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
 
 eAdditionalTransfer(sTopology(z,z2),y)$pAllowHighTransfer..
    vAdditionalTransfer(z,z2,y) =e=  vAdditionalTransfer(z,z2,y-1) + vBuildTransmission(z,z2,y);
@@ -993,6 +1001,7 @@ Model PA /
    eCapBalance2
    eBuildNew
    eMaxBuildTotal
+   eMinBuildTotal
 
 
 
@@ -1026,6 +1035,7 @@ Model PA /
    eRetireCap
    
    eTransferLimit
+   eTransferLimitMin
    eYearlyTransmissionAdditions
    eAdditionalTransfer
    eAdditionalTransfer2

@@ -224,6 +224,7 @@ Parameter
 $ifi     %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
 $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
+   pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
    pLossFactor(z,z2,y)              'loss factor in percentage'
    pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pVREgenProfile(g,f,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
@@ -254,7 +255,6 @@ Parameter
    pInterConMode                    'interconnected mode flag'
    pNoTransferLim                   'transfer limit flag'
    pAllowExports                    'Allow price based exports'
-   pMaxHrImportShare
    pVRECapacityCredits              'User input capacity credits'
    pDR                              'discount rate'
    pCaptraj                         'allow capex trajectory'
@@ -339,6 +339,7 @@ $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxE
 * Load external transfer limits and transmission constraints
 $load pExtTransferLimit
 $load pNewTransmission
+$load pMinImport
 
 * Load Hydrogen model-related symbols
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
@@ -533,7 +534,6 @@ pMinRE                               = pScalars("MinREshare");
 pMinRETargetYr                       = pScalars("RETargetYr");
 pzonal_co2_constraints               = pScalars("zonal_co2_constraints");
 psystem_co2_constraints              = pScalars("system_co2_constraints");
-pMaxHrImportShare                    = pScalars("MaxImports");
 pAllowExports                        = pScalars("allowExports");
 pSurplusPenalty                      = pScalars("costSurplus");
 pAllowHighTransfer                   = pScalars("pAllowHighTransfer");
