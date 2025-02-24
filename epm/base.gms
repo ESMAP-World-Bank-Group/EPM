@@ -100,7 +100,7 @@ Sets
    gzmap(g,z)             'generator g mapped to zone z'
    zfmap(z,f)             'fuel f available in zone z'
    gsmap(g2,g)            'generator storage map'
-   zcmap(z<,c<)           'map zones to countries'
+   zcmap(z,c<)           'map zones to countries'
    sTopology(z,z2)        'network topology - to be assigned through network data'
    sMapNCZ(z,z2)          'set of connecting zones belong to different countries'   
 **************Hydrogen production model related sets*******************************
@@ -120,7 +120,7 @@ Sets
    sH2PwrIn(hh,q,d,t,y)
 ;
 
-Set MapGG(g,g1)  mapping of generators where simultaneous commissioning decommissioning exists;
+*Set MapGG(g,g1)  mapping of generators where simultaneous commissioning decommissioning exists;
 Singleton sets
    sStartYear(y)
    sFirstHour(t)
@@ -441,7 +441,7 @@ Equations
    eCapThermBalance2(g,y)
    eCapThermBalance3(g,y)
    eBuildThermNew(g)
-   eSimultComDecom(g,g1,y)          Simultaneous commissioning and decommissioning of pair of units
+*   eSimultComDecom(g,g1,y)          Simultaneous commissioning and decommissioning of pair of units
    
 
 ***********************************Hydrogen production model**************************************
@@ -877,7 +877,7 @@ eTotalEmissions(y)..
 eTotalEmissionsConstraint(y)$pSystem_CO2_constraints..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
-eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
+*eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
 
 
 *********************Hydrogen production equations******************
@@ -1082,7 +1082,7 @@ Model PA /
    eAnnCapex
    
 
-   eSimultComDecom
+*   eSimultComDecom
 
 * variable limited domains
    vPwrOut(sPwrOut)
