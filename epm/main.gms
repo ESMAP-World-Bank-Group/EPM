@@ -193,14 +193,14 @@ Set
 ;
 
 alias (y,y2);
-alias (f,f2);
+alias (f,f1,f2);
 alias (c,c2);
 
 $ifi %mode%==MIRO
 $onExternalInput
 Set
    ftfmap(ft<,f<)                   'map fuel types to fuels'
-   zcmap(z<,c<)                     'map zones to countries'
+   zcmap(z,c<)                     'map zones to countries'
    sTopology(z,z2)                  'network topology - to be assigned through network data'
    Peak(t)                          'peak period hours'
    Relevant(d)                      'relevant day and hours when MinGen limit is applied'
@@ -292,9 +292,12 @@ $offmulti
 
 
 Set
-   zcmapExcel(z,c<);
+   zcmapExcel(z,c<)
+   gmap(g,z,tech,f) 'Map generators to firms, zones, technologies and fuels'
+   
+;
 Parameter
-   pGenDataExcel(g<,*)
+   pGenDataExcel(g<,z<,tech,f<,*)
    pStorDataExcel(g,*,shdr)   
    pH2DataExcel(hh<,*)
 
@@ -304,8 +307,8 @@ $onMulti
 ;
 
 Parameter
-   ftfindex(ft<,f<)
-   pZoneIndex(z<)
+   ftfindex(ft<,f)
+   pZoneIndex(z)
 ;
    
    
@@ -315,11 +318,13 @@ Parameter
 * Include the external reader file defined by the macro variable %READER_FILE%
 $include %READER_FILE%
 
+
+
 * Open the specified GDX input file for reading
 $gdxIn %GDX_INPUT%
 
 * Load domain-defining symbols (sets and indices)
-$load pZoneIndex zcmapExcel ftfindex y pHours pTechDataExcel pGenDataExcel
+$load y pHours pTechDataExcel pGenDataExcel ftfindex gmap pZoneIndex zcmapExcel
 $load zext
 * Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
@@ -332,7 +337,7 @@ $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxE
 
 * Load external transfer limits and transmission constraints
 $load pExtTransferLimit
-$load pNewTransmission, MapGG
+$load pNewTransmission
 
 * Load Hydrogen model-related symbols
 $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
@@ -340,6 +345,8 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 * Close the GDX file after loading all required data
 $gdxIn
 $offmulti
+
+display tech;
 
 *-------------------------------------------------------------------------------------
 * Make input verification
@@ -363,22 +370,37 @@ parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
 
 set addHdr / fuel1, fuel2, Zone, Type, 'Assigned Value', status, Heatrate2,
              'RE Technology (Yes/No)', 'Hourly Variation? (Yes/No)' /;
+             
 
-gfmap(g,f) =   pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f))
-            or pGenDataExcel(g,'fuel2')=sum(ftfmap(ft,f),ftfindex(ft,f));
-gzmap(g,z) = pGenDataExcel(g,'Zone')=pZoneIndex(z);
-gtechmap(g,tech) = pGenDataExcel(g,'Type')=pTechDataExcel(tech,'Assigned Value');
-gstatusmap(g,gstatus) = pGenDataExcel(g,'status')=gstatIndex(gstatus);
+gzmap(g,z) = sum((tech,f),gmap(g,z,tech,f));
+gfmap(g,f) = sum((tech,z),gmap(g,z,tech,f));
+gprimf(g,f) = sum((tech,z),gmap(g,z,tech,f));
+gtechmap(g,tech) = sum((z,f),gmap(g,z,tech,f));
+
+
+gfmap(g,f) = gfmap(g,f) 
+         or sum((z,tech,f2),(pGenDataExcel(g,z,tech,f2,'fuel2') = sum(ftfmap(ft,f), ftfindex(ft,f))));
+      
+
+         
+*gfmap(g,f) =   pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f))
+*            or pGenDataExcel(g,'fuel2')=sum(ftfmap(ft,f),ftfindex(ft,f));
+*gzmap(g,z) = pGenDataExcel(g,'Zone')=pZoneIndex(z);
+*gtechmap(g,tech) = pGenDataExcel(g,'Type')=pTechDataExcel(tech,'Assigned Value');
+gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
 zcmap(z,c) = zcmapExcel(z,c);
 
-gprimf(gfmap(g,f)) = pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f)); 
-pHeatrate(gfmap(g,f)) = pGenDataExcel(g,"Heatrate2");
-pHeatrate(gprimf(g,f)) = pGenDataExcel(g,"Heatrate");
+*gprimf(gfmap(g,f)) = pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f)); 
+pHeatrate(gfmap(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate2"));
+pHeatrate(gprimf(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate"));
 
-pGenData(g,ghdr) = pGenDataExcel(g,ghdr);
+pGenData(g,ghdr) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,ghdr));
 pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
 pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
 pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
+
+execute_unload 'testnewcode' gzmap, gfmap, gtechmap, pGenData, pGenDataExcel;
+
 
 ***********************H2 model parameters***************************************************
 
@@ -452,7 +474,7 @@ execute_unload '%GDX_INPUT%_miro'
    nlpsolver
    mipsolver
    mipopt
-   MapGG
+*   MapGG
 *Hydrogen production related parameters
    pH2Data
    pAvailabilityH2

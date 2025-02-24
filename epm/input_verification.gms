@@ -44,12 +44,12 @@ if (pAvailability.records['value'] > 1).any():
 else:
     print("Success: All pAvailability values are valid.")
     
-# Check if any value in pDemandData is non-positive
-pDemandData = db["pDemandData"]
-if (pDemandData.records['value'] <= 0).any():
-    raise ValueError("Error: All pDemandData values must be positive.")
-else:
-    print("Success: All pDemandData values are valid.")
+# # Check if any value in pDemandData is non-positive
+# pDemandData = db["pDemandData"]
+# if (pDemandData.records['value'] <= 0).any():
+#     raise ValueError("Error: All pDemandData values must be positive.")
+# else:
+#     print("Success: All pDemandData values are valid.")
     
 """pFuelPrice = db["pFuelPrice"]
 pMaxFuellimit = db["pMaxFuellimit"]

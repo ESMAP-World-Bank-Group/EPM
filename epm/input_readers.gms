@@ -68,8 +68,13 @@ $onEmbeddedCode Connect:
         columnDimension: 0
       - name: pGenDataExcel
         range: GenData!A6
-        rowDimension: 1
+        rowDimension: 4
         columnDimension: 1
+      - name: gmap
+        range: GenData!A6
+        rowDimension: 4
+        columnDimension: 0
+        type: set
       - name: pTechDataExcel
         range: FuelTechnologies!B29:F50
         rowDimension: 1
@@ -220,12 +225,6 @@ $onEmbeddedCode Connect:
         range: REgenProfile!A6
         rowDimension: 4
         columnDimension: 1
-      - name: MapGG
-        range: Retrofit!A6:ZW1000
-        rowDimension: 1
-        columnDimension: 1
-        type: set
-        valueSubstitutions: {1: ""}  # Read 1 as empty string
       - name: hh
         range: H2Data!A7:A%XLSXMAXROWS%
         rowDimension: 1
@@ -452,6 +451,14 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pMaxExchangeShare.csv
+    name: pMaxExchangeShare
+    indexColumns: [1]
+    header: [1]
+    type: par
 
 - CSVReader:
     trace: 0
@@ -593,6 +600,7 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
+
 - CSVReader:
     trace: 0
     file: input/data/pH2DataExcel.csv
@@ -609,9 +617,18 @@ $onEmbeddedCode Connect:
     name: pGenDataExcel
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
-    indexColumns: [1]
+    indexColumns: [1,2,3,4]
     header: [1]
     type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pGenDataExcel.csv
+    name: gmap
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1,2,3,4]
+    type: set
 
 
 - CSVReader:
@@ -883,6 +900,14 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
+    
+- CSVReader:
+    trace: 0
+    file: %pMaxExchangeShare%
+    name: pMaxExchangeShare
+    indexColumns: [1]
+    header: [1]
+    type: par
 
 - CSVReader:
     trace: 0
@@ -1041,9 +1066,18 @@ $onEmbeddedCode Connect:
     name: pGenDataExcel
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
-    indexColumns: [1]
+    indexColumns: [1,2,3,4]
     header: [1]
     type: par
+    
+- CSVReader:
+    trace: 0
+    file: %pGenDataExcel%
+    name: gmap
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1,2,3,4]
+    type: set
 
 
 - CSVReader:
