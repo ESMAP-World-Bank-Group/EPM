@@ -399,7 +399,7 @@ pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
 pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
 pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
 
-execute_unload 'testnewcode' gzmap, gfmap, gtechmap, pGenData, pGenDataExcel;
+execute_unload 'testnewcode' gzmap, gfmap, gtechmap, gstatusmap, pGenData, pGenDataExcel;
 
 
 ***********************H2 model parameters***************************************************
