@@ -207,7 +207,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
 
 
     # Modify pGenDataExcel
-    df = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants'], columns='uni', values='value')
+    df = epm_input['pGenDataExcel'].rename(columns={'uni_0': 'Plants', 'uni_1': 'uni'}).pivot(index=['scenario', 'Plants'], columns='uni', values='value')
     df = df.loc[:, ['Type', 'fuel1']]
     df['fuel1'] = df['fuel1'].replace(mapping_fuel1)
     # df['fuel2'] = df['fuel2'].replace(mapping_fuel2)
