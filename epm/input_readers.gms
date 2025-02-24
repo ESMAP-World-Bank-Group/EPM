@@ -638,7 +638,7 @@ $onEmbeddedCode Connect:
     file: input/data/pGenDataExcelCustom.csv
     name: pGenDataExcel
     indexColumns: [1,2,3,4]
-    valueSubstitutions: {.nan: 0}
+    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
     

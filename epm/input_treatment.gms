@@ -74,7 +74,6 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     db.data[param_name].setRecords(param_df)
     
 
-
 # Create a GAMS workspace and database
 db = gt.Container(gams.db)
 
