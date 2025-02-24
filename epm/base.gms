@@ -618,8 +618,6 @@ eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
 eMaxBuildTotal(ng)..
    sum(y, vBuild(ng,y)) =l= pGenData(ng,"MaxTotalBuild");
 
-
-
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
    sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t)) =g=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
