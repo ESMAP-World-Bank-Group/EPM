@@ -44,21 +44,19 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
         default_param_name (str): Name of the parameter providing default values.
     """
     print("Modifying {} with {}".format(param_name, default_param_name))
-
-
+    
     # Retrieve parameter data as pandas DataFrame
     param_df = db[param_name].records
     default_df = db[default_param_name].records
     
     param_df.to_csv('test.csv')
-
+    
     # Identify key columns (all except "value")
-    key_columns = [col for col in param_df.columns if col != "value" and col in default_df.columns]
+    columns = param_df.columns
     
     # Unstack data on 'uni' for correct alignment
     param_df = param_df.set_index([i for i in param_df.columns if i not in ['value']]).squeeze().unstack('uni')
     default_df = default_df.set_index([i for i in default_df.columns if i not in ['value']]).squeeze().unstack('uni')
-    
 
     # Fill NaN values in param_df using corresponding values in default_df
     param_df = param_df.fillna(default_df)
@@ -67,7 +65,7 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     param_df = param_df.stack().reset_index()
 
     # Ensure column names are correct
-    param_df.columns = key_columns + ["uni", "value"]
+    param_df.columns = columns
     
     param_df.to_csv('test_post.csv')
     
