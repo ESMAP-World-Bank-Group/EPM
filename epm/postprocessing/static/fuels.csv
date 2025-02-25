@@ -19,3 +19,8 @@ BESS_4h,Battery Storage 4h
 BESS_8h,Battery Storage 8h
 Import,Import
 Coal,Coal
+OnshoreWind,Onshore Wind
+OffshoreWind, Offshore Wind
+CSP,Concentrated Solar
+Uranium,Nuclear
+Geothermal,Geothermal

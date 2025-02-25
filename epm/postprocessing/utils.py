@@ -193,6 +193,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     mapping_fuel2 = epm_input['ftfindex'].loc[:, ['fuel2', 'value']].drop_duplicates().set_index(
         'value').squeeze().to_dict()
 
+    # TODO: this may be extracted from pGenDataExcel now if we get rid of pTechDataExcel and pZoneIndex in future versions
     temp = epm_input['pTechDataExcel']
     temp['uni'] = temp['uni'].astype(str)
     temp = temp[temp['uni'] == 'Assigned Value']
@@ -204,7 +205,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     epm_input.update({'mapping_zone': mapping_zone})
 
     # Modify pGenDataExcel
-    df = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants'], columns='uni', values='value')
+    df = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants', 'Type', 'fuel1'], columns='uni', values='value').reset_index(['Type', 'fuel1'])
     df = df.loc[:, ['Type', 'fuel1']]
     df['fuel1'] = df['fuel1'].replace(mapping_fuel1)
     # df['fuel2'] = df['fuel2'].replace(mapping_fuel2)
