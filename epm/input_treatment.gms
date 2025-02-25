@@ -54,6 +54,21 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     
     if default_df is None:
         print('{} empty so no effect'.format(default_param_name))
+        # Convert zero values to NaN **after processing**
+        eps_threshold = 1e-15  # EPS is ~1e-16 in GAMS
+        print(param_df.loc[ param_df['value'] == gt.SpecialValues.EPS, 'value'])
+        # param_df.loc[ param_df['value'] == gt.SpecialValues.EPS, 'value'] = gt.SpecialValues.UNDEF
+        param_df = param_df[param_df['value'] != gt.SpecialValues.EPS]
+        print(param_df.loc[ param_df['value'] == gt.SpecialValues.EPS, 'value'])
+        # db.removeSymbols(param_name)
+        
+        # param_df = db.addParameter(param_name);
+        # db.addParameter(param_name, db[param_name].dimension, "Filtered parameter without EPS")
+        
+        db.data[param_name].setRecords(param_df)
+        tmp = db[param_name].records
+        # print(tmp.loc[ tmp['value'] == gt.SpecialValues.EPS, 'value'])
+        print(tmp)
         return None
     
     print("Modifying {} with {}".format(param_name, default_param_name))
@@ -215,18 +230,18 @@ db = gt.Container(gams.db)
 overwrite_nan_values(db, "pGenDataExcel", "pGenDataExcelDefault")
 
 # Prepare pCapexTrajectories by filling missing values with default values
-default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
-                                              cols_tokeep=['y'],
-                                              param_ref="pGenDataExcel")
+# default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
+#                                               cols_tokeep=['y'],
+#                                               param_ref="pGenDataExcel")
                                                                                             
-fill_default_value(db, "pCapexTrajectories", default_df)
+# fill_default_value(db, "pCapexTrajectories", default_df)
 
 # Prepare pAvailability by filling missing values with default values
-default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
-                                              cols_tokeep=['q'],
-                                              param_ref="pGenDataExcel")
+# default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
+#                                               cols_tokeep=['q'],
+#                                               param_ref="pGenDataExcel")
                                               
-fill_default_value(db, "pAvailability", default_df)
+# fill_default_value(db, "pAvailability", default_df)
 
 
 $offEmbeddedCode
