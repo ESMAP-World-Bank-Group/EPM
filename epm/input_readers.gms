@@ -624,23 +624,29 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     header: [1]
     type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pGenDataExcelDefault.csv
+    name: pGenDataExcelDefault
+    indexColumns: [1,2,3]
+    header: [1]
+    type: par
 
 - CSVReader:
     trace: 0
-    file: input/data/pGenDataExcel.csv
+    file: input/data/pGenDataExcelCustom.csv
     name: pGenDataExcel
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
     indexColumns: [1,2,3,4]
+    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
     
 - CSVReader:
     trace: 0
-    file: input/data/pGenDataExcel.csv
+    file: input/data/pGenDataExcelCustom.csv
     name: gmap
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
     indexColumns: [1,2,3,4]
     type: set
 
@@ -1180,7 +1186,7 @@ $offEmbeddedCode
 $else.READER
 $abort 'No valid READER specified. Allowed are GDXXRW and CONNECT.'
 $endif.READER
-$endIf.errorLevel
+$endif.errorLevel
 
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
