@@ -208,7 +208,6 @@ Set
 ;   
 Parameter
    pCSPData(g,csphrd,shdr)
-   pCapexTrajectory(tech,y)         'Capex trajectory'
    pTechData(tech<,techhdr)         'Technology data'
    pFuelTypeCarbonContent(ft)       'Fuel type carbon content in tCO2 per MMBTu'
    pStorDataInput(g,g2,shdr)        'Storage data'
@@ -301,6 +300,8 @@ Parameter
    pStorDataExcel(g,*,shdr)   
    pH2DataExcel(hh<,*)
    pGenDataExcelDefault(z<,tech,f<,*)
+   pCapexTrajectoriesDefault(z<,tech,f<,y)
+   pAvailabilityDefault(z<,tech,f<,q)
 
 * Allow multiple definitions of symbols without raising an error (use with caution)
 $onMulti
@@ -325,15 +326,17 @@ $include %READER_FILE%
 $gdxIn %GDX_INPUT%
 
 * Load domain-defining symbols (sets and indices)
-$load y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault ftfindex gmap pZoneIndex zcmapExcel
-$load zext
+$load y pHours pTechDataExcel
+$load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+$load zext ftfindex gmap pZoneIndex zcmapExcel
+
 * Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-$load pStorDataExcel pCSPData pCapexTrajectory pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
 $load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 
 * Load external transfer limits and transmission constraints
@@ -379,15 +382,28 @@ set addHdr / fuel1, fuel2, Zone, Type, 'Assigned Value', status, Heatrate2,
              'RE Technology (Yes/No)', 'Hourly Variation? (Yes/No)' /;
              
 
-gzmap(g,z) = sum((tech,f),gmap(g,z,tech,f));
-gfmap(g,f) = sum((tech,z),gmap(g,z,tech,f));
-gprimf(g,f) = sum((tech,z),gmap(g,z,tech,f));
-gtechmap(g,tech) = sum((z,f),gmap(g,z,tech,f));
+* Aggregate `gmap(g,z,tech,f)` over `tech` and `f` to get `gzmap(g,z)`,
+* which represents the mapping of generator `g` to zone `z`.
+gzmap(g,z) = sum((tech,f), gmap(g,z,tech,f));
 
+* Aggregate `gmap(g,z,tech,f)` over `tech` and `z` to get `gfmap(g,f)`,
+* which represents the mapping of generator `g` to fuel `f`.
+gfmap(g,f) = sum((tech,z), gmap(g,z,tech,f));
 
+* Compute `gprimf(g,f)`, which is similar to `gfmap(g,f)`,
+* aggregating over `tech` and `z` to represent the primary fuel mapping.
+gprimf(g,f) = sum((tech,z), gmap(g,z,tech,f));
+
+* Aggregate `gmap(g,z,tech,f)` over `z` and `f` to get `gtechmap(g,tech)`,
+* which represents the mapping of generator `g` to technology `tech`.
+gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
+
+* Update `gfmap(g,f)`, ensuring it includes additional mappings 
+* based on `pGenDataExcel(g,z,tech,f2,'fuel2')` when a condition is met.
 gfmap(g,f) = gfmap(g,f) 
-         or sum((z,tech,f2),(pGenDataExcel(g,z,tech,f2,'fuel2') = sum(ftfmap(ft,f), ftfindex(ft,f))));
-      
+         or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = 
+         sum(ftfmap(ft,f), ftfindex(ft,f))));
+         
 
          
 *gfmap(g,f) =   pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f))
@@ -462,7 +478,6 @@ execute_unload '%GDX_INPUT%_miro'
    pAvailability
    pStorDataInput
    pCSPData
-   pCapexTrajectory
    pSpinningReserveReqCountry
    pSpinningReserveReqSystem
    pEmissionsCountry
@@ -657,7 +672,7 @@ stg(g) = gtechmap(g,"STORAGE");
 st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"STORAGE");
 
 * Compute discounted capital expenditure (`dc(g)`) based on capex trajectory data
-dc(g)  = sum(y, sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y)));
+dc(g)  = sum(y, pCapexTrajectories(g,y));
 
 * Identify non-discounted capital generators (`ndc(g)`) as those that do not have a capex trajectory
 ndc(g) = not dc(g);
@@ -729,16 +744,9 @@ pStoPVProfile(so,q,d,t)  =  sum((z,f)$(gfmap(so,f) and gzmap(so,z)), pVREProfile
 * TODO: REMOVE
 $if %DEBUG%==1 display pVREgenProfile;
 
-* Default all capex trajectories to 1
-pCapexTrajectories(g,y) =  1;
 
 * TODO: REMOVE
 * execute_unload 'debug_output.gdx', g, gtechmap, pCapexTrajectory;
-
-*pCapexTrajectories(dc,y)$pCaptraj = sum(tech$(gtechmap(g,tech)), pCapexTrajectory(tech,y));
-
-* Compute capex trajectories only for technologies with available data
-pCapexTrajectories(dc, y)$pCaptraj = sum(tech$(pCapexTrajectory(tech, y) > 0 and gtechmap(dc, tech)), pCapexTrajectory(tech, y));
 
 
 * H2 model parameters
