@@ -1,11 +1,4 @@
 ,Q1,Q2,Q3,Q4
-ExistingSmallHydro2000_HY_AGO,0.38,0.38,0.38,0.38
-AH_Cambambe_C1,0.54,0.54,0.54,0.54
-AH_Capanda,0.5,0.5,0.5,0.5
-ExistingSmallHydro2012_HY_AGO,0.38,0.38,0.38,0.38
-<<<<<<< HEAD
-AH_Matala,0.38,0.38,0.38,0.38
-=======
 AH_Matala,0.38,0.38,0.38,0.38
 SmallHydro_HY_ZAR,0.386870345,0.386870345,0.386870345,0.386870345
 Inga1_HY_ZAR,0.77,0.77,0.77,0.77
@@ -186,4 +179,3 @@ Rukuru_C_MWI,0.85,0.85,0.85,0.85
 Mota_Engil_C_MWI,0.85,0.85,0.85,0.85
 Kusile_II_TH_ZAF,0.85,0.85,0.85,0.85
 Kusile_III_TH_ZAF,0.85,0.85,0.85,0.85
->>>>>>> f5c5e8702196d7126e42e8a4326cf99e1fb73cf9

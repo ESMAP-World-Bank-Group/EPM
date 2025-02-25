@@ -158,23 +158,12 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     
     # Keep only the generator column and common columns in ref_df
     ref_df = ref_df.loc[:, [column_generator] + columns]
-<<<<<<< HEAD
-        
-    # Remove duplicate rows in the reference DataFrame
-    ref_df = ref_df.drop_duplicates()
-    
-=======
-    
-    # Remove duplicate rows in the reference DataFrame
-    ref_df = ref_df.drop_duplicates()
-    
-    param_df.to_csv('test_post0.csv')
-    ref_df.to_csv('test_post1.csv')
 
->>>>>>> f5c5e8702196d7126e42e8a4326cf99e1fb73cf9
+    # Remove duplicate rows in the reference DataFrame
+    ref_df = ref_df.drop_duplicates()
+
     # Merge the reference DataFrame with the parameter DataFrame on common columns
     param_df = pd.merge(ref_df, param_df, how='left', on=columns)
-    param_df.to_csv('test.csv')
     
     # Select only the necessary columns for the final output
     param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]
