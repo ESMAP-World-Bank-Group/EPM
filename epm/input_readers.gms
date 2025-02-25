@@ -183,7 +183,7 @@ $onEmbeddedCode Connect:
         range: ZoneData!J6:Q107
         rowDimension: 2
         columnDimension: 1
-      - name: pCapexTrajectory
+      - name: pCapexTrajectories
         range: CapexTrajectories!A5
         rowDimension: 1
         columnDimension: 1
@@ -274,6 +274,15 @@ $onEmbeddedCode Connect:
     file: input/data/pAvailability.csv
     name: pAvailability
     indexColumns: [1]
+    header: [1]
+    type: par
+    
+- CSVReader:
+    trace: 0
+    file: input/data/pAvailabilityDefault.csv
+    name: pAvailabilityDefault
+    indexColumns: [1, 2, 3]
+    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
 
@@ -506,11 +515,20 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pCapexTrajectory.csv
-    name: pCapexTrajectory
+    file: input/data/pCapexTrajectories.csv
+    name: pCapexTrajectories
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: 0
+    file: input/data/pCapexTrajectoriesDefault.csv
+    name: pCapexTrajectoriesDefault
+    valueSubstitutions: {0: EPS}
+    indexColumns: [1, 2, 3]
     header: [1]
     type: par
 
@@ -972,8 +990,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pCapexTrajectory%
-    name: pCapexTrajectory
+    file: %pCapexTrajectories%
+    name: pCapexTrajectories
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
