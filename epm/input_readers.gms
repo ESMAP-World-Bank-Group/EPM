@@ -1089,6 +1089,15 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     header: [1]
     type: par
+    
+    
+- CSVReader:
+    trace: 0
+    file: %pGenDataExcelDefault%
+    name: pGenDataExcelDefault
+    indexColumns: [1,2,3]
+    header: [1]
+    type: par
 
 - CSVReader:
     trace: 0
