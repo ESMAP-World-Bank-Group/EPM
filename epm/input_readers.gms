@@ -271,7 +271,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pAvailability.csv
+    file: input/data/pAvailabilityCustom.csv
     name: pAvailability
     indexColumns: [1]
     header: [1]
@@ -525,7 +525,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pCapexTrajectoriesDefault.csv
+    file: input/data/pCapexTrajectoriesDefaultEmpty.csv
     name: pCapexTrajectoriesDefault
     valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]

@@ -158,6 +158,8 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     # Keep only the generator column and common columns in ref_df
     ref_df = ref_df.loc[:, [column_generator] + columns]
     
+    ref_df.to_csv('test_post1.csv')
+    
     # Remove duplicate rows in the reference DataFrame
     ref_df = ref_df.drop_duplicates()
 
@@ -166,6 +168,8 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
 
     # Select only the necessary columns for the final output
     param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]
+    
+    param_df.to_csv('test_post2.csv')
 
     return param_df
 
@@ -216,6 +220,8 @@ def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFra
     # Fill missing values in the "value" column with the specified default value
     param_df['value'] = param_df['value'].fillna(fillna)
     
+    param_df.to_csv('test_post3.csv')
+    
     print(param_df)
     
     # Update the parameter in the GAMS database with the modified DataFrame
@@ -237,11 +243,11 @@ overwrite_nan_values(db, "pGenDataExcel", "pGenDataExcelDefault")
 # fill_default_value(db, "pCapexTrajectories", default_df)
 
 # Prepare pAvailability by filling missing values with default values
-# default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
-#                                               cols_tokeep=['q'],
-#                                               param_ref="pGenDataExcel")
+default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
+                                              cols_tokeep=['q'],
+                                              param_ref="pGenDataExcel")
                                               
-# fill_default_value(db, "pAvailability", default_df)
+fill_default_value(db, "pAvailability", default_df)
 
 
 $offEmbeddedCode
