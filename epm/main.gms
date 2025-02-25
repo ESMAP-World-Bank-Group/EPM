@@ -300,6 +300,7 @@ Parameter
    pGenDataExcel(g<,z<,tech,f<,*)
    pStorDataExcel(g,*,shdr)   
    pH2DataExcel(hh<,*)
+   pGenDataExcelDefault(z<,tech,f<,*)
 
 * Allow multiple definitions of symbols without raising an error (use with caution)
 $onMulti
@@ -324,7 +325,7 @@ $include %READER_FILE%
 $gdxIn %GDX_INPUT%
 
 * Load domain-defining symbols (sets and indices)
-$load y pHours pTechDataExcel pGenDataExcel ftfindex gmap pZoneIndex zcmapExcel
+$load y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault ftfindex gmap pZoneIndex zcmapExcel
 $load zext
 * Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
@@ -347,14 +348,19 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 $gdxIn
 $offmulti
 
-display tech;
-
 *-------------------------------------------------------------------------------------
 * Make input verification
 
 $include input_verification.gms
 
 *-------------------------------------------------------------------------------------
+* Make input treatment
+
+$include input_treatment.gms
+
+*-------------------------------------------------------------------------------------
+
+$exit
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
