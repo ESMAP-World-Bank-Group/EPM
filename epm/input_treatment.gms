@@ -43,8 +43,13 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
         param_name (str): Name of the parameter to modify.
         default_param_name (str): Name of the parameter providing default values.
     """
-    print("Modifying {} with {}".format(param_name, default_param_name))
     
+    if default_param_name not in db:
+        print('{} not included'.format(default_param_name))
+        return None
+        
+    print("Modifying {} with {}".format(param_name, default_param_name))
+
     # Retrieve parameter data as pandas DataFrame
     param_df = db[param_name].records
     default_df = db[default_param_name].records
