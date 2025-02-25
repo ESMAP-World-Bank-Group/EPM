@@ -193,9 +193,9 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
             'value').squeeze().to_dict()
 
         temp = epm_input['pTechDataExcel']
-        temp['uni'] = temp['uni'].astype(str)
-        temp = temp[temp['uni'] == 'Assigned Value']
-        mapping_tech = temp.loc[:, ['Abbreviation', 'value']].drop_duplicates().set_index(
+        temp['uni_1'] = temp['uni_1'].astype(str)
+        temp = temp[temp['uni_1'] == 'Assigned Value']
+        mapping_tech = temp.loc[:, ['uni_0', 'value']].drop_duplicates().set_index(
             'value').squeeze()
         mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)
 
@@ -209,7 +209,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     # Modify pGenDataExcel
     df = epm_input['pGenDataExcel'].rename(columns={'uni_0': 'Plants', 'uni_1': 'uni'}).pivot(index=['scenario', 'Plants'], columns='uni', values='value')
     df = df.loc[:, ['Type', 'fuel1']]
-    df['fuel1'] = df['fuel1'].replace(mapping_fuel1)
+    df['fuel1'] = df['fuel1'].replace(mapping_fuel2)
     # df['fuel2'] = df['fuel2'].replace(mapping_fuel2)
 
     df['fuel1'] = df['fuel1'].replace(dict_specs['fuel_mapping'])

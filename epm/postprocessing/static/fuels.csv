@@ -14,6 +14,9 @@ HydroMC,Hydro MC
 HydroRoR,Hydro RoR
 HydroStor,Hydro Storage
 BESS4hr,Battery Storage 4h
+BESS1hr,Battery Storage 1h
+BESS5hr,Battery Storage 5h
+BESS6hr,Battery Storage 6h
 BESS8hr,Battery Storage 8h
 BESS_4h,Battery Storage 4h
 BESS_8h,Battery Storage 8h
