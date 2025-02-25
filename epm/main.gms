@@ -363,6 +363,8 @@ $include input_treatment.gms
 
 *-------------------------------------------------------------------------------------
 
+execute_unload 'test_avail' pAvailability;
+
 $exit
 
 option ftfmap<ftfindex;
@@ -745,8 +747,6 @@ pStoPVProfile(so,q,d,t)  =  sum((z,f)$(gfmap(so,f) and gzmap(so,z)), pVREProfile
 $if %DEBUG%==1 display pVREgenProfile;
 
 
-* TODO: REMOVE
-* execute_unload 'debug_output.gdx', g, gtechmap, pCapexTrajectory;
 
 
 * H2 model parameters
@@ -927,6 +927,15 @@ Solve PA using MIP minimizing vNPVcost;
 
 * Include the external report file specified by `%REPORT_FILE%`
 $include %REPORT_FILE%
+
+*-------------------------------------------------------------------------------------
+* Check output
+
+$include output_verification.gms
+
+*-------------------------------------------------------------------------------------
+
+
 
 * If memory monitoring is enabled, execute embedded Python code to log memory usage details
 $ifThen %gams.ProcTreeMemMonitor%==1
