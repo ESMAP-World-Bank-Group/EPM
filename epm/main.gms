@@ -320,8 +320,6 @@ Parameter
 * Include the external reader file defined by the macro variable %READER_FILE%
 $include %READER_FILE%
 
-
-
 * Open the specified GDX input file for reading
 $gdxIn %GDX_INPUT%
 
@@ -358,11 +356,12 @@ $include input_verification.gms
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
-
+$onMulti
 $include input_treatment.gms
-
+$offMulti
 *-------------------------------------------------------------------------------------
 
+display pAvailability;
 execute_unload 'test_avail' pAvailability;
 
 $exit

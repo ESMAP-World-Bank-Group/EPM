@@ -95,6 +95,7 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     param_df.to_csv('test_post.csv')
     
     db.data[param_name].setRecords(param_df)
+    db.write(gams.db, [param_name])
 
 
 def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
@@ -157,19 +158,19 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     
     # Keep only the generator column and common columns in ref_df
     ref_df = ref_df.loc[:, [column_generator] + columns]
-    
-    ref_df.to_csv('test_post1.csv')
-    
+        
     # Remove duplicate rows in the reference DataFrame
     ref_df = ref_df.drop_duplicates()
-
+    
     # Merge the reference DataFrame with the parameter DataFrame on common columns
     param_df = pd.merge(ref_df, param_df, how='left', on=columns)
-
+    param_df.to_csv('test.csv')
+    
     # Select only the necessary columns for the final output
     param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]
-    
-    param_df.to_csv('test_post2.csv')
+        
+    if param_df['value'].isna().any():
+        raise ValueError(f"Missing values in default is not permitted. To fix this bug ensure that all combination in {param_name} are included.")
 
     return param_df
 
@@ -219,14 +220,12 @@ def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFra
     
     # Fill missing values in the "value" column with the specified default value
     param_df['value'] = param_df['value'].fillna(fillna)
-    
-    param_df.to_csv('test_post3.csv')
-    
-    print(param_df)
-    
+            
     # Update the parameter in the GAMS database with the modified DataFrame
     db.data[param_name].setRecords(param_df)
+    db.write(gams.db, [param_name])
 
+    
 
 
 # Create a GAMS workspace and database
