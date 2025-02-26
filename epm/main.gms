@@ -368,7 +368,7 @@ peak Relevant pDemandData pDemandForecast
 pDemandProfile pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
-pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2;
 
@@ -711,8 +711,8 @@ $offIDCProtect
 * If not running in interconnected mode, set network to 0
 sTopology(z,z2)$(not pinterconMode) = no;
 
-sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr))
-display sTopology;
+* Defining sTopology based on existing, committed and candidate transmission lines
+sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr));
 
 
 * if ignore transfer limit, set limits to high value

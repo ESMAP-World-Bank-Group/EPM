@@ -197,9 +197,9 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pMaxCapital                      'Capital limit in billion dollars'
    pVarCost(g,f,y)                  'Variable cost - fuel plus VOM'
 * Control parameters
-   pramp_constraints
+   pramp_constraints                'Whether constraints on ramp up and down are included'
    pfuel_constraints
-   pcapital_constraints
+   pcapital_constraints             'Whether constraints on available capital for infrastructure are included'
    pmingen_constraints
    pincludeCSP
    pincludeStorage
@@ -211,7 +211,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pSystem_CO2_constraints
    pzonal_spinning_reserve_constraints   'Whether constraints on spinning reserves at the country level are included'
    psystem_spinning_reserve_constraints  'Whether constraints on spinning reserves at the region level are included'
-   pplanning_reserve_constraints
+   pplanning_reserve_constraints         'Whether constraints on planning reserves are included'
    psystem_reserve_margin                'Share of peak demand that should be met with planning reserves'
    pHeatrate(g,f)                   'Heatrate of fuel f in generator g'
    pIncludeDecomCom                 'Include simultaneous commissioning'
@@ -866,9 +866,10 @@ eAnnCapex(dc,sStartYear(y))..
                      + vBuildStor(dc,y)*pCSPData(dc,"Storage","Capex")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
                      + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","Capex")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;                                                                          ;
 
-*--- Emissions related equations
 eCapitalConstraint$pcapital_constraints..
    sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= pMaxCapital*1e3;
+   
+*--- Emissions related equations
 
 eZonalEmissions(z,y)..
    vZonalEmissions(z,y) =e=
