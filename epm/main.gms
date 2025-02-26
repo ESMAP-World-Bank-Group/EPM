@@ -27,8 +27,6 @@
 * Claire Nicolas, c.nicolas@worldbank.org
 **********************************************************************
 
-* test
-
 $offeolcom
 $offinline
 $inlinecom {  }
