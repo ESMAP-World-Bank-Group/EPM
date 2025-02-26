@@ -1,78 +1,77 @@
-﻿Abbreviation,Value
-WACC,0.06
-DR,0.06
-systemReserve,0.1
-,
-,
-VOLL,1000
-ReserveVoLL,800000
-SpinReserveVoLL,60
-costSurplus,100
-costcurtail,0
-CO2backstop,300
-,
-,
-RunMonteCarlo,0
-testDemand,0
-testFuel,0
-testHydrology,0
-iter,1
-,
-,
-includeCarbonPrice,0
-includeEE,0
-includeRE,0
-includeCSP,1
-includeStorage,1
-,
-,1
-show0,0
-dbg_mode,
-input_flag,1
-tol,
-econRetire,0
-interconMode,1
-allowExports,0
-altDemand,1
-,
-,
-system_co2_constraints,0
-fuel_constraints,1
-capital_constraints,0
-mingen_constraints,0
-planning_reserve_constraints,1
-system_reserve_margin,0.1
-ramp_constraints,0
-system_spinning_reserve_constraints,1
-zonal_planning_reserve_constraints,1
-zonal_planning_Startyr,2020
-zonal_co2_constraints,0
-zonal_spinning_reserve_constraints,1
-MinVREBuild,0
-VRETargetYr,2025
-MaxCapital,200000
-MaxImports,0.9
-NoTransferLim,0
-pAllowHighTransfer,0
-VREForecastError,0.15
-SAImportLimit,0
-,1
-CSP_SolarMultiple,
-CSP_Storage,
-CSP_Turbine_efficiency,
-CSP_Field_efficiency,
-MinStorageHrs,1
-AllowAllConnectionsLater,0
-captraj,0
-MaxExports,0.99
-minREshare,0
-pMinRETargetYr,2025
-seasonalreporting,0
-systemresultreporting,1
-VRECapacityCredits,0
-EmissionBudget,0
-pDecarbLevel,87122154.16
-pGasRetirement,2025
-,
-IncludeH2,0
-H2UnservedCost,3000
+﻿Abbreviation,Description,Value
+WACC,Cost of capital,0.06
+DR,Discount rate for intertemporal optimization,0.06
+systemReserve,,0.1
+,,
+,,
+VOLL,Value of Loss Load,1000
+ReserveVoLL,Value of unmet planning reserves,800000
+SpinReserveVoLL,Value of unmet spinning reserves,60
+costSurplus,,100
+costcurtail,,0
+CO2backstop,,300
+,,
+,,
+RunMonteCarlo,,0
+testDemand,,0
+testFuel,,0
+testHydrology,,0
+iter,,1
+,,
+,,
+includeCarbonPrice,,0
+includeEE,,0
+includeRE,,0
+includeCSP,,1
+includeStorage,,1
+,,
+,,1
+show0,,0
+dbg_mode,,
+input_flag,,1
+tol,,
+econRetire,,0
+interconMode,,1
+allowExports,,0
+altDemand,,1
+,,
+,,
+system_co2_constraints,,0
+fuel_constraints,Constraint on maximum amount of fuel used,1
+capital_constraints,Constraint on available capital for infrastructure building,0
+mingen_constraints,Constraint on minimum level of generation per generator,0
+planning_reserve_constraints,Constraint on planning reserves,1
+system_reserve_margin,Share of peak demand at the system level that should be met with planning reserves,0.1
+system_spinning_reserve_constraints,Constraint on spinning reserves at the system level,1
+zonal_planning_reserve_constraints,Constraint on spinning reserves at the system level,1
+zonal_spinning_reserve_constraints,Constraint on spinning reserves at the country level,1
+zonal_co2_constraints,,0
+ramp_constraints,Constraint on ramp up and down,0
+MinVREBuild,,0
+VRETargetYr,,2025
+MaxCapital,,200000
+MaxImports,,0.9
+NoTransferLim,,0
+pAllowHighTransfer,,0
+VREForecastError,,0.15
+SAImportLimit,,0
+,,1
+CSP_SolarMultiple,,
+CSP_Storage,,
+CSP_Turbine_efficiency,,
+CSP_Field_efficiency,,
+MinStorageHrs,,1
+AllowAllConnectionsLater,,0
+captraj,,0
+MaxExports,,0.99
+minREshare,,0
+pMinRETargetYr,,2025
+seasonalreporting,,0
+systemresultreporting,,1
+VRECapacityCredits,,0
+EmissionBudget,,0
+pDecarbLevel,,87122154.16
+pGasRetirement,,2025
+,,
+IncludeH2,,0
+H2UnservedCost,,3000

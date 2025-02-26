@@ -402,7 +402,7 @@ $onEmbeddedCode Connect:
     name: pScalars
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
-    valueColumns: [2]
+    valueColumns: [3]
     type: par
 
 - CSVReader:
