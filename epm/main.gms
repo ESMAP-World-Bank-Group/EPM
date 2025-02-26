@@ -361,7 +361,17 @@ $include input_treatment.gms
 $offMulti
 *-------------------------------------------------------------------------------------
 
-execute_unload 'input_debug' pGenDataExcel, pAvailability;
+execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+zext ftfindex gmap pZoneIndex zcmapExcel
+peak Relevant pDemandData pDemandForecast
+pDemandProfile pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry
+pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+pExtTransferLimit pNewTransmission pMinImport
+pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
+
 
 
 

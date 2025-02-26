@@ -515,7 +515,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pCapexTrajectories.csv
+    file: input/data/pCapexTrajectoriesCustom2.csv
     name: pCapexTrajectories
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -525,7 +525,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pCapexTrajectoriesDefaultEmpty.csv
+    file: input/data/pCapexTrajectoriesDefault2.csv
     name: pCapexTrajectoriesDefault
     valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]
