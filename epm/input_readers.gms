@@ -711,14 +711,6 @@ $onEmbeddedCode Connect:
     type: set
 
 - CSVReader:
-    file: input/data/sTopology.csv
-    name: sTopology
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    type: set
-
-- CSVReader:
     trace: 0
     file: input/data/zext.csv
     name: zext

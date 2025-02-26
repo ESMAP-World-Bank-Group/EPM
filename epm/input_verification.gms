@@ -93,4 +93,31 @@ if pMaxFuellimit.records.groupby('c').size().max() > 1:
 
 print("Success: Fuel mappings are valid.")"""
 
+# TransferLimit
+transfer_df = db["pTransferLimit"].records
+topology = transfer_df.set_index(['z', 'z2']).index.unique()
+missing_pairs = [(z, z2) for z, z2 in topology if (z2, z) not in topology]
+if len(missing_pairs) > 0:
+    missing_pairs_str = "\n".join([f"({z}, {z2})" for z, z2 in missing_pairs])
+    raise ValueError(f"Error: The following (z, z2) pairs are missing their symmetric counterparts (z2, z) in 'pTransferLimit':\n{missing_pairs_str}")
+else:
+    print("Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.")
+    
+pHours_df = pHours.records
+seasons = set(pHours_df["q"].unique())  # Get unique seasons from pHours
+season_issues = []
+
+for (z, z2), group in transfer_df.groupby(['z', 'z2'], observed=False):
+    unique_seasons = set(group['q'].unique())
+    missing_seasons = seasons - unique_seasons
+    if missing_seasons:
+        season_issues.append((z, z2, missing_seasons))
+
+if season_issues:
+    season_issues_str = "\n".join([f"({z}, {z2}): missing seasons {missing}" for z, z2, missing in season_issues])
+    raise ValueError(f"Error: The following (z, z2) pairs do not have all required seasons in 'pTransferLimit':\n{season_issues_str}")
+else:
+    print("Success: All (z,z2) pairs contain all required seasons.")
+
+
 $offEmbeddedCode

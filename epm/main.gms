@@ -335,7 +335,7 @@ $load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFue
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
-$load sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+$load pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 
 * Load external transfer limits and transmission constraints
 $load pExtTransferLimit
@@ -354,6 +354,7 @@ $offmulti
 
 $include input_verification.gms
 
+
 *-------------------------------------------------------------------------------------
 * Make input treatment
 $onMulti
@@ -367,12 +368,9 @@ peak Relevant pDemandData pDemandForecast
 pDemandProfile pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
-pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
-sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 pExtTransferLimit pNewTransmission pMinImport
-pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
-
-
+pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2;
 
 
 option ftfmap<ftfindex;
@@ -431,8 +429,6 @@ pGenData(g,ghdr) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,ghdr));
 pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
 pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
 pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
-
-execute_unload 'testnewcode' gzmap, gfmap, gtechmap, gstatusmap, pGenData, pGenDataExcel;
 
 
 ***********************H2 model parameters***************************************************
@@ -547,7 +543,7 @@ $set IncludeH2                            -1
 * Read main parameters from pScalars
 pzonal_spinning_reserve_constraints  = pScalars("zonal_spinning_reserve_constraints");
 psystem_spinning_reserve_constraints = pScalars("system_spinning_reserve_constraints");
-psys_reserve_margin                  = pScalars("system_reserve_margin");
+psystem_reserve_margin               = pScalars("system_reserve_margin");
 pplanning_reserve_constraints        = pScalars("planning_reserve_constraints");
 pramp_constraints                    = pScalars("ramp_constraints");
 pfuel_constraints                    = pScalars("fuel_constraints");
@@ -714,6 +710,11 @@ nREH2(g)= not REH2(g);
 $offIDCProtect
 * If not running in interconnected mode, set network to 0
 sTopology(z,z2)$(not pinterconMode) = no;
+
+sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr))
+display sTopology;
+
+
 * if ignore transfer limit, set limits to high value
 pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 * Default life for transmission lines
