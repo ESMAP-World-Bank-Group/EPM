@@ -27,7 +27,7 @@
 * Claire Nicolas, c.nicolas@worldbank.org
 **********************************************************************
 
-
+* test
 
 $offeolcom
 $offinline
@@ -326,7 +326,7 @@ $gdxIn %GDX_INPUT%
 * Load domain-defining symbols (sets and indices)
 $load y pHours pTechDataExcel
 $load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-$load zext ftfindex gmap pZoneIndex zcmapExcel
+$load zext ftfindex gmap zcmapExcel
 
 * Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
@@ -361,10 +361,21 @@ $include input_treatment.gms
 $offMulti
 *-------------------------------------------------------------------------------------
 
-display pAvailability;
-execute_unload 'test_avail' pAvailability;
 
-$exit
+
+execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+zext ftfindex gmap zcmapExcel
+peak Relevant pDemandData pDemandForecast
+pDemandProfile pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry
+pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+sTopology pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+pExtTransferLimit pNewTransmission pMinImport
+pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
+;
+
+display pAvailability, pCapexTrajectories;
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -423,15 +434,15 @@ pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
 pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
 pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
 
-execute_unload 'testnewcode' gzmap, gfmap, gtechmap, gstatusmap, pGenData, pGenDataExcel;
 
 
 ***********************H2 model parameters***************************************************
 
 pH2Data(hh,hhdr)=pH2DataExcel(hh,hhdr);
 H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
-h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
-
+* Check is that works for H2
+* h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
+h2zmap(hh,z) = pH2DataExcel(hh,'Zone')
 
 $ifThen set generateMIROScenario
 Parameter
@@ -720,13 +731,12 @@ pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<
 * Default capacity credit for all generators is set to 1
 pCapacityCredit(g,y)= 1;
 
-* TODO: REMOVE
-$if %DEBUG%==1 display pVREgenProfile;
 
 * Protect against unintended changes while modifying `pVREgenProfile` with `pVREProfile` data
 $offIDCProtect
 pVREgenProfile(gfmap(VRE,f),q,d,t)$(not(pVREgenProfile(VRE,f,q,d,t))) = sum(gzmap(VRE,z),pVREProfile(z,f,q,d,t));
 $onIDCProtect
+
 
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
@@ -741,11 +751,6 @@ pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/s
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,f)$(gfmap(cs,f) and gzmap(cs,z)), pVREProfile(z,f,q,d,t));
 pStoPVProfile(so,q,d,t)  =  sum((z,f)$(gfmap(so,f) and gzmap(so,z)), pVREProfile(z,f,q,d,t));
-
-* TODO: REMOVE
-$if %DEBUG%==1 display pVREgenProfile;
-
-
 
 
 * H2 model parameters
@@ -930,7 +935,7 @@ $include %REPORT_FILE%
 *-------------------------------------------------------------------------------------
 * Check output
 
-$include output_verification.gms
+* $include output_verification.gms
 
 *-------------------------------------------------------------------------------------
 

@@ -169,6 +169,8 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]
         
     if param_df['value'].isna().any():
+        missing_rows = param_df[param_df['value'].isna()]  # Get rows with NaN values
+        print(missing_rows)  # Print the rows where 'value' is NaN
         raise ValueError(f"Missing values in default is not permitted. To fix this bug ensure that all combination in {param_name} are included.")
 
     return param_df
@@ -233,14 +235,14 @@ db = gt.Container(gams.db)
 # Complete Generator Data
 overwrite_nan_values(db, "pGenDataExcel", "pGenDataExcelDefault")
 
-# Prepare pCapexTrajectories by filling missing values with default values
-# default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
-#                                               cols_tokeep=['y'],
-#                                               param_ref="pGenDataExcel")
+print('Preparing pCapexTrajectories by filling missing values with default values')
+default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
+                                               cols_tokeep=['y'],
+                                               param_ref="pGenDataExcel")
                                                                                             
-# fill_default_value(db, "pCapexTrajectories", default_df)
+fill_default_value(db, "pCapexTrajectories", default_df)
 
-# Prepare pAvailability by filling missing values with default values
+print('Preparing pAvailability by filling missing values with default values')
 default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
                                               cols_tokeep=['q'],
                                               param_ref="pGenDataExcel")

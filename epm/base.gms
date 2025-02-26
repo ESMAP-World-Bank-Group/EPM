@@ -227,9 +227,6 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
 
    pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
    pH2UnservedCost                  'Cost of external H2 unserved'
-************************************************************
-
-
 ;
 
 Positive Variables
@@ -293,9 +290,6 @@ Positive Variables
    vFuelH2Quarter(z,q,y)        'H2 fuel saved for H2 electricity generationon a quarterly basis'
    vUnmetExternalH2(z,q,y)        'mmBTU of external H2 demand that cant be met'
    vYearlyH2UnservedCost(z,y)   'Annual Cost of external H2 unserved in USD'  
-
-
-
 ;
 
 Free Variable
@@ -311,27 +305,16 @@ Free Variable
    vYearlyCarbonCost(z,y)               'country carbon cost'
    vYearlyUnmetReserveCostSystem(y)                 'system unmet planing reserve'
    vYearlyCO2backCost(c,y)              'ccost of CO2 backstop'
-   
 ;
 
 Integer variable
    vBuildTransmission(z,z2,y)
    vBuiltCapVar(g,y)
    vRetireCapVar(g,y)
-   
-
 *******H2 production model integer variables******************
    vBuiltCapVarH2(hh,y)
-
    vRetireCapVarH2(hh,y)
-
-
-********************************************
 ;
-
-
-
-
 
 
 Equations
@@ -984,7 +967,7 @@ eRE2H2(RE,f,q,d,t,y)$pIncludeH2..
 ***********************************end of H2 equations section**************************************
 
 
-
+* Why not put all ? Clearer each equation written should be considered.
 
 Model PA /
    eNPVCost

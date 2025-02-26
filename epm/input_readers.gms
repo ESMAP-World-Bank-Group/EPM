@@ -31,7 +31,7 @@
 $set XLSXMAXROWS 1048576
 
 * Set the default reader method to `CONNECT_EXCEL` if not already defined
-$if not set READER $set READER CONNECT_EXCEL
+$if not set READER $set READER CONNECT_CSV
 
 * Log the selected reader method for debugging
 $log ### READER = %READER%
@@ -306,7 +306,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/relevant.csv
+    file: input/data/sRelevant.csv
     name: relevant
     indexColumns: [1]
     type: set
@@ -348,15 +348,6 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2]
     type: par
 
-- CSVReader:
-    trace: 0
-    file: input/data/pZoneIndex.csv
-    name: pZoneIndex
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
 
 - CSVReader:
     trace: 0
@@ -401,8 +392,8 @@ $onEmbeddedCode Connect:
     file: input/data/pScalars.csv
     name: pScalars
     valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
+    indexColumns: [2]
+    valueColumns: [3]
     type: par
 
 - CSVReader:
@@ -410,7 +401,7 @@ $onEmbeddedCode Connect:
     file: input/data/pVREProfile.csv
     name: pVREProfile
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
@@ -515,7 +506,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pCapexTrajectories.csv
+    file: input/data/pCapexTrajectoriesCustom.csv
     name: pCapexTrajectories
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -525,7 +516,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/data/pCapexTrajectoriesDefaultEmpty.csv
+    file: input/data/pCapexTrajectoriesDefault.csv
     name: pCapexTrajectoriesDefault
     valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]
@@ -627,7 +618,7 @@ $onEmbeddedCode Connect:
     file: input/data/pVREgenProfile.csv
     name: pVREgenProfile
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
