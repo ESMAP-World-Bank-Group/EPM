@@ -334,6 +334,7 @@ Integer variable
 
 
 
+
 Equations
    eNPVCost                        'objective function'
    eYearlyTotalCost(c,y)
@@ -481,6 +482,7 @@ eMaxH2PwrInjection(hh,q,d,t,y)
 
 
 ;
+
 
 *---    Objective function
 eNPVCost..

@@ -54,21 +54,9 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     
     if default_df is None:
         print('{} empty so no effect'.format(default_param_name))
-        # Convert zero values to NaN **after processing**
-        eps_threshold = 1e-15  # EPS is ~1e-16 in GAMS
-        print(param_df.loc[ param_df['value'] == gt.SpecialValues.EPS, 'value'])
-        # param_df.loc[ param_df['value'] == gt.SpecialValues.EPS, 'value'] = gt.SpecialValues.UNDEF
-        param_df = param_df[param_df['value'] != gt.SpecialValues.EPS]
-        print(param_df.loc[ param_df['value'] == gt.SpecialValues.EPS, 'value'])
-        # db.removeSymbols(param_name)
-        
-        # param_df = db.addParameter(param_name);
-        # db.addParameter(param_name, db[param_name].dimension, "Filtered parameter without EPS")
-        
         db.data[param_name].setRecords(param_df)
-        tmp = db[param_name].records
-        # print(tmp.loc[ tmp['value'] == gt.SpecialValues.EPS, 'value'])
-        print(tmp)
+        db.write(gams.db, [param_name])
+
         return None
     
     print("Modifying {} with {}".format(param_name, default_param_name))

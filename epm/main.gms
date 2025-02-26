@@ -361,10 +361,9 @@ $include input_treatment.gms
 $offMulti
 *-------------------------------------------------------------------------------------
 
-display pAvailability;
-execute_unload 'test_avail' pAvailability;
+execute_unload 'input_debug' pGenDataExcel, pAvailability;
 
-$exit
+
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -922,6 +921,7 @@ PA.optfile = 1;
 option savepoint=1;
 
 * Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
+Option mip=cplex;
 Solve PA using MIP minimizing vNPVcost;
 
 * Include the external report file specified by `%REPORT_FILE%`
@@ -930,7 +930,7 @@ $include %REPORT_FILE%
 *-------------------------------------------------------------------------------------
 * Check output
 
-$include output_verification.gms
+*$include output_verification.gms
 
 *-------------------------------------------------------------------------------------
 

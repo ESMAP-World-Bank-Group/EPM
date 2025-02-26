@@ -1,91 +1,12 @@
 ﻿zone,type,fuel,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
-South_Africa,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Angola,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Botswana,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Eswatini,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Lesotho,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Malawi,GT,Coal,0.5,,0.33,0.33,0,0.05,60000,2,0,,30
-Mozambique,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Namibia,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Tanzania,GT,Coal,0.5,,0.33,0.33,0,0.05,66000,6.5,0,,30
-Zambia,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-Zimbabwe,GT,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
-South_Africa,GT,HFO,0.2,,1,1,0,0.2,17000,4,0,,30
-Botswana,GT,HFO,0.2,,1,1,0,0.2,17000,4,0,,30
-Mozambique,GT,HFO,0.2,,1,1,0,0.2,17000,4,0,,30
-South_Africa,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Angola,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Botswana,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-DRC,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Eswatini,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Lesotho,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Mozambique,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Namibia,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Tanzania,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Zambia,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Zimbabwe,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
-Angola,GT,Gas,0.2,,1,1,0,0.2,17000,4,0,,30
-Malawi,GT,Gas,0.2,10.42,1,1,0,0.2,20000,3,0,0.9,30
-Mozambique,GT,Gas,0.2,,1,1,0,0.2,17000,4,0,,30
-Tanzania,GT,Gas,0.2,,,,0,0.2,,4.5,0,0,30
-South_Africa,CCGT,Gas,0.2,6.4,1,1,0,0.2,66000,3.5,0,1.245,30
-Angola,CCGT,Gas,0.2,6.4,1,1,0,0.2,6600,4,0,1.245080501,30
-Botswana,CCGT,Gas,0.6,6.4,1,1,0,0.2,85243,2.59,0,2.9259,30
-Mozambique,CCGT,Gas,0.2,9,1,1,0,0.2,17000,4,0,1.25,30
-Tanzania,CCGT,Gas,0.2,6.75,0.1,0.1,0,0.2,30000,4.5,0,,30
-South_Africa,ROR,Water,0,0,1,1,0,,40737.536,0.55,0,,50
-Angola,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-DRC,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-DRC_South,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-Eswatini,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-Lesotho,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-Malawi,ROR,Water,0,0,1,1,0,,40737.536,0.55,0,,50
-Mozambique,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-Namibia,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-Tanzania,ROR,Water,0,0,1,1,0,,,,0,,50
-Zambia,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-Zimbabwe,ROR,Water,0,0,1,1,0,,46500,0.55,0,,50
-South_Africa,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Angola,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Botswana,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-DRC,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-DRC_South,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Eswatini,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Lesotho,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Malawi,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Mozambique,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Namibia,PV,PV,0,,1,1,0,0,15000,0,0,0.8,25
-Tanzania,PV,PV,0,,1,1,0,0,14000,0,0,0.9,25
-Zambia,PV,PV,0,,1,1,0,0,14000,0,0,0.9,25
-Zimbabwe,PV,PV,0,,1,1,0,0,14000,0,0,0.9,25
-South_Africa,WIND,OnshoreWind,0,,1,1,0,0,22000,0,0,1.67,30
-Angola,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Botswana,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.915,30
-DRC,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-DRC_South,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Eswatini,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Lesotho,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Malawi,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Mozambique,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Namibia,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,,30
-Tanzania,WIND,OnshoreWind,0,,1,1,0,0,40000,0,0,1.806,30
-Zambia,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-Zimbabwe,WIND,OnshoreWind,0,,1,1,0,0,28000,0,0,1.6,30
-South_Africa,WIND,OffshoreWind,0,,1,1,0,0,70000,0,0,3.4,30
-Angola,WIND,OffshoreWind,0,,1,1,0,0,70000,0,0,3.3,30
-Mozambique,WIND,OffshoreWind,0,,1,1,0,0,70000,0,0,3.2,30
-Namibia,WIND,OffshoreWind,0,,1,1,0,0,70000,0,0,3.3,30
-Tanzania,WIND,OffshoreWind,0,,1,1,0,0,70000,0,0,3.3,30
-South_Africa,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.18,20
-Angola,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-Botswana,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.2,20
-DRC,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-DRC_South,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-Eswatini,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.2,20
-Lesotho,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-Malawi,STORAGE,Battery,0,,1,1,0,0,13860,0,0,,20
-Mozambique,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-Namibia,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.2,20
-Tanzania,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-Zambia,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
-Zimbabwe,STORAGE,Battery,0,,1,1,0,0,13860,0,0,0.3,20
+South_Africa,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Angola,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Botswana,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Eswatini,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Lesotho,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Malawi,ST ,Coal,0.5,,0.33,0.33,0,0.05,60000,2,0,,30
+Mozambique,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Namibia,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Tanzania,ST ,Coal,0.5,,0.33,0.33,0,0.05,66000,6.5,0,,30
+Zambia,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Zimbabwe,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
