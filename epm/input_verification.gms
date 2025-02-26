@@ -38,6 +38,10 @@ db = gt.Container(gams.db)
 pHours = db["pHours"]
 
 
+# Check that all these parameters are not None
+param_keys = ["pHours", "pGenDataExcel", "pFuelPrice"] 
+
+
 # Check if all values are positive
 verif = pHours.records['value'].all() > 0
 
@@ -57,20 +61,95 @@ else:
     raise ValueError(f"Error: The sum of pHours is {total_hours}, which is not 8760.")
 
 # VREProfile
-pVREProfile = db["pVREProfile"]
-
-# Check if any value in pVREProfile exceeds 1
-if (pVREProfile.records['value'] > 1).any():
-    raise ValueError("Error: Capacity factor cannot be greater than 1 in pVREProfile.")
-else:
-    print("Success: All pVREProfile values are valid.")
+try:
+    pVREProfile = db["pVREProfile"]
+    # Check if any value in pVREProfile exceeds 1
+    if (pVREProfile.records['value'] > 1).any():
+        raise ValueError("Error: Capacity factor cannot be greater than 1 in pVREProfile.")
+    else:
+        print("Success: All pVREProfile values are valid.")
+except Exception as e:
+    print('Unexpected error in VREProfile')
+    raise # Re-raise the exception for debuggings
     
-# Check if any value in pAvailability is 1 or greater
-pAvailability = db["pAvailability"]
-if (pAvailability.records['value'] > 1).any():
-    raise ValueError("Error: Availability factor cannot be 1 or greater in pAvailability.")
-else:
-    print("Success: All pAvailability values are valid.")
+# pAvailability
+try:
+    # Check if any value in pAvailability is 1 or greater
+    pAvailability = db["pAvailability"]
+    if pAvailability.records is not None:
+        if (pAvailability.records['value'] > 1).any():
+            raise ValueError("Error: Availability factor cannot be 1 or greater in pAvailability.")
+        else:
+            print("Success: All pAvailability values are valid.")
+    else:
+        print('pAvailabilityCustom is None. All values come from pAvailabilityDefault')
+except Exception as e:
+    print('Unexpected error in pAvailability')
+    raise # Re-raise the exception for debuggings
+
+
+# Check time resolution consistency
+try:
+    # Extract and store unique (q, d, t) combinations for each dataframe
+    unique_combinations = {}
+    # Define the variable names to check
+    vars_time = ["pVREProfile", "pVREgenProfile", "pDemandProfile", "pHours"]
+    
+    for var in vars_time:
+        if db[var].records is not None:
+            df = db[var].records  # Extract the records from the database
+            unique_combinations[var] = set(df[['q', 'd', 't']].apply(tuple, axis=1))  # Convert to unique sets
+    
+    # Check if all sets are equal
+    first_var = vars_time[0]
+    is_consistent = all(unique_combinations[first_var] == unique_combinations[var] for var in unique_combinations.keys())
+    
+    # Print result
+    if is_consistent:
+        print("All dataframes have the same (q, d, t) combinations.")
+    else:
+        print("Mismatch detected! The following differences exist:")
+    
+        for var in unique_combinations.keys():
+            diff = unique_combinations[first_var] ^ unique_combinations[var]  # Find differences
+            if diff:
+                print(f"Differences in {var}: {diff}")
+except Exception as e:
+    print('Unexpected error when checking time consistency')
+    raise # Re-raise the exception for debuggings
+
+
+# pDemandForecast
+try:
+    df = db["pDemandForecast"].records
+    
+    # Pivot table to create separate columns for 'peak' and 'energy'
+    df_pivot = df.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
+        
+    # Rename columns for clarity
+    df_pivot.columns.name = None  # Remove the column index name
+    df_pivot.rename(columns={"energy": "energy_value", "peak": "peak_value"}, inplace=True)
+    
+    # Calculate the Energy/Peak Ratio
+    df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
+    
+    print('Energy/Peak Demand Ratio')
+    print(df_pivot['energy_peak_ratio'], "TODO: Define value that are consistent and raise error otherwise.")
+
+except Exception as e:
+    print('Unexpected error when checking pDemandForecast')
+    raise # Re-raise the exception for debuggings
+
+
+# Check that pFuelPrice are included
+try:
+    df = db["pFuelPrice"].records
+    print(df)
+    print(db["pGenDataExcel"].records)
+    
+except Exception as e:
+    print('Unexpected error when checking pFuelPrice')
+    raise # Re-raise the exception for debuggings
     
 # # Check if any value in pDemandData is non-positive
 # pDemandData = db["pDemandData"]
