@@ -157,6 +157,8 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]
         
     if param_df['value'].isna().any():
+        missing_rows = param_df[param_df['value'].isna()]  # Get rows with NaN values
+        print(missing_rows)  # Print the rows where 'value' is NaN
         raise ValueError(f"Missing values in default is not permitted. To fix this bug ensure that all combination in {param_name} are included.")
 
     return param_df
@@ -211,7 +213,6 @@ def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFra
     # Update the parameter in the GAMS database with the modified DataFrame
     db.data[param_name].setRecords(param_df)
     db.write(gams.db, [param_name])
-
     
 
 

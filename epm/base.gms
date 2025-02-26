@@ -209,10 +209,10 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pMinRETargetYr
    pzonal_CO2_constraints
    pSystem_CO2_constraints
-   pzonal_spinning_reserve_constraints
-   psystem_spinning_reserve_constraints
+   pzonal_spinning_reserve_constraints   'Whether constraints on spinning reserves at the country level are included'
+   psystem_spinning_reserve_constraints  'Whether constraints on spinning reserves at the region level are included'
    pplanning_reserve_constraints
-   psys_reserve_margin
+   psystem_reserve_margin                'Share of peak demand that should be met with planning reserves'
    pHeatrate(g,f)                   'Heatrate of fuel f in generator g'
    pIncludeDecomCom                 'Include simultaneous commissioning'
      
@@ -698,9 +698,9 @@ ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningRese
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
-ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psys_reserve_margin)..
+ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psystem_reserve_margin)..
    sum(g, vCap(g,y)*pCapacityCredit(g,y)) + vUnmetPlanningReserveSystem(y)
-   =g= (1+psys_reserve_margin)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
+   =g= (1+psystem_reserve_margin)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
 *--- Transfer equations
