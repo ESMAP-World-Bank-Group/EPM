@@ -222,11 +222,11 @@ db = gt.Container(gams.db)
 overwrite_nan_values(db, "pGenDataExcel", "pGenDataExcelDefault")
 
 # Prepare pCapexTrajectories by filling missing values with default values
-# default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
-#                                               cols_tokeep=['y'],
-#                                               param_ref="pGenDataExcel")
+default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
+                                              cols_tokeep=['y'],
+                                              param_ref="pGenDataExcel")
                                                                                             
-# fill_default_value(db, "pCapexTrajectories", default_df)
+fill_default_value(db, "pCapexTrajectories", default_df)
 
 # Prepare pAvailability by filling missing values with default values
 default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
