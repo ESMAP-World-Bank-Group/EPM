@@ -227,7 +227,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
    pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
    pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
-   pScalars(sc)                     'Flags and penalties to load'
+   pSettings(sc)                     'Flags and penalties to load'
    pPlanningReserveMargin(c)        'Country planning reserve margin'
    pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
    pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
@@ -327,7 +327,7 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
 $load pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 
 * Load external transfer limits and transmission constraints
@@ -361,7 +361,7 @@ execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault
 zext ftfindex gmap zcmap Relevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
 pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
@@ -479,7 +479,7 @@ execute_unload '%GDX_INPUT%_miro'
    pSpinningReserveReqSystem
    pEmissionsCountry
    pEmissionsTotal
-   pScalars
+   pSettings
    sTopology
    pPlanningReserveMargin
    pEnergyEfficiencyFactor
@@ -531,37 +531,37 @@ $set IncludeDecomCom                      -1
 *Hydrogen model specific sets
 $set IncludeH2                            -1
 
-* Read main parameters from pScalars
-pzonal_spinning_reserve_constraints  = pScalars("zonal_spinning_reserve_constraints");
-psystem_spinning_reserve_constraints = pScalars("system_spinning_reserve_constraints");
-psystem_reserve_margin               = pScalars("system_reserve_margin");
-pplanning_reserve_constraints        = pScalars("planning_reserve_constraints");
-pramp_constraints                    = pScalars("ramp_constraints");
-pfuel_constraints                    = pScalars("fuel_constraints");
-pcapital_constraints                 = pScalars("capital_constraints");
-pmingen_constraints                  = pScalars("mingen_constraints");
-pincludeCSP                          = pScalars("includeCSP");
-pincludeStorage                      = pScalars("includeStorage");
-pMinRE                               = pScalars("MinREshare");
-pMinRETargetYr                       = pScalars("RETargetYr");
-pzonal_co2_constraints               = pScalars("zonal_co2_constraints");
-psystem_co2_constraints              = pScalars("system_co2_constraints");
-pAllowExports                        = pScalars("allowExports");
-pSurplusPenalty                      = pScalars("costSurplus");
-pAllowHighTransfer                   = pScalars("pAllowHighTransfer");
-pCostOfCurtailment                   = pScalars("costcurtail");
-pCostOfCO2backstop                   = pScalars("CO2backstop");
-pMaxImport                           = pScalars("MaxImports");
-pMaxExport                           = pScalars("MaxExports");
-pVREForecastError                    = pScalars("VREForecastError");
-pCaptraj                             = pScalars("Captraj");
-pVRECapacityCredits                  = pScalars("VRECapacityCredits");
-pSeasonalReporting                   = pScalars("Seasonalreporting");
-pSystemResultReporting               = pScalars("Systemresultreporting");
-pMaxLoadFractionCCCalc               = pScalars("MaxLoadFractionCCCalc");
+* Read main parameters from pSettings
+pzonal_spinning_reserve_constraints  = pSettings("zonal_spinning_reserve_constraints");
+psystem_spinning_reserve_constraints = pSettings("system_spinning_reserve_constraints");
+psystem_reserve_margin               = pSettings("system_reserve_margin");
+pplanning_reserve_constraints        = pSettings("planning_reserve_constraints");
+pramp_constraints                    = pSettings("ramp_constraints");
+pfuel_constraints                    = pSettings("fuel_constraints");
+pcapital_constraints                 = pSettings("capital_constraints");
+pmingen_constraints                  = pSettings("mingen_constraints");
+pincludeCSP                          = pSettings("includeCSP");
+pincludeStorage                      = pSettings("includeStorage");
+pMinRE                               = pSettings("MinREshare");
+pMinRETargetYr                       = pSettings("RETargetYr");
+pzonal_co2_constraints               = pSettings("zonal_co2_constraints");
+psystem_co2_constraints              = pSettings("system_co2_constraints");
+pAllowExports                        = pSettings("allowExports");
+pSurplusPenalty                      = pSettings("costSurplus");
+pAllowHighTransfer                   = pSettings("pAllowHighTransfer");
+pCostOfCurtailment                   = pSettings("costcurtail");
+pCostOfCO2backstop                   = pSettings("CO2backstop");
+pMaxImport                           = pSettings("MaxImports");
+pMaxExport                           = pSettings("MaxExports");
+pVREForecastError                    = pSettings("VREForecastError");
+pCaptraj                             = pSettings("Captraj");
+pVRECapacityCredits                  = pSettings("VRECapacityCredits");
+pSeasonalReporting                   = pSettings("Seasonalreporting");
+pSystemResultReporting               = pSettings("Systemresultreporting");
+pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
 *Related to hydrogen model
-pIncludeH2                       = pScalars("IncludeH2");
-pH2UnservedCost                  = pScalars("H2UnservedCost");  
+pIncludeH2                       = pSettings("IncludeH2");
+pH2UnservedCost                  = pSettings("H2UnservedCost");  
 
 * Assign values to model parameters only if their corresponding macro variables are not set to "-1"
 $if not "%zonal_spinning_reserve_constraints%"  == "-1" pzonal_spinning_reserve_constraints  = %zonal_spinning_reserve_constraints%;
@@ -588,17 +588,17 @@ sFirstHour(t) = t.first;
 sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
 
-pDR              = pScalars("DR");
-pWACC            = pScalars("WACC");
-pVOLL            = pScalars("VOLL");
-pPlanningReserveVoLL     = pScalars("ReserveVoLL");
-pMaxCapital      = pScalars("MaxCapital")*1e6;
-pSpinningReserveVoLL = pScalars("SpinReserveVoLL");
-pIncludeCarbon   = pScalars("includeCarbonPrice");
-pinterconMode    = pScalars("interconMode");
-pnoTransferLim   = pScalars("noTransferLim");
-pincludeEE       = pScalars("includeEE");
-pIncludeDecomCom = pScalars("IncludeDecomCom");
+pDR              = pSettings("DR");
+pWACC            = pSettings("WACC");
+pVOLL            = pSettings("VOLL");
+pPlanningReserveVoLL     = pSettings("ReserveVoLL");
+pMaxCapital      = pSettings("MaxCapital")*1e6;
+pSpinningReserveVoLL = pSettings("SpinReserveVoLL");
+pIncludeCarbon   = pSettings("includeCarbonPrice");
+pinterconMode    = pSettings("interconMode");
+pnoTransferLim   = pSettings("noTransferLim");
+pincludeEE       = pSettings("includeEE");
+pIncludeDecomCom = pSettings("IncludeDecomCom");
 
 * Set external transfer limits to zero if exports are not allowed
 pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
@@ -627,7 +627,7 @@ gsmap(g,g) = no;
 put / ;
 if(pnoTransferLim                      = 1, put 'Ignoring transfer limits.'/);
 if(pAllowExports                       = 0, put 'Ignoring trade prices data.'/);
-if(pScalars("altDemand")               = 1, put 'Ignoring detailed demand and demand forecast data. Using same demand profile for all years instead.'/);
+if(pSettings("altDemand")               = 1, put 'Ignoring detailed demand and demand forecast data. Using same demand profile for all years instead.'/);
 if(pincludeEE                          = 0, put 'Ignoring energy efficiency data.'/);
 if(pCaptraj                            = 0, put 'Ignoring capex trajectory data.'/);
 if(pfuel_constraints                   = 0, put 'Ignoring fuel limit data.'/);
@@ -821,14 +821,14 @@ vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg
 vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","Capacity")+pStorData(eg, "Capacity");
 
 ***This equation is needed to avoid decommissioning of hours of storage from existing storage
-vCapStor.fx(eg,y)$((pScalars("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"Capacity");
+vCapStor.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"Capacity");
 
 vRetire.fx(ng,y) = 0;
 vRetire.fx(eg,y)$(pGenData(eg,"Life") = 99) = 0;
 
 *vRetire.fx(eg,y)$((pGenData(eg,"StYr") >= sStartYear.val) and (pGenData(eg,"RetrYr") > y.val)) = 0;
 
-vCap.fx(eg,y)$((pScalars("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pGenData(eg,"Capacity");
+vCap.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pGenData(eg,"Capacity");
 vCapTherm.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
@@ -858,7 +858,7 @@ vCapH2.fx(eh,y)$(pH2Data(eh,"RetrYr") and (pH2Data(eh,"RetrYr") <= y.val)) = 0;
 vRetireH2.fx(nh,y) = 0;
 vRetireH2.fx(eh,y)$(pH2Data(eh,"Life") = 99) = 0;
 
-vCapH2.fx(eh,y)$((pScalars("econRetire") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
+vCapH2.fx(eh,y)$((pSettings("econRetire") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
 
 sH2PwrIn(hh,q,d,t,y) = yes;
 
