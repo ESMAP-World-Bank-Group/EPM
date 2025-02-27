@@ -143,7 +143,24 @@ All files in this section are included in the `resources` folder. These datasets
     2. Fuel  
     3. Index (Note: Index is no longer used, and the structure is being simplified to keep only "Fuel").  
   - Example: [ftfindex.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/ftfindex.csv)
-
+  - List of fuel types recognized by EPM: 
+    - **Coal**  
+    - **Gas**  
+    - **Water**  
+    - **Hydro**  
+    - **PV**  
+    - **OnshoreWind**
+    - **OffshoreWind**  
+    - **Import**  
+    - **HFO**  
+    - **Uranium**  
+    - **CSP**  
+    - **Battery**
+    - **Diesel**
+    - **Biomass**
+    - **Geothermal**
+    - **LNG**
+  - **Note**: Not clear why there is need of OnshoreWind and OffshoreWind.
 ---
 
 ### **`pTechData.csv`**  
@@ -154,7 +171,25 @@ All files in this section are included in the `resources` folder. These datasets
     3. Hourly variation (if the technology varies hourly)  
     4. RE Technology (if it is a renewable energy technology)  
   - Example: [pTechData.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/pTechData.csv)
-
+  - List of technologies recognized by EPM:  
+    - **GT**: Gas Turbine
+    - **CCGT**: Combined Cycle Gas Turbine
+    - **ST**: Steam Turbine
+    - **ICE**: Internal Combustion Engine
+    - **COAL**: Coal
+    - **WIND**: Wind
+    - **PV**: Photovoltaic
+    - **STORAGE**: Storage
+    - **STOHY**: Storage Hydro
+    - **ROR**: Run of River
+    - **BIOGAS**: Biogas
+    - **INT**: ??
+    - **CHP**: Combined Heat and Power 
+    - **BIOMAS**: Biomass
+    - **CSP**: Concentrated Solar Power
+    - **PVwSTO**: Photovoltaic with Storage
+    - **STOPV**: Storage with Photovoltaic
+    - **MPAOpt**: ??
 ---
 
 ### **`pFuelCarbonContent.csv`**  
