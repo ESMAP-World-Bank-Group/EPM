@@ -1,4 +1,4 @@
-﻿Plants,Zone,Type,fuel1,StYr,RetrYr,Capacity,UnitSize,Status,fuel2,HeatRate2,DescreteCap,BuildLimitperYear,MaxTotalBuild,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,Capex,FOMperMW,VOM,ReserveCost,Life
+﻿gen,zone,tech,fuel,StYr,RetrYr,Capacity,UnitSize,Status,fuel2,HeatRate2,DescreteCap,BuildLimitperYear,MaxTotalBuild,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,Capex,FOMperMW,VOM,ReserveCost,Life
 Kotu G6,Gambia,ICE,HFO,2010,2050,6.4,6.4,1,,,,,,0.6,,,,,,,,,,
 Kotu G7,Gambia,ICE,HFO,2010,2050,6.4,6.4,1,,,,,,0.6,,,,,,,,,,
 Kotu G8,Gambia,ICE,HFO,2010,2050,6.4,6.4,1,,,,,,0.6,,,,,,,,,,

@@ -237,6 +237,8 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
   pCapexTrajectoryH2(hh,y)          'CAPEX trajectory for hydrogen generation unit'
 ;   
 
+*TODO pVREProfile(z,f,q,d,t)
+
 $ifi %mode%==MIRO
 $offExternalInput
 
