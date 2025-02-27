@@ -351,8 +351,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/load/relevant.csv
-    name: relevant
+    file: input/%FOLDER_INPUT%/load/sRelevant.csv
+    name: sRelevant
     indexColumns: [1]
     type: set
 
