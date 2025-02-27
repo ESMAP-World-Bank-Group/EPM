@@ -550,8 +550,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pFuelTypeCarbonContent.csv
-    name: pFuelTypeCarbonContent
+    file: input/%FOLDER_INPUT%/pFuelCarbonContent.csv
+    name: pFuelCarbonContent
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
