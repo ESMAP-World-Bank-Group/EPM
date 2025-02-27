@@ -358,6 +358,8 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
+display pStorDataExcel;
+$exit
 
 execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap zcmap sRelevant pDemandData pDemandForecast
@@ -373,6 +375,9 @@ option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
 pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
 
+
+
+
 $if not errorFree $echo Data errors. Please inspect the listing file for details. > miro.log
 
 * Generate gfmap and others from pGenDataExcel
@@ -382,8 +387,9 @@ parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
 
 
+* TODO: Bug if removed, but never called?
 set addHdr / fuel1, fuel2, Zone, Type, 'Assigned Value', status, Heatrate2,
-             'RE Technology (Yes/No)', 'Hourly Variation? (Yes/No)' /;
+             'RE Technology', 'Hourly Variation' /;
              
 
 * Aggregate `gmap(g,z,tech,f)` over `tech` and `f` to get `gzmap(g,z)`,
