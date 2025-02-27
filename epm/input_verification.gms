@@ -37,7 +37,7 @@ db = gt.Container(gams.db)
 
 # Check that all these parameters are not None
 try:
-    essential_param = ["y", "pHours", "zcmapExcel", "pScalars", "pGenDataExcel", "pFuelPrice",
+    essential_param = ["y", "pHours", "zcmap", "pScalars", "pGenDataExcel", "pFuelPrice",
         "pFuelCarbonContent"]
     for param in  essential_param:
         if param not in db:
