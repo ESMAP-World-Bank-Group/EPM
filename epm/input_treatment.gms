@@ -60,9 +60,6 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
         return None
     
     print("Modifying {} with {}".format(param_name, default_param_name))
-
-    
-    param_df.to_csv('test.csv')
     
     # Identify key columns (all except "value")
     columns = param_df.columns
@@ -79,9 +76,7 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
 
     # Ensure column names are correct
     param_df.columns = columns
-    
-    param_df.to_csv('test_post.csv')
-    
+        
     db.data[param_name].setRecords(param_df)
     db.write(gams.db, [param_name])
 
