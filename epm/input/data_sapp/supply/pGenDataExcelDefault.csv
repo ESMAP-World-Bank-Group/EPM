@@ -1,0 +1,12 @@
+﻿zone,type,fuel,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
+South_Africa,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Angola,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Botswana,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Eswatini,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Lesotho,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Malawi,ST ,Coal,0.5,,0.33,0.33,0,0.05,60000,2,0,,30
+Mozambique,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Namibia,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Tanzania,ST ,Coal,0.5,,0.33,0.33,0,0.05,66000,6.5,0,,30
+Zambia,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
+Zimbabwe,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,0.13,0,,30
