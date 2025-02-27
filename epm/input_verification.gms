@@ -214,6 +214,24 @@ try:
 except Exception as e:
     print('Unexpected error when checking pTransferLimit')
     raise # Re-raise the exception for debuggings
+    
+# PlanningReserves
+try:
+    if db["pPlanningReserveMargin"].records is not None:
+        planning_df = db["pPlanningReserveMargin"].records
+        zcmap_df = db["zcmap"].records
+        countries_planning = set(planning_df['c'].unique())
+        countries_def = set(zcmap_df['c'].unique())
+        missing_countries = countries_def - countries_planning
+        if missing_countries:
+            missing_countries_str = ", ".join(missing_countries)
+            raise ValueError(f"Error: The following countries are missing from 'pPlanningReserveMargin': {missing_countries_str}")
+        else:
+            print("Success: All countries c have planning reserve defined.")
+        
+except Exception as e:
+    print('Unexpected error when checking PlanningReserves')
+    raise # Re-raise the exception for debuggings
 
 
 $offEmbeddedCode
