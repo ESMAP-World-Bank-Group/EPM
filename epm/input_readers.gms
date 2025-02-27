@@ -505,8 +505,8 @@ $onEmbeddedCode Connect:
     name: ftfindex
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    valueColumns: [3]
+    indexColumns: [1]
+    valueColumns: [2]
     type: par
 
 - CSVReader:
