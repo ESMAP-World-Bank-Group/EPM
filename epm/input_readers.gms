@@ -132,7 +132,7 @@ $onEmbeddedCode Connect:
         range: EnergyEfficiency!A5
         rowDimension: 1
         columnDimension: 1
-      - name: pScalars
+      - name: pSettings
         range: Settings1!B3:C70
         rowDimension: 1
         columnDimension: 0
@@ -279,8 +279,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pScalars.csv
-    name: pScalars
+    file: input/%FOLDER_INPUT%/pSettings.csv
+    name: pSettings
     valueSubstitutions: {0: .nan}
     indexColumns: [2]
     valueColumns: [3]
@@ -886,8 +886,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pScalars%
-    name: pScalars
+    file: %pSettings%
+    name: pSettings
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     valueColumns: [2]
