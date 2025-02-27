@@ -200,7 +200,7 @@ Set
    ftfmap(ft<,f<)                   'map fuel types to fuels'
    zcmap(z,c<)                     'map zones to countries'
    sTopology(z,z2)                  'network topology - to be assigned through network data'
-   Relevant(d)                      'relevant day and hours when MinGen limit is applied'
+   sRelevant(d)                      'relevant day and hours when MinGen limit is applied'
    mipopt(mipline<)                 / system.empty /;
 ;   
 Parameter
@@ -322,7 +322,7 @@ $load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectories
 $load zext ftfindex gmap zcmap
 
 * Load general model parameters related to demand and emissions
-$load Relevant pDemandData pDemandForecast pDemandProfile
+$load sRelevant pDemandData pDemandForecast pDemandProfile
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
@@ -358,7 +358,7 @@ $offMulti
 
 
 execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-zext ftfindex gmap zcmap Relevant pDemandData pDemandForecast
+zext ftfindex gmap zcmap sRelevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
@@ -458,7 +458,7 @@ execute_unload '%GDX_INPUT%_miro'
    pHours
    pTechData
    pGenDataMIRO
-   Relevant
+   sRelevant
    pDemandData
    pDemandForecast
    pDemandProfile
