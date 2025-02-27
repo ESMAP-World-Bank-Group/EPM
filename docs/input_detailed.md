@@ -527,7 +527,33 @@ There are two types of reserves in **EPM**:
 
 Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade) for more details.
 
-### `pSpinningReserveReqTotal.csv`
+### `pExtTransferLimit.csv`
+
+### `pMaxExchangeShare.csv`
+
+### `pMaxPriceImportShare.csv`
+
+### `pNewTransmission.csv`
+
+- **Description**:  
+  Defines the candidate transmission lines main characteristics.  
+
+- **Data Structure**:  
+  - **From** (*str*) – from where the line starts.  
+  - **To** (*str*) – to where the line end.  
+
+- **Example Link**: [pSpinningReserveReqTotal.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/reserve/pSpinningReserveReqTotal.csv)  
+
+
+### `pTradePrice.csv`
+
+### `pTransferLimit.csv`
+
+### `zext.csv`
+
+
+
+### `pLossFactor.csv`
 
 ---
 
