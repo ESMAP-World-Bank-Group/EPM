@@ -1538,9 +1538,8 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <h3><strong><code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code></strong><a class="headerlink" href="#ftfindex-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>List of fuels recognized by EPM.</p></li>
-<li><p>3 columns:</p>
+<li><p>2 columns:</p>
 <ol class="arabic simple">
-<li><p>Fuel type</p></li>
 <li><p>Fuel</p></li>
 <li><p>Index (Note: Index is no longer used, and the structure is being simplified to keep only “Fuel”).</p></li>
 </ol>
@@ -1693,13 +1692,13 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Plant</span></code></strong> (<em>string</em>) – Name of the power plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Zone</span></code></strong> (<em>string</em>) – Zone where the plant is located, as defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Type</span></code></strong> (<em>string</em>) – Technology type, as defined in <code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code>.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel1</span></code></strong> (<em>string</em>) – Primary fuel type, as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel1</span></code></strong> (<em>string</em>) – Primary fuel name, as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">StYr</span></code></strong> (<em>year</em>) – Start year of plant operation.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">RetrYr</span></code></strong> (<em>year</em>) – Retirement year of the plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Capacity</span></code></strong> (<em>MW</em>) – Installed capacity of the plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">UnitSize</span></code></strong> (<em>MW</em>) – Size of a single unit in the plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Status</span></code></strong> (<em>integer</em>) – Operational status indicator (e.g., existing, planned, retired).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel2</span></code></strong> (<em>string</em>) – Secondary fuel type, if applicable.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel2</span></code></strong> (<em>string</em>) – Secondary fuel name, if applicable.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">HeatRate2</span></code></strong> (<em>MMBtu/MWh</em>) – Heat rate when operating on secondary fuel.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">DescreteCap</span></code></strong> (<em>MW</em>) – Discrete capacity increments allowed for expansion.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">BuildLimitperYear</span></code></strong> (<em>MW/year</em>) – Maximum allowable capacity additions per year.</p></li>
@@ -1726,14 +1725,14 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
 A dataset with <strong>default</strong> characteristics for power generation technologies, reducing the need for repetitive entries in <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code>.<br />
-It provides <strong>default values</strong> based on <strong>zone, technology type, and fuel type</strong> for various plant characteristics.</p></li>
+It provides <strong>default values</strong> based on <strong>zone, technology name, and fuel name</strong> for various plant characteristics.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p>4 dimensions:</p>
 <ol class="arabic simple">
 <li><p><strong>Zone</strong> – The geographical area where the technology is applied.</p></li>
-<li><p><strong>Type</strong> – The generation technology type, as defined in <code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code>.</p></li>
-<li><p><strong>Fuel</strong> – The primary fuel type, as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>.</p></li>
+<li><p><strong>Type</strong> – The generation technology name, as defined in <code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code>.</p></li>
+<li><p><strong>Fuel</strong> – The primary fuel name, as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>.</p></li>
 <li><p><strong>Characteristics</strong> – Default technical and economic characteristics.</p></li>
 </ol>
 </li>
@@ -1770,13 +1769,13 @@ The optimizer determines the best way to manage reduced availability.</p></li>
 <h3><code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code><a class="headerlink" href="#pavailabilitydefault-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Provides <strong>default seasonal availability</strong> for power plants based on <strong>zone, technology, and fuel type</strong>.<br />
+Provides <strong>default seasonal availability</strong> for power plants based on <strong>zone, technology, and fuel name</strong>.<br />
 This dataset enables automatic filling of seasonal availability values.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Zone</strong> (<em>string</em>) – The geographical area.</p></li>
-<li><p><strong>Technology</strong> (<em>string</em>) – Type of power generation technology.</p></li>
-<li><p><strong>Fuel</strong> (<em>string</em>) – Primary fuel type.</p></li>
+<li><p><strong>Technology</strong> (<em>string</em>) – Name of power generation technology.</p></li>
+<li><p><strong>Fuel</strong> (<em>string</em>) – Primary fuel name.</p></li>
 <li><p><strong>Season</strong> (<em>string</em>) – The season for which availability is defined.</p></li>
 <li><p><strong>Availability Factor</strong> (<em>fraction [0-1]</em>) – The default availability value for this configuration.</p></li>
 </ul>
@@ -1812,7 +1811,7 @@ Defines the <strong>generation profile</strong> of variable renewable energy (VR
 Defines <strong>VRE generation profiles</strong> at the <strong>technology level</strong> and automatically populates <code class="docutils literal notranslate"><span class="pre">pVREgenProfile.csv</span></code>.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
-<li><p><strong>Technology</strong> (<em>string</em>) – Type of renewable technology (e.g., PV, WIND, ROR).</p></li>
+<li><p><strong>Technology</strong> (<em>string</em>) – Name of renewable technology (e.g., PV, WIND, ROR).</p></li>
 <li><p><strong>Season</strong> (<em>string</em>) – The season considered.</p></li>
 <li><p><strong>Day</strong> (<em>integer</em>) – The day within the season.</p></li>
 <li><p><strong>Time</strong> (<em>hour</em>) – The time of day.</p></li>
@@ -1844,12 +1843,12 @@ A factor of <strong>0.5 in 2050</strong> means the cost will be <strong>50% of t
 <h3><code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code><a class="headerlink" href="#pcapextrajectoriesdefault-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Provides <strong>default CAPEX cost trajectories</strong> for different <strong>zones, technology types, and fuels</strong>, reducing the need for repeated entries.</p></li>
+Provides <strong>default CAPEX cost trajectories</strong> for different <strong>zones, technology names, and fuels</strong>, reducing the need for repeated entries.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Zone</strong> (<em>string</em>) – The geographical area.</p></li>
-<li><p><strong>Technology</strong> (<em>string</em>) – Type of power generation technology.</p></li>
-<li><p><strong>Fuel</strong> (<em>string</em>) – Primary fuel type.</p></li>
+<li><p><strong>Technology</strong> (<em>string</em>) – Name of power generation technology.</p></li>
+<li><p><strong>Fuel</strong> (<em>string</em>) – Primary fuel name.</p></li>
 <li><p><strong>Year</strong> (<em>integer</em>) – Year of CAPEX adjustment.</p></li>
 <li><p><strong>CAPEX Factor</strong> (<em>fraction [0-1]</em>) – Adjustment factor applied to the original CAPEX value.</p></li>
 </ul>
@@ -1868,7 +1867,7 @@ Provides <strong>fuel price projections</strong> by country and year, used for e
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Country</strong> (<em>string</em>) – Name of the country.</p></li>
-<li><p><strong>Fuel</strong> (<em>string</em>) – Type of fuel (as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>).</p></li>
+<li><p><strong>Fuel</strong> (<em>string</em>) – Name of fuel (as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>).</p></li>
 <li><p><strong>Year</strong> (<em>integer</em>) – Year for the price data.</p></li>
 <li><p><strong>Fuel Price</strong> (<em>$/MMBtu</em>) – Cost of fuel per million British thermal units (MMBtu).</p></li>
 </ul>
@@ -1948,7 +1947,7 @@ Defines <strong>maximum fuel consumption limits</strong> for different zones, us
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Zone</strong> (<em>string</em>) – The geographical area.</p></li>
-<li><p><strong>Fuel</strong> (<em>string</em>) – Type of fuel (as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>).</p></li>
+<li><p><strong>Fuel</strong> (<em>string</em>) – Name of fuel (as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>).</p></li>
 <li><p><strong>Year</strong> (<em>integer</em>) – The year for which the limit applies.</p></li>
 <li><p><strong>Max Fuel Limit</strong> (<em>MMBtu</em>) – Maximum allowable fuel consumption in million British thermal units.</p></li>
 </ul>
