@@ -33,7 +33,7 @@ The **Settings** file allows users to configure the model:
 ### **`y.csv`**  
   - One-dimensional, represents the years included in the intertemporal optimization.  
   - Example: [y.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/y.csv)
-  
+
 ---
 
 ### **`zcmap.csv`**  
@@ -178,7 +178,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pAvailabilityCustom.csv`
+### `pAvailabilityCustom.csv`
 - **Description**:  
   Defines the **seasonal availability** of power plants, accounting for **maintenance periods** or **hydro storage** constraints.  
   Availability values range between **0 and 1** and represent an average over the season.  
@@ -193,7 +193,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pAvailabilityDefault.csv`
+### `pAvailabilityDefault.csv`
 - **Description**:  
   Provides **default seasonal availability** for power plants based on **zone, technology, and fuel type**.  
   This dataset enables automatic filling of seasonal availability values.  
@@ -212,7 +212,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pVREgenProfile.csv`
+### `pVREgenProfile.csv`
 - **Description**:  
   Defines the **generation profile** of variable renewable energy (VRE) plants over time.
 
@@ -227,7 +227,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pVREProfile.csv`
+### `pVREProfile.csv`
 - **Description**:  
   Defines **VRE generation profiles** at the **technology level** and automatically populates `pVREgenProfile.csv`.  
 
@@ -242,7 +242,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pCapexTrajectoriesCustom.csv`
+### `pCapexTrajectoriesCustom.csv`
 - **Description**:  
   Defines the **capital expenditure (CAPEX) cost trajectory** for specific plants over time.  
   A factor of **0.5 in 2050** means the cost will be **50% of the initial CAPEX value** from `pGenData.csv` in 2050.
@@ -256,7 +256,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pCapexTrajectoriesDefault.csv`
+### `pCapexTrajectoriesDefault.csv`
 - **Description**:  
   Provides **default CAPEX cost trajectories** for different **zones, technology types, and fuels**, reducing the need for repeated entries.  
 
@@ -274,7 +274,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ---
 
-## `pFuelPrice.csv`
+### `pFuelPrice.csv`
 - **Description**:  
   Provides **fuel price projections** by country and year, used for economic modeling of power generation costs.  
 
@@ -285,3 +285,126 @@ All files in this section are stored in the **`supply`** folder.
   - **Fuel Price** (*$/MMBtu*) – Cost of fuel per million British thermal units (MMBtu).  
 
 - **Example Link**: [pFuelPrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pFuelPrice.csv)  
+
+--
+### Others
+`pCSPData.csv` and `pStorDataExcel.csv` are not included in the documentation, as we want to merge them into `pGenDataExcel.csv`.
+
+- **Example Link**: 
+  - [pCSPData.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pCSPData.csv)
+  - [pStorDataExcel.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pStorDataExcel.csv)
+
+## Constraint
+
+All files in this section are stored in the **`constraint`** folder. 
+Constraint are typically defined in the `pSettings.csv` file. Here, these files are used to define the constraints in more detail.
+
+### `pCarbonPrice.csv`
+- **Description**:  
+  Defines the **carbon price trajectory** over time, used to account for carbon costs in power generation planning.
+
+- **Data Structure**:  
+  - **Year** (*integer*) – The year for which the carbon price applies.  
+  - **Carbon Price** (*$/tCO₂*) – Cost of carbon emissions per metric ton of CO₂.  
+
+- **Example Link**: [pCarbonPrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pCarbonPrice.csv)  
+
+---
+
+### `pEmissionsCountry.csv`
+- **Description**:  
+  Defines **total CO₂ emissions** at the **country level**, used for national carbon constraints.
+
+- **Data Structure**:  
+  - **Zone** (*string*) – The geographical area.  
+  - **Year** (*integer*) – The year for which the emission limit applies.  
+  - **CO₂ Emissions** (*tCO₂*) – The total allowed emissions for the given year.  
+
+- **Example Link**: [pEmissionsCountry.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pEmissionsCountry.csv)  
+
+---
+
+### `pEmissionsTotal.csv`
+- **Description**:  
+  Defines the **total CO₂ emissions cap** for the entire system.
+
+- **Data Structure**:  
+  - **Year** (*integer*) – The year for which the emission limit applies.  
+  - **CO₂ Emissions** (*tCO₂*) – The total allowed emissions for all zones combined.  
+
+- **Example Link**: [pEmissionsTotal.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pEmissionsTotal.csv)  
+
+---
+
+### `pMaxFuelLimit.csv`
+- **Description**:  
+  Defines **maximum fuel consumption limits** for different zones, used to constrain fuel usage in the model.
+
+- **Data Structure**:  
+  - **Zone** (*string*) – The geographical area.  
+  - **Fuel** (*string*) – Type of fuel (as defined in `ftfindex.csv`).  
+  - **Year** (*integer*) – The year for which the limit applies.  
+  - **Max Fuel Limit** (*MMBtu*) – Maximum allowable fuel consumption in million British thermal units.  
+
+- **Example Link**: [pMaxFuelLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pMaxFuelLimit.csv)  
+
+## Reserve  
+
+There are two types of reserves in **EPM**:  
+
+1. **Spinning Reserve** – A real-time operational reserve that provides immediate response to sudden changes in demand or supply.  
+2. **Planning Reserve** – A reserve margin that ensures sufficient generation capacity is available to meet peak demand and contingencies.  
+
+**Note:**  
+- Spinning reserve requirements depend on the values in this dataset **plus** the forecast error of VRE (Variable Renewable Energy), which is defined in `pSettings.csv`.  
+- To be included in the model, reserve requirements must be properly **defined in `pSettings.csv`**.  
+
+---
+
+### `pPlanningReserveMargin.csv`
+- **Description**:  
+  Defines the **minimum required planning reserve margin** as a **share of total demand**, ensuring system adequacy.  
+
+- **Data Structure**:  
+  - **Zone** (*string*) – The geographical area.  
+  - **Year** (*integer*) – The year for which the planning reserve requirement applies.  
+  - **Reserve Margin** (*fraction*) – The percentage of total demand that must be reserved for planning purposes.  
+
+- **Example Link**: [pPlanningReserveMargin.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/reserve/pPlanningReserveMargin.csv)  
+
+---
+
+### `pSpinningReserveReqCountry.csv`
+- **Description**:  
+  Defines the **spinning reserve requirement at the country level**, ensuring adequate capacity is available for sudden demand fluctuations or generation losses.  
+
+- **Data Structure**:  
+  - **Country** (*string*) – The country for which the reserve requirement applies.  
+  - **Year** (*integer*) – The year for which the requirement applies.  
+  - **Spinning Reserve Requirement** (*MW*) – The minimum spinning reserve capacity required in megawatts.  
+
+- **Example Link**: [pSpinningReserveReqCountry.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/reserve/pSpinningReserveReqCountry.csv)  
+
+---
+
+### `pSpinningReserveReqTotal.csv`
+- **Description**:  
+  Defines the **total system-wide spinning reserve requirement**, summing up reserves required across all zones/countries.  
+
+- **Data Structure**:  
+  - **Year** (*integer*) – The year for which the requirement applies.  
+  - **Total Spinning Reserve Requirement** (*MW*) – The total spinning reserve capacity required across the entire system.  
+
+- **Example Link**: [pSpinningReserveReqTotal.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/reserve/pSpinningReserveReqTotal.csv)  
+
+---
+
+## Trade
+
+Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade) for more details.
+
+---
+
+## H2
+
+Documentation in progress. Check the `h2` [h2](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/h2) for more details.
