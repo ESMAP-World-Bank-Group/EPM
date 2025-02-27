@@ -348,6 +348,7 @@ $offmulti
 
 $include input_verification.gms
 
+$exit 
 *-------------------------------------------------------------------------------------
 * Make input treatment
 
@@ -789,9 +790,8 @@ pCRFcth(cs)$pCSPData(cs,"Thermal Field","Life") = pWACC / (1 - (1 / ( (1 + pWACC
 
 **Create set MapNCZ (neighbouring country zones)
 
-*Zones_conn_in_Diff_country(z,zz)$((sum(c$gfmap(c,z),x(c,z)) ne sum(c$gfmap(c,zz),x(c,zz))) and conn(z,zz)) = 1;
-
-sMapNCZ(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z2,c)), 1) = 0;
+* Defines which connected zones belong to different countries. 
+sMapConnectedZonesDiffCountries(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z2,c)), 1) = 0;  
 
 *** Simple bounds
 *vImportPrice.up(z,q,d,t,y)$(pMaxImport>1) = pMaxImport;
