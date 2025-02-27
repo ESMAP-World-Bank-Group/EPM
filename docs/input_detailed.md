@@ -138,10 +138,9 @@ All files in this section are included in the `resources` folder. These datasets
 
 ### **`ftfindex.csv`**  
   - List of fuels recognized by EPM.  
-  - 3 columns:  
-    1. Fuel type  
-    2. Fuel  
-    3. Index (Note: Index is no longer used, and the structure is being simplified to keep only "Fuel").  
+  - 2 columns:  
+    1. Fuel  
+    2. Index (Note: Index is no longer used, and the structure is being simplified to keep only "Fuel").  
   - Example: [ftfindex.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/ftfindex.csv)
   - List of fuel types recognized by EPM: 
     - **Coal**  
@@ -253,13 +252,13 @@ All files in this section are stored in the **`supply`** folder.
   - **`Plant`** (*string*) – Name of the power plant.  
   - **`Zone`** (*string*) – Zone where the plant is located, as defined in `zcmap.csv`.  
   - **`Type`** (*string*) – Technology type, as defined in `pTechData.csv`.  
-  - **`fuel1`** (*string*) – Primary fuel type, as defined in `ftfindex.csv`.  
+  - **`fuel1`** (*string*) – Primary fuel name, as defined in `ftfindex.csv`.  
   - **`StYr`** (*year*) – Start year of plant operation.  
   - **`RetrYr`** (*year*) – Retirement year of the plant.  
   - **`Capacity`** (*MW*) – Installed capacity of the plant.  
   - **`UnitSize`** (*MW*) – Size of a single unit in the plant.  
   - **`Status`** (*integer*) – Operational status indicator (e.g., existing, planned, retired).  
-  - **`fuel2`** (*string*) – Secondary fuel type, if applicable.  
+  - **`fuel2`** (*string*) – Secondary fuel name, if applicable.  
   - **`HeatRate2`** (*MMBtu/MWh*) – Heat rate when operating on secondary fuel.  
   - **`DescreteCap`** (*MW*) – Discrete capacity increments allowed for expansion.  
   - **`BuildLimitperYear`** (*MW/year*) – Maximum allowable capacity additions per year.  
@@ -283,13 +282,13 @@ All files in this section are stored in the **`supply`** folder.
 ### `pGenDataExcelDefault.csv`
 - **Description**:  
   A dataset with **default** characteristics for power generation technologies, reducing the need for repetitive entries in `pGenDataExcelCustom.csv`.  
-  It provides **default values** based on **zone, technology type, and fuel type** for various plant characteristics.
+  It provides **default values** based on **zone, technology name, and fuel name** for various plant characteristics.
 
 - **Data Structure**:  
   - 4 dimensions:  
     1. **Zone** – The geographical area where the technology is applied.  
-    2. **Type** – The generation technology type, as defined in `pTechData.csv`.  
-    3. **Fuel** – The primary fuel type, as defined in `ftfindex.csv`.  
+    2. **Type** – The generation technology name, as defined in `pTechData.csv`.  
+    3. **Fuel** – The primary fuel name, as defined in `ftfindex.csv`.  
     4. **Characteristics** – Default technical and economic characteristics.  
 
 - **Column Descriptions**:  
@@ -320,13 +319,13 @@ All files in this section are stored in the **`supply`** folder.
 
 ### `pAvailabilityDefault.csv`
 - **Description**:  
-  Provides **default seasonal availability** for power plants based on **zone, technology, and fuel type**.  
+  Provides **default seasonal availability** for power plants based on **zone, technology, and fuel name**.  
   This dataset enables automatic filling of seasonal availability values.  
 
 - **Data Structure**:  
   - **Zone** (*string*) – The geographical area.  
-  - **Technology** (*string*) – Type of power generation technology.  
-  - **Fuel** (*string*) – Primary fuel type.  
+  - **Technology** (*string*) – Name of power generation technology.  
+  - **Fuel** (*string*) – Primary fuel name.  
   - **Season** (*string*) – The season for which availability is defined.  
   - **Availability Factor** (*fraction [0-1]*) – The default availability value for this configuration.  
 
@@ -357,7 +356,7 @@ All files in this section are stored in the **`supply`** folder.
   Defines **VRE generation profiles** at the **technology level** and automatically populates `pVREgenProfile.csv`.  
 
 - **Data Structure**:  
-  - **Technology** (*string*) – Type of renewable technology (e.g., PV, WIND, ROR).  
+  - **Technology** (*string*) – Name of renewable technology (e.g., PV, WIND, ROR).  
   - **Season** (*string*) – The season considered.  
   - **Day** (*integer*) – The day within the season.  
   - **Time** (*hour*) – The time of day.  
@@ -383,12 +382,12 @@ All files in this section are stored in the **`supply`** folder.
 
 ### `pCapexTrajectoriesDefault.csv`
 - **Description**:  
-  Provides **default CAPEX cost trajectories** for different **zones, technology types, and fuels**, reducing the need for repeated entries.  
+  Provides **default CAPEX cost trajectories** for different **zones, technology names, and fuels**, reducing the need for repeated entries.  
 
 - **Data Structure**:  
   - **Zone** (*string*) – The geographical area.  
-  - **Technology** (*string*) – Type of power generation technology.  
-  - **Fuel** (*string*) – Primary fuel type.  
+  - **Technology** (*string*) – Name of power generation technology.  
+  - **Fuel** (*string*) – Primary fuel name.  
   - **Year** (*integer*) – Year of CAPEX adjustment.  
   - **CAPEX Factor** (*fraction [0-1]*) – Adjustment factor applied to the original CAPEX value.  
 
@@ -405,7 +404,7 @@ All files in this section are stored in the **`supply`** folder.
 
 - **Data Structure**:  
   - **Country** (*string*) – Name of the country.  
-  - **Fuel** (*string*) – Type of fuel (as defined in `ftfindex.csv`).  
+  - **Fuel** (*string*) – Name of fuel (as defined in `ftfindex.csv`).  
   - **Year** (*integer*) – Year for the price data.  
   - **Fuel Price** (*$/MMBtu*) – Cost of fuel per million British thermal units (MMBtu).  
 
@@ -467,7 +466,7 @@ Constraint are typically defined in the `pSettings.csv` file. Here, these files 
 
 - **Data Structure**:  
   - **Zone** (*string*) – The geographical area.  
-  - **Fuel** (*string*) – Type of fuel (as defined in `ftfindex.csv`).  
+  - **Fuel** (*string*) – Name of fuel (as defined in `ftfindex.csv`).  
   - **Year** (*integer*) – The year for which the limit applies.  
   - **Max Fuel Limit** (*MMBtu*) – Maximum allowable fuel consumption in million British thermal units.  
 
