@@ -62,7 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/input_overview.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Input reading through python" href="input_reading.html" />
+    <link rel="next" title="Data Structure Documentation" href="input_detailed.html" />
     <link rel="prev" title="Running jobs in parallel with python" href="run_parallel.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
@@ -206,13 +206,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_reading.html">
-                        Input reading through python
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
                         Data Structure Documentation
                       </a>
@@ -348,6 +341,10 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
 
 </div>
   </nav>
@@ -435,13 +432,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Overview
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_reading.html">
-                        Input reading through python
                       </a>
                     </li>
                 
@@ -620,7 +610,6 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_reading.html">Input reading through python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Postprocessing</span></p>
@@ -803,7 +792,9 @@ title="Print to PDF"
       
   </ul>
 </div>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
             </div>
@@ -816,6 +807,24 @@ title="Print to PDF"
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-use-csv-files">
+   Why use csv files ?
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -826,12 +835,33 @@ title="Print to PDF"
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
 <p>EPM supports two input methods:</p>
 <ul class="simple">
+<li><p>a folder containing multiple .csv files. Each .csv file corresponds to a former tab in the Excel file (recommended)</p></li>
 <li><p>a single main Excel file</p></li>
-<li><p>a folder containing multiple .csv files. Each .csv file corresponds to a former tab in the Excel file.</p></li>
 </ul>
-<p>While Excel has traditionally been used to run EPM, the introduction of the .csv approach was driven by increased computational capabilities and the need for more robust simulations. This method ensures consistency across simulations by allowing modifications to a single input file while keeping others unchanged.</p>
+<p>While Excel has traditionally been used to run EPM, the introduction of the .csv approach was driven by increased computational capabilities and the need for more robust simulations.</p>
+<p><strong>Note:</strong> The Excel file is not maintained for now for the last version that is available on the <code class="docutils literal notranslate"><span class="pre">feature</span></code> Git branch.</p>
 <p>We provide a template to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
 Download <a class="reference download internal" download="" href="../_downloads/e46a6a58613569de63aa28df7f04ad34/Template_Data_Source.xlsx"><span class="xref download myst">here</span></a>.</p>
+<section id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
+<p>Inputs are read by EPM through <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input_readers.gms">input_readers.gms</a>, which uses the READER parameter to determine the source of input files:</p>
+<ul class="simple">
+<li><p>READER = CONNECT_CSV: Reads from predefined CSV files stored in the input folder (default method).</p></li>
+<li><p>READER = CONNECT_EXCEL: Reads directly from an Excel file (traditional method).</p></li>
+<li><p>READER = CONNECT_CSV_PYTHON: Reads from CSV files, with file paths specified via command-line arguments.
+The last option (CONNECT_CSV_PYTHON) is designed for use with run_epm.py, which reads a scenario CSV file specifying the paths for each input file. An example of this scenario file is available on GitHub in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder.</p></li>
+</ul>
+</section>
+<section id="why-use-csv-files">
+<h2>Why use csv files ?<a class="headerlink" href="#why-use-csv-files" title="Permalink to this heading">#</a></h2>
+<p>To improve efficiency and reduce errors, the input Excel file is split into multiple CSV files (examples are available in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder on the main Git branch).</p>
+<p>Using CSV files offers several advantages:</p>
+<ul class="simple">
+<li><p>Easier modifications: You can edit a single CSV without copying the entire Excel file, which is large and cumbersome.</p></li>
+<li><p>Error reduction: In Excel, modifying a common tab (e.g., GenData) across multiple scenario files is prone to mistakes. With CSVs, GenData.csv remains shared across all scenarios, ensuring consistency.</p></li>
+<li><p>Better Python integration: Python handles CSV files more efficiently than Excel.</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -869,10 +899,10 @@ Download <a class="reference download internal" download="" href="../_downloads/
           <p class="prev-next-title">Running jobs in parallel with python</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="input_reading.html" title="next page">
+  <a class='right-next' id="next-link" href="input_detailed.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Input reading through python</p>
+      <p class="prev-next-title">Data Structure Documentation</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -882,6 +912,32 @@ Download <a class="reference download internal" download="" href="../_downloads/
           </div>
           
           
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#why-use-csv-files">
+   Why use csv files ?
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
           
           
         </div>
