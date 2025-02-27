@@ -34,32 +34,49 @@ import gams.transfer as gt
 # Create a GAMS workspace and database
 db = gt.Container(gams.db)
 
-# Retrieve parameter pHours from GAMS
-pHours = db["pHours"]
-
 
 # Check that all these parameters are not None
-param_keys = ["pHours", "pGenDataExcel", "pFuelPrice"] 
+try:
+    param_keys = ["y", "pHours", "zcmapExcel", "pScalars", "pGenDataExcel", "pFuelPrice"]
+    for param in  param_keys:
+        if param not in db:
+            raise ValueError(f"Error {param} is missing")
+        else:
+            if db[param].records is None:
+                raise ValueError(f"Error {param} is missing")
+            else:
+                if db[param].records.empty:
+                    raise ValueError(f"Error {param} is empty")
+except Exception as e:
+    print('Unexpected error in initial')
+    raise # Re-raise the exception for debuggings
+
+# Check if all pHours values are positive
+try:
+    # Retrieve parameter pHours from GAMS
+    pHours = db["pHours"]
+    
+    verif = pHours.records['value'].all() > 0
+    
+    if verif:
+        print("Success: All values pHours positive.")
+    else:
+        raise ValueError(f"Error: Some block duration are negative.")
 
 
-# Check if all values are positive
-verif = pHours.records['value'].all() > 0
-
-if verif:
-    print("Success: All values pHours positive.")
-else:
-    raise ValueError(f"Error: Some block duration are negative.")
-
-
-# Compute the sum of all records
-total_hours = pHours.records['value'].sum()
-
-# Check if the sum is 8760
-if total_hours == 8760:
-    print("Success: The sum of pHours is exactly 8760.")
-else:
-    raise ValueError(f"Error: The sum of pHours is {total_hours}, which is not 8760.")
-
+    # Compute the sum of all records
+    total_hours = pHours.records['value'].sum()
+    
+    # Check if the sum is 8760
+    if total_hours == 8760:
+        print("Success: The sum of pHours is exactly 8760.")
+    else:
+        raise ValueError(f"Error: The sum of pHours is {total_hours}, which is not 8760.")
+        
+except Exception as e:
+    print('Unexpected error in pHours')
+    raise # Re-raise the exception for debuggings
+    
 # VREProfile
 try:
     pVREProfile = db["pVREProfile"]

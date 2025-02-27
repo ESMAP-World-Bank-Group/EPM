@@ -397,7 +397,7 @@ $onEmbeddedCode Connect:
     file: input/%FOLDER_INPUT%/pScalars.csv
     name: pScalars
     valueSubstitutions: {0: .nan}
-    indexColumns: [1]
+    indexColumns: [2]
     valueColumns: [3]
     type: par
 
