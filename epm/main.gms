@@ -200,7 +200,6 @@ Set
    ftfmap(ft<,f<)                   'map fuel types to fuels'
    zcmap(z,c<)                     'map zones to countries'
    sTopology(z,z2)                  'network topology - to be assigned through network data'
-   Peak(t)                          'peak period hours'
    Relevant(d)                      'relevant day and hours when MinGen limit is applied'
    mipopt(mipline<)                 / system.empty /;
 ;   
@@ -271,7 +270,7 @@ Set gprimf(g,f)          'primary fuel f for generator g'
           STORAGE        'Grid Connected Storage' /
    gtechmap(g,tech)      'Generator technology map'
    gstatusmap(g,gstatus) 'Generator status map'
-   Offpeak(t)            'offpeak hours'
+*   Offpeak(t)            'offpeak hours'
    Zd(z)
    Zt(z)
    stg(g)                'Grid tied storage'
@@ -324,7 +323,7 @@ $load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectories
 $load zext ftfindex gmap zcmap
 
 * Load general model parameters related to demand and emissions
-$load peak Relevant pDemandData pDemandForecast pDemandProfile
+$load Relevant pDemandData pDemandForecast pDemandProfile
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
@@ -360,8 +359,7 @@ $offMulti
 
 
 execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-zext ftfindex gmap zcmap
-peak Relevant pDemandData pDemandForecast
+zext ftfindex gmap zcmap Relevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
@@ -465,7 +463,6 @@ execute_unload '%GDX_INPUT%_miro'
    pHours
    pTechData
    pGenDataMIRO
-   peak
    Relevant
    pDemandData
    pDemandForecast
@@ -646,8 +643,6 @@ if(pincludeCSP                         = 0, put 'Ignoring CSP characteristics da
 if(pIncludeCarbon                      = 0, put 'Ignoring carbon price data.'/);
 putclose log;
 
-* Define `Offpeak(t)` as the complement of `peak(t)` (i.e., off-peak hours)
-Offpeak(t) = not peak(t);
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate');
