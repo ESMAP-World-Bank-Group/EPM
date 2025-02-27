@@ -353,11 +353,12 @@ $include input_verification.gms
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
+
 $onMulti
 $include input_treatment.gms
 $offMulti
-*-------------------------------------------------------------------------------------
 
+*-------------------------------------------------------------------------------------
 
 
 execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
@@ -429,7 +430,6 @@ pGenData(g,ghdr) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,ghdr));
 pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
 pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
 pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
-
 
 
 ***********************H2 model parameters***************************************************
@@ -631,6 +631,8 @@ pFuelCarbonContent(f) = sum(ftfmap(ft,f),pFuelTypeCarbonContent(ft));
 option gsmap<pStorDataInput;
 loop(gsmap(g2,g), pStorData(g,shdr) = pStorDataInput(g,g2,shdr));
 
+
+
 * Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
 
@@ -726,6 +728,8 @@ $onIDCProtect
 * Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
 
+
+
 * Identify hours that are close to the peak demand for capacity credit calculations
 pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<pMaxLoadFractionCCCalc);
 
@@ -739,9 +743,12 @@ pVREgenProfile(gfmap(VRE,f),q,d,t)$(not(pVREgenProfile(VRE,f,q,d,t))) = sum(gzma
 $onIDCProtect
 
 
+
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,f,q,d,t))/sum((q,d,t),1));
+
+display pAvailability;
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));

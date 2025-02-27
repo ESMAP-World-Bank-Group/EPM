@@ -349,7 +349,7 @@ $onEmbeddedCode Connect:
     file: input/%FOLDER_INPUT%/pHours.csv
     name: pHours
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     header: [1]
     indexColumns: [1, 2]
     type: par
@@ -406,7 +406,7 @@ $onEmbeddedCode Connect:
     file: input/%FOLDER_INPUT%/pVREProfile.csv
     name: pVREProfile
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
@@ -623,7 +623,7 @@ $onEmbeddedCode Connect:
     file: input/%FOLDER_INPUT%/pVREgenProfile.csv
     name: pVREgenProfile
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3, 4]
     header: [1]
     type: par
