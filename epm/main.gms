@@ -207,7 +207,7 @@ Set
 Parameter
    pCSPData(g,csphrd,shdr)
    pTechData(tech<,techhdr)         'Technology data'
-   pFuelTypeCarbonContent(ft)       'Fuel type carbon content in tCO2 per MMBTu'
+   pFuelCarbonContent(f)       'Fuel carbon content in tCO2 per MMBTu'
    pStorDataInput(g,g2,shdr)        'Storage data'
    pNewTransmission(z,z2,thdr)      'new transmission lines'
    pTradePrice(zext,q,d,y,t)           'trade price - export or import driven by prices [assuming each zone in a country can only trade with one external zone]'
@@ -327,7 +327,7 @@ $load zext ftfindex gmap zcmapExcel
 
 * Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
-$load pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
+$load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
@@ -364,15 +364,13 @@ $offMulti
 execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap zcmapExcel
 peak Relevant pDemandData pDemandForecast
-pDemandProfile pFuelTypeCarbonContent pCarbonPrice pEmissionsCountry
+pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
 pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
 ;
-
-display pAvailability, pCapexTrajectories;
 
 option ftfmap<ftfindex;
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
@@ -412,17 +410,16 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 gfmap(g,f) = gfmap(g,f) 
          or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = 
          sum(ftfmap(ft,f), ftfindex(ft,f))));
-         
 
-         
-*gfmap(g,f) =   pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f))
-*            or pGenDataExcel(g,'fuel2')=sum(ftfmap(ft,f),ftfindex(ft,f));
-*gzmap(g,z) = pGenDataExcel(g,'Zone')=pZoneIndex(z);
-*gtechmap(g,tech) = pGenDataExcel(g,'Type')=pTechDataExcel(tech,'Assigned Value');
+* Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
+
+* Map zone to country using input data
 zcmap(z,c) = zcmapExcel(z,c);
 
-*gprimf(gfmap(g,f)) = pGenDataExcel(g,'fuel1')=sum(ftfmap(ft,f),ftfindex(ft,f)); 
+
+execute_unload "test.gdx" gmap, gzmap, gfmap, gprimf, gtechmap, gfmap;
+
 pHeatrate(gfmap(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate2"));
 pHeatrate(gprimf(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate"));
 
@@ -440,6 +437,7 @@ H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
 * h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
 h2zmap(hh,z) = pH2DataExcel(hh,'Zone')
 
+* Conditional directive: Execute the following block if 'generateMIROScenario' is set
 $ifThen set generateMIROScenario
 Parameter
    pGenDataMIRO(g,z,tech,gstatus,f,f,ghdr)
@@ -474,7 +472,7 @@ execute_unload '%GDX_INPUT%_miro'
    pDemandForecast
    pDemandProfile
    pfuelConversion
-   pFuelTypeCarbonContent
+   pFuelCarbonContent
    pCarbonPrice
    pMaxFuellimitMIRO
    actscen
@@ -625,13 +623,11 @@ Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 Zd(z) = not Zt(z);
 
 * Compute fuel carbon content by aggregating data from fuel type mappings
-pFuelCarbonContent(f) = sum(ftfmap(ft,f),pFuelTypeCarbonContent(ft));
+*pFuelCarbonContent(f) = sum(ftfmap(ft,f),pFuelTypeCarbonContent(ft));
 
 * Assign storage data from `pStorDataInput` based on the generator-storage mapping
 option gsmap<pStorDataInput;
 loop(gsmap(g2,g), pStorData(g,shdr) = pStorDataInput(g,g2,shdr));
-
-
 
 * Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
@@ -727,7 +723,6 @@ $onIDCProtect
 
 * Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
-
 
 
 * Identify hours that are close to the peak demand for capacity credit calculations
