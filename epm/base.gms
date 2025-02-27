@@ -102,7 +102,7 @@ Sets
    gsmap(g2,g)            'generator storage map'
    zcmap(z,c<)           'map zones to countries'
    sTopology(z,z2)        'network topology - to be assigned through network data'
-   sMapNCZ(z,z2)          'set of connecting zones belong to different countries'   
+   sMapConnectedZonesDiffCountries(z,z2)          'set of connecting zones belonging to different countries'   
 **************Hydrogen production model related sets*******************************
    h2zmap(hh,z)
    ft
@@ -681,7 +681,7 @@ eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraint
 eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
- + sum((zcmap(z,c),sMapNCZ(z2,z)), pTransferLimit(z2,z,q,y)
+ + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
                                 + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
                                 - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
@@ -694,7 +694,7 @@ eSpinningReserveReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
 ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + sum((zcmap(z,c),sMapNCZ(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine"))
+ + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine"))
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
