@@ -365,15 +365,6 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     type: par
 
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/peak.csv
-    name: peak
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    type: set
-    indexColumns: [1]
-
 
 # SUPPLY DATA
 
