@@ -527,6 +527,8 @@ There are two types of reserves in **EPM**:
 
 Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade) for more details.
 
+### `pSpinningReserveReqTotal.csv`
+
 ---
 
 ## H2
