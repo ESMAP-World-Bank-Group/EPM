@@ -366,8 +366,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/zcmapExcel.csv
-    name: zcmapExcel
+    file: input/%FOLDER_INPUT%/zcmap.csv
+    name: zcmap
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]

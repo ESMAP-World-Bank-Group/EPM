@@ -261,7 +261,6 @@ Parameter
    pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
    pMaxLoadFractionCCCalc           'maximum percentage difference between hourly load and peak load to consider in the capacity credit calculation' 
    pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
-
 ;
 
 Set gprimf(g,f)          'primary fuel f for generator g'
@@ -289,7 +288,6 @@ $offmulti
 
 
 Set
-   zcmapExcel(z,c<)
    gmap(g,z,tech,f) 'Map generators to firms, zones, technologies and fuels'
    
 ;
@@ -323,7 +321,7 @@ $gdxIn %GDX_INPUT%
 * Load domain-defining symbols (sets and indices)
 $load y pHours pTechDataExcel
 $load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-$load zext ftfindex gmap zcmapExcel
+$load zext ftfindex gmap zcmap
 
 * Load general model parameters related to demand and emissions
 $load peak Relevant pDemandData pDemandForecast pDemandProfile
@@ -362,7 +360,7 @@ $offMulti
 
 
 execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-zext ftfindex gmap zcmapExcel
+zext ftfindex gmap zcmap
 peak Relevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
@@ -407,16 +405,17 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 
 * Update `gfmap(g,f)`, ensuring it includes additional mappings 
 * based on `pGenDataExcel(g,z,tech,f2,'fuel2')` when a condition is met.
+*gfmap(g,f) = gfmap(g,f) 
+*         or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = 
+*         sum(ftfmap(ft,f), ftfindex(ft,f))));
+
 gfmap(g,f) = gfmap(g,f) 
          or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = 
          sum(ftfmap(ft,f), ftfindex(ft,f))));
+         
 
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
-
-* Map zone to country using input data
-zcmap(z,c) = zcmapExcel(z,c);
-
 
 execute_unload "test.gdx" gmap, gzmap, gfmap, gprimf, gtechmap, gfmap;
 
