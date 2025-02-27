@@ -25,6 +25,6 @@ To improve efficiency and reduce errors, the input Excel file is split into mult
 
 Using CSV files offers several advantages:
 
-- Easier modifications: You can edit a single CSV without copying the entire Excel file, which is large and cumbersome.
+- Easier modifications: You can edit a single CSV without copying the entire Excel file, which is large and cumbersome. This simplifies scenario creation and testing.
 - Error reduction: In Excel, modifying a common tab (e.g., GenData) across multiple scenario files is prone to mistakes. With CSVs, GenData.csv remains shared across all scenarios, ensuring consistency.
 - Better Python integration: Python handles CSV files more efficiently than Excel.

@@ -857,7 +857,7 @@ The last option (CONNECT_CSV_PYTHON) is designed for use with run_epm.py, which 
 <p>To improve efficiency and reduce errors, the input Excel file is split into multiple CSV files (examples are available in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder on the main Git branch).</p>
 <p>Using CSV files offers several advantages:</p>
 <ul class="simple">
-<li><p>Easier modifications: You can edit a single CSV without copying the entire Excel file, which is large and cumbersome.</p></li>
+<li><p>Easier modifications: You can edit a single CSV without copying the entire Excel file, which is large and cumbersome. This simplifies scenario creation and testing.</p></li>
 <li><p>Error reduction: In Excel, modifying a common tab (e.g., GenData) across multiple scenario files is prone to mistakes. With CSVs, GenData.csv remains shared across all scenarios, ensuring consistency.</p></li>
 <li><p>Better Python integration: Python handles CSV files more efficiently than Excel.</p></li>
 </ul>
