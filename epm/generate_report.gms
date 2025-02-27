@@ -833,7 +833,7 @@ pZonesperCountry(c) = sum(zcmap(z,c), 1);
 MaxZonesperCountry = smax(c,pZonesperCountry(c));
 
 $ifthen.excelreport %DOEXCELREPORT%==1
-execute_unload 'epmresults',     pScalars, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
+execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
                                  pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
                                  pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
                                  pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
@@ -888,7 +888,7 @@ $setNames "%gams.input%" fp fn fe
    put_utility fgdxxrw 'ren' / 'WriteZonalandCountry.txt';
    
 $  onPut 
-   par=pScalars                           rng=Settings_raw!A6                     rdim=1
+   par=pSettings                           rng=Settings_raw!A6                     rdim=1
    par=pSummary                           rng=Summary!A6                          rdim=1
    par=pSystemAverageCost                 rng=SysAverageCost!A5
    par=pZonalAverageCost                  rng=ZonalAverageCost!A5

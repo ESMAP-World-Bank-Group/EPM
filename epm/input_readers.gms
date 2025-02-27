@@ -132,7 +132,7 @@ $onEmbeddedCode Connect:
         range: EnergyEfficiency!A5
         rowDimension: 1
         columnDimension: 1
-      - name: pScalars
+      - name: pSettings
         range: Settings1!B3:C70
         rowDimension: 1
         columnDimension: 0
@@ -279,8 +279,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pScalars.csv
-    name: pScalars
+    file: input/%FOLDER_INPUT%/pSettings.csv
+    name: pSettings
     valueSubstitutions: {0: .nan}
     indexColumns: [2]
     valueColumns: [3]
@@ -351,8 +351,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/load/relevant.csv
-    name: relevant
+    file: input/%FOLDER_INPUT%/load/sRelevant.csv
+    name: sRelevant
     indexColumns: [1]
     type: set
 
@@ -373,13 +373,12 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/supply/pTechDataExcel.csv
-    name: pTechDataExcel
+    file: input/%FOLDER_INPUT%/resources/pTechData.csv
+    name: pTechData
     indexSubstitutions: {.nan: ""}
     header: [1]
     indexColumns: [1]
     type: par
-    valueSubstitutions: {"NO": .nan, "YES": 1}  # drop "NO" and read "YES" as 1
 
 
 - CSVReader:
@@ -506,8 +505,8 @@ $onEmbeddedCode Connect:
     name: ftfindex
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    valueColumns: [3]
+    indexColumns: [1]
+    valueColumns: [2]
     type: par
 
 - CSVReader:
@@ -887,8 +886,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %pScalars%
-    name: pScalars
+    file: %pSettings%
+    name: pSettings
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     valueColumns: [2]
