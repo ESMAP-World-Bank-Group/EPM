@@ -145,6 +145,7 @@ try:
             diff = unique_combinations[first_var] ^ unique_combinations[var]  # Find differences
             if diff:
                 print(f"Differences in {var}: {diff}")
+        raise ValueError("All dataframes do not have the same (q, d, t) combinations.")
 except Exception as e:
     print('Unexpected error when checking time consistency')
     raise # Re-raise the exception for debuggings
