@@ -373,13 +373,12 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/supply/pTechDataExcel.csv
-    name: pTechDataExcel
+    file: input/%FOLDER_INPUT%/resources/pTechData.csv
+    name: pTechData
     indexSubstitutions: {.nan: ""}
     header: [1]
     indexColumns: [1]
     type: par
-    valueSubstitutions: {"NO": .nan, "YES": 1}  # drop "NO" and read "YES" as 1
 
 
 - CSVReader:
