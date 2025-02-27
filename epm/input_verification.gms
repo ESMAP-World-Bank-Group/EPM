@@ -37,8 +37,8 @@ db = gt.Container(gams.db)
 
 # Check that all these parameters are not None
 try:
-    param_keys = ["y", "pHours", "zcmapExcel", "pScalars", "pGenDataExcel", "pFuelPrice"]
-    for param in  param_keys:
+    essential_param = ["y", "pHours", "zcmapExcel", "pScalars", "pGenDataExcel", "pFuelPrice"]
+    for param in  essential_param:
         if param not in db:
             raise ValueError(f"Error {param} is missing")
         else:
@@ -47,6 +47,19 @@ try:
             else:
                 if db[param].records.empty:
                     raise ValueError(f"Error {param} is empty")
+                    
+    
+    optional_param = ["pDemandForecast", "pDemandForecast"]
+    for param in optional_param:
+        if param not in db:
+            print(f"Warning {param} is missing")
+        else:
+            if db[param].records is None:
+                print(f"Warning {param} is missing")
+            else:
+                if db[param].records.empty:
+                    print(f"Warning {param} is empty")
+
 except Exception as e:
     print('Unexpected error in initial')
     raise # Re-raise the exception for debuggings
