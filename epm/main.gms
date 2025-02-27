@@ -297,11 +297,10 @@ Parameter
    pGenDataExcelDefault(z<,tech,f<,*)
    pCapexTrajectoriesDefault(z<,tech,f<,y)
    pAvailabilityDefault(z<,tech,f<,q)
+;
 
 * Allow multiple definitions of symbols without raising an error (use with caution)
 $onMulti
-   pTechDataExcel(tech<,*)
-;
 
 Parameter
    ftfindex(ft<,f)
@@ -318,7 +317,7 @@ $include %READER_FILE%
 $gdxIn %GDX_INPUT%
 
 * Load domain-defining symbols (sets and indices)
-$load y pHours pTechDataExcel
+$load y pHours pTechData
 $load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 $load zext ftfindex gmap zcmap
 
@@ -358,7 +357,7 @@ $offMulti
 *-------------------------------------------------------------------------------------
 
 
-execute_unload "input.gdx" y pHours pTechDataExcel pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap zcmap Relevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
@@ -421,10 +420,6 @@ pHeatrate(gfmap(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate2"));
 pHeatrate(gprimf(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate"));
 
 pGenData(g,ghdr) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,ghdr));
-pTechData(tech,'RE Technology') = pTechDataExcel(tech,'RE Technology (Yes/No)');
-pTechData(tech,'Hourly Variation') = pTechDataExcel(tech,'Hourly Variation? (Yes/No)');
-pTechData(tech,'Construction Period (years)') = pTechDataExcel(tech,'Construction Period (years)');
-
 
 ***********************H2 model parameters***************************************************
 
