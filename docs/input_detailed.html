@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Detailed description of input data &#8212; Energy Planning Model</title>
+    <title>Data Structure Documentation &#8212; Energy Planning Model</title>
   
   
   
@@ -214,7 +214,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Detailed description of input data
+                        Data Structure Documentation
                       </a>
                     </li>
                 
@@ -452,7 +452,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Detailed description of input data
+                        Data Structure Documentation
                       </a>
                     </li>
                 
@@ -625,7 +625,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_reading.html">Input reading through python</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Detailed description of input data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Structure Documentation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Postprocessing</span></p>
 <ul class="nav bd-sidenav">
@@ -817,7 +817,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Detailed description of input data</h1>
+    <h1>Data Structure Documentation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -828,8 +828,150 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#settings">
-   Settings
+  <a class="reference internal nav-link" href="#configuration-files">
+   Configuration Files
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#psettings-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pSettings.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#y-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        y.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zcmap-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        zcmap.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#resources">
+   Resources
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ftfindex-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        ftfindex.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ptechdata-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pTechData.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pfuelcarboncontent-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pFuelCarbonContent.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-data">
+   Load Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pdemandprofile-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pDemandProfile.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pdemandforecast-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pDemandForecast.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pdemanddata-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pDemandData.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#penergyefficiencyfactor-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pEnergyEfficiencyFactor.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#srelevants-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        sRelevants.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supply-data">
+   Supply Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -855,11 +997,6 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#genavailability">
    GenAvailability
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#topology">
-   Topology
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -926,10 +1063,17 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="detailed-description-of-input-data">
-<h1>Detailed description of input data<a class="headerlink" href="#detailed-description-of-input-data" title="Permalink to this heading">#</a></h1>
-<section id="settings">
-<h2>Settings<a class="headerlink" href="#settings" title="Permalink to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="data-structure-documentation">
+<h1>Data Structure Documentation<a class="headerlink" href="#data-structure-documentation" title="Permalink to this heading">#</a></h1>
+<section id="configuration-files">
+<h2>Configuration Files<a class="headerlink" href="#configuration-files" title="Permalink to this heading">#</a></h2>
+<p>These files are direclty located in the <code class="docutils literal notranslate"><span class="pre">data</span></code> folder.</p>
+<section id="psettings-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code></strong><a class="headerlink" href="#psettings-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>3 columns, but only the last two columns are read by the model.</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/pSettings.csv">pSettings.csv</a></p></li>
+</ul>
 <p>The <strong>Settings</strong> file allows users to configure the model:</p>
 <ul class="simple">
 <li><p><strong>General options</strong>: Set Weighted Average Costs of Capital (WACC) for capital investments and the discount rate for present value calculations (in percentages).</p></li>
@@ -954,6 +1098,122 @@ title="Print to PDF"
 <li><p><strong>Active Fuel Price Scenario</strong>: Select the fuel price scenario (scenarios are defined in the <code class="docutils literal notranslate"><span class="pre">FuelTechnologies.csv</span></code> file).</p></li>
 <li><p><strong>Capacity Credits</strong>: Define capacity credits for variable renewable technologies. These apply only if the “User defined Capacity Credit” option is set to “Yes.”</p></li>
 </ul>
+</section>
+<section id="y-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">y.csv</span></code></strong><a class="headerlink" href="#y-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>One-dimensional, represents the years included in the intertemporal optimization.</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/y.csv">y.csv</a></p></li>
+</ul>
+</section>
+<section id="zcmap-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></strong><a class="headerlink" href="#zcmap-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Two-dimensional, defines the zones and countries included in the model.</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/zcmap.csv">zcmap.csv</a></p></li>
+</ul>
+</section>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this heading">#</a></h2>
+<p>All files in this section are included in the <code class="docutils literal notranslate"><span class="pre">resources</span></code> folder. These datasets define parameters that do not necessarily change between projects.</p>
+<section id="ftfindex-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code></strong><a class="headerlink" href="#ftfindex-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>List of fuels recognized by EPM.</p></li>
+<li><p>3 columns:</p>
+<ol class="arabic simple">
+<li><p>Fuel type</p></li>
+<li><p>Fuel</p></li>
+<li><p>Index (Note: Index is no longer used, and the structure is being simplified to keep only “Fuel”).</p></li>
+</ol>
+</li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/ftfindex.csv">ftfindex.csv</a></p></li>
+</ul>
+</section>
+<section id="ptechdata-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code></strong><a class="headerlink" href="#ptechdata-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>List of technologies recognized by EPM.</p></li>
+<li><p>4 columns:</p>
+<ol class="arabic simple">
+<li><p>Technology name</p></li>
+<li><p>Construction period (in years)</p></li>
+<li><p>Hourly variation (if the technology varies hourly)</p></li>
+<li><p>RE Technology (if it is a renewable energy technology)</p></li>
+</ol>
+</li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/pTechData.csv">pTechData.csv</a></p></li>
+</ul>
+</section>
+<section id="pfuelcarboncontent-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pFuelCarbonContent.csv</span></code></strong><a class="headerlink" href="#pfuelcarboncontent-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>2 columns:</p>
+<ol class="arabic simple">
+<li><p>Fuel</p></li>
+<li><p>Carbon content in gCO₂/kWh</p></li>
+</ol>
+</li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/pFuelCarbonContent.csv">pFuelCarbonContent.csv</a></p></li>
+</ul>
+</section>
+</section>
+<section id="load-data">
+<h2>Load Data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h2>
+<p>All files in this section are included in the <code class="docutils literal notranslate"><span class="pre">load</span></code> folder.</p>
+<section id="pdemandprofile-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pDemandProfile.csv</span></code></strong><a class="headerlink" href="#pdemandprofile-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>4 dimensions:</p>
+<ol class="arabic simple">
+<li><p>Zone</p></li>
+<li><p>Season</p></li>
+<li><p>Days</p></li>
+<li><p>Hours</p></li>
+</ol>
+</li>
+<li><p>1 value column (normalized between 0 and 1).</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/load/pDemandProfile.csv">pDemandProfile.csv</a></p></li>
+</ul>
+</section>
+<section id="pdemandforecast-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pDemandForecast.csv</span></code></strong><a class="headerlink" href="#pdemandforecast-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>2 dimensions:</p>
+<ol class="arabic simple">
+<li><p>Zone</p></li>
+<li><p>Type</p></li>
+</ol>
+</li>
+<li><p>1 value column (Energy in GWh and Peak in MW)</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/load/pDemandForecast.csv">pDemandForecast.csv</a></p></li>
+</ul>
+</section>
+<section id="pdemanddata-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pDemandData.csv</span></code></strong><a class="headerlink" href="#pdemanddata-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Alternative way to define load demand.</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/load/pDemandData.csv">pDemandData.csv</a></p></li>
+</ul>
+</section>
+<section id="penergyefficiencyfactor-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">pEnergyEfficiencyFactor.csv</span></code></strong><a class="headerlink" href="#penergyefficiencyfactor-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>TODO: Define usage.</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/load/pEnergyEfficiencyFactor.csv">pEnergyEfficiencyFactor.csv</a></p></li>
+</ul>
+</section>
+<section id="srelevants-csv">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">sRelevants.csv</span></code></strong><a class="headerlink" href="#srelevants-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>TODO: Define usage.</p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/load/sRelevants.csv">sRelevants.csv</a></p></li>
+</ul>
+</section>
+</section>
+<section id="supply-data">
+<h2>Supply Data<a class="headerlink" href="#supply-data" title="Permalink to this heading">#</a></h2>
 </section>
 <hr class="docutils" />
 <section id="fuels">
@@ -1014,15 +1274,6 @@ title="Print to PDF"
 <ul class="simple">
 <li><p>Seasonal availability (e.g., hydro plants).</p></li>
 <li><p>Daily variations (handled in the <code class="docutils literal notranslate"><span class="pre">RenewableEnergyProfile.csv</span></code> file).</p></li>
-</ul>
-</section>
-<hr class="docutils" />
-<section id="topology">
-<h2>Topology<a class="headerlink" href="#topology" title="Permalink to this heading">#</a></h2>
-<p>The <strong>Topology</strong> file defines:</p>
-<ul class="simple">
-<li><p>Zone interconnections (<code class="docutils literal notranslate"><span class="pre">Topology.csv</span></code>).</p></li>
-<li><p>Transfer limits per season (<code class="docutils literal notranslate"><span class="pre">TransferLimit.csv</span></code>).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -1201,8 +1452,150 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#settings">
-   Settings
+  <a class="reference internal nav-link" href="#configuration-files">
+   Configuration Files
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#psettings-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pSettings.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#y-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        y.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zcmap-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        zcmap.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#resources">
+   Resources
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ftfindex-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        ftfindex.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ptechdata-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pTechData.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pfuelcarboncontent-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pFuelCarbonContent.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-data">
+   Load Data
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pdemandprofile-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pDemandProfile.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pdemandforecast-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pDemandForecast.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pdemanddata-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pDemandData.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#penergyefficiencyfactor-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        pEnergyEfficiencyFactor.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#srelevants-csv">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        sRelevants.csv
+       </span>
+      </code>
+     </strong>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supply-data">
+   Supply Data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1228,11 +1621,6 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#genavailability">
    GenAvailability
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#topology">
-   Topology
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1318,7 +1706,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Feb 24, 2025.<br>
+Last updated on Feb 27, 2025.<br>
 </p>
   </div>
   
