@@ -196,8 +196,7 @@ alias (c,c2);
 
 $ifi %mode%==MIRO
 $onExternalInput
-Set
-   ftfmap(ft<,f<)                   'map fuel types to fuels'
+Set    
    zcmap(z,c<)                     'map zones to countries'
    sTopology(z,z2)                  'network topology - to be assigned through network data'
    sRelevant(d)                      'relevant day and hours when MinGen limit is applied'
@@ -305,7 +304,7 @@ Parameter
 $onMulti
 
 Parameter
-   ftfindex(ft<,f)
+    ftfindex(f)
 ;
    
    
@@ -358,8 +357,7 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-display pStorDataExcel;
-$exit
+display f, tech;
 
 execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap zcmap sRelevant pDemandData pDemandForecast
@@ -371,11 +369,9 @@ pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 ;
 
-option ftfmap<ftfindex;
+
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
 pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
-
-
 
 
 $if not errorFree $echo Data errors. Please inspect the listing file for details. > miro.log
@@ -410,13 +406,8 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 
 * Update `gfmap(g,f)`, ensuring it includes additional mappings 
 * based on `pGenDataExcel(g,z,tech,f2,'fuel2')` when a condition is met.
-*gfmap(g,f) = gfmap(g,f) 
-*         or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = 
-*         sum(ftfmap(ft,f), ftfindex(ft,f))));
-
 gfmap(g,f) = gfmap(g,f) 
-         or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = 
-         sum(ftfmap(ft,f), ftfindex(ft,f))));
+         or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = ftfindex(f)));
          
 
 * Map generator status from input data
@@ -441,7 +432,7 @@ h2zmap(hh,z) = pH2DataExcel(hh,'Zone')
 $ifThen set generateMIROScenario
 Parameter
    pGenDataMIRO(g,z,tech,gstatus,f,f,ghdr)
-   pfuelConversion(ft,*)
+   pfuelConversion(f,*)
    pMaxFuellimitMIRO(*,c,f,*,y)
    pFuelPriceMIRO(*,c,f,*,y)
 ;
@@ -455,14 +446,14 @@ loop((gzmap(g,z),gtechmap(g,tech),gstatusmap(g,gstatus),gprimf(g,f)),
   )
 );
 
-pfuelConversion(ft,'mmbtu') = 1;
+pfuelConversion(f,'mmbtu') = 1;
 pMaxFuellimitMIRO('BaseCase',c,f,'mmbtu',y) = pMaxFuelLimit(c,f,y);
 pFuelPriceMIRO('BaseCase',c,f,'mmbtu',y) = pFuelPrice(c,f,y);
 
 
 execute_unload '%GDX_INPUT%_miro'
    zcmap
-   ftfmap
+*   ftfmap
    pHours
    pTechData
    pGenDataMIRO
@@ -621,8 +612,6 @@ Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 * Define `Zd(z)` as the complement of `Zt(z)`, indicating zones with demand
 Zd(z) = not Zt(z);
 
-* Compute fuel carbon content by aggregating data from fuel type mappings
-*pFuelCarbonContent(f) = sum(ftfmap(ft,f),pFuelTypeCarbonContent(ft));
 
 * Assign storage data from `pStorDataInput` based on the generator-storage mapping
 option gsmap<pStorDataInput;
@@ -906,8 +895,8 @@ $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
 
-*******************************************************************************************************************
 
+*-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
 PA.HoldFixed=1;
 
