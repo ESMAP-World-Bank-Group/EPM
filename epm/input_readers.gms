@@ -275,6 +275,8 @@ $log ### reading using Connect and CSV Input
 
 $onEmbeddedCode Connect:
 
+# SETTINGS
+
 - CSVReader:
     trace: 0
     file: input/%FOLDER_INPUT%/pScalars.csv
@@ -319,7 +321,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pDemandForecast.csv
+    file: input/%FOLDER_INPUT%/load/pDemandForecast.csv
     name: pDemandForecast
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -329,7 +331,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pDemandProfile.csv
+    file: input/%FOLDER_INPUT%/load/pDemandProfile.csv
     name: pDemandProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -339,7 +341,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pDemandData.csv
+    file: input/%FOLDER_INPUT%/load/pDemandData.csv
     name: pDemandData
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -349,7 +351,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/relevant.csv
+    file: input/%FOLDER_INPUT%/load/relevant.csv
     name: relevant
     indexColumns: [1]
     type: set
@@ -357,7 +359,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pEnergyEfficiencyFactor.csv
+    file: input/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
     name: pEnergyEfficiencyFactor
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -368,19 +370,10 @@ $onEmbeddedCode Connect:
 
 # SUPPLY DATA
 
-- CSVReader:
-    file: input/%FOLDER_INPUT%/ftfindex.csv
-    name: ftfindex
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    valueColumns: [3]
-    type: par
-
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pTechDataExcel.csv
+    file: input/%FOLDER_INPUT%/supply/pTechDataExcel.csv
     name: pTechDataExcel
     indexSubstitutions: {.nan: ""}
     header: [1]
@@ -391,7 +384,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pGenDataExcelCustom.csv
+    file: input/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
     name: gmap
     indexSubstitutions: {.nan: ""}
     indexColumns: [1,2,3,4]
@@ -399,7 +392,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pGenDataExcelCustom.csv
+    file: input/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
     name: pGenDataExcel
     indexColumns: [1,2,3,4]
     valueSubstitutions: {0: EPS}
@@ -409,7 +402,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pGenDataExcelDefault.csv
+    file: input/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
     name: pGenDataExcelDefault
     indexColumns: [1,2,3]
     valueSubstitutions: {0: EPS}
@@ -418,7 +411,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pAvailabilityCustom.csv
+    file: input/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
     name: pAvailability
     indexColumns: [1]
     header: [1]
@@ -426,7 +419,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pAvailabilityDefault.csv
+    file: input/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
     name: pAvailabilityDefault
     indexColumns: [1, 2, 3]
     valueSubstitutions: {0: EPS}
@@ -435,7 +428,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pVREgenProfile.csv
+    file: input/%FOLDER_INPUT%/supply/pVREgenProfile.csv
     name: pVREgenProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: EPS}
@@ -445,7 +438,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pVREProfile.csv
+    file: input/%FOLDER_INPUT%/supply/pVREProfile.csv
     name: pVREProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: EPS}
@@ -456,7 +449,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pCapexTrajectoriesCustom.csv
+    file: input/%FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
     name: pCapexTrajectories
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -466,7 +459,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pCapexTrajectoriesDefault.csv
+    file: input/%FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
     name: pCapexTrajectoriesDefault
     valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]
@@ -474,7 +467,7 @@ $onEmbeddedCode Connect:
     type: par
     
 - CSVReader:
-    file: input/%FOLDER_INPUT%/pFuelPrice.csv
+    file: input/%FOLDER_INPUT%/supply/pFuelPrice.csv
     name: pFuelPrice
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -486,7 +479,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pCSPData.csv
+    file: input/%FOLDER_INPUT%/supply/pCSPData.csv
     name: pCSPData
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -496,7 +489,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pStorDataExcel.csv
+    file: input/%FOLDER_INPUT%/supply/pStorDataExcel.csv
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     name: pStorDataExcel
@@ -509,8 +502,17 @@ $onEmbeddedCode Connect:
 # RESOURCES
 
 - CSVReader:
+    file: input/%FOLDER_INPUT%/resources/ftfindex.csv
+    name: ftfindex
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: .nan}
+    indexColumns: [1, 2]
+    valueColumns: [3]
+    type: par
+
+- CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pFuelCarbonContent.csv
+    file: input/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
     name: pFuelCarbonContent
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -523,7 +525,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pPlanningReserveMargin.csv
+    file: input/%FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
     name: pPlanningReserveMargin
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -533,7 +535,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pSpinningReserveReqCountry.csv
+    file: input/%FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
     name: pSpinningReserveReqCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -543,7 +545,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pSpinningReserveReqSystem.csv
+    file: input/%FOLDER_INPUT%/reserve/pSpinningReserveReqSystem.csv
     name: pSpinningReserveReqSystem
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -556,7 +558,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/zext.csv
+    file: input/%FOLDER_INPUT%/trade/zext.csv
     name: zext
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -565,7 +567,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pExtTransferLimit.csv
+    file: input/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
     name: pExtTransferLimit
     valueSubstitutions: {0: .nan}
     indexColumns: [1,2,3,4]
@@ -575,7 +577,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pMaxExchangeShare.csv
+    file: input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
     name: pMaxExchangeShare
     indexColumns: [1]
     header: [1]
@@ -583,7 +585,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pMaxPriceImportShare.csv
+    file: input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
     name: pMaxPriceImportShare
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -593,7 +595,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pTradePrice.csv
+    file: input/%FOLDER_INPUT%/trade/pTradePrice.csv
     name: pTradePrice
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -603,7 +605,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pNewTransmission.csv
+    file: input/%FOLDER_INPUT%/trade/pNewTransmission.csv
     name: pNewTransmission
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -614,7 +616,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pLossFactor.csv
+    file: input/%FOLDER_INPUT%/trade/pLossFactor.csv
     name: pLossFactor
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -624,7 +626,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pTransferLimit.csv
+    file: input/%FOLDER_INPUT%/trade/pTransferLimit.csv
     name: pTransferLimit
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -634,7 +636,7 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pMinImport.csv
+    file: input/%FOLDER_INPUT%/trade/pMinImport.csv
     name: pMinImport
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -647,7 +649,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pCarbonPrice.csv
+    file: input/%FOLDER_INPUT%/constraint/pCarbonPrice.csv
     name: pCarbonPrice
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -657,7 +659,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pEmissionsCountry.csv
+    file: input/%FOLDER_INPUT%/constraint/pEmissionsCountry.csv
     name: pEmissionsCountry
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -667,7 +669,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pEmissionsTotal.csv
+    file: input/%FOLDER_INPUT%/constraint/pEmissionsTotal.csv
     name: pEmissionsTotal
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -678,7 +680,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pMaxFuellimit.csv
+    file: input/%FOLDER_INPUT%/constraint/pMaxFuellimit.csv
     name: pMaxFuellimit
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -691,7 +693,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pH2DataExcel.csv
+    file: input/%FOLDER_INPUT%/h2/pH2DataExcel.csv
     name: pH2DataExcel
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -701,7 +703,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pAvailabilityH2.csv
+    file: input/%FOLDER_INPUT%/h2/pAvailabilityH2.csv
     name: pAvailabilityH2
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -711,7 +713,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pFuelDataH2.csv
+    file: input/%FOLDER_INPUT%/h2/pFuelDataH2.csv
     name: pFuelDataH2
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -721,7 +723,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pCapexTrajectoryH2.csv
+    file: input/%FOLDER_INPUT%/h2/pCapexTrajectoryH2.csv
     name: pCapexTrajectoryH2
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -732,7 +734,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pH2DataExcel.csv
+    file: input/%FOLDER_INPUT%/h2/pH2DataExcel.csv
     name: hh
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
@@ -742,7 +744,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: input/%FOLDER_INPUT%/pExternalH2.csv
+    file: input/%FOLDER_INPUT%/h2/pExternalH2.csv
     name: pExternalH2
     indexColumns: [1, 2]
     header: [1]
