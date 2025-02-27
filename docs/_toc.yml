@@ -17,7 +17,6 @@ parts:
   - caption: Input
     chapters: 
       - file: docs/input_overview.md
-      - file: docs/input_reading
       - file: docs/input_detailed.md
   - caption: Postprocessing
     chapters:
