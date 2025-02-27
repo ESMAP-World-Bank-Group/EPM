@@ -220,7 +220,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pH2Data(hh,hhdr)                 'hydrogen generating units'
    pIncludeH2                       'Flag to activate hydrogen related equations'
    pAvailabilityH2(hh,q)            'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pFuelData(f)
+   pFuelDataH2(f)
    pCRFH2(hh)                       'Capital recovery factor'
    pCapexTrajectoriesH2(hh,y)       'CAPEX trajectories for hydrogen generation units'
    pVarCostH2(hh,y)                 'Variable cost - H2 production'
@@ -946,12 +946,12 @@ eMaxH2PwrInjection(hh,q,d,t,y)$pIncludeH2..
     vH2PwrIn(hh,q,d,t,y)  =l= vCapH2(hh,y);
 
 * The amount of hydrogen fuel that can be used for electricity generation can not be more than the amount of H2 that was produced from VRE curtailment
-eFuelLimitH2(c,f,y)$(pFuelData(f) and pIncludeH2)..
+eFuelLimitH2(c,f,y)$(pFuelDataH2(f) and pIncludeH2)..
    sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  sum((zcmap(z,c)), vFuelH2(z,y));
 
 
 *When the H2 production flag is off don't account for H2 fuel
-eFuelLimitH2_2(c,f,y)$(pFuelData(f) and pIncludeH2=0)..
+eFuelLimitH2_2(c,f,y)$(pFuelDataH2(f) and pIncludeH2=0)..
    sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  0;
 
 

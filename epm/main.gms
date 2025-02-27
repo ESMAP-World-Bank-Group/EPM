@@ -234,7 +234,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
   pH2Data(hh,hhdr)                  'H2 production unit specs'
   pAvailabilityH2(hh,q)             'Availability by H2 generation plant and season or quarter in percentage - need to reflect maintenance'
-  pFuelData(f)                     'Hydrogen fuels'
+  pFuelDataH2(f)                     'Hydrogen fuels'
   pCapexTrajectoryH2(hh,y)          'CAPEX trajectory for hydrogen generation unit'
 ;   
 
@@ -338,7 +338,7 @@ $load pNewTransmission
 $load pMinImport
 
 * Load Hydrogen model-related symbols
-$load pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
+$load pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 
 * Close the GDX file after loading all required data
 $gdxIn
@@ -367,7 +367,7 @@ pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile 
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pScalars
 pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 pExtTransferLimit pNewTransmission pMinImport
-pH2DataExcel hh pAvailabilityH2 pFuelData pCAPEXTrajectoryH2 pExternalH2
+pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 ;
 
 option ftfmap<ftfindex;
