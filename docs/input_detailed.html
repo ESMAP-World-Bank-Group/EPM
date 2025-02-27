@@ -842,6 +842,57 @@ title="Print to PDF"
       </code>
      </strong>
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#economic-assumptions">
+       <strong>
+        Economic Assumptions
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#penalties">
+       <strong>
+        Penalties
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#optional-features">
+       <strong>
+        Optional Features
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#constraints">
+       <strong>
+        Constraints
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#reporting-and-scenario-settings">
+       <strong>
+        Reporting and Scenario Settings
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#capacity-credit-calculation">
+       <strong>
+        Capacity Credit Calculation
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#notes">
+       <strong>
+        Notes:
+       </strong>
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#y-csv">
@@ -1167,33 +1218,315 @@ title="Print to PDF"
 <section id="psettings-csv">
 <h3><strong><code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code></strong><a class="headerlink" href="#psettings-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p>3 columns, but only the last two columns are read by the model.</p></li>
-<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/pSettings.csv">pSettings.csv</a></p></li>
+<li><p><strong>Description</strong>:<br />
+This file contains <strong>global model parameters and settings</strong> that control various aspects of the <strong>EPM model</strong>, including <strong>economic assumptions, penalties, optional features, and constraints</strong>.<br />
+It plays a <strong>critical role in defining the behavior of the optimization model</strong>, enabling customization of financial assumptions, operational constraints, and system features.</p></li>
+<li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Parameter</strong> (<em>string</em>) – Full name of the parameter.</p></li>
+<li><p><strong>Abbreviation</strong> (<em>string</em>) – Short name used in the model.</p></li>
+<li><p><strong>Value</strong> (<em>varied units</em>) – The assigned numerical value or toggle (0/1) for the parameter.</p></li>
 </ul>
-<p>The <strong>Settings</strong> file allows users to configure the model:</p>
+</li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/config/pSettings.csv">pSettings.csv</a></p></li>
+</ul>
+<hr class="docutils" />
+<section id="economic-assumptions">
+<h4><strong>Economic Assumptions</strong><a class="headerlink" href="#economic-assumptions" title="Permalink to this heading">#</a></h4>
+<p>These parameters define key <strong>financial</strong> and <strong>economic</strong> inputs.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Weighted Average Cost of Capital (WACC)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">WACC</span></code></p></td>
+<td><p>0.06</p></td>
+<td><p>Fraction</p></td>
+</tr>
+<tr class="row-odd"><td><p>Discount rate</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">DR</span></code></p></td>
+<td><p>0.06</p></td>
+<td><p>Fraction</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="penalties">
+<h4><strong>Penalties</strong><a class="headerlink" href="#penalties" title="Permalink to this heading">#</a></h4>
+<p>These define the <strong>costs associated with system constraints</strong> and <strong>violations</strong>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Unit</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cost of unserved energy per MWh</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">VOLL</span></code></p></td>
+<td><p>500</p></td>
+<td><p>$/MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cost of reserve shortfall per MW</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ReserveVoLL</span></code></p></td>
+<td><p>60000</p></td>
+<td><p>$/MW</p></td>
+</tr>
+<tr class="row-even"><td><p>Spinning reserve VoLL per MWh</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SpinReserveVoLL</span></code></p></td>
+<td><p>25</p></td>
+<td><p>$/MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cost of surplus power per MWh</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">costSurplus</span></code></p></td>
+<td><p>0</p></td>
+<td><p>$/MWh</p></td>
+</tr>
+<tr class="row-even"><td><p>Cost of curtailment per MWh</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">costcurtail</span></code></p></td>
+<td><p>0</p></td>
+<td><p>$/MWh</p></td>
+</tr>
+<tr class="row-odd"><td><p>CO₂ backstop price</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CO2backstop</span></code></p></td>
+<td><p>300</p></td>
+<td><p>$/tCO₂</p></td>
+</tr>
+<tr class="row-even"><td><p>Cost of climate backstop technology per ton CO₂</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">H2UnservedCost</span></code></p></td>
+<td><p>3000</p></td>
+<td><p>$/tCO₂</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="optional-features">
+<h4><strong>Optional Features</strong><a class="headerlink" href="#optional-features" title="Permalink to this heading">#</a></h4>
+<p>These parameters <strong>toggle optional modeling features</strong> (0 = disabled, 1 = enabled).</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Include carbon price</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">includeCarbonPrice</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Include energy efficiency</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">includeEE</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Include CSP optimization</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">includeCSP</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Include storage operation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">includeStorage</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Show zero values</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">show0</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Retire plants on economic grounds</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">econRetire</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Run in interconnected mode</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">interconMode</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Allow exports based on price</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">allowExports</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Remove transfer limits</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NoTransferLim</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Allow expansion of transfer limits</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Use less detailed demand definition</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">altDemand</span></code></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Allow CAPEX trajectory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Captraj</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Include H₂ production</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">IncludeH2</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="constraints">
+<h4><strong>Constraints</strong><a class="headerlink" href="#constraints" title="Permalink to this heading">#</a></h4>
+<p>These parameters define <strong>model constraints</strong>, limiting <strong>emissions, fuel use, capacity investments, and operational reserves</strong>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Apply system CO₂ constraints</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">system_co2_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apply fuel constraints</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fuel_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Apply maximum capital constraint</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">capital_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apply minimum generation constraint</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">mingen_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Apply planning reserve constraint</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">planning_reserve_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>System planning reserve margin (%)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">system_reserve_margin</span></code></p></td>
+<td><p>0.1</p></td>
+</tr>
+<tr class="row-even"><td><p>Apply ramp constraints</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ramp_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apply system spinning reserve constraints</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">system_spinning_reserve_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Apply zonal CO₂ constraint</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">zonal_co2_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apply zonal spinning reserve constraints</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">zonal_spinning_reserve_constraints</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>Minimum share of RE (%)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MinREshare</span></code></p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>RE share target year</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RETargetYr</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Total maximum capital investments ($ billion)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MaxCapital</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Maximum share of imports (%)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MaxImports</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Maximum share of exports (%)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MaxExports</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spinning reserve needs for VRE (%)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">VREForecastError</span></code></p></td>
+<td><p>0.15</p></td>
+</tr>
+<tr class="row-even"><td><p>User-defined capacity credits</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">VRECapacityCredits</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="reporting-and-scenario-settings">
+<h4><strong>Reporting and Scenario Settings</strong><a class="headerlink" href="#reporting-and-scenario-settings" title="Permalink to this heading">#</a></h4>
+<p>These parameters <strong>control reporting options and fuel price scenarios</strong>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Seasonal reporting</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Seasonalreporting</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>System results file production</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">Systemresultreporting</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Include decom and committed capacity in system results</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">IncludeDecomCom</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Active fuel price scenario</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FuelPriceScenario</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<hr class="docutils" />
+<section id="capacity-credit-calculation">
+<h4><strong>Capacity Credit Calculation</strong><a class="headerlink" href="#capacity-credit-calculation" title="Permalink to this heading">#</a></h4>
+<p>These parameters define <strong>capacity credits</strong> for reporting and system reliability evaluation.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Abbreviation</p></th>
+<th class="head"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Capacity credits for reporting</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CapacityCredits</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Solar capacity credit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CapCreditSolar</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Wind capacity credit</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CapCreditWind</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Max load fraction for capacity credit calculation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MaxLoadFractionCCCalc</span></code></p></td>
+<td><p>-</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes">
+<h4><strong>Notes:</strong><a class="headerlink" href="#notes" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
-<li><p><strong>General options</strong>: Set Weighted Average Costs of Capital (WACC) for capital investments and the discount rate for present value calculations (in percentages).</p></li>
-<li><p><strong>Penalties</strong>: Define penalties for unserved energy, curtailment, surplus power, etc.</p></li>
-<li><p><strong>Optional Features</strong>: Enable or disable features such as:</p>
-<ul>
-<li><p>Carbon prices</p></li>
-<li><p>Energy efficiency</p></li>
-<li><p>Storage optimization</p></li>
-<li><p>CSP optimization</p></li>
+<li><p><strong>All cost values are in USD ($).</strong></p></li>
+<li><p><strong>All percentages are in fractional format (e.g., 0.06 for 6%).</strong></p></li>
+<li><p><strong>Parameters with <code class="docutils literal notranslate"><span class="pre">0</span></code> or <code class="docutils literal notranslate"><span class="pre">1</span></code> act as toggles (0 = disabled, 1 = enabled).</strong></p></li>
 </ul>
-</li>
-<li><p><strong>Constraints</strong>: Apply or remove limits like:</p>
-<ul>
-<li><p>CO2 emissions</p></li>
-<li><p>Fuel constraints</p></li>
-<li><p>Ramp constraints</p></li>
-<li><p>Import share constraints</p></li>
-</ul>
-</li>
-<li><p><strong>Output options</strong>: Select results the model should produce (default is “yes” for all).</p></li>
-<li><p><strong>Active Fuel Price Scenario</strong>: Select the fuel price scenario (scenarios are defined in the <code class="docutils literal notranslate"><span class="pre">FuelTechnologies.csv</span></code> file).</p></li>
-<li><p><strong>Capacity Credits</strong>: Define capacity credits for variable renewable technologies. These apply only if the “User defined Capacity Credit” option is set to “Yes.”</p></li>
-</ul>
+</section>
 </section>
 <hr class="docutils" />
 <section id="y-csv">
@@ -1741,6 +2074,57 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
       </code>
      </strong>
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#economic-assumptions">
+       <strong>
+        Economic Assumptions
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#penalties">
+       <strong>
+        Penalties
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#optional-features">
+       <strong>
+        Optional Features
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#constraints">
+       <strong>
+        Constraints
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#reporting-and-scenario-settings">
+       <strong>
+        Reporting and Scenario Settings
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#capacity-credit-calculation">
+       <strong>
+        Capacity Credit Calculation
+       </strong>
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#notes">
+       <strong>
+        Notes:
+       </strong>
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#y-csv">
