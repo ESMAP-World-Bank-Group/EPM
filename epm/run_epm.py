@@ -15,10 +15,10 @@ import json
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
 PATH_GAMS = {
-    'path_main_file': 'WB_EPM_v8_5_main_country.gms',
-    'path_base_file': 'WB_EPM_v8_5_base_country_SLP.gms',
-    'path_report_file': 'WB_EPM_v8_5_Report_country.gms',
-    'path_reader_file': 'WB_EPM_input_readers.gms',
+    'path_main_file': 'main.gms',
+    'path_base_file': 'base.gms',
+    'path_report_file': 'generate_report.gms',
+    'path_reader_file': 'input_readers.gms',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -267,7 +267,7 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False
     return launch_epm(df, scenario_name=scenario_name, path_engine_file=path_engine_file, **path_gams)
 
 
-def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
+def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
@@ -277,7 +277,7 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
 
     Parameters
     ----------
-    scenario_baseline: str, optional, default 'scenario_baseline.csv'
+    config: str, optional, default 'config.csv'
         Path to the CSV file with the baseline scenario
     scenarios_specification: str, optional, default 'scenarios_specification.csv'
         Path to the CSV file with the scenarios specification
@@ -298,22 +298,24 @@ def launch_epm_multi_scenarios(scenario_baseline='scenario_baseline.csv',
     else:  # use default configuration
         path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
 
-    # Read scenario baseline
-    scenario_baseline = pd.read_csv(scenario_baseline).set_index('paramNames').squeeze()
+    # Read configuration file
+    config = pd.read_csv(config).set_index('paramNames').squeeze()
+    # Remove title section of the configuration file
+    config = config.dropna()
 
     # Read scenarios specification
     if scenarios_specification is not None:
         scenarios = pd.read_csv(scenarios_specification).set_index('paramNames')
 
         # Generate scenario pd.Series for alternative scenario
-        s = {k: scenario_baseline.copy() for k in scenarios}
+        s = {k: config.copy() for k in scenarios}
         for k in s.keys():
             s[k].update(scenarios[k].dropna())
     else:
         s = {}
 
     # Add the baseline scenario
-    s.update({'baseline': scenario_baseline})
+    s.update({'baseline': config})
 
     if selected_scenarios is not None:
         s = {k: s[k] for k in selected_scenarios}
@@ -364,11 +366,12 @@ def get_job_engine(tokens_simulation):
 
 if __name__ == '__main__':
 
+    print('ok')
+
     if True:
-        folder, result = launch_epm_multi_scenarios(scenario_baseline='input/scenario_baseline.csv',
-                                                    scenarios_specification='input/scenarios_specification.csv',
-                                                    selected_scenarios=['HydroStochasticStress','HydroStochasticStressHigh'],
+        folder, result = launch_epm_multi_scenarios(config='input/config.csv',
+                                                    scenarios_specification=None,
+                                                    selected_scenarios=None,
                                                     cpu=1,
                                                     path_engine_file=None)
-        # 'baseline', 'HydroLow', 'HydroFull', 'HydroStochastic', 'HydroStochasticStress','HydroStochasticStressHigh'
 

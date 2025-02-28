@@ -650,10 +650,9 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     type: par
 
-
 - CSVReader:
     trace: 0
-    file: %gmap%
+    file: %pGenDataExcel%
     name: gmap
     indexSubstitutions: {.nan: ""}
     indexColumns: [1,2,3,4]

@@ -348,7 +348,6 @@ $offmulti
 
 $include input_verification.gms
 
-$exit 
 *-------------------------------------------------------------------------------------
 * Make input treatment
 
