@@ -72,6 +72,23 @@ $set READER_FILE "input_readers.gms"
 $endIf
 $log READER_FILE is "%READER_FILE%"
 
+$ifThen not set VERIFICATION_FILE
+$set VERIFICATION_FILE "input_verification.gms"
+$endIf
+$log VERIFICATION_FILE is "%VERIFICATION_FILE%"
+
+$ifThen not set TREATMENT_FILE
+$set TREATMENT_FILE "input_treatment.gms"
+$endIf
+$log TREATMENT_FILE is "%TREATMENT_FILE%"
+
+
+$ifThen not set DEMAND_FILE
+$set DEMAND_FILE "generate_demand.gms"
+$endIf
+$log DEMAND_FILE is "%DEMAND_FILE%"
+
+
 *-------------------------------------------------------------------------------------
 
 * Define solver-related options
@@ -346,13 +363,13 @@ $offmulti
 *-------------------------------------------------------------------------------------
 * Make input verification
 
-$include input_verification.gms
+$include %VERIFICATION_FILE%
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
 
 $onMulti
-$include input_treatment.gms
+$include %TREATMENT_FILE%
 $offMulti
 
 *-------------------------------------------------------------------------------------
@@ -511,7 +528,7 @@ $endIf.mode
 
 *--- Parameter initialisation for same demand profile for all years
 
-$include generate_demand.gms
+$include %DEMAND_FILE%
 
 *--- Part2: Start of initialisation of other parameters
 

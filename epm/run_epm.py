@@ -19,6 +19,9 @@ PATH_GAMS = {
     'path_base_file': 'base.gms',
     'path_report_file': 'generate_report.gms',
     'path_reader_file': 'input_readers.gms',
+    'path_verification_file': 'input_verification.gms',
+    'path_treatment_file': 'input_treatment.gms',
+    'path_demand_file': 'generate_demand.gms',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -74,6 +77,7 @@ def post_job_engine(scenario_name, path_zipfile):
 
 
 def launch_epm_multi_scenarios_excel(scenario_name='', path_gams=None, path_engine_file=False):
+    """Do not work in latest version"""
     # TODO: needs to be modified to include handling of multiprocessing for excel users
 
     if path_gams is not None:  # path for required gams file is provided
@@ -103,6 +107,7 @@ def launch_epm_excel(scenario_name='',
                path_excel_file='input/WB_EPM_8_5.xlsx',
                path_cplex_file='cplex.opt',
                path_engine_file=False):
+    """Do not work in latest version"""
 
     if scenario_name == '':
         scenario_name = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -173,6 +178,9 @@ def launch_epm(scenario,
                path_base_file='base.gms',
                path_report_file='generate_report.gms',
                path_reader_file='input_readers.gms',
+               path_verification_file='input_verification.gms',
+               path_treatment_file='input_treatment.gms',
+               path_demand_file='generate_demand.gms',
                path_cplex_file='cplex.opt',
                folder_input=None,
                path_engine_file=False,
@@ -230,6 +238,9 @@ def launch_epm(scenario,
     command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
                                                     "--REPORT_FILE {}".format(path_report_file),
                                                     "--READER_FILE {}".format(path_reader_file),
+                                                    "--VERIFICATION_FILE {}".format(path_verification_file),
+                                                    "--TREATMENT_FILE {}".format(path_treatment_file),
+                                                    "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--READER CONNECT_CSV_PYTHON"
                                                     ] + path_args
 
