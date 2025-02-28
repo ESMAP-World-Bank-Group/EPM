@@ -27,521 +27,82 @@
 * Claire Nicolas, c.nicolas@worldbank.org
 **********************************************************************
 
-* Set the maximum number of rows for Excel processing
-$set XLSXMAXROWS 1048576
-
-* Set the default reader method to `CONNECT_EXCEL` if not already defined
-$if not set READER $set READER CONNECT_CSV
 
 $if not set FOLDER_INPUT $set FOLDER_INPUT "data_gambia"
 
-* Log the selected reader method for debugging
-$log ### READER = %READER%
-
 * Remove the existing GDX file
 $call rm %GDX_INPUT%.gdx
-
-* Attempt to generate a new GDX file from the Excel input
-$call test %GDX_INPUT%.gdx -nt "%XLS_INPUT%"
 
 * Check for errors during the GDX file generation process
 $ifThen.errorLevel errorlevel 1
 
 
+* Define by default path
+* SETTINGS
+$if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettings.csv
+$if not set zcmap $set zcmap input/%FOLDER_INPUT%/zcmap.csv
+$if not set y $set y input/%FOLDER_INPUT%/y.csv
+$if not set pHours $set pHours input/%FOLDER_INPUT%/pHours.csv
+
+* LOAD DATA
+$if not set pDemandForecast $set pDemandForecast input/%FOLDER_INPUT%/load/pDemandForecast.csv
+$if not set pDemandProfile $set pDemandProfile input/%FOLDER_INPUT%/load/pDemandProfile.csv
+$if not set pDemandData $set pDemandData input/%FOLDER_INPUT%/load/pDemandData.csv
+$if not set sRelevant $set sRelevant input/%FOLDER_INPUT%/load/sRelevant.csv
+$if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor input/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
+
+* SUPPLY DATA
+$if not set pGenDataExcel $set pGenDataExcel input/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
+$if not set pGenDataExcelDefault $set pGenDataExcelDefault input/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
+$if not set pAvailability $set pAvailability input/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
+$if not set pAvailabilityDefault $set pAvailabilityDefault input/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
+$if not set pVREgenProfile $set pVREgenProfile input/%FOLDER_INPUT%/supply/pVREgenProfile.csv
+$if not set pVREProfile $set pVREProfile input/%FOLDER_INPUT%/supply/pVREProfile.csv
+$if not set pCapexTrajectories $set pCapexTrajectories input/%FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
+$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault input/%FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
+$if not set pFuelPrice $set pFuelPrice input/%FOLDER_INPUT%/supply/pFuelPrice.csv
+
+* OTHER SUPPLY OPTIONS
+$if not set pCSPData $set pCSPData input/%FOLDER_INPUT%/supply/pCSPData.csv
+$if not set pStorDataExcel $set pStorDataExcel input/%FOLDER_INPUT%/supply/pStorDataExcel.csv
+
+* RESOURCES
+$if not set ftfindex $set ftfindex input/%FOLDER_INPUT%/resources/ftfindex.csv
+$if not set pFuelCarbonContent $set pFuelCarbonContent input/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
+$if not set pTechData $set pTechData input/%FOLDER_INPUT%/resources/pTechData.csv
+
+
+* RESERVE
+$if not set pPlanningReserveMargin $set pPlanningReserveMargin input/%FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
+$if not set pSpinningReserveReqCountry $set pSpinningReserveReqCountry input/%FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
+$if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem input/%FOLDER_INPUT%/reserve/pSpinningReserveReqSystem.csv
+
+* TRADE
+$if not set zext $set zext input/%FOLDER_INPUT%/trade/zext.csv
+$if not set pExtTransferLimit $set pExtTransferLimit input/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
+$if not set pMaxExchangeShare $set pMaxExchangeShare input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
+$if not set pMaxPriceImportShare $set pMaxPriceImportShare input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
+$if not set pTradePrice $set pTradePrice input/%FOLDER_INPUT%/trade/pTradePrice.csv
+$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmission.csv
+$if not set pLossFactor $set pLossFactor input/%FOLDER_INPUT%/trade/pLossFactor.csv
+$if not set pTransferLimit $set pTransferLimit input/%FOLDER_INPUT%/trade/pTransferLimit.csv
+$if not set pMinImport $set pMinImport input/%FOLDER_INPUT%/trade/pMinImport.csv
+
+* CONSTRAINT
+$if not set pCarbonPrice $set pCarbonPrice input/%FOLDER_INPUT%/constraint/pCarbonPrice.csv
+$if not set pEmissionsCountry $set pEmissionsCountry input/%FOLDER_INPUT%/constraint/pEmissionsCountry.csv
+$if not set pEmissionsTotal $set pEmissionsTotal input/%FOLDER_INPUT%/constraint/pEmissionsTotal.csv
+$if not set pMaxFuellimit $set pMaxFuellimit input/%FOLDER_INPUT%/constraint/pMaxFuellimit.csv
+
+* H2 RELATED
+$if not set pH2DataExcel $set pH2DataExcel input/%FOLDER_INPUT%/h2/pH2DataExcel.csv
+$if not set pAvailabilityH2 $set pAvailabilityH2 input/%FOLDER_INPUT%/h2/pAvailabilityH2.csv
+$if not set pFuelDataH2 $set pFuelDataH2 input/%FOLDER_INPUT%/h2/pFuelDataH2.csv
+$if not set pCapexTrajectoryH2 $set pCapexTrajectoryH2 input/%FOLDER_INPUT%/h2/pCapexTrajectoryH2.csv
+$if not set pH2DataExcel $set pH2DataExcel input/%FOLDER_INPUT%/h2/pH2DataExcel.csv
+$if not set pExternalH2 $set pExternalH2 input/%FOLDER_INPUT%/h2/pExternalH2.csv
 
-$ifThenI.READER %READER% == CONNECT_EXCEL
 
-
-$log ### Reading from %XLS_INPUT% using Connect and Excel Input is not enabled in this version.
-
-$elseIfI.READER %READER% == CONNECT_CSV
-$log ### reading using Connect and CSV Input
-
-
-$onEmbeddedCode Connect:
-
-# SETTINGS
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/pSettings.csv
-    name: pSettings
-    valueSubstitutions: {0: .nan}
-    indexColumns: [2]
-    valueColumns: [3]
-    type: par
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/zcmap.csv
-    name: zcmap
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    type: set
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/y.csv
-    name: y
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    type: set
-    
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/pHours.csv
-    name: pHours
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: EPS}
-    header: [1]
-    indexColumns: [1, 2]
-    type: par
-
-
-# LOAD DATA
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/load/pDemandForecast.csv
-    name: pDemandForecast
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/load/pDemandProfile.csv
-    name: pDemandProfile
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2, 3]
-    header: [1]
-    type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/load/pDemandData.csv
-    name: pDemandData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2, 3, 4]
-    header: [1]
-    type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/load/sRelevant.csv
-    name: sRelevant
-    indexColumns: [1]
-    type: set
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
-    name: pEnergyEfficiencyFactor
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    header: [1]
-    indexColumns: [1]
-    type: par
-
-
-# SUPPLY DATA
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/resources/pTechData.csv
-    name: pTechData
-    indexSubstitutions: {.nan: ""}
-    header: [1]
-    indexColumns: [1]
-    type: par
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
-    name: gmap
-    indexSubstitutions: {.nan: ""}
-    indexColumns: [1,2,3,4]
-    type: set
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
-    name: pGenDataExcel
-    indexColumns: [1,2,3,4]
-    valueSubstitutions: {0: EPS}
-    header: [1]
-    type: par
-
-    
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
-    name: pGenDataExcelDefault
-    indexColumns: [1,2,3]
-    valueSubstitutions: {0: EPS}
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
-    name: pAvailability
-    indexColumns: [1]
-    header: [1]
-    type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
-    name: pAvailabilityDefault
-    indexColumns: [1, 2, 3]
-    valueSubstitutions: {0: EPS}
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pVREgenProfile.csv
-    name: pVREgenProfile
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: EPS}
-    indexColumns: [1, 2, 3, 4]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pVREProfile.csv
-    name: pVREProfile
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: EPS}
-    indexColumns: [1, 2, 3, 4]
-    header: [1]
-    type: par
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
-    name: pCapexTrajectories
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
-    name: pCapexTrajectoriesDefault
-    valueSubstitutions: {0: EPS}
-    indexColumns: [1, 2, 3]
-    header: [1]
-    type: par
-    
-- CSVReader:
-    file: input/%FOLDER_INPUT%/supply/pFuelPrice.csv
-    name: pFuelPrice
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    header: [1]
-    indexColumns: [1, 2]
-    type: par
-    
-# OTHER SUPLLY OPTIONS
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pCSPData.csv
-    name: pCSPData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/supply/pStorDataExcel.csv
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    name: pStorDataExcel
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-
-
-# RESOURCES
-
-- CSVReader:
-    file: input/%FOLDER_INPUT%/resources/ftfindex.csv
-    name: ftfindex
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
-    name: pFuelCarbonContent
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-# RESERVE
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
-    name: pPlanningReserveMargin
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
-    name: pSpinningReserveReqCountry
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/reserve/pSpinningReserveReqSystem.csv
-    name: pSpinningReserveReqSystem
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-
-# TRADE
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/zext.csv
-    name: zext
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    type: set
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
-    name: pExtTransferLimit
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1,2,3,4]
-    header: [1]
-    type: par
-    
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
-    name: pMaxExchangeShare
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
-    name: pMaxPriceImportShare
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pTradePrice.csv
-    name: pTradePrice
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2, 3, 4]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pNewTransmission.csv
-    name: pNewTransmission
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pLossFactor.csv
-    name: pLossFactor
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pTransferLimit.csv
-    name: pTransferLimit
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2, 3]
-    header: [1]
-    type: par
-    
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/trade/pMinImport.csv
-    name: pMinImport
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-
-# ENVIRONMENTAL CONSTRAINT
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/constraint/pCarbonPrice.csv
-    name: pCarbonPrice
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/constraint/pEmissionsCountry.csv
-    name: pEmissionsCountry
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/constraint/pEmissionsTotal.csv
-    name: pEmissionsTotal
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/constraint/pMaxFuellimit.csv
-    name: pMaxFuellimit
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-
-# H2 RELATED
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/h2/pH2DataExcel.csv
-    name: pH2DataExcel
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/h2/pAvailabilityH2.csv
-    name: pAvailabilityH2
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/h2/pFuelDataH2.csv
-    name: pFuelDataH2
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/h2/pCapexTrajectoryH2.csv
-    name: pCapexTrajectoryH2
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/h2/pH2DataExcel.csv
-    name: hh
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    type: set
-
-
-- CSVReader:
-    trace: 0
-    file: input/%FOLDER_INPUT%/h2/pExternalH2.csv
-    name: pExternalH2
-    indexColumns: [1, 2]
-    header: [1]
-    type: par
-
-
-- GDXWriter:
-    file: %GDX_INPUT%.gdx
-    symbols: all
-$offEmbeddedCode
-
-
-$elseIfI.READER %READER% == CONNECT_CSV_PYTHON
 $log ### reading using Connect and CSV Input with Python
 
 $onEmbeddedCode Connect:
@@ -1019,9 +580,6 @@ $onEmbeddedCode Connect:
     symbols: all
 $offEmbeddedCode
 
-$else.READER
-$abort 'No valid READER specified. Allowed are GDXXRW and CONNECT.'
-$endif.READER
 $endif.errorLevel
 
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
