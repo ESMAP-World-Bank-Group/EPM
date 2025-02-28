@@ -998,13 +998,12 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: 0
-    file: %hh%
+    file: %pH2DataExcel%
     name: hh
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1]
     type: set
-
 
 - CSVReader:
     trace: 0
