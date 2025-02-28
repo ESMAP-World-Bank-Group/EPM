@@ -15,8 +15,8 @@ pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
-pGendataDataExcel,supply/GendataDataExcelCustom.csv
-pGendataDataExcelDefault,supply/pGendataDataExcelDefault.csv
+pGenDataExcel,supply/pGenDataExcelCustom.csv
+pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
 pAvailability,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
@@ -27,9 +27,9 @@ pVREgenProfile,supply/pVREgenProfile.csv
 pVREProfile,supply/pVREProfile.csv
 pStorDataExcel,supply/pStorDataExcel.csv
 RESERVE,
-pReserveMargin,reserve/pPlanningReserveMargin.csv
-pReserveReqLoc,reserve/pSpinningReserveReqCountry.csv
-pReserveReqSys,reserve/pSpinningReserveReqSystem.csv
+pPlanningReserveMargin,reserve/pPlanningReserveMargin.csv
+pSpinningReserveReqCountry,reserve/pSpinningReserveReqCountry.csv
+pSpinningReserveReqSystem,reserve/pSpinningReserveReqSystem.csv
 CONSTRAINT,
 pEmissionsTotal,constraint/pEmissionsTotal.csv
 pEmissionsCountry,constraint/pEmissionsCountry.csv

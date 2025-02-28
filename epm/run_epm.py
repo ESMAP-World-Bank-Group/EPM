@@ -169,12 +169,14 @@ def launch_epm_excel(scenario_name='',
 
 def launch_epm(scenario,
                scenario_name='',
-               path_main_file='WB_EPM_v8_5_main.gms',
-               path_base_file='WB_EPM_v8_5_base.gms',
-               path_report_file='WB_EPM_v8_5_Report.gms',
-               path_reader_file='WB_EPM_input_readers.gms',
+               path_main_file='main.gms',
+               path_base_file='base.gms',
+               path_report_file='generate_report.gms',
+               path_reader_file='input_readers.gms',
                path_cplex_file='cplex.opt',
-               path_engine_file=False, path_excel_file=None):
+               folder_input=None,
+               path_engine_file=False,
+               ):
     """
     Launch the EPM model with the given scenario
 
@@ -192,9 +194,9 @@ def launch_epm(scenario,
         The path to the GAMS report file
     path_cplex_file: str
         The path to the CPLEX file
+    folder_input: str, optional, default None
     path_engine_file: str, optional, default False
         The path to the GAMS engine file
-
 
     Returns
     -------
@@ -263,15 +265,17 @@ def launch_epm(scenario,
     return result
 
 
-def launch_epm_multiprocess(df, scenario_name, path_gams, path_engine_file=False):
-    return launch_epm(df, scenario_name=scenario_name, path_engine_file=path_engine_file, **path_gams)
+def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, path_engine_file=False):
+    return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
+                      path_engine_file=path_engine_file, **path_gams)
 
 
 def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
-                               path_engine_file=False):
+                               path_engine_file=False,
+                               folder_input=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -286,6 +290,8 @@ def launch_epm_multi_scenarios(config='config.csv',
     selected_scenarios: list, optional, default None
         List of scenarios to run
     path_engine_file: str, optional, default False
+    folder_input: str, optional, default None
+        Folder where data input files are stored
     """
 
     # Add the full path to the files
@@ -321,8 +327,9 @@ def launch_epm_multi_scenarios(config='config.csv',
         s = {k: s[k] for k in selected_scenarios}
 
     # Add full path to the files
+    folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
     for k in s.keys():
-        s[k] = s[k].apply(lambda i: os.path.join(os.getcwd(), 'input', i))
+        s[k] = s[k].apply(lambda i: os.path.join(folder_input, i))
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -337,7 +344,7 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     with Pool(cpu) as pool:
         result = pool.starmap(launch_epm_multiprocess,
-                              [(s[k], k, path_gams, path_engine_file) for k in s.keys()])
+                              [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
@@ -370,8 +377,8 @@ if __name__ == '__main__':
 
     if True:
         folder, result = launch_epm_multi_scenarios(config='input/config.csv',
+                                                    folder_input='data_gambia',
                                                     scenarios_specification=None,
                                                     selected_scenarios=None,
-                                                    cpu=1,
-                                                    path_engine_file=None)
+                                                    cpu=1)
 

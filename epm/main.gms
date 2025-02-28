@@ -426,7 +426,7 @@ pH2Data(hh,hhdr)=pH2DataExcel(hh,hhdr);
 H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
 * TODO: Check is that works for H2
 * h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
-h2zmap(hh,z) = pH2DataExcel(hh,'Zone')
+h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 
 * Conditional directive: Execute the following block if 'generateMIROScenario' is set
 $ifThen set generateMIROScenario
@@ -790,7 +790,7 @@ pCRFcth(cs)$pCSPData(cs,"Thermal Field","Life") = pWACC / (1 - (1 / ( (1 + pWACC
 **Create set MapNCZ (neighbouring country zones)
 
 * Defines which connected zones belong to different countries. 
-sMapConnectedZonesDiffCountries(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z2,c)), 1) = 0;  
+sMapConnectedZonesDiffCountries(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z2,c)), 1) = 0;
 
 *** Simple bounds
 *vImportPrice.up(z,q,d,t,y)$(pMaxImport>1) = pMaxImport;

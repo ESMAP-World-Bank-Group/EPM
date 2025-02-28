@@ -423,8 +423,8 @@ pDemandSupplyCountry(c,"Total production: GWh"  ,y) = sum(zcmap(z,c), pDemandSup
 pDemandSupplyCountry(c,"Unmet demand: GWh"      ,y) = sum(zcmap(z,c), pDemandSupply(z,"Unmet demand: GWh"      ,y));
 pDemandSupplyCountry(c,"Surplus generation: GWh",y) = sum(zcmap(z,c), pDemandSupply(z,"Surplus generation: GWh",y));
 
-pDemandSupplyCountry(c,"Imports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapNCZ(z2,z),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pDemandSupplyCountry(c,"Exports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapNCZ(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pDemandSupplyCountry(c,"Imports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pDemandSupplyCountry(c,"Exports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 pDemandSupplyCountry(c,"Net interchange: GWh"      ,y) = pDemandSupplyCountry(c,"Imports exchange: GWh",y) - pDemandSupplyCountry(c,"Exports exchange: GWh",y);
 pDemandSupplyCountry(c,"Net interchange Ratio: GWh",y)$pDemandSupplyCountry(c,"Demand: GWh",y) = pDemandSupplyCountry(c,"Net interchange: GWh",y)/pDemandSupplyCountry(c,"Demand: GWh",y);
 
@@ -476,7 +476,7 @@ pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pL
 
 **By country
 alias (zcmap, zcmap2);
-pInterchangeCountry(c,c2,y)= sum((zcmap(z,c),zcmap2(z2,c2),sMapNCZ(z2,z)), pInterchange(z,z2,y));
+pInterchangeCountry(c,c2,y)= sum((zcmap(z,c),zcmap2(z2,c2),sMapConnectedZonesDiffCountries(z2,z)), pInterchange(z,z2,y));
 pLossesTransmissionCountry(c,y) = sum(zcmap(z,c), pLossesTransmission(z,y));
 
 
@@ -525,11 +525,11 @@ pAveragePriceHub(Zt,y)$(sum(Zd, zzFlow(Zt,Zd,y))   > 0) = sum((sTopology(Zt,Zd),
 pAveragePriceCountry(c,y)$pDemandSupplyCountry(c,"Demand: GWh",y) = sum(zcmap(z,c), pAveragePrice(z,y)*pDemandSupply(z,"Demand: GWh",y))/pDemandSupplyCountry(c,"Demand: GWh",y);
 
 Parameter cFlowpH(c,y);
-cFlowpH(c,y) = sum((zcmap(z,c),sMapNCZ(z,Zd)), zzFlowpH(z,Zd,y));
-pAveragePriceExpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapNCZ(z,Zd),q,d,t), pPrice(z,q,d,t,y)* vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+cFlowpH(c,y) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z,Zd)), zzFlowpH(z,Zd,y));
+pAveragePriceExpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z,Zd),q,d,t), pPrice(z,q,d,t,y)* vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
                                                  /cFlowpH(c,y);
-cFlowpH(c,y) = sum((zcmap(z,c),sMapNCZ(Zd,z)), zzFlowpH(Zd,z,y));
-pAveragePriceImpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapNCZ(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+cFlowpH(c,y) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z)), zzFlowpH(Zd,z,y));
+pAveragePriceImpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
                                                  /cFlowpH(c,y);
 *pAveragePriceHubCountry(Zt,y)$(sum((Zd,q,d,t),vFlow.l(Zt,Zd,q,d,t,y))>0) = sum((Zd,q,d,t)$sTopology(Zt,Zd), pPrice(Zt,q,d,t,y) * vFlow.l(Zt,Zd,q,d,t,y))/ sum((Zd,q,d,t),vFlow.l(Zt,Zd,q,d,t,y)) ;
 
@@ -716,7 +716,7 @@ pZonalAverageCost(z,y)$pDenom2(z,y) = zctmp(z,y)/(sum((zext,q,d,t), (vImportPric
 
 pCountryAverageCost(c,y)$pDenom3(c,y) = sum(zcmap(z,c), zctmp(z,y))/(sum((zcmap(z,c),zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
                                                                    + pDenom3(c,y)
-                                                                   + sum((zcmap(z,c),sMapNCZ(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t)));
+                                                                   + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t)));
 
 option clear=zctmp;
 
@@ -818,7 +818,7 @@ pSeasonTrade(z,"External Zone Imports",y,q) = sum((zext,d,t), vImportPrice.l(z,z
 pSeasonTrade(z,"External Zone Exports",y,q) = sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
 
 * By Country
-pInterchangeSeasonCountry(c,c2,y,q) = sum((zcmap(z,c),zcmap2(z2,c2),sMapNCZ(z,z2)), pInterchangeSeason(z,z2,y,q));
+pInterchangeSeasonCountry(c,c2,y,q) = sum((zcmap(z,c),zcmap2(z2,c2),sMapConnectedZonesDiffCountries(z,z2)), pInterchangeSeason(z,z2,y,q));
 pSeasonTradeCountry(c,"External Zone Imports",y,q) = sum(zcmap(z,c), pSeasonTrade(z,"External Zone Imports",y,q));
 pSeasonTradeCountry(c,"External Zone Exports",y,q) = sum(zcmap(z,c), pSeasonTrade(z,"External Zone Exports",y,q));
 
