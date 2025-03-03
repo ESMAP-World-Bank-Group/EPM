@@ -192,7 +192,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
-                               sensitivity=False,
+                               sensitivity=None,
                                path_engine_file=False,
                                folder_input=None):
     """
@@ -282,7 +282,7 @@ def launch_epm_multi_scenarios(config='config.csv',
 def generate_sensitivity(sensitivity, s):
     param = 'pSettings'
     if sensitivity.get(param):
-        settings_sensi = {'DR': [0.04, 0.08], 'VOLL': [100, 250], 'mingen_constraints': [1],
+        settings_sensi = {'DR': [0.04, 0.08], 'VOLL': [250], 'mingen_constraints': [1],
                           'planning_reserve_constraints': [1], 'VREForecastError': [0.2]}
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
@@ -452,7 +452,7 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+        sensitivity = {'pSettings': True, 'pDemandForecast': True,
                        'pFuelPrice': True, 'pCapexTrajectoriesDefault': True,
                        'pAvailabilityDefault': True, 'pDemandProfile': True}
 
@@ -462,5 +462,5 @@ if __name__ == '__main__':
                                                     sensitivity=sensitivity,
                                                     selected_scenarios=None,
                                                     cpu=3)
-        postprocess_output(folder)
+        postprocess_output(folder, full_output=True)
 
