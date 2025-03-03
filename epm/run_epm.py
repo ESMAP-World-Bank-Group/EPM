@@ -78,102 +78,6 @@ def post_job_engine(scenario_name, path_zipfile):
     return req
 
 
-def launch_epm_multi_scenarios_excel(scenario_name='', path_gams=None, path_engine_file=False):
-    """Do not work in latest version"""
-    # TODO: needs to be modified to include handling of multiprocessing for excel users
-
-    if path_gams is not None:  # path for required gams file is provided
-        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in path_gams.items()}
-    else:  # use default configuration
-        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
-
-    # Create dir for simulation and change current working directory
-    if 'output' not in os.listdir():
-        os.mkdir('output')
-
-    folder = 'simulations_run_{}'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
-    folder = os.path.join('output', folder)
-    if not os.path.exists(folder):
-        os.mkdir(folder)
-        print('Folder created:', folder)
-    os.chdir(folder)
-
-    launch_epm_excel(scenario_name=scenario_name, path_engine_file=path_engine_file, **path_gams)
-
-
-def launch_epm_excel(scenario_name='',
-               path_main_file='WB_EPM_v8_5_main.gms',
-               path_base_file='WB_EPM_v8_5_base.gms',
-               path_report_file='WB_EPM_v8_5_Report.gms',
-               path_reader_file='WB_EPM_input_readers.gms',
-               path_excel_file='input/WB_EPM_8_5.xlsx',
-               path_cplex_file='cplex.opt',
-               path_engine_file=False):
-    """Do not work in latest version"""
-
-    if scenario_name == '':
-        scenario_name = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-
-    # Each simulation has its own subfolder to store the results
-    folder = 'simulation_{}'.format(scenario_name)
-    if not os.path.exists(folder):
-        os.mkdir(folder)
-    cwd = os.path.join(os.getcwd(), folder)
-
-    # Copy and paste cplex file to the simulation folder
-    shutil.copy(path_cplex_file, cwd)
-
-    options = []
-    if path_engine_file:
-        print('Save file only to prepare running simulation on remote server')
-        # Run GAMS with the updated environment
-
-        options = ['a=c', 'xs=engine_{}'.format(scenario_name)]
-
-    if path_excel_file.split('.')[-1] == 'xlsx':
-        reader_connect = 'CONNECT_EXCEL'  # reading with CONNECT
-    else:
-        reader_connect = 'GDXXRW'  # reading with GDX
-
-    command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
-                                                    "--REPORT_FILE {}".format(path_report_file),
-                                                    "--READER_FILE {}".format(path_reader_file),
-                                                    "--READER {}".format(reader_connect),
-                                                    "--XLS_INPUT {}".format(path_excel_file)
-                                                    ]
-
-    # Print the command
-    print("Command to execute:", command)
-
-    subprocess.run(command, cwd=cwd)
-
-    result = None
-    # Generate the command for Engine
-    if True:
-        if path_engine_file:
-            # Open Engine_Base.gms as text file and replace
-            with open(path_engine_file, 'r') as file:
-                filedata = file.read()
-
-                # Replace the target string
-                filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
-
-            # Store the new file in the simulation folder
-            with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
-                file.write(filedata)
-
-            # Make a ZipFile that can be sent to the server
-            with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
-                files_ziped.write(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'engine_{}.gms'.format(scenario_name))
-                files_ziped.write(os.path.join(cwd, 'engine_{}.g00'.format(scenario_name)), 'engine_{}.g00'.format(scenario_name))
-
-            path_zipfile = os.path.join(cwd, 'engine_{}.zip'.format(scenario_name))
-            req = post_job_engine(scenario_name, path_zipfile)
-            result = {'name': scenario_name, 'path': cwd, 'token': req.json()['token']}
-
-    return result
-
-
 def launch_epm(scenario,
                scenario_name='',
                path_main_file='main.gms',
@@ -186,6 +90,7 @@ def launch_epm(scenario,
                path_cplex_file='cplex.opt',
                folder_input=None,
                path_engine_file=False,
+               prefix=''#'simulation_'
                ):
     """
     Launch the EPM model with the given scenario
@@ -219,7 +124,7 @@ def launch_epm(scenario,
         scenario_name = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
 
     # Each simulation has its own subfolder to store the results
-    folder = 'simulation_{}'.format(scenario_name)
+    folder = f'{prefix}{scenario_name}'
     if not os.path.exists(folder):
         os.mkdir(folder)
     cwd = os.path.join(os.getcwd(), folder)
@@ -287,6 +192,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios_specification.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
+                               sensitivity=False,
                                path_engine_file=False,
                                folder_input=None):
     """
@@ -338,6 +244,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Add the baseline scenario
     s.update({'baseline': config})
 
+
     if selected_scenarios is not None:
         s = {k: s[k] for k in selected_scenarios}
 
@@ -345,6 +252,9 @@ def launch_epm_multi_scenarios(config='config.csv',
     folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
     for k in s.keys():
         s[k] = s[k].apply(lambda i: os.path.join(folder_input, i))
+
+    if sensitivity is not None:
+        s = generate_sensitivity(sensitivity, s)
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -367,6 +277,156 @@ def launch_epm_multi_scenarios(config='config.csv',
     os.chdir(working_directory)
 
     return folder, result
+
+
+def generate_sensitivity(sensitivity, s):
+    param = 'pSettings'
+    if sensitivity.get(param):
+        settings_sensi = {'DR': [0.04, 0.08], 'VOLL': [100, 250], 'mingen_constraints': [1],
+                          'planning_reserve_constraints': [1], 'VREForecastError': [0.2]}
+        # Iterate over the Settings to change
+        for k, vals in settings_sensi.items():
+            # Iterate over the values
+            for val in vals:
+
+                # Reading the initial value
+                df = pd.read_csv(s['baseline'][param])
+
+                # Modifying the value
+                df.loc[df['Abbreviation'] == k, 'Value'] = val
+
+                # Creating a new folder
+                folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+                if not os.path.exists(folder_sensi):
+                    os.mkdir(folder_sensi)
+                name = str(val).replace('.', '')
+                name = f'{param}_{k}_{name}'
+                path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+                path_file = os.path.join(folder_sensi, path_file)
+                # Write the modified file
+                df.to_csv(path_file, index=False)
+
+                # Put in the scenario dir
+                s[name] = s['baseline'].copy()
+                s[name][param] = path_file
+
+    param = 'pDemandForecast'
+    if sensitivity.get(param):
+        demand_forecast_sensi = [-0.25, -0.1, 0.1, 0.25]
+        for val in demand_forecast_sensi:
+            df = pd.read_csv(s['baseline'][param])
+
+            cols = [i for i in df.columns if i not in ['zone', 'type']]
+            df.loc[:, cols] *= (1 + val)
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = str(val).replace('.', '')
+            name = f'{param}_{name}'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            df.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
+
+    param = 'pDemandProfile'
+    if sensitivity.get(param):
+        df = pd.read_csv(s['baseline'][param])
+
+        cols = [i for i in df.columns if i not in ['zone', 'q', 't']]
+        df.loc[:, cols], name = 1, 'flat'
+        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        name = f'{param}_{name}'
+        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][param] = path_file
+
+    param = 'pAvailabilityDefault'
+    if sensitivity.get(param):
+        availability_sensi = [0.6, 0.7]
+
+        for val in availability_sensi:
+            df = pd.read_csv(s['baseline'][param])
+
+            # 0.85 is usually the default value
+            df.replace(0.85, val, inplace=True)
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = str(val).replace('.', '')
+            name = f'{param}_{name}'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            df.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
+
+    param = 'pCapexTrajectoriesDefault'
+    if sensitivity.get(param):
+
+        df = pd.read_csv(s['baseline'][param])
+
+        cols = [i for i in df.columns if i not in ['zone', 'tech', 'fuel']]
+        df.loc[:, cols], name = 1, 'flat'
+        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        name = f'{param}_{name}'
+        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][param] = path_file
+
+    param = 'pFuelPrice'
+    if sensitivity.get(param):
+        fuel_price_sensi = [-0.2, 0.2]
+
+        for val in fuel_price_sensi:
+            df = pd.read_csv(s['baseline'][param])
+
+            cols = [i for i in df.columns if i not in ['country', 'fuel']]
+            df.loc[:, cols] *= (1 + val)
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = str(val).replace('.', '')
+            name = f'{param}_{name}'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            df.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
+
+
+    return s
 
 
 def get_job_engine(tokens_simulation):
@@ -392,12 +452,15 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
+        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+                       'pFuelPrice': True, 'pCapexTrajectoriesDefault': True,
+                       'pAvailabilityDefault': True, 'pDemandProfile': True}
 
         folder, result = launch_epm_multi_scenarios(config='input/config.csv',
                                                     folder_input='data_gambia',
-                                                    scenarios_specification='input/scenarios.csv',
+                                                    scenarios_specification=None,
+                                                    sensitivity=sensitivity,
                                                     selected_scenarios=None,
-                                                    cpu=2)
+                                                    cpu=3)
         postprocess_output(folder)
-        print('ok')
 

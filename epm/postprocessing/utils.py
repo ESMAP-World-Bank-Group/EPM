@@ -443,7 +443,7 @@ def generate_summary(epm_results, folder):
     summary = summary[summary['value'] > 1e-2]
     summary.reset_index(drop=True, inplace=True)
     summary = summary.set_index(['scenario', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
-    summary.to_csv(os.path.join(folder, 'summary.csv'), index=True)
+    summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=True)
 
 
 def postprocess_output(FOLDER):
