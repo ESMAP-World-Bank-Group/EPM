@@ -11,6 +11,8 @@ import gams.engine
 from gams.engine.api import jobs_api
 import json
 
+from postprocessing.utils import postprocess_output
+
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -305,6 +307,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         Folder where data input files are stored
     """
 
+    working_directory = os.getcwd()
+
     # Add the full path to the files
     if path_engine_file:
         path_engine_file = os.path.join(os.getcwd(), path_engine_file)
@@ -359,6 +363,9 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
+
+    os.chdir(working_directory)
+
     return folder, result
 
 
@@ -384,12 +391,13 @@ def get_job_engine(tokens_simulation):
 
 if __name__ == '__main__':
 
-    print('ok')
-
     if True:
+
         folder, result = launch_epm_multi_scenarios(config='input/config.csv',
                                                     folder_input='data_gambia',
-                                                    scenarios_specification=None,
+                                                    scenarios_specification='input/scenarios.csv',
                                                     selected_scenarios=None,
-                                                    cpu=1)
+                                                    cpu=2)
+        postprocess_output(folder)
+        print('ok')
 

@@ -327,6 +327,7 @@ Parameter
    
 *-------------------------------------------------------------------------------------
 * Read inputs
+* The order of loading is important. TODO: Clarifiy to avoid bugs !
 
 * Include the external reader file defined by the macro variable %READER_FILE%
 $include %READER_FILE%
@@ -339,19 +340,22 @@ $load y pHours pTechData
 $load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 $load zext ftfindex gmap zcmap
 
-* Load general model parameters related to demand and emissions
-$load sRelevant pDemandData pDemandForecast pDemandProfile
+* Load demand data
+$load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sRelevant
+
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
-$load pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+$load pPlanningReserveMargin pEnergyEfficiencyFactor  
 
-* Load external transfer limits and transmission constraints
-$load pExtTransferLimit
-$load pNewTransmission
-$load pMinImport
+* Load load data
+
+
+* Load trade data 
+$load pExtTransferLimit, pNewTransmission, pMinImport
+$load pTradePrice, pMaxExchangeShare
 
 * Load Hydrogen model-related symbols
 $load pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
