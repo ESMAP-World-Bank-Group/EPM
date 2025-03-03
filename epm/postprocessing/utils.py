@@ -16,10 +16,11 @@ import seaborn as sns
 from pathlib import Path
 import geopandas as gpd
 from matplotlib.ticker import MaxNLocator, FixedLocator
-FUELS = 'static/fuels.csv'
-TECHS = 'static/technologies.csv'
-COLORS = 'static/colors.csv'
-GEOJSON = 'static/countries.geojson'
+
+FUELS = os.path.join('postprocessing', 'static', 'fuels.csv')
+TECHS = os.path.join('postprocessing', 'static', 'technologies.csv')
+COLORS = os.path.join('postprocessing', 'static', 'colors.csv')
+GEOJSON = os.path.join('postprocessing', 'static', 'countries.geojson')
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
@@ -34,22 +35,10 @@ UNIT = {
     'Unmet demand costs: : $m': 'M$'
 }
 
-
-def create_folders_imgs(folder):
-    """
-    Creating folders for images
-    
-    Parameters:
-    ----------
-    folder: str
-        Path to the folder where the images will be saved.
-    
-    """
-    for p in [path for path in Path(folder).iterdir() if path.is_dir()]:
-        if not (p / Path('images')).is_dir():
-            os.mkdir(p / Path('images'))
-    if not (Path(folder) / Path('images')).is_dir():
-        os.mkdir(Path(folder) / Path('images'))
+RENAME_COLUMNS = {'c': 'zone', 'country': 'zone', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
+                  'z': 'zone', 'g': 'generator', 'gen': 'generator',
+                  'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
+TYPE_COLUMNS  = {'year': int, 'tech': str, 'fuel': str}
 
 
 def read_plot_specs():
@@ -175,74 +164,108 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['ftfindex', 'pGenDataExcel', 'pTechDataExcel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pScalars']
-    epm_input = {k: i for k, i in epm_input.items() if k in keys}
+    keys = ['pGenDataExcel', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings']
+    rename_keys = {}
+
+    epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_input.items() if k in keys and k in epm_input.keys()}
+
+    if rename_keys is not None:
+        epm_dict.update({rename_keys[k]: i for k, i in epm_dict.items() if k in rename_keys.keys()})
+
     if scenarios_rename is not None:
-        for k, i in epm_input.items():
+        for k, i in epm_dict.items():
             if 'scenario' in i.columns:
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
-    # t = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants'], columns='uni', values='value')
+    for column, type in TYPE_COLUMNS.items():
+        for key in epm_dict.keys():
+            if column in epm_dict[key].columns:
+                epm_dict[key][column] = epm_dict[key][column].astype(type)
 
-    epm_input['pDemandForecast'].rename(columns={'uni_0': 'zone', 'uni_2': 'year'}, inplace=True)
-    epm_input['pDemandForecast']['year'] = epm_input['pDemandForecast']['year'].astype(int)
-
-    epm_input['ftfindex'].rename(columns={'uni_0': 'fuel1', 'uni_1': 'fuel2'}, inplace=True)
-    mapping_fuel1 = epm_input['ftfindex'].loc[:, ['fuel1', 'value']].drop_duplicates().set_index(
-        'value').squeeze().to_dict()
-    mapping_fuel2 = epm_input['ftfindex'].loc[:, ['fuel2', 'value']].drop_duplicates().set_index(
+    """epm_input['ftfindex'].rename(columns={'f': 'fuel'}, inplace=True)
+    mapping_fuel = epm_input['ftfindex'].loc[:, ['fuel', 'value']].drop_duplicates().set_index(
         'value').squeeze().to_dict()
 
     # TODO: this may be extracted from pGenDataExcel now if we get rid of pTechDataExcel and pZoneIndex in future versions
-    temp = epm_input['pTechDataExcel']
+    temp = epm_input['pTechData']
     temp['uni'] = temp['uni'].astype(str)
     temp = temp[temp['uni'] == 'Assigned Value']
     mapping_tech = temp.loc[:, ['Abbreviation', 'value']].drop_duplicates().set_index(
         'value').squeeze()
-    mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)
-
-    mapping_zone = epm_input['pZoneIndex'].loc[:, ['value', 'ZONE']].set_index('value').loc[:, 'ZONE'].to_dict()
-    epm_input.update({'mapping_zone': mapping_zone})
+    mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)"""
 
     # Modify pGenDataExcel
-    df = epm_input['pGenDataExcel'].pivot(index=['scenario', 'Plants', 'Type', 'fuel1'], columns='uni', values='value').reset_index(['Type', 'fuel1'])
-    df = df.loc[:, ['Type', 'fuel1']]
-    df['fuel1'] = df['fuel1'].replace(mapping_fuel1)
-    # df['fuel2'] = df['fuel2'].replace(mapping_fuel2)
+    df = epm_dict['pGenDataExcel'].pivot(index=['scenario', 'zone', 'generator', 'tech', 'fuel'], columns='attribute', values='value').reset_index(['tech', 'fuel'])
+    #df = df.loc[:, ['tech', 'fuel']]
+    df['fuel'] = df['fuel'].replace(dict_specs['fuel_mapping'])
+    # Test if all new fuel values are in dict_specs['fuel_mapping'].values
+    for k in df['fuel'].unique():
+        if k not in dict_specs['fuel_mapping'].values():
+            print(f'{k} not defined as accepted fuels. Please add it to `postprocessing/static/fuels.csv`.')
 
-    df['fuel1'] = df['fuel1'].replace(dict_specs['fuel_mapping'])
-    # df['fuel2'] = df['fuel2'].replace(dict_specs['fuel_mapping'])
+    df['tech'] = df['tech'].replace(dict_specs['tech_mapping'])
+    # Test if all new fuel values are in dict_specs['fuel_mapping'].values
+    for k in df['tech'].unique():
+        if k not in dict_specs['tech_mapping'].values():
+            print(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
 
-    df['Type'] = df['Type'].replace(mapping_tech)
-
-    epm_input['pGenDataExcel'] = df.reset_index()
-
-    epm_input['pGenDataExcel'].rename(columns={'Plants': 'generator'}, inplace=True)
-
-    return epm_input
-
-
-def remove_unused_tech(epm_dict, list_keys):
-    """
-    Remove rows that correspond to technologies that are never used across the whole time horizon
-
-    Parameters
-    ----------
-    epm_dict: dict
-        Dictionary containing the dataframes
-    list_keys: list
-        List of keys to remove unused technologies
-        
-    Returns
-    -------
-    epm_dict: dict
-        Dictionary containing the dataframes with unused technologies removed
-    """
-    for key in list_keys:
-        epm_dict[key] = epm_dict[key].where((epm_dict[key]['value'] > 2e-6) | (epm_dict[key]['value'] < -2e-6),np.nan)  # get rid of small values to avoid unneeded labels
-        epm_dict[key] = epm_dict[key].dropna(subset=['value'])
+    epm_dict['pGenDataExcel'] = df.reset_index()
 
     return epm_dict
+
+
+def filter_dataframe(df, conditions):
+    """
+    Filters a DataFrame based on a dictionary of conditions.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame to be filtered.
+    - conditions (dict): Dictionary specifying filtering conditions.
+      - Keys: Column names in the DataFrame.
+      - Values: Either a single value (exact match) or a list of values (keeps only matching rows).
+
+    Returns:
+    - pd.DataFrame: The filtered DataFrame.
+
+    Example Usage:
+    ```
+    conditions = {'scenario': 'Baseline', 'year': 2050}
+    filtered_df = filter_dataframe(df, conditions)
+    ```
+    """
+    for col, value in conditions.items():
+        if isinstance(value, list):
+            df = df[df[col].isin(value)]
+        else:
+            df = df[df[col] == value]
+    return df
+
+
+def filter_dataframe_by_index(df, conditions):
+    """
+    Filters a DataFrame based on a dictionary of conditions applied to the index level.
+
+    Parameters:
+    - df (pd.DataFrame): The DataFrame to be filtered, where conditions apply to index levels.
+    - conditions (dict): Dictionary specifying filtering conditions.
+      - Keys: Index level names.
+      - Values: Either a single value (exact match) or a list of values (keeps only matching rows).
+
+    Returns:
+    - pd.DataFrame: The filtered DataFrame.
+
+    Example Usage:
+    ```
+    conditions = {'scenario': 'Baseline', 'year': 2050}
+    filtered_df = filter_dataframe_by_index(df, conditions)
+    ```
+    """
+    for level, value in conditions.items():
+        if isinstance(value, list):
+            df = df[df.index.get_level_values(level).isin(value)]
+        else:
+            df = df[df.index.get_level_values(level) == value]
+    return df
 
 
 def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_gen_fuel=None):
@@ -266,8 +289,28 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
         Dictionary containing the processed results    
     """
 
-    rename_columns = {'c': 'zone', 'country': 'zone', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
-                      'z': 'zone', 'g': 'generator', 'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
+    def remove_unused_tech(epm_dict, list_keys):
+        """
+        Remove rows that correspond to technologies that are never used across the whole time horizon
+
+        Parameters
+        ----------
+        epm_dict: dict
+            Dictionary containing the dataframes
+        list_keys: list
+            List of keys to remove unused technologies
+
+        Returns
+        -------
+        epm_dict: dict
+            Dictionary containing the dataframes with unused technologies removed
+        """
+        for key in list_keys:
+            epm_dict[key] = epm_dict[key].where((epm_dict[key]['value'] > 2e-6) | (epm_dict[key]['value'] < -2e-6),
+                                                np.nan)  # get rid of small values to avoid unneeded labels
+            epm_dict[key] = epm_dict[key].dropna(subset=['value'])
+
+        return epm_dict
 
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
             'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
@@ -276,13 +319,18 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
-            'pSpinningReserveByPlantCountry', 'pPlantDispatch'}
+            'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost'}
 
-    rename_keys = {'pSpinningReserveByPlantCountry': 'pReserveByPlant'}
-
+    rename_keys = {}
+    for k in keys:
+        if k not in epm_results.keys():
+            print(f'{k} not in epm_results.keys().')
     # Rename columns
-    epm_dict = {k: i.rename(columns=rename_columns) for k, i in epm_results.items() if k in keys and k in epm_results.keys()}
-    epm_dict.update({rename_keys[k]: i for k, i in epm_dict.items() if k in rename_keys.keys()})
+    epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_results.items() if
+                k in keys and k in epm_results.keys()}
+
+    if rename_keys is not None:
+        epm_dict.update({rename_keys[k]: i for k, i in epm_dict.items() if k in rename_keys.keys()})
 
     if scenarios_rename is not None:
         for k, i in epm_dict.items():
@@ -328,6 +376,84 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
     return epm_dict
+
+
+def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
+    # Create the folder path
+
+    # TODO: Clean that
+    if 'output' not in FOLDER:
+        RESULTS_FOLDER = os.path.join('output', FOLDER)
+    else:
+        RESULTS_FOLDER = FOLDER
+
+    GRAPHS_FOLDER = 'img'
+    GRAPHS_FOLDER = os.path.join(RESULTS_FOLDER, GRAPHS_FOLDER)
+    if not os.path.exists(GRAPHS_FOLDER):
+        os.makedirs(GRAPHS_FOLDER)
+        print(f'Created folder {GRAPHS_FOLDER}')
+
+    # Read the plot specifications
+    dict_specs = read_plot_specs()
+
+    # Extract and process EPM inputs
+    epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
+    epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
+    mapping_gen_fuel = epm_input['pGenDataExcel'].loc[:, ['scenario', 'generator', 'fuel']]
+
+    # Extract and process EPM results
+    epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
+    epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
+                                      mapping_gen_fuel=mapping_gen_fuel)
+
+    # Update color dict with plant colors
+    if True:
+        temp = epm_results['pEnergyByPlant'].copy()
+        plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
+        plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
+        plant_to_color = dict(zip(plant_fuel_pairs['generator'], plant_fuel_pairs['colors']))
+        dict_specs['colors'].update(plant_to_color)
+
+    return RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel
+
+
+def generate_summary(epm_results, folder):
+
+    summary = {}
+    # pSystemAverageCost
+
+    t = epm_results['pSummary'].copy()
+    summary.update({'Summary': t})
+
+    t = epm_results['pCostSummary'].copy()
+    summary.update({'CostSummary': t})
+
+    t = epm_results['pCapacityByFuel'].copy()
+    t['attribute'] = 'Capacity: MW'
+    t.rename(columns={'fuel': 'resolution'}, inplace=True)
+    summary.update({'Capacity: MW': t})
+
+    t = epm_results['pEnergyByFuel'].copy()
+    t['attribute'] = 'Energy: GWh'
+    t.rename(columns={'fuel': 'resolution'}, inplace=True)
+    summary.update({'Energy: GWh': t})
+
+    summary = pd.concat(summary)
+
+    summary = summary[summary['value'] > 1e-2]
+    summary.reset_index(drop=True, inplace=True)
+    summary = summary.set_index(['scenario', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
+    summary.to_csv(os.path.join(folder, 'summary.csv'), index=True)
+
+
+def postprocess_output(FOLDER):
+
+    # Process results
+    RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
+        FOLDER, SCENARIOS_RENAME=None)
+
+    # Generate summary
+    generate_summary(epm_results, RESULTS_FOLDER)
 
 
 def format_ax(ax, linewidth=True):
@@ -1676,7 +1802,7 @@ def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=No
     return df
 
 
-def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario_order=None,
+def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
                        discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
                        fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
                        rename_columns=None):
@@ -1717,7 +1843,7 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
             temp = temp[temp['zone'].isin(zone_list)]
         temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityByFuel'], values='value')
         temp = temp.loc[:, fuel_capa_list]
-        temp = rename_and_reoder(temp, rename_columns=rename_columns)
+        temp = rename_and_reoder(temp, rename_columns=RENAME_COLUMNS)
         temp.columns = [f'{col} (MW)' for col in temp.columns]
         temp = temp.round(0)
         summary.append(temp)
@@ -1797,9 +1923,6 @@ def make_heatmap_regional_plot(epm_results, filename, percentage=False, scenario
         summary = summary.loc[scenario_order]
 
     heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
-
-
-
 
 
 def create_zonemap(zone_map, selected_countries, map_epm_to_geojson):
