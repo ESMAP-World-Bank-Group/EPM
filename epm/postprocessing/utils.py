@@ -446,7 +446,7 @@ def generate_summary(epm_results, folder):
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=True)
 
 
-def postprocess_output(FOLDER):
+def postprocess_output(FOLDER, full_output=False):
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -454,6 +454,11 @@ def postprocess_output(FOLDER):
 
     # Generate summary
     generate_summary(epm_results, RESULTS_FOLDER)
+
+    # Generate detailed by plant to debug
+    df = epm_results['pCapacityPlan']
+    df = df.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+    df.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
 
 
 def format_ax(ax, linewidth=True):
