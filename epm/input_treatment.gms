@@ -66,17 +66,26 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     
     # Unstack data on 'uni' for correct alignment
     param_df = param_df.set_index([i for i in param_df.columns if i not in ['value']]).squeeze().unstack('uni')
+
+
     default_df = default_df.set_index([i for i in default_df.columns if i not in ['value']]).squeeze().unstack('uni')
+    
+    # Add missing columns that have been dropped by CONNECT CSV WRITER
+    missing_columns = [i for i in default_df.columns if i not in param_df.columns]
+    print(f'Missing {missing_columns}')
+    for c in missing_columns:
+        param_df[c] = float('nan')
+    param_df.to_csv('param_df.csv')
 
     # Fill NaN values in param_df using corresponding values in default_df
     param_df = param_df.fillna(default_df)
 
     # Reset index to restore structure
     param_df = param_df.stack().reset_index()
-
+    
     # Ensure column names are correct
-    param_df.columns = columns
-        
+    param_df.rename(columns={0: 'value'}, inplace=True)
+
     db.data[param_name].setRecords(param_df)
     db.write(gams.db, [param_name])
 

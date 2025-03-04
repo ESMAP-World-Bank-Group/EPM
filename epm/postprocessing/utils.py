@@ -446,14 +446,18 @@ def generate_summary(epm_results, folder):
     t['attribute'] = 'Capacity: MW'
     t.rename(columns={'fuel': 'resolution'}, inplace=True)
     t = t[t['value'] > 1e-2]
-
     summary.update({'Capacity: MW': t})
+
+    t = epm_results['pNewCapacityFuel'].copy()
+    t['attribute'] = 'New Capacity: MW'
+    t.rename(columns={'fuel': 'resolution'}, inplace=True)
+    t = t[t['value'] > 1e-2]
+    summary.update({'NewCapacity: MW': t})
 
     t = epm_results['pEnergyByFuel'].copy()
     t['attribute'] = 'Energy: GWh'
     t.rename(columns={'fuel': 'resolution'}, inplace=True)
     t = t[t['value'] > 1e-2]
-
     summary.update({'Energy: GWh': t})
 
     summary = pd.concat(summary)
