@@ -82,7 +82,7 @@ Sets
 Sets
    ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW,
                                         MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize /
-   shdr         'Header for pStorData' / Capacity, Capex, FixedOM, Efficiency/
+   shdr         'Header for pStorData' / CapacityMWh, CapexMWh, FixedOMMWh, Efficiency/
    csphrd       'Header for pCSPData' / Storage, "Thermal Field" /
    thdr         'Header for pNewTransmission' / CapacityPerLine, CostPerLine, Life, MaximumNumOfLines /
    sRelevant(d)  'relevant day and hours when MinGen limit is applied'
@@ -508,14 +508,14 @@ eYearlyTotalCost(c,y)..
 ***********************************************************************************************************
 eYearlyFixedCost(z,y)..
    vYearlyFixedCost(z,y) =e= sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6)
-                           + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"Capex")*1e3)
-                           + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","Capex")*1e3)
-                           + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","Capex")*1e6)
+                           + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
+                           + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3)
+                           + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)
                            + sum(gzmap(dc,z), vAnnCapex(dc,y))
                            + sum(gzmap(g,z), vCap(g,y)*pGenData(g,"FOMperMW"))
-                           + sum(gzmap(st,z),vCap(st,y)*pStorData(st,"FixedOM"))
-                           + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOM"))
-                           + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOM"))
+                           + sum(gzmap(st,z),vCap(st,y)*pStorData(st,"FixedOMMWh"))
+                           + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
+                           + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
                            
 ***********************************************Hydrogen model related costs******************************************
                           + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
@@ -770,10 +770,10 @@ eStorageNet(st,q,d,t,y)$pincludeStorage..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
 eStorBal(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage)..
-   vStorage(st,q,d,t,y) =e= pStorData(st,"efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorage(st,q,d,t-1,y);
+   vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorage(st,q,d,t-1,y);
 
 eStorBal1(st,q,d,sFirstHour(t),y)$pincludeStorage..
-   vStorage(st,q,d,t,y) =e= pStorData(st,"efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
+   vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
 * To ensure energy balance in one representative day
 
@@ -822,7 +822,7 @@ eStorageCSPBal1(cs,q,d,sFirstHour(t),y)$pincludeCSP..
 
 *--- Energy (storage) capacity limits
 eCapacityStorLimit(g,y)$pincludeStorage..
-   vCapStor(g,y) =l= pStorData(g,"Capacity") + pCSPData(g,"Storage","Capacity");
+   vCapStor(g,y) =l= pStorData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
 
 eCapStorBalance1(eg,y)$(not sStartYear(y) and pincludeStorage)..
    vCapStor(eg,y) =e= vCapStor(eg,y-1) + vBuildStor(eg,y) - vRetireStor(eg,y);
@@ -834,11 +834,11 @@ eCapStorBalance3(ng,sStartYear(y))$pincludeStorage..
    vCapStor(ng,y) =e= vBuildStor(ng,y);
 
 eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeStorage)..
-   sum(y, vBuildStor(eg,y)) =l= pStorData(eg,"Capacity");
+   sum(y, vBuildStor(eg,y)) =l= pStorData(eg,"CapacityMWh");
 
 *--- Thermal elements (csp solar field) capacity limits
 eCapacityThermLimit(g,y)$pincludeCSP..
-   vCapTherm(g,y) =l= pCSPData(g,"Thermal Field","Capacity");
+   vCapTherm(g,y) =l= pCSPData(g,"Thermal Field","CapacityMWh");
 
 eCapThermBalance1(eg,y)$(not sStartYear(y) and pincludeCSP)..
    vCapTherm(eg,y) =e= vCapTherm(eg,y-1) + vBuildTherm(eg,y) - vRetireTherm(eg,y);
@@ -850,22 +850,22 @@ eCapThermBalance3(ng,sStartYear(y))$pincludeCSP..
    vCapTherm(ng,y) =e= vBuildTherm(ng,y);
 
 eBuildThermNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeCSP)..
-   sum(y, vBuildTherm(eg,y)) =l= pCSPData(eg,"Thermal Field","Capacity");
+   sum(y, vBuildTherm(eg,y)) =l= pCSPData(eg,"Thermal Field","CapacityMWh");
 
 *---  Calculate capex for generators with reducing capex
 eAnnCapex1(dc,y)$(not sStartYear(y))..
    vAnnCapex(dc,y) =e= vAnnCapex(dc,y-1)
                      + vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","Capex")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","Capex")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
+                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
                                                                           ;
 
 eAnnCapex(dc,sStartYear(y))..
    vAnnCapex(dc,y) =e= vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","Capex")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","Capex")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;                                                                          ;
+                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;                                                                          ;
 
 eCapitalConstraint$pcapital_constraints..
    sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= pMaxCapital*1e3;
