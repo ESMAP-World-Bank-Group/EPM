@@ -39,7 +39,7 @@ UNIT = {
 RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
                   'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
-TYPE_COLUMNS  = {'year': int, 'tech': str, 'fuel': str}
+TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
 
 
 def read_plot_specs():
@@ -555,26 +555,44 @@ def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER):
     selected_scenario = 'baseline'
 
     dfs_to_plot_area = {
-        'pPlantDispatch': epm_results['pPlantDispatch'],
-        'pDispatch': epm_results['pDispatch'].loc[epm_results['pDispatch'].attribute.isin(['Unmet demand', 'Exports'])]
+        'pPlantDispatch': filter_dataframe(epm_results['pPlantDispatch'], {'attribute': ['Generation']}),
+        'pDispatch': filter_dataframe(epm_results['pDispatch'], {'attribute': ['Unmet demand', 'Exports', 'Storage Charge']})
     }
 
     dfs_to_plot_line = {
-        'pDispatch': epm_results['pDispatch'].loc[epm_results['pDispatch'].attribute.isin(['Demand'])]
+        'pDispatch': filter_dataframe(epm_results['pDispatch'], {'attribute': ['Demand']})
     }
-
 
     for zone in epm_results['pDispatch']['zone'].unique():
         years = epm_results['pDispatch']['year'].unique()
+
+        # Select first and last years
         years = [min(years), max(years)]
         for year in years:
             filename = f'{GRAPHS_FOLDER}/Dispatch_{selected_scenario}_{zone}_{year}.png'
-            for s in epm_results['pDispatch']['season'].unique():
-                select_time = {'season': [s]}
 
-                make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
-                                                 zone=zone, year=year, scenario=selected_scenario,
-                                                 fuel_grouping=None, select_time=select_time, filename=filename)
+            # Select season min and max
+            conditions = {'scenario': 'baseline', 'zone': zone, 'year': year, 'attribute': 'Demand'}
+            temp = epm_results['pDispatch'].copy()
+            temp = filter_dataframe(temp, conditions)
+            t = temp.groupby('season', observed=False)['value'].sum()
+            s_max, s_min = t.idxmax(), t.idxmin()
+            temp = filter_dataframe(temp, {'season': [s_min, s_max]})
+
+            # Select the day with max demand
+            d = temp.groupby(['day'], observed=False)['value'].sum().idxmax()
+
+            select_time = {'season': [s_min, s_max], 'day': [d]}
+            make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
+                                             zone=zone, year=year, scenario=selected_scenario,
+                                             fuel_grouping=None, select_time=select_time, filename=filename,
+                                             bottom=None)
+            select_time = {'season': [s_max]}
+            make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
+                                             zone=zone, year=year, scenario=selected_scenario,
+                                             fuel_grouping=None, select_time=select_time, filename=filename,
+                                             bottom=None)
+
 
 
 def format_ax(ax, linewidth=True):
@@ -1104,7 +1122,7 @@ def format_dispatch_ax(ax, pd_index):
     ax.set_xticks(season_x_positions)
     ax.set_xticklabels(dispatch_seasons, fontsize=8)
     ax.set_xlim(left=0, right=24 * total_days)
-    # ax.set_xlabel('Time')
+    ax.set_xlabel('')
     # Remove grid
     ax.grid(False)
     # Remove top spine to let days appear
