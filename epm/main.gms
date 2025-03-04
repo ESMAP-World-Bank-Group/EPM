@@ -581,7 +581,9 @@ pSystemResultReporting               = pSettings("Systemresultreporting");
 pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
 *Related to hydrogen model
 pIncludeH2                       = pSettings("IncludeH2");
-pH2UnservedCost                  = pSettings("H2UnservedCost");  
+pH2UnservedCost                  = pSettings("H2UnservedCost");
+
+display pzonal_spinning_reserve_constraints, pplanning_reserve_constraints;
 
 * Assign values to model parameters only if their corresponding macro variables are not set to "-1"
 $if not "%zonal_spinning_reserve_constraints%"  == "-1" pzonal_spinning_reserve_constraints  = %zonal_spinning_reserve_constraints%;
