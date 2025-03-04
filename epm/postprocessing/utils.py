@@ -35,7 +35,7 @@ UNIT = {
     'Unmet demand costs: : $m': 'M$'
 }
 
-RENAME_COLUMNS = {'c': 'zone', 'country': 'zone', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
+RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
                   'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
 TYPE_COLUMNS  = {'year': int, 'tech': str, 'fuel': str}
@@ -84,6 +84,10 @@ def extract_gdx(file):
     for param in container.getParameters():
         if container.data[param.name].records is not None:
             df[param.name] = container.data[param.name].records.copy()
+
+    for s in container.getSets():
+        if container.data[s.name].records is not None:
+            df[s.name] = container.data[s.name].records.copy()
 
     return df
 
@@ -164,7 +168,8 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['pGenDataExcel', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings']
+    keys = ['pGenDataExcel', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
+            'zcmap']
     rename_keys = {}
 
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_input.items() if k in keys and k in epm_input.keys()}
@@ -320,7 +325,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
             'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
-            'pCostSummaryWeightedAverageCountry'}
+            'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone'}
 
     rename_keys = {}
     for k in keys:
@@ -329,6 +334,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     # Rename columns
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_results.items() if
                 k in keys and k in epm_results.keys()}
+
+    # pSpinningReserveByPlantCountry, pSpinningReserveByPlantZone
 
     if rename_keys is not None:
         epm_dict.update({rename_keys[k]: i for k, i in epm_dict.items() if k in rename_keys.keys()})
@@ -418,26 +425,39 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
     return RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel
 
 
-def generate_summary(epm_results, folder):
+def generate_summary(epm_results, folder, epm_input):
 
     summary = {}
     t = epm_results['pSystemAverageCost'].copy()
     t['attribute'] = 'Average Cost: $/MWh'
     summary.update({'SystemAverageCost': t})
 
-    # TODO: Correct. Here, we assimilate zone to country.
+    # TODO: Shuld we only consider average not weighted ?
     t = epm_results['pCostSummaryWeightedAverageCountry'].copy()
-    t.rename(columns={'c_0': 'zone', 'uni_1': 'attribute'}, inplace=True)
+    t.rename(columns={'uni_1': 'attribute'}, inplace=True)
     t.drop('uni_2', axis=1, inplace=True)
-    summary.update({'SystemAverageCost': t})
+    summary.update({'pCostSummaryWeightedAverageCountry': t})
 
     t = epm_results['pSummary'].copy()
     t = t[t['value'] > 1e-2]
-    summary.update({'Summary': t})
+    summary.update({'pSummary': t})
 
     t = epm_results['pDemandSupply'].copy()
-    t = t[t['attribute'] == 'Surplus generation: GWh']
-    summary.update({'SurplusGeneration': t})
+    t = t[t['value'] > 1e-2]
+    t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
+    summary.update({'pDemandSupply': t})
+
+    # TODO: Correct. Here, we assimilate zone to country.
+    t = epm_results['pReserveMarginResCountry'].copy()
+    t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
+    summary.update({'pReserveMarginResCountry': t})
+
+    t = epm_results['pSpinningReserveByPlantZone'].copy()
+    t = t.groupby(['scenario', 'zone', 'year'])['value'].sum().reset_index()
+    t['attribute'] = 'Spinning Reserve: GWh'
+    summary.update({'pSpinningReserveByPlantZone': t})
+
+    #pSpinningReserveByPlantZone
 
     t = epm_results['pCostSummary'].copy()
     summary.update({'CostSummary': t})
@@ -462,23 +482,32 @@ def generate_summary(epm_results, folder):
 
     summary = pd.concat(summary)
 
+    # Define the order that will appear in the summary.csv file
     order = ['NPV of system cost: $m', 'Average Total Annual Cost: $m',
              'Average Capex: $m', 'Average Annualized capex: $m', 'Average Fixed O&M: $m',
              'Average Spinning Reserve costs: $m', 'Average Variable O&M: $m',
-              'Total Demand: GWh', 'Total Generation: GWh', 'Total Capacity Added: MW', 'Total Investment: $m',
-             'Total Emission: mt', 'Capex: $m', 'Fixed O&M: $m',
+             'Total Demand: GWh', 'Total Generation: GWh', 'Total USE: GWh',
+             'Total Capacity Added: MW', 'Total Investment: $m',
+             'Total Emission: mt', 'Demand: GWh', 'Generation: GWh', 'Unmet demand: GWh',
+             'Surplus generation: GWh',
+             'Peak demand: MW', 'Firm Capacity: MW', 'Planning Reserve: MW',
+             'Spinning Reserve: GWh',
+             'Capex: $m', 'Fixed O&M: $m',
              'Variable O&M: $m', 'Total fuel Costs: $m', 'Unmet demand costs: $m', 'Total Annual Cost by Zone: $m']
     order = [i for i in order if i in summary['attribute'].unique()]
     order = order + [i for i in summary['attribute'].unique() if i not in order]
 
 
     summary.reset_index(drop=True, inplace=True)
-    summary = summary.set_index(['scenario', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
+    summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
     summary.reset_index(inplace=True)
     #summary = summary.sort_values()
     # Create a mapping of attributes to their position in the list
     order_dict = {attr: index for index, attr in enumerate(order)}
     summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
+
+    zone_to_country = epm_input['zcmap'].set_index('zone')['country'].to_dict()
+    summary['country'] = summary['country'].fillna(summary['zone'].map(zone_to_country))
 
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
@@ -490,12 +519,13 @@ def postprocess_output(FOLDER, full_output=False):
         FOLDER, SCENARIOS_RENAME=None)
 
     # Generate summary
-    generate_summary(epm_results, RESULTS_FOLDER)
+    generate_summary(epm_results, RESULTS_FOLDER, epm_input)
 
     # Generate detailed by plant to debug
-    df = epm_results['pCapacityPlan']
-    df = df.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-    df.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
+    if full_output:
+        df = epm_results['pCapacityPlan']
+        df = df.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        df.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
 
 
 def format_ax(ax, linewidth=True):

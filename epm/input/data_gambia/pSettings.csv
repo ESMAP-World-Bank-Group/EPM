@@ -32,18 +32,18 @@ Apply system CO2 constraints,system_co2_constraints,0
 Apply fuel constraints,fuel_constraints,0
 Apply Max capital constraint,capital_constraints,0
 Apply min generation constraint,mingen_constraints,0
-Apply planning reserve constraint,planning_reserve_constraints,0
+Apply planning reserve constraint,planning_reserve_constraints,1
 "System planning reserve margin, %",system_reserve_margin,0.1
 Apply ramp constraints,ramp_constraints,0
-Apply system spinning reserve contraints,system_spinning_reserve_constraints,
+Apply system spinning reserve contraints,system_spinning_reserve_constraints,0
 Apply zonal CO2 constraint,zonal_co2_constraints,0
-Apply zonal spinning reserve contraints,zonal_spinning_reserve_constraints,0
+Apply zonal spinning reserve contraints,zonal_spinning_reserve_constraints,1
 Minimum share of RE  (%),MinREshare,0
 RE share target year,RETargetYr,
 "Total maximum capital investments, $ billion",MaxCapital,
 "Maximum share of imports, %",MaxImports,
 "Maximum share of exports, %",MaxExports,
-"Spinning reserve needs for VRE, %",VREForecastError ,0.15
+"Spinning reserve needs for VRE, %",VREForecastError,0.15
 ,,
 User defined Capacity credits,VRECapacityCredits,
 Seasonal reporting,Seasonalreporting,
