@@ -282,9 +282,12 @@ def launch_epm_multi_scenarios(config='config.csv',
 def generate_sensitivity(sensitivity, s):
     param = 'pSettings'
     if sensitivity.get(param):
-        settings_sensi = {'DR': [0.04, 0.08], 'VOLL': [250], 'mingen_constraints': [1],
+        settings_sensi = {'VOLL': [250],
                           'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
-                          'zonal_spinning_reserve_constraints': [0]}
+                          'zonal_spinning_reserve_constraints': [0],
+                          'costSurplus': [1, 5], 'costcurtail': [1, 5]}
+        # 'mingen_constraints': [1], # 'DR': [0.04, 0.08],
+
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
             # Iterate over the values
@@ -339,8 +342,8 @@ def generate_sensitivity(sensitivity, s):
     if sensitivity.get(param):
         df = pd.read_csv(s['baseline'][param])
 
-        cols = [i for i in df.columns if i not in ['zone', 'q', 't']]
-        df.loc[:, cols], name = 1, 'flat'
+        cols = [i for i in df.columns if i not in ['zone', 'q', 'd', 't']]
+        df.loc[:, cols], name = 1 / 24, 'flat'
         folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
         if not os.path.exists(folder_sensi):
             os.mkdir(folder_sensi)
@@ -357,7 +360,7 @@ def generate_sensitivity(sensitivity, s):
 
     param = 'pAvailabilityDefault'
     if sensitivity.get(param):
-        availability_sensi = [0.6, 0.7]
+        availability_sensi = [0.1, 0.4]
 
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
@@ -452,16 +455,15 @@ def get_job_engine(tokens_simulation):
 
 if __name__ == '__main__':
 
-    if True:
-        sensitivity = {'pSettings': True, 'pDemandForecast': False,
-                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False}
+    sensitivity = {'pSettings': False, 'pDemandForecast': False,
+                   'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
+                   'pAvailabilityDefault': False, 'pDemandProfile': False}
 
-        folder, result = launch_epm_multi_scenarios(config='input/config.csv',
-                                                    folder_input='data_gambia',
-                                                    scenarios_specification=None,
-                                                    sensitivity=None,
-                                                    selected_scenarios=None,
-                                                    cpu=3)
-        postprocess_output(folder, full_output=True)
+    folder, result = launch_epm_multi_scenarios(config='input/config.csv',
+                                                folder_input='data_gambia',
+                                                scenarios_specification=None,
+                                                sensitivity=sensitivity,
+                                                selected_scenarios=None,
+                                                cpu=3)
+    postprocess_output(folder, full_output=True)
 

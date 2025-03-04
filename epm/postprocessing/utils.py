@@ -24,6 +24,7 @@ GEOJSON = os.path.join('postprocessing', 'static', 'countries.geojson')
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
+    'pPlantDispatch': 'fuel',
     'pDispatch': 'attribute',
     'pCostSummary': 'attribute',
     'pCapacityByFuel': 'fuel',
@@ -483,16 +484,20 @@ def generate_summary(epm_results, folder, epm_input):
     summary = pd.concat(summary)
 
     # Define the order that will appear in the summary.csv file
-    order = ['NPV of system cost: $m', 'Average Total Annual Cost: $m',
+    order = ['NPV of system cost: $m', 'Average Cost: $/MWh',
+             'Average Total Annual Cost: $m',
              'Average Capex: $m', 'Average Annualized capex: $m', 'Average Fixed O&M: $m',
-             'Average Spinning Reserve costs: $m', 'Average Variable O&M: $m',
+             'Average Variable O&M: $m',
+             'Average Spinning Reserve costs: $m', 'Average Spinning Reserve violation: $m',
+             'Average Planning Reserve violation: $m', 'Average Excess generation: $m',
+             'Average Unmet demand costs: $m', 'Zonal Spin Reserve violation: $m',
              'Total Demand: GWh', 'Total Generation: GWh', 'Total USE: GWh',
              'Total Capacity Added: MW', 'Total Investment: $m',
              'Total Emission: mt', 'Demand: GWh', 'Generation: GWh', 'Unmet demand: GWh',
              'Surplus generation: GWh',
              'Peak demand: MW', 'Firm Capacity: MW', 'Planning Reserve: MW',
              'Spinning Reserve: GWh',
-             'Capex: $m', 'Fixed O&M: $m',
+             'Capex: $m', 'Annualized capex: $m', 'Fixed O&M: $m',
              'Variable O&M: $m', 'Total fuel Costs: $m', 'Unmet demand costs: $m', 'Total Annual Cost by Zone: $m']
     order = [i for i in order if i in summary['attribute'].unique()]
     order = order + [i for i in summary['attribute'].unique() if i not in order]
@@ -523,9 +528,53 @@ def postprocess_output(FOLDER, full_output=False):
 
     # Generate detailed by plant to debug
     if full_output:
-        df = epm_results['pCapacityPlan']
-        df = df.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-        df.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
+        summary_detailed = {}
+        temp = epm_results['pCapacityPlan'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Capacity: MW': temp.copy()})
+
+        temp = epm_results['pPlantUtilization'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Utilization: percent': temp.copy()})
+
+        temp = epm_results['pEnergyByPlant'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Energy: GWh': temp.copy()})
+
+        summary_detailed = pd.concat(summary_detailed)
+        summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
+
+    make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER)
+
+
+def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER):
+
+    selected_scenario = 'baseline'
+
+    dfs_to_plot_area = {
+        'pPlantDispatch': epm_results['pPlantDispatch'],
+        'pDispatch': epm_results['pDispatch'].loc[epm_results['pDispatch'].attribute.isin(['Unmet demand', 'Exports'])]
+    }
+
+    dfs_to_plot_line = {
+        'pDispatch': epm_results['pDispatch'].loc[epm_results['pDispatch'].attribute.isin(['Demand'])]
+    }
+
+
+    for zone in epm_results['pDispatch']['zone'].unique():
+        years = epm_results['pDispatch']['year'].unique()
+        years = [min(years), max(years)]
+        for year in years:
+            filename = f'{GRAPHS_FOLDER}/Dispatch_{selected_scenario}_{zone}_{year}.png'
+            for s in epm_results['pDispatch']['season'].unique():
+                select_time = {'season': [s]}
+
+                make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
+                                                 zone=zone, year=year, scenario=selected_scenario,
+                                                 fuel_grouping=None, select_time=select_time, filename=filename)
 
 
 def format_ax(ax, linewidth=True):
@@ -1055,7 +1104,7 @@ def format_dispatch_ax(ax, pd_index):
     ax.set_xticks(season_x_positions)
     ax.set_xticklabels(dispatch_seasons, fontsize=8)
     ax.set_xlim(left=0, right=24 * total_days)
-    ax.set_xlabel('Time')
+    # ax.set_xlabel('Time')
     # Remove grid
     ax.grid(False)
     # Remove top spine to let days appear
@@ -1114,7 +1163,7 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     format_dispatch_ax(ax, pd_index)
 
     # Add axis labels and title
-    ax.set_ylabel('Generation (MWh)', fontweight='bold')
+    ax.set_ylabel('Generation (MW)', fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
     # set ymin to 0
     if bottom is not None:
@@ -1203,7 +1252,7 @@ def clean_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=None
             df['fuel'] = df['fuel'].replace(
                 fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby(['season', 'day', 't', column_stacked], observed=False).sum().reset_index())
+    df = (df.groupby(['season', 'day', 't', column_stacked], observed=False)['value'].sum().reset_index())
 
     if select_time is not None:
         df, temp = select_time_period(df, select_time)
