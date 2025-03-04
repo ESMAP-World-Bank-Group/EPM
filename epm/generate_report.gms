@@ -174,25 +174,25 @@ pSpinningReserveCostsCountry(c,g,y)   = 0;
 
 * zonal level
 pCapex(z,y) = 1e6*sum(gzmap(g,z),  vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTrajectories(g,y))
-            + 1e3*sum(gzmap(st,z), vBuildStor.l(st,y)*pStorData(st,"Capex")*pCapexTrajectories(st,y))
-            + 1e3*sum(gzmap(cs,z), vBuildTherm.l(cs,y)*pCSPData(cs,"Thermal Field","Capex")*1e3*pCapexTrajectories(cs,y)
-                                 + vBuildStor.l(cs,y)*pCSPData(cs,"Storage","Capex")*pCapexTrajectories(cs,y))
+            + 1e3*sum(gzmap(st,z), vBuildStor.l(st,y)*pStorData(st,"CapexMWh")*pCapexTrajectories(st,y))
+            + 1e3*sum(gzmap(cs,z), vBuildTherm.l(cs,y)*pCSPData(cs,"Thermal Field","CapexMWh")*1e3*pCapexTrajectories(cs,y)
+                                 + vBuildStor.l(cs,y)*pCSPData(cs,"Storage","CapexMWh")*pCapexTrajectories(cs,y))
 **************************H2 model addition**************************************************************
             +1e6*sum(h2zmap(hh,z), vBuildH2.l(hh,y)*pH2Data(hh,"Capex")*pCapexTrajectoriesH2(hh,y))$pIncludeH2+1e-5 ;
 
 pAnncapex(z,y) = 1e6*sum(gzmap(ndc,z),               pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))
-               + 1e3*sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex"))
-               + 1e3*sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","Capex"))
-               + 1e6*sum(gzmap(ndc,z),               pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex"))
+               + 1e3*sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))
+               + 1e3*sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))
+               + 1e6*sum(gzmap(ndc,z),               pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))
                +     sum(gzmap(dc,z),                vAnnCapex.l(dc,y))
 **************************H2 model addition**************************************************************
                +     sum(h2zmap(dch2,z),                vAnnCapexH2.l(dch2,y))
                +1e6*sum(h2zmap(ndcH2,z),              pCRFH2(ndcH2)*vCapH2.l(ndcH2,y)*pH2Data(ndcH2,"Capex"))$pIncludeH2;
 
 pFOM(z,y) = sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
-          + sum(gzmap(st,z), vCapStor.l(st,y)*pStorData(st,"FixedOM"))
-          + sum(gzmap(cs,z), vCapStor.l(cs,y)*pCSPData(cs,"Storage","FixedOM"))
-          + sum(gzmap(cs,z), vCapTherm.l(cs,y)*pCSPData(cs,"Thermal field","FixedOM"))
+          + sum(gzmap(st,z), vCapStor.l(st,y)*pStorData(st,"FixedOMMWh"))
+          + sum(gzmap(cs,z), vCapStor.l(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
+          + sum(gzmap(cs,z), vCapTherm.l(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
 **************************H2 model addition**************************************************************
           + sum(h2zmap(hh,z),  vCapH2.l(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
 
@@ -202,9 +202,9 @@ pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
 
 pVOM(z,y) = sum((q,d,t), pHours(q,d,t)*(
                            sum((gzmap(g,z),gfmap(g,f)),   pGenData(g,"VOM")*vPwrOut.l(g,f,q,d,t,y))
-                         + sum((gzmap(st,z),gfmap(st,f)), pStorData(st,"VOM")*vPwrOut.l(st,f,q,d,t,y))
-                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Storage","VOM")*vPwrOut.l(cs,f,q,d,t,y))
-                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Thermal Field","VOM")*vPwrOut.l(cs,f,q,d,t,y))
+                         + sum((gzmap(st,z),gfmap(st,f)), pStorData(st,"VOMMWh")*vPwrOut.l(st,f,q,d,t,y))
+                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Storage","VOMMWh")*vPwrOut.l(cs,f,q,d,t,y))
+                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Thermal Field","VOMMWh")*vPwrOut.l(cs,f,q,d,t,y))
 **************************H2 model addition**************************************************************
 ***(units for equation below)**********       $/mMBTU_H2          mmBTU_H2/MWh_e        MW_e
                         + sum((h2zmap(hh,z)), pH2Data(hh,"VOM")*pH2Data(hh,"Heatrate")*vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2));
@@ -440,7 +440,7 @@ pSummary("NPV of system cost: $m"          ) = vNPVCost.l/1e6;
 pSummary("Total Generation: GWh"           ) = sum((gzmap(g,z),y), pWeightYear(y)*pEnergyByPlant(z,g,y));
 pSummary("Total Demand: GWh"               ) = sum((z,y), pWeightYear(y)*pDemandSupply(z,"Demand: GWh",y));
 pSummary("Total Capacity Added: MW"        ) = sum((g,y), vBuild.l(g,y));
-pSummary("Total Investment: $m"            ) = sum((g,y)$(ndc(g)), vBuild.l(g,y)*pGenData(g,"Capex")+ vBuildStor.l(g,y)*(pStorData(g,"Capex")+pCSPData(g,"Storage","Capex"))/1e3+vBuildTherm.l(g,y)*pCSPData(g,"Thermal Field","Capex")) + sum((g,y)$(dc(g)), vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTrajectories(g,y)+(vBuildStor.l(g,y)*(pStorData(g,"Capex")+pCSPData(g,"Storage","Capex"))/1e3+vBuildTherm.l(g,y)*pCSPData(g,"Thermal Field","Capex"))*pCapexTrajectories(g,y));
+pSummary("Total Investment: $m"            ) = sum((g,y)$(ndc(g)), vBuild.l(g,y)*pGenData(g,"Capex")+ vBuildStor.l(g,y)*(pStorData(g,"CapexMWh")+pCSPData(g,"Storage","CapexMWh"))/1e3+vBuildTherm.l(g,y)*pCSPData(g,"Thermal Field","CapexMWh")) + sum((g,y)$(dc(g)), vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTrajectories(g,y)+(vBuildStor.l(g,y)*(pStorData(g,"CapexMWh")+pCSPData(g,"Storage","CapexMWh"))/1e3+vBuildTherm.l(g,y)*pCSPData(g,"Thermal Field","CapexMWh"))*pCapexTrajectories(g,y));
 pSummary("Total USE: GWh"                  ) = sum((z,y), pWeightYear(y)*pDemandSupply(z,"Unmet demand: GWh",y));
 pSummary("Carbon costs: $m"                ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyCarbonCost.l(z,y))/1e6;
 pSummary("Trade costs: $m"                 ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyTradeCost.l( z,y))/1e6;
@@ -673,9 +673,9 @@ pSystemAverageCost(y)$sum(z, pDenom2(z,y)) =
                         (sum((z,zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
 *                 max(1,Sum((z,q,d,t),vImportPrice.l(z,q,d,t,y)*pHours(q,d,t))));
                        + sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-                       + sum(ndc$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex"))*1e3
-                       + sum(ndc$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","Capex"))*1e3
-                       + sum(ndc, pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex"))*1e6
+                       + sum(ndc$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
+                       + sum(ndc$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
+                       + sum(ndc, pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
                        + sum(dc, vAnnCapex.l(dc,y))
                        + sum(z, pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y) + pSpinResCosts(z,y))
                        )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t)) + pDenom2(z,y));
@@ -684,18 +684,18 @@ pSystemAverageCost(y)$sum(z, pDenom2(z,y)) =
 
 pPlantAnnualLCOE(zgmap(z,ndc),y)$pDenom(z,ndc,y) = (pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex")*1e6
                                                   + vCap.l(ndc,y)*pGenData(ndc,"FOMperMW")
-                                                  + vCapStor.l(ndc,y)*pStorData(ndc,"FixedOM")
-                                                  + vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","FixedOM")
-                                                  + vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal field","FixedOM")
+                                                  + vCapStor.l(ndc,y)*pStorData(ndc,"FixedOMMWh")
+                                                  + vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","FixedOMMWh")
+                                                  + vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal field","FixedOMMWh")
                                                   + sum((gfmap(ndc,f),q,d,t), pVarCost(ndc,f,y)*vPwrOut.l(ndc,f,q,d,t,y)*pHours(q,d,t))
 *                                                 + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))
                                                    )/pDenom(z,ndc,y);
 
 pPlantAnnualLCOE(zgmap(z,dc),y)$pDenom(z,dc,y) =  (vAnnCapex.l(dc,y)
                                                  + vCap.l(dc,y)*pGenData(dc,"FOMperMW")
-                                                 + vCapStor.l(dc,y)*pStorData(dc,"FixedOM")
-                                                 + vCapStor.l(dc,y)*pCSPData(dc,"Storage","FixedOM")
-                                                 + vCapTherm.l(dc,y)*pCSPData(dc,"Thermal field","FixedOM")
+                                                 + vCapStor.l(dc,y)*pStorData(dc,"FixedOMMWh")
+                                                 + vCapStor.l(dc,y)*pCSPData(dc,"Storage","FixedOMMWh")
+                                                 + vCapTherm.l(dc,y)*pCSPData(dc,"Thermal field","FixedOMMWh")
                                                  + sum((gfmap(dc,f),q,d,t), pVarCost(dc,f,y)*vPwrOut.l(dc,f,q,d,t,y)*pHours(q,d,t))
 *                                                + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))
                                                   )/pDenom(z,dc,y);
@@ -706,9 +706,9 @@ zctmp(z,y) = sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(
            + sum((sTopology(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
            + sum(zgmap(z,dc), vAnnCapex.l(dc,y))
            + sum(zgmap(z,ndc), pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-           + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex"))*1e3
-           + sum(zgmap(z,ndc)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","Capex"))*1e3
-           + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex"))*1e6
+           + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
+           + sum(zgmap(z,ndc)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
+           + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
            + pFOM(z,y) + pVOM(z,y)+ pFuelCostsZone(z,y) + pSpinResCosts(z,y);
 
 pZonalAverageCost(z,y)$pDenom2(z,y) = zctmp(z,y)/(sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
@@ -722,9 +722,9 @@ option clear=zctmp;
 
 zctmp(z,y) = sum(zgmap(z,dc), vAnnCapex.l(dc,y))
            + sum(zgmap(z,ndc), pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-           + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex"))*1e3
-           + sum(zgmap(z,ndc)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","Capex"))*1e3
-           + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex"))*1e6
+           + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
+           + sum(zgmap(z,ndc)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
+           + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
            + pFOM(z,y) + pVOM(z,y) + pFuelcostsZone(z,y) + pSpinResCosts(z,y);
 
 pZonalAverageGenCost(z,y)$pDenom2(z,y) = zctmp(z,y)/pDenom2(z,y);
@@ -735,17 +735,17 @@ pCountryAverageGenCost(c,y)$pDenom3(c,y) = sum(zcmap(z,c),zctmp(z,y))/pDenom3(c,
 *CostSummarybyPlant
 
 pCostsbyPlant(zgmap(z,ndc), "Annuity Cost in MUSD",y)= (pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex")*1e6
-                                                 + pCRF(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"Capex")*1e3
-                                                 + pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","Capex")*1e3
-                                                 + pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","Capex")*1e6)/1e6;
+                                                 + pCRF(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh")*1e3
+                                                 + pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3
+                                                 + pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)/1e6;
                                                  
 pCostsbyPlant(zgmap(z,dc), "Annuity Cost in MUSD",y)=   vAnnCapex.l(dc,y)/1e6;
 
 
 pCostsbyPlant(zgmap(z,g),"Fixed Cost in MUSD",y)=       (  vCap.l(g,y)*pGenData(g,"FOMperMW")
-                                                 + vCapStor.l(g,y)*pStorData(g,"FixedOM")
-                                                 + vCapStor.l(g,y)*pCSPData(g,"Storage","FixedOM")
-                                                 + vCapTherm.l(g,y)*pCSPData(g,"Thermal field","FixedOM"))/1e6;
+                                                 + vCapStor.l(g,y)*pStorData(g,"FixedOMMWh")
+                                                 + vCapStor.l(g,y)*pCSPData(g,"Storage","FixedOMMWh")
+                                                 + vCapTherm.l(g,y)*pCSPData(g,"Thermal field","FixedOMMWh"))/1e6;
 
 pCostsbyPlant(zgmap(z,g),"Variable Cost in MUSD",y)= sum((gfmap(g,f),q,d,t), pVarCost(g,f,y)*vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e6;
 pCostsbyPlant(zgmap(z,g),"Spinning Reserve Cost in MUSD",y)= pSpinningReserveCostsZone(z,g,y);
@@ -769,7 +769,7 @@ pCSPComponents(cs,"Storage Hours: hrs",y) = vCapStor.l(cs,y)/max(vCap.l(cs,y),1)
 pPVwSTOBalance(y,q,d,so, "PV output"     ,t) = sum(gfmap(so,f), vPwrOut.l(so,f,q,d,t,y));
 pPVwSTOBalance(y,q,d,stp,"Storage Input" ,t) = vStorInj.l(stp,q,d,t,y);
 pPVwSTOBalance(y,q,d,stp,"Storage output",t) = sum(gfmap(stp,f), vPwrOut.l(stp,f,q,d,t,y));
-pPVwSTOBalance(y,q,d,stp,"Storage Losses",t) = (1-pStorData(stp,"efficiency"))*vStorInj.l(stp,q,d,t,y);
+pPVwSTOBalance(y,q,d,stp,"Storage Losses",t) = (1-pStorData(stp,"Efficiency"))*vStorInj.l(stp,q,d,t,y);
 pPVwSTOBalance(y,q,d,stp,"Storage level" ,t) = vStorage.l(stp,q,d,t,y);
 
 pPVwSTOComponents(so, "PV Plants"           ,y) = vCap.l(so,y);
@@ -779,7 +779,7 @@ pPVwSTOComponents(stp,"Storage Hours"       ,y) = vCapStor.l(stp,y)/max(vCap.l(s
 
 pStorageBalance(y,stg,q,d,"Storage Input"     ,t) = vStorInj.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Output"    ,t) = sum(gfmap(stg,f), vPwrOut.l(stg,f,q,d,t,y));
-pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorData(stg,"efficiency"))*vStorInj.l(stg,q,d,t,y);
+pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorData(stg,"Efficiency"))*vStorInj.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Net Storage Change",t) = vStorNet.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Level"     ,t) = vStorage.l(stg,q,d,t,y);
 

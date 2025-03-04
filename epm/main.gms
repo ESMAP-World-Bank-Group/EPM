@@ -295,10 +295,11 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    ror(g)                'ROR generators'   
    H2statusmap(hh,H2status)
 ;
+* Is it only here for MIRO ?
 $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
-   shdr         'Additional headers for pStorData' / Life, VOM /
+   shdr         'Additional headers for pStorData' / Life, VOMMWh /
    thdr         'Additional header for pNewTransmission' / EarliestEntry /
 ;
 $offmulti
@@ -797,9 +798,9 @@ pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
 $onIDCProtect
 pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")
                        + sum((gzmap(g,z),zcmap(z,c)),pFuelPrice(c,f,y)*pHeatRate(g,f) )
-                       + pStorData(g, "VOM")
-                       + pCSPData(g, "Storage", "VOM")
-                       + pCSPData(g, "Thermal Field", "VOM");
+                       + pStorData(g, "VOMMWh")
+                       + pCSPData(g, "Storage", "VOMMWh")
+                       + pCSPData(g, "Thermal Field", "VOMMWh");
 
 
 pVarCostH2(hh,y) = pH2Data(hh,"VOM");
@@ -835,11 +836,11 @@ vCap.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pGenData(eg,"Cap
 vCap.fx(eg,y)$((pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"StYr") >= sStartYear.val)) = pGenData(eg,"Capacity");
 vCap.fx(eg,y)$(pGenData(eg,"RetrYr") and (pGenData(eg,"RetrYr") <= y.val)) = 0;
 
-vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Thermal Field","Capacity");
-vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","Capacity")+pStorData(eg, "Capacity");
+vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Thermal Field","CapacityMWh");
+vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh")+pStorData(eg, "CapacityMWh");
 
 ***This equation is needed to avoid decommissioning of hours of storage from existing storage
-vCapStor.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"Capacity");
+vCapStor.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
 
 vRetire.fx(ng,y) = 0;
 vRetire.fx(eg,y)$(pGenData(eg,"Life") = 99) = 0;
@@ -915,8 +916,6 @@ sSpinningReserve(g,q,d,t,y)$(not (pzonal_spinning_reserve_constraints or psystem
 $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
-
-*display pCRF;
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  

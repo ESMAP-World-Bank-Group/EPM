@@ -586,12 +586,12 @@ def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER):
             make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
                                              zone=zone, year=year, scenario=selected_scenario,
                                              fuel_grouping=None, select_time=select_time, filename=filename,
-                                             bottom=None)
+                                             bottom=None, legend_loc='right')
             select_time = {'season': [s_max]}
             make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
                                              zone=zone, year=year, scenario=selected_scenario,
                                              fuel_grouping=None, select_time=select_time, filename=filename,
-                                             bottom=None)
+                                             bottom=None, legend_loc='right')
 
 
 
