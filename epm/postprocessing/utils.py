@@ -319,7 +319,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'InterconUtilizationExt', 'pInterchangeExt', 'InterchangeExt', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
-            'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost'}
+            'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
+            'pCostSummaryWeightedAverageCountry'}
 
     rename_keys = {}
     for k in keys:
@@ -420,10 +421,23 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
 def generate_summary(epm_results, folder):
 
     summary = {}
-    # pSystemAverageCost
+    t = epm_results['pSystemAverageCost'].copy()
+    t['attribute'] = 'Average Cost: $/MWh'
+    summary.update({'SystemAverageCost': t})
+
+    # TODO: Correct. Here, we assimilate zone to country.
+    t = epm_results['pCostSummaryWeightedAverageCountry'].copy()
+    t.rename(columns={'c_0': 'zone', 'uni_1': 'attribute'}, inplace=True)
+    t.drop('uni_2', axis=1, inplace=True)
+    summary.update({'SystemAverageCost': t})
 
     t = epm_results['pSummary'].copy()
+    t = t[t['value'] > 1e-2]
     summary.update({'Summary': t})
+
+    t = epm_results['pDemandSupply'].copy()
+    t = t[t['attribute'] == 'Surplus generation: GWh']
+    summary.update({'SurplusGeneration': t})
 
     t = epm_results['pCostSummary'].copy()
     summary.update({'CostSummary': t})
@@ -431,19 +445,38 @@ def generate_summary(epm_results, folder):
     t = epm_results['pCapacityByFuel'].copy()
     t['attribute'] = 'Capacity: MW'
     t.rename(columns={'fuel': 'resolution'}, inplace=True)
+    t = t[t['value'] > 1e-2]
+
     summary.update({'Capacity: MW': t})
 
     t = epm_results['pEnergyByFuel'].copy()
     t['attribute'] = 'Energy: GWh'
     t.rename(columns={'fuel': 'resolution'}, inplace=True)
+    t = t[t['value'] > 1e-2]
+
     summary.update({'Energy: GWh': t})
 
     summary = pd.concat(summary)
 
-    summary = summary[summary['value'] > 1e-2]
+    order = ['NPV of system cost: $m', 'Average Total Annual Cost: $m',
+             'Average Capex: $m', 'Average Annualized capex: $m', 'Average Fixed O&M: $m',
+             'Average Spinning Reserve costs: $m', 'Average Variable O&M: $m',
+              'Total Demand: GWh', 'Total Generation: GWh', 'Total Capacity Added: MW', 'Total Investment: $m',
+             'Total Emission: mt', 'Capex: $m', 'Fixed O&M: $m',
+             'Variable O&M: $m', 'Total fuel Costs: $m', 'Unmet demand costs: $m', 'Total Annual Cost by Zone: $m']
+    order = [i for i in order if i in summary['attribute'].unique()]
+    order = order + [i for i in summary['attribute'].unique() if i not in order]
+
+
     summary.reset_index(drop=True, inplace=True)
     summary = summary.set_index(['scenario', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
-    summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=True)
+    summary.reset_index(inplace=True)
+    #summary = summary.sort_values()
+    # Create a mapping of attributes to their position in the list
+    order_dict = {attr: index for index, attr in enumerate(order)}
+    summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
+
+    summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 
 def postprocess_output(FOLDER, full_output=False):

@@ -356,7 +356,7 @@ def generate_sensitivity(sensitivity, s):
 
     param = 'pAvailabilityDefault'
     if sensitivity.get(param):
-        availability_sensi = [0.6, 0.7]
+        availability_sensi = [0.1]
 
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
@@ -452,10 +452,9 @@ def get_job_engine(tokens_simulation):
 if __name__ == '__main__':
 
     if True:
-        sensitivity = {'pSettings': True, 'pDemandForecast': True,
-                       'pFuelPrice': True, 'pCapexTrajectoriesDefault': True,
-                       'pAvailabilityDefault': True, 'pDemandProfile': True}
-        sensitivity = None
+        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
+                       'pAvailabilityDefault': True, 'pDemandProfile': False}
 
         folder, result = launch_epm_multi_scenarios(config='input/config.csv',
                                                     folder_input='data_gambia',
