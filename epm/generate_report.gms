@@ -272,6 +272,7 @@ pCostSummary(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
 
 pCostSummary(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
 
+* Should we keep O to be sure we are considering all cost components ?
 pCostSummary(z,"Transmission additions: $m"   ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"   ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"       ,y) = pUSECosts(z,y)/1e6;
@@ -283,7 +284,6 @@ pCostSummary(z,"Export revenue: $m"           ,y) = pExportRevenue(z,y)/1e6;
 pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCosts(z,y) - pExportRevenue(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-
 
 
 *--- Cost Summary Unweighted by country
@@ -335,7 +335,7 @@ pCostSummaryWeightedAverageCountry(c,"Average CO2 backstop cost by Country: $m" 
 pCostSummaryWeightedAverageCountry(c,"Average Total Annual Cost: $m"         ,"Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m",y))/TimeHorizon;
 
 
-
+* TODO: Why that ? pCostSummaryWeightedAverageCtry ?
 pCostSummaryWeightedAverageCtry(c,"Average Capex: $m")                      = pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary");                     
 pCostSummaryWeightedAverageCtry(c,"Average Annualized capex: $m")           = pCostSummaryWeightedAverageCountry(c,"Average Annualized capex: $m","Summary");          
 pCostSummaryWeightedAverageCtry(c,"Average Transmission additions: $m")     = pCostSummaryWeightedAverageCountry(c,"Average Transmission additions: $m","Summary");    

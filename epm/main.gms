@@ -750,7 +750,6 @@ $onIDCProtect
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,f,q,d,t))/sum((q,d,t),1));
 
-display pAvailability;
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
@@ -915,6 +914,7 @@ $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
 
+*display pCRF;
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
@@ -937,6 +937,7 @@ option savepoint=1;
 
 * Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
 Solve PA using MIP minimizing vNPVcost;
+
 
 * Include the external report file specified by `%REPORT_FILE%`
 $include %REPORT_FILE%
