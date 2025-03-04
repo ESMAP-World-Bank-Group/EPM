@@ -75,7 +75,6 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     print(f'Missing {missing_columns}')
     for c in missing_columns:
         param_df[c] = float('nan')
-    param_df.to_csv('param_df.csv')
 
     # Fill NaN values in param_df using corresponding values in default_df
     param_df = param_df.fillna(default_df)
