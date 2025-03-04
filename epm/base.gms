@@ -80,7 +80,7 @@ Sets
 
 * Time
 Sets
-   ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW, MaxTotalBuild,
+   ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW,
                                         MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize /
    shdr         'Header for pStorData' / Capacity, Capex, FixedOM, Efficiency/
    csphrd       'Header for pCSPData' / Storage, "Thermal Field" /
@@ -358,8 +358,8 @@ Equations
    eBuiltCap(g,y)                  'built capacity'
    eRetireCap(g,y)                 'retired capacity'
 
-   eMaxBuildTotal(g)               'max build over all years'
-   eMinBuildTotal                  'min build over all years'
+*   eMaxBuildTotal(g)               'max build over all years'
+*   eMinBuildTotal                  'min build over all years'
    
 
 
@@ -620,11 +620,12 @@ eCapBalance2(ng,y)$(not sStartYear(y))..
 eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
    sum(y, vBuild(eg,y)) =l= pGenData(eg,"Capacity");
 
-eMaxBuildTotal(ng)..
-   sum(y, vBuild(ng,y)) =l= pGenData(ng,"MaxTotalBuild");
-   
-eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
-   sum(y, vBuild(ng,y)) =g= pGenData(ng,"MinTotalBuild");
+*eMaxBuildTotal(ng)..
+*   sum(y, vBuild(ng,y)) =l= pGenData(ng,"MaxTotalBuild");
+ 
+* TODO: Is it used?  
+*eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
+*   sum(y, vBuild(ng,y)) =g= pGenData(ng,"MinTotalBuild");
 
 
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
@@ -1003,10 +1004,8 @@ Model PA /
    eCapBalance1
    eCapBalance2
    eBuildNew
-   eMaxBuildTotal
-   eMinBuildTotal
-
-
+*   eMaxBuildTotal
+*   eMinBuildTotal
 
 
    eMinGenRE
