@@ -455,6 +455,7 @@ if __name__ == '__main__':
         sensitivity = {'pSettings': True, 'pDemandForecast': True,
                        'pFuelPrice': True, 'pCapexTrajectoriesDefault': True,
                        'pAvailabilityDefault': True, 'pDemandProfile': True}
+        sensitivity = None
 
         folder, result = launch_epm_multi_scenarios(config='input/config.csv',
                                                     folder_input='data_gambia',
