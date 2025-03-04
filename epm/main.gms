@@ -154,7 +154,7 @@ Set
    tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
    H2status  'H2 generation plant status' / Existing, Candidate, Committed /
-   techhdr  'techdata headers' / 'Construction Period (years)', 'RE Technology', 'Hourly Variation' /
+   techhdr  'techdata headers' / 'RE Technology', 'Hourly Variation' /
    pe       'peak energy for demand forecast' /'peak', 'energy'/
    ft       'fuel types'
    mipline 'Solver option lines'

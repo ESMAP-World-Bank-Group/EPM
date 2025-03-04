@@ -1,0 +1,19 @@
+﻿Technology,Construction Period (years),Hourly Variation,RE Technology
+GT,2,0,0
+CCGT,2.5,0,0
+COAL,7,0,0
+STOHY,4,0,1
+WIND,2,1,1
+PV,1,1,1
+BIOGAS,2,0,1
+INT,2,0,0
+CHP,2.5,0,0
+ICE,1,0,0
+BIOMAS,2,0,1
+ROR,2,0,1
+ST,4,0,0
+CSP,3,0,1
+PVwSTO,1,1,1
+STOPV,1,0,1
+STORAGE,1,0,0
+MPAOpt,4,0,1
