@@ -527,6 +527,54 @@ There are two types of reserves in **EPM**:
 
 Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade) for more details.
 
+### `pExtTransferLimit.csv`
+
+- **Description**:  
+
+Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
+Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+
+- **Data Structure**:  
+  - **Internal zone** (*str*) –  Origin of the import/export.  
+  - **External zone** (*str*) – Destination of the import/export.  
+  - **Seasons** (*str*) – Season for which the capacity is specified.
+  - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
+  - **Year** (*int*) – Year for which the capacity applies.
+
+- **Example Link**: [pExtTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv)  
+
+
+### `pMaxExchangeShare.csv`
+
+### `pMaxPriceImportShare.csv`
+
+### `pNewTransmission.csv`
+
+- **Description**:  
+  Specifies the key characteristics of candidate transmission lines.  
+
+- **Data Structure**:  
+  - **From** (*str*) – Starting location of the transmission line.  
+  - **To** (*str*) – Destination of the transmission line.  
+  - **EarliestEntry** (*int*) – Earliest year the line can be built.
+  - **MaximumNumOfLines** (*int*) – Maximum number of lines that can be constructed (lines must be built in whole units).
+  - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
+  - **CostPerLine** (*float*) – Investment cost per line.
+  - **Life** (*int*) – Expected lifespan of the transmission line.
+
+- **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pNewTransmission.csv)  
+
+
+### `pTradePrice.csv`
+
+### `pTransferLimit.csv`
+
+### `zext.csv`
+
+
+
+### `pLossFactor.csv`
+
 ---
 
 ## H2
