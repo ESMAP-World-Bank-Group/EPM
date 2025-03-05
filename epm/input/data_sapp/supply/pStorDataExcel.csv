@@ -1,4 +1,4 @@
-﻿Battery,Linked plant,Capacity,Capex,VOM,FixedOM,Efficiency,Life
+﻿gen,Linked plant,CapacityMWh,CapexMWh,VOMMWh,FixedOMMWh,Efficiency,Life
 Sto_ZAF,,20000000,180,0,15000,0.9,15
 Sto_LSO,,10000000,180,0,15000,0.9,15
 Sto_SWZ,,10000000,180,0,15000,0.9,15
