@@ -1,26 +1,154 @@
-# Installation
+# EPM Installation Guide for Beginners  
 
-## 1. Clone the repository
- - Use the terminal to go to the location you want to clone the repository.
- - Run the command: `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git`
+## Introduction  
 
+This guide will walk you through installing and setting up the **EPM** model. It covers cloning the repository, creating your own branch, and launching the model.  
 
-## 2. Create and activate branch
+If you're new to Git, don't worry—just follow these steps carefully.  
 
-We suggest to create a new branch for your work. This way, you can work on your own branch and merge it to the main branch when you are done.
-- To see the branch you are in, run the command: `git branch`
-- Create (if it doesn't exist yet) and change to the branch you want to work on: `git checkout -b <branch_name>`. `branch-name` should be a descriptive name of the use case you are working on, e.g., guinea.
-- You’ve created a new branch locally. In order to have your code stored on the remote repository as well, you should push your local branch to the remote repository: `git push -u origin <branch-name>`
+---
 
-## 3. Launch the model
+## Prerequisites: Install Required Tools  
 
-There are three ways to run the model:
-- Using GAMS Studio (recommended for debugging)
-- Using Python (recommended for running the model with multiple scenarios)
-- Using Excel (not recommended)
+Before starting, ensure you have the following installed on your computer:  
 
-There are two ways to include input data:
-- A single .xlsx file with all data
-- A folder with a list of .csv files with the data (recommended)
+### 1️⃣ **Git (Version Control System)**  
+Git is used to download and manage versions of the EPM repository.  
 
-Those are detailed hereafter.
+- **Windows**: [Download Git for Windows](https://git-scm.com/download/win)  
+- **Mac**: Install using Homebrew:  
+  ```sh
+  brew install git
+  ```
+- **Linux**: Install using your package manager:  
+  ```sh
+  sudo apt install git  # Ubuntu/Debian
+  sudo dnf install git  # Fedora
+  ```
+- **Check if Git is installed**:  
+  ```sh
+  git --version
+  ```
+  If installed, this will display the Git version.
+
+### 2️⃣ **Python & Conda (Required for Running the Model in Python)**  
+Python is needed to execute the model using scripts.  
+
+- **Install Miniconda (Recommended)**:  
+  [Download Miniconda](https://docs.conda.io/en/latest/miniconda.html) and install it for your operating system.  
+
+- **Verify installation**:  
+  ```sh
+  python --version
+  conda --version
+  ```
+
+### 3️⃣ **GAMS (If Using GAMS Studio for Debugging)**  
+- **Download & install GAMS**: [GAMS Website](https://www.gams.com/download/)  
+
+---
+
+## 1️⃣ Clone the Repository  
+
+To download the project to your local machine, follow these steps:  
+
+1. Open a terminal or command prompt.  
+2. Navigate to the directory where you want to store the project:  
+   ```sh
+   cd /path/to/your/folder
+   ```
+3. Clone the repository from GitHub:  
+   ```sh
+   git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
+   ```
+4. Move into the newly created project directory:  
+   ```sh
+   cd EPM
+   ```
+
+---
+
+## 2️⃣ Create and Activate a Branch  
+
+A **branch** is like a separate workspace where you can make changes without affecting the main code (`main`).  
+
+We recommend **creating your own branch** to work on, keeping your changes organized.  
+
+### **Steps to Create and Activate Your Branch**  
+
+1. **Check which branch you are currently on**:  
+   ```sh
+   git branch
+   ```
+   The active branch will have a `*` next to it.
+
+2. **Create and switch to your own branch** (replace `<branch-name>` with a meaningful name, e.g., `guinea`):  
+   ```sh
+   git checkout -b <branch-name>
+   ```
+   This creates a new branch and switches to it.
+
+3. **Push your branch to the remote repository** to save it online:  
+   ```sh
+   git push -u origin <branch-name>
+   ```
+   Now, your branch is stored remotely, and you can share your work if needed.
+
+---
+
+## 3️⃣ Launch the Model  
+
+There are **three ways** to run the EPM model:  
+
+### **1. Using GAMS Studio (Recommended for Debugging)**  
+- Open GAMS Studio.  
+- Navigate to the EPM folder.  
+- Open and run `main.gms`.  
+
+### **2. Using Python (Recommended for Multiple Scenarios)**  
+1. **Activate the Conda environment** to ensure you have the required dependencies:  
+   ```sh
+   conda activate esmap_env
+   ```
+2. **Run the model using Python**:  
+   ```sh
+   python epm/run_epm.py
+   ```
+
+### **3. Using Excel (Not Recommended)**  
+- You can use an **Excel file (.xlsx)** to modify inputs manually.  
+- This method is less efficient for large-scale scenarios.  
+
+---
+
+## 4️⃣ Input Data Options  
+
+There are **two ways** to provide input data:  
+
+1️⃣ **A single `.xlsx` file** with all data in one place.  
+2️⃣ **A folder of `.csv` files** (Recommended for flexibility and large datasets).  
+
+---
+
+## ✅ Summary of Key Commands  
+
+| **Action** | **Command** |
+|------------|------------|
+| Clone the repository | `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git` |
+| Check the current branch | `git branch` |
+| Create and switch to a new branch | `git checkout -b <branch-name>` |
+| Push your new branch to remote | `git push -u origin <branch-name>` |
+| Activate Conda environment | `conda activate esmap_env` |
+| Run the model using Python | `python epm/run_epm.py` |
+| Open and run the model in GAMS | Use GAMS Studio and run `main.gms` |
+
+---
+
+## 🎯 Final Tips  
+
+- **Use Git branches** to keep your work organized.  
+- **Test your setup with a small dataset** before running large-scale simulations.  
+- **Regularly fetch updates from `main`** to stay in sync with the latest changes.  
+- **If you get stuck, check `git status` or `git log --oneline`** to understand what’s happening.  
+
+By following these steps, you'll have EPM installed and running smoothly! 🚀  

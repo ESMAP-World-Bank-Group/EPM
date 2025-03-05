@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Running jobs in parallel with python &#8212; Energy Planning Model</title>
+    <title>Solver options &#8212; Energy Planning Model</title>
   
   
   
@@ -58,12 +58,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run_parallel';</script>
-    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run_parallel.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/input_solver_options';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/input_solver_options.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Running EPM with Remote Server" href="run_remote_server.html" />
-    <link rel="prev" title="Solver options" href="run_solver_options.html" />
+    <link rel="next" title="Postprocessing of the results" href="postprocessing.html" />
+    <link rel="prev" title="Data Structure Documentation" href="input_detailed.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -153,7 +153,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_installation.html">
-                        Installation
+                        EPM Installation Guide for Beginners
                       </a>
                     </li>
                 
@@ -166,8 +166,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
-                        Launch on the GAMS Engine remote server
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
+                        Running EPM with Remote Server
                       </a>
                     </li>
                 
@@ -178,29 +178,15 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
+                        Running EPM with GAMS ENGINE Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_git_process.html">
-                        Git procedure
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_solver_options.html">
-                        Solver options
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        Running jobs in parallel with python
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_remote_server.html">
-                        Running EPM with Remote Server
+                        Git Procedure for Beginners
                       </a>
                     </li>
                 
@@ -215,6 +201,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
                         Data Structure Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Solver options
                       </a>
                     </li>
                 
@@ -391,7 +384,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_installation.html">
-                        Installation
+                        EPM Installation Guide for Beginners
                       </a>
                     </li>
                 
@@ -404,8 +397,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
-                        Launch on the GAMS Engine remote server
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
+                        Running EPM with Remote Server
                       </a>
                     </li>
                 
@@ -416,29 +409,15 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_engine_remote_server.html">
+                        Running EPM with GAMS ENGINE Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_git_process.html">
-                        Git procedure
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_solver_options.html">
-                        Solver options
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        Running jobs in parallel with python
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_remote_server.html">
-                        Running EPM with Remote Server
+                        Git Procedure for Beginners
                       </a>
                     </li>
                 
@@ -453,6 +432,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
                         Data Structure Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Solver options
                       </a>
                     </li>
                 
@@ -613,19 +599,18 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="introduction_case_studies.html">EPM Recent Case Studies</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="run_installation.html">Installation</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="run_installation.html">EPM Installation Guide for Beginners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_epm.html">How to Run EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Launch on the GAMS Engine remote server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git procedure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run_solver_options.html">Solver options</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Running jobs in parallel with python</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Running EPM with Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Running EPM with GAMS ENGINE Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Solver options</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Postprocessing</span></p>
 <ul class="nav bd-sidenav">
@@ -734,7 +719,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/run_parallel.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/input_solver_options.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -749,7 +734,7 @@ title="Open an issue"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/run_parallel.md" target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/input_solver_options.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -774,7 +759,7 @@ title="Edit this page"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../_sources/docs/run_parallel.md" target="_blank"
+      <li><a href="../_sources/docs/input_solver_options.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -817,7 +802,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Running jobs in parallel with python</h1>
+    <h1>Solver options</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -828,31 +813,104 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#recap-on-parallel-runs">
-   Recap on parallel runs
+  <a class="reference internal nav-link" href="#important-parameters">
+   Important parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-parameters">
+   Other parameters
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#key-components-of-a-system">
-     Key components of a System
+    <a class="reference internal nav-link" href="#good-options-for-large-scale-models">
+     Good Options for Large Scale Models
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#key-considerations">
-     Key considerations
+    <a class="reference internal nav-link" href="#long-presolve-time">
+     Long Presolve Time:
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example">
-     Example
+    <a class="reference internal nav-link" href="#long-rip-run-time">
+     Long RIP Run Time
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detailed-options">
+     Detailed Options
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#startalg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       startalg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaind">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       scaind
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lpmethod">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       lpmethod
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#threads">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       threads
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predual">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       predual
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baralg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       baralg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcolnz">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcolnz
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additional-options">
+     Additional Options:
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-epm-in-parallel">
-   Running EPM in parallel
-  </a>
  </li>
 </ul>
 
@@ -863,56 +921,158 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="running-jobs-in-parallel-with-python">
-<h1>Running jobs in parallel with python<a class="headerlink" href="#running-jobs-in-parallel-with-python" title="Permalink to this heading">#</a></h1>
-<p>The function <code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios</span></code> allows to launch jobs in parallel, by specifying the number of <code class="docutils literal notranslate"><span class="pre">cpus</span></code>.</p>
-<section id="recap-on-parallel-runs">
-<h2>Recap on parallel runs<a class="headerlink" href="#recap-on-parallel-runs" title="Permalink to this heading">#</a></h2>
-<section id="key-components-of-a-system">
-<h3>Key components of a System<a class="headerlink" href="#key-components-of-a-system" title="Permalink to this heading">#</a></h3>
-<p>Machine (Local Computer or Cluster):</p>
-<ol class="arabic simple">
-<li><p>The physical or virtual system where your code runs</p></li>
-</ol>
-<p>Has a specific CPU (central processing unit), RAM (random access memory), and possibly multiple cores.</p>
-<ol class="arabic simple" start="2">
-<li><p>CPU and Cores</p></li>
-</ol>
-<p>CPU: The main processor; a chip responsible for executing instructions. On local machines, there is usually a single CPU.</p>
-<p>Cores: CPUs often have multiple cores, which allow for simultaneous processing of different tasks. For example, a quad-core CPU has 4 cores. Recent local machines (such as MacBook pro) often include multiple cores.</p>
-<p>Threads: Logical divisions of a core. Some CPUs support hyper-threading, where each core can handle two threads simultaneously (e.g., a quad-core CPU with hyper-threading supports 8 threads).</p>
-<ol class="arabic simple" start="3">
-<li><p>RAM:</p></li>
-</ol>
-<p>Temporary memory used to store data required by running programs. Jobs with high memory usage (like optimization models) can quickly exhaust this.</p>
-</section>
-<section id="key-considerations">
-<h3>Key considerations<a class="headerlink" href="#key-considerations" title="Permalink to this heading">#</a></h3>
-<p><strong>Thread Overhead</strong>:</p>
-<p>If your local machine has 8 cores, and you set cpu=8 for the Pool, all cores are occupied.
-If each GAMS optimization uses threads=12, you’re asking for more threads than your system can physically support. This leads to:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="solver-options">
+<h1>Solver options<a class="headerlink" href="#solver-options" title="Permalink to this heading">#</a></h1>
+<p>Solving an instance of the EPM model requires solving a mixed-integer programming instance with thousands of variables and constraints. The solver options chosen will then be determining to reduce computational time.</p>
+<p>The solver options are defined in the <code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code> file. Checkout <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/cplex.opt">here</a> a simple example of the file.</p>
+<section id="important-parameters">
+<h2>Important parameters<a class="headerlink" href="#important-parameters" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Thread contention: Processes fight for CPU resources, reducing efficiency.</p></li>
-<li><p>Slower execution.</p></li>
+<li><p><strong>lpmethod</strong>: determining the algorithm used to solve the LP problem. Options include primal simplex and barrier algorithm.</p></li>
+<li><p><strong>threads</strong>: number of parallel threads allowed. This parameter can speed up the performance of the algorithm. The speedup is far from linear, there is usually a sweet spot between 8 and 12. When setting the number of threads in the config file, you can specify a value higher than the number of logical threads on your computer, as solvers can benefit from oversubscription through better load balancing, asynchronous task execution, and OS-level scheduling. However, setting the thread count too high leads to excessive context switching, increased memory and cache contention, and diminishing returns due to solver synchronization overhead. In practice, performance often improves when exceeding the available threads slightly (e.g., using 12 threads on an 8-thread machine) but degrades if set too high (e.g., 16 threads), as the system spends more time managing threads than solving the problem. Testing different values is key to finding the optimal balance.</p></li>
+<li><p><strong>predual</strong>: Switch to give dual problem to the optimizer. The setting for this parameter can either be a big winner or big looser or no impact if default makes the “right decision”.</p></li>
+<li><p><strong>barcolnz</strong>: dense column handling. Determines whether or not columns are considered dense for special barrier algorithm handling. At the default setting of 0, this parameter is determined dynamically. Values above 0 specify the number of entries in columns to be considered as dense. This parameter can have a huge impact, but is usually difficult to tune, and is specific to each model instance.</p></li>
 </ul>
-<p><strong>RAM Usage</strong>:</p>
-<p>Each worker process runs a separate instance of GAMS, consuming its own RAM for the optimization model.
-If your machine has 16 GB of RAM and each GAMS job requires 4 GB, running 8 parallel jobs will exceed your memory capacity, leading to swapping or crashing</p>
 </section>
-<section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h3>
-<p>If you launch <code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios</span></code> with <code class="docutils literal notranslate"><span class="pre">cpu=1</span></code>, you will only run one simulation at a time on the machine where you are launching this.</p>
-<p><strong>Note</strong>: if the simulations are then launched on the Engine cluster, they may be executed in parallel. Each job you submit to the cluster is an independent task. The cluster’s scheduler then takes over, running these jobs in parallel based on the available resources on the cluster.</p>
-</section>
-</section>
-<section id="running-epm-in-parallel">
-<h2>Running EPM in parallel<a class="headerlink" href="#running-epm-in-parallel" title="Permalink to this heading">#</a></h2>
-<p>There are two sources of parallel resources:</p>
+<section id="other-parameters">
+<h2>Other parameters<a class="headerlink" href="#other-parameters" title="Permalink to this heading">#</a></h2>
+<section id="good-options-for-large-scale-models">
+<h3>Good Options for Large Scale Models<a class="headerlink" href="#good-options-for-large-scale-models" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p>the number of jobs/simulations you launch in parallel.</p></li>
-<li><p>the number of threads used by each simulation for the optimization in GAMS.</p></li>
+<li><p><strong>threads</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code></p></li>
+<li><p><strong>lpmethod</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code></p></li>
+<li><p><strong>solutiontype</strong>: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
+<li><p><strong>bardisplay</strong>: <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
 </ul>
-<p>Depending on the available resources, you should carefully balance both threads and cpu to make sure that resources are used as efficiently as possible.</p>
+</section>
+<hr class="docutils" />
+<section id="long-presolve-time">
+<h3>Long Presolve Time:<a class="headerlink" href="#long-presolve-time" title="Permalink to this heading">#</a></h3>
+<p>One can suppress certain “auxiliary tasks” in the root node via the option <code class="docutils literal notranslate"><span class="pre">auxrootthreads</span></code>. After doing so, CPLEX starts solving the root node after a moderate presolve time.</p>
+</section>
+<hr class="docutils" />
+<section id="long-rip-run-time">
+<h3>Long RIP Run Time<a class="headerlink" href="#long-rip-run-time" title="Permalink to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">barcolnz</span></code> parameter can have a big impact. For instance, with a value of <code class="docutils literal notranslate"><span class="pre">500</span></code>, CPLEX is significantly faster than with <code class="docutils literal notranslate"><span class="pre">700</span></code>.<br />
+The option <code class="docutils literal notranslate"><span class="pre">lpmethod</span></code> specifies the algorithm for solving LPs, but there is a dedicated option <code class="docutils literal notranslate"><span class="pre">startalg</span></code> for specifying the algorithm for the root LP when solving a MIP.</p>
+<p><strong>Note</strong>: <code class="docutils literal notranslate"><span class="pre">solutiontype</span> <span class="pre">2</span></code> should be used with caution when solving MIPs. A basic solution (e.g., from the simplex algorithm or after crossover when using the barrier) is usually beneficial.</p>
+</section>
+<hr class="docutils" />
+<section id="detailed-options">
+<h3>Detailed Options<a class="headerlink" href="#detailed-options" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="startalg">
+<h3><code class="docutils literal notranslate"><span class="pre">startalg</span></code><a class="headerlink" href="#startalg" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Specifies the algorithm to use for starting the solution process.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Primal simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Dual simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Network</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Barrier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Automatic (CPLEX chooses the algorithm)</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="scaind">
+<h3><code class="docutils literal notranslate"><span class="pre">scaind</span></code><a class="headerlink" href="#scaind" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Controls the use of scaling for the constraint matrices.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code>: No scaling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: No scaling</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Automatic scaling</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">1</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="lpmethod">
+<h3><code class="docutils literal notranslate"><span class="pre">lpmethod</span></code><a class="headerlink" href="#lpmethod" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Chooses the method for solving linear programs.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Primal simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Dual simplex</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: Network method</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: Barrier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">4</span></code>: Automatic (CPLEX chooses the algorithm)</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">4</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="threads">
+<h3><code class="docutils literal notranslate"><span class="pre">threads</span></code><a class="headerlink" href="#threads" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Sets the number of threads to use for solving.</p></li>
+<li><p><strong>Possible Values</strong>: Any positive integer (e.g., <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">4</span></code>, <code class="docutils literal notranslate"><span class="pre">8</span></code>)</p></li>
+<li><p><strong>Recommended</strong>: Depends on hardware; more threads reduce solution time but increase memory usage.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="predual">
+<h3><code class="docutils literal notranslate"><span class="pre">predual</span></code><a class="headerlink" href="#predual" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Controls whether CPLEX solves the dual or primal problem during the presolve phase.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-1</span></code>: Automatic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Dual</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Primal</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">-1</span></code> (Automatic)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="baralg">
+<h3><code class="docutils literal notranslate"><span class="pre">baralg</span></code><a class="headerlink" href="#baralg" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Specifies the barrier algorithm to use.</p></li>
+<li><p><strong>Possible Values</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: Standard barrier</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: Barrier with crossover</p></li>
+</ul>
+</li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">1</span></code> (Barrier with crossover)</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="barcolnz">
+<h3><code class="docutils literal notranslate"><span class="pre">barcolnz</span></code><a class="headerlink" href="#barcolnz" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>: Limits the number of nonzeros in columns during the barrier solution.</p></li>
+<li><p><strong>Possible Values</strong>: Any positive integer</p></li>
+<li><p><strong>Recommended</strong>: <code class="docutils literal notranslate"><span class="pre">500</span></code> for faster solutions.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="additional-options">
+<h3>Additional Options:<a class="headerlink" href="#additional-options" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">barepcomp</span></code></strong>: Sets the barrier algorithm’s complementarity tolerance.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1e-5</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">barcrossalg</span></code></strong>: Determines the crossover algorithm after the barrier.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1</span></code> (Dual simplex).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">solutiontype</span></code></strong>: Specifies the type of solution to produce.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1</span></code> for a basic solution, <code class="docutils literal notranslate"><span class="pre">2</span></code> for an interior point solution.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">memoryemphasis</span></code></strong>: Emphasizes memory saving during solving.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">1</span></code> for large models.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bardisplay</span></code></strong>: Controls the level of detail displayed during the barrier solution.<br />
+Recommended: <code class="docutils literal notranslate"><span class="pre">2</span></code> for detailed information.</p></li>
+</ul>
+<p><strong>Note</strong>: this list of parameters is far from exhaustive. Detailed information on how to choose the solver options are discussed <a class="reference external" href="https://worldbankgroup.sharepoint.com/:b:/t/PowerSystemPlanning-WBGroup/EU2NwUyeOo9CljzcBCJThbsBac_sVZWv7GWmuUWf0XDIyw?e=wLkYhH">here</a>.</p>
+</section>
 </section>
 </section>
 
@@ -944,17 +1104,17 @@ If your machine has 16 GB of RAM and each GAMS job requires 4 GB, running 8 para
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="run_solver_options.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="input_detailed.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Solver options</p>
+          <p class="prev-next-title">Data Structure Documentation</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="run_remote_server.html" title="next page">
+  <a class='right-next' id="next-link" href="postprocessing.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Running EPM with Remote Server</p>
+      <p class="prev-next-title">Postprocessing of the results</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -975,31 +1135,104 @@ If your machine has 16 GB of RAM and each GAMS job requires 4 GB, running 8 para
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#recap-on-parallel-runs">
-   Recap on parallel runs
+  <a class="reference internal nav-link" href="#important-parameters">
+   Important parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#other-parameters">
+   Other parameters
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#key-components-of-a-system">
-     Key components of a System
+    <a class="reference internal nav-link" href="#good-options-for-large-scale-models">
+     Good Options for Large Scale Models
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#key-considerations">
-     Key considerations
+    <a class="reference internal nav-link" href="#long-presolve-time">
+     Long Presolve Time:
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#example">
-     Example
+    <a class="reference internal nav-link" href="#long-rip-run-time">
+     Long RIP Run Time
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detailed-options">
+     Detailed Options
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#startalg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       startalg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaind">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       scaind
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lpmethod">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       lpmethod
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#threads">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       threads
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predual">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       predual
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baralg">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       baralg
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcolnz">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcolnz
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#additional-options">
+     Additional Options:
     </a>
    </li>
   </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-epm-in-parallel">
-   Running EPM in parallel
-  </a>
  </li>
 </ul>
 

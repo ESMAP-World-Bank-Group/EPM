@@ -3,6 +3,8 @@
 
 ## Running EPM from GAMS Studio
 
+Recommended for debugging, testing and setting up the model.
+
 1. Open the **GAMS Studio** interface.
 2. Open the GAMS project located in the folder containing all the model files by following these steps:
     - Navigate to the **File** tab in the menu bar at the top.
@@ -19,6 +21,8 @@
 ---
 
 ## Running EPM from Python
+
+Recommended for scenario and sensitivity analysis and all other analysis that require running multiple scenarios.
 
 **Note:** Currently, running the code with Python requires using the csv input specification approach. If you want to run the code with excel instead, refer to Section 1 to run the code directly from Gams Studio.
 
@@ -62,6 +66,7 @@ launch_epm_multi_scenarios(
 ---
 
 ## Running the Model from Excel
+Not recommended for large models.
 
 **Note:** Steps 1-5 need to be performed only once.
 

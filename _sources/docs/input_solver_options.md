@@ -1,5 +1,8 @@
 # Solver options
+
 Solving an instance of the EPM model requires solving a mixed-integer programming instance with thousands of variables and constraints. The solver options chosen will then be determining to reduce computational time.
+
+The solver options are defined in the `cplex.opt` file. Checkout [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/cplex.opt) a simple example of the file.
 
 ## Important parameters
 - **lpmethod**: determining the algorithm used to solve the LP problem. Options include primal simplex and barrier algorithm.
