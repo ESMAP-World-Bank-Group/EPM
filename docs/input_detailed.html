@@ -2109,6 +2109,7 @@ Note: This input is only used when <code class="docutils literal notranslate"><s
 <li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
 <li><p><strong>Import/Export</strong> (<em>str</em>) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.</p></li>
 <li><p><strong>Year</strong> (<em>int</em>) – Year for which the capacity applies.</p></li>
+<li><p><strong>Capacity</strong> - Capacity available for imports or exports.</p></li>
 </ul>
 </li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv">pExtTransferLimit.csv</a></p></li>
@@ -2116,6 +2117,21 @@ Note: This input is only used when <code class="docutils literal notranslate"><s
 </section>
 <section id="pmaxexchangeshare-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pMaxExchangeShare.csv</span></code><a class="headerlink" href="#pmaxexchangeshare-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>:</p></li>
+</ul>
+<p>Specifies the maximum share of total country-level demand that imports and exports can represent.</p>
+<p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
+<ul class="simple">
+<li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Year</strong> (<em>int</em>) –  Year considered</p></li>
+<li><p><strong>Country</strong> (<em>str</em>) – Country considered</p></li>
+<li><p><strong>Maximum exchange share</strong> (<em>fraction [0-1]</em>) – Maximum percentage of total demand that imports and exports can reach.</p></li>
+</ul>
+</li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pMaxExchangeShare.csv">pMaxExchangeShare.csv</a></p></li>
+</ul>
 </section>
 <section id="pmaxpriceimportshare-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pMaxPriceImportShare.csv</span></code><a class="headerlink" href="#pmaxpriceimportshare-csv" title="Permalink to this heading">#</a></h3>
@@ -2147,6 +2163,16 @@ Specifies the key characteristics of candidate transmission lines.</p></li>
 </section>
 <section id="zext-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">zext.csv</span></code><a class="headerlink" href="#zext-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>:<br />
+Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.</p></li>
+<li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>zone</strong> (<em>str</em>) – Name of external zone</p></li>
+</ul>
+</li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/zext.csv">zext.csv</a></p></li>
+</ul>
 </section>
 <section id="plossfactor-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pLossFactor.csv</span></code><a class="headerlink" href="#plossfactor-csv" title="Permalink to this heading">#</a></h3>
