@@ -75,17 +75,6 @@ However, for more control, you can manage files directly from the terminal.
 ## Uploading and Downloading Files
 To transfer files between your local machine and the remote server, you can use:
 - **The web interface Files tab** (simpler for occasional uploads/downloads).
-- **`scp` (Secure Copy Protocol) for command-line transfers**:
-
-  - Upload a file from local to remote:
-    ```sh
-    scp local_file.txt username@server_address:/remote/path/
-    ```
-  - Download a file from remote to local:
-    ```sh
-    scp username@server_address:/remote/path/file.txt .
-    ```
-  Replace `username@server_address` with your actual remote login credentials.
 
 ## Cloning the EPM Repository
 To work with EPM, first clone the repository from GitHub:
