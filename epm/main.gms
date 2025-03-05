@@ -365,16 +365,10 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 $gdxIn
 $offmulti
 
-
-display y;
-$exit
-
 *-------------------------------------------------------------------------------------
 * Make input verification
 
 $include %VERIFICATION_FILE%
-
-$exit
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
