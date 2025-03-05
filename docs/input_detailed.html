@@ -2096,6 +2096,23 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <p>Documentation in progress. Check the <code class="docutils literal notranslate"><span class="pre">trade</span></code> <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade">folder</a> for more details.</p>
 <section id="pexttransferlimit-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pExtTransferLimit.csv</span></code><a class="headerlink" href="#pexttransferlimit-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>:</p></li>
+</ul>
+<p>Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
+Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
+<ul class="simple">
+<li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Internal zone</strong> (<em>str</em>) –  Origin of the import/export.</p></li>
+<li><p><strong>External zone</strong> (<em>str</em>) – Destination of the import/export.</p></li>
+<li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
+<li><p><strong>Import/Export</strong> (<em>str</em>) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.</p></li>
+<li><p><strong>Year</strong> (<em>int</em>) – Year for which the capacity applies.</p></li>
+</ul>
+</li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv">pExtTransferLimit.csv</a></p></li>
+</ul>
 </section>
 <section id="pmaxexchangeshare-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pMaxExchangeShare.csv</span></code><a class="headerlink" href="#pmaxexchangeshare-csv" title="Permalink to this heading">#</a></h3>
@@ -2107,14 +2124,19 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <h3><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code><a class="headerlink" href="#pnewtransmission-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Defines the candidate transmission lines main characteristics.</p></li>
+Specifies the key characteristics of candidate transmission lines.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
-<li><p><strong>From</strong> (<em>str</em>) – from where the line starts.</p></li>
-<li><p><strong>To</strong> (<em>str</em>) – to where the line end.</p></li>
+<li><p><strong>From</strong> (<em>str</em>) – Starting location of the transmission line.</p></li>
+<li><p><strong>To</strong> (<em>str</em>) – Destination of the transmission line.</p></li>
+<li><p><strong>EarliestEntry</strong> (<em>int</em>) – Earliest year the line can be built.</p></li>
+<li><p><strong>MaximumNumOfLines</strong> (<em>int</em>) – Maximum number of lines that can be constructed (lines must be built in whole units).</p></li>
+<li><p><strong>CapacityPerLine</strong> (<em>int</em>) – Capacity of a single transmission line.</p></li>
+<li><p><strong>CostPerLine</strong> (<em>float</em>) – Investment cost per line.</p></li>
+<li><p><strong>Life</strong> (<em>int</em>) – Expected lifespan of the transmission line.</p></li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/reserve/pSpinningReserveReqTotal.csv">pSpinningReserveReqTotal.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pNewTransmission.csv">pNewTransmission.csv</a></p></li>
 </ul>
 </section>
 <section id="ptradeprice-csv">
@@ -2670,7 +2692,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Feb 27, 2025.<br>
+Last updated on Mar 05, 2025.<br>
 </p>
   </div>
   
