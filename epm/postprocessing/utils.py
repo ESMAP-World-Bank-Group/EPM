@@ -517,7 +517,7 @@ def generate_summary(epm_results, folder, epm_input):
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 
-def postprocess_output(FOLDER, full_output=False):
+def postprocess_output(FOLDER, reduced_output=False):
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -527,7 +527,7 @@ def postprocess_output(FOLDER, full_output=False):
     generate_summary(epm_results, RESULTS_FOLDER, epm_input)
 
     # Generate detailed by plant to debug
-    if full_output:
+    if not reduced_output:
         summary_detailed = {}
         temp = epm_results['pCapacityPlan'].copy()
         temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
