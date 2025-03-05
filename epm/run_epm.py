@@ -10,7 +10,7 @@ from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
 import json
-
+import argparse
 from postprocessing.utils import postprocess_output
 
 
@@ -452,18 +452,65 @@ def get_job_engine(tokens_simulation):
             zf.extractall(path=scenario)
 
 
+def main():
+    parser = argparse.ArgumentParser(description="Process some configurations.")
 
-if __name__ == '__main__':
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="input/config.csv",
+        help="Path to the configuration file (default: input/config.csv)"
+    )
 
-    sensitivity = {'pSettings': False, 'pDemandForecast': False,
-                   'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                   'pAvailabilityDefault': False, 'pDemandProfile': False}
+    parser.add_argument(
+        "--folder_input",
+        type=str,
+        default="data_gambia",
+        help="Input folder name (default: data_gambia)"
+    )
 
-    folder, result = launch_epm_multi_scenarios(config='input/config.csv',
-                                                folder_input='data_gambia',
-                                                scenarios_specification=None,
-                                                sensitivity=None,
+    parser.add_argument(
+        "--scenarios",
+        type=str,
+        default=None,
+        help="Scenario file name (default: no filename)"
+    )
+
+    parser.add_argument(
+        "--sensitivity",
+        action="store_true",
+        help="Enable sensitivity analysis (default: False)"
+    )
+
+    parser.add_argument(
+        "--full_output",
+        action="store_false",
+        help="Disable full output (default: True)"
+    )
+
+    args = parser.parse_args()
+
+    print(f"Config file: {args.config}")
+    print(f"Folder input: {args.folder_input}")
+    print(f"Scenarios file: {args.scenarios}")
+    print(f"Sensitivity: {args.sensitivity}")
+    print(f"Full output: {args.full_output}")
+
+    if args.sensitivity:
+        sensitivity = {'pSettings': True, 'pDemandForecast': False,
+                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
+                       'pAvailabilityDefault': False, 'pDemandProfile': False}
+    else:
+        sensitivity = None
+
+    folder, result = launch_epm_multi_scenarios(config=args.config,
+                                                folder_input=args.folder_input,
+                                                scenarios_specification=args.scenarios,
+                                                sensitivity=sensitivity,
                                                 selected_scenarios=None,
                                                 cpu=3)
     postprocess_output(folder, full_output=True)
+
+if __name__ == '__main__':
+    main()
 
