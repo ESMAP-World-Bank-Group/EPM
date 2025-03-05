@@ -242,6 +242,7 @@ $onEmbeddedCode Connect:
     trace: 0
     file: %pAvailability%
     name: pAvailability
+    valueSubstitutions: {0: EPS}
     indexColumns: [1]
     header: [1]
     type: par
