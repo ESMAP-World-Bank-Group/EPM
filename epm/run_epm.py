@@ -462,7 +462,7 @@ if __name__ == '__main__':
     folder, result = launch_epm_multi_scenarios(config='input/config.csv',
                                                 folder_input='data_gambia',
                                                 scenarios_specification=None,
-                                                sensitivity=sensitivity,
+                                                sensitivity=None,
                                                 selected_scenarios=None,
                                                 cpu=3)
     postprocess_output(folder, full_output=True)
