@@ -314,6 +314,46 @@ def generate_sensitivity(sensitivity, s):
                 s[name] = s['baseline'].copy()
                 s[name][param] = path_file
 
+    param = 'y'
+    if sensitivity.get(param):
+        df = pd.read_csv(s['baseline'][param])
+        # Check if all years have been include in the analysis
+        if not (df[param].diff().dropna() == 1).all():
+            t = pd.Series(range(df['y'].min(), df['y'].max() + 1, 1))
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = f'{param}_full'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            t.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
+
+        # Make only first and last year simulation
+        if len(df) > 2:
+            t = pd.Series([df['y'].min(), df['y'].max()])
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = f'{param}_reduced'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            t.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
+
+
     param = 'pDemandForecast'
     if sensitivity.get(param):
         demand_forecast_sensi = [-0.25, -0.1, 0.1, 0.25]
@@ -452,7 +492,7 @@ def get_job_engine(tokens_simulation):
             zf.extractall(path=scenario)
 
 
-def main():
+def main(test_args=None):
     parser = argparse.ArgumentParser(description="Process some configurations.")
 
     parser.add_argument(
@@ -483,23 +523,30 @@ def main():
     )
 
     parser.add_argument(
-        "--full_output",
+        "--reduced_output",
         action="store_false",
-        help="Disable full output (default: True)"
+        help="Enable reduced output (default: False)"
     )
 
     args = parser.parse_args()
+
+    # If test_args is provided (for testing), use it instead of parsing from the command line
+    if test_args:
+        args = parser.parse_args(test_args)
+    else:
+        args = parser.parse_args()  # Normal command-line parsing
 
     print(f"Config file: {args.config}")
     print(f"Folder input: {args.folder_input}")
     print(f"Scenarios file: {args.scenarios}")
     print(f"Sensitivity: {args.sensitivity}")
-    print(f"Full output: {args.full_output}")
+    print(f"Reduced output: {args.reduced_output}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': True, 'pDemandForecast': False,
+        sensitivity = {'pSettings': False, 'pDemandForecast': False,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False}
+                       'pAvailabilityDefault': False, 'pDemandProfile': False,
+                       'y': True}
     else:
         sensitivity = None
 
@@ -509,8 +556,16 @@ def main():
                                                 sensitivity=sensitivity,
                                                 selected_scenarios=None,
                                                 cpu=3)
-    postprocess_output(folder, full_output=True)
+    postprocess_output(folder, reduced_output=False)
 
 if __name__ == '__main__':
-    main()
+
+    # Example test arguments
+    test_parameters = [
+        "--config", "input/config.csv",
+        "--folder_input", "data_gambia",
+        "--sensitivity"
+    ]
+
+    main(test_parameters)
 
