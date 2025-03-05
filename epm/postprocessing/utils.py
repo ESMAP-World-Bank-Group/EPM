@@ -24,6 +24,8 @@ GEOJSON = 'static/countries.geojson'
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
     'pDispatch': 'attribute',
+    'pCurtailedVRET': 'fuel',
+    'pCurtailedStoHY': 'fuel',
     'pCostSummary': 'attribute',
     'pCapacityByFuel': 'fuel',
     'pEnergyByFuel': 'fuel'
@@ -313,6 +315,11 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             epm_dict[k] = epm_dict[k].astype({'scenario': 'str'})
         if 'attribute' in i.columns:
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
+
+    if 'pCurtailedVRET' in epm_dict.keys():
+        epm_dict['pCurtailedVRET']['fuel'] = 'Curtailed VRE'  # adding fuel column
+    if 'pCurtailedStoHY' in epm_dict.keys():
+        epm_dict['pCurtailedStoHY']['fuel'] = 'Curtailed RoR'  # adding fuel column
 
     # Standardize names
     standardize_names(epm_dict, 'pEnergyByFuel', dict_specs['fuel_mapping'])

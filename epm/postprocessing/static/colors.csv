@@ -24,3 +24,4 @@ Unmet demand,black
 Demand,red
 Exports,green
 Storage Charge,pink
+Curtailed VRE,#FF8C00
