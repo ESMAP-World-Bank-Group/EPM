@@ -540,11 +540,26 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
   - **Seasons** (*str*) – Season for which the capacity is specified.
   - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
   - **Year** (*int*) – Year for which the capacity applies.
+  - **Capacity** - Capacity available for imports or exports.
 
 - **Example Link**: [pExtTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv)  
 
 
 ### `pMaxExchangeShare.csv`
+
+- **Description**:  
+
+Specifies the maximum share of total country-level demand that imports and exports can represent.
+
+Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+
+- **Data Structure**:  
+  - **Year** (*int*) –  Year considered  
+  - **Country** (*str*) – Country considered  
+  - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
+
+- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pMaxExchangeShare.csv)  
+
 
 ### `pMaxPriceImportShare.csv`
 
@@ -570,6 +585,14 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 ### `pTransferLimit.csv`
 
 ### `zext.csv`
+
+- **Description**:  
+  Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.  
+
+- **Data Structure**:  
+  - **zone** (*str*) – Name of external zone
+
+- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/zext.csv)
 
 
 
