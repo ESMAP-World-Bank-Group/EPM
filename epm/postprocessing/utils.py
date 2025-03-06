@@ -484,21 +484,26 @@ def generate_summary(epm_results, folder, epm_input):
     summary = pd.concat(summary)
 
     # Define the order that will appear in the summary.csv file
-    order = ['NPV of system cost: $m', 'Average Cost: $/MWh',
+    order = ['NPV of system cost: $m',
+             'Total Demand: GWh', 'Total Generation: GWh', 'Total USE: GWh',
+             'Total Capacity Added: MW', 'Total Investment: $m',
+             'Total Emission: mt',
              'Average Total Annual Cost: $m',
              'Average Capex: $m', 'Average Annualized capex: $m', 'Average Fixed O&M: $m',
              'Average Variable O&M: $m',
              'Average Spinning Reserve costs: $m', 'Average Spinning Reserve violation: $m',
              'Average Planning Reserve violation: $m', 'Average Excess generation: $m',
              'Average Unmet demand costs: $m', 'Zonal Spin Reserve violation: $m',
-             'Total Demand: GWh', 'Total Generation: GWh', 'Total USE: GWh',
-             'Total Capacity Added: MW', 'Total Investment: $m',
-             'Total Emission: mt', 'Demand: GWh', 'Generation: GWh', 'Unmet demand: GWh',
+              'Demand: GWh', 'Generation: GWh', 'Unmet demand: GWh',
              'Surplus generation: GWh',
              'Peak demand: MW', 'Firm Capacity: MW', 'Planning Reserve: MW',
              'Spinning Reserve: GWh',
-             'Capex: $m', 'Annualized capex: $m', 'Fixed O&M: $m',
-             'Variable O&M: $m', 'Total fuel Costs: $m', 'Unmet demand costs: $m', 'Total Annual Cost by Zone: $m']
+             'Average Cost: $/MWh',
+             'Capex: $m', 'Total Annual Cost by Zone: $m', 'Annualized capex: $m', 'Fixed O&M: $m',
+             'Variable O&M: $m', 'Total fuel Costs: $m', 'Unmet demand costs: $m',
+             'Excess generation: $m',
+             'VRE curtailment: $m',
+             ]
     order = [i for i in order if i in summary['attribute'].unique()]
     order = order + [i for i in summary['attribute'].unique() if i not in order]
 
