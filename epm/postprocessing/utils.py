@@ -16,6 +16,8 @@ import seaborn as sns
 from pathlib import Path
 import geopandas as gpd
 from matplotlib.ticker import MaxNLocator, FixedLocator
+import colorsys
+import matplotlib.colors as mcolors
 
 FUELS = os.path.join('postprocessing', 'static', 'fuels.csv')
 TECHS = os.path.join('postprocessing', 'static', 'technologies.csv')
@@ -40,6 +42,9 @@ RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', '
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
                   'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
+
+
+
 
 
 def read_plot_specs():
@@ -389,6 +394,18 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
 
 def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
     # Create the folder path
+    def adjust_color(color, factor=0.1):
+        """Adjusts the color slightly by modifying its HSL components."""
+        rgb = mcolors.to_rgb(color)  # Convert to RGB
+        h, l, s = colorsys.rgb_to_hls(*rgb)  # Convert to HLS
+
+        # Adjust lightness slightly to differentiate (factor controls how much)
+        l = min(1, max(0, l + factor * (0.5 - l)))
+
+        # Convert back to RGB
+        new_rgb = colorsys.hls_to_rgb(h, l, s)
+        return mcolors.to_hex(new_rgb)
+
 
     # TODO: Clean that
     if 'output' not in FOLDER:
@@ -417,10 +434,22 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
 
     # Update color dict with plant colors
     if True:
+        # Copy results
         temp = epm_results['pEnergyByPlant'].copy()
         plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
+
+        # Map base colors from fuel types
         plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
+
+        # Generate slightly varied colors for each generator
+        plant_fuel_pairs['colors'] = plant_fuel_pairs.apply(
+            lambda row: adjust_color(row['colors'], factor=0.2 * hash(row['generator']) % 5), axis=1
+        )
+
+        # Create the mapping
         plant_to_color = dict(zip(plant_fuel_pairs['generator'], plant_fuel_pairs['colors']))
+
+        # Update dict_specs with the new colors
         dict_specs['colors'].update(plant_to_color)
 
     return RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel
@@ -552,7 +581,16 @@ def postprocess_output(FOLDER, reduced_output=False):
         summary_detailed = pd.concat(summary_detailed)
         summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
 
-    make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER)
+        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER)
+
+        if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
+            filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline.png'
+            stacked_area_plot(epm_results['pEnergyByPlant'], filename, dict_specs['colors'], x_column='year',
+                              y_column='value',
+                              stack_column='generator', title='Energy Generation by Plant', y_label='Generation (GWh)',
+                              legend_title='Energy sources', figsize=(10, 6), selected_scenario='baseline',
+                              sorting_column='fuel')
+
 
 
 def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER):
@@ -997,7 +1035,7 @@ def plot_pie_on_ax(ax, df, index, percent_cap, colors, title, radius=None, annot
 def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
                       df_2=None, title='', x_label='Years', y_label='',
                       legend_title='', y2_label='', figsize=(10, 6), selected_scenario=None,
-                      annotate=None):
+                      annotate=None, sorting_column=None):
     """
     Generate a stacked area chart.
 
@@ -1039,8 +1077,16 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     if selected_scenario is not None:
         df = df[df['scenario'] == selected_scenario]
 
+    if sorting_column is not None:
+        # Create a mapping to control order
+        sorting_column = df.groupby(stack_column)[sorting_column].first().sort_values().index
+
     # Plot stacked area for generation
     temp = df.groupby([x_column, stack_column])[y_column].sum().unstack(stack_column)
+
+    if sorting_column is not None:
+        temp = temp[sorting_column]
+
     temp.plot.area(ax=ax1, stacked=True, alpha=0.8, color=dict_colors)
 
     if annotate is not None:

@@ -564,8 +564,7 @@ if __name__ == '__main__':
     # Example test arguments
     test_parameters = [
         "--config", "input/config.csv",
-        "--folder_input", "data_gambia",
-        "--sensitivity"
+        "--folder_input", "data_gambia"
     ]
 
     main(test_parameters)
