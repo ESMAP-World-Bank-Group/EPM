@@ -220,6 +220,22 @@ except Exception as e:
     print('Unexpected error when checking pTransferLimit')
     raise # Re-raise the exception for debuggings
     
+
+# NewTransmission
+try:
+    if db["pNewTransmission"].records is not None:
+        newtransmission_df = db["pNewTransmission"].records
+        topology_newlines = newtransmission_df.set_index(['z', 'z2']).index.unique()
+        duplicate_transmission = [(z, z2) for z, z2 in topology_newlines if (z2, z) in topology_newlines]
+        if duplicate_transmission:
+            raise ValueError(f"Error: The following (z, z2) pairs are specified twice in 'pNewTransmission':\n{duplicate_transmission} \n This may cause some problems when defining twice the characteristics of additional line.")
+        else:
+            print("Success: Each candidate transmission line is only specified once in pNewTransmission.")
+except Exception as e:
+    print('Unexpected error when checking NewTransmission')
+    raise # Re-raise the exception for debuggings
+
+    
 # PlanningReserves
 try:
     if db["pPlanningReserveMargin"].records is not None:
@@ -257,6 +273,54 @@ try:
 except Exception as e:
     print('Unexpected error when checking ftfindex')
     raise # Re-raise the exception for debuggings
+    
+
+# Zones
+try:
+    if db["zext"].records is not None:
+        zext = db["zext"].records
+        z = db["z"].records
+        zext = set(zext['zext'].unique())
+        z = set(z['z'].unique())
+        common_elements = zext & z
+        if common_elements:
+            raise ValueError(f"Error: The following zones are included both as external and internal zones:\n{common_elements}.")
+        else:
+            print("Success: no conflict between internal and external zones")
+        
+    else:
+        print("Success: no conflict between internal and external zones, as external zones are not included in the model.")
+except Exception as e:
+    print('Unexpected error when checking zext')
+    raise # Re-raise the exception for debuggings
+    
+
+try:
+    if db["zext"].records is not None:
+        zext = db["zext"].records
+        if db["pExtTransferLimit"].records is not None:
+            print("hey")
+            pExtTransferLimit = db["pExtTransferLimit"].records
+            print(pExtTransferLimit)
+        else:
+            print("Warning: External zones are specified, but imports and exports capacities are not specified. This may be caused by a problem in the spelling of external zones in pExtTransferLimit.")
+except Exception as e:
+    print('Unexpected error when checking pExtTransferLimit')
+    raise # Re-raise the exception for debuggings
+        
+
+# Check transmission data makes sense with settings
+try:
+    if db["pSettings"].records is not None:
+        pSettings = db["pSettings"].records
+        allowExports = pSettings.loc[pSettings.sc == 'allowExports']
+        if not allowExports.empty:  # we authorize exchanges with external zones
+            if db["pExtTransferLimit"].records is None:
+                print("Warning: exchanges with external zones are allowed, but imports and exports capacities are not specified.")
+except Exception as e:
+    print('Unexpected error when checking pSettings')
+    raise # Re-raise the exception for debuggings
+
 
 
 $offEmbeddedCode

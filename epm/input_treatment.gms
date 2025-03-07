@@ -218,6 +218,72 @@ def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFra
     db.write(gams.db, [param_name])
     
 
+def prepare_lossfactor(db: gt.Container, 
+                                     param_ref="pNewTransmission",
+                                     param_loss="pLossFactor",
+                                     param_y="y",
+                                     column_loss="value"):
+    """
+    Prepares a loss factor GAMS database parameter from another GAMS database parameter, if a given column is specified in this parameter.
+
+    This function retrieves a parameter from the GAMS database, merges it with a reference 
+    parameter (`param_ref`) to associate generators, and extracts a subset of relevant 
+    columns for further processing.
+
+    Parameters:
+    -----------
+    db : gt.Container
+        A GAMS Transfer (GT) container that stores the database.
+    param_name : str
+        The name of the parameter to be retrieved and processed.
+    column_loss : str
+        Column to be used to specify loss factor when it does not exist.
+    param_ref : str, optional
+        The name of the reference parameter used for merging (default is "pGenDataExcel").
+
+    Returns:
+    --------
+    pandas.DataFrame or None
+
+
+    Notes:
+    ------
+
+    """
+    
+    newtransmission_df = db[param_ref].records
+    if newtransmission_df is not None:  # we need to specify loss factor
+        newtransmission_loss_df = newtransmission_df.loc[newtransmission_df.thdr == 'LossFactor']
+        if not newtransmission_loss_df.empty:  # Loss factor is specified
+            if newtransmission_loss_df[column_loss].isna().any():
+                print("newtransmission_loss_df")
+                print(f"Warning: NaN values found in pNewTransmission, skipping specification of loss factor through pNewTransmission.")
+                if db[param_loss].records is None:
+                    raise ValueError(f"Error: Loss factor is not specified through pLossFactor.csv. There is missing data for the model")
+            else:
+                print(f"Defining {param_loss} based on {param_ref}.")
+                # write loss_factor by expanding the column newtransmission_df with header param_y (as columns)
+                y = db[param_y].records
+                y_index = y['y'].tolist()
+
+                loss_factor_df = newtransmission_loss_df.set_index(['z', 'z2'])[column_loss].to_frame()
+                
+                for year in y_index:
+                    loss_factor_df[year] = loss_factor_df[column_loss]
+
+                # Drop the original column_loss since it's now spread across all years
+                loss_factor_df = loss_factor_df.drop(columns=[column_loss]).reset_index()
+
+                db.data[param_loss].setRecords(loss_factor_df)
+                db.write(gams.db, [param_loss])
+                
+            # check that there are no NaN values. Otherwise, skip this step, and check that db[LossFactor ].records exists. If it is not the case, raise an error. If this exists, do nothing. 
+        else:  # Loss factor is not specified
+            if db[param_loss].records is None:
+                raise ValueError(f"Error: Loss factor is not specified through pLossFactor.csv. There is missing data for the model")
+
+    
+
 
 # Create a GAMS workspace and database
 db = gt.Container(gams.db)
@@ -241,5 +307,6 @@ fill_default_value(db, "pCapexTrajectories", default_df)
 
 
 
+prepare_lossfactor(db, "pNewTransmission", "pLossFactor", "y", "value")
 
 $offEmbeddedCode
