@@ -19,10 +19,10 @@ from matplotlib.ticker import MaxNLocator, FixedLocator
 import colorsys
 import matplotlib.colors as mcolors
 
-FUELS = os.path.join('postprocessing', 'static', 'fuels.csv')
-TECHS = os.path.join('postprocessing', 'static', 'technologies.csv')
-COLORS = os.path.join('postprocessing', 'static', 'colors.csv')
-GEOJSON = os.path.join('postprocessing', 'static', 'countries.geojson')
+FUELS = os.path.join('static', 'fuels.csv')
+TECHS = os.path.join('static', 'technologies.csv')
+COLORS = os.path.join('static', 'colors.csv')
+GEOJSON = os.path.join('static', 'countries.geojson')
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
@@ -47,7 +47,7 @@ TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': st
 
 
 
-def read_plot_specs():
+def read_plot_specs(folder=''):
     """
     Read the specifications for the plots from the static files.
     
@@ -57,10 +57,10 @@ def read_plot_specs():
         Dictionary containing the specifications for the plots
     """
 
-    colors = pd.read_csv(COLORS)
-    fuel_mapping = pd.read_csv(FUELS)
-    tech_mapping = pd.read_csv(TECHS)
-    countries = gpd.read_file(GEOJSON)
+    colors = pd.read_csv(os.path.join(folder, COLORS))
+    fuel_mapping = pd.read_csv(os.path.join(folder, FUELS))
+    tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
+    countries = gpd.read_file(os.path.join(folder, GEOJSON))
 
     dict_specs = {
         'colors': colors.set_index('Processing')['Color'].to_dict(),
@@ -392,7 +392,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     return epm_dict
 
 
-def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
+def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder=''):
     # Create the folder path
     def adjust_color(color, factor=0.1):
         """Adjusts the color slightly by modifying its HSL components."""
@@ -420,7 +420,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
         print(f'Created folder {GRAPHS_FOLDER}')
 
     # Read the plot specifications
-    dict_specs = read_plot_specs()
+    dict_specs = read_plot_specs(folder=folder)
 
     # Extract and process EPM inputs
     epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
@@ -551,11 +551,11 @@ def generate_summary(epm_results, folder, epm_input):
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 
-def postprocess_output(FOLDER, reduced_output=False, plot_all=False):
+def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
-        FOLDER, SCENARIOS_RENAME=None)
+        FOLDER, SCENARIOS_RENAME=None, folder=folder)
 
     # Generate summary
     generate_summary(epm_results, RESULTS_FOLDER, epm_input)
