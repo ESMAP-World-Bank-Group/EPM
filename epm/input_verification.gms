@@ -237,6 +237,26 @@ try:
 except Exception as e:
     print('Unexpected error when checking PlanningReserves')
     raise # Re-raise the exception for debuggings
+    
+
+# Definition of fuels
+try:
+    if db["ftfindex"].records is not None:
+        ftfindex = db["ftfindex"].records
+        pGenDataExcel = db["pGenDataExcel"].records
+        fuels = set(ftfindex['f'].unique())
+        fuels_in_gendata = set(pGenDataExcel['f'].unique())
+        missing_fuels = fuels_in_gendata - fuels
+        additional_fuels = fuels - fuels_in_gendata
+        if missing_fuels:
+            raise ValueError(f"Error: The following fuels are in gendata but not defined in ftfindex: \n{missing_fuels}")
+        elif additional_fuels:
+            raise ValueError(f"Error: The following fuels are defined in ftfindex but not in gendata.:\n{season_issues_str}\n This may be because of spelling issues, and may cause problems after.")
+        else:
+            print('Success: Fuels are well-defined everywhere.')
+except Exception as e:
+    print('Unexpected error when checking ftfindex')
+    raise # Re-raise the exception for debuggings
 
 
 $offEmbeddedCode
