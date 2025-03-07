@@ -544,10 +544,10 @@ def main(test_args=None):
     print(f"Reduced output: {args.reduced_output}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+        sensitivity = {'pSettings': False, 'pDemandForecast': True,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False,
-                       'y': True}
+                       'pAvailabilityDefault': True, 'pDemandProfile': False,
+                       'y': False}
     else:
         sensitivity = None
 
@@ -564,7 +564,8 @@ if __name__ == '__main__':
     # Example test arguments
     test_parameters = [
         "--config", "input/config.csv",
-        "--folder_input", "data_gambia",
+        "--folder_input", "data_sapp",
+        # "--scenarios", "input/scenarios_sapp.csv",
         "--sensitivity"
     ]
 
