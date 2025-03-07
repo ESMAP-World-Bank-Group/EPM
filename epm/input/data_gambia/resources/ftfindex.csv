@@ -2,8 +2,8 @@
 Coal,1
 Gas,2
 Water,3
-PV,4
-OnshoreWind,5
+Solar,4
+Wind,5
 Import,6
 HFO,7
 LFO,8
@@ -14,4 +14,3 @@ Diesel,12
 Biomass,13
 Geothermal,14
 LNG,15
-OffshoreWind,16

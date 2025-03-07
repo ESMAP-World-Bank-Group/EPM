@@ -35,13 +35,6 @@ $set FOLDER_INPUT "data_gambia"
 $endIf
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
-** Remove the existing GDX file
-*$call rm %GDX_INPUT%.gdx
-
-* Check for errors during the GDX file generation process
-*$ifThen.errorLevel errorlevel 1
-
-
 * Define by default path
 * SETTINGS
 $if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettings.csv
@@ -585,8 +578,6 @@ $onEmbeddedCode Connect:
     file: %GDX_INPUT%.gdx
     symbols: all
 $offEmbeddedCode
-
-*$endif.errorLevel
 
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
