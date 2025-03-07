@@ -28,13 +28,18 @@
 **********************************************************************
 
 
-$if not set FOLDER_INPUT $set FOLDER_INPUT "data_gambia"
+*$if not set FOLDER_INPUT $set FOLDER_INPUT "data_gambia"
 
-* Remove the existing GDX file
-$call rm %GDX_INPUT%.gdx
+$ifThen not set FOLDER_INPUT
+$set FOLDER_INPUT "data_gambia"
+$endIf
+$log FOLDER_INPUT is "%FOLDER_INPUT%"
+
+** Remove the existing GDX file
+*$call rm %GDX_INPUT%.gdx
 
 * Check for errors during the GDX file generation process
-$ifThen.errorLevel errorlevel 1
+*$ifThen.errorLevel errorlevel 1
 
 
 * Define by default path
@@ -80,13 +85,13 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem input/%FOLD
 * TRADE
 $if not set zext $set zext input/%FOLDER_INPUT%/trade/zext.csv
 $if not set pExtTransferLimit $set pExtTransferLimit input/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
-$if not set pMaxExchangeShare $set pMaxExchangeShare input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
-$if not set pMaxPriceImportShare $set pMaxPriceImportShare input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
-$if not set pTradePrice $set pTradePrice input/%FOLDER_INPUT%/trade/pTradePrice.csv
-$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pLossFactor $set pLossFactor input/%FOLDER_INPUT%/trade/pLossFactor.csv
-$if not set pTransferLimit $set pTransferLimit input/%FOLDER_INPUT%/trade/pTransferLimit.csv
+$if not set pMaxPriceImportShare $set pMaxPriceImportShare input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
+$if not set pMaxExchangeShare $set pMaxExchangeShare input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
 $if not set pMinImport $set pMinImport input/%FOLDER_INPUT%/trade/pMinImport.csv
+$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmission.csv
+$if not set pTradePrice $set pTradePrice input/%FOLDER_INPUT%/trade/pTradePrice.csv
+$if not set pTransferLimit $set pTransferLimit input/%FOLDER_INPUT%/trade/pTransferLimit.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice input/%FOLDER_INPUT%/constraint/pCarbonPrice.csv
@@ -262,7 +267,7 @@ $onEmbeddedCode Connect:
     name: pVREgenProfile
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: EPS}
-    indexColumns: [1, 2, 3, 4]
+    indexColumns: [1, 2, 3]
     header: [1]
     type: par
 
@@ -581,7 +586,7 @@ $onEmbeddedCode Connect:
     symbols: all
 $offEmbeddedCode
 
-$endif.errorLevel
+*$endif.errorLevel
 
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe

@@ -151,12 +151,12 @@ put log '        Data validation'/;
 put log '------------------------------------'/;
 
 Set
-   tech     'technologies'
+*   tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
    H2status  'H2 generation plant status' / Existing, Candidate, Committed /
    techhdr  'techdata headers' / 'RE Technology', 'Hourly Variation' /
    pe       'peak energy for demand forecast' /'peak', 'energy'/
-   ft       'fuel types'
+*   ft       'fuel types'
    mipline 'Solver option lines'
    sc       'settings' /
                         allowExports
@@ -214,14 +214,24 @@ alias (c,c2);
 $ifi %mode%==MIRO
 $onExternalInput
 Set    
-   zcmap(z,c<)                     'map zones to countries'
+   zcmap(z<,c<)                     'map zones to countries'
    sTopology(z,z2)                  'network topology - to be assigned through network data'
    sRelevant(d)                      'relevant day and hours when MinGen limit is applied'
-   mipopt(mipline<)                 / system.empty /;
-;   
+   mipopt(mipline<)                 / system.empty /
+;
+
+Parameter
+   pGenDataExcel(g<,z,tech<,f<,*)
+   pStorDataExcel(g,*,shdr)   
+   pH2DataExcel(hh<,*)
+   pGenDataExcelDefault(z,tech,f,*)
+   pCapexTrajectoriesDefault(z,tech,f,y)
+   pAvailabilityDefault(z,tech,f,q)
+;
+  
 Parameter
    pCSPData(g,csphrd,shdr)
-   pTechData(tech<,techhdr)         'Technology data'
+   pTechData(tech,techhdr)         'Technology data'
    pFuelCarbonContent(f)       'Fuel carbon content in tCO2 per MMBTu'
    pStorDataInput(g,g2,shdr)        'Storage data'
    pNewTransmission(z,z2,thdr)      'new transmission lines'
@@ -238,8 +248,8 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
    pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
    pLossFactor(z,z2,y)              'loss factor in percentage'
-   pVREProfile(z,*,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
-   pVREgenProfile(g,f,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
+   pVREProfile(z,tech,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
+   pVREgenProfile(g,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
    pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
    pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
@@ -280,12 +290,13 @@ Parameter
    pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
 ;
 
+* We add technologies that may not exist in GenDataExcel, which are required to define subset of plants (which may be empty)
 Set gprimf(g,f)          'primary fuel f for generator g'
    tech / ROR            'Run of river hydro'
-          CSP            'Concentrated Solar Power'
+          CSPPlant       'Concentrated Solar Power'
           PVwSTO         'Solar PV with Storage'
           STOPV          'Storage For PV'
-          STORAGE        'Grid Connected Storage' /
+          Storage        'Grid Connected Storage' /
    gtechmap(g,tech)      'Generator technology map'
    gstatusmap(g,gstatus) 'Generator status map'
 *   Offpeak(t)            'offpeak hours'
@@ -309,14 +320,7 @@ Set
    gmap(g,z,tech,f) 'Map generators to firms, zones, technologies and fuels'
    
 ;
-Parameter
-   pGenDataExcel(g<,z<,tech,f<,*)
-   pStorDataExcel(g,*,shdr)   
-   pH2DataExcel(hh<,*)
-   pGenDataExcelDefault(z<,tech,f<,*)
-   pCapexTrajectoriesDefault(z<,tech,f<,y)
-   pAvailabilityDefault(z<,tech,f<,q)
-;
+
 
 * Allow multiple definitions of symbols without raising an error (use with caution)
 $onMulti
@@ -337,9 +341,10 @@ $include %READER_FILE%
 $gdxIn %GDX_INPUT%
 
 * Load domain-defining symbols (sets and indices)
-$load y pHours pTechData
-$load pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-$load zext ftfindex gmap zcmap
+$load zcmap pSettings y pHours
+$load pGenDataExcel gmap
+$load pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+$load pTechData ftfindex
 
 * Load demand data
 $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sRelevant
@@ -348,13 +353,14 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
+$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin pEnergyEfficiencyFactor  
 
 * Load load data
 
 
-* Load trade data 
+* Load trade data
+$load zext
 $load pExtTransferLimit, pNewTransmission, pMinImport
 $load pTradePrice, pMaxExchangeShare
 
@@ -364,6 +370,7 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 * Close the GDX file after loading all required data
 $gdxIn
 $offmulti
+
 
 *-------------------------------------------------------------------------------------
 * Make input verification
@@ -673,19 +680,20 @@ vre(g) = sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
 re(g)  = sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1);
 
 * Identify concentrated solar power (CSP) technologies
-cs(g)  = gtechmap(g,"CSP");
+cs(g)  = gtechmap(g,"CSPPlant");
 
 * Identify PV with storage technologies
 so(g)  = gtechmap(g,"PVwSTO");
+
 
 * Identify solar thermal with PV (`STOPV`)
 stp(g) = gtechmap(g,"STOPV");
 
 * Identify storage technologies
-stg(g) = gtechmap(g,"STORAGE");
+stg(g) = gtechmap(g,"Storage");
 
 * Define a general storage category (`st(g)`) as either `STOPV` or `STORAGE`
-st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"STORAGE");
+st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage");
 
 * Compute discounted capital expenditure (`dc(g)`) based on capex trajectory data
 dc(g)  = sum(y, pCapexTrajectories(g,y));
@@ -744,14 +752,16 @@ pCapacityCredit(g,y)= 1;
 
 * Protect against unintended changes while modifying `pVREgenProfile` with `pVREProfile` data
 $offIDCProtect
-pVREgenProfile(gfmap(VRE,f),q,d,t)$(not(pVREgenProfile(VRE,f,q,d,t))) = sum(gzmap(VRE,z),pVREProfile(z,f,q,d,t));
+*pVREgenProfile(gtechmap(VRE,tech),q,d,t)$(not(pVREgenProfile(VRE,tech,q,d,t))) = sum(gzmap(VRE,z),pVREProfile(z,tech,q,d,t));
+pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap(VRE,z) and gtechmap(VRE,tech)),pVREProfile(z,tech,q,d,t));
 $onIDCProtect
+
 
 
 
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
-pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,f,q,d,t))/sum((q,d,t),1));
+pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
@@ -761,8 +771,8 @@ pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/s
 *pCapacityCredit(RE,y) =  Sum((z,q,d,t)$gzmap(RE,z),Sum(f$gfmap(RE,f),pREProfile(z,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(RE,f) and gzmap(RE,z) ),pREProfile(z,f,q,d,t))/sum((q,d,t),1));
 
 * Compute CSP and PV with storage generation profiles
-pCSPProfile(cs,q,d,t)    = sum((z,f)$(gfmap(cs,f) and gzmap(cs,z)), pVREProfile(z,f,q,d,t));
-pStoPVProfile(so,q,d,t)  =  sum((z,f)$(gfmap(so,f) and gzmap(so,z)), pVREProfile(z,f,q,d,t));
+pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
+pStoPVProfile(so,q,d,t)  =  sum((z,tech)$(gtechmap(so,tech) and gzmap(so,z)), pVREProfile(z,tech,q,d,t));
 
 
 * H2 model parameters
