@@ -532,15 +532,19 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
 - **Description**:  
 
 Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
+
 Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
-  - **Internal zone** (*str*) –  Origin of the import/export.  
-  - **External zone** (*str*) – Destination of the import/export.  
-  - **Seasons** (*str*) – Season for which the capacity is specified.
-  - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
-  - **Year** (*int*) – Year for which the capacity applies.
-  - **Capacity** - Capacity available for imports or exports.
+  - **Index**
+    - **Internal zone** (*str*) –  Origin of the import/export.  
+    - **External zone** (*str*) – Destination of the import/export.  
+    - **Seasons** (*str*) – Season for which the capacity is specified.
+    - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
+  - **Header**
+    - **Year** (*int*) – Year for which the capacity applies.
+  - **Value**
+    - Capacity available for imports or exports.
 
 - **Example Link**: [pExtTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv)  
 
@@ -554,33 +558,53 @@ Specifies the maximum share of total country-level demand that imports and expor
 Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
-  - **Year** (*int*) –  Year considered  
-  - **Country** (*str*) – Country considered  
-  - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
+  - **Index**
+    - **Year** (*int*) –  Year considered  
+  - **Header**
+    - **Country** (*str*) – Country considered  
+  - **Value**
+    - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
 
-- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pMaxExchangeShare.csv)  
-
-
-### `pMaxPriceImportShare.csv`
+- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pMaxExchangeShare.csv)
 
 ### `pNewTransmission.csv`
 
 - **Description**:  
-  Specifies the key characteristics of candidate transmission lines.  
+  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`.
 
 - **Data Structure**:  
-  - **From** (*str*) – Starting location of the transmission line.  
-  - **To** (*str*) – Destination of the transmission line.  
-  - **EarliestEntry** (*int*) – Earliest year the line can be built.
-  - **MaximumNumOfLines** (*int*) – Maximum number of lines that can be constructed (lines must be built in whole units).
-  - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
-  - **CostPerLine** (*float*) – Investment cost per line.
-  - **Life** (*int*) – Expected lifespan of the transmission line.
+  - **Index**
+    - **From** (*str*) – Starting location of the transmission line.  
+    - **To** (*str*) – Destination of the transmission line.  
+  - **Value**
+    - **EarliestEntry** (*int*) – Earliest year the line can be built.
+    - **MaximumNumOfLines** (*int*) – Maximum number of lines that can be constructed (lines must be built in whole units).
+    - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
+    - **CostPerLine** (*float*) – Investment cost per line.
+    - **Life** (*int*) – Expected lifespan of the transmission line.
+
 
 - **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pNewTransmission.csv)  
 
 
 ### `pTradePrice.csv`
+
+- **Description**:  
+  Trade price for imports and exports driven by price.
+
+- **Data Structure**:  
+  - **Index**
+    - **zext** (*str*) – External zone that can trade.  
+    - **Seasons** (*str*) – Season for which the trade price is specified.
+    - **Day** (*str*) – Day for which the trade price is specified.
+    - **Year** (*int*) – Year for which the trade price is specified.
+  - **Header**
+    - **Time**(str) - Hour of the day for which the trade price is specified.
+  - **Value**
+    - Trade price (€/MWh)
+
+
+- **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pTradePrice.csv)  
 
 ### `pTransferLimit.csv`
 

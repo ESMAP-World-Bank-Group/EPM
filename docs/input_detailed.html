@@ -1199,15 +1199,6 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pmaxpriceimportshare-csv">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       pMaxPriceImportShare.csv
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#pnewtransmission-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
@@ -2099,17 +2090,29 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <ul class="simple">
 <li><p><strong>Description</strong>:</p></li>
 </ul>
-<p>Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
-Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
+<p>Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.</p>
+<p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
 <ul class="simple">
 <li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Index</strong></p>
 <ul>
 <li><p><strong>Internal zone</strong> (<em>str</em>) –  Origin of the import/export.</p></li>
 <li><p><strong>External zone</strong> (<em>str</em>) – Destination of the import/export.</p></li>
 <li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
 <li><p><strong>Import/Export</strong> (<em>str</em>) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.</p></li>
+</ul>
+</li>
+<li><p><strong>Header</strong></p>
+<ul>
 <li><p><strong>Year</strong> (<em>int</em>) – Year for which the capacity applies.</p></li>
-<li><p><strong>Capacity</strong> - Capacity available for imports or exports.</p></li>
+</ul>
+</li>
+<li><p><strong>Value</strong></p>
+<ul>
+<li><p>Capacity available for imports or exports.</p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv">pExtTransferLimit.csv</a></p></li>
@@ -2125,26 +2128,41 @@ Note: This input is only used when <code class="docutils literal notranslate"><s
 <ul class="simple">
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
+<li><p><strong>Index</strong></p>
+<ul>
 <li><p><strong>Year</strong> (<em>int</em>) –  Year considered</p></li>
+</ul>
+</li>
+<li><p><strong>Header</strong></p>
+<ul>
 <li><p><strong>Country</strong> (<em>str</em>) – Country considered</p></li>
+</ul>
+</li>
+<li><p><strong>Value</strong></p>
+<ul>
 <li><p><strong>Maximum exchange share</strong> (<em>fraction [0-1]</em>) – Maximum percentage of total demand that imports and exports can reach.</p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pMaxExchangeShare.csv">pMaxExchangeShare.csv</a></p></li>
 </ul>
 </section>
-<section id="pmaxpriceimportshare-csv">
-<h3><code class="docutils literal notranslate"><span class="pre">pMaxPriceImportShare.csv</span></code><a class="headerlink" href="#pmaxpriceimportshare-csv" title="Permalink to this heading">#</a></h3>
-</section>
 <section id="pnewtransmission-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code><a class="headerlink" href="#pnewtransmission-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Specifies the key characteristics of candidate transmission lines.</p></li>
+Specifies the key characteristics of candidate transmission lines. Only active when <code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Index</strong></p>
 <ul>
 <li><p><strong>From</strong> (<em>str</em>) – Starting location of the transmission line.</p></li>
 <li><p><strong>To</strong> (<em>str</em>) – Destination of the transmission line.</p></li>
+</ul>
+</li>
+<li><p><strong>Value</strong></p>
+<ul>
 <li><p><strong>EarliestEntry</strong> (<em>int</em>) – Earliest year the line can be built.</p></li>
 <li><p><strong>MaximumNumOfLines</strong> (<em>int</em>) – Maximum number of lines that can be constructed (lines must be built in whole units).</p></li>
 <li><p><strong>CapacityPerLine</strong> (<em>int</em>) – Capacity of a single transmission line.</p></li>
@@ -2152,11 +2170,40 @@ Specifies the key characteristics of candidate transmission lines.</p></li>
 <li><p><strong>Life</strong> (<em>int</em>) – Expected lifespan of the transmission line.</p></li>
 </ul>
 </li>
+</ul>
+</li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pNewTransmission.csv">pNewTransmission.csv</a></p></li>
 </ul>
 </section>
 <section id="ptradeprice-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pTradePrice.csv</span></code><a class="headerlink" href="#ptradeprice-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>:<br />
+Trade price for imports and exports driven by price.</p></li>
+<li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Index</strong></p>
+<ul>
+<li><p><strong>zext</strong> (<em>str</em>) – External zone that can trade.</p></li>
+<li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the trade price is specified.</p></li>
+<li><p><strong>Day</strong> (<em>str</em>) – Day for which the trade price is specified.</p></li>
+<li><p><strong>Year</strong> (<em>int</em>) – Year for which the trade price is specified.</p></li>
+</ul>
+</li>
+<li><p><strong>Header</strong></p>
+<ul>
+<li><p><strong>Time</strong>(str) - Hour of the day for which the trade price is specified.</p></li>
+</ul>
+</li>
+<li><p><strong>Value</strong></p>
+<ul>
+<li><p>Trade price (€/MWh)</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pTradePrice.csv">pTradePrice.csv</a></p></li>
+</ul>
 </section>
 <section id="ptransferlimit-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code><a class="headerlink" href="#ptransferlimit-csv" title="Permalink to this heading">#</a></h3>
@@ -2630,15 +2677,6 @@ Lists external zones that can trade with the modeled zones. These external zones
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pmaxpriceimportshare-csv">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       pMaxPriceImportShare.csv
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#pnewtransmission-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
@@ -2718,7 +2756,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Mar 05, 2025.<br>
+Last updated on Mar 07, 2025.<br>
 </p>
   </div>
   
