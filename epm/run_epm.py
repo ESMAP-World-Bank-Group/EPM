@@ -544,10 +544,10 @@ def main(test_args=None):
     print(f"Reduced output: {args.reduced_output}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+        sensitivity = {'pSettings': False, 'pDemandForecast': True,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False,
-                       'y': True}
+                       'pAvailabilityDefault': True, 'pDemandProfile': False,
+                       'y': False}
     else:
         sensitivity = None
 
