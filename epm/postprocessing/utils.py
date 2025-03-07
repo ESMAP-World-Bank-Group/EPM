@@ -551,7 +551,7 @@ def generate_summary(epm_results, folder, epm_input):
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 
-def postprocess_output(FOLDER, reduced_output=False):
+def postprocess_output(FOLDER, reduced_output=False, plot_all=False):
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -581,7 +581,7 @@ def postprocess_output(FOLDER, reduced_output=False):
         summary_detailed = pd.concat(summary_detailed)
         summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
 
-        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER)
+        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
         if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
             filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline.png'
@@ -593,48 +593,55 @@ def postprocess_output(FOLDER, reduced_output=False):
 
 
 
-def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER):
+def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=False):
 
-    selected_scenario = 'baseline'
+    if not plot_all:  # we only plot the baseline scenario
+        selected_scenarios = ['baseline']
+    else:  # we plot all scenarios
+        selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
     dfs_to_plot_area = {
         'pPlantDispatch': filter_dataframe(epm_results['pPlantDispatch'], {'attribute': ['Generation']}),
-        'pDispatch': filter_dataframe(epm_results['pDispatch'], {'attribute': ['Unmet demand', 'Exports', 'Storage Charge']})
+        'pDispatch': filter_dataframe(epm_results['pDispatch'], {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
     }
 
     dfs_to_plot_line = {
         'pDispatch': filter_dataframe(epm_results['pDispatch'], {'attribute': ['Demand']})
     }
 
-    for zone in epm_results['pDispatch']['zone'].unique():
-        years = epm_results['pDispatch']['year'].unique()
+    for selected_scenario in selected_scenarios:
+        folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+        for zone in epm_results['pDispatch']['zone'].unique():
+            years = epm_results['pDispatch']['year'].unique()
 
-        # Select first and last years
-        years = [min(years), max(years)]
-        for year in years:
-            filename = f'{GRAPHS_FOLDER}/Dispatch_{selected_scenario}_{zone}_{year}.png'
+            # Select first and last years
+            years = [min(years), max(years)]
+            for year in years:
+                filename = f'{GRAPHS_FOLDER}/{selected_scenario}/Dispatch_{selected_scenario}_{zone}_{year}.png'
 
-            # Select season min and max
-            conditions = {'scenario': 'baseline', 'zone': zone, 'year': year, 'attribute': 'Demand'}
-            temp = epm_results['pDispatch'].copy()
-            temp = filter_dataframe(temp, conditions)
-            t = temp.groupby('season', observed=False)['value'].sum()
-            s_max, s_min = t.idxmax(), t.idxmin()
-            temp = filter_dataframe(temp, {'season': [s_min, s_max]})
+                # Select season min and max
+                conditions = {'scenario': 'baseline', 'zone': zone, 'year': year, 'attribute': 'Demand'}
+                temp = epm_results['pDispatch'].copy()
+                temp = filter_dataframe(temp, conditions)
+                t = temp.groupby('season', observed=False)['value'].sum()
+                s_max, s_min = t.idxmax(), t.idxmin()
+                temp = filter_dataframe(temp, {'season': [s_min, s_max]})
 
-            # Select the day with max demand
-            d = temp.groupby(['day'], observed=False)['value'].sum().idxmax()
+                # Select the day with max demand
+                d = temp.groupby(['day'], observed=False)['value'].sum().idxmax()
 
-            select_time = {'season': [s_min, s_max], 'day': [d]}
-            make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
-                                             zone=zone, year=year, scenario=selected_scenario,
-                                             fuel_grouping=None, select_time=select_time, filename=filename,
-                                             bottom=None, legend_loc='right')
-            select_time = {'season': [s_max]}
-            make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
-                                             zone=zone, year=year, scenario=selected_scenario,
-                                             fuel_grouping=None, select_time=select_time, filename=filename,
-                                             bottom=None, legend_loc='right')
+                select_time = {'season': [s_min, s_max], 'day': [d]}
+                make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
+                                                 zone=zone, year=year, scenario=selected_scenario,
+                                                 fuel_grouping=None, select_time=select_time, filename=filename,
+                                                 bottom=None, legend_loc='right')
+                select_time = {'season': [s_max]}
+                make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
+                                                 zone=zone, year=year, scenario=selected_scenario,
+                                                 fuel_grouping=None, select_time=select_time, filename=filename,
+                                                 bottom=None, legend_loc='right')
 
 
 

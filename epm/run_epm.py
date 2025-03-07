@@ -286,7 +286,7 @@ def generate_sensitivity(sensitivity, s):
         settings_sensi = {'VOLL': [250],
                           'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
-                          'costSurplus': [1, 5], 'costcurtail': [1, 5]}
+                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1]}
         # 'mingen_constraints': [1], # 'DR': [0.04, 0.08],
 
         # Iterate over the Settings to change
@@ -529,6 +529,20 @@ def main(test_args=None):
         help="Enable reduced output (default: False)"
     )
 
+    parser.add_argument(
+        "--selected_scenarios",
+        nargs="+",  # Accepts one or more values
+        type=str,
+        default=None,
+        help="List of selected scenarios (default: None). Example usage: --selected_scenarios baseline HighDemand"
+    )
+
+    parser.add_argument(
+        "--plot_all",
+        action="store_true",
+        help="Automatic plots are done for all scenarios (default: False)"
+    )
+
     args = parser.parse_args()
 
     # If test_args is provided (for testing), use it instead of parsing from the command line
@@ -542,6 +556,8 @@ def main(test_args=None):
     print(f"Scenarios file: {args.scenarios}")
     print(f"Sensitivity: {args.sensitivity}")
     print(f"Reduced output: {args.reduced_output}")
+    print(f"Selected scenarios: {args.selected_scenarios}")
+    print(f"Plot options: {args.plot_all}")
 
     if args.sensitivity:
         sensitivity = {'pSettings': False, 'pDemandForecast': True,
@@ -555,17 +571,17 @@ def main(test_args=None):
                                                 folder_input=args.folder_input,
                                                 scenarios_specification=args.scenarios,
                                                 sensitivity=sensitivity,
-                                                selected_scenarios=None,
+                                                selected_scenarios=args.selected_scenarios,
                                                 cpu=3)
-    postprocess_output(folder, reduced_output=False)
+    postprocess_output(folder, reduced_output=False, plot_all=args.plot_all)
 
 if __name__ == '__main__':
 
-    # Example test arguments
-    test_parameters = [
-        "--config", "input/config.csv",
-        "--folder_input", "data_gambia"
-    ]
+    # # Example test arguments
+    # test_parameters = [
+    #     "--config", "input/config.csv",
+    #     "--folder_input", "data_gambia"
+    # ]
 
-    main(test_parameters)
+    main()
 
