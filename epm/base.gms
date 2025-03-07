@@ -37,6 +37,7 @@ $eolCom //
 Sets
    g        'generators or technology-fuel types'
    f        'fuels'
+   tech     'technologies'
    y        'years'
    q        'quarters or seasons'
    d        'day types'
@@ -100,12 +101,12 @@ Sets
    gzmap(g,z)             'generator g mapped to zone z'
    zfmap(z,f)             'fuel f available in zone z'
    gsmap(g2,g)            'generator storage map'
-   zcmap(z,c<)           'map zones to countries'
+   zcmap(z<,c<)           'map zones to countries'
    sTopology(z,z2)        'network topology - to be assigned through network data'
    sMapConnectedZonesDiffCountries(z,z2)          'set of connecting zones belonging to different countries'   
 **************Hydrogen production model related sets*******************************
    h2zmap(hh,z)
-   ft
+*   ft
 ;
 
 * Implicit variable domain
@@ -160,7 +161,7 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
    pLossFactor(z,z2,y)              'loss factor in percentage'
    pNewTransmission(z,z2,thdr)      'new transmission lines'
 * Renewables and storage
-   pVREgenProfile(g,f,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
+   pVREgenProfile(g,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
    pCSPData(g,csphrd,shdr)
    pCSPProfile(g,q,d,t)             'solar profile for CSP in pu'
    pStoPVProfile(g,q,d,t)           'solar profile for Pv with Storage in pu'
@@ -665,7 +666,7 @@ eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints
 * dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for
 * RE generation to be rejected as well
 eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
-   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,f,q,d,t)*vCap(VRE,y);
+   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,q,d,t)*vCap(VRE,y);
 
 
 *--- Reserve equations
@@ -673,7 +674,7 @@ eSpinningReserveLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_s
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
    
 eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
-    vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,f,q,d,t);
+    vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
