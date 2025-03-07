@@ -570,7 +570,7 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 ### `pNewTransmission.csv`
 
 - **Description**:  
-  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`.
+  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`. Each candidate line must only be specified once in this dataframe. The order in which the start location and the destination location are specified does not matter.
 
 - **Data Structure**:  
   - **Index**
