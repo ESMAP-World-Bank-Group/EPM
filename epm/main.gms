@@ -795,9 +795,6 @@ pWeightYear(y)$(not sStartYear(y)) = y.val - sum(sameas(y2+1,y), y2.val) ;
 pRR(y) = 1.0;
 pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + sum(sameas(y2,y), pWeightYear(y2)/2))) ;        
                                     
-display pWeightYear, pRR;
-$exit
-
 *-------------------------------------------------------------------
 * Parameter Processing
 *-------------------------------------------------------------------
