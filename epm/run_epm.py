@@ -148,6 +148,7 @@ def launch_epm(scenario,
                                                     "--VERIFICATION_FILE {}".format(path_verification_file),
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
+                                                    "--FOLDER_INPUT {}".format(folder_input),
                                                     "--READER CONNECT_CSV_PYTHON"
                                                     ] + path_args
 
