@@ -608,6 +608,20 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 
 ### `pTransferLimit.csv`
 
+Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
+
+- **Data Structure**:  
+  - **Index**
+    - **From** (*str*) –  Origin of the import/export.  
+    - **To** (*str*) – Destination of the import/export.  
+    - **Seasons** (*str*) – Season for which the capacity is specified.
+  - **Header**
+    - **Year** (*int*) – Year for which the capacity applies.
+  - **Value**
+    - Capacity available for imports or exports between internal zones.
+
+- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pTransferLimit.csv)  
+
 ### `zext.csv`
 
 - **Description**:  
