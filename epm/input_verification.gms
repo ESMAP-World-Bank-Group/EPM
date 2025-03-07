@@ -220,6 +220,22 @@ except Exception as e:
     print('Unexpected error when checking pTransferLimit')
     raise # Re-raise the exception for debuggings
     
+
+# NewTransmission
+try:
+    if db["pNewTransmission"].records is not None:
+        newtransmission_df = db["pNewTransmission"].records
+        topology_newlines = newtransmission_df.set_index(['z', 'z2']).index.unique()
+        duplicate_transmission = [(z, z2) for z, z2 in topology_newlines if (z2, z) in topology_newlines]
+        if duplicate_transmission:
+            raise ValueError(f"Error: The following (z, z2) pairs are specified twice in 'pNewTransmission':\n{duplicate_transmission} \n This may cause some problems when defining twice the characteristics of additional line.")
+        else:
+            print("Success: Each candidate transmission line is only specified once in pNewTransmission.")
+except Exception as e:
+    print('Unexpected error when checking NewTransmission')
+    raise # Re-raise the exception for debuggings
+
+    
 # PlanningReserves
 try:
     if db["pPlanningReserveMargin"].records is not None:
