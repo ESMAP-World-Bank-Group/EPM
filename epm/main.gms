@@ -311,7 +311,7 @@ $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
    shdr         'Additional headers for pStorData' / Life, VOMMWh /
-   thdr         'Additional header for pNewTransmission' / EarliestEntry /
+   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor/
 ;
 $offmulti
 
@@ -384,6 +384,7 @@ $include %VERIFICATION_FILE%
 $onMulti
 $include %TREATMENT_FILE%
 $offMulti
+
 
 *-------------------------------------------------------------------------------------
 
