@@ -435,7 +435,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
     # Update color dict with plant colors
     if True:
         # Copy results
-        temp = epm_results['pEnergyByPlant'].copy()
+        temp = epm_results['pCapacityPlan'].copy()
         plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
 
         # Map base colors from fuel types
@@ -458,57 +458,84 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None):
 def generate_summary(epm_results, folder, epm_input):
 
     summary = {}
-    t = epm_results['pSystemAverageCost'].copy()
-    t['attribute'] = 'Average Cost: $/MWh'
-    summary.update({'SystemAverageCost': t})
 
-    # TODO: Shuld we only consider average not weighted ?
-    t = epm_results['pCostSummaryWeightedAverageCountry'].copy()
-    t.rename(columns={'uni_1': 'attribute'}, inplace=True)
-    t.drop('uni_2', axis=1, inplace=True)
-    summary.update({'pCostSummaryWeightedAverageCountry': t})
+    if 'pSystemAverageCost' in epm_results.keys():
+        t = epm_results['pSystemAverageCost'].copy()
+        t['attribute'] = 'Average Cost: $/MWh'
+        summary.update({'SystemAverageCost': t})
+    else:
+        print('No pSystemAverageCost in epm_results')
 
-    t = epm_results['pSummary'].copy()
-    t = t[t['value'] > 1e-2]
-    summary.update({'pSummary': t})
+    if 'pCostSummaryWeightedAverageCountry' in epm_results.keys():
+        t = epm_results['pCostSummaryWeightedAverageCountry'].copy()
+        t.rename(columns={'uni_1': 'attribute'}, inplace=True)
+        t.drop('uni_2', axis=1, inplace=True)
+        summary.update({'pCostSummaryWeightedAverageCountry': t})
+    else:
+        print('No pCostSummaryWeightedAverageCountry in epm_results')
 
-    t = epm_results['pDemandSupply'].copy()
-    t = t[t['value'] > 1e-2]
-    t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
-    summary.update({'pDemandSupply': t})
+    if 'pSummary' in epm_results.keys():
+        t = epm_results['pSummary'].copy()
+        t = t[t['value'] > 1e-2]
+        summary.update({'pSummary': t})
+    else:
+        print('No pSummary in epm_results')
 
-    # TODO: Correct. Here, we assimilate zone to country.
-    t = epm_results['pReserveMarginResCountry'].copy()
-    t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
-    summary.update({'pReserveMarginResCountry': t})
+    if 'pDemandSupply' in epm_results.keys():
+        t = epm_results['pDemandSupply'].copy()
+        t = t[t['value'] > 1e-2]
+        t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
+        summary.update({'pDemandSupply': t})
+    else:
+        print('No pDemandSupply in epm_results')
 
-    t = epm_results['pSpinningReserveByPlantZone'].copy()
-    t = t.groupby(['scenario', 'zone', 'year'])['value'].sum().reset_index()
-    t['attribute'] = 'Spinning Reserve: GWh'
-    summary.update({'pSpinningReserveByPlantZone': t})
+    if 'pReserveMarginResCountry' in epm_results.keys():
+        t = epm_results['pReserveMarginResCountry'].copy()
+        t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
+        summary.update({'pReserveMarginResCountry': t})
+    else:
+        print('No pDemandSupply in epm_results')
 
-    #pSpinningReserveByPlantZone
+    if 'pSpinningReserveByPlantZone' in epm_results.keys():
+        t = epm_results['pSpinningReserveByPlantZone'].copy()
+        t = t.groupby(['scenario', 'zone', 'year'])['value'].sum().reset_index()
+        t['attribute'] = 'Spinning Reserve: GWh'
+        summary.update({'pSpinningReserveByPlantZone': t})
+    else:
+        print('No pSpinningReserveByPlantZone in epm_results')
 
-    t = epm_results['pCostSummary'].copy()
-    summary.update({'CostSummary': t})
+    if 'pCostSummary' in epm_results.keys():
+        t = epm_results['pCostSummary'].copy()
+        summary.update({'CostSummary': t})
+    else:
+        print('No pCostSummary in epm_results')
 
-    t = epm_results['pCapacityByFuel'].copy()
-    t['attribute'] = 'Capacity: MW'
-    t.rename(columns={'fuel': 'resolution'}, inplace=True)
-    t = t[t['value'] > 1e-2]
-    summary.update({'Capacity: MW': t})
+    if 'pCapacityByFuel' in epm_results.keys():
+        t = epm_results['pCapacityByFuel'].copy()
+        t['attribute'] = 'Capacity: MW'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-2]
+        summary.update({'Capacity: MW': t})
+    else:
+        print('No pCapacityByFuel in epm_results')
 
-    t = epm_results['pNewCapacityFuel'].copy()
-    t['attribute'] = 'New Capacity: MW'
-    t.rename(columns={'fuel': 'resolution'}, inplace=True)
-    t = t[t['value'] > 1e-2]
-    summary.update({'NewCapacity: MW': t})
+    if 'pNewCapacityFuel' in epm_results.keys():
+        t = epm_results['pNewCapacityFuel'].copy()
+        t['attribute'] = 'New Capacity: MW'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-2]
+        summary.update({'NewCapacity: MW': t})
+    else:
+        print('No pNewCapacityFuel in epm_results')
 
-    t = epm_results['pEnergyByFuel'].copy()
-    t['attribute'] = 'Energy: GWh'
-    t.rename(columns={'fuel': 'resolution'}, inplace=True)
-    t = t[t['value'] > 1e-2]
-    summary.update({'Energy: GWh': t})
+    if 'pEnergyByFuel' in epm_results.keys():
+        t = epm_results['pEnergyByFuel'].copy()
+        t['attribute'] = 'Energy: GWh'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-2]
+        summary.update({'Energy: GWh': t})
+    else:
+        print('No pEnergyByFuel in epm_results')
 
     summary = pd.concat(summary)
 
@@ -563,20 +590,29 @@ def postprocess_output(FOLDER, reduced_output=False):
     # Generate detailed by plant to debug
     if not reduced_output:
         summary_detailed = {}
-        temp = epm_results['pCapacityPlan'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-        temp.reset_index(inplace=True)
-        summary_detailed.update({'Capacity: MW': temp.copy()})
+        if 'pCapacityPlan' in epm_results.keys():
+            temp = epm_results['pCapacityPlan'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+            temp.reset_index(inplace=True)
+            summary_detailed.update({'Capacity: MW': temp.copy()})
+        else:
+            print('No pCapacityPlan in epm_results')
 
-        temp = epm_results['pPlantUtilization'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
-        temp.reset_index(inplace=True)
-        summary_detailed.update({'Utilization: percent': temp.copy()})
+        if 'pPlantUtilization' in epm_results.keys():
+            temp = epm_results['pPlantUtilization'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+            temp.reset_index(inplace=True)
+            summary_detailed.update({'Utilization: percent': temp.copy()})
+        else:
+            print('No pPlantUtilization in epm_results')
 
-        temp = epm_results['pEnergyByPlant'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-        temp.reset_index(inplace=True)
-        summary_detailed.update({'Energy: GWh': temp.copy()})
+        if 'pEnergyByPlant' in epm_results.keys():
+            temp = epm_results['pEnergyByPlant'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+            temp.reset_index(inplace=True)
+            summary_detailed.update({'Energy: GWh': temp.copy()})
+        else:
+            print('No pEnergyByPlant in epm_results')
 
         summary_detailed = pd.concat(summary_detailed)
         summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
