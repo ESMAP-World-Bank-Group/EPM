@@ -567,5 +567,5 @@ if __name__ == '__main__':
         "--folder_input", "data_gambia"
     ]
 
-    main(test_parameters)
+    main()
 
