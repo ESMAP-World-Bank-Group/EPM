@@ -573,7 +573,7 @@ def main(test_args=None):
                                                 sensitivity=sensitivity,
                                                 selected_scenarios=args.selected_scenarios,
                                                 cpu=3)
-    postprocess_output(folder, reduced_output=False, plot_all=args.plot_all)
+    postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 
 if __name__ == '__main__':
 

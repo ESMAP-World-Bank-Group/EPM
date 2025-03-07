@@ -1,19 +1,17 @@
 ﻿EPM_Tech,Processing
-GT,Gas Turbine
+OCGT,Gas Turbine
 CCGT,Combined Cycle Gas Turbine
-COAL,Coal Plant
-STO HY,Storage hydro
-WIND,Wind
+ReservoirHydro,Hydro reservoir
+OnshoreWind,Onshore Wind
+OffshoreWind,Offshore Wind
 PV,Solar PV
-BIOGAS,Biogas
-INT,Interconnection
+ImportTransmission,Interconnection
 CHP,Combined Heat & Power
 ICE,Internal Combustion Engine
-BIOMAS,Biomass
+BiomassPlant,Biomass
 ROR,Run of river hydro
 ST,Steam Turbine
-CSP,Concentrated Solar Power
+CSPPlant,Concentrated Solar Power
 PVwSTO,Solar PV with Storage
 STOPV,Storage For PV
-STORAGE,Grid Connected Storage
 Storage,Grid Connected Storage
