@@ -353,6 +353,7 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin pEnergyEfficiencyFactor  
 
@@ -726,12 +727,12 @@ nREH2(g)= not REH2(g);
 
 
 $offIDCProtect
-* If not running in interconnected mode, set network to 0
-sTopology(z,z2)$(not pinterconMode) = no;
 
 * Defining sTopology based on existing, committed and candidate transmission lines
 sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr));
 
+* If not running in interconnected mode, set network to 0
+sTopology(z,z2)$(not pinterconMode) = no;
 
 * if ignore transfer limit, set limits to high value
 pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
