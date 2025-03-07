@@ -2207,6 +2207,31 @@ Trade price for imports and exports driven by price.</p></li>
 </section>
 <section id="ptransferlimit-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code><a class="headerlink" href="#ptransferlimit-csv" title="Permalink to this heading">#</a></h3>
+<p>Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.</p>
+<ul class="simple">
+<li><p><strong>Data Structure</strong>:</p>
+<ul>
+<li><p><strong>Index</strong></p>
+<ul>
+<li><p><strong>From</strong> (<em>str</em>) –  Origin of the import/export.</p></li>
+<li><p><strong>To</strong> (<em>str</em>) – Destination of the import/export.</p></li>
+<li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
+</ul>
+</li>
+<li><p><strong>Header</strong></p>
+<ul>
+<li><p><strong>Year</strong> (<em>int</em>) – Year for which the capacity applies.</p></li>
+</ul>
+</li>
+<li><p><strong>Value</strong></p>
+<ul>
+<li><p>Capacity available for imports or exports between internal zones.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/pTransferLimit.csv">pTransferLimit.csv</a></p></li>
+</ul>
 </section>
 <section id="zext-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">zext.csv</span></code><a class="headerlink" href="#zext-csv" title="Permalink to this heading">#</a></h3>
