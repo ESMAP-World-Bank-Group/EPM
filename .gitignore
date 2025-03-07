@@ -36,6 +36,7 @@ todo.py
 /doc/master_plan_guidance.md
 
 # GAMS file
+*.bk
 *.g00
 *.gsp
 *.gdx
