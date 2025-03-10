@@ -615,7 +615,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
         else:
             print('No pEnergyByPlant in epm_results')
 
-        summary_detailed = pd.concat(summary_detailed)
+        summary_detailed = pd.concat(summary_detailed).round(2)
         summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
 
         make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)

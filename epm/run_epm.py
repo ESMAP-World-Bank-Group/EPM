@@ -171,7 +171,6 @@ def launch_epm(scenario,
     # Print the command
     print("Command to execute:", command)
 
-    subprocess.run(command, cwd=cwd)
     if sys.platform.startswith("win"):  # If running on Windows
         subprocess.run(' '.join(command), cwd=cwd, shell=True)
     else:  # For Linux or macOS
