@@ -12,7 +12,7 @@ from gams.engine.api import jobs_api
 import json
 import argparse
 from postprocessing.utils import postprocess_output
-
+import re
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -272,6 +272,16 @@ def launch_epm_multi_scenarios(config='config.csv',
         print('Folder created:', folder)
     os.chdir(folder)
 
+    # Export scenario.csv file
+    df = pd.DataFrame(s).copy()
+    # Extracts everything after '/epm/' in a specified column of a Pandas DataFrame.
+    def extract_path(path):
+        match = re.search(r"/epm/(.*)", path)
+        return match.group(1) if match else path
+    df = df.astype(str).map(extract_path)
+    df.to_csv('simulations_scenarios.csv')
+
+    # Run EPM in multiprocess
     with Pool(cpu) as pool:
         result = pool.starmap(launch_epm_multiprocess,
                               [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
@@ -501,8 +511,8 @@ def perform_assessment(project_assessment, s):
             df.to_csv(path_file, index=False)
 
             # Put in the scenario specification dictionary
-            new_s[name] = s[scenario].copy()
-            new_s[name][f'{scenario}_wo_{name}'] = path_file
+            new_s[f'{scenario}_wo_{name}'] = s[scenario].copy()
+            new_s[f'{scenario}_wo_{name}']['pGenDataExcel'] = path_file
 
     except Exception:
         raise KeyError('Error in project_assessment features')
