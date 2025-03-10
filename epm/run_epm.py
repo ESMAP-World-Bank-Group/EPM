@@ -215,7 +215,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                sensitivity=None,
                                path_engine_file=False,
                                folder_input=None,
-                               project_assessment=None):
+                               project_assessment=None,
+                               simple=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -283,6 +284,46 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
+
+    if simple is not None:
+
+        # Limit years to first and last
+        df = pd.read_csv(s['baseline']['y'])
+
+        # Make only first and last year simulation
+        t = pd.Series([df['y'].min(), df['y'].max()])
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['y']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        name = 'y_reduced'
+        path_file = os.path.basename(s['baseline']['y']).replace('y', name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        t.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s['baseline']['y'] = path_file
+
+        # Remove DescreteCap
+        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+
+        df.loc[:, 'DescreteCap'] = 0
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        name = 'pGenDataExcel_linear'
+        path_file = os.path.basename(s['baseline']['pGenDataExcel']).replace('pGenDataExcel', name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s['baseline']['pGenDataExcel'] = path_file
+
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -648,12 +689,6 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--plot_all",
-        action="store_true",
-        help="Automatic plots are done for all scenarios (default: False)"
-    )
-
-    parser.add_argument(
         "--cpu",
         type=int,
         default=1,
@@ -665,6 +700,18 @@ def main(test_args=None):
         type=str,
         default=None,
         help="Name of the project to assess (default: None)"
+    )
+
+    parser.add_argument(
+        "--plot_all",
+        action="store_true",
+        help="Plot dispatch for all scenarios (default: False)"
+    )
+
+    parser.add_argument(
+        "--simple",
+        action="store_true",
+        help="Make simplified run (default: False)"
     )
 
 
@@ -680,6 +727,7 @@ def main(test_args=None):
     print(f"Sensitivity: {args.sensitivity}")
     print(f"Reduced output: {args.reduced_output}")
     print(f"Selected scenarios: {args.selected_scenarios}")
+    print(f"Simple: {args.simple}")
     print(f"Plot options: {args.plot_all}")
 
     if args.sensitivity:
@@ -696,7 +744,8 @@ def main(test_args=None):
                                                 sensitivity=sensitivity,
                                                 selected_scenarios=args.selected_scenarios,
                                                 cpu=args.cpu,
-                                                project_assessment=args.project_assessment)
+                                                project_assessment=args.project_assessment,
+                                                simple=args.simple)
 
     postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 

@@ -331,7 +331,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
             'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
-            'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone'}
+            'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
+            'pCostsbyPlant'}
 
     rename_keys = {}
     for k in keys:
@@ -504,11 +505,11 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pSpinningReserveByPlantZone in epm_results')
 
-    if 'pCostSummary' in epm_results.keys():
-        t = epm_results['pCostSummary'].copy()
-        summary.update({'CostSummary': t})
+    if 'pCostSummaryCountry' in epm_results.keys():
+        t = epm_results['pCostSummaryCountry'].copy()
+        summary.update({'pCostSummaryCountry': t})
     else:
-        print('No pCostSummary in epm_results')
+        print('No pCostSummaryCountry in epm_results')
 
     if 'pCapacityByFuel' in epm_results.keys():
         t = epm_results['pCapacityByFuel'].copy()
@@ -558,8 +559,7 @@ def generate_summary(epm_results, folder, epm_input):
              'Average Cost: $/MWh',
              'Capex: $m', 'Total Annual Cost by Zone: $m', 'Annualized capex: $m', 'Fixed O&M: $m',
              'Variable O&M: $m', 'Total fuel Costs: $m', 'Unmet demand costs: $m',
-             'Excess generation: $m',
-             'VRE curtailment: $m',
+             'Excess generation: $m', 'VRE curtailment: $m', 'Country Spinning Reserve violation: $m'
              ]
     order = [i for i in order if i in summary['attribute'].unique()]
     order = order + [i for i in summary['attribute'].unique() if i not in order]
@@ -615,7 +615,33 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
         else:
             print('No pEnergyByPlant in epm_results')
 
+        if 'pSpinningReserveByPlantZone' in epm_results.keys():
+            temp = epm_results['pSpinningReserveByPlantZone'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+            temp.reset_index(inplace=True)
+            summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
+        else:
+            print('No pSpinningReserveByPlantZone in epm_results')
+
+        if 'pCostsByPlant' in epm_results.keys():
+            temp = epm_results['pCostsByPlant'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+            temp.reset_index(inplace=True)
+            summary_detailed.update({'Energy: GWh': temp.copy()})
+        else:
+            print('No pCostsByPlant in epm_results')
+
+        if 'pPlantAnnualLCOE' in epm_results.keys():
+            temp = epm_results['pPlantAnnualLCOE'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+            temp.reset_index(inplace=True)
+            summary_detailed.update({'LCOE: $/MWH': temp.copy()})
+        else:
+            print('No pPlantAnnualLCOE in epm_results')
+
         summary_detailed = pd.concat(summary_detailed).round(2)
+        summary_detailed.index.names = ['Variable', '']
+        summary_detailed = summary_detailed.droplevel('', axis=0)
         summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
 
         make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
