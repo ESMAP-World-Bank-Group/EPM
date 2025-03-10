@@ -602,7 +602,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
 
         if 'pPlantUtilization' in epm_results.keys():
             temp = epm_results['pPlantUtilization'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
             temp.reset_index(inplace=True)
             summary_detailed.update({'Utilization: percent': temp.copy()})
         else:
