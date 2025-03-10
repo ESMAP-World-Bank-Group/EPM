@@ -195,7 +195,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                cpu=1, path_gams=None,
                                sensitivity=None,
                                path_engine_file=False,
-                               folder_input=None):
+                               folder_input=None,
+                               project_assessment=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -256,6 +257,9 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     if sensitivity is not None:
         s = generate_sensitivity(sensitivity, s)
+
+    if project_assessment is not None:
+        s = perform_assessment(project_assessment, s)
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -473,6 +477,31 @@ def generate_sensitivity(sensitivity, s):
 
     return s
 
+def perform_assessment(project_assessment, s):
+    try:
+        # Reading the initial value
+        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+        projects = project_assessment.split(' & ')
+        df.loc[df['gen'].isin(projects), 'RetrYr'] = 2024
+
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'assessment')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        name = project_assessment.replace(' ', '').replace('&', '_')
+        path_file = 'pGenDataExcel' + name + '.csv'
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name]['Assessment'] = path_file
+
+    except Exception:
+        raise KeyError('Error in project_assessment features')
+
+    return s
 
 def get_job_engine(tokens_simulation):
     # {'baseline': 'a241bf62-34db-436d-8f4f-113333d3c6b9'}
@@ -543,7 +572,20 @@ def main(test_args=None):
         help="Automatic plots are done for all scenarios (default: False)"
     )
 
-    args = parser.parse_args()
+    parser.add_argument(
+        "--cpu",
+        type=int,
+        default=1,
+        help="Number of CPUs (default: 1)"
+    )
+
+    parser.add_argument(
+        "--project_assessment",
+        type=str,
+        default=None,
+        help="Name of the project to assess (default: None)"
+    )
+
 
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
@@ -572,7 +614,8 @@ def main(test_args=None):
                                                 scenarios_specification=args.scenarios,
                                                 sensitivity=sensitivity,
                                                 selected_scenarios=args.selected_scenarios,
-                                                cpu=3)
+                                                cpu=args.cpu,
+                                                project_assessment=args.project_assessment)
     postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 
 if __name__ == '__main__':

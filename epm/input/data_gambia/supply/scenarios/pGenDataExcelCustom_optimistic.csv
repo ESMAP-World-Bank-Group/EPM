@@ -1,7 +1,7 @@
 ﻿gen,zone,tech,fuel,StYr,RetrYr,Capacity,UnitSize,Status,DescreteCap,fuel2,HeatRate2,BuildLimitperYear,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,Capex,FOMperMW,VOM,ReserveCost,Life
-Kotu G5,Gambia,ICE,HFO,2018,2024,12.2,12.2,1,,,,,0.6,,,,,,,,,,
-Kotu G6,Gambia,ICE,HFO,1989,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,
-Kotu G7,Gambia,ICE,HFO,2001,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,
+Kotu G5,Gambia,ICE,HFO,2018,2030,12.2,12.2,1,,,,,0.6,,,,,,,,,,
+Kotu G6,Gambia,ICE,HFO,1989,2030,6.4,6.4,1,,,,,0.6,,,,,,,,,,
+Kotu G7,Gambia,ICE,HFO,2001,2030,6.4,6.4,1,,,,,0.6,,,,,,,,,,
 Kotu G8,Gambia,ICE,HFO,2018,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,
 Brikama G1,Gambia,ICE,LFO,2006,2030,6.4,6.4,1,,,,,0.6,,,,,,,,,,
 Brikama G3,Gambia,ICE,HFO,2006,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,
