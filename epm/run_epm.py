@@ -734,8 +734,8 @@ def main(test_args=None):
     if args.sensitivity:
         sensitivity = {'pSettings': True, 'pDemandForecast': True,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': True,
-                       'pAvailabilityDefault': True, 'pDemandProfile': False,
-                       'y': False, 'pGenDataExcelDefault': True, 'pVREProfile': True}
+                       'pAvailabilityDefault': True, 'pDemandProfile': True,
+                       'y': True, 'pGenDataExcelDefault': True, 'pVREProfile': True}
     else:
         sensitivity = None
 
