@@ -256,7 +256,7 @@ def launch_epm_multi_scenarios(config='config.csv',
         s[k] = s[k].apply(lambda i: os.path.join(folder_input, i))
 
     if sensitivity is not None:
-        s = generate_sensitivity(sensitivity, s)
+        s = perform_sensitivity(sensitivity, s)
 
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
@@ -284,7 +284,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     return folder, result
 
 
-def generate_sensitivity(sensitivity, s):
+def perform_sensitivity(sensitivity, s):
     param = 'pSettings'
     if sensitivity.get(param):
         settings_sensi = {'VOLL': [250],
@@ -479,27 +479,35 @@ def generate_sensitivity(sensitivity, s):
 
 def perform_assessment(project_assessment, s):
     try:
-        # Reading the initial value
-        df = pd.read_csv(s['baseline']['pGenDataExcel'])
-        projects = project_assessment.split(' & ')
-        df.loc[df['gen'].isin(projects), 'RetrYr'] = 2024
+        # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
+        new_s = {}
+        for scenario in s.keys():
+            # Reading the initial value
+            df = pd.read_csv(s[scenario]['pGenDataExcel'])
+            # Multiple projects can be considered if separate by ' & '
+            projects = project_assessment.split(' & ')
+            # Remove project(s) in project_assessment
+            df = df.loc[~df['gen'].isin(projects)]
 
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'assessment')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
+            # Create a specific folder to store the counterfactual scenario
+            folder_assessment = os.path.join(os.path.dirname(s[scenario]['pGenDataExcel']), 'assessment')
+            if not os.path.exists(folder_assessment):
+                os.mkdir(folder_assessment)
 
-        name = project_assessment.replace(' ', '').replace('&', '_')
-        path_file = 'pGenDataExcel' + name + '.csv'
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
-        df.to_csv(path_file, index=False)
+            # Write the modified file
+            name = project_assessment.replace(' ', '').replace('&', '_')
+            path_file = 'pGenDataExcel' + name + '.csv'
+            path_file = os.path.join(folder_assessment, path_file)
+            df.to_csv(path_file, index=False)
 
-        # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name]['Assessment'] = path_file
+            # Put in the scenario specification dictionary
+            new_s[name] = s[scenario].copy()
+            new_s[name][f'{scenario}_wo_{name}'] = path_file
 
     except Exception:
         raise KeyError('Error in project_assessment features')
+
+    s.update(new_s)
 
     return s
 
