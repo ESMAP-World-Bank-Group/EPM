@@ -13,6 +13,7 @@ import json
 import argparse
 from postprocessing.utils import postprocess_output
 import re
+from pathlib import Path
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -33,6 +34,20 @@ URL_ENGINE = "https://engine.gams.com/api"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CREDENTIALS = json.load(open(os.path.join(BASE_DIR, 'credentials_engine.json'), 'r'))
+
+def normalize_path(df):
+    """
+    Converts file paths in a DataFrame column to a cross-platform format.
+
+    Parameters:
+    df (pd.DataFrame): The DataFrame containing file paths.
+    column_name (str): The column containing file paths.
+
+    Returns:
+    pd.DataFrame: A DataFrame with normalized file paths.
+    """
+    return df.map(lambda x: str(Path(x).as_posix()) if isinstance(x, (Path, str)) else x)
+
 
 def get_auth_engine():
     user_name = CREDENTIALS['username']
@@ -231,10 +246,14 @@ def launch_epm_multi_scenarios(config='config.csv',
     config = pd.read_csv(config).set_index('paramNames').squeeze()
     # Remove title section of the configuration file
     config = config.dropna()
+    # Normalize path
+    config = normalize_path(config)
 
     # Read scenarios specification
     if scenarios_specification is not None:
         scenarios = pd.read_csv(scenarios_specification).set_index('paramNames')
+
+        scenarios = normalize_path(scenarios)
 
         # Generate scenario pd.Series for alternative scenario
         s = {k: config.copy() for k in scenarios}
