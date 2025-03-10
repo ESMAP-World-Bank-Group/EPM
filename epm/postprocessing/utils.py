@@ -387,7 +387,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     # Add fuel type to the results
     if mapping_gen_fuel is not None:
         # Add fuel type to the results
-        plant_result = ['pSpinningReserveByPlantCountry', 'pPlantAnnualLCOE', 'pEnergyByPlant', 'pCapacityPlan', 'pPlantDispatch']
+        plant_result = ['pSpinningReserveByPlantZone', 'pPlantAnnualLCOE', 'pEnergyByPlant', 'pCapacityPlan',
+                        'pPlantDispatch', 'pCostsbyPlant']
         for key in [k for k in plant_result if k in epm_dict.keys()]:
             epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
@@ -407,7 +408,6 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder=''):
         # Convert back to RGB
         new_rgb = colorsys.hls_to_rgb(h, l, s)
         return mcolors.to_hex(new_rgb)
-
 
     # TODO: Clean that
     if 'output' not in FOLDER:
@@ -618,17 +618,19 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
 
         if 'pSpinningReserveByPlantZone' in epm_results.keys():
             temp = epm_results['pSpinningReserveByPlantZone'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
             temp.reset_index(inplace=True)
             summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
         else:
             print('No pSpinningReserveByPlantZone in epm_results')
 
-        if 'pCostsByPlant' in epm_results.keys():
-            temp = epm_results['pCostsByPlant'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'year']).squeeze().unstack('scenario')
+        if 'pCostsbyPlant' in epm_results.keys():
+            temp = epm_results['pCostsbyPlant'].copy()
+            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack('scenario')
             temp.reset_index(inplace=True)
-            summary_detailed.update({'Energy: GWh': temp.copy()})
+
+            grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
+            summary_detailed.update(grouped_dfs)
         else:
             print('No pCostsByPlant in epm_results')
 
