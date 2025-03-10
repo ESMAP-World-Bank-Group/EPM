@@ -18,6 +18,7 @@ import geopandas as gpd
 from matplotlib.ticker import MaxNLocator, FixedLocator
 import colorsys
 import matplotlib.colors as mcolors
+import random
 
 FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
@@ -2240,7 +2241,7 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
     # Plot pie charts for each zone
     for zone in pCapacityByFuel['zone'].unique():
         # Extract capacity mix for the given zone and year
-        CapacityMix_plot = (pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)]
+        CapacityMix_plot = (pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)  & (pCapacityByFuel['scenario'] == scenario)]
                             .set_index(index)['value']
                             .fillna(0)).reset_index()
 
@@ -2276,14 +2277,112 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
     fig.legend(handles, labels, loc=loc, frameon=False, ncol=1,
                bbox_to_anchor=bbox_to_anchor)
 
-    # plt.tight_layout()
-
     # Save and show figure
     if filename is not None:
         plt.savefig(filename, bbox_inches='tight')
         plt.close(fig)
     else:
         plt.show()
+
+
+def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, filename=None,
+                             min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
+                             label_fontsize=12, predefined_colors=None, min_display_capacity=100,
+                             min_line_width=1, max_line_width=5):
+    """
+    Plots an interconnection map showing transmission capacities between different zones.
+
+    Parameters:
+    - zone_map: GeoDataFrame containing the map regions.
+    - pAnnualTransmissionCapacity: DataFrame containing transmission capacities (zone_from, zone_to, value).
+    - centers: Dictionary mapping zones to their center coordinates.
+    - year: The target year for the plot.
+    - scenario: Scenario name for the title.
+    - filename: Path where the plot will be saved (optional).
+    - min_capacity: Minimum capacity threshold for plotting lines (default 0.1 GW).
+    - figsize: Tuple defining figure size (default (12, 8)).
+    - show_labels: Whether to display country names on the map (default True).
+    - label_yoffset: Proportion of figure height to shift labels vertically (default 0.02, normalized value).
+    - label_xoffset: Proportion of figure width to shift labels horizontally (default 0.02, normalized value).
+    - label_fontsize: Font size for country labels (default 12).
+    - predefined_colors: Dictionary mapping country names to predefined colors to ensure consistency across plots.
+    - min_display_capacity: Minimum capacity value required to display text on the transmission line (default 0.5 GW).
+    - min_line_width: Minimum line width for transmission lines (default 1).
+    - max_line_width: Maximum line width for the largest transmission capacity (default 5).
+    """
+    # Define consistent colors for each country
+    if predefined_colors is None:
+        unique_countries = zone_map['ADMIN'].unique()
+        predefined_colors = {country: plt.cm.Pastel1(i % 9) for i, country in enumerate(unique_countries)}
+
+    # Filter data for the given year and scenario
+    transmission_data = pAnnualTransmissionCapacity[
+        (pAnnualTransmissionCapacity['year'] == year) &
+        (pAnnualTransmissionCapacity['scenario'] == scenario) &
+        (pAnnualTransmissionCapacity['value'] > min_capacity)
+        ]
+
+    # Compute capacity range for scaling line width
+    if not transmission_data.empty:
+        min_cap = transmission_data['value'].min()
+        max_cap = transmission_data['value'].max()
+    else:
+        min_cap = max_cap = 1  # Avoid division by zero
+
+    # Function to scale line width
+    def scale_line_width(capacity):
+        if max_cap == min_cap:
+            return min_line_width
+        return min_line_width + (capacity - min_cap) / (max_cap - min_cap) * (max_line_width - min_line_width)
+
+    # Create figure and axis
+    fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
+
+    # Plot the base zone map with predefined colors for each country
+    zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
+    zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+
+    # Remove axes for a clean map
+    ax.set_aspect('equal')
+    ax.set_axis_off()
+    ax.set_title(f'Transmission Capacity - {scenario} - {year}', loc='center')
+
+    # Get vertical and horizontal extent of the figure to normalize offsets
+    ymin, ymax = ax.get_ylim()
+    xmin, xmax = ax.get_xlim()
+    y_offset = (ymax - ymin) * label_yoffset
+    x_offset = (xmax - xmin) * label_xoffset
+
+    # Plot interconnections
+    for _, row in transmission_data.iterrows():
+        zone_from, zone_to, capacity = row['zone'], row['z2'], row['value']
+
+        if zone_from in centers and zone_to in centers:
+            coord_from, coord_to = centers[zone_from], centers[zone_to]
+            coor_mid = [(coord_from[0] + coord_to[0]) / 2, (coord_from[1] + coord_to[1]) / 2]
+
+            line_width = scale_line_width(capacity)
+            ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], 'r-', linewidth=line_width)
+
+            if capacity >= min_display_capacity:
+                ax.text(coor_mid[0], coor_mid[1], f'{capacity:.0f} MW', ha='center', va='center',
+                        bbox=dict(facecolor='white', edgecolor='red', boxstyle='round,pad=0.3'), fontsize=10)
+
+    # Optionally plot zone labels with a normalized offset
+    if show_labels:
+        for zone, coord in centers.items():
+            ax.text(coord[0] + x_offset, coord[1] + y_offset, zone.replace('_', ' '), fontsize=label_fontsize,
+                    ha='center', va='bottom')
+
+    # Save or show the figure
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
+
+
+
 
 
 if __name__ == '__main__':
