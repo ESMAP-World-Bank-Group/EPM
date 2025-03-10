@@ -14,6 +14,7 @@ import argparse
 from postprocessing.utils import postprocess_output
 import re
 from pathlib import Path
+import sys
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -170,7 +171,10 @@ def launch_epm(scenario,
     # Print the command
     print("Command to execute:", command)
 
-    subprocess.run(command, cwd=cwd)
+    if sys.platform.startswith("win"):  # If running on Windows
+        subprocess.run(' '.join(command), cwd=cwd, shell=True)
+    else:  # For Linux or macOS
+        subprocess.run(command, cwd=cwd)
 
     result = None
     # Generate the command for Engine
@@ -387,7 +391,6 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-
     param = 'pDemandForecast'
     if sensitivity.get(param):
         demand_forecast_sensi = [-0.25, -0.1, 0.1, 0.25]
@@ -434,13 +437,13 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'pAvailabilityDefault'
     if sensitivity.get(param):
-        availability_sensi = [0.1, 0.4]
+        availability_sensi = [0.2, 0.4]
 
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
 
-            # 0.85 is usually the default value
-            df.replace(0.85, val, inplace=True)
+            df.loc[df['fuel'].isin(['Coal', 'Gas', 'Diesel', 'HFO', 'LFO']), [i for i in df.columns if
+                                                                              i not in ['zone', 'tech', 'fuel']]] = val
 
             # Creating a new folder
             folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
@@ -503,6 +506,48 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
+    param = 'pGenDataExcelDefault'
+    if sensitivity.get(param):
+
+        df = pd.read_csv(s['baseline'][param])
+        df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO']), 'ResLimShare'] *= (1 - 0.5)
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        name = f'{param}_ResLimShare_-05'
+        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][param] = path_file
+
+    param  = 'pVREProfile'
+    if sensitivity.get(param):
+        capacity_factor_sensi = [-0.2, 0.2]
+
+        for val in capacity_factor_sensi:
+            df = pd.read_csv(s['baseline'][param])
+            df.loc[:, [i for i in df.columns if i not in ['zone', 'tech', 'q', 'd']]] *= (1 + val)
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = str(val).replace('.', '')
+            name = f'{param}_{name}'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            df.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
 
     return s
 
@@ -557,7 +602,6 @@ def get_job_engine(tokens_simulation):
 
         with ZipFile(job_api_instance.get_job_zip(token)) as zf:
             zf.extractall(path=scenario)
-
 
 def main(test_args=None):
     parser = argparse.ArgumentParser(description="Process some configurations.")
@@ -639,10 +683,10 @@ def main(test_args=None):
     print(f"Plot options: {args.plot_all}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': False, 'pDemandForecast': True,
+        sensitivity = {'pSettings': False, 'pDemandForecast': False,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': True, 'pDemandProfile': False,
-                       'y': False}
+                       'pAvailabilityDefault': False, 'pDemandProfile': False,
+                       'y': False, 'pGenDataExcelDefault': True, 'pVREProfile': False}
     else:
         sensitivity = None
 
@@ -653,6 +697,7 @@ def main(test_args=None):
                                                 selected_scenarios=args.selected_scenarios,
                                                 cpu=args.cpu,
                                                 project_assessment=args.project_assessment)
+
     postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 
 if __name__ == '__main__':
