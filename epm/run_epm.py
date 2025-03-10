@@ -285,44 +285,45 @@ def launch_epm_multi_scenarios(config='config.csv',
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
 
-    if simple is not None:
+    if simple:
 
-        # Limit years to first and last
-        df = pd.read_csv(s['baseline']['y'])
+        for k in s.keys():
+            # Limit years to first and last
+            df = pd.read_csv(s[k]['y'])
 
-        # Make only first and last year simulation
-        t = pd.Series([df['y'].min(), df['y'].max()])
+            # Make only first and last year simulation
+            t = pd.Series([df['y'].min(), df['y'].max()])
 
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['y']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-        name = 'y_reduced'
-        path_file = os.path.basename(s['baseline']['y']).replace('y', name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
-        t.to_csv(path_file, index=False)
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s[k]['y']), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = 'y_reduced'
+            path_file = os.path.basename(s[k]['y']).replace('y', name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            t.to_csv(path_file, index=False)
 
-        # Put in the scenario dir
-        s['baseline']['y'] = path_file
+            # Put in the scenario dir
+            s[k]['y'] = path_file
 
-        # Remove DescreteCap
-        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+            # Remove DescreteCap
+            df = pd.read_csv(s[k]['pGenDataExcel'])
 
-        df.loc[:, 'DescreteCap'] = 0
+            df.loc[:, 'DescreteCap'] = 0
 
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-        name = 'pGenDataExcel_linear'
-        path_file = os.path.basename(s['baseline']['pGenDataExcel']).replace('pGenDataExcel', name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
-        df.to_csv(path_file, index=False)
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataExcel']), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = 'pGenDataExcel_linear'
+            path_file = os.path.basename(s[k]['pGenDataExcel']).replace('pGenDataExcel', name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            df.to_csv(path_file, index=False)
 
-        # Put in the scenario dir
-        s['baseline']['pGenDataExcel'] = path_file
+            # Put in the scenario dir
+            s[k]['pGenDataExcel'] = path_file
 
 
     # Create dir for simulation and change current working directory
@@ -731,10 +732,10 @@ def main(test_args=None):
     print(f"Plot options: {args.plot_all}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': False, 'pDemandForecast': False,
-                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False,
-                       'y': False, 'pGenDataExcelDefault': True, 'pVREProfile': False}
+        sensitivity = {'pSettings': True, 'pDemandForecast': True,
+                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': True,
+                       'pAvailabilityDefault': True, 'pDemandProfile': False,
+                       'y': False, 'pGenDataExcelDefault': True, 'pVREProfile': True}
     else:
         sensitivity = None
 
