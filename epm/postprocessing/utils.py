@@ -18,7 +18,11 @@ import geopandas as gpd
 from matplotlib.ticker import MaxNLocator, FixedLocator
 import colorsys
 import matplotlib.colors as mcolors
-import random
+from PIL import Image
+import folium
+import base64
+from io import BytesIO
+import io
 
 FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
@@ -1466,7 +1470,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     if select_time is None:
         temp = 'all'
     temp = f'{year}_{temp}'
-    if filename is not None:
+    if filename is not None and isinstance(filename, str):  # Only modify filename if it's a string
         filename = filename.split('.png')[0] + f'_{temp}.png'
 
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom)
@@ -2160,11 +2164,11 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
 
 
-def create_zonemap(zone_map, selected_countries, map_epm_to_geojson):
+def create_zonemap(zone_map, selected_countries, map_epm_to_geojson, epsg=3857):
     zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries)]
 
     if zone_map.crs.is_geographic:
-        zone_map = zone_map.to_crs(epsg=3857)
+        zone_map = zone_map.to_crs(epsg=epsg)
 
     # Get the coordinates of the centers of the zones, countries, region
     # centroids = zone_map.centroid
@@ -2398,7 +2402,223 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
         plt.show()
 
 
+def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
+                           dict_specs, pCapacityByFuel, pDispatch, pPlantDispatch, label_size=14):
+    """
+    Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
+    Parameters:
+    - zone_map (GeoDataFrame): Geospatial data for regions
+    - centers (dict): Mapping of zone names to coordinates
+    - transmission_data (DataFrame): Transmission line capacities and utilization rates
+    - energy_data (DataFrame): Energy-related data including capacity, generation, and demand
+    - graphs_folder (str): Folder path for saving generated plots
+    - year (int): Year of the analysis
+    - scenario (str): Scenario name
+    - filename (str): Output HTML file name
+    - dict_specs (dict): Specifications for plotting
+    - pCapacityByFuel (DataFrame): Capacity mix data
+    - pDispatch (DataFrame): Dispatch data
+    """
+    # Focus the map on the bounding box of the region
+    bounds = zone_map.total_bounds  # [minx, miny, maxx, maxy]
+    region_center = [(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2]  # Center latitude, longitude
+    energy_map = folium.Map(location=region_center, zoom_start=6, tiles='CartoDB positron')
+
+    # Add country zones
+    folium.GeoJson(zone_map, style_function=lambda feature: {
+        'fillColor': '#ffffff', 'color': '#000000', 'weight': 1, 'fillOpacity': 0.3
+    }).add_to(energy_map)
+
+    # Extracting year of interest
+    transmission_data = transmission_data.copy()
+    transmission_data = transmission_data.loc[transmission_data.year == year]
+    # Add transmission lines with hover effect
+    for _, row in transmission_data.iterrows():
+        from_zone, to_zone = row['zone_from'], row['zone_to']
+        capacity, utilization = row['capacity'], row['utilization']
+
+        if from_zone in centers and to_zone in centers:
+            coords = [[centers[from_zone][1], centers[from_zone][0]],  # Lat, Lon
+                      [centers[to_zone][1], centers[to_zone][0]]]  # Lat, Lon
+            color = calculate_color_gradient(utilization, 0, 100)
+
+            tooltip_text = f"""
+            <div style="font-size: {label_size}px;">
+            <b>Capacity:</b> {capacity:.2f} GW <br>
+            <b>Utilization:</b> {utilization:.0f}%
+            </div>
+            """
+
+            folium.PolyLine(
+                locations=coords, color=color, weight=4,
+                tooltip=tooltip_text
+            ).add_to(energy_map)
+
+    # Add zone markers with popup information and dynamically generated images
+    for zone, coords in centers.items():
+        coords = [coords[1], coords[0]]  # changing to Lat,Long as required by Folium
+        popup_content = f"""
+        <b>{zone}</b><br>
+        Generation: {get_value(energy_data, zone, year, scenario, 'Total production: GWh'):.1f} GWh<br>
+        Demand: {get_value(energy_data, zone, year, scenario, 'Demand: GWh'):.1f} GWh<br>
+        Imports: {get_value(energy_data, zone, year, scenario, 'Imports exchange: GWh'):.1f} GWh<br>
+        Exports: {get_value(energy_data, zone, year, scenario, 'Exports exchange: GWh'):.1f} GWh
+        """
+
+        # Generate and embed capacity mix and dispatch plots
+        popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pDispatch, pPlantDispatch)
+
+        folium.Marker(
+            location=coords,
+            popup=folium.Popup(popup_content, max_width=1000),
+            icon=folium.Icon(color='blue', icon="")
+        ).add_to(energy_map)
+
+    # Fit map to bounds
+    energy_map.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
+
+    # Save the map
+    energy_map.save(filename)
+    print(f"Interactive map saved to {filename}")
+
+
+def get_value(df, zone, year, scenario, attribute, column_to_select='attribute'):
+    """Safely retrieves an energy value for a given zone, year, scenario, and attribute."""
+    value = df.loc[
+        (df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario) & (df[column_to_select] == attribute),
+        'value'
+    ]
+    return value.values[0] if not value.empty else 0
+
+
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pDispatch, pPlantDispatch):
+    """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
+    # Generate capacity mix pie chart using existing function
+    capacity_plot = make_pie_chart_interactive(
+        df=pCapacityByFuel, zone=zone, year=year, scenario=scenario,
+        dict_colors=dict_specs['colors'], index='fuel'
+    )
+
+    dfs_to_plot_area = {
+        'pPlantDispatch': filter_dataframe(pPlantDispatch, {'attribute': ['Generation']}),
+        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
+    }
+
+    dfs_to_plot_line = {
+        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Demand']})
+    }
+
+    select_time = {'season': ['Q1', 'Q2', 'Q3'], 'day': ['d1', 'd2','d3', 'd4']}
+
+    dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario, select_time=select_time)
+
+    final_image = combine_and_resize_images([capacity_plot, dispatch_plot], scale_factor=0.9)
+    # Convert images to base64 and embed in popup
+    return f'<br>{final_image}'
+
+
+def combine_and_resize_images(image_list, scale_factor=0.6):
+    """
+    Takes a list of base64-encoded images, resizes them to the same width,
+    and vertically stacks them before returning as a base64-encoded image.
+
+    Parameters:
+    - image_list: List of base64-encoded images
+    - scale_factor: Factor to scale down images
+
+    Returns:
+    - base64-encoded combined image
+    """
+    images = []
+
+    # Decode base64 images into PIL images
+    for img_str in image_list:
+        if img_str:
+            img_data = base64.b64decode(img_str.split(",")[1])
+            img = Image.open(io.BytesIO(img_data))
+            images.append(img)
+
+    if not images:
+        return ""
+
+    # Resize all images to the same width
+    target_width = min(img.width for img in images)
+    resized_images = [img.resize((target_width, int(img.height * (target_width / img.width)))) for img
+                      in images]
+
+    # Stack images vertically
+    total_height = sum(img.height for img in resized_images)
+    final_img = Image.new("RGB", (target_width, total_height), (255, 255, 255))  # White background
+
+    y_offset = 0
+    for img in resized_images:
+        final_img.paste(img, (0, y_offset))
+        y_offset += img.height
+
+    # Resize the entire combined image
+    new_width = int(final_img.width * scale_factor)
+    new_height = int(final_img.height * scale_factor)
+    final_img = final_img.resize((new_width, new_height))
+
+    # Convert back to base64
+    img_io = io.BytesIO()
+    final_img.save(img_io, format="PNG")
+    img_io.seek(0)
+    encoded_str = base64.b64encode(img_io.getvalue()).decode()
+
+    return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
+
+
+def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fuel'):
+    """
+    Generates a pie chart using the existing subplot_pie function and returns it as a base64 image string.
+    """
+
+    temp_df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+    if temp_df.empty:
+        return ""
+
+    img = BytesIO()
+    subplot_pie(
+        df=temp_df, index=index, dict_colors=dict_colors, title=f'Capacity Mix - {zone} ({year})',
+        filename=img
+    )
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
+
+
+def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, scenario, select_time):
+    """Generates a dispatch plot and returns it as a base64 image string."""
+    img = BytesIO()
+
+    make_complete_fuel_dispatch_plot(
+        dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
+        zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img
+    )
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
+
+
+def encode_image_from_memory(img):
+    """Encodes an in-memory image (BytesIO) to base64 for embedding in HTML."""
+    if img is None:
+        return ""
+    encoded_str = base64.b64encode(img.read()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
+
+
+def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250), end_color=(139, 0, 0)):
+    """Generates a color gradient based on a value range."""
+    ratio = (value - min_val) / (max_val - min_val)
+    r = int(start_color[0] * (1 - ratio) + end_color[0] * ratio)
+    g = int(start_color[1] * (1 - ratio) + end_color[1] * ratio)
+    b = int(start_color[2] * (1 - ratio) + end_color[2] * ratio)
+    return f'#{r:02x}{g:02x}{b:02x}'
 
 
 if __name__ == '__main__':
