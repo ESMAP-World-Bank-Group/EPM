@@ -2288,27 +2288,43 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
 def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
                              label_fontsize=12, predefined_colors=None, min_display_capacity=100,
-                             min_line_width=1, max_line_width=5):
+                             min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y)):
     """
     Plots an interconnection map showing transmission capacities between different zones.
 
     Parameters:
-    - zone_map: GeoDataFrame containing the map regions.
-    - pAnnualTransmissionCapacity: DataFrame containing transmission capacities (zone_from, zone_to, value).
-    - centers: Dictionary mapping zones to their center coordinates.
-    - year: The target year for the plot.
-    - scenario: Scenario name for the title.
-    - filename: Path where the plot will be saved (optional).
-    - min_capacity: Minimum capacity threshold for plotting lines (default 0.1 GW).
-    - figsize: Tuple defining figure size (default (12, 8)).
-    - show_labels: Whether to display country names on the map (default True).
-    - label_yoffset: Proportion of figure height to shift labels vertically (default 0.02, normalized value).
-    - label_xoffset: Proportion of figure width to shift labels horizontally (default 0.02, normalized value).
-    - label_fontsize: Font size for country labels (default 12).
-    - predefined_colors: Dictionary mapping country names to predefined colors to ensure consistency across plots.
-    - min_display_capacity: Minimum capacity value required to display text on the transmission line (default 0.5 GW).
-    - min_line_width: Minimum line width for transmission lines (default 1).
-    - max_line_width: Maximum line width for the largest transmission capacity (default 5).
+    - zone_map: pd.DataFrame
+    GeoDataFrame containing the map regions.
+    - pAnnualTransmissionCapacity: pd.DataFrame
+     Dataframe containing transmission capacities (zone_from, zone_to, value).
+    - centers: dict
+    Dictionary mapping zones to their center coordinates.
+    - year: int
+    The target year for the plot.
+    - scenario: str
+    Scenario name for the title.
+    - filename: Path
+    Path where the plot will be saved (optional).
+    - min_capacity: float
+    Minimum capacity threshold for plotting lines (default 0.1 GW).
+    - figsize: tuple
+    Tuple defining figure size (default (12, 8)).
+    - show_labels: bool
+    Whether to display country names on the map (default True).
+    - label_yoffset: float
+    Proportion of figure height to shift labels vertically (default 0.02, normalized value).
+    - label_xoffset: float
+    Proportion of figure width to shift labels horizontally (default 0.02, normalized value).
+    - label_fontsize: int
+    Font size for country labels (default 12).
+    - predefined_colors: dict
+    Dictionary mapping country names to predefined colors to ensure consistency across plots.
+    - min_display_capacity: float
+    Minimum capacity value required to display text on the transmission line (default 0.5 GW).
+    - min_line_width: float
+    Minimum line width for transmission lines (default 1).
+    - max_line_width: float
+    Maximum line width for the largest transmission capacity (default 5).
     """
     # Define consistent colors for each country
     if predefined_colors is None:
@@ -2365,7 +2381,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
             ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], 'r-', linewidth=line_width)
 
             if capacity >= min_display_capacity:
-                ax.text(coor_mid[0], coor_mid[1], f'{capacity:.0f} MW', ha='center', va='center',
+                ax.text(coor_mid[0], coor_mid[1], format_y(capacity, None), ha='center', va='center',
                         bbox=dict(facecolor='white', edgecolor='red', boxstyle='round,pad=0.3'), fontsize=10)
 
     # Optionally plot zone labels with a normalized offset
