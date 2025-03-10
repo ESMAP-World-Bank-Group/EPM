@@ -988,7 +988,7 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4),
+def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4), ax=None,
                 percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
     """
     Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
@@ -1058,7 +1058,8 @@ def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(
         fig.suptitle(title, fontsize=16)
 
     else:  # Create a single pie chart if no subplot column is specified
-        fig, ax = plt.subplots(figsize=(8, 6))
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(8, 6))
         colors = [dict_colors[f] for f in df[index]]
         handles, labels = plot_pie_on_ax(ax, df, index, percent_cap, colors, title)
 
@@ -1419,7 +1420,7 @@ def remove_na_values(df):
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom', bottom=0):
+                                    legend_loc='bottom', bottom=0, figsize=(10,6)):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -1501,7 +1502,8 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     if filename is not None and isinstance(filename, str):  # Only modify filename if it's a string
         filename = filename.split('.png')[0] + f'_{temp}.png'
 
-    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom)
+    dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom,
+                  figsize=figsize)
 
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
@@ -2431,7 +2433,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityByFuel, pDispatch, pPlantDispatch, label_size=14):
+                           dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -2495,11 +2497,12 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
         """
 
         # Generate and embed capacity mix and dispatch plots
-        popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pDispatch, pPlantDispatch)
+        popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch,
+                                             pPlantDispatch, scale_factor=0.8)
 
         folium.Marker(
             location=coords,
-            popup=folium.Popup(popup_content, max_width=1000),
+            popup=folium.Popup(popup_content, min_width=800, max_height=700),
             icon=folium.Icon(color='blue', icon="")
         ).add_to(energy_map)
 
@@ -2520,11 +2523,16 @@ def get_value(df, zone, year, scenario, attribute, column_to_select='attribute')
     return value.values[0] if not value.empty else 0
 
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pDispatch, pPlantDispatch):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
+    df1 = pCapacityByFuel.copy()
+    df1['attribute'] = 'Capacity'
+    df2 = pEnergyByFuel.copy()
+    df2['attribute'] = 'Energy'
+    df = pd.concat([df1, df2])
     capacity_plot = make_pie_chart_interactive(
-        df=pCapacityByFuel, zone=zone, year=year, scenario=scenario,
+        df=df, zone=zone, year=year, scenario=scenario,
         dict_colors=dict_specs['colors'], index='fuel'
     )
 
@@ -2541,7 +2549,7 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pDisp
 
     dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario, select_time=select_time)
 
-    final_image = combine_and_resize_images([capacity_plot, dispatch_plot], scale_factor=0.9)
+    final_image = combine_and_resize_images([capacity_plot, dispatch_plot], scale_factor=scale_factor)
     # Convert images to base64 and embed in popup
     return f'<br>{final_image}'
 
@@ -2571,7 +2579,7 @@ def combine_and_resize_images(image_list, scale_factor=0.6):
         return ""
 
     # Resize all images to the same width
-    target_width = min(img.width for img in images)
+    target_width = max(img.width for img in images)
     resized_images = [img.resize((target_width, int(img.height * (target_width / img.width)))) for img
                       in images]
 
@@ -2608,9 +2616,13 @@ def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fue
         return ""
 
     img = BytesIO()
+
+    fig_width = 15
+    fig_height = 4  # Shorter height for better fit
+
     subplot_pie(
         df=temp_df, index=index, dict_colors=dict_colors, title=f'Capacity Mix - {zone} ({year})',
-        filename=img
+        filename=img, figsize=(fig_width, fig_height), subplot_column='attribute'
     )
 
     img.seek(0)
@@ -2622,9 +2634,12 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     """Generates a dispatch plot and returns it as a base64 image string."""
     img = BytesIO()
 
+    fig_width = 15
+    fig_height = 10  # Shorter height for better fit
+
     make_complete_fuel_dispatch_plot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
-        zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img
+        zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img, figsize=(fig_width,fig_height),
     )
 
     img.seek(0)
