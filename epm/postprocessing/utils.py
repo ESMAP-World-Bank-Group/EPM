@@ -388,7 +388,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     if mapping_gen_fuel is not None:
         # Add fuel type to the results
         plant_result = ['pSpinningReserveByPlantZone', 'pPlantAnnualLCOE', 'pEnergyByPlant', 'pCapacityPlan',
-                        'pPlantDispatch', 'pCostsbyPlant']
+                        'pPlantDispatch', 'pCostsbyPlant', 'pPlantUtilization']
         for key in [k for k in plant_result if k in epm_dict.keys()]:
             epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
