@@ -664,7 +664,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
                               legend_title='Energy sources', figsize=(10, 6), selected_scenario='baseline',
                               sorting_column='fuel')
 
-        if len(epm_results['pCostSummary'].zone.unique()) > 0:  # we have multiple zones
+        if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
             make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
 
@@ -677,8 +677,14 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
         selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
     geojson_to_epm = dict_specs['geojson_to_epm']
+    epm_to_geojson = {v: k for k, v in geojson_to_epm.items()}  # Reverse dictionary
+
     try:
-        zone_map, centers = create_zonemap(dict_specs['map_countries'], selected_countries=list(geojson_to_epm.keys()),
+        selected_countries_epm = epm_results['pAnnualTransmissionCapacity'].zone.unique()
+        selected_countries_geojson = [
+            epm_to_geojson[key] for key in selected_countries_epm if key in epm_to_geojson
+        ]
+        zone_map, centers = create_zonemap(dict_specs['map_countries'], selected_countries=selected_countries_geojson,
                                            map_epm_to_geojson=geojson_to_epm)
     except Exception as e:
         print(
@@ -2282,9 +2288,6 @@ def create_zonemap(zone_map, selected_countries, map_epm_to_geojson, epsg=3857):
     center_latitude = sum(latitudes) / len(latitudes)
     center_longitude = sum(longitudes) / len(longitudes)
     # region_center = [center_latitude, center_longitude]
-
-    # geojson_names = list(correspondence_Co['Geojson_Zone'])
-    # model_names = list(correspondence_Co['EPM_Zone'])
 
     centers = {map_epm_to_geojson[c]: v for c, v in centers.items()}
     return zone_map, centers
