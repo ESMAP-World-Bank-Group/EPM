@@ -699,7 +699,7 @@ def main(test_args=None):
         "--project_assessment",
         type=str,
         default=None,
-        help="Name of the project to assess (default: None)"
+        help="Name of the project to assess (default: None). Example usage: # TODO"
     )
 
     parser.add_argument(
