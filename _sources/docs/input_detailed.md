@@ -120,11 +120,15 @@ These parameters define **capacity credits** for reporting and system reliabilit
 
 ---
 
-### **`y.csv`**  
-  - One-dimensional, represents the years included in the intertemporal optimization.  
-  - Example: [y.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/y.csv)
+### `y.csv`
 
----
+Defines the years included in the intertemporal optimization. One-dimensional csv.
+
+- **Data Structure**:  
+  - **Index**
+    - **y** (*int*) –  Years to be included in the model.
+
+- **Example Link**: [y.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/y.csv)  
 
 ### **`zcmap.csv`**  
   - Two-dimensional, defines the zones and countries included in the model.  
