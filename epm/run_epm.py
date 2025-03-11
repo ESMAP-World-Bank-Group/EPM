@@ -478,7 +478,7 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'pAvailabilityDefault'
     if sensitivity.get(param):
-        availability_sensi = [0.2, 0.4]
+        availability_sensi = [0.3, 0.7]
 
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
@@ -550,22 +550,27 @@ def perform_sensitivity(sensitivity, s):
     param = 'pGenDataExcelDefault'
     if sensitivity.get(param):
 
-        df = pd.read_csv(s['baseline'][param])
-        df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO']), 'ResLimShare'] *= (1 - 0.5)
+        reslimshare_sensi = [-0.5, -1]
 
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-        name = f'{param}_ResLimShare_-05'
-        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
-        df.to_csv(path_file, index=False)
+        for val in reslimshare_sensi:
 
-        # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name][param] = path_file
+            df = pd.read_csv(s['baseline'][param])
+            df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), 'ResLimShare'] *= (1 + val)
+
+            # Creating a new folder
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            name = str(val).replace('.', '')
+            name = f'{param}_ResLimShare_{name}'
+            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            path_file = os.path.join(folder_sensi, path_file)
+            # Write the modified file
+            df.to_csv(path_file, index=False)
+
+            # Put in the scenario dir
+            s[name] = s['baseline'].copy()
+            s[name][param] = path_file
 
     param  = 'pVREProfile'
     if sensitivity.get(param):
@@ -741,8 +746,8 @@ def main(test_args=None):
     if args.sensitivity:
         sensitivity = {'pSettings': True, 'pDemandForecast': True,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': True,
-                       'pAvailabilityDefault': True, 'pDemandProfile': True,
-                       'y': True, 'pGenDataExcelDefault': True, 'pVREProfile': True}
+                       'pAvailabilityDefault': True, 'pDemandProfile': False,
+                       'y': False, 'pGenDataExcelDefault': False, 'pVREProfile': True}
     else:
         sensitivity = None
 
