@@ -178,27 +178,26 @@ def launch_epm(scenario,
 
     result = None
     # Generate the command for Engine
-    if True:
-        if path_engine_file:
-            # Open Engine_Base.gms as text file and replace
-            with open(path_engine_file, 'r') as file:
-                filedata = file.read()
+    if path_engine_file:
+        # Open Engine_Base.gms as text file and replace
+        with open(path_engine_file, 'r') as file:
+            filedata = file.read()
 
-                # Replace the target string
-                filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
+            # Replace the target string
+            filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
 
-            # Store the new file in the simulation folder
-            with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
-                file.write(filedata)
+        # Store the new file in the simulation folder
+        with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
+            file.write(filedata)
 
-            # Make a ZipFile that can be sent to the server
-            with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
-                files_ziped.write(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'engine_{}.gms'.format(scenario_name))
-                files_ziped.write(os.path.join(cwd, 'engine_{}.g00'.format(scenario_name)), 'engine_{}.g00'.format(scenario_name))
+        # Make a ZipFile that can be sent to the server
+        with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
+            files_ziped.write(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'engine_{}.gms'.format(scenario_name))
+            files_ziped.write(os.path.join(cwd, 'engine_{}.g00'.format(scenario_name)), 'engine_{}.g00'.format(scenario_name))
 
-            path_zipfile = os.path.join(cwd, 'engine_{}.zip'.format(scenario_name))
-            req = post_job_engine(scenario_name, path_zipfile)
-            result = {'name': scenario_name, 'path': cwd, 'token': req.json()['token']}
+        path_zipfile = os.path.join(cwd, 'engine_{}.zip'.format(scenario_name))
+        req = post_job_engine(scenario_name, path_zipfile)
+        result = {'name': scenario_name, 'path': cwd, 'token': req.json()['token']}
 
     return result
 
@@ -318,8 +317,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                 folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataExcel']), 'sensitivity')
                 if not os.path.exists(folder_sensi):
                     os.mkdir(folder_sensi)
-                name = 'pGenDataExcel_linear'
-                path_file = os.path.basename(s[k]['pGenDataExcel']).replace('pGenDataExcel', name)
+                path_file = os.path.basename(s[k]['pGenDataExcel']).split('.')[0] + '_linear.csv'
                 path_file = os.path.join(folder_sensi, path_file)
                 # Write the modified file
                 df.to_csv(path_file, index=False)
@@ -613,7 +611,7 @@ def perform_assessment(project_assessment, s):
 
             # Write the modified file
             name = project_assessment.replace(' ', '').replace('&', '_')
-            path_file = os.path.basename(s['baseline']['pGenDataExcel']).split('.')[0] + '_' + name + '.csv'
+            path_file = os.path.basename(s[scenario]['pGenDataExcel']).split('.')[0] + '_' + name + '.csv'
             path_file = os.path.join(folder_assessment, path_file)
             df.to_csv(path_file, index=False)
 
@@ -717,6 +715,13 @@ def main(test_args=None):
         help = "List of simplified parameters (default: None). Example usage: --simple DescreteCap y"
     )
 
+    parser.add_argument(
+        "--engine",
+        type=str,
+        default=None,
+        help="Name of the path engine file (default: None)"
+    )
+
 
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
@@ -748,7 +753,8 @@ def main(test_args=None):
                                                 selected_scenarios=args.selected_scenarios,
                                                 cpu=args.cpu,
                                                 project_assessment=args.project_assessment,
-                                                simple=args.simple)
+                                                simple=args.simple,
+                                                path_engine_file=args.engine)
 
     postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 
