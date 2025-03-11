@@ -285,46 +285,47 @@ def launch_epm_multi_scenarios(config='config.csv',
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
 
-    if simple:
+    if simple is not None:
 
         for k in s.keys():
-            # Limit years to first and last
-            df = pd.read_csv(s[k]['y'])
+            if 'y' in simple:
+                # Limit years to first and last
+                df = pd.read_csv(s[k]['y'])
 
-            # Make only first and last year simulation
-            t = pd.Series([df['y'].min(), df['y'].max()])
+                # Make only first and last year simulation
+                t = pd.Series([df['y'].min(), df['y'].max()])
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s[k]['y']), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = 'y_reduced'
-            path_file = os.path.basename(s[k]['y']).replace('y', name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
-            t.to_csv(path_file, index=False)
+                # Creating a new folder
+                folder_sensi = os.path.join(os.path.dirname(s[k]['y']), 'sensitivity')
+                if not os.path.exists(folder_sensi):
+                    os.mkdir(folder_sensi)
+                name = 'y_reduced'
+                path_file = os.path.basename(s[k]['y']).replace('y', name)
+                path_file = os.path.join(folder_sensi, path_file)
+                # Write the modified file
+                t.to_csv(path_file, index=False)
 
-            # Put in the scenario dir
-            s[k]['y'] = path_file
+                # Put in the scenario dir
+                s[k]['y'] = path_file
 
-            # Remove DescreteCap
-            df = pd.read_csv(s[k]['pGenDataExcel'])
+            if 'DescreteCap' in simple:
+                # Remove DescreteCap
+                df = pd.read_csv(s[k]['pGenDataExcel'])
 
-            df.loc[:, 'DescreteCap'] = 0
+                df.loc[:, 'DescreteCap'] = 0
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataExcel']), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = 'pGenDataExcel_linear'
-            path_file = os.path.basename(s[k]['pGenDataExcel']).replace('pGenDataExcel', name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
-            df.to_csv(path_file, index=False)
+                # Creating a new folder
+                folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataExcel']), 'sensitivity')
+                if not os.path.exists(folder_sensi):
+                    os.mkdir(folder_sensi)
+                name = 'pGenDataExcel_linear'
+                path_file = os.path.basename(s[k]['pGenDataExcel']).replace('pGenDataExcel', name)
+                path_file = os.path.join(folder_sensi, path_file)
+                # Write the modified file
+                df.to_csv(path_file, index=False)
 
-            # Put in the scenario dir
-            s[k]['pGenDataExcel'] = path_file
-
+                # Put in the scenario dir
+                s[k]['pGenDataExcel'] = path_file
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -711,8 +712,9 @@ def main(test_args=None):
 
     parser.add_argument(
         "--simple",
-        action="store_true",
-        help="Make simplified run (default: False)"
+        nargs="+",  # Accepts one or more values
+        default=None,
+        help = "List of simplified parameters (default: None). Example usage: --simple DescreteCap y"
     )
 
 
