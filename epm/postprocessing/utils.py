@@ -664,8 +664,9 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
                               legend_title='Energy sources', figsize=(10, 6), selected_scenario='baseline',
                               sorting_column='fuel')
 
-        if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
-            make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
+        if 'pAnnualTransmissionCapacity' in epm_results.keys():
+            if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
+                make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
 
 def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
@@ -678,28 +679,31 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     geojson_to_epm = dict_specs['geojson_to_epm']
     epm_to_geojson = {v: k for k, v in geojson_to_epm.items()}  # Reverse dictionary
 
-    try:
-        selected_countries_epm = epm_results['pAnnualTransmissionCapacity'].zone.unique()
-        selected_countries_geojson = [
-            epm_to_geojson[key] for key in selected_countries_epm if key in epm_to_geojson
-        ]
-        zone_map, centers = create_zonemap(dict_specs['map_countries'], selected_countries=selected_countries_geojson,
-                                           map_epm_to_geojson=geojson_to_epm)
-    except Exception as e:
-        print(
-            'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
-        raise  # Re-raise the exception for debuggings
-
     pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
     pInterconUtilization = epm_results['pInterconUtilization'].copy()
     pInterconUtilization['value'] = pInterconUtilization['value'] * 100
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
+
     for selected_scenario in selected_scenarios:
         folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
         if not os.path.exists(folder):
             os.mkdir(folder)
         # Select first and last years
         years = [min(years), max(years)]
+
+        try:
+            selected_countries_epm = epm_results['pAnnualTransmissionCapacity'].loc[epm_results['pAnnualTransmissionCapacity'].scenario == selected_scenario].zone.unique()
+            selected_countries_geojson = [
+                epm_to_geojson[key] for key in selected_countries_epm if key in epm_to_geojson
+            ]
+            zone_map, centers = create_zonemap(dict_specs['map_countries'],
+                                               selected_countries=selected_countries_geojson,
+                                               map_epm_to_geojson=geojson_to_epm)
+        except Exception as e:
+            print(
+                'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
+            raise  # Re-raise the exception for debuggings
+
         for year in years:
             filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionCapacity_{selected_scenario}_{year}.png'
 
