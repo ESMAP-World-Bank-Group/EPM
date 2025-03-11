@@ -765,7 +765,7 @@ def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=Fal
         folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
         if not os.path.exists(folder):
             os.mkdir(folder)
-        for zone in epm_results['pDispatch']['zone'].unique():
+        for zone in epm_results['pDispatch'].loc[epm_results['pDispatch'].scenario == selected_scenario]['zone'].unique():
             years = epm_results['pDispatch']['year'].unique()
 
             # Select first and last years
