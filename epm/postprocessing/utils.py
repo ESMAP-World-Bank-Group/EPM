@@ -721,6 +721,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
             try:
                 capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
                 utilization_transmission = epm_results['pInterconUtilization'].copy()
+                utilization_transmission['value'] = utilization_transmission['value'] * 100  # update to percentage value
                 transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
                     utilization_transmission.rename(columns={'value': 'utilization'}),
                     on=['scenario', 'zone', 'z2', 'year'])
