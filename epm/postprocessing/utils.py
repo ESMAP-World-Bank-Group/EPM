@@ -28,6 +28,7 @@ FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
 COLORS = os.path.join('static', 'colors.csv')
 GEOJSON = os.path.join('static', 'countries.geojson')
+GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
 
 NAME_COLUMNS = {
     'pFuelDispatch': 'fuel',
@@ -66,12 +67,14 @@ def read_plot_specs(folder=''):
     fuel_mapping = pd.read_csv(os.path.join(folder, FUELS))
     tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
     countries = gpd.read_file(os.path.join(folder, GEOJSON))
+    geojson_to_epm = pd.read_csv(os.path.join(folder, GEOJSON_TO_EPM))
 
     dict_specs = {
         'colors': colors.set_index('Processing')['Color'].to_dict(),
         'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
         'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
-        'map_countries': countries
+        'map_countries': countries,
+        'geojson_to_epm': geojson_to_epm.set_index('Geojson')['EPM'].to_dict()
     }
     return dict_specs
 
@@ -661,7 +664,77 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
                               legend_title='Energy sources', figsize=(10, 6), selected_scenario='baseline',
                               sorting_column='fuel')
 
+        if len(epm_results['pCostSummary'].zone.unique()) > 0:  # we have multiple zones
+            make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
+
+
+def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
+    # TODO: ongoing work
+    if not plot_all:  # we only plot the baseline scenario
+        selected_scenarios = ['baseline']
+    else:  # we plot all scenarios
+        selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
+
+    geojson_to_epm = dict_specs['geojson_to_epm']
+    try:
+        zone_map, centers = create_zonemap(dict_specs['map_countries'], selected_countries=list(geojson_to_epm.keys()),
+                                           map_epm_to_geojson=geojson_to_epm)
+    except Exception as e:
+        print(
+            'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
+        raise  # Re-raise the exception for debuggings
+
+    pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
+    pInterconUtilization = epm_results['pInterconUtilization'].copy()
+    pInterconUtilization['value'] = pInterconUtilization['value'] * 100
+    years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
+    for selected_scenario in selected_scenarios:
+        folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
+        if not os.path.exists(folder):
+            os.mkdir(folder)
+        # Select first and last years
+        years = [min(years), max(years)]
+        for year in years:
+            filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionCapacity_{selected_scenario}_{year}.png'
+
+            make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year=year, scenario=selected_scenario,
+                                     label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
+                                     min_display_capacity=200, filename=filename)
+
+            filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionUtilization_{selected_scenario}_{year}.png'
+
+            make_interconnection_map(zone_map, pInterconUtilization, centers, year=year, scenario=selected_scenario,
+                                     min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
+                                     label_fontsize=10, show_labels=False, min_display_capacity=50,
+                                     format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename)
+
+            try:
+                capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                utilization_transmission = epm_results['pInterconUtilization'].copy()
+                transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
+                    utilization_transmission.rename(columns={'value': 'utilization'}),
+                    on=['scenario', 'zone', 'z2', 'year'])
+                transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+
+                # creating zone map in good coordinates
+                zone_map, centers = create_zonemap(dict_specs['map_countries'],
+                                                   selected_countries=list(geojson_to_epm.keys()),
+                                                   map_epm_to_geojson=geojson_to_epm, epsg=4326)
+
+                energy_data = epm_results['pDemandSupply'].copy()
+                pCapacityByFuel = epm_results['pCapacityByFuel'].copy()
+                pEnergyByFuel = epm_results['pEnergyByFuel'].copy()
+                pDispatch = epm_results['pDispatch'].copy()
+                pPlantDispatch = epm_results['pPlantDispatch'].copy()
+                filename = f'{GRAPHS_FOLDER}/{selected_scenario}/InteractiveMap_{selected_scenario}_{year}.html'
+
+                create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
+                                       dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch)
+            except Exception as e:
+                print(
+                    'Error when creating interactive map.')
+                raise  # Re-raise the exception for debuggings
 
 def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=False):
 
