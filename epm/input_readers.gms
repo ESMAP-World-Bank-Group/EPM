@@ -69,7 +69,6 @@ $if not set ftfindex $set ftfindex input/%FOLDER_INPUT%/resources/ftfindex.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent input/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
 $if not set pTechData $set pTechData input/%FOLDER_INPUT%/resources/pTechData.csv
 
-
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin input/%FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
 $if not set pSpinningReserveReqCountry $set pSpinningReserveReqCountry input/%FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
