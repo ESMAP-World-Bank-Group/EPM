@@ -250,7 +250,7 @@ def prepare_lossfactor(db: gt.Container,
     ------
 
     """
-    
+
     newtransmission_df = db[param_ref].records
     if newtransmission_df is not None:  # we need to specify loss factor
         newtransmission_loss_df = newtransmission_df.loc[newtransmission_df.thdr == 'LossFactor']
@@ -272,7 +272,7 @@ def prepare_lossfactor(db: gt.Container,
                     loss_factor_df[year] = loss_factor_df[column_loss]
 
                 # Drop the original column_loss since it's now spread across all years
-                loss_factor_df = loss_factor_df.drop(columns=[column_loss]).reset_index()
+                loss_factor_df = loss_factor_df.drop(columns=[column_loss]).stack().reset_index().rename(columns={'level_2': 'y', 0: 'value'})
 
                 db.data[param_loss].setRecords(loss_factor_df)
                 db.write(gams.db, [param_loss])
