@@ -758,6 +758,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 
+
 if __name__ == '__main__':
 
     # # Example test arguments
