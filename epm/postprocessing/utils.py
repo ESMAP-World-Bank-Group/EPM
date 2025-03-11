@@ -668,7 +668,6 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
             make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
 
-
 def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     # TODO: ongoing work
     if not plot_all:  # we only plot the baseline scenario
@@ -725,7 +724,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
 
                 # creating zone map in good coordinates
                 zone_map, centers = create_zonemap(dict_specs['map_countries'],
-                                                   selected_countries=list(geojson_to_epm.keys()),
+                                                   selected_countries=selected_countries_geojson,
                                                    map_epm_to_geojson=geojson_to_epm, epsg=4326)
 
                 energy_data = epm_results['pDemandSupply'].copy()
@@ -1068,7 +1067,8 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
 
 
 def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(16, 4), ax=None,
-                percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center'):
+                percent_cap=1, filename=None, rename=None, bbox_to_anchor=(0.5, -0.1), loc='lower center',
+                legend_fontsize=16, legend_ncol=1, legend=True):
     """
     Creates pie charts for data grouped by a column, or a single pie chart if no grouping is specified.
 
@@ -1120,18 +1120,19 @@ def subplot_pie(df, index, dict_colors, subplot_column=None, title='', figsize=(
         for j in range(len(groups), len(axes)):
             fig.delaxes(axes[j])
 
-        # Create a shared legend below the graphs
-        all_labels = sorted(all_labels)  # Sort labels for consistency
-        handles = [plt.Line2D([0], [0], marker='o', color=dict_colors[label], linestyle='', markersize=10)
-                   for label in all_labels]
-        fig.legend(
-            handles,
-            all_labels,
-            loc=loc,
-            bbox_to_anchor=bbox_to_anchor,
-            ncol=1,  # Adjust number of columns based on subplots
-            frameon=False, fontsize=16
-        )
+        if legend:
+            # Create a shared legend below the graphs
+            all_labels = sorted(all_labels)  # Sort labels for consistency
+            handles = [plt.Line2D([0], [0], marker='o', color=dict_colors[label], linestyle='', markersize=10)
+                       for label in all_labels]
+            fig.legend(
+                handles,
+                all_labels,
+                loc=loc,
+                bbox_to_anchor=bbox_to_anchor,
+                ncol=legend_ncol,  # Adjust number of columns based on subplots
+                frameon=False, fontsize=legend_fontsize
+            )
 
         # Add title for the whole figure
         fig.suptitle(title, fontsize=16)
@@ -2693,12 +2694,13 @@ def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fue
 
     img = BytesIO()
 
-    fig_width = 15
-    fig_height = 4  # Shorter height for better fit
+    fig_width = 12
+    fig_height = 2  # Shorter height for better fit
 
     subplot_pie(
-        df=temp_df, index=index, dict_colors=dict_colors, title=f'Capacity Mix - {zone} ({year})',
-        filename=img, figsize=(fig_width, fig_height), subplot_column='attribute'
+        df=temp_df, index=index, dict_colors=dict_colors, title=f'Power mix - {zone} - {year}',
+        filename=img, figsize=(fig_width, fig_height), subplot_column='attribute', legend_ncol=1, legend_fontsize=8,
+        bbox_to_anchor=(0.9, 0.5), legend=False
     )
 
     img.seek(0)
@@ -2710,8 +2712,8 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     """Generates a dispatch plot and returns it as a base64 image string."""
     img = BytesIO()
 
-    fig_width = 15
-    fig_height = 10  # Shorter height for better fit
+    fig_width = 12
+    fig_height = 3  # Shorter height for better fit
 
     make_complete_fuel_dispatch_plot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
