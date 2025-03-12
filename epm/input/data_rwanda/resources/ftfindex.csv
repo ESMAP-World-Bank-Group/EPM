@@ -12,5 +12,9 @@ CSP,10
 Battery,11
 Diesel,12
 Biomass,13
-Geothermal,14
-LNG,15
+Methane,14
+Peat,15
+Geothermal,16
+LNG,17
+Waste,18
+Pumped,19
