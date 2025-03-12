@@ -23,6 +23,7 @@ import folium
 import base64
 from io import BytesIO
 import io
+from shapely.geometry import Point, Polygon
 
 FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
@@ -74,7 +75,7 @@ def read_plot_specs(folder=''):
         'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
         'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
         'map_countries': countries,
-        'geojson_to_epm': geojson_to_epm.set_index('Geojson')['EPM'].to_dict()
+        'geojson_to_epm': geojson_to_epm
     }
     return dict_specs
 
@@ -676,8 +677,9 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     else:  # we plot all scenarios
         selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
-    geojson_to_epm = dict_specs['geojson_to_epm']
-    epm_to_geojson = {v: k for k, v in geojson_to_epm.items()}  # Reverse dictionary
+    # geojson_to_epm = dict_specs['geojson_to_epm']
+    # geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM']  # get only relevant info without considering zones that need to be divided.
+    # epm_to_geojson = {v: k for k, v in geojson_to_epm.items()}  # Reverse dictionary
 
     pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
     pInterconUtilization = epm_results['pInterconUtilization'].copy()
@@ -692,13 +694,17 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
         years = [min(years), max(years)]
 
         try:
-            selected_countries_epm = epm_results['pAnnualTransmissionCapacity'].loc[epm_results['pAnnualTransmissionCapacity'].scenario == selected_scenario].zone.unique()
-            selected_countries_geojson = [
-                epm_to_geojson[key] for key in selected_countries_epm if key in epm_to_geojson
-            ]
-            zone_map, centers = create_zonemap(dict_specs['map_countries'],
-                                               selected_countries=selected_countries_geojson,
-                                               map_epm_to_geojson=geojson_to_epm)
+            zone_map, geojson_to_epm = get_json_data(epm_results, dict_specs)
+
+            zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+
+            # selected_countries_epm = epm_results['pAnnualTransmissionCapacity'].loc[epm_results['pAnnualTransmissionCapacity'].scenario == selected_scenario].zone.unique()
+            # selected_countries_geojson = [
+            #     epm_to_geojson[key] for key in selected_countries_epm if key in epm_to_geojson
+            # ]
+            # zone_map, centers = create_zonemap(dict_specs['map_countries'],
+            #                                    selected_countries=selected_countries_geojson,
+            #                                    map_epm_to_geojson=geojson_to_epm)
         except Exception as e:
             print(
                 'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
@@ -726,11 +732,6 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
                     utilization_transmission.rename(columns={'value': 'utilization'}),
                     on=['scenario', 'zone', 'z2', 'year'])
                 transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
-
-                # creating zone map in good coordinates
-                zone_map, centers = create_zonemap(dict_specs['map_countries'],
-                                                   selected_countries=selected_countries_geojson,
-                                                   map_epm_to_geojson=geojson_to_epm, epsg=4326)
 
                 energy_data = epm_results['pDemandSupply'].copy()
                 pCapacityByFuel = epm_results['pCapacityByFuel'].copy()
@@ -2279,24 +2280,166 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
 
 
-def create_zonemap(zone_map, selected_countries, map_epm_to_geojson, epsg=3857):
-    zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries)]
+def create_zonemap(zone_map, map_geojson_to_epm):
+    """
+    Convert zone map to the correct coordinate reference system (CRS) and extract centroids.
 
-    if zone_map.crs.is_geographic:
-        zone_map = zone_map.to_crs(epsg=epsg)
+    This function ensures that the provided `zone_map` is in EPSG:4326 (latitude/longitude),
+    extracts the centroid coordinates of each zone, and maps them to the EPM zone names.
 
-    # Get the coordinates of the centers of the zones, countries, region
-    # centroids = zone_map.centroid
-    centers = {row['ADMIN']: [row.geometry.centroid.x, row.geometry.centroid.y] for index, row in zone_map.iterrows()}
+    Parameters
+    ----------
+    zone_map : gpd.GeoDataFrame
+        A GeoDataFrame containing zone geometries and attributes.
+    map_geojson_to_epm : dict
+        Dictionary mapping GeoJSON zone names to EPM zone names.
 
-    latitudes = [coords[1] for coords in centers.values()]
-    longitudes = [coords[0] for coords in centers.values()]
-    center_latitude = sum(latitudes) / len(latitudes)
-    center_longitude = sum(longitudes) / len(longitudes)
-    # region_center = [center_latitude, center_longitude]
+    Returns
+    -------
+    tuple
+        - zone_map (gpd.GeoDataFrame): The zone map converted to EPSG:4326.
+        - centers (dict): Dictionary mapping EPM zone names to their centroid coordinates [longitude, latitude].
+    """
+    if zone_map.crs is not None and zone_map.crs.to_epsg() != 4326:
+        zone_map = zone_map.to_crs(epsg=4326)  # Convert to EPSG:4326 for folium
 
-    centers = {map_epm_to_geojson[c]: v for c, v in centers.items()}
+    # Get the coordinates of the centers of the zones
+    centers = {
+        row['ADMIN']: [row.geometry.centroid.x, row.geometry.centroid.y]
+        for _, row in zone_map.iterrows()
+    }
+
+    centers = {map_geojson_to_epm[c]: v for c, v in centers.items() if c in map_geojson_to_epm}
+
     return zone_map, centers
+
+
+def get_json_data(epm_results, dict_specs):
+    """
+    Extract and process zone map data, handling divisions for sub-national regions.
+
+    This function retrieves the zone map, identifies zones that need to be divided
+    (e.g., North-South or East-West split), applies the `divide` function, and
+    returns a processed GeoDataFrame ready for visualization.
+
+    Parameters
+    ----------
+    epm_results : dict
+        Dictionary containing EPM results, including transmission capacity data.
+    dict_specs : dict
+        Dictionary with mapping specifications, including:
+        - `geojson_to_epm`: Mapping from GeoJSON names to EPM zone names.
+        - `map_countries`: GeoDataFrame of all countries.
+
+    Returns
+    -------
+    tuple
+        - zone_map (gpd.GeoDataFrame): Processed zone map including divided regions.
+        - geojson_to_epm (dict): Updated mapping of GeoJSON names to EPM zones.
+    """
+    geojson_to_epm = dict_specs['geojson_to_epm']
+    epm_to_geojson = {v: k for k, v in
+                      geojson_to_epm.set_index('Geojson')['EPM'].to_dict().items()}  # Reverse dictionary
+    geojson_to_divide = geojson_to_epm.loc[geojson_to_epm.region.notna()]
+    geojson_complete = geojson_to_epm.loc[~geojson_to_epm.region.notna()]
+    selected_zones_epm = epm_results['pAnnualTransmissionCapacity'].zone.unique()
+    selected_zones_to_divide = [e for e in selected_zones_epm if e in geojson_to_divide['EPM'].values]
+    selected_countries_geojson = [
+        epm_to_geojson[key] for key in selected_zones_epm if
+        ((key not in selected_zones_to_divide) and (key in epm_to_geojson))
+    ]
+
+    zone_map = dict_specs['map_countries']  # getting json data on all countries
+    zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries_geojson)]
+
+    divided_parts = []
+    for (country, division), subset in geojson_to_divide.groupby(['country', 'division']):
+        # Apply division function
+        divided_parts.append(divide(dict_specs['map_countries'], country, division))
+
+    if divided_parts:
+        zone_map_divide = pd.concat(divided_parts)
+
+    zone_map_divide = \
+    geojson_to_divide.rename(columns={'country': 'ADMIN'}).merge(zone_map_divide, on=['region', 'ADMIN'])[
+        ['Geojson', 'ISO_A3', 'ISO_A2', 'geometry']]
+    zone_map_divide = zone_map_divide.rename(columns={'Geojson': 'ADMIN'})
+    # Convert zone_map_divide back to a GeoDataFrame
+    zone_map_divide = gpd.GeoDataFrame(zone_map_divide, geometry='geometry', crs=zone_map.crs)
+
+    # Ensure final zone_map is in EPSG:4326
+    zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
+    geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM'].to_dict()  # get only relevant info
+    return zone_map, geojson_to_epm
+
+
+def divide(geodf, country, division):
+    """
+    Divide a country's geometry into two subzones using North-South (NS) or East-West (EW) division.
+
+    This function overlays the country geometry with a dividing polygon and extracts
+    the two subregions.
+
+    Parameters
+    ----------
+    geodf : gpd.GeoDataFrame
+        GeoDataFrame containing geometries of all countries.
+    country : str
+        Name of the country to divide.
+    division : str
+        Type of division:
+        - 'NS' (North-South) splits along the latitude midpoint.
+        - 'EW' (East-West) splits along the longitude midpoint.
+
+    Returns
+    -------
+    gpd.GeoDataFrame
+        GeoDataFrame containing the divided subregions with the correct CRS.
+    """
+    # Get the country geometry
+    crs = geodf.crs
+    country_geometry = geodf.loc[geodf['ADMIN'] == country, 'geometry'].values[0]
+
+    # Get bounds
+    minx, miny, maxx, maxy = country_geometry.bounds
+
+    if division == 'NS':
+        median_latitude = (miny + maxy) / 2
+        south_polygon = Polygon([(minx, miny), (minx, median_latitude), (maxx, median_latitude), (maxx, miny)])
+        north_polygon = Polygon([(minx, median_latitude), (minx, maxy), (maxx, maxy), (maxx, median_latitude)])
+
+        # Convert to GeoDataFrame with the correct CRS
+        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs=crs)
+        north_gdf = gpd.GeoDataFrame(geometry=[north_polygon], crs=crs)
+
+        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
+        north_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], north_gdf, how='intersection')
+        south_part = south_part.to_crs(crs)
+        north_part = north_part.to_crs(crs)
+        south_part['region'] = 'south'
+        north_part['region'] = 'north'
+
+        return pd.concat([south_part, north_part])
+
+    elif division == 'EW':
+        median_longitude = (minx + maxx) / 2
+        west_polygon = Polygon([(minx, miny), (minx, maxy), (median_longitude, maxy), (median_longitude, miny)])
+        east_polygon = Polygon([(median_longitude, miny), (median_longitude, maxy), (maxx, maxy), (maxx, miny)])
+
+        # Convert to GeoDataFrame with the correct CRS
+        west_gdf = gpd.GeoDataFrame(geometry=[west_polygon], crs=crs)
+        east_gdf = gpd.GeoDataFrame(geometry=[east_polygon], crs=crs)
+
+        west_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country],west_gdf, how='intersection')
+        east_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], east_gdf, how='intersection')
+        west_part['region'] = 'west'
+        east_part['region'] = 'east'
+
+        return pd.concat([west_part, east_part])
+
+    else:
+        raise ValueError("Invalid division type. Use 'NS' (North-South) or 'EW' (East-West).")
+
 
 
 def plot_zone_map_on_ax(ax, zone_map):
