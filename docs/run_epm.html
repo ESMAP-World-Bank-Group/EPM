@@ -837,6 +837,29 @@ title="Print to PDF"
    Running EPM from Python
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#description-of-run-epm-py">
+   Description of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     run_epm.py
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adapting-the-script-through-the-main-function">
+   <strong>
+    Adapting the script through the
+    <code class="docutils literal notranslate">
+     <span class="pre">
+      main()
+     </span>
+    </code>
+    Function
+   </strong>
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -889,7 +912,7 @@ title="Print to PDF"
 </li>
 <li><p>In the input folder, create <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file that contains the baseline scenario input specification. This specifies which csv file to use for each parameter under the baseline scenario. You can refer to the epm structure or the input sections to better understand the folder organization. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p></li>
 <li><p>If you are interested in running multiple scenarios in addition to the baseline scenario, create <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file that contains the specification of the scenarios. By default, the model will run the baseline scenario. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> or a notebook to launch the code. To run the code from <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code>, ensure that the code specified after <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> does what you want. Then, run the following command in your terminal: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_epm.py</span></code>. Alternatively, use your favorite IDE (Visual Studio Code, Pycharm) to run the code.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> or a notebook to launch the code. To run the code from <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code>, ensure that the code specified after <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> does what you want (see the following section on <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code>) . Then, run the following command in your terminal: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_epm.py</span></code>. Alternatively, use your favorite IDE (Visual Studio Code, Pycharm) to run the code.</p></li>
 </ol>
 <p>If you want to run the code from a notebook, add the following lines (example):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">run_epm</span><span class="w"> </span><span class="kn">import</span> <span class="n">launch_epm_multi_scenarios</span>
@@ -912,7 +935,109 @@ title="Print to PDF"
                                             <span class="n">cpu</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 <hr class="docutils" />
+<section id="description-of-run-epm-py">
+<h2>Description of <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code><a class="headerlink" href="#description-of-run-epm-py" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> script is the main Python execution script. It manages scenario execution, interacts with GAMS, and handles post-processing. It allows users to run simulations locally or on GAMS Engine, execute multiple scenarios in parallel, and process outputs.</p>
+<p>The script contains several functions, including:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">launch_epm(scenario,</span> <span class="pre">scenario_name,</span> <span class="pre">...)</span></code></strong> : Runs a single scenario using GAMS, handles input files, and executes GAMS commands.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">launch_epm_multiprocess(df,</span> <span class="pre">scenario_name,</span> <span class="pre">path_gams,</span> <span class="pre">...)</span></code></strong> : Calls <code class="docutils literal notranslate"><span class="pre">launch_epm()</span></code> with multiprocessing to handle parallel scenario execution.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios(config,</span> <span class="pre">scenarios_specification,</span> <span class="pre">...)</span></code></strong> : Manages the execution of multiple scenarios, organizes inputs, and launches simulations.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">perform_sensitivity(sensitivity,</span> <span class="pre">s)</span></code></strong> : Modifies input parameters for sensitivity analysis.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">perform_assessment(project_assessment,</span> <span class="pre">s)</span></code></strong> : Creates counterfactual scenarios without specific projects.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">postprocess_output(folder,</span> <span class="pre">reduced_output,</span> <span class="pre">plot_all,</span> <span class="pre">folder='postprocessing')</span></code></strong> : Processes model outputs, generates visualizations, and aggregates results.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="adapting-the-script-through-the-main-function">
+<h2><strong>Adapting the script through the <code class="docutils literal notranslate"><span class="pre">main()</span></code> Function</strong><a class="headerlink" href="#adapting-the-script-through-the-main-function" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">main()</span></code> function serves as the entry point for the script. It handles:</p>
+<ul class="simple">
+<li><p>Parsing command-line arguments to configure the execution.</p></li>
+<li><p>Managing input and output directories.</p></li>
+<li><p>Executing <code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios()</span></code> to run the specified scenarios.</p></li>
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">postprocess_output()</span></code> to generate and analyze results.</p></li>
+</ul>
+<p>To add a new command-line argument, follow these steps:</p>
+<ol class="arabic simple">
+<li><p>Modify the argument parser</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>parser.add_argument(
+    &quot;--output_dir&quot;,
+    type=str,
+    default=&quot;output&quot;,
+    help=&quot;Specify a custom output directory (default: output/)&quot;```
+
+2. Use this new argument in the script
+```output_dir = args.output_dir
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)```
+
+## **`run_epm.py` functions**
+### **`launch_epm(scenario, scenario_name, ...)`**
+Runs a single scenario using GAMS.
+
+#### **Parameters**
+- **`scenario`** (pd.DataFrame) : A DataFrame containing input parameters for the scenario.
+- **`scenario_name`** (str, optional) : The name of the scenario. If not provided, it is generated based on the timestamp.
+- **`path_main_file`** (str) : Path to the main GAMS script (`main.gms`).
+- **`path_base_file`** (str) : Path to the base GAMS file.
+- **`path_report_file`** (str) : Path to the GAMS script for generating reports.
+- **`path_reader_file`** (str) : Path to the GAMS script for reading inputs.
+- **`path_verification_file`** (str) : Path to the GAMS script for input verification.
+- **`path_treatment_file`** (str) : Path to the GAMS script for input preprocessing.
+- **`path_demand_file`** (str) : Path to the GAMS script for demand generation.
+- **`path_cplex_file`** (str) : Path to the CPLEX solver options file.
+- **`folder_input`** (str, optional) : Path to the input folder.
+- **`path_engine_file`** (str, optional) : Path to the GAMS Engine file for remote execution.
+- **`prefix`** (str, optional) : Prefix for output folder names.
+
+#### **Functionality**
+- Creates a dedicated folder for the scenario.
+- Copies necessary files and constructs the GAMS execution command.
+- Runs the scenario either locally or via GAMS Engine.
+
+---
+
+### **`launch_epm_multiprocess(df, scenario_name, path_gams, ...)`**
+Runs `launch_epm()` in a multiprocessing environment.
+
+#### **Parameters**
+- **`df`** (pd.DataFrame) : Input data for the scenario.
+- **`scenario_name`** (str) : Name of the scenario.
+- **`path_gams`** (dict) : Dictionary containing paths to required GAMS files.
+- **`folder_input`** (str, optional) : Path to the input folder.
+- **`path_engine_file`** (str, optional) : Path to the GAMS Engine file.
+
+#### **Functionality**
+- Calls `launch_epm()` for each scenario in parallel.
+- Distributes execution across multiple CPU cores.
+
+---
+
+### **`launch_epm_multi_scenarios(config, scenarios_specification, ...)`**
+Manages the execution of multiple scenarios.
+
+#### **Parameters**
+- **`config`** (str, default: `&#39;config.csv&#39;`) : Path to the global configuration file.
+- **`scenarios_specification`** (str, default: `&#39;scenarios.csv&#39;`) : Path to the scenario definitions file.
+- **`selected_scenarios`** (list, optional) : List of scenarios to run.
+- **`cpu`** (int, default: `1`) : Number of CPU cores to use for parallel execution.
+- **`path_gams`** (dict, optional) : Dictionary containing paths to required GAMS files.
+- **`sensitivity`** (dict, optional) : Specifies sensitivity parameters.
+- **`path_engine_file`** (str, optional) : Path to the GAMS Engine file for remote execution.
+- **`folder_input`** (str, optional) : Path to the input folder.
+- **`project_assessment`** (str, optional) : Specifies a project to exclude for counterfactual analysis.
+- **`simple`** (list, optional) : Simplified model settings.
+
+#### **Functionality**
+- Loads input configurations and scenario definitions.
+- Normalizes input paths and processes sensitivity options.
+- Creates output directories and runs simulations in parallel using `launch_epm_multiprocess()`.
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -982,6 +1107,29 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#running-epm-from-python">
    Running EPM from Python
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#description-of-run-epm-py">
+   Description of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     run_epm.py
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adapting-the-script-through-the-main-function">
+   <strong>
+    Adapting the script through the
+    <code class="docutils literal notranslate">
+     <span class="pre">
+      main()
+     </span>
+    </code>
+    Function
+   </strong>
   </a>
  </li>
 </ul>
