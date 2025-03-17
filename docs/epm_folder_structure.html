@@ -829,60 +829,44 @@ title="Print to PDF"
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#input-folder">
-   <strong>
-    1. Input folder
-   </strong>
+   1. Input folder
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#general-configuration-files">
-     <strong>
-      General configuration files
-     </strong>
+     General configuration files
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#data-folders">
-     <strong>
-      Data folders
-     </strong>
+     Data folders
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#post-processing-folder">
-   <strong>
-    2. Post-processing folder
-   </strong>
+   2. Post-processing folder
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#gams-model-files">
-   <strong>
-    3. GAMS model files
-   </strong>
+   3. GAMS model files
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#solver-configuration">
-   <strong>
-    4. Solver configuration
-   </strong>
+   4. Solver configuration
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#execution-scripts">
-   <strong>
-    5. Execution scripts
-   </strong>
+   5. Execution scripts
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#output-folder">
-   <strong>
-    6. Output folder
-   </strong>
+   6. Output folder
   </a>
  </li>
 </ul>
@@ -897,17 +881,17 @@ title="Print to PDF"
   <section id="epm-folder-structure">
 <h1>EPM Folder structure<a class="headerlink" href="#epm-folder-structure" title="Permalink to this heading">#</a></h1>
 <section id="input-folder">
-<h2><strong>1. Input folder</strong><a class="headerlink" href="#input-folder" title="Permalink to this heading">#</a></h2>
+<h2>1. Input folder<a class="headerlink" href="#input-folder" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">input/</span></code> directory contains all the necessary data and configuration files required to run the model. It is structured into:</p>
 <section id="general-configuration-files">
-<h3><strong>General configuration files</strong><a class="headerlink" href="#general-configuration-files" title="Permalink to this heading">#</a></h3>
+<h3>General configuration files<a class="headerlink" href="#general-configuration-files" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">config.csv</span></code></strong>: Defines global configuration parameters for the model.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code></strong>: Specifies different scenario configurations that can be run.</p></li>
 </ul>
 </section>
 <section id="data-folders">
-<h3><strong>Data folders</strong><a class="headerlink" href="#data-folders" title="Permalink to this heading">#</a></h3>
+<h3>Data folders<a class="headerlink" href="#data-folders" title="Permalink to this heading">#</a></h3>
 <p>The model input data is organized into <code class="docutils literal notranslate"><span class="pre">data/</span></code> folders. For example, <code class="docutils literal notranslate"><span class="pre">data_eapp/</span></code> contains input data for the Eastern Africa Power Pool and <code class="docutils literal notranslate"><span class="pre">data_gambia/</span></code> contains input data specific to Gambia.</p>
 <p>Each of these folders contains CSV files grouped by data type, including:</p>
 <ul class="simple">
@@ -931,7 +915,7 @@ title="Print to PDF"
 </section>
 </section>
 <section id="post-processing-folder">
-<h2><strong>2. Post-processing folder</strong><a class="headerlink" href="#post-processing-folder" title="Permalink to this heading">#</a></h2>
+<h2>2. Post-processing folder<a class="headerlink" href="#post-processing-folder" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">postprocessing/</span></code> directory contains scripts and data files used to process and visualize the model outputs.</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">utils.py</span></code></strong>: The core Python package for post-processing results. It includes functions for generating various graphs and visualizations. The functions available in this package are detailed in the <strong>Post-Processing</strong> section.</p></li>
@@ -947,7 +931,7 @@ title="Print to PDF"
 <hr class="docutils" />
 </section>
 <section id="gams-model-files">
-<h2><strong>3. GAMS model files</strong><a class="headerlink" href="#gams-model-files" title="Permalink to this heading">#</a></h2>
+<h2>3. GAMS model files<a class="headerlink" href="#gams-model-files" title="Permalink to this heading">#</a></h2>
 <p>These files define and execute the core GAMS model:</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">main.gms</span></code></strong>: The main file that runs the model.</p></li>
@@ -963,21 +947,21 @@ title="Print to PDF"
 <hr class="docutils" />
 </section>
 <section id="solver-configuration">
-<h2><strong>4. Solver configuration</strong><a class="headerlink" href="#solver-configuration" title="Permalink to this heading">#</a></h2>
+<h2>4. Solver configuration<a class="headerlink" href="#solver-configuration" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code></strong>: Defines solver settings for CPLEX.</p></li>
 </ul>
 <hr class="docutils" />
 </section>
 <section id="execution-scripts">
-<h2><strong>5. Execution scripts</strong><a class="headerlink" href="#execution-scripts" title="Permalink to this heading">#</a></h2>
+<h2>5. Execution scripts<a class="headerlink" href="#execution-scripts" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code></strong>: Python script to launch EPM from a command line or an external script.</p></li>
 </ul>
 <hr class="docutils" />
 </section>
 <section id="output-folder">
-<h2><strong>6. Output folder</strong><a class="headerlink" href="#output-folder" title="Permalink to this heading">#</a></h2>
+<h2>6. Output folder<a class="headerlink" href="#output-folder" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">output/</span></code> directory is not present initially but is generated automatically when simulations are run. Results are stored in subdirectories following this pattern: <code class="docutils literal notranslate"><span class="pre">output/scenario_name/simulations_run_date_hour</span></code></p>
 </section>
 </section>
@@ -1042,60 +1026,44 @@ title="Print to PDF"
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#input-folder">
-   <strong>
-    1. Input folder
-   </strong>
+   1. Input folder
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#general-configuration-files">
-     <strong>
-      General configuration files
-     </strong>
+     General configuration files
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#data-folders">
-     <strong>
-      Data folders
-     </strong>
+     Data folders
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#post-processing-folder">
-   <strong>
-    2. Post-processing folder
-   </strong>
+   2. Post-processing folder
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#gams-model-files">
-   <strong>
-    3. GAMS model files
-   </strong>
+   3. GAMS model files
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#solver-configuration">
-   <strong>
-    4. Solver configuration
-   </strong>
+   4. Solver configuration
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#execution-scripts">
-   <strong>
-    5. Execution scripts
-   </strong>
+   5. Execution scripts
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#output-folder">
-   <strong>
-    6. Output folder
-   </strong>
+   6. Output folder
   </a>
  </li>
 </ul>
