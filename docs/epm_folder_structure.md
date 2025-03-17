@@ -1,13 +1,13 @@
 ## EPM Folder structure
 
-### 1. **Input Directory (`input/`)**
+#### **1. Input folder**
 The `input/` directory contains all the necessary data and configuration files required to run the model. It is structured into:
 
-#### **General Configuration Files**
+##### **General configuration files**
 - **`config.csv`**: Defines global configuration parameters for the model.
 - **`scenarios.csv`**: Specifies different scenario configurations that can be run.
 
-#### **Data Folders**
+##### **Data folders**
 The model input data is organized into `data/` folders. For example, `data_eapp/` contains input data for the Eastern Africa Power Pool and `data_gambia/` contains input data specific to Gambia.
 
 Each of these folders contains CSV files grouped by data type, including:
@@ -31,7 +31,7 @@ A more detailed description of these parameters and their contents is provided i
 
 ---
 
-### 2. **Post-Processing Directory (`postprocessing/`)**
+#### **2. Post-processing folder**
 The `postprocessing/` directory contains scripts and data files used to process and visualize the model outputs.
 
 - **`utils.py`**: The core Python package for post-processing results. It includes functions for generating various graphs and visualizations. The functions available in this package are detailed in the **Post-Processing** section.
@@ -44,7 +44,7 @@ For more details on the available functions and configuration options, refer to 
 
 ---
 
-### 3. **GAMS Model Files**
+#### **3. GAMS model files**
 These files define and execute the core GAMS model:
 
 - **`main.gms`**: The main file that runs the model.
@@ -59,15 +59,15 @@ These files define and execute the core GAMS model:
 
 ---
 
-### 4. **Solver Configuration**
+#### **4. Solver configuration**
 - **`cplex.opt`**: Defines solver settings for CPLEX.
 
 ---
 
-### 5. **Execution Scripts**
+#### **5. Execution scripts**
 - **`run_epm.py`**: Python script to launch EPM from a command line or an external script.
 
 ---
 
-### 6. **Output Directory (`output/`)**
+#### **6. Output folder**
 The `output/` directory is not present initially but is generated automatically when simulations are run. Results are stored in subdirectories following this pattern: `output/scenario_name/simulations_run_date_hour`
