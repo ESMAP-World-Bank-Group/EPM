@@ -93,12 +93,14 @@ To add a new command-line argument, follow these steps:
     "--output_dir",
     type=str,
     default="output",
-    help="Specify a custom output directory (default: output/)"```
+    help="Specify a custom output directory (default: output/)"
+```
 
 2. Use this new argument in the script
 ```output_dir = args.output_dir
     if not os.path.exists(output_dir):
-    os.makedirs(output_dir)```
+    os.makedirs(output_dir)
+```
 
 ## **`run_epm.py` functions**
 ### **`launch_epm(scenario, scenario_name, ...)`**
