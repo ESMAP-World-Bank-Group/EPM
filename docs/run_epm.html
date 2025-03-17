@@ -964,7 +964,7 @@ title="Print to PDF"
 <ol class="arabic simple">
 <li><p>Modify the argument parser</p></li>
 </ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>parser.add_argument(
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    parser.add_argument(
     &quot;--output_dir&quot;,
     type=str,
     default=&quot;output&quot;,
@@ -972,7 +972,7 @@ title="Print to PDF"
 
 2. Use this new argument in the script
 ```output_dir = args.output_dir
-if not os.path.exists(output_dir):
+    if not os.path.exists(output_dir):
     os.makedirs(output_dir)```
 
 ## **`run_epm.py` functions**
