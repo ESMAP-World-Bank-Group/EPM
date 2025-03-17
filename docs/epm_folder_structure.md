@@ -1,6 +1,4 @@
-
-
-## Directory and File Descriptions
+## EPM Folder structure
 
 ### 1. **Input Directory (`input/`)**
 The `input/` directory contains all the necessary data and configuration files required to run the model. It is structured into:
