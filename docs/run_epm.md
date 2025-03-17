@@ -77,7 +77,7 @@ The script contains several functions, including:
 
 ---
 
-## **Adapting the script through the `main()` Function**
+### Adapting the script through the `main()` function
 
 The `main()` function serves as the entry point for the script. It handles:
 - Parsing command-line arguments to configure the execution.
@@ -102,11 +102,11 @@ To add a new command-line argument, follow these steps:
     os.makedirs(output_dir)
 ```
 
-## **`run_epm.py` functions**
-### **`launch_epm(scenario, scenario_name, ...)`**
+### **`run_epm.py` functions**
+#### **`launch_epm(scenario, scenario_name, ...)`**
 Runs a single scenario using GAMS.
 
-#### **Parameters**
+##### **Parameters**
 - **`scenario`** (pd.DataFrame) : A DataFrame containing input parameters for the scenario.
 - **`scenario_name`** (str, optional) : The name of the scenario. If not provided, it is generated based on the timestamp.
 - **`path_main_file`** (str) : Path to the main GAMS script (`main.gms`).
@@ -121,33 +121,33 @@ Runs a single scenario using GAMS.
 - **`path_engine_file`** (str, optional) : Path to the GAMS Engine file for remote execution.
 - **`prefix`** (str, optional) : Prefix for output folder names.
 
-#### **Functionality**
+##### **Functionality**
 - Creates a dedicated folder for the scenario.
 - Copies necessary files and constructs the GAMS execution command.
 - Runs the scenario either locally or via GAMS Engine.
 
 ---
 
-### **`launch_epm_multiprocess(df, scenario_name, path_gams, ...)`**
+#### **`launch_epm_multiprocess(df, scenario_name, path_gams, ...)`**
 Runs `launch_epm()` in a multiprocessing environment.
 
-#### **Parameters**
+##### **Parameters**
 - **`df`** (pd.DataFrame) : Input data for the scenario.
 - **`scenario_name`** (str) : Name of the scenario.
 - **`path_gams`** (dict) : Dictionary containing paths to required GAMS files.
 - **`folder_input`** (str, optional) : Path to the input folder.
 - **`path_engine_file`** (str, optional) : Path to the GAMS Engine file.
 
-#### **Functionality**
+##### **Functionality**
 - Calls `launch_epm()` for each scenario in parallel.
 - Distributes execution across multiple CPU cores.
 
 ---
 
-### **`launch_epm_multi_scenarios(config, scenarios_specification, ...)`**
+#### **`launch_epm_multi_scenarios(config, scenarios_specification, ...)`**
 Manages the execution of multiple scenarios.
 
-#### **Parameters**
+##### **Parameters**
 - **`config`** (str, default: `'config.csv'`) : Path to the global configuration file.
 - **`scenarios_specification`** (str, default: `'scenarios.csv'`) : Path to the scenario definitions file.
 - **`selected_scenarios`** (list, optional) : List of scenarios to run.
@@ -159,7 +159,7 @@ Manages the execution of multiple scenarios.
 - **`project_assessment`** (str, optional) : Specifies a project to exclude for counterfactual analysis.
 - **`simple`** (list, optional) : Simplified model settings.
 
-#### **Functionality**
+##### **Functionality**
 - Loads input configurations and scenario definitions.
 - Normalizes input paths and processes sensitivity options.
 - Creates output directories and runs simulations in parallel using `launch_epm_multiprocess()`.
