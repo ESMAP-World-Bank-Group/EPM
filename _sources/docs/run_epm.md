@@ -89,7 +89,7 @@ To add a new command-line argument, follow these steps:
 
 1. Modify the argument parser
 ```python
-parser.add_argument(
+    parser.add_argument(
     "--output_dir",
     type=str,
     default="output",
@@ -97,7 +97,7 @@ parser.add_argument(
 
 2. Use this new argument in the script
 ```output_dir = args.output_dir
-if not os.path.exists(output_dir):
+    if not os.path.exists(output_dir):
     os.makedirs(output_dir)```
 
 ## **`run_epm.py` functions**
