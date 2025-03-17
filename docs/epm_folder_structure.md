@@ -27,7 +27,7 @@ Some files are located directly in the `data/` directory and contain key paramet
 - **`y.csv`**: Defines the time horizon for the simulation.
 - **`zcmap.csv`**: Provides zone and country mapping.
 
-A more detailed description of these parameters and their contents is provided in the **Input Data** section.
+A more detailed description of these parameters and their contents is provided in the **Input** section.
 
 ---
 
@@ -40,7 +40,7 @@ The `postprocessing/` directory contains scripts and data files used to process 
   - **Fuel names and mappings**
   - **Other parameters for customizing plots**
   
-For more details on the available functions and configuration options, refer to the **Post-Processing** section.
+For more details on the available functions and configuration options, refer to the **Postprocessing** section.
 
 ---
 
