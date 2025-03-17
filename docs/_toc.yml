@@ -6,6 +6,7 @@ parts:
     chapters:
       - file: docs/introduction
       - file: docs/introduction_case_studies
+      - file: docs/epm_structure_folder.md
   - caption: Run EPM
     chapters:
       - file: docs/run_installation
