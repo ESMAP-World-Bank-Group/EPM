@@ -47,7 +47,7 @@ Jupyter notebooks can be downloaded from the documentation to be used for user c
 ---
 
 ## 3.Data handling functions
-
+---
 #### `read_plot_specs`
 `read_plot_specs(folder='')` 
 Reads static plot specifications including color mappings, fuel mappings, and geographic data.
@@ -66,7 +66,7 @@ Reads static plot specifications including color mappings, fuel mappings, and ge
 specs = read_plot_specs('static/')
 print(specs['colors'])  # Displays color mapping for fuels
 ```
-
+---
 #### `extract_gdx`
 `extract_gdx(file)`
 Extracts parameters and sets from a `.gdx` file into a dictionary of DataFrames.
@@ -84,7 +84,7 @@ Extracts parameters and sets from a `.gdx` file into a dictionary of DataFrames.
 results = extract_gdx('output/epmresults.gdx')
 print(results.keys())  # Displays the available parameters in the GDX file
 ```
-
+---
 #### `extract_epm_folder`
 `extract_epm_folder(results_folder, file='epmresults.gdx')`
 Extracts GDX results from multiple scenarios stored in a given folder.
@@ -103,7 +103,7 @@ Extracts GDX results from multiple scenarios stored in a given folder.
 epm_results = extract_epm_folder('output/simulations_run_20250317_132656')
 print(epm_results['pCapacityByFuel'])  # Displays capacity by fuel for all scenarios
 ```
-
+---
 
 [TO CONTINUE]
 ### **`standardize_names(dict_df, key, mapping, column='fuel')`**
