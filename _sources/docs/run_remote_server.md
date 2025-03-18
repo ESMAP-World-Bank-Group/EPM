@@ -135,8 +135,9 @@ This method allows you to execute the model directly using GAMS.
   gams main.gms --FOLDER_INPUT data
   ```
 
-### 2. Running EPM Using the Python API
+### 2. Running EPM Using the Python API (Recommended)
 Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !
+Refer to EPM Python API documentation for more details.
 
 - Navigate to the EPM directory:
   ```sh
@@ -152,34 +153,6 @@ Using the Python API enables additional functionalities such as direct scenario 
   ```
 - You can also specify additional arguments when launching EPM.
 
-#### Available Command-Line Arguments
-
-EPM provides several command-line options to customize your simulation run. Below are the available arguments and their descriptions:
-
-- **`--config`** *(string, default: `input/config.csv`)*  
-  Specifies the path to the configuration file. If not provided, the default configuration file located at `input/config.csv` will be used.
-
-- **`--folder_input`** *(string, default: `data_gambia`)*  
-  Defines the input folder containing the necessary data files for the simulation. If not specified, it defaults to `data_gambia`.
-
-- **`--scenarios`** *(string, optional)*  
-  Allows specifying a scenario file name. If this option is omitted, no scenario file will be used.
-
-- **`--sensitivity`** *(flag, default: `False`)*  
-  Enables sensitivity analysis when included. If this flag is not set, sensitivity analysis will be disabled.
-
-- **`--full_output`** *(flag, default: `True`)*  
-  Controls the output level. By default, full output is enabled. If this flag is used, full output will be disabled.
-
-#### Example Command
-
-To run EPM with a specific input folder and enable sensitivity analysis, use:
-```sh
-python epm/run_epm.py --folder_input my_data --sensitivity
-```
-This will execute EPM using the `my_data` folder as input and perform sensitivity analysis.
-
-For advanced users, additional arguments can be combined as needed to customize the simulation workflow.
 
 ---
 **Reminder**: Always test your code locally before running large simulations on the server to avoid unnecessary computational load.

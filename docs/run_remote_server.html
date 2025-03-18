@@ -213,6 +213,20 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Troublehooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server_help.html">
+                        📌 Remote Server Specifications & Best Practices
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Data Input Overview
                       </a>
@@ -285,6 +299,20 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="model_formulation.html">
                         Model formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_documentation.html">
+                        Contributing Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_python.html">
+                        Advanced Use Python API
                       </a>
                     </li>
                 
@@ -465,6 +493,20 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Troublehooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server_help.html">
+                        📌 Remote Server Specifications & Best Practices
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Data Input Overview
                       </a>
@@ -537,6 +579,20 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="model_formulation.html">
                         Model formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_documentation.html">
+                        Contributing Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_python.html">
+                        Advanced Use Python API
                       </a>
                     </li>
                 
@@ -650,6 +706,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Running EPM with Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Running EPM with GAMS ENGINE Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Troublehooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_remote_server_help.html">📌 Remote Server Specifications &amp; Best Practices</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
@@ -676,6 +734,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="model_notations.html">Notations</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="model_formulation.html">Model formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="advanced_documentation.html">Contributing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_python.html">Advanced Use Python API</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Step-by-Step Example</span></p>
 <ul class="nav bd-sidenav">
@@ -915,21 +978,9 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-epm-using-the-python-api">
-     2. Running EPM Using the Python API
+    <a class="reference internal nav-link" href="#running-epm-using-the-python-api-recommended">
+     2. Running EPM Using the Python API (Recommended)
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#available-command-line-arguments">
-       Available Command-Line Arguments
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#example-command">
-       Example Command
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
@@ -1129,9 +1180,10 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </li>
 </ul>
 </section>
-<section id="running-epm-using-the-python-api">
-<h3>2. Running EPM Using the Python API<a class="headerlink" href="#running-epm-using-the-python-api" title="Permalink to this heading">#</a></h3>
-<p>Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !</p>
+<section id="running-epm-using-the-python-api-recommended">
+<h3>2. Running EPM Using the Python API (Recommended)<a class="headerlink" href="#running-epm-using-the-python-api-recommended" title="Permalink to this heading">#</a></h3>
+<p>Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !
+Refer to EPM Python API documentation for more details.</p>
 <ul>
 <li><p>Navigate to the EPM directory:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM
@@ -1150,30 +1202,6 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </li>
 <li><p>You can also specify additional arguments when launching EPM.</p></li>
 </ul>
-<section id="available-command-line-arguments">
-<h4>Available Command-Line Arguments<a class="headerlink" href="#available-command-line-arguments" title="Permalink to this heading">#</a></h4>
-<p>EPM provides several command-line options to customize your simulation run. Below are the available arguments and their descriptions:</p>
-<ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">--config</span></code></strong> <em>(string, default: <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code>)</em><br />
-Specifies the path to the configuration file. If not provided, the default configuration file located at <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code> will be used.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">--folder_input</span></code></strong> <em>(string, default: <code class="docutils literal notranslate"><span class="pre">data_gambia</span></code>)</em><br />
-Defines the input folder containing the necessary data files for the simulation. If not specified, it defaults to <code class="docutils literal notranslate"><span class="pre">data_gambia</span></code>.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code></strong> <em>(string, optional)</em><br />
-Allows specifying a scenario file name. If this option is omitted, no scenario file will be used.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</em><br />
-Enables sensitivity analysis when included. If this flag is not set, sensitivity analysis will be disabled.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">--full_output</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</em><br />
-Controls the output level. By default, full output is enabled. If this flag is used, full output will be disabled.</p></li>
-</ul>
-</section>
-<section id="example-command">
-<h4>Example Command<a class="headerlink" href="#example-command" title="Permalink to this heading">#</a></h4>
-<p>To run EPM with a specific input folder and enable sensitivity analysis, use:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm/run_epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
-</pre></div>
-</div>
-<p>This will execute EPM using the <code class="docutils literal notranslate"><span class="pre">my_data</span></code> folder as input and perform sensitivity analysis.</p>
-<p>For advanced users, additional arguments can be combined as needed to customize the simulation workflow.</p>
 <hr class="docutils" />
 <p><strong>Reminder</strong>: Always test your code locally before running large simulations on the server to avoid unnecessary computational load.</p>
 <hr class="docutils" />
@@ -1185,7 +1213,6 @@ Controls the output level. By default, full output is enabled. If this flag is u
 </ul>
 <hr class="docutils" />
 <p><strong>Reminder</strong>: Always log out when you’re finished to ensure security.</p>
-</section>
 </section>
 </section>
 </section>
@@ -1306,21 +1333,9 @@ Controls the output level. By default, full output is enabled. If this flag is u
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#running-epm-using-the-python-api">
-     2. Running EPM Using the Python API
+    <a class="reference internal nav-link" href="#running-epm-using-the-python-api-recommended">
+     2. Running EPM Using the Python API (Recommended)
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#available-command-line-arguments">
-       Available Command-Line Arguments
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#example-command">
-       Example Command
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>

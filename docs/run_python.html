@@ -213,6 +213,20 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Troublehooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server_help.html">
+                        📌 Remote Server Specifications & Best Practices
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Data Input Overview
                       </a>
@@ -285,6 +299,20 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="model_formulation.html">
                         Model formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_documentation.html">
+                        Contributing Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_python.html">
+                        Advanced Use Python API
                       </a>
                     </li>
                 
@@ -465,6 +493,20 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Troublehooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server_help.html">
+                        📌 Remote Server Specifications & Best Practices
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Data Input Overview
                       </a>
@@ -537,6 +579,20 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="model_formulation.html">
                         Model formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_documentation.html">
+                        Contributing Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_python.html">
+                        Advanced Use Python API
                       </a>
                     </li>
                 
@@ -650,6 +706,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Running EPM with Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_engine_remote_server.html">Running EPM with GAMS ENGINE Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Troublehooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_remote_server_help.html">📌 Remote Server Specifications &amp; Best Practices</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
@@ -676,6 +734,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="model_notations.html">Notations</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="model_formulation.html">Model formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="advanced_documentation.html">Contributing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advanced_python.html">Advanced Use Python API</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Step-by-Step Example</span></p>
 <ul class="nav bd-sidenav">
@@ -858,121 +921,19 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#description-of-run-epm-py">
-   Description of
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     run_epm.py
-    </span>
-   </code>
+  <a class="reference internal nav-link" href="#input-data">
+   Input Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#available-command-line-arguments">
+   Available Command-Line Arguments
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#adapting-the-script-through-the-main-function">
-     Adapting the script through the
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       main()
-      </span>
-     </code>
-     function
+    <a class="reference internal nav-link" href="#example-command">
+     Example Command
     </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#run-epm-py-functions">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       run_epm.py
-      </span>
-     </code>
-     functions
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#launch-epm-scenario-scenario-name">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         launch_epm(scenario,
-        </span>
-        <span class="pre">
-         scenario_name,
-        </span>
-        <span class="pre">
-         ...)
-        </span>
-       </code>
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#parameters">
-         Parameters
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#functionality">
-         Functionality
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#launch-epm-multiprocess-df-scenario-name-path-gams">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         launch_epm_multiprocess(df,
-        </span>
-        <span class="pre">
-         scenario_name,
-        </span>
-        <span class="pre">
-         path_gams,
-        </span>
-        <span class="pre">
-         ...)
-        </span>
-       </code>
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id1">
-         Parameters
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id2">
-         Functionality
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#launch-epm-multi-scenarios-config-scenarios-specification">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         launch_epm_multi_scenarios(config,
-        </span>
-        <span class="pre">
-         scenarios_specification,
-        </span>
-        <span class="pre">
-         ...)
-        </span>
-       </code>
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id3">
-         Parameters
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id4">
-         Functionality
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
@@ -987,172 +948,44 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="running-epm-from-python">
 <h1>Running EPM from Python<a class="headerlink" href="#running-epm-from-python" title="Permalink to this heading">#</a></h1>
-<p>Recommended for scenario and sensitivity analysis and all other analysis that require running multiple scenarios.</p>
-<ol class="arabic simple">
-<li><p>Create an environment to run the code in python. The goal is to ensure that all required libraries are available (pandas, matplotlib,…). The environment is created using <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file:</p>
+<p>Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !</p>
+<p>Prerequisites: You need to have Python installed in your computer. If you don’t have it, you can download Anaconda distribution from <a class="reference external" href="https://www.anaconda.com/products/distribution">here</a>.</p>
 <ul class="simple">
-<li><p>You need to have Python installed in your computer. If you don’t have it, you can download Anaconda distribution from <a class="reference external" href="https://www.anaconda.com/products/distribution">here</a>.</p></li>
-<li><p>Create a virtual environment called <code class="docutils literal notranslate"><span class="pre">epm</span></code> with the following terminal command: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">epm</span></code></p></li>
-<li><p>Activate the environment on the terminal:</p>
-<ul>
-<li><p>On windows: <code class="docutils literal notranslate"><span class="pre">epm\Scripts\activate</span></code></p></li>
-<li><p>On macOS/Linux: <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">epm/bin/activate</span></code></p></li>
-<li><p>With conda: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">epm</span></code></p></li>
+<li><p>Navigate to the EPM directory:<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">EPM</span></code></p></li>
+<li><p>Use the terminal to run the command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>. The goal is to ensure that all required libraries are available (pandas, matplotlib,…). The environment is created using <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file</p></li>
+<li><p>Activate the Conda environment to ensure all necessary Python packages are available:
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">esmap_env</span></code></p></li>
+<li><p>Run the EPM model: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">epm/run_epm.py</span></code></p></li>
+<li><p>You can also specify additional arguments when launching EPM.</p></li>
 </ul>
-</li>
-<li><p>Use the terminal to run the command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
+<section id="input-data">
+<h2>Input Data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h2>
+<p>In the input folder, create <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file that contains the <code class="docutils literal notranslate"><span class="pre">baseline</span></code> scenario input specification. This specifies which csv file to use for each parameter under the baseline scenario. You can refer to the epm structure or the input sections to better understand the folder organization. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p>
+<p>If you are interested in running multiple scenarios in addition to the baseline scenario, create <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file that contains the specification of the scenarios. By default, the model will run the baseline scenario. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p>
+</section>
+<section id="available-command-line-arguments">
+<h2>Available Command-Line Arguments<a class="headerlink" href="#available-command-line-arguments" title="Permalink to this heading">#</a></h2>
+<p>EPM provides several command-line options to customize your simulation run. Below are the available arguments and their descriptions:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--config</span></code></strong> <em>(string, default: <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code>)</em><br />
+Specifies the path to the configuration file. If not provided, the default configuration file located at <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code> will be used.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--folder_input</span></code></strong> <em>(string, default: <code class="docutils literal notranslate"><span class="pre">data_gambia</span></code>)</em><br />
+Defines the input folder containing the necessary data files for the simulation. If not specified, it defaults to <code class="docutils literal notranslate"><span class="pre">data_gambia</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code></strong> <em>(string, optional)</em><br />
+Allows specifying a scenario file name. If this option is omitted, no scenario file will be used.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</em><br />
+Enables sensitivity analysis when included. If this flag is not set, sensitivity analysis will be disabled.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--full_output</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</em><br />
+Controls the output level. By default, full output is enabled. If this flag is used, full output will be disabled.</p></li>
 </ul>
-</li>
-<li><p>In the input folder, create <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file that contains the baseline scenario input specification. This specifies which csv file to use for each parameter under the baseline scenario. You can refer to the epm structure or the input sections to better understand the folder organization. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p></li>
-<li><p>If you are interested in running multiple scenarios in addition to the baseline scenario, create <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file that contains the specification of the scenarios. By default, the model will run the baseline scenario. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> or a notebook to launch the code. To run the code from <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code>, ensure that the code specified after <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">__name__</span> <span class="pre">==</span> <span class="pre">'__main__':</span></code> does what you want (see the following section on <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code>) . Then, run the following command in your terminal: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_epm.py</span></code>. Alternatively, use your favorite IDE (Visual Studio Code, Pycharm) to run the code.</p></li>
-</ol>
-<p>If you want to run the code from a notebook, add the following lines (example):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">run_epm</span><span class="w"> </span><span class="kn">import</span> <span class="n">launch_epm_multi_scenarios</span>
-
-<span class="c1"># Select the options you want for the run </span>
-<span class="n">config</span> <span class="o">=</span> <span class="s2">&quot;input/config.csv&quot;</span>
-<span class="n">folder_input</span> <span class="o">=</span> <span class="s2">&quot;data_folder&quot;</span>
-<span class="n">scenarios</span> <span class="o">=</span> <span class="s2">&quot;input/scenarios.csv&quot;</span>
-<span class="n">sensitivity</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">reduced_output</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">selected_scenarios</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;baseline&#39;</span><span class="p">]</span>
-<span class="n">plot_all</span> <span class="o">=</span> <span class="kc">False</span>
-
-<span class="c1"># Run </span>
-<span class="n">folder</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">launch_epm_multi_scenarios</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
-                                            <span class="n">folder_input</span><span class="o">=</span><span class="n">folder_input</span><span class="p">,</span>
-                                            <span class="n">scenarios_specification</span><span class="o">=</span><span class="n">scenarios</span><span class="p">,</span>
-                                            <span class="n">sensitivity</span><span class="o">=</span><span class="n">sensitivity</span><span class="p">,</span>
-                                            <span class="n">selected_scenarios</span><span class="o">=</span><span class="n">selected_scenarios</span><span class="p">,</span>
-                                            <span class="n">cpu</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<section id="example-command">
+<h3>Example Command<a class="headerlink" href="#example-command" title="Permalink to this heading">#</a></h3>
+<p>To run EPM with a specific input folder and enable sensitivity analysis, use:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm/run_epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
 </pre></div>
 </div>
-<hr class="docutils" />
-<section id="description-of-run-epm-py">
-<h2>Description of <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code><a class="headerlink" href="#description-of-run-epm-py" title="Permalink to this heading">#</a></h2>
-<p>The <code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> script is the main Python execution script. It manages scenario execution, interacts with GAMS, and handles post-processing. It allows users to run simulations locally or on GAMS Engine, execute multiple scenarios in parallel, and process outputs.</p>
-<p>The script contains several functions, including:</p>
-<ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">launch_epm(scenario,</span> <span class="pre">scenario_name,</span> <span class="pre">...)</span></code></strong> : Runs a single scenario using GAMS, handles input files, and executes GAMS commands.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">launch_epm_multiprocess(df,</span> <span class="pre">scenario_name,</span> <span class="pre">path_gams,</span> <span class="pre">...)</span></code></strong> : Calls <code class="docutils literal notranslate"><span class="pre">launch_epm()</span></code> with multiprocessing to handle parallel scenario execution.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios(config,</span> <span class="pre">scenarios_specification,</span> <span class="pre">...)</span></code></strong> : Manages the execution of multiple scenarios, organizes inputs, and launches simulations.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">perform_sensitivity(sensitivity,</span> <span class="pre">s)</span></code></strong> : Modifies input parameters for sensitivity analysis.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">perform_assessment(project_assessment,</span> <span class="pre">s)</span></code></strong> : Creates counterfactual scenarios without specific projects.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">postprocess_output(folder,</span> <span class="pre">reduced_output,</span> <span class="pre">plot_all,</span> <span class="pre">folder='postprocessing')</span></code></strong> : Processes model outputs, generates visualizations, and aggregates results.</p></li>
-</ul>
-<hr class="docutils" />
-<section id="adapting-the-script-through-the-main-function">
-<h3>Adapting the script through the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function<a class="headerlink" href="#adapting-the-script-through-the-main-function" title="Permalink to this heading">#</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">main()</span></code> function serves as the entry point for the script. It handles:</p>
-<ul class="simple">
-<li><p>Parsing command-line arguments to configure the execution.</p></li>
-<li><p>Managing input and output directories.</p></li>
-<li><p>Executing <code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios()</span></code> to run the specified scenarios.</p></li>
-<li><p>Calling <code class="docutils literal notranslate"><span class="pre">postprocess_output()</span></code> to generate and analyze results.</p></li>
-</ul>
-<p>To add a new command-line argument, follow these steps:</p>
-<ol class="arabic simple">
-<li><p>Modify the argument parser</p></li>
-</ol>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-    <span class="s2">&quot;--output_dir&quot;</span><span class="p">,</span>
-    <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
-    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">,</span>
-    <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Specify a custom output directory (default: output/)&quot;</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Use this new argument in the script</p></li>
-</ol>
-<div class="highlight-output_dir notranslate"><div class="highlight"><pre><span></span>    if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-</pre></div>
-</div>
-</section>
-<section id="run-epm-py-functions">
-<h3><code class="docutils literal notranslate"><span class="pre">run_epm.py</span></code> functions<a class="headerlink" href="#run-epm-py-functions" title="Permalink to this heading">#</a></h3>
-<section id="launch-epm-scenario-scenario-name">
-<h4><code class="docutils literal notranslate"><span class="pre">launch_epm(scenario,</span> <span class="pre">scenario_name,</span> <span class="pre">...)</span></code><a class="headerlink" href="#launch-epm-scenario-scenario-name" title="Permalink to this heading">#</a></h4>
-<p>Runs a single scenario using GAMS.</p>
-<section id="parameters">
-<h5>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h5>
-<ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">scenario</span></code></strong> (pd.DataFrame) : A DataFrame containing input parameters for the scenario.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">scenario_name</span></code></strong> (str, optional) : The name of the scenario. If not provided, it is generated based on the timestamp.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_main_file</span></code></strong> (str) : Path to the main GAMS script (<code class="docutils literal notranslate"><span class="pre">main.gms</span></code>).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_base_file</span></code></strong> (str) : Path to the base GAMS file.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_report_file</span></code></strong> (str) : Path to the GAMS script for generating reports.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_reader_file</span></code></strong> (str) : Path to the GAMS script for reading inputs.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_verification_file</span></code></strong> (str) : Path to the GAMS script for input verification.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_treatment_file</span></code></strong> (str) : Path to the GAMS script for input preprocessing.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_demand_file</span></code></strong> (str) : Path to the GAMS script for demand generation.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_cplex_file</span></code></strong> (str) : Path to the CPLEX solver options file.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">folder_input</span></code></strong> (str, optional) : Path to the input folder.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_engine_file</span></code></strong> (str, optional) : Path to the GAMS Engine file for remote execution.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">prefix</span></code></strong> (str, optional) : Prefix for output folder names.</p></li>
-</ul>
-</section>
-<section id="functionality">
-<h5>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">#</a></h5>
-<ul class="simple">
-<li><p>Creates a dedicated folder for the scenario.</p></li>
-<li><p>Copies necessary files and constructs the GAMS execution command.</p></li>
-<li><p>Runs the scenario either locally or via GAMS Engine.</p></li>
-</ul>
-</section>
-</section>
-<hr class="docutils" />
-<section id="launch-epm-multiprocess-df-scenario-name-path-gams">
-<h4><code class="docutils literal notranslate"><span class="pre">launch_epm_multiprocess(df,</span> <span class="pre">scenario_name,</span> <span class="pre">path_gams,</span> <span class="pre">...)</span></code><a class="headerlink" href="#launch-epm-multiprocess-df-scenario-name-path-gams" title="Permalink to this heading">#</a></h4>
-<p>Runs <code class="docutils literal notranslate"><span class="pre">launch_epm()</span></code> in a multiprocessing environment.</p>
-<section id="id1">
-<h5>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h5>
-<ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">df</span></code></strong> (pd.DataFrame) : Input data for the scenario.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">scenario_name</span></code></strong> (str) : Name of the scenario.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_gams</span></code></strong> (dict) : Dictionary containing paths to required GAMS files.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">folder_input</span></code></strong> (str, optional) : Path to the input folder.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_engine_file</span></code></strong> (str, optional) : Path to the GAMS Engine file.</p></li>
-</ul>
-</section>
-<section id="id2">
-<h5>Functionality<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h5>
-<ul class="simple">
-<li><p>Calls <code class="docutils literal notranslate"><span class="pre">launch_epm()</span></code> for each scenario in parallel.</p></li>
-<li><p>Distributes execution across multiple CPU cores.</p></li>
-</ul>
-</section>
-</section>
-<hr class="docutils" />
-<section id="launch-epm-multi-scenarios-config-scenarios-specification">
-<h4><code class="docutils literal notranslate"><span class="pre">launch_epm_multi_scenarios(config,</span> <span class="pre">scenarios_specification,</span> <span class="pre">...)</span></code><a class="headerlink" href="#launch-epm-multi-scenarios-config-scenarios-specification" title="Permalink to this heading">#</a></h4>
-<p>Manages the execution of multiple scenarios.</p>
-<section id="id3">
-<h5>Parameters<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h5>
-<ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">config</span></code></strong> (str, default: <code class="docutils literal notranslate"><span class="pre">'config.csv'</span></code>) : Path to the global configuration file.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">scenarios_specification</span></code></strong> (str, default: <code class="docutils literal notranslate"><span class="pre">'scenarios.csv'</span></code>) : Path to the scenario definitions file.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">selected_scenarios</span></code></strong> (list, optional) : List of scenarios to run.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">cpu</span></code></strong> (int, default: <code class="docutils literal notranslate"><span class="pre">1</span></code>) : Number of CPU cores to use for parallel execution.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_gams</span></code></strong> (dict, optional) : Dictionary containing paths to required GAMS files.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">sensitivity</span></code></strong> (dict, optional) : Specifies sensitivity parameters.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">path_engine_file</span></code></strong> (str, optional) : Path to the GAMS Engine file for remote execution.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">folder_input</span></code></strong> (str, optional) : Path to the input folder.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">project_assessment</span></code></strong> (str, optional) : Specifies a project to exclude for counterfactual analysis.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">simple</span></code></strong> (list, optional) : Simplified model settings.</p></li>
-</ul>
-</section>
-<section id="id4">
-<h5>Functionality<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h5>
-<ul class="simple">
-<li><p>Loads input configurations and scenario definitions.</p></li>
-<li><p>Normalizes input paths and processes sensitivity options.</p></li>
-<li><p>Creates output directories and runs simulations in parallel using <code class="docutils literal notranslate"><span class="pre">launch_epm_multiprocess()</span></code>.</p></li>
-</ul>
-</section>
-</section>
+<p>This will execute EPM using the <code class="docutils literal notranslate"><span class="pre">my_data</span></code> folder as input and perform sensitivity analysis.</p>
+<p>For advanced users, additional arguments can be combined as needed to customize the simulation workflow.</p>
 </section>
 </section>
 </section>
@@ -1216,121 +1049,19 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#description-of-run-epm-py">
-   Description of
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     run_epm.py
-    </span>
-   </code>
+  <a class="reference internal nav-link" href="#input-data">
+   Input Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#available-command-line-arguments">
+   Available Command-Line Arguments
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#adapting-the-script-through-the-main-function">
-     Adapting the script through the
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       main()
-      </span>
-     </code>
-     function
+    <a class="reference internal nav-link" href="#example-command">
+     Example Command
     </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#run-epm-py-functions">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       run_epm.py
-      </span>
-     </code>
-     functions
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#launch-epm-scenario-scenario-name">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         launch_epm(scenario,
-        </span>
-        <span class="pre">
-         scenario_name,
-        </span>
-        <span class="pre">
-         ...)
-        </span>
-       </code>
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#parameters">
-         Parameters
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#functionality">
-         Functionality
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#launch-epm-multiprocess-df-scenario-name-path-gams">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         launch_epm_multiprocess(df,
-        </span>
-        <span class="pre">
-         scenario_name,
-        </span>
-        <span class="pre">
-         path_gams,
-        </span>
-        <span class="pre">
-         ...)
-        </span>
-       </code>
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id1">
-         Parameters
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id2">
-         Functionality
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#launch-epm-multi-scenarios-config-scenarios-specification">
-       <code class="docutils literal notranslate">
-        <span class="pre">
-         launch_epm_multi_scenarios(config,
-        </span>
-        <span class="pre">
-         scenarios_specification,
-        </span>
-        <span class="pre">
-         ...)
-        </span>
-       </code>
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id3">
-         Parameters
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#id4">
-         Functionality
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
