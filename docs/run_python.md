@@ -72,6 +72,7 @@ To add a new command-line argument, follow these steps:
     type=str,
     default="output",
     help="Specify a custom output directory (default: output/)"
+    )
 ```
 
 2. Use this new argument in the script
