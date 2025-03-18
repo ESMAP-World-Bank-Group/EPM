@@ -9,6 +9,7 @@ parts:
       - file: docs/introduction_folder_structure
   - caption: Run EPM
     chapters:
+      - file: docs/run_prerequisites
       - file: docs/run_installation
       - file: docs/run_epm
       - file: docs/run_remote_server.md
