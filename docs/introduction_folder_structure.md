@@ -1,5 +1,7 @@
-## EPM Folder structure
+# EPM Folder structure
 
+The following structure outlines the key components of the EPM repository:
+```plaintext
 EPM/
 │
 ├── input/                          # Contains input data files required for the model
@@ -24,7 +26,7 @@ EPM/
 ├── main.gms                        # Main script orchestrating execution
 ├── output_verification.gms         # Verifies and validates model outputs
 └── run_epm.py                      # Python script to execute the model
-
+```
 
 ##### 1. Input folder
 The `input/` directory contains all the necessary data and configuration files required to run the model. It is structured into:
