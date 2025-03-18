@@ -829,8 +829,76 @@ title="Print to PDF"
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#structure">
-   Structure
+   1. Structure
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#utils-package-overview">
+   2.
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     utils
+    </span>
+   </code>
+   package overview
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data-handling">
+     Data Handling
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#processing-epm-inputs-results">
+     Processing EPM Inputs &amp; Results
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#post-processing-plotting">
+     Post-Processing &amp; Plotting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#geospatial-mapping-functions">
+     Geospatial &amp; Mapping Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#postprocessing-functions">
+   3. Postprocessing functions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#read-plot-specs-folder">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        read_plot_specs(folder='')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#parameters">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#returns">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#example-usage">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -845,7 +913,7 @@ title="Print to PDF"
 <h1>Postprocessing of the results<a class="headerlink" href="#postprocessing-of-the-results" title="Permalink to this heading">#</a></h1>
 <p>This section describes the postprocessing of the results of the simulation. It enables the user to quickly visualize the results and generate standardized figures.</p>
 <section id="structure">
-<h2>Structure<a class="headerlink" href="#structure" title="Permalink to this heading">#</a></h2>
+<h2>1. Structure<a class="headerlink" href="#structure" title="Permalink to this heading">#</a></h2>
 <p>The postprocessing is divided into two main parts:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">epm/postprocessing/utils.py</span></code>: Contains the functions to read the results and generate the figures.</p></li>
@@ -856,6 +924,85 @@ title="Print to PDF"
   <source src="videos/download_notebook.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+</section>
+<hr class="docutils" />
+<section id="utils-package-overview">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">utils</span></code> package overview<a class="headerlink" href="#utils-package-overview" title="Permalink to this heading">#</a></h2>
+<section id="data-handling">
+<h3>Data Handling<a class="headerlink" href="#data-handling" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">read_plot_specs(folder='')</span></code></strong>: Reads plot specifications (colors, fuel mappings, technology mappings, etc.).</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">extract_gdx(file)</span></code></strong>: Extracts parameters and sets from a <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file into a dictionary of DataFrames.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">extract_epm_folder(results_folder,</span> <span class="pre">file='epmresults.gdx')</span></code></strong>: Extracts GDX results from multiple scenarios in a folder.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">standardize_names(dict_df,</span> <span class="pre">key,</span> <span class="pre">mapping,</span> <span class="pre">column='fuel')</span></code></strong>: Standardizes fuel names in results using a predefined mapping.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">filter_dataframe(df,</span> <span class="pre">conditions)</span></code></strong>: Filters a DataFrame based on a dictionary of conditions.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">filter_dataframe_by_index(df,</span> <span class="pre">conditions)</span></code></strong>: Filters a DataFrame by conditions applied to the index levels.</p></li>
+</ul>
+</section>
+<section id="processing-epm-inputs-results">
+<h3>Processing EPM Inputs &amp; Results<a class="headerlink" href="#processing-epm-inputs-results" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">process_epm_inputs(epm_input,</span> <span class="pre">dict_specs,</span> <span class="pre">scenarios_rename=None)</span></code></strong>: Processes EPM input files for plotting.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">process_epm_results(epm_results,</span> <span class="pre">dict_specs,</span> <span class="pre">scenarios_rename=None,</span> <span class="pre">mapping_gen_fuel=None)</span></code></strong>: Processes EPM output results for plotting.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">process_simulation_results(FOLDER,</span> <span class="pre">SCENARIOS_RENAME=None,</span> <span class="pre">folder='')</span></code></strong>: Extracts and processes both inputs and outputs.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">generate_summary(epm_results,</span> <span class="pre">folder,</span> <span class="pre">epm_input)</span></code></strong>: Generates a summary of key EPM results.</p></li>
+</ul>
+</section>
+<section id="post-processing-plotting">
+<h3>Post-Processing &amp; Plotting<a class="headerlink" href="#post-processing-plotting" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">postprocess_output(FOLDER,</span> <span class="pre">reduced_output=False,</span> <span class="pre">plot_all=False,</span> <span class="pre">folder='')</span></code></strong>: Processes simulation results, generates summaries, and creates visualizations.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">stacked_area_plot(df,</span> <span class="pre">filename,</span> <span class="pre">...)</span></code></strong>: Creates a stacked area plot of generation by fuel type.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">bar_plot(df,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">...)</span></code></strong>: Creates a bar plot.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">line_plot(df,</span> <span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">...)</span></code></strong>: Creates a line plot.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">dispatch_plot(df_area,</span> <span class="pre">df_line,</span> <span class="pre">...)</span></code></strong>: Creates a dispatch plot with stacked areas and line plots.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">make_complete_fuel_dispatch_plot(dfs_area,</span> <span class="pre">dfs_line,</span> <span class="pre">...)</span></code></strong>: Generates and saves a complete fuel dispatch plot.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">make_stacked_bar_subplots(df,</span> <span class="pre">filename,</span> <span class="pre">dict_colors,</span> <span class="pre">...)</span></code></strong>: Creates stacked bar subplots for comparing capacity over time and across scenarios.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">subplot_pie(df,</span> <span class="pre">index,</span> <span class="pre">dict_colors,</span> <span class="pre">...)</span></code></strong>: Creates pie chart subplots.</p></li>
+</ul>
+</section>
+<section id="geospatial-mapping-functions">
+<h3>Geospatial &amp; Mapping Functions<a class="headerlink" href="#geospatial-mapping-functions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">make_capacity_mix_map(...)</span></code></strong>: Creates a capacity mix map with pie charts overlaid on a regional map.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">make_interconnection_map(...)</span></code></strong>: Generates an interconnection map showing transmission capacities.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">create_interactive_map(...)</span></code></strong>: Generates an interactive Folium-based map for energy dispatch and capacity visualization.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="postprocessing-functions">
+<h2>3. Postprocessing functions<a class="headerlink" href="#postprocessing-functions" title="Permalink to this heading">#</a></h2>
+<section id="read-plot-specs-folder">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">read_plot_specs(folder='')</span></code></strong><a class="headerlink" href="#read-plot-specs-folder" title="Permalink to this heading">#</a></h3>
+<p>Reads static plot specifications including color mappings, fuel mappings, and geographic data.</p>
+<section id="parameters">
+<h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">folder</span></code> (str, optional): Path to the directory containing static files.</p></li>
+</ul>
+</section>
+<section id="returns">
+<h4>Returns<a class="headerlink" href="#returns" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dict_specs</span></code> (dict): A dictionary containing:</p>
+<ul>
+<li><p>Colors for fuels and technologies.</p></li>
+<li><p>Fuel and technology mappings.</p></li>
+<li><p>Geographic data for mapping.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="example-usage">
+<h4>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">specs</span> <span class="o">=</span> <span class="n">read_plot_specs</span><span class="p">(</span><span class="s1">&#39;static/&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">])</span>  <span class="c1"># Displays color mapping for fuels</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
 </section>
 </section>
 
@@ -919,8 +1066,76 @@ title="Print to PDF"
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#structure">
-   Structure
+   1. Structure
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#utils-package-overview">
+   2.
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     utils
+    </span>
+   </code>
+   package overview
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#data-handling">
+     Data Handling
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#processing-epm-inputs-results">
+     Processing EPM Inputs &amp; Results
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#post-processing-plotting">
+     Post-Processing &amp; Plotting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#geospatial-mapping-functions">
+     Geospatial &amp; Mapping Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#postprocessing-functions">
+   3. Postprocessing functions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#read-plot-specs-folder">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        read_plot_specs(folder='')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#parameters">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#returns">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#example-usage">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
