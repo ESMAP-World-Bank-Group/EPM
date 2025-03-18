@@ -48,59 +48,64 @@ Jupyter notebooks can be downloaded from the documentation to be used for user c
 
 ## 3.Data handling functions
 
-### **`read_plot_specs(folder='')`**
+#### `read_plot_specs`
+`read_plot_specs(folder='')` 
 Reads static plot specifications including color mappings, fuel mappings, and geographic data.
 
-#### Parameters
+##### Parameters
 - `folder` (str, optional): Path to the directory containing static files.
 
-#### Returns
+##### Returns
 - `dict_specs` (dict): A dictionary containing:
   - Colors for fuels and technologies.
   - Fuel and technology mappings.
   - Geographic data for mapping.
 
-#### Example Usage
+##### Example Usage
 ```python
 specs = read_plot_specs('static/')
 print(specs['colors'])  # Displays color mapping for fuels
 ```
 
-### **`extract_gdx(file)`**
+#### `extract_gdx`
+`extract_gdx(file)`
 Extracts parameters and sets from a `.gdx` file into a dictionary of DataFrames.
 
-#### Parameters
+##### Parameters
 - `file` (str): Path to the `.gdx` file.
 
-#### Returns
+##### Returns
 - `epm_result` (dict): Dictionary where:
   - Keys are parameter or set names from the GDX file.
   - Values are Pandas DataFrames containing the extracted data.
 
-#### Example Usage
+##### Example Usage
 ```python
 results = extract_gdx('output/epmresults.gdx')
 print(results.keys())  # Displays the available parameters in the GDX file
 ```
 
-### **`extract_epm_folder(results_folder, file='epmresults.gdx')`**
+#### `extract_epm_folder`
+`extract_epm_folder(results_folder, file='epmresults.gdx')`
 Extracts GDX results from multiple scenarios stored in a given folder.
 
-#### Parameters
+##### Parameters
 - `results_folder` (str): Path to the folder containing scenario outputs.
 - `file` (str, optional, default=`'epmresults.gdx'`): Name of the `.gdx` file to extract.
 
-#### Returns
+##### Returns
 - `inverted_dict` (dict): Dictionary where:
   - Keys are result categories (e.g., `pCapacityByFuel`, `pEnergyByFuel`).
   - Values are Pandas DataFrames with extracted results across multiple scenarios.
 
-#### Example Usage
+##### Example Usage
 ```python
 epm_results = extract_epm_folder('output/simulations_run_20250317_132656')
 print(epm_results['pCapacityByFuel'])  # Displays capacity by fuel for all scenarios
 ```
 
+
+[TO CONTINUE]
 ### **`standardize_names(dict_df, key, mapping, column='fuel')`**
 Standardizes fuel or technology names in DataFrames using a predefined mapping.
 

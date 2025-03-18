@@ -891,14 +891,12 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#read-plot-specs-folder">
-     <strong>
-      <code class="docutils literal notranslate">
-       <span class="pre">
-        read_plot_specs(folder='')
-       </span>
-      </code>
-     </strong>
+    <a class="reference internal nav-link" href="#read-plot-specs">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       read_plot_specs
+      </span>
+     </code>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -919,14 +917,12 @@ title="Print to PDF"
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#extract-gdx-file">
-     <strong>
-      <code class="docutils literal notranslate">
-       <span class="pre">
-        extract_gdx(file)
-       </span>
-      </code>
-     </strong>
+    <a class="reference internal nav-link" href="#extract-gdx">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       extract_gdx
+      </span>
+     </code>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -947,17 +943,12 @@ title="Print to PDF"
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#extract-epm-folder-results-folder-file-epmresults-gdx">
-     <strong>
-      <code class="docutils literal notranslate">
-       <span class="pre">
-        extract_epm_folder(results_folder,
-       </span>
-       <span class="pre">
-        file='epmresults.gdx')
-       </span>
-      </code>
-     </strong>
+    <a class="reference internal nav-link" href="#extract-epm-folder">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       extract_epm_folder
+      </span>
+     </code>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -1886,9 +1877,10 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="data-handling-functions">
 <h2>3.Data handling functions<a class="headerlink" href="#data-handling-functions" title="Permalink to this heading">#</a></h2>
-<section id="read-plot-specs-folder">
-<h3><strong><code class="docutils literal notranslate"><span class="pre">read_plot_specs(folder='')</span></code></strong><a class="headerlink" href="#read-plot-specs-folder" title="Permalink to this heading">#</a></h3>
-<p>Reads static plot specifications including color mappings, fuel mappings, and geographic data.</p>
+<section id="read-plot-specs">
+<h3><code class="docutils literal notranslate"><span class="pre">read_plot_specs</span></code><a class="headerlink" href="#read-plot-specs" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">read_plot_specs(folder='')</span></code>
+Reads static plot specifications including color mappings, fuel mappings, and geographic data.</p>
 <section id="parameters">
 <h4>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
@@ -1915,9 +1907,10 @@ title="Print to PDF"
 </div>
 </section>
 </section>
-<section id="extract-gdx-file">
-<h3><strong><code class="docutils literal notranslate"><span class="pre">extract_gdx(file)</span></code></strong><a class="headerlink" href="#extract-gdx-file" title="Permalink to this heading">#</a></h3>
-<p>Extracts parameters and sets from a <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file into a dictionary of DataFrames.</p>
+<section id="extract-gdx">
+<h3><code class="docutils literal notranslate"><span class="pre">extract_gdx</span></code><a class="headerlink" href="#extract-gdx" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">extract_gdx(file)</span></code>
+Extracts parameters and sets from a <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file into a dictionary of DataFrames.</p>
 <section id="id1">
 <h4>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
@@ -1943,9 +1936,10 @@ title="Print to PDF"
 </div>
 </section>
 </section>
-<section id="extract-epm-folder-results-folder-file-epmresults-gdx">
-<h3><strong><code class="docutils literal notranslate"><span class="pre">extract_epm_folder(results_folder,</span> <span class="pre">file='epmresults.gdx')</span></code></strong><a class="headerlink" href="#extract-epm-folder-results-folder-file-epmresults-gdx" title="Permalink to this heading">#</a></h3>
-<p>Extracts GDX results from multiple scenarios stored in a given folder.</p>
+<section id="extract-epm-folder">
+<h3><code class="docutils literal notranslate"><span class="pre">extract_epm_folder</span></code><a class="headerlink" href="#extract-epm-folder" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">extract_epm_folder(results_folder,</span> <span class="pre">file='epmresults.gdx')</span></code>
+Extracts GDX results from multiple scenarios stored in a given folder.</p>
 <section id="id4">
 <h4>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
@@ -1970,6 +1964,7 @@ title="Print to PDF"
 <span class="nb">print</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">])</span>  <span class="c1"># Displays capacity by fuel for all scenarios</span>
 </pre></div>
 </div>
+<p>[TO CONTINUE]</p>
 </section>
 </section>
 <section id="standardize-names-dict-df-key-mapping-column-fuel">
@@ -2634,14 +2629,12 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#read-plot-specs-folder">
-     <strong>
-      <code class="docutils literal notranslate">
-       <span class="pre">
-        read_plot_specs(folder='')
-       </span>
-      </code>
-     </strong>
+    <a class="reference internal nav-link" href="#read-plot-specs">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       read_plot_specs
+      </span>
+     </code>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -2662,14 +2655,12 @@ title="Print to PDF"
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#extract-gdx-file">
-     <strong>
-      <code class="docutils literal notranslate">
-       <span class="pre">
-        extract_gdx(file)
-       </span>
-      </code>
-     </strong>
+    <a class="reference internal nav-link" href="#extract-gdx">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       extract_gdx
+      </span>
+     </code>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
@@ -2690,17 +2681,12 @@ title="Print to PDF"
     </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#extract-epm-folder-results-folder-file-epmresults-gdx">
-     <strong>
-      <code class="docutils literal notranslate">
-       <span class="pre">
-        extract_epm_folder(results_folder,
-       </span>
-       <span class="pre">
-        file='epmresults.gdx')
-       </span>
-      </code>
-     </strong>
+    <a class="reference internal nav-link" href="#extract-epm-folder">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       extract_epm_folder
+      </span>
+     </code>
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
