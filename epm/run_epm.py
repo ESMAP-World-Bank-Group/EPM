@@ -547,30 +547,51 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pGenDataExcelDefault'
+    param = 'ResLimShare'
     if sensitivity.get(param):
-
+        parameter = 'pGenDataExcelDefault'
         reslimshare_sensi = [-0.5, -1]
-
         for val in reslimshare_sensi:
 
-            df = pd.read_csv(s['baseline'][param])
-            df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), 'ResLimShare'] *= (1 + val)
+            df = pd.read_csv(s['baseline'][parameter])
+            df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
 
             # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+            folder_sensi = os.path.join(os.path.dirname(s['baseline'][parameter]), 'sensitivity')
             if not os.path.exists(folder_sensi):
                 os.mkdir(folder_sensi)
             name = str(val).replace('.', '')
-            name = f'{param}_ResLimShare_{name}'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+            name = f'{parameter}_{param}_{name}'
+            path_file = os.path.basename(s['baseline'][parameter]).replace(parameter, name)
             path_file = os.path.join(folder_sensi, path_file)
             # Write the modified file
             df.to_csv(path_file, index=False)
 
             # Put in the scenario dir
             s[name] = s['baseline'].copy()
-            s[name][param] = path_file
+            s[name][parameter] = path_file
+
+    param = 'BuildLimitperYear'
+    if sensitivity.get(param):
+        parameter = 'pGenDataExcel'
+
+        df = pd.read_csv(s['baseline'][parameter])
+        # Remove any built limitation per year
+        df.loc[df.loc[:, 'Status'] == 3, param]  = df.loc[df.loc[:, 'Status'] == 3, 'Capacity']
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline'][parameter]), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        name = f'{parameter}_{param}_removed'
+        path_file = os.path.basename(s['baseline'][parameter]).replace(parameter, name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[parameter] = s['baseline'].copy()
+        s[parameter][parameter] = path_file
 
     param  = 'pVREProfile'
     if sensitivity.get(param):
@@ -605,7 +626,7 @@ def perform_assessment(project_assessment, s):
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pGenDataExcel'])
             # Multiple projects can be considered if separate by ' & '
-            projects = project_assessment.split(' & ')
+            projects = project_assessment
             # Remove project(s) in project_assessment
             df = df.loc[~df['gen'].isin(projects)]
 
@@ -702,9 +723,10 @@ def main(test_args=None):
 
     parser.add_argument(
         "--project_assessment",
+        nargs="+",  # Accepts one or more values
         type=str,
         default=None,
-        help="Name of the project to assess (default: None). Example usage: # TODO"
+        help="Name of the project to assess (default: None). Example usage: --project_assessment Solar Project"
     )
 
     parser.add_argument(
@@ -744,10 +766,11 @@ def main(test_args=None):
     print(f"Plot options: {args.plot_all}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': True, 'pDemandForecast': True,
-                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': True,
-                       'pAvailabilityDefault': True, 'pDemandProfile': False,
-                       'y': False, 'pGenDataExcelDefault': False, 'pVREProfile': True}
+        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
+                       'pAvailabilityDefault': False, 'pDemandProfile': False,
+                       'y': False, 'ResLimShare': False, 'pVREProfile': False,
+                       'BuildLimitperYear': True}
     else:
         sensitivity = None
 

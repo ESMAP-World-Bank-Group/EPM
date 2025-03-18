@@ -402,7 +402,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     return epm_dict
 
 
-def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder=''):
+def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postprocessing'):
     # Create the folder path
     def adjust_color(color, factor=0.1):
         """Adjusts the color slightly by modifying its HSL components."""
@@ -656,17 +656,46 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
 
         make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
+        selected_scenario = 'baseline'
         if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
-            filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline.png'
+            filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline-{selected_scenario}.png'
             stacked_area_plot(epm_results['pEnergyByPlant'], filename, dict_specs['colors'], x_column='year',
                               y_column='value',
                               stack_column='generator', title='Energy Generation by Plant', y_label='Generation (GWh)',
-                              legend_title='Energy sources', figsize=(10, 6), selected_scenario='baseline',
+                              legend_title='Energy sources', figsize=(10, 6), selected_scenario=selected_scenario,
                               sorting_column='fuel')
+
+
+        filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline_{selected_scenario}.png'
+        df = epm_results['pCapacityPlan'].copy()
+        df = df[df['scenario'] == 'baseline']
+        make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+
+        # Scenario comparison
+        if len(epm_results['pEnergyByPlant']['generator'].unique()) < 8:
+
+            df = epm_results['pCapacityByFuel'].copy()
+            df['value'] = df['value'] / 1e3
+            filename = f'{GRAPHS_FOLDER}/CapacityMixClusteredStackedAreaPlot.png'
+            make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
+                                      column_value='value', column_multiple_bars='scenario',
+                                      select_xaxis=[df['year'].min(), df['year'].max()],
+                                      format_y=lambda y, _: '{:.1f} GW'.format(y), rotation=45)
+
+            df = epm_results['pEnergyByFuel'].copy()
+            df['value'] = df['value'] / 1e3
+            filename = f'{GRAPHS_FOLDER}/EnergyMixClusteredStackedAreaPlot.png'
+            make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
+                                      column_value='value', column_multiple_bars='scenario',
+                                      select_xaxis=[df['year'].min(), df['year'].max()],
+                                      format_y=lambda y, _: '{:.1f} TWh'.format(y), rotation=45)
+
 
         if 'pAnnualTransmissionCapacity' in epm_results.keys():
             if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
                 make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
+
+
 
 
 def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
@@ -1255,7 +1284,7 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
         for key, value in annotate.items():
             x = key - 2
             y = temp.loc[key].sum() / 2
-            ax1.annotate(value, xy=(x, y), xytext=(x, y * 1.1))
+            ax1.annotate(value, xy=(x, y), xytext=(x, y * 1.2))
 
     ax1.set_xlabel(x_label)
     ax1.set_ylabel(y_label)
@@ -1303,6 +1332,32 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
         plt.tight_layout()
         plt.show()
     plt.close(fig)
+
+
+def make_annotated_stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value',
+                                     stack_column='fuel', annotate_column='generator'):
+    df.sort_values(stack_column, inplace=True)
+    # complete year with 0 capacity when no data
+    years = df[x_column].unique()
+
+    result = {}
+    for n, g in df.groupby([annotate_column]):
+        g.set_index(x_column, inplace=True)
+        g = g.loc[:, y_column]
+        g = g.reindex(years, fill_value=0)
+        g.sort_index(inplace=True)
+        g = g.diff()
+        g = g[g > 1].to_dict()
+        g = {k: '{} - {:.0f}'.format(n[0], i) for k, i in g.items()}
+        # if k in result.keys() add values to the existing dictionary
+        for k, i in g.items():
+            if k in result.keys():
+                result[k] += '\n' + i
+            else:
+                result[k] = i
+
+    stacked_area_plot(df, filename, dict_colors, x_column='year', y_column='value', stack_column='fuel',
+                      annotate=result)
 
 
 def format_dispatch_ax(ax, pd_index):
