@@ -443,8 +443,6 @@ gfmap(g,f) = gfmap(g,f)
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
 
-execute_unload "test.gdx" gmap, gzmap, gfmap, gprimf, gtechmap, gfmap;
-
 pHeatrate(gfmap(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate2"));
 pHeatrate(gprimf(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate"));
 

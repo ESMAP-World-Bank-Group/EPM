@@ -844,14 +844,10 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
                                  pPeakCapacity, pCapacityByFuel, pCapacityByTechandFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,  
                                  pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
-                                 
-
                                  pNewCapacityTech, pNewCapacityTechCountry,
                                  pReserveMarginRes, pReserveMarginResCountry,
                                  pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
                                  pAdditionalCapacityCountry,
-
-
                                  pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
                                  pSpinningReserveByPlantZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
                                  pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,  
@@ -861,10 +857,11 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pSolarValue, pSolarCost,
                                  pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
                                  pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
-***************************************************H2 model additions**********************************************************                                 
                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
-*******************************************************************************************************************************************
+
 ;
+
+
 
 file fgdxxrw / 'gdxxrw.out' /;
 file fxlsxrep / 'xlsxReport.cmd' /;
