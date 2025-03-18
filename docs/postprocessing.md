@@ -278,4 +278,233 @@ Creates a stacked area plot, commonly used to visualize energy generation by fue
 stacked_area_plot(df=energy_data, filename="generation.png", x_column="year", y_column="value", stack_column="fuel", dict_colors=color_dict)
 ```
 
+### **`bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(8, 5))`**
+Creates a bar plot to visualize categorical data, such as capacity by fuel or cost breakdown.
+
+#### Parameters
+- `df` (pd.DataFrame): Input data containing the variables to be plotted.
+- `x` (str): Column name for the x-axis categories.
+- `y` (str): Column name for the y-axis values.
+- `xlabel` (str, optional): Label for the x-axis.
+- `ylabel` (str, optional): Label for the y-axis.
+- `title` (str, optional): Title of the plot.
+- `filename` (str, optional): Path to save the generated plot.
+- `figsize` (tuple, default=`(8, 5)`): Size of the figure.
+
+#### Functionality
+- Creates a bar plot using the specified x and y variables.
+- Adds annotations to bars for clarity.
+- Saves the figure if `filename` is provided; otherwise, displays the plot.
+
+#### Example Usage
+```python
+bar_plot(df=capacity_data, x="fuel", y="value", xlabel="Fuel Type", ylabel="Installed Capacity (MW)", title="Capacity by Fuel", filename="capacity_bar.png")
+```
+### **`line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(10, 6))`**
+Creates a line plot to visualize trends over time, such as cost evolution or energy generation by year.
+
+#### Parameters
+- `df` (pd.DataFrame): Input data containing the variables to be plotted.
+- `x` (str): Column name for the x-axis values.
+- `y` (str): Column name for the y-axis values.
+- `xlabel` (str, optional): Label for the x-axis.
+- `ylabel` (str, optional): Label for the y-axis.
+- `title` (str, optional): Title of the plot.
+- `filename` (str, optional): Path to save the generated plot.
+- `figsize` (tuple, default=`(10, 6)`): Size of the figure.
+
+#### Functionality
+- Plots a line chart using `x` and `y` columns from the DataFrame.
+- Adds axis labels and title if provided.
+- Saves the figure if `filename` is provided; otherwise, displays the plot.
+
+#### Example Usage
+```python
+line_plot(df=cost_data, x="year", y="value", xlabel="Year", ylabel="Total System Cost ($M)", title="System Cost Evolution", filename="cost_evolution.png")
+```
+
+### **`dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', bottom=0)`**
+Creates a dispatch plot combining stacked area and line plots to visualize electricity generation, demand, and storage dynamics.
+
+#### Parameters
+- `df_area` (pd.DataFrame, optional): DataFrame for stacked area plots (e.g., generation by fuel).
+- `filename` (str, optional): Path to save the generated plot.
+- `dict_colors` (dict, optional): Dictionary mapping categories (e.g., fuels) to colors.
+- `df_line` (pd.DataFrame, optional): DataFrame for line plots (e.g., demand curve).
+- `figsize` (tuple, default=`(10, 6)`): Size of the figure.
+- `legend_loc` (str, default=`'bottom'`): Location of the legend (`'bottom'` or `'right'`).
+- `bottom` (int, default=`0`): Minimum value for the y-axis.
+
+#### Functionality
+- Uses a stacked area plot to show generation by fuel type.
+- Overlays line plots for demand and other attributes.
+- Formats the plot with axis labels and a customizable legend position.
+
+#### Example Usage
+```python
+dispatch_plot(df_area=generation_data, df_line=demand_data, dict_colors=fuel_colors, filename="dispatch_plot.png")
+```
+
+### **`make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario, filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None, legend_loc='bottom', bottom=0, figsize=(10,6))`**
+Generates and saves a complete fuel dispatch plot, including generation, demand, and other dispatch components.
+
+#### Parameters
+- `dfs_area` (dict): Dictionary of DataFrames for stacked area plots (e.g., generation by fuel).
+- `dfs_line` (dict): Dictionary of DataFrames for line plots (e.g., demand curve).
+- `dict_colors` (dict): Dictionary mapping fuel types to colors.
+- `zone` (str): The zone to filter the data for.
+- `year` (int): The year to filter the data for.
+- `scenario` (str): The scenario to filter the data for.
+- `filename` (str, optional): Path to save the generated plot.
+- `fuel_grouping` (dict, optional): Mapping of specific fuels to broader fuel categories.
+- `select_time` (dict, optional): Dictionary specifying a subset of time periods to include in the plot.
+- `reorder_dispatch` (list, optional): List specifying a custom order for stacking fuels.
+- `legend_loc` (str, default=`'bottom'`): Location of the legend (`'bottom'` or `'right'`).
+- `bottom` (int, default=`0`): Minimum value for the y-axis.
+- `figsize` (tuple, default=`(10,6)`): Size of the figure.
+
+#### Functionality
+- Filters the input DataFrames based on the specified zone, year, and scenario.
+- Processes data for stacked area and line plots.
+- Generates a dispatch plot showing electricity generation, demand, and storage behavior.
+- Saves the figure if `filename` is provided; otherwise, displays the plot.
+
+#### Example Usage
+```python
+make_complete_fuel_dispatch_plot(dfs_area=generation_data, dfs_line=demand_data, dict_colors=fuel_colors, zone='Liberia', year=2030, scenario='Baseline', filename="dispatch_fuel_plot.png")
+```
+
+### **`make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario', column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None, format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True, show_total=False, fonttick=12, rotation=0, title=None)`**
+Creates stacked bar subplots to analyze energy system evolution, such as capacity changes over time or across scenarios.
+
+#### Parameters
+- `df` (pd.DataFrame): DataFrame containing the results.
+- `filename` (str): Path to save the figure.
+- `dict_colors` (dict): Dictionary mapping categories (e.g., fuel types) to colors.
+- `selected_zone` (str, optional): Filter the data for a specific zone.
+- `selected_year` (int, optional): Filter the data for a specific year.
+- `column_xaxis` (str, default=`'year'`): Column for subplot separation.
+- `column_stacked` (str, default=`'fuel'`): Column to use for stacking bars.
+- `column_multiple_bars` (str, default=`'scenario'`): Column defining multiple bars within a single subplot.
+- `column_value` (str, default=`'value'`): Column containing numerical values to be plotted.
+- `select_xaxis` (list, optional): Subset of values to display on the x-axis.
+- `dict_grouping` (dict, optional): Mapping of categories for aggregation.
+- `order_scenarios` (list, optional): Order in which scenarios should be displayed.
+- `dict_scenarios` (dict, optional): Dictionary mapping scenario names to new labels.
+- `format_y` (function, optional, default=`'{:.0f} MW'.format(y)`): Function to format y-axis labels.
+- `order_stacked` (list, optional): Custom order for stacked categories.
+- `cap` (int, default=`2`): Minimum value for displaying annotations.
+- `annotate` (bool, default=`True`): Whether to annotate values on the bars.
+- `show_total` (bool, default=`False`): Whether to display the total value on top of bars.
+- `fonttick` (int, default=`12`): Font size for tick labels.
+- `rotation` (int, default=`0`): Rotation angle for x-axis labels.
+- `title` (str, optional): Title of the plot.
+
+#### Functionality
+- Groups data according to the selected columns and aggregates values.
+- Generates multiple subplots for different x-axis categories (e.g., years).
+- Stacks bars by fuel type or technology.
+- Displays labels and annotations as specified.
+
+#### Example Usage
+```python
+make_stacked_bar_subplots(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_xaxis=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
+```
+
+### **`subplot_pie(df, index, dict_colors, filename=None, figsize=(10, 6), autopct='%1.1f%%', title=None, explode=None)`**
+Creates pie chart subplots to visualize the share of different categories, such as capacity mix or energy generation by fuel type.
+
+#### Parameters
+- `df` (pd.DataFrame): DataFrame containing the data to be plotted.
+- `index` (str): Column used to differentiate pie charts (e.g., scenario, year, or zone).
+- `dict_colors` (dict): Dictionary mapping categories (e.g., fuel types) to colors.
+- `filename` (str, optional): Path to save the figure.
+- `figsize` (tuple, default=`(10, 6)`): Size of the figure.
+- `autopct` (str, optional, default=`'%1.1f%%'`): Format for displaying percentages on the pie chart.
+- `title` (str, optional): Title of the plot.
+- `explode` (dict, optional): Dictionary specifying which slices should be exploded for emphasis.
+
+#### Functionality
+- Groups data by the specified `index` and normalizes values to calculate percentages.
+- Generates multiple pie charts as subplots for different categories.
+- Applies consistent colors using `dict_colors`.
+- Saves the figure if `filename` is provided; otherwise, displays the plot.
+
+#### Example Usage
+```python
+subplot_pie(df=capacity_mix, index="scenario", dict_colors=fuel_colors, filename="capacity_pie.png", title="Capacity Mix by Scenario")
+```
+
+### **`make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year, scenario, filename=None, folder='')`**
+Creates a capacity mix map with pie charts overlaid on a regional map, showing the share of different fuel types in each zone.
+
+#### Parameters
+- `zone_map` (GeoDataFrame): Geospatial map of the zones.
+- `pCapacityByFuel` (pd.DataFrame): DataFrame containing capacity data by fuel type for each zone.
+- `dict_colors` (dict): Dictionary mapping fuel types to colors.
+- `centers` (dict): Dictionary mapping zone names to their geographic coordinates.
+- `year` (int): Year to visualize.
+- `scenario` (str): Scenario to visualize.
+- `filename` (str, optional): Path to save the generated map.
+- `folder` (str, optional): Directory where additional static files (e.g., shapefiles) are stored.
+
+#### Functionality
+- Filters `pCapacityByFuel` for the selected `year` and `scenario`.
+- Normalizes values to compute capacity shares for each fuel type.
+- Overlays pie charts on the map to represent the fuel mix in each zone.
+- Saves the figure if `filename` is provided; otherwise, displays the map.
+
+#### Example Usage
+```python
+make_capacity_mix_map(zone_map, capacity_data, dict_colors, centers, year=2030, scenario="Baseline", filename="capacity_mix_map.png")
+```
+
+### **`make_interconnection_map(zone_map, interconnection_data, dict_colors, centers, year, scenario, filename=None, folder='')`**
+Generates an interconnection map showing transmission capacities between zones.
+
+#### Parameters
+- `zone_map` (GeoDataFrame): Geospatial map of the zones.
+- `interconnection_data` (pd.DataFrame): DataFrame containing transmission capacities between zones.
+- `dict_colors` (dict): Dictionary mapping different interconnection types to colors.
+- `centers` (dict): Dictionary mapping zone names to their geographic coordinates.
+- `year` (int): Year to visualize.
+- `scenario` (str): Scenario to visualize.
+- `filename` (str, optional): Path to save the generated map.
+- `folder` (str, optional): Directory where additional static files (e.g., shapefiles) are stored.
+
+#### Functionality
+- Filters `interconnection_data` for the selected `year` and `scenario`.
+- Plots transmission lines between zones, with thickness representing capacity.
+- Uses `dict_colors` to differentiate interconnection types.
+- Saves the figure if `filename` is provided; otherwise, displays the map.
+
+#### Example Usage
+```python
+make_interconnection_map(zone_map, interconnection_data, dict_colors, centers, year=2030, scenario="Baseline", filename="interconnection_map.png")
+```
+
+### **`create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename=None, folder='')`**
+Generates an interactive map using Folium to visualize energy capacity, dispatch, and interconnections.
+
+#### Parameters
+- `zone_map` (GeoDataFrame): Geospatial map of the zones.
+- `centers` (dict): Dictionary mapping zone names to their geographic coordinates.
+- `transmission_data` (pd.DataFrame): DataFrame containing transmission capacities between zones.
+- `energy_data` (pd.DataFrame): DataFrame containing generation and demand data for each zone.
+- `year` (int): Year to visualize.
+- `scenario` (str): Scenario to visualize.
+- `filename` (str, optional): Path to save the interactive map as an HTML file.
+- `folder` (str, optional): Directory where additional static files (e.g., shapefiles) are stored.
+
+#### Functionality
+- Filters `transmission_data` and `energy_data` for the selected `year` and `scenario`.
+- Creates an interactive map using Folium.
+- Overlays pie charts representing generation mix and demand for each zone.
+- Draws transmission lines with width proportional to capacity.
+- Saves the map as an HTML file if `filename` is provided; otherwise, displays it in the browser.
+
+#### Example Usage
+```python
+create_interactive_map(zone_map, centers, transmission_data, energy_data, year=2030, scenario="Baseline", filename="interactive_map.html")
+```
 ---
