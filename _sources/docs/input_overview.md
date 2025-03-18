@@ -1,30 +1,55 @@
-# Overview
+# Data Input Overview
 
-EPM supports two input methods: 
-- a folder containing multiple .csv files. Each .csv file corresponds to a former tab in the Excel file (recommended)
-- a single main Excel file 
+The following table lists the key input files used in the EPM model, along with a brief description and their structural dimensions. These files define model parameters, energy demand, supply data, constraints, and trade settings.
 
-While Excel has traditionally been used to run EPM, the introduction of the .csv approach was driven by increased computational capabilities and the need for more robust simulations. 
-
-__Note:__ The Excel file is not maintained for now for the last version that is available on the `feature` Git branch.
-
-We provide a template to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
+In addition, we provide a template to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
 Download [here](dwld/Template_Data_Source.xlsx).
 
-## Implementation
-Inputs are read by EPM through [input_readers.gms](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input_readers.gms), which uses the READER parameter to determine the source of input files:
 
-- READER = CONNECT_CSV: Reads from predefined CSV files stored in the input folder (default method).
-- READER = CONNECT_EXCEL: Reads directly from an Excel file (traditional method).
-- READER = CONNECT_CSV_PYTHON: Reads from CSV files, with file paths specified via command-line arguments.
-The last option (CONNECT_CSV_PYTHON) is designed for use with run_epm.py, which reads a scenario CSV file specifying the paths for each input file. An example of this scenario file is available on GitHub in the `input` folder.
+| File Name                         | Description                                           | Dimensions           |
+|-----------------------------------|-------------------------------------------------------|----------------------|
+| **Configuration Files**           |                                                       |                      |
+| `pSettings.csv`                   | Global model parameters and settings.                | 5 sections           |
+| `y.csv`                           | List of model years.                                 | 1 column             |
+| `zcmap.csv`                       | Maps zones to countries.                             | 2 columns            |
+| **Resources**                     |                                                       |                      |
+| `ftfindex.csv`                    | Fuel-to-fuel indices.                                | 3 columns            |
+| `pTechData.csv`                   | Technology parameters.                               | Multiple columns     |
+| `pFuelCarbonContent.csv`          | Carbon content by fuel type.                        | 2 columns            |
+| **Load Data**                     |                                                       |                      |
+| `pDemandProfile.csv`              | Demand profiles over time.                          | Multiple columns     |
+| `pDemandForecast.csv`             | Forecasted demand.                                  | Multiple columns     |
+| `pDemandData.csv`                 | Historical demand data.                             | Multiple columns     |
+| `pEnergyEfficiencyFactor.csv`     | Energy efficiency factors.                          | 2 columns            |
+| `sRelevants.csv`                  | Relevant scenarios.                                 | 1 column             |
+| **Supply Data**                   |                                                       |                      |
+| `pGenDataExcelCustom.csv`         | Custom generation data.                            | Multiple columns     |
+| `pGenDataExcelDefault.csv`        | Default generation data.                           | Multiple columns     |
+| `pAvailabilityCustom.csv`         | Custom generation availability.                    | Multiple columns     |
+| `pAvailabilityDefault.csv`        | Default generation availability.                   | Multiple columns     |
+| `pVREgenProfile.csv`              | Renewable energy generation profiles.              | Multiple columns     |
+| `pVREProfile.csv`                 | Renewable variability profiles.                    | Multiple columns     |
+| `pCapexTrajectoriesCustom.csv`    | Custom CAPEX trajectories.                         | Multiple columns     |
+| `pCapexTrajectoriesDefault.csv`   | Default CAPEX trajectories.                        | Multiple columns     |
+| `pFuelPrice.csv`                  | Fuel prices (historical/forecasted).              | Multiple columns     |
+| **Constraints**                   |                                                       |                      |
+| `pCarbonPrice.csv`                | Carbon pricing.                                    | 2 columns            |
+| `pEmissionsCountry.csv`           | Emissions per country.                             | Multiple columns     |
+| `pEmissionsTotal.csv`             | Total emission limits.                             | Multiple columns     |
+| `pMaxFuelLimit.csv`               | Maximum fuel usage limits.                        | Multiple columns     |
+| **Reserve**                       |                                                       |                      |
+| `pPlanningReserveMargin.csv`      | Reserve margin requirements.                      | 2 columns            |
+| `pSpinningReserveReqCountry.csv`  | Spinning reserve per country.                     | Multiple columns     |
+| `pSpinningReserveReqTotal.csv`    | Total system reserve requirements.                | Multiple columns     |
+| **Trade**                         |                                                       |                      |
+| `pExtTransferLimit.csv`           | External transfer limits.                         | Multiple columns     |
+| `pMaxExchangeShare.csv`           | Max energy exchange share.                        | Multiple columns     |
+| `pNewTransmission.csv`            | New transmission projects.                        | Multiple columns     |
+| `pTradePrice.csv`                 | Energy trade prices.                              | Multiple columns     |
+| `pTransferLimit.csv`              | Transfer capacity limits.                         | Multiple columns     |
+| `zext.csv`                        | External zone definitions.                        | 1 column             |
+| `pLossFactor.csv`                 | Transmission loss factors.                        | 2 columns            |
+| **Hydrogen (H2)**                 | No specific files listed.                          |                      |
 
 
-## Why use csv files ?
-To improve efficiency and reduce errors, the input Excel file is split into multiple CSV files (examples are available in the `input` folder on the main Git branch).
 
-Using CSV files offers several advantages:
-
-- Easier modifications: You can edit a single CSV without copying the entire Excel file, which is large and cumbersome. This simplifies scenario creation and testing.
-- Error reduction: In Excel, modifying a common tab (e.g., GenData) across multiple scenario files is prone to mistakes. With CSVs, GenData.csv remains shared across all scenarios, ensuring consistency.
-- Better Python integration: Python handles CSV files more efficiently than Excel.

@@ -200,7 +200,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
-                        Overview
+                        Data Input Overview
                       </a>
                     </li>
                 
@@ -438,7 +438,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
-                        Overview
+                        Data Input Overview
                       </a>
                     </li>
                 
@@ -623,7 +623,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="input_overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_overview.html">Data Input Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver options</a></li>
 </ul>
@@ -878,9 +878,10 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section id="epm-folder-structure">
+  <section class="tex2jax_ignore mathjax_ignore" id="epm-folder-structure">
 <h1>EPM Folder structure<a class="headerlink" href="#epm-folder-structure" title="Permalink to this heading">#</a></h1>
-<p>EPM/
+<p>The following structure outlines the key components of the EPM repository:</p>
+<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>EPM/
 │
 ├── input/                          # Contains input data files required for the model
 │   ├── data_eapp/                  # Input data specific to the EAPP region
@@ -890,7 +891,7 @@ title="Print to PDF"
 │
 ├── postprocessing/                 # Scripts and tools for processing and analyzing model outputs
 │   ├── static/                     # Static resources used in post-processing
-│   └── <a class="reference external" href="http://utils.py">utils.py</a>                    # Utility functions for post-processing tasks
+│   └── utils.py                    # Utility functions for post-processing tasks
 │
 ├── Engine_Base.gms                 # Defines the base engine for the model
 ├── base.gms                        # Specifies base configurations and parameters
@@ -903,7 +904,9 @@ title="Print to PDF"
 ├── input_verification.gms          # Verifies the integrity of input data
 ├── main.gms                        # Main script orchestrating execution
 ├── output_verification.gms         # Verifies and validates model outputs
-└── run_epm.py                      # Python script to execute the model</p>
+└── run_epm.py                      # Python script to execute the model
+</pre></div>
+</div>
 <section id="input-folder">
 <h2>1. Input folder<a class="headerlink" href="#input-folder" title="Permalink to this heading">#</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">input/</span></code> directory contains all the necessary data and configuration files required to run the model. It is structured into:</p>
