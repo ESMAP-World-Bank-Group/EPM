@@ -880,6 +880,25 @@ title="Print to PDF"
     GAMS (If Using GAMS Studio for Debugging)
    </strong>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adding-gams-to-the-system-path">
+     Adding GAMS to the System PATH
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#windows">
+       Windows
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#macos">
+       macOS
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -936,6 +955,86 @@ conda<span class="w"> </span>--version
 <ul class="simple">
 <li><p><strong>Download &amp; install GAMS</strong>: <a class="reference external" href="https://www.gams.com/download/">GAMS Website</a></p></li>
 </ul>
+<section id="adding-gams-to-the-system-path">
+<h3>Adding GAMS to the System PATH<a class="headerlink" href="#adding-gams-to-the-system-path" title="Permalink to this heading">#</a></h3>
+<p>GAMS (General Algebraic Modeling System) needs to be added to the system PATH to be accessible from the command line. Below are the steps to add GAMS to the PATH for different operating systems.</p>
+<section id="windows">
+<h4>Windows<a class="headerlink" href="#windows" title="Permalink to this heading">#</a></h4>
+<ol class="arabic">
+<li><p><strong>Locate the GAMS Installation Directory:</strong></p>
+<ul class="simple">
+<li><p>By default, GAMS is installed in <code class="docutils literal notranslate"><span class="pre">C:\\GAMS\\&lt;version&gt;</span></code>.</p></li>
+<li><p>If unsure, open the GAMS IDE and check the installation path in <code class="docutils literal notranslate"><span class="pre">Help</span> <span class="pre">-&gt;</span> <span class="pre">About</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Open Environment Variables:</strong></p>
+<ul class="simple">
+<li><p>Press <code class="docutils literal notranslate"><span class="pre">Win</span> <span class="pre">+</span> <span class="pre">R</span></code>, type <code class="docutils literal notranslate"><span class="pre">sysdm.cpl</span></code>, and press <code class="docutils literal notranslate"><span class="pre">Enter</span></code>.</p></li>
+<li><p>Go to the <code class="docutils literal notranslate"><span class="pre">Advanced</span></code> tab and click on <code class="docutils literal notranslate"><span class="pre">Environment</span> <span class="pre">Variables</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Edit the System PATH Variable:</strong></p>
+<ul class="simple">
+<li><p>Under <code class="docutils literal notranslate"><span class="pre">System</span> <span class="pre">Variables</span></code>, find the variable named <code class="docutils literal notranslate"><span class="pre">Path</span></code> and click <code class="docutils literal notranslate"><span class="pre">Edit</span></code>.</p></li>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">New</span></code> and add the full path to the GAMS installation directory (e.g., <code class="docutils literal notranslate"><span class="pre">C:\\GAMS\\40.1</span></code>).</p></li>
+</ul>
+</li>
+<li><p><strong>Apply and Test:</strong></p>
+<ul>
+<li><p>Click <code class="docutils literal notranslate"><span class="pre">OK</span></code> to save the changes and close all dialog boxes.</p></li>
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">Prompt</span></code> and type:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>gams
+</pre></div>
+</div>
+</li>
+<li><p>If installed correctly, GAMS should run.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="macos">
+<h4>macOS<a class="headerlink" href="#macos" title="Permalink to this heading">#</a></h4>
+<ol class="arabic">
+<li><p><strong>Locate the GAMS Installation Directory:</strong></p>
+<ul class="simple">
+<li><p>Typically, GAMS is installed in <code class="docutils literal notranslate"><span class="pre">/Applications/GAMS&lt;version&gt;</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Edit the Shell Configuration File:</strong></p>
+<ul>
+<li><p>Open Terminal and edit the shell profile:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>nano<span class="w"> </span>~/.zshrc<span class="w">  </span><span class="c1"># For Zsh (default in macOS Catalina and later)</span>
+nano<span class="w"> </span>~/.bash_profile<span class="w">  </span><span class="c1"># For Bash (older macOS versions)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p><strong>Add GAMS to the PATH:</strong></p>
+<ul>
+<li><p>Add the following line to the file:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/Applications/GAMS&lt;version&gt;:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Replace <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> with the correct installed version.</p></li>
+</ul>
+</li>
+<li><p><strong>Apply and Test:</strong></p>
+<ul>
+<li><p>Save and exit (<code class="docutils literal notranslate"><span class="pre">CTRL</span> <span class="pre">+</span> <span class="pre">X</span></code>, then <code class="docutils literal notranslate"><span class="pre">Y</span></code>, then <code class="docutils literal notranslate"><span class="pre">Enter</span></code>).</p></li>
+<li><p>Run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>~/.zshrc<span class="w">  </span><span class="c1"># or source ~/.bash_profile</span>
+gams
+</pre></div>
+</div>
+</li>
+<li><p>If installed correctly, GAMS should run.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
 </section>
 </section>
 
@@ -1020,6 +1119,25 @@ conda<span class="w"> </span>--version
     GAMS (If Using GAMS Studio for Debugging)
    </strong>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adding-gams-to-the-system-path">
+     Adding GAMS to the System PATH
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#windows">
+       Windows
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#macos">
+       macOS
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
  </li>
 </ul>
 
