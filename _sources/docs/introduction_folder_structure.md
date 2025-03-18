@@ -1,5 +1,31 @@
 ## EPM Folder structure
 
+EPM/
+│
+├── input/                          # Contains input data files required for the model
+│   ├── data_eapp/                  # Input data specific to the EAPP region
+│   ├── data_gambia/                # Input data specific to Gambia
+│   ├── data_sapp/                  # Input data specific to the SAPP region
+│   ├── config.csv                  # Configuration settings for input processing
+│
+├── postprocessing/                 # Scripts and tools for processing and analyzing model outputs
+│   ├── static/                     # Static resources used in post-processing
+│   └── utils.py                    # Utility functions for post-processing tasks
+│
+├── Engine_Base.gms                 # Defines the base engine for the model
+├── base.gms                        # Specifies base configurations and parameters
+├── cplex.opt                       # Options for the CPLEX solver
+├── credentials_engine.json         # Stores credentials for engine access
+├── generate_demand.gms             # Script for generating demand data
+├── generate_report.gms             # Generates reports from model outputs
+├── input_readers.gms               # Handles reading and importing input data
+├── input_treatment.gms             # Processes and treats input data
+├── input_verification.gms          # Verifies the integrity of input data
+├── main.gms                        # Main script orchestrating execution
+├── output_verification.gms         # Verifies and validates model outputs
+└── run_epm.py                      # Python script to execute the model
+
+
 ##### 1. Input folder
 The `input/` directory contains all the necessary data and configuration files required to run the model. It is structured into:
 
