@@ -636,7 +636,7 @@ def perform_assessment(project_assessment, s):
                 os.mkdir(folder_assessment)
 
             # Write the modified file
-            name = project_assessment.replace(' ', '').replace('&', '_')
+            name = '-'.join(project_assessment).replace(' ', '')
             path_file = os.path.basename(s[scenario]['pGenDataExcel']).split('.')[0] + '_' + name + '.csv'
             path_file = os.path.join(folder_assessment, path_file)
             df.to_csv(path_file, index=False)

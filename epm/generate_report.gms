@@ -177,7 +177,6 @@ pCapex(z,y) = 1e6*sum(gzmap(g,z),  vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTraje
             + 1e3*sum(gzmap(st,z), vBuildStor.l(st,y)*pStorData(st,"CapexMWh")*pCapexTrajectories(st,y))
             + 1e3*sum(gzmap(cs,z), vBuildTherm.l(cs,y)*pCSPData(cs,"Thermal Field","CapexMWh")*1e3*pCapexTrajectories(cs,y)
                                  + vBuildStor.l(cs,y)*pCSPData(cs,"Storage","CapexMWh")*pCapexTrajectories(cs,y))
-**************************H2 model addition**************************************************************
             +1e6*sum(h2zmap(hh,z), vBuildH2.l(hh,y)*pH2Data(hh,"Capex")*pCapexTrajectoriesH2(hh,y))$pIncludeH2+1e-5 ;
 
 pAnncapex(z,y) = 1e6*sum(gzmap(ndc,z),               pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))
@@ -185,7 +184,6 @@ pAnncapex(z,y) = 1e6*sum(gzmap(ndc,z),               pCRF(ndc)*vCap.l(ndc,y)*pGe
                + 1e3*sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))
                + 1e6*sum(gzmap(ndc,z),               pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))
                +     sum(gzmap(dc,z),                vAnnCapex.l(dc,y))
-**************************H2 model addition**************************************************************
                +     sum(h2zmap(dch2,z),                vAnnCapexH2.l(dch2,y))
                +1e6*sum(h2zmap(ndcH2,z),              pCRFH2(ndcH2)*vCapH2.l(ndcH2,y)*pH2Data(ndcH2,"Capex"))$pIncludeH2;
 
