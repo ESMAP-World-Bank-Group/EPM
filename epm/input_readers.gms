@@ -578,5 +578,6 @@ $onEmbeddedCode Connect:
     symbols: all
 $offEmbeddedCode
 
+
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
