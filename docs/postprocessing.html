@@ -864,25 +864,15 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#processing-epm-inputs-results">
-     Processing EPM Inputs &amp; Results
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#post-processing-plotting">
-     Post-Processing &amp; Plotting
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#geospatial-mapping-functions">
-     Geospatial &amp; Mapping Functions
+    <a class="reference internal nav-link" href="#postrocessing-plotting">
+     Postrocessing &amp; plotting
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#postprocessing-functions">
-   3. Postprocessing functions
+  <a class="reference internal nav-link" href="#data-handling-functions">
+   3.Data handling functions
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -908,6 +898,393 @@ title="Print to PDF"
      </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#example-usage">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extract-gdx-file">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        extract_gdx(file)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id3">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extract-epm-folder-results-folder-file-epmresults-gdx">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        extract_epm_folder(results_folder,
+       </span>
+       <span class="pre">
+        file='epmresults.gdx')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id4">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id5">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id6">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standardize-names-dict-df-key-mapping-column-fuel">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        standardize_names(dict_df,
+       </span>
+       <span class="pre">
+        key,
+       </span>
+       <span class="pre">
+        mapping,
+       </span>
+       <span class="pre">
+        column='fuel')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id7">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#functionality">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id8">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filter-dataframe-df-conditions">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        filter_dataframe(df,
+       </span>
+       <span class="pre">
+        conditions)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id9">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id10">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id11">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filter-dataframe-by-index-df-conditions">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        filter_dataframe_by_index(df,
+       </span>
+       <span class="pre">
+        conditions)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id12">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id13">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id14">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-epm-inputs-epm-input-dict-specs-scenarios-rename-none">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        process_epm_inputs(epm_input,
+       </span>
+       <span class="pre">
+        dict_specs,
+       </span>
+       <span class="pre">
+        scenarios_rename=None)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id15">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id16">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id17">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-epm-results-epm-results-dict-specs-scenarios-rename-none-mapping-gen-fuel-none">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        process_epm_results(epm_results,
+       </span>
+       <span class="pre">
+        dict_specs,
+       </span>
+       <span class="pre">
+        scenarios_rename=None,
+       </span>
+       <span class="pre">
+        mapping_gen_fuel=None)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id18">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id19">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id20">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-simulation-results-folder-scenarios-rename-none-folder">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        process_simulation_results(FOLDER,
+       </span>
+       <span class="pre">
+        SCENARIOS_RENAME=None,
+       </span>
+       <span class="pre">
+        folder='')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id21">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id22">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id23">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generate-summary-epm-results-folder-epm-input">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        generate_summary(epm_results,
+       </span>
+       <span class="pre">
+        folder,
+       </span>
+       <span class="pre">
+        epm_input)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id24">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id25">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id26">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#postprocess-output-folder-reduced-output-false-plot-all-false-folder">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        postprocess_output(FOLDER,
+       </span>
+       <span class="pre">
+        reduced_output=False,
+       </span>
+       <span class="pre">
+        plot_all=False,
+       </span>
+       <span class="pre">
+        folder='')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id27">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id28">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id29">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-functions">
+   4.Plotting functions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#stacked-area-plot-df-filename-dict-colors-none-x-column-year-y-column-value-stack-column-fuel">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        stacked_area_plot(df,
+       </span>
+       <span class="pre">
+        filename,
+       </span>
+       <span class="pre">
+        dict_colors=None,
+       </span>
+       <span class="pre">
+        x_column='year',
+       </span>
+       <span class="pre">
+        y_column='value',
+       </span>
+       <span class="pre">
+        stack_column='fuel',
+       </span>
+       <span class="pre">
+        ...)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id30">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id31">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id32">
        Example Usage
       </a>
      </li>
@@ -952,19 +1329,14 @@ title="Print to PDF"
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">standardize_names(dict_df,</span> <span class="pre">key,</span> <span class="pre">mapping,</span> <span class="pre">column='fuel')</span></code></strong>: Standardizes fuel names in results using a predefined mapping.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">filter_dataframe(df,</span> <span class="pre">conditions)</span></code></strong>: Filters a DataFrame based on a dictionary of conditions.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">filter_dataframe_by_index(df,</span> <span class="pre">conditions)</span></code></strong>: Filters a DataFrame by conditions applied to the index levels.</p></li>
-</ul>
-</section>
-<section id="processing-epm-inputs-results">
-<h3>Processing EPM Inputs &amp; Results<a class="headerlink" href="#processing-epm-inputs-results" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">process_epm_inputs(epm_input,</span> <span class="pre">dict_specs,</span> <span class="pre">scenarios_rename=None)</span></code></strong>: Processes EPM input files for plotting.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">process_epm_results(epm_results,</span> <span class="pre">dict_specs,</span> <span class="pre">scenarios_rename=None,</span> <span class="pre">mapping_gen_fuel=None)</span></code></strong>: Processes EPM output results for plotting.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">process_simulation_results(FOLDER,</span> <span class="pre">SCENARIOS_RENAME=None,</span> <span class="pre">folder='')</span></code></strong>: Extracts and processes both inputs and outputs.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">generate_summary(epm_results,</span> <span class="pre">folder,</span> <span class="pre">epm_input)</span></code></strong>: Generates a summary of key EPM results.</p></li>
 </ul>
 </section>
-<section id="post-processing-plotting">
-<h3>Post-Processing &amp; Plotting<a class="headerlink" href="#post-processing-plotting" title="Permalink to this heading">#</a></h3>
+<section id="postrocessing-plotting">
+<h3>Postrocessing &amp; plotting<a class="headerlink" href="#postrocessing-plotting" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">postprocess_output(FOLDER,</span> <span class="pre">reduced_output=False,</span> <span class="pre">plot_all=False,</span> <span class="pre">folder='')</span></code></strong>: Processes simulation results, generates summaries, and creates visualizations.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">stacked_area_plot(df,</span> <span class="pre">filename,</span> <span class="pre">...)</span></code></strong>: Creates a stacked area plot of generation by fuel type.</p></li>
@@ -974,11 +1346,6 @@ title="Print to PDF"
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">make_complete_fuel_dispatch_plot(dfs_area,</span> <span class="pre">dfs_line,</span> <span class="pre">...)</span></code></strong>: Generates and saves a complete fuel dispatch plot.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">make_stacked_bar_subplots(df,</span> <span class="pre">filename,</span> <span class="pre">dict_colors,</span> <span class="pre">...)</span></code></strong>: Creates stacked bar subplots for comparing capacity over time and across scenarios.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">subplot_pie(df,</span> <span class="pre">index,</span> <span class="pre">dict_colors,</span> <span class="pre">...)</span></code></strong>: Creates pie chart subplots.</p></li>
-</ul>
-</section>
-<section id="geospatial-mapping-functions">
-<h3>Geospatial &amp; Mapping Functions<a class="headerlink" href="#geospatial-mapping-functions" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">make_capacity_mix_map(...)</span></code></strong>: Creates a capacity mix map with pie charts overlaid on a regional map.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">make_interconnection_map(...)</span></code></strong>: Generates an interconnection map showing transmission capacities.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">create_interactive_map(...)</span></code></strong>: Generates an interactive Folium-based map for energy dispatch and capacity visualization.</p></li>
@@ -986,8 +1353,8 @@ title="Print to PDF"
 </section>
 </section>
 <hr class="docutils" />
-<section id="postprocessing-functions">
-<h2>3. Postprocessing functions<a class="headerlink" href="#postprocessing-functions" title="Permalink to this heading">#</a></h2>
+<section id="data-handling-functions">
+<h2>3.Data handling functions<a class="headerlink" href="#data-handling-functions" title="Permalink to this heading">#</a></h2>
 <section id="read-plot-specs-folder">
 <h3><strong><code class="docutils literal notranslate"><span class="pre">read_plot_specs(folder='')</span></code></strong><a class="headerlink" href="#read-plot-specs-folder" title="Permalink to this heading">#</a></h3>
 <p>Reads static plot specifications including color mappings, fuel mappings, and geographic data.</p>
@@ -1013,6 +1380,326 @@ title="Print to PDF"
 <h4>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">#</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">specs</span> <span class="o">=</span> <span class="n">read_plot_specs</span><span class="p">(</span><span class="s1">&#39;static/&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">])</span>  <span class="c1"># Displays color mapping for fuels</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="extract-gdx-file">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">extract_gdx(file)</span></code></strong><a class="headerlink" href="#extract-gdx-file" title="Permalink to this heading">#</a></h3>
+<p>Extracts parameters and sets from a <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file into a dictionary of DataFrames.</p>
+<section id="id1">
+<h4>Parameters<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> (str): Path to the <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h4>Returns<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_result</span></code> (dict): Dictionary where:</p>
+<ul>
+<li><p>Keys are parameter or set names from the GDX file.</p></li>
+<li><p>Values are Pandas DataFrames containing the extracted data.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id3">
+<h4>Example Usage<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">results</span> <span class="o">=</span> <span class="n">extract_gdx</span><span class="p">(</span><span class="s1">&#39;output/epmresults.gdx&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c1"># Displays the available parameters in the GDX file</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="extract-epm-folder-results-folder-file-epmresults-gdx">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">extract_epm_folder(results_folder,</span> <span class="pre">file='epmresults.gdx')</span></code></strong><a class="headerlink" href="#extract-epm-folder-results-folder-file-epmresults-gdx" title="Permalink to this heading">#</a></h3>
+<p>Extracts GDX results from multiple scenarios stored in a given folder.</p>
+<section id="id4">
+<h4>Parameters<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">results_folder</span></code> (str): Path to the folder containing scenario outputs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> (str, optional, default=<code class="docutils literal notranslate"><span class="pre">'epmresults.gdx'</span></code>): Name of the <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file to extract.</p></li>
+</ul>
+</section>
+<section id="id5">
+<h4>Returns<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">inverted_dict</span></code> (dict): Dictionary where:</p>
+<ul>
+<li><p>Keys are result categories (e.g., <code class="docutils literal notranslate"><span class="pre">pCapacityByFuel</span></code>, <code class="docutils literal notranslate"><span class="pre">pEnergyByFuel</span></code>).</p></li>
+<li><p>Values are Pandas DataFrames with extracted results across multiple scenarios.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id6">
+<h4>Example Usage<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">epm_results</span> <span class="o">=</span> <span class="n">extract_epm_folder</span><span class="p">(</span><span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">])</span>  <span class="c1"># Displays capacity by fuel for all scenarios</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="standardize-names-dict-df-key-mapping-column-fuel">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">standardize_names(dict_df,</span> <span class="pre">key,</span> <span class="pre">mapping,</span> <span class="pre">column='fuel')</span></code></strong><a class="headerlink" href="#standardize-names-dict-df-key-mapping-column-fuel" title="Permalink to this heading">#</a></h3>
+<p>Standardizes fuel or technology names in DataFrames using a predefined mapping.</p>
+<section id="id7">
+<h4>Parameters<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dict_df</span></code> (dict): Dictionary of DataFrames containing EPM results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key</span></code> (str): Key corresponding to the DataFrame to modify.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mapping</span></code> (dict): Dictionary mapping original names to standardized names.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">column</span></code> (str, optional, default=<code class="docutils literal notranslate"><span class="pre">'fuel'</span></code>): Column to apply standardization.</p></li>
+</ul>
+</section>
+<section id="functionality">
+<h4>Functionality<a class="headerlink" href="#functionality" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Replaces values in the specified column according to the provided mapping.</p></li>
+<li><p>Aggregates values if multiple original names are mapped to the same standardized name.</p></li>
+<li><p>Raises an error if new, unmapped values are found in the column.</p></li>
+</ul>
+</section>
+<section id="id8">
+<h4>Example Usage<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fuel_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Diesel&#39;</span><span class="p">:</span> <span class="s1">&#39;Oil&#39;</span><span class="p">,</span> <span class="s1">&#39;Heavy Fuel Oil&#39;</span><span class="p">:</span> <span class="s1">&#39;Oil&#39;</span><span class="p">}</span>
+<span class="n">standardize_names</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">,</span> <span class="n">fuel_mapping</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="filter-dataframe-df-conditions">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">filter_dataframe(df,</span> <span class="pre">conditions)</span></code></strong><a class="headerlink" href="#filter-dataframe-df-conditions" title="Permalink to this heading">#</a></h3>
+<p>Filters a DataFrame based on specified conditions.</p>
+<section id="id9">
+<h4>Parameters<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df</span></code> (pd.DataFrame): The DataFrame to filter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conditions</span></code> (dict): Dictionary where:</p>
+<ul>
+<li><p>Keys are column names.</p></li>
+<li><p>Values specify filter criteria (either a single value or a list of values).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id10">
+<h4>Returns<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>: Filtered DataFrame containing only rows that match the given conditions.</p></li>
+</ul>
+</section>
+<section id="id11">
+<h4>Example Usage<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;scenario&#39;</span><span class="p">:</span> <span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="mi">2050</span><span class="p">}</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">],</span> <span class="n">conditions</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="filter-dataframe-by-index-df-conditions">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">filter_dataframe_by_index(df,</span> <span class="pre">conditions)</span></code></strong><a class="headerlink" href="#filter-dataframe-by-index-df-conditions" title="Permalink to this heading">#</a></h3>
+<p>Filters a DataFrame based on conditions applied to its index levels.</p>
+<section id="id12">
+<h4>Parameters<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df</span></code> (pd.DataFrame): The DataFrame to filter, where conditions apply to index levels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conditions</span></code> (dict): Dictionary where:</p>
+<ul>
+<li><p>Keys are index level names.</p></li>
+<li><p>Values specify filter criteria (either a single value or a list of values).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id13">
+<h4>Returns<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>: Filtered DataFrame containing only rows where the index levels match the given conditions.</p></li>
+</ul>
+</section>
+<section id="id14">
+<h4>Example Usage<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;scenario&#39;</span><span class="p">:</span> <span class="s1">&#39;Baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">:</span> <span class="mi">2050</span><span class="p">}</span>
+<span class="n">filtered_df</span> <span class="o">=</span> <span class="n">filter_dataframe_by_index</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">],</span> <span class="n">conditions</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="process-epm-inputs-epm-input-dict-specs-scenarios-rename-none">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">process_epm_inputs(epm_input,</span> <span class="pre">dict_specs,</span> <span class="pre">scenarios_rename=None)</span></code></strong><a class="headerlink" href="#process-epm-inputs-epm-input-dict-specs-scenarios-rename-none" title="Permalink to this heading">#</a></h3>
+<p>Processes EPM input files for visualization by standardizing names and formatting columns.</p>
+<section id="id15">
+<h4>Parameters<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_input</span></code> (dict): Dictionary containing raw input data from the <code class="docutils literal notranslate"><span class="pre">.gdx</span></code> file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict_specs</span></code> (dict): Plot specifications obtained from <code class="docutils literal notranslate"><span class="pre">read_plot_specs()</span></code>, including mappings for fuels and technologies.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scenarios_rename</span></code> (dict, optional): Dictionary mapping old scenario names to new ones for consistency.</p></li>
+</ul>
+</section>
+<section id="id16">
+<h4>Returns<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_dict</span></code> (dict): Processed input data where:</p>
+<ul>
+<li><p>Columns are standardized using predefined mappings.</p></li>
+<li><p>Data types are correctly formatted.</p></li>
+<li><p>Scenario names are updated if a rename mapping is provided.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id17">
+<h4>Example Usage<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">processed_inputs</span> <span class="o">=</span> <span class="n">process_epm_inputs</span><span class="p">(</span><span class="n">epm_inputs</span><span class="p">,</span> <span class="n">specs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="process-epm-results-epm-results-dict-specs-scenarios-rename-none-mapping-gen-fuel-none">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">process_epm_results(epm_results,</span> <span class="pre">dict_specs,</span> <span class="pre">scenarios_rename=None,</span> <span class="pre">mapping_gen_fuel=None)</span></code></strong><a class="headerlink" href="#process-epm-results-epm-results-dict-specs-scenarios-rename-none-mapping-gen-fuel-none" title="Permalink to this heading">#</a></h3>
+<p>Processes EPM model outputs for visualization by standardizing names, formatting data, and handling fuel mappings.</p>
+<section id="id18">
+<h4>Parameters<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_results</span></code> (dict): Raw GDX extraction results, containing multiple EPM output parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict_specs</span></code> (dict): Plot specifications obtained from <code class="docutils literal notranslate"><span class="pre">read_plot_specs()</span></code>, including color mappings and fuel/technology mappings.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scenarios_rename</span></code> (dict, optional): Dictionary mapping old scenario names to new ones for consistency in visualization.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mapping_gen_fuel</span></code> (pd.DataFrame, optional): DataFrame mapping generators to fuel types, used to standardize plant-level results.</p></li>
+</ul>
+</section>
+<section id="id19">
+<h4>Returns<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_dict</span></code> (dict): Processed results where:</p>
+<ul>
+<li><p>Fuel and technology names are standardized.</p></li>
+<li><p>Scenario names are updated if a rename mapping is provided.</p></li>
+<li><p>Data is cleaned, formatted, and ready for visualization.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id20">
+<h4>Example Usage<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">processed_results</span> <span class="o">=</span> <span class="n">process_epm_results</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="n">specs</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="process-simulation-results-folder-scenarios-rename-none-folder">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">process_simulation_results(FOLDER,</span> <span class="pre">SCENARIOS_RENAME=None,</span> <span class="pre">folder='')</span></code></strong><a class="headerlink" href="#process-simulation-results-folder-scenarios-rename-none-folder" title="Permalink to this heading">#</a></h3>
+<p>Processes both inputs and outputs from a simulation run, preparing them for analysis and visualization.</p>
+<section id="id21">
+<h4>Parameters<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FOLDER</span></code> (str): Path to the simulation output folder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SCENARIOS_RENAME</span></code> (dict, optional): Dictionary mapping old scenario names to new ones for consistency.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">folder</span></code> (str, optional): Path to the static folder containing additional mappings (e.g., color mappings, fuel classifications).</p></li>
+</ul>
+</section>
+<section id="id22">
+<h4>Returns<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RESULTS_FOLDER</span></code> (str): Path to results folder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GRAPHS_FOLDER</span></code> (str): Path to folder storing generated graphs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict_specs</span></code> (dict): Specifications for plots, including color mappings and technology classifications.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_input</span></code> (dict): Processed input data from the simulation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_results</span></code> (dict): Processed output data, formatted for visualization.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mapping_gen_fuel</span></code> (pd.DataFrame): DataFrame mapping generators to fuels.</p></li>
+</ul>
+</section>
+<section id="id23">
+<h4>Example Usage<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">GRAPHS_FOLDER</span><span class="p">,</span> <span class="n">specs</span><span class="p">,</span> <span class="n">epm_input</span><span class="p">,</span> <span class="n">epm_results</span><span class="p">,</span> <span class="n">mapping_gen_fuel</span> <span class="o">=</span> <span class="n">process_simulation_results</span><span class="p">(</span><span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="generate-summary-epm-results-folder-epm-input">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">generate_summary(epm_results,</span> <span class="pre">folder,</span> <span class="pre">epm_input)</span></code></strong><a class="headerlink" href="#generate-summary-epm-results-folder-epm-input" title="Permalink to this heading">#</a></h3>
+<p>Generates a summary of key EPM results, aggregating important indicators such as system costs, emissions, generation, and capacity.</p>
+<section id="id24">
+<h4>Parameters<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_results</span></code> (dict): Processed EPM output data containing key model results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">folder</span></code> (str): Path to the folder where the summary CSV file will be saved.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epm_input</span></code> (dict): Processed input data, used for context in the summary.</p></li>
+</ul>
+</section>
+<section id="id25">
+<h4>Functionality<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Extracts key indicators such as system costs, demand, capacity, generation, and emissions.</p></li>
+<li><p>Aggregates results across years and scenarios.</p></li>
+<li><p>Saves the summary as a CSV file in the specified folder.</p></li>
+</ul>
+</section>
+<section id="id26">
+<h4>Example Usage<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">generate_summary</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">,</span> <span class="n">epm_input</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="postprocess-output-folder-reduced-output-false-plot-all-false-folder">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">postprocess_output(FOLDER,</span> <span class="pre">reduced_output=False,</span> <span class="pre">plot_all=False,</span> <span class="pre">folder='')</span></code></strong><a class="headerlink" href="#postprocess-output-folder-reduced-output-false-plot-all-false-folder" title="Permalink to this heading">#</a></h3>
+<p>Runs the entire post-processing workflow, which includes processing simulation results, generating summary tables, and creating visualizations.</p>
+<section id="id27">
+<h4>Parameters<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FOLDER</span></code> (str): Path to the simulation output folder.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_output</span></code> (bool, optional, default=<code class="docutils literal notranslate"><span class="pre">False</span></code>): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, generates a reduced set of outputs to save processing time.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_all</span></code> (bool, optional, default=<code class="docutils literal notranslate"><span class="pre">False</span></code>): If <code class="docutils literal notranslate"><span class="pre">True</span></code>, generates all available plots instead of a limited selection.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">folder</span></code> (str, optional): Path to the static mapping files, containing information such as color schemes and technology groupings.</p></li>
+</ul>
+</section>
+<section id="id28">
+<h4>Functionality<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Calls <code class="docutils literal notranslate"><span class="pre">process_simulation_results()</span></code> to extract and format inputs and outputs.</p></li>
+<li><p>Generates summary statistics via <code class="docutils literal notranslate"><span class="pre">generate_summary()</span></code>.</p></li>
+<li><p>Creates visualizations such as stacked area plots, dispatch plots, and bar charts.</p></li>
+<li><p>Saves results and graphs in the designated output folder.</p></li>
+</ul>
+</section>
+<section id="id29">
+<h4>Example Usage<a class="headerlink" href="#id29" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">postprocess_output</span><span class="p">(</span><span class="s1">&#39;output/simulations_run_20250317_132656&#39;</span><span class="p">,</span> <span class="n">reduced_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">plot_all</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="plotting-functions">
+<h2>4.Plotting functions<a class="headerlink" href="#plotting-functions" title="Permalink to this heading">#</a></h2>
+<section id="stacked-area-plot-df-filename-dict-colors-none-x-column-year-y-column-value-stack-column-fuel">
+<h3><strong><code class="docutils literal notranslate"><span class="pre">stacked_area_plot(df,</span> <span class="pre">filename,</span> <span class="pre">dict_colors=None,</span> <span class="pre">x_column='year',</span> <span class="pre">y_column='value',</span> <span class="pre">stack_column='fuel',</span> <span class="pre">...)</span></code></strong><a class="headerlink" href="#stacked-area-plot-df-filename-dict-colors-none-x-column-year-y-column-value-stack-column-fuel" title="Permalink to this heading">#</a></h3>
+<p>Creates a stacked area plot, commonly used to visualize energy generation by fuel type over time.</p>
+<section id="id30">
+<h4>Parameters<a class="headerlink" href="#id30" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">df</span></code> (pd.DataFrame): Input data containing the variables to be plotted.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filename</span></code> (str): Path to save the generated plot.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict_colors</span></code> (dict, optional): Dictionary mapping categories (e.g., fuel types) to colors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_column</span></code> (str, default=<code class="docutils literal notranslate"><span class="pre">'year'</span></code>): Column name representing the x-axis (e.g., time).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_column</span></code> (str, default=<code class="docutils literal notranslate"><span class="pre">'value'</span></code>): Column name representing the y-axis (e.g., energy produced).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stack_column</span></code> (str, default=<code class="docutils literal notranslate"><span class="pre">'fuel'</span></code>): Column name used to stack different categories in the plot.</p></li>
+</ul>
+</section>
+<section id="id31">
+<h4>Functionality<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Groups data by <code class="docutils literal notranslate"><span class="pre">x_column</span></code> and <code class="docutils literal notranslate"><span class="pre">stack_column</span></code>, summing values.</p></li>
+<li><p>Uses area plotting to visualize the contribution of different categories (e.g., fuel types).</p></li>
+<li><p>Colors are applied based on <code class="docutils literal notranslate"><span class="pre">dict_colors</span></code>, if provided.</p></li>
+</ul>
+</section>
+<section id="id32">
+<h4>Example Usage<a class="headerlink" href="#id32" title="Permalink to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">stacked_area_plot</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">energy_data</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;generation.png&quot;</span><span class="p">,</span> <span class="n">x_column</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y_column</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">stack_column</span><span class="o">=</span><span class="s2">&quot;fuel&quot;</span><span class="p">,</span> <span class="n">dict_colors</span><span class="o">=</span><span class="n">color_dict</span><span class="p">)</span>
 </pre></div>
 </div>
 <hr class="docutils" />
@@ -1101,25 +1788,15 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#processing-epm-inputs-results">
-     Processing EPM Inputs &amp; Results
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#post-processing-plotting">
-     Post-Processing &amp; Plotting
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#geospatial-mapping-functions">
-     Geospatial &amp; Mapping Functions
+    <a class="reference internal nav-link" href="#postrocessing-plotting">
+     Postrocessing &amp; plotting
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#postprocessing-functions">
-   3. Postprocessing functions
+  <a class="reference internal nav-link" href="#data-handling-functions">
+   3.Data handling functions
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -1145,6 +1822,393 @@ title="Print to PDF"
      </li>
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#example-usage">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extract-gdx-file">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        extract_gdx(file)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id3">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#extract-epm-folder-results-folder-file-epmresults-gdx">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        extract_epm_folder(results_folder,
+       </span>
+       <span class="pre">
+        file='epmresults.gdx')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id4">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id5">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id6">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standardize-names-dict-df-key-mapping-column-fuel">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        standardize_names(dict_df,
+       </span>
+       <span class="pre">
+        key,
+       </span>
+       <span class="pre">
+        mapping,
+       </span>
+       <span class="pre">
+        column='fuel')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id7">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#functionality">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id8">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filter-dataframe-df-conditions">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        filter_dataframe(df,
+       </span>
+       <span class="pre">
+        conditions)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id9">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id10">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id11">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#filter-dataframe-by-index-df-conditions">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        filter_dataframe_by_index(df,
+       </span>
+       <span class="pre">
+        conditions)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id12">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id13">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id14">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-epm-inputs-epm-input-dict-specs-scenarios-rename-none">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        process_epm_inputs(epm_input,
+       </span>
+       <span class="pre">
+        dict_specs,
+       </span>
+       <span class="pre">
+        scenarios_rename=None)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id15">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id16">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id17">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-epm-results-epm-results-dict-specs-scenarios-rename-none-mapping-gen-fuel-none">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        process_epm_results(epm_results,
+       </span>
+       <span class="pre">
+        dict_specs,
+       </span>
+       <span class="pre">
+        scenarios_rename=None,
+       </span>
+       <span class="pre">
+        mapping_gen_fuel=None)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id18">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id19">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id20">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-simulation-results-folder-scenarios-rename-none-folder">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        process_simulation_results(FOLDER,
+       </span>
+       <span class="pre">
+        SCENARIOS_RENAME=None,
+       </span>
+       <span class="pre">
+        folder='')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id21">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id22">
+       Returns
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id23">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generate-summary-epm-results-folder-epm-input">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        generate_summary(epm_results,
+       </span>
+       <span class="pre">
+        folder,
+       </span>
+       <span class="pre">
+        epm_input)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id24">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id25">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id26">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#postprocess-output-folder-reduced-output-false-plot-all-false-folder">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        postprocess_output(FOLDER,
+       </span>
+       <span class="pre">
+        reduced_output=False,
+       </span>
+       <span class="pre">
+        plot_all=False,
+       </span>
+       <span class="pre">
+        folder='')
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id27">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id28">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id29">
+       Example Usage
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-functions">
+   4.Plotting functions
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#stacked-area-plot-df-filename-dict-colors-none-x-column-year-y-column-value-stack-column-fuel">
+     <strong>
+      <code class="docutils literal notranslate">
+       <span class="pre">
+        stacked_area_plot(df,
+       </span>
+       <span class="pre">
+        filename,
+       </span>
+       <span class="pre">
+        dict_colors=None,
+       </span>
+       <span class="pre">
+        x_column='year',
+       </span>
+       <span class="pre">
+        y_column='value',
+       </span>
+       <span class="pre">
+        stack_column='fuel',
+       </span>
+       <span class="pre">
+        ...)
+       </span>
+      </code>
+     </strong>
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id30">
+       Parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id31">
+       Functionality
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id32">
        Example Usage
       </a>
      </li>
