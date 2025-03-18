@@ -16,6 +16,8 @@ parts:
       - file: docs/run_remote_server.md
       - file: docs/run_engine_remote_server
       - file: docs/run_git_process.md
+      - file: docs/run_troubleshooting.md
+      - file: docs/run_remote_server_help.md
   - caption: Input
     chapters: 
       - file: docs/input_overview.md
@@ -33,6 +35,10 @@ parts:
         - file: docs/model_description
         - file: docs/model_notations
         - file: docs/model_formulation
+  - caption: Advanced Topics
+    chapters:
+        - file: docs/advanced_documentation
+        - file: docs/advanced_python
   - caption: Step-by-Step Example
     chapters:
         - file: docs/step_by_step
