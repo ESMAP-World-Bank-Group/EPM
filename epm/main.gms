@@ -144,11 +144,6 @@ $endIf.timestamp
 
 *-------------------------------------------------------------------------------------
 
-$call 'rm -f miro.log'
-file log / miro.log /;
-put log '------------------------------------'/;
-put log '        Data validation'/;
-put log '------------------------------------'/;
 
 Set
 *   tech     'technologies'
@@ -387,8 +382,6 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-display f, tech;
-
 execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap zcmap sRelevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
@@ -404,7 +397,7 @@ pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
 pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
 
 
-$if not errorFree $echo Data errors. Please inspect the listing file for details. > miro.log
+$if not errorFree $abort Data errors.
 
 * Generate gfmap and others from pGenDataExcel
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
@@ -650,22 +643,6 @@ loop(gsmap(g2,g), pStorData(g,shdr) = pStorDataInput(g,g2,shdr));
 * Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
 
-* Write messages to the log file based on parameter values, indicating which data is being ignored
-put / ;
-if(pnoTransferLim                      = 1, put 'Ignoring transfer limits.'/);
-if(pAllowExports                       = 0, put 'Ignoring trade prices data.'/);
-if(pSettings("altDemand")               = 1, put 'Ignoring detailed demand and demand forecast data. Using same demand profile for all years instead.'/);
-if(pincludeEE                          = 0, put 'Ignoring energy efficiency data.'/);
-if(pCaptraj                            = 0, put 'Ignoring capex trajectory data.'/);
-if(pfuel_constraints                   = 0, put 'Ignoring fuel limit data.'/);
-if(pzonal_co2_constraints              = 0, put 'Ignoring CO2 emissions data.'/);
-if(pzonal_spinning_reserve_constraints = 0, put 'Ignoring spinning reserve data.'/);
-if(pincludeStorage                     = 0, put 'Ignoring storage data.'/);
-if(pincludeCSP                         = 0, put 'Ignoring CSP characteristics data.'/);
-if(pIncludeCarbon                      = 0, put 'Ignoring carbon price data.'/);
-putclose log;
-
-
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate');
 
@@ -683,7 +660,6 @@ cs(g)  = gtechmap(g,"CSPPlant");
 
 * Identify PV with storage technologies
 so(g)  = gtechmap(g,"PVwSTO");
-
 
 * Identify solar thermal with PV (`STOPV`)
 stp(g) = gtechmap(g,"STOPV");
@@ -722,6 +698,7 @@ nRE(g) = not re(g);
 nVRE(g)=not VRE(g);
 REH2(g)= sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1) - sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
 nREH2(g)= not REH2(g);
+
 
 
 $offIDCProtect
@@ -826,39 +803,70 @@ sMapConnectedZonesDiffCountries(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z
 *** Simple bounds
 *vImportPrice.up(z,q,d,t,y)$(pMaxImport>1) = pMaxImport;
 *vExportPrice.up(z,q,d,t,y)$(pMaxExport>1) = pMaxExport;
-vCap.up(g,y) = pGenData(g,"Capacity");
-vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
-vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
-vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
-vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
-vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0;
 *vTotalEmissions.up(y)$psystem_CO2_constraints = pEmissionsTotal(y);
+
+
+* Set upper limit for generation capacity based on predefined data
+vCap.up(g,y) = pGenData(g,"Capacity");
+
+* Fix the build decision variable to zero for existing generation projects (started before or at the model start year)
+vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
+
+* Set the upper limit for new generation builds per year, accounting for the annual build limit and year weighting
+vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+
+* Define the upper limit for additional transmission capacity, subject to high transfer allowance
+vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+
+* Fix the storage build variable to zero if the project started before the model start year and storage is included
+vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
+
+* Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
+vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0;
 
 *-------------------------------------------------------------------
 * Fixed conditions
 *-------------------------------------------------------------------
 
-* First year - all existing capacity
-vCap.fx(g,y)$(pGenData(g,"StYr") > y.val)=0;
+* Fix capacity to zero for generation projects that have not yet started in a given year
+vCap.fx(g,y)$(pGenData(g,"StYr") > y.val) = 0;
+
+* Set the fixed capacity for existing generation projects at the start year, if they were commissioned before the model start year
 vCap.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pGenData(eg,"Capacity");
+
+* Set fixed capacity for generation projects in years where they are within their operational period
 vCap.fx(eg,y)$((pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"StYr") >= sStartYear.val)) = pGenData(eg,"Capacity");
+
+* Retire capacity by setting it to zero in the year of retirement
 vCap.fx(eg,y)$(pGenData(eg,"RetrYr") and (pGenData(eg,"RetrYr") <= y.val)) = 0;
 
+* Set the initial thermal capacity for CSP plants at the model start year, if commissioned before that year
 vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Thermal Field","CapacityMWh");
-vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh")+pStorData(eg, "CapacityMWh");
 
-***This equation is needed to avoid decommissioning of hours of storage from existing storage
-vCapStor.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
+* Set the initial storage capacity at the model start year, considering both CSP and standalone storage units
+vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorData(eg,"CapacityMWh");
 
+* Prevent decommissioning of storage hours from existing storage when economic retirement is disabled
+vCapStor.fx(eg,y)$((pSettings("econRetire") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
+
+* Fix the retirement variable to zero, meaning no unit is retired by default unless specified otherwise
 vRetire.fx(ng,y) = 0;
+
+* Ensure plants with a lifetime of 99 years (considered effectively infinite) are not retired
 vRetire.fx(eg,y)$(pGenData(eg,"Life") = 99) = 0;
 
-*vRetire.fx(eg,y)$((pGenData(eg,"StYr") >= sStartYear.val) and (pGenData(eg,"RetrYr") > y.val)) = 0;
-
+* Ensure capacity remains unchanged when economic retirement is disabled and the plant is still within its operational lifetime
 vCap.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pGenData(eg,"Capacity");
+
+* Prevent thermal capacity from appearing in years before the commissioning date
 vCapTherm.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
+
+* Prevent storage capacity from appearing in years before the commissioning date
 vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
+
+* Ensure storage capacity is set to zero if storage is not included in the scenario
 vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
+
 
 ********************* Equations for hydrogen production**********************************************************
 *Maximum capacity is equal to "Capacity"
@@ -925,6 +933,10 @@ $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
 
+
+display vCapStor.l, vBuildStor.l, vCap.l, vBuild.l;
+*$exit
+
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
 PA.HoldFixed=1;
@@ -946,6 +958,7 @@ option savepoint=1;
 
 * Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
 Solve PA using MIP minimizing vNPVcost;
+
 
 
 * Include the external report file specified by `%REPORT_FILE%`

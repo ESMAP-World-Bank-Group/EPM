@@ -436,6 +436,7 @@ Equations
    eStorageCSPBal1(g,q,d,t,y)
 
    eCapacityStorLimit(g,y)
+   eCapStorBalance(g,y)
    eCapStorBalance1(g,y)
    eCapStorBalance2(g,y)
    eCapStorBalance3(g,y)
@@ -825,6 +826,9 @@ eStorageCSPBal1(cs,q,d,sFirstHour(t),y)$pincludeCSP..
 eCapacityStorLimit(g,y)$pincludeStorage..
    vCapStor(g,y) =l= pStorData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
 
+eCapStorBalance(g, sStartYear(y))..
+    vCapStor(g,y) =e= pStorData(g,"CapacityMWh")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val)) + vBuildStor(g,y) - vRetireStor(g,y);
+
 eCapStorBalance1(eg,y)$(not sStartYear(y) and pincludeStorage)..
    vCapStor(eg,y) =e= vCapStor(eg,y-1) + vBuildStor(eg,y) - vRetireStor(eg,y);
 
@@ -836,7 +840,7 @@ eCapStorBalance3(ng,sStartYear(y))$pincludeStorage..
 
 eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeStorage)..
    sum(y, vBuildStor(eg,y)) =l= pStorData(eg,"CapacityMWh");
-
+   
 *--- Thermal elements (csp solar field) capacity limits
 eCapacityThermLimit(g,y)$pincludeCSP..
    vCapTherm(g,y) =l= pCSPData(g,"Thermal Field","CapacityMWh");
@@ -1080,6 +1084,7 @@ Model PA /
    eStorageCSPBal1
    
    eCapacityStorLimit
+   eCapStorBalance
    eCapStorBalance1
    eCapStorBalance2
    eCapStorBalance3
