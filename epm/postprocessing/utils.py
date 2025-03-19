@@ -418,10 +418,15 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
         return mcolors.to_hex(new_rgb)
 
     # TODO: Clean that
-    if 'output' not in FOLDER:
-        RESULTS_FOLDER = os.path.join('output', FOLDER)
-    else:
-        RESULTS_FOLDER = FOLDER
+    if 'postprocessing' in os.getcwd():  # code is launched from postprocessing folder
+        assert 'output' not in FOLDER, 'FOLDER name is not specified correctly'
+        # RESULTS_FOLDER = FOLDER
+        RESULTS_FOLDER = os.path.join('..', 'output', FOLDER)
+    else:  # code is launched from main root
+        if 'output' not in FOLDER:
+            RESULTS_FOLDER = os.path.join('output', FOLDER)
+        else:
+            RESULTS_FOLDER = FOLDER
 
     GRAPHS_FOLDER = 'img'
     GRAPHS_FOLDER = os.path.join(RESULTS_FOLDER, GRAPHS_FOLDER)
