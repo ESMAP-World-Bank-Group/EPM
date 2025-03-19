@@ -1,0 +1,915 @@
+Variable,zone,generator,fuel,year,FullSolarHighGas,FullSolarHighGas_wo_SolarProject-BESSProject
+Capacity: MW,Gambia,BESS Project,Battery Storage,2028,10.0,
+Capacity: MW,Gambia,BESS Project,Battery Storage,2029,10.0,
+Capacity: MW,Gambia,BESS Project,Battery Storage,2030,10.0,
+Capacity: MW,Gambia,BESS Project,Battery Storage,2035,10.0,
+Capacity: MW,Gambia,BESS Project,Battery Storage,2040,10.0,
+Capacity: MW,Gambia,Basse,Oil,2025,5.4,5.4
+Capacity: MW,Gambia,Basse,Oil,2026,5.4,5.4
+Capacity: MW,Gambia,Basse,Oil,2027,5.4,5.4
+Capacity: MW,Gambia,Basse,Oil,2028,5.4,5.4
+Capacity: MW,Gambia,Basse,Oil,2029,5.4,5.4
+Capacity: MW,Gambia,Basse,Oil,2030,5.4,5.4
+Capacity: MW,Gambia,Basse,Oil,2035,5.4,5.4
+Capacity: MW,Gambia,Brikama G1,Oil,2025,6.4,6.4
+Capacity: MW,Gambia,Brikama G1,Oil,2026,6.4,6.4
+Capacity: MW,Gambia,Brikama G1,Oil,2027,6.4,6.4
+Capacity: MW,Gambia,Brikama G1,Oil,2028,6.4,6.4
+Capacity: MW,Gambia,Brikama G1,Oil,2029,6.4,6.4
+Capacity: MW,Gambia,Brikama G1,Oil,2030,6.4,6.4
+Capacity: MW,Gambia,Brikama II,Oil,2025,8.9,8.9
+Capacity: MW,Gambia,Brikama II,Oil,2026,8.9,8.9
+Capacity: MW,Gambia,Brikama II,Oil,2027,8.9,8.9
+Capacity: MW,Gambia,Brikama II,Oil,2028,8.9,8.9
+Capacity: MW,Gambia,Brikama II,Oil,2029,8.9,8.9
+Capacity: MW,Gambia,Brikama II,Oil,2030,8.9,8.9
+Capacity: MW,Gambia,Brikama II,Oil,2035,8.9,8.9
+Capacity: MW,Gambia,Brikama III G1,Oil,2025,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2026,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2027,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2028,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2029,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2030,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2035,9.4,9.4
+Capacity: MW,Gambia,Brikama III G1,Oil,2040,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2025,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2026,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2027,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2028,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2029,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2030,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2035,9.4,9.4
+Capacity: MW,Gambia,Brikama III G2,Oil,2040,9.4,9.4
+Capacity: MW,Gambia,Farafenni,Oil,2025,4.8,4.8
+Capacity: MW,Gambia,Farafenni,Oil,2026,4.8,4.8
+Capacity: MW,Gambia,Farafenni,Oil,2027,4.8,4.8
+Capacity: MW,Gambia,Farafenni,Oil,2028,4.8,4.8
+Capacity: MW,Gambia,Farafenni,Oil,2029,4.8,4.8
+Capacity: MW,Gambia,Farafenni,Oil,2030,4.8,4.8
+Capacity: MW,Gambia,Farafenni,Oil,2035,4.8,4.8
+Capacity: MW,Gambia,Import Guinea,Import,2025,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2026,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2027,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2028,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2029,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2030,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2035,32.0,32.0
+Capacity: MW,Gambia,Import Guinea,Import,2040,32.0,32.0
+Capacity: MW,Gambia,Import Senegal,Import,2025,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2026,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2027,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2028,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2029,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2030,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2035,40.0,40.0
+Capacity: MW,Gambia,Import Senegal,Import,2040,40.0,40.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2025,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2026,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2027,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2028,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2029,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2030,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2035,5.0,5.0
+Capacity: MW,Gambia,Import Senegal MV,Import,2040,5.0,5.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2025,2.0,2.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2026,2.0,2.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2027,2.0,2.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2028,2.0,2.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2029,2.0,2.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2030,2.0,2.0
+Capacity: MW,Gambia,Jambur BESS,Battery Storage,2035,2.0,2.0
+Capacity: MW,Gambia,Jambur PV,Solar,2025,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2026,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2027,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2028,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2029,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2030,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2035,23.0,23.0
+Capacity: MW,Gambia,Jambur PV,Solar,2040,23.0,23.0
+Capacity: MW,Gambia,Karpower 1,Oil,2025,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2026,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2027,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2028,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2029,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2030,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2035,18.9,18.9
+Capacity: MW,Gambia,Karpower 1,Oil,2040,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2025,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2026,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2027,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2028,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2029,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2030,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2035,18.9,18.9
+Capacity: MW,Gambia,Karpower 2,Oil,2040,18.9,18.9
+Capacity: MW,Gambia,New BESS,Battery Storage,2030,0.01,0.0
+Capacity: MW,Gambia,New BESS,Battery Storage,2035,0.01,0.0
+Capacity: MW,Gambia,New BESS,Battery Storage,2040,0.01,0.0
+Capacity: MW,Gambia,New CCGT,Gas,2030,50.0,50.0
+Capacity: MW,Gambia,New CCGT,Gas,2035,50.0,50.0
+Capacity: MW,Gambia,New CCGT,Gas,2040,50.0,50.0
+Capacity: MW,Gambia,New CCGT Cote d'Ivoire,Gas,2035,65.29,67.59
+Capacity: MW,Gambia,New CCGT Cote d'Ivoire,Gas,2040,104.84,107.17
+Capacity: MW,Gambia,New CCGT Senegal,Gas,2035,65.29,67.59
+Capacity: MW,Gambia,New CCGT Senegal,Gas,2040,104.84,107.17
+Capacity: MW,Gambia,New ICE,Oil,2030,0.0,0.0
+Capacity: MW,Gambia,New ICE,Oil,2035,0.0,0.0
+Capacity: MW,Gambia,New ICE,Oil,2040,0.0,0.0
+Capacity: MW,Gambia,New OMVG Import,Import,2028,10.0,10.0
+Capacity: MW,Gambia,New OMVG Import,Import,2029,10.0,10.0
+Capacity: MW,Gambia,New OMVG Import,Import,2030,10.0,10.0
+Capacity: MW,Gambia,New OMVG Import,Import,2035,10.0,10.0
+Capacity: MW,Gambia,New OMVG Import,Import,2040,10.0,10.0
+Capacity: MW,Gambia,New Solar,Solar,2030,114.3,154.39
+Capacity: MW,Gambia,New Solar,Solar,2035,194.52,235.64
+Capacity: MW,Gambia,New Solar,Solar,2040,316.05,356.79
+Capacity: MW,Gambia,Solar Project,Solar,2028,50.0,
+Capacity: MW,Gambia,Solar Project,Solar,2029,50.0,
+Capacity: MW,Gambia,Solar Project,Solar,2030,50.0,
+Capacity: MW,Gambia,Solar Project,Solar,2035,50.0,
+Capacity: MW,Gambia,Solar Project,Solar,2040,50.0,
+Utilization: percent,Gambia,BESS Project,Battery Storage,2028,0.05,
+Utilization: percent,Gambia,BESS Project,Battery Storage,2029,0.07,
+Utilization: percent,Gambia,BESS Project,Battery Storage,2030,0.19,
+Utilization: percent,Gambia,BESS Project,Battery Storage,2035,0.17,
+Utilization: percent,Gambia,BESS Project,Battery Storage,2040,0.18,
+Utilization: percent,Gambia,Brikama G1,Oil,2025,0.5,0.5
+Utilization: percent,Gambia,Brikama G1,Oil,2026,0.5,0.5
+Utilization: percent,Gambia,Brikama G1,Oil,2027,0.5,0.5
+Utilization: percent,Gambia,Brikama G1,Oil,2028,0.5,0.5
+Utilization: percent,Gambia,Brikama G1,Oil,2029,0.5,0.5
+Utilization: percent,Gambia,Brikama G1,Oil,2030,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2025,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2026,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2027,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2028,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2029,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2030,0.5,0.5
+Utilization: percent,Gambia,Brikama II,Oil,2035,0.0,0.0
+Utilization: percent,Gambia,Brikama III G1,Oil,2025,0.5,0.5
+Utilization: percent,Gambia,Brikama III G1,Oil,2026,0.5,0.5
+Utilization: percent,Gambia,Brikama III G1,Oil,2027,0.5,0.5
+Utilization: percent,Gambia,Brikama III G1,Oil,2028,0.5,0.5
+Utilization: percent,Gambia,Brikama III G1,Oil,2029,0.5,0.5
+Utilization: percent,Gambia,Brikama III G1,Oil,2030,0.5,0.5
+Utilization: percent,Gambia,Brikama III G1,Oil,2035,0.0,0.0
+Utilization: percent,Gambia,Brikama III G1,Oil,2040,0.0,0.0
+Utilization: percent,Gambia,Brikama III G2,Oil,2025,0.5,0.5
+Utilization: percent,Gambia,Brikama III G2,Oil,2026,0.5,0.5
+Utilization: percent,Gambia,Brikama III G2,Oil,2027,0.5,0.5
+Utilization: percent,Gambia,Brikama III G2,Oil,2028,0.5,0.5
+Utilization: percent,Gambia,Brikama III G2,Oil,2029,0.5,0.5
+Utilization: percent,Gambia,Brikama III G2,Oil,2030,0.5,0.5
+Utilization: percent,Gambia,Brikama III G2,Oil,2035,0.0,0.0
+Utilization: percent,Gambia,Brikama III G2,Oil,2040,0.0,0.0
+Utilization: percent,Gambia,Import Guinea,Import,2025,0.73,0.73
+Utilization: percent,Gambia,Import Guinea,Import,2026,0.73,0.73
+Utilization: percent,Gambia,Import Guinea,Import,2027,0.73,0.73
+Utilization: percent,Gambia,Import Guinea,Import,2028,0.73,0.73
+Utilization: percent,Gambia,Import Guinea,Import,2029,0.73,0.73
+Utilization: percent,Gambia,Import Guinea,Import,2030,0.55,0.55
+Utilization: percent,Gambia,Import Guinea,Import,2035,0.04,0.04
+Utilization: percent,Gambia,Import Guinea,Import,2040,0.04,0.04
+Utilization: percent,Gambia,Import Senegal,Import,2025,0.92,0.92
+Utilization: percent,Gambia,Import Senegal,Import,2026,0.99,0.99
+Utilization: percent,Gambia,Import Senegal,Import,2027,1.0,1.0
+Utilization: percent,Gambia,Import Senegal,Import,2028,0.94,1.0
+Utilization: percent,Gambia,Import Senegal,Import,2029,0.98,1.0
+Utilization: percent,Gambia,Import Senegal,Import,2030,0.17,0.21
+Utilization: percent,Gambia,Import Senegal,Import,2035,0.0,0.0
+Utilization: percent,Gambia,Import Senegal,Import,2040,0.0,0.0
+Utilization: percent,Gambia,Import Senegal MV,Import,2025,0.0,0.0
+Utilization: percent,Gambia,Import Senegal MV,Import,2026,0.0,0.0
+Utilization: percent,Gambia,Import Senegal MV,Import,2027,0.12,0.12
+Utilization: percent,Gambia,Import Senegal MV,Import,2028,0.0,0.08
+Utilization: percent,Gambia,Import Senegal MV,Import,2029,0.04,0.41
+Utilization: percent,Gambia,Import Senegal MV,Import,2030,0.0,0.0
+Utilization: percent,Gambia,Import Senegal MV,Import,2035,0.0,0.0
+Utilization: percent,Gambia,Import Senegal MV,Import,2040,0.0,0.0
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2025,0.0,0.0
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2026,0.02,0.02
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2027,0.01,0.01
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2028,0.07,0.01
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2029,0.08,0.0
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2030,0.19,0.19
+Utilization: percent,Gambia,Jambur BESS,Battery Storage,2035,0.18,0.17
+Utilization: percent,Gambia,Jambur PV,Solar,2025,0.23,0.23
+Utilization: percent,Gambia,Jambur PV,Solar,2026,0.23,0.23
+Utilization: percent,Gambia,Jambur PV,Solar,2027,0.23,0.23
+Utilization: percent,Gambia,Jambur PV,Solar,2028,0.23,0.23
+Utilization: percent,Gambia,Jambur PV,Solar,2029,0.23,0.23
+Utilization: percent,Gambia,Jambur PV,Solar,2030,0.22,0.21
+Utilization: percent,Gambia,Jambur PV,Solar,2035,0.21,0.21
+Utilization: percent,Gambia,Jambur PV,Solar,2040,0.2,0.19
+Utilization: percent,Gambia,Karpower 1,Oil,2025,0.08,0.08
+Utilization: percent,Gambia,Karpower 1,Oil,2026,0.18,0.18
+Utilization: percent,Gambia,Karpower 1,Oil,2027,0.33,0.33
+Utilization: percent,Gambia,Karpower 1,Oil,2028,0.07,0.27
+Utilization: percent,Gambia,Karpower 1,Oil,2029,0.22,0.42
+Utilization: percent,Gambia,Karpower 1,Oil,2030,0.0,0.0
+Utilization: percent,Gambia,Karpower 1,Oil,2035,0.0,0.0
+Utilization: percent,Gambia,Karpower 1,Oil,2040,0.0,0.0
+Utilization: percent,Gambia,Karpower 2,Oil,2025,0.08,0.08
+Utilization: percent,Gambia,Karpower 2,Oil,2026,0.18,0.18
+Utilization: percent,Gambia,Karpower 2,Oil,2027,0.33,0.33
+Utilization: percent,Gambia,Karpower 2,Oil,2028,0.07,0.27
+Utilization: percent,Gambia,Karpower 2,Oil,2029,0.22,0.42
+Utilization: percent,Gambia,Karpower 2,Oil,2030,0.0,0.0
+Utilization: percent,Gambia,Karpower 2,Oil,2035,0.0,0.0
+Utilization: percent,Gambia,Karpower 2,Oil,2040,0.0,0.0
+Utilization: percent,Gambia,New BESS,Battery Storage,2030,0.33,0.32
+Utilization: percent,Gambia,New BESS,Battery Storage,2035,0.25,0.24
+Utilization: percent,Gambia,New BESS,Battery Storage,2040,0.27,0.24
+Utilization: percent,Gambia,New CCGT,Gas,2030,0.76,0.77
+Utilization: percent,Gambia,New CCGT,Gas,2035,0.64,0.63
+Utilization: percent,Gambia,New CCGT,Gas,2040,0.64,0.63
+Utilization: percent,Gambia,New CCGT Cote d'Ivoire,Gas,2035,0.64,0.64
+Utilization: percent,Gambia,New CCGT Cote d'Ivoire,Gas,2040,0.64,0.64
+Utilization: percent,Gambia,New CCGT Senegal,Gas,2035,0.64,0.64
+Utilization: percent,Gambia,New CCGT Senegal,Gas,2040,0.64,0.64
+Utilization: percent,Gambia,New ICE,Oil,2030,0.51,0.5
+Utilization: percent,Gambia,New ICE,Oil,2035,0.06,0.06
+Utilization: percent,Gambia,New ICE,Oil,2040,0.08,0.07
+Utilization: percent,Gambia,New OMVG Import,Import,2028,0.9,1.0
+Utilization: percent,Gambia,New OMVG Import,Import,2029,0.96,1.0
+Utilization: percent,Gambia,New OMVG Import,Import,2030,0.17,0.19
+Utilization: percent,Gambia,New OMVG Import,Import,2035,0.0,0.0
+Utilization: percent,Gambia,New OMVG Import,Import,2040,0.0,0.0
+Utilization: percent,Gambia,New Solar,Solar,2030,0.23,0.23
+Utilization: percent,Gambia,New Solar,Solar,2035,0.23,0.23
+Utilization: percent,Gambia,New Solar,Solar,2040,0.23,0.22
+Utilization: percent,Gambia,Solar Project,Solar,2028,0.23,
+Utilization: percent,Gambia,Solar Project,Solar,2029,0.23,
+Utilization: percent,Gambia,Solar Project,Solar,2030,0.22,
+Utilization: percent,Gambia,Solar Project,Solar,2035,0.22,
+Utilization: percent,Gambia,Solar Project,Solar,2040,0.21,
+Energy: GWh,Gambia,BESS Project,Battery Storage,2028,4.64,
+Energy: GWh,Gambia,BESS Project,Battery Storage,2029,6.46,
+Energy: GWh,Gambia,BESS Project,Battery Storage,2030,16.86,
+Energy: GWh,Gambia,BESS Project,Battery Storage,2035,14.75,
+Energy: GWh,Gambia,BESS Project,Battery Storage,2040,15.64,
+Energy: GWh,Gambia,Brikama G1,Oil,2025,28.03,28.03
+Energy: GWh,Gambia,Brikama G1,Oil,2026,28.03,28.03
+Energy: GWh,Gambia,Brikama G1,Oil,2027,28.03,28.03
+Energy: GWh,Gambia,Brikama G1,Oil,2028,28.03,28.03
+Energy: GWh,Gambia,Brikama G1,Oil,2029,28.03,28.03
+Energy: GWh,Gambia,Brikama G1,Oil,2030,28.03,28.03
+Energy: GWh,Gambia,Brikama II,Oil,2025,38.98,38.98
+Energy: GWh,Gambia,Brikama II,Oil,2026,38.98,38.98
+Energy: GWh,Gambia,Brikama II,Oil,2027,38.98,38.98
+Energy: GWh,Gambia,Brikama II,Oil,2028,38.98,38.98
+Energy: GWh,Gambia,Brikama II,Oil,2029,38.98,38.98
+Energy: GWh,Gambia,Brikama II,Oil,2030,38.98,38.98
+Energy: GWh,Gambia,Brikama II,Oil,2035,0.0,0.0
+Energy: GWh,Gambia,Brikama III G1,Oil,2025,41.17,41.17
+Energy: GWh,Gambia,Brikama III G1,Oil,2026,41.17,41.17
+Energy: GWh,Gambia,Brikama III G1,Oil,2027,41.17,41.17
+Energy: GWh,Gambia,Brikama III G1,Oil,2028,41.17,41.17
+Energy: GWh,Gambia,Brikama III G1,Oil,2029,41.17,41.17
+Energy: GWh,Gambia,Brikama III G1,Oil,2030,41.17,41.17
+Energy: GWh,Gambia,Brikama III G1,Oil,2035,0.0,0.0
+Energy: GWh,Gambia,Brikama III G1,Oil,2040,0.0,0.0
+Energy: GWh,Gambia,Brikama III G2,Oil,2025,41.17,41.17
+Energy: GWh,Gambia,Brikama III G2,Oil,2026,41.17,41.17
+Energy: GWh,Gambia,Brikama III G2,Oil,2027,41.17,41.17
+Energy: GWh,Gambia,Brikama III G2,Oil,2028,41.17,41.17
+Energy: GWh,Gambia,Brikama III G2,Oil,2029,41.17,41.17
+Energy: GWh,Gambia,Brikama III G2,Oil,2030,41.17,41.17
+Energy: GWh,Gambia,Brikama III G2,Oil,2035,0.0,0.0
+Energy: GWh,Gambia,Brikama III G2,Oil,2040,0.0,0.0
+Energy: GWh,Gambia,Import Guinea,Import,2025,203.86,203.86
+Energy: GWh,Gambia,Import Guinea,Import,2026,203.86,203.87
+Energy: GWh,Gambia,Import Guinea,Import,2027,203.86,203.87
+Energy: GWh,Gambia,Import Guinea,Import,2028,203.86,203.87
+Energy: GWh,Gambia,Import Guinea,Import,2029,203.86,203.87
+Energy: GWh,Gambia,Import Guinea,Import,2030,153.15,153.62
+Energy: GWh,Gambia,Import Guinea,Import,2035,10.1,10.96
+Energy: GWh,Gambia,Import Guinea,Import,2040,10.65,12.27
+Energy: GWh,Gambia,Import Senegal,Import,2025,321.85,321.85
+Energy: GWh,Gambia,Import Senegal,Import,2026,346.51,346.51
+Energy: GWh,Gambia,Import Senegal,Import,2027,350.12,350.13
+Energy: GWh,Gambia,Import Senegal,Import,2028,328.54,350.08
+Energy: GWh,Gambia,Import Senegal,Import,2029,343.83,350.32
+Energy: GWh,Gambia,Import Senegal,Import,2030,58.99,72.92
+Energy: GWh,Gambia,Import Senegal,Import,2035,0.0,0.0
+Energy: GWh,Gambia,Import Senegal,Import,2040,0.0,0.0
+Energy: GWh,Gambia,Import Senegal MV,Import,2025,0.0,0.0
+Energy: GWh,Gambia,Import Senegal MV,Import,2026,0.12,0.12
+Energy: GWh,Gambia,Import Senegal MV,Import,2027,5.07,5.07
+Energy: GWh,Gambia,Import Senegal MV,Import,2028,0.0,3.44
+Energy: GWh,Gambia,Import Senegal MV,Import,2029,1.85,17.77
+Energy: GWh,Gambia,Import Senegal MV,Import,2030,0.0,0.0
+Energy: GWh,Gambia,Import Senegal MV,Import,2035,0.0,0.0
+Energy: GWh,Gambia,Import Senegal MV,Import,2040,0.0,0.0
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2025,0.04,0.02
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2026,0.36,0.35
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2027,0.13,0.11
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2028,1.25,0.18
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2029,1.38,0.06
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2030,3.35,3.25
+Energy: GWh,Gambia,Jambur BESS,Battery Storage,2035,3.07,2.96
+Energy: GWh,Gambia,Jambur PV,Solar,2025,45.99,45.99
+Energy: GWh,Gambia,Jambur PV,Solar,2026,45.99,45.99
+Energy: GWh,Gambia,Jambur PV,Solar,2027,45.99,45.99
+Energy: GWh,Gambia,Jambur PV,Solar,2028,45.99,45.99
+Energy: GWh,Gambia,Jambur PV,Solar,2029,45.99,45.99
+Energy: GWh,Gambia,Jambur PV,Solar,2030,43.91,42.85
+Energy: GWh,Gambia,Jambur PV,Solar,2035,42.93,41.5
+Energy: GWh,Gambia,Jambur PV,Solar,2040,40.63,39.01
+Energy: GWh,Gambia,Karpower 1,Oil,2025,13.69,13.69
+Energy: GWh,Gambia,Karpower 1,Oil,2026,29.51,29.51
+Energy: GWh,Gambia,Karpower 1,Oil,2027,54.74,54.74
+Energy: GWh,Gambia,Karpower 1,Oil,2028,12.42,45.27
+Energy: GWh,Gambia,Karpower 1,Oil,2029,36.35,69.13
+Energy: GWh,Gambia,Karpower 1,Oil,2030,0.0,0.0
+Energy: GWh,Gambia,Karpower 1,Oil,2035,0.0,0.0
+Energy: GWh,Gambia,Karpower 1,Oil,2040,0.0,0.0
+Energy: GWh,Gambia,Karpower 2,Oil,2025,13.69,13.69
+Energy: GWh,Gambia,Karpower 2,Oil,2026,29.51,29.51
+Energy: GWh,Gambia,Karpower 2,Oil,2027,54.74,54.74
+Energy: GWh,Gambia,Karpower 2,Oil,2028,12.42,45.27
+Energy: GWh,Gambia,Karpower 2,Oil,2029,36.35,69.13
+Energy: GWh,Gambia,Karpower 2,Oil,2030,0.0,0.0
+Energy: GWh,Gambia,Karpower 2,Oil,2035,0.0,0.0
+Energy: GWh,Gambia,Karpower 2,Oil,2040,0.0,0.0
+Energy: GWh,Gambia,New BESS,Battery Storage,2030,0.02,0.01
+Energy: GWh,Gambia,New BESS,Battery Storage,2035,0.02,0.01
+Energy: GWh,Gambia,New BESS,Battery Storage,2040,0.02,0.01
+Energy: GWh,Gambia,New CCGT,Gas,2030,334.77,336.46
+Energy: GWh,Gambia,New CCGT,Gas,2035,280.29,277.13
+Energy: GWh,Gambia,New CCGT,Gas,2040,279.0,276.05
+Energy: GWh,Gambia,New CCGT Cote d'Ivoire,Gas,2035,367.16,376.64
+Energy: GWh,Gambia,New CCGT Cote d'Ivoire,Gas,2040,589.48,598.81
+Energy: GWh,Gambia,New CCGT Senegal,Gas,2035,367.16,376.64
+Energy: GWh,Gambia,New CCGT Senegal,Gas,2040,589.48,598.81
+Energy: GWh,Gambia,New ICE,Oil,2030,0.01,0.0
+Energy: GWh,Gambia,New ICE,Oil,2035,0.0,0.0
+Energy: GWh,Gambia,New ICE,Oil,2040,0.0,0.0
+Energy: GWh,Gambia,New OMVG Import,Import,2028,78.77,87.43
+Energy: GWh,Gambia,New OMVG Import,Import,2029,84.11,87.56
+Energy: GWh,Gambia,New OMVG Import,Import,2030,14.62,16.41
+Energy: GWh,Gambia,New OMVG Import,Import,2035,0.0,0.0
+Energy: GWh,Gambia,New OMVG Import,Import,2040,0.0,0.0
+Energy: GWh,Gambia,New Solar,Solar,2030,225.91,304.93
+Energy: GWh,Gambia,New Solar,Solar,2035,385.41,464.92
+Energy: GWh,Gambia,New Solar,Solar,2040,625.63,700.18
+Energy: GWh,Gambia,Solar Project,Solar,2028,99.97,
+Energy: GWh,Gambia,Solar Project,Solar,2029,99.97,
+Energy: GWh,Gambia,Solar Project,Solar,2030,97.71,
+Energy: GWh,Gambia,Solar Project,Solar,2035,96.39,
+Energy: GWh,Gambia,Solar Project,Solar,2040,91.99,
+Spinning Reserve: GWh,Gambia,BESS Project,Battery Storage,2028,15.16,
+Spinning Reserve: GWh,Gambia,BESS Project,Battery Storage,2029,12.01,
+Spinning Reserve: GWh,Gambia,BESS Project,Battery Storage,2030,21.7,
+Spinning Reserve: GWh,Gambia,BESS Project,Battery Storage,2035,21.24,
+Spinning Reserve: GWh,Gambia,BESS Project,Battery Storage,2040,22.18,
+Spinning Reserve: GWh,Gambia,Basse,Oil,2025,7.1,7.1
+Spinning Reserve: GWh,Gambia,Basse,Oil,2026,7.1,7.1
+Spinning Reserve: GWh,Gambia,Basse,Oil,2027,7.1,7.1
+Spinning Reserve: GWh,Gambia,Basse,Oil,2028,7.1,7.1
+Spinning Reserve: GWh,Gambia,Basse,Oil,2029,7.1,7.1
+Spinning Reserve: GWh,Gambia,Basse,Oil,2030,7.1,7.1
+Spinning Reserve: GWh,Gambia,Basse,Oil,2035,7.1,7.1
+Spinning Reserve: GWh,Gambia,Brikama G1,Oil,2025,4.12,4.12
+Spinning Reserve: GWh,Gambia,Brikama G1,Oil,2026,4.1,4.1
+Spinning Reserve: GWh,Gambia,Brikama G1,Oil,2027,4.31,4.31
+Spinning Reserve: GWh,Gambia,Brikama G1,Oil,2028,3.79,4.27
+Spinning Reserve: GWh,Gambia,Brikama G1,Oil,2029,4.16,4.34
+Spinning Reserve: GWh,Gambia,Brikama G1,Oil,2030,3.65,3.92
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2025,5.86,5.87
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2026,5.87,5.87
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2027,6.23,6.23
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2028,5.39,6.15
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2029,5.95,6.29
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2030,5.12,5.6
+Spinning Reserve: GWh,Gambia,Brikama II,Oil,2035,5.91,5.96
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2025,6.22,6.22
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2026,6.23,6.23
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2027,6.63,6.63
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2028,5.71,6.54
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2029,6.31,6.69
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2030,5.42,5.94
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2035,6.26,6.31
+Spinning Reserve: GWh,Gambia,Brikama III G1,Oil,2040,6.36,6.42
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2025,6.22,6.22
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2026,6.23,6.23
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2027,6.63,6.63
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2028,5.71,6.54
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2029,6.31,6.69
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2030,5.42,5.94
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2035,6.26,6.31
+Spinning Reserve: GWh,Gambia,Brikama III G2,Oil,2040,6.36,6.42
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2025,6.31,6.31
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2026,6.31,6.31
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2027,6.31,6.31
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2028,6.31,6.31
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2029,6.31,6.31
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2030,6.31,6.31
+Spinning Reserve: GWh,Gambia,Farafenni,Oil,2035,6.31,6.31
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2025,8.36,8.36
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2026,8.43,8.42
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2027,8.47,8.47
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2028,8.61,8.45
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2029,9.18,8.53
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2030,11.31,12.64
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2035,15.32,15.56
+Spinning Reserve: GWh,Gambia,Import Guinea,Import,2040,15.77,16.08
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2025,8.06,8.07
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2026,1.61,1.61
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2027,0.08,0.08
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2028,4.12,0.11
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2029,1.74,0.03
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2030,21.97,23.7
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2035,19.65,20.01
+Spinning Reserve: GWh,Gambia,Import Senegal,Import,2040,20.33,20.75
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2025,2.23,2.23
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2026,2.27,2.27
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2027,2.08,2.08
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2028,2.3,2.16
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2029,2.33,1.53
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2030,2.23,2.29
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2035,2.18,2.18
+Spinning Reserve: GWh,Gambia,Import Senegal MV,Import,2040,2.19,2.2
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2025,0.24,0.12
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2026,1.1,1.02
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2027,0.38,0.27
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2028,2.59,0.42
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2029,1.76,0.19
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2030,2.84,3.39
+Spinning Reserve: GWh,Gambia,Jambur BESS,Battery Storage,2035,3.37,3.41
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2025,14.93,14.93
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2026,15.57,15.56
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2027,15.53,15.52
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2028,15.79,15.6
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2029,16.07,15.46
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2030,14.63,15.87
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2035,13.24,13.44
+Spinning Reserve: GWh,Gambia,Karpower 1,Oil,2040,13.6,13.85
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2025,14.93,14.93
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2026,15.57,15.56
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2027,15.53,15.52
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2028,15.79,15.6
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2029,16.07,15.46
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2030,14.63,15.87
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2035,13.24,13.44
+Spinning Reserve: GWh,Gambia,Karpower 2,Oil,2040,13.6,13.85
+Spinning Reserve: GWh,Gambia,New BESS,Battery Storage,2030,0.01,0.0
+Spinning Reserve: GWh,Gambia,New BESS,Battery Storage,2035,0.01,0.0
+Spinning Reserve: GWh,Gambia,New BESS,Battery Storage,2040,0.02,0.01
+Spinning Reserve: GWh,Gambia,New CCGT,Gas,2030,15.66,18.17
+Spinning Reserve: GWh,Gambia,New CCGT,Gas,2035,21.85,24.38
+Spinning Reserve: GWh,Gambia,New CCGT,Gas,2040,23.33,25.79
+Spinning Reserve: GWh,Gambia,New CCGT Cote d'Ivoire,Gas,2035,29.08,33.55
+Spinning Reserve: GWh,Gambia,New CCGT Cote d'Ivoire,Gas,2040,51.5,57.26
+Spinning Reserve: GWh,Gambia,New CCGT Senegal,Gas,2035,29.08,33.55
+Spinning Reserve: GWh,Gambia,New CCGT Senegal,Gas,2040,51.5,57.26
+Spinning Reserve: GWh,Gambia,New ICE,Oil,2030,0.0,0.0
+Spinning Reserve: GWh,Gambia,New ICE,Oil,2035,0.0,0.0
+Spinning Reserve: GWh,Gambia,New ICE,Oil,2040,0.0,0.0
+Spinning Reserve: GWh,Gambia,New OMVG Import,Import,2028,1.15,0.03
+Spinning Reserve: GWh,Gambia,New OMVG Import,Import,2029,0.48,0.01
+Spinning Reserve: GWh,Gambia,New OMVG Import,Import,2030,4.58,4.82
+Spinning Reserve: GWh,Gambia,New OMVG Import,Import,2035,4.42,4.44
+Spinning Reserve: GWh,Gambia,New OMVG Import,Import,2040,4.47,4.5
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2026,0.0,
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2027,0.0,
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2028,1.01,
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2029,1.01,
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2030,1.01,
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2035,1.01,
+Annuity Cost in MUSD,Gambia,BESS Project,Battery Storage,2040,1.01,
+Annuity Cost in MUSD,Gambia,New BESS,Battery Storage,2030,0.0,0.0
+Annuity Cost in MUSD,Gambia,New BESS,Battery Storage,2035,0.0,0.0
+Annuity Cost in MUSD,Gambia,New BESS,Battery Storage,2040,0.0,0.0
+Annuity Cost in MUSD,Gambia,New CCGT,Gas,2030,3.27,3.27
+Annuity Cost in MUSD,Gambia,New CCGT,Gas,2035,3.27,3.27
+Annuity Cost in MUSD,Gambia,New CCGT,Gas,2040,3.27,3.27
+Annuity Cost in MUSD,Gambia,New CCGT Cote d'Ivoire,Gas,2035,4.27,4.42
+Annuity Cost in MUSD,Gambia,New CCGT Cote d'Ivoire,Gas,2040,6.85,7.01
+Annuity Cost in MUSD,Gambia,New CCGT Senegal,Gas,2035,4.27,4.42
+Annuity Cost in MUSD,Gambia,New CCGT Senegal,Gas,2040,6.85,7.01
+Annuity Cost in MUSD,Gambia,New ICE,Oil,2030,0.0,0.0
+Annuity Cost in MUSD,Gambia,New ICE,Oil,2035,0.0,0.0
+Annuity Cost in MUSD,Gambia,New ICE,Oil,2040,0.0,0.0
+Annuity Cost in MUSD,Gambia,New Solar,Solar,2030,5.5,7.43
+Annuity Cost in MUSD,Gambia,New Solar,Solar,2035,9.07,11.05
+Annuity Cost in MUSD,Gambia,New Solar,Solar,2040,14.03,15.99
+Annuity Cost in MUSD,Gambia,Solar Project,Solar,2028,2.81,
+Annuity Cost in MUSD,Gambia,Solar Project,Solar,2029,2.81,
+Annuity Cost in MUSD,Gambia,Solar Project,Solar,2030,2.81,
+Annuity Cost in MUSD,Gambia,Solar Project,Solar,2035,2.81,
+Annuity Cost in MUSD,Gambia,Solar Project,Solar,2040,2.81,
+Capacity Factor,Gambia,BESS Project,Battery Storage,2028,0.05,
+Capacity Factor,Gambia,BESS Project,Battery Storage,2029,0.07,
+Capacity Factor,Gambia,BESS Project,Battery Storage,2030,0.19,
+Capacity Factor,Gambia,BESS Project,Battery Storage,2035,0.17,
+Capacity Factor,Gambia,BESS Project,Battery Storage,2040,0.18,
+Capacity Factor,Gambia,Brikama G1,Oil,2025,0.5,0.5
+Capacity Factor,Gambia,Brikama G1,Oil,2026,0.5,0.5
+Capacity Factor,Gambia,Brikama G1,Oil,2027,0.5,0.5
+Capacity Factor,Gambia,Brikama G1,Oil,2028,0.5,0.5
+Capacity Factor,Gambia,Brikama G1,Oil,2029,0.5,0.5
+Capacity Factor,Gambia,Brikama G1,Oil,2030,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2025,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2026,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2027,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2028,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2029,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2030,0.5,0.5
+Capacity Factor,Gambia,Brikama II,Oil,2035,0.0,0.0
+Capacity Factor,Gambia,Brikama III G1,Oil,2025,0.5,0.5
+Capacity Factor,Gambia,Brikama III G1,Oil,2026,0.5,0.5
+Capacity Factor,Gambia,Brikama III G1,Oil,2027,0.5,0.5
+Capacity Factor,Gambia,Brikama III G1,Oil,2028,0.5,0.5
+Capacity Factor,Gambia,Brikama III G1,Oil,2029,0.5,0.5
+Capacity Factor,Gambia,Brikama III G1,Oil,2030,0.5,0.5
+Capacity Factor,Gambia,Brikama III G1,Oil,2035,0.0,0.0
+Capacity Factor,Gambia,Brikama III G1,Oil,2040,0.0,0.0
+Capacity Factor,Gambia,Brikama III G2,Oil,2025,0.5,0.5
+Capacity Factor,Gambia,Brikama III G2,Oil,2026,0.5,0.5
+Capacity Factor,Gambia,Brikama III G2,Oil,2027,0.5,0.5
+Capacity Factor,Gambia,Brikama III G2,Oil,2028,0.5,0.5
+Capacity Factor,Gambia,Brikama III G2,Oil,2029,0.5,0.5
+Capacity Factor,Gambia,Brikama III G2,Oil,2030,0.5,0.5
+Capacity Factor,Gambia,Brikama III G2,Oil,2035,0.0,0.0
+Capacity Factor,Gambia,Brikama III G2,Oil,2040,0.0,0.0
+Capacity Factor,Gambia,Import Guinea,Import,2025,0.73,0.73
+Capacity Factor,Gambia,Import Guinea,Import,2026,0.73,0.73
+Capacity Factor,Gambia,Import Guinea,Import,2027,0.73,0.73
+Capacity Factor,Gambia,Import Guinea,Import,2028,0.73,0.73
+Capacity Factor,Gambia,Import Guinea,Import,2029,0.73,0.73
+Capacity Factor,Gambia,Import Guinea,Import,2030,0.55,0.55
+Capacity Factor,Gambia,Import Guinea,Import,2035,0.04,0.04
+Capacity Factor,Gambia,Import Guinea,Import,2040,0.04,0.04
+Capacity Factor,Gambia,Import Senegal,Import,2025,0.92,0.92
+Capacity Factor,Gambia,Import Senegal,Import,2026,0.99,0.99
+Capacity Factor,Gambia,Import Senegal,Import,2027,1.0,1.0
+Capacity Factor,Gambia,Import Senegal,Import,2028,0.94,1.0
+Capacity Factor,Gambia,Import Senegal,Import,2029,0.98,1.0
+Capacity Factor,Gambia,Import Senegal,Import,2030,0.17,0.21
+Capacity Factor,Gambia,Import Senegal,Import,2035,0.0,0.0
+Capacity Factor,Gambia,Import Senegal,Import,2040,0.0,0.0
+Capacity Factor,Gambia,Import Senegal MV,Import,2025,0.0,0.0
+Capacity Factor,Gambia,Import Senegal MV,Import,2026,0.0,0.0
+Capacity Factor,Gambia,Import Senegal MV,Import,2027,0.12,0.12
+Capacity Factor,Gambia,Import Senegal MV,Import,2028,0.0,0.08
+Capacity Factor,Gambia,Import Senegal MV,Import,2029,0.04,0.41
+Capacity Factor,Gambia,Import Senegal MV,Import,2030,0.0,0.0
+Capacity Factor,Gambia,Import Senegal MV,Import,2035,0.0,0.0
+Capacity Factor,Gambia,Import Senegal MV,Import,2040,0.0,0.0
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2025,0.0,0.0
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2026,0.02,0.02
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2027,0.01,0.01
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2028,0.07,0.01
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2029,0.08,0.0
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2030,0.19,0.19
+Capacity Factor,Gambia,Jambur BESS,Battery Storage,2035,0.18,0.17
+Capacity Factor,Gambia,Jambur PV,Solar,2025,0.23,0.23
+Capacity Factor,Gambia,Jambur PV,Solar,2026,0.23,0.23
+Capacity Factor,Gambia,Jambur PV,Solar,2027,0.23,0.23
+Capacity Factor,Gambia,Jambur PV,Solar,2028,0.23,0.23
+Capacity Factor,Gambia,Jambur PV,Solar,2029,0.23,0.23
+Capacity Factor,Gambia,Jambur PV,Solar,2030,0.22,0.21
+Capacity Factor,Gambia,Jambur PV,Solar,2035,0.21,0.21
+Capacity Factor,Gambia,Jambur PV,Solar,2040,0.2,0.19
+Capacity Factor,Gambia,Karpower 1,Oil,2025,0.08,0.08
+Capacity Factor,Gambia,Karpower 1,Oil,2026,0.18,0.18
+Capacity Factor,Gambia,Karpower 1,Oil,2027,0.33,0.33
+Capacity Factor,Gambia,Karpower 1,Oil,2028,0.07,0.27
+Capacity Factor,Gambia,Karpower 1,Oil,2029,0.22,0.42
+Capacity Factor,Gambia,Karpower 1,Oil,2030,0.0,0.0
+Capacity Factor,Gambia,Karpower 1,Oil,2035,0.0,0.0
+Capacity Factor,Gambia,Karpower 1,Oil,2040,0.0,0.0
+Capacity Factor,Gambia,Karpower 2,Oil,2025,0.08,0.08
+Capacity Factor,Gambia,Karpower 2,Oil,2026,0.18,0.18
+Capacity Factor,Gambia,Karpower 2,Oil,2027,0.33,0.33
+Capacity Factor,Gambia,Karpower 2,Oil,2028,0.07,0.27
+Capacity Factor,Gambia,Karpower 2,Oil,2029,0.22,0.42
+Capacity Factor,Gambia,Karpower 2,Oil,2030,0.0,0.0
+Capacity Factor,Gambia,Karpower 2,Oil,2035,0.0,0.0
+Capacity Factor,Gambia,Karpower 2,Oil,2040,0.0,0.0
+Capacity Factor,Gambia,New BESS,Battery Storage,2030,0.33,0.32
+Capacity Factor,Gambia,New BESS,Battery Storage,2035,0.25,0.24
+Capacity Factor,Gambia,New BESS,Battery Storage,2040,0.27,0.24
+Capacity Factor,Gambia,New CCGT,Gas,2030,0.76,0.77
+Capacity Factor,Gambia,New CCGT,Gas,2035,0.64,0.63
+Capacity Factor,Gambia,New CCGT,Gas,2040,0.64,0.63
+Capacity Factor,Gambia,New CCGT Cote d'Ivoire,Gas,2035,0.64,0.64
+Capacity Factor,Gambia,New CCGT Cote d'Ivoire,Gas,2040,0.64,0.64
+Capacity Factor,Gambia,New CCGT Senegal,Gas,2035,0.64,0.64
+Capacity Factor,Gambia,New CCGT Senegal,Gas,2040,0.64,0.64
+Capacity Factor,Gambia,New ICE,Oil,2030,0.51,0.5
+Capacity Factor,Gambia,New ICE,Oil,2035,0.06,0.06
+Capacity Factor,Gambia,New ICE,Oil,2040,0.08,0.07
+Capacity Factor,Gambia,New OMVG Import,Import,2028,0.9,1.0
+Capacity Factor,Gambia,New OMVG Import,Import,2029,0.96,1.0
+Capacity Factor,Gambia,New OMVG Import,Import,2030,0.17,0.19
+Capacity Factor,Gambia,New OMVG Import,Import,2035,0.0,0.0
+Capacity Factor,Gambia,New OMVG Import,Import,2040,0.0,0.0
+Capacity Factor,Gambia,New Solar,Solar,2030,0.23,0.23
+Capacity Factor,Gambia,New Solar,Solar,2035,0.23,0.23
+Capacity Factor,Gambia,New Solar,Solar,2040,0.23,0.22
+Capacity Factor,Gambia,Solar Project,Solar,2028,0.23,
+Capacity Factor,Gambia,Solar Project,Solar,2029,0.23,
+Capacity Factor,Gambia,Solar Project,Solar,2030,0.22,
+Capacity Factor,Gambia,Solar Project,Solar,2035,0.22,
+Capacity Factor,Gambia,Solar Project,Solar,2040,0.21,
+Fixed Cost in MUSD,Gambia,BESS Project,Battery Storage,2028,0.4,
+Fixed Cost in MUSD,Gambia,BESS Project,Battery Storage,2029,0.4,
+Fixed Cost in MUSD,Gambia,BESS Project,Battery Storage,2030,0.4,
+Fixed Cost in MUSD,Gambia,BESS Project,Battery Storage,2035,0.4,
+Fixed Cost in MUSD,Gambia,BESS Project,Battery Storage,2040,0.4,
+Fixed Cost in MUSD,Gambia,Basse,Oil,2025,0.1,0.1
+Fixed Cost in MUSD,Gambia,Basse,Oil,2026,0.1,0.1
+Fixed Cost in MUSD,Gambia,Basse,Oil,2027,0.1,0.1
+Fixed Cost in MUSD,Gambia,Basse,Oil,2028,0.1,0.1
+Fixed Cost in MUSD,Gambia,Basse,Oil,2029,0.1,0.1
+Fixed Cost in MUSD,Gambia,Basse,Oil,2030,0.1,0.1
+Fixed Cost in MUSD,Gambia,Basse,Oil,2035,0.1,0.1
+Fixed Cost in MUSD,Gambia,Brikama G1,Oil,2025,0.12,0.12
+Fixed Cost in MUSD,Gambia,Brikama G1,Oil,2026,0.12,0.12
+Fixed Cost in MUSD,Gambia,Brikama G1,Oil,2027,0.12,0.12
+Fixed Cost in MUSD,Gambia,Brikama G1,Oil,2028,0.12,0.12
+Fixed Cost in MUSD,Gambia,Brikama G1,Oil,2029,0.12,0.12
+Fixed Cost in MUSD,Gambia,Brikama G1,Oil,2030,0.12,0.12
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2025,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2026,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2027,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2028,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2029,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2030,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama II,Oil,2035,0.16,0.16
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2025,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2026,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2027,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2028,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2029,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2030,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2035,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G1,Oil,2040,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2025,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2026,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2027,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2028,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2029,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2030,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2035,0.17,0.17
+Fixed Cost in MUSD,Gambia,Brikama III G2,Oil,2040,0.17,0.17
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2025,0.09,0.09
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2026,0.09,0.09
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2027,0.09,0.09
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2028,0.09,0.09
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2029,0.09,0.09
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2030,0.09,0.09
+Fixed Cost in MUSD,Gambia,Farafenni,Oil,2035,0.09,0.09
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2025,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2026,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2027,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2028,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2029,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2030,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur BESS,Battery Storage,2035,0.08,0.08
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2025,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2026,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2027,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2028,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2029,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2030,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2035,0.34,0.34
+Fixed Cost in MUSD,Gambia,Jambur PV,Solar,2040,0.34,0.34
+Fixed Cost in MUSD,Gambia,New BESS,Battery Storage,2030,0.0,0.0
+Fixed Cost in MUSD,Gambia,New BESS,Battery Storage,2035,0.0,0.0
+Fixed Cost in MUSD,Gambia,New BESS,Battery Storage,2040,0.0,0.0
+Fixed Cost in MUSD,Gambia,New CCGT,Gas,2030,1.5,1.5
+Fixed Cost in MUSD,Gambia,New CCGT,Gas,2035,1.5,1.5
+Fixed Cost in MUSD,Gambia,New CCGT,Gas,2040,1.5,1.5
+Fixed Cost in MUSD,Gambia,New CCGT Cote d'Ivoire,Gas,2035,1.96,2.03
+Fixed Cost in MUSD,Gambia,New CCGT Cote d'Ivoire,Gas,2040,3.15,3.22
+Fixed Cost in MUSD,Gambia,New CCGT Senegal,Gas,2035,1.96,2.03
+Fixed Cost in MUSD,Gambia,New CCGT Senegal,Gas,2040,3.15,3.22
+Fixed Cost in MUSD,Gambia,New ICE,Oil,2030,0.0,0.0
+Fixed Cost in MUSD,Gambia,New ICE,Oil,2035,0.0,0.0
+Fixed Cost in MUSD,Gambia,New ICE,Oil,2040,0.0,0.0
+Fixed Cost in MUSD,Gambia,New Solar,Solar,2030,3.12,4.21
+Fixed Cost in MUSD,Gambia,New Solar,Solar,2035,5.31,6.43
+Fixed Cost in MUSD,Gambia,New Solar,Solar,2040,8.63,9.74
+Fixed Cost in MUSD,Gambia,Solar Project,Solar,2028,1.36,
+Fixed Cost in MUSD,Gambia,Solar Project,Solar,2029,1.36,
+Fixed Cost in MUSD,Gambia,Solar Project,Solar,2030,1.36,
+Fixed Cost in MUSD,Gambia,Solar Project,Solar,2035,1.36,
+Fixed Cost in MUSD,Gambia,Solar Project,Solar,2040,1.36,
+Variable Cost in MUSD,Gambia,Brikama G1,Oil,2025,3.91,3.91
+Variable Cost in MUSD,Gambia,Brikama G1,Oil,2026,3.91,3.91
+Variable Cost in MUSD,Gambia,Brikama G1,Oil,2027,3.91,3.91
+Variable Cost in MUSD,Gambia,Brikama G1,Oil,2028,3.91,3.91
+Variable Cost in MUSD,Gambia,Brikama G1,Oil,2029,3.91,3.91
+Variable Cost in MUSD,Gambia,Brikama G1,Oil,2030,3.91,3.91
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2025,5.43,5.43
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2026,5.43,5.43
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2027,5.43,5.43
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2028,5.43,5.43
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2029,5.43,5.43
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2030,5.43,5.43
+Variable Cost in MUSD,Gambia,Brikama II,Oil,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2025,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2026,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2027,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2028,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2029,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2030,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Brikama III G1,Oil,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2025,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2026,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2027,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2028,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2029,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2030,5.74,5.74
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Brikama III G2,Oil,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2025,22.42,22.43
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2026,22.43,22.43
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2027,22.43,22.43
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2028,22.42,22.43
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2029,22.43,22.43
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2030,16.85,16.9
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2035,1.11,1.21
+Variable Cost in MUSD,Gambia,Import Guinea,Import,2040,1.17,1.35
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2025,48.28,48.28
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2026,51.98,51.98
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2027,52.52,52.52
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2028,49.28,52.51
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2029,51.57,52.55
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2030,8.85,10.94
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Import Senegal,Import,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2025,0.0,0.0
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2026,0.03,0.03
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2027,1.12,1.11
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2028,0.0,0.76
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2029,0.41,3.91
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2030,0.0,0.0
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Import Senegal MV,Import,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2025,2.67,2.67
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2026,5.76,5.76
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2027,10.68,10.67
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2028,2.42,8.83
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2029,7.09,13.48
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2030,0.0,0.0
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Karpower 1,Oil,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2025,2.67,2.67
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2026,5.76,5.76
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2027,10.68,10.67
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2028,2.42,8.83
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2029,7.09,13.48
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2030,0.0,0.0
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,Karpower 2,Oil,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,New CCGT,Gas,2030,17.81,17.9
+Variable Cost in MUSD,Gambia,New CCGT,Gas,2035,14.91,14.74
+Variable Cost in MUSD,Gambia,New CCGT,Gas,2040,14.84,14.69
+Variable Cost in MUSD,Gambia,New CCGT Cote d'Ivoire,Gas,2035,19.53,20.04
+Variable Cost in MUSD,Gambia,New CCGT Cote d'Ivoire,Gas,2040,31.36,31.86
+Variable Cost in MUSD,Gambia,New CCGT Senegal,Gas,2035,19.53,20.04
+Variable Cost in MUSD,Gambia,New CCGT Senegal,Gas,2040,31.36,31.86
+Variable Cost in MUSD,Gambia,New ICE,Oil,2030,0.0,0.0
+Variable Cost in MUSD,Gambia,New ICE,Oil,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,New ICE,Oil,2040,0.0,0.0
+Variable Cost in MUSD,Gambia,New OMVG Import,Import,2028,11.82,13.11
+Variable Cost in MUSD,Gambia,New OMVG Import,Import,2029,12.62,13.13
+Variable Cost in MUSD,Gambia,New OMVG Import,Import,2030,2.19,2.46
+Variable Cost in MUSD,Gambia,New OMVG Import,Import,2035,0.0,0.0
+Variable Cost in MUSD,Gambia,New OMVG Import,Import,2040,0.0,0.0
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2026,0.02,
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2027,0.02,
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2028,303.1,
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2029,217.81,
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2030,83.42,
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2035,95.33,
+LCOE: $/MWH,Gambia,BESS Project,Battery Storage,2040,89.93,
+LCOE: $/MWH,Gambia,Basse,Oil,2025,99900.0,99900.0
+LCOE: $/MWH,Gambia,Basse,Oil,2026,99900.0,99900.0
+LCOE: $/MWH,Gambia,Basse,Oil,2027,99900.0,99900.0
+LCOE: $/MWH,Gambia,Basse,Oil,2028,99900.0,99900.0
+LCOE: $/MWH,Gambia,Basse,Oil,2029,99900.0,99900.0
+LCOE: $/MWH,Gambia,Basse,Oil,2030,99900.0,99900.0
+LCOE: $/MWH,Gambia,Basse,Oil,2035,99900.0,99900.0
+LCOE: $/MWH,Gambia,Brikama G1,Oil,2025,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama G1,Oil,2026,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama G1,Oil,2027,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama G1,Oil,2028,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama G1,Oil,2029,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama G1,Oil,2030,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2025,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2026,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2027,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2028,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2029,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2030,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama II,Oil,2035,271216.02,1104511.45
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2025,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2026,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2027,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2028,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2029,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2030,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2035,286426.16,1166547.37
+LCOE: $/MWH,Gambia,Brikama III G1,Oil,2040,214985.89,876222.74
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2025,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2026,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2027,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2028,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2029,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2030,143.62,143.62
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2035,286426.16,1166547.37
+LCOE: $/MWH,Gambia,Brikama III G2,Oil,2040,214985.89,876222.74
+LCOE: $/MWH,Gambia,Farafenni,Oil,2025,88800.0,88800.0
+LCOE: $/MWH,Gambia,Farafenni,Oil,2026,88800.0,88800.0
+LCOE: $/MWH,Gambia,Farafenni,Oil,2027,88800.0,88800.0
+LCOE: $/MWH,Gambia,Farafenni,Oil,2028,88800.0,88800.0
+LCOE: $/MWH,Gambia,Farafenni,Oil,2029,88800.0,88800.0
+LCOE: $/MWH,Gambia,Farafenni,Oil,2030,88800.0,88800.0
+LCOE: $/MWH,Gambia,Farafenni,Oil,2035,88800.0,88800.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2025,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2026,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2027,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2028,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2029,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2030,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2035,110.0,110.0
+LCOE: $/MWH,Gambia,Import Guinea,Import,2040,110.0,110.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2025,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2026,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2027,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2028,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2029,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2030,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2035,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal,Import,2040,150.0,150.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2025,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2026,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2027,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2028,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2029,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2030,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2035,220.0,220.0
+LCOE: $/MWH,Gambia,Import Senegal MV,Import,2040,220.0,220.0
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2025,1881.09,3617.61
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2026,220.37,231.12
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2027,636.97,742.08
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2028,63.84,447.06
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2029,57.88,1301.1
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2030,23.86,24.6
+LCOE: $/MWH,Gambia,Jambur BESS,Battery Storage,2035,26.04,26.99
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2025,7.5,7.5
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2026,7.5,7.5
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2027,7.5,7.5
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2028,7.5,7.5
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2029,7.5,7.5
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2030,7.86,8.05
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2035,8.04,8.31
+LCOE: $/MWH,Gambia,Jambur PV,Solar,2040,8.49,8.84
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2025,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2026,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2027,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2028,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2029,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2030,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2035,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 1,Oil,2040,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2025,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2026,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2027,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2028,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2029,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2030,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2035,195.0,195.0
+LCOE: $/MWH,Gambia,Karpower 2,Oil,2040,195.0,195.0
+LCOE: $/MWH,Gambia,New BESS,Battery Storage,2030,40.12,44.99
+LCOE: $/MWH,Gambia,New BESS,Battery Storage,2035,52.74,59.91
+LCOE: $/MWH,Gambia,New BESS,Battery Storage,2040,49.82,58.87
+LCOE: $/MWH,Gambia,New CCGT,Gas,2030,67.45,67.37
+LCOE: $/MWH,Gambia,New CCGT,Gas,2035,70.22,70.41
+LCOE: $/MWH,Gambia,New CCGT,Gas,2040,70.29,70.48
+LCOE: $/MWH,Gambia,New CCGT Cote d'Ivoire,Gas,2035,70.16,70.32
+LCOE: $/MWH,Gambia,New CCGT Cote d'Ivoire,Gas,2040,70.16,70.27
+LCOE: $/MWH,Gambia,New CCGT Senegal,Gas,2035,70.16,70.32
+LCOE: $/MWH,Gambia,New CCGT Senegal,Gas,2040,70.16,70.27
+LCOE: $/MWH,Gambia,New ICE,Oil,2030,137.51,138.04
+LCOE: $/MWH,Gambia,New ICE,Oil,2035,290.13,301.99
+LCOE: $/MWH,Gambia,New ICE,Oil,2040,255.82,265.22
+LCOE: $/MWH,Gambia,New OMVG Import,Import,2028,150.0,150.0
+LCOE: $/MWH,Gambia,New OMVG Import,Import,2029,150.0,150.0
+LCOE: $/MWH,Gambia,New OMVG Import,Import,2030,150.0,150.0
+LCOE: $/MWH,Gambia,New OMVG Import,Import,2035,150.0,150.0
+LCOE: $/MWH,Gambia,New OMVG Import,Import,2040,150.0,150.0
+LCOE: $/MWH,Gambia,New Solar,Solar,2030,38.17,38.2
+LCOE: $/MWH,Gambia,New Solar,Solar,2035,37.31,37.59
+LCOE: $/MWH,Gambia,New Solar,Solar,2040,36.21,36.74
+LCOE: $/MWH,Gambia,Solar Project,Solar,2028,41.8,
+LCOE: $/MWH,Gambia,Solar Project,Solar,2029,41.8,
+LCOE: $/MWH,Gambia,Solar Project,Solar,2030,42.76,
+LCOE: $/MWH,Gambia,Solar Project,Solar,2035,43.35,
+LCOE: $/MWH,Gambia,Solar Project,Solar,2040,45.43,

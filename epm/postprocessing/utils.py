@@ -588,7 +588,66 @@ def generate_summary(epm_results, folder, epm_input):
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 
-def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
+def generate_summary_detailed(epm_results, folder):
+    summary_detailed = {}
+    if 'pCapacityPlan' in epm_results.keys():
+        temp = epm_results['pCapacityPlan'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Capacity: MW': temp.copy()})
+    else:
+        print('No pCapacityPlan in epm_results')
+
+    if 'pPlantUtilization' in epm_results.keys():
+        temp = epm_results['pPlantUtilization'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Utilization: percent': temp.copy()})
+    else:
+        print('No pPlantUtilization in epm_results')
+
+    if 'pEnergyByPlant' in epm_results.keys():
+        temp = epm_results['pEnergyByPlant'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Energy: GWh': temp.copy()})
+    else:
+        print('No pEnergyByPlant in epm_results')
+
+    if 'pSpinningReserveByPlantZone' in epm_results.keys():
+        temp = epm_results['pSpinningReserveByPlantZone'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
+    else:
+        print('No pSpinningReserveByPlantZone in epm_results')
+
+    if 'pCostsbyPlant' in epm_results.keys():
+        temp = epm_results['pCostsbyPlant'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack(
+            'scenario')
+        temp.reset_index(inplace=True)
+
+        grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
+        summary_detailed.update(grouped_dfs)
+    else:
+        print('No pCostsByPlant in epm_results')
+
+    if 'pPlantAnnualLCOE' in epm_results.keys():
+        temp = epm_results['pPlantAnnualLCOE'].copy()
+        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp.reset_index(inplace=True)
+        summary_detailed.update({'LCOE: $/MWH': temp.copy()})
+    else:
+        print('No pPlantAnnualLCOE in epm_results')
+
+    summary_detailed = pd.concat(summary_detailed).round(2)
+    summary_detailed.index.names = ['Variable', '']
+    summary_detailed = summary_detailed.droplevel('', axis=0)
+    summary_detailed.to_csv(os.path.join(folder, 'summary_detailed.csv'), index=True)
+
+
+def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', selected_scenario='baseline'):
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -599,65 +658,15 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
 
     # Generate detailed by plant to debug
     if not reduced_output:
-        summary_detailed = {}
-        if 'pCapacityPlan' in epm_results.keys():
-            temp = epm_results['pCapacityPlan'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-            temp.reset_index(inplace=True)
-            summary_detailed.update({'Capacity: MW': temp.copy()})
-        else:
-            print('No pCapacityPlan in epm_results')
-
-        if 'pPlantUtilization' in epm_results.keys():
-            temp = epm_results['pPlantUtilization'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-            temp.reset_index(inplace=True)
-            summary_detailed.update({'Utilization: percent': temp.copy()})
-        else:
-            print('No pPlantUtilization in epm_results')
-
-        if 'pEnergyByPlant' in epm_results.keys():
-            temp = epm_results['pEnergyByPlant'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-            temp.reset_index(inplace=True)
-            summary_detailed.update({'Energy: GWh': temp.copy()})
-        else:
-            print('No pEnergyByPlant in epm_results')
-
-        if 'pSpinningReserveByPlantZone' in epm_results.keys():
-            temp = epm_results['pSpinningReserveByPlantZone'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-            temp.reset_index(inplace=True)
-            summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
-        else:
-            print('No pSpinningReserveByPlantZone in epm_results')
-
-        if 'pCostsbyPlant' in epm_results.keys():
-            temp = epm_results['pCostsbyPlant'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack('scenario')
-            temp.reset_index(inplace=True)
-
-            grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
-            summary_detailed.update(grouped_dfs)
-        else:
-            print('No pCostsByPlant in epm_results')
-
-        if 'pPlantAnnualLCOE' in epm_results.keys():
-            temp = epm_results['pPlantAnnualLCOE'].copy()
-            temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
-            temp.reset_index(inplace=True)
-            summary_detailed.update({'LCOE: $/MWH': temp.copy()})
-        else:
-            print('No pPlantAnnualLCOE in epm_results')
-
-        summary_detailed = pd.concat(summary_detailed).round(2)
-        summary_detailed.index.names = ['Variable', '']
-        summary_detailed = summary_detailed.droplevel('', axis=0)
-        summary_detailed.to_csv(os.path.join(RESULTS_FOLDER, 'summary_detailed.csv'), index=True)
+        generate_summary_detailed(epm_results, folder)
 
         make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
 
-        selected_scenario = 'baseline'
+        if selected_scenario not in epm_results['pEnergyByPlant']['scenario'].unique():
+            print(f'No {selected_scenario} in epm_results')
+            selected_scenario = epm_results['pEnergyByPlant']['scenario'].unique()[0]
+            print(f'Selected scenario is set to: {selected_scenario}')
+
         if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
             filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline-{selected_scenario}.png'
             stacked_area_plot(epm_results['pEnergyByPlant'], filename, dict_specs['colors'], x_column='year',
@@ -669,7 +678,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder=''):
 
         filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline_{selected_scenario}.png'
         df = epm_results['pCapacityPlan'].copy()
-        df = df[df['scenario'] == 'baseline']
+        df = df[df['scenario'] == selected_scenario]
         make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
 
         # Scenario comparison
