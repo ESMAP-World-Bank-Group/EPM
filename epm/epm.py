@@ -208,7 +208,7 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, pat
 
 
 def launch_epm_multi_scenarios(config='config.csv',
-                               scenarios_specification='scenarios_specification.csv',
+                               scenarios_specification='scenarios.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
                                sensitivity=None,
@@ -253,23 +253,21 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Normalize path
     config = normalize_path(config)
 
-    # Read scenarios specification
+    # Add the baseline scenario
+    s = {'baseline': config}
+
+    # Add scenarios if scenarios_specification is defined
     if scenarios_specification is not None:
         scenarios = pd.read_csv(scenarios_specification).set_index('paramNames')
 
         scenarios = normalize_path(scenarios)
 
         # Generate scenario pd.Series for alternative scenario
-        s = {k: config.copy() for k in scenarios}
+        s.update({k: config.copy() for k in scenarios})
         for k in s.keys():
             s[k].update(scenarios[k].dropna())
-    else:
-        s = {}
 
-    # Add the baseline scenario
-    s.update({'baseline': config})
-
-
+    # Select useful scenarios if selected_scenarios is defined
     if selected_scenarios is not None:
         s = {k: s[k] for k in selected_scenarios}
 
@@ -278,12 +276,15 @@ def launch_epm_multi_scenarios(config='config.csv',
     for k in s.keys():
         s[k] = s[k].apply(lambda i: os.path.join(folder_input, i))
 
+    # Run sensitivity analysis if activated
     if sensitivity is not None:
         s = perform_sensitivity(sensitivity, s)
 
+    # Set-up project assessment scenarios if activated
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
 
+    # Reduce complexity if activated
     if simple is not None:
 
         for k in s.keys():
