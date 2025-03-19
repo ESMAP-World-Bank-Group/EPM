@@ -506,6 +506,14 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pDemandSupply in epm_results')
 
+    if 'pEmissions' in epm_results.keys():
+        t = epm_results['pEmissions'].copy()
+        t['attribute'] = 'Emissions: MtCO2'
+        summary.update({'pEmissions': t})
+    else:
+        print('No pEmissions in epm_results')
+
+
     if 'pSpinningReserveByPlantZone' in epm_results.keys():
         t = epm_results['pSpinningReserveByPlantZone'].copy()
         t = t.groupby(['scenario', 'zone', 'year'])['value'].sum().reset_index()
@@ -554,13 +562,14 @@ def generate_summary(epm_results, folder, epm_input):
              'Total Demand: GWh', 'Total Generation: GWh', 'Total USE: GWh',
              'Total Capacity Added: MW', 'Total Investment: $m',
              'Total Emission: mt', 'Sys Plan Reserve violation: $m',
-             'Zonal Plan Reserve violation: $m',
+             'Zonal Plan Reserve violation: $m', 'Climate backstop cost: $m',
              'Average Total Annual Cost: $m',
              'Average Capex: $m', 'Average Annualized capex: $m', 'Average Fixed O&M: $m',
              'Average Variable O&M: $m',
              'Average Spinning Reserve costs: $m', 'Average Spinning Reserve violation: $m',
              'Average Planning Reserve violation: $m', 'Average Excess generation: $m',
              'Average Unmet demand costs: $m', 'Zonal Spin Reserve violation: $m',
+             'Average CO2 backstop cost by Country: $m',
               'Demand: GWh', 'Generation: GWh', 'Unmet demand: GWh',
              'Surplus generation: GWh',
              'Peak demand: MW', 'Firm Capacity: MW', 'Planning Reserve: MW',
@@ -653,20 +662,34 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
         FOLDER, SCENARIOS_RENAME=None, folder=folder)
 
+    # TODO: Make smth to only select some scenarios that should appear in the Figures
+
     # Generate summary
     generate_summary(epm_results, RESULTS_FOLDER, epm_input)
 
     # Generate detailed by plant to debug
     if not reduced_output:
-        generate_summary_detailed(epm_results, folder)
 
-        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
-
+        # Define selected scenario
         if selected_scenario not in epm_results['pEnergyByPlant']['scenario'].unique():
             print(f'No {selected_scenario} in epm_results')
             selected_scenario = epm_results['pEnergyByPlant']['scenario'].unique()[0]
             print(f'Selected scenario is set to: {selected_scenario}')
 
+        # Generate a detailed summary by Power Plant
+        generate_summary_detailed(epm_results, RESULTS_FOLDER)
+
+        # Perform automatic Energy DispatchFigures
+        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=plot_all,
+                                selected_scenario=selected_scenario)
+
+        # Make New Capacity Installed Timeline Figures
+        filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline_{selected_scenario}.png'
+        df = epm_results['pCapacityPlan'].copy()
+        df = df[df['scenario'] == selected_scenario]
+        make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+
+        # Make EnergyPlant Figures
         if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
             filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline-{selected_scenario}.png'
             stacked_area_plot(epm_results['pEnergyByPlant'], filename, dict_specs['colors'], x_column='year',
@@ -675,14 +698,8 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                               legend_title='Energy sources', figsize=(10, 6), selected_scenario=selected_scenario,
                               sorting_column='fuel')
 
-
-        filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline_{selected_scenario}.png'
-        df = epm_results['pCapacityPlan'].copy()
-        df = df[df['scenario'] == selected_scenario]
-        make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
-
         # Scenario comparison
-        if len(epm_results['pEnergyByPlant']['generator'].unique()) < 8:
+        if len(epm_results['pEnergyByPlant']['scenario'].unique()) < 8:
 
             df = epm_results['pCapacityByFuel'].copy()
             df['value'] = df['value'] / 1e3
@@ -699,7 +716,6 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                                       column_value='value', column_multiple_bars='scenario',
                                       select_xaxis=[df['year'].min(), df['year'].max()],
                                       format_y=lambda y, _: '{:.1f} TWh'.format(y), rotation=45)
-
 
         if 'pAnnualTransmissionCapacity' in epm_results.keys():
             if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
@@ -785,10 +801,10 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
                     'Error when creating interactive map.')
                 raise  # Re-raise the exception for debuggings
 
-def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=False):
+def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=False, selected_scenario='baseline'):
 
     if not plot_all:  # we only plot the baseline scenario
-        selected_scenarios = ['baseline']
+        selected_scenarios = [selected_scenario]
     else:  # we plot all scenarios
         selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
