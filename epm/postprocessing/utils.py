@@ -2596,7 +2596,7 @@ def create_zonemap(zone_map, map_geojson_to_epm):
     return zone_map, centers
 
 
-def get_json_data(epm_results, dict_specs):
+def get_json_data(epm_results, dict_specs, geo_add=None):
     """
     Extract and process zone map data, handling divisions for sub-national regions.
 
@@ -2634,6 +2634,10 @@ def get_json_data(epm_results, dict_specs):
     zone_map = dict_specs['map_countries']  # getting json data on all countries
     zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries_geojson)]
 
+    if geo_add is not None:
+        zone_map_add = gpd.read_file(geo_add)
+        zone_map = pd.concat([zone_map, zone_map_add])
+
     divided_parts = []
     for (country, division), subset in geojson_to_divide.groupby(['country', 'division']):
         # Apply division function
@@ -2642,15 +2646,15 @@ def get_json_data(epm_results, dict_specs):
     if divided_parts:
         zone_map_divide = pd.concat(divided_parts)
 
-    zone_map_divide = \
-    geojson_to_divide.rename(columns={'country': 'ADMIN'}).merge(zone_map_divide, on=['region', 'ADMIN'])[
-        ['Geojson', 'ISO_A3', 'ISO_A2', 'geometry']]
-    zone_map_divide = zone_map_divide.rename(columns={'Geojson': 'ADMIN'})
-    # Convert zone_map_divide back to a GeoDataFrame
-    zone_map_divide = gpd.GeoDataFrame(zone_map_divide, geometry='geometry', crs=zone_map.crs)
+        zone_map_divide = \
+        geojson_to_divide.rename(columns={'country': 'ADMIN'}).merge(zone_map_divide, on=['region', 'ADMIN'])[
+            ['Geojson', 'ISO_A3', 'ISO_A2', 'geometry']]
+        zone_map_divide = zone_map_divide.rename(columns={'Geojson': 'ADMIN'})
+        # Convert zone_map_divide back to a GeoDataFrame
+        zone_map_divide = gpd.GeoDataFrame(zone_map_divide, geometry='geometry', crs=zone_map.crs)
 
-    # Ensure final zone_map is in EPSG:4326
-    zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
+        # Ensure final zone_map is in EPSG:4326
+        zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
     geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM'].to_dict()  # get only relevant info
     return zone_map, geojson_to_epm
 
@@ -3030,6 +3034,102 @@ def get_value(df, zone, year, scenario, attribute, column_to_select='attribute')
     return value.values[0] if not value.empty else 0
 
 
+def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_value, title,
+                                      filename=None, select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
+    """
+    Generates and saves a dispatch plot for a specific value (e.g., Imports, Exports, Demand).
+
+    Parameters
+    ----------
+    dfs_value : dict
+        Dictionary containing dataframes for the selected value plot.
+    zone : str
+        The zone to visualize.
+    year : int
+        The target year.
+    scenario : str
+        The scenario to visualize.
+    value : str
+        The specific attribute to visualize (e.g., 'Imports', 'Exports', 'Demand').
+    unit_value : str
+        Unit of the displayed value (e.g., 'GWh', 'MW').
+    title : str
+        Title of the plot.
+    filename : str, optional
+        Path to save the figure, default is None.
+    select_time : dict, optional
+        Time selection parameters for filtering the data.
+    legend_loc : str, optional
+        Location of the legend (default is 'bottom').
+    bottom : float, optional
+        Adjusts bottom margin for better layout (default is 0).
+    figsize : tuple, optional
+        Size of the figure, default is (10,6).
+
+    Returns
+    -------
+    None
+    """
+
+    df_dispatch_value = df_dispatch.loc[(df_dispatch['zone']==zone)&(df_dispatch['scenario']==scenario)&(df_dispatch['year']==year)]
+
+    # Extracting unique seasons and representative days
+    dispatch_seasons = list(df_dispatch['season'].unique())
+    n_rep_days = len(list(df_dispatch['day'].unique()))
+
+    # Selecting
+
+    # Plot
+    fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
+
+    # Plot the selected value dispatch
+    df_dispatch_value = df_dispatch_value.set_index(['scenario', 'year', 'season', 'day', 't'])
+    df_dispatch_value.plot(ax=ax, color='steelblue')
+
+    ax.legend().remove()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    # Adding the representative days as vertical lines
+    m = 0
+    d_m = 0
+    x_ds = []
+    for d in range(len(dispatch_seasons) * n_rep_days):
+        if d != 0:
+            m = m + 1
+            d_m = d_m + 1
+            x_d = 24 * d - 1
+            if m == n_rep_days:
+                ax.axvline(x=x_d, color='slategrey', linestyle='-')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+                m = 0
+                d_m = 0
+            else:
+                ax.axvline(x=x_d, color='slategrey', linestyle='--')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+            x_ds = x_ds + [x_d]
+
+    # Adding the last day label
+    ax.text(x=x_d+12, y=(ax.get_ylim()[1]) * 0.9, s=f'd{str(int(d_m+1))}', ha='center')
+    ax.set_xlabel("")
+    ax.set_ylabel(unit_value, fontsize=fontsize, fontweight='bold')
+    ax.text(0, 1.2, title, fontsize=fontsize, fontweight='bold', transform=ax.transAxes)
+    ax.set_xticks([])
+    ax.set_xticks([24 * n_rep_days * s - 24 * n_rep_days / 2 for s in range(len(dispatch_seasons) + 1)])
+    ax.set_xticklabels([''] + [str(s) for s in dispatch_seasons])
+    ax.set_xlim(left=0)
+
+    fig.text(0.5, 0.05, 'Hours', ha='center', fontsize=fontsize, fontweight='bold')
+
+    # Save plot if filename is provided
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+
 def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
@@ -3043,6 +3143,12 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
         dict_colors=dict_specs['colors'], index='fuel'
     )
 
+    df_exchanges = pDispatch.loc[pDispatch['attribute'].isin(['Imports', 'Exports'])]
+    df_exchanges_piv = df_exchanges.pivot(index= ['scenario', 'year', 'season', 'day', 't', 'zone'], columns = 'attribute', values = 'value').reset_index()
+    df_exchanges_piv[['Exports', 'Imports']] = df_exchanges_piv[['Exports', 'Imports']].fillna(0)
+    df_exchanges_piv['Net_imports'] =  df_exchanges_piv['Imports'] + df_exchanges_piv['Exports']
+    df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
+
     dfs_to_plot_area = {
         'pPlantDispatch': filter_dataframe(pPlantDispatch, {'attribute': ['Generation']}),
         'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
@@ -3054,9 +3160,12 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
 
     select_time = {'season': ['Q1', 'Q2', 'Q3'], 'day': ['d1', 'd2','d3', 'd4']}
 
-    dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario, select_time=select_time)
+    dispatch_plot = make_dispatch_plot_interactive(pPlantDispatch=pPlantDispatch, pDispatch=pDispatch, dict_colors=dict_specs['colors'], 
+                                                                zone=zone, year=year, scenario=scenario)
+    dispatch_value_plot = make_dispatch_value_plot_interactive(df_net_imports, zone, year, scenario, unit_value='GWh', title='Net imports', select_time=None)
 
-    final_image = combine_and_resize_images([capacity_plot, dispatch_plot], scale_factor=scale_factor)
+    final_image = combine_and_resize_images([capacity_plot, dispatch_plot, dispatch_value_plot], scale_factor=scale_factor)
+
     # Convert images to base64 and embed in popup
     return f'<br>{final_image}'
 
@@ -3112,6 +3221,135 @@ def combine_and_resize_images(image_list, scale_factor=0.6):
 
     return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
 
+def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_colors, zone, year, scenario,
+                                filename=None, BESS_included=True, Hydro_stor_included=True,title='Dispatch',
+                                select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
+    """
+    Generates and saves a dispatch plot for fuel-based generation in a given zone, year, and scenario.
+
+    Parameters
+    ----------
+    pFuelDispatch : DataFrame
+        Dataframe containing dispatch data by fuel type.
+    pDispatch : DataFrame
+        Dataframe containing total demand and other key dispatch attributes.
+    dict_colors : dict
+        Dictionary mapping fuel types to colors.
+    zone : str
+        The zone to visualize.
+    year : int
+        The target year.
+    scenario : str
+        The scenario to visualize.
+    filename : str, optional
+        Path to save the figure, default is None.
+    BESS_included : bool, optional
+        Whether to include Battery Storage in the dispatch, default is True.
+    Hydro_stor_included : bool, optional
+        Whether to include Pumped-Hydro Storage, default is True.
+    select_time : dict, optional
+        Time selection parameters for filtering the data.
+    legend_loc : str, optional
+        Location of the legend (default is 'bottom').
+    bottom : float, optional
+        Adjusts bottom margin for better layout (default is 0).
+    figsize : tuple, optional
+        Size of the figure, default is (20,6).
+    fontsize : int, optional
+        Font size for labels and titles.
+
+    Returns
+    -------
+    None
+    """
+
+       # Extracting unique seasons and representative days
+    dispatch_seasons = list(pFuelDispatch['season'].unique())
+    n_rep_days = len(list(pFuelDispatch['day'].unique()))
+
+    # Filtrer les données de production
+    pFuelDispatch_zone = pFuelDispatch.loc[
+        (pFuelDispatch['zone'] == zone) & (pFuelDispatch['year'] == year) & (pFuelDispatch['scenario'] == scenario)
+    ]
+
+    # Exclure les stockages si nécessaire
+    if not BESS_included:
+        pFuelDispatch_zone = pFuelDispatch_zone[pFuelDispatch_zone['fuel'] != 'Battery Storage']
+    if not Hydro_stor_included:
+        pFuelDispatch_zone = pFuelDispatch_zone[pFuelDispatch_zone['fuel'] != 'Pumped-Hydro']
+    y_max_dispatch = float(pFuelDispatch_zone['value'].max())
+
+    # Mise en forme pour le stacked area plot
+    pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=['season', 'day', 't'],
+                                                          columns='fuel', values='value', aggfunc='sum')
+
+    # Récupérer la demande
+    pDemand_zone = pDispatch.loc[
+        (pDispatch['zone'] == zone) & (pDispatch['year'] == year) & (pDispatch['scenario'] == scenario) & (pDispatch['attribute'] == 'Demand')
+    ]
+    y_max_demand = float(pDemand_zone['value'].max())
+
+    pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
+
+    # Extraire les saisons et jours représentatifs
+    dispatch_seasons = list(pFuelDispatch['season'].unique())
+    n_rep_days = len(list(pFuelDispatch['day'].unique()))
+
+    # Créer le graphique
+    fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
+
+    # Tracer la production en stacked area
+    if not pFuelDispatch_pivot.empty:
+        pFuelDispatch_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pFuelDispatch_pivot.columns])
+
+    # Tracer la demande
+    if not pDemand_pivot.empty:
+        pDemand_pivot.plot(ax=ax, linewidth=1.5, color='darkred', linestyle='-', label='Demand')
+
+    ax.legend().remove()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    # Adding the representative days as vertical lines
+    m = 0
+    d_m = 0
+    x_ds = []
+    for d in range(len(dispatch_seasons) * n_rep_days):
+        if d != 0:
+            m = m + 1
+            d_m = d_m + 1
+            x_d = 24 * d - 1
+            if m == n_rep_days:
+                ax.axvline(x=x_d, color='slategrey', linestyle='-')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+                m = 0
+                d_m = 0
+            else:
+                ax.axvline(x=x_d, color='slategrey', linestyle='--')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+            x_ds = x_ds + [x_d]
+
+    # Adding the last day label
+    ax.text(x=x_d+12, y=(ax.get_ylim()[1]) * 0.9, s=f'd{str(int(d_m+1))}', ha='center')
+    ax.set_xlabel("")
+    ax.set_ylabel('GWh', fontsize=fontsize, fontweight='bold')
+    ax.text(0, 1.2, title, fontsize=fontsize, fontweight='bold', transform=ax.transAxes)
+    ax.set_xticks([])
+    ax.set_xticks([24 * n_rep_days * s - 24 * n_rep_days / 2 for s in range(len(dispatch_seasons) + 1)])
+    ax.set_xticklabels([''] + [str(s) for s in dispatch_seasons])
+    ax.set_xlim(left=0)
+    ax.set_ylim(top=max(y_max_dispatch, y_max_demand))
+
+    fig.text(0.5, 0.05, 'Hours', ha='center', fontsize=fontsize, fontweight='bold')
+
+    # Save plot if filename is provided
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
 
 def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fuel'):
     """
@@ -3154,6 +3392,21 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     encoded_str = base64.b64encode(img.getvalue()).decode()
     return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
 
+def make_dispatch_plot_interactive(pPlantDispatch, pDispatch, dict_colors, zone, year, scenario):
+    """Generates a dispatch plot and returns it as a base64 image string."""
+    img = BytesIO()
+
+    fig_width = 12
+    fig_height = 2  # Shorter height for better fit
+    fontsize=6
+
+    make_complete_dispatch_plot_for_interactive(pPlantDispatch, pDispatch, dict_colors, 
+                                                zone=zone, year=year, scenario=scenario, BESS_included=True, Hydro_stor_included=False, filename=img,
+                                                figsize=(fig_width, fig_height),fontsize=fontsize)
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
 
 def encode_image_from_memory(img):
     """Encodes an in-memory image (BytesIO) to base64 for embedding in HTML."""
@@ -3161,6 +3414,24 @@ def encode_image_from_memory(img):
         return ""
     encoded_str = base64.b64encode(img.read()).decode()
     return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
+
+def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
+ 
+    img = BytesIO()
+
+    fig_width = 12
+    fig_height = 2  # Shorter height for better fit
+    fontsize=6
+
+    make_complete_value_dispatch_plot(
+        df_dispatch=df_dispatch, zone=zone, year=year, scenario=scenario, 
+        unit_value=unit_value, title=title, filename=img, select_time=select_time, 
+        figsize=(fig_width, fig_height),fontsize=fontsize
+    )
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
 
 
 def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250), end_color=(139, 0, 0)):
