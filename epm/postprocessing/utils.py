@@ -1799,15 +1799,15 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
                         title = '{}-{}'.format(title[0], title[1])
                     ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
 
-
             if k == 0:
                 handles, labels = ax.get_legend_handles_labels()
                 labels = [l.replace('_', ' ') for l in labels]
                 ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
-            if k > 0:
+            if k % n_columns != 0:
                 ax.set_ylabel('')
                 ax.tick_params(axis='y', which='both', left=False, labelleft=False)
             ax.get_legend().remove()
+
 
             # Add a horizontal line at 0
             ax.axhline(0, color='black', linewidth=0.5)
