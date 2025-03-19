@@ -351,7 +351,7 @@ Creates a dispatch plot combining stacked area and line plots to visualize elect
 dispatch_plot(df_area=generation_data, df_line=demand_data, dict_colors=fuel_colors, filename="dispatch_plot.png")
 ```
 ---
-#### **`make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario, filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None, legend_loc='bottom', bottom=0, figsize=(10,6))`**
+#### `make_complete_fuel_dispatch_plot`
 Generates and saves a complete fuel dispatch plot, including generation, demand, and other dispatch components.
 
 ##### Parameters
