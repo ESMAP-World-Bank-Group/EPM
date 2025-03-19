@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>SAPP analysis &#8212; Energy Planning Model</title>
+    <title>Load data &#8212; Energy Planning Model</title>
   
   
   
@@ -270,7 +270,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        SAPP analysis
+                        Load data
                       </a>
                     </li>
                 
@@ -550,7 +550,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        SAPP analysis
+                        Load data
                       </a>
                     </li>
                 
@@ -723,8 +723,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="planning_analysis_liberia.html">Example of Liberia PV-BESS sizing analysis</a></li>
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">SAPP analysis</a></li>
-
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Load data</a></li>
 
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
@@ -920,7 +919,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>SAPP analysis</h1>
+    <h1>Load data</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -932,11 +931,6 @@ title="Print to PDF"
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   SAPP analysis
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-data">
    Load data
   </a>
   <ul class="visible nav section-nav flex-column">
@@ -956,6 +950,23 @@ title="Print to PDF"
     <a class="reference internal nav-link" href="#capacity-mix">
      Capacity mix
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#maps-plots">
+       Maps plots
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stacked-bar-plots">
+       Stacked bar plots
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stacked-area-plot">
+       Stacked area plot
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#transmission-lines">
@@ -978,16 +989,15 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="sapp-analysis">
-<h1>SAPP analysis<a class="headerlink" href="#sapp-analysis" title="Permalink to this heading">#</a></h1>
-<div class="cell docutils container">
+  <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fileinput</span><span class="w"> </span><span class="kn">import</span> <span class="n">filename</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
 </div>
 </div>
-</section>
 <section class="tex2jax_ignore mathjax_ignore" id="load-data">
 <h1>Load data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h1>
 <p>This loads results data from the results folder</p>
@@ -1004,21 +1014,21 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pHourlyFlow not in epm_results.keys().
-pInterconUtilizationExt not in epm_results.keys().
-interchanges not in epm_results.keys().
-pFuelDispatch not in epm_results.keys().
-Interchange not in epm_results.keys().
-pInterchangeExt not in epm_results.keys().
-pPlantFuelDispatch not in epm_results.keys().
-pCurtailedStoHY not in epm_results.keys().
-pCurtailedVRET not in epm_results.keys().
-InterconUtilizationExt not in epm_results.keys().
-annual_line_capa not in epm_results.keys().
-pNPVByYear not in epm_results.keys().
-InterchangeExt not in epm_results.keys().
-InterconUtilization not in epm_results.keys().
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pInterconUtilizationExt not in epm_results.keys().
 AdditiononalCapacity_trans not in epm_results.keys().
+InterconUtilizationExt not in epm_results.keys().
+pInterchangeExt not in epm_results.keys().
+pHourlyFlow not in epm_results.keys().
+pFuelDispatch not in epm_results.keys().
+InterchangeExt not in epm_results.keys().
+pNPVByYear not in epm_results.keys().
+pCurtailedVRET not in epm_results.keys().
+Interchange not in epm_results.keys().
+pPlantFuelDispatch not in epm_results.keys().
+interchanges not in epm_results.keys().
+InterconUtilization not in epm_results.keys().
+pCurtailedStoHY not in epm_results.keys().
+annual_line_capa not in epm_results.keys().
 pFuelDispatch not found in epm_dict
 pPlantFuelDispatch not found in epm_dict
 </pre></div>
@@ -1094,6 +1104,8 @@ pPlantFuelDispatch not found in epm_dict
 <h1>Maps<a class="headerlink" href="#maps" title="Permalink to this heading">#</a></h1>
 <section id="capacity-mix">
 <h2>Capacity mix<a class="headerlink" href="#capacity-mix" title="Permalink to this heading">#</a></h2>
+<section id="maps-plots">
+<h3>Maps plots<a class="headerlink" href="#maps-plots" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pCapacityByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1113,6 +1125,49 @@ pPlantFuelDispatch not found in epm_dict
 <img alt="../_images/f8f8dd12a331c11ab6b7fd4b0ddc748195f54ac4714704f0286f7e4d6a0ee298.png" src="../_images/f8f8dd12a331c11ab6b7fd4b0ddc748195f54ac4714704f0286f7e4d6a0ee298.png" />
 </div>
 </div>
+</section>
+<section id="stacked-bar-plots">
+<h3>Stacked bar plots<a class="headerlink" href="#stacked-bar-plots" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">zone</span> <span class="o">!=</span> <span class="s1">&#39;South_Africa&#39;</span><span class="p">]</span>  <span class="c1"># removing South Africa for scaling</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span> 
+
+<span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">selected_zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selected_year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
+                          <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+                          <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dict_grouping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_scenarios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dict_scenarios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">order_stacked</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">annotate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                          <span class="n">show_total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fonttick</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ea0a43b865af86c4c7c564d4e4cb0117eef57977b5ad2af59fc899cec8559bdc.png" src="../_images/ea0a43b865af86c4c7c564d4e4cb0117eef57977b5ad2af59fc899cec8559bdc.png" />
+</div>
+</div>
+</section>
+<section id="stacked-area-plot">
+<h3>Stacked area plot<a class="headerlink" href="#stacked-area-plot" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">zone</span> <span class="o">!=</span> <span class="s1">&#39;South_Africa&#39;</span><span class="p">]</span>  <span class="c1"># removing South Africa for scaling</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">make_stacked_area_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">selected_zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selected_year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selected_scenario</span><span class="o">=</span><span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+                              <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_subplots</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+                              <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/6f7d0121f18954cc29b1845082c2a88d21a184670872871194a01a8e91dbbf2d.png" src="../_images/6f7d0121f18954cc29b1845082c2a88d21a184670872871194a01a8e91dbbf2d.png" />
+</div>
+</div>
+</section>
 </section>
 <section id="transmission-lines">
 <h2>Transmission lines<a class="headerlink" href="#transmission-lines" title="Permalink to this heading">#</a></h2>
@@ -1246,11 +1301,6 @@ pPlantFuelDispatch not found in epm_dict
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   SAPP analysis
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-data">
    Load data
   </a>
   <ul class="visible nav section-nav flex-column">
@@ -1270,6 +1320,23 @@ pPlantFuelDispatch not found in epm_dict
     <a class="reference internal nav-link" href="#capacity-mix">
      Capacity mix
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#maps-plots">
+       Maps plots
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stacked-bar-plots">
+       Stacked bar plots
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#stacked-area-plot">
+       Stacked area plot
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#transmission-lines">
