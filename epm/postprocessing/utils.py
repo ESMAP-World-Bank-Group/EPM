@@ -689,12 +689,48 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                                 selected_scenario=selected_scenario)
 
         # Make New Capacity Installed Timeline Figures
-        filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline_{selected_scenario}.png'
         df = epm_results['pCapacityPlan'].copy()
-        df = df[df['scenario'] == selected_scenario]
-        make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+
+        if len(df.zone.unique()) == 1:
+            filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline-{selected_scenario}.png'
+            df = df[df['scenario'] == selected_scenario]
+            make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+        else:
+            for zone in df.zone.unique():
+                filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline-{selected_scenario}-{zone}.png'
+                df_zone = df.copy()
+                df_zone = df_zone[(df_zone['scenario'] == selected_scenario) & (df_zone['zone'] == zone)]
+                make_annotated_stacked_area_plot(df_zone, filename, dict_colors=dict_specs['colors'])
 
         # Make EnergyPlant Figures
+        df = epm_results['pEnergyByPlant'].copy()
+        if len(df.zone.unique()) == 1:  # single zone model
+            if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
+                df = df[df['scenario'] == selected_scenario]
+                filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot-{selected_scenario}.png'
+                stacked_area_plot(df, filename, dict_specs['colors'], x_column='year',
+                                  y_column='value',
+                                  stack_column='generator', title='Energy Generation by Plant',
+                                  y_label='Generation (GWh)',
+                                  legend_title='Energy sources', figsize=(10, 6), selected_scenario=selected_scenario,
+                                  sorting_column='fuel')
+        else:
+            for zone in df.zone.unique():
+                filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot-{selected_scenario}-{zone}.png'
+                df_zone = df.copy()
+                df_zone = df_zone[(df_zone['scenario'] == selected_scenario) & (df_zone['zone'] == zone)]
+                if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
+                    stacked_area_plot(df_zone, filename, dict_specs['colors'], x_column='year',
+                                      y_column='value',
+                                      stack_column='generator', title='Energy Generation by Plant',
+                                      y_label='Generation (GWh)',
+                                      legend_title='Energy sources', figsize=(10, 6),
+                                      selected_scenario=selected_scenario,
+                                      sorting_column='fuel')
+
+
+                make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+
         if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
             filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline-{selected_scenario}.png'
             stacked_area_plot(epm_results['pEnergyByPlant'], filename, dict_specs['colors'], x_column='year',
@@ -712,7 +748,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
                                       column_value='value', column_multiple_bars='scenario',
                                       select_xaxis=[df['year'].min(), df['year'].max()],
-                                      format_y=lambda y, _: '{:.1f} GW'.format(y), rotation=45)
+                                      format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45)
 
             df = epm_results['pEnergyByFuel'].copy()
             df['value'] = df['value'] / 1e3
@@ -720,7 +756,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
                                       column_value='value', column_multiple_bars='scenario',
                                       select_xaxis=[df['year'].min(), df['year'].max()],
-                                      format_y=lambda y, _: '{:.1f} TWh'.format(y), rotation=45)
+                                      format_y=lambda y, _: '{:.0f} TWh'.format(y), rotation=45)
 
         if 'pAnnualTransmissionCapacity' in epm_results.keys():
             if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
