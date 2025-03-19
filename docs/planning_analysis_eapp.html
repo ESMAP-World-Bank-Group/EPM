@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Load data &#8212; Energy Planning Model</title>
+    <title>EAPP Postprocessing &#8212; Energy Planning Model</title>
   
   
   
@@ -58,12 +58,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/planning_analysis_sapp';</script>
-    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/planning_analysis_sapp.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/planning_analysis_eapp';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/planning_analysis_eapp.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="EAPP Postprocessing" href="planning_analysis_eapp.html" />
-    <link rel="prev" title="Example of Liberia PV-BESS sizing analysis" href="planning_analysis_liberia.html" />
+    <link rel="next" title="Mathematical formulation" href="model_overview.html" />
+    <link rel="prev" title="Load data" href="planning_analysis_sapp.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -268,15 +268,15 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="planning_analysis_sapp.html">
                         Load data
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="planning_analysis_eapp.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         EAPP Postprocessing
                       </a>
                     </li>
@@ -555,15 +555,15 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="planning_analysis_sapp.html">
                         Load data
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="planning_analysis_eapp.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         EAPP Postprocessing
                       </a>
                     </li>
@@ -737,9 +737,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="planning_analysis_liberia.html">Example of Liberia PV-BESS sizing analysis</a></li>
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Load data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planning_analysis_sapp.html">Load data</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="planning_analysis_eapp.html"><strong>EAPP Postprocessing</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>EAPP Postprocessing</strong></a></li>
 
 
 
@@ -854,7 +854,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/planning_analysis_sapp.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/planning_analysis_eapp.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -869,7 +869,7 @@ title="Open an issue"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/planning_analysis_sapp.ipynb" target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/planning_analysis_eapp.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -894,7 +894,7 @@ title="Edit this page"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../_sources/docs/planning_analysis_sapp.ipynb" target="_blank"
+      <li><a href="../_sources/docs/planning_analysis_eapp.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -937,7 +937,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Load data</h1>
+    <h1>EAPP Postprocessing</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -949,54 +949,31 @@ title="Print to PDF"
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Load data
+   <strong>
+    EAPP Postprocessing
+   </strong>
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-geographical-zone-data">
-     Create geographical zone data
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#maps">
-   Maps
+  <a class="reference internal nav-link" href="#options">
+   <em>
+    Options
+   </em>
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#capacity-mix">
-     Capacity mix
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#maps-plots">
-       Maps plots
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#stacked-bar-plots">
-       Stacked bar plots
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#stacked-area-plot">
-       Stacked area plot
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-lines">
-     Transmission lines
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#interactive-map">
-     Interactive map
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-data">
+   <em>
+    Read data
+   </em>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-figures">
+   <em>
+    Plotting figures
+   </em>
+  </a>
  </li>
 </ul>
 
@@ -1007,45 +984,120 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <div class="cell docutils container">
+  <section id="eapp-postprocessing">
+<h1><strong>EAPP Postprocessing</strong><a class="headerlink" href="#eapp-postprocessing" title="Permalink to this heading">#</a></h1>
+<p><strong>Disclaimer</strong>: notebook in progress, only to illustrate new graphs with regional model !</p>
+</section>
+<section id="options">
+<h1><em>Options</em><a class="headerlink" href="#options" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fileinput</span><span class="w"> </span><span class="kn">import</span> <span class="n">filename</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">utils_git</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 </pre></div>
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="load-data">
-<h1>Load data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h1>
-<p>This loads results data from the results folder</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="s1">&#39;simulations_run_20250319_153640&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Options</span>
 
-<span class="c1"># RESULTS_FOLDER = os.path.join(&#39;..&#39;, &#39;output&#39;, RESULTS_FOLDER)</span>
-<span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS_FOLDER</span><span class="p">)</span>
+<span class="c1"># Folder</span>
+<span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="s1">&#39;simulations_run_20250317_190351&#39;</span> <span class="c1"># Name of the folder containing the results</span>
+<span class="n">DISPLAY</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Usually set to False to avoid displaying the graphs</span>
 
-<span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">GRAPHS_FOLDER</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">,</span> <span class="n">epm_input</span><span class="p">,</span> <span class="n">epm_results</span><span class="p">,</span> <span class="n">mapping_gen_fuel</span> <span class="o">=</span> <span class="n">process_simulation_results</span><span class="p">(</span>
-    <span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">SCENARIOS_RENAME</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">folder</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="c1"># Scenarios</span>
+<span class="n">SCENARIOS_RENAME</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;baseline&#39;</span><span class="p">:</span> <span class="s1">&#39;BAU&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;expansion&#39;</span><span class="p">:</span> <span class="s1">&#39;EXP&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">selected_scenario</span> <span class="o">=</span> <span class="s1">&#39;baseline&#39;</span>
+<span class="n">scenario_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="s1">&#39;expansion&#39;</span><span class="p">]</span>
+
+<span class="c1"># Map file</span>
+<span class="n">EPM_TO_GEOJSON</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;South Africa&#39;</span><span class="p">:</span> <span class="s1">&#39;South_Africa&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Namibia&#39;</span><span class="p">:</span> <span class="s1">&#39;Namibia&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Mozambique&#39;</span><span class="p">:</span> <span class="s1">&#39;Mozambique&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;United Republic of Tanzania&#39;</span><span class="p">:</span> <span class="s1">&#39;Tanzania&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Angola&#39;</span><span class="p">:</span> <span class="s1">&#39;Angola&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Botswana&#39;</span><span class="p">:</span> <span class="s1">&#39;Botswana&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Zambia&#39;</span><span class="p">:</span> <span class="s1">&#39;Zambia&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Malawi&#39;</span><span class="p">:</span> <span class="s1">&#39;Malawi&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Lesotho&#39;</span><span class="p">:</span> <span class="s1">&#39;Lesotho&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Zimbabwe&#39;</span><span class="p">:</span> <span class="s1">&#39;Zimbabwe&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Democratic Republic of the Congo&#39;</span><span class="p">:</span> <span class="s1">&#39;DRC&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="c1"># Option values </span>
+<span class="n">DISCOUNT_RATE</span> <span class="o">=</span> <span class="mf">0.06</span>
+<span class="n">SELECT_XAXIS</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2026</span><span class="p">]</span> <span class="c1"># x-axis displayed range for the graphs</span>
+
+<span class="c1"># Plot specifications</span>
+<span class="n">dict_specs</span> <span class="o">=</span> <span class="n">read_plot_specs</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the folder path</span>
+<span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="n">RESULTS_FOLDER</span><span class="p">)</span>
+<span class="n">GRAPHS_RESULTS</span> <span class="o">=</span> <span class="s1">&#39;img&#39;</span>
+<span class="n">GRAPHS_RESULTS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">GRAPHS_RESULTS</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">GRAPHS_RESULTS</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">GRAPHS_RESULTS</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Created folder </span><span class="si">{</span><span class="n">GRAPHS_RESULTS</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Result folder: </span><span class="si">{</span><span class="n">RESULTS_FOLDER</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pInterconUtilizationExt not in epm_results.keys().
-AdditiononalCapacity_trans not in epm_results.keys().
-InterconUtilizationExt not in epm_results.keys().
-pInterchangeExt not in epm_results.keys().
-pHourlyFlow not in epm_results.keys().
-pFuelDispatch not in epm_results.keys().
-InterchangeExt not in epm_results.keys().
-pNPVByYear not in epm_results.keys().
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Result folder: ..\output\simulations_run_20250317_190351
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-data">
+<h1><em>Read data</em><a class="headerlink" href="#read-data" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract and process EPM inputs</span>
+<span class="n">epm_input</span> <span class="o">=</span> <span class="n">extract_epm_folder</span><span class="p">(</span><span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s1">&#39;input.gdx&#39;</span><span class="p">)</span>
+<span class="n">epm_input</span> <span class="o">=</span> <span class="n">process_epm_inputs</span><span class="p">(</span><span class="n">epm_input</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">,</span> <span class="n">scenarios_rename</span><span class="o">=</span><span class="n">SCENARIOS_RENAME</span><span class="p">)</span>
+<span class="n">mapping_gen_fuel</span> <span class="o">=</span> <span class="n">epm_input</span><span class="p">[</span><span class="s1">&#39;pGenDataExcel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;generator&#39;</span><span class="p">,</span> <span class="s1">&#39;fuel&#39;</span><span class="p">]]</span>
+
+<span class="c1"># Extract and process EPM results</span>
+<span class="n">epm_results</span> <span class="o">=</span> <span class="n">extract_epm_folder</span><span class="p">(</span><span class="n">RESULTS_FOLDER</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s1">&#39;epmresults.gdx&#39;</span><span class="p">)</span>
+<span class="n">epm_results</span> <span class="o">=</span> <span class="n">process_epm_results</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">,</span> <span class="n">scenarios_rename</span><span class="o">=</span><span class="n">SCENARIOS_RENAME</span><span class="p">,</span>
+                                  <span class="n">mapping_gen_fuel</span><span class="o">=</span><span class="n">mapping_gen_fuel</span><span class="p">)</span>
+
+<span class="c1"># Add plant colors to the dictionary</span>
+<span class="k">if</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByPlant&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">plant_fuel_pairs</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[[</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span> <span class="s1">&#39;fuel&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+    <span class="n">plant_fuel_pairs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plant_fuel_pairs</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">])</span>
+    <span class="n">plant_to_color</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">plant_fuel_pairs</span><span class="p">[</span><span class="s1">&#39;generator&#39;</span><span class="p">],</span> <span class="n">plant_fuel_pairs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">]))</span>
+    <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">plant_to_color</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>InterchangeExt not in epm_results.keys().
+InterconUtilization not in epm_results.keys().
 pCurtailedVRET not in epm_results.keys().
-Interchange not in epm_results.keys().
+pNPVByYear not in epm_results.keys().
+pInterconUtilizationExt not in epm_results.keys().
 pPlantFuelDispatch not in epm_results.keys().
 interchanges not in epm_results.keys().
-InterconUtilization not in epm_results.keys().
+InterconUtilizationExt not in epm_results.keys().
+Interchange not in epm_results.keys().
 pCurtailedStoHY not in epm_results.keys().
+AdditiononalCapacity_trans not in epm_results.keys().
+pFuelDispatch not in epm_results.keys().
+pHourlyFlow not in epm_results.keys().
+pInterchangeExt not in epm_results.keys().
 annual_line_capa not in epm_results.keys().
 pFuelDispatch not found in epm_dict
 pPlantFuelDispatch not found in epm_dict
@@ -1053,180 +1105,102 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 </div>
-<section id="create-geographical-zone-data">
-<h2>Create geographical zone data<a class="headerlink" href="#create-geographical-zone-data" title="Permalink to this heading">#</a></h2>
-<p>Update <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> in <code class="docutils literal notranslate"><span class="pre">postprocessing/static/</span></code> to define zones.</p>
-<p><strong>Required Columns</strong>:</p>
-<ul class="simple">
-<li><p><strong>Geojson</strong>: Zone name (must match <code class="docutils literal notranslate"><span class="pre">countries.geojson</span></code>).</p></li>
-<li><p><strong>EPM</strong>: Corresponding zone name in the EPM model.</p></li>
-</ul>
-<p><strong>Optional (for country subdivisions)</strong>:</p>
-<ul class="simple">
-<li><p><strong>region</strong>: North, South, East, or West.</p></li>
-<li><p><strong>country</strong>: Country name (must match <code class="docutils literal notranslate"><span class="pre">countries.geojson</span></code>).</p></li>
-<li><p><strong>division</strong>: <code class="docutils literal notranslate"><span class="pre">'NS'</span></code> (North-South) or <code class="docutils literal notranslate"><span class="pre">'EW'</span></code> (East-West).</p></li>
-</ul>
-<p><strong>Example</strong>:</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Geojson</p></th>
-<th class="head"><p>EPM</p></th>
-<th class="head"><p>region</p></th>
-<th class="head"><p>country</p></th>
-<th class="head"><p>division</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>South Africa</p></td>
-<td><p>South_Africa</p></td>
-<td><p></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p>Namibia</p></td>
-<td><p>Namibia</p></td>
-<td><p></p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>Democratic Republic of the Congo - North</p></td>
-<td><p>DRC</p></td>
-<td><p>north</p></td>
-<td><p>Democratic Republic of the Congo</p></td>
-<td><p>NS</p></td>
-</tr>
-<tr class="row-odd"><td><p>Democratic Republic of the Congo - South</p></td>
-<td><p>DRC_South</p></td>
-<td><p>south</p></td>
-<td><p>Democratic Republic of the Congo</p></td>
-<td><p>NS</p></td>
-</tr>
-</tbody>
-</table>
-<p>Democratic Republic of the Congo is split into North/South; other zones remain the same.</p>
+</section>
+<section id="plotting-figures">
+<h1><em>Plotting figures</em><a class="headerlink" href="#plotting-figures" title="Permalink to this heading">#</a></h1>
+<p>Mix</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">zone_map</span><span class="p">,</span> <span class="n">geojson_to_epm</span> <span class="o">=</span> <span class="n">get_json_data</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Generation mix</span>
 
-<span class="n">epm_to_geojson</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">geojson_to_epm</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>  <span class="c1"># Reverse dictionary</span>
+<span class="n">scenario</span> <span class="o">=</span> <span class="s1">&#39;EXP&#39;</span>
+<span class="n">zone</span><span class="o">=</span><span class="s1">&#39;Ethiopia&#39;</span>
 
+<span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
+    <span class="n">df_zone</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">zone</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;EXP&#39;</span><span class="p">)]</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">RESULTS_FOLDER</span><span class="o">+</span><span class="s1">&#39;/img/&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;generation_mix_</span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">stacked_area_plot</span><span class="p">(</span><span class="n">df_zone</span><span class="p">,</span> <span class="n">x_column</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y_column</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">stack_column</span><span class="o">=</span><span class="s2">&quot;fuel&quot;</span><span class="p">,</span> 
+                      <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Generation mix - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                      <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1"> mix graph saved in </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Burundi mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Burundi
+Djibouti mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Djibouti
+Drc_E mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Drc_E
+Egypt mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Egypt
+Ethiopia mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Ethiopia
+Kenya mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Kenya
+Libya mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Libya
+Mogadishu mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Mogadishu
+Rwanda mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Rwanda
+SomaliaROC mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_SomaliaROC
+Somaliland mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Somaliland
+SouthSudan mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_SouthSudan
+Sudan mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Sudan
+Tanzania mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Tanzania
+Uganda mix graph saved in ..\output\simulations_run_20250317_190351/img/generation_mix_EXP_Uganda
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Get map data  </span>
+
+<span class="n">zone_map</span><span class="p">,</span> <span class="n">geojson_to_epm</span> <span class="o">=</span> <span class="n">get_json_data</span><span class="p">(</span><span class="n">epm_results</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">,</span> <span class="n">geo_add</span><span class="o">=</span><span class="s1">&#39;static/eapp_zones_add.geojson&#39;</span><span class="p">)</span>
+<span class="n">geojson_to_epm</span> <span class="o">=</span> <span class="p">{</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;ADMIN&quot;</span><span class="p">]:</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;ADMIN&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">zone_map</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()}</span>
+<span class="n">geojson_to_epm</span><span class="p">[</span><span class="s1">&#39;South Sudan&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SouthSudan&#39;</span>
 <span class="n">zone_map</span><span class="p">,</span> <span class="n">centers</span> <span class="o">=</span> <span class="n">create_zonemap</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">map_geojson_to_epm</span><span class="o">=</span><span class="n">geojson_to_epm</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="maps">
-<h1>Maps<a class="headerlink" href="#maps" title="Permalink to this heading">#</a></h1>
-<section id="capacity-mix">
-<h2>Capacity mix<a class="headerlink" href="#capacity-mix" title="Permalink to this heading">#</a></h2>
-<section id="maps-plots">
-<h3>Maps plots<a class="headerlink" href="#maps-plots" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pCapacityByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">pCapacityByFuel</span> <span class="o">=</span> <span class="n">pCapacityByFuel</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pCapacityByFuel</span><span class="o">.</span><span class="n">zone</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">geojson_to_epm</span><span class="o">.</span><span class="n">values</span><span class="p">()))]</span>
-<span class="n">make_capacity_mix_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">pCapacityByFuel</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2025</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s1">&#39;SAPP&#39;</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                      <span class="n">map_epm_to_geojson</span><span class="o">=</span><span class="n">geojson_to_epm</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Capacity map</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">zone</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">geojson_to_epm</span><span class="o">.</span><span class="n">values</span><span class="p">()))]</span>
+<span class="n">make_capacity_mix_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2026</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="s1">&#39;EAPP&#39;</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s1">&#39;BAU&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">map_epm_to_geojson</span><span class="o">=</span><span class="n">geojson_to_epm</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;center left&#39;</span><span class="p">,</span> 
                       <span class="n">pie_sizing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="n">min_size</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/celia/Documents/WorldBank/Energy_planning/EPM/epm/postprocessing/utils.py:2573: UserWarning: Geometry is in a geographic CRS. Results from &#39;area&#39; are likely incorrect. Use &#39;GeoSeries.to_crs()&#39; to re-project geometries to a projected CRS before this operation.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:2774: UserWarning: Geometry is in a geographic CRS. Results from &#39;area&#39; are likely incorrect. Use &#39;GeoSeries.to_crs()&#39; to re-project geometries to a projected CRS before this operation.
 
   region_sizes[&#39;area&#39;] = region_sizes.geometry.area
 </pre></div>
 </div>
-<img alt="../_images/f8f8dd12a331c11ab6b7fd4b0ddc748195f54ac4714704f0286f7e4d6a0ee298.png" src="../_images/f8f8dd12a331c11ab6b7fd4b0ddc748195f54ac4714704f0286f7e4d6a0ee298.png" />
+<img alt="../_images/ea57dac0f57de4320da2c7ce4a0341406e406bdc0186ec88e1c21b6bc41ecedd.png" src="../_images/ea57dac0f57de4320da2c7ce4a0341406e406bdc0186ec88e1c21b6bc41ecedd.png" />
 </div>
 </div>
-</section>
-<section id="stacked-bar-plots">
-<h3>Stacked bar plots<a class="headerlink" href="#stacked-bar-plots" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transmission lines</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">zone</span> <span class="o">!=</span> <span class="s1">&#39;South_Africa&#39;</span><span class="p">]</span>  <span class="c1"># removing South Africa for scaling</span>
-<span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span> 
-
-<span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">selected_zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selected_year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
-                          <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
-                          <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dict_grouping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_scenarios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dict_scenarios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                          <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">order_stacked</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">annotate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                          <span class="n">show_total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fonttick</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pAnnualTransmissionCapacity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">make_interconnection_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2026</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s1">&#39;EXP&#39;</span><span class="p">,</span> <span class="n">label_yoffset</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">label_xoffset</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span>
+                         <span class="n">label_fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_display_capacity</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ea0a43b865af86c4c7c564d4e4cb0117eef57977b5ad2af59fc899cec8559bdc.png" src="../_images/ea0a43b865af86c4c7c564d4e4cb0117eef57977b5ad2af59fc899cec8559bdc.png" />
+<img alt="../_images/8c802e201517118c04713a1b074e6a5852ec8ec5cd02bc3082f656b43191b028.png" src="../_images/8c802e201517118c04713a1b074e6a5852ec8ec5cd02bc3082f656b43191b028.png" />
 </div>
 </div>
-</section>
-<section id="stacked-area-plot">
-<h3>Stacked area plot<a class="headerlink" href="#stacked-area-plot" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Interactive map</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">zone</span> <span class="o">!=</span> <span class="s1">&#39;South_Africa&#39;</span><span class="p">]</span>  <span class="c1"># removing South Africa for scaling</span>
-
-<span class="n">filename</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">make_stacked_area_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">selected_zone</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selected_year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">selected_scenario</span><span class="o">=</span><span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
-                              <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_subplots</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
-                              <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/6f7d0121f18954cc29b1845082c2a88d21a184670872871194a01a8e91dbbf2d.png" src="../_images/6f7d0121f18954cc29b1845082c2a88d21a184670872871194a01a8e91dbbf2d.png" />
-</div>
-</div>
-</section>
-</section>
-<section id="transmission-lines">
-<h2>Transmission lines<a class="headerlink" href="#transmission-lines" title="Permalink to this heading">#</a></h2>
-<p>Parameters which the user can adapt:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">scenario</span></code>: choice of scenario to plot</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">year</span></code>: choice of year to display</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">show_labels</span></code>: whether to show country names or not</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pAnnualTransmissionCapacity</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pAnnualTransmissionCapacity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">make_interconnection_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">pAnnualTransmissionCapacity</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="n">label_yoffset</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">label_xoffset</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span>
-                         <span class="n">label_fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_display_capacity</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/bdda60c2c5ae5c7cd08aa53b8db1d543245997f9ec0d463396e5d5fcf591b87b.png" src="../_images/bdda60c2c5ae5c7cd08aa53b8db1d543245997f9ec0d463396e5d5fcf591b87b.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pInterconUtilization</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pInterconUtilization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">pInterconUtilization</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pInterconUtilization</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
-<span class="n">make_interconnection_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">pInterconUtilization</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2030</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="s1">&#39;baseline&#39;</span><span class="p">,</span> <span class="n">min_capacity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">label_yoffset</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">label_xoffset</span><span class="o">=-</span><span class="mf">0.05</span><span class="p">,</span>
-                         <span class="n">label_fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">show_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_display_capacity</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> %&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/54554091f5840456c8c08d923a12de95e6e6617003e7845654057bda258f5f0e.png" src="../_images/54554091f5840456c8c08d923a12de95e6e6617003e7845654057bda258f5f0e.png" />
-</div>
-</div>
-</section>
-<section id="interactive-map">
-<h2>Interactive map<a class="headerlink" href="#interactive-map" title="Permalink to this heading">#</a></h2>
-<p>Creates an interactive map in <code class="docutils literal notranslate"><span class="pre">html</span></code> format</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess transmission data</span>
+<span class="c1"># Preprocess transmission data</span>
 <span class="n">capa_transmission</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pAnnualTransmissionCapacity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">utilization_transmission</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pInterconUtilization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">transmission_data</span> <span class="o">=</span> <span class="n">capa_transmission</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;capacity&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">utilization_transmission</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;utilization&#39;</span><span class="p">}),</span> 
@@ -1239,8 +1213,8 @@ pPlantFuelDispatch not found in epm_dict
 <span class="n">pEnergyByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">pDispatch</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">pPlantDispatch</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pPlantDispatch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">year</span> <span class="o">=</span> <span class="mi">2025</span>
-<span class="n">scenario</span> <span class="o">=</span> <span class="s1">&#39;baseline&#39;</span>
+<span class="n">year</span> <span class="o">=</span> <span class="mi">2030</span>
+<span class="n">scenario</span> <span class="o">=</span> <span class="s1">&#39;EXP&#39;</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">RESULTS_FOLDER</span><span class="si">}</span><span class="s1">/interactivemap.html&#39;</span>
 
 
@@ -1250,13 +1224,69 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Interactive map saved to ../output/simulations_run_20250319_153640/interactivemap.html
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3283: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;],
+c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local\epm\postprocessing\utils_git.py:3292: FutureWarning: The default value of observed=False is deprecated and will change to observed=True in a future version of pandas. Specify observed=False to silence this warning and retain the current behavior
+  pDemand_pivot = pDemand_zone.pivot_table(index=[&#39;season&#39;, &#39;day&#39;, &#39;t&#39;], values=&#39;value&#39;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Interactive map saved to ..\output\simulations_run_20250317_190351/interactivemap.html
 </pre></div>
 </div>
 </div>
 </div>
-<p>Interactive map is available <a class="reference download internal" download="" href="../_downloads/78b8fa4baf4242bf4f775f1fddaa9f10/planning_analysis_InteractiveMap_sapp.html"><span class="xref download myst">here</span></a></p>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1287,17 +1317,17 @@ pPlantFuelDispatch not found in epm_dict
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="planning_analysis_liberia.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="planning_analysis_sapp.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Example of Liberia PV-BESS sizing analysis</p>
+          <p class="prev-next-title">Load data</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="planning_analysis_eapp.html" title="next page">
+  <a class='right-next' id="next-link" href="model_overview.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title"><strong>EAPP Postprocessing</strong></p>
+      <p class="prev-next-title">Mathematical formulation</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -1319,54 +1349,31 @@ pPlantFuelDispatch not found in epm_dict
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
-   Load data
+   <strong>
+    EAPP Postprocessing
+   </strong>
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#create-geographical-zone-data">
-     Create geographical zone data
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#maps">
-   Maps
+  <a class="reference internal nav-link" href="#options">
+   <em>
+    Options
+   </em>
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#capacity-mix">
-     Capacity mix
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#maps-plots">
-       Maps plots
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#stacked-bar-plots">
-       Stacked bar plots
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#stacked-area-plot">
-       Stacked area plot
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-lines">
-     Transmission lines
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#interactive-map">
-     Interactive map
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-data">
+   <em>
+    Read data
+   </em>
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plotting-figures">
+   <em>
+    Plotting figures
+   </em>
+  </a>
  </li>
 </ul>
 
