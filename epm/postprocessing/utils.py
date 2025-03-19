@@ -684,10 +684,6 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
         # Generate a detailed summary by Power Plant
         generate_summary_detailed(epm_results, RESULTS_FOLDER)
 
-        # Perform automatic Energy DispatchFigures
-        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=plot_all,
-                                selected_scenario=selected_scenario)
-
         # Make New Capacity Installed Timeline Figures
         df = epm_results['pCapacityPlan'].copy()
 
@@ -719,7 +715,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                 filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot-{selected_scenario}-{zone}.png'
                 df_zone = df.copy()
                 df_zone = df_zone[(df_zone['scenario'] == selected_scenario) & (df_zone['zone'] == zone)]
-                if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
+                if len(df_zone['generator'].unique()) < 20:
                     stacked_area_plot(df_zone, filename, dict_specs['colors'], x_column='year',
                                       y_column='value',
                                       stack_column='generator', title='Energy Generation by Plant',
@@ -729,7 +725,7 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                                       sorting_column='fuel')
 
 
-                make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+                # make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
 
         if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
             filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline-{selected_scenario}.png'
@@ -761,6 +757,10 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
         if 'pAnnualTransmissionCapacity' in epm_results.keys():
             if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
                 make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
+
+        # Perform automatic Energy DispatchFigures
+        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=plot_all,
+                                selected_scenario=selected_scenario)
 
 
 
@@ -1402,6 +1402,150 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
     plt.close(fig)
 
 
+def make_stacked_area_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, selected_scenario=None, column_xaxis='year',
+                              column_stacked='fuel', column_subplots='scenario', format_y=lambda y, _: '{:.0f} MW'.format(y),
+                              column_value='value', select_xaxis=None, rotation=0):
+    if selected_zone is not None:
+        df = df[(df['zone'] == selected_zone)]
+        df = df.drop(columns=['zone'])
+
+    if selected_year is not None:
+        df = df[(df['year'] == selected_year)]
+        df = df.drop(columns=['year'])
+
+    if selected_scenario is not None:
+        df = df[(df['scenario'] == selected_scenario)]
+        df = df.drop(columns=['scenario'])
+
+    if column_subplots is not None:
+        df = (df.groupby([column_xaxis, column_stacked, column_subplots], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_subplots, column_xaxis]).squeeze().unstack(column_subplots)
+    else:  # no subplots in this case
+        df = (df.groupby([column_stacked, column_xaxis], observed=False)[column_value].sum().reset_index())
+        df = df.set_index([column_stacked, column_xaxis])
+
+    if select_xaxis is not None:
+        df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
+
+    stacked_area_subplots(df, column_stacked, filename, dict_colors, format_y=format_y,
+                        rotation=rotation)
+
+
+def stacked_area_subplots(df, column_group, filename, dict_colors=None, order_scenarios=None, order_columns=None,
+                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
+                        title=None, figsize=(10,6)):
+    """
+    Create a stacked bar subplot from a DataFrame.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame containing the data to plot.
+    column_group : str
+        Column name to group by for the stacked bars.
+    filename : str
+        Path to save the plot image. If None, the plot is shown instead.
+    dict_colors : dict, optional
+        Dictionary mapping column names to colors for the bars. Default is None.
+    figsize : tuple, optional
+        Size of the figure (width, height). Default is (10, 6).
+    year_ini : str, optional
+        Initial year to highlight in the plot. Default is None.
+    order_scenarios : list, optional
+        List of scenario names to order the bars. Default is None.
+    order_columns : list, optional
+        List of column names to order the stacked bars. Default is None.
+    dict_scenarios : dict, optional
+        Dictionary mapping scenario names to new names for the plot. Default is None.
+    rotation : int, optional
+        Rotation angle for x-axis labels. Default is 0.
+    fonttick : int, optional
+        Font size for tick labels. Default is 14.
+    legend : bool, optional
+        Whether to display the legend. Default is True.
+    format_y : function, optional
+        Function to format y-axis labels. Default is a lambda function formatting as '{:.0f} GW'.
+    cap : int, optional
+        Minimum height of bars to annotate. Default is 6.
+    annotate : bool, optional
+        Whether to annotate each bar with its height. Default is True.
+    show_total : bool, optional
+        Whether to show the total value on top of each bar. Default is False.
+    Returns
+    -------
+    None
+    """
+
+    list_keys = list(df.columns)
+    num_subplots = len(list_keys)
+    n_columns = min(3, num_subplots)  # Limit to 3 columns per row
+    n_rows = int(np.ceil(num_subplots / n_columns))
+
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(figsize[0], figsize[1] * n_rows), sharey='all')
+    if n_rows * n_columns == 1:  # If only one subplot, `axes` is not an array
+        axes = [axes]  # Convert to list to maintain indexing consistency
+    else:
+        axes = np.array(axes).flatten()  # Ensure it's always a 1D array
+
+    handles, labels = None, None
+    for k, key in enumerate(list_keys):
+        ax = axes[k]
+
+        try:
+            df_temp = df[key].unstack(column_group)
+
+            if order_columns is not None:
+                df_temp = df_temp[order_columns]
+
+            df_temp.plot.area(ax=ax, stacked=True, alpha=0.8, color=dict_colors if dict_colors else None)
+
+            ax.spines['left'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+            plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
+            ax.tick_params(axis='both', which=u'both', length=0)
+            ax.set_xlabel('')
+
+            if len(list_keys) > 1:
+                title = key
+                if isinstance(key, tuple):
+                    title = '{}-{}'.format(key[0], key[1])
+                ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            else:
+                if title is not None:
+                    if isinstance(title, tuple):
+                        title = '{}-{}'.format(title[0], title[1])
+                    ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
+            if k == 0:
+                handles, labels = ax.get_legend_handles_labels()
+                labels = [l.replace('_', ' ') for l in labels]
+                ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+            if k % n_columns != 0:
+                ax.set_ylabel('')
+                ax.tick_params(axis='y', which='both', left=False, labelleft=False)
+            ax.get_legend().remove()
+
+            # Grid settings
+            ax.axhline(0, color='black', linewidth=0.5)
+
+        except IndexError:
+            ax.axis('off')
+
+    if legend:
+        fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1, bbox_to_anchor=(1, 0.5))
+
+    # Hide unused subplots
+    for j in range(k + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
+
+
+
 def make_annotated_stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value',
                                      stack_column='fuel', annotate_column='generator'):
     df.sort_values(stack_column, inplace=True)
@@ -1715,7 +1859,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
                         dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
-                        cap=6, annotate=True, show_total=False, title=None):
+                        cap=6, annotate=True, show_total=False, title=None, figsize=(10,6)):
     """
     Create a stacked bar subplot from a DataFrame.
     Parameters
@@ -1766,9 +1910,12 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
         width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
     else:
         width_ratios = [1] * n_columns
-    fig, axes = plt.subplots(n_rows, n_columns, figsize=(10, 6*n_rows), sharey='all',
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(figsize[0], figsize[1]*n_rows), sharey='all',
                              gridspec_kw={'width_ratios': width_ratios})
-    axes = np.array(axes).flatten()
+    if n_rows * n_columns == 1:  # If only one subplot, `axes` is not an array
+        axes = [axes]  # Convert to list to maintain indexing consistency
+    else:
+        axes = np.array(axes).flatten()  # Ensure it's always a 1D array
 
     handles, labels = None, None
     for k, key in enumerate(list_keys):
