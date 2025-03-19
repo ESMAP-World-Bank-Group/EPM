@@ -698,6 +698,20 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                 df_zone = df_zone[(df_zone['scenario'] == selected_scenario) & (df_zone['zone'] == zone)]
                 make_annotated_stacked_area_plot(df_zone, filename, dict_colors=dict_specs['colors'])
 
+        if len(df.zone.unique()) > 1:  # multiple zones
+            df = epm_results['pCapacityByFuel'].copy()
+
+            filename = f'{GRAPHS_FOLDER}/CapacityEvolutionPerZone-{selected_scenario}.png'
+
+            make_stacked_bar_subplots(df, filename, dict_specs['colors'], selected_zone=None, selected_year=None,
+                                      column_xaxis='zone',
+                                      column_stacked='fuel', column_multiple_bars='year',
+                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                      dict_scenarios=None,
+                                      format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2,
+                                      annotate=False,
+                                      show_total=False, fonttick=12, rotation=45, title=None)
+
         # Make EnergyPlant Figures
         df = epm_results['pEnergyByPlant'].copy()
         if len(df.zone.unique()) == 1:  # single zone model
