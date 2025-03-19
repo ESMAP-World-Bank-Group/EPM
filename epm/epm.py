@@ -749,6 +749,13 @@ def main(test_args=None):
         help="Name of the path engine file (default: None)"
     )
 
+    parser.add_argument(
+        "--postprocess",
+        type=str,
+        default=None,
+        help="Run only postprocess with folder (default: True)"
+    )
+
 
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
@@ -774,15 +781,22 @@ def main(test_args=None):
     else:
         sensitivity = None
 
-    folder, result = launch_epm_multi_scenarios(config=args.config,
-                                                folder_input=args.folder_input,
-                                                scenarios_specification=args.scenarios,
-                                                sensitivity=sensitivity,
-                                                selected_scenarios=args.selected_scenarios,
-                                                cpu=args.cpu,
-                                                project_assessment=args.project_assessment,
-                                                simple=args.simple,
-                                                path_engine_file=args.engine)
+    # If none do not run EPM
+    if args.postprocess is None:
+        folder, result = launch_epm_multi_scenarios(config=args.config,
+                                                    folder_input=args.folder_input,
+                                                    scenarios_specification=args.scenarios,
+                                                    sensitivity=sensitivity,
+                                                    selected_scenarios=args.selected_scenarios,
+                                                    cpu=args.cpu,
+                                                    project_assessment=args.project_assessment,
+                                                    simple=args.simple,
+                                                    path_engine_file=args.engine)
+    else:
+        print(f"Project folder: {args.postprocess}")
+        print("EPM does not run again but use the existing simulation within the folder" )
+        folder = args.postprocess
+
 
     postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
 
