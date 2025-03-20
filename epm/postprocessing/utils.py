@@ -1682,14 +1682,22 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     # Add legend bottom center
     if legend_loc == 'bottom':
         if df_area is not None:
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
+            # ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
+            fig.subplots_adjust(bottom=0.25)  # Adds space for the legend
+            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=len(df_area.columns), frameon=False)
+
         else:
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_line.columns), frameon=False)
+            # ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_line.columns), frameon=False)
+            fig.subplots_adjust(bottom=0.25)  # Adds space for the legend
+            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=len(df_line.columns), frameon=False)
+
     elif legend_loc == 'right':
         ax.legend(loc='center left', bbox_to_anchor=(1.1, 0.5), ncol=1, frameon=False)
 
     if filename is not None:
-        fig.savefig(filename, bbox_inches='tight')
+        # fig.savefig(filename, bbox_inches='tight')
+        fig.savefig(filename, bbox_inches=None, pad_inches=0.1, dpi=100)
+
         plt.close()
     else:
         plt.show()
@@ -3210,12 +3218,6 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
                                                     year=year, scenario=scenario, select_time=select_time, stacked=False,
                                                     ylabel='Net imports (MWh)')
 
-    # dispatch_plot = make_dispatch_plot_interactive(pPlantDispatch=pPlantDispatch, pDispatch=pDispatch, dict_colors=dict_specs['colors'],
-    #                                                             zone=zone, year=year, scenario=scenario)
-    # dispatch_net_imports = make_dispatch_value_plot_interactive(df_net_imports, zone, year, scenario, unit_value='GWh', title='Net imports', select_time=None)
-    # dispatch_prices = make_dispatch_value_plot_interactive(df_price, zone, year, scenario, unit_value='$/MWh', title='Marginal cost', select_time=None)
-
-    # final_image = combine_and_resize_images([capacity_plot, dispatch_plot, dispatch_net_imports, dispatch_prices], scale_factor=scale_factor)
     final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot, net_imports_plots], scale_factor=scale_factor)
 
     # Convert images to base64 and embed in popup
