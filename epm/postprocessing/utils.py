@@ -807,13 +807,6 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
 
             zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
-            # selected_countries_epm = epm_results['pAnnualTransmissionCapacity'].loc[epm_results['pAnnualTransmissionCapacity'].scenario == selected_scenario].zone.unique()
-            # selected_countries_geojson = [
-            #     epm_to_geojson[key] for key in selected_countries_epm if key in epm_to_geojson
-            # ]
-            # zone_map, centers = create_zonemap(dict_specs['map_countries'],
-            #                                    selected_countries=selected_countries_geojson,
-            #                                    map_epm_to_geojson=geojson_to_epm)
         except Exception as e:
             print(
                 'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
@@ -847,10 +840,11 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
                 pEnergyByFuel = epm_results['pEnergyByFuel'].copy()
                 pDispatch = epm_results['pDispatch'].copy()
                 pPlantDispatch = epm_results['pPlantDispatch'].copy()
+                pPrice = epm_results['pPrice'].copy()
                 filename = f'{GRAPHS_FOLDER}/{selected_scenario}/InteractiveMap_{selected_scenario}_{year}.html'
 
                 create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
-                                       dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch)
+                                       dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
             except Exception as e:
                 print(
                     'Error when creating interactive map.')
@@ -1623,7 +1617,8 @@ def format_dispatch_ax(ax, pd_index):
     ax.spines['top'].set_visible(False)
 
 
-def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom', bottom=0):
+def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom',
+                  bottom=0, ylabel=None):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -1675,7 +1670,10 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     format_dispatch_ax(ax, pd_index)
 
     # Add axis labels and title
-    ax.set_ylabel('Generation (MW)', fontweight='bold')
+    if ylabel is not None:
+        ax.set_ylabel(ylabel, fontweight='bold')
+    else:
+        ax.set_ylabel('Generation (MW)', fontweight='bold')
     # ax.text(0, 1.2, f'Dispatch', fontsize=9, fontweight='bold', transform=ax.transAxes)
     # set ymin to 0
     if bottom is not None:
@@ -1683,7 +1681,10 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
 
     # Add legend bottom center
     if legend_loc == 'bottom':
-        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
+        if df_area is not None:
+            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
+        else:
+            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_line.columns), frameon=False)
     elif legend_loc == 'right':
         ax.legend(loc='center left', bbox_to_anchor=(1.1, 0.5), ncol=1, frameon=False)
 
@@ -1764,14 +1765,18 @@ def clean_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=None
             df['fuel'] = df['fuel'].replace(
                 fuel_grouping)  # case-specific, according to level of preciseness for dispatch plot
 
-    df = (df.groupby(['season', 'day', 't', column_stacked], observed=False)['value'].sum().reset_index())
+    if column_stacked is not None:
+        df = (df.groupby(['season', 'day', 't', column_stacked], observed=False)['value'].sum().reset_index())
 
     if select_time is not None:
         df, temp = select_time_period(df, select_time)
     else:
         temp = None
 
-    df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
+    if column_stacked is not None:
+        df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
+    else:
+        df = df.set_index(['season', 'day', 't'])
     return df, temp
 
 
@@ -1783,9 +1788,9 @@ def remove_na_values(df):
     return df
 
 
-def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario,
+def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario, stacked=True,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom', bottom=0, figsize=(10,6)):
+                                    legend_loc='bottom', bottom=0, figsize=(10,6), ylabel=None):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -1838,24 +1843,37 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     tmp_concat_area = []
     for key in dfs_area:
         df = dfs_area[key]
-        column_stacked = NAME_COLUMNS[key]
+        if stacked:  # we want to group data by a given column (eg, fuel for dispatch)
+            column_stacked = NAME_COLUMNS[key]
+        else:
+            column_stacked = None
         df, temp = clean_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=fuel_grouping, select_time=select_time)
         tmp_concat_area.append(df)
 
     tmp_concat_line = []
     for key in dfs_line:
         df = dfs_line[key]
-        column_stacked = NAME_COLUMNS[key]
+        if stacked:  # we want to group data by a given column (eg, fuel for dispatch)
+            column_stacked = NAME_COLUMNS[key]
+        else:
+            column_stacked = None
         df, temp = clean_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=fuel_grouping, select_time=select_time)
         tmp_concat_line.append(df)
 
-    df_tot_area = pd.concat(tmp_concat_area, axis=1)
-    df_tot_area = df_tot_area.droplevel(0, axis=1)
-    df_tot_area = remove_na_values(df_tot_area)
+    if len(tmp_concat_area) > 0:
+        df_tot_area = pd.concat(tmp_concat_area, axis=1)
+        df_tot_area = df_tot_area.droplevel(0, axis=1)
+        df_tot_area = remove_na_values(df_tot_area)
+    else:
+        df_tot_area = None
 
-    df_tot_line = pd.concat(tmp_concat_line, axis=1)
-    df_tot_line = df_tot_line.droplevel(0, axis=1)
-    df_tot_line = remove_na_values(df_tot_line)
+    if len(tmp_concat_line) > 0:
+        df_tot_line = pd.concat(tmp_concat_line, axis=1)
+        if df_tot_line.columns.nlevels > 1:
+            df_tot_line = df_tot_line.droplevel(0, axis=1)
+        # df_tot_line = remove_na_values(df_tot_line)
+    else:
+        df_tot_line = None
 
     if reorder_dispatch is not None:
         new_order = [col for col in reorder_dispatch if col in df_tot_area.columns] + [col for col in df_tot_area.columns if col not in reorder_dispatch]
@@ -1868,7 +1886,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
         filename = filename.split('.png')[0] + f'_{temp}.png'
 
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom,
-                  figsize=figsize)
+                  figsize=figsize, ylabel=ylabel)
 
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
@@ -3146,7 +3164,12 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
     df_exchanges = pDispatch.loc[pDispatch['attribute'].isin(['Imports', 'Exports'])]
     df_exchanges_piv = df_exchanges.pivot(index= ['scenario', 'year', 'season', 'day', 't', 'zone'], columns = 'attribute', values = 'value').reset_index()
     df_exchanges_piv[['Exports', 'Imports']] = df_exchanges_piv[['Exports', 'Imports']].fillna(0)
-    df_exchanges_piv['Net_imports'] =  df_exchanges_piv['Imports'] + df_exchanges_piv['Exports']
+    df_exchanges_piv['Net imports'] =  df_exchanges_piv['Imports'] + df_exchanges_piv['Exports']
+    time_index = df_exchanges_piv[['year', 'season', 'day', 't']].drop_duplicates()
+    zone_scenario_index = df_exchanges_piv[['zone', 'scenario']].drop_duplicates()
+    full_index = zone_scenario_index.merge(time_index, how='cross')
+    df_exchanges_piv = full_index.merge(df_exchanges_piv, on=['scenario', 'year', 'season', 'day', 't', 'zone'], how='left')
+    df_exchanges_piv['Net imports'] = df_exchanges_piv['Net imports'].fillna(0)
     df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
 
     df_price = pPrice.copy()
@@ -3162,12 +3185,38 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
 
     select_time = {'season': ['Q1', 'Q2', 'Q3'], 'day': ['d1', 'd2','d3', 'd4']}
 
-    dispatch_plot = make_dispatch_plot_interactive(pPlantDispatch=pPlantDispatch, pDispatch=pDispatch, dict_colors=dict_specs['colors'], 
-                                                                zone=zone, year=year, scenario=scenario)
-    dispatch_net_imports = make_dispatch_value_plot_interactive(df_net_imports, zone, year, scenario, unit_value='GWh', title='Net imports', select_time=None)
-    dispatch_prices = make_dispatch_value_plot_interactive(df_price, zone, year, scenario, unit_value='$/MWh', title='Marginal cost', select_time=None)
+    dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario,
+                                                        select_time=select_time, stacked=True)
 
-    final_image = combine_and_resize_images([capacity_plot, dispatch_plot, dispatch_net_imports, dispatch_prices], scale_factor=scale_factor)
+    dfs_to_plot_area = {
+    }
+
+    dfs_to_plot_line = {
+        'pPrice': df_price.rename(columns={'value': 'price'})
+    }
+
+    price_plot = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
+                                                    year=year, scenario=scenario, select_time=select_time, stacked=False,
+                                                    ylabel='Price (US $/MWh)')
+
+    dfs_to_plot_area = {
+    }
+
+    dfs_to_plot_line = {
+        'pNetImports': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
+    }
+
+    net_imports_plots = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
+                                                    year=year, scenario=scenario, select_time=select_time, stacked=False,
+                                                    ylabel='Net imports (MWh)')
+
+    # dispatch_plot = make_dispatch_plot_interactive(pPlantDispatch=pPlantDispatch, pDispatch=pDispatch, dict_colors=dict_specs['colors'],
+    #                                                             zone=zone, year=year, scenario=scenario)
+    # dispatch_net_imports = make_dispatch_value_plot_interactive(df_net_imports, zone, year, scenario, unit_value='GWh', title='Net imports', select_time=None)
+    # dispatch_prices = make_dispatch_value_plot_interactive(df_price, zone, year, scenario, unit_value='$/MWh', title='Marginal cost', select_time=None)
+
+    # final_image = combine_and_resize_images([capacity_plot, dispatch_plot, dispatch_net_imports, dispatch_prices], scale_factor=scale_factor)
+    final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot, net_imports_plots], scale_factor=scale_factor)
 
     # Convert images to base64 and embed in popup
     return f'<br>{final_image}'
@@ -3379,7 +3428,8 @@ def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fue
     return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
 
 
-def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, scenario, select_time):
+def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, scenario, select_time, stacked=True,
+                                       ylabel=None, bottom=None):
     """Generates a dispatch plot and returns it as a base64 image string."""
     img = BytesIO()
 
@@ -3389,27 +3439,13 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     make_complete_fuel_dispatch_plot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
         zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img, figsize=(fig_width,fig_height),
+        stacked=stacked, ylabel=ylabel, bottom=bottom
     )
 
     img.seek(0)
     encoded_str = base64.b64encode(img.getvalue()).decode()
     return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
 
-def make_dispatch_plot_interactive(pPlantDispatch, pDispatch, dict_colors, zone, year, scenario):
-    """Generates a dispatch plot and returns it as a base64 image string."""
-    img = BytesIO()
-
-    fig_width = 12
-    fig_height = 2  # Shorter height for better fit
-    fontsize=6
-
-    make_complete_dispatch_plot_for_interactive(pPlantDispatch, pDispatch, dict_colors, 
-                                                zone=zone, year=year, scenario=scenario, BESS_included=True, Hydro_stor_included=False, filename=img,
-                                                figsize=(fig_width, fig_height),fontsize=fontsize)
-
-    img.seek(0)
-    encoded_str = base64.b64encode(img.getvalue()).decode()
-    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
 
 def encode_image_from_memory(img):
     """Encodes an in-memory image (BytesIO) to base64 for embedding in HTML."""
