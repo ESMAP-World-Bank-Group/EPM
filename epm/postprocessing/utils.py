@@ -2944,7 +2944,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, label_size=14):
+                           dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -3009,7 +3009,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
         # Generate and embed capacity mix and dispatch plots
         popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch,
-                                             pPlantDispatch, scale_factor=0.8)
+                                             pPlantDispatch, pPrice, scale_factor=0.8)
 
         folium.Marker(
             location=coords,
@@ -3130,7 +3130,7 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
     else:
         plt.show()
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, scale_factor=0.8):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
     df1 = pCapacityByFuel.copy()
@@ -3149,6 +3149,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
     df_exchanges_piv['Net_imports'] =  df_exchanges_piv['Imports'] + df_exchanges_piv['Exports']
     df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
 
+    df_price = pPrice.copy()
+
     dfs_to_plot_area = {
         'pPlantDispatch': filter_dataframe(pPlantDispatch, {'attribute': ['Generation']}),
         'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
@@ -3162,9 +3164,10 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
 
     dispatch_plot = make_dispatch_plot_interactive(pPlantDispatch=pPlantDispatch, pDispatch=pDispatch, dict_colors=dict_specs['colors'], 
                                                                 zone=zone, year=year, scenario=scenario)
-    dispatch_value_plot = make_dispatch_value_plot_interactive(df_net_imports, zone, year, scenario, unit_value='GWh', title='Net imports', select_time=None)
+    dispatch_net_imports = make_dispatch_value_plot_interactive(df_net_imports, zone, year, scenario, unit_value='GWh', title='Net imports', select_time=None)
+    dispatch_prices = make_dispatch_value_plot_interactive(df_price, zone, year, scenario, unit_value='$/MWh', title='Marginal cost', select_time=None)
 
-    final_image = combine_and_resize_images([capacity_plot, dispatch_plot, dispatch_value_plot], scale_factor=scale_factor)
+    final_image = combine_and_resize_images([capacity_plot, dispatch_plot, dispatch_net_imports, dispatch_prices], scale_factor=scale_factor)
 
     # Convert images to base64 and embed in popup
     return f'<br>{final_image}'
