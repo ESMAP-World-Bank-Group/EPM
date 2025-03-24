@@ -296,6 +296,8 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    ror(g)                'ROR generators'   
    H2statusmap(hh,H2status)
 ;
+
+
 $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
@@ -318,7 +320,7 @@ Parameter
     ftfindex(f)
 ;
    
-   
+$if not errorfree $abort Error before reading input
 *-------------------------------------------------------------------------------------
 * Read inputs
 * The order of loading is important. TODO: Clarifiy to avoid bugs !
@@ -360,18 +362,22 @@ $load pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 * Close the GDX file after loading all required data
 $gdxIn
 $offmulti
+$if not errorfree $abort CONNECT ERROR in input_readers.gms
 
 
 *-------------------------------------------------------------------------------------
 * Make input verification
 
 $include %VERIFICATION_FILE%
+$if not errorfree $abort PythonError in input_verification.gms
+
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
 
 $onMulti
 $include %TREATMENT_FILE%
+$if not errorfree $abort PythonError in input_treatment.gms
 $offMulti
 
 *-------------------------------------------------------------------------------------
@@ -873,6 +879,9 @@ if (card(mipopt),
 PA.optfile = 1;
 * Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
 option savepoint=1;
+
+$if not errorFree $abort Error before running model
+
 
 * Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
 Solve PA using MIP minimizing vNPVcost;

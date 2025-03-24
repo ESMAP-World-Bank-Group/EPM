@@ -388,5 +388,3 @@ except Exception as e:
 
 
 $offEmbeddedCode
-
-*$if not errorfree $abort PythonError in Verification

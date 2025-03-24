@@ -310,3 +310,4 @@ fill_default_value(db, "pCapexTrajectories", default_df)
 # prepare_lossfactor(db, "pNewTransmission", "pLossFactor", "y", "value")
 
 $offEmbeddedCode
+
