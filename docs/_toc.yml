@@ -28,6 +28,7 @@ parts:
       - file: docs/postprocessing
       - file: docs/planning_analysis.ipynb
       - file: docs/planning_analysis_liberia.ipynb
+      - file: docs/planning_analysis_rwanda.ipynb
       - file: docs/planning_analysis_sapp.ipynb
       - file: docs/planning_analysis_eapp.ipynb
   - caption: Model Description
