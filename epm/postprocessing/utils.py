@@ -792,7 +792,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
 
     pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
     pInterconUtilization = epm_results['pInterconUtilization'].copy()
-    pInterconUtilization['value'] = pInterconUtilization['value'] * 100
+    pInterconUtilization['value'] = pInterconUtilization['value'] * 100  # percentage
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
     for selected_scenario in selected_scenarios:
@@ -3000,20 +3000,31 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     # Extracting year of interest
     transmission_data = transmission_data.copy()
     transmission_data = transmission_data.loc[transmission_data.year == year]
-    # Add transmission lines with hover effect
-    for _, row in transmission_data.iterrows():
-        from_zone, to_zone = row['zone_from'], row['zone_to']
-        capacity, utilization = row['capacity'], row['utilization']
+    transmission_data = transmission_data.set_index(['zone_from', 'zone_to'])
 
-        if from_zone in centers and to_zone in centers:
-            coords = [[centers[from_zone][1], centers[from_zone][0]],  # Lat, Lon
-                      [centers[to_zone][1], centers[to_zone][0]]]  # Lat, Lon
-            color = calculate_color_gradient(utilization, 0, 100)
+    # Getting the topology of lines, counting each line a unique time
+    topology = set(transmission_data.index.unique())
+    final_topology = set()
+    for (z, z2) in topology:
+        if (z2, z) not in final_topology:
+            final_topology.add((z, z2))
+
+    for (z, z2) in final_topology:
+        row1 = transmission_data.loc[(z, z2)]
+        row2 = transmission_data.loc[(z2, z)]
+        zone1, zone2 = row1.name[0], row1.name[1]
+        capacity, utilization_1to2, utilization_2to1 = row1['capacity'], row1['utilization'], row2['utilization']
+
+        if zone1 in centers and zone2 in centers:
+            coords = [[centers[zone1][1], centers[zone1][0]],  # Lat, Lon
+                      [centers[zone2][1], centers[zone2][0]]]  # Lat, Lon
+            color = calculate_color_gradient(max(utilization_1to2, utilization_2to1), 0, 100)
 
             tooltip_text = f"""
             <div style="font-size: {label_size}px;">
             <b>Capacity:</b> {capacity:.2f} GW <br>
-            <b>Utilization:</b> {utilization:.0f}%
+            <b>Utilization {zone1} - {zone2}:</b> {utilization_1to2:.0f}% <br>
+            <b>Utilization {zone2} - {zone1}:</b> {utilization_2to1:.0f}%
             </div>
             """
 
@@ -3021,6 +3032,28 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
                 locations=coords, color=color, weight=4,
                 tooltip=tooltip_text
             ).add_to(energy_map)
+
+    # # Add transmission lines with hover effect
+    # for _, row in transmission_data.iterrows():
+    #     from_zone, to_zone = row['zone_from'], row['zone_to']
+    #     capacity, utilization = row['capacity'], row['utilization']
+    #
+    #     if from_zone in centers and to_zone in centers:
+    #         coords = [[centers[from_zone][1], centers[from_zone][0]],  # Lat, Lon
+    #                   [centers[to_zone][1], centers[to_zone][0]]]  # Lat, Lon
+    #         color = calculate_color_gradient(utilization, 0, 100)
+    #
+    #         tooltip_text = f"""
+    #         <div style="font-size: {label_size}px;">
+    #         <b>Capacity:</b> {capacity:.2f} GW <br>
+    #         <b>Utilization:</b> {utilization:.0f}%
+    #         </div>
+    #         """
+    #
+    #         folium.PolyLine(
+    #             locations=coords, color=color, weight=4,
+    #             tooltip=tooltip_text
+    #         ).add_to(energy_map)
 
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
@@ -3191,7 +3224,10 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
         'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Demand']})
     }
 
-    select_time = {'season': ['Q1', 'Q2', 'Q3'], 'day': ['d1', 'd2','d3', 'd4']}
+    seasons = pPlantDispatch.season.unique()
+    days = pPlantDispatch.day.unique()
+
+    select_time = {'season': seasons, 'day': days}
 
     dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario,
                                                         select_time=select_time, stacked=True)
@@ -3475,9 +3511,19 @@ def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit
     return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
 
 
+# def calculate_color_gradient(value, min_val, max_val, cmap_name='coolwarm'):
+#     norm_val = (value - min_val) / (max_val - min_val)
+#     norm_val = min(max(norm_val, 0), 1)
+#     cmap = plt.get_cmap(cmap_name)
+#     r, g, b, _ = cmap(norm_val)
+#     return f'#{int(r*255):02x}{int(g*255):02x}{int(b*255):02x}'
+
+
 def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250), end_color=(139, 0, 0)):
     """Generates a color gradient based on a value range."""
     ratio = (value - min_val) / (max_val - min_val)
+    ratio = min(max(ratio, 0), 1)  # Clamp between 0 and 1
+    ratio = ratio**2.5  # Exponential scaling
     r = int(start_color[0] * (1 - ratio) + end_color[0] * ratio)
     g = int(start_color[1] * (1 - ratio) + end_color[1] * ratio)
     b = int(start_color[2] * (1 - ratio) + end_color[2] * ratio)
