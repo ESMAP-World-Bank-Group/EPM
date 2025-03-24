@@ -306,7 +306,7 @@ default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
 fill_default_value(db, "pCapexTrajectories", default_df)
 
 
-
-prepare_lossfactor(db, "pNewTransmission", "pLossFactor", "y", "value")
+# LossFactor must be defined through a specific csv
+# prepare_lossfactor(db, "pNewTransmission", "pLossFactor", "y", "value")
 
 $offEmbeddedCode

@@ -265,7 +265,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         # Generate scenario pd.Series for alternative scenario
         s.update({k: config.copy() for k in scenarios})
         for k in s.keys():
-            s[k].update(scenarios[k].dropna())
+            if k != 'baseline':
+                s[k].update(scenarios[k].dropna())
 
     # Select useful scenarios if selected_scenarios is defined
     if selected_scenarios is not None:
