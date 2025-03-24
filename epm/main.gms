@@ -206,8 +206,6 @@ alias (y,y2);
 alias (f,f1,f2);
 alias (c,c2);
 
-$ifi %mode%==MIRO
-$onExternalInput
 Set    
    zcmap(z<,c<)                     'map zones to countries'
    sTopology(z,z2)                  'network topology - to be assigned through network data'
@@ -238,8 +236,7 @@ Parameter
    pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
    pEmissionsTotal(y)               'Maximum total emissions allowed per year for the region in tns'
    pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
-$ifi     %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
-$ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
+   pHours(q<,d<,t<)
    pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
    pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
    pLossFactor(z,z2,y)              'loss factor in percentage'
@@ -260,8 +257,6 @@ $ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
 
 *TODO pVREProfile(z,f,q,d,t)
 
-$ifi %mode%==MIRO
-$offExternalInput
 
 Parameter
    pCapexTrajectories(g,y)          'capex trajectories for all generators (used in results)'
@@ -301,7 +296,6 @@ Set gprimf(g,f)          'primary fuel f for generator g'
    ror(g)                'ROR generators'   
    H2statusmap(hh,H2status)
 ;
-* Is it only here for MIRO ?
 $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
@@ -449,85 +443,9 @@ H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
 * h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
 h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 
-* Conditional directive: Execute the following block if 'generateMIROScenario' is set
-$ifThen set generateMIROScenario
-Parameter
-   pGenDataMIRO(g,z,tech,gstatus,f,f,ghdr)
-   pfuelConversion(f,*)
-   pMaxFuellimitMIRO(*,c,f,*,y)
-   pFuelPriceMIRO(*,c,f,*,y)
-;
-Set actscen / BaseCase /;   
-
-loop((gzmap(g,z),gtechmap(g,tech),gstatusmap(g,gstatus),gprimf(g,f)),
-  if (sum(gfmap(g,f2),1)=1,
-    pGenDataMIRO(g,z,tech,gstatus,f,f,ghdr) = pGenData(g,ghdr);
-  else
-    pGenDataMIRO(g,z,tech,gstatus,f,f2,ghdr)$(not sameas(f,f2) and gfmap(g,f2)) = pGenData(g,ghdr);
-  )
-);
-
-pfuelConversion(f,'mmbtu') = 1;
-pMaxFuellimitMIRO('BaseCase',c,f,'mmbtu',y) = pMaxFuelLimit(c,f,y);
-pFuelPriceMIRO('BaseCase',c,f,'mmbtu',y) = pFuelPrice(c,f,y);
-
-
-execute_unload '%GDX_INPUT%_miro'
-   zcmap
-*   ftfmap
-   pHours
-   pTechData
-   pGenDataMIRO
-   sRelevant
-   pDemandData
-   pDemandForecast
-   pDemandProfile
-   pfuelConversion
-   pFuelCarbonContent
-   pCarbonPrice
-   pMaxFuellimitMIRO
-   actscen
-   pFuelPriceMIRO
-   pTransferLimit
-   pLossFactor
-   pVREProfile
-   pVREgenProfile
-   pAvailability
-   pStorDataInput
-   pCSPData
-   pSpinningReserveReqCountry
-   pSpinningReserveReqSystem
-   pEmissionsCountry
-   pEmissionsTotal
-   pSettings
-   sTopology
-   pPlanningReserveMargin
-   pEnergyEfficiencyFactor
-   pTradePrice
-   pMaxExchangeShare
-   pExtTransferLimit  
-   pNewTransmission
-   solverThreads
-   solverOptCR
-   solverResLim
-   nlpsolver
-   mipsolver
-   mipopt
-*   MapGG
-*Hydrogen production related parameters
-   pH2Data
-   pAvailabilityH2
-   pCapexTrajectoryH2
-   pExternalH2
-;
-
-abort.noError 'Created %GDX_INPUT%_miro. Done!';
-$endif
-
 
 $else.mode
 $if not set DOEXCELREPORT $set DOEXCELREPORT 0
-$include WB_EPM_v8_5_miro
 $endIf.mode
 
 *--- Parameter initialisation for same demand profile for all years

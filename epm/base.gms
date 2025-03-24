@@ -132,8 +132,7 @@ Singleton sets
 Parameters
    pCostOfCurtailment               'Cost of curtailment'
    pCostOfCO2backstop               'Cost of climate backstop techno in $ per ton of CO2'
-$ifi     %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
-$ifi not %mode%==MIRO   pHours(q<,d<,t<) 'duration of each block'
+   pHours(q<,d<,t<)
    pWeightYear(y)                   'weight on years'
 * Generators
    pGenData(g,ghdr)                 'generator data'
