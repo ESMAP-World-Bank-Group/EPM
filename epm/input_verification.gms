@@ -240,60 +240,61 @@ except Exception as e:
 try:
     if db["pSettings"].records is not None:
         settings_df = db["pSettings"].records
-        if settings_df.set_index('sc').loc['interconMode'].values[0]:  # running in interconnected mode
-            if db["pLossFactor"].records is not None:
-                loss_factor_df = db["pLossFactor"].records
-                topology_lossfactor = loss_factor_df.set_index(['z', 'z2']).index.unique()
-                if (db["pNewTransmission"].records is not None) and  (db["pTransferLimit"].records is not None):
-                    new_transmission_df = db["pNewTransmission"].records
-                    transferlimit_df = db["pTransferLimit"].records
-                    print(transferlimit_df)
-                    topology_new = set(new_transmission_df.set_index(['z', 'z2']).index.unique())
-                    topology_transfer = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
-
-                    # Merge both sets
-                    topology = topology_new.union(topology_transfer)
-                elif (db["pNewTransmission"].records is not None):
-                    new_transmission_df = db["pNewTransmission"].records
-                    topology = set(new_transmission_df.set_index(['z', 'z2']).index.unique())
-                elif (db["pTransferLimit"].records is not None):
-                    transferlimit_df = db["pTransferLimit"].records
-                    topology = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
-                else:
-                    raise ValueError(f"Error: Interconnected mode is activated, but both TransferLimit and NewTransmission are empty.")
-                
-                # Ensure that for any (z, z2) present in the topology, we keep only one tuple (z, z2) if both (z, z2) and (z2, z) exist.
-                final_topology = set()
-                for (z, z2) in topology:
-                    if (z2, z) not in final_topology:
-                        final_topology.add((z, z2))
-                
-                # Check that all lines in topology exist in pLossFactor
-                missing_lines = [line for line in final_topology if line not in topology_lossfactor and (line[1], line[0]) not in topology_lossfactor]
-                if missing_lines:
-                    raise ValueError(f"Error: The following lines in topology are missing from pLossFactor: {missing_lines}")
-                else:
-                    print("Success: All transmission lines have a lossfactor specified.")
+        if 'interconMode' in settings_df.set_index('sc').index:
+            if settings_df.set_index('sc').loc['interconMode'].values[0]:  # running in interconnected mode
+                if db["pLossFactor"].records is not None:
+                    loss_factor_df = db["pLossFactor"].records
+                    topology_lossfactor = loss_factor_df.set_index(['z', 'z2']).index.unique()
+                    if (db["pNewTransmission"].records is not None) and  (db["pTransferLimit"].records is not None):
+                        new_transmission_df = db["pNewTransmission"].records
+                        transferlimit_df = db["pTransferLimit"].records
+                        print(transferlimit_df)
+                        topology_new = set(new_transmission_df.set_index(['z', 'z2']).index.unique())
+                        topology_transfer = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
+    
+                        # Merge both sets
+                        topology = topology_new.union(topology_transfer)
+                    elif (db["pNewTransmission"].records is not None):
+                        new_transmission_df = db["pNewTransmission"].records
+                        topology = set(new_transmission_df.set_index(['z', 'z2']).index.unique())
+                    elif (db["pTransferLimit"].records is not None):
+                        transferlimit_df = db["pTransferLimit"].records
+                        topology = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
+                    else:
+                        raise ValueError(f"Error: Interconnected mode is activated, but both TransferLimit and NewTransmission are empty.")
                     
-                # Check that if a line appears twice in pLossFactor (as both (z, z2) and (z2, z)), its values are the same
-                loss_factor_df.set_index(['z', 'z2'], inplace=True)
-                duplicate_mismatches = []
-                for (z, z2) in topology_lossfactor:
-                    if (z2, z) in topology_lossfactor:  # Check reverse entry exists
-                        row1 = loss_factor_df.loc[[(z, z2)]].sort_index()
-                        row2 = loss_factor_df.loc[[(z2, z)]].sort_index()
-                        row1 = row1.reset_index().sort_values(by="y").drop(columns=['z', 'z2'])
-                        row2 = row2.reset_index().sort_values(by="y").drop(columns=['z', 'z2'])
-                        if not row1.equals(row2):  # Compare rows
-                            duplicate_mismatches.append(((z, z2), (z2, z)))
-
-                if duplicate_mismatches:
-                    raise ValueError(f"Error: The following lines in pLossFactor have inconsistent values: {duplicate_mismatches}")
+                    # Ensure that for any (z, z2) present in the topology, we keep only one tuple (z, z2) if both (z, z2) and (z2, z) exist.
+                    final_topology = set()
+                    for (z, z2) in topology:
+                        if (z2, z) not in final_topology:
+                            final_topology.add((z, z2))
+                    
+                    # Check that all lines in topology exist in pLossFactor
+                    missing_lines = [line for line in final_topology if line not in topology_lossfactor and (line[1], line[0]) not in topology_lossfactor]
+                    if missing_lines:
+                        raise ValueError(f"Error: The following lines in topology are missing from pLossFactor: {missing_lines}")
+                    else:
+                        print("Success: All transmission lines have a lossfactor specified.")
+                        
+                    # Check that if a line appears twice in pLossFactor (as both (z, z2) and (z2, z)), its values are the same
+                    loss_factor_df.set_index(['z', 'z2'], inplace=True)
+                    duplicate_mismatches = []
+                    for (z, z2) in topology_lossfactor:
+                        if (z2, z) in topology_lossfactor:  # Check reverse entry exists
+                            row1 = loss_factor_df.loc[[(z, z2)]].sort_index()
+                            row2 = loss_factor_df.loc[[(z2, z)]].sort_index()
+                            row1 = row1.reset_index().sort_values(by="y").drop(columns=['z', 'z2'])
+                            row2 = row2.reset_index().sort_values(by="y").drop(columns=['z', 'z2'])
+                            if not row1.equals(row2):  # Compare rows
+                                duplicate_mismatches.append(((z, z2), (z2, z)))
+    
+                    if duplicate_mismatches:
+                        raise ValueError(f"Error: The following lines in pLossFactor have inconsistent values: {duplicate_mismatches}")
+                    else:
+                        print("Success: No problem in duplicate values in pLossFactor.")
+                    
                 else:
-                    print("Success: No problem in duplicate values in pLossFactor.")
-                
-            else:
-                raise ValueError(f"Error: Interconnected mode is activated, but LossFactor is empty")
+                    raise ValueError(f"Error: Interconnected mode is activated, but LossFactor is empty")
 except Exception as e:
     print('Unexpected error when checking interconnected mode')
     raise # Re-raise the exception for debuggings
