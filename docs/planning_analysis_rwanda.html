@@ -1020,7 +1020,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Options</span>
 
 <span class="c1"># Folder</span>
-<span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="s1">&#39;simulations_run_20250321_220043&#39;</span> <span class="c1"># Name of the folder containing the results</span>
+<span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="s1">&#39;simulations_run_20250324_160931&#39;</span> <span class="c1"># Name of the folder containing the results</span>
 <span class="n">DISPLAY</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Usually set to False to avoid displaying the graphs</span>
 
 <span class="c1"># Scenarios</span>
@@ -1070,7 +1070,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Result folder: ..\output\simulations_run_20250321_220043
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Result folder: ..\output\simulations_run_20250324_160931
 </pre></div>
 </div>
 </div>
@@ -1102,25 +1102,22 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Methane not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.
-InterchangeExt not in epm_results.keys().
-Interchange not in epm_results.keys().
 annual_line_capa not in epm_results.keys().
 pAnnualTransmissionCapacity not in epm_results.keys().
-AdditiononalCapacity_trans not in epm_results.keys().
-pInterchangeExt not in epm_results.keys().
-InterconUtilizationExt not in epm_results.keys().
-pNPVByYear not in epm_results.keys().
-pPlantFuelDispatch not in epm_results.keys().
-pStorageComponents not in epm_results.keys().
-pCurtailedStoHY not in epm_results.keys().
-InterconUtilization not in epm_results.keys().
-pInterconUtilizationExt not in epm_results.keys().
-pInterchange not in epm_results.keys().
-interchanges not in epm_results.keys().
-pHourlyFlow not in epm_results.keys().
 pFuelDispatch not in epm_results.keys().
+InterconUtilization not in epm_results.keys().
+pInterchange not in epm_results.keys().
+Interchange not in epm_results.keys().
 pInterconUtilization not in epm_results.keys().
+AdditiononalCapacity_trans not in epm_results.keys().
+pNPVByYear not in epm_results.keys().
+pStorageComponents not in epm_results.keys().
+InterchangeExtImp not in epm_results.keys().
+interchanges not in epm_results.keys().
 pCurtailedVRET not in epm_results.keys().
+pCurtailedStoHY not in epm_results.keys().
+pPlantFuelDispatch not in epm_results.keys().
+pHourlyFlow not in epm_results.keys().
 pFuelDispatch not found in epm_dict
 pPlantFuelDispatch not found in epm_dict
 </pre></div>
@@ -1133,21 +1130,64 @@ pPlantFuelDispatch not found in epm_dict
 <p>Mix</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Demand</span>
+
+<span class="c1"># Options</span>
+
+<span class="c1"># Plot </span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDemandSupply&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Demand: GWh&#39;</span><span class="p">]</span>
+
+<span class="n">make_line_subplots</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;SystemCost_byZone.png&#39;</span><span class="p">,</span>
+    <span class="n">x_column</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+    <span class="n">y_column</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span>
+    <span class="n">subplot_column</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
+    <span class="n">group_column</span><span class="o">=</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span>
+    <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
+    <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Demand&#39;</span><span class="p">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;GWh&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/596a298e295faea08ae28b18751bc7abb1e67ca79af9762a2159457165c81003.png" src="../_images/596a298e295faea08ae28b18751bc7abb1e67ca79af9762a2159457165c81003.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Generation mix</span>
 
 <span class="c1"># Options</span>
 <span class="n">scenario</span> <span class="o">=</span> <span class="s1">&#39;BaU&#39;</span>
 <span class="n">zone</span><span class="o">=</span><span class="s1">&#39;Rwanda&#39;</span>
 <span class="n">fuel_list_order</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Diesel&#39;</span><span class="p">,</span><span class="s1">&#39;Gas&#39;</span><span class="p">,</span><span class="s1">&#39;Methane&#39;</span><span class="p">,</span><span class="s1">&#39;Biomass&#39;</span><span class="p">,</span><span class="s1">&#39;Peat&#39;</span><span class="p">,</span> <span class="s1">&#39;Water&#39;</span><span class="p">,</span> <span class="s1">&#39;Solar&#39;</span><span class="p">]</span>
+<span class="n">second_axis</span> <span class="o">=</span> <span class="s1">&#39;Emissions&#39;</span>
+<span class="c1">#second_axis = &#39;Net imports&#39;</span>
 
-<span class="c1"># Plot</span>
+<span class="c1"># Plot </span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">df</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">fuel_list_order</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">second_axis</span> <span class="o">==</span> <span class="s1">&#39;Emissions&#39;</span><span class="p">:</span>
+    <span class="n">df_2</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEmissions&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">second_axis</span> <span class="o">==</span> <span class="s1">&#39;Net imports&#39;</span><span class="p">:</span>
+    <span class="n">df_2</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pYearlyTrade&#39;</span><span class="p">]</span>
+    <span class="n">df_pivot</span> <span class="o">=</span> <span class="n">df_2</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;attribute&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">df_pivot</span><span class="p">[</span><span class="s1">&#39;Net imports&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pivot</span><span class="p">[</span><span class="s1">&#39;Imports&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_pivot</span><span class="p">[</span><span class="s1">&#39;Exports&#39;</span><span class="p">]</span>
+    <span class="n">df_pivot</span> <span class="o">=</span> <span class="n">df_pivot</span><span class="p">[[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;Net imports&#39;</span><span class="p">]]</span>
+    <span class="n">df_pivot</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Net imports&#39;</span><span class="p">:</span> <span class="s1">&#39;value&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_2</span> <span class="o">=</span> <span class="n">df_pivot</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
 
 <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()):</span>
     <span class="n">df_zone</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">zone</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">scenario</span><span class="p">)]</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">RESULTS_FOLDER</span><span class="o">+</span><span class="s1">&#39;/img/&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;generation_mix_</span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1">&#39;</span>
-    <span class="n">stacked_area_plot</span><span class="p">(</span><span class="n">df_zone</span><span class="p">,</span> <span class="n">x_column</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y_column</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">stack_column</span><span class="o">=</span><span class="s2">&quot;fuel&quot;</span><span class="p">,</span> 
+    <span class="n">stacked_area_plot</span><span class="p">(</span><span class="n">df_zone</span><span class="p">,</span> <span class="n">x_column</span><span class="o">=</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="n">y_column</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">stack_column</span><span class="o">=</span><span class="s2">&quot;fuel&quot;</span><span class="p">,</span> <span class="n">df_2</span><span class="o">=</span><span class="n">df_2</span><span class="p">,</span> <span class="n">y2_label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Emissions (MtCO2)&#39;</span><span class="p">,</span>
                       <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Generation mix - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
                       <span class="n">filename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y_label</span><span class="o">=</span><span class="s1">&#39;GWh&#39;</span><span class="p">)</span>
 <span class="c1">#    print(f&#39;{zone} mix graph saved in {filename}&#39;)</span>
@@ -1156,11 +1196,11 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local_v2\postprocessing\utils.py:1352: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\Users\wb590892\Documents\EPM_Models\Rwanda\EPM_local_v2\postprocessing\utils.py:1353: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
   temp = df.groupby([x_column, stack_column])[y_column].sum().unstack(stack_column)
 </pre></div>
 </div>
-<img alt="../_images/15e024abd59f494b7e998ecb7d4c7a663bb1f925ee9cbfbf92ab4c08f0f4377b.png" src="../_images/15e024abd59f494b7e998ecb7d4c7a663bb1f925ee9cbfbf92ab4c08f0f4377b.png" />
+<img alt="../_images/a838b07833911ce35d8f305999c4fdb850aa7b1c8c0119decbef1a123670c4d7.png" src="../_images/a838b07833911ce35d8f305999c4fdb850aa7b1c8c0119decbef1a123670c4d7.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1184,7 +1224,7 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/69bbad67edc61929adbf77be4dcb0479a5604be1cf23b54935a91d56b45f66e9.png" src="../_images/69bbad67edc61929adbf77be4dcb0479a5604be1cf23b54935a91d56b45f66e9.png" />
+<img alt="../_images/34e821d600676769cf36e4626217d620dcf4467eeae4c863a338c52b20cffcec.png" src="../_images/34e821d600676769cf36e4626217d620dcf4467eeae4c863a338c52b20cffcec.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1209,7 +1249,7 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/cf3f608b88cecc040c1794c99efc15809f70178361243d75dbff7ddc315e067a.png" src="../_images/cf3f608b88cecc040c1794c99efc15809f70178361243d75dbff7ddc315e067a.png" />
+<img alt="../_images/d8629e0db1a2263e0f3cfaf27d19a0d28a266019c71fcece6e193c1557b42190.png" src="../_images/d8629e0db1a2263e0f3cfaf27d19a0d28a266019c71fcece6e193c1557b42190.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1238,15 +1278,18 @@ pPlantFuelDispatch not found in epm_dict
         <span class="s1">&#39;pDispatch&#39;</span><span class="p">:</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Demand&#39;</span><span class="p">]})</span>
     <span class="p">}</span>
 
-<span class="n">make_complete_fuel_dispatch_plot</span><span class="p">(</span><span class="n">dfs_to_plot_area</span><span class="p">,</span> <span class="n">dfs_to_plot_line</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
-                                                 <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="n">scenario</span><span class="p">,</span>
-                                                 <span class="n">fuel_grouping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">select_time</span><span class="o">=</span><span class="n">select_time</span><span class="p">,</span>
-                                                 <span class="n">bottom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_loc</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Dispatch - </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">2030</span><span class="p">,</span> <span class="mi">2035</span><span class="p">]:</span>
+    <span class="n">make_complete_fuel_dispatch_plot</span><span class="p">(</span><span class="n">dfs_to_plot_area</span><span class="p">,</span> <span class="n">dfs_to_plot_line</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
+                                                    <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="n">scenario</span><span class="p">,</span>
+                                                    <span class="n">fuel_grouping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">select_time</span><span class="o">=</span><span class="n">select_time</span><span class="p">,</span>
+                                                    <span class="n">bottom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_loc</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Dispatch - </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/489fcd2e1a25b66923f43b34305182df6731ad95a111e5d5df17db1766a4a065.png" src="../_images/489fcd2e1a25b66923f43b34305182df6731ad95a111e5d5df17db1766a4a065.png" />
+<img alt="../_images/277eeaa12b6696eba917fecbf599547e9dbc28a4ad633d8ec7b11619da61e3ee.png" src="../_images/277eeaa12b6696eba917fecbf599547e9dbc28a4ad633d8ec7b11619da61e3ee.png" />
+<img alt="../_images/3786d41b58830cc883af69ad6b84a1b04801ddc89d45445c138f7ab33e3df4a2.png" src="../_images/3786d41b58830cc883af69ad6b84a1b04801ddc89d45445c138f7ab33e3df4a2.png" />
+<img alt="../_images/9861bae276805eab452ef9a09604e82e0e756775178affa236f90b07039e6f8c.png" src="../_images/9861bae276805eab452ef9a09604e82e0e756775178affa236f90b07039e6f8c.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1262,30 +1305,39 @@ pPlantFuelDispatch not found in epm_dict
 <span class="n">pPlantDispatch</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pPlantDispatch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> 
 <span class="n">pPlantDispatch</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">pPlantDispatch</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">],</span> <span class="n">categories</span><span class="o">=</span><span class="n">fuel_list_order</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+<span class="n">df_reserve</span> <span class="o">=</span> <span class="n">pPlantDispatch</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pPlantDispatch</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Reserve&#39;</span><span class="p">]</span>
+<span class="n">df_reserve</span> <span class="o">=</span> <span class="n">df_reserve</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span> <span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="s1">&#39;attribute&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_reserve</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Reserve&#39;</span>
+<span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatchReserve&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_reserve</span>
+
 <span class="n">seasons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">][</span><span class="s1">&#39;season&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 <span class="n">days</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">][</span><span class="s1">&#39;day&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
 <span class="n">select_time</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;season&#39;</span><span class="p">:</span> <span class="n">seasons</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">:</span> <span class="n">days</span><span class="p">}</span>
 
 <span class="n">dfs_to_plot_area</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;pPlantDispatch&#39;</span><span class="p">:</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">pPlantDispatch</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Reserve&#39;</span><span class="p">]}),</span>
-        <span class="s1">&#39;pDispatch&#39;</span><span class="p">:</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Unmet demand&#39;</span><span class="p">,</span> <span class="s1">&#39;Exports&#39;</span><span class="p">,</span> <span class="s1">&#39;Imports&#39;</span><span class="p">,</span> <span class="s1">&#39;Storage Charge&#39;</span><span class="p">]})</span>
+        <span class="s1">&#39;pPlantDispatch&#39;</span><span class="p">:</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">pPlantDispatch</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Reserve&#39;</span><span class="p">]})</span>
     <span class="p">}</span>
 
 <span class="n">dfs_to_plot_line</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;pDispatch&#39;</span><span class="p">:</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Demand&#39;</span><span class="p">]})</span>
+        <span class="s1">&#39;pDispatchReserve&#39;</span><span class="p">:</span> <span class="n">filter_dataframe</span><span class="p">(</span><span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatchReserve&#39;</span><span class="p">],</span> <span class="p">{</span><span class="s1">&#39;attribute&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Reserve&#39;</span><span class="p">]})</span>
     <span class="p">}</span>
 
 <span class="n">make_complete_fuel_dispatch_plot</span><span class="p">(</span><span class="n">dfs_to_plot_area</span><span class="p">,</span> <span class="n">dfs_to_plot_line</span><span class="p">,</span> <span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
                                                  <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">scenario</span><span class="o">=</span><span class="n">scenario</span><span class="p">,</span>
                                                  <span class="n">fuel_grouping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">select_time</span><span class="o">=</span><span class="n">select_time</span><span class="p">,</span>
-                                                 <span class="n">bottom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_loc</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Reserve dispatch - </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                                                 <span class="n">bottom</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legend_loc</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Dispatch - </span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c0be7bfae61a43a5c9979660c579b7dfb67ad5196f82de801afe76af1ae67464.png" src="../_images/c0be7bfae61a43a5c9979660c579b7dfb67ad5196f82de801afe76af1ae67464.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\wb590892\AppData\Local\Temp\ipykernel_25516\1850083105.py:13: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
+  df_reserve = df_reserve.drop(columns=[&#39;generator&#39;, &#39;fuel&#39;, &#39;attribute&#39;]).groupby([&#39;scenario&#39;, &#39;zone&#39;, &#39;year&#39;, &#39;season&#39;, &#39;day&#39;, &#39;t&#39;]).sum().reset_index()
+</pre></div>
+</div>
+<img alt="../_images/42056eefa80e952fad90e148b7e03d929022b62584833306db46d2ca9e193fe8.png" src="../_images/42056eefa80e952fad90e148b7e03d929022b62584833306db46d2ca9e193fe8.png" />
 </div>
 </div>
+<p>Costs</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Costs </span>
@@ -1304,11 +1356,11 @@ pPlantFuelDispatch not found in epm_dict
  <span class="s1">&#39;Unmet demand costs: $m&#39;</span><span class="p">,</span>
  <span class="s1">&#39;Excess generation: $m&#39;</span><span class="p">,</span>
  <span class="s1">&#39;VRE curtailment: $m&#39;</span><span class="p">,</span>
- <span class="s1">&#39;Import costs: $m&#39;</span><span class="p">,</span>
- <span class="s1">&#39;Export revenue: $m&#39;</span><span class="p">,</span> 
+ <span class="c1">#&#39;Import costs: $m&#39;,</span>
+ <span class="c1">#&#39;Export revenue: $m&#39;, </span>
  <span class="s1">&#39;Spinning Reserve costs: $m&#39;</span><span class="p">]</span>
 
-<span class="n">selected_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AnnCapex&#39;</span><span class="p">,</span> <span class="s1">&#39;FOM&#39;</span><span class="p">,</span> <span class="s1">&#39;VOM&#39;</span><span class="p">,</span> <span class="s1">&#39;Fuel&#39;</span><span class="p">,</span> <span class="s1">&#39;Transmissions&#39;</span><span class="p">,</span> <span class="s1">&#39;Unmet demand&#39;</span><span class="p">,</span> <span class="s1">&#39;Excess gen&#39;</span><span class="p">,</span> <span class="s1">&#39;VRE curtail&#39;</span><span class="p">,</span> <span class="s1">&#39;Import&#39;</span><span class="p">,</span> <span class="s1">&#39;Export&#39;</span><span class="p">,</span> <span class="s1">&#39;Spinning reserve&#39;</span><span class="p">]</span>
+<span class="n">selected_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AnnCapex&#39;</span><span class="p">,</span> <span class="s1">&#39;FOM&#39;</span><span class="p">,</span> <span class="s1">&#39;VOM&#39;</span><span class="p">,</span> <span class="s1">&#39;Fuel&#39;</span><span class="p">,</span> <span class="s1">&#39;Transmissions&#39;</span><span class="p">,</span> <span class="s1">&#39;Unmet demand&#39;</span><span class="p">,</span> <span class="s1">&#39;Excess gen&#39;</span><span class="p">,</span> <span class="s1">&#39;VRE curtail&#39;</span><span class="p">,</span> <span class="s1">&#39;Spinning reserve&#39;</span><span class="p">]</span>
 <span class="n">name_mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">selected_costs</span><span class="p">,</span> <span class="n">selected_names</span><span class="p">))</span>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCostSummary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1324,13 +1376,120 @@ pPlantFuelDispatch not found in epm_dict
 
 <span class="n">make_stacked_bar_subplots</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
                         <span class="n">column_xaxis</span><span class="o">=</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;attribute&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
-                        <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> $ Million&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Reserve mix - </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> scenario&#39;</span><span class="p">,</span> 
+                        <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> $ Million&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Annual costs - </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s1"> - </span><span class="si">{</span><span class="n">scenario</span><span class="si">}</span><span class="s1"> scenario&#39;</span><span class="p">,</span> 
                         <span class="n">cap</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">fontsize_label</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">format_label</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{:.0f}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d71ec1ac84f49831ec394e62bcda072b39c5d68f5964191f0837c0829bc4f495.png" src="../_images/d71ec1ac84f49831ec394e62bcda072b39c5d68f5964191f0837c0829bc4f495.png" />
+<img alt="../_images/0cbbe96b70b57037d9da1059194d958919a279b6bf712e0a77ea1196323c5ed5.png" src="../_images/0cbbe96b70b57037d9da1059194d958919a279b6bf712e0a77ea1196323c5ed5.png" />
+</div>
+</div>
+<p>Trade</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Net imports</span>
+
+<span class="c1"># Options</span>
+
+<span class="c1"># Plot </span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pYearlyTrade&#39;</span><span class="p">]</span>
+<span class="n">df_pivot</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="s1">&#39;attribute&#39;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">df_pivot</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_pivot</span><span class="p">[</span><span class="s1">&#39;Net imports&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_pivot</span><span class="p">[</span><span class="s1">&#39;Imports&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df_pivot</span><span class="p">[</span><span class="s1">&#39;Exports&#39;</span><span class="p">]</span>
+<span class="n">df_pivot</span> <span class="o">=</span> <span class="n">df_pivot</span><span class="p">[[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;Net imports&#39;</span><span class="p">]]</span>
+
+<span class="n">make_line_subplots</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df_pivot</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;SystemCost_byZone.png&#39;</span><span class="p">,</span>
+    <span class="n">x_column</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+    <span class="n">y_column</span><span class="o">=</span><span class="s1">&#39;Net imports&#39;</span><span class="p">,</span>
+    <span class="n">subplot_column</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
+    <span class="n">group_column</span><span class="o">=</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span>
+    <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
+    <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Net imports&#39;</span><span class="p">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;GWh&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e74cd95b0be35a1344d843cbaccc54360deb59788a3f749effb31aafc1ea6970.png" src="../_images/e74cd95b0be35a1344d843cbaccc54360deb59788a3f749effb31aafc1ea6970.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Import share</span>
+
+<span class="c1"># Options</span>
+
+<span class="c1"># Plot </span>
+<span class="n">pYearlyTrade</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pYearlyTrade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">pEnergyByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">pYearlyGeneration</span> <span class="o">=</span> <span class="n">pEnergyByFuel</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">pYearlyImports</span> <span class="o">=</span> <span class="n">pYearlyTrade</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pYearlyTrade</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Imports&#39;</span><span class="p">]</span>
+<span class="n">pYearlyExports</span> <span class="o">=</span> <span class="n">pYearlyTrade</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pYearlyTrade</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Exports&#39;</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pYearlyGeneration</span><span class="p">,</span> <span class="n">pYearlyImports</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;_generation&#39;</span><span class="p">,</span> <span class="s1">&#39;_import&#39;</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;import_share&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_import&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_generation&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span><span class="s1">&#39;import_share&#39;</span><span class="p">]]</span>
+
+<span class="n">make_line_subplots</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;SystemCost_byZone.png&#39;</span><span class="p">,</span>
+    <span class="n">x_column</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+    <span class="n">y_column</span><span class="o">=</span><span class="s1">&#39;import_share&#39;</span><span class="p">,</span>
+    <span class="n">subplot_column</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
+    <span class="n">group_column</span><span class="o">=</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span>
+    <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
+    <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Net imports&#39;</span><span class="p">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/801ee903a16834603b996be879b4626dc9022d577343dd59a780d300b73f8cf1.png" src="../_images/801ee903a16834603b996be879b4626dc9022d577343dd59a780d300b73f8cf1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Export share</span>
+
+<span class="c1"># Options</span>
+
+<span class="c1"># Plot </span>
+<span class="n">pYearlyTrade</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pYearlyTrade&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">pEnergyByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">pYearlyGeneration</span> <span class="o">=</span> <span class="n">pEnergyByFuel</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">pYearlyImports</span> <span class="o">=</span> <span class="n">pYearlyTrade</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pYearlyTrade</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Imports&#39;</span><span class="p">]</span>
+<span class="n">pYearlyExports</span> <span class="o">=</span> <span class="n">pYearlyTrade</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">pYearlyTrade</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;Exports&#39;</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">pYearlyGeneration</span><span class="p">,</span> <span class="n">pYearlyExports</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;inner&#39;</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;_generation&#39;</span><span class="p">,</span> <span class="s1">&#39;_export&#39;</span><span class="p">))</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;export_share&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_export&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;value_generation&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span><span class="s1">&#39;export_share&#39;</span><span class="p">]]</span>
+
+<span class="n">make_line_subplots</span><span class="p">(</span>
+    <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;SystemCost_byZone.png&#39;</span><span class="p">,</span>
+    <span class="n">x_column</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
+    <span class="n">y_column</span><span class="o">=</span><span class="s1">&#39;export_share&#39;</span><span class="p">,</span>
+    <span class="n">subplot_column</span><span class="o">=</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span>
+    <span class="n">group_column</span><span class="o">=</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span>
+    <span class="n">dict_colors</span><span class="o">=</span><span class="n">dict_specs</span><span class="p">[</span><span class="s1">&#39;colors&#39;</span><span class="p">],</span>
+    <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Export share&#39;</span><span class="p">,</span> 
+    <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;%&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/792d458320c8945b2cdc61fd0bfa302948e22278156ed9fe57b36a19e4bdae2b.png" src="../_images/792d458320c8945b2cdc61fd0bfa302948e22278156ed9fe57b36a19e4bdae2b.png" />
 </div>
 </div>
 </section>
