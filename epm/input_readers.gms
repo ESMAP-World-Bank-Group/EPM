@@ -106,7 +106,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pSettings%
     name: pSettings
     valueSubstitutions: {0: .nan}
@@ -116,7 +116,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %zcmap%
     name: zcmap
     indexSubstitutions: {.nan: ""}
@@ -125,7 +125,7 @@ $onEmbeddedCode Connect:
     type: set
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %y%
     name: y
     indexSubstitutions: {.nan: ""}
@@ -135,7 +135,7 @@ $onEmbeddedCode Connect:
     
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pHours%
     name: pHours
     indexSubstitutions: {.nan: ""}
@@ -148,7 +148,7 @@ $onEmbeddedCode Connect:
 # LOAD DATA
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pDemandForecast%
     name: pDemandForecast
     indexSubstitutions: {.nan: ""}
@@ -158,7 +158,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pDemandProfile%
     name: pDemandProfile
     indexSubstitutions: {.nan: ""}
@@ -168,7 +168,7 @@ $onEmbeddedCode Connect:
     type: par
     
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pDemandData%
     name: pDemandData
     indexSubstitutions: {.nan: ""}
@@ -178,7 +178,7 @@ $onEmbeddedCode Connect:
     type: par
     
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %sRelevant%
     name: sRelevant
     indexColumns: [1]
@@ -186,7 +186,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pEnergyEfficiencyFactor%
     name: pEnergyEfficiencyFactor
     indexSubstitutions: {.nan: ""}
@@ -200,7 +200,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pTechData%
     name: pTechData
     indexSubstitutions: {.nan: ""}
@@ -209,7 +209,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pGenDataExcel%
     name: gmap
     indexSubstitutions: {.nan: ""}
@@ -217,7 +217,7 @@ $onEmbeddedCode Connect:
     type: set
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pGenDataExcel%
     name: pGenDataExcel
     indexColumns: [1,2,3,4]
@@ -227,7 +227,7 @@ $onEmbeddedCode Connect:
 
     
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pGenDataExcelDefault%
     name: pGenDataExcelDefault
     indexColumns: [1,2,3]
@@ -236,7 +236,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pAvailability%
     name: pAvailability
     valueSubstitutions: {0: EPS}
@@ -245,7 +245,7 @@ $onEmbeddedCode Connect:
     type: par
     
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pAvailabilityDefault%
     name: pAvailabilityDefault
     indexColumns: [1, 2, 3]
@@ -254,7 +254,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pVREgenProfile%
     name: pVREgenProfile
     indexSubstitutions: {.nan: ""}
@@ -264,7 +264,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pVREProfile%
     name: pVREProfile
     indexSubstitutions: {.nan: ""}
@@ -275,7 +275,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pCapexTrajectories%
     name: pCapexTrajectories
     indexSubstitutions: {.nan: ""}
@@ -285,7 +285,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pCapexTrajectoriesDefault%
     name: pCapexTrajectoriesDefault
     valueSubstitutions: {0: EPS}
@@ -305,7 +305,7 @@ $onEmbeddedCode Connect:
 # OTHER SUPLLY OPTIONS
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pCSPData%
     name: pCSPData
     indexSubstitutions: {.nan: ""}
@@ -315,7 +315,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pStorDataExcel%
     name: pStorDataExcel
     indexSubstitutions: {.nan: ""}
@@ -336,7 +336,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pFuelCarbonContent%
     name: pFuelCarbonContent
     indexSubstitutions: {.nan: ""}
@@ -348,7 +348,7 @@ $onEmbeddedCode Connect:
 # RESERVE
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pPlanningReserveMargin%
     name: pPlanningReserveMargin
     indexSubstitutions: {.nan: ""}
@@ -358,7 +358,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pSpinningReserveReqCountry%
     name: pSpinningReserveReqCountry
     indexSubstitutions: {.nan: ""}
@@ -368,7 +368,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pSpinningReserveReqSystem%
     name: pSpinningReserveReqSystem
     indexSubstitutions: {.nan: ""}
@@ -381,7 +381,7 @@ $onEmbeddedCode Connect:
 # TRADE
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %zext%
     name: zext
     indexSubstitutions: {.nan: ""}
@@ -390,7 +390,7 @@ $onEmbeddedCode Connect:
     type: set
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pExtTransferLimit%
     name: pExtTransferLimit
     valueSubstitutions: {0: .nan}
@@ -400,7 +400,7 @@ $onEmbeddedCode Connect:
     
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pMaxExchangeShare%
     name: pMaxExchangeShare
     indexColumns: [1]
@@ -408,7 +408,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pMaxPriceImportShare%
     name: pMaxPriceImportShare
     indexSubstitutions: {.nan: ""}
@@ -418,7 +418,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pTradePrice%
     name: pTradePrice
     indexSubstitutions: {.nan: ""}
@@ -428,7 +428,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pNewTransmission%
     name: pNewTransmission
     indexSubstitutions: {.nan: ""}
@@ -438,7 +438,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pLossFactor%
     name: pLossFactor
     indexSubstitutions: {.nan: ""}
@@ -448,7 +448,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pTransferLimit%
     name: pTransferLimit
     indexSubstitutions: {.nan: ""}
@@ -458,7 +458,7 @@ $onEmbeddedCode Connect:
     type: par
     
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pMinImport%
     name: pMinImport
     indexSubstitutions: {.nan: ""}
@@ -471,7 +471,7 @@ $onEmbeddedCode Connect:
 # ENVIRONMENTAL CONSTRAINT
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pCarbonPrice%
     name: pCarbonPrice
     indexSubstitutions: {.nan: ""}
@@ -481,7 +481,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pEmissionsCountry%
     name: pEmissionsCountry
     indexSubstitutions: {.nan: ""}
@@ -491,7 +491,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pEmissionsTotal%
     name: pEmissionsTotal
     indexSubstitutions: {.nan: ""}
@@ -502,7 +502,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pMaxFuellimit%
     name: pMaxFuellimit
     indexSubstitutions: {.nan: ""}
@@ -515,7 +515,7 @@ $onEmbeddedCode Connect:
 # H2 RELATED
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pH2DataExcel%
     name: pH2DataExcel
     indexSubstitutions: {.nan: ""}
@@ -525,7 +525,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pAvailabilityH2%
     name: pAvailabilityH2
     indexSubstitutions: {.nan: ""}
@@ -535,7 +535,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pFuelDataH2%
     name: pFuelDataH2
     indexSubstitutions: {.nan: ""}
@@ -545,7 +545,7 @@ $onEmbeddedCode Connect:
     type: par
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pCapexTrajectoryH2%
     name: pCapexTrajectoryH2
     indexSubstitutions: {.nan: ""}
@@ -556,7 +556,7 @@ $onEmbeddedCode Connect:
 
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pH2DataExcel%
     name: hh
     indexSubstitutions: {.nan: ""}
@@ -565,7 +565,7 @@ $onEmbeddedCode Connect:
     type: set
 
 - CSVReader:
-    trace: 0
+    trace: 1
     file: %pExternalH2%
     name: pExternalH2
     indexColumns: [1, 2]
@@ -577,7 +577,6 @@ $onEmbeddedCode Connect:
     file: %GDX_INPUT%.gdx
     symbols: all
 $offEmbeddedCode
-
 
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
 $setNames "%XLS_INPUT%" fp GDX_INPUT fe
