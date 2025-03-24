@@ -8,7 +8,7 @@ Prerequisites: You need to have Python installed in your computer. If you don't 
 - Use the terminal to run the command: ```pip install -r requirements.txt```. The goal is to ensure that all required libraries are available (pandas, matplotlib,...). The environment is created using `requirements.txt` file
 - Activate the Conda environment to ensure all necessary Python packages are available:
   ```conda activate esmap_env```
-- Run the EPM model: ```python epm/run_epm.py```
+- Run the EPM model: ```python epm/epm.py```
 - You can also specify additional arguments when launching EPM.
 
 
@@ -42,7 +42,7 @@ EPM provides several command-line options to customize your simulation run. Belo
 
 To run EPM with a specific input folder and enable sensitivity analysis, use:
 ```sh
-python epm/run_epm.py --folder_input my_data --sensitivity
+python epm/epm.py --folder_input my_data --sensitivity
 ```
 This will execute EPM using the `my_data` folder as input and perform sensitivity analysis.
 

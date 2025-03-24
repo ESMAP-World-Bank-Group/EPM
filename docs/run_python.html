@@ -990,7 +990,7 @@ title="Print to PDF"
 <li><p>Use the terminal to run the command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>. The goal is to ensure that all required libraries are available (pandas, matplotlib,…). The environment is created using <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file</p></li>
 <li><p>Activate the Conda environment to ensure all necessary Python packages are available:
 <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">esmap_env</span></code></p></li>
-<li><p>Run the EPM model: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">epm/run_epm.py</span></code></p></li>
+<li><p>Run the EPM model: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">epm/epm.py</span></code></p></li>
 <li><p>You can also specify additional arguments when launching EPM.</p></li>
 </ul>
 <section id="input-data">
@@ -1016,7 +1016,7 @@ Controls the output level. By default, full output is enabled. If this flag is u
 <section id="example-command">
 <h3>Example Command<a class="headerlink" href="#example-command" title="Permalink to this heading">#</a></h3>
 <p>To run EPM with a specific input folder and enable sensitivity analysis, use:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm/run_epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm/epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
 </pre></div>
 </div>
 <p>This will execute EPM using the <code class="docutils literal notranslate"><span class="pre">my_data</span></code> folder as input and perform sensitivity analysis.</p>
