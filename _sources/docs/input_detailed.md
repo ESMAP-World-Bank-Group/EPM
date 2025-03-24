@@ -535,9 +535,9 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
 
 - **Description**:  
 
-Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
+    Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
 
-Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
   - **Index**
@@ -545,7 +545,7 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
     - **External zone** (*str*) – Destination of the import/export.  
     - **Seasons** (*str*) – Season for which the capacity is specified.
     - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
-  - **Header**
+  - **Columns**
     - **Year** (*int*) – Year for which the capacity applies.
   - **Value**
     - Capacity available for imports or exports.
@@ -557,14 +557,14 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 
 - **Description**:  
 
-Specifies the maximum share of total country-level demand that imports and exports can represent.
+    Specifies the maximum share of total country-level demand that imports and exports can represent.
 
-Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
   - **Index**
     - **Year** (*int*) –  Year considered  
-  - **Header**
+  - **Columns**
     - **Country** (*str*) – Country considered  
   - **Value**
     - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
@@ -574,13 +574,13 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 ### `pNewTransmission.csv`
 
 - **Description**:  
-  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`. Each candidate line must only be specified once in this dataframe. The order in which the start location and the destination location are specified does not matter.
+  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`. Each candidate line must only be specified once in this dataframe (e.g: only specify the line Angola-Namibia once, either as Namibia-Angola, or as Angola-Namibia, the order does not matter). The order in which the start location and the destination location are specified does not matter.
 
 - **Data Structure**:  
   - **Index**
     - **From** (*str*) – Starting location of the transmission line.  
     - **To** (*str*) – Destination of the transmission line.  
-  - **Value**
+  - **Columns**
     - **EarliestEntry** (*int*) – Earliest year the line can be built.
     - **MaximumNumOfLines** (*int*) – Maximum number of lines that can be constructed (lines must be built in whole units).
     - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
@@ -602,7 +602,7 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
     - **Seasons** (*str*) – Season for which the trade price is specified.
     - **Day** (*str*) – Day for which the trade price is specified.
     - **Year** (*int*) – Year for which the trade price is specified.
-  - **Header**
+  - **Columns**
     - **Time**(str) - Hour of the day for which the trade price is specified.
   - **Value**
     - Trade price (€/MWh)
@@ -612,14 +612,15 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 
 ### `pTransferLimit.csv`
 
-Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
+- **Description**:  
+    Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
 
 - **Data Structure**:  
   - **Index**
     - **From** (*str*) –  Origin of the import/export.  
     - **To** (*str*) – Destination of the import/export.  
     - **Seasons** (*str*) – Season for which the capacity is specified.
-  - **Header**
+  - **Columns**
     - **Year** (*int*) – Year for which the capacity applies.
   - **Value**
     - Capacity available for imports or exports between internal zones.
@@ -632,13 +633,16 @@ Defines the available capacity for exchanges between internal zones. This datafr
   Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.  
 
 - **Data Structure**:  
-  - **zone** (*str*) – Name of external zone
+  - **Index**
+    - **zone** (*str*) – Name of external zone
 
 - **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/zext.csv)
 
-
-
 ### `pLossFactor.csv`
+
+- **Description**:  
+    Defines the transmission losses for each transmission lines. 
+    **Note**: when interconnected mode is activated (intercon = 1), the losses from each transmission line must be specified. If LossFactor is empty, then
 
 ---
 

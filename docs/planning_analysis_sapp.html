@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Load data &#8212; Energy Planning Model</title>
+    <title>SAPP study &#8212; Energy Planning Model</title>
   
   
   
@@ -277,7 +277,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Load data
+                        SAPP study
                       </a>
                     </li>
                 
@@ -571,7 +571,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Load data
+                        SAPP study
                       </a>
                     </li>
                 
@@ -755,7 +755,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Load data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">SAPP study</a></li>
+
 
 <li class="toctree-l1"><a class="reference internal" href="planning_analysis_eapp.html"><strong>EAPP Postprocessing</strong></a></li>
 
@@ -955,7 +956,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Load data</h1>
+    <h1>SAPP study</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -967,6 +968,11 @@ title="Print to PDF"
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
+   SAPP study
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-data">
    Load data
   </a>
   <ul class="visible nav section-nav flex-column">
@@ -1025,7 +1031,9 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="sapp-study">
+<h1>SAPP study<a class="headerlink" href="#sapp-study" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fileinput</span><span class="w"> </span><span class="kn">import</span> <span class="n">filename</span>
 
@@ -1034,12 +1042,13 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
 <section class="tex2jax_ignore mathjax_ignore" id="load-data">
 <h1>Load data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h1>
 <p>This loads results data from the results folder</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="s1">&#39;simulations_run_20250319_153640&#39;</span>
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="s1">&#39;simulations_run_20250324_180805&#39;</span>
 
 <span class="c1"># RESULTS_FOLDER = os.path.join(&#39;..&#39;, &#39;output&#39;, RESULTS_FOLDER)</span>
 <span class="n">RESULTS_FOLDER</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">RESULTS_FOLDER</span><span class="p">)</span>
@@ -1050,21 +1059,22 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pInterconUtilizationExt not in epm_results.keys().
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pYearlyTrade not in epm_results.keys().
+pInterconUtilizationExtExp not in epm_results.keys().
 AdditiononalCapacity_trans not in epm_results.keys().
-InterconUtilizationExt not in epm_results.keys().
-pInterchangeExt not in epm_results.keys().
-pHourlyFlow not in epm_results.keys().
-pFuelDispatch not in epm_results.keys().
-InterchangeExt not in epm_results.keys().
 pNPVByYear not in epm_results.keys().
-pCurtailedVRET not in epm_results.keys().
 Interchange not in epm_results.keys().
-pPlantFuelDispatch not in epm_results.keys().
-interchanges not in epm_results.keys().
-InterconUtilization not in epm_results.keys().
+InterchangeExtImp not in epm_results.keys().
+pInterconUtilizationExtImp not in epm_results.keys().
 pCurtailedStoHY not in epm_results.keys().
+InterconUtilization not in epm_results.keys().
+pHourlyFlow not in epm_results.keys().
+interchanges not in epm_results.keys().
 annual_line_capa not in epm_results.keys().
+pCurtailedVRET not in epm_results.keys().
+pFuelDispatch not in epm_results.keys().
+pPlantFuelDispatch not in epm_results.keys().
+pInterchangeExtExp not in epm_results.keys().
 pFuelDispatch not found in epm_dict
 pPlantFuelDispatch not found in epm_dict
 </pre></div>
@@ -1175,12 +1185,12 @@ pPlantFuelDispatch not found in epm_dict
                           <span class="n">column_stacked</span><span class="o">=</span><span class="s1">&#39;fuel&#39;</span><span class="p">,</span> <span class="n">column_multiple_bars</span><span class="o">=</span><span class="s1">&#39;year&#39;</span><span class="p">,</span>
                           <span class="n">column_value</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">select_xaxis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dict_grouping</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order_scenarios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dict_scenarios</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                           <span class="n">format_y</span><span class="o">=</span><span class="k">lambda</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1"> MW&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">order_stacked</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cap</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">annotate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                          <span class="n">show_total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fonttick</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+                          <span class="n">show_total</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fonttick</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/ea0a43b865af86c4c7c564d4e4cb0117eef57977b5ad2af59fc899cec8559bdc.png" src="../_images/ea0a43b865af86c4c7c564d4e4cb0117eef57977b5ad2af59fc899cec8559bdc.png" />
+<img alt="../_images/568dbf588775b91851b3b72877f5d115c4a751a8ed9d2a2951083a1733f459e4.png" src="../_images/568dbf588775b91851b3b72877f5d115c4a751a8ed9d2a2951083a1733f459e4.png" />
 </div>
 </div>
 </section>
@@ -1247,6 +1257,7 @@ pPlantFuelDispatch not found in epm_dict
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preprocess transmission data</span>
 <span class="n">capa_transmission</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pAnnualTransmissionCapacity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">utilization_transmission</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pInterconUtilization&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">utilization_transmission</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utilization_transmission</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>  <span class="c1"># percentage</span>
 <span class="n">transmission_data</span> <span class="o">=</span> <span class="n">capa_transmission</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;capacity&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">utilization_transmission</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;utilization&#39;</span><span class="p">}),</span> 
                                                                                  <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;scenario&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;z2&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">])</span>
 <span class="n">transmission_data</span> <span class="o">=</span> <span class="n">transmission_data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;zone&#39;</span><span class="p">:</span> <span class="s1">&#39;zone_from&#39;</span><span class="p">,</span> <span class="s1">&#39;z2&#39;</span><span class="p">:</span> <span class="s1">&#39;zone_to&#39;</span><span class="p">})</span>
@@ -1257,18 +1268,19 @@ pPlantFuelDispatch not found in epm_dict
 <span class="n">pEnergyByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">pDispatch</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">pPlantDispatch</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pPlantDispatch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">year</span> <span class="o">=</span> <span class="mi">2025</span>
+<span class="n">pPrice</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pPrice&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">year</span> <span class="o">=</span> <span class="mi">2030</span>
 <span class="n">scenario</span> <span class="o">=</span> <span class="s1">&#39;baseline&#39;</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">RESULTS_FOLDER</span><span class="si">}</span><span class="s1">/interactivemap.html&#39;</span>
 
 
 <span class="n">create_interactive_map</span><span class="p">(</span><span class="n">zone_map</span><span class="p">,</span> <span class="n">centers</span><span class="p">,</span> <span class="n">transmission_data</span><span class="p">,</span> <span class="n">energy_data</span><span class="p">,</span> <span class="n">year</span><span class="p">,</span> <span class="n">scenario</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span>
-                           <span class="n">dict_specs</span><span class="p">,</span> <span class="n">pCapacityByFuel</span><span class="p">,</span> <span class="n">pEnergyByFuel</span><span class="p">,</span> <span class="n">pDispatch</span><span class="p">,</span> <span class="n">pPlantDispatch</span><span class="p">)</span>
+                           <span class="n">dict_specs</span><span class="p">,</span> <span class="n">pCapacityByFuel</span><span class="p">,</span> <span class="n">pEnergyByFuel</span><span class="p">,</span> <span class="n">pDispatch</span><span class="p">,</span> <span class="n">pPlantDispatch</span><span class="p">,</span> <span class="n">pPrice</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Interactive map saved to ../output/simulations_run_20250319_153640/interactivemap.html
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Interactive map saved to ../output/simulations_run_20250324_180805/interactivemap.html
 </pre></div>
 </div>
 </div>
@@ -1337,6 +1349,11 @@ pPlantFuelDispatch not found in epm_dict
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
+   SAPP study
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-data">
    Load data
   </a>
   <ul class="visible nav section-nav flex-column">
