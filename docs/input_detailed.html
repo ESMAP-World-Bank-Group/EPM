@@ -277,7 +277,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="planning_analysis_sapp.html">
-                        Load data
+                        SAPP study
                       </a>
                     </li>
                 
@@ -571,7 +571,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="planning_analysis_sapp.html">
-                        Load data
+                        SAPP study
                       </a>
                     </li>
                 
@@ -755,7 +755,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="planning_analysis_sapp.html">Load data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planning_analysis_sapp.html">SAPP study</a></li>
+
 
 <li class="toctree-l1"><a class="reference internal" href="planning_analysis_eapp.html"><strong>EAPP Postprocessing</strong></a></li>
 
@@ -2236,14 +2237,13 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <p>Documentation in progress. Check the <code class="docutils literal notranslate"><span class="pre">trade</span></code> <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade">folder</a> for more details.</p>
 <section id="pexttransferlimit-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pExtTransferLimit.csv</span></code><a class="headerlink" href="#pexttransferlimit-csv" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Description</strong>:</p></li>
-</ul>
+<ul>
+<li><p><strong>Description</strong>:</p>
 <p>Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.</p>
 <p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
-<ul class="simple">
+</li>
 <li><p><strong>Data Structure</strong>:</p>
-<ul>
+<ul class="simple">
 <li><p><strong>Index</strong></p>
 <ul>
 <li><p><strong>Internal zone</strong> (<em>str</em>) –  Origin of the import/export.</p></li>
@@ -2252,7 +2252,7 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <li><p><strong>Import/Export</strong> (<em>str</em>) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.</p></li>
 </ul>
 </li>
-<li><p><strong>Header</strong></p>
+<li><p><strong>Columns</strong></p>
 <ul>
 <li><p><strong>Year</strong> (<em>int</em>) – Year for which the capacity applies.</p></li>
 </ul>
@@ -2269,20 +2269,19 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 </section>
 <section id="pmaxexchangeshare-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pMaxExchangeShare.csv</span></code><a class="headerlink" href="#pmaxexchangeshare-csv" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Description</strong>:</p></li>
-</ul>
+<ul>
+<li><p><strong>Description</strong>:</p>
 <p>Specifies the maximum share of total country-level demand that imports and exports can represent.</p>
 <p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
-<ul class="simple">
+</li>
 <li><p><strong>Data Structure</strong>:</p>
-<ul>
+<ul class="simple">
 <li><p><strong>Index</strong></p>
 <ul>
 <li><p><strong>Year</strong> (<em>int</em>) –  Year considered</p></li>
 </ul>
 </li>
-<li><p><strong>Header</strong></p>
+<li><p><strong>Columns</strong></p>
 <ul>
 <li><p><strong>Country</strong> (<em>str</em>) – Country considered</p></li>
 </ul>
@@ -2301,7 +2300,7 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <h3><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code><a class="headerlink" href="#pnewtransmission-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Specifies the key characteristics of candidate transmission lines. Only active when <code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>. Each candidate line must only be specified once in this dataframe. The order in which the start location and the destination location are specified does not matter.</p></li>
+Specifies the key characteristics of candidate transmission lines. Only active when <code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>. Each candidate line must only be specified once in this dataframe (e.g: only specify the line Angola-Namibia once, either as Namibia-Angola, or as Angola-Namibia, the order does not matter). The order in which the start location and the destination location are specified does not matter.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Index</strong></p>
@@ -2310,7 +2309,7 @@ Specifies the key characteristics of candidate transmission lines. Only active w
 <li><p><strong>To</strong> (<em>str</em>) – Destination of the transmission line.</p></li>
 </ul>
 </li>
-<li><p><strong>Value</strong></p>
+<li><p><strong>Columns</strong></p>
 <ul>
 <li><p><strong>EarliestEntry</strong> (<em>int</em>) – Earliest year the line can be built.</p></li>
 <li><p><strong>MaximumNumOfLines</strong> (<em>int</em>) – Maximum number of lines that can be constructed (lines must be built in whole units).</p></li>
@@ -2339,7 +2338,7 @@ Trade price for imports and exports driven by price.</p></li>
 <li><p><strong>Year</strong> (<em>int</em>) – Year for which the trade price is specified.</p></li>
 </ul>
 </li>
-<li><p><strong>Header</strong></p>
+<li><p><strong>Columns</strong></p>
 <ul>
 <li><p><strong>Time</strong>(str) - Hour of the day for which the trade price is specified.</p></li>
 </ul>
@@ -2356,8 +2355,9 @@ Trade price for imports and exports driven by price.</p></li>
 </section>
 <section id="ptransferlimit-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code><a class="headerlink" href="#ptransferlimit-csv" title="Permalink to this heading">#</a></h3>
-<p>Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.</p>
 <ul class="simple">
+<li><p><strong>Description</strong>:<br />
+Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Index</strong></p>
@@ -2367,7 +2367,7 @@ Trade price for imports and exports driven by price.</p></li>
 <li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
 </ul>
 </li>
-<li><p><strong>Header</strong></p>
+<li><p><strong>Columns</strong></p>
 <ul>
 <li><p><strong>Year</strong> (<em>int</em>) – Year for which the capacity applies.</p></li>
 </ul>
@@ -2389,7 +2389,11 @@ Trade price for imports and exports driven by price.</p></li>
 Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
+<li><p><strong>Index</strong></p>
+<ul>
 <li><p><strong>zone</strong> (<em>str</em>) – Name of external zone</p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/zext.csv">zext.csv</a></p></li>
@@ -2397,6 +2401,11 @@ Lists external zones that can trade with the modeled zones. These external zones
 </section>
 <section id="plossfactor-csv">
 <h3><code class="docutils literal notranslate"><span class="pre">pLossFactor.csv</span></code><a class="headerlink" href="#plossfactor-csv" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Description</strong>:<br />
+Defines the transmission losses for each transmission lines.
+<strong>Note</strong>: when interconnected mode is activated (intercon = 1), the losses from each transmission line must be specified. If LossFactor is empty, then</p></li>
+</ul>
 </section>
 </section>
 <hr class="docutils" />
