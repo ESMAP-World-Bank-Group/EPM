@@ -142,12 +142,8 @@ $offExternalOutput
                                              
    pSolarValue(z,y)                          'Value of solar energy in USD'
    pSolarCost(z,y)                           
-   pSolarEnergy(z,q,d,t,y)                   'Solar output in MWh'
-$ifI %mode%==MIRO
-$onExternalOutput                                          
-   pSolverParameters(*)                      'Solver parameters'
-$ifI %mode%==MIRO
-$offExternalOutput                                                                                    
+   pSolarEnergy(z,q,d,t,y)                   'Solar output in MWh'                                        
+   pSolverParameters(*)                      'Solver parameters'                                                                                 
    pDemandSupplySeason(z,*,y,q)              'Seasonal demand supply parameters per zone'
 ***********************H2 related addition*********************************************
    pDemandSupplySeasonH2(z,*,y,q)              'Seasonal demand supply parameters per zone'
@@ -1018,33 +1014,14 @@ Parameter
    CapacityType(*,f,tech,y)         'Capacity by type (MW)' 
    AverageCost(*,*,y)               'Average cost ($/MWh)'  
 ;
-*Alternative summary report declarations (remove one superflous index) for MIRO
-$ifI %mode%==MIRO
-$onExternalOutput
-Parameter
-   CapacityMIRO(f,y)                'Capacity (MW)'
-   CapacitySummaryMIRO(*,y)         'Capacity summary (MW)'
-   EnergyMIRO(f,y)                  'Energy (GWh)'
-   CostsMIRO(*,y)                   'Costs summary ($m)'
-   UtilizationMIRO(f,y)             'Utilization'
-   CapacityTypeMIRO(f,tech,y)       'Capacity by type (MW)'
-   AverageCostMIRO(y)               'Average cost ($/MWh)'
-;
-$ifI %mode%==MIRO
-$offExternalOutput
 
 Capacity("Capacity MW",f,y) =  Sum(gprimf(g,f), vCap.l(g,y));
-CapacityMIRO(f,y) = Capacity("Capacity MW",f,y);
 
 CapacitySummary(" ","Peak"               ,y) = smax(c, pPeakCapacityCountry(c,"Peak demand: MW",y));
 CapacitySummary(" ","New capacity MW"    ,y) = sum(g, vBuild.l(g,y));
 CapacitySummary(" ","Retired capacity MW",y) = sum(g, vRetire.l(g,y));
-CapacitySummaryMIRO("Peak"            ,y) = CapacitySummary(" ","Peak"               ,y);
-CapacitySummaryMIRO("New capacity"    ,y) = CapacitySummary(" ","New capacity MW"    ,y);
-CapacitySummaryMIRO("Retired capacity",y) = CapacitySummary(" ","Retired capacity MW",y);
 
 Energy("Energy GWh",f,y) = sum(c, pEnergyByFuelCountry(c,f,y));
-EnergyMIRO(f,y) = Energy("Energy GWh",f,y);
 
 Costs("Costs","Capex: $m"       ,y)= sum(z, pCapex(z,y))/1e6;
 Costs("Costs","Fixed O&M: $m"   ,y)= sum(z, pFOM(z,y))/1e6;
@@ -1054,17 +1031,10 @@ Costs("Costs","Total fuel: $m"  ,y)= sum(z, pFuelCostsZone(z,y))/1e6;
 
 Costs("Costs","Net Import: $m"  ,y)= sum(z, pImportCosts(z,y) - pExportRevenue(z,y))/1e6;
 
-CostsMIRO("Capex: $m"       ,y) = Costs("Costs","Capex: $m"       ,y);
-CostsMIRO("Fixed O&M: $m"   ,y) = Costs("Costs","Fixed O&M: $m"   ,y);
-CostsMIRO("Variable O&M: $m",y) = Costs("Costs","Variable O&M: $m",y);
-CostsMIRO("Total fuel: $m"  ,y) = Costs("Costs","Total fuel: $m"  ,y);
-CostsMIRO("Net Import: $m"  ,y) = Costs("Costs","Net Import: $m"  ,y);
 
 Utilization("Utilization",f,y)$Capacity("Capacity MW",f,y) = Energy("Energy GWh",f,y)/Capacity("Capacity MW",f,y);
-UtilizationMIRO(f,y) = Utilization("Utilization",f,y);
 
 CapacityType("Capacity by Type MW",f,tech,y) = sum((gprimf(g,f),gtechmap(g,tech)), vCap.l(g,y));
-CapacityTypeMIRO(f,tech,y) = CapacityType("Capacity by Type MW",f,tech,y);
 
 
 AverageCost(" ","Average cost $/MWh",y) = (sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
@@ -1073,9 +1043,6 @@ AverageCost(" ","Average cost $/MWh",y) = (sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGen
                                           )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
                                                  + pDenom2(z,y));
                                                  
-
-AverageCostMIRO(y) = AverageCost(" ","Average cost $/MWh",y);
-
 $ifthen.excelreport %DOEXCELREPORT%==1
 if (pSystemResultReporting > 0,
    put_utility fgdxxrw 'ren' / 'SystemResults.txt';
@@ -1101,246 +1068,3 @@ $  offPut
 put_utility$isWindows 'shell' / 'rm -f WriteZonalandCountry.txt WriteZonal.txt WriteSeasonal.txt SystemResults.txt'
 put_utility fgdxxrw 'ren' / 'gdxxrw.out'
 $endif.excelreport
-
-* MIRO
-Set pSymbols /
-   "Summary of TOT results ($M)",
-   "Capex ($)",
-   "Annualized capex ($)",
-   "FOM ($)",
-   "VOM ($)",
-   "Fuel costs ($)",
-   "Net IMP costs ($)",
-   "EXP revenue ($)",
-   "Added TRANS costs ($)",
-   "Unmet demand costs ($)",
-   "Surplus GEN costs ($)",
-   "VRE curtailment costs",
-   "Unmet sys spin res vio costs",
-   "Unmet sys. plan. res vio. costs",
-   "Spin. res costs by zone ($)",
-   "Unmet loc. spin. res costs",
-   "Planning res vio. cost ($)",
-   "Costs ($1M, unweight.) by zone",
-   "Costs ($1M, unweight.) by ctry",
-   "Costs ($1M, weighted) by zone",
-   "Costs ($1M, weighted) by ctry",
-   "Av. costs (undisc.) by ctry",
-   "Fuel costs ($M) by zone",
-   "Fuel costs ($M) by ctry",
-   "Fuel consumed (1M) per zone",
-   "Fuel consumed (1M) per ctry",
-   "Energy by plant (GWh)",
-   "Energy by fuel per zone (GWh)",
-   "Energy by fuel per ctry (GWh)",
-   "Energy mix by ctry",
-   "Supply demand per zone (GWh)",
-   "Supply demand per ctry (GWh)",
-   "TOT EXCH per zone (GWh)",
-   "UTIL. of interconnection",
-   "TRANS losses per zone (MWh)",
-   "TOT EXCH per ctry (GWh)",
-   "TOT TRANS losses per ctry (MWh)",
-   "Trade by year per zone (GWh)",
-   "Trade in MW per zone",
-   "Trade by year per ctry (GWh)",
-   "Trade in MW per ctry",
-   "MRGL cost per MWh per zone ($)",
-   "Av. price by int. zone",
-   "Av. price hub",
-   "Av. MRGL cost EXPto int ($/MWh)",
-   "Av. MRGL cost IMPto int ($/MWh)",
-   "Av. price by int. zone per ctry",
-   "Av. MRGL cost EXPint ctry $/MWh",
-   "Av. MRGL cost IMPint ctry $/MWh",
-   "Peak CAP in MW per zone",
-   "Peak CAP by PRIM fuel (MW/zone)",
-   "New CAP by fuel (MW/zone)",
-   "Plant utilization",
-   "retirements in MW per zone",
-   "CAP plan MW per zone",
-   "Peak CAP in MW per ctry",
-   "Peak CAP by PRIM fuel (MW/ctry)",
-   "New CAP by fuel (MW/ctry)",
-   "CAP plan (MW/ctry)",
-   "Add. TRANS CAP b/w zones (MW)",
-   "Cost reserves by plant ($/zone)",
-   "RES contrib by plant (MW/zone)",
-   "Cost reserves by plant ($/ctry)",
-   "RES contrib by plant (MWh/ctry)",
-   "EMIS CO2 by zone (MT)",
-   "EMIS intensity tCO2/GWh by zone",
-   "EMIS CO2 by ctry (MT)",
-   "EMIS intensity tCO2/GWh by ctry",
-   "Energy by plant (MWh)",
-   "Energy by zone (MWh)",
-   "Energy by ctry (MWh)",
-   "Plant LCOE by year ($/MWh)",
-   "Zonal cost of GEN + IMP($/MWh)",
-   "Zonal cost of GEN ($/MWh)",
-   "Ctry cost of GEN+ trade ($/MWh)",
-   "Ctry cost of GEN ($/MWh)",
-   "System cost of GEN ($/MWh)",
-   "Detailed dispatch by plant (MW)",
-   "Detailed dispatch and flows","CSP Balance (MW)",
-   "CSP specific output","PV with Storage balance",
-   "PV with Storage components","Storage balance (MW)",
-   "Storage components",
-   "Solar energy value ($)",
-   "Solar energy cost",
-   "Solar output (MWh)",
-   "Solver parameters",
-   "Seasonal demand supply per zone",
-   "IMP by seas. per zone (GWh)",
-   "EXP by seas. per zone (GWh)",
-   "Energy by plant per seas. (GWh)",
-   "TOT EXCH per seas per zone(GWh)",
-   "Trade by seas. per zone (GWh)",
-   "TOT EXCH per seas per ctry(GWh)",
-   "Trade by seas. per ctry (GWh)",
-   "Zones per ctry",
-   "System Capacity (MW)",
-   "System Capacity summary (MW)",
-   "System Energy (GWh)",
-   "System Costs ($m)",
-   "System Utilization",
-   "System Capacity by type (MW)",
-   "System Average cost ($/MWh)" /;
-
-$ifI %mode%==MIRO
-$onExternalOutput
-parameter cubeOutput(pSymbols,*,*,*,*,*,*,*,*,*,*,*,*);
-$ifI %mode%==MIRO
-$offExternalOutput
-
-$ifI not %mode%==MIRO $exit
-
-*Write veda file
-File veda_file / out.vdd /;
-put veda_file;
-$onPut
-[DataBaseName]
-myveda
-
-[Dimensions]
-Attribute                           attr
-subgroup                            s
-zones                               z
-zones                               z2
-years                               y
-countries                           c
-countries                           c2
-fuels                               f
-generatorsOrTechnologyFuelFypes     g
-quartersOrSeasons                   q
-dayTypes                            d
-hoursOfDay                          t
-technologies                        tech
-
-[DataEntries]
-* VEDA Attr                           GAMS                                                - indexes -
-*** Variables & Parameters
-"Summary of TOT results ($M)"         pSummary                                            s
-"Costs ($1M, unweight.) by zone"      pCostSummary                                        z s y
-"Costs ($1M, unweight.) by ctry"      pCostSummaryCountry                                 c s y
-"Costs ($1M, weighted) by zone"       pCostSummaryWeighted                                z s y
-"Costs ($1M, weighted) by ctry"       pCostSummaryWeightedCountry                         c s y
-"Av. costs (undisc.) by ctry"         pCostSummaryWeightedAverageCtry                     c s
-"Fuel costs ($M) by zone"             pFuelCosts                                          z f y
-"Fuel costs ($M) by ctry"             pFuelCostsCountry                                   c f y
-"Fuel consumed (1M) per zone"         pFuelConsumption                                    z f y
-"Fuel consumed (1M) per ctry"         pFuelConsumptionCountry                             c f y
-"Energy by plant (GWh)"               pEnergyByPlant                                      z g y
-"Energy by fuel per zone (GWh)"       pEnergyByFuel                                       z f y
-"Energy by fuel per ctry (GWh)"       pEnergyByFuelCountry                                c f y
-"Energy mix by ctry"                  pEnergyMix                                          c f y
-"Supply demand per zone (GWh)"        pDemandSupply                                       z s y
-"Supply demand per ctry (GWh)"        pDemandSupplyCountry                                c s y
-"TOT EXCH per zone (GWh)"             pInterchange                                        z z2 y
-"UTIL. of interconnection"            pInterconUtilization                                z z2 y
-"TRANS losses per zone (MWh)"         pLossesTransmission                                 z y
-"TOT EXCH per ctry (GWh)"             pInterchangeCountry                                 c c2 y
-"TOT TRANS losses per ctry (MWh)"     pLossesTransmissionCountry                          c y
-"Trade by year per zone (GWh)"        pYearlyTrade                                        z s y
-"Trade in MW per zone"                pHourlyTrade                                        z y q d s t
-"Trade by year per ctry (GWh)"        pYearlyTradeCountry                                 c s y
-"Trade in MW per ctry"                pHourlyTradeCountry                                 c y q d s t
-"MRGL cost per MWh per zone ($)"      pPrice                                              z q d t y
-"Av. price by int. zone"              pAveragePrice                                       z y
-"Av. price hub"                       pAveragePriceHub                                    z y
-"Av. MRGL cost EXPto int ($/MWh)"     pAveragePriceExp                                    z y
-"Av. MRGL cost IMPto int ($/MWh)"     pAveragePriceImp                                    z y
-"Av. price by int. zone per ctry"     pAveragePriceCountry                                c y
-"Av. MRGL cost EXPint ctry $/MWh"     pAveragePriceExpCountry                             c y
-"Av. MRGL cost IMPint ctry $/MWh"     pAveragePriceImpCountry                             c y
-"Peak CAP in MW per zone"             pPeakCapacity                                       z s y
-"Peak CAP by PRIM fuel (MW/zone)"     pCapacityByFuel                                     z f y
-"New CAP by fuel (MW/zone)"           pNewCapacityFuel                                    z f y
-"Plant utilization"                   pPlantUtilization                                   z g y
-"retirements in MW per zone"          pRetirements                                        z g y
-"CAP plan MW per zone"                pCapacityPlan                                       z g y
-"Peak CAP in MW per ctry"             pPeakCapacityCountry                                c s y
-"Peak CAP by PRIM fuel (MW/ctry)"     pCapacityByFuelCountry                              c f y
-"New CAP by fuel (MW/ctry)"           pNewCapacityFuelCountry                             c f y
-"CAP plan (MW/ctry)"                  pCapacityPlanCountry                                c g y
-"Add. TRANS CAP b/w zones (MW)"       pAdditionalCapacity                                 z z2 y
-"Cost reserves by plant ($/zone)"     pSpinningReserveCostsZone                                       z g y
-"RES contrib by plant (MW/zone)"      pSpinningReserveByPlantZone                                     z g y
-"Cost reserves by plant ($/ctry)"     pSpinningReserveCostsCountry                                c g y
-"RES contrib by plant (MWh/ctry)"     pSpinningReserveByPlantCountry                              c g y
-"EMIS CO2 by zone (MT)"               pEmissions                                          z y
-"EMIS intensity tCO2/GWh by zone"     pEmissionsIntensity                                 z y
-"EMIS CO2 by ctry (MT)"               pEmissionsCountry1                                  c y
-"EMIS intensity tCO2/GWh by ctry"     pEmissionsIntensityCountry                          c y
-"Plant LCOE by year ($/MWh)"          pPlantAnnualLCOE                                    z g y
-"Zonal cost of GEN + IMP($/MWh)"      pZonalAverageCost                                   z y
-"Ctry cost of GEN+ trade ($/MWh)"     pCountryAverageCost                                 c y
-"System cost of GEN ($/MWh)"          pSystemAverageCost                                  y
-"Detailed dispatch by plant (MW)"     pPlantDispatch                                      z y q d g t
-"Detailed dispatch and flows"         pDispatch                                           z y q d s t
-"CSP Balance (MW)"                    pCSPBalance                                         y g q d s t
-"CSP specific output"                 pCSPComponents                                      g s y
-"PV with Storage balance"             pPVwSTOBalance                                      y q d g s t
-"PV with Storage components"          pPVwSTOComponents                                   g s y
-"Storage balance (MW)"                pStorageBalance                                     y g  q d s t
-"Storage components"                  pStorageComponents                                  g s y
-"Solar energy value ($)"              pSolarValue                                         z y
-"Solar energy cost"                   pSolarCost                                          z y
-"Seasonal demand supply per zone"     pDemandSupplySeason                                 z s y q
-"Energy by plant per seas. (GWh)"     pEnergyByPlantSeason                                z g y q
-"TOT EXCH per seas per zone(GWh)"     pInterchangeSeason                                  z z2 y q
-"Trade by seas. per zone (GWh)"       pSeasonTrade                                        z s y q
-"TOT EXCH per seas per ctry(GWh)"     pInterchangeSeasonCountry                           c c2 y q
-"Trade by seas. per ctry (GWh)"       pSeasonTradeCountry                                 c s y q
-"System Capacity (MW)"                CapacityMIRO                                        f y
-"System Capacity summary (MW)"        CapacitySummaryMIRO                                 s y
-"System Energy (GWh)"                 EnergyMIRO                                          f y
-"System Costs ($m)"                   CostsMIRO                                           s y
-"System Utilization"                  UtilizationMIRO                                     f y
-"System Capacity by type (MW)"        CapacityTypeMIRO                                    f tech y
-"System Average cost ($/MWh)"         AverageCostMIRO                                     y
-***********************************H2 model additions**********************************************
-"H2 Supply demand per zone (GWh)"     pDemandSupplyH2                                    z s y
-********************************************************************************************
-
-$offPut
-putclose;
-
-*prepare output cube
-execute_unload 'cubeData';
-           
-put_utility 'shell' / 'gdx2veda cubeData.gdx out.vdd';
-
-option zerotoeps=on, clear=cubeoutput;
-set dummy 'veda uel for missing index' / '-' /; 
-
-embeddedCode Python:
-import pandas as pd
-import gams2numpy
-gams.wsWorkingDir = '.'
-
-arr = pd.read_csv('cubeData.vd', delimiter=',', quotechar='"', engine='c', low_memory=False, skiprows=12, header=None).values
-g2np = gams2numpy.Gams2Numpy(gams.ws.system_directory)
-g2np.gmdFillSymbolStr(gams.db, gams.db['cubeOutput'], arr)
-endEmbeddedCode cubeOutput
-put_utility 'shell' / 'rm -f cubeData.gdx'
