@@ -889,6 +889,42 @@ $include %REPORT_FILE%
 
 *-------------------------------------------------------------------------------------
 
+* Move outputs to a timestamped folder using embedded Python
+$onEmbeddedCode Python:
+import os
+import shutil
+from datetime import datetime
+
+# Get current timestamp
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+output_dir = os.path.join("output", f"simulation_{timestamp}")
+os.makedirs(output_dir, exist_ok=True)
+
+# Define file types to move
+extensions = [".lst", ".lxi", ".gdx", ".log", ".bk"]
+
+# Move matching files to the new output folder
+for file in os.listdir():
+    if any(file.endswith(ext) for ext in extensions):
+        shutil.move(file, os.path.join(output_dir, file))
+        
+# List of specific files to move
+files_to_move = [
+    "xlsxReport.cmd",
+    "WriteZonalandCountry.txt"
+]
+
+# Move each file if it exists
+for file in files_to_move:
+    if os.path.exists(file):
+        shutil.move(file, os.path.join(output_dir, file))
+        print(f"Moved: {file}")
+    else:
+        print(f"Skipped (not found): {file}")
+
+print(f"Output files moved to: {output_dir}")
+$offEmbeddedCode
+
 
 
 * If memory monitoring is enabled, execute embedded Python code to log memory usage details
