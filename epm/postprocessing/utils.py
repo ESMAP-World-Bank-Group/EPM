@@ -827,10 +827,6 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     else:  # we plot all scenarios
         selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
-    # geojson_to_epm = dict_specs['geojson_to_epm']
-    # geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM']  # get only relevant info without considering zones that need to be divided.
-    # epm_to_geojson = {v: k for k, v in geojson_to_epm.items()}  # Reverse dictionary
-
     pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
     pInterconUtilization = epm_results['pInterconUtilization'].copy()
     pInterconUtilization['value'] = pInterconUtilization['value'] * 100  # percentage
@@ -853,20 +849,28 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
                 'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
             raise  # Re-raise the exception for debuggings
 
+        capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+        utilization_transmission = epm_results['pInterconUtilization'].copy()
+        utilization_transmission['value'] = utilization_transmission['value'] * 100  # update to percentage value
+        transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
+            utilization_transmission.rename(columns={'value': 'utilization'}),
+            on=['scenario', 'zone', 'z2', 'year'])  # removes connections with zero utilization
+        transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+
         for year in years:
             filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionCapacity_{selected_scenario}_{year}.png'
 
-            if not pAnnualTransmissionCapacity.loc[pAnnualTransmissionCapacity.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
-                make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year=year, scenario=selected_scenario,
+            if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
+                make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='capacity',
                                          label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
-                                         min_display_capacity=200, filename=filename)
+                                         min_display_capacity=200, filename=filename, title='Transmission capacity (MW)')
 
                 filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionUtilization_{selected_scenario}_{year}.png'
 
-                make_interconnection_map(zone_map, pInterconUtilization, centers, year=year, scenario=selected_scenario,
+                make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='utilization',
                                          min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
                                          label_fontsize=10, show_labels=False, min_display_capacity=50,
-                                         format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename)
+                                         format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename, title='Transmission utilization (%)')
 
             try:
                 capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -2908,10 +2912,10 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
         plt.show()
 
 
-def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, filename=None,
+def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
                              label_fontsize=12, predefined_colors=None, min_display_capacity=100,
-                             min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y)):
+                             min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y), title='Transmission capacity'):
     """
     Plots an interconnection map showing transmission capacities between different zones.
 
@@ -2958,13 +2962,13 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     transmission_data = pAnnualTransmissionCapacity[
         (pAnnualTransmissionCapacity['year'] == year) &
         (pAnnualTransmissionCapacity['scenario'] == scenario) &
-        (pAnnualTransmissionCapacity['value'] > min_capacity)
+        (pAnnualTransmissionCapacity[column] > min_capacity)
         ]
 
     # Compute capacity range for scaling line width
     if not transmission_data.empty:
-        min_cap = transmission_data['value'].min()
-        max_cap = transmission_data['value'].max()
+        min_cap = transmission_data[column].min()
+        max_cap = transmission_data[column].max()
     else:
         min_cap = max_cap = 1  # Avoid division by zero
 
@@ -2984,7 +2988,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     # Remove axes for a clean map
     ax.set_aspect('equal')
     ax.set_axis_off()
-    ax.set_title(f'Transmission Capacity - {scenario} - {year}', loc='center')
+    ax.set_title(f'{title} - {scenario} - {year}', loc='center')
 
     # Get vertical and horizontal extent of the figure to normalize offsets
     ymin, ymax = ax.get_ylim()
@@ -2994,7 +2998,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
 
     # Plot interconnections
     for _, row in transmission_data.iterrows():
-        zone_from, zone_to, capacity = row['zone'], row['z2'], row['value']
+        zone_from, zone_to, capacity = row['zone_from'], row['zone_to'], row[column]
 
         if zone_from in centers and zone_to in centers:
             coord_from, coord_to = centers[zone_from], centers[zone_to]
@@ -3509,8 +3513,8 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     """Generates a dispatch plot and returns it as a base64 image string."""
     img = BytesIO()
 
-    fig_width = 12
-    fig_height = 3  # Shorter height for better fit
+    fig_width = 16
+    fig_height = 5  # Shorter height for better fit
 
     make_complete_fuel_dispatch_plot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,

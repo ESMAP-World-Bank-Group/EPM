@@ -586,7 +586,7 @@ pPlantUtilizationTech(z,tech,y)$sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCa
 
 *--- New TX Capacity by zone
 
-pAdditionalCapacity(sTopology(z,z2),y) = vAdditionalTransfer.l(z,z2,y)*pNewTransmission(z,z2,"CapacityPerLine");                            
+pAdditionalCapacity(sTopology(z,z2),y) = vAdditionalTransfer.l(z,z2,y)*pNewTransmission(z,z2,"CapacityPerLine")*pAllowHighTransfer;                            
 
 pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
