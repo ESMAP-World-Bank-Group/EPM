@@ -301,7 +301,7 @@ Set gprimf(g,f)          'primary fuel f for generator g'
 $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
-   shdr         'Additional headers for pStorData' / Life, VOMMWh /
+   shdr         'Additional headers for pStorData' / VOMMWh /
    thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor/
 ;
 $offmulti
@@ -370,8 +370,6 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
 $include %VERIFICATION_FILE%
 $if not errorfree $abort PythonError in input_verification.gms
-
-$exit
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
@@ -716,9 +714,9 @@ pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")
 pVarCostH2(hh,y) = pH2Data(hh,"VOM");
 pCRF(g)$pGenData(g,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(g,'Life'))));
 pCRFH2(hh)$pH2Data(hh,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pH2Data(hh,'Life'))));
-pCRFsst(st)$pStorData(st,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pStorData(st,'Life'))));
-pCRFcst(cs)$pCSPData(cs,"Storage","Life") = pWACC / (1 - (1 / ( (1 + pWACC)**pCSPData(cs,"Storage","Life"))));
-pCRFcth(cs)$pCSPData(cs,"Thermal Field","Life") = pWACC / (1 - (1 / ( (1 + pWACC)**pCSPData(cs,"Thermal Field","Life"))));
+pCRFsst(st)$pGenData(st,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(st,'Life'))));
+pCRFcst(cs)$pGenData(cs,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(cs,'Life'))));
+pCRFcth(cs)$pGenData(cs,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(cs,'Life'))));
 
 **Create set MapNCZ (neighbouring country zones)
 
