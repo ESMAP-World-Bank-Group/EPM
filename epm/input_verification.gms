@@ -41,13 +41,19 @@ try:
         "pFuelCarbonContent", "pTechData"]
     for param in  essential_param:
         if param not in db:
-            raise ValueError(f"Error {param} is missing")
+            msg = f"Error {param} is missing"
+            print(msg)
+            raise ValueError(msg)
         else:
             if db[param].records is None:
-                raise ValueError(f"Error {param} is missing")
+                msg = f"Error {param} is missing"
+                print(msg)
+                raise ValueError(msg)
             else:
                 if db[param].records.empty:
-                    raise ValueError(f"Error {param} is empty")
+                    msg = f"Error {param} is empty"
+                    print(msg)
+                    raise ValueError(msg)
                     
     
     optional_param = ["pDemandForecast", "pDemandForecast"]
@@ -60,7 +66,8 @@ try:
             else:
                 if db[param].records.empty:
                     print(f"Warning {param} is empty")
-
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error in initial')
     raise # Re-raise the exception for debuggings
@@ -80,7 +87,9 @@ try:
     if verif:
         print("Success: All values pHours positive.")
     else:
-        raise ValueError(f"Error: Some block duration are negative.")
+        msg = f"Error: Some block duration are negative."
+        print(msg)
+        raise ValueError(msg)
 
 
     # Compute the sum of all records
@@ -90,8 +99,11 @@ try:
     if total_hours == 8760:
         print("Success: The sum of pHours is exactly 8760.")
     else:
-        raise ValueError(f"Error: The sum of pHours is {total_hours}, which is not 8760.")
-        
+        msg = f"Error: The sum of pHours is {total_hours}, which is not 8760."
+        print(msg)
+        raise ValueError(msg)
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error in pHours')
     raise # Re-raise the exception for debuggings
@@ -101,9 +113,13 @@ try:
     pVREProfile = db["pVREProfile"]
     # Check if any value in pVREProfile exceeds 1
     if (pVREProfile.records['value'] > 1).any():
-        raise ValueError("Error: Capacity factor cannot be greater than 1 in pVREProfile.")
+        msg = "Error: Capacity factor cannot be greater than 1 in pVREProfile."
+        print(msg)
+        raise ValueError(msg)
     else:
         print("Success: All pVREProfile values are valid.")
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error in VREProfile')
     raise # Re-raise the exception for debuggings
@@ -114,11 +130,15 @@ try:
     pAvailability = db["pAvailability"]
     if pAvailability.records is not None:
         if (pAvailability.records['value'] > 1).any():
-            raise ValueError("Error: Availability factor cannot be 1 or greater in pAvailability.")
+            msg = "Error: Availability factor cannot be 1 or greater in pAvailability."
+            print(msg)
+            raise ValueError(msg)
         else:
             print("Success: All pAvailability values are valid.")
     else:
         print('pAvailabilityCustom is None. All values come from pAvailabilityDefault')
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error in pAvailability')
     raise # Re-raise the exception for debuggings
@@ -150,7 +170,11 @@ try:
             diff = unique_combinations[first_var] ^ unique_combinations[var]  # Find differences
             if diff:
                 print(f"Differences in {var}: {diff}")
-        raise ValueError("All dataframes do not have the same (q, d, t) combinations.")
+        msg = "All dataframes do not have the same (q, d, t) combinations."
+        print(msg)
+        raise ValueError(msg)
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking time consistency')
     raise # Re-raise the exception for debuggings
@@ -182,7 +206,8 @@ except Exception as e:
 try:
     print('TODO')
     df = db["pFuelPrice"].records
-    
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking pFuelPrice')
     raise # Re-raise the exception for debuggings
@@ -197,7 +222,9 @@ try:
         missing_pairs = [(z, z2) for z, z2 in topology if (z2, z) not in topology]
         if len(missing_pairs) > 0:
             missing_pairs_str = "\n".join([f"({z}, {z2})" for z, z2 in missing_pairs])
-            raise ValueError(f"Error: The following (z, z2) pairs are missing their symmetric counterparts (z2, z) in 'pTransferLimit':\n{missing_pairs_str}")
+            msg = f"Error: The following (z, z2) pairs are missing their symmetric counterparts (z2, z) in 'pTransferLimit':\n{missing_pairs_str}"
+            print(msg)
+            raise ValueError(msg)
         else:
             print("Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.")
             
@@ -213,9 +240,13 @@ try:
         
         if season_issues:
             season_issues_str = "\n".join([f"({z}, {z2}): missing seasons {missing}" for z, z2, missing in season_issues])
-            raise ValueError(f"Error: The following (z, z2) pairs do not have all required seasons in 'pTransferLimit':\n{season_issues_str}")
+            msg = f"Error: The following (z, z2) pairs do not have all required seasons in 'pTransferLimit':\n{season_issues_str}"
+            print(msg)
+            raise ValueError(msg)
         else:
             print("Success: All (z,z2) pairs contain all required seasons.")
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking pTransferLimit')
     raise # Re-raise the exception for debuggings
@@ -228,9 +259,13 @@ try:
         topology_newlines = newtransmission_df.set_index(['z', 'z2']).index.unique()
         duplicate_transmission = [(z, z2) for z, z2 in topology_newlines if (z2, z) in topology_newlines]
         if duplicate_transmission:
-            raise ValueError(f"Error: The following (z, z2) pairs are specified twice in 'pNewTransmission':\n{duplicate_transmission} \n This may cause some problems when defining twice the characteristics of additional line.")
+            msg = f"Error: The following (z, z2) pairs are specified twice in 'pNewTransmission':\n{duplicate_transmission} \n This may cause some problems when defining twice the characteristics of additional line."
+            print(msg)
+            raise ValueError(msg)
         else:
             print("Success: Each candidate transmission line is only specified once in pNewTransmission.")
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking NewTransmission')
     raise # Re-raise the exception for debuggings
@@ -261,7 +296,9 @@ try:
                         transferlimit_df = db["pTransferLimit"].records
                         topology = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
                     else:
-                        raise ValueError(f"Error: Interconnected mode is activated, but both TransferLimit and NewTransmission are empty.")
+                        msg = f"Error: Interconnected mode is activated, but both TransferLimit and NewTransmission are empty."
+                        print(msg)
+                        raise ValueError(msg)
                     
                     # Ensure that for any (z, z2) present in the topology, we keep only one tuple (z, z2) if both (z, z2) and (z2, z) exist.
                     final_topology = set()
@@ -272,7 +309,9 @@ try:
                     # Check that all lines in topology exist in pLossFactor
                     missing_lines = [line for line in final_topology if line not in topology_lossfactor and (line[1], line[0]) not in topology_lossfactor]
                     if missing_lines:
-                        raise ValueError(f"Error: The following lines in topology are missing from pLossFactor: {missing_lines}")
+                        msg = f"Error: The following lines in topology are missing from pLossFactor: {missing_lines}"
+                        print(msg)
+                        raise ValueError(msg)
                     else:
                         print("Success: All transmission lines have a lossfactor specified.")
                         
@@ -289,12 +328,18 @@ try:
                                 duplicate_mismatches.append(((z, z2), (z2, z)))
     
                     if duplicate_mismatches:
-                        raise ValueError(f"Error: The following lines in pLossFactor have inconsistent values: {duplicate_mismatches}")
+                        msg = f"Error: The following lines in pLossFactor have inconsistent values: {duplicate_mismatches}"
+                        print(msg)
+                        raise ValueError(msg)
                     else:
                         print("Success: No problem in duplicate values in pLossFactor.")
                     
                 else:
-                    raise ValueError(f"Error: Interconnected mode is activated, but LossFactor is empty")
+                    msg = f"Error: Interconnected mode is activated, but LossFactor is empty"
+                    print(msg)
+                    raise ValueError(msg)
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking interconnected mode')
     raise # Re-raise the exception for debuggings
@@ -310,10 +355,13 @@ try:
         missing_countries = countries_def - countries_planning
         if missing_countries:
             missing_countries_str = ", ".join(missing_countries)
-            raise ValueError(f"Error: The following countries are missing from 'pPlanningReserveMargin': {missing_countries_str}")
+            msg = f"Error: The following countries are missing from 'pPlanningReserveMargin': {missing_countries_str}"
+            print(msg)
+            raise ValueError(msg)
         else:
             print("Success: All countries c have planning reserve defined.")
-        
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking PlanningReserves')
     raise # Re-raise the exception for debuggings
@@ -329,11 +377,17 @@ try:
         missing_fuels = fuels_in_gendata - fuels
         additional_fuels = fuels - fuels_in_gendata
         if missing_fuels:
-            raise ValueError(f"Error: The following fuels are in gendata but not defined in ftfindex: \n{missing_fuels}")
+            msg = f"Error: The following fuels are in gendata but not defined in ftfindex: \n{missing_fuels}"
+            print(msg)
+            raise ValueError(msg)
         elif additional_fuels:
-            raise ValueError(f"Error: The following fuels are defined in ftfindex but not in gendata.:\n{season_issues_str}\n This may be because of spelling issues, and may cause problems after.")
+            msg = f"Error: The following fuels are defined in ftfindex but not in gendata.:\n{season_issues_str}\n This may be because of spelling issues, and may cause problems after."
+            print(msg)
+            raise ValueError(msg)
         else:
             print('Success: Fuels are well-defined everywhere.')
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking ftfindex')
     raise # Re-raise the exception for debuggings
@@ -348,12 +402,16 @@ try:
         z = set(z['z'].unique())
         common_elements = zext & z
         if common_elements:
-            raise ValueError(f"Error: The following zones are included both as external and internal zones:\n{common_elements}.")
+            msg = f"Error: The following zones are included both as external and internal zones:\n{common_elements}."
+            print(msg)
+            raise ValueError(msg)
         else:
             print("Success: no conflict between internal and external zones")
         
     else:
         print("Success: no conflict between internal and external zones, as external zones are not included in the model.")
+except ValueError:
+    raise  # Let this one bubble up with your message
 except Exception as e:
     print('Unexpected error when checking zext')
     raise # Re-raise the exception for debuggings
@@ -363,9 +421,7 @@ try:
     if db["zext"].records is not None:
         zext = db["zext"].records
         if db["pExtTransferLimit"].records is not None:
-            print("hey")
             pExtTransferLimit = db["pExtTransferLimit"].records
-            print(pExtTransferLimit)
         else:
             print("Warning: External zones are specified, but imports and exports capacities are not specified. This may be caused by a problem in the spelling of external zones in pExtTransferLimit.")
 except Exception as e:
@@ -383,6 +439,27 @@ try:
                 print("Warning: exchanges with external zones are allowed, but imports and exports capacities are not specified.")
 except Exception as e:
     print('Unexpected error when checking pSettings')
+    raise # Re-raise the exception for debuggings
+    
+
+# Storage data
+try:
+    if db["pStorDataExcel"].records is not None:
+        pStorDataExcel = db["pStorDataExcel"].records
+        pGenDataExcel = db["pGenDataExcel"].records
+        gen_storage = set(pStorDataExcel['g'].unique())
+        gen_ref = set(pGenDataExcel.loc[pGenDataExcel.tech == 'Storage']['g'].unique())
+        missing_storage_gen = gen_ref - gen_storage
+        if missing_storage_gen:
+            msg = f"Error: The following fuels are in gendata but not defined in pStorData: \n{missing_storage_gen}"
+            print(msg)
+            raise ValueError(msg)
+        else:
+            print('Success: All storage generators are are well-defined in pStorDataExcel.')
+except ValueError:
+    raise  # Let this one bubble up with your message
+except Exception as e:
+    print('Unexpected error when checking storage data')
     raise # Re-raise the exception for debuggings
 
 

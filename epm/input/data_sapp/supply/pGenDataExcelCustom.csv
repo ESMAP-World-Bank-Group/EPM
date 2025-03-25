@@ -21,7 +21,7 @@ Arnot2_TH_ZAF,South_Africa,ST,Coal,1975,2033,1116,1,,13.3,,,,,,,,0,,,0,,0,0.05,0
 Athlone_TH_ZAF,South_Africa,ST,Coal,1962,2019,180,1,,10.10657267,,,,,,,,0,,,0,,0,0.05,0,180
 Avon_TH_ZAF,South_Africa,OCGT,HFO,2015,2065,837.5,1,,13.62107811,,,,,,,,0,,,0,,0,0,0,0
 Bagamoyo,Tanzania,CCGT,Gas,2028,2078,200,3,,,0.1,0.1,,,,,0,1.2,,200,0,,0,0.05,0,0
-Bagasse_co-generation_BM_MWI,Malawi,ST,Biomass,2030,2060,60,3,0.3,10,0.9,0.9,0,0.01,100000,10,0,4.26,30,60,0,,0,0,0,0
+Bagasse_co-generation_BM_MWI,Malawi,ST,Biomass,2030,2060,60,3,,10,0.9,0.9,,,,10,,4.26,,60,0,,0,0,0,0
 BatokaGorgeNorth_HY_ZMB,Zambia,ROR,Water,2035,2060,1200,3,,,,,,0.278070484,,,0,1.699534884,50,400,0,,0,0,0,0
 BatokaGorgeSouth_HY_ZWE,Zimbabwe,ROR,Water,2035,2060,1200,3,,,,,,0.275342466,,,0,1.699534884,50,1200,0,,0,0,0,0
 Baynes(Angola)_HY_AGO,Angola,ROR,Water,2032,2072,430,3,,,,,,0.121826136,,,0,3.115813953,50,430,0,,0,0,0,0
@@ -46,7 +46,7 @@ CF_Biopio,Angola,PV,Solar,2022,2073,144.9,1,0,0,1,1,0,0,15000,0,0,0,25,0,0,,0,0,
 Chasombo_HY_MWI,Malawi,ReservoirHydro,Water,2055,2060,40.4,3,,,,,,0.325077306,,,,3.445,,40.4,0,,0,0,0,0
 ChishimbaFalls_HY_ZMB,Zambia,ROR,Water,2004,2060,6,1,,,,,,0.107375,,,0,0,50,,0,,0,0,0,0
 ChishimbaFallsExt_HY_ZMB,Zambia,ROR,Water,2026,2060,9,2,,,,,,0.107375,,,0,4.251,50,,0,,0,0,0,0
-Chisumbanje_BIO_ZWE,Zimbabwe,ST,Biomass,2024,2074,4,3,0.3,10,0.33,0.33,0,0.8,48000,3,0,2.723613596,30,4,0,,0,0,0,4
+Chisumbanje_BIO_ZWE,Zimbabwe,ST,Biomass,2024,2074,4,3,,10,0.33,0.33,,0.8,48000,,,2.723613596,,4,0,,0,0,0,4
 Chitipa_WIND_MWI,Malawi,OnshoreWind,Wind,2027,2057,0,3,0,0,1,1,0,0,28000,0,0,1.6,30,0,0,,0,0,1,0
 Chiweta_GT_MWI,Malawi,ST,Geothermal,2055,2060,12,3,0,0,1,1,0,0.2,15000,2.538071066,0,9.95,30,12,0,,0,0,0,0
 Chizuma_HY_MWI,Malawi,ReservoirHydro,Water,2055,2060,40.4,3,,,,,,0.325077306,,,,3.445,,40.4,0,,0,0,0,0
@@ -75,7 +75,7 @@ CommittedStorage2-3_NAM,Namibia,Storage,Battery,2032,2055,0,2,,,,,,,,,,,,0,0,,0,
 CommittedStorage2-4_NAM,Namibia,Storage,Battery,2036,2055,0,2,,,,,,,,,,,,0,0,,0,0,0,0
 CommittedWind1-4_NAM,Namibia,OnshoreWind,Wind,2034,2064,0,2,0,0,1,1,0,0,28000,0,0,1.75,30,0,0,,0,0,1,0
 CommittedWind1-5_NAM,Namibia,OnshoreWind,Wind,2036,2066,0,2,0,0,1,1,0,0,28000,0,0,1.75,30,0,0,,0,0,1,0
-CT_Biocom,Angola,ST,Biomass,2009,2051,20,1,0.3,10.8998955,1,1,0,0.8,48000,3,0,0,30,,0,,0,0,0,20
+CT_Biocom,Angola,ST,Biomass,2009,2051,20,1,,10.8998955,,,,0.8,48000,,,0,,,0,,0,0,0,20
 CT_Malembo,Angola,OCGT,Gas,2012,2055,105,1,0.2,11.49838981,,,,,,,,0,,,0,7,12.19838981,0.25,0,0
 CT_OffGrid_Diesel,Angola,ICE,Diesel,2013,2063,371.55,1,0.06,10.42,1,1,0,0.4,8000,6.4,0,0,30,0,0,,0,0,0,0
 CT_OnGrid_Diesel,Angola,ICE,Diesel,2000,2050,343.46,1,0.06,13.62,1,1,0,0.4,8000,6.4,0,0,30,0,0,,0,0,0,0
@@ -98,7 +98,7 @@ Edwaleni1_HY_SWZ,Eswatini,ROR,Water,2000,2060,10,1,,,,,,0.152,,,0,0,50,,0,,0,0,0
 Edwaleni2_HY_SWZ,Eswatini,ROR,Water,2000,2060,5,1,,,,,,0.152,,,0,0,50,,0,,0,0,0,0
 EdwaleniThermal_TH_SWZ,Eswatini,ICE,HFO,2000,2050,9,1,,11.73397446,,,,,,,,0,,,0,,0,0,0,0
 EEC_Solar_PV,Eswatini,PV,Solar,2021,2060,10,1,0,0,1,1,0,0,15000,0,0,0,25,0,0,,0,0,1,0
-Ethanol_project_BM_MWI,Malawi,ST,Biomass,2032,2060,28,3,0.3,10,1,1,0,0.01,100000,10,0,7.2,30,28,0,,0,0,0,0
+Ethanol_project_BM_MWI,Malawi,ST,Biomass,2032,2060,28,3,,10,,,,,,10,,7.2,,28,0,,0,0,0,0
 Existing _PV_NAM,Namibia,PV,Solar,2015,2060,228,1,0,0,1,1,0,0,15000,0,0,0,25,0,0,,0,0,1,0
 Existing _PV_ZIM,Zimbabwe,PV,Solar,2022,2060,38,1,0,0,1,1,0,0,15000,0,0,0,25,,0,,0,0,1,0
 Existing_AusWind_NAM,Namibia,OnshoreWind,Wind,2020,2055,5,1,0,0,1,1,0,0,28000,0,0,0,30,0,0,,0,0,1,0
@@ -240,7 +240,7 @@ MajubaII_TH_ZAF,South_Africa,ST,Coal,1985,2051,2008.5,1,,12.7,,,,,,,,0,,,0,,0,0.
 Malagarasi,Tanzania,ROR,Water,2028,2060,49.5,3,,,,,,0.215276497,4090,0.5,0,2.88,50,49.5,0,,0,0,0,0
 MambilimbaFallsI_HY_ZMB,Zambia,ROR,Water,2030,2060,124,3,,,,,,0.278070484,,,0,4.248837209,50,124,0,,0,0,0,0
 Mapanga_ICE_MWI,Malawi,ICE,Diesel,2000,2060,16,1,,,,,,,,,0,0,,0,0,,0,0,0,0
-Maragra_biomass_MOZ,Mozambique,ST,Biomass,2000,2055,1,1,0.3,10.425987,1,1,0,0.8,48000,3,0,0,30,0,0,,0,0,0,1
+Maragra_biomass_MOZ,Mozambique,ST,Biomass,2000,2055,1,1,,10.425987,,,,0.8,48000,,,0,,0,0,,0,0,0,1
 Masigira,Tanzania,ROR,Water,2030,2060,118,3,,,,,,0.29,4090,0.5,0,2.8782,50,118,0,,0,0,0,0
 Massingir_HY_MOZ,Mozambique,ROR,Water,2024,2060,0,3,,,,,,0.406440138,,,0,4.248837209,50,0,0,,0,0,0,0
 Matimba_TH_ZAF,South_Africa,ST,Coal,1987,2039,3690,1,,11.4,,,,,,,,0,,,0,,0,0.05,0,615
@@ -250,7 +250,7 @@ MCT_Morro_Bento,Angola,ICE,Diesel,2012,2062,25,1,0.2,13.62126767,1,1,0,0.2,17000
 Medupi_TH_ZAF,South_Africa,ST,Coal,2015,2065,4356,1,,9.21,,,,,,,,0,,0,0,,0,0.05,0,800
 MetoroSolarPV_REN_MOZ,Mozambique,PV,Solar,2023,2060,41,1,0,0,1,1,0,0,15000,0,0,0,25,0,0,,0,0,1,0
 Mkuranga,Tanzania,CCGT,Gas,2028,2078,300,3,,,0.1,0.1,,,,,0,1.213,,300,0,,0,0.05,0,0
-MkuzeBiomass_BIO_ZAF,South_Africa,ST,Biomass,2000,2055,16.5,1,0.3,10,0.33,0.33,0,0.8,48000,3,0,0,30,,0,,0,0,0,16.5
+MkuzeBiomass_BIO_ZAF,South_Africa,ST,Biomass,2000,2055,16.5,1,,10,0.33,0.33,,0.8,48000,,,0,,,0,,0,0,0,16.5
 Mnyera_Kisingo,Tanzania,ROR,Water,2030,2060,120,3,,,,,,0.275,2250,0.003,0,3.4073,50,120,0,,0,0,0,0
 Mnyera_Kwanini,Tanzania,ROR,Water,2030,2060,144,3,,,,,,0.275,2250,0.003,0,1.4833,50,144,0,,0,0,0,0
 Mnyera_Mnyera,Tanzania,ROR,Water,2030,2060,137,3,,,,,,0.275,2250,0.003,0,2.6013,50,137,0,,0,0,0,0
@@ -357,7 +357,7 @@ NewCCGTNG_TH_SWZ,Eswatini,CCGT,LNG,2027,2077,500,3,,,,,,,,,,1.245080501,,500,0,7
 NewPV_1_BWA,Botswana,PV,Solar,2024,2060,100,2,0,0,1,1,0,0,15000,0,0,0.8,25,100,0,,0,0,1,0
 NewSolar2025_PV_ZMB,Zambia,PV,Solar,2025,2060,165,2,0,0,1,1,0,0,15000,0,0,0.8,25,8.25,0,,0,0,1,0
 NEWSto_BWA,Botswana,Storage,Battery,2026,2055,50,3,,,,,,,,,,,,50,0,,0,0,0,0
-NgodwanaEnergyProject_BIO_ZAF,South_Africa,ST,Biomass,2000,2055,25,1,0.3,10,0.33,0.33,0,0.8,48000,3,0,0,30,,0,,0,0,0,25
+NgodwanaEnergyProject_BIO_ZAF,South_Africa,ST,Biomass,2000,2055,25,1,,10,0.33,0.33,,0.8,48000,,,0,,,0,,0,0,0,25
 Ngozi_I,Tanzania,ST,Geothermal,2030,2055,30,3,0,0,0.3,0.3,0,0.2,128400,0.0012,0,3.5,30,30,0,,0,0,0,0
 Ngozi_II,Tanzania,ST,Geothermal,2030,2055,30,3,0,0,0.3,0.3,0,0.2,128400,0.0012,0,3.5,30,30,0,,0,0,0,0
 "Nkula_(A,B)_+_upgrade_HY_MWI",Malawi,ReservoirHydro,Water,2000,2060,136,1,,,,,,0.325077306,,,,0,,0,0,,0,0,0,0
@@ -371,7 +371,7 @@ Nzoro_HY_ZAR,DRC,ROR,Water,2024,2060,108.4,3,,,,,,0.193435172,,,0,4.248837209,50
 Omburru_BESS_NAM,Namibia,Storage,Battery,2024,2055,31,2,,,,,,,,,,,,31,0,,0,0,0,0
 Omburru_Wind_Nam,Namibia,PV,Solar,2018,2055,20,1,0,0,1,1,0,0,28000,0,0,0,30,0,0,,0,0,1,0
 Orapa1and2_TH_BWA,Botswana,OCGT,HFO,2000,2031,90,1,,10.41544727,,,,,,,,0,,,0,,0,0,0,0
-Otikojoto_Biomass_NAM,Namibia,ST,Biomass,2028,2055,40,2,0.3,12.5,1,1,0,0.8,20000,5,0,2.697674419,30,40,0,,0,0,0,40
+Otikojoto_Biomass_NAM,Namibia,ST,Biomass,2028,2055,40,2,,12.5,,,,0.8,20000,,,2.697674419,,40,0,,0,0,0,40
 Oxbow_HY_LSO,Lesotho,ROR,Water,2029,2060,80,3,,,,,,0.2785,,,0,4.248837209,50,80,0,,0,0,0,0
 PalmietPH_HY_ZAF,South_Africa,Storage,Water,1988,2060,400,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
 Paratus_TH_NAM,Namibia,ICE,HFO,1976,2017,25.6,1,,10.41544727,,,,,,,,0,,,0,,0,0,0,0
@@ -485,7 +485,7 @@ SACoal(Medium)_TH_ZAF,South_Africa,ST,Coal,2025,2075,2600,3,,8.6,,,,,,,,5.447227
 SACoal(Medium)can_TH_ZAF,South_Africa,ST,Coal,2025,2075,5000,3,,8.6,,,,,,,,4.416923077,,2500,0,,0,0.05,0,312.5
 SACoal(Medium)new_TH_ZAF,South_Africa,ST,Coal,2025,2075,5000,3,,8.6,,,,,,,,4.416923077,,1500,0,,0,0.05,0,375
 SACSP_REN_ZAF,South_Africa,CSPPlant,CSP,2019,2059,200,1,0,0,1,1,0,0.8,22000,3,0,0,30,0,0,,0,0,0,0
-SAGenericBiomass_BIO_ZAF,South_Africa,ST,Biomass,2024,2074,500,3,0.3,10,0.33,0.33,0,0.8,48000,3,0,4.423148479,30,500,0,,0,0,0,500
+SAGenericBiomass_BIO_ZAF,South_Africa,ST,Biomass,2024,2074,500,3,,10,0.33,0.33,,0.8,48000,,,4.423148479,,500,0,,0,0,0,500
 SAGenericSolarPV(Large)22_REN_ZAF,South_Africa,PV,Solar,2022,2060,190,1,0,0,1,1,0,0,15000,0,0,0,25,0,0,,0,0,1,0
 SAGenericSolarPV(Medium)23_REN_ZAF,South_Africa,PV,Solar,2023,2060,190,1,0,0,1,1,0,0,15000,0,0,0,25,0,0,,0,0,1,0
 SAGenericSolarPV(Medium)24_REN_ZAF,South_Africa,PV,Solar,2024,2060,0,2,0,0,1,1,0,0,15000,0,0,0.8,25,1000,0,,0,0,1,0
@@ -529,22 +529,22 @@ SouthernEnergy_TH_ZWE,Zimbabwe,ST,Coal,2021,2071,0,3,,9.22225941,,,,,,,,2.466504
 SoyoII_TH_AGO,Angola,CCGT,Gas,2055,2105,750,3,,,,,,,,,0,1.245080501,,750,0,7,7.1,0.05,0,0
 SoyoIII_TH_AGO,Angola,CCGT,Gas,2055,2082,375,3,,,,,,,,,0,1.245080501,,375,0,7,7.1,0.05,0,0
 SreenbrasPH_HY_ZAF,South_Africa,Storage,Water,1988,2060,180,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
-New_BESS_AGO,Angola,Storage,Battery,2027,2055,4000,3,,,,,,,,,,0.3,,400,0,,0,0,0,0
+New_BESS_AGO,Angola,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_BWA,Botswana,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
-New_BESS_DRC,DRC,Storage,Battery,2027,2055,2000,3,,,,,,,,,,0.3,,200,0,,0,0,0,0
-New_BESS_DRCSouth,DRC_South,Storage,Battery,2027,2055,2000,3,,,,,,,,,,0.3,,200,0,,0,0,0,0
-New_BESS_LSO,Lesotho,Storage,Battery,2027,2055,500,3,,,,,,,,,,0.3,,50,0,,0,0,0,0
-New_BESS_MOZ,Mozambique,Storage,Battery,2027,2055,4000,3,,,,,,,,,,0.3,,400,0,,0,0,0,0
+New_BESS_DRC,DRC,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
+New_BESS_DRCSouth,DRC_South,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
+New_BESS_LSO,Lesotho,Storage,Battery,2027,2055,500,3,,,,,,,,,,,,50,0,,0,0,0,0
+New_BESS_MOZ,Mozambique,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_MWI,Malawi,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,100,0,,0,0,0,0
 New_BESS_NAM,Namibia,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_ZWE,Zimbabwe,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_SWZ,Eswatini,Storage,Battery,2027,2055,1000,3,,,,,,,,,,,,100,0,,0,0,0,0
-New_BESS_TZA,Tanzania,Storage,Battery,2027,2055,4000,3,,,,,,,,,,0.3,,400,0,,0,0,0,0
+New_BESS_TZA,Tanzania,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_ZAF,South_Africa,Storage,Battery,2027,2055,15000,3,,,,,,,,,,,,1500,0,,0,0,0,0
-New_BESS_ZMB,Zambia,Storage,Battery,2027,2055,4000,3,,,,,,,,,,0.3,,400,0,,0,0,0,0
-SwazilandBiomass_BIO_SWZ,Eswatini,ST,Biomass,2030,2080,35,3,0.3,11.1842406,0.33,0.33,0,0.8,48000,3,0,4.423148479,30,35,0,,0,0,0,35
-Tanwat_Bio_TZA,Tanzania,ST,Biomass,2011,2051,2.7,1,0.3,10.8998955,1,1,0,0.8,48000,3,0,0,30,,0,,0,0,0,2.7
-TanzaniaBiomass_BIO_TZA,Tanzania,ST,Biomass,2024,2074,32,3,0.3,10,0.33,0.33,0,0.8,100000,3,0,4.423148479,30,32,0,,0,0,0,32
+New_BESS_ZMB,Zambia,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
+SwazilandBiomass_BIO_SWZ,Eswatini,ST,Biomass,2030,2080,35,3,,11.1842406,0.33,0.33,,0.8,48000,,,4.423148479,,35,0,,0,0,0,35
+Tanwat_Bio_TZA,Tanzania,ST,Biomass,2011,2051,2.7,1,,10.8998955,,,,0.8,48000,,,0,,,0,,0,0,0,2.7
+TanzaniaBiomass_BIO_TZA,Tanzania,ST,Biomass,2024,2074,32,3,,10,0.33,0.33,,0.8,,,,4.423148479,,32,0,,0,0,0,32
 TanzaniaSolarPV_REN_TZA,Tanzania,PV,Solar,2024,2060,150,2,0,0,1,1,0,0,15000,0,0,0.8,25,150,0,,0,0,1,0
 Taveta_HY_TZA,Tanzania,ROR,Water,2030,2060,0,3,,,,,,0.275,,,0,4.8604,50,0,0,,0,0,0,0
 "Tedzani_I,_II,_III_HY_MWI",Malawi,ROR,Water,2000,2060,102,1,,,,,,0.325077306,,,0,0,50,0,0,,0,0,0,0
@@ -554,7 +554,7 @@ TegetaIPTL_TH_TZA,Tanzania,ICE,HFO,2002,2027,23.92,1,,12.321621,,,,,,,,0,,,0,,0,
 Temane_TH_MOZ,Mozambique,OCGT,Gas,2000,2055,1.86,1,0.06,10.41544727,,,,,,,,0,,,0,7,11.11544727,0.45,0,0
 Temane2_TH_MOZ,Mozambique,OCGT,Gas,2014,2064,9.2,1,0.06,10.41544727,,,,,,,,0,,,0,7,11.11544727,0.45,0,0
 Tete_TH_MOZ,Mozambique,ST,Coal,2025,2075,0,3,,8.6,,,,,,,,2.466504472,,0,0,,0,0.05,0,0
-TPC_BIO_TZA,Tanzania,ST,Biomass,2010,2051,7.5,1,0.3,10.8998955,0.33,0.33,0,0.8,48000,3,0,0,30,,0,,0,0,0,7.5
+TPC_BIO_TZA,Tanzania,ST,Biomass,2010,2051,7.5,1,,10.8998955,0.33,0.33,,0.8,48000,,,0,,,0,,0,0,0,7.5
 Tsate_HY_MOZ,Mozambique,ROR,Water,2027,2060,0,3,,,,,,0.406440138,,,0,4.248837209,50,0,0,,0,0,0,0
 TumulodoCacador_HY_AGO,Angola,ROR,Water,2055,2095,450,3,,,,,,0.3475,,,0,4.248837209,50,450,0,,0,0,0,0
 Tutuka_TH_ZAF,South_Africa,ST,Coal,1985,2040,3510,1,,12.8,,,,,,,,0,,,0,,0,0.05,0,610
@@ -567,7 +567,7 @@ VanEck_TH_NAM,Namibia,ST,Coal,1972,2040,33,1,,11.373804,,,,,,,,0,,,0,,0,0.1,0,33
 VictoriaFalls_HY_ZMB,Zambia,ROR,Water,1968,2060,108,1,,,,,,0.436146831,,,0,0,50,,0,,0,0,0,0
 Vuka_HY_AGO,Angola,ROR,Water,2032,2060,121,3,,,,,,0.121826136,,,0,4.248837209,50,121,0,,0,0,0,0
 WanieRukula_HY_ZAR,DRC,ROR,Water,2024,2060,0,3,,,,,,0.193435172,,,0,4.248837209,50,0,0,,0,0,0,0
-Waste_to_energy_(Blantyre)_BM_MWI,Malawi,ST,Biomass,2031,2060,10,3,0.3,10,1,1,0,0.01,100000,10,0,7.2,30,10,0,,0,0,0,0
+Waste_to_energy_(Blantyre)_BM_MWI,Malawi,ST,Biomass,2031,2060,10,3,,10,,,,,,10,,7.2,,10,0,,0,0,0,0
 Wind_2030_MWI,Malawi,OnshoreWind,Wind,2030,2060,350,3,0,0,1,1,0,0,28000,0,0,1.6,30,50,0,,0,0,1,0
 Wind_Tanzania,Tanzania,OnshoreWind,Wind,2027,2051,6000,3,0,0,1,1,0,0,40000,0,0,1.806,30,100,0,,0,0,1,0
 Wovwe_additional_HY_MWI,Malawi,ROR,Water,2027,2060,4.5,2,,,,,,0.325077306,,,0,3.536,50,4.5,0,,0,0,0,0
@@ -577,3 +577,4 @@ ZambiaOCGTDiesel_TH_ZMB,Zambia,ICE,Diesel,2020,2070,84,1,0.2,9.7,1,1,0,0.2,17000
 Zenzo_HY_AGO,Angola,ROR,Water,2035,2075,570,3,,,,,,0.3325,,,0,4.248837209,50,570,0,,0,0,0,0
 ZimbabweNG_TH_ZWE,Zimbabwe,ICE,HFO,2024,2054,500,3,,10.41544727,,,,,,,,0.933810376,,500,0,,0,0.06,0,0
 ZPCSolarCSP_TH_ZWE,Zimbabwe,CSPPlant,CSP,2024,2064,0,3,0,0,1,1,0,0.8,22000,3,0,1.8,30,0,0,,0,0,0,0
+Komati_BESS,South_Africa,Storage,Battery,2025,2045,120,2,,,,,,,,,,,,,,,,,,
