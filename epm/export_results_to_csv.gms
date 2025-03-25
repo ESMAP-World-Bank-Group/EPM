@@ -1,0 +1,128 @@
+$if not set OUTPUT_DIR $set OUTPUT_DIR output
+* create output directory
+$call /bin/sh -c "mkdir -p '%OUTPUT_DIR'"
+
+embeddedCode Connect:
+- PythonCode:
+    code: |
+      symbols = [
+        "pScalars",
+        "pSummary",
+        "pSystemAverageCost",
+        "pZonalAverageCost",
+        "pCountryAverageCost",
+        "pAveragePrice",
+        "pAveragePriceExp",
+        "pAveragePriceImp",
+        "pPrice",
+        "pAveragePriceHub",
+        "pAveragePriceCountry",
+        "pAveragePriceExpCountry",
+        "pAveragePriceImpCountry",
+        "pCostSummary",
+        "pCostSummaryCountry",
+        "pCostSummaryWeighted",
+        "pCostSummaryWeightedCountry",
+        "pCostSummaryWeightedAverageCountry",
+        "pFuelCosts",
+        "pFuelCostsCountry",
+        "pFuelConsumption",
+        "pFuelConsumptionCountry",
+        "pEnergyByPlant",
+        "pEnergyByFuel",
+        "pEnergyByFuelCountry",
+        "pEnergyByTechandFuel",
+        "pEnergyByTechandFuelCountry",
+        "pEnergyMix",
+        "pDemandSupply",
+        "pDemandSupplyCountry",
+        "pInterchange",
+        "pInterchangeExtExp",
+        "pInterchangeExtImp",
+        "pInterconUtilization",
+        "pInterconUtilizationExtExp",
+        "pInterconUtilizationExtImp",
+        "pLossesTransmission",
+        "pInterchangeCountry",
+        "pLossesTransmissionCountry",
+        "pYearlyTrade",
+        "pHourlyTrade",
+        "pYearlyTradeCountry",
+        "pHourlyTradeCountry",
+        "pPeakCapacity",
+        "pCapacityByFuel",
+        "pCapacityByTechandFuel",
+        "pNewCapacityFuel",
+        "pCapacityPlan",
+        "pAdditionalCapacity",
+        "pAnnualTransmissionCapacity",
+        "pRetirements",
+        "pPeakCapacityCountry",
+        "pCapacityByFuelCountry",
+        "pCapacityByTechandFuelCountry",
+        "pNewCapacityFuelCountry",
+        "pCapacityPlanCountry",
+        #
+        "pNewCapacityTech",
+        "pNewCapacityTechCountry",
+        "pReserveMarginRes",
+        "pReserveMarginResCountry",
+        "pCostsbyPlant",
+        "pRetirementsFuel",
+        "pRetirementsCountry",
+        "pRetirementsFuelCountry",
+        "pAdditionalCapacityCountry",
+        #
+        "pUtilizationByFuel",
+        "pUtilizationByTechandFuel",
+        "pUtilizationByFuelCountry",
+        "pUtilizationByTechandFuelCountry",
+        "pSpinningReserveByPlantZone",
+        "pSpinningReserveCostsZone",
+        "pSpinningReserveByPlantCountry",
+        "pSpinningReserveCostsCountry",
+        "pCapacityCredit",
+        "pEmissions",
+        "pEmissionsIntensity",
+        "pEmissionsCountry1",
+        "pEmissionsIntensityCountry",
+        "pEmissionMarginalCosts",
+        "pEmissionMarginalCostsCountry",
+        "pPlantDispatch",
+        "pDispatch",
+        "pPlantUtilization",
+        "pPlantAnnualLCOE",
+        "pPlantUtilizationTech",
+        "pCSPBalance",
+        "pCSPComponents",
+        "pPVwSTOBalance",
+        "pPVwSTOComponents",
+        "pStorageBalance",
+        "pStorageComponents",
+        "pSolarValue",
+        "pSolarCost",
+        "pSolverParameters",
+        "pDemandSupplySeason",
+        "pEnergyByPlantSeason",
+        "pInterchangeSeason",
+        "pSeasonTrade",
+        "pInterchangeSeasonCountry",
+        "pSeasonTradeCountry",
+        # H2 model additions
+        "pDemandSupplyH2",
+        "pDemandSupplyCountryH2",
+        "pCapacityPlanH2",
+        ]
+      instructions.append(
+        {'GAMSReader': {'symbols': [{'name': s} for s in symbols]}}
+      )
+      for s in symbols:
+        instructions.append(
+        {
+          'CSVWriter':
+          {
+            'file': fr'%OUTPUT_DIR%%system.DirSep%{s}.csv',
+            'name': s
+          }
+        })
+endEmbeddedCode
