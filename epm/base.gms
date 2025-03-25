@@ -88,7 +88,7 @@ Sets
    thdr         'Header for pNewTransmission' / CapacityPerLine, CostPerLine, Life, MaximumNumOfLines /
    sRelevant(d)  'relevant day and hours when MinGen limit is applied'
 ***********************Hydrogen model related sets*********************
-   hhdr         'Header for pH2Data' / StYr, RetrYr,  Capacity, Capex, HeatRate,VOM, FOMperMW,  Efficiency,  BuildLimitperYear, MaxTotalBuild,  DescreteCap,
+   hhdr         'Header for pH2Data' / StYr, RetrYr,  Capacity, Capex, HeatRate,VOM, FOMperMW,  Efficiency,  BuildLimitperYear,  DescreteCap,
                                          RampUpRate, RampDnRate,   ResLimShare, UnitSize, Life, Type /
    h2Index      'Index of hydrogen fuels'    /HydrogenIndex/
 ;
@@ -455,7 +455,6 @@ eCapBalanceH2(hh,y)
 eCapBalance1H2(hh,y)
 eCapBalance2H2
 eBuildNewH2(hh)
-eMaxBuildTotalH2(hh)
 eBuiltCapH2(hh,y)
 eRetireCapH2(hh,y)
 *eDemSupplyH2(z,q,d,t,y)
@@ -621,8 +620,6 @@ eCapBalance2(ng,y)$(not sStartYear(y))..
 eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
    sum(y, vBuild(eg,y)) =l= pGenData(eg,"Capacity");
 
-*eMaxBuildTotal(ng)..
-*   sum(y, vBuild(ng,y)) =l= pGenData(ng,"MaxTotalBuild");
  
 * TODO: Is it used?  
 *eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
@@ -919,10 +916,6 @@ eCapBalance2H2(nh,y)$(not sStartYear(y) and pIncludeH2)..
 eBuildNewH2(eh)$(pH2Data(eh,"StYr") > sStartYear.val and pIncludeH2)..
     sum(y, vBuildH2(eh,y)) =l= pH2Data(eh,"Capacity");
 
-* Total built H2 generation capacity need to be less than maxtotal built
-*Checked
-eMaxBuildTotalH2(nh)$(pIncludeH2)..
-   sum(y, vBuildH2(nh,y)) =l= pH2Data(nh,"MaxTotalBuild");
 
 * (Integer units ) Built capacity each year is equal to unit size
 *Checked
@@ -1118,7 +1111,6 @@ Model PA /
    eCapBalance1H2
    eCapBalance2H2
    eCapBalanceH2
-   eMaxBuildTotalH2
    eBuiltCapH2
    eRetireCapH2
 *eDemSupplyH2

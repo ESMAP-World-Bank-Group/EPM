@@ -1848,7 +1848,7 @@ def remove_na_values(df):
 
 def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario, stacked=True,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
-                                    legend_loc='bottom', bottom=0, figsize=(10,6), ylabel=None, title=None):
+                                    legend_loc='bottom', bottom=None, figsize=(10,6), ylabel=None, title=None):
     """
     Generates and saves a fuel dispatch plot, including only generation plants.
 
@@ -3083,27 +3083,6 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
                 tooltip=tooltip_text
             ).add_to(energy_map)
 
-    # # Add transmission lines with hover effect
-    # for _, row in transmission_data.iterrows():
-    #     from_zone, to_zone = row['zone_from'], row['zone_to']
-    #     capacity, utilization = row['capacity'], row['utilization']
-    #
-    #     if from_zone in centers and to_zone in centers:
-    #         coords = [[centers[from_zone][1], centers[from_zone][0]],  # Lat, Lon
-    #                   [centers[to_zone][1], centers[to_zone][0]]]  # Lat, Lon
-    #         color = calculate_color_gradient(utilization, 0, 100)
-    #
-    #         tooltip_text = f"""
-    #         <div style="font-size: {label_size}px;">
-    #         <b>Capacity:</b> {capacity:.2f} GW <br>
-    #         <b>Utilization:</b> {utilization:.0f}%
-    #         </div>
-    #         """
-    #
-    #         folium.PolyLine(
-    #             locations=coords, color=color, weight=4,
-    #             tooltip=tooltip_text
-    #         ).add_to(energy_map)
 
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
