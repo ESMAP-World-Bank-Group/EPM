@@ -329,7 +329,8 @@ def filter_dataframe_by_index(df, conditions):
     return df
 
 
-def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_gen_fuel=None):
+def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_gen_fuel=None,
+                        mapping_zone_country=None):
     """
     Processing EPM results to use in plots.
     
@@ -441,6 +442,13 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
         for key in [k for k in plant_result if k in epm_dict.keys()]:
             epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
+    # Add country to the results
+    if mapping_zone_country is not None:
+        # Add country to the results
+        plant_result = ['pEnergyByPlant', 'pCapacityPlan', 'pPlantDispatch', 'pCostsbyPlant', 'pPlantUtilization']
+        for key in [k for k in plant_result if k in epm_dict.keys()]:
+            epm_dict[key] = epm_dict[key].merge(mapping_zone_country, on=['scenario', 'zone'], how='left')
+
     return epm_dict
 
 
@@ -482,11 +490,12 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
     epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
     epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
     mapping_gen_fuel = epm_input['pGenDataExcel'].loc[:, ['scenario', 'generator', 'fuel']]
+    mapping_zone_country = epm_input['zcmap'].loc[:, ['scenario', 'zone', 'country']]
 
     # Extract and process EPM results
     epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
     epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
-                                      mapping_gen_fuel=mapping_gen_fuel)
+                                      mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country)
 
     # Update color dict with plant colors
     if True:
@@ -833,6 +842,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
     for selected_scenario in list(epm_results['pPlantDispatch'].scenario.unique()):
+        print(f'Automatic map for scenario {selected_scenario}')
         folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
         if not os.path.exists(folder):
             os.mkdir(folder)
@@ -872,29 +882,18 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
                                          label_fontsize=10, show_labels=False, min_display_capacity=50,
                                          format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename, title='Transmission utilization (%)')
 
-            try:
-                capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
-                utilization_transmission = epm_results['pInterconUtilization'].copy()
-                utilization_transmission['value'] = utilization_transmission['value'] * 100  # update to percentage value
-                transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
-                    utilization_transmission.rename(columns={'value': 'utilization'}),
-                    on=['scenario', 'zone', 'z2', 'year'])
-                transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+            if len(epm_results['pDemandSupply'].loc[(epm_results['pDemandSupply'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
+                    energy_data = epm_results['pDemandSupply'].copy()
+                    pCapacityByFuel = epm_results['pCapacityByFuel'].copy()
+                    pEnergyByFuel = epm_results['pEnergyByFuel'].copy()
+                    pDispatch = epm_results['pDispatch'].copy()
+                    pPlantDispatch = epm_results['pPlantDispatch'].copy()
+                    pPrice = epm_results['pPrice'].copy()
+                    filename = f'{GRAPHS_FOLDER}/{selected_scenario}/InteractiveMap_{selected_scenario}_{year}.html'
 
-                energy_data = epm_results['pDemandSupply'].copy()
-                pCapacityByFuel = epm_results['pCapacityByFuel'].copy()
-                pEnergyByFuel = epm_results['pEnergyByFuel'].copy()
-                pDispatch = epm_results['pDispatch'].copy()
-                pPlantDispatch = epm_results['pPlantDispatch'].copy()
-                pPrice = epm_results['pPrice'].copy()
-                filename = f'{GRAPHS_FOLDER}/{selected_scenario}/InteractiveMap_{selected_scenario}_{year}.html'
+                    create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
+                                           dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
 
-                create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
-                                       dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
-            except Exception as e:
-                print(
-                    'Error when creating interactive map.')
-                raise  # Re-raise the exception for debuggings
 
 def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=False, selected_scenario='baseline'):
 
@@ -3286,7 +3285,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
         'pNetImports': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
     }
 
-    imports_zero = dfs_to_plot_line['pNetImports'].loc[(dfs_to_plot_line['pNetImports'].scenario == scenario)]
+    imports_zero = dfs_to_plot_line['pNetImports']
+    imports_zero = imports_zero.loc[(imports_zero.scenario == scenario) & ((imports_zero.zone == zone)) & (imports_zero.year == year)]
     imports_zero = (imports_zero['Net imports'] == 0).all().all()
     if not imports_zero:  # plotting net imports only when there is some variation
         net_imports_plots = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
