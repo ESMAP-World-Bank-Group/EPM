@@ -832,6 +832,7 @@ pCapacityPlanH2(zh2map(z,hh),y)                 = vCapH2.l(hh,y)$pIncludeH2+1e-6
 pZonesperCountry(c) = sum(zcmap(z,c), 1);
 MaxZonesperCountry = smax(c,pZonesperCountry(c));
 
+
 $ifthen.excelreport %DOEXCELREPORT%==1
 execute_unload 'epmresults',     pScalars, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
                                  pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
@@ -865,6 +866,7 @@ execute_unload 'epmresults',     pScalars, pSummary, pSystemAverageCost, pZonalA
                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
 *******************************************************************************************************************************************
 ;
+$include export_results_to_csv
 
 file fgdxxrw / 'gdxxrw.out' /;
 file fxlsxrep / 'xlsxReport.cmd' /;
