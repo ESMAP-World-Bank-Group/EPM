@@ -110,3 +110,14 @@ Namibia,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Tanzania,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Zambia,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Zimbabwe,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
+South_Africa,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Angola,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Botswana,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Eswatini,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Lesotho,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Malawi,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Mozambique,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Namibia,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Tanzania,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Zambia,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+Zimbabwe,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
