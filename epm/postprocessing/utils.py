@@ -836,7 +836,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     pInterconUtilization['value'] = pInterconUtilization['value'] * 100  # percentage
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
-    for selected_scenario in selected_scenarios:
+    for selected_scenario in list(epm_results['pPlantDispatch'].scenario.unique()):
         folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
         if not os.path.exists(folder):
             os.mkdir(folder)
@@ -856,16 +856,17 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
         for year in years:
             filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionCapacity_{selected_scenario}_{year}.png'
 
-            make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year=year, scenario=selected_scenario,
-                                     label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
-                                     min_display_capacity=200, filename=filename)
+            if not pAnnualTransmissionCapacity.loc[pAnnualTransmissionCapacity.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
+                make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year=year, scenario=selected_scenario,
+                                         label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
+                                         min_display_capacity=200, filename=filename)
 
-            filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionUtilization_{selected_scenario}_{year}.png'
+                filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionUtilization_{selected_scenario}_{year}.png'
 
-            make_interconnection_map(zone_map, pInterconUtilization, centers, year=year, scenario=selected_scenario,
-                                     min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
-                                     label_fontsize=10, show_labels=False, min_display_capacity=50,
-                                     format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename)
+                make_interconnection_map(zone_map, pInterconUtilization, centers, year=year, scenario=selected_scenario,
+                                         min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
+                                         label_fontsize=10, show_labels=False, min_display_capacity=50,
+                                         format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename)
 
             try:
                 capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -934,12 +935,12 @@ def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=Fal
                 make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
                                                  zone=zone, year=year, scenario=selected_scenario,
                                                  fuel_grouping=None, select_time=select_time, filename=filename,
-                                                 bottom=None, legend_loc='right')
+                                                 bottom=None, legend_loc='bottom')
                 select_time = {'season': [s_max]}
                 make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'],
                                                  zone=zone, year=year, scenario=selected_scenario,
                                                  fuel_grouping=None, select_time=select_time, filename=filename,
-                                                 bottom=None, legend_loc='right')
+                                                 bottom=None, legend_loc='bottom')
 
 
 
@@ -1732,6 +1733,7 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
             fig.subplots_adjust(bottom=0.25)  # Adds space for the legend
             ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=len(df_line.columns), frameon=False)
 
+    # TODO: needs to be fixed (dispatch plot was updated to work with interactive map, so that the legend is now inside the plot. Not working anymore when legend on the right)
     elif legend_loc == 'right':
         ax.legend(loc='center left', bbox_to_anchor=(1.1, 0.5), ncol=1, frameon=False)
     
@@ -3047,42 +3049,43 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
         'fillColor': '#ffffff', 'color': '#000000', 'weight': 1, 'fillOpacity': 0.3
     }).add_to(energy_map)
 
-    # Extracting year of interest
+    # Plotting transmission information
     transmission_data = transmission_data.copy()
-    transmission_data = transmission_data.loc[transmission_data.year == year]
-    transmission_data = transmission_data.set_index(['zone_from', 'zone_to'])
+    transmission_data = transmission_data.loc[(transmission_data.year == year) & (transmission_data.scenario == scenario)]
+    if not transmission_data.empty:  # ie, there is transmission data to plot
+        transmission_data.drop(columns=['scenario'], inplace=True)
+        transmission_data = transmission_data.set_index(['zone_from', 'zone_to'])
 
-    # Getting the topology of lines, counting each line a unique time
-    topology = set(transmission_data.index.unique())
-    final_topology = set()
-    for (z, z2) in topology:
-        if (z2, z) not in final_topology:
-            final_topology.add((z, z2))
+        # Getting the topology of lines, counting each line a unique time
+        topology = set(transmission_data.index.unique())
+        final_topology = set()
+        for (z, z2) in topology:
+            if (z2, z) not in final_topology:
+                final_topology.add((z, z2))
 
-    for (z, z2) in final_topology:
-        row1 = transmission_data.loc[(z, z2)]
-        row2 = transmission_data.loc[(z2, z)]
-        zone1, zone2 = row1.name[0], row1.name[1]
-        capacity, utilization_1to2, utilization_2to1 = row1['capacity'], row1['utilization'], row2['utilization']
+        for (z, z2) in final_topology:
+            row1 = transmission_data.loc[(z, z2)]
+            row2 = transmission_data.loc[(z2, z)]
+            zone1, zone2 = row1.name[0], row1.name[1]
+            capacity, utilization_1to2, utilization_2to1 = row1['capacity'], row1['utilization'], row2['utilization']
 
-        if zone1 in centers and zone2 in centers:
-            coords = [[centers[zone1][1], centers[zone1][0]],  # Lat, Lon
-                      [centers[zone2][1], centers[zone2][0]]]  # Lat, Lon
-            color = calculate_color_gradient(max(utilization_1to2, utilization_2to1), 0, 100)
+            if zone1 in centers and zone2 in centers:
+                coords = [[centers[zone1][1], centers[zone1][0]],  # Lat, Lon
+                          [centers[zone2][1], centers[zone2][0]]]  # Lat, Lon
+                color = calculate_color_gradient(max(utilization_1to2, utilization_2to1), 0, 100)
 
-            tooltip_text = f"""
-            <div style="font-size: {label_size}px;">
-            <b>Capacity:</b> {capacity:.2f} GW <br>
-            <b>Utilization {zone1} - {zone2}:</b> {utilization_1to2:.0f}% <br>
-            <b>Utilization {zone2} - {zone1}:</b> {utilization_2to1:.0f}%
-            </div>
-            """
+                tooltip_text = f"""
+                <div style="font-size: {label_size}px;">
+                <b>Capacity:</b> {capacity:.2f} GW <br>
+                <b>Utilization {zone1} - {zone2}:</b> {utilization_1to2:.0f}% <br>
+                <b>Utilization {zone2} - {zone1}:</b> {utilization_2to1:.0f}%
+                </div>
+                """
 
-            folium.PolyLine(
-                locations=coords, color=color, weight=4,
-                tooltip=tooltip_text
-            ).add_to(energy_map)
-
+                folium.PolyLine(
+                    locations=coords, color=color, weight=4,
+                    tooltip=tooltip_text
+                ).add_to(energy_map)
 
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
@@ -3279,11 +3282,17 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
         'pNetImports': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
     }
 
-    net_imports_plots = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
-                                                    year=year, scenario=scenario, select_time=select_time, stacked=False,
-                                                    ylabel='Net imports (MWh)')
+    imports_zero = dfs_to_plot_line['pNetImports'].loc[(dfs_to_plot_line['pNetImports'].scenario == scenario)]
+    imports_zero = (imports_zero['Net imports'] == 0).all().all()
+    if not imports_zero:  # plotting net imports only when there is some variation
+        net_imports_plots = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
+                                                        year=year, scenario=scenario, select_time=select_time, stacked=False,
+                                                        ylabel='Net imports (MWh)')
 
-    final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot, net_imports_plots], scale_factor=scale_factor)
+        final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot, net_imports_plots], scale_factor=scale_factor)
+    else:
+        final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot],
+                                                scale_factor=scale_factor)
 
     # Convert images to base64 and embed in popup
     return f'<br>{final_image}'
