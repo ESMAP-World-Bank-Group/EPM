@@ -142,7 +142,7 @@ except ValueError:
 except Exception as e:
     print('Unexpected error in pAvailability')
     raise # Re-raise the exception for debuggings
-
+    
 
 # Check time resolution consistency
 try:
@@ -283,7 +283,6 @@ try:
                     if (db["pNewTransmission"].records is not None) and  (db["pTransferLimit"].records is not None):
                         new_transmission_df = db["pNewTransmission"].records
                         transferlimit_df = db["pTransferLimit"].records
-                        print(transferlimit_df)
                         topology_new = set(new_transmission_df.set_index(['z', 'z2']).index.unique())
                         topology_transfer = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
     
@@ -461,6 +460,27 @@ except ValueError:
 except Exception as e:
     print('Unexpected error when checking storage data')
     raise # Re-raise the exception for debuggings
+    
+
+# pGenDataExcelDefault
+try:
+    # Check if pGenDataExcelDefault contains all zones
+    pGenDataExcelDefault = db["pGenDataExcelDefault"]
+    if pGenDataExcelDefault.records is not None:
+        pGenDataExcelDefault_df = db["pGenDataExcelDefault"].records
+        zones_to_include = db["pGenDataExcel"].records
+        zones_to_include = set(zones_to_include['z'].unique())
+        for fuel, group in pGenDataExcelDefault_df.groupby('f', observed=False):
+            zones = set(group['z'].unique())
+            missing = zones_to_include - zones
+            if missing:
+                print(f"Warning: The following zones are declared in pGenDataExcel but are not specified in pGenDataExcelDefault for fuel {fuel}: {missing}.")
+except ValueError:
+    raise  # Let this one bubble up with your message
+except Exception as e:
+    print('Unexpected error in pAvailability')
+    raise # Re-raise the exception for debuggings
+
 
 
 
