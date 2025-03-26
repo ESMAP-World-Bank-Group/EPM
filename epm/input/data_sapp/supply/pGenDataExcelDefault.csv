@@ -2,6 +2,8 @@
 South_Africa,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
 Angola,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
 Botswana,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
+DRC,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
+DRC_South,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
 Eswatini,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
 Lesotho,ST ,Coal,0.5,,0.33,0.33,0,0.05,45000,3,0,,30
 Malawi,ST ,Coal,0.5,,0.33,0.33,0,0.05,60000,3,0,,30
@@ -14,6 +16,8 @@ Malawi,ICE,Diesel,0.2,11,0.15,0.15,0,0.2,46550,5.58,0,,30
 South_Africa,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
 Angola,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
 Botswana,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
+DRC,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
+DRC_South,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
 Eswatini,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
 Lesotho,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
 Malawi,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
@@ -25,6 +29,8 @@ Zimbabwe,OCGT,HFO,0.2,,1,1,0,0.2,20000,4.4,0,,30
 South_Africa,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
 Angola,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
 Botswana,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
+DRC,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
+DRC_South,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
 Eswatini,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
 Lesotho,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
 Malawi,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
@@ -36,6 +42,8 @@ Zimbabwe,ICE,HFO,0.06,,1,1,0,0.4,8000,6.4,0,,30
 South_Africa,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Angola,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Botswana,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
+DRC,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
+DRC_South,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Eswatini,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Lesotho,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Malawi,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
@@ -47,6 +55,8 @@ Zimbabwe,CCGT,Gas,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 South_Africa,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
 Angola,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
 Botswana,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
+DRC,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
+DRC_South,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
 Eswatini,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
 Lesotho,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
 Malawi,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
@@ -58,6 +68,8 @@ Zimbabwe,OCGT,Gas,0.2,9,1,1,0,0.2,20000,4,0,,30
 South_Africa,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Angola,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Botswana,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
+DRC,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
+DRC_South,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Eswatini,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Lesotho,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 Malawi,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
@@ -69,6 +81,8 @@ Zimbabwe,CCGT,LNG,0.2,6.4,1,1,0,0.05,30000,2,0,,30
 South_Africa,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
 Angola,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
 Botswana,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
+DRC,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
+DRC_South,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
 Eswatini,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
 Lesotho,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
 Malawi,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
@@ -80,6 +94,8 @@ Zimbabwe,OCGT,LNG,0.2,9,1,1,0,0.2,20000,4,0,,30
 South_Africa,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
 Angola,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
 Botswana,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
+DRC,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
+DRC_South,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
 Eswatini,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
 Lesotho,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
 Malawi,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
@@ -91,6 +107,8 @@ Zimbabwe,ROR,Water,0,0,1,1,0,,46500,0.55,0,,30
 South_Africa,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
 Angola,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
 Botswana,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
+DRC,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
+DRC_South,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
 Eswatini,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
 Lesotho,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
 Malawi,ReservoirHydro,Water,0,0,1,1,0,,40000,0.55,0,,30
@@ -103,6 +121,8 @@ South_Africa,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Angola,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Botswana,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Eswatini,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
+DRC,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
+DRC_South,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Lesotho,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Malawi,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 Mozambique,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
@@ -113,6 +133,8 @@ Zimbabwe,Storage,Battery,0,0,1,1,0,0.9,13860,0,0,0.2,20
 South_Africa,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
 Angola,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
 Botswana,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+DRC,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
+DRC_South,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
 Eswatini,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
 Lesotho,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
 Malawi,ST,Biomass,0.3,,1,1,0,0.01,100000,3,0,,30
