@@ -375,7 +375,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
         return epm_dict
 
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
-            'pPlantUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
+            'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
             'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
             'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExtImp',
             'pInterconUtilizationExtExp', 'pInterchangeExtExp', 'InterchangeExtImp', 'annual_line_capa', 'pAnnualTransmissionCapacity',
@@ -430,6 +430,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     standardize_names(epm_dict, 'pEnergyByFuel', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pCapacityByFuel', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pNewCapacityFuelCountry', dict_specs['fuel_mapping'])
+    standardize_names(epm_dict, 'pFuelUtilization', dict_specs['fuel_mapping'])
 
     standardize_names(epm_dict, 'pFuelDispatch', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pPlantFuelDispatch', dict_specs['tech_mapping'])
@@ -3572,89 +3573,381 @@ def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250
     return f'#{r:02x}{g:02x}{b:02x}'
 
 
-if __name__ == '__main__':
-    print(0)
-
-
-def make_line_subplots(df, filename, x_column, y_column, subplot_column,
-                       group_column=None, dict_colors=None, format_y=None,
-                       figsize=(10, 5), rotation=0, fonttick=12, title=None,
-                       xlabel=None, ylabel=None):
+def make_multiple_lines_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, column_subplots='scenario',
+                              column_multiple_lines='competition', column_xaxis='t',
+                              column_value='value', select_subplots=None, order_index=None,
+                              dict_scenarios=None, figsize=(10,6),
+                              format_y=lambda y, _: '{:.0f} MW'.format(y),  annotation_format="{:.0f}",
+                              order_stacked=None, max_ticks=10, annotate=True,
+                              show_total=False, fonttick=12, rotation=0, title=None):
     """
-    Create multiple line subplots from a DataFrame, sliced by a given column.
+    Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
 
     Parameters
     ----------
     df : pd.DataFrame
-        The data to be plotted.
+        Dataframe with results.
     filename : str
-        Path to save the resulting figure.
-    x_column : str
-        Name of the column for the x-axis.
-    y_column : str
-        Name of the column for the y-axis.
-    subplot_column : str
-        Column used to create one subplot per unique value (e.g., 'zone', 'attribute').
-    group_column : str, optional
-        If specified, plots one line per value of this column inside each subplot.
-    dict_colors : dict, optional
-        Dictionary mapping group_column values to colors.
+        Path to save the figure.
+    dict_colors : dict
+        Dictionary with color arguments.
+    selected_zone : str
+        Zone to select.
+    column_xaxis : str
+        Column for choosing the subplots.
+    column_stacked : str
+        Column name for choosing the column to stack values.
+    column_multiple_bars : str
+        Column for choosing the type of bars inside a given subplot.
+    column_value : str
+        Column name for the values to be plotted.
+    select_xaxis : list, optional
+        Select a subset of subplots (e.g., a number of years).
+    dict_grouping : dict, optional
+        Dictionary for grouping variables and summing over a given group.
+    order_index : list, optional
+        Order of scenarios for plotting.
+    dict_scenarios : dict, optional
+        Dictionary for renaming scenarios.
     format_y : function, optional
-        A function for formatting the y-axis ticks.
-    figsize : tuple, default=(10, 5)
-        Size of each subplot (width, height).
-    rotation : int, default=0
-        Rotation of the x-axis tick labels.
-    fonttick : int, default=12
-        Font size for tick labels.
-    title : str, optional
-        Title for the entire figure.
-    xlabel : str, optional
-        Label for the x-axis.
-    ylabel : str, optional
-        Label for the y-axis.
+        Function for formatting y-axis labels.
+    order_stacked : list, optional
+        Reordering the variables that will be stacked.
+    cap : int, optional
+        Under this cap, no annotation will be displayed.
+    annotate : bool, optional
+        Whether to annotate the bars.
+    show_total : bool, optional
+        Whether to show the total value on top of each bar.
+
+    Example
+    -------
+
+    """
+    if selected_zone is not None:
+        df = df[(df['zone'] == selected_zone)]
+        df = df.drop(columns=['zone'])
+
+    if selected_year is not None:
+        df = df[(df['year'] == selected_year)]
+        df = df.drop(columns=['year'])
+
+    if column_subplots is not None:
+        df = (df.groupby([column_subplots, column_multiple_lines, column_xaxis], observed=False)[
+                  column_value].mean().reset_index())
+        df = df.set_index([column_multiple_lines, column_xaxis, column_subplots]).squeeze().unstack(column_subplots)
+    else:  # no subplots in this case
+        df = (df.groupby([column_multiple_lines, column_xaxis], observed=False)[column_value].mean().reset_index())
+        df = df.set_index([column_multiple_lines, column_xaxis])
+
+    # TODO: change select_axis name
+    if select_subplots is not None:
+        df = df.loc[:, [i for i in df.columns if i in select_subplots]]
+
+    multiple_lines_subplot_new(df, column_multiple_lines, filename, figsize=figsize, dict_colors=dict_colors,  format_y=format_y,
+                           annotation_format=annotation_format,  rotation=rotation, order_index=order_index, dict_scenarios=dict_scenarios,
+                           order_columns=order_stacked, max_ticks=max_ticks, annotate=annotate, show_total=show_total,
+                           fonttick=fonttick, title=title)
+
+
+def multiple_lines_subplot_new(df, column_multiple_lines, filename, figsize=(10,6), dict_colors=None, order_index=None,
+                            order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
+                           format_y=lambda y, _: '{:.0f} GW'.format(y), annotation_format="{:.0f}",
+                           max_ticks=10, annotate=True, show_total=False, title=None):
+    """
+    Create a stacked bar subplot from a DataFrame.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame containing the data to plot.
+    column_group : str
+        Column name to group by for the stacked bars.
+    filename : str
+        Path to save the plot image. If None, the plot is shown instead.
+    dict_colors : dict, optional
+        Dictionary mapping column names to colors for the bars. Default is None.
+    figsize : tuple, optional
+        Size of the figure (width, height). Default is (10, 6).
+    year_ini : str, optional
+        Initial year to highlight in the plot. Default is None.
+    order_index : list, optional
+        List of scenario names to order the bars. Default is None.
+    order_columns : list, optional
+        List of column names to order the stacked bars. Default is None.
+    dict_scenarios : dict, optional
+        Dictionary mapping scenario names to new names for the plot. Default is None.
+    rotation : int, optional
+        Rotation angle for x-axis labels. Default is 0.
+    fonttick : int, optional
+        Font size for tick labels. Default is 14.
+    legend : bool, optional
+        Whether to display the legend. Default is True.
+    format_y : function, optional
+        Function to format y-axis labels. Default is a lambda function formatting as '{:.0f} GW'.
+    cap : int, optional
+        Minimum height of bars to annotate. Default is 6.
+    annotate : bool, optional
+        Whether to annotate each bar with its height. Default is True.
+    show_total : bool, optional
+        Whether to show the total value on top of each bar. Default is False.
+    Returns
+    -------
+    None
     """
 
-    unique_subplots = df[subplot_column].unique()
-    ncols = min(3, len(unique_subplots))
-    nrows = int(np.ceil(len(unique_subplots) / ncols))
+    valid_keys = []
+    df_temps = {}
 
-    fig, axes = plt.subplots(nrows, ncols, figsize=(figsize[0] * ncols, figsize[1] * nrows), sharey=True)
-    axes = np.array(axes).flatten()
+    for key in df.columns:
+        try:
+            df_temp = df[key].unstack(column_multiple_lines)
 
-    for i, key in enumerate(unique_subplots):
-        ax = axes[i]
-        subset = df[df[subplot_column] == key]
+            # Apply filters before checking emptiness
+            if dict_scenarios is not None:
+                df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
+            if order_index is not None:
+                df_temp = df_temp.loc[[c for c in order_index if c in df_temp.index], :]
+            if order_columns is not None:
+                df_temp = df_temp[[c for c in order_columns if c in df_temp.columns]]
 
-        if group_column:
-            for g, data in subset.groupby(group_column):
-                color = dict_colors[g] if dict_colors and g in dict_colors else None
-                ax.plot(data[x_column], data[y_column], label=str(g), color=color)
+            df_temp = df_temp.dropna(axis=1, how='all')  # drop columns with all NaNs
+
+            if not df_temp.empty:
+                valid_keys.append(key)
+                df_temps[key] = df_temp
+
+        except Exception:
+            continue
+
+    num_subplots = len(valid_keys)
+    if num_subplots == 0:
+        print("No data available to plot.")
+        return
+
+    n_columns = min(3, num_subplots)
+    n_rows = int(np.ceil(num_subplots / n_columns))
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(figsize[0], figsize[1] * n_rows), sharey='all',
+                             gridspec_kw={'width_ratios': [1] * n_columns})
+
+    if n_rows * n_columns == 1:  # If only one subplot, `axes` is not an array
+        axes = [axes]  # Convert to list to maintain indexing consistency
+    else:
+        axes = np.array(axes).flatten()  # Ensure it's always a 1D array
+
+
+    handles, labels = None, None
+    all_handles, all_labels = [], []
+    for k, key in enumerate(valid_keys):
+        ax = axes[k]
+        df_temp = df_temps[key]
+
+        plot = df_temp.plot(ax=ax, kind='line', marker='o',
+                     color=dict_colors if dict_colors is not None else None)
+
+        handles, labels = ax.get_legend_handles_labels()
+        all_handles += handles
+        all_labels += labels
+
+        num_xticks = min(len(df_temp.index), max_ticks)  # Set a reasonable max number of ticks
+        xticks_positions = np.linspace(0, len(df_temp.index) - 1, num_xticks, dtype=int)
+        ax.set_xticks(xticks_positions)  # Set tick positions
+        ax.set_xticklabels(df_temp.index[xticks_positions], rotation=rotation)
+
+        ax.spines['left'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+
+        plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
+        # put tick label in bold
+        ax.tick_params(axis='both', which=u'both', length=0)
+        ax.set_xlabel('')
+
+        if len(valid_keys) > 1:
+            title = key
+            if isinstance(key, tuple):
+                title = '{}-{}'.format(key[0], key[1])
+            ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
         else:
-            ax.plot(subset[x_column], subset[y_column], color='steelblue')
+            if title is not None:
+                if isinstance(title, tuple):
+                    title = '{}-{}'.format(title[0], title[1])
+                ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
 
-        ax.set_title(str(key), fontsize=fonttick, fontweight='bold')
-        ax.tick_params(axis='x', rotation=rotation)
-        ax.grid(True, linestyle='--', alpha=0.5)
-
-        if format_y:
+        if k == 0:
+            # handles, labels = ax.get_legend_handles_labels()
+            # labels = [l.replace('_', ' ') for l in labels]
             ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+        if k % n_columns != 0:
+            ax.set_ylabel('')
+            ax.tick_params(axis='y', which='both', left=False, labelleft=False)
 
-        if i % ncols == 0:
-            ax.set_ylabel(ylabel if ylabel else y_column, fontsize=fonttick)
+        ax.get_legend().remove()
 
-        if i >= (nrows - 1) * ncols:
-            ax.set_xlabel(xlabel if xlabel else x_column, fontsize=fonttick)
+        # Add a horizontal line at 0
+        # ax.axhline(0, color='black', linewidth=0.5)
 
-        if group_column:
-            ax.legend(frameon=False, fontsize=fonttick - 2)
 
-    for j in range(i + 1, len(axes)):
+    if legend:
+        seen = set()
+        unique = [(h, l) for h, l in zip(all_handles, all_labels) if not (l in seen or seen.add(l))]
+        fig.legend(
+            [h for h, _ in unique],
+            [l.replace('_', ' ') for _, l in unique],
+            loc='center left',
+            frameon=False,
+            ncol=1,
+            bbox_to_anchor=(1, 0.5)
+        )
+
+        # fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
+        #            bbox_to_anchor=(1, 0.5))
+
+    # Hide unused subplots
+    for j in range(k + 1, len(axes)):
         fig.delaxes(axes[j])
 
-    if title:
-        fig.suptitle(title, fontsize=fonttick + 2)
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
 
-    plt.tight_layout()
-    plt.savefig(filename, bbox_inches='tight')
-    plt.show()
+
+def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), dict_colors=None, order_index=None,
+                            order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
+                           format_y=lambda y, _: '{:.0f} GW'.format(y), annotation_format="{:.0f}",
+                           max_ticks=10, annotate=True, show_total=False, title=None):
+    """
+    Create a stacked bar subplot from a DataFrame.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        DataFrame containing the data to plot.
+    column_group : str
+        Column name to group by for the stacked bars.
+    filename : str
+        Path to save the plot image. If None, the plot is shown instead.
+    dict_colors : dict, optional
+        Dictionary mapping column names to colors for the bars. Default is None.
+    figsize : tuple, optional
+        Size of the figure (width, height). Default is (10, 6).
+    year_ini : str, optional
+        Initial year to highlight in the plot. Default is None.
+    order_index : list, optional
+        List of scenario names to order the bars. Default is None.
+    order_columns : list, optional
+        List of column names to order the stacked bars. Default is None.
+    dict_scenarios : dict, optional
+        Dictionary mapping scenario names to new names for the plot. Default is None.
+    rotation : int, optional
+        Rotation angle for x-axis labels. Default is 0.
+    fonttick : int, optional
+        Font size for tick labels. Default is 14.
+    legend : bool, optional
+        Whether to display the legend. Default is True.
+    format_y : function, optional
+        Function to format y-axis labels. Default is a lambda function formatting as '{:.0f} GW'.
+    cap : int, optional
+        Minimum height of bars to annotate. Default is 6.
+    annotate : bool, optional
+        Whether to annotate each bar with its height. Default is True.
+    show_total : bool, optional
+        Whether to show the total value on top of each bar. Default is False.
+    Returns
+    -------
+    None
+    """
+
+    list_keys = list(df.columns)
+    n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_multiple_lines][0]).unique()
+    num_subplots = int(len(list_keys))
+    n_columns = min(3, num_subplots)  # Limit to 3 columns per row
+    n_rows = int(np.ceil(num_subplots / n_columns))
+    width_ratios = [1] * n_columns
+    fig, axes = plt.subplots(n_rows, n_columns, figsize=(figsize[0], figsize[1] * n_rows), sharey='all',
+                             gridspec_kw={'width_ratios': width_ratios})
+
+    if n_rows * n_columns == 1:  # If only one subplot, `axes` is not an array
+        axes = [axes]  # Convert to list to maintain indexing consistency
+    else:
+        axes = np.array(axes).flatten()  # Ensure it's always a 1D array
+
+
+    handles, labels = None, None
+    for k, key in enumerate(list_keys):
+        ax = axes[k]
+
+        try:
+            df_temp = df[key].unstack(column_multiple_lines)
+            if dict_scenarios is not None:  # Renaming scenarios for plots
+                df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
+            if order_index is not None:  # Reordering scenarios
+                df_temp = df_temp.loc[[c for c in order_index if c in df_temp.index], :]
+            if order_columns is not None:
+                new_order = [c for c in order_columns if c in df_temp.columns]
+                df_temp = df_temp.loc[:, new_order]
+
+            df_temp = df_temp.dropna(axis=1)  # dropping lines without values
+
+            df_temp.plot(ax=ax, kind='line', marker='o',
+                         color=dict_colors if dict_colors is not None else None)
+
+            num_xticks = min(len(df_temp.index), max_ticks)  # Set a reasonable max number of ticks
+            xticks_positions = np.linspace(0, len(df_temp.index) - 1, num_xticks, dtype=int)
+
+            ax.set_xticks(xticks_positions)  # Set tick positions
+            ax.set_xticklabels(df_temp.index[xticks_positions], rotation=rotation)
+
+            ax.spines['left'].set_visible(False)
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+
+            plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
+            # put tick label in bold
+            ax.tick_params(axis='both', which=u'both', length=0)
+            ax.set_xlabel('')
+
+            if len(list_keys) > 1:
+                title = key
+                if isinstance(key, tuple):
+                    title = '{}-{}'.format(key[0], key[1])
+                ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+            else:
+                if title is not None:
+                    if isinstance(title, tuple):
+                        title = '{}-{}'.format(title[0], title[1])
+                    ax.set_title(title, fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+
+            if k == 0:
+                handles, labels = ax.get_legend_handles_labels()
+                labels = [l.replace('_', ' ') for l in labels]
+                ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+            if k % n_columns != 0:
+                ax.set_ylabel('')
+                ax.tick_params(axis='y', which='both', left=False, labelleft=False)
+            ax.get_legend().remove()
+
+            # Add a horizontal line at 0
+            ax.axhline(0, color='black', linewidth=0.5)
+
+        except IndexError:
+            ax.axis('off')
+
+        if legend:
+            fig.legend(handles[::-1], labels[::-1], loc='center left', frameon=False, ncol=1,
+                       bbox_to_anchor=(1, 0.5))
+
+    # Hide unused subplots
+    for j in range(k + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
+
+
+if __name__ == '__main__':
+    print(0)
+

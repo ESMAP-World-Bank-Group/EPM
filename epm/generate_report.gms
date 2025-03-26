@@ -80,7 +80,8 @@ $offExternalOutput
    pNewCapacityFuel(z,f,y)                   'New capacity by fuel in MW per zone'
    pNewCapacityTech(z,tech,y)                'New capacity by technology in MW per zone'
    pPlantUtilization(z,g,y)                  'Plant utilization'
-   pPlantUtilizationTech(z,tech,y)           'Plant utilization with Technology'      
+   pPlantUtilizationTech(z,tech,y)           'Plant utilization with Technology'
+   pFuelUtilization(z,f,y)                   'Plant utilization with fuel'  
    pRetirements(z,g,y)                       'Retirements in MW per zone'
    pRetirementsFuel(z,f,y)                   'Retirements by fuel in MW per zone'
    pRetirementsCountry(c,y)                'Retirements in MW per country'
@@ -583,6 +584,7 @@ pRetirements(zgmap(z,g),y)                  = vRetire.l(g,y);
 pPlantUtilization(zgmap(z,g),y)$vCap.l(g,y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/vCap.l(g,y)/8760;
 pPlantUtilizationTech(z,tech,y)$sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y)) = sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech),q,d,t)$vCap.l(g,y), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))
                                                                                                         /sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y))/8760;
+pFuelUtilization(z,f,y)$sum((zgmap(z,g),gfmap(g,f))$vCap.l(g,y),vCap.l(g,y)) = sum((zgmap(z,g),gfmap(g,f),q,d,t)$vCap.l(g,y), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/sum((zgmap(z,g),gfmap(g,f))$vCap.l(g,y), vCap.l(g,y))/8760;      
 
 *--- New TX Capacity by zone
 
@@ -846,7 +848,7 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pSpinningReserveByPlantZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
                                  pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,  
                                  pPlantDispatch, pDispatch, pPlantUtilization, pPlantAnnualLCOE,
-                                 pPlantUtilizationTech,
+                                 pPlantUtilizationTech,pFuelUtilization,
                                  pCSPBalance, pCSPComponents,pPVwSTOBalance,pPVwSTOComponents,pStorageBalance,pStorageComponents
                                  pSolarValue, pSolarCost,
                                  pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
