@@ -179,6 +179,70 @@ def extract_epm_folder(results_folder, file='epmresults.gdx'):
     return inverted_dict
 
 
+def extract_epm_folder_by_scenario(results_folder, file='epmresults.gdx', save_to_csv=False):
+    """
+    Extract information from a folder containing multiple scenarios,
+    keeping the results separate for each scenario.
+
+    Parameters
+    ----------
+    results_folder: str
+        Path to the folder containing the scenarios
+    file: str, optional, default='epmresults.gdx'
+        Name of the gdx file to extract
+
+    Returns
+    -------
+    scenario_dict: dict
+        Dictionary with scenario names as keys, each containing a dict of DataFrames
+    """
+    scenario_dict = {}
+    for scenario in [i for i in os.listdir(results_folder) if os.path.isdir(os.path.join(results_folder, i))]:
+        gdx_path = os.path.join(results_folder, scenario, file)
+        if os.path.exists(gdx_path):
+            scenario_dict[scenario] = extract_gdx(gdx_path)
+
+    if save_to_csv:
+        save_csv = Path(results_folder) / Path('csv')
+        if not os.path.exists(save_csv):
+            os.mkdir(save_csv)
+        for key in scenario_dict.keys():
+            path_scenario = Path(save_csv) / Path(f'{key}')
+            if not os.path.exists(path_scenario):
+                os.mkdir(path_scenario)
+            for name, dataframe in scenario_dict[key].items():
+                dataframe.to_csv(path_scenario / f'{name}.csv', index=False)
+
+    return scenario_dict
+
+
+def gdx_to_csv(gdx_file, output_csv_folder):
+    try:
+        container = gt.Container(gdx_file)
+    except Exception as e:
+        print(f"Error while loading gdx file : {e}")
+        exit()
+
+    parameters = [p.name for p in container.getParameters()]
+
+    if not os.path.exists(output_csv_folder):
+        os.makedirs(output_csv_folder)
+
+    for param in parameters:
+        try:
+            df = container.data[param].records  # Récupérer les données
+            if df is not None:
+                output_csv = os.path.join(output_csv_folder, f"{param}.csv")
+                df.to_csv(output_csv, index=False)  # Sauvegarder en CSV
+                print(f"Folder downloaded : {output_csv}")
+            else:
+                print(f"No data for param : {param}")
+        except Exception as e:
+            print(f"Error with param {param}: {e}")
+
+    print("Conversion over! All files saved to folder 'data/'.")
+
+
 def standardize_names(dict_df, key, mapping, column='fuel'):
     """
     Standardize the names of fuels in the dataframes.
