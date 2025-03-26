@@ -381,16 +381,6 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-zext ftfindex gmap zcmap sRelevant pDemandData pDemandForecast
-pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
-pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
-pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
-pExtTransferLimit pNewTransmission pMinImport
-pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
-;
-
 
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
 pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
@@ -447,6 +437,17 @@ H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
 * TODO: Check is that works for H2
 * h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
 h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
+
+
+execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+zext ftfindex gmap gfmap zcmap sRelevant pDemandData pDemandForecast
+pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
+pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
+pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+pExtTransferLimit pNewTransmission pMinImport
+pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
+;
 
 
 $else.mode
