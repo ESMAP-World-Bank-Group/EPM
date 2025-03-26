@@ -371,7 +371,6 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 $include %VERIFICATION_FILE%
 $if not errorfree $abort PythonError in input_verification.gms
 
-$exit
 *-------------------------------------------------------------------------------------
 * Make input treatment
 
