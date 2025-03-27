@@ -10,7 +10,7 @@ Pumped-Hydro,cornflowerblue
 H2,lightcyan
 Biomass,darkseagreen
 Hydro,lightskyblue
-Wind,green
+Wind,steelblue
 Solar,orange
 Concentrated Solar,yellow
 Trade,thistle
@@ -24,7 +24,7 @@ Exports,green
 Imports,thistle
 Storage Charge,pink
 Nuclear,#66CDAA
-Onshore Wind, green
+Onshore Wind, steelblue
 Offshore Wind,blue
 Concentrated Solar,yellow
 Geothermal,brown
