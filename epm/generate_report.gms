@@ -15,7 +15,10 @@ $offExternalOutput
    pFuelCostsZone(z,y)                       'Fuel costs in USD'
    pImportCosts(z,y)                         'Net import costs from trade with external zones in USD'
    pExportRevenue(z,y)                       'Export revenue from trade with external zones in USD'
-   pTradeCostsTopology(z,y)                  'Net trade costs with internal zones in USD'
+   pImportCostsTopology(z,y)                 'Import costs with internal zones in USD'
+   pExportRevenuesTopology(z,y)              'Export revenues with internal zones in USD'
+   pCongestionRevenues(z,z2,y)               'Congestion revenues from saturation of direction z,Zd in USD'
+   pTradeBenefitsTopology(z,y)               'Trade benefits from imports, exports and sharing congestion rent among countries in USD'
    pExportRevenueTopology(z,y)               'Net export costs from trade with internal zones in USD'
    pNewTransmissionCosts(z,y)                'Added transmission costs in USD'
    pUSECosts(z,y)                            'Unmet demand costs in USD'
@@ -214,7 +217,11 @@ pImportCosts(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice
 
 pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
-pTradeCostsTopology(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+pImportCostsTopology(z,y) = - sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+pExportRevenuesTopology(z,y) = sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+pCongestionRevenues(z,Zd,y) = sum((q,d,t), (pPrice(z,q,d,t,y) - pPrice(Zd,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+* Choosing one allocation rule for the congestion rent
+pTradeBenefitsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
 
 pExportRevenue(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
@@ -275,14 +282,17 @@ pCostSummary(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
 pCostSummary(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
 
 * Should we keep O to be sure we are considering all cost components ?
-pCostSummary(z,"Transmission additions: $m"   ,y) = pNewTransmissionCosts(z,y)/1e6;
-pCostSummary(z,"Spinning Reserve costs: $m"   ,y) = pSpinResCosts(z,y)/1e6;
-pCostSummary(z,"Unmet demand costs: $m"       ,y) = pUSECosts(z,y)/1e6;
-pCostSummary(z,"Excess generation: $m"        ,y) = pSurplusCosts(z,y)/1e6;
-pCostSummary(z,"VRE curtailment: $m"          ,y) = pVRECurtailment(z,y)/1e6;
-pCostSummary(z,"Import costs: $m"             ,y) = pImportCosts(z,y)/1e6;
-pCostSummary(z,"Export revenue: $m"           ,y) = pExportRevenue(z,y)/1e6;
-pCostSummary(z,"Trade costs: $m"              ,y) = pTradeCostsTopology(z,y)/1e6;
+pCostSummary(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
+pCostSummary(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
+pCostSummary(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
+pCostSummary(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
+pCostSummary(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
+pCostSummary(z,"Import costs: $m"                        ,y) = pImportCosts(z,y)/1e6;
+pCostSummary(z,"Export revenue: $m"                      ,y) = pExportRevenue(z,y)/1e6;
+pCostSummary(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
+pCostSummary(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
+pCostSummary(z,"Trade Benefits: $m"                      ,y) = pTradeBenefitsTopology(z,y)/1e6;
+
 
 pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCosts(z,y) - pExportRevenue(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
@@ -839,7 +849,7 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
                                  pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
                                  pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
-                                 pCostSummaryWeightedAverageCountry, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
+                                 pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
                                  pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
                                  pDemandSupply,  pDemandSupplyCountry
                                  pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,

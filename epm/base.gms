@@ -391,6 +391,7 @@ Equations
    eYearlySurplusCost(z,y)
    eAdditionalTransfer(z,z2,y)
    eAdditionalTransfer2(z,z2,y)
+   eAdditionalTransferSym(z,z2,y)
    eYearlyTransmissionAdditions (z,y)
    eExtZoneLimitImport(z,zext,q,d,t,y) 'import limits from external zone in MW'
    eExtZoneLimitExport(z,zext,q,d,t,y) 'export limits to external zone in MW'
@@ -712,6 +713,9 @@ eTransferLimitMin(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
 eAdditionalTransfer(sTopology(z,z2),y)$pAllowHighTransfer..
    vAdditionalTransfer(z,z2,y) =e=  vAdditionalTransfer(z,z2,y-1) + vBuildTransmission(z,z2,y);
 
+eAdditionalTransferSym(sTopology(z,z2),y)$pAllowHighTransfer..
+   vAdditionalTransfer(z,z2,y) =e= vAdditionalTransfer(z2,z,y);
+   
 eAdditionalTransfer2(sTopology(z,z2),y)$pAllowHighTransfer..
    vBuildTransmission(z,z2,y)  =e=  vBuildTransmission(z2,z,y);
    
@@ -1038,6 +1042,7 @@ Model PA /
    eYearlyTransmissionAdditions
    eAdditionalTransfer
    eAdditionalTransfer2
+   eAdditionalTransferSym
    eMaxImportPrice
    eMaxExportPrice  
    eMaxhourlyImportsshare

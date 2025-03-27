@@ -929,7 +929,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
         utilization_transmission['value'] = utilization_transmission['value'] * 100  # update to percentage value
         transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
             utilization_transmission.rename(columns={'value': 'utilization'}),
-            on=['scenario', 'zone', 'z2', 'year'])  # removes connections with zero utilization
+            on=['scenario', 'zone', 'z2', 'year'], how='outer')  # removes connections with zero utilization
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
         for year in years:
@@ -3135,7 +3135,8 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
             row1 = transmission_data.loc[(z, z2)]
             row2 = transmission_data.loc[(z2, z)]
             zone1, zone2 = row1.name[0], row1.name[1]
-            capacity, utilization_1to2, utilization_2to1 = row1['capacity'], row1['utilization'], row2['utilization']
+            # TODO: needs to be solved in EPM code, current problem in how new capacity is handled !
+            capacity, utilization_1to2, utilization_2to1 = max(row1.fillna(0)['capacity'], row2.fillna(0)['capacity']), row1['utilization'], row2['utilization']
 
             if zone1 in centers and zone2 in centers:
                 coords = [[centers[zone1][1], centers[zone1][0]],  # Lat, Lon
