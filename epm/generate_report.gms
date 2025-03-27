@@ -604,7 +604,8 @@ pFuelUtilization(z,f,y)$sum((zgmap(z,g),gfmap(g,f))$vCap.l(g,y),vCap.l(g,y)) = s
 
 *--- New TX Capacity by zone
 
-pAdditionalCapacity(sTopology(z,z2),y) = vAdditionalTransfer.l(z,z2,y)*pNewTransmission(z,z2,"CapacityPerLine")*pAllowHighTransfer;                            
+pAdditionalCapacity(sTopology(z,z2),y) = vAdditionalTransfer.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
+                                                                                                           
 
 pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
@@ -851,7 +852,7 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
                                  pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
                                  pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
-                                 pDemandSupply,  pDemandSupplyCountry
+                                 pDemandSupply,  pDemandSupplyCountry, pVarCost,
                                  pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
                                  pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
                                  pPeakCapacity, pCapacityByFuel, pCapacityByTechandFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,  

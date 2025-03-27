@@ -424,8 +424,12 @@ gfmap(g,f) = gfmap(g,f)
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
 
-pHeatrate(gfmap(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate2"));
-pHeatrate(gprimf(g,f)) = sum((z,tech),pGenDataExcel(g,z,tech,f,"Heatrate"));
+pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataExcel(g,z,tech,f,"Heatrate"));
+pHeatrate(g,f2)$(gfmap(g,f2) and not gprimf(g,f2)) = 
+    sum((z,tech,f), pGenDataExcel(g,z,tech,f,"Heatrate2") 
+*  $(pGenDataExcel(g,z,tech,f,"fuel2") = ftfindex(f2))
+    );
+
 
 pGenData(g,ghdr) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,ghdr));
 
@@ -439,13 +443,13 @@ h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 
 
 execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
-zext ftfindex gmap gfmap zcmap sRelevant pDemandData pDemandForecast
+zext ftfindex gmap gfmap gprimf zcmap sRelevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
 pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
 pExtTransferLimit pNewTransmission pMinImport
-pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
+pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2 pHeatrate
 ;
 
 
