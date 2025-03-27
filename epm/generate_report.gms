@@ -15,6 +15,8 @@ $offExternalOutput
    pFuelCostsZone(z,y)                       'Fuel costs in USD'
    pImportCosts(z,y)                         'Net import costs from trade with external zones in USD'
    pExportRevenue(z,y)                       'Export revenue from trade with external zones in USD'
+   pTradeCostsTopology(z,y)                  'Net trade costs with internal zones in USD'
+   pExportRevenueTopology(z,y)               'Net export costs from trade with internal zones in USD'
    pNewTransmissionCosts(z,y)                'Added transmission costs in USD'
    pUSECosts(z,y)                            'Unmet demand costs in USD'
    pCO2backstopCosts(c,y)                    'CO2backstop costs in USD'
@@ -210,9 +212,14 @@ pFuelCostsZone(z,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,
 
 pImportCosts(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
+pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
+
+pTradeCostsTopology(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+
 pExportRevenue(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
-pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y);
+* Dividing pNewTransmissionCosts by 2 to avoid double-counting for the two countries involved in transmission line
+pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y) / 2;
 pUSECosts(z,y) = vYearlyUSECost.l(z,y);
 pCO2backstopCosts(c,y) = vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop;
 pSurplusCosts(z,y) = vYearlySurplus.l(z,y);
@@ -275,6 +282,7 @@ pCostSummary(z,"Excess generation: $m"        ,y) = pSurplusCosts(z,y)/1e6;
 pCostSummary(z,"VRE curtailment: $m"          ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummary(z,"Import costs: $m"             ,y) = pImportCosts(z,y)/1e6;
 pCostSummary(z,"Export revenue: $m"           ,y) = pExportRevenue(z,y)/1e6;
+pCostSummary(z,"Trade costs: $m"              ,y) = pTradeCostsTopology(z,y)/1e6;
 
 pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCosts(z,y) - pExportRevenue(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
@@ -315,7 +323,7 @@ pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSu
 pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y) = pWeightYear(y)*pUSRLocCosts(c,y)/1e6;
 pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y) = pWeightYear(y)*pCountryPlanReserveCosts(c,y)/1e6;
 pCostSummaryWeightedCountry(c,"Total CO2 backstop cost by Country: $m"      ,y) = pWeightYear(y)*pCO2backstopCosts(c,y)/1e6 ;
-pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = pWeightYear(y)*sum(zcmap(z,c), pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y))
+pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y))
                                                                           + pWeightYear(y)*(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)+pCO2backstopCosts(c,y))/1e6;
 
 
@@ -495,8 +503,6 @@ pYearlyTradeCountry(c,thrd,y) = sum(zcmap(z,c), pYearlyTrade(z,thrd,y));
 *---   Prices Costs -- Marginal costs
 
 * By zone
-
-pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
 
 pAveragePrice(z,y)$pDemandSupply(z,"Demand: GWh",y) = 1e-3*sum((q,d,t),pPrice(z,q,d,t,y)*pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))
