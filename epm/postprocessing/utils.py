@@ -447,7 +447,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
             'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
             'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
-            'pCostsbyPlant', 'pYearlyTrade'}
+            'pCostsbyPlant', 'pYearlyTrade', 'pSolverParameters'}
 
     rename_keys = {}
     for k in keys:
@@ -2130,6 +2130,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
             # put tick label in bold
             ax.tick_params(axis='both', which=u'both', length=0)
             ax.set_xlabel('')
+            ax.tick_params(axis='x', labelrotation=rotation) 
 
             if len(list_keys) > 1:
                 title = key
@@ -2178,7 +2179,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
                               column_stacked='fuel', column_multiple_bars='scenario',
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
-                              show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10, format_label="{:.1f}"):
+                              show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10, format_label="{:.1f}", figsize=(10,6)):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
     
@@ -2274,7 +2275,8 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
 
     stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
                         rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label, format_label=format_label)
+                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label, 
+                        format_label=format_label, figsize=figsize)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
@@ -3879,6 +3881,170 @@ def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), 
         plt.show()
 
 
+def make_line_subplots(df, filename, x_column, y_column, subplot_column,
+                       group_column=None, dict_colors=None, format_y=None,
+                       figsize=(10, 5), rotation=0, fonttick=12, title=None,
+                       xlabel=None, ylabel=None):
+    """
+    Create multiple line subplots from a DataFrame, sliced by a given column.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The data to be plotted.
+    filename : str
+        Path to save the resulting figure.
+    x_column : str
+        Name of the column for the x-axis.
+    y_column : str
+        Name of the column for the y-axis.
+    subplot_column : str
+        Column used to create one subplot per unique value (e.g., 'zone', 'attribute').
+    group_column : str, optional
+        If specified, plots one line per value of this column inside each subplot.
+    dict_colors : dict, optional
+        Dictionary mapping group_column values to colors.
+    format_y : function, optional
+        A function for formatting the y-axis ticks.
+    figsize : tuple, default=(10, 5)
+        Size of each subplot (width, height).
+    rotation : int, default=0
+        Rotation of the x-axis tick labels.
+    fonttick : int, default=12
+        Font size for tick labels.
+    title : str, optional
+        Title for the entire figure.
+    xlabel : str, optional
+        Label for the x-axis.
+    ylabel : str, optional
+        Label for the y-axis.
+    """
+
+    unique_subplots = df[subplot_column].unique()
+    ncols = min(3, len(unique_subplots))
+    nrows = int(np.ceil(len(unique_subplots) / ncols))
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(figsize[0] * ncols, figsize[1] * nrows), sharey=True)
+    axes = np.array(axes).flatten()
+
+    for i, key in enumerate(unique_subplots):
+        ax = axes[i]
+        subset = df[df[subplot_column] == key]
+
+        if group_column:
+            for g, data in subset.groupby(group_column):
+                color = dict_colors[g] if dict_colors and g in dict_colors else None
+                ax.plot(data[x_column], data[y_column], label=str(g), color=color)
+        else:
+            ax.plot(subset[x_column], subset[y_column], color='steelblue')
+
+        ax.set_title(str(key), fontsize=fonttick, fontweight='bold')
+        ax.tick_params(axis='x', rotation=rotation)
+        ax.grid(True, linestyle='--', alpha=0.5)
+
+        if format_y:
+            ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+
+        if i % ncols == 0:
+            ax.set_ylabel(ylabel if ylabel else y_column, fontsize=fonttick)
+
+        if i >= (nrows - 1) * ncols:
+            ax.set_xlabel(xlabel if xlabel else x_column, fontsize=fonttick)
+
+        if group_column:
+            ax.legend(frameon=False, fontsize=fonttick - 2)
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    if title:
+        fig.suptitle(title, fontsize=fonttick + 2)
+
+    plt.tight_layout()
+    plt.savefig(filename, bbox_inches='tight')
+    plt.show()
+def make_line_subplots(df, filename, x_column, y_column, subplot_column,
+                       group_column=None, dict_colors=None, format_y=None,
+                       figsize=(10, 5), rotation=0, fonttick=12, title=None,
+                       xlabel=None, ylabel=None):
+    """
+    Create multiple line subplots from a DataFrame, sliced by a given column.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The data to be plotted.
+    filename : str
+        Path to save the resulting figure.
+    x_column : str
+        Name of the column for the x-axis.
+    y_column : str
+        Name of the column for the y-axis.
+    subplot_column : str
+        Column used to create one subplot per unique value (e.g., 'zone', 'attribute').
+    group_column : str, optional
+        If specified, plots one line per value of this column inside each subplot.
+    dict_colors : dict, optional
+        Dictionary mapping group_column values to colors.
+    format_y : function, optional
+        A function for formatting the y-axis ticks.
+    figsize : tuple, default=(10, 5)
+        Size of each subplot (width, height).
+    rotation : int, default=0
+        Rotation of the x-axis tick labels.
+    fonttick : int, default=12
+        Font size for tick labels.
+    title : str, optional
+        Title for the entire figure.
+    xlabel : str, optional
+        Label for the x-axis.
+    ylabel : str, optional
+        Label for the y-axis.
+    """
+
+    unique_subplots = df[subplot_column].unique()
+    ncols = min(3, len(unique_subplots))
+    nrows = int(np.ceil(len(unique_subplots) / ncols))
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(figsize[0] * ncols, figsize[1] * nrows), sharey=True)
+    axes = np.array(axes).flatten()
+
+    for i, key in enumerate(unique_subplots):
+        ax = axes[i]
+        subset = df[df[subplot_column] == key]
+
+        if group_column:
+            for g, data in subset.groupby(group_column):
+                color = dict_colors[g] if dict_colors and g in dict_colors else None
+                ax.plot(data[x_column], data[y_column], label=str(g), color=color)
+        else:
+            ax.plot(subset[x_column], subset[y_column], color='steelblue')
+
+        ax.set_title(str(key), fontsize=fonttick, fontweight='bold')
+        ax.tick_params(axis='x', rotation=rotation)
+        ax.grid(True, linestyle='--', alpha=0.5)
+
+        if format_y:
+            ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+
+        if i % ncols == 0:
+            ax.set_ylabel(ylabel if ylabel else y_column, fontsize=fonttick)
+
+        if i >= (nrows - 1) * ncols:
+            ax.set_xlabel(xlabel if xlabel else x_column, fontsize=fonttick)
+
+        if group_column:
+            ax.legend(frameon=False, fontsize=fonttick - 2)
+
+    for j in range(i + 1, len(axes)):
+        fig.delaxes(axes[j])
+
+    if title:
+        fig.suptitle(title, fontsize=fonttick + 2)
+
+    plt.tight_layout()
+    plt.savefig(filename, bbox_inches='tight')
+    plt.show()
 
 if __name__ == '__main__':
     print(0)
