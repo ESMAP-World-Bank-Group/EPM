@@ -219,7 +219,7 @@ pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y
 
 pImportCostsTopology(z,y) = - sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
 pExportRevenuesTopology(z,y) = sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
-pCongestionRevenues(z,Zd,y) = sum((q,d,t), (pPrice(z,q,d,t,y) - pPrice(Zd,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+pCongestionRevenues(z,Zd,y) = sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 * Choosing one allocation rule for the congestion rent
 pTradeBenefitsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
 
@@ -483,7 +483,7 @@ pInterchange(sTopology(z,z2),y) = sum((q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,
 pInterconUtilization(sTopology(z,z2),y)$pInterchange(z,z2,y) = 1e3*pInterchange(z,z2,y)
                                                               /sum((q,d,t),(pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
                                                                                                      * max(pNewTransmission(z,z2,"CapacityPerLine"),
-                                                                                                           pNewTransmission(z2,z,"CapacityPerLine"))
+                                                                                                           pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer
                                                       )*pHours(q,d,t));
 pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pLossFactor(z,z2,y)*pHours(q,d,t));
 
