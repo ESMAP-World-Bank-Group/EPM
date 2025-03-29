@@ -776,11 +776,19 @@ def generate_summary_detailed(epm_results, folder):
     summary_detailed.to_csv(os.path.join(folder, 'summary_detailed.csv'), index=True)
 
 
-def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', selected_scenario='baseline'):
-
+def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', selected_scenario='all'):
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
         FOLDER, SCENARIOS_RENAME=None, folder=folder)
+
+    if isinstance(selected_scenario, str):
+        if selected_scenario == 'all':
+            selected_scenarios = list(epm_results['pEnergyByFuel'].scenario.unique())  # we choose all scenarios
+        else:
+            selected_scenarios = [selected_scenario]
+            assert selected_scenario in list(epm_results['pEnergyByFuel'].scenario.unique()), "Selected scenario does not belong to the set of scenarios."
+    else:
+        selected_scenarios = selected_scenario
 
     # TODO: Make smth to only select some scenarios that should appear in the Figures
 
@@ -790,115 +798,173 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
     # Generate detailed by plant to debug
     if not reduced_output:
 
-        # Define selected scenario
-        if selected_scenario not in epm_results['pEnergyByPlant']['scenario'].unique():
-            print(f'No {selected_scenario} in epm_results')
-            selected_scenario = epm_results['pEnergyByPlant']['scenario'].unique()[0]
-            print(f'Selected scenario is set to: {selected_scenario}')
-
         # Generate a detailed summary by Power Plant
         generate_summary_detailed(epm_results, RESULTS_FOLDER)
 
-        # Make New Capacity Installed Timeline Figures
-        df = epm_results['pCapacityPlan'].copy()
+        if not os.path.exists(Path(GRAPHS_FOLDER) / Path('scenarios_comparison')):
+            os.mkdir(Path(GRAPHS_FOLDER) / Path('scenarios_comparison'))
 
-        if len(df.zone.unique()) == 1:
-            filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline-{selected_scenario}.png'
-            df = df[df['scenario'] == selected_scenario]
-            make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
-        else:
-            for zone in df.zone.unique():
-                filename = f'{GRAPHS_FOLDER}/NewCapacityInstalledTimeline-{selected_scenario}-{zone}.png'
-                df_zone = df.copy()
-                df_zone = df_zone[(df_zone['scenario'] == selected_scenario) & (df_zone['zone'] == zone)]
-                make_annotated_stacked_area_plot(df_zone, filename, dict_colors=dict_specs['colors'])
+        df_capacityplan = epm_results['pCapacityPlan'].copy()
+        df_capacityfuel = epm_results['pCapacityByFuel'].copy()
+        df_energyplant = epm_results['pEnergyByPlant'].copy()
+        df_energyfuel = epm_results['pEnergyByFuel']
 
-        if len(df.zone.unique()) > 1:  # multiple zones
-            df = epm_results['pCapacityByFuel'].copy()
+        # Define selected scenario in case of no valid scenario names
+        for scenario in selected_scenarios:
+            if scenario not in epm_results['pEnergyByPlant']['scenario'].unique():
+                print(f'No {scenario} in epm_results')
+                scenario = epm_results['pEnergyByPlant']['scenario'].unique()[0]
+                print(f'Selected scenario is set to: {scenario}')
 
-            filename = f'{GRAPHS_FOLDER}/CapacityEvolutionPerZone-{selected_scenario}.png'
+            folder_scenario = f'{GRAPHS_FOLDER}/{scenario}'
+            if not os.path.exists(folder_scenario):
+                os.mkdir(folder_scenario)
+            if not os.path.exists(Path(folder_scenario) / Path('capacity')):
+                os.mkdir(Path(folder_scenario) / Path('capacity'))
+            if not os.path.exists(Path(folder_scenario) / Path('energy')):
+                os.mkdir(Path(folder_scenario) / Path('energy'))
+            if not os.path.exists(Path(folder_scenario) / Path('dispatch')):
+                os.mkdir(Path(folder_scenario) / Path('dispatch'))
+            if not os.path.exists(Path(folder_scenario) / Path('map')):
+                os.mkdir(Path(folder_scenario) / Path('map'))
 
-            make_stacked_bar_subplots(df, filename, dict_specs['colors'], selected_zone=None, selected_year=None,
-                                      column_xaxis='zone',
-                                      column_stacked='fuel', column_multiple_bars='year',
-                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
-                                      dict_scenarios=None,
-                                      format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2,
-                                      annotate=False,
-                                      show_total=False, fonttick=12, rotation=45, title=None)
+            # Make New Capacity Installed Timeline Figures
+            if len(df_capacityplan.zone.unique()) == 1:
+                filename = f'{folder_scenario}/capacity/NewCapacityInstalledTimeline-{scenario}.png'
+                df_capacityplan = df_capacityplan[df_capacityplan['scenario'] == scenario]
+                make_annotated_stacked_area_plot(df_capacityplan, filename, dict_colors=dict_specs['colors'])
+            else:
+                for zone in df_capacityplan.zone.unique():
+                    filename = f'{folder_scenario}/capacity/NewCapacityInstalledTimeline-{scenario}-{zone}.png'
+                    df_zone = df_capacityplan.copy()
+                    df_zone = df_zone[(df_zone['scenario'] == scenario) & (df_zone['zone'] == zone)]
+                    make_annotated_stacked_area_plot(df_zone, filename, dict_colors=dict_specs['colors'])
 
-        # Make EnergyPlant Figures
-        df = epm_results['pEnergyByPlant'].copy()
-        if len(df.zone.unique()) == 1:  # single zone model
-            if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
-                df = df[df['scenario'] == selected_scenario]
-                filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot-{selected_scenario}.png'
-                stacked_area_plot(df, filename, dict_specs['colors'], x_column='year',
-                                  y_column='value',
-                                  stack_column='generator', title='Energy Generation by Plant',
-                                  y_label='Generation (GWh)',
-                                  legend_title='Energy sources', figsize=(10, 6), selected_scenario=selected_scenario,
-                                  sorting_column='fuel')
-        else:
-            for zone in df.zone.unique():
-                filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot-{selected_scenario}-{zone}.png'
-                df_zone = df.copy()
-                df_zone = df_zone[(df_zone['scenario'] == selected_scenario) & (df_zone['zone'] == zone)]
-                if len(df_zone['generator'].unique()) < 20:
-                    stacked_area_plot(df_zone, filename, dict_specs['colors'], x_column='year',
+            if len(df_capacityfuel.zone.unique()) > 1:  # multiple zones
+
+                filename = f'{folder_scenario}/capacity/CapacityEvolutionPerZone-{scenario}.png'
+
+                make_stacked_bar_subplots(df_capacityfuel, filename, dict_specs['colors'], selected_zone=None, selected_year=None,
+                                          column_xaxis='zone',
+                                          column_stacked='fuel', column_multiple_bars='year',
+                                          column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                          dict_scenarios=None,
+                                          format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2,
+                                          annotate=False,
+                                          show_total=False, fonttick=12, rotation=45, title=None)
+
+            # Make EnergyPlant Figures
+            if len(df_energyplant.zone.unique()) == 1:  # single zone model
+                if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
+                    df_energyplant = df_energyplant[df_energyplant['scenario'] == scenario]
+                    filename = f'{folder_scenario}/energy/EnergyPlantsStackedAreaPlot-{scenario}.png'
+                    stacked_area_plot(df_energyplant, filename, dict_specs['colors'], x_column='year',
                                       y_column='value',
                                       stack_column='generator', title='Energy Generation by Plant',
                                       y_label='Generation (GWh)',
-                                      legend_title='Energy sources', figsize=(10, 6),
-                                      selected_scenario=selected_scenario,
+                                      legend_title='Energy sources', figsize=(10, 6), selected_scenario=scenario,
                                       sorting_column='fuel')
 
+            else:
+                for zone in df_energyplant.zone.unique():
+                    filename = f'{folder_scenario}/energy/EnergyPlantsStackedAreaPlot-{scenario}-{zone}.png'
+                    df_zone = df_energyplant.copy()
+                    df_zone = df_zone[(df_zone['scenario'] == scenario) & (df_zone['zone'] == zone)]
+                    if len(df_zone['generator'].unique()) < 20:
+                        stacked_area_plot(df_zone, filename, dict_specs['colors'], x_column='year',
+                                          y_column='value',
+                                          stack_column='generator', title='Energy Generation by Plant',
+                                          y_label='Generation (GWh)',
+                                          legend_title='Energy sources', figsize=(10, 6),
+                                          selected_scenario=scenario,
+                                          sorting_column='fuel')
 
-                # make_annotated_stacked_area_plot(df, filename, dict_colors=dict_specs['colors'])
+            # Make Capacity Figures
+            if len(df_capacityfuel.zone.unique()) > 1:
+                for zone in df_capacityfuel.zone.unique():
+                    df_zone = df_capacityfuel.copy()
+                    df_zone = df_zone[(df_zone['scenario'] == scenario) & (df_zone['zone'] == zone)]
+                    filename = f'{folder_scenario}/capacity/CapacityEvolutionPerZone-{scenario}--{zone}.png'
 
-        if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
-            filename = f'{GRAPHS_FOLDER}/EnergyPlantsStackedAreaPlot_baseline-{selected_scenario}.png'
-            stacked_area_plot(epm_results['pEnergyByPlant'], filename, dict_specs['colors'], x_column='year',
-                              y_column='value',
-                              stack_column='generator', title='Energy Generation by Plant', y_label='Generation (GWh)',
-                              legend_title='Energy sources', figsize=(10, 6), selected_scenario=selected_scenario,
-                              sorting_column='fuel')
+                    make_stacked_bar_subplots(df_zone, filename, dict_specs['colors'], selected_zone=None, selected_year=None,
+                                              column_xaxis=None, column_stacked='fuel', column_multiple_bars='year',
+                                              column_value='value', select_xaxis=None, dict_grouping=None,
+                                              order_scenarios=None, dict_scenarios=None,
+                                              format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2,
+                                              annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
         # Scenario comparison
-        if len(epm_results['pEnergyByPlant']['scenario'].unique()) < 8:
-
-            df = epm_results['pCapacityByFuel'].copy()
+        if len(selected_scenarios) < 8:
+            df = df_capacityfuel.copy()
+            df = df.loc[df.scenario.isin(selected_scenarios)]
             df['value'] = df['value'] / 1e3
-            filename = f'{GRAPHS_FOLDER}/CapacityMixClusteredStackedAreaPlot.png'
-            make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CapacityMixClusteredStackedAreaPlot.png'
+            make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel',
+                                      column_xaxis='year',
                                       column_value='value', column_multiple_bars='scenario',
                                       select_xaxis=[df['year'].min(), df['year'].max()],
                                       format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45)
 
-            df = epm_results['pEnergyByFuel'].copy()
+            df = df_energyfuel.copy()
             df['value'] = df['value'] / 1e3
-            filename = f'{GRAPHS_FOLDER}/EnergyMixClusteredStackedAreaPlot.png'
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/EnergyMixClusteredStackedAreaPlot.png'
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
                                       column_value='value', column_multiple_bars='scenario',
                                       select_xaxis=[df['year'].min(), df['year'].max()],
                                       format_y=lambda y, _: '{:.0f} TWh'.format(y), rotation=45)
 
+        df = epm_results['pCostSummary'].copy()
+        years = epm_results['pCostSummary']['year'].unique()
+
+        final_year = max(years)
+        df = df.loc[df.scenario.isin(selected_scenarios)]
+        costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
+                            "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
+                            "VRE curtailment: $m"]
+        df = df.loc[df.attribute.isin(costs_comparison)]
+        df = df.loc[(df.year == final_year)]
+
+        if 'baseline' in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
+            df_diff = df.pivot_table(index=['zone', 'year', 'attribute'], columns='scenario', values='value')
+            df_diff = (df_diff.T - df_diff['baseline']).T
+            df_diff = df_diff.drop('baseline', axis=1)
+            df_diff = df_diff.stack().reset_index()
+            df_diff.rename(columns={0: 'value'}, inplace=True)
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CostsComparison.png'
+            make_stacked_bar_subplots(df_diff, filename, dict_colors=None, column_stacked='attribute',
+                                      column_xaxis='zone', column_value='value', column_multiple_bars='scenario',
+                                      format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=45)
+
+        df = df_capacityfuel.copy()
+        df = df.loc[df.scenario.isin(selected_scenarios)]
+        df = df.loc[(df.year == final_year)]
+
+        if 'baseline' in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
+            df_diff = df.pivot_table(index=['zone', 'year', 'fuel'], columns='scenario', values='value')
+            df_diff = (df_diff.T - df_diff['baseline']).T
+            df_diff = df_diff.drop('baseline', axis=1)
+            df_diff = df_diff.stack().reset_index()
+            df_diff.rename(columns={0: 'value'}, inplace=True)
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CapacityComparison.png'
+            make_stacked_bar_subplots(df_diff, filename, dict_colors=dict_specs['colors'], column_stacked='fuel',
+                                      column_xaxis='zone', column_value='value', column_multiple_bars='scenario',
+                                      format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=45)
+
         if 'pAnnualTransmissionCapacity' in epm_results.keys():
             if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
-                make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all)
+                make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER,
+                                   selected_scenarios=selected_scenarios)
 
         # Perform automatic Energy DispatchFigures
         make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=plot_all,
-                                selected_scenario=selected_scenario)
+                                selected_scenarios=selected_scenarios)
 
 
-
-
-def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
+def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios=None):
     # TODO: ongoing work
-    if not plot_all:  # we only plot the baseline scenario
-        selected_scenarios = ['baseline']
-    else:  # we plot all scenarios
+    if selected_scenarios is None:
         selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
     pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -906,9 +972,9 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
     pInterconUtilization['value'] = pInterconUtilization['value'] * 100  # percentage
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
-    for selected_scenario in list(epm_results['pPlantDispatch'].scenario.unique()):
+    for selected_scenario in selected_scenarios:
         print(f'Automatic map for scenario {selected_scenario}')
-        folder = f'{GRAPHS_FOLDER}/{selected_scenario}'
+        folder = f'{GRAPHS_FOLDER}/{selected_scenario}/map'
         if not os.path.exists(folder):
             os.mkdir(folder)
         # Select first and last years
@@ -933,14 +999,14 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
         for year in years:
-            filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionCapacity_{selected_scenario}_{year}.png'
+            filename = f'{folder}/TransmissionCapacity_{selected_scenario}_{year}.png'
 
             if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
                 make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='capacity',
                                          label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
                                          min_display_capacity=200, filename=filename, title='Transmission capacity (MW)')
 
-                filename = f'{GRAPHS_FOLDER}/{selected_scenario}/TransmissionUtilization_{selected_scenario}_{year}.png'
+                filename = f'{folder}/TransmissionUtilization_{selected_scenario}_{year}.png'
 
                 make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='utilization',
                                          min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
@@ -954,18 +1020,18 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, plot_all):
                     pDispatch = epm_results['pDispatch'].copy()
                     pPlantDispatch = epm_results['pPlantDispatch'].copy()
                     pPrice = epm_results['pPrice'].copy()
-                    filename = f'{GRAPHS_FOLDER}/{selected_scenario}/InteractiveMap_{selected_scenario}_{year}.html'
+                    filename = f'{folder}/InteractiveMap_{selected_scenario}_{year}.html'
 
                     create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
                                            dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
 
 
-def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=False, selected_scenario='baseline'):
+def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios, plot_all=False):
 
-    if not plot_all:  # we only plot the baseline scenario
-        selected_scenarios = [selected_scenario]
-    else:  # we plot all scenarios
-        selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
+    # if not plot_all:  # we only plot the baseline scenario
+    #     selected_scenarios = [selected_scenario]
+    # else:  # we plot all scenarios
+    #     selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
     dfs_to_plot_area = {
         'pPlantDispatch': filter_dataframe(epm_results['pPlantDispatch'], {'attribute': ['Generation']}),
@@ -986,7 +1052,7 @@ def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=Fal
             # Select first and last years
             years = [min(years), max(years)]
             for year in years:
-                filename = f'{GRAPHS_FOLDER}/{selected_scenario}/Dispatch_{selected_scenario}_{zone}_{year}.png'
+                filename = f'{folder}/dispatch/Dispatch_{selected_scenario}_{zone}_{year}.png'
 
                 # Select season min and max
                 conditions = {'scenario': 'baseline', 'zone': zone, 'year': year, 'attribute': 'Demand'}
@@ -2019,7 +2085,8 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
 
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
                         dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
-                        cap=6, annotate=True, show_total=False, title=None, figsize=(10,6), fontsize_label=10, format_label="{:.1f}"):
+                        cap=6, annotate=True, show_total=False, title=None, figsize=(10,6), fontsize_label=10,
+                        format_label="{:.1f}", hspace=0.4):
     """
     Create a stacked bar subplot from a DataFrame.
     Parameters
@@ -2071,7 +2138,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
     else:
         width_ratios = [1] * n_columns
     fig, axes = plt.subplots(n_rows, n_columns, figsize=(figsize[0], figsize[1]*n_rows), sharey='all',
-                             gridspec_kw={'width_ratios': width_ratios})
+                             gridspec_kw={'width_ratios': width_ratios, 'hspace': hspace})
     if n_rows * n_columns == 1:  # If only one subplot, `axes` is not an array
         axes = [axes]  # Convert to list to maintain indexing consistency
     else:
@@ -2178,7 +2245,8 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
                               column_stacked='fuel', column_multiple_bars='scenario',
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
-                              show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10, format_label="{:.1f}"):
+                              show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10,
+                              format_label="{:.1f}", hspace=0.4):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
     
@@ -2274,7 +2342,9 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
 
     stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
                         rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label, format_label=format_label)
+                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total,
+                        fonttick=fonttick, title=title, fontsize_label=fontsize_label, format_label=format_label,
+                        hspace=hspace)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
@@ -3331,7 +3401,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
     select_time = {'season': seasons, 'day': days}
 
     dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario,
-                                                        select_time=select_time, stacked=True)
+                                                    select_time=select_time, stacked=True,
+                                                    reorder_dispatch=['Hydro', 'Solar', 'Wind', 'Nuclear', 'Coal', 'Oil', 'Gas', 'Imports', 'Battery Storage'])
 
     dfs_to_plot_area = {
     }
@@ -3575,7 +3646,7 @@ def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fue
 
 
 def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, scenario, select_time, stacked=True,
-                                       ylabel=None, bottom=None):
+                                       ylabel=None, bottom=None, reorder_dispatch=None):
     """Generates a dispatch plot and returns it as a base64 image string."""
     img = BytesIO()
 
@@ -3585,7 +3656,7 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     make_complete_fuel_dispatch_plot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
         zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img, figsize=(fig_width,fig_height),
-        stacked=stacked, ylabel=ylabel, bottom=bottom
+        stacked=stacked, ylabel=ylabel, bottom=bottom, reorder_dispatch=reorder_dispatch,
     )
 
     img.seek(0)
