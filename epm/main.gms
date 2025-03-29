@@ -344,7 +344,6 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
-$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin pEnergyEfficiencyFactor  
 

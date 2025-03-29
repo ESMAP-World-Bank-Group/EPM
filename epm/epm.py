@@ -798,6 +798,14 @@ def main(test_args=None):
         help="Run only postprocess with folder (default: True)"
     )
 
+    parser.add_argument(
+        "--plot_selected_scenarios",
+        nargs="+",  # Accepts one or more values
+        type=str,
+        default=["baseline"],
+        help="List of selected scenarios (default: None). Example usage: --plot_selected_scenarios baseline HighDemand"
+    )
+
 
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
@@ -840,7 +848,8 @@ def main(test_args=None):
         folder = args.postprocess
 
 
-    postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing')
+    postprocess_output(folder, reduced_output=False, plot_all=args.plot_all, folder='postprocessing',
+                       selected_scenario=args.plot_selected_scenarios)
 
 
 if __name__ == '__main__':

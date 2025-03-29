@@ -13,13 +13,12 @@ $offExternalOutput
    pFOM(z,y)                                 'FOM in USD'
    pVOM(z,y)                                 'VOM  in USD'
    pFuelCostsZone(z,y)                       'Fuel costs in USD'
-   pImportCosts(z,y)                         'Net import costs from trade with external zones in USD'
-   pExportRevenue(z,y)                       'Export revenue from trade with external zones in USD'
+   pImportCostsExternal(z,y)                 'Net import costs from trade with external zones in USD'
+   pExportRevenuesExternal(z,y)               'Export revenue from trade with external zones in USD'
    pImportCostsTopology(z,y)                 'Import costs with internal zones in USD'
    pExportRevenuesTopology(z,y)              'Export revenues with internal zones in USD'
    pCongestionRevenues(z,z2,y)               'Congestion revenues from saturation of direction z,Zd in USD'
    pTradeBenefitsTopology(z,y)               'Trade benefits from imports, exports and sharing congestion rent among countries in USD'
-   pExportRevenueTopology(z,y)               'Net export costs from trade with internal zones in USD'
    pNewTransmissionCosts(z,y)                'Added transmission costs in USD'
    pUSECosts(z,y)                            'Unmet demand costs in USD'
    pCO2backstopCosts(c,y)                    'CO2backstop costs in USD'
@@ -213,7 +212,8 @@ pVOM(z,y) = sum((q,d,t), pHours(q,d,t)*(
 pFuelCostsZone(z,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t)*pFuelPrice(c,f,y)*pHeatRate(g,f));
 
 
-pImportCosts(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+pImportCostsExternal(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+pExportRevenuesExternal(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
@@ -222,8 +222,6 @@ pExportRevenuesTopology(z,y) = sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vF
 pCongestionRevenues(z,Zd,y) = sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 * Choosing one allocation rule for the congestion rent
 pTradeBenefitsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
-
-pExportRevenue(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 * Dividing pNewTransmissionCosts by 2 to avoid double-counting for the two countries involved in transmission line
 pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y) / 2;
@@ -254,8 +252,8 @@ set sumhdr /
    "Unmet demand costs: $m"    
    "Excess generation: $m"     
    "VRE curtailment: $m"       
-   "Import costs: $m"          
-   "Export revenue: $m"
+   "Import costs wiht external zones: $m"          
+   "Export revenues with external zones: $m"
    "Min Gen penalty cost: $m"/;
 set avgsumhdr /
    "Average Capex: $m"                    
@@ -287,15 +285,18 @@ pCostSummary(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y
 pCostSummary(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
 pCostSummary(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
 pCostSummary(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
-pCostSummary(z,"Import costs: $m"                        ,y) = pImportCosts(z,y)/1e6;
-pCostSummary(z,"Export revenue: $m"                      ,y) = pExportRevenue(z,y)/1e6;
+pCostSummary(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
+pCostSummary(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
 pCostSummary(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
 pCostSummary(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
 pCostSummary(z,"Trade Benefits: $m"                      ,y) = pTradeBenefitsTopology(z,y)/1e6;
 
 
 pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCosts(z,y) - pExportRevenue(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+pCostSummary(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeBenefitsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
 
@@ -321,7 +322,7 @@ pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummary(z,sumhdr,y);
 
 
 pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y)
-                                                                          + pFuelCostsZone(z,y) + pImportCosts(z,y) - pExportRevenue(z,y) + pUSECosts(z,y)
+                                                                          + pFuelCostsZone(z,y) + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y)
                                                                           + pVRECurtailment(z,y) + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
 *--- Cost Summary Weighted by country
@@ -1048,7 +1049,7 @@ Costs("Costs","Variable O&M: $m",y)= sum(z, pVOM(z,y))/1e6;
 
 Costs("Costs","Total fuel: $m"  ,y)= sum(z, pFuelCostsZone(z,y))/1e6;
 
-Costs("Costs","Net Import: $m"  ,y)= sum(z, pImportCosts(z,y) - pExportRevenue(z,y))/1e6;
+Costs("Costs","Net Import: $m"  ,y)= sum(z, pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y))/1e6;
 
 
 Utilization("Utilization",f,y)$Capacity("Capacity MW",f,y) = Energy("Energy GWh",f,y)/Capacity("Capacity MW",f,y);
