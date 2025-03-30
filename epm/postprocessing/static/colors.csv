@@ -28,3 +28,13 @@ Onshore Wind, steelblue
 Offshore Wind,blue
 Concentrated Solar,yellow
 Geothermal,brown
+Annualized capex: $m,cornflowerblue
+Fixed O&M: $m,green
+Variable O&M: $m,brown
+Transmission additions: $m,purple
+Spinning Reserve costs: $m,pink
+Unmet demand costs: $m,black
+Excess generation: $m,yellow
+VRE curtailment: $m,orange
+Trade Benefits: $m,lightskyblue
+

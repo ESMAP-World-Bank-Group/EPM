@@ -517,7 +517,8 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     return epm_dict
 
 
-def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postprocessing'):
+def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postprocessing',
+                               graphs_folder = 'img'):
     # Create the folder path
     def adjust_color(color, factor=0.1):
         """Adjusts the color slightly by modifying its HSL components."""
@@ -542,8 +543,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
         else:
             RESULTS_FOLDER = FOLDER
 
-    GRAPHS_FOLDER = 'img'
-    GRAPHS_FOLDER = os.path.join(RESULTS_FOLDER, GRAPHS_FOLDER)
+    GRAPHS_FOLDER = os.path.join(RESULTS_FOLDER, graphs_folder)
     if not os.path.exists(GRAPHS_FOLDER):
         os.makedirs(GRAPHS_FOLDER)
         print(f'Created folder {GRAPHS_FOLDER}')
@@ -776,10 +776,11 @@ def generate_summary_detailed(epm_results, folder):
     summary_detailed.to_csv(os.path.join(folder, 'summary_detailed.csv'), index=True)
 
 
-def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', selected_scenario='all'):
+def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenario='all',
+                       plot_dispatch=None, scenario_reference='baseline', graphs_folder='img'):
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
-        FOLDER, SCENARIOS_RENAME=None, folder=folder)
+        FOLDER, SCENARIOS_RENAME=None, folder=folder, graphs_folder=graphs_folder)
 
     if isinstance(selected_scenario, str):
         if selected_scenario == 'all':
@@ -913,10 +914,11 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
                                       select_xaxis=[df['year'].min(), df['year'].max()],
                                       format_y=lambda y, _: '{:.0f} TWh'.format(y), rotation=45)
 
-        df = epm_results['pCostSummary'].copy()
         years = epm_results['pCostSummary']['year'].unique()
-
         final_year = max(years)
+
+        # Cost comparison without trade
+        df = epm_results['pCostSummary'].copy()
         df = df.loc[df.scenario.isin(selected_scenarios)]
         costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
                             "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
@@ -924,42 +926,67 @@ def postprocess_output(FOLDER, reduced_output=False, plot_all=False, folder='', 
         df = df.loc[df.attribute.isin(costs_comparison)]
         df = df.loc[(df.year == final_year)]
 
-        if 'baseline' in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
-            df_diff = df.pivot_table(index=['zone', 'year', 'attribute'], columns='scenario', values='value')
-            df_diff = (df_diff.T - df_diff['baseline']).T
-            df_diff = df_diff.drop('baseline', axis=1)
+        if scenario_reference in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
+            df_diff = df.pivot_table(index=['zone', 'year', 'attribute'], columns='scenario', values='value', fill_value=0)
+            df_diff = (df_diff.T - df_diff[scenario_reference]).T
+            df_diff = df_diff.drop(scenario_reference, axis=1)
             df_diff = df_diff.stack().reset_index()
             df_diff.rename(columns={0: 'value'}, inplace=True)
 
             filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CostsComparison.png'
-            make_stacked_bar_subplots(df_diff, filename, dict_colors=None, column_stacked='attribute',
+            make_stacked_bar_subplots(df_diff, filename, dict_colors=dict_specs['colors'], column_stacked='attribute',
                                       column_xaxis='zone', column_value='value', column_multiple_bars='scenario',
-                                      format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=45)
+                                      format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=45,
+                                      show_total=True)
 
+        # Cost comparison with trade
+        df = epm_results['pCostSummary'].copy()
+        df = df.loc[df.scenario.isin(selected_scenarios)]
+        costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
+                            "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
+                            "VRE curtailment: $m", "Trade Benefits: $m"]
+        df = df.loc[df.attribute.isin(costs_comparison)]
+        df = df.loc[(df.year == final_year)]
+
+        if scenario_reference in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
+            df_diff = df.pivot_table(index=['zone', 'year', 'attribute'], columns='scenario', values='value', fill_value=0)
+            df_diff = (df_diff.T - df_diff[scenario_reference]).T
+            df_diff = df_diff.drop(scenario_reference, axis=1)
+            df_diff = df_diff.stack().reset_index()
+            df_diff.rename(columns={0: 'value'}, inplace=True)
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CostsComparisonWithTrade.png'
+            make_stacked_bar_subplots(df_diff, filename, dict_colors=dict_specs['colors'], column_stacked='attribute',
+                                      column_xaxis='zone', column_value='value', column_multiple_bars='scenario',
+                                      format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=45,
+                                      show_total=True)
+
+        # Capacity comparison
         df = df_capacityfuel.copy()
         df = df.loc[df.scenario.isin(selected_scenarios)]
         df = df.loc[(df.year == final_year)]
 
-        if 'baseline' in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
-            df_diff = df.pivot_table(index=['zone', 'year', 'fuel'], columns='scenario', values='value')
-            df_diff = (df_diff.T - df_diff['baseline']).T
-            df_diff = df_diff.drop('baseline', axis=1)
+        if scenario_reference in df['scenario'].unique() and len(df['scenario'].unique()) > 1:
+            df_diff = df.pivot_table(index=['zone', 'year', 'fuel'], columns='scenario', values='value', fill_value=0)
+            df_diff = (df_diff.T - df_diff[scenario_reference]).T
+            df_diff = df_diff.drop(scenario_reference, axis=1)
             df_diff = df_diff.stack().reset_index()
             df_diff.rename(columns={0: 'value'}, inplace=True)
 
             filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CapacityComparison.png'
             make_stacked_bar_subplots(df_diff, filename, dict_colors=dict_specs['colors'], column_stacked='fuel',
                                       column_xaxis='zone', column_value='value', column_multiple_bars='scenario',
-                                      format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=45)
+                                      format_y=lambda y, _: '{:.0f} MW'.format(y), annotate=False, rotation=45)
 
         if 'pAnnualTransmissionCapacity' in epm_results.keys():
             if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
                 make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER,
                                    selected_scenarios=selected_scenarios)
 
-        # Perform automatic Energy DispatchFigures
-        make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, plot_all=plot_all,
-                                selected_scenarios=selected_scenarios)
+        if plot_dispatch:
+            # Perform automatic Energy DispatchFigures
+            make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER,
+                                    selected_scenarios=selected_scenarios)
 
 
 def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios=None):
@@ -1026,12 +1053,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
                                            dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
 
 
-def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios, plot_all=False):
-
-    # if not plot_all:  # we only plot the baseline scenario
-    #     selected_scenarios = [selected_scenario]
-    # else:  # we plot all scenarios
-    #     selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
+def make_automatic_dispatch(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios):
 
     dfs_to_plot_area = {
         'pPlantDispatch': filter_dataframe(epm_results['pPlantDispatch'], {'attribute': ['Generation']}),
