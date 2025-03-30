@@ -18,7 +18,7 @@ $offExternalOutput
    pImportCostsTopology(z,y)                 'Import costs with internal zones in USD'
    pExportRevenuesTopology(z,y)              'Export revenues with internal zones in USD'
    pCongestionRevenues(z,z2,y)               'Congestion revenues from saturation of direction z,Zd in USD'
-   pTradeBenefitsTopology(z,y)               'Trade benefits from imports, exports and sharing congestion rent among countries in USD'
+   pTradeCostsTopology(z,y)                  'Trade costs from imports, exports and sharing congestion rent among countries in USD'
    pNewTransmissionCosts(z,y)                'Added transmission costs in USD'
    pUSECosts(z,y)                            'Unmet demand costs in USD'
    pCO2backstopCosts(c,y)                    'CO2backstop costs in USD'
@@ -217,11 +217,11 @@ pExportRevenuesExternal(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*
 
 pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
-pImportCostsTopology(z,y) = - sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
-pExportRevenuesTopology(z,y) = sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
-pCongestionRevenues(z,Zd,y) = sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+pImportCostsTopology(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+pExportRevenuesTopology(z,y) = - sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
+pCongestionRevenues(z,Zd,y) = - sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 * Choosing one allocation rule for the congestion rent
-pTradeBenefitsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
+pTradeCostsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
 
 * Dividing pNewTransmissionCosts by 2 to avoid double-counting for the two countries involved in transmission line
 pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y) / 2;
@@ -289,13 +289,13 @@ pCostSummary(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExter
 pCostSummary(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
 pCostSummary(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
 pCostSummary(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
-pCostSummary(z,"Trade Benefits: $m"                      ,y) = pTradeBenefitsTopology(z,y)/1e6;
+pCostSummary(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
 
 
 pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-pCostSummary(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeBenefitsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+pCostSummary(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
