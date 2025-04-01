@@ -179,14 +179,14 @@ def extract_epm_folder(results_folder, file='epmresults.gdx'):
     return inverted_dict
 
 
-def extract_epm_folder_by_scenario(results_folder, file='epmresults.gdx', save_to_csv=False):
+def extract_epm_folder_by_scenario(FOLDER, file='epmresults.gdx', save_to_csv=False):
     """
     Extract information from a folder containing multiple scenarios,
     keeping the results separate for each scenario.
 
     Parameters
     ----------
-    results_folder: str
+    FOLDER: str
         Path to the folder containing the scenarios
     file: str, optional, default='epmresults.gdx'
         Name of the gdx file to extract
@@ -196,14 +196,25 @@ def extract_epm_folder_by_scenario(results_folder, file='epmresults.gdx', save_t
     scenario_dict: dict
         Dictionary with scenario names as keys, each containing a dict of DataFrames
     """
+
+    if 'postprocessing' in os.getcwd():  # code is launched from postprocessing folder
+        assert 'output' not in FOLDER, 'FOLDER name is not specified correctly'
+        # RESULTS_FOLDER = FOLDER
+        RESULTS_FOLDER = os.path.join('..', 'output', FOLDER)
+    else:  # code is launched from main root
+        if 'output' not in FOLDER:
+            RESULTS_FOLDER = os.path.join('output', FOLDER)
+        else:
+            RESULTS_FOLDER = FOLDER
+
     scenario_dict = {}
-    for scenario in [i for i in os.listdir(results_folder) if os.path.isdir(os.path.join(results_folder, i))]:
-        gdx_path = os.path.join(results_folder, scenario, file)
+    for scenario in [i for i in os.listdir(RESULTS_FOLDER) if os.path.isdir(os.path.join(RESULTS_FOLDER, i))]:
+        gdx_path = os.path.join(RESULTS_FOLDER, scenario, file)
         if os.path.exists(gdx_path):
             scenario_dict[scenario] = extract_gdx(gdx_path)
 
     if save_to_csv:
-        save_csv = Path(results_folder) / Path('csv')
+        save_csv = Path(RESULTS_FOLDER) / Path('csv')
         if not os.path.exists(save_csv):
             os.mkdir(save_csv)
         for key in scenario_dict.keys():
@@ -907,6 +918,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                       format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45)
 
             df = df_energyfuel.copy()
+            df = df.loc[df.scenario.isin(selected_scenarios)]
             df['value'] = df['value'] / 1e3
             filename = f'{GRAPHS_FOLDER}/scenarios_comparison/EnergyMixClusteredStackedAreaPlot.png'
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel', column_xaxis='year',
@@ -944,7 +956,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         df = df.loc[df.scenario.isin(selected_scenarios)]
         costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
                             "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
-                            "VRE curtailment: $m", "Trade Benefits: $m"]
+                            "VRE curtailment: $m", "Trade Costs: $m"]
         df = df.loc[df.attribute.isin(costs_comparison)]
         df = df.loc[(df.year == final_year)]
 
@@ -2108,7 +2120,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
 def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
                         dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
                         cap=6, annotate=True, show_total=False, title=None, figsize=(10,6), fontsize_label=10,
-                        format_label="{:.1f}", hspace=0.4):
+                        format_label="{:.1f}", hspace=0.4, cols_per_row=3):
     """
     Create a stacked bar subplot from a DataFrame.
     Parameters
@@ -2153,7 +2165,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
     list_keys = list(df.columns)
     n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
     num_subplots = int(len(list_keys))
-    n_columns = min(3, num_subplots)  # Limit to 3 columns per row
+    n_columns = min(cols_per_row, num_subplots)  # Limit to 3 columns per row
     n_rows = int(np.ceil(num_subplots / n_columns))
     if year_ini is not None:
         width_ratios = [1] + [len(n_scenario)] * (n_columns - 1)
@@ -2268,7 +2280,8 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
                               column_stacked='fuel', column_multiple_bars='scenario',
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
-                              show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10, format_label="{:.1f}", figsize=(10,6), hspace=0.4):
+                              show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10,
+                              format_label="{:.1f}", figsize=(10,6), hspace=0.4, cols_per_row=3):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
     
@@ -2365,7 +2378,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
     stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
                         rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
                         order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
-                        format_label=format_label, figsize=figsize, hspace=hspace)
+                        format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
@@ -3510,6 +3523,7 @@ def combine_and_resize_images(image_list, scale_factor=0.6):
     encoded_str = base64.b64encode(img_io.getvalue()).decode()
 
     return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
+
 
 def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_colors, zone, year, scenario,
                                 filename=None, BESS_included=True, Hydro_stor_included=True,title='Dispatch',
