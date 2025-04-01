@@ -30,11 +30,23 @@ Concentrated Solar,yellow
 Geothermal,brown
 Annualized capex: $m,cornflowerblue
 Fixed O&M: $m,green
-Variable O&M: $m,brown
+Variable O&M: $m,rosybrown
 Transmission additions: $m,purple
 Spinning Reserve costs: $m,pink
 Unmet demand costs: $m,black
 Excess generation: $m,yellow
 VRE curtailment: $m,orange
-Trade Benefits: $m,lightskyblue
-
+Trade Costs: $m,lightskyblue
+Angola,teal
+Botswana,firebrick
+DRC,dodgerblue
+DRC_South,slateblue
+Eswatini,goldenrod
+Lesotho,darkgreen
+Malawi,orchid
+Mozal,steelblue
+Mozambique,darkorange
+Namibia,mediumvioletred
+Tanzania,seagreen
+Zimbabwe,crimson
+Zambia,mediumslateblue
