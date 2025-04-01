@@ -2178,12 +2178,20 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
     else:
         axes = np.array(axes).flatten()  # Ensure it's always a 1D array
 
+    # should we use a stacked bar plot or not
+    stacked = True
+    if column_group is None:
+        stacked = False
+
     handles, labels = None, None
     for k, key in enumerate(list_keys):
         ax = axes[k]
 
         try:
-            df_temp = df[key].unstack(column_group)
+            if column_group is not None:
+                df_temp = df[key].unstack(column_group)
+            else:
+                df_temp = df[key].to_frame()
 
             if key == year_ini:
                 df_temp = df_temp.iloc[0, :]
@@ -2198,7 +2206,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
                     new_order = [c for c in order_columns if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_columns]
                     df_temp = df_temp.loc[:,new_order]
 
-            df_temp.plot(ax=ax, kind='bar', stacked=True, linewidth=0,
+            df_temp.plot(ax=ax, kind='bar', stacked=stacked, linewidth=0,
                          color=dict_colors if dict_colors is not None else None)
 
             # Annotate each bar
@@ -2366,11 +2374,19 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
             df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
 
     if column_xaxis is not None:
-        df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-        df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+        if column_stacked is not None:
+            df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+        else:
+            df = (df.groupby([column_xaxis, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
     else:  # no subplots in this case
-        df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-        df = df.set_index([column_stacked, column_multiple_bars])
+        if column_stacked is not None:
+            df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_stacked, column_multiple_bars])
+        else:
+            df = (df.groupby([column_multiple_bars], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_multiple_bars])
 
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
