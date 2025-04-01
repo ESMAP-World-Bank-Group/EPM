@@ -3701,8 +3701,8 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     """Generates a dispatch plot and returns it as a base64 image string."""
     img = BytesIO()
 
-    fig_width = 16
-    fig_height = 5  # Shorter height for better fit
+    fig_width = 14
+    fig_height = 4  # Shorter height for better fit
 
     make_complete_fuel_dispatch_plot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
