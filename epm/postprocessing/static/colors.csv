@@ -31,6 +31,7 @@ Geothermal,brown
 Annualized capex: $m,cornflowerblue
 Fixed O&M: $m,green
 Variable O&M: $m,rosybrown
+Total fuel Costs: $m,grey
 Transmission additions: $m,purple
 Spinning Reserve costs: $m,pink
 Unmet demand costs: $m,black

@@ -796,7 +796,7 @@ def main(test_args=None):
         "--plot_selected_scenarios",
         nargs="+",  # Accepts one or more values
         type=str,
-        default=["baseline"],
+        default="all",
         help="List of selected scenarios (default: None). Example usage: --plot_selected_scenarios baseline HighDemand"
     )
 
