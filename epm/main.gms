@@ -879,14 +879,26 @@ if (card(mipopt),
 
 * Enable the solver to read an external solver option file
 PA.optfile = 1;
-* Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
-option savepoint=1;
 
-$if not errorFree $abort Error before running model
+* ############## SOLVE ##############
+* Solvemode == 1 solves as usual but generates a savepoint file to skip the solve
+* Solvemode == 0 uses a savepoint file to skip the solve
+* This speeds up development of post solve features
 
+$if not set SOLVE $set SOLVE 1
 
-* Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
-Solve PA using MIP minimizing vNPVcost;
+$ifThenI.solvemode %SOLVE% == 1
+*  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
+   PA.savepoint = 1;
+   Solve PA using MIP minimizing vNPVcost;
+$elseIfI.solvemode %SOLVE% == 0
+*  Only generate the model (no solve) 
+   PA.JustScrDir = 1;
+   Solve PA using MIP minimizing vNPVcost;
+*  Use savepoint file to load state of the solve from savepoint file
+   execute_loadpoint "PA_p.gdx";
+$endIf.solvemode
+* ####################################
 
 
 
