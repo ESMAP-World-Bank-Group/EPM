@@ -31,7 +31,7 @@
 *$if not set FOLDER_INPUT $set FOLDER_INPUT "data_gambia"
 
 $ifThen not set FOLDER_INPUT
-$set FOLDER_INPUT "data_gambia"
+$set FOLDER_INPUT "data_test"
 $endIf
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 

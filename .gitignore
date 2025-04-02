@@ -9,6 +9,8 @@ xlsxReport.cmd
 /training
 /epm/preprocessing
 
+/epm/output_csv
+
 # Postprocessing
 /epm/postprocessing/*.ipynb
 /epm/postprocessing/*.xlsx
