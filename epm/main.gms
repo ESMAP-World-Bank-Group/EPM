@@ -206,95 +206,118 @@ alias (y,y2);
 alias (f,f1,f2);
 alias (c,c2);
 
+* Sets for mapping and topology
 Set    
-   zcmap(z<,c<)                     'map zones to countries'
-   sTopology(z,z2)                  'network topology - to be assigned through network data'
-   sRelevant(d)                      'relevant day and hours when MinGen limit is applied'
-   mipopt(mipline<)                 / system.empty /
+   zcmap(z<,c<)                     'Map zones to countries'
+   sTopology(z,z2)                  'Network topology - defined through network data'
+   sRelevant(d)                     'Relevant days/hours for minimum generation limits'
+   mipopt(mipline<)                 'MIP solver options' / system.empty /
 ;
 
+* Input data parameters 
 Parameter
-   pGenDataExcel(g<,z,tech<,f<,*)
-   pStorDataExcel(g,*,shdr)   
-   pH2DataExcel(hh<,*)
-   pGenDataExcelDefault(z,tech,f,*)
-   pCapexTrajectoriesDefault(z,tech,f,y)
-   pAvailabilityDefault(z,tech,f,q)
-;
-  
-Parameter
-   pCSPData(g,csphrd,shdr)
-   pTechData(tech,techhdr)         'Technology data'
-   pFuelCarbonContent(f)       'Fuel carbon content in tCO2 per MMBTu'
-   pStorDataInput(g,g2,shdr)        'Storage data'
-   pNewTransmission(z,z2,thdr)      'new transmission lines'
-   pTradePrice(zext,q,d,y,t)           'trade price - export or import driven by prices [assuming each zone in a country can only trade with one external zone]'
-   pMaxExchangeShare(y,c)           'Max share of exchanges by country [same limit for imports or exports for now]'
-   pDemandProfile(z,q,d,t)          'Demand profile in per unit'
-   pDemandForecast(z,pe,y)          'Peak and Energy demand forecast in MW and GWh'
-   pDemandData(z,q,d,y,t)           'hourly load curves by quarter(seasonal) and year'
-   pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
-   pEmissionsTotal(y)               'Maximum total emissions allowed per year for the region in tns'
-   pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
-   pHours(q<,d<,t<)
-   pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
-   pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
-   pLossFactor(z,z2,y)              'loss factor in percentage'
-   pVREProfile(z,tech,q,d,t)           'VRE generation profile by site quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
-   pVREgenProfile(g,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
-   pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
-   pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
-   pSettings(sc)                     'Flags and penalties to load'
-   pPlanningReserveMargin(c)        'Country planning reserve margin'
-   pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
-   pExtTransferLimit(z,zext,q,*,y)  'transfer limits by quarter (seasonal) and year with external zones'
-  pH2Data(hh,hhdr)                  'H2 production unit specs'
-  pAvailabilityH2(hh,q)             'Availability by H2 generation plant and season or quarter in percentage - need to reflect maintenance'
-  pFuelDataH2(f)                     'Hydrogen fuels'
-  pCapexTrajectoryH2(hh,y)          'CAPEX trajectory for hydrogen generation unit'
+* Generator data
+   pGenDataExcel(g<,z,tech<,f<,*)      'Generator data from Excel input'
+   pGenDataExcelDefault(z,tech,f,*)     'Default generator data by zone/tech/fuel'
+   pCapexTrajectoriesDefault(z,tech,f,y) 'Default CAPEX trajectories'
+   pAvailabilityDefault(z,tech,f,q)     'Default availability factors'
+   
+* Storage data
+   pStorDataExcel(g,*,shdr)             'Storage unit specifications'
+   
+* CSP and technology data
+   pCSPData(g,csphrd,shdr)              'Concentrated solar power data'
+   pTechData(tech,techhdr)              'Technology specifications'
+   
+* Fuel data
+   pFuelCarbonContent(f)                'Carbon content by fuel (tCO2/MMBtu)'
+   
+* Storage and transmission
+   pStorDataInput(g,g2,shdr)            'Storage unit input data'
+   pNewTransmission(z,z2,thdr)          'New transmission line specifications'
+   
+* Trade parameters
+   pTradePrice(zext,q,d,y,t)           'External trade prices'
+   pMaxExchangeShare(y,c)              'Maximum trade share by country'
+   
+* Demand parameters
+   pDemandProfile(z,q,d,t)             'Normalized demand profiles'
+   pDemandForecast(z,pe,y)             'Peak/energy demand forecasts (MW/GWh)'
+   pDemandData(z,q,d,y,t)              'Hourly load curves'
+   
+* Emissions and carbon
+   pEmissionsCountry(c,y)              'Country emission limits (tons)'
+   pEmissionsTotal(y)                  'System-wide emission limits (tons)'
+   pCarbonPrice(y)                     'Carbon price (USD/ton CO2)'
+   
+* Time and transfer parameters
+   pHours(q<,d<,t<)                    'Hours mapping'
+   pTransferLimit(z,z2,q,y)            'Inter-zonal transfer limits'
+   pMinImport(z2,z,y)                  'Minimum import requirements'
+   pLossFactor(z,z2,y)                 'Transmission loss factors'
+   
+* VRE and availability
+   pVREProfile(z,tech,q,d,t)           'VRE generation profiles by site'
+   pVREgenProfile(g,q,d,t)             'VRE generation profiles by plant'
+   pAvailability(g,q)                  'Seasonal availability factors'
+   
+* Reserve requirements
+   pSpinningReserveReqCountry(c,y)     'Country spinning reserve requirements'
+   pSpinningReserveReqSystem(y)        'System spinning reserve requirements'
+   pPlanningReserveMargin(c)           'Planning reserve margins'
+   
+* Other parameters
+   pSettings(sc)                       'Model settings and penalties'
+   pEnergyEfficiencyFactor(z,y)        'Energy efficiency adjustment factors'
+   pExtTransferLimit(z,zext,q,*,y)     'External transfer limits'
+   
+* Hydrogen parameters
+   pH2Data(hh,hhdr)                    'Hydrogen production specifications'
+   pH2DataExcel(hh<,*)                 'Hydrogen data from Excel'
+   pAvailabilityH2(hh,q)               'H2 plant availability'
+   pFuelDataH2(f)                      'Hydrogen fuel properties'
+   pCapexTrajectoryH2(hh,y)            'H2 CAPEX trajectories'
 ;   
 
-*TODO pVREProfile(z,f,q,d,t)
-
-
+* Additional parameters for results and reporting
 Parameter
-   pCapexTrajectories(g,y)          'capex trajectories for all generators (used in results)'
-   pAllHours(q,d,y,t)               'Hour of system peak'
-   pFuelPrice(c,f,y)                'Fuel price forecasts by country'
-   pFindSysPeak(y)                  'System peak per year'
-   pEmissionsTotal(y)               'Maximum total emissions allowed per year for the region in tns'
-   pSeasonalReporting               'seasonal reporting flag'
-   pSystemResultReporting           'system reporting file flag'
-   pInterConMode                    'interconnected mode flag'
-   pNoTransferLim                   'transfer limit flag'
-   pAllowExports                    'Allow price based exports'
-   pVRECapacityCredits              'User input capacity credits'
-   pDR                              'discount rate'
-   pCaptraj                         'allow capex trajectory'
-   pIncludeEE                       'energy efficiency factor flag'
-   pSystem_CO2_constraints
-   pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
-   pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
-   pMaxLoadFractionCCCalc           'maximum percentage difference between hourly load and peak load to consider in the capacity credit calculation' 
-   pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
+   pCapexTrajectories(g,y)             'Generator CAPEX trajectories'
+   pAllHours(q,d,y,t)                  'System peak hours'
+   pFuelPrice(c,f,y)                   'Fuel price forecasts'
+   pFindSysPeak(y)                     'System peak by year'
+   pSeasonalReporting                  'Seasonal reporting flag'
+   pSystemResultReporting              'System reporting flag'
+   pInterConMode                       'Interconnection mode flag'
+   pNoTransferLim                      'Transfer limit flag'
+   pAllowExports                       'Export permission flag'
+   pVRECapacityCredits                 'VRE capacity credits'
+   pDR                                 'Discount rate'
+   pCaptraj                           'CAPEX trajectory flag'
+   pIncludeEE                         'Energy efficiency flag'
+   pSystem_CO2_constraints            'System CO2 constraint flag'
+   pExtTransferLimitIn(z,zext,q,y)    'External import limits'
+   pExtTransferLimitOut(z,zext,q,y)   'External export limits'
+   pMaxLoadFractionCCCalc             'Load threshold for capacity credit calc'
+   pVREForecastError                  'VRE forecast error percentage'
 ;
 
-* We add technologies that may not exist in GenDataExcel, which are required to define subset of plants (which may be empty)
-Set gprimf(g,f)          'primary fuel f for generator g'
-   tech / ROR            'Run of river hydro'
-          CSPPlant       'Concentrated Solar Power'
-          PVwSTO         'Solar PV with Storage'
-          STOPV          'Storage For PV'
-          Storage        'Grid Connected Storage' /
-   gtechmap(g,tech)      'Generator technology map'
-   gstatusmap(g,gstatus) 'Generator status map'
-*   Offpeak(t)            'offpeak hours'
-   Zd(z)
-   Zt(z)
-   stg(g)                'Grid tied storage'
-   ror(g)                'ROR generators'   
-   H2statusmap(hh,H2status)
+* Technology and mapping sets
+Set 
+   gprimf(g,f)          'Primary fuel mapping'
+   tech                  'Technology types' / 
+      ROR               'Run of river hydro'
+      CSPPlant          'Concentrated Solar Power'  
+      PVwSTO            'Solar PV with Storage'
+      STOPV             'Storage For PV'
+      Storage           'Grid Connected Storage' 
+   /
+   gtechmap(g,tech)     'Generator-technology mapping'
+   gstatusmap(g,gstatus) 'Generator status mapping'
+   Zd(z)                'Zone definitions'
+   Zt(z)                'Zone types'
+   stg(g)               'Grid storage units'
+   ror(g)               'Run of river units'
+   H2statusmap(hh,H2status) 'Hydrogen unit status'
 ;
 
 
@@ -380,11 +403,12 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
+$if not errorFree $abort Data errors.
+
+
 pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
 pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
 
-
-$if not errorFree $abort Data errors.
 
 * Generate gfmap and others from pGenDataExcel
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
@@ -879,14 +903,26 @@ if (card(mipopt),
 
 * Enable the solver to read an external solver option file
 PA.optfile = 1;
-* Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
-option savepoint=1;
 
-$if not errorFree $abort Error before running model
+* ############## SOLVE ##############
+* Solvemode == 1 solves as usual but generates a savepoint file to skip the solve
+* Solvemode == 0 uses a savepoint file to skip the solve
+* This speeds up development of post solve features
 
+$if not set SOLVE $set SOLVE 1
 
-* Solve the MIP problem `PA`, minimizing the variable `vNPVcost`
-Solve PA using MIP minimizing vNPVcost;
+$ifThenI.solvemode %SOLVE% == 1
+*  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
+   PA.savepoint = 1;
+   Solve PA using MIP minimizing vNPVcost;
+$elseIfI.solvemode %SOLVE% == 0
+*  Only generate the model (no solve) 
+   PA.JustScrDir = 1;
+   Solve PA using MIP minimizing vNPVcost;
+*  Use savepoint file to load state of the solve from savepoint file
+   execute_loadpoint "PA_p.gdx";
+$endIf.solvemode
+* ####################################
 
 
 
