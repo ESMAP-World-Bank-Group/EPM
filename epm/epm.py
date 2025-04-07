@@ -209,16 +209,18 @@ def launch_epm(scenario,
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--FOLDER_INPUT {}".format(folder_input),
-                                                    "--READER CONNECT_CSV_PYTHON"
                                                     ] + path_args
 
     # Print the command
     print("Command to execute:", command)
 
     if sys.platform.startswith("win"):  # If running on Windows
-        subprocess.run(' '.join(command), cwd=cwd, shell=True)
+        rslt = subprocess.run(' '.join(command), cwd=cwd, shell=True)
     else:  # For Linux or macOS
-        subprocess.run(command, cwd=cwd)
+        rslt = subprocess.run(command, cwd=cwd)
+
+    if rslt.returncode != 0:
+        raise RuntimeError('GAMS Error: check GAMS logs file ')
 
     result = None
     # Generate the command for Engine
