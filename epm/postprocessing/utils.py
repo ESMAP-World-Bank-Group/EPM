@@ -64,6 +64,8 @@ import base64
 from io import BytesIO
 import io
 from shapely.geometry import Point, Polygon
+from matplotlib.patches import FancyArrowPatch
+
 
 FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
@@ -3003,8 +3005,8 @@ def plot_zone_map_on_ax(ax, zone_map):
 
 
 def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year, region, scenario, filename,
-                          map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), bbox_to_anchor=(0.5, -0.1),
-                          loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
+                          map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), percent_cap=25,
+                          bbox_to_anchor=(0.5, -0.1), loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
     """
     Plots a capacity mix map with pie charts overlaid on a regional map.
 
@@ -3077,7 +3079,7 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
         # Create inset pie chart
         ax_pie = fig.add_axes([loc[0] - 0.45 * size[0], loc[1] - 0.5 * size[1], size[0], size[1]])
         colors = [dict_colors[f] for f in CapacityMix_plot[index]]
-        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index, 25, colors, None, radius= pie_size)
+        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index, percent_cap, colors, None, radius= pie_size)
         ax_pie.set_axis_off()
 
         for handle, label in zip(h, l):
@@ -3096,10 +3098,37 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
         plt.show()
 
 
+def get_extended_pastel_palette(n):
+    # Get base pastel colormaps
+    pastel1 = [plt.cm.Pastel1(i) for i in range(9)]
+    pastel2 = [plt.cm.Pastel2(i) for i in range(8)]
+
+    # Combine and repeat if needed
+    base_colors = pastel1 + pastel2
+    if n <= len(base_colors):
+        return base_colors[:n]
+
+    # Generate extra soft pastel colors if needed
+    import colorsys
+    extra_needed = n - len(base_colors)
+    extra_colors = []
+    for i in range(extra_needed):
+        h = (i / extra_needed)
+        s = 0.4  # low saturation = pastel
+        v = 0.9  # high brightness = pastel
+        r, g, b = colorsys.hsv_to_rgb(h, s, v)
+        extra_colors.append((r, g, b))
+
+    return base_colors + extra_colors
+
 def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
                              label_fontsize=12, predefined_colors=None, min_display_capacity=100,
-                             min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y), title='Transmission capacity'):
+                             min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y),
+                             title='Transmission capacity', show_arrows=False,
+                             arrow_style='-|>', arrow_color = 'red', arrow_size = 20,
+                             arrow_offset_ratio=0.1, plot_colored_countries=True
+                             ):
     """
     Plots an interconnection map showing transmission capacities between different zones.
 
@@ -3140,7 +3169,9 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     # Define consistent colors for each country
     if predefined_colors is None:
         unique_countries = zone_map['ADMIN'].unique()
-        predefined_colors = {country: plt.cm.Pastel1(i % 9) for i, country in enumerate(unique_countries)}
+        colors = get_extended_pastel_palette(len(unique_countries))
+        predefined_colors = {country: colors[i] for i, country in enumerate(unique_countries)}
+        # predefined_colors = {country: plt.cm.Pastel1(i % 9) for i, country in enumerate(unique_countries)}
 
     # Filter data for the given year and scenario
     transmission_data = pAnnualTransmissionCapacity[
@@ -3166,8 +3197,12 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
 
     # Plot the base zone map with predefined colors for each country
-    zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
-    zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+    if plot_colored_countries:
+        zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
+        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+    else:
+        zone_map.plot(ax=ax, color='white', edgecolor='black')
+
 
     # Remove axes for a clean map
     ax.set_aspect('equal')
@@ -3189,11 +3224,34 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
             coor_mid = [(coord_from[0] + coord_to[0]) / 2, (coord_from[1] + coord_to[1]) / 2]
 
             line_width = scale_line_width(capacity)
-            ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], 'r-', linewidth=line_width)
+
+            color = calculate_color_gradient(capacity, 0, 100)
+
+            # ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], 'r-', linewidth=line_width)
+            ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], color=color,
+                    linewidth=3)
+
+            # Optional arrow
+            if show_arrows:
+                dx = coord_to[0] - coord_from[0]
+                dy = coord_to[1] - coord_from[1]
+                start_x = coord_from[0] + dx * (0.5 - arrow_offset_ratio)
+                start_y = coord_from[1] + dy * (0.5 - arrow_offset_ratio)
+                end_x = coord_from[0] + dx * (0.5 + arrow_offset_ratio)
+                end_y = coord_from[1] + dy * (0.5 + arrow_offset_ratio)
+
+                arrow = FancyArrowPatch((start_x, start_y), (end_x, end_y),
+                                        arrowstyle=arrow_style,
+                                        color=color,
+                                        mutation_scale=arrow_size,
+                                        linewidth=0)
+                ax.add_patch(arrow)
+
+                # ax.annotate('', xy=(end_x, end_y), xytext=(start_x, start_y), arrowprops=arrowprops)
 
             if capacity >= min_display_capacity:
                 ax.text(coor_mid[0], coor_mid[1], format_y(capacity, None), ha='center', va='center',
-                        bbox=dict(facecolor='white', edgecolor='red', boxstyle='round,pad=0.3'), fontsize=10)
+                        bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'), fontsize=10)
 
     # Optionally plot zone labels with a normalized offset
     if show_labels:
@@ -3255,7 +3313,6 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
             row1 = transmission_data.loc[(z, z2)]
             row2 = transmission_data.loc[(z2, z)]
             zone1, zone2 = row1.name[0], row1.name[1]
-            # TODO: needs to be solved in EPM code, current problem in how new capacity is handled !
             capacity, utilization_1to2, utilization_2to1 = max(row1.fillna(0)['capacity'], row2.fillna(0)['capacity']), row1['utilization'], row2['utilization']
 
             if zone1 in centers and zone2 in centers:
