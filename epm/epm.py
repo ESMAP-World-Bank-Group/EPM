@@ -186,7 +186,11 @@ def launch_epm(scenario,
     cwd = os.path.join(os.getcwd(), folder)
 
     # Copy and paste cplex file to the simulation folder
-    shutil.copy(path_cplex_file, cwd)
+    if '_' in path_cplex_file.split('/')[-1]:
+        new_file_path = os.path.join(cwd, 'cplex.opt')
+        shutil.copy(path_cplex_file, new_file_path)
+    else:
+        shutil.copy(path_cplex_file, cwd)
 
     # Arguments for GAMS
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]

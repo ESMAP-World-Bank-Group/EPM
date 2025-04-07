@@ -4,7 +4,7 @@
 ,,
 ,,
 PENALTIES,,
-"Cost of unserved energy per MWh, $",VOLL,1000
+"Cost of unserved energy per MWh, $",VOLL,3000
 "Cost of reserve shortfall per MW, $",ReserveVoLL,60000
 "Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60
 "Cost of surplus power per MWh, $",costSurplus,100
@@ -34,7 +34,7 @@ Apply Max capital constraint,capital_constraints,0
 Apply min generation constraint,mingen_constraints,0
 Apply planning reserve constraint,planning_reserve_constraints,1
 "System planning reserve margin, %",system_reserve_margin,0.1
-Apply ramp constraints,ramp_constraints,0
+Apply ramp constraints,ramp_constraints,1
 Apply system spinning reserve contraints,system_spinning_reserve_constraints,1
 Apply zonal CO2 constraint,zonal_co2_constraints,0
 Apply zonal spinning reserve contraints,zonal_spinning_reserve_constraints,1

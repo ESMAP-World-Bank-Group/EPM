@@ -452,22 +452,23 @@ pDemandSupplyCountryH2(c,"H2 for power production: mmBTU",       y) =sum((zcmap(
 pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
 
 *--- Summary of results
-pSummary("NPV of system cost: $m"          ) = vNPVCost.l/1e6;
+pSummary("NPV of system cost: $m"              ) = vNPVCost.l/1e6;
 pSummary("Annualized capex: $m"                ) = sum((y,z), pRR(y)*pWeightYear(y)*pAnncapex(z,y))/1e6;
 pSummary("Additional transmission costs: $m"   ) = 2* sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
 pSummary("Fixed O&M: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFOM(z,y))/1e6; 
 pSummary("Variable O&M: $m"                    ) = sum((y,z), pRR(y)*pWeightYear(y)*pVOM(z,y))/1e6;
 pSummary("Fuel cost: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFuelCostsZone(z,y))/1e6;
 pSummary("Unmet demand cost: $m"               ) = sum((y,z), pRR(y)*pWeightYear(y)*pUSECosts(z,y))/1e6;
-pSummary("Carbon costs: $m"                ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyCarbonCost.l(z,y))/1e6;
-pSummary("Trade costs: $m"                 ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyTradeCost.l( z,y))/1e6;
-pSummary("VRE curtailment: $m"             ) = sum((z,y), pWeightYear(y)*pRR(y)*pVRECurtailment(z,y))/1e6;
+pSummary("Carbon costs: $m"                    ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyCarbonCost.l(z,y))/1e6;
+pSummary("Trade costs: $m"                     ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyTradeCost.l( z,y))/1e6;
+pSummary("VRE curtailment: $m"                 ) = sum((z,y), pWeightYear(y)*pRR(y)*pVRECurtailment(z,y))/1e6;
 pSummary("Sys Spinning Reserve violation: $m"  ) = sum(y, pWeightYear(y)*pRR(y)*pUSRSysCosts(y))/1e6;
 pSummary("Sys Planning Reserve violation: $m"  ) = sum(y, pWeightYear(y)*pRR(y)*pUPRSysCosts(y))/1e6;
 pSummary("Zonal Spinning Reserve violation: $m") = sum((c,y), pWeightYear(y)*pRR(y)*pUSRLocCosts(c,y))/1e6;
 pSummary("Zonal Planning Reserve violation: $m") = sum((c,y), pWeightYear(y)*pRR(y)*pCountryPlanReserveCosts(c,y))/1e6;
-pSummary("Excess Generation Costs: $m"     ) = sum((z,y), pWeightYear(y)*pRR(y)*eYearlySurplusCost.l(z,y))/1e6;                                      
-pSummary("Spinning reserve costs: $m"      ) = sum((z,y), pWeightYear(y)*pRR(y)*pSpinResCosts(z,y))/1e6;
+pSummary("Excess Generation Costs: $m"         ) = sum((z,y), pWeightYear(y)*pRR(y)*eYearlySurplusCost.l(z,y))/1e6;                                      
+pSummary("Spinning reserve costs: $m"          ) = sum((z,y), pWeightYear(y)*pRR(y)*pSpinResCosts(z,y))/1e6;
+pSummary("Climate backstop cost: $m"           ) = sum((c,y), pWeightYear(y)*pRR(y)*vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop)/1e6+sum(y, pWeightYear(y)*pRR(y)*pCostOfCO2backstop*vYearlySysCO2backstop.l(y))/1e6;
 
 
 pSummary("Total Generation: GWh"           ) = sum((gzmap(g,z),y), pWeightYear(y)*pEnergyByPlant(z,g,y));
@@ -477,8 +478,6 @@ pSummary("Total Investment Undiscounted: $m"   ) = sum((g,y)$(ndc(g)), vBuild.l(
 pSummary("Total Trade: GWh"                ) = sum((z,y), pDemandSupply(z,"Imports exchange: GWh" ,y));
 pSummary("Total USE: GWh"                  ) = sum((z,y), pWeightYear(y)*pDemandSupply(z,"Unmet demand: GWh",y));
 pSummary("Total Emission: mt"              ) = sum((z,y), pWeightYear(y)*vZonalEmissions.l(z,y))/1e6;
-pSummary("Climate backstop cost: $m"       ) = sum((c,y), pWeightYear(y)*pRR(y)*vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop)/1e6+sum(y, pWeightYear(y)*pRR(y)*pCostOfCO2backstop*vYearlySysCO2backstop.l(y))/1e6;
-
 
 
 **************************************************************H2 model additions******************************************************************************************************
