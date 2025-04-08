@@ -1288,13 +1288,17 @@ Refer to EPM Python API documentation for more details.</p>
 </pre></div>
 </div>
 </li>
-<li><p>Run the EPM model:</p>
+<li><p>Run the EPM model from the <code class="docutils literal notranslate"><span class="pre">epm</span></code> folder (you can go to this folder with <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">epm</span></code>):</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm/run_epm.py
 </pre></div>
 </div>
 </li>
-<li><p>You can also specify additional arguments when launching EPM.</p></li>
+<li><p>You can also specify additional arguments when launching EPM. For instance, you can call</p></li>
 </ul>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--config<span class="w"> </span>input/data_sapp/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>input/data_sapp/scenarios_sapp.csv<span class="w"> </span>--selected_scenario<span class="w"> </span>baseline
+</pre></div>
+</div>
+<p>Command line arguments are further discussed in Section <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code>.</p>
 <hr class="docutils" />
 <p><strong>Reminder</strong>: Always test your code locally before running large simulations on the server to avoid unnecessary computational load.</p>
 <hr class="docutils" />
