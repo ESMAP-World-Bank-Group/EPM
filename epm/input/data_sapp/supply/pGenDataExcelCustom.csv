@@ -183,7 +183,7 @@ Kishapu_I,Tanzania,PV,Solar,2025,2050,50,2,,0,,,,,,,,,,50,0,,0,0,1,0
 Kishapu_II,Tanzania,PV,Solar,2026,2051,50,2,,0,,,,,,,,,,50,0,,0,0,1,0
 Kishapu_III,Tanzania,PV,Solar,2027,2052,50,2,,0,,,,,,,,,,50,0,,0,0,1,0
 Kiwaba_Nzogi,Angola,OnshoreWind,Wind,2026,2056,104,3,,0,1,1,0,0,28000,0,0,1.6,30,104,0,,0,0,1,0
-Koeberg_NU_ZAF,South_Africa,ST,Uranium,1985,2045,1800,1,0.7,10.53119469,0.1,0.1,0,0,100000,2.3,0,0,50,,0,,0,0.6,0,1800
+Koeberg_NU_ZAF,South_Africa,ST,Uranium,1985,2045,1860,1,0.7,10.53119469,0.1,0.1,0,0,100000,2.3,0,0,50,,0,,0,0.6,0,1800
 KomatiI_TH_ZAF,South_Africa,ST,Coal,1966,2022,500,1,,11.31,,,,,,,,0,,,0,,0,0.05,0,500
 KomatiII_TH_ZAF,South_Africa,ST,Coal,1966,2022,500,1,,11.31,,,,,,,,0,,,0,,0,0.05,0,500
 Koni_HY_ZAR,DRC_South,ReservoirHydro,Water,1950,2060,42.12,1,,,,,,0.39,,,0,0,50,,0,,0,0,0,0
