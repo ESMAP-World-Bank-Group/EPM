@@ -1017,6 +1017,18 @@ title="Print to PDF"
     <a class="reference internal nav-link" href="#running-epm-using-the-python-api-recommended">
      2. Running EPM Using the Python API (Recommended)
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#preliminary-step-creating-conda-environment">
+       Preliminary step: creating conda environment
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#launching-code">
+       Launching code
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -1150,11 +1162,24 @@ If you are not using a World Bank-issued computer, you must:</p>
 </section>
 <section id="cloning-the-epm-repository">
 <h2>Cloning the EPM Repository<a class="headerlink" href="#cloning-the-epm-repository" title="Permalink to this heading">#</a></h2>
+<p>Make sure you are in your home directory, which should look like  <code class="docutils literal notranslate"><span class="pre">home/wbXXXXXX</span></code> where XXXXXX is your World Bank UPI. You can go to your home directory with:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~
+</pre></div>
+</div>
 <p>To work with EPM, first clone the repository from GitHub:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ESMAP-World-Bank-Group/EPM.git
 </pre></div>
 </div>
 <p>This will create a directory named <code class="docutils literal notranslate"><span class="pre">EPM</span></code> with all the necessary files.</p>
+<p>You can then move into the project folder with:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM
+</pre></div>
+</div>
+<p><strong>Note</strong>: To clone a specific branch directly:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>your-branch-name<span class="w"> </span>--single-branch<span class="w"> </span>https://github.com/ESMAP-World-Bank-Group/EPM.git
+</pre></div>
+</div>
+<p>Replace your-branch-name with the exact name of the branch (case-sensitive).</p>
 </section>
 <section id="best-practices-for-running-epm">
 <h2>Best Practices for Running EPM<a class="headerlink" href="#best-practices-for-running-epm" title="Permalink to this heading">#</a></h2>
@@ -1227,6 +1252,31 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <h3>2. Running EPM Using the Python API (Recommended)<a class="headerlink" href="#running-epm-using-the-python-api-recommended" title="Permalink to this heading">#</a></h3>
 <p>Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !
 Refer to EPM Python API documentation for more details.</p>
+<section id="preliminary-step-creating-conda-environment">
+<h4>Preliminary step: creating conda environment<a class="headerlink" href="#preliminary-step-creating-conda-environment" title="Permalink to this heading">#</a></h4>
+<p>To run the EPM model in Python, you must first create a conda environment. This step is essential to ensure all required Python packages are properly installed.</p>
+<p>As a reminder on how to create such an environment:</p>
+<ol class="arabic simple">
+<li><p>Create the environment with conda. Run the following command to create a new environment called esmap_env with Python version 3.10:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>esmap_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Once created, activate the environment with:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>esmap_env
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Install the required packages using the requirements.txt file provided in the repository:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+<section id="launching-code">
+<h4>Launching code<a class="headerlink" href="#launching-code" title="Permalink to this heading">#</a></h4>
 <ul>
 <li><p>Navigate to the EPM directory:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM
@@ -1256,6 +1306,7 @@ Refer to EPM Python API documentation for more details.</p>
 </ul>
 <hr class="docutils" />
 <p><strong>Reminder</strong>: Always log out when you’re finished to ensure security.</p>
+</section>
 </section>
 </section>
 </section>
@@ -1379,6 +1430,18 @@ Refer to EPM Python API documentation for more details.</p>
     <a class="reference internal nav-link" href="#running-epm-using-the-python-api-recommended">
      2. Running EPM Using the Python API (Recommended)
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#preliminary-step-creating-conda-environment">
+       Preliminary step: creating conda environment
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#launching-code">
+       Launching code
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
