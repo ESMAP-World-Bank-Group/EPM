@@ -191,11 +191,16 @@ pip install -r requirements.txt
   ```sh
   conda activate esmap_env
   ```
-- Run the EPM model:
+- Run the EPM model from the `epm` folder (you can go to this folder with `cd epm`):
   ```sh
   python epm/run_epm.py
   ```
-- You can also specify additional arguments when launching EPM.
+- You can also specify additional arguments when launching EPM. For instance, you can call
+```sh 
+python epm.py --folder_input data_sapp --config input/data_sapp/config.csv --scenarios input/data_sapp/scenarios_sapp.csv --selected_scenario baseline
+```
+
+Command line arguments are further discussed in Section `Running EPM from Python`.
 
 
 ---
