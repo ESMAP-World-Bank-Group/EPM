@@ -84,6 +84,11 @@ To transfer files between your local machine and the remote server, you can use:
 - **The web interface Files tab** (simpler for occasional uploads/downloads).
 
 ## Cloning the EPM Repository
+Make sure you are in your home directory, which should look like  `home/wbXXXXXX` where XXXXXX is your World Bank UPI. You can go to your home directory with:
+```sh
+cd ~
+```
+
 To work with EPM, first clone the repository from GitHub:
 
 ```sh
@@ -91,6 +96,17 @@ git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
 ```
 
 This will create a directory named `EPM` with all the necessary files.
+
+You can then move into the project folder with:
+```sh
+cd EPM
+```
+
+**Note**: To clone a specific branch directly:
+```sh 
+git clone --branch your-branch-name --single-branch https://github.com/ESMAP-World-Bank-Group/EPM.git
+```
+Replace your-branch-name with the exact name of the branch (case-sensitive).
 
 ## Best Practices for Running EPM
 When working with EPM, follow this workflow:
@@ -145,6 +161,27 @@ This method allows you to execute the model directly using GAMS.
 ### 2. Running EPM Using the Python API (Recommended)
 Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !
 Refer to EPM Python API documentation for more details.
+
+#### Preliminary step: creating conda environment
+
+To run the EPM model in Python, you must first create a conda environment. This step is essential to ensure all required Python packages are properly installed.
+
+As a reminder on how to create such an environment:
+1. Create the environment with conda. Run the following command to create a new environment called esmap_env with Python version 3.10:
+```sh 
+conda create --name esmap_env python=3.10
+```
+2. Once created, activate the environment with:
+```sh 
+conda activate esmap_env
+```
+
+3. Install the required packages using the requirements.txt file provided in the repository:
+```sh 
+pip install -r requirements.txt
+```
+
+#### Launching code
 
 - Navigate to the EPM directory:
   ```sh
