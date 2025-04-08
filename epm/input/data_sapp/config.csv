@@ -12,7 +12,7 @@ LOAD,
 pDemandData,load/pDemandData.csv
 pDemandForecast,load/pDemandForecast.csv
 pDemandProfile,load/pDemandProfile.csv
-sRelevant,load/sRelevant.csv
+sRelevant,load/srelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
 pGenDataExcel,supply/pGenDataExcelCustom.csv
