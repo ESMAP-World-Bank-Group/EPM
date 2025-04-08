@@ -9,6 +9,13 @@ Before you connect to the remote server, ensure you have the following:
 
 ## Steps to Connect
 
+**Important**:
+If you are not using a World Bank-issued computer, you must:
+- Have your Yubikey available 
+- Be connected through your VDI (Virtual Desktop Infrastructure)
+
+The setup will not work outside the VDI or without a Yubikey.
+
 1. **Access the PrivX Portal**
    - Open your browser and navigate to:  
      **[PrivX Login](https://privx.worldbank.org/auth/login)**
