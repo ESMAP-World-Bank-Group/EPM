@@ -4,3 +4,5 @@ gamsapi>=48.2.0
 seaborn
 numpy
 geopandas
+requests
+folium
