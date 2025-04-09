@@ -163,7 +163,7 @@ Set
                         costSurplus
                         costcurtail
                         CO2backstop
-                        dr
+                        DR
                         fuel_constraints
                         econRetire
                         includeCSP
@@ -182,20 +182,22 @@ Set
                         planning_reserve_constraints
                         ramp_constraints
                         reTargetYr
-                        reserveVoLL
+                        ReserveVoLL
                         seasonalreporting
-                        spinReserveVoLL
+                        SpinReserveVoLL
                         system_co2_constraints
                         system_reserve_margin
                         system_spinning_reserve_constraints
+                        interco_reserve_contribution
                         systemresultreporting
-                        vOLL
+                        VOLL
                         vRECapacityCredits
-                        wACC
+                        WACC
                         zonal_co2_constraints
                         zonal_spinning_reserve_constraints
                         IncludeDecomCom
-                        MaxLoadFractionCCCalc                                   
+                        MaxLoadFractionCCCalc
+                        includeIntercoReserves
                         IncludeH2
                         H2UnservedCost 
                        /
@@ -501,11 +503,13 @@ $set IncludeDecomCom                      -1
 *Hydrogen model specific sets
 $set IncludeH2                            -1
 
+
 * Read main parameters from pSettings
 pzonal_spinning_reserve_constraints  = pSettings("zonal_spinning_reserve_constraints");
 psystem_spinning_reserve_constraints = pSettings("system_spinning_reserve_constraints");
 psystem_reserve_margin               = pSettings("system_reserve_margin");
 pplanning_reserve_constraints        = pSettings("planning_reserve_constraints");
+pinterco_reserve_contribution        = pSettings("interco_reserve_contribution");
 pramp_constraints                    = pSettings("ramp_constraints");
 pfuel_constraints                    = pSettings("fuel_constraints");
 pcapital_constraints                 = pSettings("capital_constraints");
@@ -525,6 +529,7 @@ pMaxImport                           = pSettings("MaxImports");
 pMaxExport                           = pSettings("MaxExports");
 pVREForecastError                    = pSettings("VREForecastError");
 pCaptraj                             = pSettings("Captraj");
+pIncludeIntercoReserves              = pSettings("includeIntercoReserves");
 pVRECapacityCredits                  = pSettings("VRECapacityCredits");
 pSeasonalReporting                   = pSettings("Seasonalreporting");
 pSystemResultReporting               = pSettings("Systemresultreporting");
@@ -533,7 +538,9 @@ pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
 pIncludeH2                       = pSettings("IncludeH2");
 pH2UnservedCost                  = pSettings("H2UnservedCost");
 
-display pzonal_spinning_reserve_constraints, pplanning_reserve_constraints;
+
+display pzonal_spinning_reserve_constraints, pplanning_reserve_constraints, pinterco_reserve_contribution;
+
 
 * Assign values to model parameters only if their corresponding macro variables are not set to "-1"
 $if not "%zonal_spinning_reserve_constraints%"  == "-1" pzonal_spinning_reserve_constraints  = %zonal_spinning_reserve_constraints%;
