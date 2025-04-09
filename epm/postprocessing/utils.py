@@ -454,7 +454,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
     keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
             'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
             'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
-            'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExtImp',
+            'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pCongested', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExtImp',
             'pInterconUtilizationExtExp', 'pInterchangeExtExp', 'InterchangeExtImp', 'annual_line_capa', 'pAnnualTransmissionCapacity',
             'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
             'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
@@ -907,11 +907,19 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2,
                                               annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
+
+
         # Scenario comparison
         if len(selected_scenarios) < 8:
             df = df_capacityfuel.copy()
             df = df.loc[df.scenario.isin(selected_scenarios)]
             df['value'] = df['value'] / 1e3
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CapacityMixScenarioStackedAreaPlot.png'
+            make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel',
+                                      column_xaxis='scenario',
+                                      column_value='value', column_multiple_bars='year',
+                                      format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45)
+
             filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CapacityMixClusteredStackedAreaPlot.png'
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel',
                                       column_xaxis='year',
@@ -1045,14 +1053,36 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
             if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
                 make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='capacity',
                                          label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
-                                         min_display_capacity=200, filename=filename, title='Transmission capacity (MW)')
+                                         min_display_value=200, filename=filename, title='Transmission capacity (MW)')
 
                 filename = f'{folder}/TransmissionUtilization_{selected_scenario}_{year}.png'
 
                 make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='utilization',
                                          min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
-                                         label_fontsize=10, show_labels=False, min_display_capacity=50,
+                                         label_fontsize=10, show_labels=False, min_display_value=50,
                                          format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename, title='Transmission utilization (%)')
+
+                tmp = epm_results['pInterchange'].copy()
+                df_congested = epm_results['pCongested'].copy().rename(columns={'value': 'congestion'})
+                tmp = tmp.merge(df_congested, on=['scenario', 'year', 'zone', 'z2'], how='left')
+                tmp = tmp.fillna(0)
+                tmp_rev = tmp.copy().rename(columns={'zone': 'z2', 'z2': 'zone'})
+                tmp_rev['value'] = - tmp_rev['value']
+                df_combined = pd.concat([tmp, tmp_rev], ignore_index=True)
+                df_combined = df_combined.groupby(['scenario', 'year', 'zone', 'z2'])[['value', 'congestion']].sum().reset_index()
+                df_net = df_combined[df_combined['value'] > 0]
+                df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+
+                filename = f'{folder}/NetExports_{selected_scenario}_{year}.png'
+
+                make_interconnection_map(zone_map, df_net, centers, filename=filename, year=year, scenario=selected_scenario,
+                                         title='Net Exports (GWh)',
+                                         label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
+                                         plot_colored_countries=False,
+                                         min_display_value=100, column='value', plot_lines=False,
+                                         format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
+                                         min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
+                                         color_col='congestion')
 
             if len(epm_results['pDemandSupply'].loc[(epm_results['pDemandSupply'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
                     energy_data = epm_results['pDemandSupply'].copy()
@@ -3121,7 +3151,7 @@ def get_extended_pastel_palette(n):
 
     return base_colors + extra_colors
 
-def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', filename=None,
+def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', color_col=None, filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
                              label_fontsize=12, predefined_colors=None, min_display_value=100,
                              min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y),
@@ -3215,6 +3245,13 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     y_offset = (ymax - ymin) * label_yoffset
     x_offset = (xmax - xmin) * label_xoffset
 
+    min_color_value = transmission_data[column].min()
+    max_color_value = transmission_data[column].max()
+
+    if color_col is not None:
+        min_color_value_arrow = transmission_data[color_col].min()
+        max_color_value_arrow = transmission_data[color_col].max()
+
     # Plot interconnections
     for _, row in transmission_data.iterrows():
         zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
@@ -3225,7 +3262,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
 
             line_width = scale_line_width(value)
 
-            color = calculate_color_gradient(value, 0, 100)
+            color = calculate_color_gradient(value, min_color_value, max_color_value)
 
             if plot_lines:  # plotting transmission lines
                 ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], color=color,
@@ -3272,6 +3309,12 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
                 unit_dx, unit_dy = dx / norm, dy / norm
                 norm_dx = -unit_dy
                 norm_dy = unit_dx
+
+                if color_col is not None:
+                    color_value = row[color_col]
+                    color = calculate_color_gradient(color_value, min_color_value_arrow, max_color_value_arrow)
+                else:
+                    color = 'black'
 
                 # Arrow width scaling with value
                 arrow_linewidth = scale_line_width(value)  # or define your own scaling logic
