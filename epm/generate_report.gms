@@ -60,6 +60,8 @@ Parameters
    pInterconUtilization(z,z2,y)              'Utilization of interconnection throughout modeling horizon (between internal zones)'
    pInterconUtilizationExtExp(z,zext,y)         'Utilization of interconnection throughout modeling horizon (between external zones for exports)'
    pInterconUtilizationExtImp(zext,z,y)         'Utilization of interconnection throughout modeling horizon (between external zones) for imports'
+   pCongested(z,z2,y)                        'Percentage of time when the line is congested'
+   isCongested(z,z2,q,d,t,y)                 'Whether the line is congested at some point in time'
    pLossesTransmission(z,y)                  'Transmission losses between internal zones in MWh per zone'
    pInterchangeCountry(c,c2,y)               'Total exchange in GWh between countries per country'
    pLossesTransmissionCountry(c,y)           'Total Transmission losses in MWh per country'
@@ -490,6 +492,18 @@ pInterconUtilization(sTopology(z,z2),y)$pInterchange(z,z2,y) = 1e3*pInterchange(
                                                                                                            pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer
                                                       )*pHours(q,d,t));
 pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pLossFactor(z,z2,y)*pHours(q,d,t));
+
+
+* Calculate line capacity (constant over time, but varies by line and year)
+Scalar epsilon /1e-3/;  
+* Binary indicator for congestion per time step
+isCongested(z,z2,q,d,t,y)$(sTopology(z,z2) and abs(vFlow.l(z,z2,q,d,t,y) - (pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
+                                                                                                     * max(pNewTransmission(z,z2,"CapacityPerLine"),
+                                                                                                           pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer)) < epsilon) = 1;                                                                                                
+* Now compute percentage of time (weighted by pHours) where line is congested
+pCongested(sTopology(z,z2),y) = sum((q,d,t), isCongested(z,z2,q,d,t,y)*pHours(q,d,t))
+                                / sum((q,d,t), pHours(q,d,t));
+
 
 **By country
 alias (zcmap, zcmap2);
@@ -986,7 +1000,7 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
                                  pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
                                  pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
-                                 pDemandSupply,  pDemandSupplyCountry, pVarCost,
+                                 pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
                                  pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
                                  pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
                                  pPeakCapacity, pCapacityByFuel, pCapacityByTechandFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
