@@ -3123,12 +3123,12 @@ def get_extended_pastel_palette(n):
 
 def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
-                             label_fontsize=12, predefined_colors=None, min_display_capacity=100,
+                             label_fontsize=12, predefined_colors=None, min_display_value=100,
                              min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y),
                              title='Transmission capacity', show_arrows=False,
-                             arrow_style='-|>', arrow_color = 'red', arrow_size = 20,
-                             arrow_offset_ratio=0.1, plot_colored_countries=True
-                             ):
+                             arrow_style='-|>', arrow_size = 20,
+                             arrow_offset_ratio=0.1, plot_colored_countries=True, plot_lines=True, offset=0.5,
+                             arrow_linewidth=1, mutation_scale=3):
     """
     Plots an interconnection map showing transmission capacities between different zones.
 
@@ -3217,41 +3217,84 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
 
     # Plot interconnections
     for _, row in transmission_data.iterrows():
-        zone_from, zone_to, capacity = row['zone_from'], row['zone_to'], row[column]
+        zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
 
         if zone_from in centers and zone_to in centers:
             coord_from, coord_to = centers[zone_from], centers[zone_to]
             coor_mid = [(coord_from[0] + coord_to[0]) / 2, (coord_from[1] + coord_to[1]) / 2]
 
-            line_width = scale_line_width(capacity)
+            line_width = scale_line_width(value)
 
-            color = calculate_color_gradient(capacity, 0, 100)
+            color = calculate_color_gradient(value, 0, 100)
 
-            # ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], 'r-', linewidth=line_width)
-            ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], color=color,
-                    linewidth=3)
+            if plot_lines:  # plotting transmission lines
+                ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], color=color,
+                        linewidth=3)
 
-            # Optional arrow
-            if show_arrows:
+                # Optional arrow
+                if show_arrows:
+                    dx = coord_to[0] - coord_from[0]
+                    dy = coord_to[1] - coord_from[1]
+                    start_x = coord_from[0] + dx * (0.5 - arrow_offset_ratio)
+                    start_y = coord_from[1] + dy * (0.5 - arrow_offset_ratio)
+                    end_x = coord_from[0] + dx * (0.5 + arrow_offset_ratio)
+                    end_y = coord_from[1] + dy * (0.5 + arrow_offset_ratio)
+
+                    arrow = FancyArrowPatch((start_x, start_y), (end_x, end_y),
+                                            arrowstyle=arrow_style,
+                                            color=color,
+                                            mutation_scale=arrow_size,
+                                            linewidth=0)
+                    ax.add_patch(arrow)
+
+                if value >= min_display_value:
+                    ax.text(coor_mid[0], coor_mid[1], format_y(value, None), ha='center', va='center',
+                            bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'), fontsize=10)
+
+            else:   # Plotting flows
+
                 dx = coord_to[0] - coord_from[0]
                 dy = coord_to[1] - coord_from[1]
-                start_x = coord_from[0] + dx * (0.5 - arrow_offset_ratio)
-                start_y = coord_from[1] + dy * (0.5 - arrow_offset_ratio)
-                end_x = coord_from[0] + dx * (0.5 + arrow_offset_ratio)
-                end_y = coord_from[1] + dy * (0.5 + arrow_offset_ratio)
 
+                # Midpoint for label placement
+                mid_x = (coord_from[0] + coord_to[0]) / 2
+                mid_y = (coord_from[1] + coord_to[1]) / 2
+
+                # Shorten the arrow to avoid overlapping arrowheads
+                arrow_offset = arrow_offset_ratio
+                start_x = coord_from[0] + dx * arrow_offset
+                start_y = coord_from[1] + dy * arrow_offset
+                end_x = coord_to[0] - dx * arrow_offset
+                end_y = coord_to[1] - dy * arrow_offset
+
+                # Compute direction for label offset
+                norm = np.hypot(dx, dy)
+                unit_dx, unit_dy = dx / norm, dy / norm
+                norm_dx = -unit_dy
+                norm_dy = unit_dx
+
+                # Arrow width scaling with value
+                arrow_linewidth = scale_line_width(value)  # or define your own scaling logic
+                arrowstyle = f"simple,head_length={0.5},head_width={0.5},tail_width={0.2*arrow_linewidth}"
+
+                # Plot arrow
                 arrow = FancyArrowPatch((start_x, start_y), (end_x, end_y),
-                                        arrowstyle=arrow_style,
+                                        arrowstyle=arrowstyle,
                                         color=color,
-                                        mutation_scale=arrow_size,
-                                        linewidth=0)
+                                        edgecolor='black',  # Optional: to match the example style
+                                        linewidth=0,  # outline thickness (not width of the arrow)
+                                        mutation_scale=mutation_scale,
+                                        zorder=5)
                 ax.add_patch(arrow)
 
-                # ax.annotate('', xy=(end_x, end_y), xytext=(start_x, start_y), arrowprops=arrowprops)
+                # Add text at midpoint with perpendicular offset
+                if value >= min_display_value:
+                    text_x = mid_x + offset * norm_dx
+                    text_y = mid_y + offset * norm_dy
 
-            if capacity >= min_display_capacity:
-                ax.text(coor_mid[0], coor_mid[1], format_y(capacity, None), ha='center', va='center',
-                        bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'), fontsize=10)
+                    ax.text(text_x, text_y, format_y(value, None),
+                            ha='center', va='center', fontsize=label_fontsize,
+                            fontweight='bold', color='black')
 
     # Optionally plot zone labels with a normalized offset
     if show_labels:
