@@ -1420,8 +1420,10 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <li><p><strong>Value</strong> (<em>varied units</em>) – The assigned numerical value or toggle (0/1) for the parameter.</p></li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/config/pSettings.csv">pSettings.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config/pSettings.csv">pSettings.csv</a></p></li>
 </ul>
+<p><strong>!! Important !!</strong> Some parameters have been added in the latest EPM version. If you are using an older version of <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>, these new parameters will be missing and will therefore be set to zero by default in GAMS, which can significantly alter model results.
+To ensure accurate outcomes, it is essential to update your <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code> file to include all new parameters when running the latest version of EPM.</p>
 <hr class="docutils" />
 <section id="economic-assumptions">
 <h4><strong>Economic Assumptions</strong><a class="headerlink" href="#economic-assumptions" title="Permalink to this heading">#</a></h4>
@@ -1563,6 +1565,10 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <td><p><code class="docutils literal notranslate"><span class="pre">IncludeH2</span></code></p></td>
 <td><p>0</p></td>
 </tr>
+<tr class="row-odd"><td><p>Include transmission lines when assessing country planning reserves</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">includeIntercoReserves</span></code></p></td>
+<td><p>1</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -1602,47 +1608,51 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <td><p><code class="docutils literal notranslate"><span class="pre">system_reserve_margin</span></code></p></td>
 <td><p>0.1</p></td>
 </tr>
-<tr class="row-even"><td><p>Apply ramp constraints</p></td>
+<tr class="row-even"><td><p>Contribution of transmission lines to country spinning reserves need (%)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">interco_reserve_contribution</span></code></p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>Apply ramp constraints</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">ramp_constraints</span></code></p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>Apply system spinning reserve constraints</p></td>
+<tr class="row-even"><td><p>Apply system spinning reserve constraints</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">system_spinning_reserve_constraints</span></code></p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-even"><td><p>Apply zonal CO₂ constraint</p></td>
+<tr class="row-odd"><td><p>Apply zonal CO₂ constraint</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">zonal_co2_constraints</span></code></p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>Apply zonal spinning reserve constraints</p></td>
+<tr class="row-even"><td><p>Apply zonal spinning reserve constraints</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">zonal_spinning_reserve_constraints</span></code></p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-even"><td><p>Minimum share of RE (%)</p></td>
+<tr class="row-odd"><td><p>Minimum share of RE (%)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MinREshare</span></code></p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>RE share target year</p></td>
+<tr class="row-even"><td><p>RE share target year</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">RETargetYr</span></code></p></td>
 <td><p>-</p></td>
 </tr>
-<tr class="row-even"><td><p>Total maximum capital investments ($ billion)</p></td>
+<tr class="row-odd"><td><p>Total maximum capital investments ($ billion)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MaxCapital</span></code></p></td>
 <td><p>-</p></td>
 </tr>
-<tr class="row-odd"><td><p>Maximum share of imports (%)</p></td>
+<tr class="row-even"><td><p>Maximum share of imports (%)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MaxImports</span></code></p></td>
 <td><p>-</p></td>
 </tr>
-<tr class="row-even"><td><p>Maximum share of exports (%)</p></td>
+<tr class="row-odd"><td><p>Maximum share of exports (%)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">MaxExports</span></code></p></td>
 <td><p>-</p></td>
 </tr>
-<tr class="row-odd"><td><p>Spinning reserve needs for VRE (%)</p></td>
+<tr class="row-even"><td><p>Spinning reserve needs for VRE (%)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">VREForecastError</span></code></p></td>
 <td><p>0.15</p></td>
 </tr>
-<tr class="row-even"><td><p>User-defined capacity credits</p></td>
+<tr class="row-odd"><td><p>User-defined capacity credits</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">VRECapacityCredits</span></code></p></td>
 <td><p>-</p></td>
 </tr>
@@ -2937,7 +2947,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Apr 08, 2025.<br>
+Last updated on Apr 09, 2025.<br>
 </p>
   </div>
   
