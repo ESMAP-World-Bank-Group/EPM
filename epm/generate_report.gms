@@ -495,7 +495,7 @@ pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pL
 
 
 * Calculate line capacity (constant over time, but varies by line and year)
-Scalar epsilon /1e-3/;  
+Scalar epsilon /1/;  
 * Binary indicator for congestion per time step
 isCongested(z,z2,q,d,t,y)$(sTopology(z,z2) and abs(vFlow.l(z,z2,q,d,t,y) - (pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
                                                                                                      * max(pNewTransmission(z,z2,"CapacityPerLine"),

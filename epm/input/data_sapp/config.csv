@@ -23,7 +23,7 @@ pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
 pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefaultCCDR.csv
 pCSPData,supply/pCSPData.csv
 pFuelPrice,supply/pFuelPriceUpdated.csv
-pVREgenProfile,supply/pVREgenProfile.csv
+pVREgenProfile,supply/pVREgenProfileROR.csv
 pVREProfile,supply/pVREProfile.csv
 pStorDataExcel,supply/pStorDataExcel.csv
 RESERVE,
