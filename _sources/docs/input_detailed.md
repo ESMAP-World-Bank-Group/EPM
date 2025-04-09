@@ -16,7 +16,10 @@ These files are direclty located in the `data` folder.
   - **Parameter** (*string*) – Full name of the parameter.  
   - **Abbreviation** (*string*) – Short name used in the model.  
   - **Value** (*varied units*) – The assigned numerical value or toggle (0/1) for the parameter.  
-- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/config/pSettings.csv)
+- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config/pSettings.csv)
+
+**!! Important !!** Some parameters have been added in the latest EPM version. If you are using an older version of `pSettings.csv`, these new parameters will be missing and will therefore be set to zero by default in GAMS, which can significantly alter model results.
+To ensure accurate outcomes, it is essential to update your `pSettings.csv` file to include all new parameters when running the latest version of EPM.
 
 ---
 
@@ -48,46 +51,48 @@ These define the **costs associated with system constraints** and **violations**
 #### **Optional Features**
 These parameters **toggle optional modeling features** (0 = disabled, 1 = enabled).
 
-| Parameter | Abbreviation | Value |
-|-----------|-------------|-------|
-| Include carbon price | `includeCarbonPrice` | 0 |
-| Include energy efficiency | `includeEE` | 0 |
-| Include CSP optimization | `includeCSP` | 0 |
-| Include storage operation | `includeStorage` | 0 |
-| Show zero values | `show0` | 0 |
-| Retire plants on economic grounds | `econRetire` | 0 |
-| Run in interconnected mode | `interconMode` | 0 |
-| Allow exports based on price | `allowExports` | 0 |
-| Remove transfer limits | `NoTransferLim` | 0 |
-| Allow expansion of transfer limits | `pAllowHighTransfer` | 0 |
-| Use less detailed demand definition | `altDemand` | 1 |
-| Allow CAPEX trajectory | `Captraj` | 0 |
-| Include H₂ production | `IncludeH2` | 0 |
+| Parameter                                                           | Abbreviation             | Value |
+|---------------------------------------------------------------------|--------------------------|-------|
+| Include carbon price                                                | `includeCarbonPrice`     | 0     |
+| Include energy efficiency                                           | `includeEE`              | 0     |
+| Include CSP optimization                                            | `includeCSP`             | 0     |
+| Include storage operation                                           | `includeStorage`         | 0     |
+| Show zero values                                                    | `show0`                  | 0     |
+| Retire plants on economic grounds                                   | `econRetire`             | 0     |
+| Run in interconnected mode                                          | `interconMode`           | 0     |
+| Allow exports based on price                                        | `allowExports`           | 0     |
+| Remove transfer limits                                              | `NoTransferLim`          | 0     |
+| Allow expansion of transfer limits                                  | `pAllowHighTransfer`     | 0     |
+| Use less detailed demand definition                                 | `altDemand`              | 1     |
+| Allow CAPEX trajectory                                              | `Captraj`                | 0     |
+| Include H₂ production                                               | `IncludeH2`              | 0     |
+| Include transmission lines when assessing country planning reserves | `includeIntercoReserves` | 1     |
 
 ---
 
 #### **Constraints**
 These parameters define **model constraints**, limiting **emissions, fuel use, capacity investments, and operational reserves**.
 
-| Parameter | Abbreviation | Value |
-|-----------|-------------|-------|
-| Apply system CO₂ constraints | `system_co2_constraints` | 0 |
-| Apply fuel constraints | `fuel_constraints` | 0 |
-| Apply maximum capital constraint | `capital_constraints` | 0 |
-| Apply minimum generation constraint | `mingen_constraints` | 0 |
-| Apply planning reserve constraint | `planning_reserve_constraints` | 0 |
-| System planning reserve margin (%) | `system_reserve_margin` | 0.1 |
-| Apply ramp constraints | `ramp_constraints` | 0 |
-| Apply system spinning reserve constraints | `system_spinning_reserve_constraints` | 0 |
-| Apply zonal CO₂ constraint | `zonal_co2_constraints` | 0 |
-| Apply zonal spinning reserve constraints | `zonal_spinning_reserve_constraints` | 0 |
-| Minimum share of RE (%) | `MinREshare` | 0 |
-| RE share target year | `RETargetYr` | - |
-| Total maximum capital investments ($ billion) | `MaxCapital` | - |
-| Maximum share of imports (%) | `MaxImports` | - |
-| Maximum share of exports (%) | `MaxExports` | - |
-| Spinning reserve needs for VRE (%) | `VREForecastError` | 0.15 |
-| User-defined capacity credits | `VRECapacityCredits` | - |
+| Parameter                                                               | Abbreviation                          | Value |
+|-------------------------------------------------------------------------|---------------------------------------|-------|
+| Apply system CO₂ constraints                                            | `system_co2_constraints`              | 0     |
+| Apply fuel constraints                                                  | `fuel_constraints`                    | 0     |
+| Apply maximum capital constraint                                        | `capital_constraints`                 | 0     |
+| Apply minimum generation constraint                                     | `mingen_constraints`                  | 0     |
+| Apply planning reserve constraint                                       | `planning_reserve_constraints`        | 0     |
+| System planning reserve margin (%)                                      | `system_reserve_margin`               | 0.1   |
+| Contribution of transmission lines to country spinning reserves need (%) | `interco_reserve_contribution`        | 1     |
+| Apply ramp constraints                                                  | `ramp_constraints`                    | 0     |
+| Apply system spinning reserve constraints                               | `system_spinning_reserve_constraints` | 0     |
+| Apply zonal CO₂ constraint                                              | `zonal_co2_constraints`               | 0     |
+| Apply zonal spinning reserve constraints                                | `zonal_spinning_reserve_constraints`  | 0     |
+| Minimum share of RE (%)                                                 | `MinREshare`                          | 0     |
+| RE share target year                                                    | `RETargetYr`                          | -     |
+| Total maximum capital investments ($ billion)                           | `MaxCapital`                          | -     |
+| Maximum share of imports (%)                                            | `MaxImports`                          | -     |
+| Maximum share of exports (%)                                            | `MaxExports`                          | -     |
+| Spinning reserve needs for VRE (%)                                      | `VREForecastError`                    | 0.15  |
+| User-defined capacity credits                                           | `VRECapacityCredits`                  | -     |
 
 ---
 
