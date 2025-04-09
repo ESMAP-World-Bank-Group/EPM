@@ -35,6 +35,37 @@ import gams.transfer as gt
 db = gt.Container(gams.db)
 
 
+# Settings specification - checking all required parameters are specified
+try:
+    if db["pSettings"].records is not None:
+        settings_df = db["pSettings"].records
+        list_required_values = ['VOLL', 'ReserveVoLL', 'SpinReserveVoLL', 'WACC', 'DR']
+        list_warning_values = ['interco_reserve_contribution', 'includeIntercoReserves']
+        list_missing = []
+        list_zero_values = []
+        for e in list_required_values:
+            if e not in list(settings_df['sc']):
+                list_missing.append(e)
+        for e in list_warning_values:
+            if e not in list(settings_df['sc']):
+                list_zero_values.append(e)
+                
+        if list_missing:
+            msg = f"Error: The following entries are required in pSettings but currently missing: {list_missing}"
+            print(msg)
+            raise ValueError(msg)
+        if list_zero_values:
+            msg = f"WARNING: The following entries are set to zero in pSettings: {list_zero_values}"
+            print(msg)
+            
+        
+except ValueError:
+    raise  # Let this one bubble up with your message
+except Exception as e:
+    print('Unexpected error when checking interconnected mode')
+    raise # Re-raise the exception for debuggings
+
+
 # Check that all these parameters are not None
 try:
     essential_param = ["y", "pHours", "zcmap", "pSettings", "pGenDataExcel", "pFuelPrice",
@@ -269,7 +300,7 @@ except ValueError:
 except Exception as e:
     print('Unexpected error when checking NewTransmission')
     raise # Re-raise the exception for debuggings
-    
+        
 
 # Interconnected mode
 try:

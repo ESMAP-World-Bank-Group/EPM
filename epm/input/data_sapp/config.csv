@@ -16,7 +16,7 @@ sRelevant,load/srelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
 pGenDataExcel,supply/pGenDataExcelCustom.csv
-pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
+pGenDataExcelDefault,supply/pGenDataExcelDefaultRampHydro.csv
 pAvailability,supply/pAvailabilityCustomUpdated.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
@@ -44,7 +44,7 @@ pMaxExchangeShare,trade/pMaxExchangeShare.csv
 pMinImport,trade/pMinImport.csv
 pNewTransmission,trade/pNewTransmission.csv
 pTradePrice,trade/pTradePrice.csv
-pTransferLimit,trade/pTransferLimit.csv
+pTransferLimit,trade/pTransferLimitCurrent.csv
 H2,
 pH2DataExcel,h2/pH2DataExcel.csv
 pAvailabilityH2,h2/pAvailabilityH2.csv

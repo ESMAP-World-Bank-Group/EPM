@@ -212,6 +212,8 @@ Parameters
    pzonal_spinning_reserve_constraints   'Whether constraints on spinning reserves at the country level are included'
    psystem_spinning_reserve_constraints  'Whether constraints on spinning reserves at the region level are included'
    pplanning_reserve_constraints         'Whether constraints on planning reserves are included'
+   pinterco_reserve_contribution         'How much interconnections contribute to spinning reserve needs at the country level'
+   pIncludeIntercoReserves               'Whether transmission lines are considered when assessing planning reserve needs at the country level'
    psystem_reserve_margin                'Share of peak demand that should be met with planning reserves'
    pHeatrate(g,f)                   'Heatrate of fuel f in generator g'
    pIncludeDecomCom                 'Include simultaneous commissioning'
@@ -680,9 +682,9 @@ eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraint
 eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
- + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
-                                - vFlow(z2,z,q,d,t,y))
+ + pinterco_reserve_contribution * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
+                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
+                                        - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
    
 
@@ -693,7 +695,7 @@ eSpinningReserveReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
 ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine"))
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")))$pIncludeIntercoReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
