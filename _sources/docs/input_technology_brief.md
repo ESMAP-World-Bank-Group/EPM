@@ -1,6 +1,7 @@
 # Technology overview
 
-This section quickly describes the main generation and storage technologies modeled in EPM.
+The main generation and storage technologies modeled in EPM are presented in the table below and the following paragraphs. For more detailed guidelines on technology-specific assumptions, you can refer to the CCDR EEX Methodology Note – Energy Transition Analysis FY24 [LINK TO ADD].
+
 <table>
   <thead>
     <tr>
