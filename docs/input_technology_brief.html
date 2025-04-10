@@ -1057,6 +1057,233 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="technology-overview">
 <h1>Technology overview<a class="headerlink" href="#technology-overview" title="Permalink to this heading">#</a></h1>
 <p>This section quickly describes the main generation and storage technologies modeled in EPM.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Technology</p></th>
+<th class="head"><p>Fuel</p></th>
+<th class="head"><p>Minimum generation (%)</p></th>
+<th class="head"><p>Heat rate (MMBTu/MWh)</p></th>
+<th class="head"><p>Ramp-up rate</p></th>
+<th class="head"><p>Ramp-down rate</p></th>
+<th class="head"><p>Max. Contribution to reserve (%)</p></th>
+<th class="head"><p>Fixed O&amp;M ($/MW/year)</p></th>
+<th class="head"><p>Variable O&amp;M ($/MWh)</p></th>
+<th class="head"><p>Overnight capital cost (M$/MW)</p></th>
+<th class="head"><p>Economic Lifetime (Years)</p></th>
+<th class="head"><p>Round-trip efficiency (%) for storage</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ST</p></td>
+<td><p>Coal</p></td>
+<td><p>25-40% / 30%</p></td>
+<td><p>7.7–9.4 / 8.5</p></td>
+<td><p>30-100% / 50%</p></td>
+<td><p>30-100% / 50%</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>30k–90k / 60k</p></td>
+<td><p>1.0–5.0 / 3</p></td>
+<td><p>1.4–2.6 / 2</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>ST</p></td>
+<td><p>Lignite</p></td>
+<td><p>50-60% / 55%</p></td>
+<td><p>9.5–11.0 / 10.3</p></td>
+<td><p>30-100% / 50%</p></td>
+<td><p>30-100% / 50%</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>30k–90k / 60k</p></td>
+<td><p>1.0–5.0 / 3</p></td>
+<td><p>1.4–2.6 / 2</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>OCGT</p></td>
+<td><p>Gas</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>7.7–10.4 / 9</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>10–20% / 20%</p></td>
+<td><p>10k–30k / 20k</p></td>
+<td><p>3.0–5.0 / 4</p></td>
+<td><p>0.56–1.04 / 0.8</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>OCGT</p></td>
+<td><p>HFO</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>8.4–11.4 / 9.9</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>10–20% / 20%</p></td>
+<td><p>10k–30k / 20k</p></td>
+<td><p>3.3–5.5 / 4.4</p></td>
+<td><p>0.56–1.04 / 0.8</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>OCGT</p></td>
+<td><p>Diesel</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>8.4–11.4 / 9.9</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>10–20% / 20%</p></td>
+<td><p>10k–30k / 20k</p></td>
+<td><p>3.3–5.5 / 4.4</p></td>
+<td><p>0.56–1.04 / 0.8</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>CCGT</p></td>
+<td><p>Gas</p></td>
+<td><p>40–50% / 45%</p></td>
+<td><p>5.1–7.7 / 6.4</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>3–6% / 5%</p></td>
+<td><p>15k–45k / 30k</p></td>
+<td><p>1.0–3.0 / 2</p></td>
+<td><p>0.63–1.17 / 0.9</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Stored Hydro</p></td>
+<td><p>Water</p></td>
+<td><p>0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>5–50% / 45%</p></td>
+<td><p>25k–75k / 50k</p></td>
+<td><p>0.0–1.0 / 0.5</p></td>
+<td><p>1.5–5.0 / 3.3*</p></td>
+<td><p>50</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>ROR</p></td>
+<td><p>Water</p></td>
+<td><p>0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>5–50% / 40%</p></td>
+<td><p>20k–60k / 40k</p></td>
+<td><p>0.0–1.0 / 0.5</p></td>
+<td><p>1.5–4.0 / 2.8*</p></td>
+<td><p>50</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>PV</p></td>
+<td><p>Solar</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>10k–20k / 15k</p></td>
+<td><p>0.0 / 0</p></td>
+<td><p>0.6–1.2 / 0.8*</p></td>
+<td><p>25</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Wind onshore</p></td>
+<td><p>Wind</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>20k–60k / 40k</p></td>
+<td><p>0.0 / 0</p></td>
+<td><p>1.0–3.0 / 1.3*</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Wind offshore</p></td>
+<td><p>Wind</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>40k–100k / 70k</p></td>
+<td><p>0.0 / 0</p></td>
+<td><p>2.0–4.1 / 3*</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Biomass</p></td>
+<td><p>Biomass</p></td>
+<td><p>0% / 0%</p></td>
+<td><p>10.0–15.0 / 12.5</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>3–6% / 5%</p></td>
+<td><p>50k–150k / 100k</p></td>
+<td><p>1.3–3.8 / 2.5</p></td>
+<td><p>1.0–3.0 / 2*</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Geothermal</p></td>
+<td><p>Geothermal</p></td>
+<td><p>-</p></td>
+<td><p>0.0 / 0</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>-</p></td>
+<td><p>50k–150k / 100k</p></td>
+<td><p>0.0 / 0</p></td>
+<td><p>2.0–5.0 / 3.5*</p></td>
+<td><p>30</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nuclear</p></td>
+<td><p>Uranium</p></td>
+<td><p>50–100% / 75%</p></td>
+<td><p>10.0–15.0 / 12.5</p></td>
+<td><p>10–20% / 15%</p></td>
+<td><p>10–20% / 15%</p></td>
+<td><p>0-0% / 0%</p></td>
+<td><p>100k–200k / 150k</p></td>
+<td><p>2.1–4.9 / 3.5</p></td>
+<td><p>2.8–6.5 / 4*</p></td>
+<td><p>50</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Storage</p></td>
+<td><p>Battery</p></td>
+<td><p>0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>30–75% / 50%</p></td>
+<td><p>20k–60k / 40k</p></td>
+<td><p>0.0 / 0</p></td>
+<td><p>0.20–0.40 / 0.3</p></td>
+<td><p>20</p></td>
+<td><p>85%</p></td>
+</tr>
+<tr class="row-odd"><td><p>Storage</p></td>
+<td><p>Pumped Hydro</p></td>
+<td><p>0% / 0%</p></td>
+<td><p>-</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>100% / 100%</p></td>
+<td><p>50–100% / 75%</p></td>
+<td><p>25k–75k / 50k</p></td>
+<td><p>0.0–1.0 / 0.5</p></td>
+<td><p>0.70–5.0 / 2.9*</p></td>
+<td><p>50</p></td>
+<td><p>80%</p></td>
+</tr>
+</tbody>
+</table>
 <hr class="docutils" />
 <section id="st-steam-turbine">
 <h2>ST (Steam Turbine)<a class="headerlink" href="#st-steam-turbine" title="Permalink to this heading">#</a></h2>
