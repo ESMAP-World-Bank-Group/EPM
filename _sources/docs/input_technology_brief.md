@@ -4,7 +4,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## ST (Steam Turbine)
+### ST (Steam Turbine)
 
 **Description:** Historical thermal power plant design. Uses external combustion to heat water into steam (Rankine cycle), which drives a turbine. Less flexible but robust for base-load operation.
 
@@ -16,7 +16,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## OCGT (Open Cycle Gas Turbine)
+### OCGT (Open Cycle Gas Turbine)
 
 **Description:** Simple gas turbine using the Brayton cycle. Air is compressed, fuel is injected and combusted, and the resulting hot gases expand through a turbine. No heat recovery. Widely used for peak load and reserves.
 
@@ -28,7 +28,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## CCGT (Combined Cycle Gas Turbine)
+### CCGT (Combined Cycle Gas Turbine)
 
 **Description:** Combines a gas turbine with a steam cycle to recover heat from the exhaust and improve efficiency. The most efficient fossil-based technology, used for base or mid-merit load.
 
@@ -40,7 +40,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Reservoir Hydro
+### Reservoir Hydro
 
 **Description:** Hydropower plant with upstream reservoir allowing full control over water flow. Provides highly dispatchable renewable electricity.
 
@@ -52,7 +52,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## ROR (Run-of-River Hydro)
+### ROR (Run-of-River Hydro)
 
 **Description:** Hydropower plant with little to no storage. Generation follows river flow conditions and is only partially controllable.
 
@@ -64,7 +64,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Nuclear
+### Nuclear
 
 **Description:** Uses nuclear fission to generate heat and produce steam for a turbine. Designed to provide large-scale, stable base-load electricity.
 
@@ -76,7 +76,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Geothermal
+### Geothermal
 
 **Description:** Utilizes underground heat to generate steam and produce electricity, either through direct steam or binary cycle plants.
 
@@ -88,7 +88,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Biomass
+### Biomass
 
 **Description:** Burns organic material to generate steam, similar in process to coal-fired steam turbines.
 
@@ -100,7 +100,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## PV (Photovoltaics)
+### PV (Photovoltaics)
 
 **Description:** Converts solar radiation directly into electricity using semiconductor materials. No moving parts and no combustion.
 
@@ -112,7 +112,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Wind (Onshore and Offshore)
+### Wind (Onshore and Offshore)
 
 **Description:** Converts wind energy into electricity using turbines. Offshore systems benefit from higher and more consistent wind speeds.
 
@@ -124,7 +124,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Storage - Battery
+### Storage - Battery
 
 **Description:** Electrochemical systems (e.g., lithium-ion) used to store electricity and provide rapid injection or withdrawal of power.
 
@@ -136,7 +136,7 @@ This section quickly describes the main generation and storage technologies mode
 
 ---
 
-## Storage - Pumped Hydro
+### Storage - Pumped Hydro
 
 **Description:** Stores electricity by pumping water to a higher reservoir and generating power when released.
 
