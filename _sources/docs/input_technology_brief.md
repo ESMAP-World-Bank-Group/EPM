@@ -2,27 +2,61 @@
 
 This section quickly describes the main generation and storage technologies modeled in EPM.
 
-| Technology | Fuel | Min. Generation (%)                    | Heat Rate (MMBTu/MWh)                   | Ramp-up Rate |               | Ramp-down Rate |              | Max. Reserve (%) |              | Fixed O&M ($/MW/year) |                 | Variable O&M ($/MWh) |             | Capex (M$/MW) |              | Lifetime (Years) | Round-trip Efficiency (%) |
-|------------|------|---------------------|-------------------|------------------------|------------------|--------------|---------------|----------------|--------------|-------------------|--------------|------------------------|-----------------|------------------------|-------------|----------------|--------------|-------------------|----------------------------|
-|            |      | Range               | Std. Value        | Range                  | Std. Value       | Range        | Std. Value    | Range          | Std. Value  | Range             | Std. Value  | Range                  | Std. Value      | Range                  | Std. Value | Range          | Std. Value  | Std. Value        |                            |
-| ST         | Coal | 25–40%              | 30%               | 7.7–9.4                | 8.5              | 30–100%      | 50%           | 30–100%        | 50%         | 0–0%              | 0%          | 30,000–90,000          | 60,000          | 1.0–5.0                | 3         | 1.4–2.6        | 2           | 30                | -                          |
-| ST         | Lignite | 50–60%          | 55%               | 9.5–11.0               | 10.3             | 30–100%      | 50%           | 30–100%        | 50%         | 0–0%              | 0%          | 30,000–90,000          | 60,000          | 1.0–5.0                | 3         | 1.4–2.6        | 2           | 30                | -                          |
-| OCGT       | Gas  | 0–0%                | 0%                | 7.7–10.4               | 9                | 100%         | 100%          | 100%           | 100%        | 10–20%            | 20%         | 10,000–30,000          | 20,000          | 3.0–5.0                | 4         | 0.56–1.04      | 0.8         | 30                | -                          |
-| OCGT       | HFO  | 0–0%                | 0%                | 8.4–11.4               | 9.9              | 100%         | 100%          | 100%           | 100%        | 10–20%            | 20%         | 10,000–30,000          | 20,000          | 3.3–5.5                | 4.4       | 0.56–1.04      | 0.8         | 30                | -                          |
-| OCGT       | Diesel | 0–0%              | 0%                | 8.4–11.4               | 9.9              | 100%         | 100%          | 100%           | 100%        | 10–20%            | 20%         | 10,000–30,000          | 20,000          | 3.3–5.5                | 4.4       | 0.56–1.04      | 0.8         | 30                | -                          |
-| CCGT       | Gas  | 40–50%              | 45%               | 5.1–7.7                | 6.4              | 100%         | 100%          | 100%           | 100%        | 3–6%              | 5%          | 15,000–45,000          | 30,000          | 1.0–3.0                | 2         | 0.63–1.17      | 0.9         | 30                | -                          |
-| Stored Hydro | Water | 0%              | 0%                | -                      | -                | 100%         | 100%          | 100%           | 100%        | 5–50%             | 45%         | 25,000–75,000          | 50,000          | 0.0–1.0                | 0.5       | 1.5–5.0        | 3.3*        | 50                | -                          |
-| ROR        | Water | 0%                | 0%                | -                      | -                | 100%         | 100%          | 100%           | 100%        | 5–50%             | 40%         | 20,000–60,000          | 40,000          | 0.0–1.0                | 0.5       | 1.5–4.0        | 2.8*        | 50                | -                          |
-| PV         | Solar | 0–0%              | 0%                | -                      | -                | -            | -             | -              | -           | 0–0%              | 0%          | 10,000–20,000          | 15,000          | 0.0                    | 0         | 0.6–1.2        | 0.8*        | 25                | -                          |
-| Wind Onshore | Wind | 0–0%             | 0%                | -                      | -                | -            | -             | -              | -           | 0–0%              | 0%          | 20,000–60,000          | 40,000          | 0.0                    | 0         | 1.0–3.0        | 1.3*        | 30                | -                          |
-| Wind Offshore | Wind | 0–0%            | 0%                | -                      | -                | -            | -             | -              | -           | 0–0%              | 0%          | 40,000–100,000         | 70,000          | 0.0                    | 0         | 2.0–4.1        | 3*          | 30                | -                          |
-| Biomass    | Biomass | 0%              | 0%                | 10.0–15.0              | 12.5             | 100%         | 100%          | 100%           | 100%        | 3–6%              | 5%          | 50,000–150,000         | 100,000         | 1.3–3.8                | 2.5       | 1.0–3.0        | 2*          | 30                | -                          |
-| Geothermal | Geothermal | -           | -                 | 0.0                    | 0                | -            | -             | -              | -           | -                 | -           | 50,000–150,000         | 100,000         | 0.0                    | 0         | 2.0–5.0        | 3.5*        | 30                | -                          |
-| Nuclear    | Uranium | 50–100%         | 75%               | 10.0–15.0              | 12.5             | 10–20%       | 15%           | 10–20%         | 15%         | 0–0%              | 0%          | 100,000–200,000        | 150,000         | 2.1–4.9                | 3.5       | 2.8–6.5        | 4*          | 50                | -                          |
-| Storage    | Battery | 0%              | 0%                | -                      | -                | 100%         | 100%          | 100%           | 100%        | 30–75%            | 50%         | 20,000–60,000          | 40,000          | 0.0                    | 0         | 0.20–0.40      | 0.3         | 20                | 85%                        |
-| Storage    | Pumped Hydro | 0%        | 0%                | -                      | -                | 100%         | 100%          | 100%           | 100%        | 50–100%           | 75%         | 25,000–75,000          | 50,000          | 0.0–1.0                | 0.5       | 0.70–5.0       | 2.9*        | 50                | 80%                        |
-
-
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Technology</th>
+      <th rowspan="2">Fuel</th>
+      <th colspan="2">Min. Generation (%)</th>
+      <th colspan="2">Heat Rate (MMBTu/MWh)</th>
+      <th colspan="2">Ramp-up Rate</th>
+      <th colspan="2">Ramp-down Rate</th>
+      <th colspan="2">Max. Reserve (%)</th>
+      <th colspan="2">Fixed O&M ($/MW/year)</th>
+      <th colspan="2">Variable O&M ($/MWh)</th>
+      <th colspan="2">Capex (M$/MW)</th>
+      <th rowspan="2">Lifetime (Years)</th>
+      <th rowspan="2">Round-trip Efficiency (%)</th>
+    </tr>
+    <tr>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+      <th>Range</th><th>Std.</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ST</td><td>Coal</td>
+      <td>25–40%</td><td>30%</td>
+      <td>7.7–9.4</td><td>8.5</td>
+      <td>30–100%</td><td>50%</td>
+      <td>30–100%</td><td>50%</td>
+      <td>0–0%</td><td>0%</td>
+      <td>30k–90k</td><td>60k</td>
+      <td>1.0–5.0</td><td>3</td>
+      <td>1.4–2.6</td><td>2</td>
+      <td>30</td><td>-</td>
+    </tr>
+    <tr>
+      <td>ST</td><td>Lignite</td>
+      <td>50–60%</td><td>55%</td>
+      <td>9.5–11.0</td><td>10.3</td>
+      <td>30–100%</td><td>50%</td>
+      <td>30–100%</td><td>50%</td>
+      <td>0–0%</td><td>0%</td>
+      <td>30k–90k</td><td>60k</td>
+      <td>1.0–5.0</td><td>3</td>
+      <td>1.4–2.6</td><td>2</td>
+      <td>30</td><td>-</td>
+    </tr>
+    <!-- Ajoute ici les autres lignes à la même structure -->
+  </tbody>
+</table>
 ---
 
 ### ST (Steam Turbine)
