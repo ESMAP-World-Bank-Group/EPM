@@ -16,7 +16,10 @@ These files are direclty located in the `data` folder.
   - **Parameter** (*string*) – Full name of the parameter.  
   - **Abbreviation** (*string*) – Short name used in the model.  
   - **Value** (*varied units*) – The assigned numerical value or toggle (0/1) for the parameter.  
-- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/config/pSettings.csv)
+- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config/pSettings.csv)
+
+**!! Important !!** Some parameters have been added in the latest EPM version. If you are using an older version of `pSettings.csv`, these new parameters will be missing and will therefore be set to zero by default in GAMS, which can significantly alter model results.
+To ensure accurate outcomes, it is essential to update your `pSettings.csv` file to include all new parameters when running the latest version of EPM.
 
 ---
 
@@ -48,46 +51,48 @@ These define the **costs associated with system constraints** and **violations**
 #### **Optional Features**
 These parameters **toggle optional modeling features** (0 = disabled, 1 = enabled).
 
-| Parameter | Abbreviation | Value |
-|-----------|-------------|-------|
-| Include carbon price | `includeCarbonPrice` | 0 |
-| Include energy efficiency | `includeEE` | 0 |
-| Include CSP optimization | `includeCSP` | 0 |
-| Include storage operation | `includeStorage` | 0 |
-| Show zero values | `show0` | 0 |
-| Retire plants on economic grounds | `econRetire` | 0 |
-| Run in interconnected mode | `interconMode` | 0 |
-| Allow exports based on price | `allowExports` | 0 |
-| Remove transfer limits | `NoTransferLim` | 0 |
-| Allow expansion of transfer limits | `pAllowHighTransfer` | 0 |
-| Use less detailed demand definition | `altDemand` | 1 |
-| Allow CAPEX trajectory | `Captraj` | 0 |
-| Include H₂ production | `IncludeH2` | 0 |
+| Parameter                                                           | Abbreviation             | Value |
+|---------------------------------------------------------------------|--------------------------|-------|
+| Include carbon price                                                | `includeCarbonPrice`     | 0     |
+| Include energy efficiency                                           | `includeEE`              | 0     |
+| Include CSP optimization                                            | `includeCSP`             | 0     |
+| Include storage operation                                           | `includeStorage`         | 0     |
+| Show zero values                                                    | `show0`                  | 0     |
+| Retire plants on economic grounds                                   | `econRetire`             | 0     |
+| Run in interconnected mode                                          | `interconMode`           | 0     |
+| Allow exports based on price                                        | `allowExports`           | 0     |
+| Remove transfer limits                                              | `NoTransferLim`          | 0     |
+| Allow expansion of transfer limits                                  | `pAllowHighTransfer`     | 0     |
+| Use less detailed demand definition                                 | `altDemand`              | 1     |
+| Allow CAPEX trajectory                                              | `Captraj`                | 0     |
+| Include H₂ production                                               | `IncludeH2`              | 0     |
+| Include transmission lines when assessing country planning reserves | `includeIntercoReserves` | 1     |
 
 ---
 
 #### **Constraints**
 These parameters define **model constraints**, limiting **emissions, fuel use, capacity investments, and operational reserves**.
 
-| Parameter | Abbreviation | Value |
-|-----------|-------------|-------|
-| Apply system CO₂ constraints | `system_co2_constraints` | 0 |
-| Apply fuel constraints | `fuel_constraints` | 0 |
-| Apply maximum capital constraint | `capital_constraints` | 0 |
-| Apply minimum generation constraint | `mingen_constraints` | 0 |
-| Apply planning reserve constraint | `planning_reserve_constraints` | 0 |
-| System planning reserve margin (%) | `system_reserve_margin` | 0.1 |
-| Apply ramp constraints | `ramp_constraints` | 0 |
-| Apply system spinning reserve constraints | `system_spinning_reserve_constraints` | 0 |
-| Apply zonal CO₂ constraint | `zonal_co2_constraints` | 0 |
-| Apply zonal spinning reserve constraints | `zonal_spinning_reserve_constraints` | 0 |
-| Minimum share of RE (%) | `MinREshare` | 0 |
-| RE share target year | `RETargetYr` | - |
-| Total maximum capital investments ($ billion) | `MaxCapital` | - |
-| Maximum share of imports (%) | `MaxImports` | - |
-| Maximum share of exports (%) | `MaxExports` | - |
-| Spinning reserve needs for VRE (%) | `VREForecastError` | 0.15 |
-| User-defined capacity credits | `VRECapacityCredits` | - |
+| Parameter                                                               | Abbreviation                          | Value |
+|-------------------------------------------------------------------------|---------------------------------------|-------|
+| Apply system CO₂ constraints                                            | `system_co2_constraints`              | 0     |
+| Apply fuel constraints                                                  | `fuel_constraints`                    | 0     |
+| Apply maximum capital constraint                                        | `capital_constraints`                 | 0     |
+| Apply minimum generation constraint                                     | `mingen_constraints`                  | 0     |
+| Apply planning reserve constraint                                       | `planning_reserve_constraints`        | 0     |
+| System planning reserve margin (%)                                      | `system_reserve_margin`               | 0.1   |
+| Contribution of transmission lines to country spinning reserves need (%) | `interco_reserve_contribution`        | 1     |
+| Apply ramp constraints                                                  | `ramp_constraints`                    | 0     |
+| Apply system spinning reserve constraints                               | `system_spinning_reserve_constraints` | 0     |
+| Apply zonal CO₂ constraint                                              | `zonal_co2_constraints`               | 0     |
+| Apply zonal spinning reserve constraints                                | `zonal_spinning_reserve_constraints`  | 0     |
+| Minimum share of RE (%)                                                 | `MinREshare`                          | 0     |
+| RE share target year                                                    | `RETargetYr`                          | -     |
+| Total maximum capital investments ($ billion)                           | `MaxCapital`                          | -     |
+| Maximum share of imports (%)                                            | `MaxImports`                          | -     |
+| Maximum share of exports (%)                                            | `MaxExports`                          | -     |
+| Spinning reserve needs for VRE (%)                                      | `VREForecastError`                    | 0.15  |
+| User-defined capacity credits                                           | `VRECapacityCredits`                  | -     |
 
 ---
 
@@ -535,9 +540,9 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
 
 - **Description**:  
 
-Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
+    Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
 
-Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
   - **Index**
@@ -545,7 +550,7 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
     - **External zone** (*str*) – Destination of the import/export.  
     - **Seasons** (*str*) – Season for which the capacity is specified.
     - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
-  - **Header**
+  - **Columns**
     - **Year** (*int*) – Year for which the capacity applies.
   - **Value**
     - Capacity available for imports or exports.
@@ -557,14 +562,14 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 
 - **Description**:  
 
-Specifies the maximum share of total country-level demand that imports and exports can represent.
+    Specifies the maximum share of total country-level demand that imports and exports can represent.
 
-Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
   - **Index**
     - **Year** (*int*) –  Year considered  
-  - **Header**
+  - **Columns**
     - **Country** (*str*) – Country considered  
   - **Value**
     - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
@@ -574,13 +579,13 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 ### `pNewTransmission.csv`
 
 - **Description**:  
-  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`. Each candidate line must only be specified once in this dataframe. The order in which the start location and the destination location are specified does not matter.
+  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`. Each candidate line must only be specified once in this dataframe (e.g: only specify the line Angola-Namibia once, either as Namibia-Angola, or as Angola-Namibia, the order does not matter). The order in which the start location and the destination location are specified does not matter.
 
 - **Data Structure**:  
   - **Index**
     - **From** (*str*) – Starting location of the transmission line.  
     - **To** (*str*) – Destination of the transmission line.  
-  - **Value**
+  - **Columns**
     - **EarliestEntry** (*int*) – Earliest year the line can be built.
     - **MaximumNumOfLines** (*int*) – Maximum number of lines that can be constructed (lines must be built in whole units).
     - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
@@ -602,7 +607,7 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
     - **Seasons** (*str*) – Season for which the trade price is specified.
     - **Day** (*str*) – Day for which the trade price is specified.
     - **Year** (*int*) – Year for which the trade price is specified.
-  - **Header**
+  - **Columns**
     - **Time**(str) - Hour of the day for which the trade price is specified.
   - **Value**
     - Trade price (€/MWh)
@@ -612,14 +617,15 @@ Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv
 
 ### `pTransferLimit.csv`
 
-Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
+- **Description**:  
+    Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
 
 - **Data Structure**:  
   - **Index**
     - **From** (*str*) –  Origin of the import/export.  
     - **To** (*str*) – Destination of the import/export.  
     - **Seasons** (*str*) – Season for which the capacity is specified.
-  - **Header**
+  - **Columns**
     - **Year** (*int*) – Year for which the capacity applies.
   - **Value**
     - Capacity available for imports or exports between internal zones.
@@ -632,13 +638,16 @@ Defines the available capacity for exchanges between internal zones. This datafr
   Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.  
 
 - **Data Structure**:  
-  - **zone** (*str*) – Name of external zone
+  - **Index**
+    - **zone** (*str*) – Name of external zone
 
 - **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/trade/zext.csv)
 
-
-
 ### `pLossFactor.csv`
+
+- **Description**:  
+    Defines the transmission losses for each transmission lines. 
+    **Note**: when interconnected mode is activated (intercon = 1), the losses from each transmission line must be specified. If LossFactor is empty, then
 
 ---
 
