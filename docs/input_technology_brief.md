@@ -1,6 +1,6 @@
 # Technology Overview
 
-This section describes the main generation and storage technologies modeled in the system, including their functioning principles and how their performance parameters vary depending on the fuel used.
+This section quickly describes the main generation and storage technologies modeled in EPM.
 
 ---
 
