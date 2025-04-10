@@ -1060,7 +1060,7 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="st-steam-turbine">
 <h2>ST (Steam Turbine)<a class="headerlink" href="#st-steam-turbine" title="Permalink to this heading">#</a></h2>
-<p><strong>Description:</strong> Historical thermal power plant design. Uses external combustion to heat water into steam (Rankine cycle), which drives a turbine. Less flexible but robust for base-load operation.</p>
+<p><strong>Description:</strong> Historical thermal power plant design. Uses external combustion to heat water into steam (Rankine cycle), which drives a turbine. Less flexible but used for base-load operation.</p>
 <p><strong>Compatible Fuels:</strong> Coal, lignite, biomass.</p>
 <p><strong>Fuel differences:</strong> Coal and lignite are standard solid fuels requiring large boilers and operating with relatively low thermal efficiency. Biomass introduces variability in fuel composition and moisture content, which can affect combustion stability and ramping capability.</p>
 <p><strong>Technical characteristics:</strong><br />
@@ -1071,9 +1071,9 @@ Steam turbines are generally inflexible due to their reliance on large boiler sy
 <h2>OCGT (Open Cycle Gas Turbine)<a class="headerlink" href="#ocgt-open-cycle-gas-turbine" title="Permalink to this heading">#</a></h2>
 <p><strong>Description:</strong> A simple gas turbine operating on the Brayton cycle. Air is compressed, mixed with fuel, combusted, and the resulting hot gases expand through a turbine to produce electricity. No heat recovery is included.</p>
 <p><strong>Compatible Fuels:</strong> Natural gas, LNG (regasified), diesel, HFO.</p>
-<p><strong>Fuel differences:</strong> Natural gas and LNG offer clean combustion, fast response, and low maintenance. Diesel is slightly less clean but still suitable for fast-start backup. HFO requires preheating and atomization, resulting in slower ramping and more maintenance due to fouling and corrosion.</p>
+<p><strong>Fuel differences:</strong> Natural gas and LNG offer cleaner combustion, fast response, and low maintenance. Diesel is less clean but still suitable for fast-start backup. HFO requires preheating and atomization, resulting in slower ramping and more maintenance due to fouling and corrosion.</p>
 <p><strong>Technical characteristics:</strong><br />
-OCGTs are highly valued for their exceptional operational flexibility. They can ramp up or down extremely quickly, often within a few minutes, making them ideal for reserve and peaking applications. Minimum generation is close to zero, allowing full shutdown when not needed. However, this flexibility comes at the expense of efficiency: heat rates are high (typically above 9 MMBtu/MWh), particularly when operating on liquid fuels like diesel or HFO. Despite low capital costs and relatively short construction times, O&amp;M costs are higher when using HFO or diesel. The ability to provide reserve services is excellent, especially when using gas, thanks to the fast start and response times.</p>
+OCGTs are valued for their good operational flexibility and ability to provide reserve services. They can ramp up or down quickly, often within a few minutes, making them ideal for reserve and peaking applications. Minimum generation is close to zero, allowing shutdown when not needed. However, this flexibility comes at the expense of efficiency: heat rates are high (typically above 9 MMBtu/MWh), particularly when operating on liquid fuels like diesel or HFO. Despite low capital costs and relatively short construction times, O&amp;M costs are higher when using HFO or diesel.</p>
 <hr class="docutils" />
 </section>
 <section id="ccgt-combined-cycle-gas-turbine">
@@ -1082,15 +1082,15 @@ OCGTs are highly valued for their exceptional operational flexibility. They can 
 <p><strong>Compatible Fuels:</strong> Natural gas, LNG (regasified).</p>
 <p><strong>Fuel differences:</strong> Only clean gaseous fuels are suitable due to the sensitivity of the heat recovery system. Use of liquid fuels is not compatible.</p>
 <p><strong>Technical characteristics:</strong><br />
-CCGTs offer an optimal balance between efficiency and moderate flexibility. Their heat rates are significantly lower than OCGTs (typically around 6.4 MMBtu/MWh), making them one of the most efficient fossil-based technologies. Minimum generation levels are lower than steam-only plants, especially in modern flexible configurations, and ramp rates can be relatively fast (up to 100%/h) depending on plant design. While they are less responsive than OCGTs, CCGTs can still contribute to secondary reserve services. Capital costs are higher due to the additional steam cycle, but O&amp;M costs remain moderate. Plant lifetimes are typically 30–40 years.</p>
+CCGTs offer a balance between efficiency and moderate flexibility. Their heat rates are lower than OCGTs (typically around 6.4 MMBtu/MWh), making them one of the most efficient fossil-based technologies. Minimum generation levels are lower than steam-only plants, especially in modern flexible configurations, and ramp rates can be relatively fast (up to 100%/h) depending on plant design. While they are less responsive than OCGTs, CCGTs can still contribute to secondary reserve services. Capital costs are higher due to the additional steam cycle, but O&amp;M costs remain moderate. Plant lifetimes are typically 30–40 years.</p>
 <hr class="docutils" />
 </section>
 <section id="reservoir-hydro">
 <h2>Reservoir Hydro<a class="headerlink" href="#reservoir-hydro" title="Permalink to this heading">#</a></h2>
-<p><strong>Description:</strong> Hydroelectric plants with an upstream reservoir allowing full control of water flow. This enables highly dispatchable and flexible electricity production.</p>
+<p><strong>Description:</strong> Hydropower plants with an upstream reservoir allowing some control of water flow. This enables dispatchable and flexible electricity production.</p>
 <p><strong>Fuel:</strong> Water.</p>
 <p><strong>Technical characteristics:</strong><br />
-Reservoir hydro offers outstanding operational flexibility. Generation can be ramped up or down very quickly, typically within seconds to minutes, allowing the plant to contribute effectively to all types of reserve services. Minimum generation can be set to zero when the plant is not operating, and overload capacity is generally high. While capital costs are significant due to dam and civil works, O&amp;M costs are low, and plant lifetimes can exceed 50 years. Reservoir hydro is fully renewable and often plays a crucial role in balancing variable generation.</p>
+Reservoir hydro offers operational flexibility. Generation can be ramped up or down very quickly, typically within seconds to minutes, allowing the plant to contribute effectively to all types of reserve services. Minimum generation can be set to zero when the plant is not operating, and overload capacity is generally high. While capital costs are significant due to dam and civil works, O&amp;M costs are low, and plant lifetimes can exceed 50 years. Reservoir hydro is fully renewable and often plays an important role in balancing variable generation. In EPM, reservoir hydro dispatch is optimized at the seasonal level, which can be defined by the user — typically monthly or quarterly (e.g., dry/wet seasons). Each season is assigned a capacity factor that constrains the total energy the plant can generate over that period. However, hourly dispatch within the season remains optimized to best match system needs.</p>
 <hr class="docutils" />
 </section>
 <section id="ror-run-of-river-hydro">
@@ -1098,15 +1098,15 @@ Reservoir hydro offers outstanding operational flexibility. Generation can be ra
 <p><strong>Description:</strong> Hydropower plants without significant storage. Electricity generation depends directly on river flow, with minimal control over timing.</p>
 <p><strong>Fuel:</strong> Water.</p>
 <p><strong>Technical characteristics:</strong><br />
-Run-of-river hydro is not dispatchable, as generation follows the natural flow of the river. This limits flexibility and the ability to provide reserve services. Minimum generation is effectively determined by the river’s flow and cannot be adjusted. Ramp rates are very limited. Capital costs are lower than reservoir-based hydro, and O&amp;M costs are minimal. Lifetimes are long. This technology is fully renewable but subject to significant seasonal and interannual variability.</p>
+Run-of-river hydro is a renewable and not dispatchable, as generation follows the natural flow of the river. This limits flexibility and the ability to provide reserve services. Minimum generation is effectively determined by the river’s flow and cannot be adjusted. Capital costs are lower than reservoir-based hydro, and O&amp;M costs are minimal. Lifetimes are long.</p>
 <hr class="docutils" />
 </section>
 <section id="nuclear">
 <h2>Nuclear<a class="headerlink" href="#nuclear" title="Permalink to this heading">#</a></h2>
-<p><strong>Description:</strong> Uses nuclear fission to generate heat, which is converted to steam to drive a turbine. Designed for large-scale, continuous base-load generation.</p>
+<p><strong>Description:</strong> Uses nuclear fission to generate heat, which is converted to steam to drive a turbine.</p>
 <p><strong>Fuel:</strong> Uranium.</p>
 <p><strong>Technical characteristics:</strong><br />
-Nuclear plants are optimized for steady, uninterrupted operation and have limited operational flexibility. Minimum generation levels are high (typically above 75%), and ramping is slow due to thermal constraints and safety considerations. Heat rates are high compared to fossil gas technologies, a result of the thermodynamic limits of the steam cycle. Nuclear plants generally cannot provide significant reserves, except with new load-following reactor designs. Capital costs are extremely high, O&amp;M costs are substantial due to regulatory and safety requirements, but plant lifetimes can exceed 60 years.</p>
+Nuclear plants are generally used for steady operation and have limited operational flexibility. Minimum generation levels are high (typically above 75%), and ramping is slow due to thermal constraints, economic and safety considerations. Heat rates are high compared to fossil gas technologies, a result of the thermodynamic limits of the steam cycle. While variable O&amp;M costs are relatively low, capital costs are extremely high, with fixed O&amp;M costs sometimes substantial due to regulatory and safety requirements, but plant lifetimes can exceed 60 years.</p>
 <hr class="docutils" />
 </section>
 <section id="geothermal">
@@ -1114,7 +1114,7 @@ Nuclear plants are optimized for steady, uninterrupted operation and have limite
 <p><strong>Description:</strong> Converts underground heat into electricity, either by using dry steam directly or via steam generated from high-pressure hot water (flash or binary systems).</p>
 <p><strong>Fuel:</strong> Geothermal heat.</p>
 <p><strong>Technical characteristics:</strong><br />
-Geothermal plants are typically operated as base-load units. Due to the need to maintain stable reservoir pressure and avoid thermal stress on the wells, output modulation is limited. Minimum generation levels are high and ramping is slow. Thermal efficiency is relatively low, resulting in high heat rates. Contribution to reserves is minimal. While capital costs—especially for drilling—are significant, O&amp;M costs are moderate and lifetimes are long. Geothermal energy is fully renewable but geographically constrained.</p>
+Geothermal plants are typically operated as base-load units. Due to the need to maintain stable reservoir pressure and avoid thermal stress on the wells, output modulation is limited. Minimum generation levels are high and ramping is slow. Thermal efficiency is relatively low, resulting in high heat rates. Contribution to reserves is minimal. While capital costs—especially for drilling—are significant, O&amp;M costs are moderate and lifetimes are long. Geothermal energy is renewable but geographically constrained.</p>
 <hr class="docutils" />
 </section>
 <section id="biomass">
@@ -1130,7 +1130,7 @@ Biomass plants behave similarly to coal-based steam turbines, with high minimum 
 <p><strong>Description:</strong> Converts solar radiation directly into electricity using photovoltaic cells. No moving parts and no combustion.</p>
 <p><strong>Fuel:</strong> Solar irradiance.</p>
 <p><strong>Technical characteristics:</strong><br />
-PV generation is fully dependent on sunlight and thus inherently variable and non-dispatchable. Minimum generation is zero (e.g., at night), and ramp rates are not controlled by the system but by cloud cover and solar angle. PV systems cannot contribute to reserves unless paired with battery storage. Capital costs have fallen significantly, O&amp;M costs are very low, and typical asset life is 25–30 years. PV is fully renewable and key for decarbonization strategies.</p>
+PV generation is renewable and fully dependent on sunlight and thus inherently variable and non-dispatchable. Minimum generation is zero (e.g., at night), and ramp rates are not controlled by the system but by cloud cover and solar angle. PV systems cannot contribute to reserves unless paired with battery storage. Capital costs have fallen significantly, O&amp;M costs are very low, and typical asset life is 25–30 years.</p>
 <hr class="docutils" />
 </section>
 <section id="wind-onshore-and-offshore">
@@ -1138,7 +1138,7 @@ PV generation is fully dependent on sunlight and thus inherently variable and no
 <p><strong>Description:</strong> Converts kinetic energy of the wind into electricity via rotating blades connected to a generator. Offshore installations benefit from more stable wind conditions.</p>
 <p><strong>Fuel:</strong> Wind.</p>
 <p><strong>Technical characteristics:</strong><br />
-Wind turbines produce variable power depending on wind speed and direction. Minimum generation is zero and ramping cannot be controlled—power may drop or spike quickly based on weather. These systems generally do not contribute to reserves unless supported by advanced controls or storage. Offshore wind offers higher capacity factors but entails higher capital and maintenance costs. Both types are fully renewable and essential components of the energy transition.</p>
+Wind turbines produce variable power depending on wind speed and direction. Minimum generation is zero and ramping cannot be controlled—power may drop or spike quickly based on weather. These renewable-sourced systems generally do not contribute to reserves unless supported by advanced controls or storage. Offshore wind offers higher capacity factors but entails higher capital and maintenance costs.</p>
 <hr class="docutils" />
 </section>
 <section id="storage-battery">
@@ -1146,7 +1146,7 @@ Wind turbines produce variable power depending on wind speed and direction. Mini
 <p><strong>Description:</strong> Electrochemical systems (typically lithium-ion) that store electricity and release it as needed. Ideal for short-duration flexibility and reserve provision.</p>
 <p><strong>Fuel:</strong> Electricity.</p>
 <p><strong>Technical characteristics:</strong><br />
-Battery storage offers excellent flexibility. It can ramp up or down almost instantaneously, provide fast-response reserves, and operate at full flexibility down to zero output. Round-trip efficiency is high (typically 85–90%). However, storage duration is generally limited to a few hours. Capital costs per MWh stored remain high, although declining, while O&amp;M costs are relatively low. Lifespans depend on usage and cycling patterns, usually ranging from 10 to 15 years. Batteries are an essential enabler of high-renewable systems.</p>
+Battery storage offers flexibility. It can ramp up or down almost instantaneously, provide fast-response reserves, and operate at full flexibility down to zero output. Round-trip efficiency is high (typically 85–90%). However, storage duration is generally limited to a few hours. Capital costs per MWh stored remain high, although declining, while O&amp;M costs are relatively low. Lifespans depend on usage and cycling patterns, usually ranging from 10 to 15 years.</p>
 <hr class="docutils" />
 </section>
 <section id="storage-pumped-hydro">
@@ -1154,7 +1154,7 @@ Battery storage offers excellent flexibility. It can ramp up or down almost inst
 <p><strong>Description:</strong> Uses electricity to pump water to a higher reservoir, then generates electricity by releasing the water through turbines.</p>
 <p><strong>Fuel:</strong> Electricity (stored mechanically).</p>
 <p><strong>Technical characteristics:</strong><br />
-Pumped hydro provides large-scale, long-duration energy storage. It can be fully modulated, with zero minimum generation and fast ramping both up and down. Its round-trip efficiency is typically between 75% and 80%. While capital costs are very high due to infrastructure, O&amp;M costs are low, and lifetimes often exceed 50 years. Pumped hydro is well suited for energy shifting, daily load balancing, and reserve provision, making it a cornerstone of flexible power systems.</p>
+Pumped hydro provides large-scale, long-duration energy storage. It can be fully modulated, with zero minimum generation and fast ramping both up and down. Its round-trip efficiency is typically between 75% and 80%. While capital costs are very high due to infrastructure, O&amp;M costs are low, and lifetimes often exceed 50 years.</p>
 </section>
 </section>
 
