@@ -308,6 +308,7 @@ All files in this section are stored in the **`supply`** folder.
   The initial dataset is typically based on **CCDR (Country Climate and Development Report) guidelines**.
 
 - **Example Link**: [pGenDataExcelDefault.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelDefault.csv)
+- **Link to Standard Data**: [pGenDataExcelDefaultStandard.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_rwanda/supply/pGenDataExcelDefaultStandard.csv) - See [Technology overview](https://esmap-world-bank-group.github.io/EPM/docs/input_technology_brief.html)
 
 ---
 
