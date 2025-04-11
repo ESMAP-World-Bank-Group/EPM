@@ -682,8 +682,7 @@ pSolarCost(z,y)$(zSolarpH(z,y) > 0) = (sum((gzmap(ng,z),gtechmap(ng,PVtech)), pC
 pPlantDispatch(z,y,q,d,g,t,"Generation")$zgmap(z,g) = sum(gfmap(g,f), vPwrOut.l(g,f,q,d,t,y));
 pPlantDispatch(z,y,q,d,g,t,"Reserve")$zgmap(z,g) = vSpinningReserve.l(g,q,d,t,y);
 
-
-pDispatch(z,y,q,d,"Generation"    ,t) = sum(zgmap(z,g), pPlantDispatch(z,y,q,d,g,t,"Generation")); 
+pDispatch(z,y,q,d,f,t) = sum((gzmap(g,z),gfmap(g,f)), vPwrOut.l(g,f,q,d,t,y));
 pDispatch(z,y,q,d,"Imports"       ,t) =      sum(sTopology(z,z2), vFlow.l(z2,z,q,d,t,y)) + sum(zext,vImportPrice.l(z,zext,q,d,t,y));
 pDispatch(z,y,q,d,"Exports"       ,t) = 0 - (sum(sTopology(z,z2), vFlow.l(z,z2,q,d,t,y)) + sum(zext,vExportPrice.l(z,zext,q,d,t,y)));
 pDispatch(z,y,q,d,"Unmet demand"  ,t) = vUSE.l(z,q,d,t,y);
