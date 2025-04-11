@@ -989,6 +989,33 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#common-issues">
    Common issues
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#time-definition">
+     Time definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#default-dataframes">
+     Default dataframes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pgendataexcelcustom">
+     pGenDataExcelCustom
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pstoragedataexcel">
+     pStorageDataExcel
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-data">
+     Transmission data
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1003,7 +1030,46 @@ title="Print to PDF"
 <h1>Troublehooting<a class="headerlink" href="#troublehooting" title="Permalink to this heading">#</a></h1>
 <section id="common-issues">
 <h2>Common issues<a class="headerlink" href="#common-issues" title="Permalink to this heading">#</a></h2>
-<p>Candidate plants are missing from the output file: <strong>Please verify that <code class="docutils literal notranslate"><span class="pre">BuildLimitperYear</span></code> is properly defined.</strong></p>
+<section id="time-definition">
+<h3>Time definition<a class="headerlink" href="#time-definition" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The parameters <code class="docutils literal notranslate"><span class="pre">pHours</span></code>, <code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code>, <code class="docutils literal notranslate"><span class="pre">pVREgenProfile</span></code>, and <code class="docutils literal notranslate"><span class="pre">pDemandProfile</span></code> should have the same (q, d, t) combinations. An error is raised if they do not.</p></li>
+</ul>
+</section>
+<section id="default-dataframes">
+<h3>Default dataframes<a class="headerlink" href="#default-dataframes" title="Permalink to this heading">#</a></h3>
+<p>Files such as <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code> should include all combinations of zone, tech, and fuel defined in pGenDataExcel. Typical error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  File &quot;&lt;string&gt;&quot;, line 134, in prepare_generatorbased_parameter
+Exception from Python (line 264): &lt;class &#39;ValueError&#39;&gt;: Missing values in default is not permitted. To fix this bug ensure that all combination in pAvailabilityDefault are included.
+</pre></div>
+</div>
+</section>
+<section id="pgendataexcelcustom">
+<h3>pGenDataExcelCustom<a class="headerlink" href="#pgendataexcelcustom" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Candidate plants are missing from the output file: <strong>Please verify that <code class="docutils literal notranslate"><span class="pre">BuildLimitperYear</span></code> is properly defined.</strong></p></li>
+<li><p>If power plant names are too long, the following error may appear:</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Exception from Connect: &lt;class &#39;UnboundLocalError&#39;&gt;: cannot access local variable &#39;was_relaxed&#39; where it is not associated with a value
+*** Error executing embedded code section:
+</pre></div>
+</div>
+</section>
+<section id="pstoragedataexcel">
+<h3>pStorageDataExcel<a class="headerlink" href="#pstoragedataexcel" title="Permalink to this heading">#</a></h3>
+<p>Storage technologies listed in <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom</span></code> should also appear in <code class="docutils literal notranslate"><span class="pre">pStorageDataExcel</span></code>. Otherwise, an error such as the following will be raised:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Exception from Python (line 455): &lt;class &#39;ValueError&#39;&gt;: Error: The following fuels are in gendata but not defined in pStorData: 
+{&#39;New_BESS_AGO&#39;}
+</pre></div>
+</div>
+</section>
+<section id="transmission-data">
+<h3>Transmission data<a class="headerlink" href="#transmission-data" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>All (z, z2) pairs in ‘pTransferLimit’ should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.</p></li>
+<li><p>Each candidate transmission line should only specified once in pNewTransmission. An error is raised otherwise.</p></li>
+</ul>
+</section>
 </section>
 </section>
 
@@ -1069,6 +1135,33 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#common-issues">
    Common issues
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#time-definition">
+     Time definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#default-dataframes">
+     Default dataframes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pgendataexcelcustom">
+     pGenDataExcelCustom
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pstoragedataexcel">
+     pStorageDataExcel
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-data">
+     Transmission data
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
