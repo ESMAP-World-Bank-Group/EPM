@@ -4,9 +4,42 @@ The main generation and storage technologies modeled in EPM are presented in the
 
 For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/CCDR_Energy_Transition_Analysis_FY24_Methodology_Note.docx).
 
-<div style="overflow-x: auto; max-width: 100%;">
+<style>
+  .scrollable-table {
+    overflow-x: auto;
+    max-width: 100%;
+  }
 
-<table class="compact-table">
+  table.tech-table {
+    border-collapse: collapse;
+    font-size: 0.85em;
+    width: max-content; /* Permet de dépasser le cadre et scroller */
+    min-width: 100%;
+  }
+
+  table.tech-table th,
+  table.tech-table td {
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  table.tech-table th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+  }
+
+  table.tech-table thead tr:first-child th {
+    text-align: center;
+    vertical-align: bottom;
+  }
+</style>
+
+
+<div class="scrollable-table">
+  <table class="tech-table">
   <thead>
     <tr>
       <th rowspan="2">Technology</th>
@@ -53,6 +86,8 @@ For more detailed guidelines on technology-specific assumptions, you can refer t
   </tbody>
 </table>
 </div>
+
+
 ---
 
 ### ST (Steam Turbine)
