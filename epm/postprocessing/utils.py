@@ -1043,9 +1043,9 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
         capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
         utilization_transmission['value'] = utilization_transmission['value'] * 100  # percentage
-        utilization_transmission = keep_max_direction(utilization_transmission)
+        utilization_transmission_max = keep_max_direction(utilization_transmission)  # we sum utilization across both directions, and keep the direction with the maximum utilization (for arrows on graph)
         transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
-            utilization_transmission.rename
+            utilization_transmission_max.rename
             (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
@@ -1102,6 +1102,11 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
                     pPlantDispatch = epm_results['pPlantDispatch'].copy()
                     pPrice = epm_results['pPrice'].copy()
                     filename = f'{folder}/InteractiveMap_{selected_scenario}_{year}.html'
+
+                    transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
+                        utilization_transmission.rename
+                        (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
+                    transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                     create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
                                            dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
@@ -4248,19 +4253,25 @@ def make_line_subplots(df, filename, x_column, y_column, subplot_column,
 
 def keep_max_direction(df):
     # Make sure zone names are consistent strings
-    df['zone'] = df['zone'].astype(str)
-    df['z2'] = df['z2'].astype(str)
+    df_grouped = df.copy()
+    df_grouped['zone'] = df_grouped['zone'].astype(str)
+    df_grouped['z2'] = df_grouped['z2'].astype(str)
 
     # Create a canonical pair identifier (sorted zones)
-    df['zone_pair'] = df.apply(lambda row: tuple(sorted([row['zone'], row['z2']])), axis=1)
+    df_grouped['zone_pair'] = df_grouped.apply(lambda row: tuple(sorted([row['zone'], row['z2']])), axis=1)
 
+    df_grouped = df_grouped.sort_values('value', ascending=False)
     # Group by scenario, year, and zone_pair
-    df_grouped = df.sort_values('value', ascending=False).groupby(['scenario', 'year', 'zone_pair'], as_index=False).first()
+    # df_grouped = df_grouped.sort_values('value', ascending=False).groupby(['scenario', 'year', 'zone_pair'], as_index=False)['value'].sum()
+    df_sum = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False)['value'].sum()
 
+    df_grouped = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False).first()
+
+    df_sum = df_sum.merge(df_grouped[['scenario', 'year', 'zone_pair', 'zone', 'z2']], on=['scenario', 'year', 'zone_pair'], how='left')
     # Drop the helper column
-    df_grouped = df_grouped.drop(columns='zone_pair')
+    df_sum = df_sum.drop(columns='zone_pair')
 
-    return df_grouped
+    return df_sum
 
 
 
