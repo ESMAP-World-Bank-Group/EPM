@@ -3426,7 +3426,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
             if zone1 in centers and zone2 in centers:
                 coords = [[centers[zone1][1], centers[zone1][0]],  # Lat, Lon
                           [centers[zone2][1], centers[zone2][0]]]  # Lat, Lon
-                color = calculate_color_gradient(max(utilization_1to2, utilization_2to1), 0, 100)
+                color = calculate_color_gradient(utilization_1to2 + utilization_2to1, 0, 100)
 
                 tooltip_text = f"""
                 <div style="font-size: {label_size}px;">
