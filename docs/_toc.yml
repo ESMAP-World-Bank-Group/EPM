@@ -21,6 +21,7 @@ parts:
   - caption: Input
     chapters: 
       - file: docs/input_overview.md
+      - file: docs/set_definition.md
       - file: docs/input_detailed.md
       - file: docs/input_solver_options.md
       - file: docs/input_technology_brief.md
