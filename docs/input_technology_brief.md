@@ -4,24 +4,7 @@ The main generation and storage technologies modeled in EPM are presented in the
 
 For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/CCDR_Energy_Transition_Analysis_FY24_Methodology_Note.docx).
 
-<style>
-  table.compact-table {
-    font-size: 0.85em;
-    table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-  }
-  table.compact-table th,
-  table.compact-table td {
-    white-space: nowrap;
-    padding: 4px 6px;
-    border: 1px solid #ddd;
-    text-align: center;
-  }
-  table.compact-table thead tr:nth-child(1) th {
-    background-color: #f2f2f2;
-  }
-</style>
+<div style="overflow-x: auto; max-width: 100%;">
 
 <table class="compact-table">
   <thead>
@@ -69,7 +52,7 @@ For more detailed guidelines on technology-specific assumptions, you can refer t
     <tr><td>Storage</td><td>Pumped Hydro</td><td>0%</td><td>0%</td><td>-</td><td>-</td><td>100%</td><td>100%</td><td>100%</td><td>100%</td><td>50–100%</td><td>75%</td><td>25k–75k</td><td>50k</td><td>0.0–1.0</td><td>0.5</td><td>0.70–5.0</td><td>2.9*</td><td>50</td><td>80%</td></tr>
   </tbody>
 </table>
-
+</div>
 ---
 
 ### ST (Steam Turbine)
