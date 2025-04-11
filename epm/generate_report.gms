@@ -107,6 +107,7 @@ Parameters
    
    pSpinningReserveCostsZone(z,g,y)                      'Cost of reserves by plant in dollars per zone'
    pSpinningReserveByPlantZone(z,g,y)                    'Reserve contribution by plant in MWh per zone'
+   pSpinningReserveByFuelZone(z,f,y)                 'Reserve contribution by fuel in MWh per zone'
    pSpinningReserveCostsCountry(c,g,y)               'Cost of reserves by plant in dollars per country'
    pSpinningReserveByPlantCountry(c,g,y)             'Reserve contribution by plant in MWh per country'
 
@@ -132,6 +133,7 @@ Parameters
    pSystemAverageCost(y)                     'System annual cost of generation by year USD per MWh'
                                              
    pPlantDispatch(z,y,q,d,g,t,*)             'Detailed dispatch and reserve by plant in MW'
+   pFuelDispatch(z,y,q,d,f,t)                'Dispatch by fuel in MW'
    pDispatch(z,y,q,d,*,t)                    'Detailed dispatch and flows'
    
 
@@ -632,6 +634,7 @@ pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + s
 * By Zone
 pSpinningReserveCostsZone(zgmap(z,g),y)   = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))/1e6 ;
 pSpinningReserveByPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
+pSpinningReserveByFuelZone(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
 
 pReserveMarginRes(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
 pReserveMarginRes(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
@@ -682,9 +685,11 @@ pSolarCost(z,y)$(zSolarpH(z,y) > 0) = (sum((gzmap(ng,z),gtechmap(ng,PVtech)), pC
 pPlantDispatch(z,y,q,d,g,t,"Generation")$zgmap(z,g) = sum(gfmap(g,f), vPwrOut.l(g,f,q,d,t,y));
 pPlantDispatch(z,y,q,d,g,t,"Reserve")$zgmap(z,g) = vSpinningReserve.l(g,q,d,t,y);
 
-pDispatch(z,y,q,d,f,t) = sum((gzmap(g,z),gfmap(g,f)), vPwrOut.l(g,f,q,d,t,y));
+pFuelDispatch(z,y,q,d,f,t) = sum((gzmap(g,z),gfmap(g,f)), vPwrOut.l(g,f,q,d,t,y));
+
 pDispatch(z,y,q,d,"Imports"       ,t) =      sum(sTopology(z,z2), vFlow.l(z2,z,q,d,t,y)) + sum(zext,vImportPrice.l(z,zext,q,d,t,y));
 pDispatch(z,y,q,d,"Exports"       ,t) = 0 - (sum(sTopology(z,z2), vFlow.l(z,z2,q,d,t,y)) + sum(zext,vExportPrice.l(z,zext,q,d,t,y)));
+pDispatch(z,y,q,d,"Net imports"   ,t) = pDispatch(z,y,q,d,"Imports",t) - pDispatch(z,y,q,d,"Exports",t);
 pDispatch(z,y,q,d,"Unmet demand"  ,t) = vUSE.l(z,q,d,t,y);
 pDispatch(z,y,q,d,"Storage Charge",t) = 0 - sum(zgmap(z,st), vStorInj.l(st,q,d,t,y));
 pDispatch(z,y,q,d,"Demand"        ,t) = pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y);
@@ -993,6 +998,8 @@ embeddedCode Connect:
         })
 endEmbeddedCode
 
+* Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValue, pSolarCost, pCapacityByTechandFuel, pPlantUtilizationTech
+
 execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
                                  pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
                                  pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
@@ -1002,22 +1009,21 @@ execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonal
                                  pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
                                  pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
                                  pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
-                                 pPeakCapacity, pCapacityByFuel, pCapacityByTechandFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
+                                 pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
                                  pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
                                  pNewCapacityTech, pNewCapacityTechCountry,
                                  pReserveMarginRes, pReserveMarginResCountry,
                                  pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
                                  pAdditionalCapacityCountry,
                                  pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
-                                 pSpinningReserveByPlantZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
+                                 pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
                                  pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
-                                 pPlantDispatch, pDispatch, pPlantUtilization, pPlantAnnualLCOE,
-                                 pPlantUtilizationTech,pFuelUtilization,
-                                 pCSPBalance, pCSPComponents,pPVwSTOBalance,pPVwSTOComponents,pStorageBalance,pStorageComponents
-                                 pSolarValue, pSolarCost,
+                                 pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
+                                 pFuelUtilization,
+                                 pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
                                  pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
                                  pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
-                                pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
+                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
 
 ;
 
