@@ -23,6 +23,7 @@ parts:
       - file: docs/input_overview.md
       - file: docs/input_detailed.md
       - file: docs/input_solver_options.md
+      - file: docs/input_technology_brief.md
   - caption: Postprocessing
     chapters:
       - file: docs/postprocessing
@@ -31,6 +32,7 @@ parts:
       - file: docs/planning_analysis_rwanda.ipynb
       - file: docs/planning_analysis_sapp.ipynb
       - file: docs/planning_analysis_eapp.ipynb
+      - file: docs/postprocessing_tableau
   - caption: Model Description
     chapters:
         - file: docs/model_overview
