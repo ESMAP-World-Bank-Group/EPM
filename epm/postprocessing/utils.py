@@ -181,7 +181,8 @@ def extract_epm_folder(results_folder, file='epmresults.gdx'):
     return inverted_dict
 
 
-def extract_epm_folder_by_scenario(FOLDER, file='epmresults.gdx', save_to_csv=False):
+def extract_epm_folder_by_scenario(FOLDER, file='epmresults.gdx', save_to_csv=False,
+                                   folder_csv='csv'):
     """
     Extract information from a folder containing multiple scenarios,
     keeping the results separate for each scenario.
@@ -216,7 +217,7 @@ def extract_epm_folder_by_scenario(FOLDER, file='epmresults.gdx', save_to_csv=Fa
             scenario_dict[scenario] = extract_gdx(gdx_path)
 
     if save_to_csv:
-        save_csv = Path(RESULTS_FOLDER) / Path('csv')
+        save_csv = Path(RESULTS_FOLDER) / Path(folder_csv)
         if not os.path.exists(save_csv):
             os.mkdir(save_csv)
         for key in scenario_dict.keys():
@@ -918,14 +919,14 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel',
                                       column_xaxis='scenario',
                                       column_value='value', column_multiple_bars='year',
-                                      format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45)
+                                      format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45, format_label="{:.0f}")
 
             filename = f'{GRAPHS_FOLDER}/scenarios_comparison/CapacityMixClusteredStackedAreaPlot.png'
             make_stacked_bar_subplots(df, filename, dict_specs['colors'], column_stacked='fuel',
                                       column_xaxis='year',
                                       column_value='value', column_multiple_bars='scenario',
                                       select_xaxis=[df['year'].min(), df['year'].max()],
-                                      format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45)
+                                      format_y=lambda y, _: '{:.0f} GW'.format(y), rotation=45, format_label="{:.0f}")
 
             df = df_energyfuel.copy()
             df = df.loc[df.scenario.isin(selected_scenarios)]
@@ -1041,10 +1042,11 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
 
         capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
-        utilization_transmission['value'] = utilization_transmission['value'] * 100  # update to percentage value
+        utilization_transmission['value'] = utilization_transmission['value'] * 100  # percentage
+        utilization_transmission = keep_max_direction(utilization_transmission)
         transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
-            utilization_transmission.rename(columns={'value': 'utilization'}),
-            on=['scenario', 'zone', 'z2', 'year'], how='outer')  # removes connections with zero utilization
+            utilization_transmission.rename
+            (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
         for year in years:
@@ -1061,6 +1063,14 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
                                          min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
                                          label_fontsize=10, show_labels=False, min_display_value=50,
                                          format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename, title='Transmission utilization (%)')
+
+                make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario,
+                                         column='utilization',
+                                         min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
+                                         label_fontsize=10, show_labels=False, min_display_value=50,
+                                         format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
+                                         title='Transmission utilization (%)', show_arrows=True, arrow_offset_ratio=0.4,
+                                         arrow_size=25, plot_colored_countries=False)
 
                 tmp = epm_results['pInterchange'].copy()
                 df_congested = epm_results['pCongested'].copy().rename(columns={'value': 'congestion'})
@@ -3227,11 +3237,18 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
 
     # Plot the base zone map with predefined colors for each country
-    if plot_colored_countries:
-        zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
+    if isinstance(plot_colored_countries, bool):
+        if plot_colored_countries:
+            zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
+            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+        else:
+            zone_map.plot(ax=ax, color='white', edgecolor='black')
+    else:  # plot_colored_countries is a list of countries
+        assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
+        zone_map['color'] = zone_map['ADMIN'].apply(
+            lambda c: predefined_colors[c] if c in plot_colored_countries else 'white'
+        )
         zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
-    else:
-        zone_map.plot(ax=ax, color='white', edgecolor='black')
 
 
     # Remove axes for a clean map
@@ -4226,88 +4243,27 @@ def make_line_subplots(df, filename, x_column, y_column, subplot_column,
     plt.tight_layout()
     plt.savefig(filename, bbox_inches='tight')
     plt.show()
-def make_line_subplots(df, filename, x_column, y_column, subplot_column,
-                       group_column=None, dict_colors=None, format_y=None,
-                       figsize=(10, 5), rotation=0, fonttick=12, title=None,
-                       xlabel=None, ylabel=None):
-    """
-    Create multiple line subplots from a DataFrame, sliced by a given column.
 
-    Parameters
-    ----------
-    df : pd.DataFrame
-        The data to be plotted.
-    filename : str
-        Path to save the resulting figure.
-    x_column : str
-        Name of the column for the x-axis.
-    y_column : str
-        Name of the column for the y-axis.
-    subplot_column : str
-        Column used to create one subplot per unique value (e.g., 'zone', 'attribute').
-    group_column : str, optional
-        If specified, plots one line per value of this column inside each subplot.
-    dict_colors : dict, optional
-        Dictionary mapping group_column values to colors.
-    format_y : function, optional
-        A function for formatting the y-axis ticks.
-    figsize : tuple, default=(10, 5)
-        Size of each subplot (width, height).
-    rotation : int, default=0
-        Rotation of the x-axis tick labels.
-    fonttick : int, default=12
-        Font size for tick labels.
-    title : str, optional
-        Title for the entire figure.
-    xlabel : str, optional
-        Label for the x-axis.
-    ylabel : str, optional
-        Label for the y-axis.
-    """
 
-    unique_subplots = df[subplot_column].unique()
-    ncols = min(3, len(unique_subplots))
-    nrows = int(np.ceil(len(unique_subplots) / ncols))
 
-    fig, axes = plt.subplots(nrows, ncols, figsize=(figsize[0] * ncols, figsize[1] * nrows), sharey=True)
-    axes = np.array(axes).flatten()
+def keep_max_direction(df):
+    # Make sure zone names are consistent strings
+    df['zone'] = df['zone'].astype(str)
+    df['z2'] = df['z2'].astype(str)
 
-    for i, key in enumerate(unique_subplots):
-        ax = axes[i]
-        subset = df[df[subplot_column] == key]
+    # Create a canonical pair identifier (sorted zones)
+    df['zone_pair'] = df.apply(lambda row: tuple(sorted([row['zone'], row['z2']])), axis=1)
 
-        if group_column:
-            for g, data in subset.groupby(group_column):
-                color = dict_colors[g] if dict_colors and g in dict_colors else None
-                ax.plot(data[x_column], data[y_column], label=str(g), color=color)
-        else:
-            ax.plot(subset[x_column], subset[y_column], color='steelblue')
+    # Group by scenario, year, and zone_pair
+    df_grouped = df.sort_values('value', ascending=False).groupby(['scenario', 'year', 'zone_pair'], as_index=False).first()
 
-        ax.set_title(str(key), fontsize=fonttick, fontweight='bold')
-        ax.tick_params(axis='x', rotation=rotation)
-        ax.grid(True, linestyle='--', alpha=0.5)
+    # Drop the helper column
+    df_grouped = df_grouped.drop(columns='zone_pair')
 
-        if format_y:
-            ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
+    return df_grouped
 
-        if i % ncols == 0:
-            ax.set_ylabel(ylabel if ylabel else y_column, fontsize=fonttick)
 
-        if i >= (nrows - 1) * ncols:
-            ax.set_xlabel(xlabel if xlabel else x_column, fontsize=fonttick)
 
-        if group_column:
-            ax.legend(frameon=False, fontsize=fonttick - 2)
-
-    for j in range(i + 1, len(axes)):
-        fig.delaxes(axes[j])
-
-    if title:
-        fig.suptitle(title, fontsize=fonttick + 2)
-
-    plt.tight_layout()
-    plt.savefig(filename, bbox_inches='tight')
-    plt.show()
 
 if __name__ == '__main__':
     print(0)
