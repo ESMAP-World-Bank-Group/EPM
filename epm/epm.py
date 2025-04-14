@@ -146,6 +146,7 @@ def launch_epm(scenario,
                path_cplex_file='cplex.opt',
                folder_input=None,
                path_engine_file=False,
+               solvemode=2,
                prefix=''#'simulation_'
                ):
     """
@@ -209,6 +210,7 @@ def launch_epm(scenario,
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--FOLDER_INPUT {}".format(folder_input),
+                                                    "--SOLVEMODE {}".format(solvemode)
                                                     ] + path_args
 
     # Print the command
