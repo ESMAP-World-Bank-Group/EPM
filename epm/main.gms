@@ -922,6 +922,8 @@ $ifThenI.solvemode %SOLVE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;
    Solve PA using MIP minimizing vNPVcost;
+*  Abort if model was not solved successfully
+   abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
 $elseIfI.solvemode %SOLVE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1;
