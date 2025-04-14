@@ -14,7 +14,6 @@ parts:
       - file: docs/run_gams_studio
       - file: docs/run_python
       - file: docs/run_remote_server.md
-      - file: docs/run_engine_remote_server
       - file: docs/run_git_process.md
       - file: docs/run_troubleshooting.md
       - file: docs/run_remote_server_help.md
