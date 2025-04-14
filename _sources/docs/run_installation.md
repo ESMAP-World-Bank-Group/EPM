@@ -6,7 +6,7 @@ If you're new to Git, don't worry—just follow these steps carefully.
 
 ---
 
-## ✅ Summary of Key Commands  
+## Summary of Key Commands  
 
 | **Action** | **Command** |
 |------------|------------|
@@ -20,7 +20,7 @@ If you're new to Git, don't worry—just follow these steps carefully.
 
 ---
 
-## 1️⃣ Clone the Repository  
+## 1. Clone the Repository  
 
 To download the project to your local machine, follow these steps:  
 
@@ -40,13 +40,13 @@ To download the project to your local machine, follow these steps:
 
 ---
 
-## 2️⃣ Create and Activate a Branch  
+## 2. Create and activate a branch  
 
 A **branch** is like a separate workspace where you can make changes without affecting the main code (`main`).  
 
 We recommend **creating your own branch** to work on, keeping your changes organized.  
 
-### **Steps to Create and Activate Your Branch**  
+### **Steps to create and activate Your branch**  
 
 1. **Check which branch you are currently on**:  
    ```sh
@@ -68,16 +68,18 @@ We recommend **creating your own branch** to work on, keeping your changes organ
 
 ---
 
-## 3️⃣ Launch the Model  
+## 3. Launch the model  
 
 There are **three ways** to run the EPM model:  
 
-### **1. Using GAMS Studio (Recommended for Debugging)**  
+### **1. Using GAMS Studio (recommended for debugging)**  
 - Open GAMS Studio.  
 - Navigate to the EPM folder.  
 - Open and run `main.gms`.  
 
-### **2. Using Python (Recommended for Multiple Scenarios)**  
+Refer to the next section for more information.
+
+### **2. Using Python (recommended for multiple scenarios)**  
 1. **Activate the Conda environment** to ensure you have the required dependencies:  
    ```sh
    conda activate esmap_env
@@ -88,10 +90,11 @@ There are **three ways** to run the EPM model:
    ```
    Please check the data input structure in the `epm` folder before running the model.
 
-
 ---
 
-## 🎯 Final Tips  
+Refer to the section Running EPM from Python for more information.
+
+## Final tips  
 
 - **Use Git branches** to keep your work organized.  
 - **Test your setup with a small dataset** before running large-scale simulations.  
