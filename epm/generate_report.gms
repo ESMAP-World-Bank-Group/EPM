@@ -880,9 +880,12 @@ embeddedCode Connect:
         "pSettings",
         "pSummary",
         "pPeakCapacity",
+        "pPeakCapacityCountry",
         "pPrice",
         "pCostSummary",
         "pCostSummaryCountry",
+        "pCostSummaryWeightedAverageCountry",
+        "pCostsbyPlant",
         "pFuelCosts",
         "pFuelCostsCountry",
         "pEnergyByPlant",
@@ -896,6 +899,8 @@ embeddedCode Connect:
         "pCapacityByFuel",
         "pCapacityByFuelCountry",
         "pAdditionalCapacity",
+        "pNewCapacityFuel",
+        "pNewCapacityFuelCountry",
         "pAnnualTransmissionCapacity",
         #
         "pUtilizationByFuel",
@@ -914,6 +919,7 @@ embeddedCode Connect:
         "pDispatch",
         "pPlantUtilization",
         "pPlantAnnualLCOE",
+        "zcmap"
         ]
       instructions.append(
         {'GAMSReader': {'symbols': [{'name': s} for s in symbols]}}
