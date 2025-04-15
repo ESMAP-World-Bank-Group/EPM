@@ -209,6 +209,7 @@ def launch_epm(scenario,
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--FOLDER_INPUT {}".format(folder_input),
+                                                    "LogOption 2" # Write log to .log
                                                     ] + path_args
 
     # Print the command
