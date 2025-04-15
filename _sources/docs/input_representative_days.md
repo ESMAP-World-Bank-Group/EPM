@@ -33,10 +33,10 @@ This method is based on the work described in **Poncelet et al. (2017)** – [Se
 #### Methodology
 
 The approach formulates a mixed-integer linear programming (MILP) model that selects a fixed number of days and assigns them weights such that the reduced set best approximates the original time series. The optimization minimizes a weighted error across a set of metrics that reflect the most relevant temporal features for power system planning:
-1. **Relative Energy Error (REE)** — Ensures the total annual energy (per time series) is preserved.
-2. **Normalized Root Mean Square Error on Duration Curves (NRMSE-DC)** — Preserves the distribution of hourly values over the year.
-3. **Correlation Error (CE)** — Maintains the correlation structure between series (e.g. between Load and PV).
-4. **Ramp Duration Curve Error (NRMSE-RDC)** — Captures short-term variability relevant to storage and flexibility assessment.
+1. Relative Energy Error (REE) — Ensures the total annual energy (per time series) is preserved.
+2. Normalized Root Mean Square Error on Duration Curves (NRMSE-DC) — Preserves the distribution of hourly values over the year.
+3. Correlation Error (CE) — Maintains the correlation structure between series (e.g. between Load and PV).
+4. Ramp Duration Curve Error (NRMSE-RDC) — Captures short-term variability relevant to storage and flexibility assessment.
 
 These metrics are combined in a single objective function, allowing the optimization to trade off between them based on their relative importance.
 
