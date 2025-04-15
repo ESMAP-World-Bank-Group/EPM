@@ -1,7 +1,6 @@
-# Representative Days Overview
----
+# Representative days
 
-### 1. Why representative days?
+### Why representative days?
 
 In long-term capacity expansion models, which typically simulate multiple years with hourly resolution, computational requirements can quickly become prohibitive. To address this, models often rely on a reduced number of representative days to approximate the temporal variability of demand and VRE generation.
 
@@ -11,7 +10,7 @@ However, this simplification must be handled carefully. A poorly selected set of
 
 ---
 
-### 2. Methods for selecting representative days
+### Methods for selecting representative days
 
 Several approaches are available to select representative days:
 
@@ -25,7 +24,7 @@ The **optimization method** is described below and recommended for model accurac
 
 ---
 
-### 3. Representative day selection using optimization (Poncelet method)
+### Representative day selection using optimization (Poncelet method)
 
 
 This method is based on the work **Poncelet et al. (2017)** – [Selecting Representative Days for Capturing the Implications of Integrating Intermittent Renewables in Generation Expansion Planning Problems, IEEE Transactions on Power Systems](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Poncelet_et_al._-_2017_-_Selecting_Representative_Days.pdf)
@@ -45,20 +44,14 @@ These metrics are combined in a single objective function, allowing the optimiza
 
 #### Overall process
 
-```mermaid
-graph TD
-  A[Hourly time series (Load, PV, Wind)] --> B[Build duration & ramp duration curves]
-  B --> C[Formulate MILP optimization problem]
-  C --> D[Solve and select representative days with weights]
-  D --> E[Export formatted inputs for EPM (pHours, pDemandProfile, pVREProfile)]
-```
+The selection process starts from hourly time series for load, solar PV, and wind generation over at least one year. These are first transformed into statistical representations—such as duration curves, ramp duration curves, and correlation matrices—that capture key temporal characteristics. A mixed-integer linear programming (MILP) problem is then formulated and solved to identify the optimal combination of representative days and their weights. Finally, the selected days and associated weights are exported into standardized CSV files (e.g. `pHours`, `pDemandProfile`, `pVREProfile`) for use in EPM.
 
-##### Inputs:
+**Inputs:**
 - Hourly time series over at least one year (Load, PV, Wind).
 - Desired number of representative days to be selected.
 - Optional constraints (e.g., inclusion of specific “extreme” days).
 
-##### Outputs:
+**Outputs:**
 - List of selected representative days with their corresponding season.
 - Assigned weights for each selected day (number of real days it represents).
 - Standardized CSV files for use in EPM:
