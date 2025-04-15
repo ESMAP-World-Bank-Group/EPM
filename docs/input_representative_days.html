@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Representative Days Overview &#8212; Energy Planning Model</title>
+    <title>Representative days &#8212; Energy Planning Model</title>
   
   
   
@@ -256,7 +256,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Representative Days Overview
+                        Representative days
                       </a>
                     </li>
                 
@@ -571,7 +571,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Representative Days Overview
+                        Representative days
                       </a>
                     </li>
                 
@@ -785,7 +785,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology overview</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Representative Days Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Representative days</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Postprocessing</span></p>
 <ul class="nav bd-sidenav">
@@ -990,7 +990,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Representative Days Overview</h1>
+    <h1>Representative days</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -1002,17 +1002,17 @@ title="Print to PDF"
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#why-representative-days">
-   1. Why representative days?
+   Why representative days?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#methods-for-selecting-representative-days">
-   2. Methods for selecting representative days
+   Methods for selecting representative days
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#representative-day-selection-using-optimization-poncelet-method">
-   3. Representative day selection using optimization (Poncelet method)
+   Representative day selection using optimization (Poncelet method)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -1024,18 +1024,6 @@ title="Print to PDF"
     <a class="reference internal nav-link" href="#overall-process">
      Overall process
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#inputs">
-       Inputs:
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#outputs">
-       Outputs:
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
@@ -1048,18 +1036,17 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="representative-days-overview">
-<h1>Representative Days Overview<a class="headerlink" href="#representative-days-overview" title="Permalink to this heading">#</a></h1>
-<hr class="docutils" />
+  <section class="tex2jax_ignore mathjax_ignore" id="representative-days">
+<h1>Representative days<a class="headerlink" href="#representative-days" title="Permalink to this heading">#</a></h1>
 <section id="why-representative-days">
-<h2>1. Why representative days?<a class="headerlink" href="#why-representative-days" title="Permalink to this heading">#</a></h2>
+<h2>Why representative days?<a class="headerlink" href="#why-representative-days" title="Permalink to this heading">#</a></h2>
 <p>In long-term capacity expansion models, which typically simulate multiple years with hourly resolution, computational requirements can quickly become prohibitive. To address this, models often rely on a reduced number of representative days to approximate the temporal variability of demand and VRE generation.</p>
 <p>Each representative day is selected from historical data and assigned a weight corresponding to the number of real days it stands for. The objective is to preserve key temporal dynamics—such as daily and seasonal load patterns, renewable variability, and the correlation between demand and VRE—while significantly reducing model size and run time.</p>
 <p>However, this simplification must be handled carefully. A poorly selected set of representative days can lead to significant inaccuracies in system planning: misestimating investment needs, under- or overestimating flexibility requirements, or misrepresenting system costs. The method used to select representative days is therefore critical to ensure reliable model outcomes.</p>
 <hr class="docutils" />
 </section>
 <section id="methods-for-selecting-representative-days">
-<h2>2. Methods for selecting representative days<a class="headerlink" href="#methods-for-selecting-representative-days" title="Permalink to this heading">#</a></h2>
+<h2>Methods for selecting representative days<a class="headerlink" href="#methods-for-selecting-representative-days" title="Permalink to this heading">#</a></h2>
 <p>Several approaches are available to select representative days:</p>
 <ul class="simple">
 <li><p><strong>Heuristic selection</strong>: manually select a small number of days based on predefined criteria (e.g. maximum load, minimum wind). Easy to implement but generally not robust or representative.</p></li>
@@ -1070,7 +1057,7 @@ title="Print to PDF"
 <hr class="docutils" />
 </section>
 <section id="representative-day-selection-using-optimization-poncelet-method">
-<h2>3. Representative day selection using optimization (Poncelet method)<a class="headerlink" href="#representative-day-selection-using-optimization-poncelet-method" title="Permalink to this heading">#</a></h2>
+<h2>Representative day selection using optimization (Poncelet method)<a class="headerlink" href="#representative-day-selection-using-optimization-poncelet-method" title="Permalink to this heading">#</a></h2>
 <p>This method is based on the work <strong>Poncelet et al. (2017)</strong> – <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Poncelet_et_al._-_2017_-_Selecting_Representative_Days.pdf">Selecting Representative Days for Capturing the Implications of Integrating Intermittent Renewables in Generation Expansion Planning Problems, IEEE Transactions on Power Systems</a></p>
 <section id="methodology">
 <h3>Methodology<a class="headerlink" href="#methodology" title="Permalink to this heading">#</a></h3>
@@ -1086,23 +1073,14 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="overall-process">
 <h3>Overall process<a class="headerlink" href="#overall-process" title="Permalink to this heading">#</a></h3>
-<div class="highlight-mermaid notranslate"><div class="highlight"><pre><span></span>graph TD
-  A[Hourly time series (Load, PV, Wind)] --&gt; B[Build duration &amp; ramp duration curves]
-  B --&gt; C[Formulate MILP optimization problem]
-  C --&gt; D[Solve and select representative days with weights]
-  D --&gt; E[Export formatted inputs for EPM (pHours, pDemandProfile, pVREProfile)]
-</pre></div>
-</div>
-<section id="inputs">
-<h4>Inputs:<a class="headerlink" href="#inputs" title="Permalink to this heading">#</a></h4>
+<p>The selection process starts from hourly time series for load, solar PV, and wind generation over at least one year. These are first transformed into statistical representations—such as duration curves, ramp duration curves, and correlation matrices—that capture key temporal characteristics. A mixed-integer linear programming (MILP) problem is then formulated and solved to identify the optimal combination of representative days and their weights. Finally, the selected days and associated weights are exported into standardized CSV files (e.g. <code class="docutils literal notranslate"><span class="pre">pHours</span></code>, <code class="docutils literal notranslate"><span class="pre">pDemandProfile</span></code>, <code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code>) for use in EPM.</p>
+<p><strong>Inputs:</strong></p>
 <ul class="simple">
 <li><p>Hourly time series over at least one year (Load, PV, Wind).</p></li>
 <li><p>Desired number of representative days to be selected.</p></li>
 <li><p>Optional constraints (e.g., inclusion of specific “extreme” days).</p></li>
 </ul>
-</section>
-<section id="outputs">
-<h4>Outputs:<a class="headerlink" href="#outputs" title="Permalink to this heading">#</a></h4>
+<p><strong>Outputs:</strong></p>
 <ul class="simple">
 <li><p>List of selected representative days with their corresponding season.</p></li>
 <li><p>Assigned weights for each selected day (number of real days it represents).</p></li>
@@ -1115,7 +1093,6 @@ title="Print to PDF"
 </li>
 </ul>
 <p>For additional information and implementation details, refer to the <a class="reference external" href="https://esmap-world-bank-group.github.io/EPM/docs/representative_days.html">notebook on representative days</a>.</p>
-</section>
 </section>
 </section>
 </section>
@@ -1180,17 +1157,17 @@ title="Print to PDF"
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#why-representative-days">
-   1. Why representative days?
+   Why representative days?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#methods-for-selecting-representative-days">
-   2. Methods for selecting representative days
+   Methods for selecting representative days
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#representative-day-selection-using-optimization-poncelet-method">
-   3. Representative day selection using optimization (Poncelet method)
+   Representative day selection using optimization (Poncelet method)
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -1202,18 +1179,6 @@ title="Print to PDF"
     <a class="reference internal nav-link" href="#overall-process">
      Overall process
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#inputs">
-       Inputs:
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#outputs">
-       Outputs:
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
