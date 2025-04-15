@@ -944,33 +944,6 @@ $include %REPORT_FILE%
 *-------------------------------------------------------------------------------------
 
 
-* If memory monitoring is enabled, execute embedded Python code to log memory usage details
-$ifThen %gams.ProcTreeMemMonitor%==1
-embeddedCode Python:
-gams.printLog('')
-gams.printLog('Domains:')
-for s in [ 'g', 'f', 'y', 'q', 'd', 't', 'z', 'c']: # domains
-  gams.printLog(f'{s.ljust(20)} {str(len(gams.db[s])).rjust(10)}')
-gams.printLog('')
-gams.printLog('Maps:')
-for s in gams.db:
-  if isinstance(s,GamsSet) and s.name.lower().find('map') >= 0 and len(s)>0:
-    gams.printLog(f'{s.name.ljust(20)} {str(len(s)).rjust(10)}')
-gs = []
-for s in gams.db:
-  if not isinstance(s,GamsSet) and len(s)>10000:
-    gs.append((type(s),s.name,len(s)))
-gs.sort(key=lambda x: x[2], reverse=True)
-for t in zip([GamsParameter,GamsVariable,GamsEquation],['Parameter','Variable','Equation']):
-  gams.printLog('')
-  gams.printLog(f'{t[1]}:')
-  for s in gs:
-    if not s[0] == t[0]:
-      continue
-    gams.printLog(f'{s[1].ljust(20)} {str(s[2]).rjust(10)}')
-endEmbeddedCode
-$endif
-
 
 * Move outputs to a timestamped folder using embedded Python
 *$call python3 move_gms_file.py
