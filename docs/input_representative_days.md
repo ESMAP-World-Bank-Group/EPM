@@ -27,7 +27,7 @@ The **optimization method** is described below and recommended for model accurac
 ### Representative day selection using optimization (Poncelet method)
 
 
-This method is based on the work **Poncelet et al. (2017)** – [Selecting Representative Days for Capturing the Implications of Integrating Intermittent Renewables in Generation Expansion Planning Problems, IEEE Transactions on Power Systems](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Poncelet_et_al._-_2017_-_Selecting_Representative_Days.pdf)
+This method is based on the work described in **Poncelet et al. (2017)** – [Selecting Representative Days for Capturing the Implications of Integrating Intermittent Renewables in Generation Expansion Planning Problems, IEEE Transactions on Power Systems](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Poncelet_et_al._-_2017_-_Selecting_Representative_Days.pdf)
 
 
 #### Methodology
