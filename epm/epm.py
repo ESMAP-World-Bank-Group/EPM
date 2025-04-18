@@ -408,7 +408,7 @@ def launch_epm_multi_scenarios(config='config.csv',
 
 def perform_sensitivity(sensitivity, s):
     param = 'pSettings'
-    if sensitivity.get(param):
+    if sensitivity.get(param):  # testing implications of some setting parameters
         settings_sensi = {'VOLL': [250],
                           'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
@@ -442,7 +442,7 @@ def perform_sensitivity(sensitivity, s):
                 s[name][param] = path_file
 
     param = 'y'
-    if sensitivity.get(param):
+    if sensitivity.get(param):  # testing implications of year definition
         df = pd.read_csv(s['baseline'][param])
         # Check if all years have been include in the analysis
         if not (df[param].diff().dropna() == 1).all():
@@ -480,7 +480,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pDemandForecast'
+    param = 'pDemandForecast'  # testing implications of demand forecast
     if sensitivity.get(param):
         demand_forecast_sensi = [-0.25, -0.1, 0.1, 0.25]
         for val in demand_forecast_sensi:
@@ -504,7 +504,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pDemandProfile'
+    param = 'pDemandProfile'  # testing implications of having a flat profile
     if sensitivity.get(param):
         df = pd.read_csv(s['baseline'][param])
 
@@ -524,7 +524,7 @@ def perform_sensitivity(sensitivity, s):
         s[name] = s['baseline'].copy()
         s[name][param] = path_file
 
-    param = 'pAvailabilityDefault'
+    param = 'pAvailabilityDefault'  # testing implications of a change in availability for thermal power plants (default values, custom values stay the same)
     if sensitivity.get(param):
         availability_sensi = [0.3, 0.7]
 
@@ -549,7 +549,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pCapexTrajectoriesDefault'
+    param = 'pCapexTrajectoriesDefault'  # testing implications of constant capex trajectories
     if sensitivity.get(param):
 
         df = pd.read_csv(s['baseline'][param])
@@ -570,7 +570,7 @@ def perform_sensitivity(sensitivity, s):
         s[name] = s['baseline'].copy()
         s[name][param] = path_file
 
-    param = 'pFuelPrice'
+    param = 'pFuelPrice'  # testing implications of fuel prices
     if sensitivity.get(param):
         fuel_price_sensi = [-0.2, 0.2]
 
@@ -595,7 +595,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'ResLimShare'
+    param = 'ResLimShare'  # testing implications of contribution to reserves
     if sensitivity.get(param):
         parameter = 'pGenDataExcelDefault'
         reslimshare_sensi = [-0.5, -1]
@@ -619,7 +619,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][parameter] = path_file
 
-    param = 'BuildLimitperYear'
+    param = 'BuildLimitperYear'  # testing implications of limitations of build per year
     if sensitivity.get(param):
         parameter = 'pGenDataExcel'
 
@@ -641,7 +641,7 @@ def perform_sensitivity(sensitivity, s):
         s[parameter] = s['baseline'].copy()
         s[parameter][parameter] = path_file
 
-    param  = 'pVREProfile'
+    param  = 'pVREProfile'  # testing implications of a change in VRE production
     if sensitivity.get(param):
         capacity_factor_sensi = [-0.2, 0.2]
 
