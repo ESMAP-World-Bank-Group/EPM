@@ -839,10 +839,10 @@ def main(test_args=None):
     print(f"Simple: {args.simple}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+        sensitivity = {'pSettings': True, 'pDemandForecast': True,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False,
-                       'y': False, 'ResLimShare': False, 'pVREProfile': False,
+                       'pAvailabilityDefault': True, 'pDemandProfile': False,
+                       'y': True, 'ResLimShare': True, 'pVREProfile': True,
                        'BuildLimitperYear': True}
     else:
         sensitivity = None
