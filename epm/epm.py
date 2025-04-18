@@ -412,7 +412,8 @@ def perform_sensitivity(sensitivity, s):
         settings_sensi = {'VOLL': [250],
                           'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
-                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1]}
+                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1],
+                          'includeIntercoReserves': [0,1], 'interco_reserve_contribution': [0, 0.5]}
         # 'mingen_constraints': [1], # 'DR': [0.04, 0.08],
 
         # Iterate over the Settings to change
@@ -665,6 +666,7 @@ def perform_sensitivity(sensitivity, s):
             s[name][param] = path_file
 
     return s
+
 
 def perform_assessment(project_assessment, s):
     try:
