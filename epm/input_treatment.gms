@@ -45,7 +45,7 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     """
     
     if default_param_name not in db:
-        print('{} not included'.format(default_param_name))
+        gams.printLog('{} not included'.format(default_param_name))
         return None
 
     # Retrieve parameter data as pandas DataFrame
@@ -53,13 +53,13 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     default_df = db[default_param_name].records
     
     if default_df is None:
-        print('{} empty so no effect'.format(default_param_name))
+        gams.printLog('{} empty so no effect'.format(default_param_name))
         db.data[param_name].setRecords(param_df)
         db.write(gams.db, [param_name])
 
         return None
     
-    print("Modifying {} with {}".format(param_name, default_param_name))
+    gams.printLog("Modifying {} with {}".format(param_name, default_param_name))
     
     # Identify key columns (all except "value")
     columns = param_df.columns
@@ -72,7 +72,7 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     
     # Add missing columns that have been dropped by CONNECT CSV WRITER
     missing_columns = [i for i in default_df.columns if i not in param_df.columns]
-    print(f'Missing {missing_columns}')
+    gams.printLog(f'Missing {missing_columns}')
     for c in missing_columns:
         param_df[c] = float('nan')
 
@@ -130,7 +130,7 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     """
 
     if param_name not in db:
-        print('{} not included'.format(param_name))
+        gams.printLog('{} not included'.format(param_name))
         return None
 
     # Retrieve parameter data as a pandas DataFrame
@@ -139,10 +139,10 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
 
     # If the parameter is empty, print a message and return None
     if param_df is None:
-        print('{} empty so no effect'.format(param_name))
+        gams.printLog('{} empty so no effect'.format(param_name))
         return None
         
-    print('Adding generator reference to {}'.format(param_name))
+    gams.printLog('Adding generator reference to {}'.format(param_name))
     
     # Identify common columns between param_df and ref_df, excluding "value"
     columns = [c for c in param_df.columns if c != "value" and c in ref_df.columns]
@@ -161,7 +161,7 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
         
     if param_df['value'].isna().any():
         missing_rows = param_df[param_df['value'].isna()]  # Get rows with NaN values
-        print(missing_rows)  # Print the rows where 'value' is NaN
+        gams.printLog(missing_rows)  # Print the rows where 'value' is NaN
         raise ValueError(f"Missing values in default is not permitted. To fix this bug ensure that all combination in {param_name} are included.")
 
     return param_df
@@ -199,7 +199,7 @@ def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFra
     - NaN values in the "value" column are filled with `fillna`.
     """
     
-    print("Modifying {} with default values".format(param_name))
+    gams.printLog("Modifying {} with default values".format(param_name))
     
     # Retrieve parameter data from the GAMS database as a pandas DataFrame
     param_df = db[param_name].records
@@ -256,12 +256,12 @@ def prepare_lossfactor(db: gt.Container,
         newtransmission_loss_df = newtransmission_df.loc[newtransmission_df.thdr == 'LossFactor']
         if not newtransmission_loss_df.empty:  # Loss factor is specified
             if newtransmission_loss_df[column_loss].isna().any():
-                print("newtransmission_loss_df")
-                print(f"Warning: NaN values found in pNewTransmission, skipping specification of loss factor through pNewTransmission.")
+                gams.printLog("newtransmission_loss_df")
+                gams.printLog(f"Warning: NaN values found in pNewTransmission, skipping specification of loss factor through pNewTransmission.")
                 if db[param_loss].records is None:
                     raise ValueError(f"Error: Loss factor is not specified through pLossFactor.csv. There is missing data for the model")
             else:
-                print(f"Defining {param_loss} based on {param_ref}.")
+                gams.printLog(f"Defining {param_loss} based on {param_ref}.")
                 # write loss_factor by expanding the column newtransmission_df with header param_y (as columns)
                 y = db[param_y].records
                 y_index = y['y'].tolist()
