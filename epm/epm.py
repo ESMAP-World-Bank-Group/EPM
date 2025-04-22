@@ -191,16 +191,22 @@ def launch_epm(scenario,
         shutil.copy(path_cplex_file, new_file_path)
     else:
         shutil.copy(path_cplex_file, cwd)
+    
+    # Define the logfile name
+    logfile = f'{scenario_name}.log'
 
     # Arguments for GAMS
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
 
-    options = []
+    options = [
+        "LogOption 4", # Write log to standard output and log file
+        f"LogFile {logfile}" # Specify the name of the log file
+        ]
     if path_engine_file:
         print('Save file only to prepare running simulation on remote server')
         # Run GAMS with the updated environment
 
-        options = ['a=c', 'xs=engine_{}'.format(scenario_name)]
+        options.extend(['a=c', 'xs=engine_{}'.format(scenario_name)])
 
     command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
                                                     "--REPORT_FILE {}".format(path_report_file),
