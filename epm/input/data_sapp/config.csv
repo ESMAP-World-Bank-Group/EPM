@@ -51,3 +51,5 @@ pAvailabilityH2,h2/pAvailabilityH2.csv
 pCapexTrajectoryH2,h2/pCapexTrajectoryH2.csv
 pExternalH2,h2/pExternalH2.csv
 pFuelDataH2,h2/pFuelDataH2.csv
+SOLVER,
+solvemode,2
