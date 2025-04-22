@@ -391,17 +391,30 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
 *-------------------------------------------------------------------------------------
 * Make input verification
-
+$log ##########################
+$log ### INPUT VERIFICATION ###
+$log ##########################
 $include %VERIFICATION_FILE%
 $if not errorfree $abort PythonError in input_verification.gms
+$log ##############################
+$log ### INPUT VERIFICATION END ###
+$log ##############################
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
+
+$log ###########################
+$log ##### INPUT TREATMENT #####
+$log ###########################
 
 $onMulti
 $include %TREATMENT_FILE%
 $if not errorfree $abort PythonError in input_treatment.gms
 $offMulti
+
+$log ###############################
+$log ##### INPUT TREATMENT END #####
+$log ###############################
 
 *-------------------------------------------------------------------------------------
 
