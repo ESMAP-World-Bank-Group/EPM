@@ -52,17 +52,17 @@ try:
                 
         if list_missing:
             msg = f"Error: The following entries are required in pSettings but currently missing: {list_missing}"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         if list_zero_values:
             msg = f"WARNING: The following entries are set to zero in pSettings: {list_zero_values}"
-            print(msg)
+            gams.printLog(msg)
             
         
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking interconnected mode')
+    gams.printLog('Unexpected error when checking interconnected mode')
     raise # Re-raise the exception for debuggings
 
 
@@ -73,34 +73,34 @@ try:
     for param in  essential_param:
         if param not in db:
             msg = f"Error {param} is missing"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
             if db[param].records is None:
                 msg = f"Error {param} is missing"
-                print(msg)
+                gams.printLog(msg)
                 raise ValueError(msg)
             else:
                 if db[param].records.empty:
                     msg = f"Error {param} is empty"
-                    print(msg)
+                    gams.printLog(msg)
                     raise ValueError(msg)
                     
     
     optional_param = ["pDemandForecast", "pDemandForecast"]
     for param in optional_param:
         if param not in db:
-            print(f"Warning {param} is missing")
+            gams.printLog(f"Warning {param} is missing")
         else:
             if db[param].records is None:
-                print(f"Warning {param} is missing")
+                gams.printLog(f"Warning {param} is missing")
             else:
                 if db[param].records.empty:
-                    print(f"Warning {param} is empty")
+                    gams.printLog(f"Warning {param} is empty")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error in initial')
+    gams.printLog('Unexpected error in initial')
     raise # Re-raise the exception for debuggings
 
 
@@ -116,10 +116,10 @@ try:
     verif = pHours.records['value'].all() > 0
     
     if verif:
-        print("Success: All values pHours positive.")
+        gams.printLog("Success: All values pHours positive.")
     else:
         msg = f"Error: Some block duration are negative."
-        print(msg)
+        gams.printLog(msg)
         raise ValueError(msg)
 
 
@@ -128,15 +128,15 @@ try:
     
     # Check if the sum is 8760
     if total_hours == 8760:
-        print("Success: The sum of pHours is exactly 8760.")
+        gams.printLog("Success: The sum of pHours is exactly 8760.")
     else:
         msg = f"Error: The sum of pHours is {total_hours}, which is not 8760."
-        print(msg)
+        gams.printLog(msg)
         raise ValueError(msg)
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error in pHours')
+    gams.printLog('Unexpected error in pHours')
     raise # Re-raise the exception for debuggings
     
 # VREProfile
@@ -145,14 +145,14 @@ try:
     # Check if any value in pVREProfile exceeds 1
     if (pVREProfile.records['value'] > 1).any():
         msg = "Error: Capacity factor cannot be greater than 1 in pVREProfile."
-        print(msg)
+        gams.printLog(msg)
         raise ValueError(msg)
     else:
-        print("Success: All pVREProfile values are valid.")
+        gams.printLog("Success: All pVREProfile values are valid.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error in VREProfile')
+    gams.printLog('Unexpected error in VREProfile')
     raise # Re-raise the exception for debuggings
     
 # pAvailability
@@ -162,16 +162,16 @@ try:
     if pAvailability.records is not None:
         if (pAvailability.records['value'] > 1).any():
             msg = "Error: Availability factor cannot be 1 or greater in pAvailability."
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print("Success: All pAvailability values are valid.")
+            gams.printLog("Success: All pAvailability values are valid.")
     else:
-        print('pAvailabilityCustom is None. All values come from pAvailabilityDefault')
+        gams.printLog('pAvailabilityCustom is None. All values come from pAvailabilityDefault')
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error in pAvailability')
+    gams.printLog('Unexpected error in pAvailability')
     raise # Re-raise the exception for debuggings
     
 
@@ -193,21 +193,21 @@ try:
     
     # Print result
     if is_consistent:
-        print("All dataframes have the same (q, d, t) combinations.")
+        gams.printLog("All dataframes have the same (q, d, t) combinations.")
     else:
-        print("Mismatch detected! The following differences exist:")
+        gams.printLog("Mismatch detected! The following differences exist:")
     
         for var in unique_combinations.keys():
             diff = unique_combinations[first_var] ^ unique_combinations[var]  # Find differences
             if diff:
-                print(f"Differences in {var}: {diff}")
+                gams.printLog(f"Differences in {var}: {diff}")
         msg = "All dataframes do not have the same (q, d, t) combinations."
-        print(msg)
+        gams.printLog(msg)
         raise ValueError(msg)
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking time consistency')
+    gams.printLog('Unexpected error when checking time consistency')
     raise # Re-raise the exception for debuggings
 
 
@@ -225,22 +225,22 @@ try:
     # Calculate the Energy/Peak Ratio
     df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
     
-    print('Energy/Peak Demand Ratio')
-    print(df_pivot['energy_peak_ratio'], "TODO: Define value that are consistent and raise error otherwise.")
+    gams.printLog('Energy/Peak Demand Ratio')
+    gams.printLog(f"{df_pivot['energy_peak_ratio']} TODO: Define value that are consistent and raise error otherwise.")
 
 except Exception as e:
-    print('Unexpected error when checking pDemandForecast')
+    gams.printLog('Unexpected error when checking pDemandForecast')
     raise # Re-raise the exception for debuggings
 
 
 # Check that pFuelPrice are included
 try:
-    print('TODO')
+    gams.printLog('TODO')
     df = db["pFuelPrice"].records
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking pFuelPrice')
+    gams.printLog('Unexpected error when checking pFuelPrice')
     raise # Re-raise the exception for debuggings
     
 
@@ -254,10 +254,10 @@ try:
         if len(missing_pairs) > 0:
             missing_pairs_str = "\n".join([f"({z}, {z2})" for z, z2 in missing_pairs])
             msg = f"Error: The following (z, z2) pairs are missing their symmetric counterparts (z2, z) in 'pTransferLimit':\n{missing_pairs_str}"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print("Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.")
+            gams.printLog("Success: All (z, z2) pairs in 'pTransferLimit' have their corresponding (z2, z) pairs.")
             
         pHours_df = pHours.records
         seasons = set(pHours_df["q"].unique())  # Get unique seasons from pHours
@@ -272,14 +272,14 @@ try:
         if season_issues:
             season_issues_str = "\n".join([f"({z}, {z2}): missing seasons {missing}" for z, z2, missing in season_issues])
             msg = f"Error: The following (z, z2) pairs do not have all required seasons in 'pTransferLimit':\n{season_issues_str}"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print("Success: All (z,z2) pairs contain all required seasons.")
+            gams.printLog("Success: All (z,z2) pairs contain all required seasons.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking pTransferLimit')
+    gams.printLog('Unexpected error when checking pTransferLimit')
     raise # Re-raise the exception for debuggings
     
 
@@ -291,14 +291,14 @@ try:
         duplicate_transmission = [(z, z2) for z, z2 in topology_newlines if (z2, z) in topology_newlines]
         if duplicate_transmission:
             msg = f"Error: The following (z, z2) pairs are specified twice in 'pNewTransmission':\n{duplicate_transmission} \n This may cause some problems when defining twice the characteristics of additional line."
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print("Success: Each candidate transmission line is only specified once in pNewTransmission.")
+            gams.printLog("Success: Each candidate transmission line is only specified once in pNewTransmission.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking NewTransmission')
+    gams.printLog('Unexpected error when checking NewTransmission')
     raise # Re-raise the exception for debuggings
         
 
@@ -327,7 +327,7 @@ try:
                         topology = set(transferlimit_df.set_index(['z', 'z2']).index.unique())
                     else:
                         msg = f"Error: Interconnected mode is activated, but both TransferLimit and NewTransmission are empty."
-                        print(msg)
+                        gams.printLog(msg)
                         raise ValueError(msg)
                     
                     # Ensure that for any (z, z2) present in the topology, we keep only one tuple (z, z2) if both (z, z2) and (z2, z) exist.
@@ -340,10 +340,10 @@ try:
                     missing_lines = [line for line in final_topology if line not in topology_lossfactor and (line[1], line[0]) not in topology_lossfactor]
                     if missing_lines:
                         msg = f"Error: The following lines in topology are missing from pLossFactor: {missing_lines}"
-                        print(msg)
+                        gams.printLog(msg)
                         raise ValueError(msg)
                     else:
-                        print("Success: All transmission lines have a lossfactor specified.")
+                        gams.printLog("Success: All transmission lines have a lossfactor specified.")
                         
                     # Check that if a line appears twice in pLossFactor (as both (z, z2) and (z2, z)), its values are the same
                     loss_factor_df.set_index(['z', 'z2'], inplace=True)
@@ -359,19 +359,19 @@ try:
     
                     if duplicate_mismatches:
                         msg = f"Error: The following lines in pLossFactor have inconsistent values: {duplicate_mismatches}"
-                        print(msg)
+                        gams.printLog(msg)
                         raise ValueError(msg)
                     else:
-                        print("Success: No problem in duplicate values in pLossFactor.")
+                        gams.printLog("Success: No problem in duplicate values in pLossFactor.")
                     
                 else:
                     msg = f"Error: Interconnected mode is activated, but LossFactor is empty"
-                    print(msg)
+                    gams.printLog(msg)
                     raise ValueError(msg)
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking interconnected mode')
+    gams.printLog('Unexpected error when checking interconnected mode')
     raise # Re-raise the exception for debuggings
 
     
@@ -386,14 +386,14 @@ try:
         if missing_countries:
             missing_countries_str = ", ".join(missing_countries)
             msg = f"Error: The following countries are missing from 'pPlanningReserveMargin': {missing_countries_str}"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print("Success: All countries c have planning reserve defined.")
+            gams.printLog("Success: All countries c have planning reserve defined.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking PlanningReserves')
+    gams.printLog('Unexpected error when checking PlanningReserves')
     raise # Re-raise the exception for debuggings
     
 
@@ -408,18 +408,18 @@ try:
         additional_fuels = fuels - fuels_in_gendata
         if missing_fuels:
             msg = f"Error: The following fuels are in gendata but not defined in ftfindex: \n{missing_fuels}"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         elif additional_fuels:
             msg = f"Error: The following fuels are defined in ftfindex but not in gendata.:\n{season_issues_str}\n This may be because of spelling issues, and may cause problems after."
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print('Success: Fuels are well-defined everywhere.')
+            gams.printLog('Success: Fuels are well-defined everywhere.')
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking ftfindex')
+    gams.printLog('Unexpected error when checking ftfindex')
     raise # Re-raise the exception for debuggings
     
 
@@ -433,17 +433,17 @@ try:
         common_elements = zext & z
         if common_elements:
             msg = f"Error: The following zones are included both as external and internal zones:\n{common_elements}."
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print("Success: no conflict between internal and external zones")
+            gams.printLog("Success: no conflict between internal and external zones")
         
     else:
-        print("Success: no conflict between internal and external zones, as external zones are not included in the model.")
+        gams.printLog("Success: no conflict between internal and external zones, as external zones are not included in the model.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking zext')
+    gams.printLog('Unexpected error when checking zext')
     raise # Re-raise the exception for debuggings
     
 
@@ -453,9 +453,9 @@ try:
         if db["pExtTransferLimit"].records is not None:
             pExtTransferLimit = db["pExtTransferLimit"].records
         else:
-            print("Warning: External zones are specified, but imports and exports capacities are not specified. This may be caused by a problem in the spelling of external zones in pExtTransferLimit.")
+            gams.printLog("Warning: External zones are specified, but imports and exports capacities are not specified. This may be caused by a problem in the spelling of external zones in pExtTransferLimit.")
 except Exception as e:
-    print('Unexpected error when checking pExtTransferLimit')
+    gams.printLog('Unexpected error when checking pExtTransferLimit')
     raise # Re-raise the exception for debuggings
         
 
@@ -466,9 +466,9 @@ try:
         allowExports = pSettings.loc[pSettings.sc == 'allowExports']
         if not allowExports.empty:  # we authorize exchanges with external zones
             if db["pExtTransferLimit"].records is None:
-                print("Warning: exchanges with external zones are allowed, but imports and exports capacities are not specified.")
+                gams.printLog("Warning: exchanges with external zones are allowed, but imports and exports capacities are not specified.")
 except Exception as e:
-    print('Unexpected error when checking pSettings')
+    gams.printLog('Unexpected error when checking pSettings')
     raise # Re-raise the exception for debuggings
     
 
@@ -482,14 +482,14 @@ try:
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:
             msg = f"Error: The following fuels are in gendata but not defined in pStorData: \n{missing_storage_gen}"
-            print(msg)
+            gams.printLog(msg)
             raise ValueError(msg)
         else:
-            print('Success: All storage generators are are well-defined in pStorDataExcel.')
+            gams.printLog('Success: All storage generators are are well-defined in pStorDataExcel.')
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error when checking storage data')
+    gams.printLog('Unexpected error when checking storage data')
     raise # Re-raise the exception for debuggings
     
 
@@ -505,11 +505,11 @@ try:
             zones = set(group['z'].unique())
             missing = zones_to_include - zones
             if missing:
-                print(f"Warning: The following zones are declared in pGenDataExcel but are not specified in pGenDataExcelDefault for fuel {fuel}: {missing}.")
+                gams.printLog(f"Warning: The following zones are declared in pGenDataExcel but are not specified in pGenDataExcelDefault for fuel {fuel}: {missing}.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:
-    print('Unexpected error in pAvailability')
+    gams.printLog('Unexpected error in pAvailability')
     raise # Re-raise the exception for debuggings
 
 
