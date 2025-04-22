@@ -193,14 +193,14 @@ def launch_epm(scenario,
         shutil.copy(path_cplex_file, cwd)
     
     # Define the logfile name
-    logfile = f'{scenario_name}.log'
+    logfile = os.path.join(cwd, 'main.log')
 
     # Arguments for GAMS
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
 
     options = [
-        "LogOption 4", # Write log to standard output and log file
-        f"LogFile {logfile}" # Specify the name of the log file
+        "--LogOption 4", # Write log to standard output and log file
+        f"--LogFile {logfile}" # Specify the name of the log file
         ]
     if path_engine_file:
         print('Save file only to prepare running simulation on remote server')
