@@ -924,20 +924,27 @@ if (card(mipopt),
 * Enable the solver to read an external solver option file
 PA.optfile = 1;
 
+
 * ############## SOLVE ##############
-* Solvemode == 1 solves as usual but generates a savepoint file to skip the solve
-* Solvemode == 0 uses a savepoint file to skip the solve
-* This speeds up development of post solve features
+* SOLVEMODE == 2 solves as usual
+* SOLVEMODE == 1 solves as usual but generates a savepoint file to skip the solve
+* SOLVEMODE == 0 uses a savepoint file to skip the solve (This speeds up development of post solve features)
 
-$if not set SOLVE $set SOLVE 1
+$if not set SOLVEMODE $set SOLVEMODE 2 
+$log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
-$ifThenI.solvemode %SOLVE% == 1
+$ifThenI.solvemode %SOLVEMODE% == 2
+*  Solve model as usual
+   Solve PA using MIP minimizing vNPVcost;
+*  Abort if model was not solved successfully
+   abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
+$elseIfI.solvemode %SOLVEMODE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;
    Solve PA using MIP minimizing vNPVcost;
 *  Abort if model was not solved successfully
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
-$elseIfI.solvemode %SOLVE% == 0
+$elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1;
    Solve PA using MIP minimizing vNPVcost;

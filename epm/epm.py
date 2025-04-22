@@ -146,7 +146,7 @@ def launch_epm(scenario,
                path_cplex_file='cplex.opt',
                folder_input=None,
                path_engine_file=False,
-               prefix=''#'simulation_'
+               prefix='' #'simulation_'
                ):
     """
     Launch the EPM model with the given scenario
@@ -214,7 +214,7 @@ def launch_epm(scenario,
                                                     "--VERIFICATION_FILE {}".format(path_verification_file),
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
-                                                    "--FOLDER_INPUT {}".format(folder_input),
+                                                    "--FOLDER_INPUT {}".format(folder_input)
                                                     ] + path_args
 
     # Print the command
@@ -327,7 +327,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Add full path to the files
     folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
     for k in s.keys():
-        s[k] = s[k].apply(lambda i: os.path.join(folder_input, i))
+        s[k] = s[k].apply(lambda i: os.path.join(folder_input, i) if '.csv' in i else i)
 
     # Run sensitivity analysis if activated
     if sensitivity is not None:
