@@ -3049,6 +3049,119 @@ def plot_zone_map_on_ax(ax, zone_map):
     ax.set_ylim(zone_map.bounds.miny.min() - 1, zone_map.bounds.maxy.max() + 1)
 
 
+def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, filename, map_epm_to_geojson,
+                     df_capacity=None, df_transmission=None, column_lines='value', min_lines=0,
+                     min_line_width=1, max_line_width=5, index_pie='fuel',
+                     figsize=(10, 6), percent_cap=25, bbox_to_anchor=(0.5, -0.1), loc='center left', min_size=0.5,
+                     max_size =2.5, pie_sizing=True, show_arrows=False, arrow_style='-|>', arrow_size = 20,
+                     arrow_offset_ratio=0.1, plot_colored_countries=True, plot_lines=True, offset=0.5,
+                     arrow_linewidth=1, mutation_scale=3, predefined_colors=None):
+
+    # Define consistent colors for each country
+    if predefined_colors is None:
+        unique_countries = zone_map['ADMIN'].unique()
+        colors = get_extended_pastel_palette(len(unique_countries))
+        predefined_colors = {country: colors[i] for i, country in enumerate(unique_countries)}
+        # predefined_colors = {country: plt.cm.Pastel1(i % 9) for i, country in enumerate(unique_countries)}
+
+    # Filter data for the given year and scenario
+    transmission_data = df_transmission[
+        (df_transmission['year'] == year) &
+        (df_transmission['scenario'] == scenario) &
+        (df_transmission[column_lines] > min_lines)
+        ]
+
+    capacity_data = df_capacity[
+        (df_transmission['year'] == year) &
+        (df_transmission['scenario'] == scenario)
+        ]
+
+    # Compute capacity range for scaling line width
+    if not transmission_data.empty:
+        min_cap = transmission_data[column_lines].min()
+        max_cap = transmission_data[column_lines].max()
+    else:
+        min_cap = max_cap = 1  # Avoid division by zero
+
+    # Function to scale line width
+    def scale_line_width(capacity):
+        if max_cap == min_cap:
+            return min_line_width
+        return min_line_width + (capacity - min_cap) / (max_cap - min_cap) * (max_line_width - min_line_width)
+
+    def calculate_pie_size(zone, capacity_data):
+        """Calculate pie chart size based on region area."""
+        # area = region_sizes.loc[region_sizes['Name'] == zone, 'area'].values[0]
+        # normalized_area = (area - region_sizes['area'].min()) / (region_sizes['area'].max() - region_sizes['area'].min())
+        area = capacity_data[(capacity_data['zone'] == zone) ].value.sum()
+        normalized_area = (area - capacity_data.groupby('zone').value.sum().min()) / (capacity_data.groupby('zone').value.sum().max() - capacity_data.groupby('zone').value.sum().min())
+        return min_size + normalized_area * (max_size - min_size)
+
+    # Create figure and axis
+    fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
+
+    # Plot the base zone map with predefined colors for each country
+    if isinstance(plot_colored_countries, bool):
+        if plot_colored_countries:
+            zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
+            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+        else:
+            zone_map.plot(ax=ax, color='white', edgecolor='black')
+    else:  # plot_colored_countries is a list of countries
+        assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
+        zone_map['color'] = zone_map['ADMIN'].apply(
+            lambda c: predefined_colors[c] if c in plot_colored_countries else 'white'
+        )
+        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+
+    handles, labels = [], []
+    # Plot pie charts for each zone
+    for zone in capacity_data['zone'].unique():
+        # Extract capacity mix for the given zone and year
+        CapacityMix_plot = (capacity_data[(capacity_data['zone'] == zone)]
+                            .set_index(index_pie)['value']
+                            .fillna(0)).reset_index()
+
+        # Skip empty plots
+        if CapacityMix_plot['value'].sum() == 0:
+            continue
+
+        # Get map coordinates
+        coordinates = centers.get(zone, (0, 0))
+        loc = fig.transFigure.inverted().transform(ax.transData.transform(coordinates))
+
+        # Pie chart positioning and size
+        size = [0.03, 0.07]
+        if pie_sizing:
+            pie_size = calculate_pie_size(zone, df_capacity)
+        else:
+            pie_size = None
+
+        # Create inset pie chart
+        ax_pie = fig.add_axes([loc[0] - 0.45 * size[0], loc[1] - 0.5 * size[1], size[0], size[1]])
+        colors = [dict_colors[f] for f in CapacityMix_plot[index_pie]]
+        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index_pie, percent_cap, colors, None, radius= pie_size)
+        ax_pie.set_axis_off()
+
+        for handle, label in zip(h, l):
+            if label not in labels:  # Avoid duplicates
+                handles.append(handle)
+                labels.append(label)
+
+    fig.legend(handles, labels, loc=loc, frameon=False, ncol=1,
+               bbox_to_anchor=bbox_to_anchor)
+
+    # Save and show figure
+    if filename is not None:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
+
+    return 0
+
+
+
 def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year, region, scenario, filename,
                           map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), percent_cap=25,
                           bbox_to_anchor=(0.5, -0.1), loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
@@ -3142,29 +3255,6 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
     else:
         plt.show()
 
-
-def get_extended_pastel_palette(n):
-    # Get base pastel colormaps
-    pastel1 = [plt.cm.Pastel1(i) for i in range(9)]
-    pastel2 = [plt.cm.Pastel2(i) for i in range(8)]
-
-    # Combine and repeat if needed
-    base_colors = pastel1 + pastel2
-    if n <= len(base_colors):
-        return base_colors[:n]
-
-    # Generate extra soft pastel colors if needed
-    import colorsys
-    extra_needed = n - len(base_colors)
-    extra_colors = []
-    for i in range(extra_needed):
-        h = (i / extra_needed)
-        s = 0.4  # low saturation = pastel
-        v = 0.9  # high brightness = pastel
-        r, g, b = colorsys.hsv_to_rgb(h, s, v)
-        extra_colors.append((r, g, b))
-
-    return base_colors + extra_colors
 
 def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', color_col=None, filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
@@ -3373,6 +3463,31 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
         plt.close(fig)
     else:
         plt.show()
+
+
+def get_extended_pastel_palette(n):
+    # Get base pastel colormaps
+    pastel1 = [plt.cm.Pastel1(i) for i in range(9)]
+    pastel2 = [plt.cm.Pastel2(i) for i in range(8)]
+
+    # Combine and repeat if needed
+    base_colors = pastel1 + pastel2
+    if n <= len(base_colors):
+        return base_colors[:n]
+
+    # Generate extra soft pastel colors if needed
+    import colorsys
+    extra_needed = n - len(base_colors)
+    extra_colors = []
+    for i in range(extra_needed):
+        h = (i / extra_needed)
+        s = 0.4  # low saturation = pastel
+        v = 0.9  # high brightness = pastel
+        r, g, b = colorsys.hsv_to_rgb(h, s, v)
+        extra_colors.append((r, g, b))
+
+    return base_colors + extra_colors
+
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
@@ -4265,7 +4380,7 @@ def keep_max_direction(df):
     # df_grouped = df_grouped.sort_values('value', ascending=False).groupby(['scenario', 'year', 'zone_pair'], as_index=False)['value'].sum()
     df_sum = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False)['value'].sum()
 
-    df_grouped = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False).first()
+    df_grouped = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False).first()  # this line is used to keep the direction corresponding to the maximum utilization
 
     df_sum = df_sum.merge(df_grouped[['scenario', 'year', 'zone_pair', 'zone', 'z2']], on=['scenario', 'year', 'zone_pair'], how='left')
     # Drop the helper column

@@ -954,8 +954,15 @@ $endIf.solvemode
 * ####################################
 
 
+$log ###############################
+$log ##### GENERATING REPORT #####
+$log ###############################
 
 * Include the external report file specified by `%REPORT_FILE%`
+
+$if not set REPORTSHORT $set REPORTSHORT 0
+$log LOG: REPORTSHORT = "%REPORTSHORT%"
+
 $include %REPORT_FILE%
 
 *-------------------------------------------------------------------------------------

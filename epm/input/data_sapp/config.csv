@@ -54,3 +54,4 @@ pFuelDataH2,h2/pFuelDataH2.csv
 SOLVER,
 solvemode,2
 trace,0
+reportshort,1
