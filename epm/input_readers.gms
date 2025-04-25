@@ -83,7 +83,7 @@ $if not set pLossFactor $set pLossFactor input/%FOLDER_INPUT%/trade/pLossFactor.
 $if not set pMaxPriceImportShare $set pMaxPriceImportShare input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
 $if not set pMaxExchangeShare $set pMaxExchangeShare input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
 $if not set pMinImport $set pMinImport input/%FOLDER_INPUT%/trade/pMinImport.csv
-$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmission.csv
+$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmissionCommitted.csv
 $if not set pTradePrice $set pTradePrice input/%FOLDER_INPUT%/trade/pTradePrice.csv
 $if not set pTransferLimit $set pTransferLimit input/%FOLDER_INPUT%/trade/pTransferLimit.csv
 

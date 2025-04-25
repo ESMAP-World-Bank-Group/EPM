@@ -54,18 +54,19 @@ alias (z,z2), (g,g1,g2);
 
 * Generators
 Sets
-   eg(g)       'existing generators'
-   ng(g)       'new generators'
-   cs(g)       'concentrated solar power'
-   so(g)       'PV plants with storage'
-   stp(g)      'storage for PV plant'
-   st(g)       'all storage plants'
-   dc(g)       'candidate generators with capex trajectory'
-   ndc(g)      'candidate generators without capec trajectory'
-   vre(g)      'variable renewable generators'
-   re(g)       'renewable generators'
-   RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
-   VRE_noROR(g) 'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
+   eg(g)                  'existing generators'
+   ng(g)                  'new generators'
+   commtransmission(z,z2) 'Committed transmission lines'
+   cs(g)                  'concentrated solar power'
+   so(g)                  'PV plants with storage'
+   stp(g)                 'storage for PV plant'
+   st(g)                  'all storage plants'
+   dc(g)                  'candidate generators with capex trajectory'
+   ndc(g)                 'candidate generators without capec trajectory'
+   vre(g)                 'variable renewable generators'
+   re(g)                  'renewable generators'
+   RampRate(g)            'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
+   VRE_noROR(g)           'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
     
 ************** H2 model specific sets ***************************
    eh(hh)           'existing hydrogen generation plants'
