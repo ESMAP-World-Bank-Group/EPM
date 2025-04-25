@@ -1017,6 +1017,11 @@ title="Print to PDF"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#monte-carlo-analysis-ongoing-development">
+   Monte-Carlo analysis (ongoing development)
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -1075,12 +1080,48 @@ Does not plot specific dispatch plots as automatic outputs when set to True. Spe
 <section id="example-command">
 <h3>Example Command<a class="headerlink" href="#example-command" title="Permalink to this heading">#</a></h3>
 <p>To run EPM with a specific input folder and enable sensitivity analysis, use:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm/epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
 </pre></div>
 </div>
 <p>This will execute EPM using the <code class="docutils literal notranslate"><span class="pre">my_data</span></code> folder as input and perform sensitivity analysis.</p>
 <p>For advanced users, additional arguments can be combined as needed to customize the simulation workflow.</p>
 </section>
+</section>
+<section id="monte-carlo-analysis-ongoing-development">
+<h2>Monte-Carlo analysis (ongoing development)<a class="headerlink" href="#monte-carlo-analysis-ongoing-development" title="Permalink to this heading">#</a></h2>
+<p>EPM supports Monte Carlo analysis for exploring uncertainty in model inputs. This feature is still under active development, but the current implementation allows running multiple simulations across defined uncertainty ranges.</p>
+<ol class="arabic simple">
+<li><p>Define uncertainty ranges
+Create a CSV file specifying the uncertain parameters. This file should include the following columns:</p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature</span></code>: the name of the uncertain input (e.g., fossilfuel, demand)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: the type of probability distribution (e.g., Uniform, Normal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lowerbound</span></code>: the lower limit of the distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">upperbound</span></code>: the upper limit of the distribution</p></li>
+</ul>
+<p>Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
+Uncertainty sampling is powered by the <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package, so only distributions available in <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> can be used.</p>
+<p>Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demand</span></code>: scales the entire demand forecast uniformly across all zones
+Example file: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv">pSettings.csv example</a>.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Specify in your command-line:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/data_sapp/mc_uncertainties.csv
+</pre></div>
+</div>
+<p>This command will:</p>
+<ul class="simple">
+<li><p>Load the uncertainties defined in your file</p></li>
+<li><p>Generate 20 samples from the joint probability distribution</p></li>
+<li><p>Create one scenario per sample</p></li>
+<li><p>Run the EPM model for each scenario</p></li>
+</ul>
+<p>Configuration file should be used with <code class="docutils literal notranslate"><span class="pre">reportshort</span> <span class="pre">=</span> <span class="pre">1</span></code> to limit the memory pressure to store all results.</p>
 </section>
 </section>
 
@@ -1158,6 +1199,11 @@ Does not plot specific dispatch plots as automatic outputs when set to True. Spe
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#monte-carlo-analysis-ongoing-development">
+   Monte-Carlo analysis (ongoing development)
+  </a>
  </li>
 </ul>
 
