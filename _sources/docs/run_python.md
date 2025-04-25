@@ -59,8 +59,45 @@ EPM provides several command-line options to customize your simulation run. Belo
 
 To run EPM with a specific input folder and enable sensitivity analysis, use:
 ```sh
-python epm/epm.py --folder_input my_data --sensitivity
+python epm.py --folder_input my_data --sensitivity
 ```
 This will execute EPM using the `my_data` folder as input and perform sensitivity analysis.
 
 For advanced users, additional arguments can be combined as needed to customize the simulation workflow.
+
+## Monte-Carlo analysis (ongoing development)
+
+EPM supports Monte Carlo analysis for exploring uncertainty in model inputs. This feature is still under active development, but the current implementation allows running multiple simulations across defined uncertainty ranges.
+
+1. Define uncertainty ranges
+Create a CSV file specifying the uncertain parameters. This file should include the following columns:
+- `feature`: the name of the uncertain input (e.g., fossilfuel, demand)
+
+- `type`: the type of probability distribution (e.g., Uniform, Normal)
+
+- `lowerbound`: the lower limit of the distribution
+
+- `upperbound`: the upper limit of the distribution
+
+Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
+Uncertainty sampling is powered by the `chaospy` package, so only distributions available in `chaospy` can be used.
+
+Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
+
+- `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel)
+- `demand`: scales the entire demand forecast uniformly across all zones
+Example file: [pSettings.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
+
+2. Specify in your command-line:
+```sh
+python epm.py --folder_input my_data --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/mc_uncertainties.csv
+```
+
+This command will:
+- Load the uncertainties defined in your file
+- Generate 20 samples from the joint probability distribution
+- Create one scenario per sample
+- Run the EPM model for each scenario
+
+Configuration file should be used with `reportshort = 1` to limit the memory pressure to store all results.
+
