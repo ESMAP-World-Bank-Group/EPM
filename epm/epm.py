@@ -520,8 +520,14 @@ def define_samples(df_uncertainties, nb_samples):
         (NamedJ distribution object, dict of samples keyed by a readable string for each sample)
     """
     uncertainties = {}
+    chaospy_distributions = [
+        name for name in dir(chaospy)
+        if callable(getattr(chaospy, name)) and hasattr(getattr(chaospy, name), '__module__')
+           and 'chaospy' in getattr(chaospy, name).__module__.lower()
+    ]
     for _, row in df_uncertainties.iterrows():
         feature, type, lowerbound, upperbound = row['feature'], row['type'], row['lowerbound'], row['upperbound']
+        assert type in chaospy_distributions, f'Distribution types is not allowed by the chaopsy package. Distribution type should belong to {chaospy_distributions}'
         uncertainties[feature] = {
             'type': type,
             'args': (lowerbound, upperbound)
@@ -1028,7 +1034,7 @@ def main(test_args=None):
         "--postprocess",
         type=str,
         default=None,
-        help="Run only postprocess with folder (default: True)"
+        help="Run only postprocess with folder (default: None)"
     )
 
     parser.add_argument(
