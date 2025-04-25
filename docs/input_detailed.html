@@ -1477,17 +1477,23 @@ Example of a <code class="docutils literal notranslate"><span class="pre">config
 <p>The next sections describe the role of each input file.</p>
 <p>Some solver options are also defined in <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">solvemode</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">solvemode</span></code>:  how to solve the model</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: solves the model normally.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: generates a savepoint file <code class="docutils literal notranslate"><span class="pre">PA_pd.gdx</span></code> for debugging or warmstart. As this file is quite heavy, should only be used when necessary, otherwise may be skipped.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: generates the model from a savepoint without solving. Useful for developing post-solve features.</p></li>
 </ul>
 </li>
-<li><p><code class="docutils literal notranslate"><span class="pre">trace</span></code>:</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">trace</span></code>:  debugging logs</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: limited log output.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: extensive log output, especially for debugging input reading through GAMS Connect.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reportshort</span></code>:  elements included in the report</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>:  extensive report</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: report limited in size, to limit memory requirement. Particularly useful when launching multiple simulations in a Monte-Carlo setting.</p></li>
 </ul>
 </li>
 </ul>

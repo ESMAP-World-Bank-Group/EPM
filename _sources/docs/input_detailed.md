@@ -14,13 +14,16 @@ The next sections describe the role of each input file.
 
 Some solver options are also defined in `config.csv`:
 
-- `solvemode`:  
+- `solvemode`:  how to solve the model
   - `2`: solves the model normally.  
   - `1`: generates a savepoint file `PA_pd.gdx` for debugging or warmstart. As this file is quite heavy, should only be used when necessary, otherwise may be skipped.  
   - `0`: generates the model from a savepoint without solving. Useful for developing post-solve features.
-- `trace`:  
+- `trace`:  debugging logs
   - `0`: limited log output.  
   - `1`: extensive log output, especially for debugging input reading through GAMS Connect.
+- `reportshort`:  elements included in the report
+  - `0`:  extensive report
+  - `1`: report limited in size, to limit memory requirement. Particularly useful when launching multiple simulations in a Monte-Carlo setting.
 
 When `scenarios.csv` is provided as a command-line argument, specific input files can be changed for each scenario.  
 Only files listed in `scenarios.csv` will be overridden; all others will default to those in `config.csv`.
