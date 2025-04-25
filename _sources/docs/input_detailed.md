@@ -1,8 +1,54 @@
 # Data Structure Documentation
 
+## Specifying input data when running EPM
+
+### Running from python
+
+As discussed in the section `Running EPM from Python`, the file `config.csv` specifies the input files used by EPM for the baseline scenario.  
+Example of a `config.csv` structure: [pSettings.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv).
+
+- Column `name`: name of the parameter.
+- Column `file`: file to use for this parameter.
+
+The next sections describe the role of each input file.
+
+Some solver options are also defined in `config.csv`:
+
+- `solvemode`:  
+  - `2`: solves the model normally.  
+  - `1`: generates a savepoint file `PA_pd.gdx` for debugging or warmstart. As this file is quite heavy, should only be used when necessary, otherwise may be skipped.  
+  - `0`: generates the model from a savepoint without solving. Useful for developing post-solve features.
+- `trace`:  
+  - `0`: limited log output.  
+  - `1`: extensive log output, especially for debugging input reading through GAMS Connect.
+
+When `scenarios.csv` is provided as a command-line argument, specific input files can be changed for each scenario.  
+Only files listed in `scenarios.csv` will be overridden; all others will default to those in `config.csv`.
+
+### Running from Gams studio
+
+When running from GAMS Studio, only one scenario can be run at a time. Input files can be defined through command-line arguments:
+``` 
+--FOLDER_INPUT input/data_sapp --pNewTransmission input/data_sapp/trade/pNewTransmission.csv
+```
+
+This method can be cumbersome if you want to specify many files.
+
+Alternatively, modify `input_readers.gms` to set the baseline input files:
+
+``` 
+$if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettings_baseline.csv
+```
+
+**Note**: Always make such modifications in a branch specific to your case study, not in the `main` branch.
+
+
+Note that it is always required to define `FOLDER_INPUT` as a command-line argument, or otherwise to modify it in `input_readers.gms`.
+
+
 ## Configuration Files
 
-These files are direclty located in the `data` folder.
+Input files are direclty located in the `data` folder.
 
 ---
 
