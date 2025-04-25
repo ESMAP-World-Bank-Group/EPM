@@ -55,6 +55,8 @@ from postprocessing.utils import postprocess_output
 import re
 from pathlib import Path
 import sys
+import chaospy
+import numpy as np
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -264,6 +266,9 @@ def launch_epm_multi_scenarios(config='config.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
                                sensitivity=None,
+                               montecarlo=False,
+                               montecarlo_nb_samples=10,
+                               uncertainties=None,
                                path_engine_file=False,
                                folder_input=None,
                                project_assessment=None,
@@ -332,6 +337,13 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Run sensitivity analysis if activated
     if sensitivity is not None:
         s = perform_sensitivity(sensitivity, s)
+
+    # Run montecarlo analysis if activated
+    if montecarlo:
+        assert uncertainties is not None, "Monte Carlo analysis is activated, but uncertainties is set to None."
+        df_uncertainties = pd.read_csv(uncertainties)
+        distribution, samples = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
+        s = create_scenarios_montecarlo(samples, s)
 
     # Set-up project assessment scenarios if activated
     if project_assessment is not None:
@@ -410,6 +422,199 @@ def launch_epm_multi_scenarios(config='config.csv',
     os.chdir(working_directory)
 
     return folder, result
+
+
+class NamedJ:
+    """
+    A wrapper around a joint probability distribution created from multiple named distributions.
+
+    This class allows accessing individual distributions by name and sampling from the joint distribution.
+    """
+
+    def __init__(self, distributions):
+        """
+        Initialize the joint distribution from a dictionary of named distributions.
+
+        Parameters
+        ----------
+        distributions : dict
+            Dictionary where each key is the name of a variable and the value is a dictionary with:
+            - "type": name of a chaospy distribution (e.g., "Uniform")
+            - "args": arguments passed to the distribution (e.g., lower and upper bounds)
+        """
+        # TODO: add allowed types, raise an error otherwise
+        self.J = self.J_from_dict(distributions.values())
+        self.names = distributions.keys()
+        self.mapping = {k: i for i, k in enumerate(self.names)}
+
+    def __getitem__(self, attr):
+        """
+        Access a marginal distribution by name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the variable (as defined in the input dictionary).
+        """
+        return self.J[self.mapping[attr]]
+
+    def J_from_dict(self, values):
+        DD = []
+        for v in values:
+            D = getattr(chaospy, v["type"])
+            DD.append(D(*v["args"]))
+        return chaospy.J(*DD)
+
+    def sample(self, size=100, rule="halton", fmt=3):
+        """
+        Sample from the joint distribution.
+
+        Parameters
+        ----------
+        size : int
+            Number of samples to generate.
+        rule : str
+            Sampling method used by chaospy (e.g., 'halton', 'random', 'sobol').
+        fmt : int
+            Number of decimal places to round the samples to.
+
+        Returns
+        -------
+        pd.DataFrame
+            Samples as a DataFrame with variable names as index and columns as samples.
+        """
+        samples = self.J.sample(size=size, rule=rule).round(fmt)
+        if len(samples.shape) == 1:  # single feature when doing samples
+            samples = samples.reshape(-1, samples.shape[0])
+        index = [f"{n}" for n in self.names]
+        return pd.DataFrame(samples, index=index)
+
+
+def multiindex2array(multiindex):
+    """
+    Convert a pandas MultiIndex to a NumPy array.
+    """
+    return np.array([np.array(row).astype(float) for row in multiindex]).T
+
+def multiindex2df(multiindex):
+    """
+    Convert a pandas MultiIndex to a DataFrame.
+    """
+    return pd.DataFrame(multiindex2array(multiindex), index=multiindex.names)
+
+
+def define_samples(df_uncertainties, nb_samples):
+    """
+    Generate a joint distribution and samples from a DataFrame defining uncertainty bounds.
+
+    Parameters
+    ----------
+    df_uncertainties : pd.DataFrame
+        Must contain columns: 'feature', 'type', 'lowerbound', 'upperbound'.
+    nb_samples : int
+        Number of samples to draw.
+
+    Returns
+    -------
+    tuple
+        (NamedJ distribution object, dict of samples keyed by a readable string for each sample)
+    """
+    uncertainties = {}
+    for _, row in df_uncertainties.iterrows():
+        feature, type, lowerbound, upperbound = row['feature'], row['type'], row['lowerbound'], row['upperbound']
+        uncertainties[feature] = {
+            'type': type,
+            'args': (lowerbound, upperbound)
+        }
+    distribution = NamedJ(uncertainties)
+
+    samples = distribution.sample(size=nb_samples, rule='halton')
+    samples = {
+        f'{"_".join([f"{idx}{samples.loc[idx, col]:.3f}" for idx in samples.index])}': {
+            idx: round(samples.loc[idx, col], 3) for idx in samples.index
+        }
+        for col in samples.columns
+    }
+    return distribution, samples
+
+
+def create_scenarios_montecarlo(samples, s):
+    """
+    Generate new scenarios for Monte Carlo analysis by modifying baseline input files
+    based on provided uncertainty samples.
+
+    This function creates new input files (under a `montecarlo/` subdirectory) for each
+    scenario sample, applies parameter-specific transformations (e.g., scaling demand or
+    fuel prices), and updates the scenario dictionary accordingly.
+
+    Parameters
+    ----------
+    samples : dict
+        Dictionary of samples where keys are scenario names and values are dicts
+        mapping uncertain variable names (e.g., 'fossilfuel', 'demand') to sample values.
+    s : dict
+        Dictionary of scenarios where 'baseline' must be defined. Each scenario is a
+        dictionary of parameter file paths.
+
+    Returns
+    -------
+    dict
+        Updated dictionary of scenarios, including new scenarios generated from samples.
+    """
+
+    def save_new_dataframe(df, s, param, val):
+        """
+        Helper function to save a modified DataFrame to a new file and update the scenario path.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            The modified DataFrame to save.
+        scenario_dict : dict
+            The main scenario dictionary.
+        param : str
+            The name of the parameter being modified (e.g., 'pFuelPrice').
+        val : float
+            The value used for this Monte Carlo sample (used in naming).
+        """
+        folder_mc = os.path.join(os.path.dirname(s['baseline'][param]), 'montecarlo')
+        if not os.path.exists(folder_mc):
+            os.mkdir(folder_mc)
+
+        name = f'{param}_{val}'
+        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
+        path_file = os.path.join(folder_mc, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=True)
+
+        s[name_scenario][param] = path_file
+        return s
+
+    for name_scenario, sample in samples.items():
+        name_scenario = name_scenario.replace('.', 'p')
+        # Put in the scenario dir
+        s[name_scenario] = s['baseline'].copy()
+        for key, val in sample.items():
+            if key == 'fossilfuel':
+                param = 'pFuelPrice'
+                price_df = pd.read_csv(s['baseline'][param], index_col=[0, 1]).copy()
+                price_df.columns = price_df.columns.astype(int)
+                tech_list = ["Diesel", "HFO", "Coal", "Gas", "LNG"]
+                idx = pd.IndexSlice
+                price_df.loc[idx[:, tech_list], :] *= (1 + val)
+                save_new_dataframe(price_df, s, param, val)
+
+            if key == 'demand':
+                param = 'pDemandForecast'
+                demand_df = pd.read_csv(s['baseline'][param], index_col=[0, 1]).copy()
+                demand_df.columns = demand_df.columns.astype(int)
+
+                cols = [i for i in demand_df.columns if i not in ['zone', 'type']]
+                demand_df.loc[:, cols] *= (1 + val)
+
+                save_new_dataframe(demand_df, s, param, val)
+
+    return s
 
 
 def perform_sensitivity(sensitivity, s):
@@ -757,6 +962,26 @@ def main(test_args=None):
     )
 
     parser.add_argument(
+        "--montecarlo",
+        action="store_true",
+        help="Enable montecarlo analysis (default: False)"
+    )
+
+    parser.add_argument(
+        "--montecarlo_samples",
+        type=int,
+        default=10,
+        help="Number of samples to use in the Monte Carlo analysis (default: 10)"
+    )
+
+    parser.add_argument(
+        "--uncertainties",
+        type=str,
+        default=None,
+        help="Uncertainties file name (default: no filename)"
+    )
+
+    parser.add_argument(
         "--reduced_output",
         action="store_false",
         help="Enable reduced output (default: False)"
@@ -840,6 +1065,9 @@ def main(test_args=None):
     print(f"Folder input: {args.folder_input}")
     print(f"Scenarios file: {args.scenarios}")
     print(f"Sensitivity: {args.sensitivity}")
+    print(f"MonteCarlo: {args.montecarlo}")
+    print(f"MonteCarlo samples: {args.montecarlo_samples}")
+    print(f"Monte Carlo uncertainties file: {args.uncertainties}")
     print(f"Reduced output: {args.reduced_output}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
@@ -859,6 +1087,9 @@ def main(test_args=None):
                                                     folder_input=args.folder_input,
                                                     scenarios_specification=args.scenarios,
                                                     sensitivity=sensitivity,
+                                                    montecarlo=args.montecarlo,
+                                                    montecarlo_nb_samples=args.montecarlo_samples,
+                                                    uncertainties=args.uncertainties,
                                                     selected_scenarios=args.selected_scenarios,
                                                     cpu=args.cpu,
                                                     project_assessment=args.project_assessment,
