@@ -1,0 +1,2 @@
+From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,LossFactor,Status
+Angola,Namibia,2027,1,600,356,30,0.07,2

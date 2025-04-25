@@ -148,6 +148,7 @@ $endIf.timestamp
 Set
 *   tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
+   tstatus  'transmission status' / Candidate, Committed/
    H2status  'H2 generation plant status' / Existing, Candidate, Committed /
    techhdr  'techdata headers' / 'RE Technology', 'Hourly Variation' /
    pe       'peak energy for demand forecast' /'peak', 'energy'/
@@ -315,6 +316,7 @@ Set
    /
    gtechmap(g,tech)     'Generator-technology mapping'
    gstatusmap(g,gstatus) 'Generator status mapping'
+   tstatusmap(z,z2,tstatus) 'Transmission status mapping'
    Zd(z)                'Zone definitions'
    Zt(z)                'Zone types'
    stg(g)               'Grid storage units'
@@ -327,7 +329,7 @@ $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
    shdr         'Additional headers for pStorData' / VOMMWh /
-   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor/
+   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor, Status/
 ;
 $offmulti
 
@@ -427,6 +429,7 @@ pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
 
 * Generate gfmap and others from pGenDataExcel
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
+parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 
 *H2 model parameter
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
@@ -461,6 +464,7 @@ gfmap(g,f) = gfmap(g,f)
 
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
+
 
 pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataExcel(g,z,tech,f,"Heatrate"));
 pHeatrate(g,f2)$(gfmap(g,f2) and not gprimf(g,f2)) = 
@@ -673,6 +677,11 @@ nREH2(g)= not REH2(g);
 
 $offIDCProtect
 
+*-------------------------------------------------------------------
+* TOPOLOGY DEFINITION
+*-------------------------------------------------------------------
+
+
 * Defining sTopology based on existing, committed and candidate transmission lines
 sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr));
 
@@ -684,6 +693,21 @@ pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 * Default life for transmission lines
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
 $onIDCProtect
+
+
+* Map transmission status from input data
+tstatusmap(sTopology(z,z2),tstatus) = pNewTransmission(z,z2, 'status')=tstatIndex(tstatus);
+
+* Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
+commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
+
+display commtransmission;
+
+
+*-------------------------------------------------------------------
+* CAPACITY CREDIT
+*-------------------------------------------------------------------
+
 
 * Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
@@ -724,6 +748,11 @@ pStoPVProfile(so,q,d,t)  =  sum((z,tech)$(gtechmap(so,tech) and gzmap(so,z)), pV
 * H2 model parameters
 pCapexTrajectoriesH2(hh,y) =1;
 pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
+
+
+*-------------------------------------------------------------------
+* COST OF CAPITAL
+*-------------------------------------------------------------------
 
 
 * Set the weight of the start year to 1.0
@@ -787,6 +816,9 @@ vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+
+* Fix
+vAdditionalTransfer.fx(commtransmission(z,z2),y)$((pNewTransmission(z,z2,"EarliestEntry") <= y.val) and (pNewTransmission(z,z2,"EarliestEntry") >= sStartYear.val) and pAllowHighTransfer) = pNewTransmission(z,z2,"MaximumNumOfLines");
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
