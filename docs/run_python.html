@@ -1053,10 +1053,24 @@ Specifies the path to the configuration file. If not provided, the default confi
 Defines the input folder containing the necessary data files for the simulation. If not specified, it defaults to <code class="docutils literal notranslate"><span class="pre">data_gambia</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code></strong> <em>(string, optional)</em><br />
 Allows specifying a scenario file name. If this option is omitted, no scenario file will be used.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code></strong> <em>(list, optional)</em><br />
+Selection of scenarios to run. If this option is omitted, all scenarios will be run.</p>
+<ul>
+<li><p>Example usage: –selected_scenarios baseline HighDemand</p></li>
+</ul>
+</li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</em><br />
 Enables sensitivity analysis when included. If this flag is not set, sensitivity analysis will be disabled.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">--full_output</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</em><br />
-Controls the output level. By default, full output is enabled. If this flag is used, full output will be disabled.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</em><br />
+Enables Monte-Carlo analysis when included. If this flag is not set, monte-carlo analysis will be disabled.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span></code></strong> <em>(int, default: <code class="docutils literal notranslate"><span class="pre">10</span></code>)</em><br />
+Specifies the number of samples used in the Monte-Carlo run. Number of samples to generate for the Monte Carlo analysis. A higher number improves coverage of the uncertainty space.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--uncertainties</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</em><br />
+Allows specifying the uncertainties file name. Specifies which input files are subject to uncertainty. I the option is omitted, no uncertainties file will be used. Required if <code class="docutils literal notranslate"><span class="pre">montecarlo</span></code> is enabled.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</em><br />
+Only runs the postprocessing when included.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">--no_plot_dispatch</span></code></strong> <em>(flag, default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</em><br />
+Does not plot specific dispatch plots as automatic outputs when set to True. Speeds up the postprocessing and decreases memory requirements to store graphs.</p></li>
 </ul>
 <section id="example-command">
 <h3>Example Command<a class="headerlink" href="#example-command" title="Permalink to this heading">#</a></h3>
