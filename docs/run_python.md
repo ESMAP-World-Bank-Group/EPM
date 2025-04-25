@@ -32,11 +32,28 @@ EPM provides several command-line options to customize your simulation run. Belo
 - **`--scenarios`** *(string, optional)*  
   Allows specifying a scenario file name. If this option is omitted, no scenario file will be used.
 
+- **`--selected_scenarios`** *(list, optional)*  
+  Selection of scenarios to run. If this option is omitted, all scenarios will be run.
+  - Example usage: --selected_scenarios baseline HighDemand
+
 - **`--sensitivity`** *(flag, default: `False`)*  
   Enables sensitivity analysis when included. If this flag is not set, sensitivity analysis will be disabled.
 
-- **`--full_output`** *(flag, default: `True`)*  
-  Controls the output level. By default, full output is enabled. If this flag is used, full output will be disabled.
+- **`--montecarlo`** *(flag, default: `False`)*  
+  Enables Monte-Carlo analysis when included. If this flag is not set, monte-carlo analysis will be disabled.
+
+- **`--montecarlo_samples`** *(int, default: `10`)*  
+  Specifies the number of samples used in the Monte-Carlo run. Number of samples to generate for the Monte Carlo analysis. A higher number improves coverage of the uncertainty space.
+
+- **`--uncertainties`** *(flag, default: `None`)*  
+  Allows specifying the uncertainties file name. Specifies which input files are subject to uncertainty. I the option is omitted, no uncertainties file will be used. Required if `montecarlo` is enabled.
+
+- **`--postprocess`** *(flag, default: `None`)*  
+  Only runs the postprocessing when included. 
+
+- **`--no_plot_dispatch`** *(flag, default: `True`)*  
+  Does not plot specific dispatch plots as automatic outputs when set to True. Speeds up the postprocessing and decreases memory requirements to store graphs.
+
 
 ### Example Command
 
