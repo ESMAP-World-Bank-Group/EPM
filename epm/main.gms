@@ -356,7 +356,7 @@ $if not errorfree $abort Error before reading input
 $include %READER_FILE%
 
 * Open the specified GDX input file for reading
-$gdxIn %GDX_INPUT%
+$gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
 $load zcmap pSettings y pHours
