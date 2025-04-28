@@ -295,13 +295,13 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     # Add the full path to the files
     if path_engine_file:
-        path_engine_file = os.path.join(os.getcwd(), path_engine_file)
+        path_engine_file = os.path.join(working_directory, path_engine_file)
 
     # Read the scenario CSV file
     if path_gams is not None:  # path for required gams file is provided
-        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in path_gams.items()}
+        path_gams = {k: os.path.join(working_directory, i) for k, i in path_gams.items()}
     else:  # use default configuration
-        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
+        path_gams = {k: os.path.join(working_directory, i) for k, i in PATH_GAMS.items()}
 
     # Read configuration file
     config = pd.read_csv(config).set_index('paramNames').squeeze()
@@ -341,6 +341,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Run montecarlo analysis if activated
     if montecarlo:
         assert uncertainties is not None, "Monte Carlo analysis is activated, but uncertainties is set to None."
+        initial_scenarios = list(s.keys())
         df_uncertainties = pd.read_csv(uncertainties)
         distribution, samples, zone_mapping = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
         s = create_scenarios_montecarlo(samples, s, zone_mapping)
@@ -410,6 +411,12 @@ def launch_epm_multi_scenarios(config='config.csv',
         return match.group(1) if match else path
     df = df.astype(str).map(extract_path)
     df.to_csv('simulations_scenarios.csv')
+
+    if montecarlo:
+        samples_mc = pd.DataFrame(samples)
+        for scenario in initial_scenarios:
+            samples_mc[scenario] = 1
+        samples_mc.to_csv('samples_montecarlo.csv')
 
     # Run EPM in multiprocess
     with Pool(cpu) as pool:
@@ -576,7 +583,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
         Updated dictionary of scenarios, including new scenarios generated from samples.
     """
 
-    def save_new_dataframe(df, s, param, val):
+    def save_new_dataframe(df, s, param, val, name='baseline'):
         """
         Helper function to save a modified DataFrame to a new file and update the scenario path.
 
@@ -591,91 +598,95 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
         val : float
             The value used for this Monte Carlo sample (used in naming).
         """
-        folder_mc = os.path.join(os.path.dirname(s['baseline'][param]), 'montecarlo')
+        folder_mc = os.path.join(os.path.dirname(s[name][param]), 'montecarlo')
         if not os.path.exists(folder_mc):
             os.mkdir(folder_mc)
 
-        name = f'{param}_{val}'
-        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-        path_file = os.path.join(folder_mc, path_file)
+        new_name = f'{param}_{val}'
+        new_name = new_name.replace('.', 'p') + '.csv'
+        path_file = os.path.join(folder_mc, new_name)
         # Write the modified file
         df.to_csv(path_file, index=True)
 
         s[name_scenario][param] = path_file
         return s
 
-    for name_scenario, sample in samples.items():
-        name_scenario = name_scenario.replace('.', 'p')
-        # Put in the scenario dir
-        s[name_scenario] = s['baseline'].copy()
-        for key, val in sample.items():
-            affected_zones = zone_mapping.get(key)
-            if key == 'fossilfuel':
-                param = 'pFuelPrice'
-                price_df = pd.read_csv(s['baseline'][param], index_col=[0, 1]).copy()
-                price_df.columns = price_df.columns.astype(int)
-                tech_list = ["Diesel", "HFO", "Coal", "Gas", "LNG"]
-                idx = pd.IndexSlice
-                if 'ALL' in affected_zones:
-                    price_df.loc[idx[:, tech_list], :] *= (1 + val)
-                else:
-                    price_df.loc[idx[affected_zones, tech_list], :] *= (1 + val)
-                save_new_dataframe(price_df, s, param, val)
+    list_initial_scenarios = list(s.keys()).copy()
+    for name in list_initial_scenarios:
 
-            if key == 'demand':
-                param = 'pDemandForecast'
-                demand_df = pd.read_csv(s['baseline'][param], index_col=[0, 1]).copy()
-                demand_df.columns = demand_df.columns.astype(int)
+        for name_scenario, sample in samples.items():
+            name_scenario = name_scenario.replace('.', 'p')
+            name_scenario = name + '_' + name_scenario
+            # Put in the scenario dir
+            s[name_scenario] = s[name].copy()
+            for key, val in sample.items():
+                affected_zones = zone_mapping.get(key)
+                if key == 'fossilfuel':
+                    param = 'pFuelPrice'
+                    price_df = pd.read_csv(s[name][param], index_col=[0, 1]).copy()
+                    price_df.columns = price_df.columns.astype(int)
+                    tech_list = ["Diesel", "HFO", "Coal", "Gas", "LNG"]
+                    idx = pd.IndexSlice
+                    if 'ALL' in affected_zones:
+                        price_df.loc[idx[:, tech_list], :] *= (1 + val)
+                    else:
+                        price_df.loc[idx[affected_zones, tech_list], :] *= (1 + val)
+                    save_new_dataframe(price_df, s, param, val, name=name)
 
-                cols = [i for i in demand_df.columns if i not in ['zone', 'type']]
-                idx = pd.IndexSlice
-                if 'ALL' in affected_zones:
-                    demand_df.loc[:, cols] *= (1 + val)
-                else:
-                    demand_df.loc[idx[affected_zones, :], cols] *= (1 + val)
+                if key == 'demand':
+                    param = 'pDemandForecast'
+                    demand_df = pd.read_csv(s[name][param], index_col=[0, 1]).copy()
+                    demand_df.columns = demand_df.columns.astype(int)
 
-                save_new_dataframe(demand_df, s, param, val)
+                    cols = [i for i in demand_df.columns if i not in ['zone', 'type']]
+                    idx = pd.IndexSlice
+                    if 'ALL' in affected_zones:
+                        demand_df.loc[:, cols] *= (1 + val)
+                    else:
+                        demand_df.loc[idx[affected_zones, :], cols] *= (1 + val)
 
-            if key == 'hydro':
-                # First handling default values
-                param = 'pAvailabilityDefault'
-                availability_default = pd.read_csv(s['baseline'][param], index_col=[0, 1, 2]).copy()
-                # availability_default.columns = availability_default.columns.astype(float)
-                cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'fuel']]
-                tech_list = ['ROR', 'ReservoirHydro']
-                if 'ALL' in affected_zones:
-                    mask = availability_default.index.get_level_values('tech').isin(tech_list)
+                    save_new_dataframe(demand_df, s, param, val, name=name)
 
-                else:
-                    mask = (availability_default.index.get_level_values('zone').isin(affected_zones)) & \
-                           (availability_default.index.get_level_values('tech').isin(tech_list))
+                if key == 'hydro':
+                    # First handling default values
+                    param = 'pAvailabilityDefault'
+                    availability_default = pd.read_csv(s[name][param], index_col=[0, 1, 2]).copy()
+                    # availability_default.columns = availability_default.columns.astype(float)
+                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'fuel']]
+                    tech_list = ['ROR', 'ReservoirHydro']
+                    if 'ALL' in affected_zones:
+                        mask = availability_default.index.get_level_values('tech').isin(tech_list)
 
-                availability_default.loc[mask, cols] *= (1 + val)
+                    else:
+                        mask = (availability_default.index.get_level_values('zone').isin(affected_zones)) & \
+                               (availability_default.index.get_level_values('tech').isin(tech_list))
 
-                save_new_dataframe(availability_default, s, param, val)
+                    availability_default.loc[mask, cols] *= (1 + val)
 
-                # Then handling custom values
-                param = 'pAvailability'
-                param_to_merge = 'pGenDataExcel'
-                availability_custom = pd.read_csv(s['baseline'][param], index_col=[0]).copy()
+                    save_new_dataframe(availability_default, s, param, val, name=name)
 
-                gendata = pd.read_csv(s['baseline'][param_to_merge], index_col=[0,1,2,3]).copy()
-                gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'fuel']]
-                availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
-                availability_custom.set_index(['gen', 'zone', 'tech', 'fuel'], inplace=True)
+                    # Then handling custom values
+                    param = 'pAvailability'
+                    param_to_merge = 'pGenDataExcel'
+                    availability_custom = pd.read_csv(s[name][param], index_col=[0]).copy()
 
-                cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'fuel']]
-                if 'ALL' in affected_zones:
-                    mask = availability_custom.index.get_level_values('tech').isin(tech_list)
+                    gendata = pd.read_csv(s[name][param_to_merge], index_col=[0,1,2,3]).copy()
+                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'fuel']]
+                    availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
+                    availability_custom.set_index(['gen', 'zone', 'tech', 'fuel'], inplace=True)
 
-                else:
-                    mask = (availability_custom.index.get_level_values('zone').isin(affected_zones)) & \
-                           (availability_custom.index.get_level_values('tech').isin(tech_list))
+                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'fuel']]
+                    if 'ALL' in affected_zones:
+                        mask = availability_custom.index.get_level_values('tech').isin(tech_list)
 
-                availability_custom.loc[mask, cols] *= (1 + val)
-                availability_custom = availability_custom.droplevel(['zone', 'tech', 'fuel'], axis=0)
+                    else:
+                        mask = (availability_custom.index.get_level_values('zone').isin(affected_zones)) & \
+                               (availability_custom.index.get_level_values('tech').isin(tech_list))
 
-                save_new_dataframe(availability_custom, s, param, val)
+                    availability_custom.loc[mask, cols] *= (1 + val)
+                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'fuel'], axis=0)
+
+                    save_new_dataframe(availability_custom, s, param, val, name=name)
 
     return s
 

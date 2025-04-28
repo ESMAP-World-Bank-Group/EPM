@@ -407,7 +407,7 @@ def filter_dataframe_by_index(df, conditions):
     return df
 
 
-def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_gen_fuel=None,
+def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=None, mapping_gen_fuel=None,
                         mapping_zone_country=None):
     """
     Processing EPM results to use in plots.
@@ -452,16 +452,17 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
 
         return epm_dict
 
-    keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
-            'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
-            'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
-            'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pCongested', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExtImp',
-            'pInterconUtilizationExtExp', 'pInterchangeExtExp', 'InterchangeExtImp', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-            'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
-            'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
-            'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
-            'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
-            'pCostsbyPlant', 'pYearlyTrade', 'pSolverParameters'}
+    if keys is not None:  # default keys to process in output
+        keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
+                'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
+                'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
+                'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pCongested', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExtImp',
+                'pInterconUtilizationExtExp', 'pInterchangeExtExp', 'InterchangeExtImp', 'annual_line_capa', 'pAnnualTransmissionCapacity',
+                'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
+                'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
+                'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
+                'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
+                'pCostsbyPlant', 'pYearlyTrade', 'pSolverParameters'}
 
     rename_keys = {}
     for k in keys:
@@ -532,7 +533,7 @@ def process_epm_results(epm_results, dict_specs, scenarios_rename=None, mapping_
 
 
 def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postprocessing',
-                               graphs_folder = 'img'):
+                               graphs_folder = 'img', keys_results=None):
     # Create the folder path
     def adjust_color(color, factor=0.1):
         """Adjusts the color slightly by modifying its HSL components."""
@@ -574,7 +575,8 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
     # Extract and process EPM results
     epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
     epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
-                                      mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country)
+                                      mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
+                                      keys=keys_results)
 
     # Update color dict with plant colors
     if True:
@@ -793,11 +795,16 @@ def generate_summary_detailed(epm_results, folder):
 def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenario='all',
                        plot_dispatch=None, scenario_reference='baseline', graphs_folder='img',
                        montecarlo=False):
+    keys_results = None
+    if montecarlo:
+        keys_results = {'pSummary'}
+
+    # Process results
+    RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
+        FOLDER, SCENARIOS_RENAME=None, folder=folder, graphs_folder=graphs_folder, keys_results=keys_results)
 
     if not montecarlo:
-        # Process results
-        RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
-            FOLDER, SCENARIOS_RENAME=None, folder=folder, graphs_folder=graphs_folder)
+
 
         if isinstance(selected_scenario, str):
             if selected_scenario == 'all':
