@@ -574,10 +574,11 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
-
 - GDXWriter:
-    file: %GDX_INPUT%.gdx
+    file: input.gdx
     symbols: all
+
+
 $offEmbeddedCode
 
 * Extract file path (`fp`), base filename (`GDX_INPUT`), and file extension (`fe`) from `%XLS_INPUT%`
