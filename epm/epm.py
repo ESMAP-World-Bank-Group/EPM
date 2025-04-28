@@ -342,8 +342,8 @@ def launch_epm_multi_scenarios(config='config.csv',
     if montecarlo:
         assert uncertainties is not None, "Monte Carlo analysis is activated, but uncertainties is set to None."
         df_uncertainties = pd.read_csv(uncertainties)
-        distribution, samples = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
-        s = create_scenarios_montecarlo(samples, s)
+        distribution, samples, zone_mapping = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
+        s = create_scenarios_montecarlo(samples, s, zone_mapping)
 
     # Set-up project assessment scenarios if activated
     if project_assessment is not None:
@@ -520,6 +520,7 @@ def define_samples(df_uncertainties, nb_samples):
         (NamedJ distribution object, dict of samples keyed by a readable string for each sample)
     """
     uncertainties = {}
+    zone_mapping = {}
     chaospy_distributions = [
         name for name in dir(chaospy)
         if callable(getattr(chaospy, name)) and hasattr(getattr(chaospy, name), '__module__')
@@ -532,6 +533,13 @@ def define_samples(df_uncertainties, nb_samples):
             'type': type,
             'args': (lowerbound, upperbound)
         }
+        # Getting zones concerned by the uncertainty
+        zones = row['zones'] if pd.notna(row.get('zones', None)) else 'ALL'
+        if isinstance(zones, str):
+            zone_list = [z.strip() for z in zones.split(';')]
+        else:
+            zone_list = ['ALL']
+        zone_mapping[feature] = zone_list
     distribution = NamedJ(uncertainties)
 
     samples = distribution.sample(size=nb_samples, rule='halton')
@@ -541,10 +549,10 @@ def define_samples(df_uncertainties, nb_samples):
         }
         for col in samples.columns
     }
-    return distribution, samples
+    return distribution, samples, zone_mapping
 
 
-def create_scenarios_montecarlo(samples, s):
+def create_scenarios_montecarlo(samples, s, zone_mapping):
     """
     Generate new scenarios for Monte Carlo analysis by modifying baseline input files
     based on provided uncertainty samples.
@@ -601,13 +609,17 @@ def create_scenarios_montecarlo(samples, s):
         # Put in the scenario dir
         s[name_scenario] = s['baseline'].copy()
         for key, val in sample.items():
+            affected_zones = zone_mapping.get(key)
             if key == 'fossilfuel':
                 param = 'pFuelPrice'
                 price_df = pd.read_csv(s['baseline'][param], index_col=[0, 1]).copy()
                 price_df.columns = price_df.columns.astype(int)
                 tech_list = ["Diesel", "HFO", "Coal", "Gas", "LNG"]
                 idx = pd.IndexSlice
-                price_df.loc[idx[:, tech_list], :] *= (1 + val)
+                if 'ALL' in affected_zones:
+                    price_df.loc[idx[:, tech_list], :] *= (1 + val)
+                else:
+                    price_df.loc[idx[affected_zones, tech_list], :] *= (1 + val)
                 save_new_dataframe(price_df, s, param, val)
 
             if key == 'demand':
@@ -616,9 +628,54 @@ def create_scenarios_montecarlo(samples, s):
                 demand_df.columns = demand_df.columns.astype(int)
 
                 cols = [i for i in demand_df.columns if i not in ['zone', 'type']]
-                demand_df.loc[:, cols] *= (1 + val)
+                idx = pd.IndexSlice
+                if 'ALL' in affected_zones:
+                    demand_df.loc[:, cols] *= (1 + val)
+                else:
+                    demand_df.loc[idx[affected_zones, :], cols] *= (1 + val)
 
                 save_new_dataframe(demand_df, s, param, val)
+
+            if key == 'hydro':
+                # First handling default values
+                param = 'pAvailabilityDefault'
+                availability_default = pd.read_csv(s['baseline'][param], index_col=[0, 1, 2]).copy()
+                # availability_default.columns = availability_default.columns.astype(float)
+                cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'fuel']]
+                tech_list = ['ROR', 'ReservoirHydro']
+                if 'ALL' in affected_zones:
+                    mask = availability_default.index.get_level_values('tech').isin(tech_list)
+
+                else:
+                    mask = (availability_default.index.get_level_values('zone').isin(affected_zones)) & \
+                           (availability_default.index.get_level_values('tech').isin(tech_list))
+
+                availability_default.loc[mask, cols] *= (1 + val)
+
+                save_new_dataframe(availability_default, s, param, val)
+
+                # Then handling custom values
+                param = 'pAvailability'
+                param_to_merge = 'pGenDataExcel'
+                availability_custom = pd.read_csv(s['baseline'][param], index_col=[0]).copy()
+
+                gendata = pd.read_csv(s['baseline'][param_to_merge], index_col=[0,1,2,3]).copy()
+                gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'fuel']]
+                availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
+                availability_custom.set_index(['gen', 'zone', 'tech', 'fuel'], inplace=True)
+
+                cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'fuel']]
+                if 'ALL' in affected_zones:
+                    mask = availability_custom.index.get_level_values('tech').isin(tech_list)
+
+                else:
+                    mask = (availability_custom.index.get_level_values('zone').isin(affected_zones)) & \
+                           (availability_custom.index.get_level_values('tech').isin(tech_list))
+
+                availability_custom.loc[mask, cols] *= (1 + val)
+                availability_custom = availability_custom.droplevel(['zone', 'tech', 'fuel'], axis=0)
+
+                save_new_dataframe(availability_custom, s, param, val)
 
     return s
 
