@@ -965,21 +965,28 @@ PA.optfile = 1;
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
+* SOLVER TYPE
+* MODELTYPE == MIP solves as a MIP
+* MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
+
+$if not set MODELTYPE $set MODELTYPE MIP
+$log LOG: Solving with MODELTYPE = "%MODELTYPE%"
+
 $ifThenI.solvemode %SOLVEMODE% == 2
 *  Solve model as usual
-   Solve PA using MIP minimizing vNPVcost;
+   Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Abort if model was not solved successfully
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
 $elseIfI.solvemode %SOLVEMODE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;
-   Solve PA using MIP minimizing vNPVcost;
+   Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Abort if model was not solved successfully
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
 $elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1;
-   Solve PA using MIP minimizing vNPVcost;
+   Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Use savepoint file to load state of the solve from savepoint file
    execute_loadpoint "PA_p.gdx";
 $endIf.solvemode

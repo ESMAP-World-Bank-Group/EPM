@@ -452,7 +452,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
 
         return epm_dict
 
-    if keys is not None:  # default keys to process in output
+    if keys is None:  # default keys to process in output
         keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
                 'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
                 'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
