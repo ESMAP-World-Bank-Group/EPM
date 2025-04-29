@@ -696,12 +696,10 @@ $onIDCProtect
 
 
 * Map transmission status from input data
-tstatusmap(sTopology(z,z2),tstatus) = pNewTransmission(z,z2, 'status')=tstatIndex(tstatus);
+tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
-
-display commtransmission;
 
 
 *-------------------------------------------------------------------
@@ -817,8 +815,20 @@ vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
 
+sAdditionalTransfer(sTopology(z,z2),y) = yes;
+sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
+
+display sAdditionalTransfer;
+display commtransmission;
+display pNewTransmission;
+
 * Fix
-vAdditionalTransfer.fx(commtransmission(z,z2),y)$((pNewTransmission(z,z2,"EarliestEntry") <= y.val) and (pNewTransmission(z,z2,"EarliestEntry") >= sStartYear.val) and pAllowHighTransfer) = pNewTransmission(z,z2,"MaximumNumOfLines");
+vAdditionalTransfer.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and pAllowHighTransfer) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vAdditionalTransfer.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and pAllowHighTransfer) = 0;
+
+* Compute bounds 
+vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vAdditionalTransfer.lo(z,z2,y) - vAdditionalTransfer.up(z,z2,y-1));
+vBuildTransmission.up(sTopology(z,z2),y) = max(0,vAdditionalTransfer.up(z,z2,y) - vAdditionalTransfer.lo(z,z2,y-1));
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
@@ -920,9 +930,6 @@ vExportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y)
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 
-
-sAdditionalTransfer(z,z2,y) = yes;
-sAdditionalTransfer(z,z2,y) $(y.val < pNewTransmission(z,z2,"EarliestEntry")) = no;
 
 sFlow(z,z2,q,d,t,y) = yes;
 sFlow(z,z2,q,d,t,y)$(not sTopology(z,z2)) = no;
