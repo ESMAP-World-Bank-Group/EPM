@@ -79,25 +79,37 @@ Create a CSV file specifying the uncertain parameters. This file should include 
 
 - `upperbound`: the upper limit of the distribution
 
+- `zones` (optional): List of zones where the uncertainty applies, separated by semicolons (e.g., `Zambia;Zimbabwe`). 
+If left empty, the uncertainty applies to all zones.
+
 Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
 Uncertainty sampling is powered by the `chaospy` package, so only distributions available in `chaospy` can be used.
 
 Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
 
-- `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel)
-- `demand`: scales the entire demand forecast uniformly across all zones
+- `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage
+- `demand`: scales the entire demand forecast (peak & energy) uniformly by a percentage across zones specified
+- `hydro`: scales hydro trajectories uniformly by a percentage  across zones specified
 Example file: [pSettings.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
 
 2. Specify in your command-line:
 ```sh
-python epm.py --folder_input my_data --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/mc_uncertainties.csv
+python epm.py --folder_input my_data --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/your_uncertainty_file.csv
 ```
 
 This command will:
-- Load the uncertainties defined in your file
-- Generate 20 samples from the joint probability distribution
+- Load the uncertainties defined in your file (`--uncertainties input/data_sapp/your_uncertainty_file.csv`)
+- Generate 20 samples from the joint probability distribution (`--montecarlo_samples 20`)
 - Create one scenario per sample
 - Run the EPM model for each scenario
 
-Configuration file should be used with `reportshort = 1` to limit the memory pressure to store all results.
+**Tip:** Set `reportshort = 1` in your configuration to reduce memory usage during multiple runs implied by Monte-Carlo analysis.
+
+You can apply the same Monte Carlo simulations to selected scenarios by specifying:
+ 
+```sh 
+--scenarios input/data_sapp/your_scenario_file.csv --selected_scenarios Scenario1 Scenario2
+```
+
+This allows you for instance to test how specific scenarios (e.g., with or without a new generation or transmission project) perform under uncertainty.
 
