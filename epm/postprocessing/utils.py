@@ -532,6 +532,18 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     return epm_dict
 
 
+def path_to_extract_results(folder):
+    if 'postprocessing' in os.getcwd():  # code is launched from postprocessing folder
+        assert 'output' not in folder, 'folder name is not specified correctly'
+        RESULTS_FOLDER = os.path.join('..', 'output', folder)
+    else:  # code is launched from main root
+        if 'output' not in folder:
+            RESULTS_FOLDER = os.path.join('output', folder)
+        else:
+            RESULTS_FOLDER = folder
+    return RESULTS_FOLDER
+
+
 def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postprocessing',
                                graphs_folder = 'img', keys_results=None):
     # Create the folder path
@@ -547,16 +559,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
         new_rgb = colorsys.hls_to_rgb(h, l, s)
         return mcolors.to_hex(new_rgb)
 
-    # TODO: Clean that
-    if 'postprocessing' in os.getcwd():  # code is launched from postprocessing folder
-        assert 'output' not in FOLDER, 'FOLDER name is not specified correctly'
-        # RESULTS_FOLDER = FOLDER
-        RESULTS_FOLDER = os.path.join('..', 'output', FOLDER)
-    else:  # code is launched from main root
-        if 'output' not in FOLDER:
-            RESULTS_FOLDER = os.path.join('output', FOLDER)
-        else:
-            RESULTS_FOLDER = FOLDER
+    RESULTS_FOLDER = path_to_extract_results(FOLDER)
 
     GRAPHS_FOLDER = os.path.join(RESULTS_FOLDER, graphs_folder)
     if not os.path.exists(GRAPHS_FOLDER):
@@ -580,23 +583,23 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
 
     # Update color dict with plant colors
     if True:
-        # Copy results
-        temp = epm_results['pCapacityPlan'].copy()
-        plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
+        if 'pCapacityPlan' in epm_results.keys():
+            temp = epm_results['pCapacityPlan'].copy()
+            plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
 
-        # Map base colors from fuel types
-        plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
+            # Map base colors from fuel types
+            plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
 
-        # Generate slightly varied colors for each generator
-        plant_fuel_pairs['colors'] = plant_fuel_pairs.apply(
-            lambda row: adjust_color(row['colors'], factor=0.2 * hash(row['generator']) % 5), axis=1
-        )
+            # Generate slightly varied colors for each generator
+            plant_fuel_pairs['colors'] = plant_fuel_pairs.apply(
+                lambda row: adjust_color(row['colors'], factor=0.2 * hash(row['generator']) % 5), axis=1
+            )
 
-        # Create the mapping
-        plant_to_color = dict(zip(plant_fuel_pairs['generator'], plant_fuel_pairs['colors']))
+            # Create the mapping
+            plant_to_color = dict(zip(plant_fuel_pairs['generator'], plant_fuel_pairs['colors']))
 
-        # Update dict_specs with the new colors
-        dict_specs['colors'].update(plant_to_color)
+            # Update dict_specs with the new colors
+            dict_specs['colors'].update(plant_to_color)
 
     return RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel
 
@@ -802,6 +805,35 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
         FOLDER, SCENARIOS_RENAME=None, folder=folder, graphs_folder=graphs_folder, keys_results=keys_results)
+
+    if montecarlo:
+        simulations_scenarios = pd.read_csv(os.path.join(RESULTS_FOLDER, 'simulations_scenarios.csv'), index_col=0)
+        samples_mc = pd.read_csv(os.path.join(RESULTS_FOLDER, 'samples_montecarlo.csv'), index_col=0)
+        samples_mc_substrings = set(samples_mc.columns)
+
+        def is_not_subset(col):
+            return not any(sample in col for sample in samples_mc_substrings)
+        original_scenarios = [c for c in simulations_scenarios.columns if is_not_subset(c)]
+
+        df_summary = epm_results['pSummary'].copy()
+        df_summary = df_summary.loc[df_summary.attribute.isin(['NPV of system cost: $m'])]
+        df_summary_baseline = df_summary.loc[df_summary.scenario.isin(original_scenarios)]
+        df_summary_baseline = df_summary_baseline.drop(columns=['attribute']).set_index('scenario')
+        df_summary['scenario_mapping'] = df_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
+        df_summary = df_summary.groupby('scenario_mapping').value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
+        df_summary = df_summary.set_index('scenario').stack()
+
+        filename = None
+
+        make_stacked_bar_subplots(df_summary_baseline, filename, dict_specs['colors'], df_errorbars=df_summary, selected_zone=None,
+                                  selected_year=None,
+                                  column_xaxis=None,
+                                  column_stacked=None, column_multiple_bars='scenario',
+                                  column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                  dict_scenarios=None,
+                                  format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
+                                  annotate=False,
+                                  show_total=False, fonttick=12, rotation=45, title=None)
 
     if not montecarlo:
 
@@ -2177,8 +2209,8 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
                   figsize=figsize, ylabel=ylabel, title=title)
 
 
-def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=None,order_scenarios=None, order_columns=None,
-                        dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
+def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colors=None, year_ini=None,order_scenarios=None,
+                        order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
                         cap=6, annotate=True, show_total=False, title=None, figsize=(10,6), fontsize_label=10,
                         format_label="{:.1f}", hspace=0.4, cols_per_row=3):
     """
@@ -2186,7 +2218,8 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
     Parameters
     ----------
     df : pandas.DataFrame
-        DataFrame containing the data to plot.
+        DataFrame containing the data to plot. Index may be multiple levels. First level corresponds to x axis, second level corresponds to stacked values.
+        Columns of df correspond to subplots.
     column_group : str
         Column name to group by for the stacked bars.
     filename : str
@@ -2248,10 +2281,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
         ax = axes[k]
 
         try:
-            if column_group is not None:
-                df_temp = df[key].unstack(column_group)
-            else:
-                df_temp = df[key].to_frame()
+            df_temp = df[key].unstack(column_group) if column_group else df[key].to_frame()
 
             if key == year_ini:
                 df_temp = df_temp.iloc[0, :]
@@ -2267,7 +2297,34 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
                     df_temp = df_temp.loc[:,new_order]
 
             df_temp.plot(ax=ax, kind='bar', stacked=stacked, linewidth=0,
-                         color=dict_colors if dict_colors is not None else None)
+                        color=dict_colors if dict_colors else None)
+
+            # Plot error bars if provided
+            if df_errorbars is not None:
+                df_errorbars_temp = df_errorbars[key].unstack('error')
+                df_err_low = df_errorbars_temp['low'].reindex(df_temp.index)
+                df_err_high = df_errorbars_temp['high'].reindex(df_temp.index)
+                # df_err_low = df_errorbars.xs('low', level=1).reindex(df_temp.index)
+                # df_err_high = df_errorbars.xs('high', level=1).reindex(df_temp.index)
+                for i, container in enumerate(ax.containers):
+                    for bar in container:
+                        x = bar.get_x() + bar.get_width() / 2
+                        idx = bar.get_x() // bar.get_width()
+                        height = bar.get_height()
+                        scenario = bar.get_label()
+                        scenario_name = df_temp.index[int(idx)]
+                        err_low = height - df_err_low[scenario_name] if not np.isnan(df_err_low[scenario_name]) else 0
+                        err_high = df_err_high[scenario_name] - height if not np.isnan(df_err_high[scenario_name]) else 0
+                        ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none', color='black', capsize=3,
+                                    linewidth=1)
+
+                        scenario = bar.get_label()
+                        if scenario in df_err_low.columns:
+                            idx = bar.get_x() // bar.get_width()
+                            scenario_name = df_temp.index[int(idx)]
+                            err_low = height - df_err_low.at[scenario_name, key] if not np.isnan(df_err_low.at[scenario_name, key]) else 0
+                            err_high = df_err_high.at[scenario_name, key] - height if not np.isnan(df_err_high.at[scenario_name, key]) else 0
+                            ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none', color='black', capsize=3, linewidth=1)
 
             # Annotate each bar
             if annotate:
@@ -2344,7 +2401,7 @@ def stacked_bar_subplot(df, column_group, filename, dict_colors=None, year_ini=N
 
 
 
-def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, column_xaxis='year',
+def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, selected_zone=None, selected_year=None, column_xaxis='year',
                               column_stacked='fuel', column_multiple_bars='scenario',
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
@@ -2451,7 +2508,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, selected_zone=None, sel
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
 
-    stacked_bar_subplot(df, column_stacked, filename, dict_colors, format_y=format_y,
+    stacked_bar_subplot(df, column_stacked, filename, dict_colors, df_errorbars=df_errorbars, format_y=format_y,
                         rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
                         order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
                         format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row)

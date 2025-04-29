@@ -414,8 +414,9 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     if montecarlo:
         samples_mc = pd.DataFrame(samples)
-        for scenario in initial_scenarios:
-            samples_mc[scenario] = 1
+        samples_mc.columns = samples_mc.columns.map(lambda col: col.replace('.', 'p'))
+        # for scenario in initial_scenarios:
+        #     samples_mc[scenario] = 1
         samples_mc.to_csv('samples_montecarlo.csv')
 
     # Run EPM in multiprocess
@@ -1177,7 +1178,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=False, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo)
 
 
 if __name__ == '__main__':
