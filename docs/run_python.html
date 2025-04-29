@@ -1099,29 +1099,37 @@ Create a CSV file specifying the uncertain parameters. This file should include 
 <li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: the type of probability distribution (e.g., Uniform, Normal)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">lowerbound</span></code>: the lower limit of the distribution</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">upperbound</span></code>: the upper limit of the distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zones</span></code> (optional): List of zones where the uncertainty applies, separated by semicolons (e.g., <code class="docutils literal notranslate"><span class="pre">Zambia;Zimbabwe</span></code>).
+If left empty, the uncertainty applies to all zones.</p></li>
 </ul>
 <p>Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
 Uncertainty sampling is powered by the <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package, so only distributions available in <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> can be used.</p>
 <p>Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">demand</span></code>: scales the entire demand forecast uniformly across all zones
+<li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demand</span></code>: scales the entire demand forecast (peak &amp; energy) uniformly by a percentage across zones specified</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hydro</span></code>: scales hydro trajectories uniformly by a percentage  across zones specified
 Example file: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv">pSettings.csv example</a>.</p></li>
 </ul>
 <ol class="arabic simple" start="2">
 <li><p>Specify in your command-line:</p></li>
 </ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/data_sapp/mc_uncertainties.csv
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/data_sapp/your_uncertainty_file.csv
 </pre></div>
 </div>
 <p>This command will:</p>
 <ul class="simple">
-<li><p>Load the uncertainties defined in your file</p></li>
-<li><p>Generate 20 samples from the joint probability distribution</p></li>
+<li><p>Load the uncertainties defined in your file (<code class="docutils literal notranslate"><span class="pre">--uncertainties</span> <span class="pre">input/data_sapp/your_uncertainty_file.csv</span></code>)</p></li>
+<li><p>Generate 20 samples from the joint probability distribution (<code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span> <span class="pre">20</span></code>)</p></li>
 <li><p>Create one scenario per sample</p></li>
 <li><p>Run the EPM model for each scenario</p></li>
 </ul>
-<p>Configuration file should be used with <code class="docutils literal notranslate"><span class="pre">reportshort</span> <span class="pre">=</span> <span class="pre">1</span></code> to limit the memory pressure to store all results.</p>
+<p><strong>Tip:</strong> Set <code class="docutils literal notranslate"><span class="pre">reportshort</span> <span class="pre">=</span> <span class="pre">1</span></code> in your configuration to reduce memory usage during multiple runs implied by Monte-Carlo analysis.</p>
+<p>You can apply the same Monte Carlo simulations to selected scenarios by specifying:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>--scenarios<span class="w"> </span>input/data_sapp/your_scenario_file.csv<span class="w"> </span>--selected_scenarios<span class="w"> </span>Scenario1<span class="w"> </span>Scenario2
+</pre></div>
+</div>
+<p>This allows you for instance to test how specific scenarios (e.g., with or without a new generation or transmission project) perform under uncertainty.</p>
 </section>
 </section>
 
@@ -1233,7 +1241,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Apr 25, 2025.<br>
+Last updated on Apr 29, 2025.<br>
 </p>
   </div>
   
