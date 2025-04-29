@@ -55,3 +55,4 @@ SOLVER,
 solvemode,2
 trace,0
 reportshort,0
+modeltype,mip
