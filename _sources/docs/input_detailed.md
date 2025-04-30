@@ -310,31 +310,32 @@ All files in this section are stored in the **`supply`** folder.
 ### `pGenDataExcelCustom.csv`
 - **Description**: The main data table defining all power plants, including their **technical** and **economic** characteristics.
 - **Data Structure**:
-  - **`Plant`** (*string*) – Name of the power plant.  
-  - **`Zone`** (*string*) – Zone where the plant is located, as defined in `zcmap.csv`.  
-  - **`Type`** (*string*) – Technology type, as defined in `pTechData.csv`.  
-  - **`fuel1`** (*string*) – Primary fuel name, as defined in `ftfindex.csv`.  
+  - **`gen`** (*string*) – Name of the power plant.  
+  - **`zone`** (*string*) – Zone where the plant is located, as defined in `zcmap.csv`.  
+  - **`tech`** (*string*) – Technology type. Additional information on technologies can be found in `pTechData.csv`.  
+  - **`fuel`** (*string*) – Primary fuel name, as defined in `ftfindex.csv`.  
   - **`StYr`** (*year*) – Start year of plant operation.  
   - **`RetrYr`** (*year*) – Retirement year of the plant.  
   - **`Capacity`** (*MW*) – Installed capacity of the plant.  
-  - **`UnitSize`** (*MW*) – Size of a single unit in the plant.  
-  - **`Status`** (*integer*) – Operational status indicator (e.g., existing, planned, retired).  
-  - **`fuel2`** (*string*) – Secondary fuel name, if applicable.  
-  - **`HeatRate2`** (*MMBtu/MWh*) – Heat rate when operating on secondary fuel.  
-  - **`DescreteCap`** (*MW*) – Discrete capacity increments allowed for expansion.  
-  - **`BuildLimitperYear`** (*MW/year*) – Maximum allowable capacity additions per year.  
-  - **`MaxTotalBuild`** (*MW*) – Maximum total capacity allowed for the plant.  
+  - **`Status`** (*integer*) – Operational status indicator (e.g., existing, planned, retired).
   - **`MinLimitShare`** (*fraction*) – Minimum share of total generation capacity that must be maintained.  
-  - **`HeatRate`** (*MMBtu/MWh*) – Heat rate when operating on primary fuel.  
+  - **`HeatRate`** (*MMBtu/MWh*) – Heat rate when operating on primary fuel. 
   - **`RampUpRate`** (*fraction/hour*) – Maximum rate at which generation can be increased.  
   - **`RampDnRate`** (*fraction/hour*) – Maximum rate at which generation can be decreased.  
   - **`OverLoadFactor`** (*fraction*) – Factor determining the plant’s overload capability.  
   - **`ResLimShare`** (*fraction*) – Maximum share of plant capacity that can be allocated for reserves.  
-  - **`Capex`** (*$/kW*) – Capital expenditure per unit of installed capacity.  
+  - **`Capex`** (*$m/MW*) – Capital expenditure per unit of installed capacity.  
   - **`FOMperMW`** (*$/MW-year*) – Fixed operation and maintenance cost per MW of capacity.  
   - **`VOM`** (*$/MWh*) – Variable operation and maintenance cost per unit of electricity generated.  
   - **`ReserveCost`** (*$/MW-year*) – Additional cost for maintaining reserve capacity.  
   - **`Life`** (*years*) – Expected operational lifetime of the plant.  
+  - **`UnitSize`** (*MW*) – Size of a single unit in the plant.
+  - **`fuel2`** (*string*) – Secondary fuel name, if applicable.  
+  - **`HeatRate2`** (*MMBtu/MWh*) – Heat rate when operating on secondary fuel.  
+  - **`DescreteCap`** (*MW*) – Discrete capacity increments allowed for expansion.  
+  - **`BuildLimitperYear`** (*MW/year*) – Maximum allowable capacity additions per year.  
+  - **`MaxTotalBuild`** (*MW*) – Maximum total capacity allowed for the plant.   
+
 
 - **Example Link**: [pGenDataExcelCustom.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelCustom.csv)
 

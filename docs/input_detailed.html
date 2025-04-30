@@ -2032,31 +2032,31 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <li><p><strong>Description</strong>: The main data table defining all power plants, including their <strong>technical</strong> and <strong>economic</strong> characteristics.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">Plant</span></code></strong> (<em>string</em>) – Name of the power plant.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">Zone</span></code></strong> (<em>string</em>) – Zone where the plant is located, as defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">Type</span></code></strong> (<em>string</em>) – Technology type, as defined in <code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code>.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel1</span></code></strong> (<em>string</em>) – Primary fuel name, as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">gen</span></code></strong> (<em>string</em>) – Name of the power plant.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">zone</span></code></strong> (<em>string</em>) – Zone where the plant is located, as defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">tech</span></code></strong> (<em>string</em>) – Technology type. Additional information on technologies can be found in <code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel</span></code></strong> (<em>string</em>) – Primary fuel name, as defined in <code class="docutils literal notranslate"><span class="pre">ftfindex.csv</span></code>.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">StYr</span></code></strong> (<em>year</em>) – Start year of plant operation.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">RetrYr</span></code></strong> (<em>year</em>) – Retirement year of the plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Capacity</span></code></strong> (<em>MW</em>) – Installed capacity of the plant.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">UnitSize</span></code></strong> (<em>MW</em>) – Size of a single unit in the plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Status</span></code></strong> (<em>integer</em>) – Operational status indicator (e.g., existing, planned, retired).</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel2</span></code></strong> (<em>string</em>) – Secondary fuel name, if applicable.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">HeatRate2</span></code></strong> (<em>MMBtu/MWh</em>) – Heat rate when operating on secondary fuel.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">DescreteCap</span></code></strong> (<em>MW</em>) – Discrete capacity increments allowed for expansion.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">BuildLimitperYear</span></code></strong> (<em>MW/year</em>) – Maximum allowable capacity additions per year.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">MaxTotalBuild</span></code></strong> (<em>MW</em>) – Maximum total capacity allowed for the plant.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">MinLimitShare</span></code></strong> (<em>fraction</em>) – Minimum share of total generation capacity that must be maintained.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">HeatRate</span></code></strong> (<em>MMBtu/MWh</em>) – Heat rate when operating on primary fuel.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">RampUpRate</span></code></strong> (<em>fraction/hour</em>) – Maximum rate at which generation can be increased.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">RampDnRate</span></code></strong> (<em>fraction/hour</em>) – Maximum rate at which generation can be decreased.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">OverLoadFactor</span></code></strong> (<em>fraction</em>) – Factor determining the plant’s overload capability.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">ResLimShare</span></code></strong> (<em>fraction</em>) – Maximum share of plant capacity that can be allocated for reserves.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">Capex</span></code></strong> (<em>$/kW</em>) – Capital expenditure per unit of installed capacity.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Capex</span></code></strong> (<em>$m/MW</em>) – Capital expenditure per unit of installed capacity.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">FOMperMW</span></code></strong> (<em>$/MW-year</em>) – Fixed operation and maintenance cost per MW of capacity.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">VOM</span></code></strong> (<em>$/MWh</em>) – Variable operation and maintenance cost per unit of electricity generated.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">ReserveCost</span></code></strong> (<em>$/MW-year</em>) – Additional cost for maintaining reserve capacity.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">Life</span></code></strong> (<em>years</em>) – Expected operational lifetime of the plant.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">UnitSize</span></code></strong> (<em>MW</em>) – Size of a single unit in the plant.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">fuel2</span></code></strong> (<em>string</em>) – Secondary fuel name, if applicable.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">HeatRate2</span></code></strong> (<em>MMBtu/MWh</em>) – Heat rate when operating on secondary fuel.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">DescreteCap</span></code></strong> (<em>MW</em>) – Discrete capacity increments allowed for expansion.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">BuildLimitperYear</span></code></strong> (<em>MW/year</em>) – Maximum allowable capacity additions per year.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">MaxTotalBuild</span></code></strong> (<em>MW</em>) – Maximum total capacity allowed for the plant.</p></li>
 </ul>
 </li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelCustom.csv">pGenDataExcelCustom.csv</a></p></li>
@@ -3083,7 +3083,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Apr 29, 2025.<br>
+Last updated on Apr 30, 2025.<br>
 </p>
   </div>
   
