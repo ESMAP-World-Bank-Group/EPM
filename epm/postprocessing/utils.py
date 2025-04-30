@@ -806,6 +806,9 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
         FOLDER, SCENARIOS_RENAME=None, folder=folder, graphs_folder=graphs_folder, keys_results=keys_results)
 
+    if not os.path.exists(Path(GRAPHS_FOLDER) / Path('scenarios_comparison')):
+        os.mkdir(Path(GRAPHS_FOLDER) / Path('scenarios_comparison'))
+
     if montecarlo:
         simulations_scenarios = pd.read_csv(os.path.join(RESULTS_FOLDER, 'simulations_scenarios.csv'), index_col=0)
         samples_mc = pd.read_csv(os.path.join(RESULTS_FOLDER, 'samples_montecarlo.csv'), index_col=0)
@@ -821,22 +824,19 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         df_summary_baseline = df_summary_baseline.drop(columns=['attribute']).set_index('scenario')
         df_summary['scenario_mapping'] = df_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
         df_summary = df_summary.groupby('scenario_mapping').value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
-        df_summary = df_summary.set_index('scenario').stack()
+        df_summary = df_summary.set_index('scenario').stack().to_frame().rename(columns={0: 'value'})
+        df_summary.index.names = ['scenario', 'error']
 
-        filename = None
+        filename = f'{GRAPHS_FOLDER}/scenarios_comparison/NPV_montecarlo.png'
 
-        make_stacked_bar_subplots(df_summary_baseline, filename, dict_specs['colors'], df_errorbars=df_summary, selected_zone=None,
-                                  selected_year=None,
-                                  column_xaxis=None,
-                                  column_stacked=None, column_multiple_bars='scenario',
+        make_stacked_bar_subplots(df_summary_baseline, filename, dict_colors=None, df_errorbars=df_summary, selected_zone=None,
+                                  selected_year=None, column_xaxis=None, column_stacked=None, column_multiple_bars='scenario',
                                   column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
                                   dict_scenarios=None,
                                   format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                  annotate=False,
-                                  show_total=False, fonttick=12, rotation=45, title=None)
+                                  annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
     if not montecarlo:
-
 
         if isinstance(selected_scenario, str):
             if selected_scenario == 'all':
@@ -847,8 +847,6 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         else:
             selected_scenarios = selected_scenario
 
-        # TODO: Make smth to only select some scenarios that should appear in the Figures
-
         # Generate summary
         generate_summary(epm_results, RESULTS_FOLDER, epm_input)
 
@@ -857,9 +855,6 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
             # Generate a detailed summary by Power Plant
             generate_summary_detailed(epm_results, RESULTS_FOLDER)
-
-            if not os.path.exists(Path(GRAPHS_FOLDER) / Path('scenarios_comparison')):
-                os.mkdir(Path(GRAPHS_FOLDER) / Path('scenarios_comparison'))
 
             df_capacityplan = epm_results['pCapacityPlan'].copy()
             df_capacityfuel = epm_results['pCapacityByFuel'].copy()
@@ -2302,29 +2297,18 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
             # Plot error bars if provided
             if df_errorbars is not None:
                 df_errorbars_temp = df_errorbars[key].unstack('error')
-                df_err_low = df_errorbars_temp['low'].reindex(df_temp.index)
-                df_err_high = df_errorbars_temp['high'].reindex(df_temp.index)
-                # df_err_low = df_errorbars.xs('low', level=1).reindex(df_temp.index)
-                # df_err_high = df_errorbars.xs('high', level=1).reindex(df_temp.index)
-                for i, container in enumerate(ax.containers):
-                    for bar in container:
-                        x = bar.get_x() + bar.get_width() / 2
-                        idx = bar.get_x() // bar.get_width()
-                        height = bar.get_height()
-                        scenario = bar.get_label()
-                        scenario_name = df_temp.index[int(idx)]
-                        err_low = height - df_err_low[scenario_name] if not np.isnan(df_err_low[scenario_name]) else 0
-                        err_high = df_err_high[scenario_name] - height if not np.isnan(df_err_high[scenario_name]) else 0
-                        ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none', color='black', capsize=3,
-                                    linewidth=1)
+                df_err_low = df_errorbars_temp['min'].reindex(df_temp.index)
+                df_err_high = df_errorbars_temp['max'].reindex(df_temp.index)
 
-                        scenario = bar.get_label()
-                        if scenario in df_err_low.columns:
-                            idx = bar.get_x() // bar.get_width()
-                            scenario_name = df_temp.index[int(idx)]
-                            err_low = height - df_err_low.at[scenario_name, key] if not np.isnan(df_err_low.at[scenario_name, key]) else 0
-                            err_high = df_err_high.at[scenario_name, key] - height if not np.isnan(df_err_high.at[scenario_name, key]) else 0
-                            ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none', color='black', capsize=3, linewidth=1)
+                for bar, idx in zip(ax.containers[0], df_temp.index):
+                    x = bar.get_x() + bar.get_width() / 2
+                    height = bar.get_y() + bar.get_height()  # top of the stack
+                    low = df_err_low.loc[idx] if pd.notna(df_err_low.loc[idx]) else height
+                    high = df_err_high.loc[idx] if pd.notna(df_err_high.loc[idx]) else height
+                    err_low = max(height - low, 0)
+                    err_high = max(high - height, 0)
+                    ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none',
+                                color='black', capsize=3, linewidth=1)
 
             # Annotate each bar
             if annotate:
@@ -2508,7 +2492,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
 
-    stacked_bar_subplot(df, column_stacked, filename, dict_colors, df_errorbars=df_errorbars, format_y=format_y,
+    stacked_bar_subplot(df, column_stacked, filename, dict_colors=dict_colors, df_errorbars=df_errorbars, format_y=format_y,
                         rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
                         order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
                         format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row)
