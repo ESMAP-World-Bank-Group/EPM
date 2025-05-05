@@ -982,7 +982,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             df = df.loc[df.scenario.isin(selected_scenarios)]
             costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
                                 "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
-                                "VRE curtailment: $m"]
+                                "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m"]
             df = df.loc[df.attribute.isin(costs_comparison)]
             df = df.loc[(df.year == final_year)]
 
@@ -1004,7 +1004,8 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             df = df.loc[df.scenario.isin(selected_scenarios)]
             costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
                                 "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
-                                "VRE curtailment: $m", "Trade Costs: $m"]
+                                "VRE curtailment: $m", "Trade Costs: $m", "Import costs wiht external zones: $m",
+                                "Export revenues with external zones: $m"]
             df = df.loc[df.attribute.isin(costs_comparison)]
             df = df.loc[(df.year == final_year)]
 
