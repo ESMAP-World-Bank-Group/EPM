@@ -49,6 +49,7 @@ from requests import post, get
 from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
+from gams import GamsWorkspace
 import json
 import argparse
 from postprocessing.utils import postprocess_output
@@ -57,6 +58,7 @@ from pathlib import Path
 import sys
 import chaospy
 import numpy as np
+
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -134,6 +136,103 @@ def post_job_engine(scenario_name, path_zipfile):
         URL_ENGINE + "/jobs/", params=query_params, files=job_files, auth=auth
     )
     return req
+
+
+def launch_epm_checkpoint(scenario,
+               scenario_name='',
+               path_main_file='main.gms',
+               path_base_file='base.gms',
+               path_report_file='generate_report.gms',
+               path_reader_file='input_readers.gms',
+               path_verification_file='input_verification.gms',
+               path_treatment_file='input_treatment.gms',
+               path_demand_file='generate_demand.gms',
+               path_cplex_file='cplex.opt',
+               folder_input=None,
+               path_engine_file=False,
+               prefix='' #'simulation_'
+               ):
+    """
+    Launch the EPM model with the given scenario
+
+    Parameters
+    ----------
+    scenario: pd.DataFrame
+        A DataFrame with the scenario to run the model
+    scenario_name: str, optional, default ''
+        The name of the scenario
+    path_main_file: str
+        The path to the GAMS file to run
+    path_base_file: str
+        The path to the GAMS base file
+    path_report_file: str
+        The path to the GAMS report file
+    path_cplex_file: str
+        The path to the CPLEX file
+    folder_input: str, optional, default None
+    path_engine_file: str, optional, default False
+        The path to the GAMS engine file
+
+    Returns
+    -------
+    dict
+        A dictionary with the name of the scenario, the path to the simulation folder and the token for the job
+    """
+
+    def read_gams_model(model_path):
+        """
+        Read the GAMS model file and return its contents as a string.
+        """
+        with open(model_path, 'r') as file:
+            return file.read()
+
+    # Initialize GAMS workspace
+    def initialize_workspace(model_directory, sys_dir=None):
+        """
+        Initialize the GAMS workspace with the specified system and working directories.
+        """
+        return GamsWorkspace(system_directory=sys_dir, working_directory=model_directory)
+
+    # Create and run initial job from the GAMS model
+    def create_checkpoint(ws, gams_model, options=None):
+        """
+        Create a checkpoint and run the initial job from the GAMS model.
+        """
+        cp = ws.add_checkpoint()
+        job = ws.add_job_from_string(gams_model)
+        if options:
+            opt = ws.add_options()
+            for k,value in options.items():
+                opt.defines[k] = value
+            job.run(opt, checkpoint=cp)
+        else:
+            job.run(checkpoint=cp)
+        return cp, job
+
+    # Arguments for GAMS
+    options = {k: i for k, i in scenario.items()}
+    options.update({
+        'BASE_FILE': path_base_file,
+        'REPORT_FILE': path_report_file,
+        'READER_FILE': path_reader_file,
+        'VERIFICATION_FILE': path_verification_file,
+        'TREATMENT_FILE': path_treatment_file,
+        'DEMAND_FILE': path_demand_file,
+        'FOLDER_INPUT': folder_input,
+    })
+
+    # Defining the GAMS workspace
+    new_dir = os.path.abspath(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)), os.pardir))
+    os.chdir(new_dir)
+    model_path, model_directory =  os.path.join(new_dir, 'main.gms'), new_dir # Get the paths
+    gams_model = read_gams_model(model_path) # Open model
+    ws = initialize_workspace(model_directory) # Opening a gams workspace
+    cp, job = create_checkpoint(ws, gams_model, options=options) # cp capture the current state of the model and job the work going on
+    warmstart = job.out_db
+
+    result = None
+
+    return result
 
 
 def launch_epm(scenario,
@@ -257,6 +356,8 @@ def launch_epm(scenario,
 
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, path_engine_file=False):
+    # return launch_epm_checkpoint(df, scenario_name=scenario_name, folder_input=folder_input,
+    #                   path_engine_file=path_engine_file, **path_gams)
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
                       path_engine_file=path_engine_file, **path_gams)
 
@@ -272,7 +373,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                path_engine_file=False,
                                folder_input=None,
                                project_assessment=None,
-                               simple=None):
+                               simple=None,
+                               run_multiprocess=True):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -415,14 +517,16 @@ def launch_epm_multi_scenarios(config='config.csv',
     if montecarlo:
         samples_mc = pd.DataFrame(samples)
         samples_mc.columns = samples_mc.columns.map(lambda col: col.replace('.', 'p'))
-        # for scenario in initial_scenarios:
-        #     samples_mc[scenario] = 1
         samples_mc.to_csv('samples_montecarlo.csv')
 
-    # Run EPM in multiprocess
-    with Pool(cpu) as pool:
-        result = pool.starmap(launch_epm_multiprocess,
-                              [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+    if run_multiprocess:
+        # Run EPM in multiprocess
+        with Pool(cpu) as pool:
+            result = pool.starmap(launch_epm_multiprocess,
+                                  [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+    else:
+        for name, scenario in s.items():
+            launch_epm_multiprocess(scenario, name, path_gams, folder_input, path_engine_file)
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
@@ -450,7 +554,6 @@ class NamedJ:
             - "type": name of a chaospy distribution (e.g., "Uniform")
             - "args": arguments passed to the distribution (e.g., lower and upper bounds)
         """
-        # TODO: add allowed types, raise an error otherwise
         self.J = self.J_from_dict(distributions.values())
         self.names = distributions.keys()
         self.mapping = {k: i for i, k in enumerate(self.names)}
@@ -1099,6 +1202,7 @@ def main(test_args=None):
         help="Name of the path engine file (default: None)"
     )
 
+
     parser.add_argument(
         "--postprocess",
         type=str,
@@ -1113,6 +1217,14 @@ def main(test_args=None):
         default="all",
         help="List of selected scenarios (default: None). Example usage: --plot_selected_scenarios baseline HighDemand"
     )
+
+    parser.add_argument(
+        "--no_run_multiprocess",
+        dest="run_multiprocess",
+        action="store_false",
+        help="Disable running in parallel (default: True)"
+    )
+    parser.set_defaults(run_multiprocess=True)
 
     parser.add_argument(
         "--no_plot_dispatch",
@@ -1146,6 +1258,7 @@ def main(test_args=None):
     print(f"Reduced output: {args.reduced_output}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
+    print(f"Run multiprocesses: {args.run_multiprocess}")
 
     if args.sensitivity:
         sensitivity = {'pSettings': True, 'pDemandForecast': True,
@@ -1169,7 +1282,7 @@ def main(test_args=None):
                                                     cpu=args.cpu,
                                                     project_assessment=args.project_assessment,
                                                     simple=args.simple,
-                                                    path_engine_file=args.engine)
+                                                    path_engine_file=args.engine, run_multiprocess=args.run_multiprocess)
     else:
         print(f"Project folder: {args.postprocess}")
         print("EPM does not run again but use the existing simulation within the folder" )

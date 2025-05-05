@@ -889,6 +889,7 @@ embeddedCode Connect:
         "pFuelCosts",
         "pFuelCostsCountry",
         "pEnergyByPlant",
+        "pEnergyByFuel",
         "pEnergyByFuelCountry",
         "pEnergyMix",
         "pDemandSupply",
