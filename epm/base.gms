@@ -678,13 +678,11 @@ eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraint
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
-
-
 eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
  + pinterco_reserve_contribution * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
+                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer
                                         - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
    
