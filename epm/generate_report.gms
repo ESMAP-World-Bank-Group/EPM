@@ -27,6 +27,7 @@ Parameters
    pCountryPlanReserveCosts(c,y)             'Planning reserve violation cost by zone in USD'
    pCostsbyPlant(z,g,*,y)                    'Yearly Costs by Plant'
    pCostSummary(z,*,y)                       'Summary of costs in millions USD  (unweighted and undiscounted) by zone'
+   pCostSummaryFull(z,*,y)                   'Summary of costs in millions USD  (unweighted and undiscounted) by zone - full version'
    pCostSummaryCountry(c,*,y)                'Summary of costs in millions USD  (unweighted and undiscounted) by country'
    pCostSummaryWeighted(z,*,y)               'Summary of costs in millions USD  (weighted and undiscounted) by zone'
    pCostSummaryWeightedCountry(c,*,y)        'Summary of costs in millions USD  (weighted and undiscounted) by country'
@@ -272,14 +273,38 @@ set avgsumhdr /
 set sumhdrmap(avgsumhdr,sumhdr) / #avgsumhdr:#sumhdr /;
    
 *--- Cost Summary Unweighted by zone
-pCostSummary(z,"Capex: $m"                    ,y) = pCapex(z,y)/1e6;
+pCostSummaryFull(z,"Capex: $m"                    ,y) = pCapex(z,y)/1e6;
+pCostSummaryFull(z,"Annualized capex: $m"         ,y) = pAnncapex(z,y)/1e6;
+pCostSummaryFull(z,"Fixed O&M: $m"                ,y) = pFOM(z,y)/1e6;
+pCostSummaryFull(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
+
+pCostSummaryFull(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
+
+* Should we keep O to be sure we are considering all cost components ?
+pCostSummaryFull(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
+pCostSummaryFull(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
+pCostSummaryFull(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
+pCostSummaryFull(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
+pCostSummaryFull(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
+pCostSummaryFull(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
+pCostSummaryFull(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
+pCostSummaryFull(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
+pCostSummaryFull(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
+pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
+
+
+pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+                                                    
+
 pCostSummary(z,"Annualized capex: $m"         ,y) = pAnncapex(z,y)/1e6;
 pCostSummary(z,"Fixed O&M: $m"                ,y) = pFOM(z,y)/1e6;
 pCostSummary(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
-
 pCostSummary(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
-
-* Should we keep O to be sure we are considering all cost components ?
 pCostSummary(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
@@ -287,30 +312,20 @@ pCostSummary(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y
 pCostSummary(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummary(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
 pCostSummary(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
-pCostSummary(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
-pCostSummary(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
 pCostSummary(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
-
-
-pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-pCostSummary(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
 
 *--- Cost Summary Unweighted by country
 
 pCostSummaryCountry(c,"Capex: $m",y)= sum(zcmap(z,c), pCapex(z,y))/1e6 ;                     
 
-pCostSummaryCountry(c,sumhdr,y) = sum(zcmap(z,c), pCostSummary(z,sumhdr,y));
+pCostSummaryCountry(c,sumhdr,y) = sum(zcmap(z,c), pCostSummaryFull(z,sumhdr,y));
 
 pCostSummaryCountry(c,"Country Spinning Reserve violation: $m",y) = pUSRLocCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Country Planning Reserve violation: $m",y) = pCountryPlanReserveCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Total CO2 backstop cost by Country: $m",y) = pCO2backstopCosts(c,y)/1e6 ;
 
-pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummary(z,"Total Annual Cost by Zone: $m",y))
+pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y))
                                                                   + (pUSRLocCosts(c,y) + pCountryPlanReserveCosts(c,y)
                                                                   + pCO2backstopCosts(c,y))/1e6 ;
 
@@ -318,7 +333,7 @@ pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,
 
 
 *--- Cost Summary Weighted by zone
-pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummary(z,sumhdr,y);
+pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummaryFull(z,sumhdr,y);
 
 
 pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y)
@@ -329,7 +344,7 @@ pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnn
 
 pCostSummaryWeightedCountry(c,"Capex: $m",y)= pCostSummaryCountry(c,"Capex: $m",y);                     
 
-pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSummary(z,sumhdr,y));
+pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSummaryFull(z,sumhdr,y));
 
 pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y) = pWeightYear(y)*pUSRLocCosts(c,y)/1e6;
 pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y) = pWeightYear(y)*pCountryPlanReserveCosts(c,y)/1e6;
@@ -944,7 +959,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
     execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
                                      pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
                                      pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
-                                     pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
+                                     pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
                                      pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
                                      pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
                                      pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
