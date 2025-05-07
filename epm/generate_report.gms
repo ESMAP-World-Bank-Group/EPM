@@ -920,6 +920,7 @@ embeddedCode Connect:
         "pDispatch",
         "pPlantUtilization",
         "pPlantAnnualLCOE",
+        "pZonalAverageCost",
         "zcmap"
         ]
       instructions.append(

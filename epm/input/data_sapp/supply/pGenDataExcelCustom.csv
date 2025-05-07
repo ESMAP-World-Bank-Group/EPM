@@ -81,7 +81,7 @@ Diaz_Wind_NAM,Namibia,OnshoreWind,Wind,2027,2057,50,2,,0,1,1,0,0,28000,0,0,1.8,3
 DrakensbergPH_HY_ZAF,South_Africa,Storage,Water,1985,2060,1000,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
 Duvha_TH_ZAF,South_Africa,ST,Coal,1980,2032,2875,1,,12.3,,,,,,,,0,,,0,,0,0.05,0,479.1666667
 Duynefontein_NU_ZAF,South_Africa,ST,Uranium,2032,2072,2500,3,0.7,9.2886066,0.1,0.1,0,0,100000,2.3,0,6.295957066,50,2500,0,,0,0.6,0,0
-EAPower&Mapembasi_HY_TZA,Tanzania,ReservoirHydro,Water,2016,2060,0,1,,,,,,0.215276497,,,0,0,50,,0,,0,0,0,0
+EAPower&Mapembasi_HY_TZA,Tanzania,ReservoirHydro,Water,2016,2060,0,1,,,,,,0.215276497,,,,0,50,,0,,0,0,0,0
 Edwaleni1_HY_SWZ,Eswatini,ReservoirHydro,Water,2000,2060,10,1,,,,,,0.152,,,0,0,50,,0,,0,0,0,0
 Edwaleni2_HY_SWZ,Eswatini,ReservoirHydro,Water,2000,2060,5,1,,,,,,0.152,,,0,0,50,,0,,0,0,0,0
 EdwaleniThermal_TH_SWZ,Eswatini,ICE,HFO,2000,2050,9,1,,11.73397446,,,,,,,,0,,,0,,0,0,0,0
@@ -120,7 +120,7 @@ Golomoti_BESS,Malawi,Storage,Battery,2022,2060,5,1,,,,,,,,,,0,,0,0,,0,0,0,0
 Golomoti_PV_MWI,Malawi,PV,Solar,2022,2060,20,1,,0,,,,,,,,0,,0,0,,0,0,1,0
 Gourikwa_TH_ZAF,South_Africa,OCGT,HFO,2007,2057,740,1,,9.39286647,,,,,,,,0,,,0,,0,0,0,0
 Grootvlei_TH_ZAF,South_Africa,ST,Coal,1969,2030,570,1,,13.1,,,,,,,,0,,,0,,0,0.05,0,186.6666667
-Hale,Tanzania,ReservoirHydro,Water,2025,2075,21,2,,,,,,0.142502136,,0.003,0,1,50,,0,,0,0,0,0
+Hale,Tanzania,ReservoirHydro,Water,2025,2075,21,2,,,,,,0.142502136,,0.003,,1,50,,0,,0,0,0,0
 Hamilton_Falls_HY_MWI,Malawi,ReservoirHydro,Water,2055,2060,87,3,,,,,,0.325077306,,,0,3.536,50,87,0,,0,0,0,0
 Harare1_TH_ZWE,Zimbabwe,ST,Coal,1942,1970,21,1,,11.373804,,,,,,,,0,,,0,,0,0.1,0,32
 Harare2_TH_ZWE,Zimbabwe,ST,Coal,1955,2024,20,1,,11.373804,,,,,,,,0,,,0,,0,0.1,0,18
@@ -136,8 +136,8 @@ Inga3BC_ext_HY_ZAR,DRC,ReservoirHydro,Water,2035,2085,2800,3,,,,,,0.45,,,0,2.805
 Inga3BC_HY_ZAR,DRC,ReservoirHydro,Water,2032,2082,2000,3,,,,,,0.45,,,0,2.797488372,50,1000,0,,0,0,0,0
 Ingula_HY_ZAF,South_Africa,Storage,Water,2017,2060,1324,1,,0,1,1,0,0.8,46500,0.55,0,0,50,0,0,,0,0,0,0
 IPP_Luderitz_Wind_NAM,Namibia,OnshoreWind,Wind,2027,2057,50,2,,0,1,1,0,0,28000,0,0,1.75,30,50,0,,0,0,1,0
-Iringa_Ibosa,Tanzania,ReservoirHydro,Water,2028,2060,36,3,,,,,,0.295,,0.5,0,4.4434,50,36,0,,0,0,0,0
-Iringa_Nginayo,Tanzania,ReservoirHydro,Water,2030,2060,52,3,,,,,,0.29,,0.5,0,3.1369,50,52,0,,0,0,0,0
+Iringa_Ibosa,Tanzania,ReservoirHydro,Water,2028,2060,36,3,,,,,,0.295,,0.5,,4.4434,50,36,0,,0,0,0,0
+Iringa_Nginayo,Tanzania,ReservoirHydro,Water,2030,2060,52,3,,,,,,0.29,,0.5,,3.1369,50,52,0,,0,0,0,0
 ItheziThezi_HY_ZMB,Zambia,ReservoirHydro,Water,2016,2060,120,1,,,,,,0.290144597,,,0,0,50,,0,,0,0,0,0
 JambaMina_HY_AGO,Angola,ReservoirHydro,Water,2055,2060,180,3,,,,,,0.121826136,,,0,4.248837209,50,180,0,,0,0,0,0
 JambaOma_HY_AGO,Angola,ReservoirHydro,Water,2055,2060,75,3,,,,,,0.121826136,,,0,4.248837209,50,75,0,,0,0,0,0
@@ -146,7 +146,7 @@ JNHPP_2,Tanzania,ReservoirHydro,Water,2025,2060,1175,2,,,,,,0.25,1640,0.5,,1.348
 JohannesburgLandfillGas_TH_ZAF,South_Africa,OCGT,Gas,2000,2050,18,1,0.2,10,0.33,0.33,,,,,,0,,,0,7,10.7,0.2,0,18
 KafueGorge_HY_ZMB,Zambia,ReservoirHydro,Water,1977,2060,990,1,,,,,,0.345925003,,,0,0,50,,0,,0,0,0,0
 KafueGorgeLower_HY_ZMB,Zambia,ReservoirHydro,Water,2023,2060,750,1,,,,,,0.345925003,,,0,0,50,0,0,,0,0,0,0
-Kakono,Tanzania,ReservoirHydro,Water,2030,2060,80,3,,,,,,0.375,,,0,4.1899,50,80,0,,0,0,0,0
+Kakono,Tanzania,ReservoirHydro,Water,2030,2060,80,3,,,,,,0.375,,,,4.1899,50,80,0,,0,0,0,0
 KalungwishiI_HY_ZMB,Zambia,ReservoirHydro,Water,2030,2060,101,3,,,,,,0.278070484,,,0,4.248837209,50,101,0,,0,0,0,0
 Kam'mwamba_C_MWI,Malawi,ST,Coal,2055,2060,0,3,,9.853126851,,,,,,,,2.84,,0,0,,0,0.05,0,0
 Kanengo,Malawi,ICE,Diesel,2000,2060,15.5,1,,,,,,,,,0,0,,0,0,,0,0,0,0
@@ -164,10 +164,10 @@ Kendal_TH_ZAF,South_Africa,ST,Coal,1985,2042,3840,1,,11.3,,,,,,,,0,,,0,,0,0.05,0
 Khan_PV_NAM,Namibia,PV,Solar,2025,2060,25,2,,0,,,,,,,,,,20,0,,0,0,1,0
 Kholombizo_HY_MWI,Malawi,ReservoirHydro,Water,2055,2060,213,3,,,,,,0.325077306,,,,3.445,,213,0,,0,0,0,0
 Kidatu,Tanzania,ReservoirHydro,Water,1975,2055,204,1,,,,,,0.249969645,1600,0.5,,0,,,0,,0,0,0,0
-Kidunda,Tanzania,ReservoirHydro,Water,2028,2060,20,3,,,,,,0.25,16910,0.003,0,5.2,50,20,0,,0,0,0,0
+Kidunda,Tanzania,ReservoirHydro,Water,2028,2060,20,3,,,,,,0.25,16910,0.003,,5.2,50,20,0,,0,0,0,0
 Kiejo_Mbaka_I,Tanzania,ST,Geothermal,2030,2055,60,3,,0,0.3,0.3,0,0.2,128400,0.0012,0,3.5,30,60,0,,0,0,0,0
 Kiejo_Mbaka_II,Tanzania,ST,Geothermal,2030,2055,20,3,,0,0.3,0.3,0,0.2,128400,0.0012,0,3.5,30,20,0,,0,0,0,0
-Kihansi,Tanzania,ReservoirHydro,Water,2000,2060,180,1,,,,,,0.220125362,2300,0.003,0,0,50,,0,,0,0,0,0
+Kihansi,Tanzania,ReservoirHydro,Water,2000,2060,180,1,,,,,,0.220125362,2300,0.003,,0,50,,0,,0,0,0,0
 Kikonge,Tanzania,ReservoirHydro,Water,2032,2060,300,3,,,,,,0.215276497,1640,0.5,,3.211,,300,0,,0,0,0,0
 Kilubi_HY_ZAR,DRC_South,ReservoirHydro,Water,1954,2060,10.8,1,,,,,,0.27,,,0,0,50,,0,,0,0,0,0
 Kinyerezi_I,Tanzania,OCGT,Gas,2015,2035,135,1,0.2,,0.2,0.2,,,,,,0,,,0,,0,0.05,0,0
@@ -224,11 +224,11 @@ Maguga_HY_SWZ,Eswatini,ReservoirHydro,Water,2000,2060,19.8,1,,,,,,0.1755,,,0,0,5
 MagugaII_HY_SWZ,Eswatini,ReservoirHydro,Water,2027,2060,23,3,,,,,,0.2135,,,0,4.248837209,50,23,0,,0,0,0,0
 MajubaI_TH_ZAF,South_Africa,ST,Coal,1990,2051,1825,1,,12.7,,,,,,,,0,,,0,,0,0.05,0,621.8
 MajubaII_TH_ZAF,South_Africa,ST,Coal,1985,2051,1981,1,,12.7,,,,,,,,0,,,0,,0,0.05,0,669.5
-Malagarasi,Tanzania,ReservoirHydro,Water,2028,2060,49.5,2,,,,,,0.215276497,4090,0.5,0,2.88,50,49.5,0,,0,0,0,0
+Malagarasi,Tanzania,ReservoirHydro,Water,2028,2060,49.5,2,,,,,,0.215276497,4090,0.5,,2.88,50,49.5,0,,0,0,0,0
 MambilimbaFallsI_HY_ZMB,Zambia,ReservoirHydro,Water,2030,2060,124,3,,,,,,0.278070484,,,0,4.248837209,50,124,0,,0,0,0,0
 Mapanga_ICE_MWI,Malawi,ICE,Diesel,2000,2060,16,1,,,,,,,,,0,0,,0,0,,0,0,0,0
 Maragra_biomass_MOZ,Mozambique,ST,Biomass,2000,2055,1,1,,10.425987,,,,0.8,48000,,,0,,0,0,,0,0,0,1
-Masigira,Tanzania,ReservoirHydro,Water,2030,2060,118,3,,,,,,0.29,4090,0.5,0,2.8782,50,118,0,,0,0,0,0
+Masigira,Tanzania,ReservoirHydro,Water,2030,2060,118,3,,,,,,0.29,4090,0.5,,2.8782,50,118,0,,0,0,0,0
 Massingir_HY_MOZ,Mozambique,ReservoirHydro,Water,2024,2060,0,3,,,,,,0.406440138,,,0,4.248837209,50,0,0,,0,0,0,0
 Matimba_TH_ZAF,South_Africa,ST,Coal,1987,2039,3690,1,,11.4,,,,,,,,0,,,0,,0,0.05,0,615
 Matla_TH_ZAF,South_Africa,ST,Coal,1979,2031,3450,1,,11.3,,,,,,,,0,,,0,,0,0.05,0,575
@@ -238,12 +238,12 @@ Medupi_TH_ZAF,South_Africa,ST,Coal,2015,2065,4356,1,,9.21,,,,,,,,0,,0,0,,0,0.05,
 MetoroSolarPV_REN_MOZ,Mozambique,PV,Solar,2023,2060,41,1,,0,,,,,,,,0,,0,0,,0,0,1,0
 Mkuranga,Tanzania,CCGT,Gas,2028,2078,300,3,,,0.1,0.1,,,,,0,1.213,,300,0,,0,0.05,0,0
 MkuzeBiomass_BIO_ZAF,South_Africa,ST,Biomass,2000,2055,16.5,1,,10,0.33,0.33,,0.8,48000,,,0,,,0,,0,0,0,16.5
-Mnyera_Kisingo,Tanzania,ReservoirHydro,Water,2030,2060,120,3,,,,,,0.275,2250,0.003,0,3.4073,50,120,0,,0,0,0,0
-Mnyera_Kwanini,Tanzania,ReservoirHydro,Water,2030,2060,144,3,,,,,,0.275,2250,0.003,0,1.4833,50,144,0,,0,0,0,0
-Mnyera_Mnyera,Tanzania,ReservoirHydro,Water,2030,2060,137,3,,,,,,0.275,2250,0.003,0,2.6013,50,137,0,,0,0,0,0
-Mnyera_Pumbwe,Tanzania,ReservoirHydro,Water,2030,2060,123,3,,,,,,0.275,2250,0.003,0,2.3179,50,123,0,,0,0,0,0
+Mnyera_Kisingo,Tanzania,ReservoirHydro,Water,2030,2060,120,3,,,,,,0.275,2250,0.003,,3.4073,50,120,0,,0,0,0,0
+Mnyera_Kwanini,Tanzania,ReservoirHydro,Water,2030,2060,144,3,,,,,,0.275,2250,0.003,,1.4833,50,144,0,,0,0,0,0
+Mnyera_Mnyera,Tanzania,ReservoirHydro,Water,2030,2060,137,3,,,,,,0.275,2250,0.003,,2.6013,50,137,0,,0,0,0,0
+Mnyera_Pumbwe,Tanzania,ReservoirHydro,Water,2030,2060,123,3,,,,,,0.275,2250,0.003,,2.3179,50,123,0,,0,0,0,0
 Mnyera_Ruaha,Tanzania,ReservoirHydro,Water,2030,2060,60,3,,,,,,0.275,3380,0.003,,5.5263,,60,0,,0,0,0,0
-Mnyera_Taveta,Tanzania,ReservoirHydro,Water,2030,2060,84,3,,,,,,0.34,3380,0.003,0,1.8447,50,84,0,,0,0,0,0
+Mnyera_Taveta,Tanzania,ReservoirHydro,Water,2030,2060,84,3,,,,,,0.34,3380,0.003,,1.8447,50,84,0,,0,0,0,0
 MoambaMajor_HY_MOZ,Mozambique,ReservoirHydro,Water,2024,2060,0,3,,,,,,0.406440138,,,0,4.248837209,50,0,0,,0,0,0,0
 MobayiMbongo_HY_ZAR,DRC,ReservoirHydro,Water,1990,2060,11.36,1,,,,,,0.215,,,0,0,50,,0,,0,0,0,0
 MocubaSolarPV_REN_MOZ,Mozambique,PV,Solar,2019,2060,40,1,,0,,,,,,,,0,,0,0,,0,0,1,0
@@ -279,7 +279,7 @@ MupataGorgeNorth_HY_ZMB,Zambia,ReservoirHydro,Water,2030,2060,600,3,,,,,,0.27807
 MupataGorgeSouth_HY_ZWE,Zimbabwe,ReservoirHydro,Water,2030,2060,600,3,,,,,,0.275342466,,,0,4.251,50,600,0,,0,0,0,0
 MusondaFalls_HY_ZMB,Zambia,ReservoirHydro,Water,1972,2060,10,1,,,,,,0.180625,,,0,0,50,,0,,0,0,0,0
 Mwadingusha_HY_ZAR,DRC_South,ReservoirHydro,Water,1954,2060,67.8,1,,,,,,0.44,,,0,0,50,,0,,0,0,0,0
-Mwenga_HY_TZA,Tanzania,ReservoirHydro,Water,2012,2060,3,1,,,,,,0.243835605,2300,0.5,0,0,50,,0,,0,0,0,0
+Mwenga_HY_TZA,Tanzania,ReservoirHydro,Water,2012,2060,3,1,,,,,,0.243835605,2300,0.5,,0,50,,0,,0,0,0,0
 Mzimba_I_WIND_MWI,Malawi,OnshoreWind,Wind,2030,2055,0,3,,0,1,1,0,0,28000,0,0,1.6,30,50,0,,0,0,1,0
 Mzimba_II_WIND_MWI,Malawi,OnshoreWind,Wind,2032,2062,0,3,,0,1,1,0,0,28000,0,0,1.6,30,0,0,,0,0,1,0
 Mzuzu_Luwinga_ICE_MWI,Malawi,ICE,Diesel,2000,2060,4.5,1,,,,,,,,,0,0,,0,0,,0,0,0,0
@@ -320,7 +320,7 @@ New_OnshoreWind_SWZ,Eswatini,OnshoreWind,Wind,2026,2060,1000,3,,0,1,1,0,0,28000,
 New_OnshoreWind_ZAF,South_Africa,OnshoreWind,Wind,2026,2056,40000,3,,,,,,,,,,,,1500,0,,0,0,1,0
 New_OnshoreWind_ZMB,Zambia,OnshoreWind,Wind,2026,2061,5000,3,,0,1,1,0,0,28000,0,0,1.6,30,375,0,,0,0,1,0
 New_OnshoreWind_ZWE,Zimbabwe,OnshoreWind,Wind,2026,2058,8000,3,,0,1,1,0,0,28000,0,0,1.6,30,375,0,,0,0,1,0
-New_Pangani_Falls,Tanzania,ReservoirHydro,Water,1995,2060,68,1,,,,,,0.210540475,3400,0.003,0,0,50,,0,,0,0,0,0
+New_Pangani_Falls,Tanzania,ReservoirHydro,Water,1995,2060,68,1,,,,,,0.210540475,3400,0.003,,0,50,,0,,0,0,0,0
 New_PV_2026_AGO,Angola,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,1000,0,,0,0,1,0
 New_PV_BWA,Botswana,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,200,0,,0,0,1,0
 New_PV_DRC,DRC,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,300,0,,0,0,1,0
@@ -373,7 +373,7 @@ Ruacana_HY_NAM,Namibia,ReservoirHydro,Water,1975,2060,347,1,,,,,,0.175,,,0,0,50,
 Ruhudji,Tanzania,ReservoirHydro,Water,2032,2060,358,3,,,,,,0.285,1640,0.5,,1.4794,,358,0,,0,0,0,0
 Rukuru_C_MWI,Malawi,ST,Coal,2055,2060,0,3,,9.853126851,,,,,,,,2.84,,0,0,,0,0.05,0,0
 Rumakali,Tanzania,ReservoirHydro,Water,2030,2060,222,3,,,,,,0.305,1640,0.5,,2.197,,222,0,,0,0,0,0
-Rusumo_HY_TZA,Tanzania,ReservoirHydro,Water,2024,2060,80,2,,,,,,0.29,1640,0.5,0,4.248837209,50,26.7,0,,0,0,0,0
+Rusumo_HY_TZA,Tanzania,ReservoirHydro,Water,2024,2060,80,2,,,,,,0.29,1640,0.5,,4.248837209,50,26.7,0,,0,0,0,0
 Ruzizi12Tshopo_HY_ZAR,DRC,ReservoirHydro,Water,1972,2060,40,1,,,,,,0.31,,,0,0,50,,0,,0,0,0,0
 Ruzizi3_HY_ZAR,DRC,ReservoirHydro,Water,2024,2060,110,3,,,,,,0.31,,,0,4.248837209,50,110,0,,0,0,0,0
 Ruzizi4_HY_ZAR,DRC,ReservoirHydro,Water,2024,2060,270,3,,,,,,0.31,,,0,4.248837209,50,270,0,,0,0,0,0
@@ -431,7 +431,7 @@ SwazilandBiomass_BIO_SWZ,Eswatini,ST,Biomass,2030,2080,35,3,,11.1842406,0.33,0.3
 Tanwat_Bio_TZA,Tanzania,ST,Biomass,2011,2051,2.7,1,,10.8998955,,,,0.8,48000,,,0,,,0,,0,0,0,2.7
 TanzaniaBiomass_BIO_TZA,Tanzania,ST,Biomass,2024,2074,32,3,,10,0.33,0.33,,0.8,,,,4.423148479,,32,0,,0,0,0,32
 TanzaniaSolarPV_REN_TZA,Tanzania,PV,Solar,2024,2060,150,2,,0,,,,,,,,,,150,0,,0,0,1,0
-Taveta_HY_TZA,Tanzania,ReservoirHydro,Water,2030,2060,0,3,,,,,,0.275,,,0,4.8604,50,0,0,,0,0,0,0
+Taveta_HY_TZA,Tanzania,ReservoirHydro,Water,2030,2060,0,3,,,,,,0.275,,,,4.8604,50,0,0,,0,0,0,0
 "Tedzani_I,_II,_III_HY_MWI",Malawi,ReservoirHydro,Water,2000,2060,102,1,,,,,,0.325077306,,,0,0,50,0,0,,0,0,0,0
 Tedzani_IV_HY_MWI,Malawi,ReservoirHydro,Water,2021,2060,19.1,1,,,,,,0.325077306,,,0,0,50,0,0,,0,0,0,0
 Tegeta,Tanzania,OCGT,Gas,2009,2029,42,1,0.06,,0.09,0.09,,,,,,0,,,0,,0,0.06,0,0
@@ -446,7 +446,7 @@ Tutuka_TH_ZAF,South_Africa,ST,Coal,1985,2040,3510,1,,12.8,,,,,,,,0,,,0,,0,0.05,0
 Ubongo_I,Tanzania,OCGT,Gas,2007,2027,98,1,0.2,,0.3,0.3,,,,,,0,,,0,,0,0.05,0,0
 Ubungo_II,Tanzania,OCGT,Gas,2012,2055,126,1,0.2,10.232,0.1,0.1,,,,,,0,,,0,,0,0.05,0,0
 Ubungo_III,Tanzania,OCGT,Gas,2022,2055,112,1,0.2,10.232,0.1,0.1,,,,,,0,,,0,,0,0.05,0,0
-Upper_Kihansi,Tanzania,ReservoirHydro,Water,2030,2060,47,3,,,,,,0.26,4090,0.5,0,2.392,50,47,0,,0,0,0,0
+Upper_Kihansi,Tanzania,ReservoirHydro,Water,2030,2060,47,3,,,,,,0.26,4090,0.5,,2.392,50,47,0,,0,0,0,0
 Vanderkloof_HY_ZAF,South_Africa,ReservoirHydro,Water,1977,2060,240,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
 VanEck_TH_NAM,Namibia,ST,Coal,1972,2040,50,1,,11.373804,,,,,,,,0,,,0,,0,0.1,0,33
 VictoriaFalls_HY_ZMB,Zambia,ReservoirHydro,Water,1968,2060,108,1,,,,,,0.436146831,,,0,0,50,,0,,0,0,0,0
