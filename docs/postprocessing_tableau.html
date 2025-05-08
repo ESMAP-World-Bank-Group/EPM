@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Tableau Licensing, Hosting, and Workflow Summary &#8212; Energy Planning Model</title>
+    <title>Tableau workflow &#8212; Energy Planning Model</title>
   
   
   
@@ -305,7 +305,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Tableau Licensing, Hosting, and Workflow Summary
+                        Tableau workflow
                       </a>
                     </li>
                 
@@ -620,7 +620,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Tableau Licensing, Hosting, and Workflow Summary
+                        Tableau workflow
                       </a>
                     </li>
                 
@@ -806,7 +806,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tableau Licensing, Hosting, and Workflow Summary</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tableau workflow</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
@@ -990,7 +990,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tableau Licensing, Hosting, and Workflow Summary</h1>
+    <h1>Tableau workflow</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -1001,37 +1001,13 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tableau-licensing-access-summary">
-   🔹 Tableau Licensing &amp; Access Summary
+  <a class="reference internal nav-link" href="#modelers">
+   Modelers
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dashboard-hosting-options">
-   🔹 Dashboard Hosting Options
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data">
-   🔹 Data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#extract">
-     <strong>
-      Extract
-     </strong>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tableau-public-key-considerations">
-   🔹 Tableau Public – Key Considerations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-this-works-for-our-team-example">
-   🔹 How This Works for Our Team (Example)
+  <a class="reference internal nav-link" href="#sharing-with-stakeholders">
+   Sharing with stakeholders
   </a>
  </li>
 </ul>
@@ -1043,136 +1019,37 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="tableau-licensing-hosting-and-workflow-summary">
-<h1>Tableau Licensing, Hosting, and Workflow Summary<a class="headerlink" href="#tableau-licensing-hosting-and-workflow-summary" title="Permalink to this heading">#</a></h1>
-<section id="tableau-licensing-access-summary">
-<h2>🔹 Tableau Licensing &amp; Access Summary<a class="headerlink" href="#tableau-licensing-access-summary" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>License Type</strong></p></th>
-<th class="head"><p><strong>Access to Dashboards</strong></p></th>
-<th class="head"><p><strong>Interaction Level</strong></p></th>
-<th class="head"><p><strong>Can Connect to Local Data?</strong></p></th>
-<th class="head"><p><strong>Can Edit/Create Dashboards?</strong></p></th>
-<th class="head"><p><strong>Typical Use Case</strong></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><strong>Viewer</strong></p></td>
-<td><p>✅ Online (Tableau Server/Cloud)</p></td>
-<td><p>Basic (filter, drill, export)</p></td>
-<td><p>❌ No</p></td>
-<td><p>❌ No</p></td>
-<td><p>View-only users</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Explorer</strong></p></td>
-<td><p>✅ Online (Tableau Server/Cloud)</p></td>
-<td><p>Advanced (edit, save views)</p></td>
-<td><p>❌ No</p></td>
-<td><p>✅ From <strong>published data</strong> only</p></td>
-<td><p>Power users, analysts</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Creator</strong></p></td>
-<td><p>✅ Online &amp; Desktop</p></td>
-<td><p>Full access</p></td>
-<td><p>✅ Yes</p></td>
-<td><p>✅ Full creation/edit rights</p></td>
-<td><p>Developers, engineers</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Public Viewer</strong></p></td>
-<td><p>✅ Public internet (Tableau Public)</p></td>
-<td><p>Basic (anyone can see it)</p></td>
-<td><p>❌ No</p></td>
-<td><p>❌ No</p></td>
-<td><p>General public</p></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Published data</strong> refers to a shared, governed data source that a Creator uploads to Tableau Cloud or Server. Other users can build dashboards using this shared data, but cannot modify the original data source itself.</p>
-</section>
-<hr class="docutils" />
-<section id="dashboard-hosting-options">
-<h2>🔹 Dashboard Hosting Options<a class="headerlink" href="#dashboard-hosting-options" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p><strong>Platform</strong></p></th>
-<th class="head"><p><strong>Where Data Is Stored</strong></p></th>
-<th class="head"><p><strong>Private or Public?</strong></p></th>
-<th class="head"><p><strong>Requires Login?</strong></p></th>
-<th class="head"><p><strong>Supports Extracts?</strong></p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><strong>Tableau Desktop</strong></p></td>
-<td><p>Local (your computer)</p></td>
-<td><p>Private (offline)</p></td>
-<td><p>❌ No</p></td>
-<td><p>✅ Yes</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Tableau Server</strong></p></td>
-<td><p>Company infrastructure</p></td>
-<td><p>✅ Private</p></td>
-<td><p>✅ Yes</p></td>
-<td><p>✅ Yes</p></td>
-</tr>
-<tr class="row-even"><td><p><strong>Tableau Cloud</strong></p></td>
-<td><p>Tableau-hosted servers</p></td>
-<td><p>✅ Private</p></td>
-<td><p>✅ Yes</p></td>
-<td><p>✅ Yes</p></td>
-</tr>
-<tr class="row-odd"><td><p><strong>Tableau Public</strong></p></td>
-<td><p>Tableau’s public servers</p></td>
-<td><p>❌ Public (for all)</p></td>
-<td><p>❌ No</p></td>
-<td><p>✅ Yes</p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>📝 <strong>Note</strong>: Tableau Server and Tableau Cloud offer the same features. The only difference is <strong>who hosts the environment</strong> — your company (Server) or Tableau (Cloud).</p>
-</div></blockquote>
-</section>
-<hr class="docutils" />
-<section id="data">
-<h2>🔹 Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h2>
-<p>When a Creator publishes a data source to Tableau Server or Tableau Cloud, they’re choosing what data others will use and how that  data is accessed (live connection or extract). In our case, we will only be using <strong>extracs</strong>.</p>
-<section id="extract">
-<h3><strong>Extract</strong><a class="headerlink" href="#extract" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Tableau creates a <code class="docutils literal notranslate"><span class="pre">.hyper</span></code> file with a snapshot of the data.</p></li>
-<li><p>Stored locally or within Tableau Cloud/Server.</p></li>
-<li><p>Improves performance, works offline, but requires refresh for updates.</p></li>
-</ul>
-<p>If the team is using a published data source, they can build dashboards using that data — but cannot change the data connection type unless they have a Creator license.</p>
-</section>
-</section>
-<hr class="docutils" />
-<section id="tableau-public-key-considerations">
-<h2>🔹 Tableau Public – Key Considerations<a class="headerlink" href="#tableau-public-key-considerations" title="Permalink to this heading">#</a></h2>
-<p><strong>Tableau Public</strong> is a free version of Tableau that allows users to publish and share visualizations publicly.</p>
-<ul class="simple">
-<li><p>Public dashboards and data are visible to everyone.</p></li>
-<li><p>No login or data protection options.</p></li>
-<li><p>Not suitable for internal/company use.</p></li>
-<li><p>Ideal for portfolios, public data storytelling, community sharing.</p></li>
-</ul>
-</section>
-<hr class="docutils" />
-<section id="how-this-works-for-our-team-example">
-<h2>🔹 How This Works for Our Team (Example)<a class="headerlink" href="#how-this-works-for-our-team-example" title="Permalink to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="tableau-workflow">
+<h1>Tableau workflow<a class="headerlink" href="#tableau-workflow" title="Permalink to this heading">#</a></h1>
+<p>A Tableau dashboard is available to explore model results. It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.</p>
+<section id="modelers">
+<h2>Modelers<a class="headerlink" href="#modelers" title="Permalink to this heading">#</a></h2>
+<p>A World Bank Creator license is available for team members to modify data sources.
+To update the dashboard:</p>
 <ol class="arabic simple">
-<li><p>We <strong>create a shared dashboard</strong> using a <strong>Creator</strong> license.</p></li>
-<li><p>Team members can <strong>download the workbook</strong>, which includes an <strong>extract</strong> of the original data.</p></li>
-<li><p>They can <strong>open the workbook in Tableau Desktop</strong>:</p>
+<li><p>Connect to the common VDI and launch the <code class="docutils literal notranslate"><span class="pre">Tableau</span></code> app.</p></li>
+<li><p>Open the dashboard.</p></li>
+<li><p>Upload your results to the VDI or WB computer.</p>
 <ul class="simple">
-<li><p>If they <strong>only view or make simple edits</strong> (e.g., change titles, filters) <strong>without changing the data</strong>, they could use a <strong>Viewer or Explorer</strong> license <strong>on Tableau Server/Cloud</strong> — but not Tableau Desktop.</p></li>
-<li><p>If they want to <strong>open and interact with the workbook locally</strong>, they <strong>need Tableau Desktop</strong> — and only <strong>Creator licenses</strong> allow them to <strong>replace or reconnect to their own local data sources</strong> (e.g., update the .csv file inside the workbook).</p></li>
+<li><p>The dashboard expects structured CSV files.</p></li>
+<li><p>These are automatically generated when running the EPM model from Python.</p></li>
+<li><p>If running from GAMS Studio, CSVs must be extracted manually (less efficient).</p></li>
+<li><p>See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.</p></li>
 </ul>
 </li>
-<li><p>Therefore, for team members to <strong>modify the data source themselves</strong> (e.g., swap in their own files), they would each need a <strong>Creator</strong> license.
-“””</p></li>
+<li><p>Upload this data to the Tableau dashbord.
+<strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p></li>
 </ol>
+<p>Before you connect to the remote server, ensure you have the following:</p>
+<ul class="simple">
+<li><p>A WB computer or VDI (Virtual Desktop Infrastructure).</p></li>
+<li><p>A YubiKey (only required for VDI authentication).
+The setup will not work outside the VDI or without a Yubikey.</p></li>
+</ul>
+</section>
+<section id="sharing-with-stakeholders">
+<h2>Sharing with stakeholders<a class="headerlink" href="#sharing-with-stakeholders" title="Permalink to this heading">#</a></h2>
+<p>The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.</p>
 </section>
 </section>
 
@@ -1235,37 +1112,13 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tableau-licensing-access-summary">
-   🔹 Tableau Licensing &amp; Access Summary
+  <a class="reference internal nav-link" href="#modelers">
+   Modelers
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#dashboard-hosting-options">
-   🔹 Dashboard Hosting Options
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#data">
-   🔹 Data
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#extract">
-     <strong>
-      Extract
-     </strong>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#tableau-public-key-considerations">
-   🔹 Tableau Public – Key Considerations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-this-works-for-our-team-example">
-   🔹 How This Works for Our Team (Example)
+  <a class="reference internal nav-link" href="#sharing-with-stakeholders">
+   Sharing with stakeholders
   </a>
  </li>
 </ul>
@@ -1296,7 +1149,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Apr 30, 2025.<br>
+Last updated on May 08, 2025.<br>
 </p>
   </div>
   
