@@ -27,13 +27,13 @@ parts:
       - file: docs/input_representative_days.md
   - caption: Postprocessing
     chapters:
+      - file: docs/postprocessing_tableau
       - file: docs/postprocessing
       - file: docs/planning_analysis.ipynb
       - file: docs/planning_analysis_liberia.ipynb
       - file: docs/planning_analysis_rwanda.ipynb
       - file: docs/planning_analysis_sapp.ipynb
       - file: docs/planning_analysis_eapp.ipynb
-      - file: docs/postprocessing_tableau
   - caption: Model Description
     chapters:
         - file: docs/model_overview
