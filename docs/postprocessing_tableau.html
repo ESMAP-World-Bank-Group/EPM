@@ -1004,11 +1004,30 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#modelers">
    Modelers
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loading-data">
+     Loading data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#update-visualization">
+     Update visualization
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sharing-with-stakeholders">
    Sharing with stakeholders
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-tableau-public-visualization">
+     Creating a Tableau Public visualization
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1026,30 +1045,68 @@ title="Print to PDF"
 <h2>Modelers<a class="headerlink" href="#modelers" title="Permalink to this heading">#</a></h2>
 <p>A World Bank Creator license is available for team members to modify data sources.
 To update the dashboard:</p>
-<ol class="arabic simple">
-<li><p>Connect to the common VDI and launch the <code class="docutils literal notranslate"><span class="pre">Tableau</span></code> app.</p></li>
-<li><p>Open the dashboard.</p></li>
-<li><p>Upload your results to the VDI or WB computer.</p>
-<ul class="simple">
-<li><p>The dashboard expects structured CSV files.</p></li>
-<li><p>These are automatically generated when running the EPM model from Python.</p></li>
-<li><p>If running from GAMS Studio, CSVs must be extracted manually (less efficient).</p></li>
-<li><p>See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.</p></li>
-</ul>
-</li>
-<li><p>Upload this data to the Tableau dashbord.
-<strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p></li>
-</ol>
+<section id="loading-data">
+<h3>Loading data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h3>
 <p>Before you connect to the remote server, ensure you have the following:</p>
 <ul class="simple">
 <li><p>A WB computer or VDI (Virtual Desktop Infrastructure).</p></li>
 <li><p>A YubiKey (only required for VDI authentication).
 The setup will not work outside the VDI or without a Yubikey.</p></li>
 </ul>
+<ol class="arabic simple">
+<li><p>Connect to the common VDI and launch the <code class="docutils literal notranslate"><span class="pre">Tableau</span></code> app. You may need to register if this is your first connection.</p></li>
+<li><p>Create the following structure</p></li>
+</ol>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>├── ESMAP_Viz.twb
+├── ESMAP_logo.png
+└── Scena/
+    ├── baseline/
+    │   ├── *.csv
+    ├── scenario_1/
+    └── ...
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Place all scenario folders inside the <code class="docutils literal notranslate"><span class="pre">Scena/</span></code> directory. Each folder must contain the CSVs exported from the model.</p>
+<ul class="simple">
+<li><p>The dashboard expects structured CSV files. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.
+<strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p></li>
+</ul>
+</li>
+<li><p>Add the file <code class="docutils literal notranslate"><span class="pre">linestring_countries_2.geojson</span></code> inside the <code class="docutils literal notranslate"><span class="pre">Scena/</span></code> folder. This is required for geographic visualizations.</p></li>
+</ol>
+</section>
+<section id="update-visualization">
+<h3>Update visualization<a class="headerlink" href="#update-visualization" title="Permalink to this heading">#</a></h3>
+<p>To update the visualization for new scenarios, you should follow the steps:</p>
+<ol class="arabic simple">
+<li><p>Upload the new scenarios with the arborescence as described previously, keeping in mind that one of the scenarios is named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>.</p></li>
+<li><p>Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
+To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to <code class="docutils literal notranslate"><span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Extract</span> <span class="pre">data</span></code>: <code class="docutils literal notranslate"><span class="pre">linestring</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostSummaryWeightedAverageCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">Plant</span> <span class="pre">DB</span></code> and <code class="docutils literal notranslate"><span class="pre">pSummary</span></code></p></li>
+<li><p>Once this has been done, data is extracted and optimized so that the visualizations will now load faster.</p></li>
+<li><p>When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:</p>
+<ol class="arabic simple">
+<li><p>Keep previous extracts but view new data: For each of the dataset above, unclick <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">Extract</span></code> (reverts to live mode).</p></li>
+<li><p>Replace extracts with new data: for each of the dataset above, go to <code class="docutils literal notranslate"><span class="pre">Extract</span></code> → <code class="docutils literal notranslate"><span class="pre">Remove</span></code> → <code class="docutils literal notranslate"><span class="pre">Remove</span> <span class="pre">the</span> <span class="pre">extract</span> <span class="pre">and</span> <span class="pre">delete</span> <span class="pre">the</span> <span class="pre">extract</span> <span class="pre">file</span></code>.
+Then re-extract to optimize the new data (Step 2)</p></li>
+</ol>
+</li>
+</ol>
+</section>
 </section>
 <section id="sharing-with-stakeholders">
 <h2>Sharing with stakeholders<a class="headerlink" href="#sharing-with-stakeholders" title="Permalink to this heading">#</a></h2>
 <p>The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.</p>
+<section id="creating-a-tableau-public-visualization">
+<h3>Creating a Tableau Public visualization<a class="headerlink" href="#creating-a-tableau-public-visualization" title="Permalink to this heading">#</a></h3>
+<p>In Tableau, go to <code class="docutils literal notranslate"><span class="pre">Server</span></code>, <code class="docutils literal notranslate"><span class="pre">Tableau</span> <span class="pre">Public</span></code>, <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">to</span> <span class="pre">Tableau</span> <span class="pre">Public</span> <span class="pre">as</span></code>. Choose a name and complete the upload. Once published, a browser window will open with your dashboard.
+You may adapt the settings based on the intended usage of this visualization, by going to the <code class="docutils literal notranslate"><span class="pre">Settings</span></code> button:</p>
+<ul class="simple">
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">Viz</span> <span class="pre">on</span> <span class="pre">Profile</span></code> if you want the visualization to only be accessible to those with a link (hide it from your public profile)</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">Access</span></code> to prevent data download.</p></li>
+</ul>
+<p><strong>Important</strong>: this visualization will only work when data has been extracted. Tableau will prompt an error if you attempt to publish with live connections.</p>
+</section>
 </section>
 </section>
 
@@ -1115,11 +1172,30 @@ The setup will not work outside the VDI or without a Yubikey.</p></li>
   <a class="reference internal nav-link" href="#modelers">
    Modelers
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loading-data">
+     Loading data
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#update-visualization">
+     Update visualization
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#sharing-with-stakeholders">
    Sharing with stakeholders
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#creating-a-tableau-public-visualization">
+     Creating a Tableau Public visualization
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1149,7 +1225,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on May 08, 2025.<br>
+Last updated on May 12, 2025.<br>
 </p>
   </div>
   
