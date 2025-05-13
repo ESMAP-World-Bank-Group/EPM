@@ -880,30 +880,32 @@ vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
 
 $ifthen set LOADSOLPATH
-  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vBuild.l, vRetire.l, vAnnCapex.l, vCapStor.l, vCapTherm.l, vBuildStor.l,
-  vRetireStor.l, vBuildTherm.l, vRetireTherm.l, vAdditionalTransfer.l, vYearlyTransmissionAdditions.l, vCapH2.l, vBuildH2.l, vRetireH2.l,
-  vBuildTransmission.l, vBuiltCapVar.l, vRetireCapVar.l, vBuiltCapVarH2.l, vRetireCapVarH2.l;
+  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vBuild.l, vRetire.l
+*  vAnnCapex.l, vCapStor.l, vCapTherm.l, vBuildStor.l,
+*  vRetireStor.l, vBuildTherm.l, vRetireTherm.l, vAdditionalTransfer.l, vYearlyTransmissionAdditions.l, vCapH2.l, vBuildH2.l, vRetireH2.l,
+*  vBuildTransmission.l, vBuiltCapVar.l, vRetireCapVar.l, vBuiltCapVarH2.l, vRetireCapVarH2.l;
+;
   
   vCap.fx(g,y) = vCap.l(g,y);
   vBuild.fx(g,y) = vBuild.l(g,y);
   vRetire.fx(g,y) = vRetire.l(g,y);
-  vAnnCapex.fx(g,y) = vAnnCapex.l(g,y);
-  vCapStor.fx(g,y) = vCapStor.l(g,y);
-  vCapTherm.fx(g,y) = vCapTherm.l(g,y);
-  vBuildStor.fx(g,y) = vBuildStor.l(g,y);
-  vRetireStor.fx(g,y) = vRetireStor.l(g,y);
-  vBuildTherm.fx(g,y) = vBuildTherm.l(g,y);
-  vRetireTherm.fx(g,y) = vRetireTherm.l(g,y);
-  vAdditionalTransfer.fx(z,z2,y) = vAdditionalTransfer.l(z,z2,y);
-  vYearlyTransmissionAdditions.fx(z,y) = vYearlyTransmissionAdditions.l(z,y);
-  vCapH2.fx(hh,y) = vCapH2.l(hh,y);
-  vBuildH2.fx(hh,y) = vBuildH2.l(hh,y);
-  vRetireH2.fx(hh,y) = vRetireH2.l(hh,y);
-  vBuildTransmission.fx(z,z2,y) = vBuildTransmission.l(z,z2,y);
-  vBuiltCapVar.fx(g,y) = vBuiltCapVar.l(g,y);
-  vRetireCapVar.fx(g,y) = vRetireCapVar.l(g,y);
-  vBuiltCapVarH2.fx(hh,y) = vBuiltCapVarH2.l(hh,y);
-  vRetireCapVarH2.fx(hh,y) = vRetireCapVarH2.l(hh,y);
+*  vAnnCapex.fx(g,y) = vAnnCapex.l(g,y);
+*  vCapStor.fx(g,y) = vCapStor.l(g,y);
+*  vCapTherm.fx(g,y) = vCapTherm.l(g,y);
+*  vBuildStor.fx(g,y) = vBuildStor.l(g,y);
+*  vRetireStor.fx(g,y) = vRetireStor.l(g,y);
+*  vBuildTherm.fx(g,y) = vBuildTherm.l(g,y);
+*  vRetireTherm.fx(g,y) = vRetireTherm.l(g,y);
+*  vAdditionalTransfer.fx(z,z2,y) = vAdditionalTransfer.l(z,z2,y);
+*  vYearlyTransmissionAdditions.fx(z,y) = vYearlyTransmissionAdditions.l(z,y);
+*  vCapH2.fx(hh,y) = vCapH2.l(hh,y);
+*  vBuildH2.fx(hh,y) = vBuildH2.l(hh,y);
+*  vRetireH2.fx(hh,y) = vRetireH2.l(hh,y);
+*  vBuildTransmission.fx(z,z2,y) = vBuildTransmission.l(z,z2,y);
+*  vBuiltCapVar.fx(g,y) = vBuiltCapVar.l(g,y);
+*  vRetireCapVar.fx(g,y) = vRetireCapVar.l(g,y);
+*  vBuiltCapVarH2.fx(hh,y) = vBuiltCapVarH2.l(hh,y);
+*  vRetireCapVarH2.fx(hh,y) = vRetireCapVarH2.l(hh,y);
 $endIf
 
 

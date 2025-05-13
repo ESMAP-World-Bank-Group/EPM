@@ -296,7 +296,7 @@ New_CBM_Bot_gas_2031,Botswana,CCGT,Gas,2027,2060,100,3,,,,,,,,,0,2.925939177,,10
 New_Coal_1_BWA,Botswana,ST,Coal,2029,2060,300,2,,8.6,,,,,,,,2.466504472,,300,0,,0,0.05,0,300
 New_Coal_2_BWA,Botswana,ST,Coal,2029,2060,300,2,,8.6,,,,,,,,2.466504472,,300,0,,0,0.05,0,300
 New_CSP_AGO,Angola,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,500,0,,0,0,0,0
-New_CSP_BWA,Botswana,CSPPlant,CSP,2030,2060,8000,3,,0,1,1,0,0.8,22000,3,0,1.915,30,500,0,,0,0,0,0
+New_CSP_BWA,Botswana,CSPPlant,CSP,2030,2060,8000,3,,0,1,1,0,0.8,22000,3,0,1.915,30,200,0,,0,0,0,0
 New_CSP_LSO,Lesotho,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,50,0,,0,0,0,0
 New_CSP_NAM,Namibia,CSPPlant,CSP,2027,2060,250,3,,0,1,1,0,0.8,22000,3,0,1.85,30,250,0,,0,0,0,0
 New_CSP_SWZ,Eswatini,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,100,0,,0,0,0,0
@@ -415,7 +415,7 @@ SoyoII_TH_AGO,Angola,CCGT,Gas,2055,2105,750,3,,,,,,,,,0,1.245080501,,750,0,7,7.1
 SoyoIII_TH_AGO,Angola,CCGT,Gas,2055,2082,375,3,,,,,,,,,0,1.245080501,,375,0,7,7.1,0.05,0,0
 SreenbrasPH_HY_ZAF,South_Africa,Storage,Water,1988,2060,180,1,,0,1,1,0,0.8,46500,0.55,0,0,50,,0,,0,0,0,0
 New_BESS_AGO,Angola,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
-New_BESS_BWA,Botswana,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
+New_BESS_BWA,Botswana,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,100,0,,0,0,0,0
 New_BESS_DRC,DRC,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
 New_BESS_DRCSouth,DRC_South,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
 New_BESS_LSO,Lesotho,Storage,Battery,2027,2055,500,3,,,,,,,,,,,,50,0,,0,0,0,0
