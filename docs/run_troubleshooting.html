@@ -1016,6 +1016,11 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fuels-and-technologies-definition">
+     Fuels and technologies definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#pgendataexcelcustom">
      pGenDataExcelCustom
     </a>
@@ -1058,6 +1063,17 @@ title="Print to PDF"
 Exception from Python (line 264): &lt;class &#39;ValueError&#39;&gt;: Missing values in default is not permitted. To fix this bug ensure that all combination in pAvailabilityDefault are included.
 </pre></div>
 </div>
+</section>
+<section id="fuels-and-technologies-definition">
+<h3>Fuels and technologies definition<a class="headerlink" href="#fuels-and-technologies-definition" title="Permalink to this heading">#</a></h3>
+<p>The new version of EPM uses updated naming conventions for fuels and technologies. When transitioning from an older version of the model (e.g., using Excel-based inputs), special attention must be given to aligning fuel and technology names with the new standard, as some of these are referenced directly in the GAMS code.
+These appear across several input files and must be harmonized accordingly. Refer to the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Structure</span> <span class="pre">Documentation</span></code> section for the full list of authorized names. Key files involved include:</p>
+<ul class="simple">
+<li><p>ftfindex.csv: Contains the list of allowed fuel names and their associated indices. Primarily used to define secondary fuels where applicable. This file is standardized and should not be modified.</p></li>
+<li><p>pTechData.csv: Contains the list of allowed tech names and associated characteristics. This file is standardized and should not be modified.</p></li>
+<li><p>pFuelCarbonContent.csv: Defines fuel-specific carbon content. This file is standardized and should not be modified.</p></li>
+<li><p>pGenDataExcelCustom.csv and pGenDataExcelDefault: Core files where fuel and technology types are defined for each generation asset, and where default values are defined per set of fuel and technology.</p></li>
+</ul>
 </section>
 <section id="pgendataexcelcustom">
 <h3>pGenDataExcelCustom<a class="headerlink" href="#pgendataexcelcustom" title="Permalink to this heading">#</a></h3>
@@ -1162,6 +1178,11 @@ Exception from Python (line 264): &lt;class &#39;ValueError&#39;&gt;: Missing va
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#fuels-and-technologies-definition">
+     Fuels and technologies definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#pgendataexcelcustom">
      pGenDataExcelCustom
     </a>
@@ -1206,7 +1227,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on May 12, 2025.<br>
+Last updated on May 14, 2025.<br>
 </p>
   </div>
   
