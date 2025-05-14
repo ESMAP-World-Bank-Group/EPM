@@ -15,6 +15,15 @@ Files such as `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` sho
 Exception from Python (line 264): <class 'ValueError'>: Missing values in default is not permitted. To fix this bug ensure that all combination in pAvailabilityDefault are included.
 ```
 
+### Fuels and technologies definition
+
+The new version of EPM uses updated naming conventions for fuels and technologies. When transitioning from an older version of the model (e.g., using Excel-based inputs), special attention must be given to aligning fuel and technology names with the new standard, as some of these are referenced directly in the GAMS code.
+These appear across several input files and must be harmonized accordingly. Refer to the `Data Structure Documentation` section for the full list of authorized names. Key files involved include:
+
+- ftfindex.csv: Contains the list of allowed fuel names and their associated indices. Primarily used to define secondary fuels where applicable. This file is standardized and should not be modified.
+- pTechData.csv: Contains the list of allowed tech names and associated characteristics. This file is standardized and should not be modified.
+- pFuelCarbonContent.csv: Defines fuel-specific carbon content. This file is standardized and should not be modified.
+- pGenDataExcelCustom.csv and pGenDataExcelDefault: Core files where fuel and technology types are defined for each generation asset, and where default values are defined per set of fuel and technology.
 
 ### pGenDataExcelCustom
 
