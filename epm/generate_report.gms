@@ -885,7 +885,14 @@ $ifthen.excelreport %DOEXCELREPORT%==1
 $if not set OUTPUT_DIR $set OUTPUT_DIR output_csv
 * create output directory
 
-$call /bin/sh -c "mkdir -p '%OUTPUT_DIR%'"
+*$call /bin/sh -c "mkdir -p '%OUTPUT_DIR%'"
+
+embeddedCode Connect:
+- PythonCode:
+    code: |
+      import os
+      os.makedirs(r"%OUTPUT_DIR%", exist_ok=True)
+endEmbeddedCode
 
 
 embeddedCode Connect:
@@ -898,6 +905,7 @@ embeddedCode Connect:
         "pPeakCapacityCountry",
         "pPrice",
         "pCostSummary",
+        "pCostSummaryFull",
         "pCostSummaryCountry",
         "pCostSummaryWeightedAverageCountry",
         "pCostsbyPlant",
