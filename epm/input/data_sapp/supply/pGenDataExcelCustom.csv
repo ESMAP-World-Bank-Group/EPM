@@ -29,7 +29,7 @@ Baynes(Namibia)_HY_NAM,Namibia,ReservoirHydro,Water,2032,2060,430,2,,,,,,0.175,,
 Bloemfontein_TH_ZAF,South_Africa,ST,Coal,1965,2015,103,1,,14,,,,,,,,0,,,0,,0,0.05,0,103
 Boroma_HY_MOZ,Mozambique,ReservoirHydro,Water,2037,2060,0,3,,,,,,0.406440138,,,0,4.248837209,50,0,0,,0,0,0,0
 BotswanaCoal_TH_BWA,Botswana,ST,Coal,2026,2076,0,3,,8.6,,,,,,,,2.466504472,,0,0,,0,0.05,0,0
-BotswanaSolarCSP_REN_BWA,Botswana,CSPPlant,CSP,2027,2067,200,3,0,0,1,1,0,0.8,22000,3,0,1.915,30,200,0,,0,0,0,0
+BotswanaSolarCSP_REN_BWA,Botswana,CSPPlant,CSP,2027,2067,0,3,0,0,1,1,0,0.8,22000,3,0,1.915,30,200,0,,0,0,0,0
 Bulawayo_TH_ZWE,Zimbabwe,ST,Coal,1999,2055,90,1,,11.373804,,,,,,,,0,,,0,,0,0.1,0,90
 Busanga_HY_ZAR,DRC_South,ReservoirHydro,Water,2022,2060,240,1,,,,,,0.193435172,,,0,0,50,0,0,,0,0,0,0
 CaculoCabaca_HY_AGO,Angola,ReservoirHydro,Water,2027,2067,2172,2,,,,,,0.24,,,0,4.5,50,2172,0,,0,0,0,0
@@ -91,7 +91,7 @@ Existing _PV_NAM,Namibia,PV,Solar,2015,2060,127,1,,0,,,,,,,,0,,0,0,,0,0,1,0
 Existing _PV_ZIM,Zimbabwe,PV,Solar,2022,2060,132,1,,0,,,,,,,,0,,,0,,0,0,1,0
 Existing_AusWind_NAM,Namibia,OnshoreWind,Wind,2020,2055,5,1,,0,1,1,0,0,28000,0,0,0,30,0,0,,0,0,1,0
 Existing_HY_MOZ,Mozambique,ReservoirHydro,Water,2000,2060,117,1,,,,,,0.406440138,,,0,0,50,,0,,0,0,0,0
-ExistingCSP(CSP)_REN_ZAF,South_Africa,CSPPlant,CSP,2005,2045,300,1,,0,1,1,0,0.8,22000,3,0,0,30,,0,,0,0,0,0
+ExistingCSP(CSP)_REN_ZAF,South_Africa,CSPPlant,CSP,2005,2045,0,1,,0,1,1,0,0.8,22000,3,0,0,30,,0,,0,0,0,0
 ExistingHydro1985_HY_ZAF,South_Africa,ReservoirHydro,Water,1985,2060,44.1,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
 ExistingHydro2015_HY_ZAF,South_Africa,ReservoirHydro,Water,2015,2060,19,1,,,,,,0.185,,,0,0,50,,0,,0,0,0,0
 ExistingSmallHydro2000_HY_AGO,Angola,ReservoirHydro,Water,2000,2060,16,1,,,,,,0.121826136,,,0,0,50,,0,,0,0,0,0
@@ -296,13 +296,13 @@ New_CBM_Bot_gas_2031,Botswana,CCGT,Gas,2027,2060,100,3,,,,,,,,,0,2.925939177,,10
 New_Coal_1_BWA,Botswana,ST,Coal,2029,2060,300,2,,8.6,,,,,,,,2.466504472,,300,0,,0,0.05,0,300
 New_Coal_2_BWA,Botswana,ST,Coal,2029,2060,300,2,,8.6,,,,,,,,2.466504472,,300,0,,0,0.05,0,300
 New_CSP_AGO,Angola,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,500,0,,0,0,0,0
-New_CSP_BWA,Botswana,CSPPlant,CSP,2030,2060,8000,3,,0,1,1,0,0.8,22000,3,0,1.915,30,200,0,,0,0,0,0
+New_CSP_BWA,Botswana,CSPPlant,CSP,2030,2060,0,3,,0,1,1,0,0.8,22000,3,0,1.915,30,200,0,,0,0,0,0
 New_CSP_LSO,Lesotho,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,50,0,,0,0,0,0
-New_CSP_NAM,Namibia,CSPPlant,CSP,2027,2060,250,3,,0,1,1,0,0.8,22000,3,0,1.85,30,250,0,,0,0,0,0
+New_CSP_NAM,Namibia,CSPPlant,CSP,2027,2060,0,3,,0,1,1,0,0.8,22000,3,0,1.85,30,250,0,,0,0,0,0
 New_CSP_SWZ,Eswatini,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,100,0,,0,0,0,0
 New_CSP_TZA,Tanzania,CSPPlant,CSP,2024,2050,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,500,0,,0,0,0,0
-New_CSP_ZAF,South_Africa,CSPPlant,CSP,2030,2060,20000,3,,0,1,1,0,0.8,22000,3,0,1.865,30,2000,0,,0,0,0,0
-New_CSP_ZAF_2024,South_Africa,CSPPlant,CSP,2024,2054,100,2,,0,1,1,0,0.8,22000,3,0,1.865,30,100,0,,0,0,0,0
+New_CSP_ZAF,South_Africa,CSPPlant,CSP,2030,2060,0,3,,0,1,1,0,0.8,22000,3,0,1.865,30,2000,0,,0,0,0,0
+New_CSP_ZAF_2024,South_Africa,CSPPlant,CSP,2024,2054,0,2,,0,1,1,0,0.8,22000,3,0,1.865,30,100,0,,0,0,0,0
 New_CSP_ZMB,Zambia,CSPPlant,CSP,2024,2055,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,500,0,,0,0,0,0
 New_OffshoreWind_AGO,Angola,OffshoreWind,Wind,2030,2060,8000,3,,0,1,1,0,0,70000,0,0,3.3,30,600,0,,0,0,1,0
 New_OffshoreWind_MOZ,Mozambique,OffshoreWind,Wind,2030,2060,8000,3,,0,1,1,0,0,70000,0,0,3.2,30,600,0,,0,0,1,0
@@ -389,7 +389,7 @@ SACoal(Large)_TH_ZAF,South_Africa,ST,Coal,2025,2075,7500,3,,8.6,,,,,,,,4.0734883
 SACoal(Medium)_TH_ZAF,South_Africa,ST,Coal,2025,2075,2600,3,,8.6,,,,,,,,5.447227191,,2600,0,,0,0.05,0,325
 SACoal(Medium)can_TH_ZAF,South_Africa,ST,Coal,2025,2075,5000,3,,8.6,,,,,,,,4.416923077,,2500,0,,0,0.05,0,312.5
 SACoal(Medium)new_TH_ZAF,South_Africa,ST,Coal,2025,2075,5000,3,,8.6,,,,,,,,4.416923077,,1500,0,,0,0.05,0,375
-SACSP_REN_ZAF,South_Africa,CSPPlant,CSP,2019,2059,200,1,,0,1,1,0,0.8,22000,3,0,0,30,0,0,,0,0,0,0
+SACSP_REN_ZAF,South_Africa,CSPPlant,CSP,2019,2059,0,1,,0,1,1,0,0.8,22000,3,0,0,30,0,0,,0,0,0,0
 SAGenericBiomass_BIO_ZAF,South_Africa,ST,Biomass,2024,2074,500,3,,10,0.33,0.33,,0.8,48000,,,4.423148479,,500,0,,0,0,0,500
 Salima_PV_MWI,Malawi,PV,Solar,2022,2060,60,1,,0,,,,,,,,0,,0,0,,0,0,1,0
 SANuclear_NU_ZAF,South_Africa,ST,Uranium,2035,2073,8000,3,0.7,9.2886066,0.1,0.1,0,0,100000,2.3,0,6.295957066,50,2000,0,,0,0.6,0,0
