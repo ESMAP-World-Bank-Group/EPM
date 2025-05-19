@@ -1107,11 +1107,6 @@ $  onPut
 ********************************************************************************************************   
 $  offPut
    putclose;
-   if (isWindows,
-      execute.checkErrorLevel 'gdxxrw epmresults.gdx output="%XLS_OUTPUT%" @WriteZonalandCountry.txt';
-   else
-      put fxlsxrep / 'gdxxrw "%fn%\epmresults.gdx" output="%XLS_OUTPUT%" @"%fn%\WriteZonalandCountry.txt"';
-   );
    
 
 

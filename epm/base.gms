@@ -879,8 +879,6 @@ eZonalEmissions(z,y)..
    sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 eEmissionsCountry(c,y)$pzonal_co2_constraints..
-
-
    sum(zcmap(z,c), vZonalEmissions(z,y))-vYearlyCO2backstop(c,y)=l= pEmissionsCountry(c,y);
 
 
