@@ -1001,6 +1001,11 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-an-environment">
+   Creating an environment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#input-data">
    Input Data
   </a>
@@ -1035,14 +1040,18 @@ title="Print to PDF"
 <h1>Running EPM from Python<a class="headerlink" href="#running-epm-from-python" title="Permalink to this heading">#</a></h1>
 <p>Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !</p>
 <p>Prerequisites: You need to have Python installed in your computer. If you don’t have it, you can download Anaconda distribution from <a class="reference external" href="https://www.anaconda.com/products/distribution">here</a>.</p>
+<section id="creating-an-environment">
+<h2>Creating an environment<a class="headerlink" href="#creating-an-environment" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Navigate to the EPM directory:<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">EPM</span></code></p></li>
-<li><p>Use the terminal to run the command: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>. The goal is to ensure that all required libraries are available (pandas, matplotlib,…). The environment is created using <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file</p></li>
-<li><p>Activate the Conda environment to ensure all necessary Python packages are available:
-<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">esmap_env</span></code></p></li>
-<li><p>Run the EPM model: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">epm/epm.py</span></code></p></li>
-<li><p>You can also specify additional arguments when launching EPM.</p></li>
+<li><p>Create an environment named epm_env with Python 3.10:: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">create</span> <span class="pre">-n</span> <span class="pre">epm_env</span> <span class="pre">python=3.10</span></code></p></li>
+<li><p>Activate the environment: <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">epm_env</span></code></p></li>
+<li><p>Once the environment is activated, install the required libraries using the requirements.txt file: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>. The goal is to ensure that all required libraries are available (pandas, matplotlib,…).</p></li>
+<li><p>Navigate to the epm directory with the code: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">epm</span></code></p></li>
+<li><p>Run the EPM model: <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">epm.py</span></code></p></li>
+<li><p>You can also specify additional arguments when launching EPM. These are described in the following subsections.</p></li>
 </ul>
+</section>
 <section id="input-data">
 <h2>Input Data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h2>
 <p>In the input folder, create <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file that contains the <code class="docutils literal notranslate"><span class="pre">baseline</span></code> scenario input specification. This specifies which csv file to use for each parameter under the baseline scenario. You can refer to the epm structure or the input sections to better understand the folder organization. You can look at the GitHub main <code class="docutils literal notranslate"><span class="pre">input</span></code> folder of the main branch for an example.</p>
@@ -1192,6 +1201,11 @@ Example file: <a class="reference external" href="https://github.com/ESMAP-World
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-an-environment">
+   Creating an environment
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#input-data">
    Input Data
   </a>
@@ -1241,7 +1255,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on May 14, 2025.<br>
+Last updated on May 19, 2025.<br>
 </p>
   </div>
   
