@@ -4,13 +4,15 @@ Using the Python API enables additional functionalities such as direct scenario 
 
 Prerequisites: You need to have Python installed in your computer. If you don't have it, you can download Anaconda distribution from [here](https://www.anaconda.com/products/distribution).
 
-- Navigate to the EPM directory:```cd EPM```
-- Use the terminal to run the command: ```pip install -r requirements.txt```. The goal is to ensure that all required libraries are available (pandas, matplotlib,...). The environment is created using `requirements.txt` file
-- Activate the Conda environment to ensure all necessary Python packages are available:
-  ```conda activate esmap_env```
-- Run the EPM model: ```python epm/epm.py```
-- You can also specify additional arguments when launching EPM.
+## Creating an environment 
 
+- Navigate to the EPM directory:```cd EPM```
+- Create an environment named epm_env with Python 3.10:: ```conda create -n epm_env python=3.10```
+- Activate the environment: ```conda activate epm_env```
+- Once the environment is activated, install the required libraries using the requirements.txt file: ```pip install -r requirements.txt```. The goal is to ensure that all required libraries are available (pandas, matplotlib,...).
+- Navigate to the epm directory with the code: ```cd epm```
+- Run the EPM model: ```python epm.py```
+- You can also specify additional arguments when launching EPM. These are described in the following subsections.
 
 ## Input Data
     
