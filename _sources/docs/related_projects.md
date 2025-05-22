@@ -5,6 +5,13 @@ Link (here)[https://github.com/ESMAP-World-Bank-Group/Planning-tools].
 
 __This is a recent project, with limited testing. Please report any issues you encounter.__
 
+Test
+<p>
+  <a href="dwld/interactive_eapp_grid_map.html" target="_blank">
+      Open interactive EAPP grid map
+  </a>
+</p>
+
 ### Representative Days
 
 This notebook is designed to determine representative days for a multi-year time series for energy demand and renewables generation.
