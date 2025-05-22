@@ -840,6 +840,35 @@ vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0
 * Fixed conditions
 *-------------------------------------------------------------------
 
+$ifthen set LOADSOLPATH
+  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vRetire.l, vCapStor.l, vRetireStor.l
+*  vAdditionalTransfer.l
+*  vCapTherm.l,
+*  vBuildTherm.l, vRetireTherm.l, vAdditionalTransfer.l, vYearlyTransmissionAdditions.l, vCapH2.l, vBuildH2.l, vRetireH2.l,
+*  vBuildTransmission.l, vBuiltCapVar.l, vRetireCapVar.l, vBuiltCapVarH2.l, vRetireCapVarH2.l;
+;
+  
+  vCap.fx(g,y) = round(vCap.l(g,y), 1);
+  vRetire.fx(g,y) = round(vRetire.l(g,y),1);
+  vCapStor.fx(g,y) = round(vCapStor.l(g,y),1);
+  vRetireStor.fx(g,y) = round(vRetireStor.l(g,y),1);
+*  vAnnCapex.fx(g,y) = vAnnCapex.l(g,y);
+*  vCapTherm.fx(g,y) = vCapTherm.l(g,y);
+*  vBuildStor.fx(g,y) = vBuildStor.l(g,y);
+*  vBuildTherm.fx(g,y) = vBuildTherm.l(g,y);
+*  vRetireTherm.fx(g,y) = vRetireTherm.l(g,y);
+*  vAdditionalTransfer.fx(z,z2,y) = vAdditionalTransfer.l(z,z2,y);
+*  vYearlyTransmissionAdditions.fx(z,y) = vYearlyTransmissionAdditions.l(z,y);
+*  vCapH2.fx(hh,y) = vCapH2.l(hh,y);
+*  vBuildH2.fx(hh,y) = vBuildH2.l(hh,y);
+*  vRetireH2.fx(hh,y) = vRetireH2.l(hh,y);
+*  vBuildTransmission.fx(z,z2,y) = vBuildTransmission.l(z,z2,y);
+*  vBuiltCapVar.fx(g,y) = vBuiltCapVar.l(g,y);
+*  vRetireCapVar.fx(g,y) = vRetireCapVar.l(g,y);
+*  vBuiltCapVarH2.fx(hh,y) = vBuiltCapVarH2.l(hh,y);
+*  vRetireCapVarH2.fx(hh,y) = vRetireCapVarH2.l(hh,y);
+$endIf
+
 * Fix capacity to zero for generation projects that have not yet started in a given year
 vCap.fx(g,y)$(pGenData(g,"StYr") > y.val) = 0;
 
@@ -878,35 +907,6 @@ vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 
 * Ensure storage capacity is set to zero if storage is not included in the scenario
 vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
-
-$ifthen set LOADSOLPATH
-  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vBuild.l, vRetire.l
-*  vAnnCapex.l, vCapStor.l, vCapTherm.l, vBuildStor.l,
-*  vRetireStor.l, vBuildTherm.l, vRetireTherm.l, vAdditionalTransfer.l, vYearlyTransmissionAdditions.l, vCapH2.l, vBuildH2.l, vRetireH2.l,
-*  vBuildTransmission.l, vBuiltCapVar.l, vRetireCapVar.l, vBuiltCapVarH2.l, vRetireCapVarH2.l;
-;
-  
-  vCap.fx(g,y) = vCap.l(g,y);
-  vBuild.fx(g,y) = vBuild.l(g,y);
-  vRetire.fx(g,y) = vRetire.l(g,y);
-*  vAnnCapex.fx(g,y) = vAnnCapex.l(g,y);
-*  vCapStor.fx(g,y) = vCapStor.l(g,y);
-*  vCapTherm.fx(g,y) = vCapTherm.l(g,y);
-*  vBuildStor.fx(g,y) = vBuildStor.l(g,y);
-*  vRetireStor.fx(g,y) = vRetireStor.l(g,y);
-*  vBuildTherm.fx(g,y) = vBuildTherm.l(g,y);
-*  vRetireTherm.fx(g,y) = vRetireTherm.l(g,y);
-*  vAdditionalTransfer.fx(z,z2,y) = vAdditionalTransfer.l(z,z2,y);
-*  vYearlyTransmissionAdditions.fx(z,y) = vYearlyTransmissionAdditions.l(z,y);
-*  vCapH2.fx(hh,y) = vCapH2.l(hh,y);
-*  vBuildH2.fx(hh,y) = vBuildH2.l(hh,y);
-*  vRetireH2.fx(hh,y) = vRetireH2.l(hh,y);
-*  vBuildTransmission.fx(z,z2,y) = vBuildTransmission.l(z,z2,y);
-*  vBuiltCapVar.fx(g,y) = vBuiltCapVar.l(g,y);
-*  vRetireCapVar.fx(g,y) = vRetireCapVar.l(g,y);
-*  vBuiltCapVarH2.fx(hh,y) = vBuiltCapVarH2.l(hh,y);
-*  vRetireCapVarH2.fx(hh,y) = vRetireCapVarH2.l(hh,y);
-$endIf
 
 
 ********************* Equations for hydrogen production**********************************************************
@@ -971,9 +971,6 @@ $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
 
-
-display vCapStor.l, vBuildStor.l, vCap.l, vBuild.l;
-*$exit
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
