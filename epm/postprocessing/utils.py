@@ -65,6 +65,8 @@ from io import BytesIO
 import io
 from shapely.geometry import Point, Polygon
 from matplotlib.patches import FancyArrowPatch
+from shapely.geometry import LineString, Point, LinearRing
+import argparse
 
 
 FUELS = os.path.join('static', 'fuels.csv')
@@ -3064,7 +3066,7 @@ def create_zonemap(zone_map, map_geojson_to_epm):
     return zone_map, centers
 
 
-def get_json_data(epm_results, dict_specs, geo_add=None):
+def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None):
     """
     Extract and process zone map data, handling divisions for sub-national regions.
 
@@ -3087,12 +3089,25 @@ def get_json_data(epm_results, dict_specs, geo_add=None):
         - zone_map (gpd.GeoDataFrame): Processed zone map including divided regions.
         - geojson_to_epm (dict): Updated mapping of GeoJSON names to EPM zones.
     """
-    geojson_to_epm = dict_specs['geojson_to_epm']
+    assert ((dict_specs is not None) or (geojson_to_epm is not None)), "Mapping zone names from geojson to EPM must be provided either under dict_specs or under geojson_to_epm"
+    assert ((epm_results is not None) or (selected_zones is not None)), "Selected zones must be provided either by passing EPM results to the function in epm_results or by specifying them directly under selected zones"
+    if dict_specs is None:
+        if 'postprocessing' in os.getcwd():
+            dict_specs = read_plot_specs(folder='')
+        else:
+            dict_specs = read_plot_specs(folder='postprocessing')
+    if geojson_to_epm is None:
+        geojson_to_epm = dict_specs['geojson_to_epm']
+    else:
+        geojson_to_epm = pd.read_csv(geojson_to_epm)
     epm_to_geojson = {v: k for k, v in
                       geojson_to_epm.set_index('Geojson')['EPM'].to_dict().items()}  # Reverse dictionary
     geojson_to_divide = geojson_to_epm.loc[geojson_to_epm.region.notna()]
     geojson_complete = geojson_to_epm.loc[~geojson_to_epm.region.notna()]
-    selected_zones_epm = epm_results['pAnnualTransmissionCapacity'].zone.unique()
+    if selected_zones is None:
+        selected_zones_epm = epm_results['pAnnualTransmissionCapacity'].zone.unique()
+    else:
+        selected_zones_epm = selected_zones
     selected_zones_to_divide = [e for e in selected_zones_epm if e in geojson_to_divide['EPM'].values]
     selected_countries_geojson = [
         epm_to_geojson[key] for key in selected_zones_epm if
@@ -3194,6 +3209,115 @@ def divide(geodf, country, division):
     else:
         raise ValueError("Invalid division type. Use 'NS' (North-South) or 'EW' (East-West).")
 
+
+def create_geojson_for_tableau(selected_zones, geojson_to_epm, zcmap, folder):
+    """
+    Generate a GeoJSON file representing lines between selected EPM zones for use in Tableau visualizations.
+
+    This function creates a GeoDataFrame with LineString geometries connecting the centroids of selected zones.
+    Each pair of zones is represented as a directed line with associated metadata, allowing users to map
+    inter-zone connections in Tableau. The resulting file is saved in the output folder as
+    'linestring_countries_2.geojson'.
+
+    Parameters
+    ----------
+    selected_zones : list of str
+        List of EPM zone identifiers to include in the visualization (e.g., ['ETH_North', 'KEN', 'TZA']).
+
+    geojson_to_epm : str
+        Filename (within ../output/{folder}/) of the CSV mapping GeoJSON zone names to EPM zone identifiers.
+
+    zcmap : str
+        Filename (within ../output/{folder}/) of the CSV mapping EPM zone names (`z`) to countries.
+
+    folder : str
+        Name of the output folder where processed data and the GeoJSON file should be saved.
+
+    Returns
+    -------
+    result_df : geopandas.GeoDataFrame
+        A GeoDataFrame containing pairwise LineStrings between selected zones, with the following columns:
+        - 'z': EPM zone identifier of the starting point.
+        - 'c': Country of the starting zone.
+        - 'z_other': EPM zone identifier of the destination point.
+        - 'c2': Country of the destination zone.
+        - 'country_ini_lat', 'country_ini_lon': Latitude and longitude of the starting zone.
+        - 'lat_linestring', 'lon_linestring': Latitude and longitude of the LineString midpoint.
+        - 'geometry': LineString geometry from the centroid of 'z' to 'z_other'.
+
+    Output
+    ------
+    A GeoJSON file is written to:
+        ../output/{folder}/linestring_countries_2.geojson
+
+    Notes
+    -----
+    - The function uses centroids of the input geometries to create lines, simplifying visualization.
+    - Self-pairs (i.e., lines from a zone to itself) are excluded.
+    - Designed for visualizing zone-to-zone relations (e.g., trade, transmission) in Tableau.
+    """
+
+    # Load and process zone geometries for the selected zones
+    geojson_to_epm_path = os.path.join('..', 'output', folder, geojson_to_epm)
+    # Creating zone map for desired zones
+    zone_map, geojson_to_epm_dict = get_json_data(selected_zones=selected_zones, geojson_to_epm=geojson_to_epm_path)
+
+    zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+
+    # Processing for Tableau use
+    countries_shapefile = zone_map
+    countries_shapefile['geometry'] = countries_shapefile.centroid
+    countries_shapefile = countries_shapefile.set_index('ADMIN')
+
+    # Load mapping file and join it to assign EPM zone names to geometries
+    geojson_to_epm = os.path.join('..', 'output', folder, geojson_to_epm)  # loading again geojson_to_epm
+    geojson_to_epm = pd.read_csv(geojson_to_epm)
+    geojson_to_epm = geojson_to_epm.set_index('Geojson')
+    countries_shapefile['z'] = geojson_to_epm.EPM
+    countries_shapefile = countries_shapefile.reset_index(drop=True)
+
+    # Create pairwise combinations (excluding self) to generate lines between all zones
+    results = []
+    for i, row1 in countries_shapefile.iterrows():
+        for j, row2 in countries_shapefile.iterrows():
+            if i != j:  # exclude self-comparison
+                # Combine the rows as needed
+                combined = {**row1.to_dict(), **{f'{k}_other': v for k, v in row2.to_dict().items()}}
+                results.append(combined)
+
+    result_df = pd.DataFrame(results)
+
+    # Extract coordinates for the starting zone
+    result_df['country_ini_lat'] = result_df['geometry'].apply(lambda x: x.y)
+    result_df['country_ini_lon'] = result_df['geometry'].apply(lambda x: x.x)
+
+    # Create LineString geometries between zone centroids
+    result_df['geometry'] = result_df.apply(
+        lambda row: LineString([row['geometry'], row['geometry_other']]),
+        axis=1
+    )
+    result_df = gpd.GeoDataFrame(result_df, geometry='geometry')
+    result_df.crs = countries_shapefile.crs
+    result_df.drop(columns=['geometry_other'], inplace=True)
+
+    # Compute the centroid of each line (used in Tableau for labeling or tooltips)
+    result_df['centroid'] = result_df['geometry'].centroid
+    result_df['lat_linestring'] = result_df['centroid'].apply(lambda x: x.y)
+    result_df['lon_linestring'] = result_df['centroid'].apply(lambda x: x.x)
+    result_df.drop(columns=['centroid'], inplace=True)
+
+    # Add country codes for both zones (start and end)
+    zcmap = os.path.join('..', 'output', folder, zcmap)
+    zcmap = pd.read_csv(zcmap)
+
+    zcmap = zcmap.set_index('Zone')
+    result_df = result_df.set_index('z')
+    result_df['c'] = zcmap['Country']
+    result_df = result_df.reset_index().set_index('z_other')
+    result_df['c2'] = zcmap['Country']
+
+    result_df.to_file(os.path.join('..', 'output', folder, 'linestring_countries_2.geojson'), driver='GeoJSON')
+    return result_df
 
 
 def plot_zone_map_on_ax(ax, zone_map):
@@ -4547,5 +4671,24 @@ def keep_max_direction(df):
 
 
 if __name__ == '__main__':
-    print(0)
+    parser = argparse.ArgumentParser(description="Generate Tableau-ready GeoJSON for selected zones.")
+    parser.add_argument("--zones", nargs="+", required=True,
+                        help="List of EPM zone names to include (e.g., Angola Botswana Zambia).")
+    parser.add_argument("--folder", type=str, required=True,
+                        help="Output folder containing CSVs result - which will be used in Tableau - and where the GeoJSON will be saved.")
+    parser.add_argument("--geojson", type=str, default="geojson_to_epm.csv",
+                        help="Filename of GeoJSON to EPM mapping (default: geojson_to_epm.csv).")
+    parser.add_argument("--zcmap", type=str, default="zcmap.csv",
+                        help="Filename of zone-to-country mapping (default: zcmap.csv).")
+
+    args = parser.parse_args()
+
+    linestring = create_geojson_for_tableau(
+        selected_zones=args.zones,
+        geojson_to_epm=args.geojson,
+        zcmap=args.zcmap,
+        folder=args.folder
+    )
+
+    print("GeoJSON created with", len(linestring), "lines.")
 
