@@ -1,5 +1,5 @@
 barcrossalg=1
-solutiontype=2
+! solutiontype=2
 lpmethod=4
 threads=8
 names=yes
