@@ -696,6 +696,8 @@ $onIDCProtect
 
 
 * Map transmission status from input data
+display sTopology;
+
 tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`

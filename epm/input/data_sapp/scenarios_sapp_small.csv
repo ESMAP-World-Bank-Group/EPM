@@ -1,6 +1,6 @@
-paramNames,noInterconnection,AllowTransferExpansion,Retrade,NoInga,IngaCandidate,HydroROR,HighBatteryCost,BAU,RampHydro,Retradev2
+paramNames,noInterconnection,AllowTransferExpansion,Retradev2,NoInga,IngaCandidate,HydroROR,HighBatteryCost,BAU,RampHydro,Retrade
 SETTINGS,,,,,,,,,,
-pSettings,pSettings_nointerco.csv,pSettingsTransferExpansion.csv,,,,,,,,
+pSettings,pSettings_nointerco.csv,pSettingsTransferExpansion.csv,,,,,,,,pSettingsTransferExpansion.csv
 y,,,,,,,,,,
 zcmap,,,,,,,,,,
 pHours,,,,,,,,,,
@@ -16,7 +16,7 @@ sRelevant,,,,,,,,,,
 pEnergyEfficiencyFactor,,,,,,,,,,
 SUPPLY,,,,,,,,,,
 pGenDataExcel,,,,supply/sensitivity_gendata/pGenDataExcelCustomNoInga.csv,supply/sensitivity_gendata/pGenDataExcelCustomIngaCandidate.csv,supply/sensitivity_gendata/pGenDataExcelCustomHydroROR.csv,,,,
-pGenDataExcelDefault,,supply/pGenDataExcelDefaultRampHydro.csv,supply/pGenDataExcelDefaultRampHydro.csv,,,,,supply/pGenDataExcelDefaultRampHydro.csv,supply/pGenDataExcelDefaultRampHydro.csv,supply/pGenDataExcelDefaultRampHydro.csv
+pGenDataExcelDefault,,supply/pGenDataExcelDefaultRampHydro.csv,,,,,,supply/pGenDataExcelDefaultRampHydro.csv,supply/pGenDataExcelDefaultRampHydro.csv,
 pAvailability,,,,,,,,,,
 pAvailabilityDefault,,,,,,,,,,
 pCapexTrajectories,,,,,,,,,,

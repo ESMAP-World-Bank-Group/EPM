@@ -800,7 +800,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                        montecarlo=False):
     keys_results = None
     if montecarlo:
-        keys_results = {'pSummary'}
+        keys_results = {'pSummary', 'pCostSummary'}
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -826,6 +826,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         df_summary = df_summary.groupby('scenario_mapping').value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
         df_summary = df_summary.set_index('scenario').stack().to_frame().rename(columns={0: 'value'})
         df_summary.index.names = ['scenario', 'error']
+        df_summary.reset_index(inplace=True)
 
         filename = f'{GRAPHS_FOLDER}/scenarios_comparison/NPV_montecarlo.png'
 
@@ -835,6 +836,73 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                   dict_scenarios=None,
                                   format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                   annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+
+        df_cost_summary = epm_results['pCostSummary'].copy()
+        # df_cost_summary = df_cost_summary.loc[df_cost_summary.attribute.isin(['Total Annual Cost by Zone: $m'])]
+        df_cost_summary_baseline = df_cost_summary.loc[df_cost_summary.scenario.isin(original_scenarios)]
+        df_cost_summary['scenario_mapping'] = df_cost_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
+        df_cost_summary = df_cost_summary.groupby(['scenario', 'scenario_mapping', 'zone', 'year']).value.sum().reset_index().groupby(['scenario_mapping', 'zone', 'year']).value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
+        df_cost_summary = df_cost_summary.set_index(['scenario', 'zone', 'year']).stack().to_frame().rename(columns={0: 'value'})
+        df_cost_summary.index.names = ['scenario', 'zone', 'year', 'error']
+        df_cost_summary.reset_index(inplace=True)
+
+        costs_notrade = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission additions: $m",
+                         "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
+                         "VRE curtailment: $m", "Import costs wiht external zones: $m",
+                         "Export revenues with external zones: $m"]
+        df_cost_summary_no_trade = epm_results['pCostSummary'].copy()
+        df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.attribute.isin(costs_notrade)]
+        df_cost_summary_baseline_notrade = df_cost_summary_no_trade.loc[(df_cost_summary_no_trade.scenario.isin(original_scenarios))]
+        df_cost_summary_no_trade['scenario_mapping'] = df_cost_summary_no_trade.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
+        df_cost_summary_no_trade = df_cost_summary_no_trade.groupby(['scenario', 'scenario_mapping', 'zone', 'year']).value.sum().reset_index().groupby(['scenario_mapping', 'zone', 'year']).value.describe()[['min', 'max']].reset_index().rename(columns={'scenario_mapping': 'scenario'})
+        df_cost_summary_no_trade = df_cost_summary_no_trade.set_index(['scenario', 'zone', 'year']).stack().to_frame().rename(columns={0: 'value'})
+        df_cost_summary_no_trade.index.names = ['scenario', 'zone', 'year', 'error']
+        df_cost_summary_no_trade.reset_index(inplace=True)
+
+        years = epm_results['pCostSummary']['year'].unique()
+        years = [min(years), max(years)]
+
+        for year in years:
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/AnnualCostWithTrade_montecarlo_{year}.png'
+
+            make_stacked_bar_subplots(df_cost_summary_baseline, filename, dict_colors=None, df_errorbars=df_cost_summary, selected_zone=None,
+                                      selected_year=year, column_xaxis='zone', column_stacked='attribute', column_multiple_bars='scenario',
+                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                      dict_scenarios=None,
+                                      format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
+                                      annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/AnnualCost_montecarlo_{year}.png'
+
+            make_stacked_bar_subplots(df_cost_summary_baseline_notrade, filename, dict_colors=None, df_errorbars=df_cost_summary_no_trade, selected_zone=None,
+                                      selected_year=year, column_xaxis='zone', column_stacked='attribute', column_multiple_bars='scenario',
+                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                      dict_scenarios=None,
+                                      format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
+                                      annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+
+        zones = epm_results['pCostSummary']['zone'].unique()
+        for zone in zones:
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/AnnualCostWithTrade_montecarlo_{zone}.png'
+
+            make_stacked_bar_subplots(df_cost_summary_baseline, filename, dict_colors=None, df_errorbars=df_cost_summary, selected_zone=zone,
+                                      selected_year=None, column_xaxis='year', column_stacked='attribute', column_multiple_bars='scenario',
+                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                      dict_scenarios=None,
+                                      format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
+                                      annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/AnnualCost_montecarlo_{zone}.png'
+
+            make_stacked_bar_subplots(df_cost_summary_baseline_notrade, filename, dict_colors=None, df_errorbars=df_cost_summary_no_trade, selected_zone=zone,
+                                      selected_year=None, column_xaxis='year', column_stacked='attribute', column_multiple_bars='scenario',
+                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                      dict_scenarios=None,
+                                      format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
+                                      annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
     if not montecarlo:
 
@@ -2296,20 +2364,37 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
                         color=dict_colors if dict_colors else None)
 
             # Plot error bars if provided
+            df_total = df_temp.sum(axis=1)
+
             if df_errorbars is not None:
                 df_errorbars_temp = df_errorbars[key].unstack('error')
                 df_err_low = df_errorbars_temp['min'].reindex(df_temp.index)
                 df_err_high = df_errorbars_temp['max'].reindex(df_temp.index)
 
-                for bar, idx in zip(ax.containers[0], df_temp.index):
-                    x = bar.get_x() + bar.get_width() / 2
-                    height = bar.get_y() + bar.get_height()  # top of the stack
+                for i, idx in enumerate(df_temp.index):
+                    x = i  # bar positions correspond to index in this order
+                    height = df_total.loc[idx]
                     low = df_err_low.loc[idx] if pd.notna(df_err_low.loc[idx]) else height
                     high = df_err_high.loc[idx] if pd.notna(df_err_high.loc[idx]) else height
                     err_low = max(height - low, 0)
                     err_high = max(high - height, 0)
                     ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none',
                                 color='black', capsize=3, linewidth=1)
+
+            # if df_errorbars is not None:
+            #     df_errorbars_temp = df_errorbars[key].unstack('error')
+            #     df_err_low = df_errorbars_temp['min'].reindex(df_temp.index)
+            #     df_err_high = df_errorbars_temp['max'].reindex(df_temp.index)
+            #
+            #     for bar, idx in zip(ax.containers[0], df_temp.index):
+            #         x = bar.get_x() + bar.get_width() / 2
+            #         height = bar.get_y() + bar.get_height()  # top of the stack
+            #         low = df_err_low.loc[idx] if pd.notna(df_err_low.loc[idx]) else height
+            #         high = df_err_high.loc[idx] if pd.notna(df_err_high.loc[idx]) else height
+            #         err_low = max(height - low, 0)
+            #         err_high = max(high - height, 0)
+            #         ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none',
+            #                     color='black', capsize=3, linewidth=1)
 
             # Annotate each bar
             if annotate:
@@ -2465,10 +2550,16 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
     if selected_zone is not None:
         df = df[(df['zone'] == selected_zone)]
         df = df.drop(columns=['zone'])
+        if df_errorbars is not None:
+            df_errorbars = df_errorbars[(df_errorbars['zone'] == selected_zone)]
+            df_errorbars = df_errorbars.drop(columns=['zone'])
 
     if selected_year is not None:
         df = df[(df['year'] == selected_year)]
         df = df.drop(columns=['year'])
+        if df_errorbars is not None:
+            df_errorbars = df_errorbars[(df_errorbars['year'] == selected_year)]
+            df_errorbars = df_errorbars.drop(columns=['year'])
 
     if dict_grouping is not None:
         for key, grouping in dict_grouping.items():
@@ -2479,9 +2570,14 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
         if column_stacked is not None:
             df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
             df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+
         else:
             df = (df.groupby([column_xaxis, column_multiple_bars], observed=False)[column_value].sum().reset_index())
             df = df.set_index([column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+        if df_errorbars is not None:
+            df_errorbars = (df_errorbars.groupby([column_xaxis, 'error', column_multiple_bars], observed=False)[
+                      column_value].sum().reset_index())
+            df_errorbars = df_errorbars.set_index(['error', column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
     else:  # no subplots in this case
         if column_stacked is not None:
             df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
@@ -2489,6 +2585,10 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
         else:
             df = (df.groupby([column_multiple_bars], observed=False)[column_value].sum().reset_index())
             df = df.set_index([column_multiple_bars])
+        if df_errorbars is not None:
+            df_errorbars = (df_errorbars.groupby(['error', column_multiple_bars], observed=False)[column_value].sum().reset_index())
+            df_errorbars = df_errorbars.set_index(['error', column_multiple_bars])
+
 
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]

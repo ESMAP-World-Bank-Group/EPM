@@ -300,6 +300,31 @@ except ValueError:
 except Exception as e:
     gams.printLog('Unexpected error when checking NewTransmission')
     raise # Re-raise the exception for debuggings
+    
+
+# Zones in pNewTransmission
+try:
+    if db["pNewTransmission"].records is not None:
+        newtransmission_df = db["pNewTransmission"].records
+        print(newtransmission_df)
+        zones1 = newtransmission_df['z'].unique()
+        zones2 = newtransmission_df['z2'].unique()
+        zones_newtransmission = set(zones1).union(set(zones2))
+        zcmap_df = db["zcmap"].records
+        zones_defined = set(zcmap_df['z'].unique())
+        new_zones = [z for z in zones_newtransmission if z not in zones_defined]
+        if new_zones:
+            msg = f"Warning: The following zones are used to defined new transmission lines in 'pNewTransmission':\n{new_zones} \n Tranmission lines involved will not be considered by the model. You should modify zone names to match the names defined in zcmap if you want."
+            gams.printLog(msg)
+            raise ValueError(msg)
+        else:
+            gams.printLog("Success: Zones in pNewTransmission match the zones defined in zcmap.")
+except ValueError:
+    raise  # Let this one bubble up with your message
+except Exception as e:
+    gams.printLog('Unexpected error when checking zones in NewTransmission')
+    raise # Re-raise the exception for debuggings
+        
         
 
 # Interconnected mode
