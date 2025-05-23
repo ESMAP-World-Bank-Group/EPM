@@ -161,7 +161,8 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
         
     if param_df['value'].isna().any():
         missing_rows = param_df[param_df['value'].isna()]  # Get rows with NaN values
-        gams.printLog(missing_rows)  # Print the rows where 'value' is NaN
+        gams.printLog(f"Warning: missing values found in '{param_name}'. This indicates that some generator-year combinations expected by the model are not provided in the input data. Generators in {param_ref} without default values are:")
+        gams.printLog(missing_rows.to_string())  # Print the rows where 'value' is NaN
         raise ValueError(f"Missing values in default is not permitted. To fix this bug ensure that all combination in {param_name} are included.")
 
     return param_df
