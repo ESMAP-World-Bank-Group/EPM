@@ -1021,13 +1021,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#sharing-with-stakeholders">
    Sharing with stakeholders
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#creating-a-tableau-public-visualization">
-     Creating a Tableau Public visualization
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -1041,13 +1034,14 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="tableau-workflow">
 <h1>Tableau workflow<a class="headerlink" href="#tableau-workflow" title="Permalink to this heading">#</a></h1>
 <p>A Tableau dashboard is available to explore model results. It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.</p>
+<p>Example: <em><a class="reference external" href="https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home">[SAPP Tableau Vizualization]</a></em></p>
+<p>This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.</p>
 <section id="modelers">
 <h2>Modelers<a class="headerlink" href="#modelers" title="Permalink to this heading">#</a></h2>
-<p>A World Bank Creator license is available for team members to modify data sources.
-To update the dashboard:</p>
+<p>To update or edit Tableau dashboards with new model outputs, a <strong>Tableau Creator license</strong> is required. WB team members can request access to a Creator license if needed.</p>
 <section id="loading-data">
 <h3>Loading data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h3>
-<p>Before you connect to the remote server, ensure you have the following:</p>
+<p>To run Tableau for EPM visualization, ensure the following:</p>
 <ul class="simple">
 <li><p>A WB computer or VDI (Virtual Desktop Infrastructure).</p></li>
 <li><p>A YubiKey (only required for VDI authentication).
@@ -1055,25 +1049,23 @@ The setup will not work outside the VDI or without a Yubikey.</p></li>
 </ul>
 <ol class="arabic simple">
 <li><p>Connect to the common VDI and launch the <code class="docutils literal notranslate"><span class="pre">Tableau</span></code> app. You may need to register if this is your first connection.</p></li>
-<li><p>Create the following structure</p></li>
+<li><p>Create the following folder structure</p></li>
 </ol>
 <div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>├── ESMAP_Viz.twb
 ├── ESMAP_logo.png
+├── linestring_countries_2.geojson
 └── Scena/
     ├── baseline/
-    │   ├── *.csv
+    │   ├── output_csv/
+        │   ├── *.csv
     ├── scenario_1/
     └── ...
 </pre></div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Place all scenario folders inside the <code class="docutils literal notranslate"><span class="pre">Scena/</span></code> directory. Each folder must contain the CSVs exported from the model.</p>
-<ul class="simple">
-<li><p>The dashboard expects structured CSV files. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.
+<li><p>Each scenario folder must contain an <code class="docutils literal notranslate"><span class="pre">output_csv/</span></code> subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.
 <strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p></li>
-</ul>
-</li>
-<li><p>Add the file <code class="docutils literal notranslate"><span class="pre">linestring_countries_2.geojson</span></code> inside the <code class="docutils literal notranslate"><span class="pre">Scena/</span></code> folder. This is required for geographic visualizations.</p></li>
+<li><p>Add the file <code class="docutils literal notranslate"><span class="pre">linestring_countries_2.geojson</span></code> in the same directory as the Tableau <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file.  This file is required for geographic visualizations. See the “Generating Map Files” [TODO] section for instructions.</p></li>
 </ol>
 </section>
 <section id="update-visualization">
@@ -1097,8 +1089,6 @@ Then re-extract to optimize the new data (Step 2)</p></li>
 <section id="sharing-with-stakeholders">
 <h2>Sharing with stakeholders<a class="headerlink" href="#sharing-with-stakeholders" title="Permalink to this heading">#</a></h2>
 <p>The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.</p>
-<section id="creating-a-tableau-public-visualization">
-<h3>Creating a Tableau Public visualization<a class="headerlink" href="#creating-a-tableau-public-visualization" title="Permalink to this heading">#</a></h3>
 <p>In Tableau, go to <code class="docutils literal notranslate"><span class="pre">Server</span></code>, <code class="docutils literal notranslate"><span class="pre">Tableau</span> <span class="pre">Public</span></code>, <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">to</span> <span class="pre">Tableau</span> <span class="pre">Public</span> <span class="pre">as</span></code>. Choose a name and complete the upload. Once published, a browser window will open with your dashboard.
 You may adapt the settings based on the intended usage of this visualization, by going to the <code class="docutils literal notranslate"><span class="pre">Settings</span></code> button:</p>
 <ul class="simple">
@@ -1106,7 +1096,6 @@ You may adapt the settings based on the intended usage of this visualization, by
 <li><p>Remove <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">Access</span></code> to prevent data download.</p></li>
 </ul>
 <p><strong>Important</strong>: this visualization will only work when data has been extracted. Tableau will prompt an error if you attempt to publish with live connections.</p>
-</section>
 </section>
 </section>
 
@@ -1189,13 +1178,6 @@ You may adapt the settings based on the intended usage of this visualization, by
   <a class="reference internal nav-link" href="#sharing-with-stakeholders">
    Sharing with stakeholders
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#creating-a-tableau-public-visualization">
-     Creating a Tableau Public visualization
-    </a>
-   </li>
-  </ul>
  </li>
 </ul>
 
@@ -1225,7 +1207,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on May 22, 2025.<br>
+Last updated on May 26, 2025.<br>
 </p>
   </div>
   
