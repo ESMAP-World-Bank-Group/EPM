@@ -2,36 +2,42 @@
 
 A Tableau dashboard is available to explore model results. It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
 
+Example: _[SAPP Tableau Viz](https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home)_
+
+This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.
+
 ## Modelers
 
-A World Bank Creator license is available for team members to modify data sources.
-To update the dashboard:
+To update or edit Tableau dashboards with new model outputs, a **Tableau Creator license** is required. WB team members can request access to a Creator license if needed.
 
-### Loading data
-
-Before you connect to the remote server, ensure you have the following:
+### Loading data 
+To run Tableau for EPM visualization, ensure the following:
 
 - A WB computer or VDI (Virtual Desktop Infrastructure). 
 - A YubiKey (only required for VDI authentication).
 The setup will not work outside the VDI or without a Yubikey.
 
 1. Connect to the common VDI and launch the `Tableau` app. You may need to register if this is your first connection.
-2. Upload results data, with the following structure
+2. Create the following folder structure
 ```markdown
 ├── ESMAP_Viz_v5.twb
 ├── ESMAP_logo.png
 ├── linestring_countries_2.geojson
 └── Scena/
     ├── baseline/
-    │   ├── *.csv
+    │   ├── output_csv/
+        │   ├── *.csv
     ├── scenario_1/
         ├── *.csv
     └── ...
 ```
+Click [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz_v5.twb). to download the `.twb` file
 
-3. Place all scenario folders inside the `Scena/` directory. Each folder must contain the CSVs exported from the model.
-   - The dashboard expects structured CSV files. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
+3. Each scenario folder must contain an `output_csv/` subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
+
 **Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
+
+4. Add the file `linestring_countries_2.geojson` in the same directory as the Tableau `.twb` file.  This file is required for geographic visualizations. See the "Generating Map Files" [TODO] section for instructions.
 4. Add the file `linestring_countries_2.geojson` inside the `Scena/` folder. This is required for geographic visualizations. Details on how to obtain this file are given below
 
 #### Creating geojson file
@@ -80,12 +86,12 @@ To avoid these delays, you must extract the data. For each of these four data se
    2. Replace extracts with new data: for each of the dataset above, go to `Extract` → `Remove` → `Remove the extract and delete the extract file`.
    Then re-extract to optimize the new data (Step 2)
 
+**Note**: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).
 
-## Sharing with stakeholders
+## Public
 
 The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.
 
-### Creating a Tableau Public visualization
 In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. Choose a name and complete the upload. Once published, a browser window will open with your dashboard.
 You may adapt the settings based on the intended usage of this visualization, by going to the `Settings` button:
 - Remove `Show Viz on Profile` if you want the visualization to only be accessible to those with a link (hide it from your public profile)
