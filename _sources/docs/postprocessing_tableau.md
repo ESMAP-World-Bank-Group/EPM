@@ -2,7 +2,7 @@
 
 A Tableau dashboard is available to explore model results. It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
 
-Example: _[[SAPP Tableau Vizualization]](https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home)_
+Example: _[SAPP Tableau Viz](https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home)_
 
 This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.
 
@@ -30,6 +30,7 @@ The setup will not work outside the VDI or without a Yubikey.
     ├── scenario_1/
     └── ...
 ```
+Click [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz v5.twb). to download the `.twb` file
 
 3. Each scenario folder must contain an `output_csv/` subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
 **Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
