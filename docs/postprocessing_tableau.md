@@ -30,7 +30,7 @@ The setup will not work outside the VDI or without a Yubikey.
     ├── scenario_1/
     └── ...
 ```
-Click [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz v5.twb). to download the `.twb` file
+Click [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz_v5.twb). to download the `.twb` file
 
 3. Each scenario folder must contain an `output_csv/` subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
 **Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
