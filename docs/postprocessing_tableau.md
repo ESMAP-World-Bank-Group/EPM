@@ -33,7 +33,9 @@ The setup will not work outside the VDI or without a Yubikey.
 Click [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz_v5.twb). to download the `.twb` file
 
 3. Each scenario folder must contain an `output_csv/` subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
+
 **Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
+
 4. Add the file `linestring_countries_2.geojson` in the same directory as the Tableau `.twb` file.  This file is required for geographic visualizations. See the "Generating Map Files" [TODO] section for instructions.
 
 ### Update visualization
