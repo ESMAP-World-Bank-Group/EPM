@@ -49,7 +49,7 @@ To avoid these delays, you must extract the data. For each of these four data se
    Then re-extract to optimize the new data (Step 2)
 
 
-## Sharing with stakeholders
+## Public
 
 The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.
 
