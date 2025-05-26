@@ -1034,7 +1034,7 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="tableau-workflow">
 <h1>Tableau workflow<a class="headerlink" href="#tableau-workflow" title="Permalink to this heading">#</a></h1>
 <p>A Tableau dashboard is available to explore model results. It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.</p>
-<p>Example: <em><a class="reference external" href="https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home">[SAPP Tableau Vizualization]</a></em></p>
+<p>Example: <em><a class="reference external" href="https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home">SAPP Tableau Viz</a></em></p>
 <p>This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.</p>
 <section id="modelers">
 <h2>Modelers<a class="headerlink" href="#modelers" title="Permalink to this heading">#</a></h2>
@@ -1062,6 +1062,7 @@ The setup will not work outside the VDI or without a Yubikey.</p></li>
     └── ...
 </pre></div>
 </div>
+<p>Click [here](<a class="github reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz">ESMAP-World-Bank-Group/EPM</a> v5.twb). to download the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file</p>
 <ol class="arabic simple" start="3">
 <li><p>Each scenario folder must contain an <code class="docutils literal notranslate"><span class="pre">output_csv/</span></code> subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.
 <strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p></li>
