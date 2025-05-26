@@ -48,6 +48,7 @@ To avoid these delays, you must extract the data. For each of these four data se
    2. Replace extracts with new data: for each of the dataset above, go to `Extract` → `Remove` → `Remove the extract and delete the extract file`.
    Then re-extract to optimize the new data (Step 2)
 
+**Note**: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).
 
 ## Public
 
