@@ -227,6 +227,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_selection.html">
+                        Specifying Input Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -234,15 +241,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data When Running EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
-                        Data Structure Documentation
+                        Input Description
                       </a>
                     </li>
                 
@@ -528,6 +528,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_selection.html">
+                        Specifying Input Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -535,15 +542,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data When Running EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
-                        Data Structure Documentation
+                        Input Description
                       </a>
                     </li>
                 
@@ -735,7 +735,6 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-
 <li class="toctree-l1"><a class="reference internal" href="introduction_case_studies.html">EPM Recent Case Studies</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
@@ -753,9 +752,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data When Running EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology overview</a></li>
@@ -1023,7 +1022,7 @@ title="Print to PDF"
 <h1>Common Issues &amp; Troubleshooting<a class="headerlink" href="#common-issues-troubleshooting" title="Permalink to this heading">#</a></h1>
 <p>The EPM code performs several automatic checks on input data. If the model fails or produces unexpected outputs, inspect the <strong>log file</strong> for error messages and failed tests. This page lists common issues and how to resolve them.</p>
 <p>If you encounter new issues, please contact the EPM team so we can expand this list.</p>
-<p>–</p>
+<hr class="docutils" />
 <section id="debugging-input-file-errors">
 <h2>Debugging Input File Errors<a class="headerlink" href="#debugging-input-file-errors" title="Permalink to this heading">#</a></h2>
 <p>Modifying input files or reading functions may introduce errors. To help identify which input is causing issues, we recommend enabling <strong>trace mode</strong> in GAMS Studio.</p>
@@ -1042,8 +1041,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 <p>Once debugging is complete and the issue is resolved, set <code class="docutils literal notranslate"><span class="pre">trace</span></code> back to <code class="docutils literal notranslate"><span class="pre">0</span></code> to reduce log output</p>
-<p>–</p>
 </section>
+<hr class="docutils" />
 <section id="time-definitions">
 <h2>Time Definitions<a class="headerlink" href="#time-definitions" title="Permalink to this heading">#</a></h2>
 <p>The following parameters must share the same time structure (q, d, t):</p>
