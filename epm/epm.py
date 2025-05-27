@@ -521,6 +521,8 @@ def launch_epm_multi_scenarios(config='config.csv',
             # First, run initial scenarios
             # Ensure config file has extended setting to save output
             with Pool(cpu) as pool:
+                for k in s.keys():
+                    assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
                 result = pool.starmap(launch_epm_multiprocess,
                                       [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
             # Modify config file to ensure limited output saved

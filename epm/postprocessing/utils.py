@@ -2595,10 +2595,11 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
 
-    stacked_bar_subplot(df, column_stacked, filename, dict_colors=dict_colors, df_errorbars=df_errorbars, format_y=format_y,
-                        rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                        order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
-                        format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row)
+    if not df.empty:  # handling the case where the subset is empty
+        stacked_bar_subplot(df, column_stacked, filename, dict_colors=dict_colors, df_errorbars=df_errorbars, format_y=format_y,
+                            rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
+                            order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
+                            format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
