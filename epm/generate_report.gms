@@ -881,7 +881,6 @@ pCapacityPlanH2(zh2map(z,hh),y)                 = vCapH2.l(hh,y)$pIncludeH2+1e-6
 pZonesperCountry(c) = sum(zcmap(z,c), 1);
 MaxZonesperCountry = smax(c,pZonesperCountry(c));
 
-$ifthen.excelreport %DOEXCELREPORT%==1
 $if not set OUTPUT_DIR $set OUTPUT_DIR output_csv
 * create output directory
 
@@ -962,235 +961,30 @@ endEmbeddedCode
 
 * Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValue, pSolarCost, pCapacityByTechandFuel, pPlantUtilizationTech
 
-$ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
-    execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
-                                     pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
-                                     pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
-                                     pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
-                                     pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
-                                     pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
-                                     pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
-                                     pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
-                                     pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
-                                     pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
-                                     pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
-                                     pNewCapacityTech, pNewCapacityTechCountry,
-                                     pReserveMarginRes, pReserveMarginResCountry,
-                                     pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
-                                     pAdditionalCapacityCountry,
-                                     pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
-                                     pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
-                                     pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
-                                     pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
-                                     pFuelUtilization,
-                                     pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
-                                     pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
-                                     pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
-                                     pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
+execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
+                                 pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
+                                 pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
+                                 pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
+                                 pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
+                                 pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
+                                 pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
+                                 pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
+                                 pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
+                                 pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
+                                 pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
+                                 pNewCapacityTech, pNewCapacityTechCountry,
+                                 pReserveMarginRes, pReserveMarginResCountry,
+                                 pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
+                                 pAdditionalCapacityCountry,
+                                 pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
+                                 pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
+                                 pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
+                                 pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
+                                 pFuelUtilization,
+                                 pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
+                                 pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
+                                 pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
+                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
 
-    ;
-$elseIfI.reportshort %REPORTSHORT% == 1
-*  Limited reporting is used
-    execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull
-    ;
-$endIf.reportshort
-
-file fgdxxrw / 'gdxxrw.out' /;
-file fxlsxrep / 'xlsxReport.cmd' /;
-singleton set execPlatform(*) / '' /;
-put_utility 'assignText' / 'execPlatform' / system.platform;
-scalar isWindows; loop(execPlatform, isWindows=ord(execPlatform.te,1)=ord('W',1));
-put$(not isWindows) fxlsxrep 'rem Run to create Excel files' / 'cd "%gams.workdir%"';
-$setNames "%gams.input%" fp fn fe
-
-
-
-
-   put_utility fgdxxrw 'ren' / 'WriteZonalandCountry.txt';
-   
-$  onPut 
-   par=pSettings                           rng=Settings_raw!A6                     rdim=1
-   par=pSummary                           rng=Summary!A6                          rdim=1
-   par=pSystemAverageCost                 rng=SysAverageCost!A5
-   par=pZonalAverageCost                  rng=ZonalAverageCost!A5
-   par=pAveragePrice                      rng=ZonalAverageCost!U5
-   par=pCountryAverageCost                rng=CountryAverageCost!A5
-   par=pAveragePriceCountry               rng=CountryMarginalCost!A5
-   par=pPrice                             rng=MarginalCost!A5
-   par=pAveragePriceExp                   rng=ExchangeCost!A5
-   par=pAveragePriceImp                   rng=ExchangeCost!Z5
-   par=pAveragePriceExpCountry            rng=ExchangeCostCountry!A5
-   par=pAveragePriceImpCountry            rng=ExchangeCostCountry!Z5
-   par=pAveragePriceHub                   rng=TradeHubPrice!A5
-   par=pCostSummary                       rng=CostSummary!A5
-   par=pCostSummaryCountry                rng=CostSummaryCountry!A5
-   par=pCostSummaryWeighted               rng=CostWeighted!A5
-   par=pCostSummaryWeightedCountry        rng=CostWeigthedCountry!A5
-   par=pCostSummaryWeightedAverageCountry rng=CostAverage!A5
-   par=pFuelCosts                         rng=FuelCosts!A5
-   par=pFuelCostsCountry                  rng=FuelCostsCountry!A5
-   par=pFuelConsumption                   rng=FuelConsumption!A5
-   par=pFuelConsumptionCountry            rng=FuelConsumptionCountry!A5
-   par=pDemandSupply                      rng=DemandSupply!A5
-   par=pDemandSupplyCountry               rng=DemandSupplyCountry!A5
-   par=pEnergyByFuel                      rng=EnergyByFuel!A5
-   par=pEnergyByFuelCountry               rng=EnergyByFuelCountry!A5
-   par=pEnergyByTechandFuelCountry        rng=EnergyByTechandFuelCountry!A5   
-   par=pEnergyMix                         rng=EnergyMix!A5
-   par=pEnergyByPlant                     rng=EnergyByPlant!A5
-   par=pInterchange                       rng=Interchange!A5
-   par=pInterchangeCountry                rng=InterchangeCountry!A5
-   par=pInterconUtilization               rng=InterconUtilization!A5
-   par=pLossesTransmission                rng=LossesTransmission!A5
-   par=pLossesTransmissionCountry         rng=LossesTransmissionCountry!A5
-   par=pAdditionalCapacity                rng=AddedTransCap!A5
-   par=pYearlyTrade                       rng=PriceTrade!A5
-   par=pHourlyTrade                       rng=HourlyTrade!A5
-   par=pYearlyTradeCountry                rng=PriceTradeCountry!A5
-   par=pHourlyTradeCountry                rng=HourlyTradeCountry!A5
-   par=pPeakCapacity                      rng=PeakAndCapacity!A5
-   par=pPeakCapacityCountry               rng=PeakAndCapacityCountry!A5
-   par=pCapacityByFuel                    rng=CapacityByFuel!A5
-   par=pCapacityByFuelCountry             rng=CapacityByFuelCountry!A5
-   par=pCapacityByTechandFuel             rng=CapacityByTechandFuel!A5
-   par=pCapacityByTechandFuelCountry      rng=CapacityByTechandFuelCountry!A5
-   par=pNewCapacityFuel                   rng=NewCapacityFuel!A5
-   par=pNewCapacityFuelCountry            rng=NewCapacityFuelCountry!A5
-   par=pUtilizationByFuel                 rng=UtilizationbyFuel!A5
-   par=pUtilizationByTechandFuel          rng=UtilizationbyTechandFuel!A5
-   par=pUtilizationByFuelCountry          rng=UtilizationbyFuelCountry!A5
-   par=pUtilizationByTechandFuelCountry   rng=UtilizationbyTechandFuelCountry!A5
-   par=pRetirements                       rng=Retirements!A5
-   par=pCapacityPlan                      rng=CapacityPlan!A5
-   par=pCapacityPlanCountry               rng=CapacityPlanCountry!A5
-   par=pSpinningReserveCostsZone          rng=ReserveCosts!A5
-   par=pSpinningReserveCostsCountry       rng=ReserveCostsCountry!A5
-   par=pSpinningReserveByPlantZone        rng=ReserveByPlant!A5
-   par=pSpinningReserveByPlantCountry     rng=ReserveByPlantCountry!A5
-   par=pEmissions                         rng=Emissions!A5
-   par=pEmissionsCountry1                  rng=EmissionsCountry!A5
-   par=pEmissionsIntensity                rng=EmissionsIntensity!A5
-   par=pEmissionsIntensityCountry         rng=EmissionsIntensityCountry!A5
-   par=pEmissionMarginalCosts             rng=EmissionMarginalCosts!A5
-   par=pEmissionMarginalCostsCountry      rng=EmissionMarginalCostsCountry!A5 
-   par=pPlantDispatch                     rng=PlantDispatch!A5
-   par=pDispatch                          rng=Dispatch!A5
-   par=pPlantUtilization                  rng=PlantUtilization!A5
-   par=pPlantUtilizationTech              rng=PlantUtilizationTech!A5
-   par=pPlantAnnualLCOE                   rng=PlantAnnualLCOE!A5
-   par=pCSPBalance                        rng=CSPBalance!A5
-   par=pCSPComponents                     rng=CSPComponents!A5
-   par=pPVwSTOBalance                     rng=PVSTOBalance!A5
-   par=pPVwSTOComponents                  rng=PVSTOComponents!A5
-   par=pStorageBalance                    rng=StorageBalance!A5
-   par=pStorageComponents                 rng=StorageComponents!A5
-   par=pSolarValue                        rng=SolarValue!A5
-   par=pSolarCost                         rng=SolarCost!A5
-   par=pCapacityCredit                    rng=CapacityCreditsPlants!A5   
-   par=pSolverParameters                  rng=SolverParameters!A5                 rdim=1
-   
-   par=pNewCapacityTech                   rng=NewCapacityTech!A5
-   par=pNewCapacityTechCountry            rng=NewCapacityTechCountry!A5
-   par=pReserveMarginRes                  rng=ReserveMargin!A5
-   par=pReserveMarginResCountry           rng=ReserveMarginCountry!A5
-   par=pCostsbyPlant                      rng=CostsbyPlant!A5
-   par=pRetirementsFuel                   rng=RetirementsFuel!A5
-   par=pRetirementsCountry                rng=RetirementsCountry!A5
-   par=pRetirementsFuelCountry            rng=RetirementsFuelCountry!A5
-   par=pAdditionalCapacityCountry         rng=AddedTransCapCountry!A5
-   
-***************************H2 model additions************************************************************
-   par=pDemandSupplyH2                      rng=DemandSupplyH2!A5
-   par=pCapacityPlanH2                      rng=CapacityPlanH2!A5
-   par=pDemandSupplyCountryH2               rng=DemandSupplyCountryH2!A5
-********************************************************************************************************   
-$  offPut
-   putclose;
-   
-
-
-if (pSeasonalReporting > 0,
-   put_utility fgdxxrw 'ren' / 'WriteSeasonal.txt';
-$  onPut
-   par=pDemandSupplySeason          rng=DemandSupplySeason!A5
-   par=pEnergyByPlantSeason         rng=EbyPlantSeason!A5
-   par=pInterchangeSeason           rng=InterchangeSeason!A5
-   par=pInterchangeSeasonCountry    rng=InterchangeSeasonCountry!A5
-   par=pSeasonTrade                 rng=TradeSeason!A5
-   par=pSeasonTradeCountry          rng=TradeSeasonCountry!A5
-$  offPut
-   putclose;
-   if (isWindows,
-      execute.checkErrorLevel 'gdxxrw epmresults.gdx output=EPMRESULTSSEASON.xlsx @WriteSeasonal.txt';
-   else
-      put fxlsxrep / 'gdxxrw "%fn%epmresults.gdx" output=EPMRESULTSSEASON.xlsx @"%fn%\WriteSeasonal.txt"';
-   );
-);
-$endif.excelreport
-
-
-*--- Summary Report  -- only generated if System Result Report option is set to YES
-Parameter
-   Capacity(*,f,y)                  'Capacity (MW)'         
-   CapacitySummary(*,*,y)           'Capacity summary (MW)' 
-   Energy(*,f,y)                    'Energy (GWh)'          
-   Costs(*,*,y)                     'Costs summary ($m)'    
-   Utilization(*,f,y)               'Utilization'           
-   CapacityType(*,f,tech,y)         'Capacity by type (MW)' 
-   AverageCost(*,*,y)               'Average cost ($/MWh)'  
 ;
-
-Capacity("Capacity MW",f,y) =  Sum(gprimf(g,f), vCap.l(g,y));
-
-CapacitySummary(" ","Peak"               ,y) = smax(c, pPeakCapacityCountry(c,"Peak demand: MW",y));
-CapacitySummary(" ","New capacity MW"    ,y) = sum(g, vBuild.l(g,y));
-CapacitySummary(" ","Retired capacity MW",y) = sum(g, vRetire.l(g,y));
-
-Energy("Energy GWh",f,y) = sum(c, pEnergyByFuelCountry(c,f,y));
-
-Costs("Costs","Capex: $m"       ,y)= sum(z, pCapex(z,y))/1e6;
-Costs("Costs","Fixed O&M: $m"   ,y)= sum(z, pFOM(z,y))/1e6;
-Costs("Costs","Variable O&M: $m",y)= sum(z, pVOM(z,y))/1e6;
-
-Costs("Costs","Total fuel: $m"  ,y)= sum(z, pFuelCostsZone(z,y))/1e6;
-
-Costs("Costs","Net Import: $m"  ,y)= sum(z, pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y))/1e6;
-
-
-Utilization("Utilization",f,y)$Capacity("Capacity MW",f,y) = Energy("Energy GWh",f,y)/Capacity("Capacity MW",f,y);
-
-CapacityType("Capacity by Type MW",f,tech,y) = sum((gprimf(g,f),gtechmap(g,tech)), vCap.l(g,y));
-
-
-AverageCost(" ","Average cost $/MWh",y) = (sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-                                         + sum(dc, vAnnCapex.l(dc,y))
-                                         + sum(z, pFOM(z,y) + pVOM(z,y) + pSpinResCosts(z,y) + pFuelCostsZone(z,y))
-                                          )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
-                                                 + pDenom2(z,y));
-                                                 
-$ifthen.excelreport %DOEXCELREPORT%==1
-if (pSystemResultReporting > 0,
-   put_utility fgdxxrw 'ren' / 'SystemResults.txt';
-$  onPut
-   par=Capacity        rng=Summary!A5
-   par=CapacitySummary rng=Summary!A15
-   par=Energy          rng=Summary!A25
-   par=Costs           rng=Summary!A35
-   par=Utilization     rng=Summary!A45
-   par=AverageCost     rng=Summary!A55
-   par=CapacityType    rng=Summary!A65
-$  offPut
-   putclose;
-
-   execute_unload 'systemresults', Capacity, CapacitySummary, Energy, Costs, Utilization, CapacityType, AverageCost;
-   if (isWindows,
-      execute.checkErrorLevel 'gdxxrw systemresults.gdx output=SystemResults.xlsx @SystemResults.txt';
-   else
-      put fxlsxrep / 'gdxxrw "%fn%\epmresults.gdx" output=SystemResults.xlsx @"%fn%\SystemResults.txt"';
-   );
-); // end of if statement producing system results file;
-
-put_utility$isWindows 'shell' / 'rm -f WriteZonalandCountry.txt WriteZonal.txt WriteSeasonal.txt SystemResults.txt'
-put_utility fgdxxrw 'ren' / 'gdxxrw.out'
-$endif.excelreport
