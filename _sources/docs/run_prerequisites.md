@@ -1,77 +1,64 @@
-
 # Prerequisites: Install Required Tools
 
-This guide explains how to install the necessary tools to run the EPM model. 
-It covers Git, Python/Conda, and GAMS setup for **macOS and Windows**. 
+This guide explains how to install the essential tools needed to run the EPM model on **macOS or Windows**.  
+You’ll need:
+
+- **Git** (to download and manage the code)
+- **GAMS** (required to run the model)
+- **Python & Conda** (optional, for enhanced functionalities via the Python API)
+- **A code editor** (optional, to help navigate and edit the codebase)
 
 ---
 
 ## 1. Git (Version Control System)
 
-Git is used to download and manage versions of the model repository.
+Git is used to download the EPM code from the GitHub repository and manage version updates.
 
 - **Windows**:  
-  [Download Git for Windows](https://git-scm.com/download/win) and install with default settings.
+  [Download Git for Windows](https://git-scm.com/download/win) and install it using default settings.
 
 - **macOS**:  
   [Download Git for macOS](https://sourceforge.net/projects/git-osx-installer/) and follow the installer instructions.
 
 - **Verify installation**:  
-  Open Terminal or Command Prompt and type:
+  Open Terminal or Command Prompt and run:
   ```sh
   git --version
   ```
 
 ---
 
-## 2. Python & Conda (Optional – Required for Python Scripts)
+## 2. GAMS (Optimization Engine)
 
-If you want to run the model using Python, install Miniconda.
+GAMS is used to solve the energy planning model. A free version with limited capabilities is available for non-commercial use.
 
-- **All platforms**:  
-  Download Miniconda from:  
-  [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)  
-  Choose the installer for your OS and follow the prompts.
-
-- **Verify installation**:
-  Open Terminal or Command Prompt and type:  
-  ```sh
-  python --version
-  conda --version
-  ```
-
----
-
-## 3. GAMS (Needed for GAMS Studio Users)
-
-- **All platforms**:  
-  Download and install GAMS from:  
+- **Download** (all platforms):  
   [https://www.gams.com/download/](https://www.gams.com/download/)
 
-GAMS is a commercial optimization software. You can use the free version for educational purposes, which has some limitations.
-Ask your institution for a license.
+Ask your institution or the World Bank team if you need a full license.
 
 ---
 
-## Adding GAMS to PATH
+### Add GAMS to Your System PATH
 
-This allows you to run GAMS from the command line.
+This step allows you to call `gams` from your terminal or command line.
 
-### Windows
-
-1. Open GAMS Studio, go to `Help > About`, and copy the installation path (e.g., `C:\GAMS\40.1`).
-2. Open the Start Menu, search for `Environment Variables`, and open it.
-3. In the `System Properties` window, click `Environment Variables`.
-4. Under **System Variables**, select `Path`, click `Edit`, then `New`, and paste the GAMS path.
-5. Click OK to save. Reopen Command Prompt and test:
+#### On Windows
+1. Open GAMS Studio → go to `Help > About` → copy the install path (e.g., `C:\GAMS\40.1`)
+2. Search for **Environment Variables** in the Start Menu and open it.
+3. In the **System Properties** window:
+   - Click `Environment Variables`
+   - Under **System Variables**, select `Path` and click `Edit`
+   - Click `New`, then paste the GAMS path
+4. Click OK and close all dialogs.
+5. Open a new Command Prompt and test:
    ```sh
    gams
    ```
 
-### macOS
-
-1. Locate your GAMS install folder (e.g., `/Applications/GAMS40.1`).
-2. Open Terminal and edit your shell config:
+#### On macOS
+1. Locate your GAMS installation (e.g., `/Applications/GAMS40.1`)
+2. Open Terminal and run:
    ```sh
    nano ~/.zshrc
    ```
@@ -85,4 +72,44 @@ This allows you to run GAMS from the command line.
    gams
    ```
 
-GAMS should now be accessible from the terminal.
+You should now be able to run GAMS from the terminal.
+
+---
+
+## 3. Python & Conda (Optional but Recommended)
+
+Python is used to run EPM through its Python API, enabling advanced features such as scenario generation and Monte Carlo analysis.
+
+- **Install Miniconda** (all platforms):  
+  [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)  
+  Download the installer for your operating system and follow the setup instructions.
+
+- **Verify installation**:  
+  Open Terminal or Command Prompt and run:
+  ```sh
+  python --version
+  conda --version
+  ```
+
+---
+
+## 4. Code Editor (Optional)
+
+A code editor helps you navigate, compare, and edit model files efficiently—even if you don't plan to modify the Python code.
+
+### Recommended Editors
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [PyCharm](https://www.jetbrains.com/pycharm/download/)
+
+These editors also offer:
+- Git integration to track changes and synchronize with the repository
+- File diff tools to compare versions
+- Syntax highlighting and code validation
+
+We especially recommend using them to:
+- Compare your regional/country version of the model with updates from the main EPM framework
+- Merge changes when the EPM core is updated to maintain compatibility
+
+---
+
+By installing these tools, you'll be ready to run and explore the EPM model both through GAMS Studio and Python scripting.

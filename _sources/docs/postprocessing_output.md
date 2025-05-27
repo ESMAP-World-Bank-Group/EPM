@@ -1,43 +1,51 @@
-# Output
+# Output Folder Structure
 
-To be able to get automatic output from the simulation as well as the good files structure, use the Python API.
+When launching the EPM model with the Python API, the framework generates a comprehensive set of outputs for analysis and visualization. These include:
 
-## Output Folder Structure
+- A GDX file (`epmresults.gdx`) with detailed model results
+- CSV outputs in the `output_csv/` folder for integration with tools such as Tableau
+- Automatically generated plots for dispatch, capacity, and energy mix
+- Spreadsheet summaries of key results
 
-After running the EPM model a general folder output named `simulations_run_<timestamp>` is created in the root directory of your project. This folder contains all the outputs from the simulation run, including plots, raw data, and summary files.
+All outputs are grouped by scenario (e.g., `baseline`) and stored in a timestamped output folder for traceability.
 
 
-All outputs are then structured by scenario (e.g., `baseline`), with an additiona `img/` folder for plots and figures. 
-The `img` only generates 
+After running the model, EPM creates a general output folder named:
 
-The structure is as follows:
 ```
-output/
+simulations_run_<timestamp>/
+```
+
+This folder includes all outputs from the simulation, organized as follows:
+
+```
+simulations_run_<timestamp>/
 │
-├── img/                             # All generated plots and figures
-│   ├── baseline/                    # Baseline scenario plots
-│   │   ├── dispatch/               # Hourly dispatch plots
-│   │   ├── energy/                 # Annual energy mix plots
-│   │   ├── capacity/               # New installed capacity timelines
-│   │   └── map/                    # Geographic visualizations (if any)
-│   └── scenarios_comparison/       # Plots comparing multiple scenarios that have been launched simultaneously
+├── img/                             # Automatically generated plots
+│   ├── baseline/                    # Plots for the baseline scenario
+│   │   ├── dispatch/                # Hourly dispatch plots
+│   │   ├── energy/                  # Annual energy mix plots
+│   │   ├── capacity/                # Installed capacity over time
+│   │   └── map/                     # Geographic visualizations (if applicable)
+│   └── scenarios_comparison/        # Plots comparing scenarios run together
 │
-├── baseline/                        # GAMS raw outputs and logs
-│   ├── main.lst                    # GAMS listing file (detailed solver log)
+├── baseline/                        # Scenario-specific GAMS outputs and logs
+│   ├── main.lst                     # GAMS listing file (solver logs and diagnostics)
 │
-├── epmresults.gdx                   # Main results in GDX format (GAMS)
-├── input_gdx/                       # Pre-processed GDX input files
-├── output_csv/                      # Model outputs in CSV format (used for Tableau connectivity)
+├── epmresults.gdx                   # GDX file with model results
+├── input_gdx/                       # Pre-processed input files used by GAMS
+├── output_csv/                      # All results exported as CSV (for postprocessing or dashboards)
 │
-├── cplex.opt                        # Solver options used for this run
-├── summary.csv                     # Summary of key results (default)
-├── summary_detailed.csv            # Extended version of the summary
-├── simulations_scenarios.csv       # List of scenarios and status
+├── cplex.opt                        # Solver configuration used for the run
+├── summary.csv                      # High-level summary of model results
+├── summary_detailed.csv             # Extended summary with breakdowns by tech, fuel, zone, etc.
+├── simulations_scenarios.csv        # Metadata and status for all scenarios run
 ```
 
 ---
 
 ### Notes
 
-- This structure is automatically created for each run.
-- If you run **multiple scenarios**, each scenario will generate its own `baseline/`-like folder or be included in summary outputs depending on the configuration.
+- This structure is generated **automatically** for each run.
+- When running **multiple scenarios**, results are merged in shared summary and comparison outputs, but each scenario still produces its own dedicated subfolders.
+- The `img/` folder only appears if plotting is enabled and includes both per-scenario and cross-scenario visuals.
