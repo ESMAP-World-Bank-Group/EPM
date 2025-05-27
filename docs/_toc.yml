@@ -20,8 +20,8 @@ parts:
   - caption: Input
     chapters: 
       - file: docs/input_structure.md
-      - file: docs/input_overview.md
       - file: docs/input_selection.md
+      - file: docs/input_overview.md
       - file: docs/input_detailed.md
       - file: docs/set_definition.md
       - file: docs/input_solver_options.md
@@ -39,14 +39,9 @@ parts:
         - file: docs/model_formulation
   - caption: Advanced Topics
     chapters:
-        - file: docs/advanced_documentation
         - file: docs/advanced_python
         - file: docs/postprocessing
-        - file: docs/planning_analysis.ipynb
-        - file: docs/planning_analysis_liberia.ipynb
-        - file: docs/planning_analysis_rwanda.ipynb
         - file: docs/planning_analysis_sapp.ipynb
-        - file: docs/planning_analysis_eapp.ipynb
         - file: docs/contributing.md
   - caption: Related Projects
     chapters:

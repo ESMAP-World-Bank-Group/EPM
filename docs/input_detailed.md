@@ -1,4 +1,4 @@
-# Data Structure Documentation
+# Input Description
 
 Input files are  located in the data_input folder, and are organized into several subfolders based on their type and purpose.
 
