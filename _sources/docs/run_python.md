@@ -139,7 +139,7 @@ This command will:
 - Run the model for each selected scenario 
 - Run Monte Carlo dispatch simulations for each sample
 
-**Important:** Set `reportshort = 2` in your configuration to obtain the full outputs when running the default scenarios. This saves detailed results used to fix investment decisions before the Monte Carlo step.
+**Important:** Set `solvemode = 1` in your configuration to obtain the full outputs when running the default scenarios (in `PA_p.gdx` file). This saves detailed results used to fix investment decisions before the Monte Carlo step.
 
 
 
