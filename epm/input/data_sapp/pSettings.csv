@@ -22,7 +22,7 @@ Retire plants on economic grounds,econRetire,0
 Run in interconnected mode,interconMode,1
 Allow exports based on price,allowExports,0
 Remove transfer limits,NoTransferLim,0
-Allow expansion of transfer limits,pAllowHighTransfer,0
+Allow expansion of transfer limits,pAllowHighTransfer,1
 Use less detailed demand definition,altDemand,1
 Allow capex trajectory,Captraj,0
 Include H2 production,IncludeH2,0
