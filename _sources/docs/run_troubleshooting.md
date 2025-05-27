@@ -84,8 +84,7 @@ The following input files must use zone names that match those defined in `zcmap
 
 The list of zones used in your model is defined in the file `zcmap.csv`. This file acts as the master reference for zone names across the entire model workflow. 
 > ⚠️ All other input files that refer to zones will **only** recognize zones that are listed in `zcmap.csv`.
-> 
-> 
+ 
 - `pGenDataExcel`
 - `pGenDataExcelDefault`
 - `pCapexTrajectoriesDefault`

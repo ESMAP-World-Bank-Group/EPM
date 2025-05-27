@@ -1060,21 +1060,11 @@ title="Print to PDF"
      B. Sensitivity Analysis
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-monte-carlo-analysis-experimental">
-     C. Monte Carlo Analysis (Experimental)
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#available-command-line-options">
-   5. Available Command-Line Options
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-combined-usage">
-   6. Example: Combined Usage
+  <a class="reference internal nav-link" href="#monte-carlo-analysis-ongoing-development">
+   Monte-Carlo analysis (ongoing development)
   </a>
  </li>
 </ul>
@@ -1174,106 +1164,65 @@ title="Print to PDF"
 </div>
 </li>
 </ul>
+<p>To run EPM with a specific input folder and enable sensitivity analysis, use:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
+</pre></div>
+</div>
+<p>This will execute EPM using the <code class="docutils literal notranslate"><span class="pre">my_data</span></code> folder as input and perform sensitivity analysis.</p>
+<p>For advanced users, additional arguments can be combined as needed to customize the simulation workflow.</p>
 </section>
-<section id="c-monte-carlo-analysis-experimental">
-<h3>C. Monte Carlo Analysis (Experimental)<a class="headerlink" href="#c-monte-carlo-analysis-experimental" title="Permalink to this heading">#</a></h3>
-<p>Monte Carlo allows evaluating uncertainty across input ranges.</p>
-<ol class="arabic">
-<li><p>Create an uncertainty file (<code class="docutils literal notranslate"><span class="pre">your_uncertainty_file.csv</span></code>) with the following columns:</p>
+</section>
+<section id="monte-carlo-analysis-ongoing-development">
+<h2>Monte-Carlo analysis (ongoing development)<a class="headerlink" href="#monte-carlo-analysis-ongoing-development" title="Permalink to this heading">#</a></h2>
+<p>EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.</p>
+<p>What the code does is:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">feature</span></code>: e.g., <code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>, <code class="docutils literal notranslate"><span class="pre">demand</span></code>, <code class="docutils literal notranslate"><span class="pre">hydro</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: distribution type (e.g., <code class="docutils literal notranslate"><span class="pre">Uniform</span></code>)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lowerbound</span></code>, <code class="docutils literal notranslate"><span class="pre">upperbound</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">zones</span></code> (optional): semicolon-separated list of zones, or leave blank for all</p></li>
-</ul>
-</li>
-<li><p>Example run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--montecarlo<span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--uncertainties<span class="w"> </span>input/data/your_uncertainty_file.csv
-</pre></div>
-</div>
-</li>
-<li><p>You can restrict Monte Carlo to selected scenarios:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>--scenarios<span class="w"> </span>input/scenarios.csv<span class="w"> </span>--selected_scenarios<span class="w"> </span>Scenario1<span class="w"> </span>Scenario2
-</pre></div>
-</div>
-</li>
+<li><p>You define uncertain parameters and their ranges.</p></li>
+<li><p>The model creates several versions (samples) of each scenario based on these uncertainties.</p></li>
+<li><p>For each scenario:</p>
+<ol class="arabic simple">
+<li><p>It runs the model with your default settings and optimizes investment pathways (classical EPM approach).</p></li>
+<li><p>Then, it runs Monte Carlo simulations where these investment pathways are fixed and only dispatch is optimized.</p></li>
 </ol>
-<blockquote>
-<div><p>Tip: Set <code class="docutils literal notranslate"><span class="pre">reportshort</span> <span class="pre">=</span> <span class="pre">1</span></code> in your config to reduce memory use during multiple runs.</p>
-</div></blockquote>
-</section>
-</section>
-<hr class="docutils" />
-<section id="available-command-line-options">
-<h2>5. Available Command-Line Options<a class="headerlink" href="#available-command-line-options" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Argument</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>Default</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--config</span></code></p></td>
-<td><p>Path to config file</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--folder_input</span></code></p></td>
-<td><p>Input folder with model data</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">data_gambia</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code></p></td>
-<td><p>Path to scenarios CSV file</p></td>
-<td><p><em>(None)</em></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code></p></td>
-<td><p>List of scenario names to run</p></td>
-<td><p>All in file</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></p></td>
-<td><p>Enables sensitivity analysis</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code></p></td>
-<td><p>Enables Monte Carlo analysis</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span></code></p></td>
-<td><p>Number of Monte Carlo samples</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">10</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--uncertainties</span></code></p></td>
-<td><p>Path to uncertainty definition CSV</p></td>
-<td><p><em>(None)</em></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code></p></td>
-<td><p>Runs only the postprocessing step</p></td>
-<td><p><em>(None)</em></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--no_plot_dispatch</span></code></p></td>
-<td><p>Disables automatic plotting of dispatch results</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<hr class="docutils" />
-<section id="example-combined-usage">
-<h2>6. Example: Combined Usage<a class="headerlink" href="#example-combined-usage" title="Permalink to this heading">#</a></h2>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>input/data_eapp<span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--scenarios<span class="w"> </span>input/scenarios.csv<span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--selected_scenarios<span class="w"> </span>HighDemand<span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--montecarlo<span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--montecarlo_samples<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
-<span class="w">              </span>--uncertainties<span class="w"> </span>input/uncertainty_file.csv
+</li>
+<li><p>Graphs are automatically generated to show the results and how they vary due to uncertainty.</p></li>
+</ul>
+<p>How to run this feature:</p>
+<ol class="arabic simple">
+<li><p>Define uncertainty ranges
+Create a CSV file specifying the uncertain parameters. This file should include the following columns:</p></li>
+</ol>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature</span></code>: the name of the uncertain input (e.g., fossilfuel, demand)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: the type of probability distribution (e.g., Uniform, Normal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lowerbound</span></code>: the lower limit of the distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">upperbound</span></code>: the upper limit of the distribution</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zones</span></code> (optional): List of zones where the uncertainty applies, separated by semicolons (e.g., <code class="docutils literal notranslate"><span class="pre">Zambia;Zimbabwe</span></code>).
+If left empty, the uncertainty applies to all zones.</p></li>
+</ul>
+<p>Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
+Uncertainty sampling is powered by the (<code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package)[<a class="reference external" href="https://pypi.org/project/chaospy/">https://pypi.org/project/chaospy/</a>], so only distributions available in <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> can be used.</p>
+<p>Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">demand</span></code>: scales the entire demand forecast (peak &amp; energy) uniformly by a percentage across zones specified</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hydro</span></code>: scales hydro trajectories uniformly by a percentage  across zones specified
+Example file: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv">mc_uncertainties.csv example</a>.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Specify in your command-line:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--config<span class="w"> </span>input/my_data/my_config.csv<span class="w"> </span>--scenarios<span class="w"> </span>input/my_data/my_scenarios.csv<span class="w"> </span>--selected<span class="w"> </span>scenarios<span class="w"> </span>baseline<span class="w"> </span>Scenario1<span class="w"> </span>Scenario2<span class="w">  </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/data_sapp/your_uncertainty_file.csv<span class="w"> </span>--no_plot_dispatch
 </pre></div>
 </div>
-<p>This command runs Monte Carlo simulations on the <code class="docutils literal notranslate"><span class="pre">HighDemand</span></code> scenario using 50 samples.</p>
-<hr class="docutils" />
-<p>Let me know if you want this section integrated into the full documentation file or need downloadable assets.</p>
+<p>This command will:</p>
+<ul class="simple">
+<li><p>Load the uncertainties defined in your file (<code class="docutils literal notranslate"><span class="pre">--uncertainties</span> <span class="pre">input/data_sapp/your_uncertainty_file.csv</span></code>)</p></li>
+<li><p>Generate 20 samples from the joint probability distribution (<code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span> <span class="pre">20</span></code>)</p></li>
+<li><p>Run the model for each selected scenario</p></li>
+<li><p>Run Monte Carlo dispatch simulations for each sample</p></li>
+</ul>
+<p><strong>Important:</strong> Set <code class="docutils literal notranslate"><span class="pre">reportshort</span> <span class="pre">=</span> <span class="pre">2</span></code> in your configuration to obtain the full outputs when running the default scenarios. This saves detailed results used to fix investment decisions before the Monte Carlo step.</p>
 </section>
 </section>
 
@@ -1365,21 +1314,11 @@ title="Print to PDF"
      B. Sensitivity Analysis
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-monte-carlo-analysis-experimental">
-     C. Monte Carlo Analysis (Experimental)
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#available-command-line-options">
-   5. Available Command-Line Options
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-combined-usage">
-   6. Example: Combined Usage
+  <a class="reference internal nav-link" href="#monte-carlo-analysis-ongoing-development">
+   Monte-Carlo analysis (ongoing development)
   </a>
  </li>
 </ul>
