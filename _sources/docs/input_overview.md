@@ -1,4 +1,4 @@
-# Data Input Overview
+# Input Overview
 
 The following table lists the key input files used in the EPM model, along with a brief description and their structural dimensions. These files define model parameters, energy demand, supply data, constraints, and trade settings.
 
