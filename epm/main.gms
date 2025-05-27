@@ -148,6 +148,7 @@ $endIf.timestamp
 Set
 *   tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
+   tstatus  'transmission status' / Candidate, Committed/
    H2status  'H2 generation plant status' / Existing, Candidate, Committed /
    techhdr  'techdata headers' / 'RE Technology', 'Hourly Variation' /
    pe       'peak energy for demand forecast' /'peak', 'energy'/
@@ -315,6 +316,7 @@ Set
    /
    gtechmap(g,tech)     'Generator-technology mapping'
    gstatusmap(g,gstatus) 'Generator status mapping'
+   tstatusmap(z,z2,tstatus) 'Transmission status mapping'
    Zd(z)                'Zone definitions'
    Zt(z)                'Zone types'
    stg(g)               'Grid storage units'
@@ -327,7 +329,7 @@ $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
    shdr         'Additional headers for pStorData' / VOMMWh /
-   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor/
+   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor, Status/
 ;
 $offmulti
 
@@ -354,7 +356,7 @@ $if not errorfree $abort Error before reading input
 $include %READER_FILE%
 
 * Open the specified GDX input file for reading
-$gdxIn %GDX_INPUT%
+$gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
 $load zcmap pSettings y pHours
@@ -391,17 +393,30 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
 *-------------------------------------------------------------------------------------
 * Make input verification
-
+$log ##########################
+$log ### INPUT VERIFICATION ###
+$log ##########################
 $include %VERIFICATION_FILE%
 $if not errorfree $abort PythonError in input_verification.gms
+$log ##############################
+$log ### INPUT VERIFICATION END ###
+$log ##############################
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
+
+$log ###########################
+$log ##### INPUT TREATMENT #####
+$log ###########################
 
 $onMulti
 $include %TREATMENT_FILE%
 $if not errorfree $abort PythonError in input_treatment.gms
 $offMulti
+
+$log ###############################
+$log ##### INPUT TREATMENT END #####
+$log ###############################
 
 *-------------------------------------------------------------------------------------
 
@@ -414,6 +429,7 @@ pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
 
 * Generate gfmap and others from pGenDataExcel
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
+parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 
 *H2 model parameter
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
@@ -448,6 +464,7 @@ gfmap(g,f) = gfmap(g,f)
 
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
+
 
 pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataExcel(g,z,tech,f,"Heatrate"));
 pHeatrate(g,f2)$(gfmap(g,f2) and not gprimf(g,f2)) = 
@@ -660,6 +677,11 @@ nREH2(g)= not REH2(g);
 
 $offIDCProtect
 
+*-------------------------------------------------------------------
+* TOPOLOGY DEFINITION
+*-------------------------------------------------------------------
+
+
 * Defining sTopology based on existing, committed and candidate transmission lines
 sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr));
 
@@ -671,6 +693,21 @@ pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 * Default life for transmission lines
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
 $onIDCProtect
+
+
+* Map transmission status from input data
+display sTopology;
+
+tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
+
+* Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
+commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
+
+
+*-------------------------------------------------------------------
+* CAPACITY CREDIT
+*-------------------------------------------------------------------
+
 
 * Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
@@ -711,6 +748,11 @@ pStoPVProfile(so,q,d,t)  =  sum((z,tech)$(gtechmap(so,tech) and gzmap(so,z)), pV
 * H2 model parameters
 pCapexTrajectoriesH2(hh,y) =1;
 pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
+
+
+*-------------------------------------------------------------------
+* COST OF CAPITAL
+*-------------------------------------------------------------------
 
 
 * Set the weight of the start year to 1.0
@@ -775,6 +817,21 @@ vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
 
+sAdditionalTransfer(sTopology(z,z2),y) = yes;
+sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
+
+display sAdditionalTransfer;
+display commtransmission;
+display pNewTransmission;
+
+* Fix
+vAdditionalTransfer.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and pAllowHighTransfer) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vAdditionalTransfer.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and pAllowHighTransfer) = 0;
+
+* Compute bounds 
+vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vAdditionalTransfer.lo(z,z2,y) - vAdditionalTransfer.up(z,z2,y-1));
+vBuildTransmission.up(sTopology(z,z2),y) = max(0,vAdditionalTransfer.up(z,z2,y) - vAdditionalTransfer.lo(z,z2,y-1));
+
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
 
@@ -784,6 +841,35 @@ vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0
 *-------------------------------------------------------------------
 * Fixed conditions
 *-------------------------------------------------------------------
+
+$ifthen set LOADSOLPATH
+  execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vRetire.l, vCapStor.l, vRetireStor.l
+*  vAdditionalTransfer.l
+*  vCapTherm.l,
+*  vBuildTherm.l, vRetireTherm.l, vAdditionalTransfer.l, vYearlyTransmissionAdditions.l, vCapH2.l, vBuildH2.l, vRetireH2.l,
+*  vBuildTransmission.l, vBuiltCapVar.l, vRetireCapVar.l, vBuiltCapVarH2.l, vRetireCapVarH2.l;
+;
+  
+  vCap.fx(g,y) = round(vCap.l(g,y), 1);
+  vRetire.fx(g,y) = round(vRetire.l(g,y),1);
+  vCapStor.fx(g,y) = round(vCapStor.l(g,y),1);
+  vRetireStor.fx(g,y) = round(vRetireStor.l(g,y),1);
+*  vAnnCapex.fx(g,y) = vAnnCapex.l(g,y);
+*  vCapTherm.fx(g,y) = vCapTherm.l(g,y);
+*  vBuildStor.fx(g,y) = vBuildStor.l(g,y);
+*  vBuildTherm.fx(g,y) = vBuildTherm.l(g,y);
+*  vRetireTherm.fx(g,y) = vRetireTherm.l(g,y);
+*  vAdditionalTransfer.fx(z,z2,y) = vAdditionalTransfer.l(z,z2,y);
+*  vYearlyTransmissionAdditions.fx(z,y) = vYearlyTransmissionAdditions.l(z,y);
+*  vCapH2.fx(hh,y) = vCapH2.l(hh,y);
+*  vBuildH2.fx(hh,y) = vBuildH2.l(hh,y);
+*  vRetireH2.fx(hh,y) = vRetireH2.l(hh,y);
+*  vBuildTransmission.fx(z,z2,y) = vBuildTransmission.l(z,z2,y);
+*  vBuiltCapVar.fx(g,y) = vBuiltCapVar.l(g,y);
+*  vRetireCapVar.fx(g,y) = vRetireCapVar.l(g,y);
+*  vBuiltCapVarH2.fx(hh,y) = vBuiltCapVarH2.l(hh,y);
+*  vRetireCapVarH2.fx(hh,y) = vRetireCapVarH2.l(hh,y);
+$endIf
 
 * Fix capacity to zero for generation projects that have not yet started in a given year
 vCap.fx(g,y)$(pGenData(g,"StYr") > y.val) = 0;
@@ -876,9 +962,6 @@ sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 
 
-sAdditionalTransfer(z,z2,y) = yes;
-sAdditionalTransfer(z,z2,y) $(y.val < pNewTransmission(z,z2,"EarliestEntry")) = no;
-
 sFlow(z,z2,q,d,t,y) = yes;
 sFlow(z,z2,q,d,t,y)$(not sTopology(z,z2)) = no;
 
@@ -890,9 +973,6 @@ $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
 $onIDCProtect
 
-
-display vCapStor.l, vBuildStor.l, vCap.l, vBuild.l;
-*$exit
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
@@ -911,29 +991,52 @@ if (card(mipopt),
 * Enable the solver to read an external solver option file
 PA.optfile = 1;
 
+
 * ############## SOLVE ##############
-* Solvemode == 1 solves as usual but generates a savepoint file to skip the solve
-* Solvemode == 0 uses a savepoint file to skip the solve
-* This speeds up development of post solve features
+* SOLVEMODE == 2 solves as usual
+* SOLVEMODE == 1 solves as usual but generates a savepoint file at the end
+* SOLVEMODE == 0 uses a savepoint file to skip the solve (This speeds up development of post solve features)
 
-$if not set SOLVE $set SOLVE 1
+$if not set SOLVEMODE $set SOLVEMODE 2 
+$log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
-$ifThenI.solvemode %SOLVE% == 1
+* SOLVER TYPE
+* MODELTYPE == MIP solves as a MIP
+* MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
+
+$if not set MODELTYPE $set MODELTYPE MIP
+$log LOG: Solving with MODELTYPE = "%MODELTYPE%"
+
+$ifThenI.solvemode %SOLVEMODE% == 2
+*  Solve model as usual
+   Solve PA using %MODELTYPE% minimizing vNPVcost;
+*  Abort if model was not solved successfully
+   abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
+$elseIfI.solvemode %SOLVEMODE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;
-   Solve PA using MIP minimizing vNPVcost;
-$elseIfI.solvemode %SOLVE% == 0
+   Solve PA using %MODELTYPE% minimizing vNPVcost;
+*  Abort if model was not solved successfully
+   abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
+$elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1;
-   Solve PA using MIP minimizing vNPVcost;
+   Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Use savepoint file to load state of the solve from savepoint file
    execute_loadpoint "PA_p.gdx";
 $endIf.solvemode
 * ####################################
 
 
+$log ###############################
+$log ##### GENERATING REPORT #####
+$log ###############################
 
 * Include the external report file specified by `%REPORT_FILE%`
+
+$if not set REPORTSHORT $set REPORTSHORT 0
+$log LOG: REPORTSHORT = "%REPORTSHORT%"
+
 $include %REPORT_FILE%
 
 *-------------------------------------------------------------------------------------
@@ -943,33 +1046,6 @@ $include %REPORT_FILE%
 
 *-------------------------------------------------------------------------------------
 
-
-* If memory monitoring is enabled, execute embedded Python code to log memory usage details
-$ifThen %gams.ProcTreeMemMonitor%==1
-embeddedCode Python:
-gams.printLog('')
-gams.printLog('Domains:')
-for s in [ 'g', 'f', 'y', 'q', 'd', 't', 'z', 'c']: # domains
-  gams.printLog(f'{s.ljust(20)} {str(len(gams.db[s])).rjust(10)}')
-gams.printLog('')
-gams.printLog('Maps:')
-for s in gams.db:
-  if isinstance(s,GamsSet) and s.name.lower().find('map') >= 0 and len(s)>0:
-    gams.printLog(f'{s.name.ljust(20)} {str(len(s)).rjust(10)}')
-gs = []
-for s in gams.db:
-  if not isinstance(s,GamsSet) and len(s)>10000:
-    gs.append((type(s),s.name,len(s)))
-gs.sort(key=lambda x: x[2], reverse=True)
-for t in zip([GamsParameter,GamsVariable,GamsEquation],['Parameter','Variable','Equation']):
-  gams.printLog('')
-  gams.printLog(f'{t[1]}:')
-  for s in gs:
-    if not s[0] == t[0]:
-      continue
-    gams.printLog(f'{s[1].ljust(20)} {str(s[2]).rjust(10)}')
-endEmbeddedCode
-$endif
 
 
 * Move outputs to a timestamped folder using embedded Python

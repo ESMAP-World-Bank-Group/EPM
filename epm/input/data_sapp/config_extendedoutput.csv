@@ -15,7 +15,7 @@ pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/srelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
-pGenDataExcel,supply/pGenDataExcelCustom.csv
+pGenDataExcel,supply/pGenDataExcelCustomUpdate.csv
 pGenDataExcelDefault,supply/pGenDataExcelDefaultRampHydro.csv
 pAvailability,supply/pAvailabilityCustomUpdated.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
@@ -52,7 +52,7 @@ pCapexTrajectoryH2,h2/pCapexTrajectoryH2.csv
 pExternalH2,h2/pExternalH2.csv
 pFuelDataH2,h2/pFuelDataH2.csv
 SOLVER,
-solvemode,2
+solvemode,1
 trace,0
 reportshort,0
 modeltype,mip
