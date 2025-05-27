@@ -126,7 +126,7 @@ HwangeII_TH_ZWE,Zimbabwe,ST,Coal,2020,2070,320,1,,,,,,,,,,0,,,0,,0,0.1,0,320
 IndolaHFO_TH_ZMB,Zambia,ICE,HFO,2020,2055,110,1,,9.748974861,,,,,,,,0,,0,0,,0,0,0,0
 Inga1_HY_DRC,DRC,ReservoirHydro,Water,1974,2060,351,1,,,,,,0.385,,,0,0,50,,0,,0,0,0,0
 Inga2_HY_DRC,DRC,ReservoirHydro,Water,1982,2060,1424,1,,,,,,0.435,,,0,0,50,,0,,0,0,0,0
-Inga3BC_HY_DRC,DRC,ReservoirHydro,Water,2035,2085,2800,3,,,,,,0.45,,,0,2.805581395,50,1400,0,,0,0,0,0
+Inga3BC_HY_DRC,DRC,ReservoirHydro,Water,2037,2085,2800,3,,,,,,0.45,,,0,2.805581395,50,1400,0,,0,0,0,0
 Ingula_HY_ZAF,South_Africa,Storage,Water,2017,2060,1324,1,,0,1,1,0,0.8,46500,0.55,0,0,50,0,0,,0,0,0,0
 IPP_Luderitz_Wind_NAM,Namibia,OnshoreWind,Wind,2027,2057,50,2,,0,1,1,,,,,,,,50,0,,0,0,1,0
 Iringa_Ibosa,Tanzania,ReservoirHydro,Water,2028,2060,36,3,,,0.25,0.25,,0.34,4090,0.5,,3.4,,36,,,,,,
@@ -319,7 +319,7 @@ New_OnshoreWind_ZMB,Zambia,OnshoreWind,Wind,2026,2061,5000,3,,0,1,1,,,,,,,,375,0
 New_OnshoreWind_ZWE,Zimbabwe,OnshoreWind,Wind,2026,2058,8000,3,,0,1,1,,,,,,,,375,0,,0,0,1,0
 New_Pangani_Falls,Tanzania,ReservoirHydro,Water,1995,2060,68,1,,,0.25,0.25,,0.2,3400,0.003,,,,,,,,,,
 New_PV_2026_AGO,Angola,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,1000,0,,0,0,1,0
-New_PV_2026_MOZ,Mozambique,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,500,0,,0,0,1,0
+New_PV_2026_MOZ,Mozambique,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,250,0,,0,0,1,0
 New_PV_2030_AGO,Angola,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,1000,0,,0,0,1,0
 New_PV_2030_MOZ,Mozambique,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,250,0,,0,0,1,0
 New_PV_BWA,Botswana,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,200,0,,0,0,1,0
