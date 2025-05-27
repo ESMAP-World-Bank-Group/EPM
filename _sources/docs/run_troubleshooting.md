@@ -8,7 +8,7 @@
 
 ### Default dataframes
 
-Files such as `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` should include all combinations of zone, tech, and fuel defined in pGenDataExcel. Typical error:
+Files such as `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` should include all combinations of zone, tech, and fuel defined in pGenDataExcel. If this is not the case, this will raise an error. Typical error:
 
 ``` 
   File "<string>", line 134, in prepare_generatorbased_parameter
@@ -46,3 +46,27 @@ Exception from Python (line 455): <class 'ValueError'>: Error: The following fue
 ### Transmission data
 - All (z, z2) pairs in 'pTransferLimit' should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.
 - Each candidate transmission line should only specified once in pNewTransmission. An error is raised otherwise.
+
+### Zone definition
+
+Zones are defined in the file `zcmap.csv`. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
+pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactor, pVREProfile
+
+The following input files must use zone names that match those defined in `zcmap.csv`:
+
+The list of zones used in your model is defined in the file `zcmap.csv`. This file acts as the master reference for zone names across the entire model workflow. 
+> ⚠️ All other input files that refer to zones will **only** recognize zones that are listed in `zcmap.csv`.
+> 
+> 
+- `pGenDataExcel`
+- `pGenDataExcelDefault`
+- `pCapexTrajectoriesDefault`
+- `pAvailabilityDefault`
+- `pNewTransmission`
+- `pDemandProfile`
+- `pDemandForecast`
+- `pTransferLimit`
+- `pLossFactor`
+- `pVREProfile`
+
+We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.
