@@ -225,8 +225,17 @@ try:
     # Calculate the Energy/Peak Ratio
     df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
     
-    gams.printLog('Energy/Peak Demand Ratio')
-    gams.printLog(f"{df_pivot['energy_peak_ratio']} TODO: Define value that are consistent and raise error otherwise.")
+    # Print summary of Energy/Peak Demand Ratio
+    min_ratio = df_pivot['energy_peak_ratio'].min()
+    max_ratio = df_pivot['energy_peak_ratio'].max()
+
+    gams.printLog("Energy/Peak Demand Ratio Summary")
+    gams.printLog(f"Min: {min_ratio:.2f}")
+    gams.printLog(f"Max: {max_ratio:.2f}")
+
+    # Optional: raise an error if values are outside expected range
+    if min_ratio < 4 or max_ratio > 10:
+        raise ValueError(f"Energy/Peak Demand Ratio out of expected range [4–10]. Min: {min_ratio:.2f}, Max: {max_ratio:.2f}")
 
 except Exception as e:
     gams.printLog('Unexpected error when checking pDemandForecast')
@@ -235,7 +244,6 @@ except Exception as e:
 
 # Check that pFuelPrice are included
 try:
-    gams.printLog('TODO')
     df = db["pFuelPrice"].records
 except ValueError:
     raise  # Let this one bubble up with your message
@@ -243,7 +251,6 @@ except Exception as e:
     gams.printLog('Unexpected error when checking pFuelPrice')
     raise # Re-raise the exception for debuggings
     
-
 
 # TransferLimit
 try:

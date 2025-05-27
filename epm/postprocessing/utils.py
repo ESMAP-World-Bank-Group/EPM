@@ -280,7 +280,7 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
     if key in dict_df.keys():
         temp = dict_df[key].copy()
         temp[column] = temp[column].replace(mapping)
-        temp = temp.groupby([i for i in temp.columns if i != 'value']).sum().reset_index()
+        temp = temp.groupby([i for i in temp.columns if i != 'value'], observed=False).sum().reset_index()
 
         new_fuels = [f for f in temp[column].unique() if f not in mapping.values()]
         if new_fuels:
@@ -742,7 +742,7 @@ def generate_summary_detailed(epm_results, folder):
     summary_detailed = {}
     if 'pCapacityPlan' in epm_results.keys():
         temp = epm_results['pCapacityPlan'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Capacity: MW': temp.copy()})
     else:
@@ -750,7 +750,7 @@ def generate_summary_detailed(epm_results, folder):
 
     if 'pPlantUtilization' in epm_results.keys():
         temp = epm_results['pPlantUtilization'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Utilization: percent': temp.copy()})
     else:
@@ -758,7 +758,7 @@ def generate_summary_detailed(epm_results, folder):
 
     if 'pEnergyByPlant' in epm_results.keys():
         temp = epm_results['pEnergyByPlant'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Energy: GWh': temp.copy()})
     else:
@@ -774,10 +774,10 @@ def generate_summary_detailed(epm_results, folder):
 
     if 'pCostsbyPlant' in epm_results.keys():
         temp = epm_results['pCostsbyPlant'].copy()
-        temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack(
+        temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack(
             'scenario')
         temp.reset_index(inplace=True)
-
+        temp = temp.sort_index()
         grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
         summary_detailed.update(grouped_dfs)
     else:
