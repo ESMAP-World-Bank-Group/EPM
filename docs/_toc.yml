@@ -29,6 +29,7 @@ parts:
       - file: docs/input_representative_days.md
   - caption: Postprocessing
     chapters:
+      - file: docs/postprocessing_output
       - file: docs/postprocessing_tableau
       - file: docs/postprocessing
       - file: docs/planning_analysis.ipynb
