@@ -78,28 +78,24 @@ To run additional scenarios beyond the baseline:
 
 1. Create a `scenarios.csv` file in your input folder.
 2. Run EPM using:
-   ```sh
-   python epm.py --folder_input my_data --scenarios input/my_scenarios.csv
-   ```
+
+```sh
+python epm.py --folder_input my_data --scenarios input/my_scenarios.csv
+```
 
 ### B. Sensitivity Analysis
 
 EPM supports sensitivity analysis to assess how changes in key parameters impact results.
 
-- Currently, parameters to vary are hard-coded.
-- Example command:
-  ```sh
-  python epm.py --folder_input my_data --sensitivity
-  ```
-To run EPM with a specific input folder and enable sensitivity analysis, use:
+Currently, parameters to vary are hard-coded. It means you cannot yet specify which parameters to vary directly from the command line. 
+
+To run EPM and enabling sensitivity analysis, use:
 ```sh
 python epm.py --folder_input my_data --sensitivity
 ```
-This will execute EPM using the `my_data` folder as input and perform sensitivity analysis.
+This will execute EPM and perform sensitivity analysis.
 
-For advanced users, additional arguments can be combined as needed to customize the simulation workflow.
-
-## Monte-Carlo analysis (ongoing development)
+### C. Monte-Carlo analysis (ongoing development)
 
 EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.
 

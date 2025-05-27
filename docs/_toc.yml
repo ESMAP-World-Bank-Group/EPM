@@ -27,16 +27,10 @@ parts:
       - file: docs/input_solver_options.md
       - file: docs/input_technology_brief.md
       - file: docs/input_representative_days.md
-  - caption: Postprocessing
+  - caption: Output & Postprocessing
     chapters:
       - file: docs/postprocessing_output
       - file: docs/postprocessing_tableau
-      - file: docs/postprocessing
-      - file: docs/planning_analysis.ipynb
-      - file: docs/planning_analysis_liberia.ipynb
-      - file: docs/planning_analysis_rwanda.ipynb
-      - file: docs/planning_analysis_sapp.ipynb
-      - file: docs/planning_analysis_eapp.ipynb
   - caption: Model Description
     chapters:
         - file: docs/model_overview
@@ -47,9 +41,13 @@ parts:
     chapters:
         - file: docs/advanced_documentation
         - file: docs/advanced_python
-  - caption: Step-by-Step Example
-    chapters:
-        - file: docs/step_by_step
+        - file: docs/postprocessing
+        - file: docs/planning_analysis.ipynb
+        - file: docs/planning_analysis_liberia.ipynb
+        - file: docs/planning_analysis_rwanda.ipynb
+        - file: docs/planning_analysis_sapp.ipynb
+        - file: docs/planning_analysis_eapp.ipynb
+        - file: docs/contributing.md
   - caption: Related Projects
     chapters:
         - file: docs/related_projects.md
