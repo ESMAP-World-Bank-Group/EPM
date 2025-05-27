@@ -804,7 +804,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Running EPM on the Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Common Issues &amp; Troubleshooting</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="run_summary.html">Summary</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
@@ -1031,65 +1030,50 @@ title="Print to PDF"
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Common Issues &amp; Troubleshooting
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-definitions">
+   Time Definitions
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#time-definitions">
-     Time Definitions
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#head-the-following-parameters-must-share-the-same-time-structure-q-d-t">
-   &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-The following parameters must share the same time structure (q, d, t):
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#default-dataframes">
+   Default DataFrames
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#default-dataframes">
-     Default DataFrames
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fuel-and-technology-naming">
+   Fuel and Technology Naming
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#issues-with-pgendataexcelcustom">
+   Issues with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pGenDataExcelCustom
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#issues-with-pstoragedataexcel">
+   Issues with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pStorageDataExcel
+    </span>
+   </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-data">
+     Transmission data
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fuel-and-technology-naming">
-     Fuel and Technology Naming
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zone-definition">
+     Zone definition
     </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#issues-with-pgendataexcelcustom">
-     Issues with
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       pGenDataExcelCustom
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#issues-with-pstoragedataexcel">
-     Issues with
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       pStorageDataExcel
-      </span>
-     </code>
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#transmission-data">
-       Transmission data
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#zone-definition">
-       Zone definition
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
@@ -1109,27 +1093,7 @@ The following parameters must share the same time structure (q, d, t):
 <hr class="docutils" />
 <section id="time-definitions">
 <h2>Time Definitions<a class="headerlink" href="#time-definitions" title="Permalink to this heading">#</a></h2>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="head-the-following-parameters-must-share-the-same-time-structure-q-d-t">
-<h1>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-The following parameters must share the same time structure (q, d, t):<a class="headerlink" href="#head-the-following-parameters-must-share-the-same-time-structure-q-d-t" title="Permalink to this heading">#</a></h1>
-<p>Files such as <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code> should include all combinations of zone, tech, and fuel defined in pGenDataExcel. If this is not the case, this will raise an error. Typical error:</p>
-<blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><p>5814d8e227964c533fd0faa84d6db3e1f70213ce</p>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
+<p>The following parameters must share the same time structure (q, d, t):</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">pHours</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code></p></li>
@@ -1137,6 +1101,7 @@ The following parameters must share the same time structure (q, d, t):<a class="
 <li><p><code class="docutils literal notranslate"><span class="pre">pDemandProfile</span></code></p></li>
 </ul>
 <p>An error is raised if they are inconsistent.</p>
+</section>
 <hr class="docutils" />
 <section id="default-dataframes">
 <h2>Default DataFrames<a class="headerlink" href="#default-dataframes" title="Permalink to this heading">#</a></h2>
@@ -1216,21 +1181,6 @@ pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDef
 <li><p><code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code></p></li>
 </ul>
 <p>We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.</p>
-<blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><blockquote>
-<div><p>5814d8e227964c533fd0faa84d6db3e1f70213ce</p>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
 </section>
 </section>
 </section>
@@ -1293,65 +1243,50 @@ pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDef
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Common Issues &amp; Troubleshooting
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#time-definitions">
+   Time Definitions
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#time-definitions">
-     Time Definitions
-    </a>
-   </li>
-  </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#head-the-following-parameters-must-share-the-same-time-structure-q-d-t">
-   &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
-The following parameters must share the same time structure (q, d, t):
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#default-dataframes">
+   Default DataFrames
   </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#default-dataframes">
-     Default DataFrames
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fuel-and-technology-naming">
+   Fuel and Technology Naming
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#issues-with-pgendataexcelcustom">
+   Issues with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pGenDataExcelCustom
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#issues-with-pstoragedataexcel">
+   Issues with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pStorageDataExcel
+    </span>
+   </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-data">
+     Transmission data
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#fuel-and-technology-naming">
-     Fuel and Technology Naming
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zone-definition">
+     Zone definition
     </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#issues-with-pgendataexcelcustom">
-     Issues with
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       pGenDataExcelCustom
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#issues-with-pstoragedataexcel">
-     Issues with
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       pStorageDataExcel
-      </span>
-     </code>
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#transmission-data">
-       Transmission data
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#zone-definition">
-       Zone definition
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
