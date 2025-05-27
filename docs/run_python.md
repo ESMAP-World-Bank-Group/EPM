@@ -1,64 +1,88 @@
 # Running EPM from Python
 
-Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !
+Using the Python interface enables advanced features such as scenario creation, sensitivity analysis, and Monte Carlo simulations.
 
-Prerequisites: You need to have Python installed in your computer. If you don't have it, you can download Anaconda distribution from [here](https://www.anaconda.com/products/distribution).
+You don't need to know Python—just follow the steps below.
 
-## Creating an environment 
+You must have Python installed. See the [prerequisites](https://esmap-world-bank-group.github.io/EPM/docs/run_prerequisites.html) for setup instructions.
 
-- Navigate to the EPM directory:```cd EPM```
-- Create an environment named epm_env with Python 3.10:: ```conda create -n epm_env python=3.10```
-- Activate the environment: ```conda activate epm_env```
-- Once the environment is activated, install the required libraries using the requirements.txt file: ```pip install -r requirements.txt```. The goal is to ensure that all required libraries are available (pandas, matplotlib,...).
-- Navigate to the epm directory with the code: ```cd epm```
-- Run the EPM model: ```python epm.py```
-- You can also specify additional arguments when launching EPM. These are described in the following subsections.
+---
 
-## Input Data
-    
-In the input folder, create `config.csv` file that contains the `baseline` scenario input specification. This specifies which csv file to use for each parameter under the baseline scenario. You can refer to the epm structure or the input sections to better understand the folder organization. You can look at the GitHub main `input` folder of the main branch for an example.  
+## 1. Create a Python Environment
 
-If you are interested in running multiple scenarios in addition to the baseline scenario, create `scenarios.csv` file that contains the specification of the scenarios. By default, the model will run the baseline scenario. You can look at the GitHub main `input` folder of the main branch for an example.  
+A Python environment ensures that all required libraries for EPM are available and isolated from other projects.
 
+Follow these steps:
 
-## Available Command-Line Arguments
+1. Open a terminal or command prompt.
+2. Navigate to the folder where you cloned EPM:
+   ```sh
+   cd EPM
+   ```
+3. Create a new environment named `epm_env`:
+   ```sh
+   conda create -n epm_env python=3.10
+   ```
+4. Activate the environment:
+   ```sh
+   conda activate epm_env
+   ```
+5. Install all required libraries:
+   ```sh
+   pip install -r requirements.txt
+   ```
 
-EPM provides several command-line options to customize your simulation run. Below are the available arguments and their descriptions:
+---
 
-- **`--config`** *(string, default: `input/config.csv`)*  
-  Specifies the path to the configuration file. If not provided, the default configuration file located at `input/config.csv` will be used.
+## 2. Run the Model (Basic Test)
 
-- **`--folder_input`** *(string, default: `data_gambia`)*  
-  Defines the input folder containing the necessary data files for the simulation. If not specified, it defaults to `data_gambia`.
+Once the environment is set up, you can test the model:
 
-- **`--scenarios`** *(string, optional)*  
-  Allows specifying a scenario file name. If this option is omitted, no scenario file will be used.
+1. Navigate to the `epm` code directory:
+   ```sh
+   cd epm
+   ```
+2. Run the model:
+   ```sh
+   python epm.py
+   ```
 
-- **`--selected_scenarios`** *(list, optional)*  
-  Selection of scenarios to run. If this option is omitted, all scenarios will be run.
-  - Example usage: --selected_scenarios baseline HighDemand
+This runs the model using the default input folder and configuration.
 
-- **`--sensitivity`** *(flag, default: `False`)*  
-  Enables sensitivity analysis when included. If this flag is not set, sensitivity analysis will be disabled.
+---
 
-- **`--montecarlo`** *(flag, default: `False`)*  
-  Enables Monte-Carlo analysis when included. If this flag is not set, monte-carlo analysis will be disabled.
+## 3. Input Data
 
-- **`--montecarlo_samples`** *(int, default: `10`)*  
-  Specifies the number of samples used in the Monte-Carlo run. Number of samples to generate for the Monte Carlo analysis. A higher number improves coverage of the uncertainty space.
+Input data are defined in a folder and controlled via a `config.csv` file, which specifies what CSV files to use for each parameter in the model.
 
-- **`--uncertainties`** *(flag, default: `None`)*  
-  Allows specifying the uncertainties file name. Specifies which input files are subject to uncertainty. I the option is omitted, no uncertainties file will be used. Required if `montecarlo` is enabled.
+- Example input structure is provided in the GitHub `main` branch under the `input` folder.
+- See the [input documentation](https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html) for full details.
 
-- **`--postprocess`** *(flag, default: `None`)*  
-  Only runs the postprocessing when included. 
+---
 
-- **`--no_plot_dispatch`** *(flag, default: `True`)*  
-  Does not plot specific dispatch plots as automatic outputs when set to True. Speeds up the postprocessing and decreases memory requirements to store graphs.
+## 4. Advanced Usage
 
+The Python interface supports advanced features via command-line options.
 
-### Example Command
+### A. Run Multiple Scenarios
 
+To run additional scenarios beyond the baseline:
+
+1. Create a `scenarios.csv` file in your input folder.
+2. Run EPM using:
+   ```sh
+   python epm.py --folder_input my_data --scenarios input/my_scenarios.csv
+   ```
+
+### B. Sensitivity Analysis
+
+EPM supports sensitivity analysis to assess how changes in key parameters impact results.
+
+- Currently, parameters to vary are hard-coded.
+- Example command:
+  ```sh
+  python epm.py --folder_input my_data --sensitivity
+  ```
 To run EPM with a specific input folder and enable sensitivity analysis, use:
 ```sh
 python epm.py --folder_input my_data --sensitivity
