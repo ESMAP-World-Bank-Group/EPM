@@ -1,51 +1,9 @@
 # Planning-Tools
 
 This project is part of the World Bank's initiative to analyze data input or outcome for various energy models, including EPM.
-Link (here)[https://github.com/ESMAP-World-Bank-Group/Planning-tools].
+Link [here](https://github.com/ESMAP-World-Bank-Group/Planning-tools)
 
 __This is a recent project, with limited testing. Please report any issues you encounter.__
-
-Test
-<p>
-  <a href="dwld/interactive_eapp_grid_map.html" target="_blank">
-      Open interactive EAPP grid map
-  </a>
-</p>
-
-### Representative Days
-
-This notebook is designed to determine representative days for a multi-year time series for energy demand and renewables generation.
-
-This project enables users to:
-- Download and parse renewables data from Renewables Ninja API.
-- Include additional data sources for energy demand or hydrogeneration.
-- Determine representative years for a multi-year time series.
-- Calculate representative days for a given year.
-- Export pHours, pDemandProfile, pVREGenProfile for the representative days.
-
-It is based on previously developed GAMS code for the Poncelet algorithm. The objective has been to automate the process and make it more user-friendly.
-
-The code will automatically get the min production for PV, the min production for Wind, and the max load days for each season, called the special days.
-It will automatically removes the special days from the input file for the Poncelet algorithm and then runs the Poncelet algorithm to generate the representative days.
-The user can decide how many representative days to generate per season.
-`launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=2)`
-
-Finally, the code will merge the sepcial days with the representative day from the Poncelet algorithm and output the final representative days.
-
-### Representative Years
-
-This notebook is designed to determine representative years for hydrogeneration.
-
-This project enables users to:
-- Analyze hydrogeneration years
-- Apply rules such as seasonal average to represent reservoirs management
-- Find multiple representative years to be used in the optimization model
-- Compute with capacity to calculate pAvailability in EPM format
-- Export in .csv format
-
-### Load Analysis
-
-This notebook is designed to analyze the load curve and generate a smoothed load curve to use in EPM.
 
 
 ## Project Structure
@@ -85,3 +43,41 @@ Once the ipykernel package is installed, you can create a kernel for the environ
 ```bash
 python -m ipykernel install --user --name=esmap_env
 ```
+
+### Representative Days
+
+This notebook is designed to determine representative days for a multi-year time series for energy demand and renewables generation.
+
+This project enables users to:
+- Download and parse renewables data from Renewables Ninja API.
+- Include additional data sources for energy demand or hydrogeneration.
+- Determine representative years for a multi-year time series.
+- Calculate representative days for a given year.
+- Export pHours, pDemandProfile, pVREGenProfile for the representative days.
+
+It is based on previously developed GAMS code for the Poncelet algorithm. The objective has been to automate the process and make it more user-friendly.
+
+The code will automatically get the min production for PV, the min production for Wind, and the max load days for each season, called the special days.
+It will automatically removes the special days from the input file for the Poncelet algorithm and then runs the Poncelet algorithm to generate the representative days.
+The user can decide how many representative days to generate per season.
+`launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=2)`
+
+Finally, the code will merge the sepcial days with the representative day from the Poncelet algorithm and output the final representative days.
+
+### Representative Years
+
+This notebook is designed to determine representative years for hydrogeneration.
+
+This project enables users to:
+- Analyze hydrogeneration years
+- Apply rules such as seasonal average to represent reservoirs management
+- Find multiple representative years to be used in the optimization model
+- Compute with capacity to calculate pAvailability in EPM format
+- Export in .csv format
+
+### Load Analysis
+
+This notebook is designed to analyze the load curve and generate a smoothed load curve to use in EPM.
+
+
+
