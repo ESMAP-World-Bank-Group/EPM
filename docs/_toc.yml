@@ -41,11 +41,7 @@ parts:
     chapters:
         - file: docs/advanced_python
         - file: docs/postprocessing
-        - file: docs/planning_analysis.ipynb
-        - file: docs/planning_analysis_liberia.ipynb
-        - file: docs/planning_analysis_rwanda.ipynb
         - file: docs/planning_analysis_sapp.ipynb
-        - file: docs/planning_analysis_eapp.ipynb
         - file: docs/contributing.md
   - caption: Related Projects
     chapters:
