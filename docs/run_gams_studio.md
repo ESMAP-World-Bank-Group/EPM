@@ -1,17 +1,49 @@
 
 # Running EPM from GAMS Studio
 
-Recommended for debugging, testing and setting up the model.
+This method is recommended for **debugging**, **testing**, and initial **setup** of the model.
 
-1. Open the **GAMS Studio** interface.
-2. Open the GAMS project located in the folder containing all the model files by following these steps:
-    - Navigate to the **File** tab in the menu bar at the top.
-    - Click **Open in New Group**.
-    - Locate the folder with the GAMS model files and select all the **main.gms** files. Click **Open**.
-3. Check that `main.gms` is set as the main file (indicated by a green triangle in the corner of its name). If not, set it as the main file. 
-4. In the task bar, write `--FOLDER_INPUT input_folder_path`, replacing `input_folder_path` with the name of your input folder. For example, `epm/input/data_eapp/`.
-5. It is also possible to specify specific `generate_demand.gms`, `generate_report.gms`, `input_readers.gms`, `input_treatment.gms`, `input_verification.gms`, `output_verification.gms`, `Engine_Base.gms` and `base.gms`files if necessary. By default, the base file is called `base.gms` for instance. If you want to change those, it is possible to do so through the command line arguments in Gams Studio. For example, `--BASE_FILE base_v2.gms` will modify the base file.
-5. Run the model by clicking the **Compile/Run** button.
-6. The **Process Log** window will show the status. Once the run completes, the output file, `epmresults.gdx` and `EPMRESULTS.xlsx`, will be found in the main model folder.
+---
 
-**Note:** Save the output file with a new name to avoid overwriting it during subsequent runs.
+## Steps
+
+1. Open **GAMS Studio**.
+2. Open the project folder:
+   - Go to the **File** menu at the top.
+   - Click **Open in New Group**.
+   - Navigate to the folder where the model files are located.
+   - Select the file named `main.gms` and click **Open**.
+
+3. Ensure `main.gms` is set as the **main file** (you'll see a green triangle in the corner of its tab). If not, right-click it and choose **Set as Main File**.
+
+4. Specify any required arguments in the **Task Bar** at the top of GAMS Studio.
+
+   > All arguments must be prefixed with `--`.  
+   > Example:  
+   > ```
+   > --FOLDER_INPUT epm/input/data_eapp/ --BASE_FILE base.gms
+   > ```
+
+5. Click the **Compile/Run** button.
+
+6. Check the **Process Log** for errors or messages. If successful, the output file `epmresults.gdx` will appear in the project directory.
+
+   > **Tip:** Rename or move these files after the run to avoid overwriting them next time.
+
+---
+
+## Available Command-Line Arguments
+
+| Argument Name       | Description                                  | Example                             | Default Value                |
+|---------------------|----------------------------------------------|-------------------------------------|------------------------------|
+| `--FOLDER_INPUT`    | Path to the input data folder                | `--FOLDER_INPUT epm/input/data_eapp/` | *(Required)*                |
+| `--BASE_FILE`       | Base GAMS file to use                        | `--BASE_FILE base_v2.gms`           | `base.gms`                   |
+| `--DEMAND_FILE`     | Custom demand generation script              | `--DEMAND_FILE generate_demand_v2.gms` | `generate_demand.gms`     |
+| `--REPORT_FILE`     | Custom report generation script              | `--REPORT_FILE generate_report_v2.gms` | `generate_report.gms`     |
+| `--READER_FILE`     | Input readers script                         | `--READER_FILE input_readers.gms`   | `input_readers.gms`         |
+| `--TREATMENT_FILE`  | Input treatment script                       | `--TREATMENT_FILE input_treatment.gms` | `input_treatment.gms`    |
+| `--VERIF_IN_FILE`   | Input verification script                    | `--VERIF_IN_FILE input_verification.gms` | `input_verification.gms` |
+| `--VERIF_OUT_FILE`  | Output verification script                   | `--VERIF_OUT_FILE output_verification.gms` | `output_verification.gms` |
+| `--ENGINE_FILE`     | Engine script to call                        | `--ENGINE_FILE Engine_Base.gms`     | `Engine_Base.gms`           |
+
+You can combine multiple arguments as needed. If an argument is not specified, the model will use its default value.

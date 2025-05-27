@@ -1,104 +1,90 @@
-# EPM Installation Guide for Beginners  
+# EPM Installation Guide
 
-This guide will walk you through installing and setting up the **EPM** model. It covers cloning the repository, creating your own branch, and launching the model.  
+This guide walks you through installing and setting up the **EPM** model. It covers:
+- Cloning the repository (getting the code on your computer)
+- Creating your own branch (to work independently)
+- Launching the model (from GAMS or Python)
 
-If you're new to Git, don't worry—just follow these steps carefully.  
-
----
-
-## Summary of Key Commands  
-
-| **Action** | **Command** |
-|------------|------------|
-| Clone the repository | `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git` |
-| Check the current branch | `git branch` |
-| Create and switch to a new branch | `git checkout -b <branch-name>` |
-| Push your new branch to remote | `git push -u origin <branch-name>` |
-| Activate Conda environment | `conda activate esmap_env` |
-| Run the model using Python | `python epm/run_epm.py` |
-| Open and run the model in GAMS | Use GAMS Studio and run `main.gms` |
+You don’t need to be familiar with Git—just follow the steps carefully.
 
 ---
 
-## 1. Clone the Repository  
+## 1. Clone the Repository
 
-To download the project to your local machine, follow these steps:  
+To get the project on your computer:
 
-1. Open a terminal or command prompt.  
-2. Navigate to the directory where you want to store the project:  
+1. Open **Terminal** (on macOS) or **Command Prompt** (on Windows). All following commands should be run in this terminal window.
+
+   - On **macOS**, you can find Terminal in `Applications > Utilities > Terminal`.
+   - On **Windows**, search for "Command Prompt" in the Start menu.
+
+2. Choose where you want to download the EPM project.
+
+   > This step is called "navigating"—it simply tells your computer where to install the files.  
+   > For example, if you want to install it in a folder called `Projects`, type:
    ```sh
-   cd /path/to/your/folder
+   cd path/to/your/Projects
    ```
-3. Clone the repository from GitHub:  
+   Replace `WB/Projects` with the actual folder path. You can create the folder first using your file explorer if needed.
+   You can also use `cd` iteratively to navigate through folders, like:
+   ```sh
+   cd WB
+   cd Projects
+   ```
+
+3. Download the code by typing:
    ```sh
    git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
    ```
-4. Move into the newly created project directory:  
+   You need to have **Git** installed on your computer for this step (see Pre-requisites).
+   This step takes the latest version of the EPM code from [GitHub](https://github.com/ESMAP-World-Bank-Group/EPM.git) and puts it in a folder called `EPM` in your chosen directory.
+
+4. Move into the EPM folder:
    ```sh
    cd EPM
    ```
 
 ---
 
-## 2. Create and activate a branch  
+## 2. Create and Activate a Branch
 
-A **branch** is like a separate workspace where you can make changes without affecting the main code (`main`).  
+A **branch** is your personal workspace. It lets you make changes without affecting the main project.
 
-We recommend **creating your own branch** to work on, keeping your changes organized.  
+### Steps:
 
-### **Steps to create and activate Your branch**  
-
-1. **Check which branch you are currently on**:  
+1. Check which branch you’re on:
    ```sh
    git branch
    ```
-   The active branch will have a `*` next to it.
+   The current branch will have a `*` next to it.
 
-2. **Create and switch to your own branch** (replace `<branch-name>` with a meaningful name, e.g., `guinea`):  
+2. Create and switch to a new branch (replace `<branch-name>` with something like `guinea`):
    ```sh
    git checkout -b <branch-name>
    ```
-   This creates a new branch and switches to it.
 
-3. **Push your branch to the remote repository** to save it online:  
+3. Save your branch online:
    ```sh
    git push -u origin <branch-name>
    ```
-   Now, your branch is stored remotely, and you can share your work if needed.
 
 ---
 
-## 3. Launch the model  
+## 3. Launch the Model
 
-There are **three ways** to run the EPM model:  
+The project includes sample data so you can check that everything is working.
 
-### **1. Using GAMS Studio (recommended for debugging)**  
-- Open GAMS Studio.  
-- Navigate to the EPM folder.  
-- Open and run `main.gms`.  
+If this is your first time using EPM, we suggest starting with **GAMS Studio** to make sure everything runs properly.
 
-Refer to the next section for more information.
+### Option 1: Using GAMS Studio (Recommended for First-Time Users)
 
-### **2. Using Python (recommended for multiple scenarios)**  
-1. **Activate the Conda environment** to ensure you have the required dependencies:  
-   ```sh
-   conda activate esmap_env
-   ```
-2. **Run the model using Python**:  
-   ```sh
-   python epm/run_epm.py
-   ```
-   Please check the data input structure in the `epm` folder before running the model.
+- Open **GAMS Studio**.
+- Use the file explorer in GAMS to open the `EPM` folder you downloaded.
+- Open the file `main.gms`.
+- Click **Run**.
 
----
+### Option 2: Using Python (Recommended for Advanced Users)
 
-Refer to the section Running EPM from Python for more information.
+Python allows more flexibility and automation.
 
-## Final tips  
-
-- **Use Git branches** to keep your work organized.  
-- **Test your setup with a small dataset** before running large-scale simulations.  
-- **Regularly fetch updates from `main`** to stay in sync with the latest changes.  
-- **If you get stuck, check `git status` or `git log --oneline`** to understand what’s happening.  
-
-By following these steps, you'll have EPM installed and running smoothly! 🚀  
+→ See the next section: **Running EPM from Python**.

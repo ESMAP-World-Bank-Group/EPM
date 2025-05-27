@@ -1,92 +1,88 @@
 
-# Prerequisites: Install Required Tools  
+# Prerequisites: Install Required Tools
 
-Before starting, ensure you have the following installed on your computer:  
+This guide explains how to install the necessary tools to run the EPM model. 
+It covers Git, Python/Conda, and GAMS setup for **macOS and Windows**. 
 
-### 1️⃣ **Git (Version Control System)**  
-Git is used to download and manage versions of the EPM repository.  
+---
 
-- **Windows**: [Download Git for Windows](https://git-scm.com/download/win)  
-- **Mac**: Install using Homebrew:  
-  ```sh
-  brew install git
-  ```
-- **Linux**: Install using your package manager:  
-  ```sh
-  sudo apt install git  # Ubuntu/Debian
-  sudo dnf install git  # Fedora
-  ```
-- **Check if Git is installed**:  
+## 1. Git (Version Control System)
+
+Git is used to download and manage versions of the model repository.
+
+- **Windows**:  
+  [Download Git for Windows](https://git-scm.com/download/win) and install with default settings.
+
+- **macOS**:  
+  [Download Git for macOS](https://sourceforge.net/projects/git-osx-installer/) and follow the installer instructions.
+
+- **Verify installation**:  
+  Open Terminal or Command Prompt and type:
   ```sh
   git --version
   ```
-  If installed, this will display the Git version.
 
-### 2️⃣ **Python & Conda (Required for Running the Model in Python)**  
-Python is needed to execute the model using scripts. If you plan to only use GAMS, you can skip this step. 
+---
 
-- **Install Miniconda (Recommended)**:  
-  [Download Miniconda](https://docs.conda.io/en/latest/miniconda.html) and install it for your operating system.  
+## 2. Python & Conda (Optional – Required for Python Scripts)
 
-- **Verify installation**:  
+If you want to run the model using Python, install Miniconda.
+
+- **All platforms**:  
+  Download Miniconda from:  
+  [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html)  
+  Choose the installer for your OS and follow the prompts.
+
+- **Verify installation**:
+  Open Terminal or Command Prompt and type:  
   ```sh
   python --version
   conda --version
   ```
 
-### 3️⃣ **GAMS (If Using GAMS Studio for Debugging)**  
-- **Download & install GAMS**: [GAMS Website](https://www.gams.com/download/)  
+---
 
-#### Adding GAMS to the System PATH
+## 3. GAMS (Needed for GAMS Studio Users)
 
-GAMS (General Algebraic Modeling System) needs to be added to the system PATH to be accessible from the command line. Below are the steps to add GAMS to the PATH for different operating systems.
+- **All platforms**:  
+  Download and install GAMS from:  
+  [https://www.gams.com/download/](https://www.gams.com/download/)
 
-##### Windows
+GAMS is a commercial optimization software. You can use the free version for educational purposes, which has some limitations.
+Ask your institution for a license.
 
-1. **Locate the GAMS Installation Directory:**
-   - By default, GAMS is installed in `C:\\GAMS\\<version>`. 
-   - If unsure, open the GAMS IDE and check the installation path in `Help -> About`.
+---
 
-2. **Open Environment Variables:**
-   - Press `Win + R`, type `sysdm.cpl`, and press `Enter`.
-   - Go to the `Advanced` tab and click on `Environment Variables`.
+## Adding GAMS to PATH
 
-3. **Edit the System PATH Variable:**
-   - Under `System Variables`, find the variable named `Path` and click `Edit`.
-   - Click `New` and add the full path to the GAMS installation directory (e.g., `C:\\GAMS\\40.1`).
+This allows you to run GAMS from the command line.
 
-4. **Apply and Test:**
-   - Click `OK` to save the changes and close all dialog boxes.
-   - Open `Command Prompt` and type:
-     ```sh
-     gams
-     ```
-   - If installed correctly, GAMS should run.
+### Windows
 
-##### macOS
+1. Open GAMS Studio, go to `Help > About`, and copy the installation path (e.g., `C:\GAMS\40.1`).
+2. Open the Start Menu, search for `Environment Variables`, and open it.
+3. In the `System Properties` window, click `Environment Variables`.
+4. Under **System Variables**, select `Path`, click `Edit`, then `New`, and paste the GAMS path.
+5. Click OK to save. Reopen Command Prompt and test:
+   ```sh
+   gams
+   ```
 
-1. **Locate the GAMS Installation Directory:**
-   - Typically, GAMS is installed in `/Applications/GAMS<version>`. 
+### macOS
 
-2. **Edit the Shell Configuration File:**
-   - Open Terminal and edit the shell profile:
-     ```sh
-     nano ~/.zshrc  # For Zsh (default in macOS Catalina and later)
-     nano ~/.bash_profile  # For Bash (older macOS versions)
-     ```
+1. Locate your GAMS install folder (e.g., `/Applications/GAMS40.1`).
+2. Open Terminal and edit your shell config:
+   ```sh
+   nano ~/.zshrc
+   ```
+3. Add the following line:
+   ```sh
+   export PATH="/Applications/GAMS40.1:$PATH"
+   ```
+4. Save and apply changes:
+   ```sh
+   source ~/.zshrc
+   gams
+   ```
 
-3. **Add GAMS to the PATH:**
-   - Add the following line to the file:
-     ```sh
-     export PATH="/Applications/GAMS<version>:$PATH"
-     ```
-   - Replace `<version>` with the correct installed version.
-
-4. **Apply and Test:**
-   - Save and exit (`CTRL + X`, then `Y`, then `Enter`).
-   - Run:
-     ```sh
-     source ~/.zshrc  # or source ~/.bash_profile
-     gams
-     ```
-   - If installed correctly, GAMS should run.
+GAMS should now be accessible from the terminal.
