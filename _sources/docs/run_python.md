@@ -119,7 +119,7 @@ Create a CSV file specifying the uncertain parameters. This file should include 
 If left empty, the uncertainty applies to all zones.
 
 Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
-Uncertainty sampling is powered by the (`chaospy` package)[https://pypi.org/project/chaospy/], so only distributions available in `chaospy` can be used.
+Uncertainty sampling is powered by the [`chaospy` package](https://pypi.org/project/chaospy/), so only distributions available in `chaospy` can be used.
 
 Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
 
