@@ -8,12 +8,7 @@ If you encounter new issues, please contact the EPM team so we can expand this l
 
 ## Time Definitions
 
-<<<<<<< HEAD
 The following parameters must share the same time structure (q, d, t):
-=======
-Files such as `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` should include all combinations of zone, tech, and fuel defined in pGenDataExcel. If this is not the case, this will raise an error. Typical error:
->>>>>>> 5814d8e227964c533fd0faa84d6db3e1f70213ce
-
 - `pHours`
 - `pVREProfile`
 - `pVREgenProfile`
@@ -103,4 +98,3 @@ The list of zones used in your model is defined in the file `zcmap.csv`. This fi
 - `pVREProfile`
 
 We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.
->>>>>>> 5814d8e227964c533fd0faa84d6db3e1f70213ce
