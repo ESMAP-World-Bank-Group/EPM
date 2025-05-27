@@ -1,6 +1,8 @@
 # Set definition
 
-## Implicit set definition
+It is important to understand how sets are defined in the EPM model, as they are crucial for the model's structure and data handling. Sets in GAMS are collections of elements that can be used to index parameters, variables, and equations. 
+
+## Set definition
 
 Sets are declared at the beginning of the base.gms file. Example:
 ```
@@ -15,13 +17,12 @@ Sets
    z        'zones'
    c        'countries'
    zext     'external zones'
-*********Hydrogen specific addition***********
    hh        'Hydrogen production units'
 ;
 
 ```
 
-These sets are populated in `main.gms`, either by reading them directly (e.g. `y` from `y.csv`) or implicitly through data parameters.
+These sets are populated in `main.gms`, either **by reading them directly** (e.g. `y` from `y.csv`) or **implicitly through data parameters**.
 
 An implicit definition is identified by the `<` syntax in the parameter declaration:
 

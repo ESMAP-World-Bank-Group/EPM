@@ -13,19 +13,6 @@ The practical deployment of EPM consists of a 7-step process, which is illustrat
 
 ---
 
-## Quick start
-
-EPM is a model formulated in the General Algebraic Modeling System (GAMS), a high-level modeling system for mathematical optimization. GAMS and Excel are required to be installed to run EPM. Furthermore, to work with EPM, additional licensing of GAMS is necessary. To install GAMS or obtain the appropriate license, go to the [website](https://www.gams.com/download/) and follow the instructions.
-
-The Excel file, labeled `EPM_input.xlsx`, serves the interface of the EPM tool. This file should store all the input data required to run the model. When using the EPM interface, it is advisable to address one tab at a time and start at the left-most tab and sequentially address the right-neighboring tab. When the Excel file is appropriately filled, the user might proceed to the GAMS software and run the model. Otherwise, the run will produce errors, which need to be addressed.
-
-Model is composed of three .gms files:
-- `*base.gms`   - contains the introduction of all the variables, parameters, and equations of the model.
-- `*report.gms` - processes the model's outcomes and produces the results files.
-- `*main.gms`   - controls the overall flow of the program and is used to run the model.
-
-To run the model, open `*main.gms` file in GAMS IDE or GAMS Studio in the same directory with `*report.gms`, `*base.gms` and filled `EPM_input.xlsx`, and run the script. The model will automatically include all the input data and files, solve the model and produce the results.
-
 ## Works deploying EPM
 
 - Suski, A., Remy, T., Chattopadhyay, D., Song, C. S., Jaques, I., Keskes, T., & Li, Y. (2021). Analyzing Electric Vehicle Load Impact on Power Systems: Modeling Analysis and a Case Study for Maldives. IEEE Access, 9, 125640-125657.
