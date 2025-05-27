@@ -69,7 +69,17 @@ For advanced users, additional arguments can be combined as needed to customize 
 
 ## Monte-Carlo analysis (ongoing development)
 
-EPM supports Monte Carlo analysis for exploring uncertainty in model inputs. This feature is still under active development, but the current implementation allows running multiple simulations across defined uncertainty ranges.
+EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.
+
+What the code does is:
+- You define uncertain parameters and their ranges.
+- The model creates several versions (samples) of each scenario based on these uncertainties.
+- For each scenario:
+  1. It runs the model with your default settings and optimizes investment pathways (classical EPM approach).
+  2. Then, it runs Monte Carlo simulations where these investment pathways are fixed and only dispatch is optimized.
+- Graphs are automatically generated to show the results and how they vary due to uncertainty.
+
+How to run this feature:
 
 1. Define uncertainty ranges
 Create a CSV file specifying the uncertain parameters. This file should include the following columns:
@@ -85,33 +95,27 @@ Create a CSV file specifying the uncertain parameters. This file should include 
 If left empty, the uncertainty applies to all zones.
 
 Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
-Uncertainty sampling is powered by the `chaospy` package, so only distributions available in `chaospy` can be used.
+Uncertainty sampling is powered by the (`chaospy` package)[https://pypi.org/project/chaospy/], so only distributions available in `chaospy` can be used.
 
 Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
 
 - `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage
 - `demand`: scales the entire demand forecast (peak & energy) uniformly by a percentage across zones specified
 - `hydro`: scales hydro trajectories uniformly by a percentage  across zones specified
-Example file: [pSettings.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
+Example file: [mc_uncertainties.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
 
 2. Specify in your command-line:
 ```sh
-python epm.py --folder_input my_data --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/your_uncertainty_file.csv
+python epm.py --folder_input my_data --config input/my_data/my_config.csv --scenarios input/my_data/my_scenarios.csv --selected scenarios baseline Scenario1 Scenario2  --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/your_uncertainty_file.csv --no_plot_dispatch
 ```
 
 This command will:
 - Load the uncertainties defined in your file (`--uncertainties input/data_sapp/your_uncertainty_file.csv`)
 - Generate 20 samples from the joint probability distribution (`--montecarlo_samples 20`)
-- Create one scenario per sample
-- Run the EPM model for each scenario
+- Run the model for each selected scenario 
+- Run Monte Carlo dispatch simulations for each sample
 
-**Tip:** Set `reportshort = 1` in your configuration to reduce memory usage during multiple runs implied by Monte-Carlo analysis.
+**Important:** Set `reportshort = 2` in your configuration to obtain the full outputs when running the default scenarios. This saves detailed results used to fix investment decisions before the Monte Carlo step.
 
-You can apply the same Monte Carlo simulations to selected scenarios by specifying:
- 
-```sh 
---scenarios input/data_sapp/your_scenario_file.csv --selected_scenarios Scenario1 Scenario2
-```
 
-This allows you for instance to test how specific scenarios (e.g., with or without a new generation or transmission project) perform under uncertainty.
 
