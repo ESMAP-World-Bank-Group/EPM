@@ -86,7 +86,7 @@ Once the script runs successfully, it will generate the `linestring_countries_2.
 To update the visualization for new scenarios, you should follow the steps:
 1. Upload the new scenarios with the arborescence as described previously, keeping in mind that one of the scenarios is named `baseline`.
 2. Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `linestring`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`
+To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `linestring`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked.
 3. Once this has been done, data is extracted and optimized so that the visualizations will now load faster.
 4. When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
    1. Keep previous extracts but view new data: For each of the dataset above, unclick `Use Extract` (reverts to live mode).
@@ -99,8 +99,8 @@ To avoid these delays, you must extract the data. For each of these four data se
 
 The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.
 
-In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. Choose a name and complete the upload. Once published, a browser window will open with your dashboard.
-You may adapt the settings based on the intended usage of this visualization, by going to the `Settings` button:
+In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
+You may adapt the settings based on the intended usage of this visualization, by going to the `Settings` button (after signing in on your browser):
 - Remove `Show Viz on Profile` if you want the visualization to only be accessible to those with a link (hide it from your public profile)
 - Remove `Allow Access` to prevent data download.
 
