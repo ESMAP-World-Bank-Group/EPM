@@ -1,8 +1,13 @@
 # Tableau workflow
 
-A Tableau dashboard is available to explore model results. It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
+There are two main workflows for visualizing EPM model results:
+- _Tableau_ for interactive exploration and dashboards
+- _Python_ for custom plots and analyses, relying on in-house libraries. Check out the Advanced Topics for more details.
 
-Example: _[SAPP Tableau Viz](https://public.tableau.com/app/profile/mikou/viz/ESMAP_Viz-Public/Home)_
+Tableau is the recommended approach for most users, as it provides a user-friendly interface and powerful visualization capabilities without requiring programming skills.
+It includes multiple tabs for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
+
+Example: _[SAPP Tableau Viz](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Viz_v5.twb)_
 
 This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.
 

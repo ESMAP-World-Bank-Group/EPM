@@ -1,7 +1,11 @@
 
-# Postprocessing of the results
+# Postprocessing with Python
 
-This section describes the postprocessing of the results of the simulation. It enables the user to quickly visualize the results and generate standardized figures.
+This section describes the postprocessing with Python of the results of the simulation. 
+It enables the user to quickly visualize the results and generate standardized figures with Jupyter notebooks.
+
+It is recommended for advanced users who want to customize the postprocessing and visualization of the results, and are comfortable with Python and Jupyter notebooks.
+
 
 ## 1. Structure
 
