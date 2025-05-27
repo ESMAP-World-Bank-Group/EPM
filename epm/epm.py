@@ -616,7 +616,6 @@ def multiindex2df(multiindex):
     """
     return pd.DataFrame(multiindex2array(multiindex), index=multiindex.names)
 
-
 def define_samples(df_uncertainties, nb_samples):
     """
     Generate a joint distribution and samples from a DataFrame defining uncertainty bounds.
@@ -664,7 +663,6 @@ def define_samples(df_uncertainties, nb_samples):
         for col in samples.columns
     }
     return distribution, samples, zone_mapping
-
 
 def create_scenarios_montecarlo(samples, s, zone_mapping):
     """
@@ -797,7 +795,6 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                     save_new_dataframe(availability_custom, scenarios_montecarlo, param, val, name=name_scenario)
 
     return s, scenarios_montecarlo
-
 
 def perform_sensitivity(sensitivity, s):
     param = 'pSettings'
@@ -1060,7 +1057,6 @@ def perform_sensitivity(sensitivity, s):
 
     return s
 
-
 def perform_assessment(project_assessment, s):
     try:
         # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
@@ -1299,12 +1295,5 @@ def main(test_args=None):
 
 
 if __name__ == '__main__':
-
-    # # Example test arguments
-    # test_parameters = [
-    #     "--config", "input/config.csv",
-    #     "--folder_input", "data_gambia"
-    # ]
-
     main()
 
