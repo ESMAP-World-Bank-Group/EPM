@@ -1,0 +1,4 @@
+﻿gen,Linked Plant,CapacityMWh,CapexMWh,VOMMWh,FixedOMMWh,Efficiency,Life
+Jambur BESS,,8,250,0,0,0.9,15
+New BESS,,100,250,0,0,0.9,15
+BESS Project,,40,250,0,0,0.9,15
