@@ -52,7 +52,7 @@ Refer to the **Data Structure Documentation** for accepted naming conventions.
 ## Issues with `pGenDataExcelCustom`
 
 - **Missing candidate plants in output**: Check that `BuildLimitperYear` is properly filled.
-- **Error due to long plant names**:
+- **Error due to long plant names**. When some plant names are too long, this will raise an error:
   ```
   Exception from Connect: <class 'UnboundLocalError'>:
   cannot access local variable 'was_relaxed' where it is not associated with a value
@@ -72,8 +72,8 @@ Error: The following fuels are in gendata but not defined in pStorData:
 ```
 
 ### Transmission data
-- All (z, z2) pairs in 'pTransferLimit' should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.
-- Each candidate transmission line should only specified once in pNewTransmission. An error is raised otherwise.
+- All (z, z2) pairs in `pTransferLimit` should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.
+- Each candidate transmission line should only specified once in `pNewTransmission`. An error is raised otherwise.
 
 ### Zone definition
 

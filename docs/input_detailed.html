@@ -1839,12 +1839,11 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <li><p><strong>Coal</strong></p></li>
 <li><p><strong>Gas</strong></p></li>
 <li><p><strong>Water</strong></p></li>
-<li><p><strong>Hydro</strong></p></li>
-<li><p><strong>PV</strong></p></li>
-<li><p><strong>OnshoreWind</strong></p></li>
-<li><p><strong>OffshoreWind</strong></p></li>
+<li><p><strong>Solar</strong></p></li>
+<li><p><strong>Wind</strong></p></li>
 <li><p><strong>Import</strong></p></li>
 <li><p><strong>HFO</strong></p></li>
+<li><p><strong>LFO</strong></p></li>
 <li><p><strong>Uranium</strong></p></li>
 <li><p><strong>CSP</strong></p></li>
 <li><p><strong>Battery</strong></p></li>
@@ -1862,35 +1861,31 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <h3><strong><code class="docutils literal notranslate"><span class="pre">pTechData.csv</span></code></strong><a class="headerlink" href="#ptechdata-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p>List of technologies recognized by EPM.</p></li>
-<li><p>4 columns:</p>
+<li><p>3 columns:</p>
 <ol class="arabic simple">
 <li><p>Technology name</p></li>
-<li><p>Construction period (in years)</p></li>
 <li><p>Hourly variation (if the technology varies hourly)</p></li>
 <li><p>RE Technology (if it is a renewable energy technology)</p></li>
 </ol>
 </li>
-<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/pTechData.csv">pTechData.csv</a></p></li>
+<li><p>Example: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_sapp/resources/pTechData.csv">pTechData.csv</a></p></li>
 <li><p>List of technologies recognized by EPM:</p>
 <ul>
-<li><p><strong>GT</strong>: Gas Turbine</p></li>
+<li><p><strong>OCGT</strong>: Gas Turbine</p></li>
 <li><p><strong>CCGT</strong>: Combined Cycle Gas Turbine</p></li>
 <li><p><strong>ST</strong>: Steam Turbine</p></li>
 <li><p><strong>ICE</strong>: Internal Combustion Engine</p></li>
-<li><p><strong>COAL</strong>: Coal</p></li>
-<li><p><strong>WIND</strong>: Wind</p></li>
-<li><p><strong>PV</strong>: Photovoltaic</p></li>
-<li><p><strong>STORAGE</strong>: Storage</p></li>
-<li><p><strong>STOHY</strong>: Storage Hydro</p></li>
-<li><p><strong>ROR</strong>: Run of River</p></li>
-<li><p><strong>BIOGAS</strong>: Biogas</p></li>
-<li><p><strong>INT</strong>: ??</p></li>
-<li><p><strong>CHP</strong>: Combined Heat and Power</p></li>
-<li><p><strong>BIOMAS</strong>: Biomass</p></li>
-<li><p><strong>CSP</strong>: Concentrated Solar Power</p></li>
+<li><p><strong>OnshoreWind</strong>: Onshore wind power plant</p></li>
+<li><p><strong>OffshoreWind</strong>: Offshore wind power plant</p></li>
+<li><p><strong>PV</strong>: Photovoltaic power plant</p></li>
 <li><p><strong>PVwSTO</strong>: Photovoltaic with Storage</p></li>
-<li><p><strong>STOPV</strong>: Storage with Photovoltaic</p></li>
-<li><p><strong>MPAOpt</strong>: ??</p></li>
+<li><p><strong>CSPPlant</strong>: Concentrated Solar power plant</p></li>
+<li><p><strong>Storage</strong>: Storage</p></li>
+<li><p><strong>ReservoirHydro</strong>: Storage hydro power plant</p></li>
+<li><p><strong>ROR</strong>: Run of River hydro power plant</p></li>
+<li><p><strong>BiomassPlant</strong>: Biomass power plant</p></li>
+<li><p><strong>CHP</strong>: Combined Heat and Power</p></li>
+<li><p><strong>ImportTransmission</strong>: Representing imports from external zones</p></li>
 </ul>
 </li>
 </ul>
