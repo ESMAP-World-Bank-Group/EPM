@@ -39,7 +39,6 @@ parts:
         - file: docs/model_formulation
   - caption: Advanced Topics
     chapters:
-        - file: docs/advanced_documentation
         - file: docs/advanced_python
         - file: docs/postprocessing
         - file: docs/planning_analysis.ipynb
