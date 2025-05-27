@@ -1035,6 +1035,11 @@ title="Print to PDF"
      Transmission data
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zone-definition">
+     Zone definition
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -1058,7 +1063,7 @@ title="Print to PDF"
 </section>
 <section id="default-dataframes">
 <h3>Default dataframes<a class="headerlink" href="#default-dataframes" title="Permalink to this heading">#</a></h3>
-<p>Files such as <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code> should include all combinations of zone, tech, and fuel defined in pGenDataExcel. Typical error:</p>
+<p>Files such as <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code> should include all combinations of zone, tech, and fuel defined in pGenDataExcel. If this is not the case, this will raise an error. Typical error:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  File &quot;&lt;string&gt;&quot;, line 134, in prepare_generatorbased_parameter
 Exception from Python (line 264): &lt;class &#39;ValueError&#39;&gt;: Missing values in default is not permitted. To fix this bug ensure that all combination in pAvailabilityDefault are included.
 </pre></div>
@@ -1100,6 +1105,29 @@ These appear across several input files and must be harmonized accordingly. Refe
 <li><p>All (z, z2) pairs in ‘pTransferLimit’ should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.</p></li>
 <li><p>Each candidate transmission line should only specified once in pNewTransmission. An error is raised otherwise.</p></li>
 </ul>
+</section>
+<section id="zone-definition">
+<h3>Zone definition<a class="headerlink" href="#zone-definition" title="Permalink to this heading">#</a></h3>
+<p>Zones are defined in the file <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
+pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactor, pVREProfile</p>
+<p>The following input files must use zone names that match those defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>:</p>
+<p>The list of zones used in your model is defined in the file <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>. This file acts as the master reference for zone names across the entire model workflow.</p>
+<blockquote>
+<div><p>⚠️ All other input files that refer to zones will <strong>only</strong> recognize zones that are listed in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcel</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcelDefault</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pNewTransmission</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pDemandProfile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pDemandForecast</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pLossFactor</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code></p></li>
+</ul>
+<p>We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.</p>
 </section>
 </section>
 </section>
@@ -1197,6 +1225,11 @@ These appear across several input files and must be harmonized accordingly. Refe
      Transmission data
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zone-definition">
+     Zone definition
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -1227,7 +1260,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on May 26, 2025.<br>
+Last updated on May 27, 2025.<br>
 </p>
   </div>
   
