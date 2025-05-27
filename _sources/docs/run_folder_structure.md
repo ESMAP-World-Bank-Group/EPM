@@ -14,7 +14,7 @@ EPM/
 │   ├── static/                     # Static resources used in post-processing
 │   └── utils.py                    # Utility functions for post-processing tasks
 │
-├── Engine_Base.gms                 # Defines the base engine for the model
+├── engine_base.gms                 # Defines engine run
 ├── base.gms                        # Specifies base configurations and parameters
 ├── cplex.opt                       # Options for the CPLEX solver
 ├── credentials_engine.json         # Stores credentials for engine access

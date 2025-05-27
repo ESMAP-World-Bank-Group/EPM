@@ -4,8 +4,7 @@ The EPM code performs several automatic checks on input data. If the model fails
 
 If you encounter new issues, please contact the EPM team so we can expand this list.
 
-
---
+---
 
 ## Debugging Input File Errors
 
@@ -30,7 +29,7 @@ $onEmbeddedCode Connect:
 
 Once debugging is complete and the issue is resolved, set `trace` back to `0` to reduce log output
 
---
+---
 
 ## Time Definitions
 

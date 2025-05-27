@@ -227,6 +227,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_selection.html">
+                        Specifying Input Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -234,15 +241,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data When Running EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
-                        Data Structure Documentation
+                        Input Description
                       </a>
                     </li>
                 
@@ -528,6 +528,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_selection.html">
+                        Specifying Input Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -535,15 +542,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data When Running EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
-                        Data Structure Documentation
+                        Input Description
                       </a>
                     </li>
                 
@@ -735,7 +735,6 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-
 <li class="toctree-l1"><a class="reference internal" href="introduction_case_studies.html">EPM Recent Case Studies</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
@@ -753,9 +752,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data When Running EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology overview</a></li>
@@ -1024,7 +1023,7 @@ title="Print to PDF"
 │   ├── static/                     # Static resources used in post-processing
 │   └── utils.py                    # Utility functions for post-processing tasks
 │
-├── Engine_Base.gms                 # Defines the base engine for the model
+├── engine_base.gms                 # Defines engine run
 ├── base.gms                        # Specifies base configurations and parameters
 ├── cplex.opt                       # Options for the CPLEX solver
 ├── credentials_engine.json         # Stores credentials for engine access

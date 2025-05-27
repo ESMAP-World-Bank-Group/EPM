@@ -1,4 +1,4 @@
-# Specifying Input Data When Running EPM
+# Specifying Input Data
 
 Input data for EPM is specified through `config.csv`, which defines all parameter files used in the **baseline scenario**.
 If you're unsure of the file structure, see this [example config.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv).

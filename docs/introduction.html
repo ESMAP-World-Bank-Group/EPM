@@ -227,6 +227,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_selection.html">
+                        Specifying Input Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -234,15 +241,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data When Running EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
-                        Data Structure Documentation
+                        Input Description
                       </a>
                     </li>
                 
@@ -528,6 +528,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_selection.html">
+                        Specifying Input Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -535,15 +542,8 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data When Running EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_detailed.html">
-                        Data Structure Documentation
+                        Input Description
                       </a>
                     </li>
                 
@@ -735,7 +735,6 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-
 <li class="toctree-l1"><a class="reference internal" href="introduction_case_studies.html">EPM Recent Case Studies</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
@@ -753,9 +752,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data When Running EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Data Structure Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology overview</a></li>
@@ -964,11 +963,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quick-start">
-   Quick start
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#works-deploying-epm">
    Works deploying EPM
   </a>
@@ -994,24 +988,12 @@ title="Print to PDF"
               
   <section id="about">
 <h1>About<a class="headerlink" href="#about" title="Permalink to this heading">#</a></h1>
-<p>EPM (Electricity Planning Model) is a least-cost power system planning tool. EPM has been developed by the Power Systems Planning Group, embedded in the Energy Sector Management Assistance Program (ESMAP) of the World Bank. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank’s staff and clients and to be an evolving and versatile decision-making tool.</p>
-<p>EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via an Excel interface to the model and likewise, the results are collected in an Excel output file. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.
-In short, EPM minimizes the costs of expanding and operating a power system while meeting the system’s technical, economic, and environmental requirements. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed operation and maintenance [O&amp;M]), variable costs (variable O&amp;M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.</p>
+<p>EPM (Electricity Planning Model) is a <strong>least-cost power system planning tool</strong>. EPM has been developed by the Power Systems Planning Group, embedded in the <strong>Energy Sector Management Assistance Program (ESMAP) of the World Bank</strong>. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank’s staff and clients and to be an evolving and versatile decision-making tool.</p>
+<p>EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via csv files to the model and likewise, the results are collected in csv files. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.</p>
+<p>In short, EPM <strong>minimizes the costs of expanding and operating a power system while meeting the system’s technical, economic, and environmental requirements</strong>. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed Operation and Maintenance [O&amp;M]), variable costs (variable O&amp;M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.</p>
 <p>The practical deployment of EPM consists of a 7-step process, which is illustrated below.</p>
 <img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
 <hr class="docutils" />
-</section>
-<section id="quick-start">
-<h1>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this heading">#</a></h1>
-<p>EPM is a model formulated in the General Algebraic Modeling System (GAMS), a high-level modeling system for mathematical optimization. GAMS and Excel are required to be installed to run EPM. Furthermore, to work with EPM, additional licensing of GAMS is necessary. To install GAMS or obtain the appropriate license, go to the <a class="reference external" href="https://www.gams.com/download/">website</a> and follow the instructions.</p>
-<p>The Excel file, labeled <code class="docutils literal notranslate"><span class="pre">EPM_input.xlsx</span></code>, serves the interface of the EPM tool. This file should store all the input data required to run the model. When using the EPM interface, it is advisable to address one tab at a time and start at the left-most tab and sequentially address the right-neighboring tab. When the Excel file is appropriately filled, the user might proceed to the GAMS software and run the model. Otherwise, the run will produce errors, which need to be addressed.</p>
-<p>Model is composed of three .gms files:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">*base.gms</span></code>   - contains the introduction of all the variables, parameters, and equations of the model.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">*report.gms</span></code> - processes the model’s outcomes and produces the results files.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">*main.gms</span></code>   - controls the overall flow of the program and is used to run the model.</p></li>
-</ul>
-<p>To run the model, open <code class="docutils literal notranslate"><span class="pre">*main.gms</span></code> file in GAMS IDE or GAMS Studio in the same directory with <code class="docutils literal notranslate"><span class="pre">*report.gms</span></code>, <code class="docutils literal notranslate"><span class="pre">*base.gms</span></code> and filled <code class="docutils literal notranslate"><span class="pre">EPM_input.xlsx</span></code>, and run the script. The model will automatically include all the input data and files, solve the model and produce the results.</p>
 </section>
 <section id="works-deploying-epm">
 <h1>Works deploying EPM<a class="headerlink" href="#works-deploying-epm" title="Permalink to this heading">#</a></h1>
@@ -1110,11 +1092,6 @@ obtain a copy of the License at <a class="reference external" href="https://crea
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
    About
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#quick-start">
-   Quick start
   </a>
  </li>
  <li class="toc-h1 nav-item toc-entry">
