@@ -32,6 +32,14 @@ Follow these steps:
    pip install -r requirements.txt
    ```
 
+**Important**:
+- Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally >= 48).
+- For Windows users: You might see an error when installing some packages (like chaospy, scipy, etc.). This is because Windows needs extra tools to compile them.
+    1. Go to [VSCode build tools](https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/)
+    2. Download and install Build Tools for Visual Studio.
+    3. During installation, check the option: `C++ build tools`
+    4. After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command again.
+
 ---
 
 ## 2. Run the Model (Basic Test)
@@ -83,64 +91,63 @@ EPM supports sensitivity analysis to assess how changes in key parameters impact
   ```sh
   python epm.py --folder_input my_data --sensitivity
   ```
-
-### C. Monte Carlo Analysis (Experimental)
-
-Monte Carlo allows evaluating uncertainty across input ranges.
-
-1. Create an uncertainty file (`your_uncertainty_file.csv`) with the following columns:
-   - `feature`: e.g., `fossilfuel`, `demand`, `hydro`
-   - `type`: distribution type (e.g., `Uniform`)
-   - `lowerbound`, `upperbound`
-   - `zones` (optional): semicolon-separated list of zones, or leave blank for all
-
-2. Example run:
-   ```sh
-   python epm.py --folder_input my_data \
-                 --montecarlo \
-                 --montecarlo_samples 20 \
-                 --uncertainties input/data/your_uncertainty_file.csv
-   ```
-
-3. You can restrict Monte Carlo to selected scenarios:
-   ```sh
-   --scenarios input/scenarios.csv --selected_scenarios Scenario1 Scenario2
-   ```
-
-> Tip: Set `reportshort = 1` in your config to reduce memory use during multiple runs.
-
----
-
-## 5. Available Command-Line Options
-
-| Argument                  | Description                                                  | Default                         |
-|---------------------------|--------------------------------------------------------------|---------------------------------|
-| `--config`                | Path to config file                                          | `input/config.csv`              |
-| `--folder_input`          | Input folder with model data                                 | `data_gambia`                   |
-| `--scenarios`             | Path to scenarios CSV file                                   | *(None)*                        |
-| `--selected_scenarios`    | List of scenario names to run                                | All in file                     |
-| `--sensitivity`           | Enables sensitivity analysis                                 | `False`                         |
-| `--montecarlo`            | Enables Monte Carlo analysis                                 | `False`                         |
-| `--montecarlo_samples`    | Number of Monte Carlo samples                                | `10`                            |
-| `--uncertainties`         | Path to uncertainty definition CSV                           | *(None)*                        |
-| `--postprocess`           | Runs only the postprocessing step                            | *(None)*                        |
-| `--no_plot_dispatch`      | Disables automatic plotting of dispatch results              | `True`                          |
-
----
-
-## 6. Example: Combined Usage
-
+To run EPM with a specific input folder and enable sensitivity analysis, use:
 ```sh
-python epm.py --folder_input input/data_eapp \
-              --scenarios input/scenarios.csv \
-              --selected_scenarios HighDemand \
-              --montecarlo \
-              --montecarlo_samples 50 \
-              --uncertainties input/uncertainty_file.csv
+python epm.py --folder_input my_data --sensitivity
+```
+This will execute EPM using the `my_data` folder as input and perform sensitivity analysis.
+
+For advanced users, additional arguments can be combined as needed to customize the simulation workflow.
+
+## Monte-Carlo analysis (ongoing development)
+
+EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.
+
+What the code does is:
+- You define uncertain parameters and their ranges.
+- The model creates several versions (samples) of each scenario based on these uncertainties.
+- For each scenario:
+  1. It runs the model with your default settings and optimizes investment pathways (classical EPM approach).
+  2. Then, it runs Monte Carlo simulations where these investment pathways are fixed and only dispatch is optimized.
+- Graphs are automatically generated to show the results and how they vary due to uncertainty.
+
+How to run this feature:
+
+1. Define uncertainty ranges
+Create a CSV file specifying the uncertain parameters. This file should include the following columns:
+- `feature`: the name of the uncertain input (e.g., fossilfuel, demand)
+
+- `type`: the type of probability distribution (e.g., Uniform, Normal)
+
+- `lowerbound`: the lower limit of the distribution
+
+- `upperbound`: the upper limit of the distribution
+
+- `zones` (optional): List of zones where the uncertainty applies, separated by semicolons (e.g., `Zambia;Zimbabwe`). 
+If left empty, the uncertainty applies to all zones.
+
+Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
+Uncertainty sampling is powered by the [`chaospy` package](https://pypi.org/project/chaospy/), so only distributions available in `chaospy` can be used.
+
+Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
+
+- `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage
+- `demand`: scales the entire demand forecast (peak & energy) uniformly by a percentage across zones specified
+- `hydro`: scales hydro trajectories uniformly by a percentage  across zones specified
+Example file: [mc_uncertainties.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
+
+2. Specify in your command-line:
+```sh
+python epm.py --folder_input my_data --config input/my_data/my_config.csv --scenarios input/my_data/my_scenarios.csv --selected scenarios baseline Scenario1 Scenario2  --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/your_uncertainty_file.csv --no_plot_dispatch
 ```
 
-This command runs Monte Carlo simulations on the `HighDemand` scenario using 50 samples.
+This command will:
+- Load the uncertainties defined in your file (`--uncertainties input/data_sapp/your_uncertainty_file.csv`)
+- Generate 20 samples from the joint probability distribution (`--montecarlo_samples 20`)
+- Run the model for each selected scenario 
+- Run Monte Carlo dispatch simulations for each sample
 
----
+**Important:** Set `solvemode = 1` in your configuration to obtain the full outputs when running the default scenarios (in `PA_p.gdx` file). This saves detailed results used to fix investment decisions before the Monte Carlo step.
 
-Let me know if you want this section integrated into the full documentation file or need downloadable assets.
+
+
