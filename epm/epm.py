@@ -49,12 +49,17 @@ from requests import post, get
 from requests.auth import HTTPBasicAuth
 import gams.engine
 from gams.engine.api import jobs_api
+from gams import GamsWorkspace
 import json
 import argparse
+
 from postprocessing.utils import postprocess_output
 import re
 from pathlib import Path
 import sys
+import chaospy
+import numpy as np
+
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -87,7 +92,11 @@ def normalize_path(df):
     Returns:
     pd.DataFrame: A DataFrame with normalized file paths.
     """
-    return df.map(lambda x: str(Path(x).as_posix()) if isinstance(x, (Path, str)) else x)
+    if (isinstance(df, pd.DataFrame)) or (isinstance(df, pd.Series)):
+        return df.map(lambda x: str(Path(x).as_posix()) if isinstance(x, (Path, str)) else x)
+    else:
+        assert isinstance(df, str), 'Type of df is not correct.'
+        return str(Path(df).as_posix()) if isinstance(df, (Path, str)) else df
 
 
 def get_auth_engine():
@@ -134,6 +143,80 @@ def post_job_engine(scenario_name, path_zipfile):
     return req
 
 
+def launch_epm_checkpoint(scenario,
+               scenario_name='',
+               path_main_file='main.gms',
+               path_base_file='base.gms',
+               path_report_file='generate_report.gms',
+               path_reader_file='input_readers.gms',
+               path_verification_file='input_verification.gms',
+               path_treatment_file='input_treatment.gms',
+               path_demand_file='generate_demand.gms',
+               path_cplex_file='cplex.opt',
+               folder_input=None,
+               path_engine_file=False,
+               prefix='' #'simulation_'
+               ):
+    """
+    Version with GAMS Control Python API - NOT WORKING CURRENTLY, UNDER DEVELOPMENT
+    """
+
+    def read_gams_model(model_path):
+        """
+        Read the GAMS model file and return its contents as a string.
+        """
+        with open(model_path, 'r') as file:
+            return file.read()
+
+    # Initialize GAMS workspace
+    def initialize_workspace(model_directory, sys_dir=None):
+        """
+        Initialize the GAMS workspace with the specified system and working directories.
+        """
+        return GamsWorkspace(system_directory=sys_dir, working_directory=model_directory)
+
+    # Create and run initial job from the GAMS model
+    def create_checkpoint(ws, gams_model, options=None):
+        """
+        Create a checkpoint and run the initial job from the GAMS model.
+        """
+        cp = ws.add_checkpoint()
+        job = ws.add_job_from_string(gams_model)
+        if options:
+            opt = ws.add_options()
+            for k,value in options.items():
+                opt.defines[k] = value
+            job.run(opt, checkpoint=cp)
+        else:
+            job.run(checkpoint=cp)
+        return cp, job
+
+    # Arguments for GAMS
+    options = {k: i for k, i in scenario.items()}
+    options.update({
+        'BASE_FILE': path_base_file,
+        'REPORT_FILE': path_report_file,
+        'READER_FILE': path_reader_file,
+        'VERIFICATION_FILE': path_verification_file,
+        'TREATMENT_FILE': path_treatment_file,
+        'DEMAND_FILE': path_demand_file,
+        'FOLDER_INPUT': folder_input,
+    })
+
+    # Defining the GAMS workspace
+    new_dir = os.path.abspath(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)), os.pardir))
+    os.chdir(new_dir)
+    model_path, model_directory =  os.path.join(new_dir, 'main.gms'), new_dir # Get the paths
+    gams_model = read_gams_model(model_path) # Open model
+    ws = initialize_workspace(model_directory) # Opening a gams workspace
+    cp, job = create_checkpoint(ws, gams_model, options=options) # cp capture the current state of the model and job the work going on
+    warmstart = job.out_db
+
+    result = None
+
+    return result
+
+
 def launch_epm(scenario,
                scenario_name='',
                path_main_file='main.gms',
@@ -146,7 +229,8 @@ def launch_epm(scenario,
                path_cplex_file='cplex.opt',
                folder_input=None,
                path_engine_file=False,
-               prefix=''#'simulation_'
+               dict_montecarlo=None,
+               prefix='' #'simulation_'
                ):
     """
     Launch the EPM model with the given scenario
@@ -168,6 +252,8 @@ def launch_epm(scenario,
     folder_input: str, optional, default None
     path_engine_file: str, optional, default False
         The path to the GAMS engine file
+    dict_montecarlo: dict, optional, default None
+        Correspondence for solution when running montecarlo scenarios
 
     Returns
     -------
@@ -191,16 +277,29 @@ def launch_epm(scenario,
         shutil.copy(path_cplex_file, new_file_path)
     else:
         shutil.copy(path_cplex_file, cwd)
+    
+    # Define the logfile name
+    logfile = os.path.join(cwd, 'main.log')
 
     # Arguments for GAMS
+    if dict_montecarlo is not None:  # running in Monte-Carlo setting
+        scenario['reportshort'] = 1  # shorter report to save memory
+        scenario['solvemode'] = 2    # solve without checkpoint
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
 
-    options = []
+    options = [
+        "--LogOption 4", # Write log to standard output and log file
+        f"--LogFile {logfile}" # Specify the name of the log file
+        ]
     if path_engine_file:
         print('Save file only to prepare running simulation on remote server')
         # Run GAMS with the updated environment
 
-        options = ['a=c', 'xs=engine_{}'.format(scenario_name)]
+        options.extend(['a=c', 'xs=engine_{}'.format(scenario_name)])
+
+    if dict_montecarlo is not None:
+        loadsolpath = os.path.join(os.path.abspath(os.path.join(cwd, os.pardir)), dict_montecarlo[scenario_name])
+        options.extend(["--LOADSOLPATH {}".format(loadsolpath)])
 
     command = ["gams", path_main_file] + options + ["--BASE_FILE {}".format(path_base_file),
                                                     "--REPORT_FILE {}".format(path_report_file),
@@ -208,7 +307,7 @@ def launch_epm(scenario,
                                                     "--VERIFICATION_FILE {}".format(path_verification_file),
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
-                                                    "--FOLDER_INPUT {}".format(folder_input),
+                                                    "--FOLDER_INPUT {}".format(folder_input)
                                                     ] + path_args
 
     # Print the command
@@ -248,9 +347,10 @@ def launch_epm(scenario,
     return result
 
 
-def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, path_engine_file=False):
+def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, path_engine_file=False,
+                            dict_montecarlo=None):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      path_engine_file=path_engine_file, **path_gams)
+                      path_engine_file=path_engine_file, dict_montecarlo=dict_montecarlo, **path_gams)
 
 
 def launch_epm_multi_scenarios(config='config.csv',
@@ -258,10 +358,14 @@ def launch_epm_multi_scenarios(config='config.csv',
                                selected_scenarios=['baseline'],
                                cpu=1, path_gams=None,
                                sensitivity=None,
+                               montecarlo=False,
+                               montecarlo_nb_samples=10,
+                               uncertainties=None,
                                path_engine_file=False,
                                folder_input=None,
                                project_assessment=None,
-                               simple=None):
+                               simple=None,
+                               run_multiprocess=True):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -284,13 +388,13 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     # Add the full path to the files
     if path_engine_file:
-        path_engine_file = os.path.join(os.getcwd(), path_engine_file)
+        path_engine_file = os.path.join(working_directory, path_engine_file)
 
     # Read the scenario CSV file
     if path_gams is not None:  # path for required gams file is provided
-        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in path_gams.items()}
+        path_gams = {k: os.path.join(working_directory, i) for k, i in path_gams.items()}
     else:  # use default configuration
-        path_gams = {k: os.path.join(os.getcwd(), i) for k, i in PATH_GAMS.items()}
+        path_gams = {k: os.path.join(working_directory, i) for k, i in PATH_GAMS.items()}
 
     # Read configuration file
     config = pd.read_csv(config).set_index('paramNames').squeeze()
@@ -321,11 +425,20 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Add full path to the files
     folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
     for k in s.keys():
-        s[k] = s[k].apply(lambda i: os.path.join(folder_input, i))
+        s[k] = s[k].apply(lambda i: os.path.join(folder_input, i) if '.csv' in i else i)
 
     # Run sensitivity analysis if activated
     if sensitivity is not None:
         s = perform_sensitivity(sensitivity, s)
+
+    # Run montecarlo analysis if activated
+    if montecarlo:
+        assert uncertainties is not None, "Monte Carlo analysis is activated, but uncertainties is set to None."
+        initial_scenarios = list(s.keys())
+        df_uncertainties = pd.read_csv(uncertainties)
+        distribution, samples, zone_mapping = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
+        s, scenarios_montecarlo = create_scenarios_montecarlo(samples, s, zone_mapping)
+        dict_montecarlo = {key: key.split('_')[0] for key in scenarios_montecarlo.keys()}  # getting the correspondence between montecarlo scenario and initial scenario
 
     # Set-up project assessment scenarios if activated
     if project_assessment is not None:
@@ -393,10 +506,30 @@ def launch_epm_multi_scenarios(config='config.csv',
     df = df.astype(str).map(extract_path)
     df.to_csv('simulations_scenarios.csv')
 
-    # Run EPM in multiprocess
-    with Pool(cpu) as pool:
-        result = pool.starmap(launch_epm_multiprocess,
-                              [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+    if montecarlo:
+        samples_mc = pd.DataFrame(samples)
+        samples_mc.columns = samples_mc.columns.map(lambda col: col.replace('.', 'p'))
+        samples_mc.to_csv('samples_montecarlo.csv')
+
+    if run_multiprocess:
+        # Run EPM in multiprocess
+        if not montecarlo:
+            with Pool(cpu) as pool:
+                result = pool.starmap(launch_epm_multiprocess,
+                                      [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+        else:
+            # First, run initial scenarios
+            # Ensure config file has extended setting to save output
+            with Pool(cpu) as pool:
+                result = pool.starmap(launch_epm_multiprocess,
+                                      [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+            # Modify config file to ensure limited output saved
+            with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
+                result = pool.starmap(launch_epm_multiprocess,
+                                      [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, dict_montecarlo) for k in scenarios_montecarlo.keys()])
+    else:
+        for name, scenario in s.items():
+            launch_epm_multiprocess(scenario, name, path_gams, folder_input, path_engine_file)
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
@@ -406,13 +539,274 @@ def launch_epm_multi_scenarios(config='config.csv',
     return folder, result
 
 
+class NamedJ:
+    """
+    A wrapper around a joint probability distribution created from multiple named distributions.
+
+    This class allows accessing individual distributions by name and sampling from the joint distribution.
+    """
+
+    def __init__(self, distributions):
+        """
+        Initialize the joint distribution from a dictionary of named distributions.
+
+        Parameters
+        ----------
+        distributions : dict
+            Dictionary where each key is the name of a variable and the value is a dictionary with:
+            - "type": name of a chaospy distribution (e.g., "Uniform")
+            - "args": arguments passed to the distribution (e.g., lower and upper bounds)
+        """
+        self.J = self.J_from_dict(distributions.values())
+        self.names = distributions.keys()
+        self.mapping = {k: i for i, k in enumerate(self.names)}
+
+    def __getitem__(self, attr):
+        """
+        Access a marginal distribution by name.
+
+        Parameters
+        ----------
+        name : str
+            Name of the variable (as defined in the input dictionary).
+        """
+        return self.J[self.mapping[attr]]
+
+    def J_from_dict(self, values):
+        DD = []
+        for v in values:
+            D = getattr(chaospy, v["type"])
+            DD.append(D(*v["args"]))
+        return chaospy.J(*DD)
+
+    def sample(self, size=100, rule="halton", fmt=3):
+        """
+        Sample from the joint distribution.
+
+        Parameters
+        ----------
+        size : int
+            Number of samples to generate.
+        rule : str
+            Sampling method used by chaospy (e.g., 'halton', 'random', 'sobol').
+        fmt : int
+            Number of decimal places to round the samples to.
+
+        Returns
+        -------
+        pd.DataFrame
+            Samples as a DataFrame with variable names as index and columns as samples.
+        """
+        samples = self.J.sample(size=size, rule=rule).round(fmt)
+        if len(samples.shape) == 1:  # single feature when doing samples
+            samples = samples.reshape(-1, samples.shape[0])
+        index = [f"{n}" for n in self.names]
+        return pd.DataFrame(samples, index=index)
+
+
+def multiindex2array(multiindex):
+    """
+    Convert a pandas MultiIndex to a NumPy array.
+    """
+    return np.array([np.array(row).astype(float) for row in multiindex]).T
+
+def multiindex2df(multiindex):
+    """
+    Convert a pandas MultiIndex to a DataFrame.
+    """
+    return pd.DataFrame(multiindex2array(multiindex), index=multiindex.names)
+
+
+def define_samples(df_uncertainties, nb_samples):
+    """
+    Generate a joint distribution and samples from a DataFrame defining uncertainty bounds.
+
+    Parameters
+    ----------
+    df_uncertainties : pd.DataFrame
+        Must contain columns: 'feature', 'type', 'lowerbound', 'upperbound'.
+    nb_samples : int
+        Number of samples to draw.
+
+    Returns
+    -------
+    tuple
+        (NamedJ distribution object, dict of samples keyed by a readable string for each sample)
+    """
+    uncertainties = {}
+    zone_mapping = {}
+    chaospy_distributions = [
+        name for name in dir(chaospy)
+        if callable(getattr(chaospy, name)) and hasattr(getattr(chaospy, name), '__module__')
+           and 'chaospy' in getattr(chaospy, name).__module__.lower()
+    ]
+    for _, row in df_uncertainties.iterrows():
+        feature, type, lowerbound, upperbound = row['feature'], row['type'], row['lowerbound'], row['upperbound']
+        assert type in chaospy_distributions, f'Distribution types is not allowed by the chaopsy package. Distribution type should belong to {chaospy_distributions}'
+        uncertainties[feature] = {
+            'type': type,
+            'args': (lowerbound, upperbound)
+        }
+        # Getting zones concerned by the uncertainty
+        zones = row['zones'] if pd.notna(row.get('zones', None)) else 'ALL'
+        if isinstance(zones, str):
+            zone_list = [z.strip() for z in zones.split(';')]
+        else:
+            zone_list = ['ALL']
+        zone_mapping[feature] = zone_list
+    distribution = NamedJ(uncertainties)
+
+    samples = distribution.sample(size=nb_samples, rule='halton')
+    samples = {
+        f'{"_".join([f"{idx}{samples.loc[idx, col]:.3f}" for idx in samples.index])}': {
+            idx: round(samples.loc[idx, col], 3) for idx in samples.index
+        }
+        for col in samples.columns
+    }
+    return distribution, samples, zone_mapping
+
+
+def create_scenarios_montecarlo(samples, s, zone_mapping):
+    """
+    Generate new scenarios for Monte Carlo analysis by modifying baseline input files
+    based on provided uncertainty samples.
+
+    This function creates new input files (under a `montecarlo/` subdirectory) for each
+    scenario sample, applies parameter-specific transformations (e.g., scaling demand or
+    fuel prices), and updates the scenario dictionary accordingly.
+
+    Parameters
+    ----------
+    samples : dict
+        Dictionary of samples where keys are scenario names and values are dicts
+        mapping uncertain variable names (e.g., 'fossilfuel', 'demand') to sample values.
+    s : dict
+        Dictionary of scenarios where 'baseline' must be defined. Each scenario is a
+        dictionary of parameter file paths.
+
+    Returns
+    -------
+    dict
+        Updated dictionary of scenarios, including new scenarios generated from samples.
+    """
+
+    def save_new_dataframe(df, s, param, val, name='baseline'):
+        """
+        Helper function to save a modified DataFrame to a new file and update the scenario path.
+
+        Parameters
+        ----------
+        df : pd.DataFrame
+            The modified DataFrame to save.
+        scenario_dict : dict
+            The main scenario dictionary.
+        param : str
+            The name of the parameter being modified (e.g., 'pFuelPrice').
+        val : float
+            The value used for this Monte Carlo sample (used in naming).
+        """
+        folder_mc = os.path.join(os.path.dirname(s[name][param]), 'montecarlo')
+        if not os.path.exists(folder_mc):
+            os.mkdir(folder_mc)
+
+        new_name = f'{param}_{val}'
+        new_name = new_name.replace('.', 'p') + '.csv'
+        path_file = os.path.join(folder_mc, new_name)
+        # Write the modified file
+        df.to_csv(path_file, index=True)
+
+        s[name_scenario][param] = path_file
+        return s
+
+    list_initial_scenarios = list(s.keys()).copy()
+    scenarios_montecarlo = {}
+    for name in list_initial_scenarios:
+
+        for name_scenario, sample in samples.items():
+            name_scenario = name_scenario.replace('.', 'p')
+            name_scenario = name + '_' + name_scenario
+            # Put in the scenario dir
+            scenarios_montecarlo[name_scenario] = s[name].copy()
+            for key, val in sample.items():
+                affected_zones = zone_mapping.get(key)
+                if key == 'fossilfuel':
+                    param = 'pFuelPrice'
+                    price_df = pd.read_csv(s[name][param], index_col=[0, 1]).copy()
+                    price_df.columns = price_df.columns.astype(int)
+                    tech_list = ["Diesel", "HFO", "Coal", "Gas", "LNG"]
+                    idx = pd.IndexSlice
+                    if 'ALL' in affected_zones:
+                        price_df.loc[idx[:, tech_list], :] *= (1 + val)
+                    else:
+                        price_df.loc[idx[affected_zones, tech_list], :] *= (1 + val)
+                    save_new_dataframe(price_df, scenarios_montecarlo, param, val, name=name_scenario)
+
+                if key == 'demand':
+                    param = 'pDemandForecast'
+                    demand_df = pd.read_csv(s[name][param], index_col=[0, 1]).copy()
+                    demand_df.columns = demand_df.columns.astype(int)
+
+                    cols = [i for i in demand_df.columns if i not in ['zone', 'type']]
+                    idx = pd.IndexSlice
+                    if 'ALL' in affected_zones:
+                        demand_df.loc[:, cols] *= (1 + val)
+                    else:
+                        demand_df.loc[idx[affected_zones, :], cols] *= (1 + val)
+
+                    save_new_dataframe(demand_df, scenarios_montecarlo, param, val, name=name_scenario)
+
+                if key == 'hydro':
+                    # First handling default values
+                    param = 'pAvailabilityDefault'
+                    availability_default = pd.read_csv(s[name][param], index_col=[0, 1, 2]).copy()
+                    # availability_default.columns = availability_default.columns.astype(float)
+                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'fuel']]
+                    tech_list = ['ROR', 'ReservoirHydro']
+                    if 'ALL' in affected_zones:
+                        mask = availability_default.index.get_level_values('tech').isin(tech_list)
+
+                    else:
+                        mask = (availability_default.index.get_level_values('zone').isin(affected_zones)) & \
+                               (availability_default.index.get_level_values('tech').isin(tech_list))
+
+                    availability_default.loc[mask, cols] *= (1 + val)
+
+                    save_new_dataframe(availability_default, scenarios_montecarlo, param, val, name=name_scenario)
+
+                    # Then handling custom values
+                    param = 'pAvailability'
+                    param_to_merge = 'pGenDataExcel'
+                    availability_custom = pd.read_csv(s[name][param], index_col=[0]).copy()
+
+                    gendata = pd.read_csv(s[name][param_to_merge], index_col=[0,1,2,3]).copy()
+                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'fuel']]
+                    availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
+                    availability_custom.set_index(['gen', 'zone', 'tech', 'fuel'], inplace=True)
+
+                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'fuel']]
+                    if 'ALL' in affected_zones:
+                        mask = availability_custom.index.get_level_values('tech').isin(tech_list)
+
+                    else:
+                        mask = (availability_custom.index.get_level_values('zone').isin(affected_zones)) & \
+                               (availability_custom.index.get_level_values('tech').isin(tech_list))
+
+                    availability_custom.loc[mask, cols] *= (1 + val)
+                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'fuel'], axis=0)
+
+                    save_new_dataframe(availability_custom, scenarios_montecarlo, param, val, name=name_scenario)
+
+    return s, scenarios_montecarlo
+
+
 def perform_sensitivity(sensitivity, s):
     param = 'pSettings'
-    if sensitivity.get(param):
+    if sensitivity.get(param):  # testing implications of some setting parameters
         settings_sensi = {'VOLL': [250],
                           'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
-                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1]}
+                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1],
+                          'includeIntercoReserves': [0,1], 'interco_reserve_contribution': [0, 0.5]}
         # 'mingen_constraints': [1], # 'DR': [0.04, 0.08],
 
         # Iterate over the Settings to change
@@ -442,7 +836,7 @@ def perform_sensitivity(sensitivity, s):
                 s[name][param] = path_file
 
     param = 'y'
-    if sensitivity.get(param):
+    if sensitivity.get(param):  # testing implications of year definition
         df = pd.read_csv(s['baseline'][param])
         # Check if all years have been include in the analysis
         if not (df[param].diff().dropna() == 1).all():
@@ -480,7 +874,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pDemandForecast'
+    param = 'pDemandForecast'  # testing implications of demand forecast
     if sensitivity.get(param):
         demand_forecast_sensi = [-0.25, -0.1, 0.1, 0.25]
         for val in demand_forecast_sensi:
@@ -504,7 +898,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pDemandProfile'
+    param = 'pDemandProfile'  # testing implications of having a flat profile
     if sensitivity.get(param):
         df = pd.read_csv(s['baseline'][param])
 
@@ -524,7 +918,7 @@ def perform_sensitivity(sensitivity, s):
         s[name] = s['baseline'].copy()
         s[name][param] = path_file
 
-    param = 'pAvailabilityDefault'
+    param = 'pAvailabilityDefault'  # testing implications of a change in availability for thermal power plants (default values, custom values stay the same)
     if sensitivity.get(param):
         availability_sensi = [0.3, 0.7]
 
@@ -549,7 +943,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'pCapexTrajectoriesDefault'
+    param = 'pCapexTrajectoriesDefault'  # testing implications of constant capex trajectories
     if sensitivity.get(param):
 
         df = pd.read_csv(s['baseline'][param])
@@ -570,7 +964,7 @@ def perform_sensitivity(sensitivity, s):
         s[name] = s['baseline'].copy()
         s[name][param] = path_file
 
-    param = 'pFuelPrice'
+    param = 'pFuelPrice'  # testing implications of fuel prices
     if sensitivity.get(param):
         fuel_price_sensi = [-0.2, 0.2]
 
@@ -595,7 +989,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][param] = path_file
 
-    param = 'ResLimShare'
+    param = 'ResLimShare'  # testing implications of contribution to reserves
     if sensitivity.get(param):
         parameter = 'pGenDataExcelDefault'
         reslimshare_sensi = [-0.5, -1]
@@ -619,7 +1013,7 @@ def perform_sensitivity(sensitivity, s):
             s[name] = s['baseline'].copy()
             s[name][parameter] = path_file
 
-    param = 'BuildLimitperYear'
+    param = 'BuildLimitperYear'  # testing implications of limitations of build per year
     if sensitivity.get(param):
         parameter = 'pGenDataExcel'
 
@@ -641,7 +1035,7 @@ def perform_sensitivity(sensitivity, s):
         s[parameter] = s['baseline'].copy()
         s[parameter][parameter] = path_file
 
-    param  = 'pVREProfile'
+    param  = 'pVREProfile'  # testing implications of a change in VRE production
     if sensitivity.get(param):
         capacity_factor_sensi = [-0.2, 0.2]
 
@@ -665,6 +1059,7 @@ def perform_sensitivity(sensitivity, s):
             s[name][param] = path_file
 
     return s
+
 
 def perform_assessment(project_assessment, s):
     try:
@@ -749,6 +1144,26 @@ def main(test_args=None):
     )
 
     parser.add_argument(
+        "--montecarlo",
+        action="store_true",
+        help="Enable montecarlo analysis (default: False)"
+    )
+
+    parser.add_argument(
+        "--montecarlo_samples",
+        type=int,
+        default=10,
+        help="Number of samples to use in the Monte Carlo analysis (default: 10)"
+    )
+
+    parser.add_argument(
+        "--uncertainties",
+        type=str,
+        default=None,
+        help="Uncertainties file name (default: no filename)"
+    )
+
+    parser.add_argument(
         "--reduced_output",
         action="store_false",
         help="Enable reduced output (default: False)"
@@ -791,11 +1206,12 @@ def main(test_args=None):
         help="Name of the path engine file (default: None)"
     )
 
+
     parser.add_argument(
         "--postprocess",
         type=str,
         default=None,
-        help="Run only postprocess with folder (default: True)"
+        help="Run only postprocess with folder (default: None)"
     )
 
     parser.add_argument(
@@ -805,6 +1221,14 @@ def main(test_args=None):
         default="all",
         help="List of selected scenarios (default: None). Example usage: --plot_selected_scenarios baseline HighDemand"
     )
+
+    parser.add_argument(
+        "--no_run_multiprocess",
+        dest="run_multiprocess",
+        action="store_false",
+        help="Disable running in parallel (default: True)"
+    )
+    parser.set_defaults(run_multiprocess=True)
 
     parser.add_argument(
         "--no_plot_dispatch",
@@ -832,15 +1256,19 @@ def main(test_args=None):
     print(f"Folder input: {args.folder_input}")
     print(f"Scenarios file: {args.scenarios}")
     print(f"Sensitivity: {args.sensitivity}")
+    print(f"MonteCarlo: {args.montecarlo}")
+    print(f"MonteCarlo samples: {args.montecarlo_samples}")
+    print(f"Monte Carlo uncertainties file: {args.uncertainties}")
     print(f"Reduced output: {args.reduced_output}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
+    print(f"Run multiprocesses: {args.run_multiprocess}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': False, 'pDemandForecast': False,
+        sensitivity = {'pSettings': True, 'pDemandForecast': True,
                        'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': False, 'pDemandProfile': False,
-                       'y': False, 'ResLimShare': False, 'pVREProfile': False,
+                       'pAvailabilityDefault': True, 'pDemandProfile': False,
+                       'y': True, 'ResLimShare': True, 'pVREProfile': True,
                        'BuildLimitperYear': True}
     else:
         sensitivity = None
@@ -851,11 +1279,14 @@ def main(test_args=None):
                                                     folder_input=args.folder_input,
                                                     scenarios_specification=args.scenarios,
                                                     sensitivity=sensitivity,
+                                                    montecarlo=args.montecarlo,
+                                                    montecarlo_nb_samples=args.montecarlo_samples,
+                                                    uncertainties=args.uncertainties,
                                                     selected_scenarios=args.selected_scenarios,
                                                     cpu=args.cpu,
                                                     project_assessment=args.project_assessment,
                                                     simple=args.simple,
-                                                    path_engine_file=args.engine)
+                                                    path_engine_file=args.engine, run_multiprocess=args.run_multiprocess)
     else:
         print(f"Project folder: {args.postprocess}")
         print("EPM does not run again but use the existing simulation within the folder" )
@@ -864,7 +1295,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=False, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo)
 
 
 if __name__ == '__main__':

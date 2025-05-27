@@ -54,18 +54,19 @@ alias (z,z2), (g,g1,g2);
 
 * Generators
 Sets
-   eg(g)       'existing generators'
-   ng(g)       'new generators'
-   cs(g)       'concentrated solar power'
-   so(g)       'PV plants with storage'
-   stp(g)      'storage for PV plant'
-   st(g)       'all storage plants'
-   dc(g)       'candidate generators with capex trajectory'
-   ndc(g)      'candidate generators without capec trajectory'
-   vre(g)      'variable renewable generators'
-   re(g)       'renewable generators'
-   RampRate(g) 'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
-   VRE_noROR(g) 'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
+   eg(g)                  'existing generators'
+   ng(g)                  'new generators'
+   commtransmission(z,z2) 'Committed transmission lines'
+   cs(g)                  'concentrated solar power'
+   so(g)                  'PV plants with storage'
+   stp(g)                 'storage for PV plant'
+   st(g)                  'all storage plants'
+   dc(g)                  'candidate generators with capex trajectory'
+   ndc(g)                 'candidate generators without capec trajectory'
+   vre(g)                 'variable renewable generators'
+   re(g)                  'renewable generators'
+   RampRate(g)            'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
+   VRE_noROR(g)           'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
     
 ************** H2 model specific sets ***************************
    eh(hh)           'existing hydrogen generation plants'
@@ -677,13 +678,11 @@ eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraint
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
-
-
 eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
  + pinterco_reserve_contribution * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")
+                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer
                                         - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
    
@@ -880,7 +879,6 @@ eZonalEmissions(z,y)..
    sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 eEmissionsCountry(c,y)$pzonal_co2_constraints..
-
 
    sum(zcmap(z,c), vZonalEmissions(z,y))-vYearlyCO2backstop(c,y)=l= pEmissionsCountry(c,y);
 

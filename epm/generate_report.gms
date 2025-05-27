@@ -27,6 +27,7 @@ Parameters
    pCountryPlanReserveCosts(c,y)             'Planning reserve violation cost by zone in USD'
    pCostsbyPlant(z,g,*,y)                    'Yearly Costs by Plant'
    pCostSummary(z,*,y)                       'Summary of costs in millions USD  (unweighted and undiscounted) by zone'
+   pCostSummaryFull(z,*,y)                   'Summary of costs in millions USD  (unweighted and undiscounted) by zone - full version'
    pCostSummaryCountry(c,*,y)                'Summary of costs in millions USD  (unweighted and undiscounted) by country'
    pCostSummaryWeighted(z,*,y)               'Summary of costs in millions USD  (weighted and undiscounted) by zone'
    pCostSummaryWeightedCountry(c,*,y)        'Summary of costs in millions USD  (weighted and undiscounted) by country'
@@ -272,14 +273,38 @@ set avgsumhdr /
 set sumhdrmap(avgsumhdr,sumhdr) / #avgsumhdr:#sumhdr /;
    
 *--- Cost Summary Unweighted by zone
-pCostSummary(z,"Capex: $m"                    ,y) = pCapex(z,y)/1e6;
+pCostSummaryFull(z,"Capex: $m"                    ,y) = pCapex(z,y)/1e6;
+pCostSummaryFull(z,"Annualized capex: $m"         ,y) = pAnncapex(z,y)/1e6;
+pCostSummaryFull(z,"Fixed O&M: $m"                ,y) = pFOM(z,y)/1e6;
+pCostSummaryFull(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
+
+pCostSummaryFull(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
+
+* Should we keep O to be sure we are considering all cost components ?
+pCostSummaryFull(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
+pCostSummaryFull(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
+pCostSummaryFull(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
+pCostSummaryFull(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
+pCostSummaryFull(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
+pCostSummaryFull(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
+pCostSummaryFull(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
+pCostSummaryFull(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
+pCostSummaryFull(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
+pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
+
+
+pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+                                                    
+
 pCostSummary(z,"Annualized capex: $m"         ,y) = pAnncapex(z,y)/1e6;
 pCostSummary(z,"Fixed O&M: $m"                ,y) = pFOM(z,y)/1e6;
 pCostSummary(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
-
 pCostSummary(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
-
-* Should we keep O to be sure we are considering all cost components ?
 pCostSummary(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
@@ -287,30 +312,20 @@ pCostSummary(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y
 pCostSummary(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummary(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
 pCostSummary(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
-pCostSummary(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
-pCostSummary(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
 pCostSummary(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
-
-
-pCostSummary(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-pCostSummary(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
 
 *--- Cost Summary Unweighted by country
 
 pCostSummaryCountry(c,"Capex: $m",y)= sum(zcmap(z,c), pCapex(z,y))/1e6 ;                     
 
-pCostSummaryCountry(c,sumhdr,y) = sum(zcmap(z,c), pCostSummary(z,sumhdr,y));
+pCostSummaryCountry(c,sumhdr,y) = sum(zcmap(z,c), pCostSummaryFull(z,sumhdr,y));
 
 pCostSummaryCountry(c,"Country Spinning Reserve violation: $m",y) = pUSRLocCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Country Planning Reserve violation: $m",y) = pCountryPlanReserveCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Total CO2 backstop cost by Country: $m",y) = pCO2backstopCosts(c,y)/1e6 ;
 
-pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummary(z,"Total Annual Cost by Zone: $m",y))
+pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y))
                                                                   + (pUSRLocCosts(c,y) + pCountryPlanReserveCosts(c,y)
                                                                   + pCO2backstopCosts(c,y))/1e6 ;
 
@@ -318,7 +333,7 @@ pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,
 
 
 *--- Cost Summary Weighted by zone
-pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummary(z,sumhdr,y);
+pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummaryFull(z,sumhdr,y);
 
 
 pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y)
@@ -329,7 +344,7 @@ pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnn
 
 pCostSummaryWeightedCountry(c,"Capex: $m",y)= pCostSummaryCountry(c,"Capex: $m",y);                     
 
-pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSummary(z,sumhdr,y));
+pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSummaryFull(z,sumhdr,y));
 
 pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y) = pWeightYear(y)*pUSRLocCosts(c,y)/1e6;
 pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y) = pWeightYear(y)*pCountryPlanReserveCosts(c,y)/1e6;
@@ -870,7 +885,14 @@ $ifthen.excelreport %DOEXCELREPORT%==1
 $if not set OUTPUT_DIR $set OUTPUT_DIR output_csv
 * create output directory
 
-$call /bin/sh -c "mkdir -p '%OUTPUT_DIR%'"
+*$call /bin/sh -c "mkdir -p '%OUTPUT_DIR%'"
+
+embeddedCode Connect:
+- PythonCode:
+    code: |
+      import os
+      os.makedirs(r"%OUTPUT_DIR%", exist_ok=True)
+endEmbeddedCode
 
 
 embeddedCode Connect:
@@ -879,70 +901,31 @@ embeddedCode Connect:
       symbols = [
         "pSettings",
         "pSummary",
-        "pSystemAverageCost",
-        "pZonalAverageCost",
-        "pCountryAverageCost",
-        "pAveragePrice",
-        "pAveragePriceExp",
-        "pAveragePriceImp",
+        "pPeakCapacity",
+        "pPeakCapacityCountry",
         "pPrice",
-        "pAveragePriceHub",
-        "pAveragePriceCountry",
-        "pAveragePriceExpCountry",
-        "pAveragePriceImpCountry",
         "pCostSummary",
+        "pCostSummaryFull",
         "pCostSummaryCountry",
-        "pCostSummaryWeighted",
-        "pCostSummaryWeightedCountry",
         "pCostSummaryWeightedAverageCountry",
+        "pCostsbyPlant",
         "pFuelCosts",
         "pFuelCostsCountry",
-        "pFuelConsumption",
-        "pFuelConsumptionCountry",
         "pEnergyByPlant",
         "pEnergyByFuel",
         "pEnergyByFuelCountry",
-        "pEnergyByTechandFuel",
-        "pEnergyByTechandFuelCountry",
         "pEnergyMix",
         "pDemandSupply",
-        "pDemandSupplyCountry",
         "pInterchange",
-        "pInterchangeExtExp",
-        "pInterchangeExtImp",
         "pInterconUtilization",
-        "pInterconUtilizationExtExp",
-        "pInterconUtilizationExtImp",
-        "pLossesTransmission",
         "pInterchangeCountry",
-        "pLossesTransmissionCountry",
-        "pYearlyTrade",
-        "pHourlyTrade",
-        "pYearlyTradeCountry",
-        "pHourlyTradeCountry",
-        "pPeakCapacity",
-        "pCapacityByFuel",
-        "pCapacityByTechandFuel",
-        "pNewCapacityFuel",
         "pCapacityPlan",
-        "pAdditionalCapacity",
-        "pAnnualTransmissionCapacity",
-        "pRetirements",
-        "pPeakCapacityCountry",
+        "pCapacityByFuel",
         "pCapacityByFuelCountry",
-        "pCapacityByTechandFuelCountry",
+        "pAdditionalCapacity",
+        "pNewCapacityFuel",
         "pNewCapacityFuelCountry",
-        "pCapacityPlanCountry",
-        #
-        "pNewCapacityTech",
-        "pNewCapacityTechCountry",
-        "pReserveMarginRes",
-        "pReserveMarginResCountry",
-        "pCostsbyPlant",
-        "pRetirementsFuel",
-        "pRetirementsCountry",
-        "pRetirementsFuelCountry",
-        "pAdditionalCapacityCountry",
+        "pAnnualTransmissionCapacity",
         #
         "pUtilizationByFuel",
         "pUtilizationByTechandFuel",
@@ -952,37 +935,16 @@ embeddedCode Connect:
         "pSpinningReserveCostsZone",
         "pSpinningReserveByPlantCountry",
         "pSpinningReserveCostsCountry",
+        "pSpinningReserveByFuelZone",
         "pCapacityCredit",
         "pEmissions",
         "pEmissionsIntensity",
-        "pEmissionsCountry1",
-        "pEmissionsIntensityCountry",
-        "pEmissionMarginalCosts",
-        "pEmissionMarginalCostsCountry",
-        "pPlantDispatch",
+        "pFuelDispatch",
         "pDispatch",
         "pPlantUtilization",
         "pPlantAnnualLCOE",
-        "pPlantUtilizationTech",
-        "pCSPBalance",
-        "pCSPComponents",
-        "pPVwSTOBalance",
-        "pPVwSTOComponents",
-        "pStorageBalance",
-        "pStorageComponents",
-        "pSolarValue",
-        "pSolarCost",
-        "pSolverParameters",
-        "pDemandSupplySeason",
-        "pEnergyByPlantSeason",
-        "pInterchangeSeason",
-        "pSeasonTrade",
-        "pInterchangeSeasonCountry",
-        "pSeasonTradeCountry",
-        # H2 model additions
-        "pDemandSupplyH2",
-        "pDemandSupplyCountryH2",
-        "pCapacityPlanH2",
+        "pZonalAverageCost",
+        "zcmap"
         ]
       instructions.append(
         {'GAMSReader': {'symbols': [{'name': s} for s in symbols]}}
@@ -1000,32 +962,39 @@ endEmbeddedCode
 
 * Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValue, pSolarCost, pCapacityByTechandFuel, pPlantUtilizationTech
 
-execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
-                                 pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
-                                 pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
-                                 pCostSummary, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
-                                 pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
-                                 pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
-                                 pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
-                                 pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
-                                 pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
-                                 pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
-                                 pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
-                                 pNewCapacityTech, pNewCapacityTechCountry,
-                                 pReserveMarginRes, pReserveMarginResCountry,
-                                 pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
-                                 pAdditionalCapacityCountry,
-                                 pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
-                                 pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
-                                 pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
-                                 pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
-                                 pFuelUtilization,
-                                 pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
-                                 pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
-                                 pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
-                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
+$ifThenI.reportshort %REPORTSHORT% == 0
+* Extensive reporting is used
+    execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
+                                     pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
+                                     pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
+                                     pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
+                                     pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
+                                     pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
+                                     pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
+                                     pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
+                                     pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
+                                     pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
+                                     pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
+                                     pNewCapacityTech, pNewCapacityTechCountry,
+                                     pReserveMarginRes, pReserveMarginResCountry,
+                                     pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
+                                     pAdditionalCapacityCountry,
+                                     pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
+                                     pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
+                                     pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
+                                     pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
+                                     pFuelUtilization,
+                                     pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
+                                     pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
+                                     pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
+                                     pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
 
-;
+    ;
+$elseIfI.reportshort %REPORTSHORT% == 1
+*  Limited reporting is used
+    execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull
+    ;
+$endIf.reportshort
 
 file fgdxxrw / 'gdxxrw.out' /;
 file fxlsxrep / 'xlsxReport.cmd' /;
@@ -1035,14 +1004,6 @@ scalar isWindows; loop(execPlatform, isWindows=ord(execPlatform.te,1)=ord('W',1)
 put$(not isWindows) fxlsxrep 'rem Run to create Excel files' / 'cd "%gams.workdir%"';
 $setNames "%gams.input%" fp fn fe
 
-*the below lines allow to save a dedicated result file by scenario
-*Parameter XlsTalkResult;
-*execute 'xlstalk -M -V    data%system.dirsep%input%system.dirsep%EPMRESULTS_%RunScenario%_%mydate%.xlsb';
-*         XlsTalkResult = errorlevel;
-*         if(              XlsTalkResult > 0,
-*                          execute 'xlstalk -S -V    data%system.dirsep%input%system.dirsep%EPMRESULTS_%RunScenario%_%mydate%.xlsb';
-*         );
-*execute "copy data%system.dirsep%input%system.dirsep%EPMRESULTS.xlsb  data%system.dirsep%input%system.dirsep%EPMRESULTS_%RunScenario%_%mydate%.xlsb /y"
 
 
 
@@ -1146,11 +1107,6 @@ $  onPut
 ********************************************************************************************************   
 $  offPut
    putclose;
-   if (isWindows,
-      execute.checkErrorLevel 'gdxxrw epmresults.gdx output="%XLS_OUTPUT%" @WriteZonalandCountry.txt';
-   else
-      put fxlsxrep / 'gdxxrw "%fn%\epmresults.gdx" output="%XLS_OUTPUT%" @"%fn%\WriteZonalandCountry.txt"';
-   );
    
 
 
