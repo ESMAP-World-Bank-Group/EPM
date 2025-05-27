@@ -32,6 +32,14 @@ Follow these steps:
    pip install -r requirements.txt
    ```
 
+**Important**:
+- Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally >= 48).
+- For Windows users: You might see an error when installing some packages (like chaospy, scipy, etc.). This is because Windows needs extra tools to compile them.
+    1. Go to [VSCode build tools](https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/)
+    2. Download and install Build Tools for Visual Studio.
+    3. During installation, check the option: `C++ build tools`
+    4. After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command again.
+
 ---
 
 ## 2. Run the Model (Basic Test)
