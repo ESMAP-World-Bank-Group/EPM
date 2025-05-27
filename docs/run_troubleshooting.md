@@ -1,48 +1,84 @@
-# Troublehooting
+# Common Issues & Troubleshooting
 
-## Common issues
+The EPM code performs several automatic checks on input data. If the model fails or produces unexpected outputs, inspect the **log file** for error messages and failed tests. This page lists common issues and how to resolve them.
 
-### Time definition
+If you encounter new issues, please contact the EPM team so we can expand this list.
 
-- The parameters `pHours`, `pVREProfile`, `pVREgenProfile`, and `pDemandProfile` should have the same (q, d, t) combinations. An error is raised if they do not.
+---
 
-### Default dataframes
+## Time Definitions
 
-Files such as `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` should include all combinations of zone, tech, and fuel defined in pGenDataExcel. Typical error:
+The following parameters must share the same time structure (q, d, t):
 
-``` 
-  File "<string>", line 134, in prepare_generatorbased_parameter
-Exception from Python (line 264): <class 'ValueError'>: Missing values in default is not permitted. To fix this bug ensure that all combination in pAvailabilityDefault are included.
+- `pHours`
+- `pVREProfile`
+- `pVREgenProfile`
+- `pDemandProfile`
+
+An error is raised if they are inconsistent.
+
+---
+
+## Default DataFrames
+
+Files like `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` must include all combinations of **zone**, **tech**, and **fuel** defined in `pGenDataExcel`.
+
+**Typical error**:
+```
+Exception from Python (line 264): <class 'ValueError'>:
+Missing values in default is not permitted.
+To fix this bug ensure that all combinations in pAvailabilityDefault are included.
 ```
 
-### Fuels and technologies definition
+---
 
-The new version of EPM uses updated naming conventions for fuels and technologies. When transitioning from an older version of the model (e.g., using Excel-based inputs), special attention must be given to aligning fuel and technology names with the new standard, as some of these are referenced directly in the GAMS code.
-These appear across several input files and must be harmonized accordingly. Refer to the `Data Structure Documentation` section for the full list of authorized names. Key files involved include:
+## Fuel and Technology Naming
 
-- ftfindex.csv: Contains the list of allowed fuel names and their associated indices. Primarily used to define secondary fuels where applicable. This file is standardized and should not be modified.
-- pTechData.csv: Contains the list of allowed tech names and associated characteristics. This file is standardized and should not be modified.
-- pFuelCarbonContent.csv: Defines fuel-specific carbon content. This file is standardized and should not be modified.
-- pGenDataExcelCustom.csv and pGenDataExcelDefault: Core files where fuel and technology types are defined for each generation asset, and where default values are defined per set of fuel and technology.
+EPM uses standardized names for fuels and technologies. If you're upgrading from an older version (e.g., Excel-based inputs), make sure to **align your names with the updated standard**.
 
-### pGenDataExcelCustom
+Do not modify the following reference files:
 
-- Candidate plants are missing from the output file: **Please verify that `BuildLimitperYear` is properly defined.**
-- If power plant names are too long, the following error may appear:
-``` 
-Exception from Connect: <class 'UnboundLocalError'>: cannot access local variable 'was_relaxed' where it is not associated with a value
-*** Error executing embedded code section:
+- `ftfindex.csv`: Authorized fuel names and indices (used for secondary fuels)
+- `pTechData.csv`: Authorized tech names and properties
+- `pFuelCarbonContent.csv`: Fuel-specific carbon content
+
+Also review:
+
+- `pGenDataExcelCustom.csv` and `pGenDataExcelDefault.csv`: Core generator data inputs. All fuel and technology names must be consistent with the files above.
+
+Refer to the **Data Structure Documentation** for accepted naming conventions.
+
+---
+
+## Issues with `pGenDataExcelCustom`
+
+- **Missing candidate plants in output**: Check that `BuildLimitperYear` is properly filled.
+- **Error due to long plant names**:
+  ```
+  Exception from Connect: <class 'UnboundLocalError'>:
+  cannot access local variable 'was_relaxed' where it is not associated with a value
+  ```
+
+---
+
+## Issues with `pStorageDataExcel`
+
+All **storage technologies** listed in `pGenDataExcelCustom` must also be included in `pStorageDataExcel`.
+
+**Typical error**:
 ```
-
-### pStorageDataExcel 
-
-Storage technologies listed in `pGenDataExcelCustom` should also appear in `pStorageDataExcel`. Otherwise, an error such as the following will be raised:
-
-``` 
-Exception from Python (line 455): <class 'ValueError'>: Error: The following fuels are in gendata but not defined in pStorData: 
+Exception from Python (line 455): <class 'ValueError'>:
+Error: The following fuels are in gendata but not defined in pStorData:
 {'New_BESS_AGO'}
 ```
 
-### Transmission data
-- All (z, z2) pairs in 'pTransferLimit' should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.
-- Each candidate transmission line should only specified once in pNewTransmission. An error is raised otherwise.
+---
+
+## Transmission Data
+
+- All zone pairs `(z, z2)` defined in `pTransferLimit` must have their reverse `(z2, z)` also present. Missing pairs trigger an error.
+- Each candidate transmission line should be listed **only once** in `pNewTransmission`. Duplicates will trigger an error.
+
+---
+
+Let us know if you encounter other recurring problems—we’ll keep this list updated.

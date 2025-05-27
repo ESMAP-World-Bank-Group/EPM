@@ -1,216 +1,167 @@
-# Running EPM with Remote Server
+# Running EPM on the Remote Server
 
-Our calculation server is the preferred way to launch computationally expensive EPM simulations.
+The World Bank's remote server is designed for **running computationally heavy EPM simulations**.
 
-## Prerequisites
-Before you connect to the remote server, ensure you have the following:
-- A **WB computer** or **VDI (Virtual Desktop Infrastructure)**.
-- A **YubiKey** (only required for VDI authentication).
+## Server Specifications
+- **CPU**: 4 cores  
+- **Total RAM**: 31 GB  
+- **Typical Free RAM**: ~6 GB  
+- Use `free -h` and `top` to monitor real-time usage.
 
-## Steps to Connect
+---
 
-**Important**:
-If you are not using a World Bank-issued computer, you must:
-- Have your Yubikey available 
-- Be connected through your VDI (Virtual Desktop Infrastructure)
+## 1. Prerequisites
 
-The setup will not work outside the VDI or without a Yubikey.
+You need:
+- A **World Bank computer** or access via **VDI (Virtual Desktop Infrastructure)**
+- A **YubiKey** (only for VDI login)
 
-1. **Access the PrivX Portal**
-   - Open your browser and navigate to:  
-     **[PrivX Login](https://privx.worldbank.org/auth/login)**
-   - Click on the **Microsoft Sign-in** option and log in with your credentials.
+⚠️ If you're not using a WB-issued device, you **must** use the VDI and your YubiKey.
 
-2. **Connect to the Server**
-   - After logging in, go to the **Connections** tab.
-   - Click on the **host server** that starts with `"Linux-xxx-.worldbank.org"`.
+---
 
-3. **Accessing the Server**
-   - You are now connected to the remote server.
-   - The interface provides:
-     - A **terminal** for executing commands.
-     - A **Files** section (accessible via the top-right header) to manage files.
+## 2. Connect to the Server
 
-## Navigating the File Interface
-The **Files** tab in the remote connection interface allows you to:
-- **Browse directories** by clicking on folders.
-- **Upload files** from your local computer to the server.
-- **Download files** from the server to your local machine.
-- **Edit files** directly through the interface if needed.
+1. Go to [PrivX Login](https://privx.worldbank.org/auth/login)  
+2. Sign in with **Microsoft credentials**
+3. In the **Connections** tab, click on a host like `Linux-xxx-.worldbank.org`
 
-However, for more control, you can manage files directly from the terminal.
+Once connected, you’ll have access to:
+- A **Terminal** (for commands)
+- A **Files tab** (to upload/download files)
 
-## Basic Terminal Commands
+---
 
-### Listing Files and Navigating Directories
-- **List files and folders**:  
-  ```sh
-  ls
-  ```
-- **Show detailed list (permissions, owner, size, modification date)**:  
-  ```sh
-  ls -l
-  ```
-- **Change directory**:  
-  ```sh
-  cd folder_name
-  ```
-- **Move up one directory level**:  
-  ```sh
-  cd ..
-  ```
-- **Show the current directory path**:  
-  ```sh
-  pwd
-  ```
+## 3. Clone the EPM Repository
 
-### Creating and Removing Directories
-- **Create a new directory**:  
-  ```sh
-  mkdir new_directory
-  ```
-- **Remove an empty directory**:  
-  ```sh
-  rmdir directory_name
-  ```
-- **Remove a directory and its contents**:  
-  ```sh
-  rm -r directory_name
-  ```
-  ⚠️ **Be careful with `rm -r`, as it will permanently delete all files inside the directory!**
+Once on the server, navigate to your home directory and clone the repository:
 
-## Uploading and Downloading Files
-To transfer files between your local machine and the remote server, you can use:
-- **The web interface Files tab** (simpler for occasional uploads/downloads).
-
-## Cloning the EPM Repository
-Make sure you are in your home directory, which should look like  `home/wbXXXXXX` where XXXXXX is your World Bank UPI. You can go to your home directory with:
 ```sh
 cd ~
-```
-
-To work with EPM, first clone the repository from GitHub:
-
-```sh
 git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
-```
-
-This will create a directory named `EPM` with all the necessary files.
-
-You can then move into the project folder with:
-```sh
 cd EPM
 ```
 
-**Note**: To clone a specific branch directly:
-```sh 
+To clone a specific branch:
+```sh
 git clone --branch your-branch-name --single-branch https://github.com/ESMAP-World-Bank-Group/EPM.git
 ```
-Replace your-branch-name with the exact name of the branch (case-sensitive).
 
-## Best Practices for Running EPM
-When working with EPM, follow this workflow:
+---
+
+## 4. Best Practices Workflow
+
+You do not modify the code on the sever directly. Instead, follow these steps to ensure a smooth workflow:
 
 1. **Test Locally First**  
-   - Run your code on a simple example (e.g., a few years, LP, one scenario) to ensure it works correctly before using the server.
-   - Keep the test case small to debug efficiently.
+   Run a simple example on your computer before launching long runs on the server.
 
-2. **Push Changes to Your Git Branch**  
-   - Once your local test runs successfully, push your changes to your remote branch:
-     ```sh
-     git add .
-     git commit -m "Your commit message"
-     git push origin your-branch-name
-     ```
+2. **Push Your Local Changes** from your computer
+   ```sh
+   git add .
+   git commit -m "Your message"
+   git push origin your-branch-name
+   ```
 
-3. **Pull Your Updated Code on the Server**  
-   - Navigate to your EPM directory on the server:
-     ```sh
-     cd EPM
-     ```
-   - Update the repository:
-     ```sh
-     git pull origin your-branch-name
-     ```
-   This ensures you have the latest version of your code on the server.
+3. **Update Code on the Server**
+   ```sh
+   cd ~/EPM
+   git pull origin your-branch-name
+   ```
 
+---
 
-4. **Run EPM on the Server**  
-   - Once your updated code is on the server, you can launch your EPM simulations.
+## 5. Run EPM on the Server (Option 1 – Python or GAMS)
 
-## Running EPM
+Once your code is ready, you can run EPM on the server using the **same steps as on your computer**.
 
-There are two ways to launch EPM:
+### A. Python (Recommended)
 
-### 1. Running EPM Directly with GAMS
-This method allows you to execute the model directly using GAMS.
+First time only: create the Python environment
 
-- Navigate to the EPM directory:
-  ```sh
-  cd EPM/epm
-  ```
-- Run the GAMS model:
-  ```sh
-  gams main.gms
-  ```
-- You can also provide inline arguments:
-  ```sh
-  gams main.gms --FOLDER_INPUT data
-  ```
-
-### 2. Running EPM Using the Python API (Recommended)
-Using the Python API enables additional functionalities such as direct scenario analysis and sensitivity analysis. You don’t need to know Python—just follow these steps !
-Refer to EPM Python API documentation for more details.
-
-#### Preliminary step: creating conda environment
-
-To run the EPM model in Python, you must first create a conda environment. This step is essential to ensure all required Python packages are properly installed.
-
-As a reminder on how to create such an environment:
-1. Create the environment with conda. Run the following command to create a new environment called esmap_env with Python version 3.10:
-```sh 
-conda create --name esmap_env python=3.10
-```
-2. Once created, activate the environment with:
-```sh 
+```sh
+conda create -n esmap_env python=3.10
 conda activate esmap_env
-```
-
-3. Install the required packages using the requirements.txt file provided in the repository:
-```sh 
 pip install -r requirements.txt
 ```
 
-#### Launching code
-
-- Navigate to the EPM directory:
-  ```sh
-  cd EPM
-  ```
-- Activate the Conda environment to ensure all necessary Python packages are available:
-  ```sh
-  conda activate esmap_env
-  ```
-- Run the EPM model from the `epm` folder (you can go to this folder with `cd epm`):
-  ```sh
-  python epm/run_epm.py
-  ```
-- You can also specify additional arguments when launching EPM. For instance, you can call
-```sh 
-python epm.py --folder_input data_sapp --config input/data_sapp/config.csv --scenarios input/data_sapp/scenarios_sapp.csv --selected_scenario baseline
+Each time you run:
+```sh
+conda activate esmap_env
+cd EPM/epm
+python run_epm.py
 ```
 
-Command line arguments are further discussed in Section `Running EPM from Python`.
+You can also specify arguments:
+```sh
+python epm.py --folder_input data_sapp --config input/data_sapp/config.csv --scenarios input/data_sapp/scenarios.csv --selected_scenario baseline
+```
 
+### B. GAMS (to test if bug does not appear in Python)
+You don't have access to GAMS Studio on the server, but you can run GAMS directly from the terminal.
+```sh
+cd EPM/epm
+gams main.gms
+# or with arguments:
+gams main.gms --FOLDER_INPUT input_folder
+```
 
 ---
-**Reminder**: Always test your code locally before running large simulations on the server to avoid unnecessary computational load.
+
+## 6. Run in Background (Essential for Long Runs)
+
+To **start a long simulation and disconnect safely**, add `nohup` at the beginning and `&` at the end of your command:
+
+```sh
+nohup python epm.py --folder_input data_sapp --sensitivity &
+```
+
+This ensures the process keeps running even after you close the server session.
+
+To verify it’s still running:
+```sh
+ps aux | grep epm.py
+```
+
+To stop it if needed:
+```sh
+kill -9 <PID>
+```
 
 ---
-**Troubleshooting:**
-- If you cannot log in via **Microsoft Sign-in**, ensure your credentials are correct.
-- If the VDI option is used, make sure your **YubiKey** is properly inserted and functioning.
-- If you cannot access the terminal, try reconnecting to the server.
 
----
-**Reminder**: Always log out when you're finished to ensure security.
+## 7. Help Section: Terminal Commands
+
+### File Navigation Basics
+
+- **List files**: `ls`  
+- **Detailed list**: `ls -l`  
+- **Change directory**: `cd folder_name`  
+- **Go up one level**: `cd ..`  
+- **Print current directory**: `pwd`  
+- **Make directory**: `mkdir new_folder`  
+- **Delete directory and contents**: `rm -r folder_name` *(⚠ irreversible)*
+
+### Server Usage Tips
+
+- **Monitor usage**:  
+  ```sh
+  top        # real-time CPU/memory
+  free -h    # memory summary
+  ```
+- **Find heavy processes**:  
+  ```sh
+  ps aux --sort=-%mem | head -10
+  ```
+- **Kill a process**:  
+  ```sh
+  kill -9 <PID>
+  ```
+
+### Final Reminders
+
+✅ Test locally first  
+✅ Always log out after use  
+✅ Use `nohup` for long runs  
+❌ Don’t overload the server  
+🤝 Coordinate with others if needed
