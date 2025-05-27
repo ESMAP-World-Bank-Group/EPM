@@ -2,7 +2,7 @@
 
 The main generation and storage technologies modeled in EPM are presented in the table below and the following paragraphs. 
 
-For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/CCDR_Energy_Transition_Analysis_FY24_Methodology_Note.docx).
+For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/CCDR_Energy_Transition_Analysis_FY24_Methodology_Note.pdf).
 
 
 ---
