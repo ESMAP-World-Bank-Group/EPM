@@ -8,7 +8,11 @@ If you encounter new issues, please contact the EPM team so we can expand this l
 
 ## Time Definitions
 
+<<<<<<< HEAD
 The following parameters must share the same time structure (q, d, t):
+=======
+Files such as `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` should include all combinations of zone, tech, and fuel defined in pGenDataExcel. If this is not the case, this will raise an error. Typical error:
+>>>>>>> 5814d8e227964c533fd0faa84d6db3e1f70213ce
 
 - `pHours`
 - `pVREProfile`
@@ -72,13 +76,31 @@ Error: The following fuels are in gendata but not defined in pStorData:
 {'New_BESS_AGO'}
 ```
 
----
+### Transmission data
+- All (z, z2) pairs in 'pTransferLimit' should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.
+- Each candidate transmission line should only specified once in pNewTransmission. An error is raised otherwise.
 
-## Transmission Data
+### Zone definition
 
-- All zone pairs `(z, z2)` defined in `pTransferLimit` must have their reverse `(z2, z)` also present. Missing pairs trigger an error.
-- Each candidate transmission line should be listed **only once** in `pNewTransmission`. Duplicates will trigger an error.
+Zones are defined in the file `zcmap.csv`. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
+pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactor, pVREProfile
 
----
+The following input files must use zone names that match those defined in `zcmap.csv`:
 
-Let us know if you encounter other recurring problems—we’ll keep this list updated.
+The list of zones used in your model is defined in the file `zcmap.csv`. This file acts as the master reference for zone names across the entire model workflow. 
+> ⚠️ All other input files that refer to zones will **only** recognize zones that are listed in `zcmap.csv`.
+> 
+> 
+- `pGenDataExcel`
+- `pGenDataExcelDefault`
+- `pCapexTrajectoriesDefault`
+- `pAvailabilityDefault`
+- `pNewTransmission`
+- `pDemandProfile`
+- `pDemandForecast`
+- `pTransferLimit`
+- `pLossFactor`
+- `pVREProfile`
+
+We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.
+>>>>>>> 5814d8e227964c533fd0faa84d6db3e1f70213ce
