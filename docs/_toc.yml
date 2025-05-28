@@ -13,6 +13,7 @@ parts:
       - file: docs/run_installation
       - file: docs/run_gams_studio
       - file: docs/run_python
+      - file: docs/run_python_advanced
       - file: docs/run_remote_server.md
       - file: docs/run_git_process.md
       - file: docs/run_troubleshooting.md
