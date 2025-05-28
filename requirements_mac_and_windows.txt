@@ -6,3 +6,4 @@ numpy
 geopandas
 requests
 folium
+chaospy==4.3.18

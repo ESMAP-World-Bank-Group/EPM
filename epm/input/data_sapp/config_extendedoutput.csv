@@ -42,7 +42,7 @@ pLossFactor,trade/pLossFactor.csv
 pMaxPriceImportShare,trade/pMaxPriceImportShare.csv
 pMaxExchangeShare,trade/pMaxExchangeShare.csv
 pMinImport,trade/pMinImport.csv
-pNewTransmission,trade/pNewTransmission.csv
+pNewTransmission,trade/pNewTransmissionBaseline.csv
 pTradePrice,trade/pTradePrice.csv
 pTransferLimit,trade/pTransferLimitCurrent.csv
 H2,
