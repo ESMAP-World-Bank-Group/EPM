@@ -96,89 +96,136 @@ This runs the model using the default input folder and configuration.
 
 ## 3. Input Data
 
-Input data are defined in a folder and controlled via a `config.csv` file, which specifies what CSV files to use for each parameter in the model.
+Input data are defined in a folder `folder_input` and controlled via a `config.csv` file, which specifies what CSV files to use for each parameter in the model.
 
 - Example input structure is provided in the GitHub `main` branch under the `input` folder.
 - See the [input documentation](https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html) for full details.
 
+By default, the model uses the `data_test` input folder and `input/config.csv` file, but command line arguments allow you to specify different folders and configurations.
+
 ---
 
-## 4. Advanced Usage
+## 4. Specifying Arguments for your Run
 
-The Python interface supports advanced features via command-line options.
 
-### A. Run Multiple Scenarios
+### `--folder_input`
+- **Type:** string  
+- **Default:** `data_test`  
+- **Purpose:** Folder containing the CSV input data for the simulation.  
+- **Notes:** Should contain the input files referenced in the config.
 
-To run additional scenarios beyond the baseline:
 
-1. Create a `scenarios.csv` file in your input folder.
-2. Run EPM using:
+### `--config`
+- **Type:** string  
+- **Default:** `input/config.csv`  
+- **Purpose:** Specifies the configuration file that defines baseline input CSV files and parameters.  
+- **Notes:** The config file is required for proper data loading and scenario configuration.
 
-```sh
-python epm.py --folder_input my_data --scenarios input/my_scenarios.csv
+### `--scenarios`
+- **Type:** string  
+- **Default:** None  
+- **Purpose:** Path to a scenario definition file specifying multiple scenarios and their overridden inputs.  
+- **Notes:** If omitted, only the baseline scenario will run.
+
+### `--sensitivity`
+- **Type:** flag (boolean)  
+- **Default:** False  
+- **Purpose:** Enables sensitivity analysis which automatically modifies select parameters to evaluate model sensitivity.  
+- **Usage:** Include `--sensitivity` to enable.
+
+### `--montecarlo`
+- **Type:** flag (boolean)  
+- **Default:** False  
+- **Purpose:** Enables Monte Carlo simulation by sampling uncertain parameters multiple times.  
+- **Usage:** Include `--montecarlo` to enable.
+
+### `--montecarlo_samples`
+- **Type:** integer  
+- **Default:** 10  
+- **Purpose:** Number of random samples/scenarios to generate during Monte Carlo analysis.  
+- **Notes:** Larger numbers increase accuracy but require more computation.
+
+### `--uncertainties`
+- **Type:** string  
+- **Default:** None  
+- **Purpose:** CSV file that specifies uncertain parameters and their distributions for Monte Carlo sampling.  
+- **Notes:** Required if `--montecarlo` is enabled.
+
+### `--reduced_output`
+- **Type:** flag (boolean)  
+- **Default:** False  
+- **Purpose:** Generates reduced-size outputs to save memory, useful for large Monte Carlo runs.
+
+### `--selected_scenarios`
+- **Type:** list of strings  
+- **Default:** None  
+- **Purpose:** Specifies a subset of scenarios from the scenarios file to run.  
+- **Example:** `--selected_scenarios baseline ScenarioA`
+
+### `--cpu`
+- **Type:** integer  
+- **Default:** 1  
+- **Purpose:** Number of CPU cores to use for running scenarios in parallel.
+
+### `--project_assessment`
+- **Type:** list of strings  
+- **Default:** None  
+- **Purpose:** Specifies projects to exclude from the simulation to assess counterfactual scenarios.  
+- **Example:** `--project_assessment SolarProject`
+
+### `--simple`
+- **Type:** list of strings  
+- **Default:** None  
+- **Purpose:** Enables simplified model modes by toggling specified parameters.
+
+### `--engine`
+- **Type:** string  
+- **Default:** None  
+- **Purpose:** Path to a GAMS Engine file for running simulations remotely.
+
+### `--postprocess`
+- **Type:** string  
+- **Default:** None  
+- **Purpose:** Runs only postprocessing on an existing output folder, skipping simulation.
+
+### `--plot_selected_scenarios`
+- **Type:** list of strings  
+- **Default:** `"all"`  
+- **Purpose:** Specifies scenarios to plot in postprocessing.
+
+### `--no_run_multiprocess`
+- **Type:** flag (boolean)  
+- **Default:** False (multiprocessing enabled by default)  
+- **Purpose:** Disables parallel processing of scenarios (forces sequential execution).
+
+### `--no_plot_dispatch`
+- **Type:** flag (boolean)  
+- **Default:** False (dispatch plotting enabled by default)  
+- **Purpose:** Disables automatic creation of dispatch plots to save time and memory.
+
+### `--graphs_folder`
+- **Type:** string  
+- **Default:** `img`  
+- **Purpose:** Directory where postprocessing graphs and plots will be saved.
+
+---
+
+## Example Usage
+
+Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:
+
+```bash
+python run_epm.py --folder_input data_sapp --sensitivity --cpu 4
 ```
 
-### B. Sensitivity Analysis
-
-EPM supports sensitivity analysis to assess how changes in key parameters impact results.
-
-Currently, parameters to vary are hard-coded. It means you cannot yet specify which parameters to vary directly from the command line. 
-
-To run EPM and enabling sensitivity analysis, use:
-```sh
-python epm.py --folder_input my_data --sensitivity
-```
-This will execute EPM and perform sensitivity analysis.
-
-### C. Monte-Carlo analysis (ongoing development)
-
-EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.
-
-What the code does is:
-- You define uncertain parameters and their ranges.
-- The model creates several versions (samples) of each scenario based on these uncertainties.
-- For each scenario:
-  1. It runs the model with your default settings and optimizes investment pathways (classical EPM approach).
-  2. Then, it runs Monte Carlo simulations where these investment pathways are fixed and only dispatch is optimized.
-- Graphs are automatically generated to show the results and how they vary due to uncertainty.
-
-How to run this feature:
-
-1. Define uncertainty ranges
-Create a CSV file specifying the uncertain parameters. This file should include the following columns:
-- `feature`: the name of the uncertain input (e.g., fossilfuel, demand)
-
-- `type`: the type of probability distribution (e.g., Uniform, Normal)
-
-- `lowerbound`: the lower limit of the distribution
-
-- `upperbound`: the upper limit of the distribution
-
-- `zones` (optional): List of zones where the uncertainty applies, separated by semicolons (e.g., `Zambia;Zimbabwe`). 
-If left empty, the uncertainty applies to all zones.
-
-Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
-Uncertainty sampling is powered by the [`chaospy` package](https://pypi.org/project/chaospy/), so only distributions available in `chaospy` can be used.
-
-Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
-
-- `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage
-- `demand`: scales the entire demand forecast (peak & energy) uniformly by a percentage across zones specified
-- `hydro`: scales hydro trajectories uniformly by a percentage  across zones specified
-Example file: [mc_uncertainties.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
-
-2. Specify in your command-line:
-```sh
-python epm.py --folder_input my_data --config input/my_data/my_config.csv --scenarios input/my_data/my_scenarios.csv --selected scenarios baseline Scenario1 Scenario2  --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/your_uncertainty_file.csv --no_plot_dispatch
+Run postprocessing only on a previous simulation folder:
+```bash
+python run_epm.py --postprocess simulations_run_2025-05-01_12-00-00
 ```
 
-This command will:
-- Load the uncertainties defined in your file (`--uncertainties input/data_sapp/your_uncertainty_file.csv`)
-- Generate 20 samples from the joint probability distribution (`--montecarlo_samples 20`)
-- Run the model for each selected scenario 
-- Run Monte Carlo dispatch simulations for each sample
-
-**Important:** Set `solvemode = 1` in your configuration to obtain the full outputs when running the default scenarios (in `PA_p.gdx` file). This saves detailed results used to fix investment decisions before the Monte Carlo step.
-
+Run Monte Carlo analysis with 20 samples and a specified uncertainties file:
+```bash
+python run_epm.py --montecarlo --montecarlo_samples 20 --uncertainties input/uncertainties.csv
+``` 
 
 

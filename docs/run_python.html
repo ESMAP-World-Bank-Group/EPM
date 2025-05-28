@@ -62,7 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run_python.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Running EPM on the Remote Server" href="run_remote_server.html" />
+    <link rel="next" title="Advanced Usage" href="run_python_advanced.html" />
     <link rel="prev" title="Running EPM from GAMS Studio" href="run_gams_studio.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
@@ -187,6 +187,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Running EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
+                        Advanced Usage
                       </a>
                     </li>
                 
@@ -493,6 +500,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
+                        Advanced Usage
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_remote_server.html">
                         Running EPM on the Remote Server
                       </a>
@@ -744,6 +758,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="run_installation.html">EPM Installation Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_gams_studio.html">Running EPM from GAMS Studio</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Running EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_advanced.html">Advanced Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Running EPM on the Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
@@ -988,26 +1003,178 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advanced-usage">
-   4. Advanced Usage
+  <a class="reference internal nav-link" href="#specifying-arguments-for-your-run">
+   4. Specifying Arguments for your Run
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-run-multiple-scenarios">
-     A. Run Multiple Scenarios
+    <a class="reference internal nav-link" href="#folder-input">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --folder_input
+      </span>
+     </code>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b-sensitivity-analysis">
-     B. Sensitivity Analysis
+    <a class="reference internal nav-link" href="#config">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --config
+      </span>
+     </code>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-monte-carlo-analysis-ongoing-development">
-     C. Monte-Carlo analysis (ongoing development)
+    <a class="reference internal nav-link" href="#scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sensitivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --sensitivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#montecarlo">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --montecarlo
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#montecarlo-samples">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --montecarlo_samples
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#uncertainties">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --uncertainties
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reduced-output">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --reduced_output
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cpu">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --cpu
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-assessment">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --project_assessment
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simple">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --simple
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#engine">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --engine
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#postprocess">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --postprocess
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --plot_selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-run-multiprocess">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --no_run_multiprocess
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-plot-dispatch">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --no_plot_dispatch
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#graphs-folder">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --graphs_folder
+      </span>
+     </code>
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-usage">
+   Example Usage
+  </a>
  </li>
 </ul>
 
@@ -1124,89 +1291,185 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="input-data">
 <h2>3. Input Data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h2>
-<p>Input data are defined in a folder and controlled via a <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file, which specifies what CSV files to use for each parameter in the model.</p>
+<p>Input data are defined in a folder <code class="docutils literal notranslate"><span class="pre">folder_input</span></code> and controlled via a <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file, which specifies what CSV files to use for each parameter in the model.</p>
 <ul class="simple">
 <li><p>Example input structure is provided in the GitHub <code class="docutils literal notranslate"><span class="pre">main</span></code> branch under the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder.</p></li>
 <li><p>See the <a class="reference external" href="https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html">input documentation</a> for full details.</p></li>
 </ul>
+<p>By default, the model uses the <code class="docutils literal notranslate"><span class="pre">data_test</span></code> input folder and <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code> file, but command line arguments allow you to specify different folders and configurations.</p>
 </section>
 <hr class="docutils" />
-<section id="advanced-usage">
-<h2>4. Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this heading">#</a></h2>
-<p>The Python interface supports advanced features via command-line options.</p>
-<section id="a-run-multiple-scenarios">
-<h3>A. Run Multiple Scenarios<a class="headerlink" href="#a-run-multiple-scenarios" title="Permalink to this heading">#</a></h3>
-<p>To run additional scenarios beyond the baseline:</p>
-<ol class="arabic simple">
-<li><p>Create a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file in your input folder.</p></li>
-<li><p>Run EPM using:</p></li>
-</ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/my_scenarios.csv
+<section id="specifying-arguments-for-your-run">
+<h2>4. Specifying Arguments for your Run<a class="headerlink" href="#specifying-arguments-for-your-run" title="Permalink to this heading">#</a></h2>
+<section id="folder-input">
+<h3><code class="docutils literal notranslate"><span class="pre">--folder_input</span></code><a class="headerlink" href="#folder-input" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">data_test</span></code></p></li>
+<li><p><strong>Purpose:</strong> Folder containing the CSV input data for the simulation.</p></li>
+<li><p><strong>Notes:</strong> Should contain the input files referenced in the config.</p></li>
+</ul>
+</section>
+<section id="config">
+<h3><code class="docutils literal notranslate"><span class="pre">--config</span></code><a class="headerlink" href="#config" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code></p></li>
+<li><p><strong>Purpose:</strong> Specifies the configuration file that defines baseline input CSV files and parameters.</p></li>
+<li><p><strong>Notes:</strong> The config file is required for proper data loading and scenario configuration.</p></li>
+</ul>
+</section>
+<section id="scenarios">
+<h3><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code><a class="headerlink" href="#scenarios" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Path to a scenario definition file specifying multiple scenarios and their overridden inputs.</p></li>
+<li><p><strong>Notes:</strong> If omitted, only the baseline scenario will run.</p></li>
+</ul>
+</section>
+<section id="sensitivity">
+<h3><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code><a class="headerlink" href="#sensitivity" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> flag (boolean)</p></li>
+<li><p><strong>Default:</strong> False</p></li>
+<li><p><strong>Purpose:</strong> Enables sensitivity analysis which automatically modifies select parameters to evaluate model sensitivity.</p></li>
+<li><p><strong>Usage:</strong> Include <code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code> to enable.</p></li>
+</ul>
+</section>
+<section id="montecarlo">
+<h3><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code><a class="headerlink" href="#montecarlo" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> flag (boolean)</p></li>
+<li><p><strong>Default:</strong> False</p></li>
+<li><p><strong>Purpose:</strong> Enables Monte Carlo simulation by sampling uncertain parameters multiple times.</p></li>
+<li><p><strong>Usage:</strong> Include <code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code> to enable.</p></li>
+</ul>
+</section>
+<section id="montecarlo-samples">
+<h3><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span></code><a class="headerlink" href="#montecarlo-samples" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> integer</p></li>
+<li><p><strong>Default:</strong> 10</p></li>
+<li><p><strong>Purpose:</strong> Number of random samples/scenarios to generate during Monte Carlo analysis.</p></li>
+<li><p><strong>Notes:</strong> Larger numbers increase accuracy but require more computation.</p></li>
+</ul>
+</section>
+<section id="uncertainties">
+<h3><code class="docutils literal notranslate"><span class="pre">--uncertainties</span></code><a class="headerlink" href="#uncertainties" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> CSV file that specifies uncertain parameters and their distributions for Monte Carlo sampling.</p></li>
+<li><p><strong>Notes:</strong> Required if <code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code> is enabled.</p></li>
+</ul>
+</section>
+<section id="reduced-output">
+<h3><code class="docutils literal notranslate"><span class="pre">--reduced_output</span></code><a class="headerlink" href="#reduced-output" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> flag (boolean)</p></li>
+<li><p><strong>Default:</strong> False</p></li>
+<li><p><strong>Purpose:</strong> Generates reduced-size outputs to save memory, useful for large Monte Carlo runs.</p></li>
+</ul>
+</section>
+<section id="selected-scenarios">
+<h3><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code><a class="headerlink" href="#selected-scenarios" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Specifies a subset of scenarios from the scenarios file to run.</p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span> <span class="pre">baseline</span> <span class="pre">ScenarioA</span></code></p></li>
+</ul>
+</section>
+<section id="cpu">
+<h3><code class="docutils literal notranslate"><span class="pre">--cpu</span></code><a class="headerlink" href="#cpu" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> integer</p></li>
+<li><p><strong>Default:</strong> 1</p></li>
+<li><p><strong>Purpose:</strong> Number of CPU cores to use for running scenarios in parallel.</p></li>
+</ul>
+</section>
+<section id="project-assessment">
+<h3><code class="docutils literal notranslate"><span class="pre">--project_assessment</span></code><a class="headerlink" href="#project-assessment" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Specifies projects to exclude from the simulation to assess counterfactual scenarios.</p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--project_assessment</span> <span class="pre">SolarProject</span></code></p></li>
+</ul>
+</section>
+<section id="simple">
+<h3><code class="docutils literal notranslate"><span class="pre">--simple</span></code><a class="headerlink" href="#simple" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Enables simplified model modes by toggling specified parameters.</p></li>
+</ul>
+</section>
+<section id="engine">
+<h3><code class="docutils literal notranslate"><span class="pre">--engine</span></code><a class="headerlink" href="#engine" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Path to a GAMS Engine file for running simulations remotely.</p></li>
+</ul>
+</section>
+<section id="postprocess">
+<h3><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code><a class="headerlink" href="#postprocess" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Runs only postprocessing on an existing output folder, skipping simulation.</p></li>
+</ul>
+</section>
+<section id="plot-selected-scenarios">
+<h3><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span></code><a class="headerlink" href="#plot-selected-scenarios" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code></p></li>
+<li><p><strong>Purpose:</strong> Specifies scenarios to plot in postprocessing.</p></li>
+</ul>
+</section>
+<section id="no-run-multiprocess">
+<h3><code class="docutils literal notranslate"><span class="pre">--no_run_multiprocess</span></code><a class="headerlink" href="#no-run-multiprocess" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> flag (boolean)</p></li>
+<li><p><strong>Default:</strong> False (multiprocessing enabled by default)</p></li>
+<li><p><strong>Purpose:</strong> Disables parallel processing of scenarios (forces sequential execution).</p></li>
+</ul>
+</section>
+<section id="no-plot-dispatch">
+<h3><code class="docutils literal notranslate"><span class="pre">--no_plot_dispatch</span></code><a class="headerlink" href="#no-plot-dispatch" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> flag (boolean)</p></li>
+<li><p><strong>Default:</strong> False (dispatch plotting enabled by default)</p></li>
+<li><p><strong>Purpose:</strong> Disables automatic creation of dispatch plots to save time and memory.</p></li>
+</ul>
+</section>
+<section id="graphs-folder">
+<h3><code class="docutils literal notranslate"><span class="pre">--graphs_folder</span></code><a class="headerlink" href="#graphs-folder" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">img</span></code></p></li>
+<li><p><strong>Purpose:</strong> Directory where postprocessing graphs and plots will be saved.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">#</a></h2>
+<p>Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
 </pre></div>
 </div>
-</section>
-<section id="b-sensitivity-analysis">
-<h3>B. Sensitivity Analysis<a class="headerlink" href="#b-sensitivity-analysis" title="Permalink to this heading">#</a></h3>
-<p>EPM supports sensitivity analysis to assess how changes in key parameters impact results.</p>
-<p>Currently, parameters to vary are hard-coded. It means you cannot yet specify which parameters to vary directly from the command line.</p>
-<p>To run EPM and enabling sensitivity analysis, use:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--sensitivity
+<p>Run postprocessing only on a previous simulation folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_epm.py<span class="w"> </span>--postprocess<span class="w"> </span>simulations_run_2025-05-01_12-00-00
 </pre></div>
 </div>
-<p>This will execute EPM and perform sensitivity analysis.</p>
-</section>
-<section id="c-monte-carlo-analysis-ongoing-development">
-<h3>C. Monte-Carlo analysis (ongoing development)<a class="headerlink" href="#c-monte-carlo-analysis-ongoing-development" title="Permalink to this heading">#</a></h3>
-<p>EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.</p>
-<p>What the code does is:</p>
-<ul class="simple">
-<li><p>You define uncertain parameters and their ranges.</p></li>
-<li><p>The model creates several versions (samples) of each scenario based on these uncertainties.</p></li>
-<li><p>For each scenario:</p>
-<ol class="arabic simple">
-<li><p>It runs the model with your default settings and optimizes investment pathways (classical EPM approach).</p></li>
-<li><p>Then, it runs Monte Carlo simulations where these investment pathways are fixed and only dispatch is optimized.</p></li>
-</ol>
-</li>
-<li><p>Graphs are automatically generated to show the results and how they vary due to uncertainty.</p></li>
-</ul>
-<p>How to run this feature:</p>
-<ol class="arabic simple">
-<li><p>Define uncertainty ranges
-Create a CSV file specifying the uncertain parameters. This file should include the following columns:</p></li>
-</ol>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">feature</span></code>: the name of the uncertain input (e.g., fossilfuel, demand)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">type</span></code>: the type of probability distribution (e.g., Uniform, Normal)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">lowerbound</span></code>: the lower limit of the distribution</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">upperbound</span></code>: the upper limit of the distribution</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">zones</span></code> (optional): List of zones where the uncertainty applies, separated by semicolons (e.g., <code class="docutils literal notranslate"><span class="pre">Zambia;Zimbabwe</span></code>).
-If left empty, the uncertainty applies to all zones.</p></li>
-</ul>
-<p>Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
-Uncertainty sampling is powered by the <a class="reference external" href="https://pypi.org/project/chaospy/"><code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package</a>, so only distributions available in <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> can be used.</p>
-<p>Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">demand</span></code>: scales the entire demand forecast (peak &amp; energy) uniformly by a percentage across zones specified</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">hydro</span></code>: scales hydro trajectories uniformly by a percentage  across zones specified
-Example file: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv">mc_uncertainties.csv example</a>.</p></li>
-</ul>
-<ol class="arabic simple" start="2">
-<li><p>Specify in your command-line:</p></li>
-</ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--config<span class="w"> </span>input/my_data/my_config.csv<span class="w"> </span>--scenarios<span class="w"> </span>input/my_data/my_scenarios.csv<span class="w"> </span>--selected<span class="w"> </span>scenarios<span class="w"> </span>baseline<span class="w"> </span>Scenario1<span class="w"> </span>Scenario2<span class="w">  </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/data_sapp/your_uncertainty_file.csv<span class="w"> </span>--no_plot_dispatch
+<p>Run Monte Carlo analysis with 20 samples and a specified uncertainties file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_epm.py<span class="w"> </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/uncertainties.csv
 </pre></div>
 </div>
-<p>This command will:</p>
-<ul class="simple">
-<li><p>Load the uncertainties defined in your file (<code class="docutils literal notranslate"><span class="pre">--uncertainties</span> <span class="pre">input/data_sapp/your_uncertainty_file.csv</span></code>)</p></li>
-<li><p>Generate 20 samples from the joint probability distribution (<code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span> <span class="pre">20</span></code>)</p></li>
-<li><p>Run the model for each selected scenario</p></li>
-<li><p>Run Monte Carlo dispatch simulations for each sample</p></li>
-</ul>
-<p><strong>Important:</strong> Set <code class="docutils literal notranslate"><span class="pre">solvemode</span> <span class="pre">=</span> <span class="pre">1</span></code> in your configuration to obtain the full outputs when running the default scenarios (in <code class="docutils literal notranslate"><span class="pre">PA_p.gdx</span></code> file). This saves detailed results used to fix investment decisions before the Monte Carlo step.</p>
-</section>
 </section>
 </section>
 
@@ -1245,10 +1508,10 @@ Example file: <a class="reference external" href="https://github.com/ESMAP-World
           <p class="prev-next-title">Running EPM from GAMS Studio</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="run_remote_server.html" title="next page">
+  <a class='right-next' id="next-link" href="run_python_advanced.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Running EPM on the Remote Server</p>
+      <p class="prev-next-title">Advanced Usage</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -1301,26 +1564,178 @@ Example file: <a class="reference external" href="https://github.com/ESMAP-World
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advanced-usage">
-   4. Advanced Usage
+  <a class="reference internal nav-link" href="#specifying-arguments-for-your-run">
+   4. Specifying Arguments for your Run
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-run-multiple-scenarios">
-     A. Run Multiple Scenarios
+    <a class="reference internal nav-link" href="#folder-input">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --folder_input
+      </span>
+     </code>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#b-sensitivity-analysis">
-     B. Sensitivity Analysis
+    <a class="reference internal nav-link" href="#config">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --config
+      </span>
+     </code>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#c-monte-carlo-analysis-ongoing-development">
-     C. Monte-Carlo analysis (ongoing development)
+    <a class="reference internal nav-link" href="#scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sensitivity">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --sensitivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#montecarlo">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --montecarlo
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#montecarlo-samples">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --montecarlo_samples
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#uncertainties">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --uncertainties
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reduced-output">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --reduced_output
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cpu">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --cpu
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-assessment">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --project_assessment
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simple">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --simple
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#engine">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --engine
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#postprocess">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --postprocess
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --plot_selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-run-multiprocess">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --no_run_multiprocess
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-plot-dispatch">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --no_plot_dispatch
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#graphs-folder">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --graphs_folder
+      </span>
+     </code>
     </a>
    </li>
   </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-usage">
+   Example Usage
+  </a>
  </li>
 </ul>
 
