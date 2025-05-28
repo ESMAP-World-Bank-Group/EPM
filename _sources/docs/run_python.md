@@ -12,6 +12,11 @@ You must have Python installed. See the [prerequisites](https://esmap-world-bank
 
 A Python environment ensures that all required libraries for EPM are available and isolated from other projects.
 
+**Important**:
+- Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally >= 48).
+
+### On Mac
+
 Follow these steps:
 
 1. Open a terminal or command prompt.
@@ -29,16 +34,46 @@ Follow these steps:
    ```
 5. Install all required libraries:
    ```sh
-   pip install -r requirements.txt
+   pip install -r requirements_mac_and_windows.txt
    ```
 
-**Important**:
-- Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally >= 48).
-- For Windows users: You might see an error when installing some packages (like chaospy, scipy, etc.). This is because Windows needs extra tools to compile them.
-    1. Go to [VSCode build tools](https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/)
-    2. Download and install Build Tools for Visual Studio.
-    3. During installation, check the option: `C++ build tools`
-    4. After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command again.
+### On Windows
+
+The same steps should be followed. An extra step is however necessary before creating the package since Windows needs extra tools to compile some of the packages (specifically, `chaospy`).
+
+1. Go to [VSCode build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+2. Download and install Build Tools for Visual Studio.
+3. During installation, check the option: `C++ build tools`
+4. After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command as described in previous section for Mac.
+
+### On Linux (remote server)
+
+1. Open a terminal or command prompt.
+2. Navigate to the folder where you cloned EPM:
+   ```sh
+   cd EPM
+   ```
+   
+3. Create a new environment named `epm_env`, specifying some Linux compilers.
+```sh
+conda create -n epm_env python=3.10 numpy cython gcc_linux-64 gxx_linux-64 -c conda-forge
+```
+
+4. Activate the environment:
+```sh 
+conda activate epm_env
+export TMPDIR=~/pip_tmp
+```
+
+5. Install with conda the `chaospy` package, necessary for Monte-Carlo simulations 
+```sh 
+conda install -c conda-forge chaospy
+```
+
+6. Install additional packages from the `requirements.txt` file specific to Linux
+```sh 
+pip install -r requirements.txt
+```
 
 ---
 
