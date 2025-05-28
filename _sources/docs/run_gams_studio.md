@@ -1,4 +1,3 @@
-
 # Running EPM from GAMS Studio
 
 This method is recommended for **debugging**, **testing**, and initial **setup** of the model.
@@ -16,13 +15,18 @@ This method is recommended for **debugging**, **testing**, and initial **setup**
 
 3. Ensure `main.gms` is set as the **main file** (you'll see a green triangle in the corner of its tab). If not, right-click it and choose **Set as Main File**.
 
-4. Specify any required arguments in the **Task Bar** at the top of GAMS Studio.
+4. Specify the required command-line arguments in the **Task Bar** at the top of GAMS Studio.
 
    > All arguments must be prefixed with `--`.  
    > Example:  
    > ```
    > --FOLDER_INPUT epm/input/data_eapp/ --BASE_FILE base.gms
    > ```
+
+   **Note**:  
+   - `%FOLDER_INPUT%` must always be defined (no default).  
+   - Other files have defaults if not specified (see below).  
+   - The `BASE_FILE` is only included if you are not restarting a run (`gams.restart` is not set).
 
 5. Click the **Compile/Run** button.
 
@@ -32,18 +36,31 @@ This method is recommended for **debugging**, **testing**, and initial **setup**
 
 ---
 
-## Available Command-Line Arguments
+## Default GAMS File Arguments and Behavior
 
-| Argument Name       | Description                                  | Example                             | Default Value                |
-|---------------------|----------------------------------------------|-------------------------------------|------------------------------|
-| `--FOLDER_INPUT`    | Path to the input data folder                | `--FOLDER_INPUT epm/input/data_eapp/` | *(Required)*                |
-| `--BASE_FILE`       | Base GAMS file to use                        | `--BASE_FILE base_v2.gms`           | `base.gms`                   |
-| `--DEMAND_FILE`     | Custom demand generation script              | `--DEMAND_FILE generate_demand_v2.gms` | `generate_demand.gms`     |
-| `--REPORT_FILE`     | Custom report generation script              | `--REPORT_FILE generate_report_v2.gms` | `generate_report.gms`     |
-| `--READER_FILE`     | Input readers script                         | `--READER_FILE input_readers.gms`   | `input_readers.gms`         |
-| `--TREATMENT_FILE`  | Input treatment script                       | `--TREATMENT_FILE input_treatment.gms` | `input_treatment.gms`    |
-| `--VERIF_IN_FILE`   | Input verification script                    | `--VERIF_IN_FILE input_verification.gms` | `input_verification.gms` |
-| `--VERIF_OUT_FILE`  | Output verification script                   | `--VERIF_OUT_FILE output_verification.gms` | `output_verification.gms` |
-| `--ENGINE_FILE`     | Engine script to call                        | `--ENGINE_FILE Engine_Base.gms`     | `Engine_Base.gms`           |
+If not provided on the command line, the following files are set to default values in the GAMS script:
 
-You can combine multiple arguments as needed. If an argument is not specified, the model will use its default value.
+| Argument Name       | Default Filename           | Description                                   |
+|---------------------|----------------------------|-----------------------------------------------|
+| `BASE_FILE`         | `base.gms`                 | Base GAMS file, included only if not restarting |
+| `REPORT_FILE`       | `generate_report.gms`      | Report generation script                      |
+| `READER_FILE`       | `input_readers.gms`        | Input reading script                          |
+| `VERIFICATION_FILE` | `input_verification.gms`   | Input verification script                     |
+| `TREATMENT_FILE`    | `input_treatment.gms`      | Input treatment/preprocessing script          |
+| `DEMAND_FILE`       | `generate_demand.gms`      | Demand generation script                       |
+
+---
+
+## Important Notes
+
+- The `%FOLDER_INPUT%` argument **must always be defined** when running the model, as it points to the folder containing input `.csv` files.
+- The `BASE_FILE` is included only if no restart flag (`gams.restart`) is set, meaning a fresh run.
+- The system logs which files are used for each argument, helping with debugging.
+- You can override any of these files by specifying them explicitly as command-line arguments prefixed with `--`.
+
+---
+
+Example command-line arguments in GAMS Studio task bar:
+```
+–FOLDER_INPUT epm/input/data_sapp/ –BASE_FILE base_v2.gms –REPORT_FILE generate_report_v2.gms
+```
