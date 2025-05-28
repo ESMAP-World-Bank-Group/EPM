@@ -1001,8 +1001,18 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="input-folder-structure">
 <h1>Input Folder Structure<a class="headerlink" href="#input-folder-structure" title="Permalink to this heading">#</a></h1>
-<p>Here is an example of the structure based on <code class="docutils literal notranslate"><span class="pre">data_sapp</span></code> folder.</p>
-<p>This folder contains all input files required to run EPM for the Southern Africa Power Pool (SAPP) region.</p>
+<p>All input files must be placed inside the <code class="docutils literal notranslate"><span class="pre">epm/input</span></code> folder.</p>
+<p>The input structure consists of:</p>
+<ul class="simple">
+<li><p>A folder containing all necessary input <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files for the model. This folder is specified using the <code class="docutils literal notranslate"><span class="pre">--folder_input</span></code> argument when running the model with Python.</p></li>
+<li><p>A main configuration file (<code class="docutils literal notranslate"><span class="pre">config.csv</span></code>) that defines which input files correspond to each model parameter. This file is specified using the <code class="docutils literal notranslate"><span class="pre">--config</span></code> argument.</p></li>
+</ul>
+<p>Below is an example of the structure based on the <code class="docutils literal notranslate"><span class="pre">data_sapp</span></code> folder.</p>
+<p>To run the model with Python, use the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--config<span class="w"> </span>data_sapp/config.csv
+</pre></div>
+</div>
+<p>This folder contains all the input files required to run EPM for the Southern Africa Power Pool (SAPP) region.</p>
 <div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>data_sapp/
 │
 ├── config.csv                          # Main configuration file for baseline run
