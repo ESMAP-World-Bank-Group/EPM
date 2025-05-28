@@ -959,6 +959,23 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#create-a-python-environment">
    1. Create a Python Environment
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-mac">
+     On Mac
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-windows">
+     On Windows
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-linux-remote-server">
+     On Linux (remote server)
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#run-the-model-basic-test">
@@ -1010,6 +1027,12 @@ title="Print to PDF"
 <section id="create-a-python-environment">
 <h2>1. Create a Python Environment<a class="headerlink" href="#create-a-python-environment" title="Permalink to this heading">#</a></h2>
 <p>A Python environment ensures that all required libraries for EPM are available and isolated from other projects.</p>
+<p><strong>Important</strong>:</p>
+<ul class="simple">
+<li><p>Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally &gt;= 48).</p></li>
+</ul>
+<section id="on-mac">
+<h3>On Mac<a class="headerlink" href="#on-mac" title="Permalink to this heading">#</a></h3>
 <p>Follow these steps:</p>
 <ol class="arabic">
 <li><p>Open a terminal or command prompt.</p></li>
@@ -1029,23 +1052,56 @@ title="Print to PDF"
 </div>
 </li>
 <li><p>Install all required libraries:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_mac_and_windows.txt
 </pre></div>
 </div>
 </li>
 </ol>
-<p><strong>Important</strong>:</p>
-<ul class="simple">
-<li><p>Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally &gt;= 48).</p></li>
-<li><p>For Windows users: You might see an error when installing some packages (like chaospy, scipy, etc.). This is because Windows needs extra tools to compile them.</p>
+</section>
+<section id="on-windows">
+<h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading">#</a></h3>
+<p>The same steps should be followed. An extra step is however necessary before creating the package since Windows needs extra tools to compile some of the packages (specifically, <code class="docutils literal notranslate"><span class="pre">chaospy</span></code>).</p>
 <ol class="arabic simple">
-<li><p>Go to <a class="reference external" href="https://visualstudio.microsoft.com/fr/visual-cpp-build-tools/">VSCode build tools</a></p></li>
+<li><p>Go to <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">VSCode build tools</a></p></li>
 <li><p>Download and install Build Tools for Visual Studio.</p></li>
 <li><p>During installation, check the option: <code class="docutils literal notranslate"><span class="pre">C++</span> <span class="pre">build</span> <span class="pre">tools</span></code></p></li>
-<li><p>After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command again.</p></li>
+<li><p>After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command as described in previous section for Mac.</p></li>
 </ol>
+</section>
+<section id="on-linux-remote-server">
+<h3>On Linux (remote server)<a class="headerlink" href="#on-linux-remote-server" title="Permalink to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>Open a terminal or command prompt.</p></li>
+<li><p>Navigate to the folder where you cloned EPM:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM
+</pre></div>
+</div>
 </li>
-</ul>
+<li><p>Create a new environment named <code class="docutils literal notranslate"><span class="pre">epm_env</span></code>, specifying some Linux compilers.</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>epm_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10<span class="w"> </span>numpy<span class="w"> </span>cython<span class="w"> </span>gcc_linux-64<span class="w"> </span>gxx_linux-64<span class="w"> </span>-c<span class="w"> </span>conda-forge
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Activate the environment:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
+<span class="nb">export</span><span class="w"> </span><span class="nv">TMPDIR</span><span class="o">=</span>~/pip_tmp
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Install with conda the <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package, necessary for Monte-Carlo simulations</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>chaospy
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Install additional packages from the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file specific to Linux</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
 </section>
 <hr class="docutils" />
 <section id="run-the-model-basic-test">
@@ -1216,6 +1272,23 @@ Example file: <a class="reference external" href="https://github.com/ESMAP-World
   <a class="reference internal nav-link" href="#create-a-python-environment">
    1. Create a Python Environment
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-mac">
+     On Mac
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-windows">
+     On Windows
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#on-linux-remote-server">
+     On Linux (remote server)
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#run-the-model-basic-test">
@@ -1277,7 +1350,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on May 27, 2025.<br>
+Last updated on May 28, 2025.<br>
 </p>
   </div>
   
