@@ -806,7 +806,6 @@ def perform_sensitivity(sensitivity, s):
                           'zonal_spinning_reserve_constraints': [0],
                           'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1],
                           'includeIntercoReserves': [0,1], 'interco_reserve_contribution': [0, 0.5]}
-        # 'mingen_constraints': [1], # 'DR': [0.04, 0.08],
 
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
@@ -1124,8 +1123,8 @@ def main(test_args=None):
     parser.add_argument(
         "--folder_input",
         type=str,
-        default="data_gambia",
-        help="Input folder name (default: data_gambia)"
+        default="data_test",
+        help="Input folder name (default: data_test)"
     )
 
     parser.add_argument(
@@ -1268,6 +1267,12 @@ def main(test_args=None):
                        'pAvailabilityDefault': True, 'pDemandProfile': False,
                        'y': True, 'ResLimShare': True, 'pVREProfile': True,
                        'BuildLimitperYear': True}
+        sensitivity = os.path.join('input', args.folder_input, 'sensitivity.csv')
+        if not os.path.exists(sensitivity):
+            print(f"Warning: sensitivity file {sensitivity} does not exist. No sensitivity analysis will be performed.")
+        sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
+
+
     else:
         sensitivity = None
 
