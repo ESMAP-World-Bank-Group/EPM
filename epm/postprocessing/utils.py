@@ -1142,7 +1142,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
         years = [min(years), max(years)]
 
         try:
-            zone_map, geojson_to_epm = get_json_data(epm_results, dict_specs)
+            zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
 
             zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
