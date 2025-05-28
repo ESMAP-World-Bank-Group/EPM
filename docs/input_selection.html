@@ -783,6 +783,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Specifying Input Data</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
@@ -985,40 +986,39 @@ title="Print to PDF"
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-from-python">
-   Running from Python
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Specifying Input Data
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#overriding-inputs-using-scenarios-csv">
-   Overriding Inputs Using
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     scenarios.csv
-    </span>
-   </code>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-the-model">
+   Running the Model
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-python-api">
+     Using Python API
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#overriding-inputs-with-scenarios-csv">
+       Overriding Inputs with scenarios.csv
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#running-from-gams-studio">
      Running from GAMS Studio
     </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-1-command-line-arguments-recommended">
-     Option 1: Command-line Arguments (recommended)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-2-modify-input-readers-gms">
-     Option 2: Modify
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       input_readers.gms
-      </span>
-     </code>
-    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#summary-notes">
+       Summary Notes
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
@@ -1033,25 +1033,33 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="specifying-input-data">
 <h1>Specifying Input Data<a class="headerlink" href="#specifying-input-data" title="Permalink to this heading">#</a></h1>
-<p>Input data for EPM is specified through <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>, which defines all parameter files used in the <strong>baseline scenario</strong>.
-If you’re unsure of the file structure, see this <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv">example config.csv</a>.</p>
-<p>The input folder contains all necessary <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files, organized by type (e.g., <code class="docutils literal notranslate"><span class="pre">data_sapp</span></code>). Each file corresponds to a specific parameter in the model.
-The <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file contains the path of the file within the input folder, and the model reads these files to set up the parameters. This allows you to easily switch between different sets of input data without modifying the model code.</p>
-<p>Whether running from Python or GAMS Studio, it is <strong>always required</strong> to define the base input folder (<code class="docutils literal notranslate"><span class="pre">FOLDER_INPUT</span></code>) either:</p>
-<ul class="simple">
-<li><p>via command-line argument, or</p></li>
-<li><p>by setting it manually in <code class="docutils literal notranslate"><span class="pre">input_readers.gms</span></code>.</p></li>
-</ul>
-<p>This ensures the model correctly points to the appropriate folder of <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files.</p>
+<p><strong>All input data need to be within the <code class="docutils literal notranslate"><span class="pre">epm/input</span></code> folder. The path of the input file are defined based on this reference.</strong></p>
+<p>Input data for EPM is specified through two key components:</p>
+<ol class="arabic simple">
+<li><p><strong>Input Folder (<code class="docutils literal notranslate"><span class="pre">FOLDER_INPUT</span></code>)</strong><br />
+This folder contains all the necessary <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input files for the model, organized by type (e.g., <code class="docutils literal notranslate"><span class="pre">data_sapp</span></code>). It holds the raw data the model reads.</p></li>
+<li><p><strong>Configuration File (<code class="docutils literal notranslate"><span class="pre">config.csv</span></code>)</strong><br />
+This CSV file defines which input files correspond to which parameters in the model for the <strong>baseline scenario</strong>. It includes the parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> and the relative <code class="docutils literal notranslate"><span class="pre">file</span></code> path inside the input folder.</p></li>
+</ol>
+<p>An example of a configuration file is available here:<br />
+<a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv">Example <code class="docutils literal notranslate"><span class="pre">config.csv</span></code></a></p>
+</section>
 <hr class="docutils" />
-<section id="running-from-python">
-<h2>Running from Python<a class="headerlink" href="#running-from-python" title="Permalink to this heading">#</a></h2>
-<p>As detailed in the section <em>Running EPM from Python</em>, the model reads <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> by default.</p>
+<section class="tex2jax_ignore mathjax_ignore" id="running-the-model">
+<h1>Running the Model<a class="headerlink" href="#running-the-model" title="Permalink to this heading">#</a></h1>
+<section id="using-python-api">
+<h2>Using Python API<a class="headerlink" href="#using-python-api" title="Permalink to this heading">#</a></h2>
+<p>When running the model from Python (see <em>Running EPM from Python</em>), you must specify:</p>
 <ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">name</span></code></strong>: name of the parameter (e.g., <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom</span></code>)</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">file</span></code></strong>: path to the corresponding <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input file</p></li>
+<li><p>The input folder: <code class="docutils literal notranslate"><span class="pre">--folder_input</span> <span class="pre">data_sapp</span></code></p></li>
+<li><p>The configuration file: <code class="docutils literal notranslate"><span class="pre">--config</span> <span class="pre">data_sapp/config.csv</span></code></p></li>
 </ul>
-<p>Only a few additional options are specified directly in <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>:</p>
+<p>Example command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>run_epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--config<span class="w"> </span>data_sapp/config.csv
+</pre></div>
+</div>
+<p>The model will read <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> to locate all parameter files inside the input folder.</p>
+<p>Important Configuration Options in config.csv</p>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Option</p></th>
@@ -1073,37 +1081,29 @@ The <code class="docutils literal notranslate"><span class="pre">config.csv</spa
 </tr>
 </tbody>
 </table>
-</section>
-<hr class="docutils" />
-<section id="overriding-inputs-using-scenarios-csv">
-<h2>Overriding Inputs Using <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code><a class="headerlink" href="#overriding-inputs-using-scenarios-csv" title="Permalink to this heading">#</a></h2>
-<p>To run multiple variants, use the <code class="docutils literal notranslate"><span class="pre">--scenarios</span></code> argument. Each row in <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> defines a scenario, and only the files listed there will override those in <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>.</p>
+<section id="overriding-inputs-with-scenarios-csv">
+<h3>Overriding Inputs with scenarios.csv<a class="headerlink" href="#overriding-inputs-with-scenarios-csv" title="Permalink to this heading">#</a></h3>
+<p>To run multiple scenarios or variants, use the –scenarios argument with a scenarios.csv file. Each row overrides specific input files defined in config.csv.</p>
 <ul class="simple">
-<li><p><strong>If a file is not listed</strong>, the model will fall back to the baseline <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>.</p></li>
-<li><p>Useful for Monte Carlo, sensitivity analysis, or policy scenarios.</p></li>
+<li><p>Files not listed in scenarios.csv default to those in config.csv.</p></li>
+<li><p>This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.</p></li>
 </ul>
-<hr class="docutils" />
-<section id="running-from-gams-studio">
-<h3>Running from GAMS Studio<a class="headerlink" href="#running-from-gams-studio" title="Permalink to this heading">#</a></h3>
-<p>When using GAMS Studio, <strong>only one scenario</strong> can be run at a time.</p>
 </section>
-<section id="option-1-command-line-arguments-recommended">
-<h3>Option 1: Command-line Arguments (recommended)<a class="headerlink" href="#option-1-command-line-arguments-recommended" title="Permalink to this heading">#</a></h3>
-<p>You can override files directly in the command line:</p>
+</section>
+<section id="running-from-gams-studio">
+<h2>Running from GAMS Studio<a class="headerlink" href="#running-from-gams-studio" title="Permalink to this heading">#</a></h2>
+<p>You can override inputs by passing command-line parameters:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>--FOLDER_INPUT<span class="w"> </span>input/data_sapp<span class="w"> </span>--pNewTransmission<span class="w"> </span>input/data_sapp/trade/pNewTransmission.csv
 </pre></div>
 </div>
-<p>This method is flexible but tedious for large sets of files.</p>
-</section>
-<section id="option-2-modify-input-readers-gms">
-<h3>Option 2: Modify <code class="docutils literal notranslate"><span class="pre">input_readers.gms</span></code><a class="headerlink" href="#option-2-modify-input-readers-gms" title="Permalink to this heading">#</a></h3>
-<p>You can hard-code the baseline inputs:</p>
-<div class="highlight-gams notranslate"><div class="highlight"><pre><span></span>$if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettings_baseline.csv
-</pre></div>
-</div>
-<blockquote>
-<div><p>⚠️ Always make changes in a branch dedicated to your use case—not in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.</p>
-</div></blockquote>
+<section id="summary-notes">
+<h3>Summary Notes<a class="headerlink" href="#summary-notes" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Defining FOLDER_INPUT is mandatory whether running from Python or GAMS.</p></li>
+<li><p>config.csv controls the baseline input file mappings.</p></li>
+<li><p>Scenario-specific overrides happen via scenarios.csv when used.</p></li>
+<li><p>Use command-line arguments or modify input_readers.gms to set input files in GAMS Studio.</p></li>
+</ul>
 </section>
 </section>
 </section>
@@ -1166,40 +1166,39 @@ The <code class="docutils literal notranslate"><span class="pre">config.csv</spa
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-from-python">
-   Running from Python
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Specifying Input Data
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#overriding-inputs-using-scenarios-csv">
-   Overriding Inputs Using
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     scenarios.csv
-    </span>
-   </code>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#running-the-model">
+   Running the Model
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-python-api">
+     Using Python API
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#overriding-inputs-with-scenarios-csv">
+       Overriding Inputs with scenarios.csv
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#running-from-gams-studio">
      Running from GAMS Studio
     </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-1-command-line-arguments-recommended">
-     Option 1: Command-line Arguments (recommended)
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-2-modify-input-readers-gms">
-     Option 2: Modify
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       input_readers.gms
-      </span>
-     </code>
-    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#summary-notes">
+       Summary Notes
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
