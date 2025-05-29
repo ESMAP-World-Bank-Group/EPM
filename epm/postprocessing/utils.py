@@ -953,8 +953,8 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 # Make New Capacity Installed Timeline Figures
                 if len(df_capacityplan.zone.unique()) == 1:
                     filename = f'{folder_scenario}/capacity/NewCapacityInstalledTimeline-{scenario}.png'
-                    df_capacityplan = df_capacityplan[df_capacityplan['scenario'] == scenario]
-                    make_annotated_stacked_area_plot(df_capacityplan, filename, dict_colors=dict_specs['colors'])
+                    temp = df_capacityplan[df_capacityplan['scenario'] == scenario]
+                    make_annotated_stacked_area_plot(temp, filename, dict_colors=dict_specs['colors'])
                 else:
                     for zone in df_capacityplan.zone.unique():
                         filename = f'{folder_scenario}/capacity/NewCapacityInstalledTimeline-{scenario}-{zone}.png'
@@ -978,9 +978,9 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 # Make EnergyPlant Figures
                 if len(df_energyplant.zone.unique()) == 1:  # single zone model
                     if len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
-                        df_energyplant = df_energyplant[df_energyplant['scenario'] == scenario]
+                        temp = df_energyplant[df_energyplant['scenario'] == scenario]
                         filename = f'{folder_scenario}/energy/EnergyPlantsStackedAreaPlot-{scenario}.png'
-                        stacked_area_plot(df_energyplant, filename, dict_specs['colors'], x_column='year',
+                        stacked_area_plot(temp, filename, dict_specs['colors'], x_column='year',
                                           y_column='value',
                                           stack_column='generator', title='Energy Generation by Plant',
                                           y_label='Generation (GWh)',
