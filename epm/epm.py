@@ -1299,7 +1299,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=False, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
 
 
 if __name__ == '__main__':
