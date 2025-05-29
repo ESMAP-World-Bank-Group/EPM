@@ -991,6 +991,6 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 ;
 $elseIfI.reportshort %REPORTSHORT% == 1
 *  Limited reporting is used
-    execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull
+    execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull, pDemandSupply
     ;
 $endIf.reportshort
