@@ -802,7 +802,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                        montecarlo=False):
     keys_results = None
     if montecarlo:
-        keys_results = {'pSummary', 'pCostSummary'}
+        keys_results = {'pSummary', 'pCostSummary', 'pCostSummaryFull'}
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -850,9 +850,9 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
         costs_notrade = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission additions: $m",
                          "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
-                         "VRE curtailment: $m", "Import costs wiht external zones: $m",
-                         "Export revenues with external zones: $m"]
-        df_cost_summary_no_trade = epm_results['pCostSummary'].copy()
+                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
+                         "Import costs with internal zones: $m", "Export revenues with internal zones: $m"]
+        df_cost_summary_no_trade = epm_results['pCostSummaryFull'].copy()
         df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.attribute.isin(costs_notrade)]
         df_cost_summary_baseline_notrade = df_cost_summary_no_trade.loc[(df_cost_summary_no_trade.scenario.isin(original_scenarios))]
         df_cost_summary_no_trade['scenario_mapping'] = df_cost_summary_no_trade.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
