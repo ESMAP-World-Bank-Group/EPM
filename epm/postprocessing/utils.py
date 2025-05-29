@@ -905,9 +905,9 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
         demand_supply = ["Unmet demand: GWh", "Imports exchange: GWh", "Exports exchange: GWh"
                          ]
-        # TODO: to change
+
         df_demandsupply = epm_results['pDemandSupply'].copy()
-        df_demandsupply = df_demandsupply.loc[df_demandsupply.attribute.isin(demand_supply)]  # TODO: to change
+        df_demandsupply = df_demandsupply.loc[df_demandsupply.attribute.isin(demand_supply)]
         df_demandsupply_baseline = df_demandsupply.loc[(df_demandsupply.scenario.isin(original_scenarios))]
         df_demandsupply['scenario_mapping'] = df_demandsupply.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
 
