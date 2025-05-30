@@ -824,7 +824,7 @@ def reduce_year_definition(folder_csv):
 
                 df_filtered = df[df['y'].isin(years_to_keep)]
 
-                df_filtered.to_csv(file_path)
+                df_filtered.to_csv(file_path, index=False)
 
 
 def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenario='all',
@@ -992,15 +992,14 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                       format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                       annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-            if zone == 'Zambia':
-                filename = f'{GRAPHS_FOLDER}/scenarios_comparison/DemandSupply_montecarlo_{zone}.png'
+            filename = f'{GRAPHS_FOLDER}/scenarios_comparison/DemandSupply_montecarlo_{zone}.png'
 
-                make_stacked_bar_subplots(df_demandsupply_baseline, filename, dict_colors=None, df_errorbars=df_demandsupply, selected_zone=zone,
-                                          selected_year=None, column_xaxis='year', column_stacked='attribute', column_multiple_bars='scenario',
-                                          column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
-                                          dict_scenarios=None,
-                                          format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                          annotate=False, show_total=False, fonttick=12, rotation=45, title=None, juxtaposed=True)
+            make_stacked_bar_subplots(df_demandsupply_baseline, filename, dict_colors=None, df_errorbars=df_demandsupply, selected_zone=zone,
+                                      selected_year=None, column_xaxis='attribute', column_stacked='year', column_multiple_bars='scenario',
+                                      column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None,
+                                      dict_scenarios=None,
+                                      format_y=lambda y, _: '{:.0f} GWh'.format(y), order_stacked=None, cap=2,
+                                      annotate=False, show_total=False, fonttick=12, rotation=45, title=None, juxtaposed=True)
 
     if not montecarlo:
 
@@ -2493,6 +2492,7 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
 
                     # Build (scenario, attribute) -> x position from actual bar patches
                     bar_positions = {}
+                    attr_list = list(df_plot.index)
 
                     # Loop through all containers and all bars inside
                     for container in ax.containers:
@@ -2500,16 +2500,17 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
                         if label == "_nolegend_":
                             continue
 
-                        for bar in container:
+                        for i, bar in enumerate(container):
                             x = bar.get_x() + bar.get_width() / 2
-                            height = bar.get_height()
+                            if i < len(attr_list):
+                                attr = attr_list[i]
+                                bar_positions[(label, attr)] = x
 
                             # Try to infer which (scenario, attribute) this bar corresponds to
-                            for attr in df_plot.index:
-                                for scenario in df_plot.columns:
-                                    expected_height = df_plot.loc[attr, scenario]
-                                    if pd.notna(expected_height) and np.isclose(expected_height, height):
-                                        bar_positions[(scenario, attr)] = x
+                            # for attr in df_plot.index:
+                            #     expected_height = df_plot.loc[attr, label]
+                            #     if pd.notna(expected_height) and np.isclose(expected_height, height):
+                            #         bar_positions[(label, attr)] = x
 
                     # Now plot error bars for all expected combinations
                     for scenario in df_temp.index:
@@ -2532,56 +2533,6 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
 
                                 ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none',
                                             color='black', capsize=3, linewidth=1)
-
-                    # Second method
-
-                    # df_err_low = df_errorbars[key].unstack('error')['min']
-                    # df_err_high = df_errorbars[key].unstack('error')['max']
-                    # # Transpose the DataFrame as plotted
-                    # df_plot = df_temp.T  # rows: attribute, columns: scenario
-                    #
-                    # # Build position map: (scenario, attribute) -> x-position
-                    # bar_positions = {}
-                    # for container, attr in zip(ax.containers, df_plot.index):
-                    #     for bar, scenario in zip(container, df_plot.columns):
-                    #         x = bar.get_x() + bar.get_width() / 2
-                    #         bar_positions[(scenario, attr)] = x
-                    #
-                    # # Plot the error bars
-                    # for scenario in df_temp.index:
-                    #     for attr in df_temp.columns:
-                    #         height = df_temp.loc[scenario, attr]
-                    #         height = 0 if pd.isna(height) else height
-                    #         low = df_err_low.get((attr, scenario), height)
-                    #         high = df_err_high.get((attr, scenario), height)
-                    #
-                    #         if pd.notna(low) and pd.notna(high):
-                    #             err_low = max(height - low, 0)
-                    #             err_high = max(high - height, 0)
-                    #
-                    #             x = bar_positions.get((scenario, attr))
-                    #             if x is not None:
-                    #                 ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none',
-                    #                             color='black', capsize=3, linewidth=1)
-
-                    # # Loop over each bar position
-                    # for i, scenario in enumerate(df_temp.index):  # x-axis position
-                    #     for j, attr in enumerate(df_temp.columns):  # each attribute (bar in the group)
-                    #         height = df_temp.loc[scenario, attr]
-                    #         height = 0 if pd.isna(height) else height  # assume 0 if height is nan
-                    #         low = df_err_low.get((attr, scenario), np.nan)
-                    #         high = df_err_high.get((attr, scenario), np.nan)
-                    #
-                    #         # Safely check if this (attr, scenario) exists in df_err_low/high
-                    #         if pd.notna(low) and pd.notna(high):
-                    #
-                    #             if not pd.isna(low) and not pd.isna(high):
-                    #                 err_low = max(height - low, 0)
-                    #                 err_high = max(high - height, 0)
-                    #
-                    #                 x = i + j / (len(df_temp.columns) + 1)  # shift each bar in the group
-                    #                 ax.errorbar(x, height, yerr=[[err_low], [err_high]], fmt='none',
-                    #                             color='black', capsize=3, linewidth=1)
 
             # Annotate each bar
             if annotate:
