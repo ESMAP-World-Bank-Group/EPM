@@ -364,8 +364,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                path_engine_file=False,
                                folder_input=None,
                                project_assessment=None,
-                               simple=None,
-                               run_multiprocess=True):
+                               simple=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -511,28 +510,25 @@ def launch_epm_multi_scenarios(config='config.csv',
         samples_mc.columns = samples_mc.columns.map(lambda col: col.replace('.', 'p'))
         samples_mc.to_csv('samples_montecarlo.csv')
 
-    if run_multiprocess:
-        # Run EPM in multiprocess
-        if not montecarlo:
-            with Pool(cpu) as pool:
-                result = pool.starmap(launch_epm_multiprocess,
-                                      [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
-        else:
-            # First, run initial scenarios
-            # Ensure config file has extended setting to save output
-            with Pool(cpu) as pool:
-                for k in s.keys():
-                    assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
-                result = pool.starmap(launch_epm_multiprocess,
-                                      [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
-            # Modify config file to ensure limited output saved
-            with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
-                result = pool.starmap(launch_epm_multiprocess,
-                                      [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, dict_montecarlo) for k in scenarios_montecarlo.keys()])
-
+    # Run EPM in multiprocess
+    if not montecarlo:
+        with Pool(cpu) as pool:
+            result = pool.starmap(launch_epm_multiprocess,
+                                  [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
     else:
-        for name, scenario in s.items():
-            launch_epm_multiprocess(scenario, name, path_gams, folder_input, path_engine_file)
+        # First, run initial scenarios
+        # Ensure config file has extended setting to save output
+        with Pool(cpu) as pool:
+            for k in s.keys():
+                assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
+            result = pool.starmap(launch_epm_multiprocess,
+                                  [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+        # Modify config file to ensure limited output saved
+        with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
+            result = pool.starmap(launch_epm_multiprocess,
+                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, dict_montecarlo) for k in scenarios_montecarlo.keys()])
+
+
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
@@ -1285,7 +1281,7 @@ def main(test_args=None):
                                                     cpu=args.cpu,
                                                     project_assessment=args.project_assessment,
                                                     simple=args.simple,
-                                                    path_engine_file=args.engine, run_multiprocess=args.run_multiprocess)
+                                                    path_engine_file=args.engine)
     else:
         print(f"Project folder: {args.postprocess}")
         print("EPM does not run again but use the existing simulation within the folder" )
