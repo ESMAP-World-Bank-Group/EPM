@@ -34,6 +34,11 @@ Once connected, you’ll have access to:
 
 ## 3. Clone the EPM Repository
 
+Storage rules
+
+- Do **not** store data, code, or results in `/home/wb_yourID/`.
+- Use the `/Data` directory for **all** storage and simulations. This is where disk space is allocated.
+
 Once on the server, navigate to your home directory and clone the repository:
 
 ```sh
@@ -51,7 +56,7 @@ git clone --branch your-branch-name --single-branch https://github.com/ESMAP-Wor
 
 ## 4. Best Practices Workflow
 
-You do not modify the code on the sever directly. Instead, follow these steps to ensure a smooth workflow:
+The server is for running simulations, not for code development. Follow these steps to ensure a smooth workflow:
 
 1. **Test Locally First**  
    Run a simple example on your computer before launching long runs on the server.
@@ -77,17 +82,27 @@ Once your code is ready, you can run EPM on the server using the **same steps as
 
 ### A. Python (Recommended)
 
-First time only: create the Python environment
+First time only: You need to add the shared Miniconda installation to your terminal environment. Run the following **once**:
 
-```sh
-conda create -n esmap_env python=3.10
-conda activate esmap_env
-pip install -r requirements.txt
+To use `conda` from anywhere on this server, you need to add its location to your system `PATH`.
+> This only needs to be done once. Just copy and paste the line below into your terminal.
+
+```sh 
+echo 'export PATH="/Data/miniconda3/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
+After running this, you can confirm conda is accessible:
+
+```sh 
+which conda
+conda --version
+```
+
+All simulations must be run from the `/Data` folder, not from `/home`.
 
 Each time you run:
 ```sh
-conda activate esmap_env
+conda activate epm_env
 cd EPM/epm
 python run_epm.py
 ```
