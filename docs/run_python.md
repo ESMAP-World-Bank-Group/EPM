@@ -108,7 +108,7 @@ By default, the model uses the `data_test` input folder and `input/config.csv` f
 Input data for EPM is specified through two key components:
 
 1. **Input Folder (`FOLDER_INPUT`)**  
-   This folder contains all the necessary `.csv` input files for the model, organized by type (e.g., `data_sapp`). It holds the raw data the model reads.
+   This folder contains all the necessary `.csv` input files for the model, organized by type (e.g., `data_test_region`). It holds the raw data the model reads.
 
 ### `--folder_input`
 - **Type:** string  
@@ -117,7 +117,7 @@ Input data for EPM is specified through two key components:
 - **Notes:** Should contain the input files referenced in the config.
 
 2. **Configuration File (`config.csv`)**  
-   This CSV file defines which input files correspond to which parameters in the model for the **baseline scenario**. It includes the parameter `name` and the relative `file` path inside the input folder. An example of a configuration file is available here:  [Example `config.csv`](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv)
+   This CSV file defines which input files correspond to which parameters in the model for the **baseline scenario**. It includes the parameter `name` and the relative `file` path inside the input folder. An example of a configuration file is available here:  [Example `config.csv`](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv)
 
 ### `--config`
 - **Type:** string  
@@ -234,7 +234,7 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:
 
 ```bash
-python epm.py --folder_input data_sapp --sensitivity --cpu 4
+python epm.py --folder_input data_test_region --sensitivity --cpu 4
 ```
 
 Run postprocessing only on a previous simulation folder:
