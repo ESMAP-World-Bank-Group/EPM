@@ -1021,6 +1021,11 @@ title="Print to PDF"
      Zone definition
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-lines">
+     Transmission lines
+    </a>
+   </li>
   </ul>
  </li>
 </ul>
@@ -1055,6 +1060,8 @@ title="Print to PDF"
     type: par
 </pre></div>
 </div>
+<p>Trace parameter can also be defined in the <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> with <code class="docutils literal notranslate"><span class="pre">trace=0</span> <span class="pre">or</span> <span class="pre">1</span></code>.</p>
+<p>You may add an <code class="docutils literal notranslate"><span class="pre">$exit</span></code> statement in the code after input loading statement to simplify debugging.</p>
 </section>
 <hr class="docutils" />
 <section id="time-definitions">
@@ -1147,6 +1154,16 @@ pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDef
 <li><p><code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code></p></li>
 </ul>
 <p>We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.</p>
+</section>
+<section id="transmission-lines">
+<h3>Transmission lines<a class="headerlink" href="#transmission-lines" title="Permalink to this heading">#</a></h3>
+<p>Two different files are used to define transmission capacity in the model:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code>: Defines fixed capacity for existing transmission lines. Capacity must be specified for each year.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code>: Defines committed and candidate lines, with status committed (<code class="docutils literal notranslate"><span class="pre">2</span></code>) or candidate (<code class="docutils literal notranslate"><span class="pre">3</span></code>). Only active when <code class="docutils literal notranslate"><span class="pre">allowTrnsferExpansion</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p></li>
+</ul>
+<p>If lines from <code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code> do not appear in the results and no error is raised, check the following: make sure allowTransferExpansion is set to 1 in pSettings.csv.
+If it is set to 0, the model will ignore <code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code> completely.</p>
 </section>
 </section>
 </section>
@@ -1257,6 +1274,11 @@ pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDef
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#zone-definition">
      Zone definition
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#transmission-lines">
+     Transmission lines
     </a>
    </li>
   </ul>

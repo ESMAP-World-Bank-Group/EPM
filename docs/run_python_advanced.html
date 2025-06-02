@@ -1042,6 +1042,17 @@ title="Print to PDF"
 <li><p>Files not listed in scenarios.csv default to those in config.csv.</p></li>
 <li><p>This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.</p></li>
 </ul>
+<p>You can limit execution to a selection of scenarios using the <code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code> argument. For example:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/my_scenarios.csv<span class="w">  </span>--selected_scenarios<span class="w"> </span>baseline<span class="w"> </span>Retrade
+</pre></div>
+</div>
+<p>This will only run the baseline and Retrade scenarios, even if more are defined in scenarios.csv.</p>
+<p>This is useful if:</p>
+<ul class="simple">
+<li><p>You want to rerun only a specific scenario</p></li>
+<li><p>You are debugging or testing one configuration</p></li>
+<li><p>You want to prioritize certain scenarios during batch runs</p></li>
+</ul>
 </section>
 <section id="b-sensitivity-analysis">
 <h2>B. Sensitivity Analysis<a class="headerlink" href="#b-sensitivity-analysis" title="Permalink to this heading">#</a></h2>

@@ -25,6 +25,10 @@ $onEmbeddedCode Connect:
     type: par
 ```
 
+Trace parameter can also be defined in the `config.csv` with `trace=0 or 1`.
+
+You may add an `$exit` statement in the code after input loading statement to simplify debugging.
+
 ---
 
 ## Time Definitions
@@ -118,3 +122,13 @@ The list of zones used in your model is defined in the file `zcmap.csv`. This fi
 - `pVREProfile`
 
 We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.
+
+### Transmission lines
+
+Two different files are used to define transmission capacity in the model:
+
+- `pTransferLimit.csv`: Defines fixed capacity for existing transmission lines. Capacity must be specified for each year.
+- `pNewTransmission.csv`: Defines committed and candidate lines, with status committed (`2`) or candidate (`3`). Only active when `allowTrnsferExpansion` is set to 1 in `pSettings.csv`.
+
+If lines from `pNewTransmission.csv` do not appear in the results and no error is raised, check the following: make sure allowTransferExpansion is set to 1 in pSettings.csv.
+If it is set to 0, the model will ignore `pNewTransmission.csv` completely.
