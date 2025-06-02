@@ -1,9 +1,9 @@
 # Specifying Input Data
 
 Input data for EPM is specified through `config.csv`, which defines all parameter files used in the **baseline scenario**.
-If you're unsure of the file structure, see this [example config.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv).
+If you're unsure of the file structure, see this [example config.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv).
 
-The input folder contains all necessary `.csv` files, organized by type (e.g., `data_sapp`). Each file corresponds to a specific parameter in the model.
+The input folder contains all necessary `.csv` files, organized by type (e.g., `data_test_region`). Each file corresponds to a specific parameter in the model.
 The `config.csv` file contains the path of the file within the input folder, and the model reads these files to set up the parameters. This allows you to easily switch between different sets of input data without modifying the model code.
 
 Whether running from Python or GAMS Studio, it is **always required** to define the base input folder (`FOLDER_INPUT`) either:
@@ -48,7 +48,7 @@ When using GAMS Studio, **only one scenario** can be run at a time.
 ### Option 1: Command-line Arguments (recommended)
 You can override files directly in the command line:
 ```sh
---FOLDER_INPUT input/data_sapp --pNewTransmission input/data_sapp/trade/pNewTransmission.csv
+--FOLDER_INPUT input/data_test_region --pNewTransmission input/data_test_region/trade/pNewTransmission.csv
 ```
 This method is flexible but tedious for large sets of files.
 
