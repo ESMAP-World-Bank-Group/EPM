@@ -6,13 +6,12 @@ Agg_THICE2_DRC,DRC,ICE,HFO,2000,2050,125,1,,10.41544727,,,,,,,,0,,0,0,,0,0,0,0
 AggDiesel_TH_MOZ,Mozambique,ICE,HFO,2000,2050,48,1,,13.62126767,,,,,,,,0,,,0,,0,0,0,0
 Aggreko_IPP_ICE_MWI,Malawi,ICE,Diesel,2000,2019,0,1,,,,,,,,,0,0,,0,0,,0,0,0,0
 Aggreko_TH_MOZ,Mozambique,ICE,HFO,2000,2018,55,1,,9.990938997,,,,,,,,0,,,0,,0,0,0,0
-AH_Cambambe_C1,Angola,ReservoirHydro,Water,1962,2060,195,1,,,,,,0.121826136,,,0,0,50,,0,,0,0,0,0
+AH_Cambambe_C1,Angola,ReservoirHydro,Water,1962,2060,260,1,,,,,,0.121826136,,,0,0,50,,0,,0,0,0,0
 AH_Cambambe_C2,Angola,ReservoirHydro,Water,2016,2060,700,1,,,,,,0.121826136,,,0,0,50,0,0,,0,0,0,0
 AH_Capanda,Angola,ReservoirHydro,Water,2004,2060,520,1,,,,,,0.121826136,,,0,0,50,,0,,0,0,0,0
-AH_Lauca,Angola,ReservoirHydro,Water,2017,2060,2004,1,,,,,,0.225,,,0,0,50,0,0,,0,0,0,334
+AH_Lauca,Angola,ReservoirHydro,Water,2017,2060,2070,1,,,,,,0.225,,,0,0,50,0,0,,0,0,0,334
 Ah_Lauca_ECO,Angola,ReservoirHydro,Water,2023,2060,0,1,,,,,,0.225,,,0,0,50,0,0,,0,0,0,0
 AH_Matala,Angola,ReservoirHydro,Water,1959,2060,41,1,,,,,,0.121826136,,,0,0,50,,0,,0,0,0,0
-AngolaDiesel_TH_AGO,Angola,ICE,HFO,2024,2054,0,3,,10.41544727,,,,,,,,0.933810376,,0,0,,0,0.06,0,0
 Anixas_TH_NAM,Namibia,ICE,HFO,2011,2061,22,1,,6.87,,,,,63250,8.8,,0,,,0,,0,0,0,0
 AnixasII_TH_NAM,Namibia,ICE,HFO,2024,2061,54,2,,6.87,,,,,63250,8.8,,0.933810376,,,0,,0,0,0,0
 Ankerlig(Atlantis)_TH_ZAF,South_Africa,OCGT,HFO,2007,2057,1327,1,,9.39286647,,,,,,,,0,,,0,,0,0,0,0
@@ -65,7 +64,7 @@ CT_Malembo,Angola,OCGT,Gas,2012,2055,105,1,0.2,11.49838981,,,,,,,,0,,,0,7,12.198
 CT_OffGrid_Diesel,Angola,ICE,Diesel,2013,2063,372,1,0.06,10.42,1,1,0,0.4,8000,6.4,0,0,30,0,0,,0,0,0,0
 CT_OnGrid_Diesel,Angola,ICE,Diesel,2000,2050,344,1,0.06,13.62,1,1,0,0.4,8000,6.4,0,0,30,0,0,,0,0,0,0
 CT_PV_Diesel_Hybrid,Angola,PV,Solar,2017,2051,30,1,0,0,,,,,,,,0,,,0,12,10.42,0,1,30
-CT_Soyo,Angola,CCGT,Gas,2017,2073,500,1,,9,,,,,,,0,0,,0,0,12,9.7,0.05,0,0
+CT_Soyo,Angola,CCGT,Gas,2017,2073,750,1,,9,,,,,,,0,0,,0,0,12,9.7,0.05,0,0
 CTMJICA1_TH_MOZ,Mozambique,OCGT,Gas,2018,2068,106,1,0.2,10.425987,,,,,,,,0,,0,0,7,11.125987,0.5,0,0
 CTMJICA2_TH_MOZ,Mozambique,OCGT,Gas,2026,2076,29,3,0.2,,,,,,,,,1.016815742,,29,0,7,9.7,0.05,0,0
 Dedisa_TH_ZAF,South_Africa,OCGT,HFO,2015,2065,335,1,,13.62107811,,,,,,,,0,,,0,,0,0,0,0
@@ -288,7 +287,7 @@ New_BESS_MOZ,Mozambique,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0
 New_BESS_MWI,Malawi,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,100,0,,0,0,0,0
 New_BESS_NAM,Namibia,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_SWZ,Eswatini,Storage,Battery,2027,2055,1000,3,,,,,,,,,,,,100,0,,0,0,0,0
-New_BESS_ZAF,South_Africa,Storage,Battery,2027,2055,15000,3,,,,,,,,,,,,1500,0,,0,0,0,0
+New_BESS_ZAF,South_Africa,Storage,Battery,2027,2055,15000,3,,,,,,,,,,,,500,0,,0,0,0,0
 New_BESS_ZMB,Zambia,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_ZWE,Zimbabwe,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_CBM_Bot_gas_2031,Botswana,CCGT,Gas,2027,2060,100,3,,,,,,,,,0,2.925939177,,100,0,,0,0.05,0,100

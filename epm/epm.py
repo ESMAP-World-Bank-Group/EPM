@@ -529,6 +529,7 @@ def launch_epm_multi_scenarios(config='config.csv',
             with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
                 result = pool.starmap(launch_epm_multiprocess,
                                       [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, dict_montecarlo) for k in scenarios_montecarlo.keys()])
+
     else:
         for name, scenario in s.items():
             launch_epm_multiprocess(scenario, name, path_gams, folder_input, path_engine_file)
@@ -1298,7 +1299,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=False, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
 
 
 if __name__ == '__main__':
