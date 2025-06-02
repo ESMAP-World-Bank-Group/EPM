@@ -977,7 +977,7 @@ title="Print to PDF"
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#what-is-a-branch">
-     What is a Branch?
+     What is a branch?
     </a>
    </li>
   </ul>
@@ -1023,7 +1023,7 @@ title="Print to PDF"
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">#</a></h2>
 <p>Git is a <strong>version control system</strong> used to manage code changes. A key concept in Git is the <strong>branch</strong>.</p>
 <section id="what-is-a-branch">
-<h3>What is a Branch?<a class="headerlink" href="#what-is-a-branch" title="Permalink to this heading">#</a></h3>
+<h3>What is a branch?<a class="headerlink" href="#what-is-a-branch" title="Permalink to this heading">#</a></h3>
 <p>A <strong>branch</strong> is a copy of the code where you can work independently without affecting the main version. This allows multiple people to work in parallel.</p>
 <p>Two types of branches:</p>
 <ul class="simple">
@@ -1036,7 +1036,9 @@ title="Print to PDF"
 <li><p>Push your own changes to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
 </ul>
 <p>You only need a few commands to do this.</p>
-<p>Prerequisite: You should have Git installed on your computer.</p>
+<blockquote>
+<div><p>Prerequisite: You should have Git installed on your computer.</p>
+</div></blockquote>
 </section>
 </section>
 <hr class="docutils" />
@@ -1061,7 +1063,11 @@ title="Print to PDF"
 </div>
 </li>
 </ol>
-<p>If conflicts occur, Git will show the files involved. Open them, make corrections, and commit the changes.</p>
+<p>If Git shows conflicts, open the listed files, make corrections, then run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Resolve merge conflicts&quot;</span>
+</pre></div>
+</div>
 </section>
 <hr class="docutils" />
 <section id="pushing-changes-from-your-branch-to-main">
@@ -1070,22 +1076,20 @@ title="Print to PDF"
 <p>Once your updates are tested, you may want to move selected changes into <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
 <ol class="arabic">
 <li><p>Switch to <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure you&#39;re on your branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>main
+
+<span class="c1"># Save and stage your changes</span>
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Describe your changes&quot;</span>
+
+<span class="c1"># Push your branch to GitHub</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>my-branch
 </pre></div>
 </div>
 </li>
 <li><p>View your commit history:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>log<span class="w"> </span>--oneline
-</pre></div>
-</div>
-</li>
-<li><p>Cherry-pick the relevant commits:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit-hash&gt;
-</pre></div>
-</div>
-</li>
-<li><p>Push changes to <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
 </pre></div>
 </div>
 </li>
@@ -1110,14 +1114,14 @@ title="Print to PDF"
 <tr class="row-even"><td><p>Merge changes into your branch</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">origin/main</span></code></p></td>
 </tr>
-<tr class="row-odd"><td><p>Switch to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
+<tr class="row-odd"><td><p>Pull updates from <code class="docutils literal notranslate"><span class="pre">main</span></code> (fetch + merge)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">origin</span> <span class="pre">main</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Switch to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">main</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>View commit history</p></td>
+<tr class="row-odd"><td><p>View commit history</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span> <span class="pre">--oneline</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p>Cherry-pick a commit</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">cherry-pick</span> <span class="pre">&lt;commit-hash&gt;</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p>Push changes to <code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">main</span></code></p></td>
@@ -1134,7 +1138,7 @@ title="Print to PDF"
 <li><p>Use Google or AI tools for troubleshooting</p></li>
 <li><p>Ask teammates only after checking the basics</p></li>
 </ul>
-<p>You don’t need to master Git to contribute—just keep your branch up to date and make your changes visible to the team in a clean and organized way.</p>
+<p>You don’t need to master Git to contribute — just keep your branch up to date and make your changes visible to the team in a clean and organized way.</p>
 </section>
 </section>
 
@@ -1203,7 +1207,7 @@ title="Print to PDF"
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#what-is-a-branch">
-     What is a Branch?
+     What is a branch?
     </a>
    </li>
   </ul>
