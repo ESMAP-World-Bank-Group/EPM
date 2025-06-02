@@ -1263,11 +1263,6 @@ def main(test_args=None):
     print(f"Simple: {args.simple}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': True, 'pDemandForecast': True,
-                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': True, 'pDemandProfile': False,
-                       'y': True, 'ResLimShare': True, 'pVREProfile': True,
-                       'BuildLimitperYear': True}
         sensitivity = os.path.join('input', args.folder_input, 'sensitivity.csv')
         if not os.path.exists(sensitivity):
             print(f"Warning: sensitivity file {sensitivity} does not exist. No sensitivity analysis will be performed.")
