@@ -32,9 +32,3 @@ Set A /d, e/;  * This would normally cause an error without $onmulti
 $offmulti
 ```
 This directive should be used with caution to avoid unintended overwrites.
-
-
-## Emebedded code python
-
-Please refer to this [GAMS documentation](https://www.gams.com/48/docs/API_PY_GAMSTRANSFER_MAIN_CLASSES.html) for more information on the GAMS Python API.
-

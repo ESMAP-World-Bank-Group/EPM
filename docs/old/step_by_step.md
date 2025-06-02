@@ -1,8 +1,6 @@
 
 # Step-by-step guide
 
-_Last update: Jan 2025_
-
 This guide will walk you through the recommended process of running the Electricity Planning Model (EPM).
 
 ## 1. **Clone the repository**
@@ -14,16 +12,10 @@ This guide will walk you through the recommended process of running the Electric
 
 ## 2. **Create and activate branch**
 
-This step is optional, only if you want to push your changes to the remote repository. 
-
 - Create a new branch for your work. This way, you can work on your own branch (and merge some of the nice feature you have developed to the main branch when you are done):
     - To see the branch you are in, run the command: `git branch` 
     - Create and change to the branch you want to work on: `git checkout -b <branch_name>`. `branch-name` should be a descriptive name of the use case you are working on, e.g., `guinea`.
     - You’ve created a new branch locally and now want to push it to the remote repository, to save your changes remotely: `git push -u origin <branch-name>`
-
-## 1-2bis. **Download from GitHub**
-
-Users who prefer to avoid Git can download the entire project directly from GitHub without cloning the repository or creating a new branch. Ensure that the download is from the `main` branch to work with the latest stable version. However, this method is not recommended, as it may limit access to version control features and updates.
 
 ## 3. **Modify the code files**
 
