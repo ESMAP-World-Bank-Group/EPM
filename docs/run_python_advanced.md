@@ -8,11 +8,11 @@ The Python interface supports advanced features via command-line options.
 
 To run additional scenarios beyond the baseline, use the `--scenarios` argument with a `scenarios.csv file`:
 
-1. Create a `scenarios.csv` file in your input folder.
+1. Create a `scenarios.csv` file in your `input` folder.
 2. Run EPM using:
 
 ```sh
-python epm.py --folder_input my_data --scenarios input/my_scenarios.csv
+python epm.py --folder_input my_data --scenarios input/scenarios.csv
 ```
 
 Each row overrides specific input files defined in config.csv.
