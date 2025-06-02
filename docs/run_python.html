@@ -241,13 +241,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -556,13 +549,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -782,8 +768,6 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
@@ -1017,11 +1001,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#input-data">
    3. Input Data
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#specifying-arguments-for-your-run">
-   4. Specifying Arguments for your Run
-  </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#folder-input">
@@ -1041,6 +1020,13 @@ title="Print to PDF"
      </code>
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#specifying-optional-arguments-for-your-run">
+   4. Specifying Optional Arguments for your Run
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#scenarios">
      <code class="docutils literal notranslate">
@@ -1307,16 +1293,17 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="input-data">
 <h2>3. Input Data<a class="headerlink" href="#input-data" title="Permalink to this heading">#</a></h2>
+<p><strong>All input data need to be within the <code class="docutils literal notranslate"><span class="pre">epm/input</span></code> folder. The path of the input file are defined based on this reference.</strong></p>
 <p>Input data are defined in a folder <code class="docutils literal notranslate"><span class="pre">folder_input</span></code> and controlled via a <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> file, which specifies what CSV files to use for each parameter in the model.</p>
-<ul class="simple">
-<li><p>Example input structure is provided in the GitHub <code class="docutils literal notranslate"><span class="pre">main</span></code> branch under the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder.</p></li>
-<li><p>See the <a class="reference external" href="https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html">input documentation</a> for full details.</p></li>
-</ul>
+<blockquote>
+<div><p>Example input structure is provided in the GitHub <code class="docutils literal notranslate"><span class="pre">main</span></code> branch under the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder. See the <a class="reference external" href="https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html">input documentation</a> for full details.</p>
+</div></blockquote>
 <p>By default, the model uses the <code class="docutils literal notranslate"><span class="pre">data_test</span></code> input folder and <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code> file, but command line arguments allow you to specify different folders and configurations.</p>
-</section>
-<hr class="docutils" />
-<section id="specifying-arguments-for-your-run">
-<h2>4. Specifying Arguments for your Run<a class="headerlink" href="#specifying-arguments-for-your-run" title="Permalink to this heading">#</a></h2>
+<p>Input data for EPM is specified through two key components:</p>
+<ol class="arabic simple">
+<li><p><strong>Input Folder (<code class="docutils literal notranslate"><span class="pre">FOLDER_INPUT</span></code>)</strong><br />
+This folder contains all the necessary <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input files for the model, organized by type (e.g., <code class="docutils literal notranslate"><span class="pre">data_sapp</span></code>). It holds the raw data the model reads.</p></li>
+</ol>
 <section id="folder-input">
 <h3><code class="docutils literal notranslate"><span class="pre">--folder_input</span></code><a class="headerlink" href="#folder-input" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
@@ -1325,6 +1312,10 @@ title="Print to PDF"
 <li><p><strong>Purpose:</strong> Folder containing the CSV input data for the simulation.</p></li>
 <li><p><strong>Notes:</strong> Should contain the input files referenced in the config.</p></li>
 </ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Configuration File (<code class="docutils literal notranslate"><span class="pre">config.csv</span></code>)</strong><br />
+This CSV file defines which input files correspond to which parameters in the model for the <strong>baseline scenario</strong>. It includes the parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> and the relative <code class="docutils literal notranslate"><span class="pre">file</span></code> path inside the input folder. An example of a configuration file is available here:  <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv">Example <code class="docutils literal notranslate"><span class="pre">config.csv</span></code></a></p></li>
+</ol>
 </section>
 <section id="config">
 <h3><code class="docutils literal notranslate"><span class="pre">--config</span></code><a class="headerlink" href="#config" title="Permalink to this heading">#</a></h3>
@@ -1334,7 +1325,33 @@ title="Print to PDF"
 <li><p><strong>Purpose:</strong> Specifies the configuration file that defines baseline input CSV files and parameters.</p></li>
 <li><p><strong>Notes:</strong> The config file is required for proper data loading and scenario configuration.</p></li>
 </ul>
+<p>Important Configuration Options in config.csv</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">solvemode</span></code></p></td>
+<td><p>How the model is solved:<br> <code class="docutils literal notranslate"><span class="pre">2</span></code> = normal (default)<br> <code class="docutils literal notranslate"><span class="pre">1</span></code> = write savepoint <code class="docutils literal notranslate"><span class="pre">PA_pd.gdx</span></code><br> <code class="docutils literal notranslate"><span class="pre">0</span></code> = generate model only (no solve)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trace</span></code></p></td>
+<td><p>Logging verbosity:<br> <code class="docutils literal notranslate"><span class="pre">0</span></code> = minimal (default)<br> <code class="docutils literal notranslate"><span class="pre">1</span></code> = detailed debugging output</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reportshort</span></code></p></td>
+<td><p>Report size:<br> <code class="docutils literal notranslate"><span class="pre">0</span></code> = full report (default)<br> <code class="docutils literal notranslate"><span class="pre">1</span></code> = compact report for multiple runs (e.g., Monte Carlo)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">modeltype</span></code></p></td>
+<td><p>Solver type:<br> <code class="docutils literal notranslate"><span class="pre">MIP</span></code> = default<br> <code class="docutils literal notranslate"><span class="pre">RMIP</span></code> = force LP relaxation</p></td>
+</tr>
+</tbody>
+</table>
 </section>
+</section>
+<section id="specifying-optional-arguments-for-your-run">
+<h2>4. Specifying Optional Arguments for your Run<a class="headerlink" href="#specifying-optional-arguments-for-your-run" title="Permalink to this heading">#</a></h2>
+<p>Check <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">EPM</span> <span class="pre">Advanced</span> <span class="pre">Features</span></code> for additional explanations on advanced features like sensitivity analysis, Monte Carlo simulations, and scenario management.</p>
 <section id="scenarios">
 <h3><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code><a class="headerlink" href="#scenarios" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
@@ -1578,11 +1595,6 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#input-data">
    3. Input Data
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#specifying-arguments-for-your-run">
-   4. Specifying Arguments for your Run
-  </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#folder-input">
@@ -1602,6 +1614,13 @@ title="Print to PDF"
      </code>
     </a>
    </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#specifying-optional-arguments-for-your-run">
+   4. Specifying Optional Arguments for your Run
+  </a>
+  <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#scenarios">
      <code class="docutils literal notranslate">

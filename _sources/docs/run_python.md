@@ -96,17 +96,19 @@ This runs the model using the default input folder and configuration.
 
 ## 3. Input Data
 
+**All input data need to be within the `epm/input` folder. The path of the input file are defined based on this reference.**
+
 Input data are defined in a folder `folder_input` and controlled via a `config.csv` file, which specifies what CSV files to use for each parameter in the model.
 
-- Example input structure is provided in the GitHub `main` branch under the `input` folder.
-- See the [input documentation](https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html) for full details.
+> Example input structure is provided in the GitHub `main` branch under the `input` folder. See the [input documentation](https://esmap-world-bank-group.github.io/EPM/docs/input_overview.html) for full details.
 
 By default, the model uses the `data_test` input folder and `input/config.csv` file, but command line arguments allow you to specify different folders and configurations.
 
----
 
-## 4. Specifying Arguments for your Run
+Input data for EPM is specified through two key components:
 
+1. **Input Folder (`FOLDER_INPUT`)**  
+   This folder contains all the necessary `.csv` input files for the model, organized by type (e.g., `data_sapp`). It holds the raw data the model reads.
 
 ### `--folder_input`
 - **Type:** string  
@@ -114,12 +116,29 @@ By default, the model uses the `data_test` input folder and `input/config.csv` f
 - **Purpose:** Folder containing the CSV input data for the simulation.  
 - **Notes:** Should contain the input files referenced in the config.
 
+2. **Configuration File (`config.csv`)**  
+   This CSV file defines which input files correspond to which parameters in the model for the **baseline scenario**. It includes the parameter `name` and the relative `file` path inside the input folder. An example of a configuration file is available here:  [Example `config.csv`](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv)
 
 ### `--config`
 - **Type:** string  
 - **Default:** `input/config.csv`  
 - **Purpose:** Specifies the configuration file that defines baseline input CSV files and parameters.  
 - **Notes:** The config file is required for proper data loading and scenario configuration.
+
+
+Important Configuration Options in config.csv
+
+| Option         | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| `solvemode`    | How the model is solved:<br> `2` = normal (default)<br> `1` = write savepoint `PA_pd.gdx`<br> `0` = generate model only (no solve) |
+| `trace`        | Logging verbosity:<br> `0` = minimal (default)<br> `1` = detailed debugging output |
+| `reportshort`  | Report size:<br> `0` = full report (default)<br> `1` = compact report for multiple runs (e.g., Monte Carlo) |
+| `modeltype`    | Solver type:<br> `MIP` = default<br> `RMIP` = force LP relaxation |
+
+
+## 4. Specifying Optional Arguments for your Run
+
+Check `Run EPM Advanced Features` for additional explanations on advanced features like sensitivity analysis, Monte Carlo simulations, and scenario management.
 
 ### `--scenarios`
 - **Type:** string  
