@@ -25,6 +25,7 @@ parts:
       - file: docs/input_overview.md
       - file: docs/input_detailed.md
       - file: docs/set_definition.md
+      - file: docs/input_from_excel_to_csv.md
       - file: docs/input_solver_options.md
       - file: docs/input_technology_brief.md
       - file: docs/input_representative_days.md
