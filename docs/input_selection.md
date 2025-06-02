@@ -1,7 +1,7 @@
 # Specifying Input Data
 
 Input data for EPM is specified through `config.csv`, which defines all parameter files used in the **baseline scenario**.
-If you're unsure of the file structure, see this [example config.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv).
+If you're unsure of the file structure, see this [example config.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/config.csv).
 
 The input folder contains all necessary `.csv` files, organized by type (e.g., `data_test_region`). Each file corresponds to a specific parameter in the model.
 The `config.csv` file contains the path of the file within the input folder, and the model reads these files to set up the parameters. This allows you to easily switch between different sets of input data without modifying the model code.
