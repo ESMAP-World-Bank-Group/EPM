@@ -749,6 +749,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+
 <li class="toctree-l1"><a class="reference internal" href="introduction_case_studies.html">EPM Recent Case Studies</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
@@ -1028,6 +1029,69 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simple">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --simple
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cpu">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --cpu
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#engine">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --engine
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#postprocess">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --postprocess
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --plot_selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-plot-dispatch">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --no_plot_dispatch
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#graphs-folder">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --graphs_folder
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#scenarios">
      <code class="docutils literal notranslate">
       <span class="pre">
@@ -1037,10 +1101,28 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#sensitivity">
      <code class="docutils literal notranslate">
       <span class="pre">
        --sensitivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-assessment">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --project_assessment
       </span>
      </code>
     </a>
@@ -1077,96 +1159,6 @@ title="Print to PDF"
      <code class="docutils literal notranslate">
       <span class="pre">
        --reduced_output
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#selected-scenarios">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --selected_scenarios
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#cpu">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --cpu
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#project-assessment">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --project_assessment
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#simple">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --simple
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#engine">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --engine
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#postprocess">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --postprocess
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-selected-scenarios">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --plot_selected_scenarios
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#no-run-multiprocess">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --no_run_multiprocess
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#no-plot-dispatch">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --no_plot_dispatch
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#graphs-folder">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --graphs_folder
       </span>
      </code>
     </a>
@@ -1352,6 +1344,63 @@ This CSV file defines which input files correspond to which parameters in the mo
 <section id="specifying-optional-arguments-for-your-run">
 <h2>4. Specifying Optional Arguments for your Run<a class="headerlink" href="#specifying-optional-arguments-for-your-run" title="Permalink to this heading">#</a></h2>
 <p>Check <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">EPM</span> <span class="pre">Advanced</span> <span class="pre">Features</span></code> for additional explanations on advanced features like sensitivity analysis, Monte Carlo simulations, and scenario management.</p>
+<section id="simple">
+<h3><code class="docutils literal notranslate"><span class="pre">--simple</span></code><a class="headerlink" href="#simple" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> [‘DiscreteCap’, ‘y’]</p></li>
+<li><p><strong>Purpose:</strong> Enables simplified model modes by toggling specified parameters.</p></li>
+</ul>
+</section>
+<section id="cpu">
+<h3><code class="docutils literal notranslate"><span class="pre">--cpu</span></code><a class="headerlink" href="#cpu" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> integer</p></li>
+<li><p><strong>Default:</strong> 1</p></li>
+<li><p><strong>Purpose:</strong> Number of CPU cores to use for running scenarios in parallel.</p></li>
+</ul>
+</section>
+<section id="engine">
+<h3><code class="docutils literal notranslate"><span class="pre">--engine</span></code><a class="headerlink" href="#engine" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Path to a GAMS Engine file for running simulations remotely.</p></li>
+</ul>
+</section>
+<section id="postprocess">
+<h3><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code><a class="headerlink" href="#postprocess" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Runs only postprocessing on an existing output folder, skipping simulation.</p></li>
+</ul>
+</section>
+<section id="plot-selected-scenarios">
+<h3><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span></code><a class="headerlink" href="#plot-selected-scenarios" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code></p></li>
+<li><p><strong>Purpose:</strong> Specifies scenarios to plot in postprocessing.</p></li>
+</ul>
+</section>
+<section id="no-plot-dispatch">
+<h3><code class="docutils literal notranslate"><span class="pre">--no_plot_dispatch</span></code><a class="headerlink" href="#no-plot-dispatch" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> flag (boolean)</p></li>
+<li><p><strong>Default:</strong> False (dispatch plotting enabled by default)</p></li>
+<li><p><strong>Purpose:</strong> Disables automatic creation of dispatch plots to save time and memory.</p></li>
+</ul>
+</section>
+<section id="graphs-folder">
+<h3><code class="docutils literal notranslate"><span class="pre">--graphs_folder</span></code><a class="headerlink" href="#graphs-folder" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">img</span></code></p></li>
+<li><p><strong>Purpose:</strong> Directory where postprocessing graphs and plots will be saved.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
 <section id="scenarios">
 <h3><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code><a class="headerlink" href="#scenarios" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
@@ -1359,6 +1408,15 @@ This CSV file defines which input files correspond to which parameters in the mo
 <li><p><strong>Default:</strong> None</p></li>
 <li><p><strong>Purpose:</strong> Path to a scenario definition file specifying multiple scenarios and their overridden inputs.</p></li>
 <li><p><strong>Notes:</strong> If omitted, only the baseline scenario will run.</p></li>
+</ul>
+</section>
+<section id="selected-scenarios">
+<h3><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code><a class="headerlink" href="#selected-scenarios" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Specifies a subset of scenarios from the scenarios file to run.</p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span> <span class="pre">baseline</span> <span class="pre">ScenarioA</span></code></p></li>
 </ul>
 </section>
 <section id="sensitivity">
@@ -1370,6 +1428,16 @@ This CSV file defines which input files correspond to which parameters in the mo
 <li><p><strong>Usage:</strong> Include <code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code> to enable.</p></li>
 </ul>
 </section>
+<section id="project-assessment">
+<h3><code class="docutils literal notranslate"><span class="pre">--project_assessment</span></code><a class="headerlink" href="#project-assessment" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> list of strings</p></li>
+<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Purpose:</strong> Specifies projects to exclude from the simulation to assess counterfactual scenarios.</p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--project_assessment</span> <span class="pre">SolarProject</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
 <section id="montecarlo">
 <h3><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code><a class="headerlink" href="#montecarlo" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
@@ -1403,88 +1471,6 @@ This CSV file defines which input files correspond to which parameters in the mo
 <li><p><strong>Type:</strong> flag (boolean)</p></li>
 <li><p><strong>Default:</strong> False</p></li>
 <li><p><strong>Purpose:</strong> Generates reduced-size outputs to save memory, useful for large Monte Carlo runs.</p></li>
-</ul>
-</section>
-<section id="selected-scenarios">
-<h3><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code><a class="headerlink" href="#selected-scenarios" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> list of strings</p></li>
-<li><p><strong>Default:</strong> None</p></li>
-<li><p><strong>Purpose:</strong> Specifies a subset of scenarios from the scenarios file to run.</p></li>
-<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span> <span class="pre">baseline</span> <span class="pre">ScenarioA</span></code></p></li>
-</ul>
-</section>
-<section id="cpu">
-<h3><code class="docutils literal notranslate"><span class="pre">--cpu</span></code><a class="headerlink" href="#cpu" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> integer</p></li>
-<li><p><strong>Default:</strong> 1</p></li>
-<li><p><strong>Purpose:</strong> Number of CPU cores to use for running scenarios in parallel.</p></li>
-</ul>
-</section>
-<section id="project-assessment">
-<h3><code class="docutils literal notranslate"><span class="pre">--project_assessment</span></code><a class="headerlink" href="#project-assessment" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> list of strings</p></li>
-<li><p><strong>Default:</strong> None</p></li>
-<li><p><strong>Purpose:</strong> Specifies projects to exclude from the simulation to assess counterfactual scenarios.</p></li>
-<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--project_assessment</span> <span class="pre">SolarProject</span></code></p></li>
-</ul>
-</section>
-<section id="simple">
-<h3><code class="docutils literal notranslate"><span class="pre">--simple</span></code><a class="headerlink" href="#simple" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> list of strings</p></li>
-<li><p><strong>Default:</strong> None</p></li>
-<li><p><strong>Purpose:</strong> Enables simplified model modes by toggling specified parameters.</p></li>
-</ul>
-</section>
-<section id="engine">
-<h3><code class="docutils literal notranslate"><span class="pre">--engine</span></code><a class="headerlink" href="#engine" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> string</p></li>
-<li><p><strong>Default:</strong> None</p></li>
-<li><p><strong>Purpose:</strong> Path to a GAMS Engine file for running simulations remotely.</p></li>
-</ul>
-</section>
-<section id="postprocess">
-<h3><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code><a class="headerlink" href="#postprocess" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> string</p></li>
-<li><p><strong>Default:</strong> None</p></li>
-<li><p><strong>Purpose:</strong> Runs only postprocessing on an existing output folder, skipping simulation.</p></li>
-</ul>
-</section>
-<section id="plot-selected-scenarios">
-<h3><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span></code><a class="headerlink" href="#plot-selected-scenarios" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> list of strings</p></li>
-<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code></p></li>
-<li><p><strong>Purpose:</strong> Specifies scenarios to plot in postprocessing.</p></li>
-</ul>
-</section>
-<section id="no-run-multiprocess">
-<h3><code class="docutils literal notranslate"><span class="pre">--no_run_multiprocess</span></code><a class="headerlink" href="#no-run-multiprocess" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> flag (boolean)</p></li>
-<li><p><strong>Default:</strong> False (multiprocessing enabled by default)</p></li>
-<li><p><strong>Purpose:</strong> Disables parallel processing of scenarios (forces sequential execution).</p></li>
-</ul>
-</section>
-<section id="no-plot-dispatch">
-<h3><code class="docutils literal notranslate"><span class="pre">--no_plot_dispatch</span></code><a class="headerlink" href="#no-plot-dispatch" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> flag (boolean)</p></li>
-<li><p><strong>Default:</strong> False (dispatch plotting enabled by default)</p></li>
-<li><p><strong>Purpose:</strong> Disables automatic creation of dispatch plots to save time and memory.</p></li>
-</ul>
-</section>
-<section id="graphs-folder">
-<h3><code class="docutils literal notranslate"><span class="pre">--graphs_folder</span></code><a class="headerlink" href="#graphs-folder" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>Type:</strong> string</p></li>
-<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">img</span></code></p></li>
-<li><p><strong>Purpose:</strong> Directory where postprocessing graphs and plots will be saved.</p></li>
 </ul>
 </section>
 </section>
@@ -1622,6 +1608,69 @@ This CSV file defines which input files correspond to which parameters in the mo
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simple">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --simple
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cpu">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --cpu
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#engine">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --engine
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#postprocess">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --postprocess
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --plot_selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#no-plot-dispatch">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --no_plot_dispatch
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#graphs-folder">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --graphs_folder
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#scenarios">
      <code class="docutils literal notranslate">
       <span class="pre">
@@ -1631,10 +1680,28 @@ This CSV file defines which input files correspond to which parameters in the mo
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#selected-scenarios">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --selected_scenarios
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#sensitivity">
      <code class="docutils literal notranslate">
       <span class="pre">
        --sensitivity
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#project-assessment">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --project_assessment
       </span>
      </code>
     </a>
@@ -1671,96 +1738,6 @@ This CSV file defines which input files correspond to which parameters in the mo
      <code class="docutils literal notranslate">
       <span class="pre">
        --reduced_output
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#selected-scenarios">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --selected_scenarios
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#cpu">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --cpu
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#project-assessment">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --project_assessment
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#simple">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --simple
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#engine">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --engine
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#postprocess">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --postprocess
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-selected-scenarios">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --plot_selected_scenarios
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#no-run-multiprocess">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --no_run_multiprocess
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#no-plot-dispatch">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --no_plot_dispatch
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#graphs-folder">
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       --graphs_folder
       </span>
      </code>
     </a>

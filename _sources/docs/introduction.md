@@ -25,6 +25,13 @@ The practical deployment of EPM consists of a 7-step process, which is illustrat
 - Spyrou, E., Hobbs, B. F., Bazilian, M. D., & Chattopadhyay, D. (2019). Planning power systems in fragile and conflict-affected states. Nature energy, 4(4), 300-310.
 - World Bank Group. Poland Energy Transition: The Path to Sustainability in the Electricity and Heating Sector. World Bank, 2018.
 
+---
+
+## Archive 
+
+The EPM Zenodo archive contains the previous versions of the model, which are no longer actively maintained. The archive is available at <https://zenodo.org/account/settings/github/repository/ESMAP-World-Bank-Group/EPM>.
+
+---
 
 ## Citing EPM
 
