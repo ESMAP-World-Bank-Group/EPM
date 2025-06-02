@@ -1193,9 +1193,14 @@ def main(test_args=None):
     parser.add_argument(
         "--simple",
         nargs="*",  # Accepts zero or more values
-        default=['DiscreteCap', 'y'],
-        help = "List of simplified parameters (default: None). Example usage: --simple DiscreteCap y"
+        default=None,
+        help="List of simplified parameters. "
+             "If omitted: nothing happens. "
+             "If used without arguments: defaults to ['DiscreteCap', 'y']. "
+             "If used with arguments: overrides default. "
+             "Example: --simple DiscreteCap y"
     )
+
 
     parser.add_argument(
         "--engine",
@@ -1241,6 +1246,10 @@ def main(test_args=None):
         args = parser.parse_args(test_args)
     else:
         args = parser.parse_args()  # Normal command-line parsing
+
+    # Custom logic
+    if args.simple == []:
+        args.simple = ['DiscreteCap', 'y']
 
     print(f"Config file: {args.config}")
     print(f"Folder input: {args.folder_input}")
