@@ -12,7 +12,7 @@ Input files are  located in the data_input folder, and are organized into severa
   - **Parameter** (*string*) – Full name of the parameter.  
   - **Abbreviation** (*string*) – Short name used in the model.  
   - **Value** (*varied units*) – The assigned numerical value or toggle (0/1) for the parameter.  
-- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config/pSettings.csv)
+- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/config/pSettings.csv)
 
 **!! Important !!** Some parameters have been added in the latest EPM version. If you are using an older version of `pSettings.csv`, these new parameters will be missing and will therefore be set to zero by default in GAMS, which can significantly alter model results.
 To ensure accurate outcomes, it is essential to update your `pSettings.csv` file to include all new parameters when running the latest version of EPM.
@@ -568,7 +568,7 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
   - **Value**
     - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
 
-- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/trade/pMaxExchangeShare.csv)
+- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxExchangeShare.csv)
 
 ### `pNewTransmission.csv`
 
@@ -587,7 +587,7 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
     - **Life** (*int*) – Expected lifespan of the transmission line.
 
 
-- **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/trade/pNewTransmission.csv)  
+- **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv)  
 
 
 ### `pTradePrice.csv`
@@ -607,7 +607,7 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
     - Trade price (€/MWh)
 
 
-- **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/trade/pTradePrice.csv)  
+- **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTradePrice.csv)  
 
 ### `pTransferLimit.csv`
 
@@ -624,7 +624,7 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
   - **Value**
     - Capacity available for imports or exports between internal zones.
 
-- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/trade/pTransferLimit.csv)  
+- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTransferLimit.csv)  
 
 ### `zext.csv`
 
@@ -635,7 +635,7 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
   - **Index**
     - **zone** (*str*) – Name of external zone
 
-- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/trade/zext.csv)
+- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/zext.csv)
 
 ### `pLossFactor.csv`
 
