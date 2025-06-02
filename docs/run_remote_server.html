@@ -1087,6 +1087,11 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="clone-the-epm-repository">
 <h2>3. Clone the EPM Repository<a class="headerlink" href="#clone-the-epm-repository" title="Permalink to this heading">#</a></h2>
+<p>Storage rules</p>
+<ul class="simple">
+<li><p>Do <strong>not</strong> store data, code, or results in <code class="docutils literal notranslate"><span class="pre">/home/wb_yourID/</span></code>.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> directory for <strong>all</strong> storage and simulations. This is where disk space is allocated.</p></li>
+</ul>
 <p>Once on the server, navigate to your home directory and clone the repository:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ESMAP-World-Bank-Group/EPM.git
@@ -1101,7 +1106,7 @@ git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ESMAP
 <hr class="docutils" />
 <section id="best-practices-workflow">
 <h2>4. Best Practices Workflow<a class="headerlink" href="#best-practices-workflow" title="Permalink to this heading">#</a></h2>
-<p>You do not modify the code on the sever directly. Instead, follow these steps to ensure a smooth workflow:</p>
+<p>The server is for running simulations, not for code development. Follow these steps to ensure a smooth workflow:</p>
 <ol class="arabic">
 <li><p><strong>Test Locally First</strong><br />
 Run a simple example on your computer before launching long runs on the server.</p></li>
@@ -1126,14 +1131,23 @@ git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </
 <p>Once your code is ready, you can run EPM on the server using the <strong>same steps as on your computer</strong>.</p>
 <section id="a-python-recommended">
 <h3>A. Python (Recommended)<a class="headerlink" href="#a-python-recommended" title="Permalink to this heading">#</a></h3>
-<p>First time only: create the Python environment</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>esmap_env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10
-conda<span class="w"> </span>activate<span class="w"> </span>esmap_env
-pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+<p>First time only: You need to add the shared Miniconda installation to your terminal environment. Run the following <strong>once</strong>:</p>
+<p>To use <code class="docutils literal notranslate"><span class="pre">conda</span></code> from anywhere on this server, you need to add its location to your system <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
+<blockquote>
+<div><p>This only needs to be done once. Just copy and paste the line below into your terminal.</p>
+</div></blockquote>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;export PATH=&quot;/Data/miniconda3/bin:$PATH&quot;&#39;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
+<p>After running this, you can confirm conda is accessible:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>which<span class="w"> </span>conda
+conda<span class="w"> </span>--version
+</pre></div>
+</div>
+<p>All simulations must be run from the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> folder, not from <code class="docutils literal notranslate"><span class="pre">/home</span></code>.</p>
 <p>Each time you run:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>esmap_env
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
 <span class="nb">cd</span><span class="w"> </span>EPM/epm
 python<span class="w"> </span>run_epm.py
 </pre></div>
