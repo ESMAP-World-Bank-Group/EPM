@@ -127,15 +127,15 @@ Each row in your uncertainty definition file must correspond to a supported feat
 - `fossilfuel`: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage
 - `demand`: scales the entire demand forecast (peak & energy) uniformly by a percentage across zones specified
 - `hydro`: scales hydro trajectories uniformly by a percentage  across zones specified
-Example file: [mc_uncertainties.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/mc_uncertainties.csv).
+Example file: [mc_uncertainties.csv example](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/mc_uncertainties.csv).
 
 2. Specify in your command-line:
 ```sh
-python epm.py --folder_input my_data --config input/my_data/my_config.csv --scenarios input/my_data/my_scenarios.csv --selected scenarios baseline Scenario1 Scenario2  --montecarlo --montecarlo_samples 20 --uncertainties input/data_sapp/your_uncertainty_file.csv --no_plot_dispatch
+python epm.py --folder_input my_data --config input/my_data/my_config.csv --scenarios input/my_data/my_scenarios.csv --selected scenarios baseline Scenario1 Scenario2  --montecarlo --montecarlo_samples 20 --uncertainties input/data_test_region/your_uncertainty_file.csv --no_plot_dispatch
 ```
 
 This command will:
-- Load the uncertainties defined in your file (`--uncertainties input/data_sapp/your_uncertainty_file.csv`)
+- Load the uncertainties defined in your file (`--uncertainties input/data_test_region/your_uncertainty_file.csv`)
 - Generate 20 samples from the joint probability distribution (`--montecarlo_samples 20`)
 - Run the model for each selected scenario 
 - Run Monte Carlo dispatch simulations for each sample

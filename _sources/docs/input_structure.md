@@ -6,18 +6,18 @@ The input structure consists of:
 - A folder containing all necessary input `.csv` files for the model. This folder is specified using the `--folder_input` argument when running the model with Python.
 - A main configuration file (`config.csv`) that defines which input files correspond to each model parameter. This file is specified using the `--config` argument.
 
-Below is an example of the structure based on the `data_sapp` folder.
+Below is an example of the structure based on the `data_test_region` folder.
 
 To run the model with Python, use the following command:
 
 ```bash
-python run_epm.py --folder_input data_sapp --config data_sapp/config.csv
+python run_epm.py --folder_input data_test_region --config data_test_region/config.csv
 ```
 
 This folder contains all the input files required to run EPM for the Southern Africa Power Pool (SAPP) region.
 
 ```plaintext
-data_sapp/
+data_test_region/
 │
 ├── config.csv                          # Main configuration file for baseline run
 │
