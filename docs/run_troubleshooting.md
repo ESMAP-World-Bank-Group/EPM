@@ -2,7 +2,7 @@
 
 The EPM code performs several automatic checks on input data. If the model fails or produces unexpected outputs, inspect the **log file** for error messages and failed tests. This page lists common issues and how to resolve them.
 
-If you encounter new issues, please contact the EPM team so we can expand this list.
+> If you encounter new issues, please contact the EPM team so we can expand this list. Specifically, we suggest to raise an issue on the [EPM GitHub repository](https://github.com/ESMAP-World-Bank-Group/EPM/issues). You can assign your issue to Célia Escribe, Maëlle Baronnet and Lucas Vivier. **In any case, please do not send your personnal issue by email.** Other user may have the same issue, and it is better to have a single place where we can track all issues.
 
 ---
 
@@ -10,24 +10,20 @@ If you encounter new issues, please contact the EPM team so we can expand this l
 
 Modifying input files or reading functions may introduce errors. To help identify which input is causing issues, we recommend enabling **trace mode** in GAMS Studio.
 
-To do this, **replace** all instances of `trace: 0` with `trace: 1` in the `emp_readers.gms` file. This will enable detailed logs for each input being read.
-
-You can use the **Find and Replace All** feature in GAMS Studio to do this efficiently.
+Use command-line arguments to set the `TRACE` parameter to `1` when running the model. This will provide detailed logs of which input files are being read and any issues encountered.
 
 Example:
 ```gams
 $onEmbeddedCode Connect:
 
 - CSVReader:
-    trace: 1
+    trace: %TRACE%
     file: input/data/pAvailability.csv
     name: pAvailability
     indexColumns: [1]
     header: [1,2]
     type: par
 ```
-
-Once debugging is complete and the issue is resolved, set `trace` back to `0` to reduce log output
 
 ---
 

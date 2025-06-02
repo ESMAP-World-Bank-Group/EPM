@@ -1,7 +1,7 @@
 ﻿Processing,Color
 Coal,darkgray
 Oil,rosybrown
-Oil diesel,brown
+Oil diesel,rosybrown
 Gas,tan
 Battery Storage,slateblue
 Battery Storage 4h,slateblue
@@ -10,8 +10,9 @@ Pumped-Hydro,cornflowerblue
 H2,lightcyan
 Biomass,darkseagreen
 Hydro,lightskyblue
-Wind,lightsteelblue
+Wind,steelblue
 Solar,orange
+Concentrated Solar,yellow
 Trade,thistle
 Import,thistle
 Hydro MC,lightskyblue
@@ -20,4 +21,36 @@ Hydro Storage,lightskyblue
 Unmet demand,black
 Demand,red
 Exports,green
+Imports,thistle
 Storage Charge,pink
+Nuclear,#66CDAA
+Onshore Wind, steelblue
+Offshore Wind,blue
+Concentrated Solar,yellow
+Geothermal,brown
+Annualized capex: $m,cornflowerblue
+Fixed O&M: $m,green
+Variable O&M: $m,rosybrown
+Total fuel Costs: $m,grey
+Fuel cost: $m,grey
+Transmission additions: $m,purple
+Spinning Reserve costs: $m,pink
+Unmet reserve cost: $m,pink
+Unmet demand costs: $m,black
+Unmet demand cost: $m,black
+Excess generation: $m,yellow
+VRE curtailment: $m,orange
+Trade Costs: $m,lightskyblue
+Angola,teal
+Botswana,firebrick
+DRC,dodgerblue
+DRC_South,slateblue
+Eswatini,goldenrod
+Lesotho,darkgreen
+Malawi,orchid
+Mozal,steelblue
+Mozambique,darkorange
+Namibia,mediumvioletred
+Tanzania,seagreen
+Zimbabwe,crimson
+Zambia,mediumslateblue
