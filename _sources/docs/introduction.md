@@ -1,16 +1,28 @@
 ## About
 
-EPM (Electricity Planning Model) is a **least-cost power system planning tool**. EPM has been developed by the Power Systems Planning Group, embedded in the **Energy Sector Management Assistance Program (ESMAP) of the World Bank**. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank's staff and clients and to be an evolving and versatile decision-making tool. 
+EPM (Electricity Planning Model) is a least-cost power system planning tool. EPM has been developed by the Power Systems Planning Group, embedded in the Energy Sector Management Assistance Program (ESMAP) of the World Bank. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank's staff and clients and to be an evolving and versatile decision-making tool. 
 
-EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via csv files to the model and likewise, the results are collected in csv files. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.
-
-In short, EPM **minimizes the costs of expanding and operating a power system while meeting the system's technical, economic, and environmental requirements**. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed Operation and Maintenance [O&M]), variable costs (variable O&M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.
+EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via an Excel interface to the model and likewise, the results are collected in an Excel output file. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.
+In short, EPM minimizes the costs of expanding and operating a power system while meeting the system's technical, economic, and environmental requirements. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed operation and maintenance [O&M]), variable costs (variable O&M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.
 
 The practical deployment of EPM consists of a 7-step process, which is illustrated below.
 
 <img src="https://i.postimg.cc/jdZH17w9/Screenshot-2022-01-14-102001.png" alt="drawing" width="300" align="center"/>
 
 ---
+
+## Quick start
+
+EPM is a model formulated in the General Algebraic Modeling System (GAMS), a high-level modeling system for mathematical optimization. GAMS and Excel are required to be installed to run EPM. Furthermore, to work with EPM, additional licensing of GAMS is necessary. To install GAMS or obtain the appropriate license, go to the [website](https://www.gams.com/download/) and follow the instructions.
+
+The Excel file, labeled `EPM_input.xlsx`, serves the interface of the EPM tool. This file should store all the input data required to run the model. When using the EPM interface, it is advisable to address one tab at a time and start at the left-most tab and sequentially address the right-neighboring tab. When the Excel file is appropriately filled, the user might proceed to the GAMS software and run the model. Otherwise, the run will produce errors, which need to be addressed.
+
+Model is composed of three .gms files:
+- `*base.gms`   - contains the introduction of all the variables, parameters, and equations of the model.
+- `*report.gms` - processes the model's outcomes and produces the results files.
+- `*main.gms`   - controls the overall flow of the program and is used to run the model.
+
+To run the model, open `*main.gms` file in GAMS IDE or GAMS Studio in the same directory with `*report.gms`, `*base.gms` and filled `EPM_input.xlsx`, and run the script. The model will automatically include all the input data and files, solve the model and produce the results.
 
 ## Works deploying EPM
 

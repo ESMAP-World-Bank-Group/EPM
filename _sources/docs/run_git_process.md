@@ -1,100 +1,42 @@
-# Git Procedure for Beginners
+# Git procedure
 
-Before asking for help, please first search the issue on Google or ask an AI assistant. If the problem persists, then ask a colleague.
+_Last update: Nov 2024_
 
-## Introduction
+## Merge changes from the `main` branch to my branch (`my-branch`): `main` --> `my-branch`
 
-Git is a **version control system** used to manage code changes. A key concept in Git is the **branch**.
+I want to update `my-branch` with new interesting features developed in the `main` branch.
 
-### What is a Branch?
-A **branch** is a copy of the code where you can work independently without affecting the main version. This allows multiple people to work in parallel.
+### Switch to your target branch:
 
-Two types of branches:
-- **Local**: Exists only on your computer.
-- **Remote**: Shared on GitHub (or another server, but here GitHub).
+First, make sure you're on the branch that needs to receive the changes:
+```git checkout my-branch```
 
-You’ll often need to:
-- Merge updates from `main` into your branch
-- Push your own changes to `main`
+### Fetch the changes from the other branch:
 
-You only need a few commands to do this.
+Second,  _Get the latest changes from the remote repository, but don’t apply them to my current branch yet, what is called Fetch._ 
 
-Prerequisite: You should have Git installed on your computer. 
+Fetch the specific branch: ``` git fetch origin main```
 
----
+This command:
+- downloads commits, files, and references from the remote repository.
+- it updates your local copy of the remote branch but does not merge or modify your working branch.
 
-## Keeping Your Branch Up to Date 
+### Merge the changes from the other branch:
 
-`main` → `my-branch`
+Then, merge the changes from the branch you want to pull from.
+```git merge origin/main```
 
-To get the latest updates from `main` into your branch:
+This may create some conflicts if you have changed your current branch. Resolve those conflicts to only include features you are interested in from the `main` branch.
 
-1. Switch to your branch:
-   ```sh
-   git checkout my-branch
-   ```
+## Push local changes from my branch (`my-branch`) to the `main` branch: `my-branch` --> `main`
 
-2. Fetch updates from `main`:
-   ```sh
-   git fetch origin main
-   ```
+I want to release my new development on the `main' branch, so that others (and myself in the future) can use it.
 
-3. Merge them into your branch:
-   ```sh
-   git merge origin/main
-   ```
+1. Switch to the branch where you want to apply the changes, here `main`:  ```git checkout main```
+2. Cherry-pick the specific commits:
+   - Use git log or a GUI tool to find the commit hash(es) containing the changes you want to transfer: ```git log```
+   - Cherry-pick the specific commit(s) to `main`: ```git cherry-pick <commit-hash>```
+   - Resolve conflicts if necessary
+   - Push changes to other-branch: ```git push origin main```
 
-If conflicts occur, Git will show the files involved. Open them, make corrections, and commit the changes.
 
----
-
-## Pushing Changes from Your Branch to `main`
-
-`my-branch` → `main`
-
-Once your updates are tested, you may want to move selected changes into `main`.
-
-1. Switch to `main`:
-   ```sh
-   git checkout main
-   ```
-
-2. View your commit history:
-   ```sh
-   git log --oneline
-   ```
-
-3. Cherry-pick the relevant commits:
-   ```sh
-   git cherry-pick <commit-hash>
-   ```
-
-4. Push changes to `main`:
-   ```sh
-   git push origin main
-   ```
-
----
-
-## Summary of Key Commands
-
-| Action                          | Command                                 |
-|----------------------------------|-----------------------------------------|
-| Switch to your branch            | `git checkout my-branch`               |
-| Fetch updates from `main`        | `git fetch origin main`                |
-| Merge changes into your branch   | `git merge origin/main`                |
-| Switch to `main`                 | `git checkout main`                    |
-| View commit history              | `git log --oneline`                    |
-| Cherry-pick a commit             | `git cherry-pick <commit-hash>`        |
-| Push changes to `main`           | `git push origin main`                 |
-
----
-
-## Final Tips
-
-- Use `git status` to see what’s going on  
-- Use `git log --oneline` to see commit history  
-- Use Google or AI tools for troubleshooting  
-- Ask teammates only after checking the basics
-
-You don’t need to master Git to contribute—just keep your branch up to date and make your changes visible to the team in a clean and organized way.

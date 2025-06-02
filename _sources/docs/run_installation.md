@@ -1,159 +1,26 @@
-# EPM Installation Guide
+# Installation
 
-This guide walks you through installing and setting up the **EPM** model. It covers:
+## 1. Clone the repository
+ - Use the terminal to go to the location you want to clone the repository.
+ - Run the command: `git clone https://github.com/ESMAP-World-Bank-Group/EPM.git`
 
-- Cloning the repository (getting the code on your computer)  
-- Creating your own branch (to work independently)  
-- Launching the model (via GAMS or Python)
 
-> You don’t need to be familiar with Git—just follow the steps carefully.
+## 2. Create and activate branch
 
----
+We suggest to create a new branch for your work. This way, you can work on your own branch and merge it to the main branch when you are done.
+- To see the branch you are in, run the command: `git branch`
+- Create (if it doesn't exist yet) and change to the branch you want to work on: `git checkout -b <branch_name>`. `branch-name` should be a descriptive name of the use case you are working on, e.g., guinea.
+- You’ve created a new branch locally. In order to have your code stored on the remote repository as well, you should push your local branch to the remote repository: `git push -u origin <branch-name>`
 
-## 1. Clone the Repository
+## 3. Launch the model
 
-To get the project on your computer:
+There are three ways to run the model:
+- Using GAMS Studio (recommended for debugging)
+- Using Python (recommended for running the model with multiple scenarios)
+- Using Excel (not recommended)
 
-1. Open **Terminal** (macOS) or **Command Prompt** (Windows).
+There are two ways to include input data:
+- A single .xlsx file with all data
+- A folder with a list of .csv files with the data (recommended)
 
-   - On **macOS**: `Applications > Utilities > Terminal`
-   - On **Windows**: Search "Command Prompt" in the Start menu
-
-2. Navigate to the folder where you want to install the project.  
-   This tells your computer where to download the files.
-
-   Example:
-   ```sh
-   cd path/to/your/Projects
-   ```
-   Or step-by-step:
-   ```sh
-   cd Documents
-   cd Projects
-   ```
-
-3. Clone the repository:
-   ```sh
-   git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
-   ```
-
-4. Move into the project folder:
-   ```sh
-   cd EPM
-   ```
-
----
-
-## 2. Create and Activate a Branch
-
-A **branch** is your personal workspace, so you can make changes without affecting the main version of the code.
-
-1. Check your current branch:
-   ```sh
-   git branch
-   ```
-
-2. Create and switch to your new branch (e.g., `guinea`):
-   ```sh
-   git checkout -b guinea
-   ```
-
-3. Push your new branch to GitHub:
-   ```sh
-   git push -u origin guinea
-   ```
-
----
-
-## 3. Test the Installation
-
-The project includes a test dataset (`data_test`) for Guinea to verify everything works.
-
-### Option 1 – Using GAMS Studio (Recommended for First-Time Users)
-
-1. Open **GAMS Studio**
-2. Use the file browser to open the downloaded `EPM` folder
-3. Open `main.gms`
-4. Click **Run**
-
-### Option 2 – Using Python (For Advanced Users)
-
-The Python API enables advanced automation and custom analyses.
-
-See the next section: [Running EPM from Python](#) for more details.
-
----
-Next steps are described with high-level instructions, but you can find detailed steps in the documentation.
-
-## 4. Run EPM with Your Own Data
-
-Once the test case works, you can run EPM with your own input data.
-
-- Input files should be placed in a new folder inside the `input/` directory
-- A good starting point is to **duplicate an existing folder** (e.g., `data_test`) and modify its content
-- Detailed instructions are available in the **Input section** of the documentation
-
-EPM can be run with your data either via **GAMS Studio** or **Python** as previously described.
-
----
-
-## 5. Advanced Usage with Python
-
-The Python API supports advanced features such as:
-
-- Scenario generation  
-- Sensitivity analysis  
-- Monte Carlo simulations  
-
-Refer to the **Run EPM from Python** section for usage examples and command-line options.
-
----
-
-## 6. Troubleshooting
-
-If you encounter issues:
-
-- Check the **Troubleshooting** section in the documentation
-- Use **AI tools or Google** to look up the error message
-- If you're still stuck, reach out to the EPM team
-
-To debug input issues, you can also use GAMS Studio’s trace mode. (See the debugging tips section.)
-
----
-
-## 7. Analyzing Results
-
-After running the model:
-
-- Results are automatically saved in the `output/` folder
-- Use the summary `.csv` files for key outputs
-- For more detailed analysis, you can connect the CSVs to **Tableau** or another visualization tool
-
----
-
-## 8. Run on the Remote Server
-
-Once your setup works correctly and has been tested on a small test case, you can run large-scale simulations on the **remote server**.
-
-This is especially useful for:
-- Running long or heavy simulations (e.g., full-year, multi-zone, Monte Carlo)
-- Avoiding performance limitations on your local machine
-
-Refer to the **Remote Server Usage** section of the documentation for:
-- Connection instructions
-- Best practices
-- How to launch the model using GAMS or Python on the server
-
-Make sure your local run works before using the server, to avoid unnecessary load and easier debugging.
-
----
-
-## 9. Contribute Improvements to the Main Branch
-
-If you've developed new features or made improvements that should be shared:
-
-- Follow the Git contribution workflow (e.g., pull request from your branch)
-- Make sure your code is tested and documented
-- If unsure, contact the EPM team for help with integration
-
-Our goal is to make the framework collaborative and maintainable. Contributions are welcome!
+Those are detailed hereafter.
