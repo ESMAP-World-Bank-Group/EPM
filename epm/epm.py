@@ -1221,14 +1221,6 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--no_run_multiprocess",
-        dest="run_multiprocess",
-        action="store_false",
-        help="Disable running in parallel (default: True)"
-    )
-    parser.set_defaults(run_multiprocess=True)
-
-    parser.add_argument(
         "--no_plot_dispatch",
         dest="plot_dispatch",
         action="store_false",
@@ -1260,7 +1252,6 @@ def main(test_args=None):
     print(f"Reduced output: {args.reduced_output}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
-    print(f"Run multiprocesses: {args.run_multiprocess}")
 
     if args.sensitivity:
         sensitivity = {'pSettings': True, 'pDemandForecast': True,
