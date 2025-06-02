@@ -48,6 +48,7 @@ If not provided on the command line, the following files are set to default valu
 | `VERIFICATION_FILE` | `input_verification.gms`   | Input verification script                     |
 | `TREATMENT_FILE`    | `input_treatment.gms`      | Input treatment/preprocessing script          |
 | `DEMAND_FILE`       | `generate_demand.gms`      | Demand generation script                       |
+| `TRACE`       | 0      | Detailed log when reading inputs                       |
 
 ---
 
