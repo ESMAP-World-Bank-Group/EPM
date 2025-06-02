@@ -59,7 +59,7 @@ Each row defines a parameter for which a sensitivity analysis will be triggered.
 **From the Command Line:**
 
 ```bash
-python run_epm.py --input_folder input/your_data_folder --sensitivity
+python epm.py --input_folder input/your_data_folder --sensitivity
 ```
 
 ### Tested Sensitivity Parameters and Variations
