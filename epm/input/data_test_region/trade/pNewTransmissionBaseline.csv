@@ -1,3 +1,3 @@
-From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,LossFactor,Status
-Malawi,Mozambique,2026,1,600,120,30,0.04,2
-Tanzania,Zambia,2026,1,400,315,30,0.04,2
+From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
+Malawi,Mozambique,2026,1,600,120,30,2
+Tanzania,Zambia,2026,1,400,315,30,2

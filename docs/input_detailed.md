@@ -573,7 +573,9 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
 ### `pNewTransmission.csv`
 
 - **Description**:  
-  Specifies the key characteristics of candidate transmission lines. Only active when `pAllowHighTransfer` is set to 1 in `pSettings.csv`. Each candidate line must only be specified once in this dataframe (e.g: only specify the line Angola-Namibia once, either as Namibia-Angola, or as Angola-Namibia, the order does not matter). The order in which the start location and the destination location are specified does not matter.
+  Defines candidate transmission lines for potential expansion. **This file is only used when pAllowHighTransfer is set to 1 in pSettings.csv.**
+
+Each transmission line must be specified only once. The order of the From and To locations does not matter (e.g., specify either Angola–Namibia or Namibia–Angola, but not both).
 
 - **Data Structure**:  
   - **Index**
@@ -585,6 +587,13 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
     - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
     - **CostPerLine** (*float*) – Investment cost per line.
     - **Life** (*int*) – Expected lifespan of the transmission line.
+    - **Status** (*int*) – Line status
+      - `2`: committed line
+      - `3`: candidate line
+
+**Usage notes**
+- Do not include lines listed in pNewTransmission.csv in `pTransferLimit.csv`, or they will be double-counted.
+- For the model to consider lines in pNewTransmission.csv, the option `allowTransferExpansion` in `pSettings.csv` must be activated.
 
 
 - **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv)  
