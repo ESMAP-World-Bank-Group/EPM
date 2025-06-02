@@ -140,17 +140,70 @@ Important Configuration Options in config.csv
 
 Check `Run EPM Advanced Features` for additional explanations on advanced features like sensitivity analysis, Monte Carlo simulations, and scenario management.
 
+
+### `--simple`
+- **Type:** list of strings  
+- **Default:** ['DiscreteCap', 'y']  
+- **Purpose:** Enables simplified model modes by toggling specified parameters.
+
+
+### `--cpu`
+- **Type:** integer  
+- **Default:** 1  
+- **Purpose:** Number of CPU cores to use for running scenarios in parallel.
+
+### `--engine`
+- **Type:** string  
+- **Default:** None  
+- **Purpose:** Path to a GAMS Engine file for running simulations remotely.
+
+### `--postprocess`
+- **Type:** string  
+- **Default:** None  
+- **Purpose:** Runs only postprocessing on an existing output folder, skipping simulation.
+
+### `--plot_selected_scenarios`
+- **Type:** list of strings  
+- **Default:** `"all"`  
+- **Purpose:** Specifies scenarios to plot in postprocessing.
+
+### `--no_plot_dispatch`
+- **Type:** flag (boolean)  
+- **Default:** False (dispatch plotting enabled by default)  
+- **Purpose:** Disables automatic creation of dispatch plots to save time and memory.
+
+### `--graphs_folder`
+- **Type:** string  
+- **Default:** `img`  
+- **Purpose:** Directory where postprocessing graphs and plots will be saved.
+
+---
+
 ### `--scenarios`
 - **Type:** string  
 - **Default:** None  
 - **Purpose:** Path to a scenario definition file specifying multiple scenarios and their overridden inputs.  
 - **Notes:** If omitted, only the baseline scenario will run.
 
+### `--selected_scenarios`
+- **Type:** list of strings  
+- **Default:** None  
+- **Purpose:** Specifies a subset of scenarios from the scenarios file to run.  
+- **Example:** `--selected_scenarios baseline ScenarioA`
+
 ### `--sensitivity`
 - **Type:** flag (boolean)  
 - **Default:** False  
 - **Purpose:** Enables sensitivity analysis which automatically modifies select parameters to evaluate model sensitivity.  
 - **Usage:** Include `--sensitivity` to enable.
+
+### `--project_assessment`
+- **Type:** list of strings  
+- **Default:** None  
+- **Purpose:** Specifies projects to exclude from the simulation to assess counterfactual scenarios.  
+- **Example:** `--project_assessment SolarProject`
+
+---
 
 ### `--montecarlo`
 - **Type:** flag (boolean)  
@@ -175,57 +228,7 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 - **Default:** False  
 - **Purpose:** Generates reduced-size outputs to save memory, useful for large Monte Carlo runs.
 
-### `--selected_scenarios`
-- **Type:** list of strings  
-- **Default:** None  
-- **Purpose:** Specifies a subset of scenarios from the scenarios file to run.  
-- **Example:** `--selected_scenarios baseline ScenarioA`
 
-### `--cpu`
-- **Type:** integer  
-- **Default:** 1  
-- **Purpose:** Number of CPU cores to use for running scenarios in parallel.
-
-### `--project_assessment`
-- **Type:** list of strings  
-- **Default:** None  
-- **Purpose:** Specifies projects to exclude from the simulation to assess counterfactual scenarios.  
-- **Example:** `--project_assessment SolarProject`
-
-### `--simple`
-- **Type:** list of strings  
-- **Default:** None  
-- **Purpose:** Enables simplified model modes by toggling specified parameters.
-
-### `--engine`
-- **Type:** string  
-- **Default:** None  
-- **Purpose:** Path to a GAMS Engine file for running simulations remotely.
-
-### `--postprocess`
-- **Type:** string  
-- **Default:** None  
-- **Purpose:** Runs only postprocessing on an existing output folder, skipping simulation.
-
-### `--plot_selected_scenarios`
-- **Type:** list of strings  
-- **Default:** `"all"`  
-- **Purpose:** Specifies scenarios to plot in postprocessing.
-
-### `--no_run_multiprocess`
-- **Type:** flag (boolean)  
-- **Default:** False (multiprocessing enabled by default)  
-- **Purpose:** Disables parallel processing of scenarios (forces sequential execution).
-
-### `--no_plot_dispatch`
-- **Type:** flag (boolean)  
-- **Default:** False (dispatch plotting enabled by default)  
-- **Purpose:** Disables automatic creation of dispatch plots to save time and memory.
-
-### `--graphs_folder`
-- **Type:** string  
-- **Default:** `img`  
-- **Purpose:** Directory where postprocessing graphs and plots will be saved.
 
 ---
 

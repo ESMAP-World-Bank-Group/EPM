@@ -24,7 +24,6 @@ Other command-line options allow for further customization of the simulation run
 |------------------------|-------------|----------------------------------|---------------------------------------------------------------|----------------------------------|
 | `--simple`             | list[str]   | ['DiscreteCap', 'y']                             | List of simplified parameters. `DiscreteCap` remove discrete constraint, `y`only runs for first and last year.                                | `--simple DiscreteCap y`         |
 | `--cpu`                | integer     | 1                                | Number of CPU cores to use                                    | `--cpu 4`                        |
-| `--no_run_multiprocess`| flag        | False (runs in parallel)         | Disable multiprocessing                                       | `--no_run_multiprocess`         |
 
 ---
 
