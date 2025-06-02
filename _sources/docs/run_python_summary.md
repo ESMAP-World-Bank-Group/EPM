@@ -1,8 +1,10 @@
 # Run EPM with Python - Summary
 
+First, navigate to the `epm` directory. 
+
 Example: Specify the input folder, enable sensitivity analysis, and use 4 CPU cores for parallel execution.
 ```bash
-python run_epm.py --folder_input data_sapp --sensitivity --cpu 4
+python epm.py --folder_input data_sapp --sensitivity --cpu 4
 ```
 
 Other command-line options allow for further customization of the simulation run, such as specifying scenarios, enabling Monte Carlo analysis, and more.
