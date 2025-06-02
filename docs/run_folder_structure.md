@@ -7,7 +7,7 @@ EPM/
 ├── input/                          # Contains input data files required for the model
 │   ├── data_eapp/                  # Input data specific to the EAPP region
 │   ├── data_gambia/                # Input data specific to Gambia
-│   ├── data_sapp/                  # Input data specific to the SAPP region
+│   ├── data_test_region/           # Input data specific to the SAPP region
 │   ├── config.csv                  # Configuration settings for input processing
 │
 ├── postprocessing/                 # Scripts and tools for processing and analyzing model outputs
