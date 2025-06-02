@@ -961,30 +961,36 @@ endEmbeddedCode
 
 * Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValue, pSolarCost, pCapacityByTechandFuel, pPlantUtilizationTech
 
+$ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
-execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
-                                 pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
-                                 pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
-                                 pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
-                                 pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
-                                 pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
-                                 pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
-                                 pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
-                                 pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
-                                 pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
-                                 pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
-                                 pNewCapacityTech, pNewCapacityTechCountry,
-                                 pReserveMarginRes, pReserveMarginResCountry,
-                                 pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
-                                 pAdditionalCapacityCountry,
-                                 pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
-                                 pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
-                                 pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
-                                 pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
-                                 pFuelUtilization,
-                                 pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
-                                 pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
-                                 pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
-                                 pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
+    execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
+                                     pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
+                                     pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
+                                     pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
+                                     pCostSummaryWeightedAverageCountry, pCongestionRevenues, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
+                                     pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
+                                     pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
+                                     pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
+                                     pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
+                                     pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
+                                     pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
+                                     pNewCapacityTech, pNewCapacityTechCountry,
+                                     pReserveMarginRes, pReserveMarginResCountry,
+                                     pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
+                                     pAdditionalCapacityCountry,
+                                     pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
+                                     pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
+                                     pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
+                                     pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
+                                     pFuelUtilization,
+                                     pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
+                                     pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
+                                     pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
+                                     pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
 
 ;
+$elseIfI.reportshort %REPORTSHORT% == 1
+*  Limited reporting is used
+    execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull, pDemandSupply
+    ;
+$endIf.reportshort
