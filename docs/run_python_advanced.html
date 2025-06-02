@@ -241,13 +241,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -556,13 +549,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_selection.html">
-                        Specifying Input Data
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_overview.html">
                         Input Overview
                       </a>
@@ -782,8 +768,6 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_selection.html">Specifying Input Data</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
@@ -1044,7 +1028,7 @@ title="Print to PDF"
 <p>The Python interface supports advanced features via command-line options.</p>
 <section id="a-run-multiple-scenarios">
 <h2>A. Run Multiple Scenarios<a class="headerlink" href="#a-run-multiple-scenarios" title="Permalink to this heading">#</a></h2>
-<p>To run additional scenarios beyond the baseline:</p>
+<p>To run additional scenarios beyond the baseline, use the <code class="docutils literal notranslate"><span class="pre">--scenarios</span></code> argument with a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span> <span class="pre">file</span></code>:</p>
 <ol class="arabic simple">
 <li><p>Create a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file in your input folder.</p></li>
 <li><p>Run EPM using:</p></li>
@@ -1052,6 +1036,11 @@ title="Print to PDF"
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/my_scenarios.csv
 </pre></div>
 </div>
+<p>Each row overrides specific input files defined in config.csv.</p>
+<ul class="simple">
+<li><p>Files not listed in scenarios.csv default to those in config.csv.</p></li>
+<li><p>This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.</p></li>
+</ul>
 </section>
 <section id="b-sensitivity-analysis">
 <h2>B. Sensitivity Analysis<a class="headerlink" href="#b-sensitivity-analysis" title="Permalink to this heading">#</a></h2>

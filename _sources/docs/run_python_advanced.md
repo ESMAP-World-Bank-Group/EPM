@@ -4,10 +4,9 @@
 The Python interface supports advanced features via command-line options.
 
 
-
 ## A. Run Multiple Scenarios
 
-To run additional scenarios beyond the baseline:
+To run additional scenarios beyond the baseline, use the `--scenarios` argument with a `scenarios.csv file`:
 
 1. Create a `scenarios.csv` file in your input folder.
 2. Run EPM using:
@@ -15,6 +14,10 @@ To run additional scenarios beyond the baseline:
 ```sh
 python epm.py --folder_input my_data --scenarios input/my_scenarios.csv
 ```
+
+Each row overrides specific input files defined in config.csv.
+- Files not listed in scenarios.csv default to those in config.csv.
+- This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.
 
 ## B. Sensitivity Analysis
 
