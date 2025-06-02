@@ -60,7 +60,7 @@ objFn..                  obj =e= sum((z,q,d,y,t), pyval(z,q,d,y,t));
 model demand / getDivisor, getArea, objFn /;
 
 * If using alt demand:
-if (pScalars("altDemand") = 1,
+if (pSettings("altDemand") = 1,
    pTempDemand(z,q,d,y,t) = pDemandProfile(z,q,d,t) * pDemandForecast(z,"Peak",y);
 
    pdiff(z,y) = ((pDemandForecast(z,"Energy",y)*1e3) - sum((q,d,t), pTempDemand(z,q,d,y,t)*pHours(q,d,t) )) ;

@@ -1,8 +1,8 @@
-python>=3.10
 pandas
 matplotlib
 gamsapi>=48.2.0
 seaborn
 numpy
 geopandas
-chaospy
+requests
+folium
