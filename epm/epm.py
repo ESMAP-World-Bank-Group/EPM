@@ -468,11 +468,11 @@ def launch_epm_multi_scenarios(config='config.csv',
                 # Put in the scenario dir
                 s[k]['y'] = path_file
 
-            if 'DescreteCap' in simple:
-                # Remove DescreteCap
+            if 'DiscreteCap' in simple:
+                # Remove DiscreteCap
                 df = pd.read_csv(s[k]['pGenDataExcel'])
 
-                df.loc[:, 'DescreteCap'] = 0
+                df.loc[:, 'DiscreteCap'] = 0
 
                 # Creating a new folder
                 folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataExcel']), 'sensitivity')
@@ -1192,9 +1192,9 @@ def main(test_args=None):
 
     parser.add_argument(
         "--simple",
-        nargs="+",  # Accepts one or more values
-        default=None,
-        help = "List of simplified parameters (default: None). Example usage: --simple DescreteCap y"
+        nargs="*",  # Accepts zero or more values
+        default=['DiscreteCap', 'y'],
+        help = "List of simplified parameters (default: None). Example usage: --simple DiscreteCap y"
     )
 
     parser.add_argument(
