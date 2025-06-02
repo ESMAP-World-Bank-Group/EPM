@@ -2311,7 +2311,10 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <h3><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code><a class="headerlink" href="#pnewtransmission-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Specifies the key characteristics of candidate transmission lines. Only active when <code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>. Each candidate line must only be specified once in this dataframe (e.g: only specify the line Angola-Namibia once, either as Namibia-Angola, or as Angola-Namibia, the order does not matter). The order in which the start location and the destination location are specified does not matter.</p></li>
+Defines candidate transmission lines for potential expansion. <strong>This file is only used when pAllowHighTransfer is set to 1 in pSettings.csv.</strong></p></li>
+</ul>
+<p>Each transmission line must be specified only once. The order of the From and To locations does not matter (e.g., specify either Angola–Namibia or Namibia–Angola, but not both).</p>
+<ul class="simple">
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
 <li><p><strong>Index</strong></p>
@@ -2327,10 +2330,21 @@ Specifies the key characteristics of candidate transmission lines. Only active w
 <li><p><strong>CapacityPerLine</strong> (<em>int</em>) – Capacity of a single transmission line.</p></li>
 <li><p><strong>CostPerLine</strong> (<em>float</em>) – Investment cost per line.</p></li>
 <li><p><strong>Life</strong> (<em>int</em>) – Expected lifespan of the transmission line.</p></li>
+<li><p><strong>Status</strong> (<em>int</em>) – Line status</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">2</span></code>: committed line</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">3</span></code>: candidate line</p></li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+</li>
+</ul>
+<p><strong>Usage notes</strong></p>
+<ul class="simple">
+<li><p>Do not include lines listed in pNewTransmission.csv in <code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code>, or they will be double-counted.</p></li>
+<li><p>For the model to consider lines in pNewTransmission.csv, the option <code class="docutils literal notranslate"><span class="pre">allowTransferExpansion</span></code> in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code> must be activated.</p></li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv">pNewTransmission.csv</a></p></li>
 </ul>
 </section>
