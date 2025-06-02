@@ -4,17 +4,17 @@ First, navigate to the `epm` directory.
 
 Example: Specify the input folder, enable sensitivity analysis, and use 4 CPU cores for parallel execution.
 ```bash
-python epm.py --folder_input data_sapp --sensitivity --cpu 4
+python epm.py --folder_input data_test_region --sensitivity --cpu 4
 ```
 
 Other command-line options allow for further customization of the simulation run, such as specifying scenarios, enabling Monte Carlo analysis, and more.
 
 ### General Configuration
 
-| Argument         | Type   | Default             | Description                                                   | Example Usage                    |
-|------------------|--------|---------------------|---------------------------------------------------------------|----------------------------------|
-| `--config`       | string | `input/config.csv`  | Path to the global configuration CSV file                     | `--config input/my_config.csv`   |
-| `--folder_input` | string | `data_test`         | Folder containing input data files                            | `--folder_input data_sapp`       |
+| Argument         | Type   | Default             | Description                                                   | Example Usage                     |
+|------------------|--------|---------------------|---------------------------------------------------------------|-----------------------------------|
+| `--config`       | string | `input/config.csv`  | Path to the global configuration CSV file                     | `--config input/my_config.csv`    |
+| `--folder_input` | string | `data_test`         | Folder containing input data files                            | `--folder_input data_test_region` |
 
 ---
 
