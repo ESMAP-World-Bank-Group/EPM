@@ -1041,13 +1041,12 @@ title="Print to PDF"
 <section id="debugging-input-file-errors">
 <h2>Debugging Input File Errors<a class="headerlink" href="#debugging-input-file-errors" title="Permalink to this heading">#</a></h2>
 <p>Modifying input files or reading functions may introduce errors. To help identify which input is causing issues, we recommend enabling <strong>trace mode</strong> in GAMS Studio.</p>
-<p>To do this, <strong>replace</strong> all instances of <code class="docutils literal notranslate"><span class="pre">trace:</span> <span class="pre">0</span></code> with <code class="docutils literal notranslate"><span class="pre">trace:</span> <span class="pre">1</span></code> in the <code class="docutils literal notranslate"><span class="pre">emp_readers.gms</span></code> file. This will enable detailed logs for each input being read.</p>
-<p>You can use the <strong>Find and Replace All</strong> feature in GAMS Studio to do this efficiently.</p>
+<p>Use command-line arguments to set the <code class="docutils literal notranslate"><span class="pre">TRACE</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">1</span></code> when running the model. This will provide detailed logs of which input files are being read and any issues encountered.</p>
 <p>Example:</p>
 <div class="highlight-gams notranslate"><div class="highlight"><pre><span></span>$onEmbeddedCode Connect:
 
 - CSVReader:
-    trace: 1
+    trace: %TRACE%
     file: input/data/pAvailability.csv
     name: pAvailability
     indexColumns: [1]
@@ -1055,7 +1054,6 @@ title="Print to PDF"
     type: par
 </pre></div>
 </div>
-<p>Once debugging is complete and the issue is resolved, set <code class="docutils literal notranslate"><span class="pre">trace</span></code> back to <code class="docutils literal notranslate"><span class="pre">0</span></code> to reduce log output</p>
 </section>
 <hr class="docutils" />
 <section id="time-definitions">
