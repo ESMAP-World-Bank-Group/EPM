@@ -19,6 +19,19 @@ Each row overrides specific input files defined in config.csv.
 - Files not listed in scenarios.csv default to those in config.csv.
 - This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.
 
+You can limit execution to a selection of scenarios using the `--selected_scenarios` argument. For example:
+
+```sh 
+python epm.py --folder_input my_data --scenarios input/my_scenarios.csv  --selected_scenarios baseline Retrade
+```
+
+This will only run the baseline and Retrade scenarios, even if more are defined in scenarios.csv.
+
+This is useful if:
+- You want to rerun only a specific scenario 
+- You are debugging or testing one configuration 
+- You want to prioritize certain scenarios during batch runs
+
 ## B. Sensitivity Analysis
 
 The EPM model includes a built-in sensitivity analysis feature that allows users to test the robustness of results by varying key input parameters. This is particularly useful for exploring uncertainty or conducting scenario-based assessments.
