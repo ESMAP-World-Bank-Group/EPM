@@ -1302,7 +1302,7 @@ title="Print to PDF"
 <p>Input data for EPM is specified through two key components:</p>
 <ol class="arabic simple">
 <li><p><strong>Input Folder (<code class="docutils literal notranslate"><span class="pre">FOLDER_INPUT</span></code>)</strong><br />
-This folder contains all the necessary <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input files for the model, organized by type (e.g., <code class="docutils literal notranslate"><span class="pre">data_sapp</span></code>). It holds the raw data the model reads.</p></li>
+This folder contains all the necessary <code class="docutils literal notranslate"><span class="pre">.csv</span></code> input files for the model, organized by type (e.g., <code class="docutils literal notranslate"><span class="pre">data_test_region</span></code>). It holds the raw data the model reads.</p></li>
 </ol>
 <section id="folder-input">
 <h3><code class="docutils literal notranslate"><span class="pre">--folder_input</span></code><a class="headerlink" href="#folder-input" title="Permalink to this heading">#</a></h3>
@@ -1314,7 +1314,7 @@ This folder contains all the necessary <code class="docutils literal notranslate
 </ul>
 <ol class="arabic simple" start="2">
 <li><p><strong>Configuration File (<code class="docutils literal notranslate"><span class="pre">config.csv</span></code>)</strong><br />
-This CSV file defines which input files correspond to which parameters in the model for the <strong>baseline scenario</strong>. It includes the parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> and the relative <code class="docutils literal notranslate"><span class="pre">file</span></code> path inside the input folder. An example of a configuration file is available here:  <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_sapp/config.csv">Example <code class="docutils literal notranslate"><span class="pre">config.csv</span></code></a></p></li>
+This CSV file defines which input files correspond to which parameters in the model for the <strong>baseline scenario</strong>. It includes the parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> and the relative <code class="docutils literal notranslate"><span class="pre">file</span></code> path inside the input folder. An example of a configuration file is available here:  <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv">Example <code class="docutils literal notranslate"><span class="pre">config.csv</span></code></a></p></li>
 </ol>
 </section>
 <section id="config">
@@ -1492,7 +1492,7 @@ This CSV file defines which input files correspond to which parameters in the mo
 <section id="example-usage">
 <h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">#</a></h2>
 <p>Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
 </pre></div>
 </div>
 <p>Run postprocessing only on a previous simulation folder:</p>
