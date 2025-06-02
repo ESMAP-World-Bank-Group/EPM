@@ -1031,10 +1031,10 @@ title="Print to PDF"
 <h2>A. Run Multiple Scenarios<a class="headerlink" href="#a-run-multiple-scenarios" title="Permalink to this heading">#</a></h2>
 <p>To run additional scenarios beyond the baseline, use the <code class="docutils literal notranslate"><span class="pre">--scenarios</span></code> argument with a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span> <span class="pre">file</span></code>:</p>
 <ol class="arabic simple">
-<li><p>Create a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file in your input folder.</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file in your <code class="docutils literal notranslate"><span class="pre">input</span></code> folder.</p></li>
 <li><p>Run EPM using:</p></li>
 </ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/my_scenarios.csv
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/scenarios.csv
 </pre></div>
 </div>
 <p>Each row overrides specific input files defined in config.csv.</p>
