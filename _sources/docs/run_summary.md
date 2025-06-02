@@ -21,4 +21,4 @@ Use the following commands to install and run the EPM model for a new project.
 | Run the model with scenarios | `python epm.py --folder_input data_xxx --scenarios input/data_xxx/scenario.csv` |
 | Check scenario results | Go to `output/simulation_xxxx/img` |
 | Check the result with Tableau | Go to Tableau Desktop and upload your simulation |
-| Use Remote server to launch Sensitivity and Monte Carlo |  `python epm.py --sensitivity`|
+| Use Remote server to launch Sensitivity or Monte Carlo |  `python epm.py --sensitivity`|
