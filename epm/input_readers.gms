@@ -28,11 +28,7 @@
 **********************************************************************
 
 
-*$if not set FOLDER_INPUT $set FOLDER_INPUT "data_gambia"
-
-$ifThen not set FOLDER_INPUT
-$set FOLDER_INPUT "data_test"
-$endIf
+*$if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 $if not set TRACE $set TRACE 0
