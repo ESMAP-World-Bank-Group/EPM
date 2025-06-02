@@ -2,7 +2,7 @@
 
 The EPM code performs several automatic checks on input data. If the model fails or produces unexpected outputs, inspect the **log file** for error messages and failed tests. This page lists common issues and how to resolve them.
 
-If you encounter new issues, please contact the EPM team so we can expand this list.
+> If you encounter new issues, please contact the EPM team so we can expand this list. Specifically, we suggest to raise an issue on the [EPM GitHub repository](https://github.com/ESMAP-World-Bank-Group/EPM/issues). You can assign your issue to Célia Escribe, Maëlle Baronnet and Lucas Vivier. **In any case, please do not send your personnal issue by email.** Other user may have the same issue, and it is better to have a single place where we can track all issues.
 
 ---
 
