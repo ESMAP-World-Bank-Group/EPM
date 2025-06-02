@@ -994,59 +994,11 @@ title="Print to PDF"
 <td><p>Folder containing input data files</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">--folder_input</span> <span class="pre">data_sapp</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code></p></td>
-<td><p>string</p></td>
-<td><p>None</p></td>
-<td><p>Path to a CSV file defining multiple scenarios</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--scenarios</span> <span class="pre">input/scenarios.csv</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></p></td>
-<td><p>flag</p></td>
-<td><p>False</p></td>
-<td><p>Enable sensitivity analysis (modifies certain input parameters automatically)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code></p></td>
-<td><p>flag</p></td>
-<td><p>False</p></td>
-<td><p>Enable Monte Carlo uncertainty analysis</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span></code></p></td>
-<td><p>integer</p></td>
-<td><p>10</p></td>
-<td><p>Number of samples to generate for Monte Carlo runs</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span> <span class="pre">20</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--uncertainties</span></code></p></td>
-<td><p>string</p></td>
-<td><p>None</p></td>
-<td><p>CSV file defining uncertainty parameters for Monte Carlo analysis</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--uncertainties</span> <span class="pre">input/uncertainties.csv</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--reduced_output</span></code></p></td>
-<td><p>flag</p></td>
-<td><p>False</p></td>
-<td><p>Enable reduced output mode (less memory-intensive postprocessing)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--reduced_output</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code></p></td>
-<td><p>list[str]</p></td>
-<td><p>None</p></td>
-<td><p>List of scenario names to run from the scenario file</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span> <span class="pre">baseline</span> <span class="pre">HighDemand</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--cpu</span></code></p></td>
-<td><p>integer</p></td>
-<td><p>1</p></td>
-<td><p>Number of CPU cores to use for parallel execution</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--cpu</span> <span class="pre">4</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--project_assessment</span></code></p></td>
-<td><p>list[str]</p></td>
-<td><p>None</p></td>
-<td><p>Name(s) of project(s) to exclude for counterfactual analysis</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--project_assessment</span> <span class="pre">SolarProject</span></code></p></td>
+<tr class="row-even"><td><p>—————————-</p></td>
+<td><p>————</p></td>
+<td><p>—————–</p></td>
+<td><p>————————————————————————————————–</p></td>
+<td><p>——————————————————</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--simple</span></code></p></td>
 <td><p>list[str]</p></td>
@@ -1054,29 +1006,29 @@ title="Print to PDF"
 <td><p>List of simplified parameters to enable simplified modeling modes</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">--simple</span> <span class="pre">DiscreteCap</span> <span class="pre">y</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--engine</span></code></p></td>
-<td><p>string</p></td>
-<td><p>None</p></td>
-<td><p>Path to GAMS Engine file for remote execution</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--engine</span> <span class="pre">engine.gms</span></code></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code></p></td>
-<td><p>string</p></td>
-<td><p>None</p></td>
-<td><p>Only run postprocessing on a specified output folder</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--postprocess</span> <span class="pre">simulations_run_2024-10-01_15-00-00</span></code></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span></code></p></td>
-<td><p>list[str]</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code></p></td>
-<td><p>Select scenarios to plot in postprocessing</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span> <span class="pre">baseline</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--cpu</span></code></p></td>
+<td><p>integer</p></td>
+<td><p>1</p></td>
+<td><p>Number of CPU cores to use for parallel execution</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--cpu</span> <span class="pre">4</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--no_run_multiprocess</span></code></p></td>
 <td><p>flag</p></td>
 <td><p>False (run multiprocessing by default)</p></td>
 <td><p>Disable running simulations in parallel (forces serial execution)</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">--no_run_multiprocess</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--postprocess</span></code></p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>Only run postprocessing on a specified output folder</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--postprocess</span> <span class="pre">simulations_run_2024-10-01_15-00-00</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span></code></p></td>
+<td><p>list[str]</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;all&quot;</span></code></p></td>
+<td><p>Select scenarios to plot in postprocessing</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--plot_selected_scenarios</span> <span class="pre">baseline</span></code></p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--no_plot_dispatch</span></code></p></td>
 <td><p>flag</p></td>
@@ -1089,6 +1041,60 @@ title="Print to PDF"
 <td><p><code class="docutils literal notranslate"><span class="pre">img</span></code></p></td>
 <td><p>Folder name where postprocessing graphs will be saved</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">--graphs_folder</span> <span class="pre">figures</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>—————————-</p></td>
+<td><p>————</p></td>
+<td><p>—————–</p></td>
+<td><p>————————————————————————————————–</p></td>
+<td><p>——————————————————</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code></p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>Path to a CSV file defining multiple scenarios</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--scenarios</span> <span class="pre">input/scenarios.csv</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code></p></td>
+<td><p>list[str]</p></td>
+<td><p>None</p></td>
+<td><p>List of scenario names to run from the scenario file</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span> <span class="pre">baseline</span> <span class="pre">HighDemand</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>False</p></td>
+<td><p>Enable sensitivity analysis (modifies certain input parameters automatically)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--project_assessment</span></code></p></td>
+<td><p>list[str]</p></td>
+<td><p>None</p></td>
+<td><p>Name(s) of project(s) to exclude for counterfactual analysis</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--project_assessment</span> <span class="pre">SolarProject</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>False</p></td>
+<td><p>Enable Monte Carlo uncertainty analysis</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span></code></p></td>
+<td><p>integer</p></td>
+<td><p>10</p></td>
+<td><p>Number of samples to generate for Monte Carlo runs</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--montecarlo_samples</span> <span class="pre">20</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--uncertainties</span></code></p></td>
+<td><p>string</p></td>
+<td><p>None</p></td>
+<td><p>CSV file defining uncertainty parameters for Monte Carlo analysis</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--uncertainties</span> <span class="pre">input/uncertainties.csv</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--reduced_output</span></code></p></td>
+<td><p>flag</p></td>
+<td><p>False</p></td>
+<td><p>Enable reduced output mode (less memory-intensive postprocessing)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">--reduced_output</span></code></p></td>
 </tr>
 </tbody>
 </table>
