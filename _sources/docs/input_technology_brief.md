@@ -1,4 +1,4 @@
-# Technology overview
+# Technology Overview
 
 The main generation and storage technologies modeled in EPM are presented in the table below and the following paragraphs. 
 

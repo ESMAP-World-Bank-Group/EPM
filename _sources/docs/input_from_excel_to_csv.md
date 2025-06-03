@@ -1,4 +1,4 @@
-# Transitioning from excel to csv
+# Transitioning from Excel to CSV
 
 Older models used Excel files for inputs, but the current version of EPM requires CSV-formatted inputs. You will need to convert your existing Excel data accordingly.
 
