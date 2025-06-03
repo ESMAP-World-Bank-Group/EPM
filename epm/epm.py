@@ -528,8 +528,6 @@ def launch_epm_multi_scenarios(config='config.csv',
             result = pool.starmap(launch_epm_multiprocess,
                                   [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, dict_montecarlo) for k in scenarios_montecarlo.keys()])
 
-
-
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
 
@@ -1263,7 +1261,6 @@ def main(test_args=None):
         if not os.path.exists(sensitivity):
             print(f"Warning: sensitivity file {sensitivity} does not exist. No sensitivity analysis will be performed.")
         sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
-
 
     else:
         sensitivity = None

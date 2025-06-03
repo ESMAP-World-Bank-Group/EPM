@@ -97,8 +97,6 @@ TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': st
 
 
 
-
-
 def read_plot_specs(folder=''):
     """
     Read the specifications for the plots from the static files.
