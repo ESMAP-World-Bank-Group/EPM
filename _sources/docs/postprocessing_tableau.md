@@ -29,8 +29,8 @@ The setup will not work outside the VDI or without a Yubikey.
 ├── ESMAP_Viz_v6_ex_compare.twb
 ├── Compare.twb
 ├── ESMAP_logo.png
-├── linestring_countries_2.geojson
-└── Scena/
+├── linestring_countries.geojson
+└── scenarios/
     ├── baseline/
     │   ├── output_csv/
         │   ├── *.csv
@@ -39,23 +39,30 @@ The setup will not work outside the VDI or without a Yubikey.
     └── ...
 ```
 
+**Available Tableau interfaces**
+
+To improve performance — especially for models with many zones and years — **two separate interfaces** are provided:
+
 - **Single scenario viewer**  
   Use this `.twb` file to explore one scenario at a time:  
-  [ESMAP_Viz_v6_ex_compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Viz_v6_ex_compare.twb)
+  [ESMAP_Tableau_Overview.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Tableau_Overview.twb)
 
 - **Scenario comparison viewer**  
   Use this `.twb` file to compare multiple scenarios side by side:  
-  [Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Compare.twb)
+  [ESMAP_Tableau_Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Tableau_Compare.twb)
 
- Two separate interfaces are used to improve performance when applying filters or switching views.
+For simpler models (e.g. single country, few zones), an integrated all-in-one interface is also available:
+  [ESMAP_Tableau_Complete.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Tableau_Complete.twb)
+
+
 
 3. Each scenario folder must contain an `output_csv/` subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
 
-> **Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
+> **Important**: one of the scenarios inside folder `scenarios/` must be named `baseline`, otherwise an error will be raised.
 
-4. Add the file `linestring_countries_2.geojson` in the same directory as the Tableau `.twb` file.  This file is required for geographic visualizations. See the "Generating map files" section for instructions.
+4. Add the file `linestring_countries.geojson` in the same directory as the Tableau `.twb` file.  This file is required for geographic visualizations. See the "Generating map files" section for instructions.
 
-5. Click on the `.twb` file corresponding to the visualization you want to produce. This will open it in Tableau, and create the visualization corresponding to your scenarios in the `Scena/` folder.
+5. Click on the `.twb` file corresponding to the visualization you want to produce. This will open it in Tableau, and create the visualization corresponding to your scenarios in the `scenarios/` folder.
 
 #### Generating map files
 
@@ -82,16 +89,25 @@ This CSV file defines how names from the GeoJSON file should be translated into 
 Save this file as `geojson_to_epm.csv` in the output folder for your run.
 
 2. Step 2: Run the Script to Generate GeoJSON Data
+
+> **Note**: Make sure to run this command from the root of the repository at `epm/postprocessing`. It will not work if it is run from `epm`. 
+
+To navigate to the correct directory, use:
+```sh
+cd EPM/epm/postprocessing
+````
+
+Then run the following command:
 ```python 
 python utils.py --zones Angola DRC DRC_South Eswatini Lesotho Malawi Mozambique Namibia South_Africa Tanzania Zambia Zimbabwe --folder Tableau
 ```
 Here:
 - `--zones`: list of EPM zones to include in the GeoJSON output. These must match the zone names in your model.
 - `--folder`: name of the folder that contains your model results. This should match the folder inside the `output/` directory. Example: if your results are saved in `output/Tableau`, use `--folder Tableau`.
-**Note**: Make sure to run this command from the root of the repository at `epm/postprocessing`. It will not work if it is run from `epm`.
+
 **Note**: The output folder (`output/your_folder`) must contain both: `geojson_to_epm.csv` (mapping file created above) and `zcmap.csv` (zone-country map used when running the model)
 
-Once the script runs successfully, it will generate the `linestring_countries_2.geojson` file you can use directly in Tableau for map visualizations.
+Once the script runs successfully, it will generate the `linestring_countries.geojson` file you can use directly in Tableau for map visualizations.
 
 ### Update visualization
 
