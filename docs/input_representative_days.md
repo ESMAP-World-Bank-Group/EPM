@@ -1,4 +1,4 @@
-# Representative days
+# Representative Days
 
 ### Why representative days?
 

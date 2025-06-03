@@ -1,0 +1,58 @@
+﻿Parameter,Abbreviation,Value
+"Weighted Average Cost of Capital (WACC), %",WACC,0.06
+"Discount rate, %",DR,0.06
+,,
+,,
+PENALTIES,,
+"Cost of unserved energy per MWh, $",VOLL,500
+"Cost of reserve shortfall per MW, $",ReserveVoLL,60000
+"Spin Reserve vOLL per MWh, $",SpinReserveVoLL,25
+"Cost of surplus power per MWh, $",costSurplus,5
+"Cost of curtailment per MWh, $",costcurtail,1
+"Cost of curtailment per MWh, $",CO2backstop,300
+"Cost of Climate backstop techno per ton  CO2, $",H2UnservedCost,3000
+,,
+OPTIONAL FEATURES,,
+Include carbon price ,includeCarbonPrice,0
+Include energy efficiency,includeEE,0
+Include CSP optimization,includeCSP,0
+Include Storage operation,includeStorage,1
+Show zero values,show0,0
+Retire plants on economic grounds,econRetire,0
+Run in interconnected mode,interconMode,0
+Allow exports based on price,allowExports,0
+Remove transfer limits,NoTransferLim,0
+Allow expansion of transfer limits,pAllowHighTransfer,0
+Use less detailed demand definition,altDemand,1
+Allow capex trajectory,Captraj,0
+Include H2 production,IncludeH2,0
+,,
+CONSTRAINTS,,
+Apply system CO2 constraints,system_co2_constraints,1
+Apply fuel constraints,fuel_constraints,0
+Apply Max capital constraint,capital_constraints,0
+Apply min generation constraint,mingen_constraints,0
+Apply planning reserve constraint,planning_reserve_constraints,1
+"System planning reserve margin, %",system_reserve_margin,0.1
+Apply ramp constraints,ramp_constraints,0
+Apply system spinning reserve contraints,system_spinning_reserve_constraints,0
+Apply zonal CO2 constraint,zonal_co2_constraints,0
+Apply zonal spinning reserve contraints,zonal_spinning_reserve_constraints,1
+Minimum share of RE  (%),MinREshare,0
+RE share target year,RETargetYr,
+"Total maximum capital investments, $ billion",MaxCapital,
+"Maximum share of imports, %",MaxImports,
+"Maximum share of exports, %",MaxExports,
+"Spinning reserve needs for VRE, %",VREForecastError,0.15
+,,
+User defined Capacity credits,VRECapacityCredits,
+Seasonal reporting,Seasonalreporting,
+System results file production,Systemresultreporting,
+System Results Report,IncludeDecomCom,
+,,
+ActiveFuelPriceScenario,FuelPriceScenario,
+,,
+CapacityCredits for Reporting,,
+SolarCapacityCredit,CapCreditSolar,
+WindCapacityCredit,CapCreditWind,
+MaxLoadFraction for Cap Credit Calculation,MaxLoadFractionCCCalc ,

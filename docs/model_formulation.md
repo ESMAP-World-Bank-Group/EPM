@@ -1,5 +1,5 @@
 
-# Model formulation
+# Model Formulation
 
 ## Objective function and its components
 
