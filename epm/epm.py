@@ -59,7 +59,7 @@ from pathlib import Path
 import sys
 import chaospy
 import numpy as np
-
+import shutil
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -1212,6 +1212,13 @@ def main(test_args=None):
     )
 
     parser.add_argument(
+        "--output_zip",
+        action="store_true",
+        default=False,
+        help="Zip the output folder and remove the original folder after processing (default: False)"
+    )
+
+    parser.add_argument(
         "--plot_selected_scenarios",
         nargs="+",  # Accepts one or more values
         type=str,
@@ -1289,6 +1296,12 @@ def main(test_args=None):
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                        graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
 
+    # Zip the folder if it exists
+    if args.output_zip and folder and os.path.exists(folder):
+        zip_path = folder + '.zip'
+        shutil.make_archive(folder, 'zip', folder)
+        shutil.rmtree(folder)  # Remove the original folder
+        print(f"Folder {folder} zipped as {zip_path}")
 
 if __name__ == '__main__':
     main()
