@@ -1,5 +1,4 @@
-
-# Launch on the GAMS Engine remote server
+# Running EPM with GAMS ENGINE Remote Server
 
 ### Step 1: Ensure the Model Compiles locally
 1. Run the model locally to verify correct compilation.

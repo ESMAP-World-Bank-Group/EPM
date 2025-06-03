@@ -8,32 +8,42 @@ parts:
       - file: docs/introduction_case_studies
   - caption: Run EPM
     chapters:
+      - file: docs/run_folder_structure
+      - file: docs/run_prerequisites
       - file: docs/run_installation
-      - file: docs/run_epm
-      - file: docs/run_engine_remote_server
+      - file: docs/run_gams_studio
+      - file: docs/run_python
+      - file: docs/run_python_advanced
+      - file: docs/run_python_summary
+      - file: docs/run_remote_server.md
       - file: docs/run_git_process.md
-      - file: docs/run_solver_options.md
-      - file: docs/run_parallel.md
+      - file: docs/run_troubleshooting.md
+      - file: docs/run_summary.md
   - caption: Input
     chapters: 
+      - file: docs/input_structure.md
       - file: docs/input_overview.md
-      - file: docs/input_reading
       - file: docs/input_detailed.md
-  - caption: Postprocessing
+      - file: docs/set_definition.md
+      - file: docs/input_solver_options.md
+      - file: docs/input_technology_brief.md
+      - file: docs/input_representative_days.md
+  - caption: Output & Postprocessing
     chapters:
-      - file: docs/postprocessing
-      - file: docs/planning_analysis.ipynb
-      - file: docs/planning_analysis_liberia.ipynb
-      - file: docs/planning_analysis_sapp.ipynb
+      - file: docs/postprocessing_output
+      - file: docs/postprocessing_tableau
   - caption: Model Description
     chapters:
         - file: docs/model_overview
         - file: docs/model_description
         - file: docs/model_notations
         - file: docs/model_formulation
-  - caption: Step-by-Step Example
+  - caption: Advanced Topics
     chapters:
-        - file: docs/step_by_step
+        - file: docs/advanced_python
+        - file: docs/postprocessing
+        - file: docs/planning_analysis_sapp.ipynb
+        - file: docs/contributing.md
   - caption: Related Projects
     chapters:
         - file: docs/related_projects.md

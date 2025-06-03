@@ -1193,9 +1193,14 @@ def main(test_args=None):
     parser.add_argument(
         "--simple",
         nargs="*",  # Accepts zero or more values
-        default=['DiscreteCap', 'y'],
-        help = "List of simplified parameters (default: None). Example usage: --simple DiscreteCap y"
+        default=None,
+        help="List of simplified parameters. "
+             "If omitted: nothing happens. "
+             "If used without arguments: defaults to ['DiscreteCap', 'y']. "
+             "If used with arguments: overrides default. "
+             "Example: --simple DiscreteCap y"
     )
+
 
     parser.add_argument(
         "--engine",
@@ -1221,14 +1226,6 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--no_run_multiprocess",
-        dest="run_multiprocess",
-        action="store_false",
-        help="Disable running in parallel (default: True)"
-    )
-    parser.set_defaults(run_multiprocess=True)
-
-    parser.add_argument(
         "--no_plot_dispatch",
         dest="plot_dispatch",
         action="store_false",
@@ -1250,6 +1247,10 @@ def main(test_args=None):
     else:
         args = parser.parse_args()  # Normal command-line parsing
 
+    # Custom logic
+    if args.simple == []:
+        args.simple = ['DiscreteCap', 'y']
+
     print(f"Config file: {args.config}")
     print(f"Folder input: {args.folder_input}")
     print(f"Scenarios file: {args.scenarios}")
@@ -1260,14 +1261,8 @@ def main(test_args=None):
     print(f"Reduced output: {args.reduced_output}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
-    print(f"Run multiprocesses: {args.run_multiprocess}")
 
     if args.sensitivity:
-        sensitivity = {'pSettings': True, 'pDemandForecast': True,
-                       'pFuelPrice': False, 'pCapexTrajectoriesDefault': False,
-                       'pAvailabilityDefault': True, 'pDemandProfile': False,
-                       'y': True, 'ResLimShare': True, 'pVREProfile': True,
-                       'BuildLimitperYear': True}
         sensitivity = os.path.join('input', args.folder_input, 'sensitivity.csv')
         if not os.path.exists(sensitivity):
             print(f"Warning: sensitivity file {sensitivity} does not exist. No sensitivity analysis will be performed.")
