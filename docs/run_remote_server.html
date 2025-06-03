@@ -1169,7 +1169,14 @@ python<span class="w"> </span>run_epm.py
 </pre></div>
 </div>
 <p>You can also specify arguments:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--config<span class="w"> </span>input/data_sapp/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>input/data_sapp/scenarios.csv<span class="w"> </span>--selected_scenario<span class="w"> </span>baseline
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>input/data_test/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>input/data_test/scenarios.csv<span class="w"> </span>--selected_scenario<span class="w"> </span>baseline
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Important</strong>: The AWS cluster currently only allows downloading files instead of directories. To ensure easier extraction of results, we recommend using the zip option to extract results folder.</p>
+</div></blockquote>
+<p>To do so, use argument <code class="docutils literal notranslate"><span class="pre">--output_zip</span></code> when running the code. For instance:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>input/data_test/config.csv<span class="w"> </span>--output_zip
 </pre></div>
 </div>
 </section>
