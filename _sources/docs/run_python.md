@@ -1,4 +1,4 @@
-# Running EPM from Python
+# Run EPM from Python
 
 Using the Python interface enables advanced features such as scenario creation, sensitivity analysis, and Monte Carlo simulations.
 
