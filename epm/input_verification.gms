@@ -228,7 +228,6 @@ try:
     # Print summary of Energy/Peak Demand Ratio
     min_ratio = df_pivot['energy_peak_ratio'].min()
     max_ratio = df_pivot['energy_peak_ratio'].max()
-
     gams.printLog(f"Energy/Peak Demand Ratio - Min: {min_ratio:.2f} & Max: {max_ratio:.2f}")
 
     # Optional: raise an error if values are outside expected range
