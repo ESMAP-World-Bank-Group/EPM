@@ -503,7 +503,7 @@ def launch_epm_multi_scenarios(config='config.csv',
         match = re.search(r"/epm/(.*)", path)
         return match.group(1) if match else path
     df = df.astype(str).map(extract_path)
-    df.to_csv('simulations_scenarios.csv')
+    df.to_csv('input_scenarios.csv')
 
     if montecarlo:
         samples_mc = pd.DataFrame(samples)
