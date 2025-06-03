@@ -1,0 +1,31 @@
+gen,zone,tech,fuel,StYr,RetrYr,Capacity,UnitSize,Status,DescreteCap,fuel2,HeatRate2,BuildLimitperYear,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,Capex,FOMperMW,VOM,ReserveCost,Life,DiscreteCap
+Kotu G5,Gambia,ICE,HFO,2018,2024,12.2,12.2,1,,,,,0.6,,,,,,,,,,,0
+Kotu G6,Gambia,ICE,HFO,1989,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Kotu G7,Gambia,ICE,HFO,2001,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Kotu G8,Gambia,ICE,HFO,2018,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama G1,Gambia,ICE,LFO,2006,2030,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama G3,Gambia,ICE,HFO,2006,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama G4,Gambia,ICE,HFO,2006,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama G6,Gambia,ICE,HFO,2013,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama G7,Gambia,ICE,HFO,2018,2024,6.4,6.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama II,Gambia,ICE,HFO,2018,2038,8.9,8.9,1,,,,,0.6,,,,,,,,,,,0
+Brikama III G1,Gambia,ICE,HFO,2021,2041,9.4,9.4,1,,,,,0.6,,,,,,,,,,,0
+Brikama III G2,Gambia,ICE,HFO,2021,2041,9.4,9.4,1,,,,,0.6,,,,,,,,,,,0
+Karpower 1,Gambia,ICE,HFO,2018,2050,18.9,18.9,1,,,,,0.6,,,,,,0.0,0.0,60.0,,,0
+Karpower 2,Gambia,ICE,HFO,2018,2050,18.9,18.9,1,,,,,0.6,,,,,,0.0,0.0,60.0,,,0
+Farafenni,Gambia,ICE,HFO,2018,2038,4.8,4.8,1,,,,,0.6,,,,,,,,,,,0
+Basse,Gambia,ICE,HFO,2016,2036,5.4,5.4,1,,,,,0.6,,,,,,,,,,,0
+Jambur PV,Gambia,PV,Solar,2024,2047,23.0,1.0,1,,,,,0.0,,,,,,,,,,,0
+Jambur BESS,Gambia,Storage,Battery,2024,2037,2.0,1.0,1,,,,,,,,,,,,,,,,0
+Import Guinea,Gambia,ImportTransmission,Import,2024,2050,32.0,1.0,1,,,,,,,,,,,0.0,0.0,110.0,,,0
+Import Senegal,Gambia,ImportTransmission,Import,2010,2050,40.0,1.0,1,,,,,,,,,,,0.0,0.0,150.0,,,0
+Import Senegal MV,Gambia,ImportTransmission,Import,2010,2050,5.0,1.0,1,,,,,,,,,,,0.0,0.0,220.0,,,0
+New ICE,Gambia,ICE,HFO,2030,2050,1000.0,5.0,3,0.0,,,5.0,0.4,7.36,,,,,1.019,18500.0,6.5,,,0
+New CCGT,Gambia,CCGT,Gas,2030,2050,50.0,50.0,3,0.0,,,50.0,,,,,,,1.484,37100.0,6.51,,,0
+New Solar,Gambia,PV,Solar,2030,2050,1000.0,5.0,3,0.0,,,20.0,0.0,,,,,,0.98,27300.0,0.0,,,0
+New BESS,Gambia,Storage,Battery,2030,2050,1000.0,1.0,3,0.0,,,5.0,,,,,,,,,,,,0
+New CCGT Senegal,Gambia,CCGT,Gas,2035,2050,400.0,50.0,3,0.0,,,50.0,,,,,,,0.866,6200.0,5.51,,,0
+New CCGT Cote d'Ivoire,Gambia,CCGT,Gas,2035,2050,400.0,50.0,3,0.0,,,50.0,,,,,,,0.866,6200.0,5.51,,,0
+New OMVG Import,Gambia,ImportTransmission,Import,2028,2050,10.0,10.0,3,0.0,,,10.0,,,,,,,0.0,0.0,150.0,,,0
+Solar Project,Gambia,PV,Solar,2028,2048,50.0,50.0,2,0.0,,,50.0,,,,,,,0.98,27300.0,0.0,,,0
+BESS Project,Gambia,Storage,Battery,2028,2043,10.0,10.0,2,0.0,,,10.0,,,,,,,,,,,,0
