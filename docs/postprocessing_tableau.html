@@ -1072,15 +1072,16 @@ Use this <code class="docutils literal notranslate"><span class="pre">.twb</span
 Use this <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file to compare multiple scenarios side by side:<br />
 <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Compare.twb">Compare.twb</a></p></li>
 </ul>
-<blockquote>
-<div><p>🧠 Two separate interfaces are used to improve performance when applying filters or switching views.</p>
-</div></blockquote>
+<p>Two separate interfaces are used to improve performance when applying filters or switching views.</p>
 <ol class="arabic simple" start="3">
 <li><p>Each scenario folder must contain an <code class="docutils literal notranslate"><span class="pre">output_csv/</span></code> subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.</p></li>
 </ol>
-<p><strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p>
+<blockquote>
+<div><p><strong>Important</strong>: one of the scenarios inside must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p>
+</div></blockquote>
 <ol class="arabic simple" start="4">
 <li><p>Add the file <code class="docutils literal notranslate"><span class="pre">linestring_countries_2.geojson</span></code> in the same directory as the Tableau <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file.  This file is required for geographic visualizations. See the “Generating map files” section for instructions.</p></li>
+<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file corresponding to the visualization you want to produce. This will open it in Tableau, and create the visualization corresponding to your scenarios in the <code class="docutils literal notranslate"><span class="pre">Scena/</span></code> folder.</p></li>
 </ol>
 <section id="generating-map-files">
 <h4>Generating map files<a class="headerlink" href="#generating-map-files" title="Permalink to this heading">#</a></h4>
@@ -1152,7 +1153,9 @@ You may adapt the settings based on the intended usage of this visualization, by
 <li><p>Remove <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">Viz</span> <span class="pre">on</span> <span class="pre">Profile</span></code> if you want the visualization to only be accessible to those with a link (hide it from your public profile)</p></li>
 <li><p>Remove <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">Access</span></code> to prevent data download.</p></li>
 </ul>
-<p><strong>Important</strong>: this visualization will only work when data has been extracted. Tableau will prompt an error if you attempt to publish with live connections.</p>
+<blockquote>
+<div><p><strong>Important</strong>: this visualization will only work when data has been extracted as described in Step 2 of paragraph Update visualization. Tableau will prompt an error if you attempt to publish with live connections.</p>
+</div></blockquote>
 </section>
 </section>
 
