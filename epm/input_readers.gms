@@ -28,14 +28,14 @@
 **********************************************************************
 
 
-*$if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
+$if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 $if not set TRACE $set TRACE 0
 
 * Define by default path
 * SETTINGS
-$if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettingsTransferExpansion.csv
+$if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap input/%FOLDER_INPUT%/zcmap.csv
 $if not set y $set y input/%FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours input/%FOLDER_INPUT%/pHours.csv
@@ -49,7 +49,7 @@ $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor input/%FOLDER_I
 
 * SUPPLY DATA
 $if not set pGenDataExcel $set pGenDataExcel input/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
-$if not set pGenDataExcelDefault $set pGenDataExcelDefault input/%FOLDER_INPUT%/supply/pGenDataExcelDefaultRampHydro.csv
+$if not set pGenDataExcelDefault $set pGenDataExcelDefault input/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
 $if not set pAvailability $set pAvailability input/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault input/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
 $if not set pVREgenProfile $set pVREgenProfile input/%FOLDER_INPUT%/supply/pVREgenProfile.csv
@@ -79,9 +79,9 @@ $if not set pLossFactor $set pLossFactor input/%FOLDER_INPUT%/trade/pLossFactor.
 $if not set pMaxPriceImportShare $set pMaxPriceImportShare input/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
 $if not set pMaxExchangeShare $set pMaxExchangeShare input/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
 $if not set pMinImport $set pMinImport input/%FOLDER_INPUT%/trade/pMinImport.csv
-$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmissionCommitted.csv
+$if not set pNewTransmission $set pNewTransmission input/%FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice input/%FOLDER_INPUT%/trade/pTradePrice.csv
-$if not set pTransferLimit $set pTransferLimit input/%FOLDER_INPUT%/trade/pTransferLimitCurrent.csv
+$if not set pTransferLimit $set pTransferLimit input/%FOLDER_INPUT%/trade/pTransferLimit.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice input/%FOLDER_INPUT%/constraint/pCarbonPrice.csv
