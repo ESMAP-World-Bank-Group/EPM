@@ -47,14 +47,15 @@ The setup will not work outside the VDI or without a Yubikey.
   Use this `.twb` file to compare multiple scenarios side by side:  
   [Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/Compare.twb)
 
-> 🧠 Two separate interfaces are used to improve performance when applying filters or switching views.
+ Two separate interfaces are used to improve performance when applying filters or switching views.
 
 3. Each scenario folder must contain an `output_csv/` subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the `Running EPM from Python` section for guidance.
 
-**Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
+> **Important**: one of the scenarios inside must be named `baseline`, otherwise an error will be raised.
 
 4. Add the file `linestring_countries_2.geojson` in the same directory as the Tableau `.twb` file.  This file is required for geographic visualizations. See the "Generating map files" section for instructions.
 
+5. Click on the `.twb` file corresponding to the visualization you want to produce. This will open it in Tableau, and create the visualization corresponding to your scenarios in the `Scena/` folder.
 
 #### Generating map files
 
@@ -115,4 +116,4 @@ You may adapt the settings based on the intended usage of this visualization, by
 - Remove `Show Viz on Profile` if you want the visualization to only be accessible to those with a link (hide it from your public profile)
 - Remove `Allow Access` to prevent data download.
 
-**Important**: this visualization will only work when data has been extracted. Tableau will prompt an error if you attempt to publish with live connections.
+> **Important**: this visualization will only work when data has been extracted as described in Step 2 of paragraph Update visualization. Tableau will prompt an error if you attempt to publish with live connections.
