@@ -329,7 +329,7 @@ $onmulti
 Set
    ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
    shdr         'Additional headers for pStorData' / VOMMWh /
-   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor, Status/
+   thdr         'Additional header for pNewTransmission' / EarliestEntry, Status/
 ;
 $offmulti
 
