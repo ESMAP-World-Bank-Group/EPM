@@ -109,7 +109,14 @@ python run_epm.py
 
 You can also specify arguments:
 ```sh
-python epm.py --folder_input data_sapp --config input/data_sapp/config.csv --scenarios input/data_sapp/scenarios.csv --selected_scenario baseline
+python epm.py --folder_input data_test --config input/data_test/config.csv --scenarios input/data_test/scenarios.csv --selected_scenario baseline
+```
+
+> **Important**: The AWS cluster currently only allows downloading files instead of directories. To ensure easier extraction of results, we recommend using the zip option to extract results folder.
+
+To do so, use argument `--output_zip` when running the code. For instance:
+```sh 
+python epm.py --folder_input data_test --config input/data_test/config.csv --output_zip
 ```
 
 ### B. GAMS (to test if bug does not appear in Python)
