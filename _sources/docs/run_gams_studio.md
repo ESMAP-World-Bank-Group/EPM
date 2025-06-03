@@ -1,4 +1,4 @@
-# Running EPM from GAMS Studio
+# Run EPM from GAMS Studio
 
 This method is recommended for **debugging**, **testing**, and initial **setup** of the model.
 

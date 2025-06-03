@@ -1,4 +1,4 @@
-# Running EPM on the Remote Server
+# Run EPM on the Remote Server
 
 The World Bank's remote server is designed for **running computationally heavy EPM simulations**.
 
