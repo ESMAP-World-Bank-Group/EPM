@@ -277,15 +277,15 @@ def launch_epm(scenario,
         shutil.copy(path_cplex_file, new_file_path)
     else:
         shutil.copy(path_cplex_file, cwd)
-    
-    # Define the logfile name
-    logfile = os.path.join(cwd, 'main.log')
 
     # Arguments for GAMS
     if dict_montecarlo is not None:  # running in Monte-Carlo setting
         scenario['reportshort'] = 1  # shorter report to save memory
         scenario['solvemode'] = 2    # solve without checkpoint
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
+
+    # Define the logfile name
+    logfile = os.path.join(cwd, 'main.log')
 
     options = [
         "--LogOption 4", # Write log to standard output and log file
