@@ -204,61 +204,61 @@
       <connection class='federated'>
         <named-connections>
           <named-connection caption='pInterchangeCountry' name='textscan.0t57uaq151vhko1glvf001009wbr'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pDispatch' name='textscan.1jzug5l0xkrgb5159egh10e04sz7'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pInterchangeCountry (2)' name='textscan.0564hvp0q1p9et1cilurd0i5lx3g'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pInterconUtilization' name='textscan.1vsspin0rz6ynx11m9pms08mz2ub'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pInterconUtilization (2)' name='textscan.1fippds1tqr2h51dwgir30z1ynxn'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pEnergyByFuelCountry' name='textscan.1theoj70mnavz5196v4sy126tyie'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pEnergyByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCapacityByFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pCapacityByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pAnnualTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pNewCapacityFuel' name='textscan.0lr8ktj10tgslw11ffk750e9laz1'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pNewCapacityFuel.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pNewCapacityFuel.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pFuelCosts' name='textscan.1bvrd1e1gnreoj11sgpx50jodjcu'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pFuelCosts.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pFuelCosts.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCostSummary' name='textscan.0y0fn4r0hht2nt14wrqcz1is619w'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pCostSummary.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummary.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pEmissions' name='textscan.1u6fqjo0zup8iu1fszv8r18dmf66'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pEmissions.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEmissions.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pEmissionsIntensity' name='textscan.0cbi8bx0g5yzfu1ggwetg0v4myei'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pEmissionsIntensity.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEmissionsIntensity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pDemandSupply' name='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pDemandSupply.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDemandSupply.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pPrice' name='textscan.0i6qw2r1boe6zl1h4z0j41t1z5lf'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pPrice.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pPrice.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pSpinningReserveByPlantZone' name='textscan.1b1yc7q1arqess18mt2vh1i3ld5g'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pSpinningReserveByPlantZone.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pSpinningReserveByPlantZone.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pFuelDispatch' name='textscan.0d3j0ed1rjtfcc12oh21y0x2ifpr'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pFuelDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pFuelDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pZonalAverageCost' name='textscan.1q2cftk1mdl0r610wc3uq127wltg'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pZonalAverageCost.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pZonalAverageCost.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCostSummaryFull' name='textscan.0v2vs2s194b49b146t5cf1eu3ebv'>
-            <connection class='textscan' directory='Scena/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
         </named-connections>
         <_.fcp.ObjectModelEncapsulateLegacy.false...relation all='true' connection='textscan.1bvrd1e1gnreoj11sgpx50jodjcu' include-siblings='true' is-recursive='true' name='Union9' path='' type='batch-union'>
@@ -1036,7 +1036,7 @@
         </calculation>
       </column>
       <column caption='Value demand dispatch' datatype='real' hidden='true' name='[Calculation_-8903616394656731136]' role='measure' type='quantitative'>
-        <calculation class='tableau' formula='{ FIXED [y (Union6)],[Path (Union6) - Scission 1],[q],[d],[t],[c (linestring_countries_2.geojson)],[Calcul 1 (groupe)] : &#13;&#10;    MAX(IF [uni] = &quot;Demand&quot; THEN [value (Union1)] END) &#13;&#10;}' />
+        <calculation class='tableau' formula='{ FIXED [y (Union6)],[Path (Union6) - Scission 1],[q],[d],[t],[c (linestring_countries.geojson)],[Calcul 1 (groupe)] : &#13;&#10;    MAX(IF [uni] = &quot;Demand&quot; THEN [value (Union1)] END) &#13;&#10;}' />
       </column>
       <column caption='Value PcostSummary' datatype='real' name='[Calculation_127508171045437440]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='[value (Union10)]' />
@@ -1244,7 +1244,7 @@
           <groupfilter function='level-members' level='[none:c:nk]' />
           <groupfilter function='level-members' level='[Axis (copie)_1823113490582757385]' />
           <groupfilter function='level-members' level='[Calculation_1823113490582724616]' />
-          <groupfilter function='level-members' level='[none:c (linestring_countries_2.geojson):nk]' />
+          <groupfilter function='level-members' level='[none:c (linestring_countries.geojson):nk]' />
         </groupfilter>
       </group>
       <group caption='Action (Axis)' hidden='true' name='[Action (Axis)]' name-style='unqualified' user:auto-column='sheet_link'>
@@ -1259,22 +1259,22 @@
       </group>
       <group caption='Action (c (Union1))' hidden='true' name='[Action (c (Union1))]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
-          <groupfilter function='level-members' level='[none:c (linestring_countries_2.geojson):nk]' />
+          <groupfilter function='level-members' level='[none:c (linestring_countries.geojson):nk]' />
         </groupfilter>
       </group>
       <group caption='Action (c (Union6))' hidden='true' name='[Action (c (Union6))]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
-          <groupfilter function='level-members' level='[none:c (linestring_countries_2.geojson):nk]' />
+          <groupfilter function='level-members' level='[none:c (linestring_countries.geojson):nk]' />
         </groupfilter>
       </group>
-      <group caption='Action (c (linestring_countries_2.geojson))' hidden='true' name='[Action (c (linestring_countries_2.geojson))]' name-style='unqualified' user:auto-column='sheet_link'>
+      <group caption='Action (c (linestring_countries.geojson))' hidden='true' name='[Action (c (linestring_countries.geojson))]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
-          <groupfilter function='level-members' level='[c (linestring_countries_2.geojson)]' />
+          <groupfilter function='level-members' level='[c (linestring_countries.geojson)]' />
         </groupfilter>
       </group>
-      <group caption='Action (z (linestring_countries_2.geojson))' hidden='true' name='[Action (z (linestring_countries_2.geojson))]' name-style='unqualified' user:auto-column='sheet_link'>
+      <group caption='Action (z (linestring_countries.geojson))' hidden='true' name='[Action (z (linestring_countries.geojson))]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
-          <groupfilter function='level-members' level='[z (linestring_countries_2.geojson)]' />
+          <groupfilter function='level-members' level='[z (linestring_countries.geojson)]' />
         </groupfilter>
       </group>
       <group hidden='true' name='[Inclusions (f,Scenario,y (Union1))]' name-style='unqualified' user:auto-column='include'>
@@ -1700,7 +1700,7 @@
       <date-options start-of-week='monday' />
       <field-sort-info field-sort-order-type='custom-order'>
         <field-sort-custom-order field='z_other' />
-        <field-sort-custom-order field='z (linestring_countries_2.geojson)' />
+        <field-sort-custom-order field='z (linestring_countries.geojson)' />
         <field-sort-custom-order field='ISO_A3' />
         <field-sort-custom-order field='ISO_A2' />
         <field-sort-custom-order field='ISO_A3_other' />
@@ -1709,8 +1709,8 @@
         <field-sort-custom-order field='country_ini_lon' />
         <field-sort-custom-order field='lat_linestring' />
         <field-sort-custom-order field='lon_linestring' />
-        <field-sort-custom-order field='c (linestring_countries_2.geojson)' />
-        <field-sort-custom-order field='c2 (linestring_countries_2.geojson)' />
+        <field-sort-custom-order field='c (linestring_countries.geojson)' />
+        <field-sort-custom-order field='c2 (linestring_countries.geojson)' />
         <field-sort-custom-order field='Geometry' />
         <field-sort-custom-order field='Calculation_1823113490582474758' />
         <field-sort-custom-order field='Calculation_1823113490582560775' />
@@ -2642,7 +2642,7 @@
                 <run bold='true' fontsize='13'>Select year</run>
               </formatted-text>
             </format>
-            <format attr='title' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries_2.geojson):nk]' value='Country'>
+            <format attr='title' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' value='Country'>
               <formatted-text>
                 <run bold='true' fontsize='13'>Country</run>
               </formatted-text>
@@ -3127,7 +3127,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='11450' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries_2.geojson):nk]' type-v2='filter' values='database' w='11611' x='54281' y='872'>
+          <zone h='11450' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' type-v2='filter' values='database' w='11611' x='54281' y='872'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -3234,7 +3234,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='11450' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries_2.geojson):nk]' type-v2='filter' values='database' w='11611' x='54281' y='872'>
+                <zone h='11450' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' type-v2='filter' values='database' w='11611' x='54281' y='872'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
