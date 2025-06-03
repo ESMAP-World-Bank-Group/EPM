@@ -1,7 +1,5 @@
 
-# Mathematical formulation
-
-_Last update: 2023_
+# Mathematical Formulation
 
 ## Introduction
 

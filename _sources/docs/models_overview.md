@@ -1,4 +1,4 @@
-# Utility models overview
+# Utility Models Overview
 
 
 Utilities and system operators rely on a variety of advanced tools and methodologies to ensure the reliable, efficient, and sustainable operation of power systems. The table below highlights some of the most widely used tools and studies in the energy sector. These tools support critical functions such as capacity expansion planning, grid reliability assessments, and climate adaptation strategies.
