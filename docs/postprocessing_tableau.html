@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Tableau workflow &#8212; Energy Planning Model</title>
+    <title>Tableau Workflow &#8212; Energy Planning Model</title>
   
   
   
@@ -298,7 +298,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Tableau workflow
+                        Tableau Workflow
                       </a>
                     </li>
                 
@@ -613,7 +613,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Tableau workflow
+                        Tableau Workflow
                       </a>
                     </li>
                 
@@ -794,7 +794,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_output.html">Output Folder Structure</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tableau workflow</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Tableau Workflow</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
@@ -980,7 +980,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Tableau workflow</h1>
+    <h1>Tableau Workflow</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -991,32 +991,66 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modelers">
-   Modelers
+  <a class="reference internal nav-link" href="#how-to-use-tableau-for-epm">
+   How to use Tableau for EPM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-the-folder-structure-for-tableau">
+   1. Create the folder structure for Tableau
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-linestring-countries-geojson-and-add-to-the-directory">
+   2. Generate
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     linestring_countries.geojson
+    </span>
+   </code>
+   and add to the directory
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#loading-data">
-     Loading data
+    <a class="reference internal nav-link" href="#step-1-update-the-geojson-to-epm-csv">
+     Step 1: Update the
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       geojson_to_epm.csv
+      </span>
+     </code>
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#generating-map-files">
-       Generating map files
-      </a>
-     </li>
-    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#update-visualization">
-     Update visualization
+    <a class="reference internal nav-link" href="#step-2-run-the-script-to-generate-geojson-data">
+     Step 2: Run the script to generate GeoJSON data
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#public">
-   Public
+  <a class="reference internal nav-link" href="#upload-the-folder-to-onedrive">
+   3. Upload the folder to OneDrive
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connect-to-the-shared-vdi">
+   4. Connect to the shared VDI
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-the-tableau-file">
+   5. Open the Tableau file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-your-dashboard-as-public">
+   6. Save your Dashboard as Public
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#update-visualization">
+   7. Update visualization
   </a>
  </li>
 </ul>
@@ -1029,112 +1063,120 @@ title="Print to PDF"
             <article class="bd-article" role="main">
               
   <section class="tex2jax_ignore mathjax_ignore" id="tableau-workflow">
-<h1>Tableau workflow<a class="headerlink" href="#tableau-workflow" title="Permalink to this heading">#</a></h1>
+<h1>Tableau Workflow<a class="headerlink" href="#tableau-workflow" title="Permalink to this heading">#</a></h1>
+<p>Tableau is the recommended approach for most users, providing a user-friendly interface for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.</p>
+<p>Example: <em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes">SAPP overview</a></em><br />
+<em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes">SAPP comparison of scenarios</a></em></p>
 <p>This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.</p>
-<section id="modelers">
-<h2>Modelers<a class="headerlink" href="#modelers" title="Permalink to this heading">#</a></h2>
-<p>To update or edit Tableau dashboards with new model outputs, a <strong>Tableau Creator license</strong> is required. WB team members can request access to a Creator license if needed. A license already exists and is installed on the shared VDI machine. Please contact the energy planning team for more information on this.</p>
-<section id="loading-data">
-<h3>Loading data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h3>
-<p>To run Tableau for EPM visualization, ensure the following:</p>
-<ul class="simple">
-<li><p>A WB computer or VDI (Virtual Desktop Infrastructure).</p></li>
-<li><p>A YubiKey (only required for VDI authentication).
-The setup will not work outside the VDI or without a Yubikey.</p></li>
-</ul>
+<section id="how-to-use-tableau-for-epm">
+<h2>How to use Tableau for EPM<a class="headerlink" href="#how-to-use-tableau-for-epm" title="Permalink to this heading">#</a></h2>
 <ol class="arabic simple">
-<li><p>Connect to the common VDI and launch the <code class="docutils literal notranslate"><span class="pre">Tableau</span></code> app. You may need to register if this is your first connection.</p></li>
-<li><p>Create the following folder structure</p></li>
+<li><p><strong>Setup a new Tableau project</strong> for your simulation results. <strong>Done only once per project, using the shared VDI machine</strong></p></li>
 </ol>
-<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>├── ESMAP_Viz_v6_ex_compare.twb
-├── Compare.twb
+<blockquote>
+<div><p>A <strong>Tableau Creator license</strong> is required for creating or editing dashboards. Contact the energy planning team for more details.</p>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p><strong>Analyze results online from Tableau Public</strong>, accessible from any computer.</p></li>
+</ol>
+</section>
+<section id="create-the-folder-structure-for-tableau">
+<h2>1. Create the folder structure for Tableau<a class="headerlink" href="#create-the-folder-structure-for-tableau" title="Permalink to this heading">#</a></h2>
+<p>The folder structure should look like this:</p>
+<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>├── ESMAP_Tableau_Compare.twb
+├── ESMAP_Tableau_Overview.twb
+├── ESMAP_Tableau_Complete.twb
 ├── ESMAP_logo.png
 ├── linestring_countries.geojson
 └── scenarios/
     ├── baseline/
     │   ├── output_csv/
-        │   ├── *.csv
+    │       ├── *.csv
     ├── scenario_1/
-        ├── *.csv
+    │   ├── output_csv/
+    │       ├── *.csv
     └── ...
 </pre></div>
 </div>
-<p><strong>Available Tableau interfaces</strong></p>
-<p>To improve performance — especially for models with many zones and years — <strong>two separate interfaces</strong> are provided:</p>
-<ul class="simple">
-<li><p><strong>Single scenario viewer</strong><br />
-Use this <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file to explore one scenario at a time:<br />
-<a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb">ESMAP_Tableau_Overview.twb</a></p></li>
-<li><p><strong>Scenario comparison viewer</strong><br />
-Use this <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file to compare multiple scenarios side by side:<br />
-<a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Compare.twb">ESMAP_Tableau_Compare.twb</a></p></li>
-</ul>
-<p>For simpler models (e.g. single country, few zones), an integrated all-in-one interface is also available:
-<a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb">ESMAP_Tableau_Complete.twb</a></p>
-<ol class="arabic simple" start="3">
-<li><p>Each scenario folder must contain an <code class="docutils literal notranslate"><span class="pre">output_csv/</span></code> subfolder with the CSVs outputs from EPM. These are automatically generated when running the EPM model from Python. If running from GAMS Studio, CSVs must be extracted manually (less efficient). See the <code class="docutils literal notranslate"><span class="pre">Running</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span></code> section for guidance.</p></li>
-</ol>
+<p>In <code class="docutils literal notranslate"><span class="pre">output/tableau</span></code> in your EPM repository, you’ll find the required file structure. Drag and drop your simulation results into the <code class="docutils literal notranslate"><span class="pre">scenarios/</span></code> folder. Each scenario folder must contain an <code class="docutils literal notranslate"><span class="pre">output_csv/</span></code> subfolder with EPM-generated CSVs. If using GAMS Studio, manually extract the CSVs.</p>
 <blockquote>
-<div><p><strong>Important</strong>: one of the scenarios inside folder <code class="docutils literal notranslate"><span class="pre">scenarios/</span></code> must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, otherwise an error will be raised.</p>
+<div><p><strong>Important</strong>: One scenario must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, or an error will occur.</p>
 </div></blockquote>
-<ol class="arabic simple" start="4">
-<li><p>Add the file <code class="docutils literal notranslate"><span class="pre">linestring_countries.geojson</span></code> in the same directory as the Tableau <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file.  This file is required for geographic visualizations. See the “Generating map files” section for instructions.</p></li>
-<li><p>Click on the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file corresponding to the visualization you want to produce. This will open it in Tableau, and create the visualization corresponding to your scenarios in the <code class="docutils literal notranslate"><span class="pre">scenarios/</span></code> folder.</p></li>
-</ol>
-<section id="generating-map-files">
-<h4>Generating map files<a class="headerlink" href="#generating-map-files" title="Permalink to this heading">#</a></h4>
-<p>Some visualization tabs in Tableau include maps, which require a GeoJSON file to display countries or regions. This file must match the zones defined in your EPM model. The necessary data can be generated by following the steps below.</p>
-<ol class="arabic simple">
-<li><p>Step 1: Create the <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> mapping file. An example can be found <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv">here</a>.</p></li>
-</ol>
+</section>
+<section id="generate-linestring-countries-geojson-and-add-to-the-directory">
+<h2>2. Generate <code class="docutils literal notranslate"><span class="pre">linestring_countries.geojson</span></code> and add to the directory<a class="headerlink" href="#generate-linestring-countries-geojson-and-add-to-the-directory" title="Permalink to this heading">#</a></h2>
+<p>This file is required for geographic visualizations in Tableau. It can be generated by updating the <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> file and running the script below.</p>
+<section id="step-1-update-the-geojson-to-epm-csv">
+<h3>Step 1: Update the <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code><a class="headerlink" href="#step-1-update-the-geojson-to-epm-csv" title="Permalink to this heading">#</a></h3>
+<blockquote>
+<div><p>Example can be found <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv">here</a>.</p>
+</div></blockquote>
 <p>This CSV file defines how names from the GeoJSON file should be translated into EPM-compatible zone names. It also allows you to split countries into sub-zones if needed (e.g. North/South).</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">Geojson</span></code>: the name of the country or region as it appears in the GeoJSON file.</p>
-<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">Tanzania</span></code>
-When a country is split into multiple regions, this name should include the corresponding region. Example: <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p>
-</li>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Geojson</span></code>: the name of the country or region as it appears in the GeoJSON file.
+<em>Example</em>: <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">Tanzania</span></code>
+When a country is split into multiple regions, this name should include the corresponding region. Example: <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EPM</span></code>: the name used for that zone in the EPM model.<br />
 <em>Example</em>: <code class="docutils literal notranslate"><span class="pre">Tanzania</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">region</span></code>: <em>(optional)</em> only used when splitting a country into several zones. Specifies which part of the country this line refers to.<br />
 <em>Example</em>: <code class="docutils literal notranslate"><span class="pre">north</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">country</span></code>: <em>(optional)</em> if a country is split, this column gives the full country name (e.g. <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span></code>), while the <code class="docutils literal notranslate"><span class="pre">Geojson</span></code> column may be something like <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">division</span></code>: <em>(optional)</em> describes how the country is split. Current accepted values:</p>
-<ul class="simple">
+<ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">NS</span></code> = North/South</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EW</span></code> = East/West<br />
 More division types may be added in the future.</p></li>
 </ul>
 </li>
 </ul>
-<p>Save this file as <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> in the output folder for your run.</p>
-<ol class="arabic simple" start="2">
-<li><p>Step 2: Run the Script to Generate GeoJSON Data</p></li>
-</ol>
-<blockquote>
-<div><p><strong>Note</strong>: Make sure to run this command from the root of the repository at <code class="docutils literal notranslate"><span class="pre">epm/postprocessing</span></code>. It will not work if it is run from <code class="docutils literal notranslate"><span class="pre">epm</span></code>.</p>
-</div></blockquote>
-<p>To navigate to the correct directory, use:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM/epm/postprocessing
-</pre></div>
-</div>
-<p>Then run the following command:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">utils</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">zones</span> <span class="n">Angola</span> <span class="n">DRC</span> <span class="n">DRC_South</span> <span class="n">Eswatini</span> <span class="n">Lesotho</span> <span class="n">Malawi</span> <span class="n">Mozambique</span> <span class="n">Namibia</span> <span class="n">South_Africa</span> <span class="n">Tanzania</span> <span class="n">Zambia</span> <span class="n">Zimbabwe</span> <span class="o">--</span><span class="n">folder</span> <span class="n">Tableau</span>
-</pre></div>
-</div>
-<p>Here:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">--zones</span></code>: list of EPM zones to include in the GeoJSON output. These must match the zone names in your model.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--folder</span></code>: name of the folder that contains your model results. This should match the folder inside the <code class="docutils literal notranslate"><span class="pre">output/</span></code> directory. Example: if your results are saved in <code class="docutils literal notranslate"><span class="pre">output/Tableau</span></code>, use <code class="docutils literal notranslate"><span class="pre">--folder</span> <span class="pre">Tableau</span></code>.</p></li>
-</ul>
-<p><strong>Note</strong>: The output folder (<code class="docutils literal notranslate"><span class="pre">output/your_folder</span></code>) must contain both: <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> (mapping file created above) and <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code> (zone-country map used when running the model)</p>
-<p>Once the script runs successfully, it will generate the <code class="docutils literal notranslate"><span class="pre">linestring_countries.geojson</span></code> file you can use directly in Tableau for map visualizations.</p>
 </section>
+<section id="step-2-run-the-script-to-generate-geojson-data">
+<h3>Step 2: Run the script to generate GeoJSON data<a class="headerlink" href="#step-2-run-the-script-to-generate-geojson-data" title="Permalink to this heading">#</a></h3>
+<p>Run the following command from the root of the repository at <code class="docutils literal notranslate"><span class="pre">epm/postprocessing</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM/epm/postprocessing
+python<span class="w"> </span>create_geojson.py
+</pre></div>
+</div>
+<p>The script will generate linestring_countries.geojson for use in Tableau visualizations.</p>
+</section>
+</section>
+<section id="upload-the-folder-to-onedrive">
+<h2>3. Upload the folder to OneDrive<a class="headerlink" href="#upload-the-folder-to-onedrive" title="Permalink to this heading">#</a></h2>
+<p>Upload the folder to OneDrive to access from the shared VDI machine. From the VDI, you can access OneDrive and load the files into Tableau.</p>
+</section>
+<section id="connect-to-the-shared-vdi">
+<h2>4. Connect to the shared VDI<a class="headerlink" href="#connect-to-the-shared-vdi" title="Permalink to this heading">#</a></h2>
+<p>Tableau is pre-installed on the shared VDI machine.
+You may need to register if this is your first connection.</p>
+</section>
+<section id="open-the-tableau-file">
+<h2>5. Open the Tableau file<a class="headerlink" href="#open-the-tableau-file" title="Permalink to this heading">#</a></h2>
+<p>From the shared VDI, click on the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file corresponding to your desired visualization.</p>
+<p><strong>Available Tableau interfaces</strong>:</p>
+<ul class="simple">
+<li><p><strong>Single scenario viewer</strong>: Use for exploring one scenario at a time: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb">ESMAP_Tableau_Overview.twb</a></p></li>
+<li><p><strong>Scenario comparison viewer</strong>: Use for comparing multiple scenarios side by side: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Compare.twb">ESMAP_Tableau_Compare.twb</a></p></li>
+<li><p><strong>Complete viewer</strong>: For simpler models: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb">ESMAP_Tableau_Complete.twb</a></p></li>
+</ul>
+</section>
+<section id="save-your-dashboard-as-public">
+<h2>6. Save your Dashboard as Public<a class="headerlink" href="#save-your-dashboard-as-public" title="Permalink to this heading">#</a></h2>
+<p>Use Tableau Public to visualize and share your results.</p>
+<p>In Tableau, go to <code class="docutils literal notranslate"><span class="pre">Server</span></code>, <code class="docutils literal notranslate"><span class="pre">Tableau</span> <span class="pre">Public</span></code>, <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">to</span> <span class="pre">Tableau</span> <span class="pre">Public</span> <span class="pre">as</span></code>. Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
+You may adapt the settings based on the intended usage of this visualization, by going to the <code class="docutils literal notranslate"><span class="pre">Settings</span></code> button (after signing in on your browser):</p>
+<ul class="simple">
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">Viz</span> <span class="pre">on</span> <span class="pre">Profile</span></code> if you want the visualization to only be accessible to those with a link (hide it from your public profile)</p></li>
+<li><p>Remove <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">Access</span></code> to prevent data download.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Important</strong>: this visualization will only work when data has been extracted as described in Step 2 of paragraph Update visualization. Tableau will prompt an error if you attempt to publish with live connections.</p>
+</div></blockquote>
 </section>
 <section id="update-visualization">
-<h3>Update visualization<a class="headerlink" href="#update-visualization" title="Permalink to this heading">#</a></h3>
+<h2>7. Update visualization<a class="headerlink" href="#update-visualization" title="Permalink to this heading">#</a></h2>
 <p>To update the visualization for new scenarios, you should follow the steps:</p>
 <ol class="arabic simple">
-<li><p>Upload the new scenarios with the arborescence as described previously, keeping in mind that one of the scenarios is named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>.</p></li>
+<li><p>Upload new scenarios with the correct structure, ensuring one is named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>.</p></li>
 <li><p>Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
 To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to <code class="docutils literal notranslate"><span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Extract</span> <span class="pre">data</span></code>: <code class="docutils literal notranslate"><span class="pre">linestring</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostSummaryWeightedAverageCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">Plant</span> <span class="pre">DB</span></code> and <code class="docutils literal notranslate"><span class="pre">pSummary</span></code>. You should click on <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">settings</span></code> when asked. If Tableau warns that a file already exists, click Replace this file.</p></li>
 <li><p>Once this has been done, data is extracted and optimized so that the visualizations will now load faster.</p></li>
@@ -1147,20 +1189,6 @@ Then re-extract to optimize the new data (Step 2)</p></li>
 </li>
 </ol>
 <p><strong>Note</strong>: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).</p>
-</section>
-</section>
-<section id="public">
-<h2>Public<a class="headerlink" href="#public" title="Permalink to this heading">#</a></h2>
-<p>The Tableau dashboard can be shared with external users who don’t need to edit data sources but can explore results interactively.</p>
-<p>In Tableau, go to <code class="docutils literal notranslate"><span class="pre">Server</span></code>, <code class="docutils literal notranslate"><span class="pre">Tableau</span> <span class="pre">Public</span></code>, <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">to</span> <span class="pre">Tableau</span> <span class="pre">Public</span> <span class="pre">as</span></code>. Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
-You may adapt the settings based on the intended usage of this visualization, by going to the <code class="docutils literal notranslate"><span class="pre">Settings</span></code> button (after signing in on your browser):</p>
-<ul class="simple">
-<li><p>Remove <code class="docutils literal notranslate"><span class="pre">Show</span> <span class="pre">Viz</span> <span class="pre">on</span> <span class="pre">Profile</span></code> if you want the visualization to only be accessible to those with a link (hide it from your public profile)</p></li>
-<li><p>Remove <code class="docutils literal notranslate"><span class="pre">Allow</span> <span class="pre">Access</span></code> to prevent data download.</p></li>
-</ul>
-<blockquote>
-<div><p><strong>Important</strong>: this visualization will only work when data has been extracted as described in Step 2 of paragraph Update visualization. Tableau will prompt an error if you attempt to publish with live connections.</p>
-</div></blockquote>
 </section>
 </section>
 
@@ -1223,32 +1251,66 @@ You may adapt the settings based on the intended usage of this visualization, by
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#modelers">
-   Modelers
+  <a class="reference internal nav-link" href="#how-to-use-tableau-for-epm">
+   How to use Tableau for EPM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-the-folder-structure-for-tableau">
+   1. Create the folder structure for Tableau
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-linestring-countries-geojson-and-add-to-the-directory">
+   2. Generate
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     linestring_countries.geojson
+    </span>
+   </code>
+   and add to the directory
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#loading-data">
-     Loading data
+    <a class="reference internal nav-link" href="#step-1-update-the-geojson-to-epm-csv">
+     Step 1: Update the
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       geojson_to_epm.csv
+      </span>
+     </code>
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#generating-map-files">
-       Generating map files
-      </a>
-     </li>
-    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#update-visualization">
-     Update visualization
+    <a class="reference internal nav-link" href="#step-2-run-the-script-to-generate-geojson-data">
+     Step 2: Run the script to generate GeoJSON data
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#public">
-   Public
+  <a class="reference internal nav-link" href="#upload-the-folder-to-onedrive">
+   3. Upload the folder to OneDrive
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connect-to-the-shared-vdi">
+   4. Connect to the shared VDI
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#open-the-tableau-file">
+   5. Open the Tableau file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-your-dashboard-as-public">
+   6. Save your Dashboard as Public
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#update-visualization">
+   7. Update visualization
   </a>
  </li>
 </ul>
