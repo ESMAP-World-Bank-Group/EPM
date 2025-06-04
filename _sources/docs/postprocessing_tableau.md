@@ -45,14 +45,14 @@ To improve performance — especially for models with many zones and years — *
 
 - **Single scenario viewer**  
   Use this `.twb` file to explore one scenario at a time:  
-  [ESMAP_Tableau_Overview.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Tableau_Overview.twb)
+  [ESMAP_Tableau_Overview.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb)
 
 - **Scenario comparison viewer**  
   Use this `.twb` file to compare multiple scenarios side by side:  
-  [ESMAP_Tableau_Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Tableau_Compare.twb)
+  [ESMAP_Tableau_Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Compare.twb)
 
 For simpler models (e.g. single country, few zones), an integrated all-in-one interface is also available:
-  [ESMAP_Tableau_Complete.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/docs/dwld/ESMAP_Tableau_Complete.twb)
+  [ESMAP_Tableau_Complete.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb)
 
 
 
