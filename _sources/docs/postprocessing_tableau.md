@@ -34,7 +34,9 @@ The folder structure should look like this:
     └── ...
 ```
 
-In `output/tableau` in your EPM repository, you’ll find the required file structure. Drag and drop your simulation results into the `scenarios/` folder. Each scenario folder must contain an `output_csv/` subfolder with EPM-generated CSVs. If using GAMS Studio, manually extract the CSVs.
+In `output/tableau` in your EPM repository, you’ll find the required file structure. 
+
+Drag and drop your simulation results into the `scenarios/` folder. Each scenario folder must contain an `output_csv/` subfolder with EPM-generated CSVs. If using GAMS Studio, manually extract the CSVs.
 
 > **Important**: One scenario must be named `baseline`, or an error will occur.
 
