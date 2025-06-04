@@ -1,0 +1,2093 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>What this script does ? &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/representative_days_doc';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/representative_days_doc.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utility Models Overview" href="models_overview.html" />
+    <link rel="prev" title="Planning-Tools" href="related_projects.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_solver_options.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing_tableau.html">
+                        Tableau workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="planning_analysis_sapp.html">
+                        Load data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="related_projects.html">
+                        Planning-Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        What this script does ?
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="models_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_solver_options.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing_tableau.html">
+                        Tableau workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="planning_analysis_sapp.html">
+                        Load data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="contributing.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="related_projects.html">
+                        Planning-Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        What this script does ?
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="models_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">About</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="introduction_case_studies.html">EPM Recent Case Studies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_summary.html">Summary Command line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_representative_days.html">Representative Days</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_tableau.html">Tableau workflow</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_formulation.html">Model Formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Postprocessing with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planning_analysis_sapp.html">Load data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Related Projects</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="related_projects.html">Planning-Tools</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">What this script does ?</a></li>
+
+
+
+
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="models_overview.html">Utility Models Overview</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/representative_days_doc.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/representative_days_doc.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../_sources/docs/representative_days_doc.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>What this script does ?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   What this script does ?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#user-input-parameters-to-manually-change">
+   User input parameters (to manually change)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-the-folder-structure">
+     Create the folder structure
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-data-from-renewables-ninja">
+   1. Extract data from Renewables Ninja
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-renewable-ninja-data">
+     Process renewable ninja data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#explore-data">
+       Explore data
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#pv">
+         PV
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#wind">
+         Wind
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#group-monthly-values-into-seasons">
+       Group monthly values into seasons
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process-data">
+   2. Process data
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-parameters">
+     Input parameters
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#special-days-methodology">
+     Special days methodology
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classical-methodology">
+     Classical methodology
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#methodology-with-clustering-to-handle-special-days">
+     Methodology with clustering to handle special days
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-results">
+     Plot results
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="what-this-script-does">
+<h1>What this script does ?<a class="headerlink" href="#what-this-script-does" title="Permalink to this heading">#</a></h1>
+<p>This notebook is used to calculate representative days used in the EPM model. The script is divided into 4 parts:</p>
+<ol class="arabic simple">
+<li><p>Extract renewables generation data from Ninja API.</p></li>
+<li><p>Calculate representative year among historical data.</p></li>
+<li><p>Calculate special and representatative days within this year.</p></li>
+<li><p>Export pHours, pVREgen in EPM format.</p></li>
+</ol>
+<p>It is based on previously developed GAMS code for the Poncelet algorithm. The objective has been to automate the process and make it more user-friendly.
+The code will automatically get the min production for PV, the min production for Wind, and the max load days for each season, called the special days.
+It will automatically removes the special days from the input file for the Poncelet algorithm and then runs the Poncelet algorithm to generate the representative days.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
+<p>It’s recommended to install a conda environment based on the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file to run this script.
+In order to do so, you can run the following command in your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>--name<span class="w"> </span>myenv<span class="w"> </span>--file<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>If there are some dependencies issues because some package are not included (project is still under construction) in the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file, install them manually.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="user-input-parameters-to-manually-change">
+<h1>User input parameters (to manually change)<a class="headerlink" href="#user-input-parameters-to-manually-change" title="Permalink to this heading">#</a></h1>
+<p>User needs to change the following parameters in the following cell:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name_data</span></code> : Name of the folder where data will be saved.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">extract_renewables</span></code> : Whether to extract renewables data from Ninja API or not. If False, the script will use the data file provided by the user. Please note that dowloading data from Ninja API is time consuming, so do it only once. Also, there are API limits on the hourly number of downloads, so it is better to download the data once and use it multiple times.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">locations</span></code> : Coordinates of the location for which the data is to be extracted. The format is (latitude, longitude).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">power_types</span></code> : Types of power for which the data is to be extracted. The format is [‘solar’, ‘wind’].</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start_year</span></code> : Start year of the historical data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">end_year</span></code> : End year of the historical data.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">name_data</span> <span class="o">=</span> <span class="s1">&#39;sapp&#39;</span> <span class="c1"># Name of the zone, used to name the folder where the data is stored</span>
+<span class="n">main_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">name_data</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">main_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">main_folder</span><span class="p">)</span>
+
+<span class="n">extract_renewables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;solar&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;wind&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span> <span class="c1"># Set to True to extract data from Renewables Ninja</span>
+
+<span class="c1"># If extract_renewables is True, fill the following variables</span>
+<span class="n">locations</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;solar&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;southafrica&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">29.35</span><span class="p">,</span> <span class="mf">19.0</span><span class="p">),</span>
+        <span class="s1">&#39;zimbabwe&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">20.38</span><span class="p">,</span> <span class="mf">27.86</span><span class="p">),</span>
+        <span class="s1">&#39;zambia&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">15.15</span><span class="p">,</span> <span class="mf">27.95</span><span class="p">),</span>
+        <span class="s1">&#39;tanzania&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mf">33.75</span><span class="p">),</span>
+        <span class="s1">&#39;namibia&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">24.97</span><span class="p">,</span> <span class="mf">17.78</span><span class="p">),</span>
+        <span class="s1">&#39;mozambique&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">16.0</span><span class="p">,</span> <span class="mf">32.22</span><span class="p">),</span>
+        <span class="s1">&#39;malawi&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">13.09</span><span class="p">,</span> <span class="mf">34.25</span><span class="p">),</span>
+        <span class="s1">&#39;lesotho&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">29.10</span><span class="p">,</span> <span class="mf">27.81</span><span class="p">),</span>
+        <span class="s1">&#39;eswatini&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">26.48</span><span class="p">,</span> <span class="mf">30.86</span><span class="p">),</span>
+        <span class="s1">&#39;DRC&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.78</span><span class="p">,</span> <span class="mf">22.89</span><span class="p">),</span>
+        <span class="s1">&#39;DRCSouth&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">9.66</span><span class="p">,</span> <span class="mf">26.19</span><span class="p">),</span>
+        <span class="s1">&#39;botswana&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">21.16</span><span class="p">,</span> <span class="mf">25.40</span><span class="p">),</span>
+        <span class="s1">&#39;angola&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">17.02</span><span class="p">,</span> <span class="mf">18.58</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;wind&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;southafrica&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">31.66</span><span class="p">,</span> <span class="mf">22.13</span><span class="p">),</span>
+        <span class="s1">&#39;zimbabwe&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">18.8</span><span class="p">,</span> <span class="mf">29.3</span><span class="p">),</span>
+        <span class="s1">&#39;zambia&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">15.74</span><span class="p">,</span> <span class="mf">27.94</span><span class="p">),</span>
+        <span class="s1">&#39;tanzania&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">4.91</span><span class="p">,</span> <span class="mf">34.64</span><span class="p">),</span>
+        <span class="s1">&#39;namibia&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">27.61</span><span class="p">,</span> <span class="mf">18.05</span><span class="p">),</span>
+        <span class="s1">&#39;mozambique&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">16.59</span><span class="p">,</span> <span class="mf">33.42</span><span class="p">),</span>
+        <span class="s1">&#39;malawi&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">11.90</span><span class="p">,</span> <span class="mf">33.46</span><span class="p">),</span>
+        <span class="s1">&#39;lesotho&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">29.9</span><span class="p">,</span> <span class="mf">27.27</span><span class="p">),</span>
+        <span class="s1">&#39;eswatini&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">26.45</span><span class="p">,</span> <span class="mf">31.91</span><span class="p">),</span>
+        <span class="s1">&#39;DRC&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">2.76</span><span class="p">,</span> <span class="mf">29.26</span><span class="p">),</span>
+        <span class="s1">&#39;DRCSouth&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">8.73</span><span class="p">,</span> <span class="mf">25.08</span><span class="p">),</span>
+        <span class="s1">&#39;botswana&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">21.06</span><span class="p">,</span> <span class="mf">24.91</span><span class="p">),</span>
+        <span class="s1">&#39;angola&#39;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mf">15.62</span><span class="p">,</span> <span class="mf">14.73</span><span class="p">)</span>
+    <span class="p">}</span>  
+
+<span class="p">}</span>
+
+<span class="n">power_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">locations</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="c1"># &#39;wind&#39; or &#39;solar&#39;</span>
+
+<span class="n">start_year</span> <span class="o">=</span> <span class="mi">2022</span> <span class="c1"># earliest year is 1980</span>
+<span class="n">end_year</span> <span class="o">=</span> <span class="mi">2024</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="create-the-folder-structure">
+<h2>Create the folder structure<a class="headerlink" href="#create-the-folder-structure" title="Permalink to this heading">#</a></h2>
+<p>The following cell creates the folder structure required for the script to run.</p>
+<ol class="arabic simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">main_folder</span></code> is <code class="docutils literal notranslate"><span class="pre">data/name_data/</span></code>.</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">data/name_data/raw_data/</span></code>, the raw data is stored, including the data from Ninja API.</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">data/name_data/repr_days/</span></code>, the representative days are stored, as well as some auxiliary files.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folder_raw_data</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;raw_data&#39;</span><span class="p">)</span>
+<span class="c1"># Make folder</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">)</span>
+    
+<span class="n">main_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;repr_days&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">main_folder</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">main_folder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="extract-data-from-renewables-ninja">
+<h1>1. Extract data from Renewables Ninja<a class="headerlink" href="#extract-data-from-renewables-ninja" title="Permalink to this heading">#</a></h1>
+<p>Depends on the <code class="docutils literal notranslate"><span class="pre">extract_renewables</span></code> parameter, the script will extract the data from the Ninja API or use the data file provided by the user.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">power_type</span> <span class="ow">in</span> <span class="n">power_types</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">extract_renewables</span><span class="p">[</span><span class="n">power_type</span><span class="p">]:</span>
+        <span class="n">locations_power</span> <span class="o">=</span> <span class="n">locations</span><span class="p">[</span><span class="n">power_type</span><span class="p">]</span>
+        <span class="n">get_years_renewables</span><span class="p">(</span><span class="n">locations</span><span class="o">=</span><span class="n">locations_power</span><span class="p">,</span> <span class="n">power_type</span><span class="o">=</span><span class="n">power_type</span><span class="p">,</span> <span class="n">start_year</span><span class="o">=</span><span class="n">start_year</span><span class="p">,</span> 
+                            <span class="n">end_year</span><span class="o">=</span><span class="n">end_year</span><span class="p">,</span> <span class="n">name_data</span><span class="o">=</span><span class="n">name_data</span><span class="p">,</span> <span class="n">output</span><span class="o">=</span><span class="n">folder_raw_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/celia/miniforge3/envs/epm/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host &#39;www.renewables.ninja&#39;. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/Users/celia/miniforge3/envs/epm/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host &#39;www.renewables.ninja&#39;. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/Users/celia/miniforge3/envs/epm/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host &#39;www.renewables.ninja&#39;. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/Users/celia/miniforge3/envs/epm/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host &#39;www.renewables.ninja&#39;. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/Users/celia/miniforge3/envs/epm/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host &#39;www.renewables.ninja&#39;. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/Users/celia/miniforge3/envs/epm/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host &#39;www.renewables.ninja&#39;. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Waiting for a minute to not hit the API rate limit...
+Hit rate limit. Sleeping for 52.13 seconds.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="process-renewable-ninja-data">
+<h2>Process renewable ninja data<a class="headerlink" href="#process-renewable-ninja-data" title="Permalink to this heading">#</a></h2>
+<section id="explore-data">
+<h3>Explore data<a class="headerlink" href="#explore-data" title="Permalink to this heading">#</a></h3>
+<p>We begin by exploring basic statistics to verify that the selected geographic points for each country yield realistic values. Given that previous analyses have revealed biases in some capacity factor estimates obtained from Renewable Ninja, it is essential to systematically validate these figures against alternative sources.
+Useful references for cross-validation include:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.irena.org/Data/Energy-Profiles">IRENA Energy Profiles website</a></p></li>
+<li><p><a class="reference external" href="https://rezoning.energydata.info/explore?maxLCOE=false">ReZoning Energy Data</a>, which include aggregate capacity factor values.</p></li>
+</ul>
+<p>Some graphs are available to explore visually the data, including heatmaps and boxplots.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filenames</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_solar.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_wind.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">location_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tech</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="n">df_energy</span> <span class="o">=</span> <span class="n">format_data_energy</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">locations</span><span class="o">=</span><span class="n">location_map</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Representative year 2022
+Annual capacity factor (%): tech       zone      Wind
+0      namibia1  0.446790
+1      namibia2  0.425469
+2      namibia3  0.459714
+3      namibia4  0.469490
+4     zimbabwe1  0.541587
+5     zimbabwe2  0.536592
+6     zimbabwe3  0.538174
+7     zimbabwe4  0.539439
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">daily_df</span> <span class="o">=</span> <span class="n">df_energy</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">],</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">numeric_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;hour&#39;</span><span class="p">)</span>
+<span class="n">daily_df</span><span class="p">[</span><span class="s1">&#39;season-day&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">daily_df</span><span class="p">[</span><span class="s2">&quot;season&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; - &quot;</span> <span class="o">+</span> <span class="n">daily_df</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_energy</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;season&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>day                 137712.000
+hour                100740.000
+PV_DRC                1190.240
+PV_DRCSouth           1554.967
+PV_angola             1805.077
+PV_botswana           1880.998
+PV_eswatini           1828.075
+PV_lesotho            1935.720
+PV_malawi             1683.968
+PV_mozambique         1719.869
+PV_namibia            2003.039
+PV_southafrica        1986.424
+PV_tanzania           1665.396
+PV_zambia             1755.242
+PV_zimbabwe           1904.767
+Wind_DRC               874.587
+Wind_DRCSouth         3325.059
+Wind_angola           3809.386
+Wind_botswana         4694.115
+Wind_eswatini         3169.017
+Wind_lesotho          2850.794
+Wind_malawi           4137.213
+Wind_mozambique       4394.268
+Wind_namibia          4003.300
+Wind_southafrica      4319.649
+Wind_tanzania         4576.246
+Wind_zambia           4183.579
+Wind_zimbabwe         4671.767
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<section id="pv">
+<h4>PV<a class="headerlink" href="#pv" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_heatmap</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">tech</span><span class="o">=</span><span class="s1">&#39;PV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/441588e7fd72b8d0624f44f62e02bba05696032df7a5eab44b395bbe0d876790.png" src="../_images/441588e7fd72b8d0624f44f62e02bba05696032df7a5eab44b395bbe0d876790.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_boxplot</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">tech</span><span class="o">=</span><span class="s1">&#39;PV&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3ae239a515b8e7009d3917834494631df415fc8e2d1aa894dd6336e75cb971d4.png" src="../_images/3ae239a515b8e7009d3917834494631df415fc8e2d1aa894dd6336e75cb971d4.png" />
+</div>
+</div>
+</section>
+<section id="wind">
+<h4>Wind<a class="headerlink" href="#wind" title="Permalink to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_heatmap</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">tech</span><span class="o">=</span><span class="s1">&#39;Wind&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/cd3d6c3aba43b097133f28481d5767bd54b5904a2006bf0194e126280af2cb54.png" src="../_images/cd3d6c3aba43b097133f28481d5767bd54b5904a2006bf0194e126280af2cb54.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">make_boxplot</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">tech</span><span class="o">=</span><span class="s1">&#39;Wind&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e02c6a52c28946a726efa317079618db8f6c54255202e5af06d16fb44cacb57f.png" src="../_images/e02c6a52c28946a726efa317079618db8f6c54255202e5af06d16fb44cacb57f.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="group-monthly-values-into-seasons">
+<h3>Group monthly values into seasons<a class="headerlink" href="#group-monthly-values-into-seasons" title="Permalink to this heading">#</a></h3>
+<p>Renewable ninja data is processed to group months into season, to be used as input to EPM. This step may be skipped if one wishes to keep the seasonal definition at the monthly scale, or updated based on the seasonal grouping that makes the most sense for the case study at hand.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasons_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="mi">4</span>
+<span class="p">}</span>  <span class="c1"># grouping months into 4 seasons, to define according to user</span>
+
+<span class="n">filenames</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_solar.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+             <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_wind.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">]</span>
+             <span class="p">}</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;season&#39;</span><span class="p">:</span> <span class="s1">&#39;month&#39;</span><span class="p">})</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">seasons_dict</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">29</span><span class="p">))]</span>
+    <span class="c1"># Renumber days sequentially within each season</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;season_day&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;season&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">cumcount</span><span class="p">()</span> <span class="o">//</span> <span class="mi">24</span> <span class="o">+</span> <span class="mi">1</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;season_day&#39;</span><span class="p">:</span> <span class="s1">&#39;day&#39;</span><span class="p">})</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">])</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">filename</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">_season.csv&#39;</span><span class="p">,</span> <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="process-data">
+<h1>2. Process data<a class="headerlink" href="#process-data" title="Permalink to this heading">#</a></h1>
+<p>Here, you need to specifiy the location of the data file. The script will process the data and calculate the representative year.
+For <code class="docutils literal notranslate"><span class="pre">Load</span></code> data that is typically not available in the Ninja API, user need to provide a <code class="docutils literal notranslate"><span class="pre">.csv</span></code> file with columns <code class="docutils literal notranslate"><span class="pre">zone</span></code>, <code class="docutils literal notranslate"><span class="pre">season</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code>, <code class="docutils literal notranslate"><span class="pre">hour</span></code>.
+The data should have a header with the columns names as well as 8760 rows for each hour of the year.</p>
+<p>The script can handle multiple columns that are considered different load years, and will calculate the representative year to start the algorithm.
+The script can also handle multiple zones (ongoing development !).</p>
+<section id="input-parameters">
+<h2>Input parameters<a class="headerlink" href="#input-parameters" title="Permalink to this heading">#</a></h2>
+<p><strong>User-defined parameters</strong>
+User needs to change the following parameters in the following cell:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nbr_days</span></code> : Defines the number of representative days used in the Poncelet algorithm.</p></li>
+<li><p>Elements in <code class="docutils literal notranslate"><span class="pre">filenames</span></code>: Specify whether the input data should be treated as <code class="docutils literal notranslate"><span class="pre">standard</span></code> or <code class="docutils literal notranslate"><span class="pre">renewable_ninja</span></code>, depending on its source and formatting.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>: Only relevant if the clustering method is used to define special days (see below for more details). Specifies the number of clusters (i.e., representative days) to generate.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">settings.csv</span></code> file: This file defines the level of detail in the Poncelet algorithm. A higher number of zones or time series increases numerical complexity. Start with settings_bins10.csv (fewer bins) for easier computation. Increase the number of bins progressively if the problem remains easy to solve.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_features_selection</span></code> (optional): This enables automatic feature selection to reduce the number of time series used. It is useful when working with a large number of countries or zones, which can lead to a high number of pairwise correlations and significantly increase computational time. Use this option if the Poncelet algorithm becomes too slow to solve (e.g., more than a few minutes).</p></li>
+</ol>
+<p><strong>Data formatting</strong>
+Proper formatting of input data is essential for seamless integration into the model. Please follow these guidelines:</p>
+<p><strong>Renewable Ninja Data</strong>:</p>
+<p>If the data is extracted through this code, the formatting will be correct by default.
+The specification <code class="docutils literal notranslate"><span class="pre">renewable_ninja</span></code> should be specified in the filenames to indicate that the data originates from Renewable Ninja.</p>
+<p><strong>User-Specific Data</strong>:</p>
+<p>Example: capacity factors derived from actual production data provided by the client, or load demand provided by the utility.
+Users are responsible for ensuring that the data is formatted correctly. Reference examples are available in the data_test folder. The required columns are zone, season, day, hour, <year1>, <year2>, …
+In this case, the specification <code class="docutils literal notranslate"><span class="pre">standard</span></code> should be specified in the filenames to indicate that the data is formatted in the standard way.</p>
+</section>
+<section id="special-days-methodology">
+<h2>Special days methodology<a class="headerlink" href="#special-days-methodology" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Classical methodology</strong></p></li>
+</ol>
+<p>This method selects a few special days—typically those with:</p>
+<ul class="simple">
+<li><p>Minimum PV production</p></li>
+<li><p>Minimum wind production</p></li>
+<li><p>Maximum electricity load</p></li>
+</ul>
+<p>These days are assigned a weight of 1 in the final selected days. As a result, their impact on model results is generally limited — unless they reflect extreme conditions combined with a high Value of Lost Load (VOLL).</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>Clustering-Based Method (Ongoing)</strong>
+To increase the influence of extreme days on the model, a second approach is under development. It proceeds as follows:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Clustering: All days are grouped into k clusters using K-Means, and based on the features (VRE production and load).</p></li>
+<li><p>Selection of Extremes: Days with the lowest PV, lowest wind, and highest load are identified as special days. For multi-zone cases, total daily PV or wind production across all zones is used.</p></li>
+<li><p>Cluster Exclusion and Weight:</p>
+<ul>
+<li><p>The entire cluster containing each extreme day is excluded from the main dataset.</p></li>
+<li><p>The centroid (i.e., most representative day) of each excluded cluster is then included as a special day.</p></li>
+<li><p>This day is assigned a weight equal to the cluster’s share of the original dataset.</p></li>
+</ul>
+</li>
+</ul>
+<p>This method ensures that days with system stress (e.g., low renewable production) have a greater impact on optimization results through the higher weight.</p>
+<p><strong>Important Note</strong>:
+This methodology is still in development and should only be used by users familiar with its implications.</p>
+</section>
+<section id="classical-methodology">
+<h2>Classical methodology<a class="headerlink" href="#classical-methodology" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If extract_renewables is False, fill the following variables</span>
+<span class="n">filenames</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_solar_season.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+             <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_wind_season.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+             <span class="c1"># &#39;Load&#39;: [os.path.join(&#39;data_test&#39;, &#39;data_south_africa_load.csv&#39;), &#39;standard&#39;]</span>
+             <span class="p">}</span>
+
+<span class="n">location_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tech</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, all the data is processed and the representative year is calculated in one cell !</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read, select representative year and format the data from .csv files</span>
+<span class="n">df_energy</span> <span class="o">=</span> <span class="n">format_data_energy</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">locations</span><span class="o">=</span><span class="n">location_map</span><span class="p">)</span>
+
+<span class="c1"># Find special days and remove them</span>
+<span class="n">special_days</span> <span class="o">=</span> <span class="n">find_special_days</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_energy</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of hours in the year:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy</span><span class="p">))</span>
+
+<span class="c1"># Remove the special days from the data</span>
+<span class="n">df_energy_no_special</span> <span class="o">=</span> <span class="n">removed_special_days</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">special_days</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of hours in the year:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removed days:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_energy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">))</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span>
+
+<span class="c1"># Format the data (including correlation calculation) and save it in a .csv file</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">path_data_file</span> <span class="o">=</span> <span class="n">format_optim_repr_days</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">,</span> <span class="n">name_data</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">)</span>
+
+<span class="c1"># Proceed to feature selection to reduce the number of time series used in the Poncelet algorithm. </span>
+<span class="c1"># This step is only necessary if you are working with a large number of countries. In this case, there are many pairwise correlations, which will increase drastically the numerical complexity of the Poncelet algorithm. It is important to reduce their number.</span>
+<span class="n">n_features_selection</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="n">selected_series</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path_data_file_selection</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">select_representative_series_hierarchical</span><span class="p">(</span><span class="n">path_data_file</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_features_selection</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale_method</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">))</span>
+
+<span class="c1"># Launch the optimization to find the representative days. </span>
+<span class="n">nbr_days</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">path_data</span> <span class="o">=</span> <span class="n">path_data_file</span>  <span class="c1"># you want to include all the features to identify representative days</span>
+<span class="n">path_data</span> <span class="o">=</span> <span class="n">path_data_file_selection</span>  <span class="c1"># you only want to work with the reduced number of features to identify representative days</span>
+<span class="n">launch_optim_repr_days</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">,</span> <span class="n">nbr_days</span><span class="o">=</span><span class="n">nbr_days</span><span class="p">,</span> <span class="n">bins_settings</span><span class="o">=</span><span class="s1">&#39;settings_bins10&#39;</span><span class="p">)</span>
+
+<span class="c1"># Get the results</span>
+<span class="n">repr_days</span> <span class="o">=</span> <span class="n">parse_repr_days</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="n">special_days</span><span class="p">)</span>
+<span class="c1"># Format the data to be used in EPM</span>
+<span class="n">format_epm_phours</span><span class="p">(</span><span class="n">repr_days</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">,</span> <span class="n">name_data</span><span class="o">=</span><span class="n">name_data</span><span class="p">)</span>
+<span class="n">format_epm_pvreprofile</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">repr_days</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">,</span> <span class="n">name_data</span><span class="o">=</span><span class="n">name_data</span><span class="p">)</span>
+<span class="c1"># format_epm_demandprofile(df_energy, repr_days, main_folder, name_data=name_data)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Representative year 2022
+Annual capacity factor (%): tech         zone        PV      Wind
+0             DRC  0.135872  0.085138
+1        DRCSouth  0.177508  0.246418
+2          angola  0.206059  0.265434
+3        botswana  0.214726  0.470406
+4        eswatini  0.208684  0.392075
+5         lesotho  0.220973  0.326241
+6          malawi  0.192234  0.460542
+7      mozambique  0.196332  0.464603
+8         namibia  0.228657  0.446171
+9     southafrica  0.226761  0.521873
+10       tanzania  0.190114  0.525714
+11         zambia  0.200370  0.453931
+12       zimbabwe  0.217439  0.422827
+Number of hours in the year: 8760
+Number of hours in the year: 8568
+Removed days: 8.0
+File saved at: data/sapp/repr_days/data_formatted_optim_sapp.csv
+File saved at: /Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/data/sapp/repr_days/data_formatted_optim_sapp_selection.csv
+/Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/gams/OptimizationModel.gms /Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/data/sapp/repr_days/data_formatted_optim_sapp_selection.csv /Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/data/sapp/repr_days/data_formatted_optim_sapp_selection.csv
+Launch GAMS code
+End GAMS code
+Number of days: 16
+Total weight: 365
+season
+Q1    90.0
+Q2    91.0
+Q3    92.0
+Q4    92.0
+Name: weight, dtype: float64
+File saved at: data/sapp/repr_days/pHours_sapp.csv
+Number of hours: 365
+File saved at: data/sapp/repr_days/pVREProfile_sapp.csv
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/utils.py:862: FutureWarning: The previous implementation of stack is deprecated and will be removed in a future version of pandas. See the What&#39;s New notes for pandas 2.1.0 for details. Specify future_stack=True to adopt the new implementation and silence this warning.
+  pVREProfile = pVREProfile.stack(level=[&#39;fuel&#39;, &#39;zone&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="methodology-with-clustering-to-handle-special-days">
+<h2>Methodology with clustering to handle special days<a class="headerlink" href="#methodology-with-clustering-to-handle-special-days" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filenames</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_solar_season.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+             <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_raw_data</span><span class="p">,</span> <span class="s1">&#39;data_</span><span class="si">{}</span><span class="s1">_wind_season.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="s1">&#39;renewable_ninja&#39;</span><span class="p">],</span>
+             <span class="c1"># &#39;Load&#39;: [os.path.join(&#39;data_test&#39;, &#39;data_south_africa_load.csv&#39;), &#39;standard&#39;]</span>
+             <span class="p">}</span>
+
+<span class="n">location_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="n">locations</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tech</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="c1"># Clustering the data to extract clusters corresponding to extreme conditions</span>
+<span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">df_energy</span> <span class="o">=</span> <span class="n">format_data_energy</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">locations</span><span class="o">=</span><span class="n">location_map</span><span class="p">)</span>
+<span class="n">df_energy_cluster</span><span class="p">,</span> <span class="n">df_closest_days</span><span class="p">,</span> <span class="n">centroids_df</span> <span class="o">=</span> <span class="n">cluster_data_new</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">)</span>
+
+<span class="c1"># Extracting special days as centroids of the extreme clusters</span>
+<span class="n">special_days</span><span class="p">,</span> <span class="n">df_energy_no_special</span> <span class="o">=</span> <span class="n">get_special_days_clustering</span><span class="p">(</span><span class="n">df_closest_days</span><span class="p">,</span> 
+                                                                 <span class="n">df_energy_cluster</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of hours in the year:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removed days:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_energy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">))</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span>
+
+<span class="c1"># Format the data (including correlation calculation) and save it in a .csv file</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">path_data_file</span> <span class="o">=</span> <span class="n">format_optim_repr_days</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">,</span> <span class="n">name_data</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">)</span>
+
+<span class="c1"># Proceed to feature selection to reduce the number of time series used in the Poncelet algorithm. </span>
+<span class="n">n_features_selection</span> <span class="o">=</span> <span class="mi">30</span>
+
+<span class="n">selected_series</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path_data_file_selection</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">select_representative_series_hierarchical</span><span class="p">(</span><span class="n">path_data_file</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_features_selection</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale_method</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">))</span>
+
+<span class="c1"># Launch the optimization to find the representative days</span>
+<span class="n">n_rep_days</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">launch_optim_repr_days</span><span class="p">(</span><span class="n">path_data_file_selection</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">,</span> <span class="n">nbr_days</span><span class="o">=</span><span class="n">n_rep_days</span><span class="p">,</span> <span class="n">gams_model</span><span class="o">=</span><span class="s1">&#39;OptimizationModelZone&#39;</span><span class="p">,</span>
+                       <span class="n">bins_settings</span><span class="o">=</span><span class="s1">&#39;settings_bins10&#39;</span><span class="p">)</span>
+<span class="c1"># Get the results</span>
+<span class="n">repr_days</span> <span class="o">=</span> <span class="n">parse_repr_days</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="n">special_days</span><span class="p">)</span>
+<span class="c1"># Format the data to be used in EPM</span>
+<span class="n">format_epm_phours</span><span class="p">(</span><span class="n">repr_days</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">,</span> <span class="n">name_data</span><span class="o">=</span><span class="n">name_data</span><span class="p">)</span>
+<span class="n">format_epm_pvreprofile</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">repr_days</span><span class="p">,</span> <span class="n">main_folder</span><span class="p">,</span> <span class="n">name_data</span><span class="o">=</span><span class="n">name_data</span><span class="p">)</span>
+<span class="c1"># format_epm_demandprofile(df_energy, repr_days, main_folder, name_data=name_data)</span>
+ 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Representative year 2022
+Annual capacity factor (%): tech         zone        PV      Wind
+0             DRC  0.135872  0.085138
+1        DRCSouth  0.177508  0.246418
+2          angola  0.206059  0.265434
+3        botswana  0.214726  0.470406
+4        eswatini  0.208684  0.392075
+5         lesotho  0.220973  0.326241
+6          malawi  0.192234  0.460542
+7      mozambique  0.196332  0.464603
+8         namibia  0.228657  0.446171
+9     southafrica  0.226761  0.521873
+10       tanzania  0.190114  0.525714
+11         zambia  0.200370  0.453931
+12       zimbabwe  0.217439  0.422827
+Number of hours in the year: 8040
+Removed days: 30.0
+File saved at: data/sapp/repr_days/data_formatted_optim_sapp.csv
+File saved at: /Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/data/sapp/repr_days/data_formatted_optim_sapp_selection.csv
+/Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/gams/OptimizationModelZone.gms /Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/data/sapp/repr_days/data_formatted_optim_sapp_selection.csv /Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/data/sapp/repr_days/data_formatted_optim_sapp_selection.csv
+Launch GAMS code
+End GAMS code
+Number of days: 16
+Total weight: 365
+season
+Q1    90.0
+Q2    91.0
+Q3    92.0
+Q4    92.0
+Name: weight, dtype: float64
+File saved at: data/sapp/repr_days/pHours_sapp.csv
+Number of hours: 365
+File saved at: data/sapp/repr_days/pVREProfile_sapp.csv
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/celia/Documents/WorldBank/Energy_planning/SAPP_2025/Data/Planning-tools/utils.py:841: FutureWarning: The previous implementation of stack is deprecated and will be removed in a future version of pandas. See the What&#39;s New notes for pandas 2.1.0 for details. Specify future_stack=True to adopt the new implementation and silence this warning.
+  pVREProfile = pVREProfile.stack(level=[&#39;fuel&#39;, &#39;zone&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">special_days</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>days</th>
+      <th>weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>(1.0, 7.0)</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>(1.0, 74.0)</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>(2.0, 6.0)</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>(2.0, 24.0)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>(3.0, 87.0)</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>(3.0, 6.0)</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>(4.0, 42.0)</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>(4.0, 51.0)</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Visual exploration for the impact of the number of clusters</span>
+
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">df_energy</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_energy</span><span class="o">.</span><span class="n">season</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tmp</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]]</span>
+
+<span class="n">df_season_cluster</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">])[</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">inertia</span> <span class="o">=</span> <span class="p">[</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">cluster</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_season_cluster</span><span class="p">)</span><span class="o">.</span><span class="n">inertia_</span> <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">40</span><span class="p">)]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">40</span><span class="p">),</span> <span class="n">inertia</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/140b22010d4fa0315dbead320aa9a29ba5349105a68f3a0fc99e4de3132badf4.png" src="../_images/140b22010d4fa0315dbead320aa9a29ba5349105a68f3a0fc99e4de3132badf4.png" />
+</div>
+</div>
+</section>
+<section id="plot-results">
+<h2>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this heading">#</a></h2>
+<p>We can plot representative days to ensure they were correctly selected.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get data </span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;data_formatted_optim_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">input_file</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]</span>
+
+<span class="n">VREProfile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;pVREProfile_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="c1"># DemandProfile = pd.read_csv(os.path.join(main_folder, &#39;pDemandProfile_{}.csv&#39;.format(name_data)))</span>
+<span class="n">pHours</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;pHours_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">)),</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checking the results</span>
+
+<span class="c1"># === SETTINGS ===</span>
+<span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;Load&#39;</span>  <span class="c1"># can be &#39;PV&#39;, &#39;Wind&#39;, or &#39;Load&#39;</span>
+<span class="n">rep_days</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>  <span class="c1"># example: [&#39;d1&#39;] or &#39;all&#39; or None</span>
+<span class="n">rep_days</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;d1&#39;</span><span class="p">]</span>
+<span class="n">color_types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;Load&#39;</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">}</span>
+<span class="n">season_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Q1&#39;</span><span class="p">:</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q2&#39;</span><span class="p">:</span> <span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q3&#39;</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q4&#39;</span><span class="p">:</span> <span class="s1">&#39;seagreen&#39;</span><span class="p">}</span>
+
+<span class="n">plot_days_new2</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="n">rep_days</span><span class="o">=</span><span class="n">rep_days</span><span class="p">,</span> <span class="n">input_file</span><span class="o">=</span><span class="n">input_file</span><span class="p">,</span> <span class="n">vre_profile</span><span class="o">=</span><span class="n">VREProfile</span><span class="p">,</span> <span class="n">pHours</span><span class="o">=</span><span class="n">pHours</span><span class="p">,</span>
+          <span class="n">season_colors</span><span class="o">=</span><span class="n">season_colors</span><span class="p">,</span> <span class="n">countries</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tanzania&#39;</span><span class="p">],</span> <span class="n">min_alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7b68bd69fc4d67c616312a4a5894de920816b5dafbb4e92fcd5d54526292ff00.png" src="../_images/7b68bd69fc4d67c616312a4a5894de920816b5dafbb4e92fcd5d54526292ff00.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checking the results</span>
+
+<span class="c1"># === SETTINGS ===</span>
+<span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;Load&#39;</span>  <span class="c1"># can be &#39;PV&#39;, &#39;Wind&#39;, or &#39;Load&#39;</span>
+<span class="n">rep_days</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>  <span class="c1"># example: [&#39;d1&#39;] or &#39;all&#39; or None</span>
+<span class="n">rep_days</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;d1&#39;</span><span class="p">]</span>
+<span class="n">color_types</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="s1">&#39;Load&#39;</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">}</span>
+<span class="n">season_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Q1&#39;</span><span class="p">:</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q2&#39;</span><span class="p">:</span> <span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q3&#39;</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q4&#39;</span><span class="p">:</span> <span class="s1">&#39;seagreen&#39;</span><span class="p">}</span>
+
+<span class="n">plot_days_new2</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">type</span><span class="p">,</span> <span class="n">rep_days</span><span class="o">=</span><span class="n">rep_days</span><span class="p">,</span> <span class="n">input_file</span><span class="o">=</span><span class="n">input_file</span><span class="p">,</span> <span class="n">vre_profile</span><span class="o">=</span><span class="n">VREProfile</span><span class="p">,</span> <span class="n">pHours</span><span class="o">=</span><span class="n">pHours</span><span class="p">,</span>
+          <span class="n">season_colors</span><span class="o">=</span><span class="n">season_colors</span><span class="p">,</span> <span class="n">countries</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;southafrica&#39;</span><span class="p">],</span> <span class="n">min_alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b918d6309e32c15daa9fc9630397925af1f76cc8e61aea7b039a3f1dc5b981c8.png" src="../_images/b918d6309e32c15daa9fc9630397925af1f76cc8e61aea7b039a3f1dc5b981c8.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot PV profile</span>
+<span class="n">path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;pVREProfile_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_file</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">droplevel</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">xs</span><span class="p">(</span><span class="s1">&#39;PV&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s1">&#39;Power&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]</span>
+<span class="n">plot_dispatch</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;season&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/39731d0f416a5935d0b5c60843a49f7cd28f6bbb4138d2a835091ebb3be6fe08.png" src="../_images/39731d0f416a5935d0b5c60843a49f7cd28f6bbb4138d2a835091ebb3be6fe08.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;Axes: xlabel=&#39;season&#39;&gt;
+</pre></div>
+</div>
+<img alt="../_images/7d2fb1abf683101003de9b036606ee325a90f728ca296a7eb15a321ff07f0c53.png" src="../_images/7d2fb1abf683101003de9b036606ee325a90f728ca296a7eb15a321ff07f0c53.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Demand profile</span>
+<span class="n">path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">main_folder</span><span class="p">,</span> <span class="s1">&#39;pDemandProfile_</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name_data</span><span class="p">))</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path_file</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">droplevel</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]</span>
+<span class="n">plot_dispatch</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bff3d5fdf742743a6dd4c8603b2987e98407912ac7c5e0bb43206fc88b1a0521.png" src="../_images/bff3d5fdf742743a6dd4c8603b2987e98407912ac7c5e0bb43206fc88b1a0521.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="related_projects.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Planning-Tools</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="models_overview.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Utility Models Overview</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   What this script does ?
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#user-input-parameters-to-manually-change">
+   User input parameters (to manually change)
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-the-folder-structure">
+     Create the folder structure
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-data-from-renewables-ninja">
+   1. Extract data from Renewables Ninja
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#process-renewable-ninja-data">
+     Process renewable ninja data
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#explore-data">
+       Explore data
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#pv">
+         PV
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#wind">
+         Wind
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#group-monthly-values-into-seasons">
+       Group monthly values into seasons
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process-data">
+   2. Process data
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-parameters">
+     Input parameters
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#special-days-methodology">
+     Special days methodology
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classical-methodology">
+     Classical methodology
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#methodology-with-clustering-to-handle-special-days">
+     Methodology with clustering to handle special days
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-results">
+     Plot results
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By ESMAP
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Jun 04, 2025.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>
