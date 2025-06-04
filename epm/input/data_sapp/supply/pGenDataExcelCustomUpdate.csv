@@ -245,11 +245,8 @@ MorupuleA_TH_BWA,Botswana,ST,Coal,1989,2026,132,1,,11.373804,,,,,,,,0,,,0,,0,0.1
 MorupuleB_TH_BWA,Botswana,ST,Coal,2012,2055,390,1,,10.34068347,,,,,,,,0,,,0,,0,0.1,0,390
 MorupuleBupgrade_TH_BWA,Botswana,ST,Coal,2022,2052,130,1,,10.34068347,,,,,,,,0,,,0,,0,0.05,0,130
 Mota_Engil_C_MWI,Malawi,ST,Coal,2055,2060,0,3,,9.853126851,,,,,,,,2.84,,0,0,,0,0.05,0,0
-MozCCCGTNG_TH_MOZ,Mozambique,CCGT,LNG,2026,2080,5000,3,,,,,,,,,,1.245080501,,500,0,7,7.1,0.05,0,0
-MozCEnginesNG_TH_MOZ,Mozambique,OCGT,Gas,2026,2076,5000,3,0.2,,,,,,,,,1.016815742,,500,0,7,9.7,0.05,0,0
-MozMGTPEDMSasolCTTemane_TH_MOZ,Mozambique,CCGT,LNG,2026,2076,400,3,,,,,,,,,,1.245080501,,400,0,7,7.1,0.05,0,0
+MozCCCGTNG_TH_MOZ,Mozambique,CCGT,LNG,2026,2080,400,3,,,,,,,,,,1.245080501,,100,0,7,7.1,0.05,0,0
 MozMGTPEDMSasolGT_TH_MOZ,Mozambique,CCGT,Gas,2024,2074,450,2,,9,,,,,,,0,1.25,,420,0,7,9.7,0.05,0,0
-MozNEnginesNG_TH_MOZ,Mozambique,ICE,HFO,2024,2054,250,3,,10.41544727,,,,,,,,0.933810376,,250,0,,0,0.06,0,0
 Mpanga,Tanzania,ReservoirHydro,Water,2030,2060,160,3,,,0.13,0.13,,0.51,1640,0.5,,1.9,50,160,,,,,,
 Mpatamanga_Opt,Malawi,ReservoirHydro,Water,2030,2060,358,2,,,,,,0.325077306,,,0,2.79,50,359,0,,0,0,0,0
 MphandaNkuwa_HY_MOZ,Mozambique,ReservoirHydro,Water,2031,2060,1500,2,,,,,,0.406440138,,,0,4.436550388,50,1500,0,,0,0,0,0
@@ -283,7 +280,7 @@ New_BESS_BWA,Botswana,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,100,0,,0,0,0,0
 New_BESS_DRC,DRC,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
 New_BESS_DRCSouth,DRC_South,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
 New_BESS_LSO,Lesotho,Storage,Battery,2027,2055,500,3,,,,,,,,,,,,50,0,,0,0,0,0
-New_BESS_MOZ,Mozambique,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
+New_BESS_MOZ,Mozambique,Storage,Battery,2032,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_MWI,Malawi,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,100,0,,0,0,0,0
 New_BESS_NAM,Namibia,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,400,0,,0,0,0,0
 New_BESS_SWZ,Eswatini,Storage,Battery,2027,2055,1000,3,,,,,,,,,,,,100,0,,0,0,0,0
@@ -301,7 +298,7 @@ New_CSP_ZAF,South_Africa,CSPPlant,CSP,2030,2060,0,3,,0,1,1,0,0.8,22000,3,0,1.865
 New_CSP_ZAF_2024,South_Africa,CSPPlant,CSP,2024,2054,0,2,,0,1,1,0,0.8,22000,3,0,1.865,30,100,0,,0,0,0,0
 New_CSP_ZMB,Zambia,CSPPlant,CSP,2024,2055,0,3,,0,1,1,0,0.8,22000,3,0,1.8,30,500,0,,0,0,0,0
 New_OffshoreWind_AGO,Angola,OffshoreWind,Wind,2030,2060,8000,3,,0,1,1,0,0,70000,0,0,3.3,30,600,0,,0,0,1,0
-New_OffshoreWind_MOZ,Mozambique,OffshoreWind,Wind,2030,2060,8000,3,,0,1,1,0,0,70000,0,0,3.2,30,600,0,,0,0,1,0
+New_OffshoreWind_MOZ,Mozambique,OffshoreWind,Wind,2033,2060,8000,3,,0,1,1,0,0,70000,0,0,3.2,30,600,0,,0,0,1,0
 New_OffshoreWind_NAM,Namibia,OffshoreWind,Wind,2030,2060,8000,3,,0,1,1,0,0,70000,0,0,3.3,30,600,0,,0,0,1,0
 New_OffshoreWind_ZAF,South_Africa,OffshoreWind,Wind,2030,2060,20200,3,,,,,,,,,,3.4,30,1515,0,,0,0,1,0
 New_OnshoreWind_AGO,Angola,OnshoreWind,Wind,2028,2060,8000,3,,0,1,1,,,,,,,,600,0,,0,0,1,0
@@ -309,7 +306,8 @@ New_OnshoreWind_BWA,Botswana,OnshoreWind,Wind,2026,2061,8000,3,,0,1,1,,,,,,,,200
 New_OnshoreWind_DRC,DRC,OnshoreWind,Wind,2026,2056,4000,3,,0,1,1,,,,,,,,300,0,,0,0,1,0
 New_OnshoreWind_DRCSouth,DRC_South,OnshoreWind,Wind,2026,2056,4000,3,,0,1,1,,,,,,,,300,0,,0,0,1,0
 New_OnshoreWind_LSO,Lesotho,OnshoreWind,Wind,2026,2056,500,3,,0,1,1,,,,,,,,300,0,,0,0,1,0
-New_OnshoreWind_MOZ,Mozambique,OnshoreWind,Wind,2026,2056,8000,3,,0,1,1,,,,,,,,250,0,,0,0,1,0
+New_OnshoreWind2026_MOZ,Mozambique,OnshoreWind,Wind,2026,2056,100,3,,0,1,1,,,,,,,,50,0,,0,0,1,0
+New_OnshoreWind2030_MOZ,Mozambique,OnshoreWind,Wind,2030,2056,8000,3,,0,1,1,,,,,,,,250,0,,0,0,1,0
 New_OnshoreWind_NAM,Namibia,OnshoreWind,Wind,2026,2058,8000,3,,0,1,1,,,,,,,,100,0,,0,0,1,0
 New_OnshoreWind_SWZ,Eswatini,OnshoreWind,Wind,2026,2060,1000,3,,0,1,1,,,,,,,,300,0,,0,0,1,0
 New_OnshoreWind_TZA,Tanzania,OnshoreWind,Wind,2025,2060,10000,3,,,,,,,,,,,,500,,,,,,
@@ -318,7 +316,7 @@ New_OnshoreWind_ZMB,Zambia,OnshoreWind,Wind,2026,2061,5000,3,,0,1,1,,,,,,,,375,0
 New_OnshoreWind_ZWE,Zimbabwe,OnshoreWind,Wind,2026,2058,8000,3,,0,1,1,,,,,,,,375,0,,0,0,1,0
 New_Pangani_Falls,Tanzania,ReservoirHydro,Water,1995,2060,68,1,,,0.25,0.25,,0.2,3400,0.003,,,,,,,,,,
 New_PV_2026_AGO,Angola,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,1000,0,,0,0,1,0
-New_PV_2026_MOZ,Mozambique,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,250,0,,0,0,1,0
+New_PV_2026_MOZ,Mozambique,PV,Solar,2027,2060,200,3,,0,,,,,,,,,,100,0,,0,0,1,0
 New_PV_2030_AGO,Angola,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,1000,0,,0,0,1,0
 New_PV_2030_MOZ,Mozambique,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,250,0,,0,0,1,0
 New_PV_BWA,Botswana,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,200,0,,0,0,1,0
