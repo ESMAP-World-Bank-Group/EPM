@@ -3230,7 +3230,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         - geojson_to_epm (dict): Updated mapping of GeoJSON names to EPM zones.
     """
     assert ((dict_specs is not None) or (geojson_to_epm is not None)), "Mapping zone names from geojson to EPM must be provided either under dict_specs or under geojson_to_epm"
-    assert ((epm_results is not None) or (selected_zones is not None)), "Selected zones must be provided either by passing EPM results to the function in epm_results or by specifying them directly under selected zones"
+
     if dict_specs is None:
         if 'postprocessing' in os.getcwd():
             dict_specs = read_plot_specs(folder='')
@@ -3245,7 +3245,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     geojson_to_divide = geojson_to_epm.loc[geojson_to_epm.region.notna()]
     geojson_complete = geojson_to_epm.loc[~geojson_to_epm.region.notna()]
     if selected_zones is None:
-        selected_zones_epm = epm_results['pAnnualTransmissionCapacity'].zone.unique()
+        selected_zones_epm = geojson_to_epm['EPM'].unique()
     else:
         selected_zones_epm = selected_zones
     selected_zones_to_divide = [e for e in selected_zones_epm if e in geojson_to_divide['EPM'].values]
