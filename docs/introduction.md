@@ -1,4 +1,4 @@
-## About
+## About EPM
 
 EPM (Electricity Planning Model) is a **least-cost power system planning tool**. EPM has been developed by the Power Systems Planning Group, embedded in the **Energy Sector Management Assistance Program (ESMAP) of the World Bank**. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank's staff and clients and to be an evolving and versatile decision-making tool. 
 
