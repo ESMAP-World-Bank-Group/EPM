@@ -454,15 +454,14 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
 
     if keys is None:  # default keys to process in output
         keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
-                'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice', 'pHourlyFlow',
-                'pDispatch', 'pFuelDispatch', 'pPlantFuelDispatch', 'pInterconUtilization',
-                'pSpinningReserveByPlantCountry', 'InterconUtilization', 'pCongested', 'pInterchange', 'Interchange', 'interchanges', 'pInterconUtilizationExtImp',
-                'pInterconUtilizationExtExp', 'pInterchangeExtExp', 'InterchangeExtImp', 'annual_line_capa', 'pAnnualTransmissionCapacity',
-                'AdditiononalCapacity_trans', 'pDemandSupplySeason', 'pCurtailedVRET', 'pCurtailedStoHY',
-                'pNewCapacityFuelCountry', 'pPlantAnnualLCOE', 'pStorageComponents', 'pNPVByYear',
+                'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice',
+                'pDispatch', 'pFuelDispatch', 'pInterconUtilization',
+                'pSpinningReserveByPlantCountry', 'pCongested', 'pInterchange',
+                'pAnnualTransmissionCapacity', 'AdditiononalCapacity_trans', 'pCurtailedVRET',
+                'pNewCapacityFuelCountry', 'pPlantAnnualLCOE',
                 'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
                 'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
-                'pCostsbyPlant', 'pYearlyTrade', 'pSolverParameters'}
+                'pCostsbyPlant', 'pSolverParameters'}
 
     rename_keys = {}
     for k in keys:
@@ -512,7 +511,6 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     standardize_names(epm_dict, 'pFuelUtilization', dict_specs['fuel_mapping'])
 
     standardize_names(epm_dict, 'pFuelDispatch', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pPlantFuelDispatch', dict_specs['tech_mapping'])
 
     # Add fuel type to the results
     if mapping_gen_fuel is not None:
