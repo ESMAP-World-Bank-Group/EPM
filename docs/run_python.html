@@ -1497,7 +1497,7 @@ This CSV file defines which input files correspond to which parameters in the mo
 <section id="example-usage">
 <h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this heading">#</a></h2>
 <p>Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--config<span class="w"> </span>input/data_test_region/config.csv<span class="w"> </span>--sensitivity<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span>
 </pre></div>
 </div>
 <p>Run postprocessing only on a previous simulation folder:</p>
@@ -1505,7 +1505,7 @@ This CSV file defines which input files correspond to which parameters in the mo
 </pre></div>
 </div>
 <p>Run Monte Carlo analysis with 20 samples and a specified uncertainties file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/uncertainties.csv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--config<span class="w"> </span>input/data_test_region/config.csv<span class="w"> </span>--montecarlo<span class="w"> </span>--montecarlo_samples<span class="w"> </span><span class="m">20</span><span class="w"> </span>--uncertainties<span class="w"> </span>input/data_test_region/uncertainties.csv
 </pre></div>
 </div>
 </section>
