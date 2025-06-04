@@ -18,9 +18,18 @@ xlsxReport.cmd
 /epm/postprocessing/Results
 /epm/postprocessing/main_postprocessing.py
 
-/epm/input/data_guinea.xlsx
-
+# Ignore everything in epm/output except 'tableau' folder
 epm/output/*
+!epm/output/tableau/
+
+# Keep specific files inside 'tableau'
+!epm/output/tableau/*.twb
+!epm/output/tableau/ESMAP_logo.png
+!epm/output/tableau/linestring_countries.geojson
+!epm/output/tableau/geojson_to_epm.csv
+
+# Ignore everything inside 'scenarios' folder (even if user adds files)
+epm/output/tableau/scenarios/*
 
 # Ignore everything in the input directory
 input/*
