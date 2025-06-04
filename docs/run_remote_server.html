@@ -1107,7 +1107,7 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="clone-the-epm-repository">
 <h2>3. Clone the EPM Repository<a class="headerlink" href="#clone-the-epm-repository" title="Permalink to this heading">#</a></h2>
-<p>Storage rules</p>
+<p><strong>Storage rules</strong></p>
 <ul class="simple">
 <li><p>Do <strong>not</strong> store data, code, or results in <code class="docutils literal notranslate"><span class="pre">/home/wb_yourID/</span></code>.</p></li>
 <li><p>Use the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> directory for <strong>all</strong> storage and simulations. This is where disk space is allocated.</p></li>
@@ -1165,10 +1165,14 @@ git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </
 conda<span class="w"> </span>--version
 </pre></div>
 </div>
-<p>All simulations must be run from the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> folder, not from <code class="docutils literal notranslate"><span class="pre">/home</span></code>.</p>
+<p>All simulations must be run from the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> folder, not from <code class="docutils literal notranslate"><span class="pre">/home</span></code>.
+To do so, you should change working directory after connecting to the server:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/Data
+<span class="nb">cd</span><span class="w"> </span>yourdirectory/EPM/epm
+</pre></div>
+</div>
 <p>Each time you run:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
-<span class="nb">cd</span><span class="w"> </span>EPM/epm
 python<span class="w"> </span>run_epm.py
 </pre></div>
 </div>
@@ -1207,6 +1211,65 @@ gams<span class="w"> </span>main.gms<span class="w"> </span>--FOLDER_INPUT<span 
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>epm.py
 </pre></div>
 </div>
+<p>You get a list of all active processes related to the script <a class="reference external" href="http://epm.py">epm.py</a>. Each line corresponds to a running process. Here’s how to read one. Example line:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>wb636520<span class="w">  </span><span class="m">999873</span><span class="w">  </span><span class="m">6</span>.9<span class="w">  </span><span class="m">0</span>.0<span class="w">  </span><span class="m">891358</span><span class="w"> </span><span class="m">184220</span><span class="w"> </span>?<span class="w">  </span>Sl<span class="w">  </span><span class="m">11</span>:49<span class="w">  </span><span class="m">0</span>:07<span class="w"> </span>python<span class="w"> </span>epm.py<span class="w"> </span>
+</pre></div>
+</div>
+<p>Here is a column-by-column Breakdown</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Column</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>wb636520</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">USER</span></code></p></td>
+<td><p>User who launched the process</p></td>
+</tr>
+<tr class="row-odd"><td><p>999873</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PID</span></code></p></td>
+<td><p>Process ID — unique identifier for the process</p></td>
+</tr>
+<tr class="row-even"><td><p>6.9</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%CPU</span></code></p></td>
+<td><p>CPU usage percentage</p></td>
+</tr>
+<tr class="row-odd"><td><p>0.0</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%MEM</span></code></p></td>
+<td><p>Memory usage percentage</p></td>
+</tr>
+<tr class="row-even"><td><p>891358</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">VSZ</span></code></p></td>
+<td><p>Virtual memory size (in kilobytes)</p></td>
+</tr>
+<tr class="row-odd"><td><p>184220</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RSS</span></code></p></td>
+<td><p>Resident Set Size — physical memory usage (in kilobytes)</p></td>
+</tr>
+<tr class="row-even"><td><p>?</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TTY</span></code></p></td>
+<td><p>Terminal controlling the process (<code class="docutils literal notranslate"><span class="pre">?</span></code> means none; typical for background)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sl</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">STAT</span></code></p></td>
+<td><p>Process status (e.g., <code class="docutils literal notranslate"><span class="pre">S</span></code> = sleeping, <code class="docutils literal notranslate"><span class="pre">R</span></code> = running, <code class="docutils literal notranslate"><span class="pre">Z</span></code> = zombie) + flags</p></td>
+</tr>
+<tr class="row-even"><td><p>11:49</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">START</span></code></p></td>
+<td><p>Time the process started (HH:MM or date)</p></td>
+</tr>
+<tr class="row-odd"><td><p>0:07</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TIME</span></code></p></td>
+<td><p>Total CPU time the process has used so far</p></td>
+</tr>
+<tr class="row-even"><td><p>python <a class="reference external" href="http://epm.py">epm.py</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">COMMAND</span></code></p></td>
+<td><p>Command used to launch the process, including all arguments</p></td>
+</tr>
+</tbody>
+</table>
 <p>To stop it if needed:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">kill</span><span class="w"> </span>-9<span class="w"> </span>&lt;PID&gt;
 </pre></div>
@@ -1224,7 +1287,7 @@ gams<span class="w"> </span>main.gms<span class="w"> </span>--FOLDER_INPUT<span 
 <li><p><strong>Go up one level</strong>: <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">..</span></code></p></li>
 <li><p><strong>Print current directory</strong>: <code class="docutils literal notranslate"><span class="pre">pwd</span></code></p></li>
 <li><p><strong>Make directory</strong>: <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">new_folder</span></code></p></li>
-<li><p><strong>Delete directory and contents</strong>: <code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-r</span> <span class="pre">folder_name</span></code> <em>(⚠ irreversible)</em></p></li>
+<li><p><strong>Delete directory and contents</strong>: <code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span> <span class="pre">folder_name</span></code> <em>(⚠ irreversible)</em></p></li>
 </ul>
 </section>
 <section id="server-usage-tips">

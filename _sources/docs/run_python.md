@@ -237,7 +237,7 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:
 
 ```bash
-python epm.py --folder_input data_test_region --sensitivity --cpu 4
+python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --sensitivity --cpu 4
 ```
 
 Run postprocessing only on a previous simulation folder:
@@ -247,7 +247,7 @@ python epm.py --postprocess simulations_run_2025-05-01_12-00-00
 
 Run Monte Carlo analysis with 20 samples and a specified uncertainties file:
 ```bash
-python epm.py --montecarlo --montecarlo_samples 20 --uncertainties input/uncertainties.csv
+python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --montecarlo --montecarlo_samples 20 --uncertainties input/data_test_region/uncertainties.csv
 ``` 
 
 
