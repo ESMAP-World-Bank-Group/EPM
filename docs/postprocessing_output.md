@@ -9,7 +9,6 @@ When launching the EPM model with the Python API, the framework generates a comp
 
 All outputs are grouped by scenario (e.g., `baseline`) and stored in a timestamped output folder for traceability.
 
-
 After running the model, EPM creates a general output folder named:
 
 ```
@@ -42,10 +41,15 @@ simulations_run_<timestamp>/
 ├── simulations_scenarios.csv        # Metadata and status for all scenarios run
 ```
 
----
-
-### Notes
-
-- This structure is generated **automatically** for each run.
+- This structure is generated **automatically** for each run done with Python.
 - When running **multiple scenarios**, results are merged in shared summary and comparison outputs, but each scenario still produces its own dedicated subfolders.
 - The `img/` folder only appears if plotting is enabled and includes both per-scenario and cross-scenario visuals.
+---
+## Ouput Workflows
+
+There are two main workflows for visualizing EPM model results:
+- _Tableau_ for interactive exploration and dashboards
+- _Python_ for custom plots and analyses, relying on in-house libraries. Check out the Advanced Topics for more details.
+
+
+
