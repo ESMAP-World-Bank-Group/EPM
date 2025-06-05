@@ -1202,12 +1202,31 @@ gams<span class="w"> </span>main.gms<span class="w"> </span>--FOLDER_INPUT<span 
 <hr class="docutils" />
 <section id="run-in-background-essential-for-long-runs">
 <h2>6. Run in Background (Essential for Long Runs)<a class="headerlink" href="#run-in-background-essential-for-long-runs" title="Permalink to this heading">#</a></h2>
-<p>To <strong>start a long simulation and disconnect safely</strong>, add <code class="docutils literal notranslate"><span class="pre">nohup</span></code> at the beginning and <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> at the end of your command:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>nohup<span class="w"> </span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_sapp<span class="w"> </span>--sensitivity<span class="w"> </span><span class="p">&amp;</span>
+<p>For long-running simulations, it is important that your job continues running even if you disconnect from the server. This can be achieved using <code class="docutils literal notranslate"><span class="pre">tmux</span></code>, a terminal multiplexer that allows you to create virtual sessions that persist after logout.</p>
+<p>Start a new tmux session, and then, inside the session, launch your job (adjust the command as needed):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>tmux<span class="w"> </span>new<span class="w"> </span>-s<span class="w"> </span>epmrun
+python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--config<span class="w"> </span>input/data_test_region/config.csv<span class="w"> </span>--sensitivity<span class="w"> </span>
 </pre></div>
 </div>
-<p>This ensures the process keeps running even after you close the server session.</p>
-<p>To verify it’s still running:</p>
+<p>To leave the session without stopping your job, press the following key sequence:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>Ctrl<span class="w"> </span>+<span class="w"> </span>B,<span class="w"> </span><span class="k">then</span><span class="w"> </span>D
+</pre></div>
+</div>
+<p>This detaches the session and sends it to the background, allowing your job to continue running.</p>
+<p>If the keyboard shortcut does not work (e.g., due to terminal configuration), you can also run the following from another terminal:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>tmux<span class="w"> </span>detach-client
+</pre></div>
+</div>
+<p>To see all active tmux sessions:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>tmux<span class="w"> </span>list-sessions
+</pre></div>
+</div>
+<p>If your session appears with <code class="docutils literal notranslate"><span class="pre">(attached)</span></code>, it is still active in a terminal window. If not, it is safely detached and running in the background.</p>
+<p>To reconnect to a running session:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>tmux<span class="w"> </span>attach<span class="w"> </span>-t<span class="w"> </span>epmrun
+</pre></div>
+</div>
+<p>To verify processes running:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>epm.py
 </pre></div>
 </div>
@@ -1477,7 +1496,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Jun 04, 2025.<br>
+Last updated on Jun 05, 2025.<br>
 </p>
   </div>
   
