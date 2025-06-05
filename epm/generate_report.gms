@@ -335,18 +335,20 @@ pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsT
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
                                                     
 
-pCostSummary(z,"Annualized capex: $m"                    ,y) = pAnncapex(z,y)/1e6;
-pCostSummary(z,"Fixed O&M: $m"                           ,y) = pFOM(z,y)/1e6;
-pCostSummary(z,"Variable O&M: $m"                        ,y) = pVOM(z,y)/1e6;
-pCostSummary(z,"Total fuel Costs: $m"                    ,y) = pFuelCostsZone(z,y)/1e6;
-pCostSummary(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
-pCostSummary(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
-pCostSummary(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
-pCostSummary(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
-pCostSummary(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
-pCostSummary(z,"Import costs with external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
-pCostSummary(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
-pCostSummary(z,"Trade shared benefits: $m"               ,y) = pTradeSharedBenefits(z,y)/1e6;
+pCostSummary(z,"Annualized capex: $m"                        ,y) = pAnncapex(z,y)/1e6;
+pCostSummary(z,"Fixed O&M: $m"                               ,y) = pFOM(z,y)/1e6;
+pCostSummary(z,"Variable O&M: $m"                            ,y) = pVOM(z,y)/1e6;
+pCostSummary(z,"Total fuel Costs: $m"                        ,y) = pFuelCostsZone(z,y)/1e6;
+pCostSummary(z,"Transmission additions: $m"                  ,y) = pNewTransmissionCosts(z,y)/1e6;
+pCostSummary(z,"Spinning Reserve costs: $m"                  ,y) = pSpinResCosts(z,y)/1e6;
+pCostSummary(z,"Unmet demand costs: $m"                      ,y) = pUSECosts(z,y)/1e6;
+pCostSummary(z,"Excess generation: $m"                       ,y) = pSurplusCosts(z,y)/1e6;
+pCostSummary(z,"VRE curtailment: $m"                         ,y) = pVRECurtailment(z,y)/1e6;
+pCostSummary(z,"Import costs with external zones: $m"        ,y) = pImportCostsExternal(z,y)/1e6;
+pCostSummary(z,"Export revenues with external zones: $m"     ,y) = pExportRevenuesExternal(z,y)/1e6;
+pCostSummary(z,"Import costs with internal zones: $m"        ,y) = pImportCostsTopology(z,y)/1e6;
+pCostSummary(z,"Export revenues with internal zones: $m"     ,y) = pExportRevenuesTopology(z,y)/1e6;
+pCostSummary(z,"Trade shared benefits: $m"                   ,y) = pTradeSharedBenefits(z,y)/1e6;
 
 
 *--- Cost Summary Unweighted by country
