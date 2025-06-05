@@ -137,15 +137,41 @@ gams main.gms --FOLDER_INPUT input_folder
 
 ## 6. Run in Background (Essential for Long Runs)
 
-To **start a long simulation and disconnect safely**, add `nohup` at the beginning and `&` at the end of your command:
+For long-running simulations, it is important that your job continues running even if you disconnect from the server. This can be achieved using `tmux`, a terminal multiplexer that allows you to create virtual sessions that persist after logout.
 
-```sh
-nohup python epm.py --folder_input data_sapp --sensitivity &
+Start a new tmux session, and then, inside the session, launch your job (adjust the command as needed):
+
+```sh 
+tmux new -s epmrun
+python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --sensitivity 
 ```
 
-This ensures the process keeps running even after you close the server session.
 
-To verify it’s still running:
+To leave the session without stopping your job, press the following key sequence:
+```sh 
+Ctrl + B, then D
+```
+
+This detaches the session and sends it to the background, allowing your job to continue running.
+
+If the keyboard shortcut does not work (e.g., due to terminal configuration), you can also run the following from another terminal:
+```sh 
+tmux detach-client
+```
+
+To see all active tmux sessions:
+```sh 
+tmux list-sessions
+```
+
+If your session appears with `(attached)`, it is still active in a terminal window. If not, it is safely detached and running in the background.
+
+To reconnect to a running session:
+```sh 
+tmux attach -t epmrun
+```
+
+To verify processes running:
 ```sh
 ps aux | grep epm.py
 ```
