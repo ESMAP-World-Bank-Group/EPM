@@ -2,8 +2,9 @@
 
 Tableau is the recommended approach for most users, providing a user-friendly interface for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
 
-Example: _[SAPP overview](https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes)_  
-_[SAPP comparison of scenarios](https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes)_
+Example: 
+- _[SAPP overview](https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes)_  
+- _[SAPP comparison of scenarios](https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes)_
 
 This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.
 
@@ -81,19 +82,24 @@ Upload the folder to OneDrive to access from the shared VDI machine. From the VD
 
 ## 4. Connect to the shared VDI
 
-Tableau is pre-installed on the shared VDI machine. 
-You may need to register if this is your first connection.
+Tableau is pre-installed on the shared VDI machine with the shared Tableau license. 
+You may still need to register if this is your first connection.
 
 ## 5. Open the Tableau file
 
-From the shared VDI, click on the `.twb` file corresponding to your desired visualization.
+From the shared VDI, click on the `.twb` file corresponding to your desired visualization in the folder created in Step 1.
 
 **Available Tableau interfaces**:  
 - **Single scenario viewer**: Use for exploring one scenario at a time: [ESMAP_Tableau_Overview.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb)
 - **Scenario comparison viewer**: Use for comparing multiple scenarios side by side: [ESMAP_Tableau_Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Compare.twb)
 - **Complete viewer**: For simpler models: [ESMAP_Tableau_Complete.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb)
 
-## 6. Save your Dashboard as Public
+## 6. Extract data 
+
+Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
+To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `linestring`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+
+## 7. Save your Dashboard as Public
 
 Use Tableau Public to visualize and share your results.
 
@@ -109,8 +115,7 @@ You may adapt the settings based on the intended usage of this visualization, by
 
 To update the visualization for new scenarios, you should follow the steps:
 1. Upload new scenarios with the correct structure, ensuring one is named `baseline`.
-2. Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `linestring`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+2. Extract the data as explained in Step 6 above.
 3. Once this has been done, data is extracted and optimized so that the visualizations will now load faster.
 4. When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
    1. Keep previous extracts but view new data: For each of the dataset above, unclick `Use Extract` (reverts to live mode).

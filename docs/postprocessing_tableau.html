@@ -1044,8 +1044,13 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-data">
+   6. Extract data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#save-your-dashboard-as-public">
-   6. Save your Dashboard as Public
+   7. Save your Dashboard as Public
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1065,8 +1070,11 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="tableau-workflow">
 <h1>Tableau Workflow<a class="headerlink" href="#tableau-workflow" title="Permalink to this heading">#</a></h1>
 <p>Tableau is the recommended approach for most users, providing a user-friendly interface for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.</p>
-<p>Example: <em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes">SAPP overview</a></em><br />
-<em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes">SAPP comparison of scenarios</a></em></p>
+<p>Example:</p>
+<ul class="simple">
+<li><p><em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes">SAPP overview</a></em></p></li>
+<li><p><em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes">SAPP comparison of scenarios</a></em></p></li>
+</ul>
 <p>This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.</p>
 <section id="how-to-use-tableau-for-epm">
 <h2>How to use Tableau for EPM<a class="headerlink" href="#how-to-use-tableau-for-epm" title="Permalink to this heading">#</a></h2>
@@ -1147,12 +1155,12 @@ python<span class="w"> </span>create_geojson.py
 </section>
 <section id="connect-to-the-shared-vdi">
 <h2>4. Connect to the shared VDI<a class="headerlink" href="#connect-to-the-shared-vdi" title="Permalink to this heading">#</a></h2>
-<p>Tableau is pre-installed on the shared VDI machine.
-You may need to register if this is your first connection.</p>
+<p>Tableau is pre-installed on the shared VDI machine with the shared Tableau license.
+You may still need to register if this is your first connection.</p>
 </section>
 <section id="open-the-tableau-file">
 <h2>5. Open the Tableau file<a class="headerlink" href="#open-the-tableau-file" title="Permalink to this heading">#</a></h2>
-<p>From the shared VDI, click on the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file corresponding to your desired visualization.</p>
+<p>From the shared VDI, click on the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file corresponding to your desired visualization in the folder created in Step 1.</p>
 <p><strong>Available Tableau interfaces</strong>:</p>
 <ul class="simple">
 <li><p><strong>Single scenario viewer</strong>: Use for exploring one scenario at a time: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb">ESMAP_Tableau_Overview.twb</a></p></li>
@@ -1160,8 +1168,13 @@ You may need to register if this is your first connection.</p>
 <li><p><strong>Complete viewer</strong>: For simpler models: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb">ESMAP_Tableau_Complete.twb</a></p></li>
 </ul>
 </section>
+<section id="extract-data">
+<h2>6. Extract data<a class="headerlink" href="#extract-data" title="Permalink to this heading">#</a></h2>
+<p>Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
+To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to <code class="docutils literal notranslate"><span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Extract</span> <span class="pre">data</span></code>: <code class="docutils literal notranslate"><span class="pre">linestring</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostSummaryWeightedAverageCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">Plant</span> <span class="pre">DB</span></code> and <code class="docutils literal notranslate"><span class="pre">pSummary</span></code>. You should click on <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">settings</span></code> when asked. If Tableau warns that a file already exists, click Replace this file.</p>
+</section>
 <section id="save-your-dashboard-as-public">
-<h2>6. Save your Dashboard as Public<a class="headerlink" href="#save-your-dashboard-as-public" title="Permalink to this heading">#</a></h2>
+<h2>7. Save your Dashboard as Public<a class="headerlink" href="#save-your-dashboard-as-public" title="Permalink to this heading">#</a></h2>
 <p>Use Tableau Public to visualize and share your results.</p>
 <p>In Tableau, go to <code class="docutils literal notranslate"><span class="pre">Server</span></code>, <code class="docutils literal notranslate"><span class="pre">Tableau</span> <span class="pre">Public</span></code>, <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">to</span> <span class="pre">Tableau</span> <span class="pre">Public</span> <span class="pre">as</span></code>. Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
 You may adapt the settings based on the intended usage of this visualization, by going to the <code class="docutils literal notranslate"><span class="pre">Settings</span></code> button (after signing in on your browser):</p>
@@ -1178,8 +1191,7 @@ You may adapt the settings based on the intended usage of this visualization, by
 <p>To update the visualization for new scenarios, you should follow the steps:</p>
 <ol class="arabic simple">
 <li><p>Upload new scenarios with the correct structure, ensuring one is named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>.</p></li>
-<li><p>Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to <code class="docutils literal notranslate"><span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Extract</span> <span class="pre">data</span></code>: <code class="docutils literal notranslate"><span class="pre">linestring</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostSummaryWeightedAverageCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">Plant</span> <span class="pre">DB</span></code> and <code class="docutils literal notranslate"><span class="pre">pSummary</span></code>. You should click on <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">settings</span></code> when asked. If Tableau warns that a file already exists, click Replace this file.</p></li>
+<li><p>Extract the data as explained in Step 6 above.</p></li>
 <li><p>Once this has been done, data is extracted and optimized so that the visualizations will now load faster.</p></li>
 <li><p>When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:</p>
 <ol class="arabic simple">
@@ -1305,8 +1317,13 @@ Then re-extract to optimize the new data (Step 2)</p></li>
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-data">
+   6. Extract data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#save-your-dashboard-as-public">
-   6. Save your Dashboard as Public
+   7. Save your Dashboard as Public
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
