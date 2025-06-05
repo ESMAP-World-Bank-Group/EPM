@@ -273,6 +273,9 @@ pUSRLocCosts(c,y) = sum((q,d,t), vUnmetSpinningReserveCountry.l(c,q,d,t,y)*pHour
 pUSRSysCosts(y) = sum((q,d,t), vUnmetSpinningReserveSystem.l(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 pUPRSysCosts(y) = vUnmetPlanningReserveSystem.l(y)*pPlanningReserveVoLL;
 
+* Defining number of zones per country
+parameter nZonesInCountry(c);
+nZonesInCountry(c) = sum(z$(zcmap(z,c)), 1);
  
 
 set sumhdr /
@@ -317,13 +320,15 @@ pCostSummaryFull(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
 pCostSummaryFull(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummaryFull(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummaryFull(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
+pCostSummaryFull(z,"Unmet reserve costs: $m"                 ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
+pCostSummaryFull(z,"Unmet system reserve costs: $m"          ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
 pCostSummaryFull(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
 pCostSummaryFull(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummaryFull(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
 pCostSummaryFull(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
 pCostSummaryFull(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
 pCostSummaryFull(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
-pCostSummaryFull(z,"Trade shared benefits: $m" ,y)               = pTradeSharedBenefits(z,y)/1e6;
+pCostSummaryFull(z,"Trade shared benefits: $m"               ,y) = pTradeSharedBenefits(z,y)/1e6;
 pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
 
 
@@ -335,6 +340,8 @@ pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsT
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
                                                     
 
+* For unmet country reserve costs, we allocate them uniformly across zones inside a given country.
+* Similarly for system-level reserves
 pCostSummary(z,"Annualized capex: $m"                        ,y) = pAnncapex(z,y)/1e6;
 pCostSummary(z,"Fixed O&M: $m"                               ,y) = pFOM(z,y)/1e6;
 pCostSummary(z,"Variable O&M: $m"                            ,y) = pVOM(z,y)/1e6;
@@ -342,6 +349,8 @@ pCostSummary(z,"Total fuel Costs: $m"                        ,y) = pFuelCostsZon
 pCostSummary(z,"Transmission additions: $m"                  ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"                  ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"                      ,y) = pUSECosts(z,y)/1e6;
+pCostSummary(z,"Unmet reserve costs: $m"                     ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
+pCostSummary(z,"Unmet system reserve costs: $m"              ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
 pCostSummary(z,"Excess generation: $m"                       ,y) = pSurplusCosts(z,y)/1e6;
 pCostSummary(z,"VRE curtailment: $m"                         ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummary(z,"Import costs with external zones: $m"        ,y) = pImportCostsExternal(z,y)/1e6;
@@ -349,6 +358,7 @@ pCostSummary(z,"Export revenues with external zones: $m"     ,y) = pExportRevenu
 pCostSummary(z,"Import costs with internal zones: $m"        ,y) = pImportCostsTopology(z,y)/1e6;
 pCostSummary(z,"Export revenues with internal zones: $m"     ,y) = pExportRevenuesTopology(z,y)/1e6;
 pCostSummary(z,"Trade shared benefits: $m"                   ,y) = pTradeSharedBenefits(z,y)/1e6;
+
 
 
 *--- Cost Summary Unweighted by country
