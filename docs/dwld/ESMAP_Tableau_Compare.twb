@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-<!-- build 20241.24.0705.0334                               -->
-<workbook original-version='18.1' source-build='2024.1.5 (20241.24.0705.0334)' source-platform='win' version='18.1' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+<!-- build 20242.24.1213.1118                               -->
+<workbook original-version='18.1' source-build='2024.2.6 (20242.24.1213.1118)' source-platform='win' version='18.1' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
   <document-format-change-manifest>
     <_.fcp.AccessibleZoneTabOrder.true...AccessibleZoneTabOrder />
     <_.fcp.AnimationOnByDefault.true...AnimationOnByDefault />
@@ -9,8 +9,10 @@
     <_.fcp.DatagraphCoreV1.true...DatagraphCoreV1 />
     <_.fcp.DatagraphNodeAxisTitle.true...DatagraphNodeAxisTitle />
     <_.fcp.DatagraphNodeSingleValueFieldV1.true...DatagraphNodeSingleValueFieldV1 />
+    <_.fcp.IndividualControlFormatting.true...IndividualControlFormatting />
     <_.fcp.MarkAnimation.true...MarkAnimation />
     <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelExtractV2.true...ObjectModelExtractV2 />
     <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
     <_.fcp.ParameterDefaultValues.true...ParameterDefaultValues />
     <_.fcp.RelationshipCalculations.true...RelationshipCalculations />
@@ -18,10 +20,11 @@
     <SetMembershipControl />
     <SheetIdentifierTracking />
     <SortTagCleanup />
+    <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
     <WindowsPersistSimpleIdentifiers />
     <ZoneBackgroundTransparency />
   </document-format-change-manifest>
-  <repository-location id='Compare_17485950849110' path='/workbooks' revision='1.2' />
+  <repository-location id='SAPPregionalintegration-Comparison' path='/workbooks' revision='1.9' />
   <preferences>
     <preference name='ui.encoding.shelf.height' value='24' />
     <preference name='ui.shelf.height' value='26' />
@@ -181,8 +184,8 @@
           <member value='&quot;No&quot;' />
         </members>
       </column>
-      <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;Retrade&quot;'>
-        <calculation class='tableau' formula='&quot;Retrade&quot;' />
+      <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;baseline&quot;'>
+        <calculation class='tableau' formula='&quot;baseline&quot;' />
       </column>
       <column caption='Select order' datatype='string' name='[Select a view (copie)_2426877312874741767]' param-domain-type='list' role='measure' type='nominal' value='&quot;Year/Scenario&quot;'>
         <calculation class='tableau' formula='&quot;Year/Scenario&quot;' />
@@ -192,8 +195,8 @@
           <member value='&quot;Scenario/Year&quot;' />
         </members>
       </column>
-      <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Difference&quot;'>
-        <calculation class='tableau' formula='&quot;Difference&quot;' />
+      <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Absolute&quot;'>
+        <calculation class='tableau' formula='&quot;Absolute&quot;' />
         <members>
           <member value='&quot;Absolute&quot;' />
           <member value='&quot;Difference&quot;' />
@@ -204,61 +207,61 @@
       <connection class='federated'>
         <named-connections>
           <named-connection caption='pInterchangeCountry' name='textscan.0t57uaq151vhko1glvf001009wbr'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pDispatch' name='textscan.1jzug5l0xkrgb5159egh10e04sz7'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pInterchangeCountry (2)' name='textscan.0564hvp0q1p9et1cilurd0i5lx3g'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pInterchangeCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pInterconUtilization' name='textscan.1vsspin0rz6ynx11m9pms08mz2ub'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pInterconUtilization (2)' name='textscan.1fippds1tqr2h51dwgir30z1ynxn'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pEnergyByFuelCountry' name='textscan.1theoj70mnavz5196v4sy126tyie'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pEnergyByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCapacityByFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pCapacityByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pAnnualTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pNewCapacityFuel' name='textscan.0lr8ktj10tgslw11ffk750e9laz1'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pNewCapacityFuel.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pNewCapacityFuel.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pFuelCosts' name='textscan.1bvrd1e1gnreoj11sgpx50jodjcu'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pFuelCosts.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pFuelCosts.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCostSummary' name='textscan.0y0fn4r0hht2nt14wrqcz1is619w'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummary.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pCostSummary.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pEmissions' name='textscan.1u6fqjo0zup8iu1fszv8r18dmf66'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEmissions.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pEmissions.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pEmissionsIntensity' name='textscan.0cbi8bx0g5yzfu1ggwetg0v4myei'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEmissionsIntensity.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pEmissionsIntensity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pDemandSupply' name='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDemandSupply.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pDemandSupply.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pPrice' name='textscan.0i6qw2r1boe6zl1h4z0j41t1z5lf'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pPrice.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pPrice.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pSpinningReserveByPlantZone' name='textscan.1b1yc7q1arqess18mt2vh1i3ld5g'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pSpinningReserveByPlantZone.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pSpinningReserveByPlantZone.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pFuelDispatch' name='textscan.0d3j0ed1rjtfcc12oh21y0x2ifpr'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pFuelDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pFuelDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pZonalAverageCost' name='textscan.1q2cftk1mdl0r610wc3uq127wltg'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pZonalAverageCost.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pZonalAverageCost.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCostSummaryFull' name='textscan.0v2vs2s194b49b146t5cf1eu3ebv'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
+            <connection class='textscan' directory='C:/Users/wb636520/OneDrive - WBG/Documents/Tableau Viz/scenarios/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
         </named-connections>
         <_.fcp.ObjectModelEncapsulateLegacy.false...relation all='true' connection='textscan.1bvrd1e1gnreoj11sgpx50jodjcu' include-siblings='true' is-recursive='true' name='Union9' path='' type='batch-union'>
@@ -420,7 +423,6 @@
           <map key='[z (Union9)]' value='[Union9].[z]' />
           <map key='[z (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv+].[z]' />
         </cols>
-        <refresh increment-key='' incremental-refresh-mode='' incremental-updates='false' />
         <metadata-records>
           <metadata-record class='capability'>
             <remote-name />
@@ -1118,10 +1120,15 @@
         </aliases>
       </column>
       <column caption='Value Baseline' datatype='real' name='[Calculation_2609273100691206152]' role='measure' type='quantitative'>
-        <calculation class='tableau' formula='CASE [Parameters].[Indicator (copie)_693554406644572160]&#13;&#10;WHEN &quot;Capacity&quot; THEN &#13;&#10;{ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union6)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Energy&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union5)] END) &#13;&#10;}&#13;&#10;when &quot;New capacity&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union8)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Fuel cost&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union9)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Reserve&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (pSpinningReserveByPlantZone.csv+)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Costs&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union10)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Demand&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [Calculation_1551771556731363331] END) &#13;&#10;}&#13;&#10;END' />
+        <calculation class='tableau' formula='CASE [Parameters].[Indicator (copie)_693554406644572160]&#13;&#10;WHEN &quot;Capacity&quot; THEN &#13;&#10;{ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union6)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Energy&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union5)] END) &#13;&#10;}&#13;&#10;when &quot;New capacity&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union8)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Fuel cost&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union9)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Reserve&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (pSpinningReserveByPlantZone.csv+)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Costs&quot; THEN &#13;&#10;  ZN({ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;    AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union10)] END) &#13;&#10;  })&#13;&#10;WHEN &quot;Demand&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [Calculation_1551771556731363331] END) &#13;&#10;}&#13;&#10;END' />
       </column>
       <column caption='Value compare' datatype='real' name='[Calculation_2609273100696444938]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='CASE [Parameters].[Select a view (copie)_2609273100696231945]&#13;&#10;WHEN &quot;Difference&quot; THEN [Value indicator (copie)_693554406646398977] - SUM([Calculation_2609273100691206152])&#13;&#10;WHEN &quot;Absolute&quot; THEN [Value indicator (copie)_693554406646398977]&#13;&#10;END' />
+      </column>
+      <column caption='Total_Value_Compare' datatype='real' name='[Calculation_402227759688151040]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='WINDOW_SUM([Calculation_2609273100696444938])'>
+          <table-calc ordering-type='Rows' />
+        </calculation>
       </column>
       <column caption='Value lineplot' datatype='real' hidden='true' name='[Calculation_451204451705303040]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
@@ -1234,6 +1241,9 @@
       <column-instance column='[f (Union6)]' derivation='None' name='[none:f (Union6):nk]' pivot='key' type='nominal' />
       <column-instance column='[f]' derivation='None' name='[none:f:nk]' pivot='key' type='nominal' />
       <column-instance column='[y (Union5)]' derivation='None' name='[none:y (Union5):ok]' pivot='key' type='ordinal' />
+      <column-instance column='[Calculation_402227759688151040]' derivation='User' name='[usr:Calculation_402227759688151040:qk:4]' pivot='key' type='quantitative'>
+        <table-calc ordering-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Calculation_2522578805695479814]' ordering-type='Field' />
+      </column-instance>
       <group caption='Action (Admin)' hidden='true' name='[Action (Admin)]' name-style='unqualified' user:auto-column='sheet_link'>
         <groupfilter function='crossjoin'>
           <groupfilter function='level-members' level='[none:c:nk]' />
@@ -1284,7 +1294,574 @@
           <groupfilter function='level-members' level='[none:y (Union5):ok]' />
         </groupfilter>
       </group>
-      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' _.fcp.SchemaViewerObjectModel.true...common-percentage='0.918499' _.fcp.SchemaViewerObjectModel.true...user-set-layout-v2='true' dim-ordering='alphabetic' measure-ordering='alphabetic' parameter-percentage='0.0815006' rowDisplayCount='1000' show-aliased-fields='true' show-structure='true' />
+      <extract _.fcp.ObjectModelExtractV2.true...object-id='' _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' units='records'>
+        <connection access_mode='readonly' authentication='auth-none' author-locale='en_US' class='hyper' dbname='C:/Users/wb636520/OneDrive - WBG/Documents/My Tableau Repository/Datasources/Database.hyper' default-settings='yes' schema='Extract' sslmode='' tablename='Extract' update-time='06/06/2025 01:33:23 PM' username='tableau_internal_user'>
+          <_.fcp.ObjectModelEncapsulateLegacy.false...relation name='_13D4D7879E034EAE898A83F335CAE3D6' table='[Extract].[_13D4D7879E034EAE898A83F335CAE3D6]' type='table' />
+          <_.fcp.ObjectModelEncapsulateLegacy.true...relation type='collection'>
+            <relation name='_76EE71DB0BB349B6AECA863820F82016' table='[Extract].[_76EE71DB0BB349B6AECA863820F82016]' type='table' />
+            <relation name='_13D4D7879E034EAE898A83F335CAE3D6' table='[Extract].[_13D4D7879E034EAE898A83F335CAE3D6]' type='table' />
+            <relation name='_6FE4D67D525A44D49C9675A870180F63' table='[Extract].[_6FE4D67D525A44D49C9675A870180F63]' type='table' />
+            <relation name='_9B193BF505BD407081FF5958CCC525FD' table='[Extract].[_9B193BF505BD407081FF5958CCC525FD]' type='table' />
+            <relation name='_C534530D9DED4735A28CFC2FC79484D7' table='[Extract].[_C534530D9DED4735A28CFC2FC79484D7]' type='table' />
+            <relation name='_D8E0A79FD4764106928A31A5D475FFB2' table='[Extract].[_D8E0A79FD4764106928A31A5D475FFB2]' type='table' />
+            <relation name='pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021' table='[Extract].[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]' type='table' />
+          </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+          <cols>
+            <map key='[Path (Union10)]' value='[_C534530D9DED4735A28CFC2FC79484D7].[Path]' />
+            <map key='[Path (Union13)]' value='[_6FE4D67D525A44D49C9675A870180F63].[Path]' />
+            <map key='[Path (Union5)]' value='[_76EE71DB0BB349B6AECA863820F82016].[Path]' />
+            <map key='[Path (Union6)]' value='[_D8E0A79FD4764106928A31A5D475FFB2].[Path]' />
+            <map key='[Path (Union8)]' value='[_9B193BF505BD407081FF5958CCC525FD].[Path]' />
+            <map key='[Path (Union9)]' value='[_13D4D7879E034EAE898A83F335CAE3D6].[Path]' />
+            <map key='[Path (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021].[Path]' />
+            <map key='[f (Union6)]' value='[_D8E0A79FD4764106928A31A5D475FFB2].[f]' />
+            <map key='[f (Union8)]' value='[_9B193BF505BD407081FF5958CCC525FD].[f]' />
+            <map key='[f (Union9)]' value='[_13D4D7879E034EAE898A83F335CAE3D6].[f]' />
+            <map key='[f (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021].[f]' />
+            <map key='[f]' value='[_76EE71DB0BB349B6AECA863820F82016].[f]' />
+            <map key='[uni (Union10)]' value='[_C534530D9DED4735A28CFC2FC79484D7].[uni]' />
+            <map key='[uni (Union13)]' value='[_6FE4D67D525A44D49C9675A870180F63].[uni]' />
+            <map key='[value (Union10)]' value='[_C534530D9DED4735A28CFC2FC79484D7].[value]' />
+            <map key='[value (Union13)]' value='[_6FE4D67D525A44D49C9675A870180F63].[value]' />
+            <map key='[value (Union5)]' value='[_76EE71DB0BB349B6AECA863820F82016].[value]' />
+            <map key='[value (Union6)]' value='[_D8E0A79FD4764106928A31A5D475FFB2].[value]' />
+            <map key='[value (Union8)]' value='[_9B193BF505BD407081FF5958CCC525FD].[value]' />
+            <map key='[value (Union9)]' value='[_13D4D7879E034EAE898A83F335CAE3D6].[value]' />
+            <map key='[value (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021].[value]' />
+            <map key='[y (Union10)]' value='[_C534530D9DED4735A28CFC2FC79484D7].[y]' />
+            <map key='[y (Union13)]' value='[_6FE4D67D525A44D49C9675A870180F63].[y]' />
+            <map key='[y (Union5)]' value='[_76EE71DB0BB349B6AECA863820F82016].[y]' />
+            <map key='[y (Union6)]' value='[_D8E0A79FD4764106928A31A5D475FFB2].[y]' />
+            <map key='[y (Union8)]' value='[_9B193BF505BD407081FF5958CCC525FD].[y]' />
+            <map key='[y (Union9)]' value='[_13D4D7879E034EAE898A83F335CAE3D6].[y]' />
+            <map key='[y (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021].[y]' />
+            <map key='[z (Union10)]' value='[_C534530D9DED4735A28CFC2FC79484D7].[z]' />
+            <map key='[z (Union13)]' value='[_6FE4D67D525A44D49C9675A870180F63].[z]' />
+            <map key='[z (Union5)]' value='[_76EE71DB0BB349B6AECA863820F82016].[z]' />
+            <map key='[z (Union6)]' value='[_D8E0A79FD4764106928A31A5D475FFB2].[z]' />
+            <map key='[z (Union8)]' value='[_9B193BF505BD407081FF5958CCC525FD].[z]' />
+            <map key='[z (Union9)]' value='[_13D4D7879E034EAE898A83F335CAE3D6].[z]' />
+            <map key='[z (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021].[z]' />
+          </cols>
+          <refresh>
+            <refresh-event add-from-file-path='Database' increment-value='%null%' refresh-type='create' rows-inserted='5131' timestamp-start='2025-06-06 13:33:22.281' />
+          </refresh>
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (Union5)]</local-name>
+              <parent-name>[_76EE71DB0BB349B6AECA863820F82016]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>0</ordinal>
+              <family>Union5</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>13</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_76EE71DB0BB349B6AECA863820F82016]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>f</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[f]</local-name>
+              <parent-name>[_76EE71DB0BB349B6AECA863820F82016]</parent-name>
+              <remote-alias>f</remote-alias>
+              <ordinal>1</ordinal>
+              <family>Union5</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>12</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_76EE71DB0BB349B6AECA863820F82016]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (Union5)]</local-name>
+              <parent-name>[_76EE71DB0BB349B6AECA863820F82016]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>2</ordinal>
+              <family>Union5</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_76EE71DB0BB349B6AECA863820F82016]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (Union5)]</local-name>
+              <parent-name>[_76EE71DB0BB349B6AECA863820F82016]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>3</ordinal>
+              <family>Union5</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>693</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_76EE71DB0BB349B6AECA863820F82016]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (Union5)]</local-name>
+              <parent-name>[_76EE71DB0BB349B6AECA863820F82016]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>4</ordinal>
+              <family>Union5</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_76EE71DB0BB349B6AECA863820F82016]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (Union9)]</local-name>
+              <parent-name>[_13D4D7879E034EAE898A83F335CAE3D6]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>5</ordinal>
+              <family>Union9</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>12</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_13D4D7879E034EAE898A83F335CAE3D6]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>f</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[f (Union9)]</local-name>
+              <parent-name>[_13D4D7879E034EAE898A83F335CAE3D6]</parent-name>
+              <remote-alias>f</remote-alias>
+              <ordinal>6</ordinal>
+              <family>Union9</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>7</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_13D4D7879E034EAE898A83F335CAE3D6]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (Union9)]</local-name>
+              <parent-name>[_13D4D7879E034EAE898A83F335CAE3D6]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>7</ordinal>
+              <family>Union9</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_13D4D7879E034EAE898A83F335CAE3D6]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (Union9)]</local-name>
+              <parent-name>[_13D4D7879E034EAE898A83F335CAE3D6]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>8</ordinal>
+              <family>Union9</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>288</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_13D4D7879E034EAE898A83F335CAE3D6]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (Union9)]</local-name>
+              <parent-name>[_13D4D7879E034EAE898A83F335CAE3D6]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>9</ordinal>
+              <family>Union9</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_13D4D7879E034EAE898A83F335CAE3D6]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (Union13)]</local-name>
+              <parent-name>[_6FE4D67D525A44D49C9675A870180F63]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>10</ordinal>
+              <family>Union13</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>14</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_6FE4D67D525A44D49C9675A870180F63]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>uni</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[uni (Union13)]</local-name>
+              <parent-name>[_6FE4D67D525A44D49C9675A870180F63]</parent-name>
+              <remote-alias>uni</remote-alias>
+              <ordinal>11</ordinal>
+              <family>Union13</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>10</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_6FE4D67D525A44D49C9675A870180F63]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (Union13)]</local-name>
+              <parent-name>[_6FE4D67D525A44D49C9675A870180F63]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>12</ordinal>
+              <family>Union13</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_6FE4D67D525A44D49C9675A870180F63]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (Union13)]</local-name>
+              <parent-name>[_6FE4D67D525A44D49C9675A870180F63]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>13</ordinal>
+              <family>Union13</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>831</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_6FE4D67D525A44D49C9675A870180F63]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (Union13)]</local-name>
+              <parent-name>[_6FE4D67D525A44D49C9675A870180F63]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>14</ordinal>
+              <family>Union13</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_6FE4D67D525A44D49C9675A870180F63]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (Union8)]</local-name>
+              <parent-name>[_9B193BF505BD407081FF5958CCC525FD]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>15</ordinal>
+              <family>Union8</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>13</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_9B193BF505BD407081FF5958CCC525FD]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>f</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[f (Union8)]</local-name>
+              <parent-name>[_9B193BF505BD407081FF5958CCC525FD]</parent-name>
+              <remote-alias>f</remote-alias>
+              <ordinal>16</ordinal>
+              <family>Union8</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>11</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_9B193BF505BD407081FF5958CCC525FD]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (Union8)]</local-name>
+              <parent-name>[_9B193BF505BD407081FF5958CCC525FD]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>17</ordinal>
+              <family>Union8</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_9B193BF505BD407081FF5958CCC525FD]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (Union8)]</local-name>
+              <parent-name>[_9B193BF505BD407081FF5958CCC525FD]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>18</ordinal>
+              <family>Union8</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>437</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_9B193BF505BD407081FF5958CCC525FD]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (Union8)]</local-name>
+              <parent-name>[_9B193BF505BD407081FF5958CCC525FD]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>19</ordinal>
+              <family>Union8</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_9B193BF505BD407081FF5958CCC525FD]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (Union10)]</local-name>
+              <parent-name>[_C534530D9DED4735A28CFC2FC79484D7]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>20</ordinal>
+              <family>Union10</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>14</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_C534530D9DED4735A28CFC2FC79484D7]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>uni</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[uni (Union10)]</local-name>
+              <parent-name>[_C534530D9DED4735A28CFC2FC79484D7]</parent-name>
+              <remote-alias>uni</remote-alias>
+              <ordinal>21</ordinal>
+              <family>Union10</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>12</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_C534530D9DED4735A28CFC2FC79484D7]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (Union10)]</local-name>
+              <parent-name>[_C534530D9DED4735A28CFC2FC79484D7]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>22</ordinal>
+              <family>Union10</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_C534530D9DED4735A28CFC2FC79484D7]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (Union10)]</local-name>
+              <parent-name>[_C534530D9DED4735A28CFC2FC79484D7]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>23</ordinal>
+              <family>Union10</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>1069</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_C534530D9DED4735A28CFC2FC79484D7]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (Union10)]</local-name>
+              <parent-name>[_C534530D9DED4735A28CFC2FC79484D7]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>24</ordinal>
+              <family>Union10</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_C534530D9DED4735A28CFC2FC79484D7]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (Union6)]</local-name>
+              <parent-name>[_D8E0A79FD4764106928A31A5D475FFB2]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>25</ordinal>
+              <family>Union6</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>13</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_D8E0A79FD4764106928A31A5D475FFB2]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>f</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[f (Union6)]</local-name>
+              <parent-name>[_D8E0A79FD4764106928A31A5D475FFB2]</parent-name>
+              <remote-alias>f</remote-alias>
+              <ordinal>26</ordinal>
+              <family>Union6</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>12</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_D8E0A79FD4764106928A31A5D475FFB2]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (Union6)]</local-name>
+              <parent-name>[_D8E0A79FD4764106928A31A5D475FFB2]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>27</ordinal>
+              <family>Union6</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_D8E0A79FD4764106928A31A5D475FFB2]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (Union6)]</local-name>
+              <parent-name>[_D8E0A79FD4764106928A31A5D475FFB2]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>28</ordinal>
+              <family>Union6</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>488</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_D8E0A79FD4764106928A31A5D475FFB2]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (Union6)]</local-name>
+              <parent-name>[_D8E0A79FD4764106928A31A5D475FFB2]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>29</ordinal>
+              <family>Union6</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[_D8E0A79FD4764106928A31A5D475FFB2]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>z</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[z (pSpinningReserveByPlantZone.csv+)]</local-name>
+              <parent-name>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</parent-name>
+              <remote-alias>z</remote-alias>
+              <ordinal>30</ordinal>
+              <family>pSpinningReserveByPlantZone.csv+</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>13</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>f</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[f (pSpinningReserveByPlantZone.csv+)]</local-name>
+              <parent-name>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</parent-name>
+              <remote-alias>f</remote-alias>
+              <ordinal>31</ordinal>
+              <family>pSpinningReserveByPlantZone.csv+</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>9</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>y</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[y (pSpinningReserveByPlantZone.csv+)]</local-name>
+              <parent-name>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</parent-name>
+              <remote-alias>y</remote-alias>
+              <ordinal>32</ordinal>
+              <family>pSpinningReserveByPlantZone.csv+</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>value</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[value (pSpinningReserveByPlantZone.csv+)]</local-name>
+              <parent-name>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</parent-name>
+              <remote-alias>value</remote-alias>
+              <ordinal>33</ordinal>
+              <family>pSpinningReserveByPlantZone.csv+</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>477</approx-count>
+              <contains-null>true</contains-null>
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Path</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Path (pSpinningReserveByPlantZone.csv+)]</local-name>
+              <parent-name>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</parent-name>
+              <remote-alias>Path</remote-alias>
+              <ordinal>34</ordinal>
+              <family>pSpinningReserveByPlantZone.csv+</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LFR_RFR' />
+              <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+      </extract>
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' _.fcp.SchemaViewerObjectModel.true...common-percentage='0.880455' _.fcp.SchemaViewerObjectModel.true...user-set-layout-v2='true' dim-ordering='alphabetic' measure-ordering='alphabetic' parameter-percentage='0.119545' rowDisplayCount='1000' show-aliased-fields='true' show-structure='true' />
       <style>
         <style-rule element='mark'>
           <encoding attr='color' field='[none:Calculation_920141767534370819:nk]' type='palette'>
@@ -1541,6 +2118,11 @@
               <bucket>&quot;CSP&quot;</bucket>
             </map>
           </encoding>
+          <encoding attr='color' field='[:Measure Names]' palette='color_blind_10_0' type='palette'>
+            <map to='#1170aa'>
+              <bucket>&quot;[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_402227759688151040:qk:4]&quot;</bucket>
+            </map>
+          </encoding>
           <encoding attr='color' field='[none:Calculation_2522578805695479814:nk]' type='palette'>
             <map to='#499894'>
               <bucket>&quot;Import costs with internal zones: $m&quot;</bucket>
@@ -1578,6 +2160,9 @@
             <map to='#86bcb6'>
               <bucket>&quot;Total Annual Cost by Zone with trade: $m&quot;</bucket>
             </map>
+            <map to='#86bcb6'>
+              <bucket>&quot;Trade shared benefits: $m&quot;</bucket>
+            </map>
             <map to='#8cd17d'>
               <bucket>&quot;Excess generation: $m&quot;</bucket>
             </map>
@@ -1611,6 +2196,9 @@
             <map to='#bab0ac'>
               <bucket>&quot;Unmet demand: GWh&quot;</bucket>
             </map>
+            <map to='#bab0ac'>
+              <bucket>&quot;Unmet system reserve costs: $m&quot;</bucket>
+            </map>
             <map to='#d37295'>
               <bucket>&quot;Trade Costs: $m&quot;</bucket>
             </map>
@@ -1640,6 +2228,9 @@
             </map>
             <map to='#ff9d9a'>
               <bucket>&quot;Total Annual Cost by Zone: $m&quot;</bucket>
+            </map>
+            <map to='#ff9d9a'>
+              <bucket>&quot;Unmet reserve costs: $m&quot;</bucket>
             </map>
             <map to='#ff9da7'>
               <bucket>&quot;Total Demand (Including P to H2): GWh&quot;</bucket>
@@ -1691,6 +2282,44 @@
             <map to='#edc948'>
               <bucket>&quot;Solar&quot;</bucket>
             </map>
+          </encoding>
+          <encoding attr='color' field='[none:Calculation_2522578805695479814:nk]&#10;[:Measure Names]' type='palette'>
+            <map-pri to='multiordinal_blue_10_0'>
+              <bucket>&quot;Annualized capex: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_blue_10_0'>
+              <bucket>&quot;Variable O&amp;M: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_brown_10_0'>
+              <bucket>&quot;Unmet system reserve costs: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_gold_10_0'>
+              <bucket>&quot;Fixed O&amp;M: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_gray_10_0'>
+              <bucket>&quot;Trade shared benefits: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_green_10_0'>
+              <bucket>&quot;Export revenues with internal zones: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_orange_10_0'>
+              <bucket>&quot;Excess generation: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_pink_10_0'>
+              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_pink_10_0'>
+              <bucket>&quot;Unmet demand costs: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_purple_10_0'>
+              <bucket>&quot;Unmet reserve costs: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_red_10_0'>
+              <bucket>&quot;Total fuel Costs: $m&quot;</bucket>
+            </map-pri>
+            <map-pri to='multiordinal_teal_10_0'>
+              <bucket>&quot;Import costs with internal zones: $m&quot;</bucket>
+            </map-pri>
           </encoding>
         </style-rule>
       </style>
@@ -1746,14 +2375,14 @@
         <column caption='Display right axis' datatype='string' name='[Paramètre 7]' param-domain-type='list' role='measure' type='nominal' value='&quot;No&quot;'>
           <calculation class='tableau' formula='&quot;No&quot;' />
         </column>
-        <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;Retrade&quot;'>
-          <calculation class='tableau' formula='&quot;Retrade&quot;' />
+        <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;baseline&quot;'>
+          <calculation class='tableau' formula='&quot;baseline&quot;' />
         </column>
         <column caption='Select order' datatype='string' name='[Select a view (copie)_2426877312874741767]' param-domain-type='list' role='measure' type='nominal' value='&quot;Year/Scenario&quot;'>
           <calculation class='tableau' formula='&quot;Year/Scenario&quot;' />
         </column>
-        <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Difference&quot;'>
-          <calculation class='tableau' formula='&quot;Difference&quot;' />
+        <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Absolute&quot;'>
+          <calculation class='tableau' formula='&quot;Absolute&quot;' />
         </column>
       </datasource-dependencies>
       <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
@@ -1776,6 +2405,9 @@
                 </columns>
               </relation>
             </properties>
+            <properties context='extract'>
+              <relation name='_13D4D7879E034EAE898A83F335CAE3D6' table='[Extract].[_13D4D7879E034EAE898A83F335CAE3D6]' type='table' />
+            </properties>
           </object>
           <object caption='pDemandSupply' id='_6FE4D67D525A44D49C9675A870180F63'>
             <properties context=''>
@@ -1794,6 +2426,9 @@
                   <column datatype='string' name='Path' />
                 </columns>
               </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='_6FE4D67D525A44D49C9675A870180F63' table='[Extract].[_6FE4D67D525A44D49C9675A870180F63]' type='table' />
             </properties>
           </object>
           <object caption='pEnergyByFuel' id='_76EE71DB0BB349B6AECA863820F82016'>
@@ -1814,6 +2449,9 @@
                 </columns>
               </relation>
             </properties>
+            <properties context='extract'>
+              <relation name='_76EE71DB0BB349B6AECA863820F82016' table='[Extract].[_76EE71DB0BB349B6AECA863820F82016]' type='table' />
+            </properties>
           </object>
           <object caption='pNewCapacityFuel' id='_9B193BF505BD407081FF5958CCC525FD'>
             <properties context=''>
@@ -1832,6 +2470,9 @@
                   <column datatype='string' name='Path' />
                 </columns>
               </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='_9B193BF505BD407081FF5958CCC525FD' table='[Extract].[_9B193BF505BD407081FF5958CCC525FD]' type='table' />
             </properties>
           </object>
           <object caption='pCostSummary' id='_C534530D9DED4735A28CFC2FC79484D7'>
@@ -1852,6 +2493,9 @@
                 </columns>
               </relation>
             </properties>
+            <properties context='extract'>
+              <relation name='_C534530D9DED4735A28CFC2FC79484D7' table='[Extract].[_C534530D9DED4735A28CFC2FC79484D7]' type='table' />
+            </properties>
           </object>
           <object caption='pCapacityByFuel' id='_D8E0A79FD4764106928A31A5D475FFB2'>
             <properties context=''>
@@ -1871,6 +2515,9 @@
                 </columns>
               </relation>
             </properties>
+            <properties context='extract'>
+              <relation name='_D8E0A79FD4764106928A31A5D475FFB2' table='[Extract].[_D8E0A79FD4764106928A31A5D475FFB2]' type='table' />
+            </properties>
           </object>
           <object caption='pSpinningReserveByFuelZone' id='pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021'>
             <properties context=''>
@@ -1889,6 +2536,9 @@
                   <column datatype='string' name='Path' />
                 </columns>
               </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021' table='[Extract].[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]' type='table' />
             </properties>
           </object>
         </objects>
@@ -2060,7 +2710,7 @@
         <view>
           <datasources>
             <datasource caption='Database' name='federated.1nfw8zd1hbpwa11dux5o50rl41si' />
-            <datasource caption='Paramètres' name='Parameters' />
+            <datasource name='Parameters' />
           </datasources>
           <datasource-dependencies datasource='Parameters'>
             <column alias='Costs (m USD)' caption='Indicator Advanced 1' datatype='string' name='[Indicator (copie)_693554406644572160]' param-domain-type='list' role='measure' type='nominal' value='&quot;Costs&quot;'>
@@ -2140,7 +2790,7 @@
         <view>
           <datasources>
             <datasource caption='Database' name='federated.1nfw8zd1hbpwa11dux5o50rl41si' />
-            <datasource caption='Paramètres' name='Parameters' />
+            <datasource name='Parameters' />
           </datasources>
           <datasource-dependencies datasource='Parameters'>
             <column alias='Costs (m USD)' caption='Indicator Advanced 1' datatype='string' name='[Indicator (copie)_693554406644572160]' param-domain-type='list' role='measure' type='nominal' value='&quot;Costs&quot;'>
@@ -2158,14 +2808,14 @@
             <column caption='Indicator' datatype='string' name='[Paramètre 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Capacity&quot;'>
               <calculation class='tableau' formula='&quot;Capacity&quot;' />
             </column>
-            <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;Retrade&quot;'>
-              <calculation class='tableau' formula='&quot;Retrade&quot;' />
+            <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;baseline&quot;'>
+              <calculation class='tableau' formula='&quot;baseline&quot;' />
             </column>
             <column caption='Select order' datatype='string' name='[Select a view (copie)_2426877312874741767]' param-domain-type='list' role='measure' type='nominal' value='&quot;Year/Scenario&quot;'>
               <calculation class='tableau' formula='&quot;Year/Scenario&quot;' />
             </column>
-            <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Difference&quot;'>
-              <calculation class='tableau' formula='&quot;Difference&quot;' />
+            <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Absolute&quot;'>
+              <calculation class='tableau' formula='&quot;Absolute&quot;' />
             </column>
           </datasource-dependencies>
           <datasource-dependencies datasource='federated.1nfw8zd1hbpwa11dux5o50rl41si'>
@@ -2189,7 +2839,7 @@
               </aliases>
             </column>
             <column caption='Value Baseline' datatype='real' name='[Calculation_2609273100691206152]' role='measure' type='quantitative'>
-              <calculation class='tableau' formula='CASE [Parameters].[Indicator (copie)_693554406644572160]&#13;&#10;WHEN &quot;Capacity&quot; THEN &#13;&#10;{ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union6)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Energy&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union5)] END) &#13;&#10;}&#13;&#10;when &quot;New capacity&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union8)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Fuel cost&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union9)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Reserve&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (pSpinningReserveByPlantZone.csv+)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Costs&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union10)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Demand&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [Calculation_1551771556731363331] END) &#13;&#10;}&#13;&#10;END' />
+              <calculation class='tableau' formula='CASE [Parameters].[Indicator (copie)_693554406644572160]&#13;&#10;WHEN &quot;Capacity&quot; THEN &#13;&#10;{ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union6)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Energy&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union5)] END) &#13;&#10;}&#13;&#10;when &quot;New capacity&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union8)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Fuel cost&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union9)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Reserve&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (pSpinningReserveByPlantZone.csv+)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Costs&quot; THEN &#13;&#10;  ZN({ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;    AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union10)] END) &#13;&#10;  })&#13;&#10;WHEN &quot;Demand&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [Calculation_1551771556731363331] END) &#13;&#10;}&#13;&#10;END' />
             </column>
             <column caption='Value compare' datatype='real' name='[Calculation_2609273100696444938]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [Parameters].[Select a view (copie)_2609273100696231945]&#13;&#10;WHEN &quot;Difference&quot; THEN [Value indicator (copie)_693554406646398977] - SUM([Calculation_2609273100691206152])&#13;&#10;WHEN &quot;Absolute&quot; THEN [Value indicator (copie)_693554406646398977]&#13;&#10;END' />
@@ -2363,7 +3013,7 @@
         <view>
           <datasources>
             <datasource caption='Database' name='federated.1nfw8zd1hbpwa11dux5o50rl41si' />
-            <datasource caption='Paramètres' name='Parameters' />
+            <datasource name='Parameters' />
           </datasources>
           <datasource-dependencies datasource='Parameters'>
             <column alias='Costs (m USD)' caption='Indicator Advanced 1' datatype='string' name='[Indicator (copie)_693554406644572160]' param-domain-type='list' role='measure' type='nominal' value='&quot;Costs&quot;'>
@@ -2506,7 +3156,7 @@
         <view>
           <datasources>
             <datasource caption='Database' name='federated.1nfw8zd1hbpwa11dux5o50rl41si' />
-            <datasource caption='Paramètres' name='Parameters' />
+            <datasource name='Parameters' />
           </datasources>
           <datasource-dependencies datasource='Parameters'>
             <column alias='Costs (m USD)' caption='Indicator Advanced 1' datatype='string' name='[Indicator (copie)_693554406644572160]' param-domain-type='list' role='measure' type='nominal' value='&quot;Costs&quot;'>
@@ -2524,14 +3174,14 @@
             <column caption='Indicator' datatype='string' name='[Paramètre 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Capacity&quot;'>
               <calculation class='tableau' formula='&quot;Capacity&quot;' />
             </column>
-            <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;Retrade&quot;'>
-              <calculation class='tableau' formula='&quot;Retrade&quot;' />
+            <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;baseline&quot;'>
+              <calculation class='tableau' formula='&quot;baseline&quot;' />
             </column>
             <column caption='Select order' datatype='string' name='[Select a view (copie)_2426877312874741767]' param-domain-type='list' role='measure' type='nominal' value='&quot;Year/Scenario&quot;'>
               <calculation class='tableau' formula='&quot;Year/Scenario&quot;' />
             </column>
-            <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Difference&quot;'>
-              <calculation class='tableau' formula='&quot;Difference&quot;' />
+            <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Absolute&quot;'>
+              <calculation class='tableau' formula='&quot;Absolute&quot;' />
             </column>
           </datasource-dependencies>
           <datasource-dependencies datasource='federated.1nfw8zd1hbpwa11dux5o50rl41si'>
@@ -2555,10 +3205,15 @@
               </aliases>
             </column>
             <column caption='Value Baseline' datatype='real' name='[Calculation_2609273100691206152]' role='measure' type='quantitative'>
-              <calculation class='tableau' formula='CASE [Parameters].[Indicator (copie)_693554406644572160]&#13;&#10;WHEN &quot;Capacity&quot; THEN &#13;&#10;{ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union6)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Energy&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union5)] END) &#13;&#10;}&#13;&#10;when &quot;New capacity&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union8)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Fuel cost&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union9)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Reserve&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (pSpinningReserveByPlantZone.csv+)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Costs&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union10)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Demand&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [Calculation_1551771556731363331] END) &#13;&#10;}&#13;&#10;END' />
+              <calculation class='tableau' formula='CASE [Parameters].[Indicator (copie)_693554406644572160]&#13;&#10;WHEN &quot;Capacity&quot; THEN &#13;&#10;{ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union6)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Energy&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union5)] END) &#13;&#10;}&#13;&#10;when &quot;New capacity&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union8)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Fuel cost&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union9)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Reserve&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (pSpinningReserveByPlantZone.csv+)] END) &#13;&#10;}&#13;&#10;WHEN &quot;Costs&quot; THEN &#13;&#10;  ZN({ FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;    AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [value (Union10)] END) &#13;&#10;  })&#13;&#10;WHEN &quot;Demand&quot; THEN { FIXED [y (Union5)], [z (Union5)], [Calculation_2522578805695479814]: &#13;&#10;  AVG(IF [Path (Union6) - Scission 1] = [Parameters].[Paramètre Scenario] THEN [Calculation_1551771556731363331] END) &#13;&#10;}&#13;&#10;END' />
             </column>
             <column caption='Value compare' datatype='real' name='[Calculation_2609273100696444938]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [Parameters].[Select a view (copie)_2609273100696231945]&#13;&#10;WHEN &quot;Difference&quot; THEN [Value indicator (copie)_693554406646398977] - SUM([Calculation_2609273100691206152])&#13;&#10;WHEN &quot;Absolute&quot; THEN [Value indicator (copie)_693554406646398977]&#13;&#10;END' />
+            </column>
+            <column caption='Total_Value_Compare' datatype='real' name='[Calculation_402227759688151040]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='WINDOW_SUM([Calculation_2609273100696444938])'>
+                <table-calc ordering-type='Rows' />
+              </calculation>
             </column>
             <column caption='Scenario' datatype='string' name='[Path (Union6) - Scission 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1mx1g0w07es1k417syvyv0o92oi3].[Path]'>
               <calculation class='tableau' formula='TRIM( SPLIT( [Path (Union6)], &quot;/&quot;, 1 ) )' />
@@ -2576,6 +3231,9 @@
             <column datatype='string' name='[uni (Union10)]' role='dimension' type='nominal' />
             <column datatype='string' name='[uni (Union13)]' role='dimension' type='nominal' />
             <column-instance column='[Calculation_2609273100696444938]' derivation='User' name='[usr:Calculation_2609273100696444938:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Calculation_402227759688151040]' derivation='User' name='[usr:Calculation_402227759688151040:qk:4]' pivot='key' type='quantitative'>
+              <table-calc ordering-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Calculation_2522578805695479814]' ordering-type='Field' />
+            </column-instance>
             <column datatype='real' name='[value (Union10)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (Union13)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (Union5)]' role='measure' type='quantitative' />
@@ -2599,7 +3257,7 @@
             <groupfilter function='level-members' level='[none:Path (Union6) - Scission 1:nk]' user:ui-enumeration='all' user:ui-marker='enumerate' />
           </filter>
           <filter class='categorical' column='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]'>
-            <groupfilter function='member' level='[none:y (Union5):ok]' member='2025' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+            <groupfilter function='member' level='[none:y (Union5):ok]' member='2035' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
           </filter>
           <slices>
             <column>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]</column>
@@ -2614,6 +3272,8 @@
             <format attr='height' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' value='158' />
             <format attr='title' class='0' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' scope='rows' value='Costs (m USD)' />
             <format attr='width' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' value='108' />
+            <encoding attr='space' class='0' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_402227759688151040:qk:4]' field-type='quantitative' fold='true' scope='rows' synchronized='true' type='space' />
+            <format attr='display' class='0' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_402227759688151040:qk:4]' scope='rows' value='false' />
           </style-rule>
           <style-rule element='header'>
             <format attr='width' field='[Parameters].[Indicator (copie)_693554406644572160]' value='48' />
@@ -2628,14 +3288,18 @@
             <format attr='color' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' value='#000000' />
             <format attr='font-weight' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' value='bold' />
             <format attr='color' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' value='#000000' />
-            <format attr='font-size' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' value='11' />
             <format attr='font-weight' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' value='bold' />
             <format attr='font-size' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' value='16' />
+            <format attr='font-size' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk]' value='14' />
+            <format attr='font-size' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' value='14' />
           </style-rule>
           <style-rule element='worksheet'>
             <format attr='display-field-labels' scope='cols' value='false' />
             <format attr='display-field-labels' scope='rows' value='false' />
           </style-rule>
+          <_.fcp.IndividualControlFormatting.true...style-rule element='legend'>
+            <_.fcp.IndividualControlFormatting.true...format attr='font-size' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]&#10;[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]' id='legend-color' value='14' />
+          </_.fcp.IndividualControlFormatting.true...style-rule>
           <style-rule element='quick-filter'>
             <format attr='title' field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' value='Select year'>
               <formatted-text>
@@ -2665,12 +3329,48 @@
               <breakdown value='auto' />
             </view>
             <mark class='Bar' />
+          </pane>
+          <pane id='4' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
             <encodings>
               <color column='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' />
+              <color column='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]' />
             </encodings>
           </pane>
+          <pane id='5' selection-relaxation-option='selection-relaxation-allow' y-axis-name='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_402227759688151040:qk:4]'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Circle' />
+            <mark-sizing mark-sizing-setting='marks-scaling-off' />
+            <encodings>
+              <lod column='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' />
+              <lod column='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Scenario:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>z (Union5):&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run fontcolor='#787878'>Total cost:&#9;</run>
+                <run bold='true'><![CDATA[<[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_402227759688151040:qk:4]>]]></run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='0.40580111742019653' />
+                <format attr='mark-color' value='#000000' />
+              </style-rule>
+            </style>
+          </pane>
         </panes>
-        <rows>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]</rows>
+        <rows>([federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk] + [federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_402227759688151040:qk:4])</rows>
         <cols>([federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk] / [federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk])</cols>
       </table>
       <simple-id uuid='{F09031BC-8A09-4742-B0DD-D389B9681ED5}' />
@@ -2681,7 +3381,7 @@
       <style />
       <size sizing-mode='automatic' />
       <datasources>
-        <datasource caption='Paramètres' name='Parameters' />
+        <datasource name='Parameters' />
         <datasource caption='Database' name='federated.1nfw8zd1hbpwa11dux5o50rl41si' />
       </datasources>
       <datasource-dependencies datasource='Parameters'>
@@ -2706,11 +3406,11 @@
             <member alias='Demand (GWh)' value='&quot;Demand&quot;' />
           </members>
         </column>
-        <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;Retrade&quot;'>
-          <calculation class='tableau' formula='&quot;Retrade&quot;' />
+        <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;baseline&quot;'>
+          <calculation class='tableau' formula='&quot;baseline&quot;' />
         </column>
-        <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Difference&quot;'>
-          <calculation class='tableau' formula='&quot;Difference&quot;' />
+        <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Absolute&quot;'>
+          <calculation class='tableau' formula='&quot;Absolute&quot;' />
           <members>
             <member value='&quot;Absolute&quot;' />
             <member value='&quot;Difference&quot;' />
@@ -2740,10 +3440,10 @@
       </datasource-dependencies>
       <zones>
         <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
-          <zone h='85367' id='7' param='horz' type-v2='layout-flow' w='99064' x='468' y='13761'>
-            <zone h='85367' id='3' param='horz' type-v2='layout-flow' w='84436' x='468' y='13761'>
-              <zone h='85367' id='5' name='Stacked bar (2)' show-title='false' w='84435' x='468' y='13761'>
-                <layout-cache cell-count-w='9' minheight='317' non-cell-size-w='87' type-h='scalable' type-w='cell' />
+          <zone h='84812' id='7' param='horz' type-v2='layout-flow' w='98698' x='651' y='13996'>
+            <zone h='84812' id='3' param='horz' type-v2='layout-flow' w='78356' x='651' y='13996'>
+              <zone h='84812' id='5' name='Stacked bar (2)' show-title='false' w='78355' x='651' y='13996'>
+                <layout-cache cell-count-w='9' minheight='317' non-cell-size-w='100' type-h='scalable' type-w='cell' />
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -2751,7 +3451,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='85367' id='10' name='Stacked bar (3)' show-title='false' w='0' x='84903' y='13761'>
+              <zone h='84812' id='10' name='Stacked bar (3)' show-title='false' w='0' x='79006' y='13996'>
                 <layout-cache type-h='fixed' type-w='cell' />
                 <zone-style>
                   <format attr='border-color' value='#000000' />
@@ -2761,8 +3461,8 @@
                 </zone-style>
               </zone>
             </zone>
-            <zone fixed-size='250' h='85367' id='6' is-fixed='true' param='vert' type-v2='layout-flow' w='14628' x='84904' y='13761'>
-              <zone h='21810' id='8' name='Stacked bar (2)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='14628' x='84904' y='13761'>
+            <zone fixed-size='250' h='84812' id='6' is-fixed='true' param='vert' type-v2='layout-flow' w='20342' x='79007' y='13996'>
+              <zone h='44113' id='8' name='Stacked bar (2)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='20342' x='79007' y='13996'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -2770,7 +3470,7 @@
                   <format attr='margin' value='4' />
                 </zone-style>
               </zone>
-              <zone h='2944' id='29' name='Stacked bar (3)' pane-specification-id='0' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:f:nk]' type-v2='color' w='14628' x='84904' y='35571'>
+              <zone h='4024' id='29' name='Stacked bar (3)' pane-specification-id='0' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:f:nk]' type-v2='color' w='20342' x='79007' y='58109'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -2780,7 +3480,7 @@
               </zone>
             </zone>
           </zone>
-          <zone custom-title='true' h='12889' id='51' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='9854' x='30213' y='872'>
+          <zone custom-title='true' h='12804' id='51' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='9818' x='30284' y='1192'>
             <formatted-text>
               <run bold='true' fontsize='13'>Indicator</run>
             </formatted-text>
@@ -2791,7 +3491,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='12889' id='103' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='13662' x='51010' y='872'>
+          <zone h='12804' id='103' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='13611' x='51005' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2799,7 +3499,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone custom-title='true' h='6385' id='174' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='22363' x='468' y='872'>
+          <zone custom-title='true' h='6342' id='174' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='22279' x='651' y='1192'>
             <formatted-text>
               <run fontsize='13'>Select a view for comparison</run>
             </formatted-text>
@@ -2810,7 +3510,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone custom-title='true' h='6504' id='175' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='22363' x='468' y='7257'>
+          <zone custom-title='true' h='6462' id='175' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='22279' x='651' y='7534'>
             <formatted-text>
               <run fontsize='13'>Reference scenario</run>
             </formatted-text>
@@ -2821,7 +3521,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='12889' id='208' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='13165' x='64672' y='872'>
+          <zone h='12804' id='208' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='13117' x='64616' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2829,7 +3529,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='12889' id='248' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='10943' x='40067' y='872'>
+          <zone h='12804' id='248' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='10903' x='40102' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2837,7 +3537,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='12889' id='319' mode='dropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk]' type-v2='filter' values='database' w='7382' x='22831' y='872'>
+          <zone h='12804' id='319' mode='dropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk]' type-v2='filter' values='database' w='7354' x='22930' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2845,7 +3545,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='12889' id='460' name='Feuille 4' w='21695' x='77837' y='872'>
+          <zone h='12804' id='460' name='Feuille 4' w='21616' x='77733' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -2863,11 +3563,11 @@
       </zones>
       <devicelayouts>
         <devicelayout auto-generated='true' name='Phone'>
-          <size maxheight='1300' minheight='1300' sizing-mode='vscroll' />
+          <size maxheight='1250' minheight='1250' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='462' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98256' id='461' param='vert' type-v2='layout-flow' w='99064' x='468' y='872'>
-                <zone custom-title='true' h='6385' id='174' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='22363' x='468' y='872'>
+            <zone h='100000' id='490' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='97616' id='489' param='vert' type-v2='layout-flow' w='98698' x='651' y='1192'>
+                <zone custom-title='true' h='6342' id='174' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='22279' x='651' y='1192'>
                   <formatted-text>
                     <run fontsize='13'>Select a view for comparison</run>
                   </formatted-text>
@@ -2879,7 +3579,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone custom-title='true' h='12889' id='51' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='9854' x='30213' y='872'>
+                <zone custom-title='true' h='12804' id='51' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='9818' x='30284' y='1192'>
                   <formatted-text>
                     <run bold='true' fontsize='13'>Indicator</run>
                   </formatted-text>
@@ -2891,7 +3591,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='95' h='12889' id='460' is-fixed='true' name='Feuille 4' w='21695' x='77837' y='872'>
+                <zone fixed-size='94' h='12804' id='460' is-fixed='true' name='Feuille 4' w='21616' x='77733' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2900,7 +3600,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone custom-title='true' h='6504' id='175' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='22363' x='468' y='7257'>
+                <zone custom-title='true' h='6462' id='175' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='22279' x='651' y='7534'>
                   <formatted-text>
                     <run fontsize='13'>Reference scenario</run>
                   </formatted-text>
@@ -2912,7 +3612,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='12889' id='103' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='13662' x='51010' y='872'>
+                <zone h='12804' id='103' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='13611' x='51005' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2921,7 +3621,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='12889' id='208' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='13165' x='64672' y='872'>
+                <zone h='12804' id='208' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='13117' x='64616' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2930,7 +3630,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='12889' id='248' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='10943' x='40067' y='872'>
+                <zone h='12804' id='248' mode='checkdropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='10903' x='40102' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2939,7 +3639,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='12889' id='319' mode='dropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk]' type-v2='filter' values='database' w='7382' x='22831' y='872'>
+                <zone h='12804' id='319' mode='dropdown' name='Stacked bar (2)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:z (Union5):nk]' type-v2='filter' values='database' w='7354' x='22930' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2948,8 +3648,8 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='85367' id='5' is-fixed='true' name='Stacked bar (2)' show-title='false' w='84435' x='468' y='13761'>
-                  <layout-cache minheight='317' type-h='scalable' type-w='cell' />
+                <zone fixed-size='280' h='84812' id='5' is-fixed='true' name='Stacked bar (2)' show-title='false' w='78355' x='651' y='13996'>
+                  <layout-cache cell-count-w='9' minheight='317' non-cell-size-w='100' type-h='scalable' type-w='cell' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2958,7 +3658,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='21810' id='8' name='Stacked bar (2)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='14628' x='84904' y='13761'>
+                <zone h='44113' id='8' name='Stacked bar (2)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='20342' x='79007' y='13996'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -2967,7 +3667,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='85367' id='10' is-fixed='true' name='Stacked bar (3)' show-title='false' w='0' x='84903' y='13761'>
+                <zone fixed-size='280' h='84812' id='10' is-fixed='true' name='Stacked bar (3)' show-title='false' w='0' x='79006' y='13996'>
                   <layout-cache type-h='fixed' type-w='cell' />
                   <zone-style>
                     <format attr='border-color' value='#000000' />
@@ -2977,7 +3677,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='2944' id='29' name='Stacked bar (3)' pane-specification-id='0' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:f:nk]' type-v2='color' w='14628' x='84904' y='35571'>
+                <zone h='4024' id='29' name='Stacked bar (3)' pane-specification-id='0' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:f:nk]' type-v2='color' w='20342' x='79007' y='58109'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3003,7 +3703,7 @@
       <style />
       <size sizing-mode='automatic' />
       <datasources>
-        <datasource caption='Paramètres' name='Parameters' />
+        <datasource name='Parameters' />
         <datasource caption='Database' name='federated.1nfw8zd1hbpwa11dux5o50rl41si' />
       </datasources>
       <datasource-dependencies datasource='Parameters'>
@@ -3028,11 +3728,11 @@
             <member alias='Demand (GWh)' value='&quot;Demand&quot;' />
           </members>
         </column>
-        <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;Retrade&quot;'>
-          <calculation class='tableau' formula='&quot;Retrade&quot;' />
+        <column _.fcp.ParameterDefaultValues.true...source-field='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[Path (Union6) - Scission 1]' caption='Reference scenario' datatype='string' name='[Paramètre Scenario]' param-domain-type='list' role='measure' type='nominal' value='&quot;baseline&quot;'>
+          <calculation class='tableau' formula='&quot;baseline&quot;' />
         </column>
-        <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Difference&quot;'>
-          <calculation class='tableau' formula='&quot;Difference&quot;' />
+        <column caption='Select a view Compare' datatype='string' name='[Select a view (copie)_2609273100696231945]' param-domain-type='list' role='measure' type='nominal' value='&quot;Absolute&quot;'>
+          <calculation class='tableau' formula='&quot;Absolute&quot;' />
           <members>
             <member value='&quot;Absolute&quot;' />
             <member value='&quot;Difference&quot;' />
@@ -3060,10 +3760,10 @@
       </datasource-dependencies>
       <zones>
         <zone h='100000' id='4' type-v2='layout-basic' w='100000' x='0' y='0'>
-          <zone h='86806' id='11' param='horz' type-v2='layout-flow' w='99064' x='468' y='12322'>
-            <zone h='86806' id='9' param='horz' type-v2='layout-flow' w='84494' x='468' y='12322'>
-              <zone h='86806' id='5' type-v2='layout-basic' w='84494' x='468' y='12322'>
-                <zone h='86806' id='3' name='Stacked bar (4)' show-title='false' w='84494' x='468' y='12322'>
+          <zone h='86242' id='11' param='horz' type-v2='layout-flow' w='98698' x='651' y='12566'>
+            <zone h='86242' id='9' param='horz' type-v2='layout-flow' w='78438' x='651' y='12566'>
+              <zone h='86242' id='5' type-v2='layout-basic' w='78438' x='651' y='12566'>
+                <zone h='86242' id='3' name='Stacked bar (4)' show-title='false' w='78438' x='651' y='12566'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3073,8 +3773,16 @@
                 </zone>
               </zone>
             </zone>
-            <zone fixed-size='249' h='86806' id='10' is-fixed='true' param='vert' type-v2='layout-flow' w='14570' x='84962' y='12322'>
-              <zone h='16139' id='12' name='Stacked bar (4)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='14570' x='84962' y='12322'>
+            <zone fixed-size='249' h='86242' id='10' is-fixed='true' param='vert' type-v2='layout-flow' w='20260' x='79089' y='12566'>
+              <zone h='1192' id='12' name='Stacked bar (4)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='20260' x='79089' y='12566'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone h='53502' id='307' name='Stacked bar (4)' pane-specification-id='4' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]&#10;[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]' type-v2='color' w='20260' x='79089' y='13758'>
                 <zone-style>
                   <format attr='border-color' value='#000000' />
                   <format attr='border-style' value='none' />
@@ -3084,7 +3792,7 @@
               </zone>
             </zone>
           </zone>
-          <zone h='11450' id='16' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='11573' x='42708' y='872'>
+          <zone h='11374' id='16' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='11530' x='42734' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -3092,7 +3800,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='11450' id='18' type-v2='empty' w='23982' x='75550' y='872'>
+          <zone h='11374' id='18' type-v2='empty' w='23894' x='75455' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -3100,7 +3808,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone custom-title='true' h='11450' id='19' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='11663' x='18145' y='872'>
+          <zone custom-title='true' h='11374' id='19' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='11619' x='18262' y='1192'>
             <formatted-text>
               <run bold='true' fontsize='13'>Indicator</run>
             </formatted-text>
@@ -3111,7 +3819,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='11450' id='40' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='9658' x='65892' y='872'>
+          <zone h='11374' id='40' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='9623' x='65832' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -3119,7 +3827,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='11450' id='79' mode='dropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='12900' x='29808' y='872'>
+          <zone h='11374' id='79' mode='dropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='12853' x='29881' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -3127,7 +3835,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='11450' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' type-v2='filter' values='database' w='11611' x='54281' y='872'>
+          <zone h='11374' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' type-v2='filter' values='database' w='11568' x='54264' y='1192'>
             <zone-style>
               <format attr='border-color' value='#000000' />
               <format attr='border-style' value='none' />
@@ -3135,7 +3843,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone custom-title='true' h='6106' id='91' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='17677' x='468' y='872'>
+          <zone custom-title='true' h='6065' id='91' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='17611' x='651' y='1192'>
             <formatted-text>
               <run fontsize='13'>Select a view for comparison</run>
             </formatted-text>
@@ -3146,7 +3854,7 @@
               <format attr='margin' value='4' />
             </zone-style>
           </zone>
-          <zone h='5344' id='92' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='17677' x='468' y='6978'>
+          <zone h='5309' id='92' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='17611' x='651' y='7257'>
             <formatted-text>
               <run>Reference scenario</run>
             </formatted-text>
@@ -3167,11 +3875,11 @@
       </zones>
       <devicelayouts>
         <devicelayout auto-generated='true' name='Phone'>
-          <size maxheight='800' minheight='800' sizing-mode='vscroll' />
+          <size maxheight='900' minheight='900' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='294' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='84000' id='293' param='vert' type-v2='layout-flow' w='84000' x='8000' y='8000'>
-                <zone custom-title='true' h='6106' id='91' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='17677' x='468' y='872'>
+            <zone h='100000' id='323' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='97616' id='322' param='vert' type-v2='layout-flow' w='98698' x='651' y='1192'>
+                <zone custom-title='true' h='6065' id='91' mode='compact' param='[Parameters].[Select a view (copie)_2609273100696231945]' type-v2='paramctrl' w='17611' x='651' y='1192'>
                   <formatted-text>
                     <run fontsize='13'>Select a view for comparison</run>
                   </formatted-text>
@@ -3183,7 +3891,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone custom-title='true' h='11450' id='19' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='11663' x='18145' y='872'>
+                <zone custom-title='true' h='11374' id='19' mode='compact' param='[Parameters].[Indicator (copie)_693554406644572160]' type-v2='paramctrl' w='11619' x='18262' y='1192'>
                   <formatted-text>
                     <run bold='true' fontsize='13'>Indicator</run>
                   </formatted-text>
@@ -3195,7 +3903,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='5344' id='92' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='17677' x='468' y='6978'>
+                <zone h='5309' id='92' mode='compact' param='[Parameters].[Paramètre Scenario]' type-v2='paramctrl' w='17611' x='651' y='7257'>
                   <formatted-text>
                     <run>Reference scenario</run>
                   </formatted-text>
@@ -3207,7 +3915,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='11450' id='16' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='11573' x='42708' y='872'>
+                <zone h='11374' id='16' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Path (Union6) - Scission 1:nk]' type-v2='filter' values='relevant' w='11530' x='42734' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3216,7 +3924,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='11450' id='40' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='9658' x='65892' y='872'>
+                <zone h='11374' id='40' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' type-v2='filter' values='relevant' w='9623' x='65832' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3225,7 +3933,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='11450' id='79' mode='dropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='12900' x='29808' y='872'>
+                <zone h='11374' id='79' mode='dropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:y (Union5):ok]' type-v2='filter' values='relevant' w='12853' x='29881' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3234,7 +3942,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='11450' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' type-v2='filter' values='database' w='11611' x='54281' y='872'>
+                <zone h='11374' id='80' mode='checkdropdown' name='Stacked bar (4)' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:c (linestring_countries.geojson):nk]' type-v2='filter' values='database' w='11568' x='54264' y='1192'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3243,7 +3951,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='86806' id='3' is-fixed='true' name='Stacked bar (4)' show-title='false' w='84494' x='468' y='12322'>
+                <zone fixed-size='280' h='86242' id='3' is-fixed='true' name='Stacked bar (4)' show-title='false' w='78438' x='651' y='12566'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3252,7 +3960,16 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='16139' id='12' name='Stacked bar (4)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='14570' x='84962' y='12322'>
+                <zone h='1192' id='12' name='Stacked bar (4)' pane-specification-id='3' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]' show-title='false' type-v2='color' w='20260' x='79089' y='12566'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone h='53502' id='307' name='Stacked bar (4)' pane-specification-id='4' param='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]&#10;[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]' type-v2='color' w='20260' x='79089' y='13758'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -3276,28 +3993,10 @@
     </dashboard>
   </dashboards>
   <windows source-height='30'>
-    <window class='dashboard' maximized='true' name='Compare '>
+    <window class='dashboard' name='Compare '>
       <viewpoints>
         <viewpoint name='Feuille 4'>
           <zoom type='entire-view' />
-          <selection-collection>
-            <tuple-selection>
-              <tuple-reference>
-                <tuple-descriptor>
-                  <pane-descriptor>
-                    <x-fields />
-                    <y-fields />
-                  </pane-descriptor>
-                  <columns>
-                    <field>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_563512919851646976:nk]</field>
-                  </columns>
-                </tuple-descriptor>
-                <tuple>
-                  <value>&quot;Reset Filters&quot;</value>
-                </tuple>
-              </tuple-reference>
-            </tuple-selection>
-          </selection-collection>
         </viewpoint>
         <viewpoint name='Stacked bar (2)'>
           <zoom type='entire-view' />
@@ -3309,13 +4008,19 @@
           <zoom type='entire-view' />
         </viewpoint>
       </viewpoints>
-      <active id='5' />
+      <active id='-1' />
       <simple-id uuid='{E344FAA8-F432-4C79-9697-C05E5C0FB263}' />
     </window>
-    <window class='dashboard' name='Compare V2'>
+    <window class='dashboard' maximized='true' name='Compare V2'>
       <viewpoints>
         <viewpoint name='Stacked bar (4)'>
           <zoom type='entire-view' />
+          <highlight>
+            <color-one-way>
+              <field>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]</field>
+              <field>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]</field>
+            </color-one-way>
+          </highlight>
         </viewpoint>
       </viewpoints>
       <active id='-1' />
@@ -3451,6 +4156,12 @@
       </cards>
       <viewpoint>
         <zoom type='entire-view' />
+        <highlight>
+          <color-one-way>
+            <field>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[:Measure Names]</field>
+            <field>[federated.1nfw8zd1hbpwa11dux5o50rl41si].[none:Calculation_2522578805695479814:nk]</field>
+          </color-one-way>
+        </highlight>
       </viewpoint>
       <simple-id uuid='{A086C3FC-9E21-4532-B9F2-CCC86DC80B7F}' />
     </window>
@@ -3462,46 +4173,44 @@
       </properties>
       <node-execution-subgraphs>
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='e2db00d3-ed52-4b2a-9572-4cee12f7deff' />
-        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='50a05e8d-9b15-42a7-8a19-a6bb5d16a591' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='ebc98e56-f5e5-478b-b85c-12b0cba6ee41' />
+        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='50a05e8d-9b15-42a7-8a19-a6bb5d16a591' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='3dbdc3da-926b-4874-b0bd-5cf83631be27' />
-        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='f5cdd532-9f32-4f88-9af9-b6e2c0958fe1' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='6eb024f1-b36c-44a7-8c3e-1a843e464529' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='fdfff8ae-9a2f-4093-b0c9-9832faeca421' />
+        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='f5cdd532-9f32-4f88-9af9-b6e2c0958fe1' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='df70e67d-e3d2-470b-baa1-0613affa1371' />
-        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='fb839cee-1a5f-4b96-8612-1b995ad6b039' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='da6fd101-a3c0-4221-9586-b234fa996ffb' />
+        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='fb839cee-1a5f-4b96-8612-1b995ad6b039' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='fc055829-625e-4aae-991e-6bc6311f19ef' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='00ea0982-d49d-401f-ab54-e4a954173955' />
-        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='012c4bc3-57b4-4566-b6d1-ba4a1218b35b' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='36216c3f-1c1e-4336-90b4-d8db00d76282' />
-        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='237c431a-78fe-4200-8dd5-be0eed9364f5' />
+        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='012c4bc3-57b4-4566-b6d1-ba4a1218b35b' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='d1b69c6b-8846-46c6-93cc-c0614ca8a6d6' />
+        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='237c431a-78fe-4200-8dd5-be0eed9364f5' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='d2dbe1d5-47fb-4377-8951-9f08c5153a2a' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='1534986f-16ee-4495-b141-e53bec675722' />
-        <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='9e0fc7a8-818b-4711-be08-374e125f6645' />
         <pair execution-subgraph-guid='16ca0d99-b780-471f-9adf-97c833fd42c0' node-guid='3f6d7f94-f4ec-4b6a-9f63-3de025921afc' />
       </node-execution-subgraphs>
       <nodes>
         <_.fcp.DatagraphNodeSingleValueFieldV1.true...single-value-field-node fieldname='[Parameters].[Indicator (copie)_693554406644572160]' fieldname-input-guid='37568921-0cdd-401c-893b-d3beff359bba' node-guid='e2db00d3-ed52-4b2a-9572-4cee12f7deff' value-output-guid='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' />
-        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator (copie)_693554406646398977:qk]' node-guid='ebc98e56-f5e5-478b-b85c-12b0cba6ee41' orientation='vertical' sheet-identifier='{75E704DA-4425-425D-B4CE-8968526112D6}' title-input-guid='45e2bf7e-9580-42b0-bfd9-bcd5f6c8a0d4' />
         <_.fcp.DatagraphNodeSingleValueFieldV1.true...single-value-field-node fieldname='[Parameters].[Indicator Advanced 1 (copie)_451204451707670529]' fieldname-input-guid='c92b4ae7-78fb-41fb-a016-9c26c46edd55' node-guid='50a05e8d-9b15-42a7-8a19-a6bb5d16a591' value-output-guid='a69b41a5-c075-4a42-ae99-4bad4c55ad1d' />
+        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator (copie)_693554406646398977:qk]' node-guid='ebc98e56-f5e5-478b-b85c-12b0cba6ee41' orientation='vertical' sheet-identifier='{75E704DA-4425-425D-B4CE-8968526112D6}' title-input-guid='45e2bf7e-9580-42b0-bfd9-bcd5f6c8a0d4' />
         <_.fcp.DatagraphNodeSingleValueFieldV1.true...single-value-field-node fieldname='[Parameters].[Paramètre 3]' fieldname-input-guid='996af291-963e-4e14-97f0-0417d9b3cfc1' node-guid='3dbdc3da-926b-4874-b0bd-5cf83631be27' value-output-guid='60ef7c90-4c78-4757-b61f-5edc112eda35' />
+        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_451204451705303040:qk]' node-guid='f5cdd532-9f32-4f88-9af9-b6e2c0958fe1' orientation='vertical' sheet-identifier='{75E704DA-4425-425D-B4CE-8968526112D6}' title-input-guid='43212cdb-4781-4e15-9c99-cb6c881fcf1e' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator advanced 1 (copie)_451204451707744258:qk]' node-guid='6eb024f1-b36c-44a7-8c3e-1a843e464529' orientation='vertical' sheet-identifier='{3CCDDB22-E9D3-4B9F-AEC9-D460E25D75C0}' title-input-guid='547ad9ac-89c5-4233-8d3f-f1ce16f77816' />
         <_.fcp.DatagraphNodeSingleValueFieldV1.true...single-value-field-node fieldname='[Parameters].[Emission type (copie)_451204451709202436]' fieldname-input-guid='6bf30ec7-6972-420c-8c6b-b13e19a72f2f' node-guid='fdfff8ae-9a2f-4093-b0c9-9832faeca421' value-output-guid='56b7f634-ce86-4759-9c01-9c3c80d53c7e' />
-        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_451204451705303040:qk]' node-guid='f5cdd532-9f32-4f88-9af9-b6e2c0958fe1' orientation='vertical' sheet-identifier='{75E704DA-4425-425D-B4CE-8968526112D6}' title-input-guid='43212cdb-4781-4e15-9c99-cb6c881fcf1e' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value emissions (copie)_451204451709149187:qk]' node-guid='df70e67d-e3d2-470b-baa1-0613affa1371' orientation='vertical' sheet-identifier='{3CCDDB22-E9D3-4B9F-AEC9-D460E25D75C0}' title-input-guid='26dba34f-5597-4a38-a5bf-d04e14225c37' />
-        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator advanced 1 (copie)_451204451707744258:qk]' node-guid='da6fd101-a3c0-4221-9586-b234fa996ffb' orientation='vertical' sheet-identifier='{259BE606-5444-4360-80C4-718B22699876}' title-input-guid='aac003cc-a913-4095-bdcb-dcb56a6799eb' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator (copie)_693554406646398977:qk]' node-guid='fb839cee-1a5f-4b96-8612-1b995ad6b039' orientation='vertical' sheet-identifier='{E282CCC7-62F0-4795-8123-7D7B4B5FDAC1}' title-input-guid='5446cd1a-7a4d-4d79-9074-86bf94f17a07' />
+        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator advanced 1 (copie)_451204451707744258:qk]' node-guid='da6fd101-a3c0-4221-9586-b234fa996ffb' orientation='vertical' sheet-identifier='{259BE606-5444-4360-80C4-718B22699876}' title-input-guid='aac003cc-a913-4095-bdcb-dcb56a6799eb' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_451204451705303040:qk]' node-guid='fc055829-625e-4aae-991e-6bc6311f19ef' orientation='vertical' sheet-identifier='{E282CCC7-62F0-4795-8123-7D7B4B5FDAC1}' title-input-guid='2a19a879-5004-4ae3-8369-ef6e912aa427' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator advanced 1 (copie)_451204451707744258:qk]' node-guid='00ea0982-d49d-401f-ab54-e4a954173955' orientation='vertical' sheet-identifier='{C486D5DD-F7B1-4657-9410-C4FAD94C0AFD}' title-input-guid='4103698e-e2c7-4bcb-b8a5-881b145c29e6' />
-        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator advanced 1 (copie)_451204451707744258:qk]' node-guid='36216c3f-1c1e-4336-90b4-d8db00d76282' orientation='vertical' sheet-identifier='{ABFB76D9-5DBB-48B6-A9D2-B87724733A90}' title-input-guid='0188e354-63a1-4df5-9cd5-9d3ab033b556' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value emissions (copie)_451204451709149187:qk]' node-guid='012c4bc3-57b4-4566-b6d1-ba4a1218b35b' orientation='vertical' sheet-identifier='{C486D5DD-F7B1-4657-9410-C4FAD94C0AFD}' title-input-guid='b64b0114-bcdf-494a-a65a-937da73dce41' />
-        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator (copie)_693554406646398977:qk]' node-guid='d1b69c6b-8846-46c6-93cc-c0614ca8a6d6' orientation='vertical' sheet-identifier='{334E71DF-93AC-4B33-97DC-B27CADFA361D}' title-input-guid='c7efa71e-e6d4-4834-86b5-5ce227023dc9' />
+        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator advanced 1 (copie)_451204451707744258:qk]' node-guid='36216c3f-1c1e-4336-90b4-d8db00d76282' orientation='vertical' sheet-identifier='{ABFB76D9-5DBB-48B6-A9D2-B87724733A90}' title-input-guid='0188e354-63a1-4df5-9cd5-9d3ab033b556' />
         <_.fcp.DatagraphNodeSingleValueFieldV1.true...single-value-field-node fieldname='[Parameters].[Paramètre 4]' fieldname-input-guid='24d79568-501f-4c2c-973f-84c1adbf506d' node-guid='237c431a-78fe-4200-8dd5-be0eed9364f5' value-output-guid='eda0760a-17f5-4f9e-80c1-56d538ba0b08' />
+        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator (copie)_693554406646398977:qk]' node-guid='d1b69c6b-8846-46c6-93cc-c0614ca8a6d6' orientation='vertical' sheet-identifier='{334E71DF-93AC-4B33-97DC-B27CADFA361D}' title-input-guid='c7efa71e-e6d4-4834-86b5-5ce227023dc9' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.005v4yt1l0gi5114o6voe10bui3h].[usr:Calculation_214765471562522629:qk]' node-guid='d2dbe1d5-47fb-4377-8951-9f08c5153a2a' orientation='vertical' sheet-identifier='{575F595C-2F59-4171-950D-318749EC116F}' title-input-guid='7d192e81-d022-441e-90a9-c0da9ebc738a' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' node-guid='1534986f-16ee-4495-b141-e53bec675722' orientation='vertical' sheet-identifier='{46D3C222-46A0-4410-A7D8-4C4A8029F10B}' title-input-guid='687c1e35-c252-4f7f-be4c-8cda1dcf06c9' />
-        <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Calculation_2609273100696444938:qk]' node-guid='9e0fc7a8-818b-4711-be08-374e125f6645' orientation='vertical' sheet-identifier='{F09031BC-8A09-4742-B0DD-D389B9681ED5}' title-input-guid='403b03b3-ea27-4a6f-b4dc-0020347e4a8f' />
         <_.fcp.DatagraphNodeAxisTitle.true...axis-title-node duplicate-index='0' fieldname='[federated.1nfw8zd1hbpwa11dux5o50rl41si].[usr:Value indicator (copie)_693554406646398977:qk]' node-guid='3f6d7f94-f4ec-4b6a-9f63-3de025921afc' orientation='vertical' sheet-identifier='{7A1232F7-B1BC-484F-B2B8-DE20BC10FA3D}' title-input-guid='e7944a4e-006b-4171-aa14-04eb12bbbcd8' />
       </nodes>
       <edges>
@@ -3516,7 +4225,6 @@
         <edge from='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' to='45e2bf7e-9580-42b0-bfd9-bcd5f6c8a0d4' />
         <edge from='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' to='5446cd1a-7a4d-4d79-9074-86bf94f17a07' />
         <edge from='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' to='687c1e35-c252-4f7f-be4c-8cda1dcf06c9' />
-        <edge from='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' to='403b03b3-ea27-4a6f-b4dc-0020347e4a8f' />
         <edge from='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' to='c7efa71e-e6d4-4834-86b5-5ce227023dc9' />
         <edge from='d3deffef-3e9f-460a-a2da-bfbd85f91e1a' to='e7944a4e-006b-4171-aa14-04eb12bbbcd8' />
         <edge from='eda0760a-17f5-4f9e-80c1-56d538ba0b08' to='7d192e81-d022-441e-90a9-c0da9ebc738a' />
@@ -3527,276 +4235,390 @@
   <thumbnails>
     <thumbnail height='192' name='Compare ' width='192'>
       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
-      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
-      RU5ErkJggg==
+      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
+      aBIAEdH+HyLazKvsjfyMAAAAAElFTkSuQmCC
     </thumbnail>
     <thumbnail height='192' name='Compare V2' width='192'>
       iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
-      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
+      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
     </thumbnail>
   </thumbnails>
   <external>
