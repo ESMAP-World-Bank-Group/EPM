@@ -2,8 +2,9 @@
 
 Tableau is the recommended approach for most users, providing a user-friendly interface for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.
 
-Example: _[SAPP overview](https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes)_  
-_[SAPP comparison of scenarios](https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes)_
+Example: 
+- _[SAPP overview](https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes)_  
+- _[SAPP comparison of scenarios](https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes)_
 
 This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.
 
@@ -81,19 +82,24 @@ Upload the folder to OneDrive to access from the shared VDI machine. From the VD
 
 ## 4. Connect to the shared VDI
 
-Tableau is pre-installed on the shared VDI machine. 
-You may need to register if this is your first connection.
+Tableau is pre-installed on the shared VDI machine with the shared Tableau license. 
+You may still need to register if this is your first connection.
 
 ## 5. Open the Tableau file
 
-From the shared VDI, click on the `.twb` file corresponding to your desired visualization.
+From the shared VDI, click on the `.twb` file corresponding to your desired visualization in the folder created in Step 1.
 
 **Available Tableau interfaces**:  
 - **Single scenario viewer**: Use for exploring one scenario at a time: [ESMAP_Tableau_Overview.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb)
 - **Scenario comparison viewer**: Use for comparing multiple scenarios side by side: [ESMAP_Tableau_Compare.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Compare.twb)
 - **Complete viewer**: For simpler models: [ESMAP_Tableau_Complete.twb](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb)
 
-## 6. Save your Dashboard as Public
+## 6. Extract data 
+
+Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
+To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `linestring`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+
+## 7. Save your Dashboard as Public
 
 Use Tableau Public to visualize and share your results.
 
@@ -109,8 +115,7 @@ You may adapt the settings based on the intended usage of this visualization, by
 
 To update the visualization for new scenarios, you should follow the steps:
 1. Upload new scenarios with the correct structure, ensuring one is named `baseline`.
-2. Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `linestring`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+2. Extract the data as explained in Step 6 above.
 3. Once this has been done, data is extracted and optimized so that the visualizations will now load faster.
 4. When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
    1. Keep previous extracts but view new data: For each of the dataset above, unclick `Use Extract` (reverts to live mode).
@@ -120,7 +125,79 @@ To avoid these delays, you must extract the data. For each of these four data se
 **Note**: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).
 
 
+## 8. How to modify Tableau visualization
 
+As explained above, Tableau Desktop is available from the shared team VDI. This tutorial covers the basics to help you create your first dashboard. For an in-depth analysis, you can also watch this [video](https://www.youtube.com/watch?v=j8FSP8XuFyk)
 
+A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization dashboard is available on the team's Drive [here](https://worldbankgroup.sharepoint.com/:v:/r/teams/PowerSystemPlanning-WBGroup/Shared%20Documents/EPM/4.%20Developments/Tableau/Tutorial%20Tableau%20June%202025.mov?csf=1&web=1&e=wzOYrj).
 
+### 🔗 1. Connect to a Data Source
 
+1. On the **Start Page**, under **Connect**, choose your data source:
+    
+    - Excel, Text File, CSV
+        
+    - Database (e.g., MySQL, PostgreSQL)
+        
+    - Tableau Server or cloud sources
+        
+2. Browse and select your file or enter credentials for databases.
+    
+3. Tableau will open the **Data Source** tab, displaying the data preview.
+
+## 📐 2. Prepare the Data
+
+- Rename fields by double-clicking headers.
+    
+- Change data types by clicking the data type icon.
+    
+- Create calculated fields if needed (`Analysis > Create Calculated Field`).
+
+## 📊 3. Build Visualizations (Sheets)
+
+1. Click on a **new worksheet** (`Sheet 1`).
+    
+2. Drag fields from the **Data pane** into:
+    
+    - **Rows** and **Columns** to build charts
+        
+    - **Marks** (Color, Size, Label, etc.) for additional detail
+        
+3. Examples:
+    
+    - Bar chart: Drag `Category` to Columns and `Sales` to Rows
+        
+    - Map: Drag `Country` to the view
+
+## 🧩4. Create a Dashboard
+
+1. Click the **New Dashboard** icon (`Dashboard 1`).
+    
+2. Drag sheets from the **Sheets pane** onto the dashboard area.
+    
+3. Use objects (e.g., Text, Image, Web) from the left sidebar to enhance your dashboard.
+    
+4. Adjust layout and sizing to fit your needs.
+
+## 🎛️ 5. Add Interactivity
+
+- Use **Filters**:
+    
+    - Drag a field to Filters on a worksheet, then show it on the dashboard.
+        
+- Use **Actions** (`Dashboard > Actions`) to:
+    
+    - Filter other views
+        
+    - Highlight data
+        
+    - Link to other sheets or websites
+
+## 💾 6. Save and Share
+
+- Save your workbook as `.twb` or `.twbx`.
+    
+- Export as PDF or Image (`File > Export`).
+    
+- Publish to Tableau Server, Tableau Public, or Tableau Cloud.
+        
