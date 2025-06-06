@@ -51,4 +51,5 @@ parts:
         - file: docs/representative_days_doc.ipynb
   - caption: Other Resources
     chapters:
-        - file: docs/models_overview
+        - file: docs/other_overview
+        - file: docs/other_comparison
