@@ -34,7 +34,7 @@ Once connected, you’ll have access to:
 
 ## 3. Clone the EPM Repository
 
-Storage rules
+**Storage rules**
 
 - Do **not** store data, code, or results in `/home/wb_yourID/`.
 - Use the `/Data` directory for **all** storage and simulations. This is where disk space is allocated.
@@ -98,12 +98,17 @@ which conda
 conda --version
 ```
 
-All simulations must be run from the `/Data` folder, not from `/home`.
+All simulations must be run from the `/Data` folder, not from `/home`. 
+To do so, you should change working directory after connecting to the server:
+
+```sh 
+cd /Data
+cd yourdirectory/EPM/epm
+```
 
 Each time you run:
 ```sh
 conda activate epm_env
-cd EPM/epm
 python run_epm.py
 ```
 
@@ -132,18 +137,66 @@ gams main.gms --FOLDER_INPUT input_folder
 
 ## 6. Run in Background (Essential for Long Runs)
 
-To **start a long simulation and disconnect safely**, add `nohup` at the beginning and `&` at the end of your command:
+For long-running simulations, it is important that your job continues running even if you disconnect from the server. This can be achieved using `tmux`, a terminal multiplexer that allows you to create virtual sessions that persist after logout.
 
-```sh
-nohup python epm.py --folder_input data_sapp --sensitivity &
+Start a new tmux session, and then, inside the session, launch your job (adjust the command as needed):
+
+```sh 
+tmux new -s epmrun
+python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --sensitivity 
 ```
 
-This ensures the process keeps running even after you close the server session.
 
-To verify it’s still running:
+To leave the session without stopping your job, press the following key sequence:
+```sh 
+Ctrl + B, then D
+```
+
+This detaches the session and sends it to the background, allowing your job to continue running.
+
+If the keyboard shortcut does not work (e.g., due to terminal configuration), you can also run the following from another terminal:
+```sh 
+tmux detach-client
+```
+
+To see all active tmux sessions:
+```sh 
+tmux list-sessions
+```
+
+If your session appears with `(attached)`, it is still active in a terminal window. If not, it is safely detached and running in the background.
+
+To reconnect to a running session:
+```sh 
+tmux attach -t epmrun
+```
+
+To verify processes running:
 ```sh
 ps aux | grep epm.py
 ```
+
+You get a list of all active processes related to the script epm.py. Each line corresponds to a running process. Here's how to read one. Example line:
+```sh 
+wb636520  999873  6.9  0.0  891358 184220 ?  Sl  11:49  0:07 python epm.py 
+```
+
+Here is a column-by-column Breakdown
+
+| Field | Column         | Description                                                                 |
+|-------|----------------|-----------------------------------------------------------------------------|
+|  wb636520     | `USER`      | User who launched the process                                               |
+|   999873    | `PID`     | Process ID — unique identifier for the process                              |
+|    6.9   | `%CPU`    | CPU usage percentage                                                        |
+|  0.0     | `%MEM`    | Memory usage percentage                                                     |
+|  891358     | `VSZ`     | Virtual memory size (in kilobytes)                                          |
+|  184220     | `RSS`     | Resident Set Size — physical memory usage (in kilobytes)                   |
+|   ?    | `TTY`     | Terminal controlling the process (`?` means none; typical for background)   |
+|  Sl     | `STAT`    | Process status (e.g., `S` = sleeping, `R` = running, `Z` = zombie) + flags  |
+|   11:49    | `START`   | Time the process started (HH:MM or date)                                    |
+|   0:07    | `TIME`    | Total CPU time the process has used so far                                  |
+|     python epm.py  | `COMMAND` | Command used to launch the process, including all arguments                 |
+
 
 To stop it if needed:
 ```sh
@@ -162,7 +215,7 @@ kill -9 <PID>
 - **Go up one level**: `cd ..`  
 - **Print current directory**: `pwd`  
 - **Make directory**: `mkdir new_folder`  
-- **Delete directory and contents**: `rm -r folder_name` *(⚠ irreversible)*
+- **Delete directory and contents**: `rm -rf folder_name` *(⚠ irreversible)*
 
 ### Server Usage Tips
 

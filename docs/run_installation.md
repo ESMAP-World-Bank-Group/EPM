@@ -53,10 +53,12 @@ A **branch** is your personal workspace, so you can make changes without affecti
    git branch
    ```
 
-2. Create and switch to your new branch (e.g., `guinea`):
+2. Create and switch to your new branch (e.g., `guinea_2025`):
    ```sh
-   git checkout -b guinea
+   git checkout -b guinea_2025
    ```
+
+If you check your current branch again, you should now see the name of your new branch highlighted.
 
 3. Push your new branch to GitHub:
    ```sh
