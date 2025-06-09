@@ -1298,6 +1298,7 @@ def main(test_args=None):
 
     # Zip the folder if it exists
     if args.output_zip and folder and os.path.exists(folder):
+        print(f"Compressing results folder {folder}")
         zip_path = folder + '.zip'
         shutil.make_archive(folder, 'zip', folder)
         shutil.rmtree(folder)  # Remove the original folder
