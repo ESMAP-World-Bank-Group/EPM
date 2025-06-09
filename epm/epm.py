@@ -1157,7 +1157,7 @@ def main(test_args=None):
 
     parser.add_argument(
         "--reduced_output",
-        action="store_false",
+        action="store_true",
         help="Enable reduced output (default: False)"
     )
 
@@ -1292,7 +1292,7 @@ def main(test_args=None):
         folder = args.postprocess
 
 
-    postprocess_output(folder, reduced_output=False, folder='postprocessing',
+    postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                        graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
 
