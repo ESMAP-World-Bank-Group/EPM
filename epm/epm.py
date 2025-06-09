@@ -53,7 +53,7 @@ from gams import GamsWorkspace
 import json
 import argparse
 
-from postprocessing.utils import postprocess_output
+from postprocessing.utils import postprocess_output, path_to_extract_results
 import re
 from pathlib import Path
 import sys
@@ -1297,6 +1297,7 @@ def main(test_args=None):
                        graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
 
     # Zip the folder if it exists
+    folder = path_to_extract_results(folder)
     if args.output_zip and folder and os.path.exists(folder):
         print(f"Compressing results folder {folder}")
         zip_path = folder + '.zip'
