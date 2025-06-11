@@ -1011,13 +1011,13 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#on-mac">
-     On Mac
+    <a class="reference internal nav-link" href="#on-windows">
+     On Windows
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#on-windows">
-     On Windows
+    <a class="reference internal nav-link" href="#on-mac">
+     On Mac
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -1226,11 +1226,17 @@ title="Print to PDF"
 <ul class="simple">
 <li><p>Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally &gt;= 48).</p></li>
 </ul>
-<section id="on-mac">
-<h3>On Mac<a class="headerlink" href="#on-mac" title="Permalink to this heading">#</a></h3>
-<p>Follow these steps:</p>
-<ol class="arabic">
-<li><p>Open a terminal or command prompt.</p></li>
+<section id="on-windows">
+<h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading">#</a></h3>
+<p>On Windows, you first need to install <code class="docutils literal notranslate"><span class="pre">Microsoft</span> <span class="pre">C++</span> <span class="pre">Build</span> <span class="pre">Tools</span></code> to compile some of the packages (specifically, <code class="docutils literal notranslate"><span class="pre">chaospy</span></code>):</p>
+<ol class="arabic simple">
+<li><p>Go to <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">VSCode build tools</a></p></li>
+<li><p>Download and install Build Tools for Visual Studio.</p></li>
+<li><p>During installation, check the option: <code class="docutils literal notranslate"><span class="pre">C++</span> <span class="pre">build</span> <span class="pre">tools</span></code></p></li>
+</ol>
+<p>Then you can follow these steps:</p>
+<ol class="arabic" start="5">
+<li><p>Open a terminal or command prompt (Anaconda Prompt).</p></li>
 <li><p>Navigate to the folder where you cloned EPM:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM
 </pre></div>
@@ -1253,15 +1259,9 @@ title="Print to PDF"
 </li>
 </ol>
 </section>
-<section id="on-windows">
-<h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading">#</a></h3>
-<p>The same steps should be followed. An extra step is however necessary before creating the package since Windows needs extra tools to compile some of the packages (specifically, <code class="docutils literal notranslate"><span class="pre">chaospy</span></code>).</p>
-<ol class="arabic simple">
-<li><p>Go to <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">VSCode build tools</a></p></li>
-<li><p>Download and install Build Tools for Visual Studio.</p></li>
-<li><p>During installation, check the option: <code class="docutils literal notranslate"><span class="pre">C++</span> <span class="pre">build</span> <span class="pre">tools</span></code></p></li>
-<li><p>After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command as described in previous section for Mac.</p></li>
-</ol>
+<section id="on-mac">
+<h3>On Mac<a class="headerlink" href="#on-mac" title="Permalink to this heading">#</a></h3>
+<p>You can follow the 5 to 9 steps above (the prior installation of <code class="docutils literal notranslate"><span class="pre">Microsoft</span> <span class="pre">C++</span> <span class="pre">Build</span> <span class="pre">Tools</span></code> is not needed).</p>
 </section>
 <section id="on-linux-remote-server">
 <h3>On Linux (remote server)<a class="headerlink" href="#on-linux-remote-server" title="Permalink to this heading">#</a></h3>
@@ -1590,13 +1590,13 @@ This CSV file defines which input files correspond to which parameters in the mo
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#on-mac">
-     On Mac
+    <a class="reference internal nav-link" href="#on-windows">
+     On Windows
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#on-windows">
-     On Windows
+    <a class="reference internal nav-link" href="#on-mac">
+     On Mac
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
