@@ -1124,8 +1124,7 @@ title="Print to PDF"
 <p>Tableau is the recommended approach for most users, providing a user-friendly interface for comparing scenarios, countries, and years across various indicators (capacity, energy, trade flows, costs, etc.). Interactive filters allow detailed data exploration.</p>
 <p>Example:</p>
 <ul class="simple">
-<li><p><em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPPregionalintegration/Home?publish=yes">SAPP overview</a></em></p></li>
-<li><p><em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/SAPP-Comparison/Compare?publish=yes">SAPP comparison of scenarios</a></em></p></li>
+<li><p><em><a class="reference external" href="https://public.tableau.com/app/profile/celia.escribe/viz/Tableaudemonstration-SAPPexample/Home?publish=yes">SAPP modeling</a></em></p></li>
 </ul>
 <p>This dashboard directly uses the CSV files exported during EPM runs. No manual data formatting is required if the model is launched from the Python workflow.</p>
 <section id="how-to-use-tableau-for-epm">
@@ -1143,9 +1142,7 @@ title="Print to PDF"
 <section id="create-the-folder-structure-for-tableau">
 <h2>1. Create the folder structure for Tableau<a class="headerlink" href="#create-the-folder-structure-for-tableau" title="Permalink to this heading">#</a></h2>
 <p>The folder structure should look like this:</p>
-<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>├── ESMAP_Tableau_Compare.twb
-├── ESMAP_Tableau_Overview.twb
-├── ESMAP_Tableau_Complete.twb
+<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>├── ESMAP_Tableau.twb
 ├── ESMAP_logo.png
 ├── linestring_countries.geojson
 └── scenarios/
@@ -1163,6 +1160,7 @@ title="Print to PDF"
 <blockquote>
 <div><p><strong>Important</strong>: One scenario must be named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>, or an error will occur.</p>
 </div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">ESMAP_Tableau.twb</span></code> file can be downloaded from <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb">here</a>.</p>
 </section>
 <section id="generate-linestring-countries-geojson-and-add-to-the-directory">
 <h2>2. Generate <code class="docutils literal notranslate"><span class="pre">linestring_countries.geojson</span></code> and add to the directory<a class="headerlink" href="#generate-linestring-countries-geojson-and-add-to-the-directory" title="Permalink to this heading">#</a></h2>
@@ -1213,17 +1211,11 @@ You may still need to register if this is your first connection.</p>
 <section id="open-the-tableau-file">
 <h2>5. Open the Tableau file<a class="headerlink" href="#open-the-tableau-file" title="Permalink to this heading">#</a></h2>
 <p>From the shared VDI, click on the <code class="docutils literal notranslate"><span class="pre">.twb</span></code> file corresponding to your desired visualization in the folder created in Step 1.</p>
-<p><strong>Available Tableau interfaces</strong>:</p>
-<ul class="simple">
-<li><p><strong>Single scenario viewer</strong>: Use for exploring one scenario at a time: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb">ESMAP_Tableau_Overview.twb</a></p></li>
-<li><p><strong>Scenario comparison viewer</strong>: Use for comparing multiple scenarios side by side: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Compare.twb">ESMAP_Tableau_Compare.twb</a></p></li>
-<li><p><strong>Complete viewer</strong>: For simpler models: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Complete.twb">ESMAP_Tableau_Complete.twb</a></p></li>
-</ul>
 </section>
 <section id="extract-data">
 <h2>6. Extract data<a class="headerlink" href="#extract-data" title="Permalink to this heading">#</a></h2>
 <p>Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to <code class="docutils literal notranslate"><span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Extract</span> <span class="pre">data</span></code>: <code class="docutils literal notranslate"><span class="pre">linestring</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostSummaryWeightedAverageCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">Plant</span> <span class="pre">DB</span></code> and <code class="docutils literal notranslate"><span class="pre">pSummary</span></code>. You should click on <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">settings</span></code> when asked. If Tableau warns that a file already exists, click Replace this file.</p>
+To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to <code class="docutils literal notranslate"><span class="pre">Data</span></code> and <code class="docutils literal notranslate"><span class="pre">Extract</span> <span class="pre">data</span></code>: <code class="docutils literal notranslate"><span class="pre">Database_Compare</span></code>, <code class="docutils literal notranslate"><span class="pre">Main_Database</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostSummaryWeightedAverageCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">Plant</span> <span class="pre">DB</span></code> and <code class="docutils literal notranslate"><span class="pre">pSummary</span></code>. You should click on <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">settings</span></code> when asked. If Tableau warns that a file already exists, click Replace this file.</p>
 </section>
 <section id="save-your-dashboard-as-public">
 <h2>7. Save your Dashboard as Public<a class="headerlink" href="#save-your-dashboard-as-public" title="Permalink to this heading">#</a></h2>
@@ -1242,22 +1234,21 @@ You may adapt the settings based on the intended usage of this visualization, by
 <h2>7. Update visualization<a class="headerlink" href="#update-visualization" title="Permalink to this heading">#</a></h2>
 <p>To update the visualization for new scenarios, you should follow the steps:</p>
 <ol class="arabic simple">
-<li><p>Upload new scenarios with the correct structure, ensuring one is named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>.</p></li>
-<li><p>Extract the data as explained in Step 6 above.</p></li>
-<li><p>Once this has been done, data is extracted and optimized so that the visualizations will now load faster.</p></li>
-<li><p>When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:</p>
+<li><p>Upload new scenarios with the correct structure, ensuring one is named <code class="docutils literal notranslate"><span class="pre">baseline</span></code>.
+2When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:</p>
 <ol class="arabic simple">
 <li><p>Keep previous extracts but view new data: For each of the dataset above, unclick <code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">Extract</span></code> (reverts to live mode).</p></li>
 <li><p>Replace extracts with new data: for each of the dataset above, go to <code class="docutils literal notranslate"><span class="pre">Extract</span></code> → <code class="docutils literal notranslate"><span class="pre">Remove</span></code> → <code class="docutils literal notranslate"><span class="pre">Remove</span> <span class="pre">the</span> <span class="pre">extract</span> <span class="pre">and</span> <span class="pre">delete</span> <span class="pre">the</span> <span class="pre">extract</span> <span class="pre">file</span></code>.
-Then re-extract to optimize the new data (Step 2)</p></li>
+Then re-extract to optimize the new data (Step 6)</p></li>
 </ol>
 </li>
+<li><p>Once this has been done, data is extracted and optimized so that the visualizations will now load faster.</p></li>
 </ol>
 <p><strong>Note</strong>: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).</p>
 </section>
 <section id="how-to-modify-tableau-visualization">
 <h2>8. How to modify Tableau visualization<a class="headerlink" href="#how-to-modify-tableau-visualization" title="Permalink to this heading">#</a></h2>
-<p>As explained above, Tableau Desktop is available from the shared team VDI. This tutorial covers the basics to help you create your first dashboard. For an in-depth analysis, you can also watch this <a class="reference external" href="https://www.youtube.com/watch?v=j8FSP8XuFyk">video</a></p>
+<p>As explained above, Tableau Desktop is available from the shared team VDI. This tutorial covers the basics to help you create your first dashboard. For an in-depth analysis, you can also watch this <a class="reference external" href="https://www.youtube.com/watch?v=j8FSP8XuFyk">video</a>.</p>
 <p>A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization dashboard is available on the team’s Drive <a class="reference external" href="https://worldbankgroup.sharepoint.com/:v:/r/teams/PowerSystemPlanning-WBGroup/Shared%20Documents/EPM/4.%20Developments/Tableau/Tutorial%20Tableau%20June%202025.mov?csf=1&amp;web=1&amp;e=wzOYrj">here</a>.</p>
 <section id="connect-to-a-data-source">
 <h3>🔗 1. Connect to a Data Source<a class="headerlink" href="#connect-to-a-data-source" title="Permalink to this heading">#</a></h3>
