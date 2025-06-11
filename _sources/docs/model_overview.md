@@ -16,11 +16,11 @@ The World Bank’s Electricity Planning Model (EPM) is a long-term, multi-year, 
 
 The model is an abstract representation of the real power systems with certain limitations described in more detail in section 1.5.
 
-EPM is used mostly to perform least cost expansion plans as well as dispatch analyses. Developed by ESMAP since 2015, EPM has been used to study dozens of countries. EPM uses a core mixed integer programming multi-zone model, implemented in the General Algebraic Modelling System ([GAMS](https://www.gams.com/)), to minimize the total discounted costs of capex and opex. The model optimizes the generation (and transmission if included) expansion over future years of the modeled time period as well as the underlying dispatch of generation and power flows on transmission lines for existing and new transmission assets. In addition to the core decision variables on generation and transmission capacity addition, dispatch, and flow, the model also co-optimizes spinning reserve provision from the generators. EPM had been parameterized for 87 client countries and economies as of end-January 2022 (Table 1) and is being used for many types of analyses.
+EPM is used mostly to perform least cost expansion plans as well as dispatch analyses. Developed by ESMAP since 2015, EPM has been used to study dozens of countries. EPM uses a core mixed integer programming multi-zone model, implemented in the General Algebraic Modelling System ([GAMS](https://www.gams.com/)), to minimize the total discounted costs of capex and opex. The model optimizes the generation (and transmission if included) expansion over future years of the modeled time period as well as the underlying dispatch of generation and power flows on transmission lines for existing and new transmission assets. In addition to the core decision variables on generation and transmission capacity addition, dispatch, and flow, the model also co-optimizes spinning reserve provision from the generators. EPM had been parameterized for 87 client countries as of end-January 2022 (Table 1) and is being used for many types of analyses.
 
-**Table 1: Countries and Economies with EPM Models**
+**Table 1: Regions and Countries with EPM Models**
 
-| **Region/Country** | **Number of economies** | **Country/economy names<sup>a</sup>** |
+| **Region/Country** | **Number of countries** | **Country names<sup>a</sup>** |
 | --- | --- | --- |
 | Central Asia + Pakistan | 7   | Afghanistan, Kazakhstan, Kyrgyz Rep., Tajikistan, Turkmenistan, Uzbekistan, Pakistan |
 | Eastern Africa Power Pool + Zambia | 14  | Burundi; Congo, Dem. Rep.; Egypt, Arab Rep.; Libya; Djibouti; Eritrea; Ethiopia; Kenya; Rwanda; Tanzania; Uganda; South Sudan; Sudan, Zambia |
