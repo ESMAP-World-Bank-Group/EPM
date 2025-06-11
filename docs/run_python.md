@@ -15,36 +15,37 @@ A Python environment ensures that all required libraries for EPM are available a
 **Important**:
 - Before creating the environment, you should have GAMS installed on your computer, with a recent version (ideally >= 48).
 
-### On Mac
-
-Follow these steps:
-
-1. Open a terminal or command prompt.
-2. Navigate to the folder where you cloned EPM:
-   ```sh
-   cd EPM
-   ```
-3. Create a new environment named `epm_env`:
-   ```sh
-   conda create -n epm_env python=3.10
-   ```
-4. Activate the environment:
-   ```sh
-   conda activate epm_env
-   ```
-5. Install all required libraries:
-   ```sh
-   pip install -r requirements_mac_and_windows.txt
-   ```
-
 ### On Windows
 
-The same steps should be followed. An extra step is however necessary before creating the package since Windows needs extra tools to compile some of the packages (specifically, `chaospy`).
+On Windows, you first need to install `Microsoft C++ Build Tools` to compile some of the packages (specifically, `chaospy`):
 
 1. Go to [VSCode build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 2. Download and install Build Tools for Visual Studio.
 3. During installation, check the option: `C++ build tools`
-4. After installation, close and reopen the terminal (Anaconda Prompt), activate your environment, and run the installation command as described in previous section for Mac.
+
+Then you can follow these steps:
+
+5. Open a terminal or command prompt (Anaconda Prompt).
+6. Navigate to the folder where you cloned EPM:
+   ```sh
+   cd EPM
+   ```
+7. Create a new environment named `epm_env`:
+   ```sh
+   conda create -n epm_env python=3.10
+   ```
+8. Activate the environment:
+   ```sh
+   conda activate epm_env
+   ```
+9. Install all required libraries:
+   ```sh
+   pip install -r requirements_mac_and_windows.txt
+   ```
+
+### On Mac
+
+You can follow the 5 to 9 steps above (the prior installation of `Microsoft C++ Build Tools` is not needed). 
 
 ### On Linux (remote server)
 
