@@ -55,4 +55,4 @@ System Results Report,IncludeDecomCom,
 CapacityCredits for Reporting,,
 SolarCapacityCredit,CapCreditSolar,
 WindCapacityCredit,CapCreditWind,
-MaxLoadFraction for Cap Credit Calculation,MaxLoadFractionCCCalc ,
+MaxLoadFraction for Cap Credit Calculation,MaxLoadFractionCCCalc ,0.01
