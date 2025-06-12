@@ -286,6 +286,7 @@ def launch_epm(scenario,
 
     # Define the logfile name
     logfile = os.path.join(cwd, 'main.log')
+    logfile = 'main.log'
 
     options = [
         "--LogOption 4", # Write log to standard output and log file
