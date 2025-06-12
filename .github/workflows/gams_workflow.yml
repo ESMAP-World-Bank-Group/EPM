@@ -20,6 +20,7 @@ jobs:
       env:
         GAMS_LICENSE: ${{ secrets.GAMS_LICENSE }}
       run: |
+        mkdir -p /opt/gams
         echo "$GAMS_LICENSE" > /opt/gams/gamslice.txt
 
     - name: Run GAMS model
