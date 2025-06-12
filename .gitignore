@@ -4,6 +4,8 @@
 *.dat
 *.sh
 
+.vscode
+
 xlsxReport.cmd
 
 /training

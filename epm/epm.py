@@ -293,6 +293,7 @@ def launch_epm(scenario,
         "LogOption 4", # Write log to standard output and log file
         f"LogFile {logfile}" # Specify the name of the log file
         ]
+    options = []
     if path_engine_file:
         print('Save file only to prepare running simulation on remote server')
         # Run GAMS with the updated environment
