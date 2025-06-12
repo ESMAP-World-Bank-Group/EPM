@@ -24,4 +24,6 @@ jobs:
         echo "$GAMS_LICENSE" > /opt/gams/gamslice.txt
 
     - name: Run GAMS model
-      run: gams epm/main.gms --BASE_FILE epm/base.gms --REPORT_FILE epm/generate_report.gms --READER_FILE epm/input_readers.gms --VERIFICATION_FILE epm/input_verification.gms --TREATMENT_FILE epm/input_treatment.gms --DEMAND_FILE epm/generate_demand.gms
+      run: |
+        cd epm
+        gams main.gms
