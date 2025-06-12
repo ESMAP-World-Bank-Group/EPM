@@ -432,6 +432,10 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
 
 </div>
   </nav>
@@ -981,7 +985,9 @@ title="Print to PDF"
       
   </ul>
 </div>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
     </div>
 </div>
             </div>
@@ -994,6 +1000,31 @@ title="Print to PDF"
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#description">
+   Description
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#main-changes">
+   Main changes
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#default-data">
+     Default data
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -1002,6 +1033,8 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="input-overview">
 <h1>Input Overview<a class="headerlink" href="#input-overview" title="Permalink to this heading">#</a></h1>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">#</a></h2>
 <p>The following table lists the key input files used in the EPM model, along with a brief description and their structural dimensions. These files define model parameters, energy demand, supply data, constraints, and trade settings.</p>
 <blockquote>
 <div><p>In addition, we provide a <a class="reference download internal" download="" href="../_downloads/e46a6a58613569de63aa28df7f04ad34/Template_Data_Source.xlsx"><span class="xref download myst">template</span></a> to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.</p>
@@ -1185,6 +1218,48 @@ title="Print to PDF"
 </tbody>
 </table>
 </section>
+<section id="main-changes">
+<h2>Main changes<a class="headerlink" href="#main-changes" title="Permalink to this heading">#</a></h2>
+<p>This update restructures how input data is provided to improve clarity and flexibility. All input data is now organized in CSV files, replacing the previous single Excel file. While the content is mostly unchanged, some usability improvements were introduced for modelers.</p>
+<section id="default-data">
+<h3>Default data<a class="headerlink" href="#default-data" title="Permalink to this heading">#</a></h3>
+<p>For certain input types (e.g. generation data, seasonal availability, capex), the model now distinguishes between:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xxDefault.csv</span></code>: provides default values by zone, technology, and fuel.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">xxCustom.csv</span></code>: allows for custom entries that override defaults when needed.</p></li>
+</ul>
+<p>How it works:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Case</p></th>
+<th class="head"><p>What happens</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Field missing in <code class="docutils literal notranslate"><span class="pre">Custom</span></code></p></td>
+<td><p>Value from <code class="docutils literal notranslate"><span class="pre">Default</span></code> is used</p></td>
+</tr>
+<tr class="row-odd"><td><p>Field present in <code class="docutils literal notranslate"><span class="pre">Custom</span></code></p></td>
+<td><p>Value <strong>overrides</strong> the <code class="docutils literal notranslate"><span class="pre">Default</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>For example:
+If <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> sets a default availability for coal in South Africa, and you do not specify a value in <code class="docutils literal notranslate"><span class="pre">pAvailabilityCustom.csv</span></code>, the default will be used. If you do specify one, it takes priority.</p>
+<p>⚠️ Important Notes</p>
+<ul class="simple">
+<li><p>Required fields: For <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesCustom.csv</span></code>, missing values for any combination of zone, tech, and fuel may cause errors. This is described in the Troubleshooting section below.</p></li>
+<li><p>Optional fields: For generation data <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code> (e.g., Capex, vOM), missing values default to zero in GAMS, with no error.</p></li>
+</ul>
+<p>✅ Recommended Workflow</p>
+<ul class="simple">
+<li><p>Copy the default files from the provided test folders (data_test, data_test_region).</p></li>
+<li><p>Adapt them to fit your model’s zones, technologies, and fuels.</p></li>
+<li><p>Ensure all zone/tech/fuel combinations you need are covered in at least one file (Default or Custom).</p></li>
+</ul>
+</section>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1234,6 +1309,39 @@ title="Print to PDF"
           </div>
           
           
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#description">
+   Description
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#main-changes">
+   Main changes
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#default-data">
+     Default data
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
           
           
         </div>
