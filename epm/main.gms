@@ -1007,14 +1007,3 @@ $log LOG: REPORTSHORT = "%REPORTSHORT%"
 
 $include %REPORT_FILE%
 
-*-------------------------------------------------------------------------------------
-* Check output
-
-* $include output_verification.gms
-
-*-------------------------------------------------------------------------------------
-
-
-
-* Move outputs to a timestamped folder using embedded Python
-*$call python3 move_gms_file.py
