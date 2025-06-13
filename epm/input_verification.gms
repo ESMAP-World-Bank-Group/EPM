@@ -193,7 +193,7 @@ try:
     
     # Print result
     if is_consistent:
-        gams.printLog("All dataframes have the same (q, d, t) combinations.")
+        gams.printLog("Success: All dataframes have the same (q, d, t) combinations.")
     else:
         gams.printLog("Mismatch detected! The following differences exist:")
     

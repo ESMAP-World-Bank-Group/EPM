@@ -33,7 +33,7 @@ $inlinecom {  }
 $eolcom //
 
 $if not set DEBUG $set debug 0
-$if not set EPMVERSION    $set EPMVERSION    8.5
+$if not set EPMVERSION    $set EPMVERSION    9.0
 
 $ifThen.mode not set mode
 $ set mode Excel
@@ -57,35 +57,46 @@ $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 $ifThen not set BASE_FILE
 $set BASE_FILE "base.gms"
 $endIf
+$if set ROOT_FOLDER $set BASE_FILE %ROOT_FOLDER%/%BASE_FILE%
+
 $log BASE_FILE is "%BASE_FILE%"
+
 
 $if "x%gams.restart%" == "x" $include %BASE_FILE%
 
 $ifThen not set REPORT_FILE
 $set REPORT_FILE "generate_report.gms"
 $endIf
+$if set ROOT_FOLDER $set REPORT_FILE %ROOT_FOLDER%/%REPORT_FILE%
 $log REPORT_FILE is "%REPORT_FILE%"
+
 
 
 $ifThen not set READER_FILE
 $set READER_FILE "input_readers.gms"
 $endIf
+$if set ROOT_FOLDER $set READER_FILE %ROOT_FOLDER%/%READER_FILE%
 $log READER_FILE is "%READER_FILE%"
+
 
 $ifThen not set VERIFICATION_FILE
 $set VERIFICATION_FILE "input_verification.gms"
 $endIf
+$if set ROOT_FOLDER $set VERIFICATION_FILE %ROOT_FOLDER%/%VERIFICATION_FILE%
 $log VERIFICATION_FILE is "%VERIFICATION_FILE%"
+
 
 $ifThen not set TREATMENT_FILE
 $set TREATMENT_FILE "input_treatment.gms"
 $endIf
+$if set ROOT_FOLDER $set TREATMENT_FILE %ROOT_FOLDER%/%TREATMENT_FILE%
 $log TREATMENT_FILE is "%TREATMENT_FILE%"
 
 
 $ifThen not set DEMAND_FILE
 $set DEMAND_FILE "generate_demand.gms"
 $endIf
+$if set ROOT_FOLDER $set DEMAND_FILE %ROOT_FOLDER%/%DEMAND_FILE%
 $log DEMAND_FILE is "%DEMAND_FILE%"
 
 
@@ -112,35 +123,6 @@ option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVERO
 
 *-------------------------------------------------------------------------------------
 
-* Determine Excel-based reporting
-$ifThenI.mode %mode%==Excel
-*$set main Excel
-$set DOEXCELREPORT 1
-
-* Set input Excel file if not already defined
-$ifThen not set XLS_INPUT
-* If GDX input is set, derive XLS_INPUT from it (is it used ?)
-$  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
-* Otherwise, set the default input file path
-$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%input_epm.xlsx
-$endIf
-
-* Extract file path, base name, and extension from XLS_INPUT
-$setNames "%XLS_INPUT%" fp GDX_INPUT fe
-
-* Set the default output Excel file if not already defined
-$if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx
-
-* Append a timestamp to the output filename if USETIMESTAMP is enabled
-$ifThen.timestamp set USETIMESTAMP
-$  setNames "%XLS_OUTPUT%" fp fn fe
-$  onembeddedCode Python:
-   import datetime
-   import os
-   os.environ['MYDATE'] = datetime.datetime.now().strftime("%Y_%m_%d") # we can add hour, minute, or seconds if necessary: %H %M %S
-$  offEmbeddedCode
-$  set XLS_OUTPUT %fp%%fn%_%sysenv.MYDATE%%fe%
-$endIf.timestamp
 
 *-------------------------------------------------------------------------------------
 
@@ -396,8 +378,10 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 $log ##########################
 $log ### INPUT VERIFICATION ###
 $log ##########################
+
 $include %VERIFICATION_FILE%
 $if not errorfree $abort PythonError in input_verification.gms
+
 $log ##############################
 $log ### INPUT VERIFICATION END ###
 $log ##############################
@@ -494,10 +478,7 @@ pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2 pHeatrate
 ;
 
-
-$else.mode
-$if not set DOEXCELREPORT $set DOEXCELREPORT 0
-$endIf.mode
+*-------------------------------------------------------------------------------------
 
 *--- Parameter initialisation for same demand profile for all years
 
@@ -1037,14 +1018,4 @@ $log LOG: REPORTSHORT = "%REPORTSHORT%"
 
 $include %REPORT_FILE%
 
-*-------------------------------------------------------------------------------------
-* Check output
 
-* $include output_verification.gms
-
-*-------------------------------------------------------------------------------------
-
-
-
-* Move outputs to a timestamped folder using embedded Python
-*$call python3 move_gms_file.py

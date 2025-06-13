@@ -928,7 +928,6 @@ pZonesperCountry(c) = sum(zcmap(z,c), 1);
 MaxZonesperCountry = smax(c,pZonesperCountry(c));
 
 $if not set OUTPUT_DIR $set OUTPUT_DIR output_csv
-* create output directory
 
 *$call /bin/sh -c "mkdir -p '%OUTPUT_DIR%'"
 
