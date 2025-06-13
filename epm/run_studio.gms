@@ -42,7 +42,7 @@ $call mkdir %OUTPUTDIR%
 
 $call cp cplex.opt %OUTPUTDIR%/
 
-$call gams "../../main.gms" --ROOT_FOLDER "../.." --ROOT_INPUT "../../input" curdir=%OUTPUTDIR% LogFile %OUTPUTDIR%/main.log --writeOutput 0 --IDE 0
+$call gams "../../main.gms" --ROOT_FOLDER "../.." --ROOT_INPUT "../../input" curdir=%OUTPUTDIR% LogFile %OUTPUTDIR%/main.log
 *LogOption 4 LogFile %OUTPUTDIR%/main.log
 
 *$call rm -f run_studio.lst run_studio.lxi
