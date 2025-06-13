@@ -396,8 +396,10 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 $log ##########################
 $log ### INPUT VERIFICATION ###
 $log ##########################
+
 $include %VERIFICATION_FILE%
 $if not errorfree $abort PythonError in input_verification.gms
+
 $log ##############################
 $log ### INPUT VERIFICATION END ###
 $log ##############################
