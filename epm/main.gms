@@ -33,7 +33,7 @@ $inlinecom {  }
 $eolcom //
 
 $if not set DEBUG $set debug 0
-$if not set EPMVERSION    $set EPMVERSION    8.5
+$if not set EPMVERSION    $set EPMVERSION    9.0
 
 $ifThen.mode not set mode
 $ set mode Excel
@@ -57,35 +57,46 @@ $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 $ifThen not set BASE_FILE
 $set BASE_FILE "base.gms"
 $endIf
+$if set ROOT_FOLDER $set BASE_FILE %ROOT_FOLDER%/%BASE_FILE%
+
 $log BASE_FILE is "%BASE_FILE%"
+
 
 $if "x%gams.restart%" == "x" $include %BASE_FILE%
 
 $ifThen not set REPORT_FILE
 $set REPORT_FILE "generate_report.gms"
 $endIf
+$if set ROOT_FOLDER $set REPORT_FILE %ROOT_FOLDER%/%REPORT_FILE%
 $log REPORT_FILE is "%REPORT_FILE%"
+
 
 
 $ifThen not set READER_FILE
 $set READER_FILE "input_readers.gms"
 $endIf
+$if set ROOT_FOLDER $set READER_FILE %ROOT_FOLDER%/%READER_FILE%
 $log READER_FILE is "%READER_FILE%"
+
 
 $ifThen not set VERIFICATION_FILE
 $set VERIFICATION_FILE "input_verification.gms"
 $endIf
+$if set ROOT_FOLDER $set VERIFICATION_FILE %ROOT_FOLDER%/%VERIFICATION_FILE%
 $log VERIFICATION_FILE is "%VERIFICATION_FILE%"
+
 
 $ifThen not set TREATMENT_FILE
 $set TREATMENT_FILE "input_treatment.gms"
 $endIf
+$if set ROOT_FOLDER $set TREATMENT_FILE %ROOT_FOLDER%/%TREATMENT_FILE%
 $log TREATMENT_FILE is "%TREATMENT_FILE%"
 
 
 $ifThen not set DEMAND_FILE
 $set DEMAND_FILE "generate_demand.gms"
 $endIf
+$if set ROOT_FOLDER $set DEMAND_FILE %ROOT_FOLDER%/%DEMAND_FILE%
 $log DEMAND_FILE is "%DEMAND_FILE%"
 
 
@@ -1006,4 +1017,5 @@ $if not set REPORTSHORT $set REPORTSHORT 0
 $log LOG: REPORTSHORT = "%REPORTSHORT%"
 
 $include %REPORT_FILE%
+
 
