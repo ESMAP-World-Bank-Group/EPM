@@ -112,35 +112,6 @@ option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVERO
 
 *-------------------------------------------------------------------------------------
 
-* Determine Excel-based reporting
-$ifThenI.mode %mode%==Excel
-*$set main Excel
-$set DOEXCELREPORT 1
-
-* Set input Excel file if not already defined
-$ifThen not set XLS_INPUT
-* If GDX input is set, derive XLS_INPUT from it (is it used ?)
-$  if     set GDX_INPUT $set XLS_INPUT "%GDX_INPUT%.%ext%"
-* Otherwise, set the default input file path
-$  if not set GDX_INPUT $set XLS_INPUT input%system.dirsep%input_epm.xlsx
-$endIf
-
-* Extract file path, base name, and extension from XLS_INPUT
-$setNames "%XLS_INPUT%" fp GDX_INPUT fe
-
-* Set the default output Excel file if not already defined
-$if not set XLS_OUTPUT $set XLS_OUTPUT %fp%EPMRESULTS.xlsx
-
-* Append a timestamp to the output filename if USETIMESTAMP is enabled
-$ifThen.timestamp set USETIMESTAMP
-$  setNames "%XLS_OUTPUT%" fp fn fe
-$  onembeddedCode Python:
-   import datetime
-   import os
-   os.environ['MYDATE'] = datetime.datetime.now().strftime("%Y_%m_%d") # we can add hour, minute, or seconds if necessary: %H %M %S
-$  offEmbeddedCode
-$  set XLS_OUTPUT %fp%%fn%_%sysenv.MYDATE%%fe%
-$endIf.timestamp
 
 *-------------------------------------------------------------------------------------
 
@@ -496,10 +467,7 @@ pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2 pHeatrate
 ;
 
-
-$else.mode
-$if not set DOEXCELREPORT $set DOEXCELREPORT 0
-$endIf.mode
+*-------------------------------------------------------------------------------------
 
 *--- Parameter initialisation for same demand profile for all years
 
