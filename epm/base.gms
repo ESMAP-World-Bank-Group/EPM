@@ -653,7 +653,7 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(pfuel_constraints and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
-eMinGen(g,q,d,t,y)$(sRelevant(d) and pmingen_constraints and pGenData(g,"MinLimitShare") > 0)..
+eMinGen(g,q,d,t,y)$(pmingen_constraints and pGenData(g,"MinLimitShare") > 0)..
     sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinLimitShare") ; 
 
 eRampDnLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints)..
