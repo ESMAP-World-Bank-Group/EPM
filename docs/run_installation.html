@@ -1136,11 +1136,16 @@ This tells your computer where to download the files.</p>
 <p>If you check your current branch again, you should now see the name of your new branch highlighted.</p>
 <ol class="arabic" start="3">
 <li><p>Push your new branch to GitHub:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>guinea
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>guinea_2025
 </pre></div>
 </div>
 </li>
 </ol>
+<p>You can check the branches on GitHub to confirm your new branch is there.
+This command sets the upstream branch for future pushes, so you can use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span></code> without specifying the branch name next time.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push
+</pre></div>
+</div>
 </section>
 <hr class="docutils" />
 <section id="test-the-installation">
