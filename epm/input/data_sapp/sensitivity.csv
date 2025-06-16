@@ -1,0 +1,11 @@
+﻿parameter,value
+pSettings,1
+y,1
+pDemandForecast,1
+pDemandProfile,1
+pAvailabilityDefault,1
+pCapexTrajectoriesDefault,1
+pFuelPrice,1
+ResLimShare,1
+BuildLimitperYear,1
+pVREProfile,1
