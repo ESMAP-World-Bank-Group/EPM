@@ -53,17 +53,17 @@ To activate sensitivity runs, follow these steps:
 ### 2. Example `sensitivity.csv`
 
 ```csv
-parameter,value
-pSettings,1
-y,1
-pDemandForecast,1
-pDemandProfile,1
-pAvailabilityDefault,1
-pCapexTrajectoriesDefault,1
-pFuelPrice,1
-ResLimShare,1
-BuildLimitperYear,1
-pVREProfile,1
+parameter,sensitivity
+pSettings,TRUE
+y,TRUE
+pDemandForecast,FALSE
+pDemandProfile,FALSE
+pAvailabilityDefault,TRUE
+pCapexTrajectoriesDefault,TRUE
+pFuelPrice,TRUE
+ResLimShare,TRUE
+BuildLimitperYear,TRUE
+pVREProfile,TRUE
 ```
 Each row defines a parameter for which a sensitivity analysis will be triggered. A value of `1` means "active", and `0` or omission means "inactive".
 

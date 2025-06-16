@@ -96,11 +96,11 @@ Error: The following fuels are in gendata but not defined in pStorData:
 {'New_BESS_AGO'}
 ```
 
-### Transmission data
+## Transmission data
 - All (z, z2) pairs in `pTransferLimit` should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.
 - Each candidate transmission line should only specified once in `pNewTransmission`. An error is raised otherwise.
 
-### Zone definition
+## Zone definition
 
 Zones are defined in the file `zcmap.csv`. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
 pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactor, pVREProfile
@@ -123,7 +123,7 @@ The list of zones used in your model is defined in the file `zcmap.csv`. This fi
 
 We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.
 
-### Transmission lines
+## Transmission lines
 
 Two different files are used to define transmission capacity in the model:
 
@@ -132,3 +132,10 @@ Two different files are used to define transmission capacity in the model:
 
 If lines from `pNewTransmission.csv` do not appear in the results and no error is raised, check the following: make sure allowTransferExpansion is set to 1 in pSettings.csv.
 If it is set to 0, the model will ignore `pNewTransmission.csv` completely.
+
+## Sensitivity analysis
+
+A number of issues may cause bugs when running a sensitivity analysis. The main ones are:
+
+- The `sensitivity.csv` file is not correctly defined: it may be missing the sensitivity header (see section `Run EPM from Python - Advanced features` for an example), or the activation of sensitivity options may not be specified using `TRUE/FALSE`.
+- Some input files may be missing required headers, which will not cause errors in regular runs but will break the sensitivity analysis. For instance, `pFuelPrice.csv` must include country and fuel as headers.

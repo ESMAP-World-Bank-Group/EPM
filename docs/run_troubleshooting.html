@@ -1044,23 +1044,26 @@ title="Print to PDF"
     </span>
    </code>
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-data">
-     Transmission data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#zone-definition">
-     Zone definition
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-lines">
-     Transmission lines
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transmission-data">
+   Transmission data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zone-definition">
+   Zone definition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transmission-lines">
+   Transmission lines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sensitivity-analysis">
+   Sensitivity analysis
+  </a>
  </li>
 </ul>
 
@@ -1159,15 +1162,16 @@ Error: The following fuels are in gendata but not defined in pStorData:
 {&#39;New_BESS_AGO&#39;}
 </pre></div>
 </div>
+</section>
 <section id="transmission-data">
-<h3>Transmission data<a class="headerlink" href="#transmission-data" title="Permalink to this heading">#</a></h3>
+<h2>Transmission data<a class="headerlink" href="#transmission-data" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>All (z, z2) pairs in <code class="docutils literal notranslate"><span class="pre">pTransferLimit</span></code> should have their corresponding (z2, z) pairs in the dataframe. An error is raised otherwise.</p></li>
 <li><p>Each candidate transmission line should only specified once in <code class="docutils literal notranslate"><span class="pre">pNewTransmission</span></code>. An error is raised otherwise.</p></li>
 </ul>
 </section>
 <section id="zone-definition">
-<h3>Zone definition<a class="headerlink" href="#zone-definition" title="Permalink to this heading">#</a></h3>
+<h2>Zone definition<a class="headerlink" href="#zone-definition" title="Permalink to this heading">#</a></h2>
 <p>Zones are defined in the file <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
 pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactor, pVREProfile</p>
 <p>The following input files must use zone names that match those defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>:</p>
@@ -1190,7 +1194,7 @@ pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDef
 <p>We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.</p>
 </section>
 <section id="transmission-lines">
-<h3>Transmission lines<a class="headerlink" href="#transmission-lines" title="Permalink to this heading">#</a></h3>
+<h2>Transmission lines<a class="headerlink" href="#transmission-lines" title="Permalink to this heading">#</a></h2>
 <p>Two different files are used to define transmission capacity in the model:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code>: Defines fixed capacity for existing transmission lines. Capacity must be specified for each year.</p></li>
@@ -1199,6 +1203,13 @@ pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDef
 <p>If lines from <code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code> do not appear in the results and no error is raised, check the following: make sure allowTransferExpansion is set to 1 in pSettings.csv.
 If it is set to 0, the model will ignore <code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code> completely.</p>
 </section>
+<section id="sensitivity-analysis">
+<h2>Sensitivity analysis<a class="headerlink" href="#sensitivity-analysis" title="Permalink to this heading">#</a></h2>
+<p>A number of issues may cause bugs when running a sensitivity analysis. The main ones are:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">sensitivity.csv</span></code> file is not correctly defined: it may be missing the sensitivity header (see section <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">EPM</span> <span class="pre">from</span> <span class="pre">Python</span> <span class="pre">-</span> <span class="pre">Advanced</span> <span class="pre">features</span></code> for an example), or the activation of sensitivity options may not be specified using <code class="docutils literal notranslate"><span class="pre">TRUE/FALSE</span></code>.</p></li>
+<li><p>Some input files may be missing required headers, which will not cause errors in regular runs but will break the sensitivity analysis. For instance, <code class="docutils literal notranslate"><span class="pre">pFuelPrice.csv</span></code> must include country and fuel as headers.</p></li>
+</ul>
 </section>
 </section>
 
@@ -1299,23 +1310,26 @@ If it is set to 0, the model will ignore <code class="docutils literal notransla
     </span>
    </code>
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-data">
-     Transmission data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#zone-definition">
-     Zone definition
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#transmission-lines">
-     Transmission lines
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transmission-data">
+   Transmission data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#zone-definition">
+   Zone definition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#transmission-lines">
+   Transmission lines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sensitivity-analysis">
+   Sensitivity analysis
+  </a>
  </li>
 </ul>
 
