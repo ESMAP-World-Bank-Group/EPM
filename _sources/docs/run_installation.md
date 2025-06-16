@@ -62,8 +62,14 @@ If you check your current branch again, you should now see the name of your new 
 
 3. Push your new branch to GitHub:
    ```sh
-   git push -u origin guinea
+   git push -u origin guinea_2025
    ```
+
+You can check the branches on GitHub to confirm your new branch is there.
+This command sets the upstream branch for future pushes, so you can use `git push` without specifying the branch name next time.
+```sh
+git push
+```
 
 ---
 
