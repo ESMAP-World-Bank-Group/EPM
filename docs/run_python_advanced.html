@@ -1105,17 +1105,17 @@ When running the model using the CLI or the Python API, pass the sensitivity fla
 <hr class="docutils" />
 <section id="example-sensitivity-csv">
 <h3>2. Example <code class="docutils literal notranslate"><span class="pre">sensitivity.csv</span></code><a class="headerlink" href="#example-sensitivity-csv" title="Permalink to this heading">#</a></h3>
-<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>parameter,value
-pSettings,1
-y,1
-pDemandForecast,1
-pDemandProfile,1
-pAvailabilityDefault,1
-pCapexTrajectoriesDefault,1
-pFuelPrice,1
-ResLimShare,1
-BuildLimitperYear,1
-pVREProfile,1
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>parameter,sensitivity
+pSettings,TRUE
+y,TRUE
+pDemandForecast,FALSE
+pDemandProfile,FALSE
+pAvailabilityDefault,TRUE
+pCapexTrajectoriesDefault,TRUE
+pFuelPrice,TRUE
+ResLimShare,TRUE
+BuildLimitperYear,TRUE
+pVREProfile,TRUE
 </pre></div>
 </div>
 <p>Each row defines a parameter for which a sensitivity analysis will be triggered. A value of <code class="docutils literal notranslate"><span class="pre">1</span></code> means “active”, and <code class="docutils literal notranslate"><span class="pre">0</span></code> or omission means “inactive”.</p>
