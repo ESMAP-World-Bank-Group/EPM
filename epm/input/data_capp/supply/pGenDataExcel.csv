@@ -1,0 +1,435 @@
+﻿gen,zone,tech,fuel,StYr,RetrYr,Capacity,UnitSize,Status,DescreteCap,fuel2,HeatRate2,BuildLimitperYear,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
+Medouneu,Gabon,ReservoirHydro,Water,2010,0,0.2,0.2,1,,,,,,,,,,,,,,,50
+Marangara,Burundi,ReservoirHydro,Water,2021,0,0.28,0.28,1,,,,,,,,,,,,,,,60
+Banzu,STP,ReservoirHydro,Water,0,2023,0.29,0.29,2,,,,,,,,,,,,,,,50
+Centrale de NYAMYOTSI,Burundi,ReservoirHydro,Water,2017,0,0.3,0.3,1,,,,,,,,,,,,,,,60
+Mbigou,Gabon,ReservoirHydro,Water,1995,1995,0.38,0.38,1,,,,,,,,,,,,,,,60
+Soyo I (G),Angola,OCGT,Gas,2018,0,500,500,1,,,,,,,,,,,,,,,30
+Caraculo,Angola,PV,Solar,0,2022,25,25,2,,,,,,,,,,,,,,,24
+Catete,Angola,PV,Solar,0,2024,8,8,2,,,,,,,,,,,,,,,24
+Kabavu,Rwanda,ReservoirHydro,Water,0,2030,0.38,0.38,2,,,,,,,,,,,,,,,60
+Bibi,STP,ReservoirHydro,Water,0,2023,0.39,0.39,2,,,,,,,,,,,,,,,50
+Mobaye,CAR,ReservoirHydro,Water,1989,0,0.4,0.4,1,,,,,,,,,,,,,,,60
+Almeirim,STP,ReservoirHydro,Water,0,2023,0.44,0.44,2,,,,,,,,,,,,,,,50
+Loame,CAR,ReservoirHydro,Water,0,2020,0.45,0.45,2,,,,,,,,,,,,,,,60
+Rubagabaga HY gen Q,Rwanda,ReservoirHydro,Water,2019,0,0.45,0.45,1,,,,,,,,,,,,,,,60
+Buhiga,Burundi,ReservoirHydro,Water,1991,0,0.47,0.47,1,,,,,,,,,,,,,,,60
+Gaseke HY gen q,Rwanda,ReservoirHydro,Water,2017,0,0.5,0.5,1,,,,,,,,,,,,,,,60
+Mateus Sampaio,STP,ReservoirHydro,Water,0,2023,0.5,0.5,2,,,,,,,,,,,,,,,50
+Southern OCGT plants,Angola,OCGT,HFO,2009,0,226,226,1,,,,,,,,,,,,,,,25
+Baia farta,Angola,PV,Solar,0,2025,79.5,79.5,3,,,,,,,,,,,,,,,24
+Bailundo,Angola,PV,Solar,0,2023,6.3,6.3,3,,,,,,,,,,,,,,,24
+Biopo,Angola,PV,Solar,0,2025,145,145,3,,,,,,,,,,,,,,,24
+Cafunfo,Angola,PV,Solar,0,2023,41.4,41.4,3,,,,,,,,,,,,,,,24
+Cambulo,Angola,PV,Solar,0,2024,36.8,36.8,3,,,,,,,,,,,,,,,24
+Cuango,Angola,PV,Solar,0,2023,11.5,11.5,3,,,,,,,,,,,,,,,24
+Cunene,Angola,PV,Solar,0,2024,8,8,3,,,,,,,,,,,,,,,24
+Northern OCGT plants,Angola,OCGT,HFO,2010,0,583.6,583.6,1,,,,,,,,,,,,,,,25
+kiwaba,Angola,OnshoreWind,Wind,2019,2025,104,104,2,,,,,,,,,,,,,,,25
+Lauca,Angola,PV,Solar,0,2024,100,100,2,,,,,,,,,,,,,,,24
+Kuito,Angola,PV,Solar,0,2023,11.5,11.5,3,,,,,,,,,,,,,,,24
+Lubango,Angola,PV,Solar,0,2023,35,35,3,,,,,,,,,,,,,,,24
+Lucapa,Angola,PV,Solar,0,2023,8,8,3,,,,,,,,,,,,,,,24
+luena,Angola,PV,Solar,0,2025,20.7,20.7,3,,,,,,,,,,,,,,,24
+Namibe,Angola,OnshoreWind,Wind,0,2030,100,100,2,,,,,,,,,,,,,,,25
+Eastern OCGT plants,Angola,OCGT,HFO,2013,0,90.8,90.8,1,,,,,,,,,,,,,,,25
+Benguela (Eng),Angola,OCGT,HFO,2017,0,20,20,1,,,,,,,,,,,,,,,25
+MUSOLA,EquatorialGuinea,ReservoirHydro,Water,2002,0,0.55,0.55,1,,,,,,,,,,,,,,,60
+CIF (G),Angola,OCGT,Gas,2015,0,120,120,1,,,,,,,,,,,,,,,25
+Toutoubou,CAR,ReservoirHydro,Water,0,2020,0.7,0.7,3,,,,,,,,,,,,,,,60
+CCGT NG,Angola,OCGT,Gas,0,2029,750,750,2,,,,,,,,,,,,,,,30
+Kayenzi,Burundi,ReservoirHydro,Water,1984,0,0.8,0.8,1,,,,,,,,,,,,,,,60
+Monte Verde,STP,ReservoirHydro,Water,0,2023,0.8,0.8,2,,,,,,,,,,,,,,,50
+Central OCGT plants,Angola,OCGT,HFO,1980,0,79.6,79.6,1,,,,,,,,,,,,,,,25
+Santa Clara,STP,ReservoirHydro,Water,0,2023,0.89,0.89,2,,,,,,,,,,,,,,,50
+OCGT NG,Angola,OCGT,Gas,0,2023,2100,2100,2,,,,,,,,,,,,,,,25
+Sao Joao,STP,ReservoirHydro,Water,0,2023,0.9,0.9,2,,,,,,,,,,,,,,,50
+Quilemba,Angola,PV,Solar,0,2024,35,35,2,,,,,,,,,,,,,,,24
+Saurimo,Angola,PV,Solar,0,2023,20.7,20.7,3,,,,,,,,,,,,,,,24
+Gikonge,Burundi,ReservoirHydro,Water,1988,0,1,1,1,,,,,,,,,,,,,,,60
+Mbecko,CAR,ReservoirHydro,Water,0,2023,1,1,2,,,,,,,,,,,,,,,60
+Guegue Rehab,STP,ReservoirHydro,Water,0,2024,1,1,2,,,,,,,,,,,,,,,50
+Papagaio,STP,ReservoirHydro,Water,0,2023,1.1,1.1,2,,,,,,,,,,,,,,,50
+Santa Luisa,STP,ReservoirHydro,Water,0,2023,1.15,1.15,2,,,,,,,,,,,,,,,50
+Agostinho NetoRehab,STP,ReservoirHydro,Water,0,2023,1.2,1.2,3,,,,,,,,,,,,,,,50
+MBAKAOU MINI,Cameroon,ReservoirHydro,Water,0,2022,1.4,1.4,3,,,,,,,,,,,,,,,60
+Ruvyironza,Burundi,ReservoirHydro,Water,2024,0,1.65,1.65,3,,,,,,,,,,,,,,,60
+Rio Contador,STP,ReservoirHydro,Water,1967,0,1.8,1.8,1,,,,,,,,,,,,,,,50
+Nyirantaruko HY gen C,Rwanda,ReservoirHydro,Water,2019,0,1.84,1.84,1,,,,,,,,,,,,,,,60
+Rucanzogera HY gen V,Rwanda,ReservoirHydro,Water,2014,0,1.9,1.9,1,,,,,,,,,,,,,,,60
+Claudino Faro,STP,ReservoirHydro,Water,0,2023,2,2,2,,,,,,,,,,,,,,,50
+Mato Cana,STP,ReservoirHydro,Water,0,2023,2,2,2,,,,,,,,,,,,,,,50
+Neves ReservoirHydro,STP,ReservoirHydro,Water,0,2023,2,2,2,,,,,,,,,,,,,,,50
+Contador Rehab,STP,ReservoirHydro,Water,0,2023,2,2,3,,,,,,,,,,,,,,,50
+Solar Project,Burundi,PV,Solar,2021,0,7.5,7.5,1,,,,,,,,,,,,,,,24
+NtarukaII HY gen L,Rwanda,ReservoirHydro,Water,0,2023,2.1,2.1,3,,,,,,,,,,,,,,,60
+Rukarara II HY gen,Rwanda,ReservoirHydro,Water,2014,0,2.2,2.2,1,,,,,,,,,,,,,,,60
+Keya HY gen h,Rwanda,ReservoirHydro,Water,2011,0,2.2,2.2,1,,,,,,,,,,,,,,,60
+Gaz oils,Burundi,OCGT,Diesel,2017,0,30,30,1,,,,,,,,,,,,,,,25
+Mukungwa2 HY gen k,Rwanda,ReservoirHydro,Water,2013,0,2.6,2.6,1,,,,,,,,,,,,,,,60
+Rugezi HY gen i,Rwanda,ReservoirHydro,Water,2011,0,2.6,2.6,1,,,,,,,,,,,,,,,60
+Ngororero HY gen K,Rwanda,ReservoirHydro,Water,0,2027,2.7,2.7,3,,,,,,,,,,,,,,,60
+Burundi exi the,Burundi,OCGT,Diesel,1998,0,5,5,1,,,,,,,,,,,,,,,25
+BU PV,Burundi,PV,Solar,2021,0,7.5,7.5,1,,,,,,,,,,,,,,,25
+Nyemanga,Burundi,ReservoirHydro,Water,1988,0,2.8,2.8,1,,,,,,,,,,,,,,,60
+Gakenke Base I MHPP HY gen F,Rwanda,ReservoirHydro,Water,0,2027,2.9,2.9,3,,,,,,,,,,,,,,,60
+Gakenke Base II MHPP HY gen G,Rwanda,ReservoirHydro,Water,0,2026,2.9,2.9,3,,,,,,,,,,,,,,,60
+Santa Irene,STP,ReservoirHydro,Water,0,2023,3,3,2,,,,,,,,,,,,,,,50
+Riaba,EquatorialGuinea,ReservoirHydro,Water,1989,0,3.2,3.2,1,,,,,,,,,,,,,,,60
+Bicomo,EquatorialGuinea,ReservoirHydro,Water,1981,0,3.2,3.2,1,,,,,,,,,,,,,,,60
+Monte Rosa,STP,ReservoirHydro,Water,0,2023,3.8,3.8,2,,,,,,,,,,,,,,,50
+Roca Bombaim,STP,ReservoirHydro,Water,0,2024,3.8,3.8,3,,,,,,,,,,,,,,,50
+Nkomo dam,Congo,ReservoirHydro,Water,0,2050,4,4,3,,,,,,,,,,,,,,,60
+Giciye I HY gen l,Rwanda,ReservoirHydro,Water,2014,0,4,4,1,,,,,,,,,,,,,,,60
+Giciye II HY gen m,Rwanda,ReservoirHydro,Water,2014,0,4,4,1,,,,,,,,,,,,,,,60
+Bihongore HY gen P,Rwanda,ReservoirHydro,Water,0,2026,4.22,4.22,3,,,,,,,,,,,,,,,60
+KRIBI.,Cameroon,OCGT,Gas,0,2022,114,114,2,,,,,,,,,,,,,,,25
+Altaaqa Logbaba,Cameroon,OCGT,Gas,2015,0,29.9,29.9,1,,,,,,,,,,,,,,,4
+Altaaqa Bassa,Cameroon,OCGT,Gas,2015,0,20.8,20.8,1,,,,,,,,,,,,,,,4
+Kilimbi combined,Rwanda,ReservoirHydro,Water,0,2024,4.23,4.23,3,,,,,,,,,,,,,,,60
+Baidou,CAR,ReservoirHydro,Water,0,2023,4.5,4.5,2,,,,,,,,,,,,,,,60
+Nyundo HY gen D,Rwanda,ReservoirHydro,Water,0,2026,4.5,4.5,3,,,,,,,,,,,,,,,60
+Rukarara V HY gen,Rwanda,ReservoirHydro,Water,2021,0,5,5,1,,,,,,,,,,,,,,,60
+Rukarara V Mushishito,Rwanda,ReservoirHydro,Water,0,2021,5,5,3,,,,,,,,,,,,,,,60
+Principe ReservoirHydro ,STP,ReservoirHydro,Water,0,2023,5,5,2,,,,,,,,,,,,,,,50
+Rukarara 6 (IPP),Rwanda,ReservoirHydro,Water,0,2024,5.3,5.3,2,,,,,,,,,,,,,,,60
+Mbamba,Congo,ReservoirHydro,Water,0,2050,6,6,2,,,,,,,,,,,,,,,60
+Bongolo,Gabon,ReservoirHydro,Water,1992,0,6.23,6.23,1,,,,,,,,,,,,,,,60
+Luachimo,Angola,ReservoirHydro,Water,2021,0,6.3,6.3,1,,,,,,,,,,,,,,,80
+Siguvyaye,Burundi,ReservoirHydro,Water,0,2028,6.6,6.6,2,,,,,,,,,,,,,,,60
+Gihira combined,Rwanda,ReservoirHydro,Water,1957,0,6.81,6.81,1,,,,,,,,,,,,,,,93
+Mugere,Burundi,ReservoirHydro,Water,1982,0,8,8,1,,,,,,,,,,,,,,,60
+Kagunizi,Burundi,ReservoirHydro,Water,0,2025,8,8,2,,,,,,,,,,,,,,,60
+Yassa-Dibamba,Cameroon,OCGT,HFO,2009,0,86,86,1,,,,,,,,,,,,,,,25
+Tshopo,DRC,ReservoirHydro,Water,1955,0,8.6,8.6,1,,,,,,,,,,,,,,,60
+Boali-I Rebuild,CAR,ReservoirHydro,Water,2017,0,8.75,8.75,1,,,,,,,,,,,,,,,60
+Rukarara I HY gen,Rwanda,ReservoirHydro,Water,2010,0,9,9,1,,,,,,,,,,,,,,,60
+Oyomabang I,Cameroon,OCGT,HFO,2001,0,18,18,1,,,,,,,,,,,,,,,25
+Oyomabang II,Cameroon,OCGT,HFO,2002,0,9.6,9.6,1,,,,,,,,,,,,,,,25
+Dona Eugenia,STP,ReservoirHydro,Water,0,2023,9.6,9.6,2,,,,,,,,,,,,,,,50
+Djamboutou,Cameroon,OCGT,HFO,0,2020,20,20,3,,,,,,,,,,,,,,,25
+Garoua GSC ENERGY,Cameroon,PV,Solar,0,2050,50,50,2,,,,,,,,,,,,,,,25
+Garoua Kunson,Cameroon,PV,Solar,0,2050,30,30,2,,,,,,,,,,,,,,,25
+Garoua Solar,Cameroon,PV,Solar,0,2025,30,30,2,,,,,,,,,,,,,,,25
+GUIDER MAROUA RENT,Cameroon,PV,Solar,0,2021,30,30,2,,,,,,,,,,,,,,,3
+GUIDER.SOLAR,Cameroon,PV,Solar,0,2024,10,10,2,,,,,,,,,,,,,,,25
+Mbalmayo EDC,Cameroon,OCGT,HFO,2012,0,10,10,1,,,,,,,,,,,,,,,25
+Limbe,Cameroon,OCGT,HFO,1981,0,10.62,10.62,1,,,,,,,,,,,,,,,40
+KRIBI,Cameroon,OCGT,Gas,2013,0,216,216,1,,,,,,,,,,,,,,,25
+Limbe Eranove,Cameroon,OCGT,Gas,0,2025,1200,1200,2,,,,,,,,,,,,,,,25
+Kousseri,Cameroon,OCGT,HFO,0,2020,9.6,9.6,3,,,,,,,,,,,,,,,25
+Littoral Power,Cameroon,OCGT,Gas,0,2024,150,150,2,,,,,,,,,,,,,,,25
+Giciye III HY gen H,Rwanda,ReservoirHydro,Water,2020,0,9.8,9.8,1,,,,,,,,,,,,,,,60
+Maroua MAECI PV,Cameroon,PV,Solar,0,2050,60,60,2,,,,,,,,,,,,,,,25
+Maroua Solar,Cameroon,PV,Solar,0,2024,15,15,2,,,,,,,,,,,,,,,25
+Mbalmayo JCM Solar Grid,Cameroon,PV,Solar,0,2025,72,72,2,,,,,,,,,,,,,,,25
+MamfeNguti,Cameroon,OCGT,HFO,0,2022,8,8,3,,,,,,,,,,,,,,,25
+Maroua,Cameroon,OCGT,HFO,0,2020,10,10,3,,,,,,,,,,,,,,,25
+Boali-III,CAR,ReservoirHydro,Water,0,2020,10,10,3,,,,,,,,,,,,,,,60
+Cruz Grande,STP,ReservoirHydro,Water,0,2027,10,10,2,,,,,,,,,,,,,,,50
+Ngaoundere GDS Orion,Cameroon,PV,Solar,0,2025,30,30,2,,,,,,,,,,,,,,,25
+Ngaoundere Rubis Solar PV,Cameroon,PV,Solar,0,2026,30,30,2,,,,,,,,,,,,,,,25
+Ebolowa EDC,Cameroon,OCGT,HFO,2012,0,10,10,1,,,,,,,,,,,,,,,25
+NewRIN,Cameroon,OCGT,HFO,0,2021,25,25,3,,,,,,,,,,,,,,,25
+Ngaoundere,Cameroon,OCGT,HFO,0,2021,10,10,3,,,,,,,,,,,,,,,25
+Douala Bassa,Cameroon,OCGT,HFO,1966,0,14.14,14.14,1,,,,,,,,,,,,,,,55
+Mpanda,Burundi,ReservoirHydro,Water,0,2026,10.4,10.4,3,,,,,,,,,,,,,,,60
+P166,Cameroon,PV,Solar,0,2020,36,36,2,,,,,,,,,,,,,,,25
+Cape Limboh,Cameroon,OCGT,HFO,2004,0,82,82,1,,,,,,,,,,,,,,,25
+Bamenda,Cameroon,OCGT,HFO,2012,0,20,20,1,,,,,,,,,,,,,,,25
+Syno ReservoirHydro Lagdo PV ,Cameroon,PV,Solar,0,2025,20,20,2,,,,,,,,,,,,,,,25
+Ahala,Cameroon,OCGT,HFO,1996,0,66,66,1,,,,,,,,,,,,,,,25
+Kakobola,DRC,ReservoirHydro,Water,0,2025,10.5,10.5,3,,,,,,,,,,,,,,,60
+Mini ReservoirHydro,Burundi,ReservoirHydro,Water,0,2028,11,11,2,,,,,,,,,,,,,,,60
+Ndele,CAR,OCGT,HFO,1970,0,0.05,0.05,1,,,,,,,,,,,,,,,51
+NtarukaI HY gen 3,Rwanda,ReservoirHydro,Water,1957,0,11.25,11.25,1,,,,,,,,,,,,,,,83
+Ruzizi II Burundi share,Burundi,ReservoirHydro,Water,2010,0,12,12,1,,,,,,,,,,,,,,,60
+Colomines,Cameroon,ReservoirHydro,Water,0,2025,12,12,3,,,,,,,,,,,,,,,60
+Ruzizi 2 RDC Share,DRC,ReservoirHydro,Water,2010,0,12,12,1,,,,,,,,,,,,,,,60
+Sanga,DRC,ReservoirHydro,Water,1932,0,12,12,1,,,,,,,,,,,,,,,109
+Mukungwa1 HY gen 4,Rwanda,ReservoirHydro,Water,1982,0,12,12,1,,,,,,,,,,,,,,,60
+Ruzizi II Rwanda Share,Rwanda,ReservoirHydro,Water,2010,0,12,12,1,,,,,,,,,,,,,,,60
+AH Mabubas,Angola,ReservoirHydro,Water,1954,0,12.8,25.6,1,,,,,,,,,,,,,,,80
+Sibut,CAR,OCGT,HFO,1981,0,0.11,0.11,1,,,,,,,,,,,,,,,40
+Bambari solar,CAR,PV,Solar,0,2023,1,1,3,,,,,,,,,,,,,,,25
+Berberati solar,CAR,PV,Solar,0,2023,1,1,3,,,,,,,,,,,,,,,25
+Bossangoa solar,CAR,PV,Solar,0,2024,5,5,3,,,,,,,,,,,,,,,25
+Bouar solar,CAR,PV,Solar,0,2023,5,5,3,,,,,,,,,,,,,,,25
+Gamboma,Congo,ReservoirHydro,Water,0,2050,14,14,2,,,,,,,,,,,,,,,60
+Danzi 2,CAR,PV,Solar,0,2030,15,15,2,,,,,,,,,,,,,,,25
+PAOUA,CAR,OCGT,HFO,1981,0,0.24,0.24,1,,,,,,,,,,,,,,,40
+Ruzibazi,Burundi,ReservoirHydro,Water,2022,0,15,15,1,,,,,,,,,,,,,,,60
+Danzi solar,CAR,PV,Solar,0,2022,25,25,3,,,,,,,,,,,,,,,25
+Mongoumba,CAR,OCGT,HFO,1970,0,0.1,0.1,1,,,,,,,,,,,,,,,51
+Mbali,CAR,OCGT,HFO,1981,0,0.22,0.22,1,,,,,,,,,,,,,,,40
+Mbaiki,CAR,OCGT,HFO,1984,0,0.12,0.12,1,,,,,,,,,,,,,,,37
+KEMBE,CAR,OCGT,HFO,1986,0,0.15,0.15,1,,,,,,,,,,,,,,,35
+Kaga Bandoro,CAR,OCGT,HFO,1999,0,0.12,0.12,1,,,,,,,,,,,,,,,25
+ReservoirHydro Mekin,Cameroon,ReservoirHydro,Water,0,2022,15,15,3,,,,,,,,,,,,,,,50
+Carnot Enerca,CAR,OCGT,HFO,1976,0,0.98,0.98,1,,,,,,,,,,,,,,,45
+Bozoum,CAR,OCGT,HFO,1973,0,0.16,0.16,1,,,,,,,,,,,,,,,48
+Bouar,CAR,OCGT,HFO,1976,0,1.25,1.25,1,,,,,,,,,,,,,,,45
+Bossangoa,CAR,OCGT,HFO,1973,0,0.43,0.43,1,,,,,,,,,,,,,,,48
+Mobayi,DRC,ReservoirHydro,Water,1989,0,16.4,16.4,1,,,,,,,,,,,,,,,60
+Sakai solar,CAR,PV,Solar,0,2021,15,15,3,,,,,,,,,,,,,,,25
+Boda,CAR,OCGT,HFO,1996,0,0.18,0.18,1,,,,,,,,,,,,,,,25
+Berberati,CAR,OCGT,HFO,1971,0,2.35,2.35,1,,,,,,,,,,,,,,,50
+Mulembwe,Burundi,ReservoirHydro,Water,0,2026,17,17,3,,,,,,,,,,,,,,,60
+Bangui Enerca,CAR,OCGT,HFO,1969,0,30.4,30.4,1,,,,,,,,,,,,,,,52
+Bangassou,CAR,OCGT,HFO,1981,0,0.16,0.16,1,,,,,,,,,,,,,,,40
+Bambari,CAR,OCGT,HFO,2010,0,1.2,1.2,1,,,,,,,,,,,,,,,45
+Bambari,CAR,OCGT,HFO,1976,0,1.52,1.52,1,,,,,,,,,,,,,,,45
+Djermaya PV 2,Chad,PV,Solar,0,2023,32,32,3,,,,,,,,,,,,,,,25
+Oum Hadjer,Chad,OCGT,HFO,2010,0,0.5,0.5,1,,,,,,,,,,,,,,,25
+Doba Kome,Chad,OCGT,Gas,2003,0,90,90,1,,,,,,,,,,,,,,,32
+Abeche II,Chad,OCGT,HFO,0,2020,13.5,13.5,2,,,,,,,,,,,,,,,25
+AM Timan 2,Chad,PV,Solar,0,2027,5,5,2,,,,,,,,,,,,,,,25
+Ati,Chad,OCGT,HFO,0,2020,2,2,2,,,,,,,,,,,,,,,25
+AM Timan 1,Chad,PV,Solar,0,2023,5,5,3,,,,,,,,,,,,,,,25
+Starsol,Chad,PV,Solar,2022,0,10,10,1,,,,,,,,,,,,,,,25
+Amdjarass,Chad,OnshoreWind,Wind,0,2025,1.1,1.1,3,,,,,,,,,,,,,,,25
+Sarh,Chad,OCGT,HFO,2010,0,2.75,2.75,1,,,,,,,,,,,,,,,25
+Djermaya PV,Chad,PV,Solar,0,2025,28,28,2,,,,,,,,,,,,,,,25
+Doba,Chad,OCGT,HFO,0,2020,0.16,0.16,2,,,,,,,,,,,,,,,25
+Ndjamena WBG,Chad,OCGT,HFO,2010,0,0.26,0.26,1,,,,,,,,,,,,,,,25
+Ndjamena Pumping,Chad,OCGT,HFO,2010,0,0.44,0.44,1,,,,,,,,,,,,,,,25
+Ndjamena ,Chad,OCGT,HFO,1965,0,24.5,24.5,1,,,,,,,,,,,,,,,56
+Mongo,Chad,OCGT,HFO,2010,0,0.5,0.5,1,,,,,,,,,,,,,,,25
+Mao Kanem,Chad,OCGT,HFO,2010,0,0.5,0.5,1,,,,,,,,,,,,,,,25
+Lere,Chad,OCGT,HFO,2010,0,0.54,0.54,1,,,,,,,,,,,,,,,25
+Gore La Nya,Chad,OCGT,HFO,2010,0,0.54,0.54,1,,,,,,,,,,,,,,,25
+Moundou,Chad,OCGT,HFO,0,2020,7,7,2,,,,,,,,,,,,,,,25
+Farcha,Chad,OCGT,HFO,2006,0,84.2,84.2,1,,,,,,,,,,,,,,,25
+Fianga,Chad,OCGT,HFO,2010,0,0.54,0.54,1,,,,,,,,,,,,,,,25
+NSTT,Chad,PV,Solar,0,2025,30,30,2,,,,,,,,,,,,,,,25
+Doba Kome,Chad,OCGT,HFO,2003,0,30,30,1,,,,,,,,,,,,,,,25
+Biltine,Chad,OCGT,HFO,2010,0,0.58,0.58,1,,,,,,,,,,,,,,,25
+Bebedja,Chad,OCGT,HFO,2010,0,0.9,0.9,1,,,,,,,,,,,,,,,25
+Bardai,Chad,OCGT,HFO,2010,0,1,1,1,,,,,,,,,,,,,,,25
+Baibokoum,Chad,OCGT,HFO,2010,0,0.54,0.54,1,,,,,,,,,,,,,,,25
+AM Timan ,Chad,OCGT,HFO,2010,0,0.5,0.5,1,,,,,,,,,,,,,,,25
+Abeche ,Chad,OCGT,HFO,2010,0,0.5,0.5,1,,,,,,,,,,,,,,,25
+Rwegura,Burundi,ReservoirHydro,Water,1986,0,18,18,1,,,,,,,,,,,,,,,60
+Ouesso,Congo,OCGT,HFO,2015,0,6,6,1,,,,,,,,,,,,,,,25
+Ouesso,Congo,BiomassPlant,Biomass,1984,0,2.5,2.5,1,,,,,,,,,,,,,,,25
+Nkayi Mill,Congo,BiomassPlant,Biomass,1978,0,6,6,1,,,,,,,,,,,,,,,25
+Djeno Total,Congo,OCGT,Gas,1988,0,11,11,1,,,,,,,,,,,,,,,33
+Djeno Eni,Congo,OCGT,Gas,2002,0,50,50,1,,,,,,,,,,,,,,,25
+Djoue Rebuild,Congo,ReservoirHydro,Water,2020,0,18.12,18.12,1,,,,,,,,,,,,,,,60
+Liouessa,Congo,ReservoirHydro,Water,2016,0,19.5,19.5,1,,,,,,,,,,,,,,,60
+Boali-II,CAR,ReservoirHydro,Water,1976,0,19.8,19.8,1,,,,,,,,,,,,,,,60
+Kabu 16,Burundi,ReservoirHydro,Water,2021,2022,20,20,3,,,,,,,,,,,,,,,60
+Soleniama,DRC,ReservoirHydro,Water,1924,0,25.5,25.5,1,,,,,,,,,,,,,,,117
+Rusumo falls,Burundi,ReservoirHydro,Water,0,2023,26.4,26.4,3,,,,,,,,,,,,,,,60
+Rusumo RW,Rwanda,ReservoirHydro,Water,0,2023,26.7,26.7,3,,,,,,,,,,,,,,,60
+Ruzizi 1,DRC,ReservoirHydro,Water,2010,0,28,28,1,,,,,,,,,,,,,,,60
+Nyabarongo1 ROR,Rwanda,ReservoirHydro,Water,2014,0,28,28,1,,,,,,,,,,,,,,,60
+Sibiti,Congo,OCGT,HFO,2012,0,2.05,2.05,1,,,,,,,,,,,,,,,25
+Pointe Noire ,Congo,OCGT,HFO,1982,0,4.41,4.41,1,,,,,,,,,,,,,,,39
+Pointe Noire ,Congo,OCGT,HFO,1982,0,13.24,13.24,1,,,,,,,,,,,,,,,25
+Pointe Noire Sne,Congo,OCGT,HFO,1973,0,8.76,8.76,1,,,,,,,,,,,,,,,48
+Oyo,Congo,OCGT,HFO,2007,0,5,5,1,,,,,,,,,,,,,,,25
+MPILA,Congo,OCGT,HFO,2007,0,32,32,1,,,,,,,,,,,,,,,25
+Madingou,Congo,OCGT,HFO,2014,0,2.05,2.05,1,,,,,,,,,,,,,,,25
+Piana,DRC,ReservoirHydro,Water,2014,0,29.5,29.5,1,,,,,,,,,,,,,,,60
+LOM-PANGAR,Cameroon,ReservoirHydro,Water,0,2023,30,30,3,,,,,,,,,,,,,,,50
+Ngo,Congo,PV,Solar,0,2024,50,50,3,,,,,,,,,,,,,,,25
+Dolisie,Congo,OCGT,HFO,2006,0,1.6,1.6,1,,,,,,,,,,,,,,,25
+Cote Mateve,Congo,OCGT,Gas,2010,0,484,484,1,,,,,,,,,,,,,,,30
+Zoukomanbale,Cameroon,ReservoirHydro,Water,0,2023,30,30,2,,,,,,,,,,,,,,,60
+Palambo,CAR,ReservoirHydro,Water,0,2030,30,30,2,,,,,,,,,,,,,,,60
+Gecamines ST 500,DRC,ST,Coal,0,2025,500,500,2,,,,,,,,,,,,,,,35
+Chicapa  /E Biopio  ,Angola,ReservoirHydro,Water,1956,0,30.4,30.4,1,,,,,,,,,,,,,,,85
+Jiji,Burundi,ReservoirHydro,Water,2020,2023,33,33,3,,,,,,,,,,,,,,,60
+Uganda ReservoirHydro imports ,Rwanda,ReservoirHydro,Water,0,2022,35,35,3,,,,,,,,,,,,,,,60
+FE-2 (Kinguele Aval),Gabon,ReservoirHydro,Water,0,2024,36,36,3,,,,,,,,,,,,,,,60
+Rwanda MiniReservoirHydro 1-IV,Rwanda,ReservoirHydro,Water,0,2021,37.37,37.37,2,,,,,,,,,,,,,,,60
+Poubara,Gabon,ReservoirHydro,Water,1975,0,37.76,37.76,1,,,,,,,,,,,,,,,66
+Matala  ,Angola,ReservoirHydro,Water,1955,0,40.8,40.8,1,,,,,,,,,,,,,,,80
+Koni,DRC,ReservoirHydro,Water,1950,0,42.12,42.12,1,,,,,,,,,,,,,,,91
+Nyabarongo2 Dam,Rwanda,ReservoirHydro,Water,0,2027,43.5,43.5,3,,,,,,,,,,,,,,,60
+Nzoro,DRC,ReservoirHydro,Water,0,2025,48,48,2,,,,,,,,,,,,,,,60
+Lomaum  ,Angola,ReservoirHydro,Water,1964,0,50,50,1,,,,,,,,,,,,,,,80
+Ruvubu,Burundi,ReservoirHydro,Water,0,2028,50,50,2,,,,,,,,,,,,,,,60
+Lancremo,CAR,ReservoirHydro,Water,0,2030,50,50,2,,,,,,,,,,,,,,,60
+KINGUELE,Gabon,ReservoirHydro,Water,2021,0,57.6,57.6,1,,,,,,,,,,,,,,,69
+Gove  ,Angola,ReservoirHydro,Water,2012,0,60,60,1,,,,,,,,,,,,,,,50
+kotto,CAR,ReservoirHydro,Water,0,2030,60,60,2,,,,,,,,,,,,,,,30
+Lobaye,CAR,ReservoirHydro,Water,0,2030,60,60,2,,,,,,,,,,,,,,,50
+Katende,DRC,ReservoirHydro,Water,0,2025,64,64,3,,,,,,,,,,,,,,,60
+Ruzizi III Burundishare,Burundi,ReservoirHydro,Water,0,2029,68,68,2,,,,,,,,,,,,,,,60
+Ruzizi 3 (DRC) Share,DRC,ReservoirHydro,Water,0,2029,68,68,3,,,,,,,,,,,,,,,60
+Ruzizi 3   Share,Rwanda,ReservoirHydro,Water,0,2029,68,68,3,,,,,,,,,,,,,,,60
+Tchimbele,Gabon,ReservoirHydro,Water,1980,0,68.4,68.4,1,,,,,,,,,,,,,,,61
+Muanda (Eng),DRC,OCGT,Gas,1992,0,4.8,4.8,1,,,,,,,,,,,,,,,49
+Monano,DRC,PV,Solar,2018,0,1,1,1,,,,,,,,,,,,,,,25
+Mbuji Mayi (Eng)/Mbandaka (Eng)/Mweka (Eng)/Tshela (Eng)/Zongo (Eng),DRC,OCGT,HFO,1965,0,125.1,125.1,1,,,,,,,,,,,,,,,76
+Lisala (Eng)/Libenge (Eng)/Lemba (Eng)/Lusambo (Eng)/Kindu (Eng)/Kongolo (Eng)/Lukala (Eng),DRC,OCGT,HFO,2010,0,13.7,13.7,1,,,,,,,,,,,,,,,25
+Mandourou,Cameroon,ReservoirHydro,Water,0,2030,70,70,3,,,,,,,,,,,,,,,60
+Centrale ReservoirHydroelectrique de Kouata Mango,Gabon,ReservoirHydro,Water,0,2027,70,70,2,,,,,,,,,,,,,,,30
+Zoulabot,Cameroon,ReservoirHydro,Water,0,2028,71,71,2,,,,,,,,,,,,,,,60
+Bomba (Eng),DRC,OCGT,HFO,2010,0,22.5,22.5,1,,,,,,,,,,,,,,,25
+Lagdo,Cameroon,ReservoirHydro,Water,1984,0,72,72,1,,,,,,,,,,,,,,,57
+Menchum Bamenda,Cameroon,ReservoirHydro,Water,0,2023,72,72,2,,,,,,,,,,,,,,,60
+Kananga (Eng)/Kamina (Eng)/Kikwit (Eng)/Kabinda (Eng)/Kasongo (Eng)/Kabalo (Eng)/Kasenga (Eng)/Inongo (Eng),DRC,OCGT,HFO,2010,0,16.1,16.1,1,,,,,,,,,,,,,,,25
+Goma (Eng)/Gemena (Eng)/Buta (Eng)/Bandundu (Eng)/Boende (Eng)/Basankusu (Eng)/Bumba (Eng)/Butembo (Eng),DRC,OCGT,HFO,1975,0,19.9,19.9,1,,,,,,,,,,,,,,,66
+E Kisangani (Eng),DRC,OCGT,HFO,2010,0,51.2,51.2,1,,,,,,,,,,,,,,,25
+OCGT Generators Mongomo/Aniso/Annobon/Evinayong/Ebibeyin,EquatorialGuinea,OCGT,HFO,2010,0,13.44,13.44,1,,,,,,,,,,,,,,,25
+Punta Europa,EquatorialGuinea,OCGT,Gas,2011,0,156.5,156.5,1,,,,,,,,,,,,,,,25
+Mwadingusha,DRC,ReservoirHydro,Water,1954,0,73,73,1,,,,,,,,,,,,,,,87
+Moukoukoulou,Congo,ReservoirHydro,Water,1978,0,74,74,1,,,,,,,,,,,,,,,62
+Jamba Ya Oma  ,Angola,ReservoirHydro,Water,0,2036,75,75,2,,,,,,,,,,,,,,,80
+Bini A Warak,Cameroon,ReservoirHydro,Water,0,2028,75,75,3,,,,,,,,,,,,,,,50
+Zongo 1,DRC,ReservoirHydro,Water,1965,0,75,75,1,,,,,,,,,,,,,,,76
+Akoga,EquatorialGuinea,OCGT,Gas,0,2023,38,38,3,,,,,,,,,,,,,,,25
+Sipopo,EquatorialGuinea,OCGT,HFO,2012,0,22,22,1,,,,,,,,,,,,,,,25
+SEMU,EquatorialGuinea,OCGT,HFO,2004,0,7.2,7.2,1,,,,,,,,,,,,,,,25
+San Joaquim Bata,EquatorialGuinea,OCGT,HFO,1986,0,2,2,1,,,,,,,,,,,,,,,35
+Oyala,EquatorialGuinea,OCGT,HFO,0,2024,36,36,3,,,,,,,,,,,,,,,25
+Bata II,EquatorialGuinea,OCGT,HFO,2018,0,24,24,1,,,,,,,,,,,,,,,25
+Bata ,EquatorialGuinea,OCGT,HFO,2007,0,24.8,24.8,1,,,,,,,,,,,,,,,25
+Owendo,Gabon,OCGT,HFO,1986,0,44,44,1,,,,,,,,,,,,,,,44
+Rabi Kounga Field,Gabon,OCGT,Gas,1995,0,15.51,15.51,1,,,,,,,,,,,,,,,25
+Port Gentil Perenco,Gabon,OCGT,Gas,2010,0,62,62,1,,,,,,,,,,,,,,,25
+NC Port Gentil,Gabon,OCGT,Gas,0,2024,120,120,3,,,,,,,,,,,,,,,25
+ALENAKIRI,Gabon,OCGT,Gas,2013,0,70,70,1,,,,,,,,,,,,,,,25
+Mbinjal,Cameroon,ReservoirHydro,Water,0,2030,83,83,2,,,,,,,,,,,,,,,60
+Ngoila,Cameroon,ReservoirHydro,Water,0,2025,84,84,2,,,,,,,,,,,,,,,60
+Ngoulmendjim,Gabon,ReservoirHydro,Water,0,2026,85,85,2,,,,,,,,,,,,,,,60
+Port Gentil Perenco,Gabon,OCGT,Gas,1995,0,3.88,3.88,1,,,,,,,,,,,,,,,25
+Gamba,Gabon,OCGT,Gas,2004,0,3.4,3.4,1,,,,,,,,,,,,,,,25
+Imperatrice (Mouila),Gabon,ReservoirHydro,Water,0,2023,88,88,3,,,,,,,,,,,,,,,60
+Centrale ReservoirHydroelectrique des Chutes de Tsamba,Gabon,ReservoirHydro,Water,0,2027,90,90,2,,,,,,,,,,,,,,,30
+Song Mbong,Cameroon,ReservoirHydro,Water,0,2025,94,94,2,,,,,,,,,,,,,,,60
+Ruzizi Rwanda 4,Rwanda,ReservoirHydro,Water,0,2035,95.9,95.9,3,,,,,,,,,,,,,,,60
+Mourala,Congo,ReservoirHydro,Water,0,2028,101,101,2,,,,,,,,,,,,,,,60
+Centrale ReservoirHydroelectrique de Kongue,Gabon,ReservoirHydro,Water,0,2030,104,104,2,,,,,,,,,,,,,,,30
+Centrale ReservoirHydroelectrique de Lifouta,Gabon,ReservoirHydro,Water,0,2035,105,105,2,,,,,,,,,,,,,,,30
+Nzilo,DRC,ReservoirHydro,Water,1954,0,110,110,1,,,,,,,,,,,,,,,87
+Tchibanga,Gabon,OCGT,HFO,1986,0,1.6,1.6,1,,,,,,,,,,,,,,,16
+Yenga,Cameroon,ReservoirHydro,Water,0,2025,113,113,2,,,,,,,,,,,,,,,60
+Ayeme II,Gabon,PV,Solar,0,2030,30,30,2,,,,,,,,,,,,,,,25
+Ayeme I,Gabon,PV,Solar,0,2023,30,30,3,,,,,,,,,,,,,,,25
+Ndjock ,Cameroon,ReservoirHydro,Water,0,2030,117,117,3,,,,,,,,,,,,,,,60
+Owendoic,Gabon,OCGT,HFO,2000,0,66.2,66.2,1,,,,,,,,,,,,,,,26
+Owendo,Gabon,OCGT,Gas,2007,0,165,165,1,,,,,,,,,,,,,,,25
+Oyem,Gabon,OCGT,HFO,1989,0,6.5,6.5,1,,,,,,,,,,,,,,,16
+Omboue,Gabon,OCGT,HFO,1983,0,0.49,0.49,1,,,,,,,,,,,,,,,16
+doubou,Gabon,PV,Solar,0,2023,15,15,3,,,,,,,,,,,,,,,25
+Ndjole,Gabon,OCGT,HFO,1970,0,1.49,1.49,1,,,,,,,,,,,,,,,16
+Ndindi,Gabon,OCGT,HFO,2004,0,0.26,0.26,1,,,,,,,,,,,,,,,16
+NC Owendo,Gabon,OCGT,Gas,2017,0,120,120,1,,,,,,,,,,,,,,,25
+Mouila,Gabon,OCGT,HFO,1967,0,3.6,3.6,1,,,,,,,,,,,,,,,53
+Moanda Comilog,Gabon,OCGT,HFO,2000,0,2.81,2.81,1,,,,,,,,,,,,,,,30
+Moabi,Gabon,OCGT,HFO,1996,0,0.67,0.67,1,,,,,,,,,,,,,,,16
+Mitzic,Gabon,OCGT,HFO,1984,0,1.3,1.3,1,,,,,,,,,,,,,,,16
+Minvoul,Gabon,OCGT,HFO,1977,0,0.46,0.46,1,,,,,,,,,,,,,,,16
+Mimongo,Gabon,OCGT,HFO,2010,0,0.28,0.28,1,,,,,,,,,,,,,,,16
+Mekambo,Gabon,OCGT,HFO,1989,0,0.76,0.76,1,,,,,,,,,,,,,,,16
+Imboulou,Congo,ReservoirHydro,Water,2011,0,120,120,1,,,,,,,,,,,,,,,60
+Mayumba,Gabon,OCGT,HFO,1983,0,0.9,0.9,1,,,,,,,,,,,,,,,16
+Mandji,Gabon,OCGT,HFO,1996,0,0.76,0.76,1,,,,,,,,,,,,,,,16
+Makokou,Gabon,OCGT,HFO,1977,0,3.57,3.57,1,,,,,,,,,,,,,,,16
+Lastourville ,Gabon,OCGT,HFO,1984,0,1.05,1.05,1,,,,,,,,,,,,,,,16
+Lambarene,Gabon,OCGT,HFO,1969,0,5.9,5.9,1,,,,,,,,,,,,,,,16
+Koula-Moutou,Gabon,OCGT,HFO,2004,0,4.73,4.73,1,,,,,,,,,,,,,,,26
+Djibloho,EquatorialGuinea,ReservoirHydro,Water,2012,0,120,120,1,,,,,,,,,,,,,,,60
+Vuka ReservoirHydropower,Angola,ReservoirHydro,Water,0,2025,121,121,3,,,,,,,,,,,,,,,80
+LIBREVILLE,Gabon,OCGT,Gas,0,2025,70,70,3,,,,,,,,,,,,,,,25
+Fougamou,Gabon,OCGT,HFO,1980,0,1.2,1.2,1,,,,,,,,,,,,,,,16
+Oyem,Gabon,PV,Solar,0,2050,20,20,2,,,,,,,,,,,,,,,25
+Cap Lopez,Gabon,OCGT,Gas,2016,0,52.5,52.5,1,,,,,,,,,,,,,,,25
+Ruzizi Burundi 4,Burundi,ReservoirHydro,Water,0,2020,144,144,2,,,,,,,,,,,,,,,60
+Bitam,Gabon,OCGT,HFO,1987,0,2.34,2.34,1,,,,,,,,,,,,,,,16
+Bifoun,Gabon,OCGT,HFO,2003,0,0.48,0.48,1,,,,,,,,,,,,,,,16
+Akok,Gabon,OCGT,HFO,2004,0,0.09,0.09,1,,,,,,,,,,,,,,,16
+Wartsila,Gabon,OCGT,Gas,0,2023,120,120,3,,,,,,,,,,,,,,,25
+Mbam Amont,Cameroon,ReservoirHydro,Water,0,2029,149,149,2,,,,,,,,,,,,,,,60
+Kouembali,Congo,ReservoirHydro,Water,0,2025,150,150,2,,,,,,,,,,,,,,,60
+Biomass Bagasse1,Rwanda,BiomassPlant,Biomass,0,2023,12,12,2,,,,,,,,,,,,,,,25
+Biomass Bagasse2,Rwanda,BiomassPlant,Biomass,0,2029,10,10,2,,,,,,,,,,,,,,,25
+Zongo 2,DRC,ReservoirHydro,Water,2019,0,150,150,1,,,,,,,,,,,,,,,60
+Lomaum 2  ,Angola,ReservoirHydro,Water,0,2035,160,160,2,,,,,,,,,,,,,,,80
+Akanyaru Peat,Rwanda,ST,Coal,0,2032,50,50,3,,,,,,,,,,,,,,,35
+Sombwe,DRC,ReservoirHydro,Water,0,2026,160,160,3,,,,,,,,,,,,,,,60
+Hakan-Mamba (Peat) (IPP),Rwanda,ST,Coal,0,2023,80,80,3,,,,,,,,,,,,,,,35
+Gishoma Peat,Rwanda,ST,Coal,2017,0,15,15,1,,,,,,,,,,,,,,,35
+KivuWattGT ,Rwanda,OCGT,Gas,2015,0,25,25,1,,,,,,,,,,,,,,,25
+GRAND POUBARA Grand Poubara,Gabon,ReservoirHydro,Water,2013,0,160,160,1,,,,,,,,,,,,,,,50
+Tsengue Leledi,Gabon,ReservoirHydro,Water,0,2030,165,165,2,,,,,,,,,,,,,,,30
+Cambambe I  ,Angola,ReservoirHydro,Water,1962,0,180,180,1,,,,,,,,,,,,,,,80
+Jamba Ya Mina  ,Angola,ReservoirHydro,Water,0,2035,180,180,2,,,,,,,,,,,,,,,80
+Mpoukou,Congo,ReservoirHydro,Water,0,2035,180,180,2,,,,,,,,,,,,,,,60
+Kigasa HY gen p,Rwanda,ReservoirHydro,Water,2021,0,195,195,1,,,,,,,,,,,,,,,60
+Calengue (Catumbela)  /Cutato 1-3,Angola,ReservoirHydro,Water,0,2034,200,200,2,,,,,,,,,,,,,,,80
+Dimoli,CAR,ReservoirHydro,Water,0,2030,200,200,2,,,,,,,,,,,,,,,60
+Sendje,EquatorialGuinea,ReservoirHydro,Water,0,2022,200,200,3,,,,,,,,,,,,,,,60
+Ubangui ,DRC,ReservoirHydro,Water,0,2030,207,207,2,,,,,,,,,,,,,,,60
+MEMVE ELE,Cameroon,ReservoirHydro,Water,0,2019,211,211,3,,,,,,,,,,,,,,,50
+Quilengue (Keve)  ,Angola,ReservoirHydro,Water,0,2036,217,217,2,,,,,,,,,,,,,,,80
+Nyanga,Congo,ReservoirHydro,Water,0,2032,230,230,2,,,,,,,,,,,,,,,60
+Busanga,DRC,ReservoirHydro,Water,2017,0,240,240,1,,,,,,,,,,,,,,,60
+Nachtigal Aval,Cameroon,ReservoirHydro,Water,0,2034,260,260,2,,,,,,,,,,,,,,,60
+Song Ndong,Cameroon,ReservoirHydro,Water,0,2031,270,270,2,,,,,,,,,,,,,,,60
+Edea,Cameroon,ReservoirHydro,Water,1958,0,276.2,276.2,1,,,,,,,,,,,,,,,83
+Bugesera PV gen,Rwanda,PV,Solar,0,2026,20,20,2,,,,,,,,,,,,,,,24
+RW OCGT,Rwanda,OCGT,Diesel,2019,0,50,50,1,,,,,,,,,,,,,,,25
+Kastina Ala,Cameroon,ReservoirHydro,Water,0,2028,285,285,3,,,,,,,,,,,,,,,60
+Baynes  ,Angola,ReservoirHydro,Water,0,2031,300,300,2,,,,,,,,,,,,,,,80
+Chollet (Dja river),Cameroon,ReservoirHydro,Water,0,2031,300,300,2,,,,,,,,,,,,,,,50
+Chollet (Dja river),Congo,ReservoirHydro,Water,0,2031,300,300,2,,,,,,,,,,,,,,,60
+Makay,Cameroon,ReservoirHydro,Water,0,2030,350,350,2,,,,,,,,,,,,,,,60
+Nyagatare PV,Rwanda,PV,Solar,2020,0,20,20,1,,,,,,,,,,,,,,,25
+Nasho PV,Rwanda,PV,Solar,2020,0,3.3,3.3,1,,,,,,,,,,,,,,,24
+Mukungwa,Rwanda,OCGT,Diesel,2010,0,10,10,1,,,,,,,,,,,,,,,25
+Gisenyi Methane,Rwanda,OCGT,Gas,0,2050,50,50,2,,,,,,,,,,,,,,,25
+Inga 1,DRC,ReservoirHydro,Water,1971,0,351,351,1,,,,,,,,,,,,,,,70
+Nyazom,Cameroon,ReservoirHydro,Water,0,2031,367,367,2,,,,,,,,,,,,,,,60
+KP1 Gisenyi Methan,Rwanda,OCGT,Gas,2009,0,1.8,1.8,1,,,,,,,,,,,,,,,25
+JaliSolar,Rwanda,PV,Solar,2007,0,0.25,0.25,1,,,,,,,,,,,,,,,25
+Jabana2,Rwanda,OCGT,HFO,2009,0,20,20,1,,,,,,,,,,,,,,,25
+Jabana1,Rwanda,OCGT,Diesel,2004,0,7.8,7.8,1,,,,,,,,,,,,,,,25
+KSEZ OCGT,Rwanda,OCGT,HFO,0,2019,50,50,3,,,,,,,,,,,,,,,25
+Gikondo,Rwanda,OCGT,Diesel,2005,0,10,10,1,,,,,,,,,,,,,,,25
+Gigawatt PV gen,Rwanda,PV,Solar,2014,0,8.5,8.5,1,,,,,,,,,,,,,,,24
+Song Loulou,Cameroon,ReservoirHydro,Water,1980,0,384,384,1,,,,,,,,,,,,,,,60
+Nseke,DRC,ReservoirHydro,Water,1957,0,389,389,1,,,,,,,,,,,,,,,84
+Cafula (Keve)  ,Angola,ReservoirHydro,Water,0,2034,400,400,2,,,,,,,,,,,,,,,80
+Chutes de Nki,Cameroon,ReservoirHydro,Water,0,2026,403,403,2,,,,,,,,,,,,,,,60
+Rwinkwavu PV gen,Rwanda,PV,Solar,0,2024,20,20,2,,,,,,,,,,,,,,,24
+RW PV,Rwanda,PV,Solar,0,2021,8.5,8.5,3,,,,,,,,,,,,,,,25
+Centrale ReservoirHydroelectrique du Defile de Mitoungou,Gabon,ReservoirHydro,Water,0,2035,410,410,2,,,,,,,,,,,,,,,30
+Shema (IPP) I II III,Rwanda,OCGT,Gas,0,2024,56,56,3,,,,,,,,,,,,,,,25
+BoouÃ©,Gabon,ReservoirHydro,Water,0,2030,411,411,2,,,,,,,,,,,,,,,30
+Biomass,STP,BiomassPlant,Biomass,0,2025,4.68,4.68,2,,,,,,,,,,,,,,,25
+Neves GT,STP,OCGT,Gas,0,2023,30,30,2,,,,,,,,,,,,,,,25
+Nachtigal Amont,Cameroon,ReservoirHydro,Water,0,2023,420,420,3,,,,,,,,,,,,,,,60
+Tumuludo Casador  ,Angola,ReservoirHydro,Water,0,2032,450,450,2,,,,,,,,,,,,,,,80
+Zenzo ReservoirHydropower,Angola,ReservoirHydro,Water,0,2033,450,450,2,,,,,,,,,,,,,,,80
+KIKOT,Cameroon,ReservoirHydro,Water,2020,2029,450,450,2,,,,,,,,,,,,,,,60
+Bayomen,Cameroon,ReservoirHydro,Water,0,2031,470,470,2,,,,,,,,,,,,,,,60
+Edea Amont,Cameroon,ReservoirHydro,Water,0,2034,474,474,3,,,,,,,,,,,,,,,60
+Mouila Mogue,Cameroon,ReservoirHydro,Water,0,2031,498,498,2,,,,,,,,,,,,,,,60
+Capanda  ,Angola,ReservoirHydro,Water,2004,0,500,500,1,,,,,,,,,,,,,,,80
+Sounda Gorge,Congo,ReservoirHydro,Water,0,2030,500,500,2,,,,,,,,,,,,,,,60
+Kikot Aval,Cameroon,ReservoirHydro,Water,0,2028,659,659,3,,,,,,,,,,,,,,,60
+Wanie Rukula,DRC,ReservoirHydro,Water,0,2021,688,688,2,,,,,,,,,,,,,,,60
+Camambe II  ,Angola,ReservoirHydro,Water,2017,0,700,700,1,,,,,,,,,,,,,,,80
+Grand Eweng Ngodi,Cameroon,ReservoirHydro,Water,0,2028,1080,1080,3,,,,,,,,,,,,,,,60
+Song Mbengue,Cameroon,ReservoirHydro,Water,0,2026,1140,1140,2,,,,,,,,,,,,,,,60
+Inga 2,DRC,ReservoirHydro,Water,1982,0,1424,1424,1,,,,,,,,,,,,,,,60
+Agua Casada1,STP,PV,Solar,0,2025,15,15,2,,,,,,,,,,,,,,,24
+Agua Casada2,STP,PV,Solar,0,2025,15,15,2,,,,,,,,,,,,,,,24
+Agua Casada3,STP,PV,Solar,0,2025,10,10,2,,,,,,,,,,,,,,,24
+Lauca  / Lauca Ecologica  ,Angola,ReservoirHydro,Water,2017,0,2071,2071,1,,,,,,,,,,,,,,,80
+Santo Amaro,STP,OCGT,HFO,2010,0,23.13,23.13,1,,,,,,,,,,,,,,,25
+Principe Novo,STP,OCGT,HFO,2000,0,3.78,3.78,1,,,,,,,,,,,,,,,25
+Cacula Cabasa  ,Angola,ReservoirHydro,Water,0,2026,2100,2100,3,,,,,,,,,,,,,,,80
+Neves Solar,STP,PV,Solar,0,2023,5,5,2,,,,,,,,,,,,,,,24
+Inga VI phase E,DRC,ReservoirHydro,Water,0,2050,7424,7424,2,,,,,,,,,,,,,,,60
+Bobo Forro ,STP,OCGT,HFO,2008,0,1.65,1.65,1,,,,,,,,,,,,,,,25
+Inga VII phase G,DRC,ReservoirHydro,Water,0,2050,7424,7424,2,,,,,,,,,,,,,,,60
+Santo Amaro II,STP,PV,Solar,0,2022,2.2,2.2,3,,,,,,,,,,,,,,,24
+Inga V phaase F,DRC,ReservoirHydro,Water,0,2044,7424,7424,2,,,,,,,,,,,,,,,60
+Inga 4 Phase D,DRC,ReservoirHydro,Water,0,2037,7424,7424,2,,,,,,,,,,,,,,,60
+Inga 3 phase ABC,DRC,ReservoirHydro,Water,0,2030,11050,11050,2,,,,,,,,,,,,,,,60
