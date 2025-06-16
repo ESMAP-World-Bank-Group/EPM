@@ -15,9 +15,9 @@ pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/srelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
-pGenDataExcel,supply/pGenDataExcelCustomUpdate.csv
+pGenDataExcel,supply/pGenDataExcelCustom.csv
 pGenDataExcelDefault,supply/pGenDataExcelDefaultRampHydro.csv
-pAvailability,supply/pAvailabilityCustomUpdated.csv
+pAvailability,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
 pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefaultCCDR.csv
