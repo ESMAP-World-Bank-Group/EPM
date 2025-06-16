@@ -1,2 +1,4 @@
 ﻿feature,type,lowerbound,upperbound,zones
-hydro,Uniform,-0.4,0,Zambia;Zimbabwe;Mozambique
+hydro,Uniform,-0.3,0,Zambia;Zimbabwe;Mozambique
+fossilfuel,Uniform,0,0.3,
+demand,Uniform,-0.3,0,
