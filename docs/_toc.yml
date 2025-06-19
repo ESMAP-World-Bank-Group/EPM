@@ -53,3 +53,4 @@ parts:
     chapters:
         - file: docs/other_overview
         - file: docs/other_comparison
+        - file: docs/other_process
