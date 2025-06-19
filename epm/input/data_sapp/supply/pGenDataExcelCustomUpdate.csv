@@ -216,7 +216,6 @@ Malagarasi,Tanzania,ReservoirHydro,Water,2028,2060,50,2,,,0.25,0.25,,0.05,4090,0
 MambilimbaFallsI_HY_ZMB,Zambia,ReservoirHydro,Water,2030,2060,124,3,,,,,,0.278070484,,,0,4.248837209,50,124,0,,0,0,0,0
 Mapanga_ICE_MWI,Malawi,ICE,Diesel,2000,2060,16,1,,,,,,,,,0,0,,0,0,,0,0,0,0
 Maragra_biomass_MOZ,Mozambique,ST,Biomass,2000,2055,1,1,,10.425987,,,,0.8,48000,,,0,,0,0,,0,0,0,1
-Masigira,Tanzania,ReservoirHydro,Water,2030,2060,118,3,,,0.2,0.2,,0.48,4090,0.5,,2.2,,118,,,,,,
 Matimba_TH_ZAF,South_Africa,ST,Coal,1987,2039,3690,1,,11.4,,,,,,,,0,,,0,,0,0.05,0,615
 Matla_TH_ZAF,South_Africa,ST,Coal,1979,2031,3450,1,,11.3,,,,,,,,0,,,0,,0,0.05,0,575
 Mbongozi_HY_MWI,Malawi,ReservoirHydro,Water,2055,2060,41,3,,,,,,0.325077306,,,0,3.536,50,41,0,,0,0,0,0
@@ -244,7 +243,6 @@ MorupuleBupgrade_TH_BWA,Botswana,ST,Coal,2022,2052,130,1,,10.34068347,,,,,,,,0,,
 Mota_Engil_C_MWI,Malawi,ST,Coal,2055,2060,0,3,,9.853126851,,,,,,,,2.84,,0,0,,0,0.05,0,0
 MozCCCGTNG_TH_MOZ,Mozambique,CCGT,LNG,2026,2080,400,3,,,,,,,,,,1.245080501,,100,0,7,7.1,0.05,0,0
 MozMGTPEDMSasolGT_TH_MOZ,Mozambique,CCGT,Gas,2024,2074,450,2,,9,,,,,,,0,1.25,,420,0,7,9.7,0.05,0,0
-Mpanga,Tanzania,ReservoirHydro,Water,2030,2060,160,3,,,0.13,0.13,,0.51,1640,0.5,,1.9,50,160,,,,,,
 Mpatamanga_Opt,Malawi,ReservoirHydro,Water,2030,2060,358,2,,,,,,0.325077306,,,0,2.79,50,359,0,,0,0,0,0
 MphandaNkuwa_HY_MOZ,Mozambique,ReservoirHydro,Water,2031,2060,1500,2,,,,,,0.406440138,,,0,4.436550388,50,1500,0,,0,0,0,0
 Mtera,Tanzania,ReservoirHydro,Water,1988,2060,80,1,,,0.25,0.25,,0.24,4100,0.5,,,50,,,,,,,
@@ -366,7 +364,7 @@ Ruhudji,Tanzania,ReservoirHydro,Water,2032,2060,358,3,,,0.13,0.13,,0.43,1640,0.5
 Rukuru_C_MWI,Malawi,ST,Coal,2055,2060,0,3,,9.853126851,,,,,,,,2.84,,0,0,,0,0.05,0,0
 Rukwa_I,Tanzania,ST,Coal,2060,2060,300,3,,9.73,,,,,,,,,,,,,,,,
 Rukwa_II,Tanzania,ST,Coal,2060,2060,600,3,,9.73,,,,,,,,,,,,,,,,
-Rumakali,Tanzania,ReservoirHydro,Water,2030,2060,222,3,,,0.13,0.13,,0.55,1640,0.5,,1.7,50,222,,,,,,
+Rumakali,Tanzania,ReservoirHydro,Water,2030,2060,222,2,,,0.13,0.13,,0.55,1640,0.5,,1.7,50,222,,,,,,
 Rusumo_HY_TZA,Tanzania,ReservoirHydro,Water,2025,2060,27,2,,,0.2,0.2,,0.18,1640,0.5,,4.2,50,27,,,,,,
 Ruzizi12Tshopo_HY_DRC,DRC,ReservoirHydro,Water,1972,2060,40,1,,,,,,0.31,,,0,0,50,,0,,0,0,0,0
 Ruzizi3_HY_DRC,DRC,ReservoirHydro,Water,2031,2060,206,3,,,,,,0.31,,,0,4.248837209,50,110,0,,0,0,0,0
