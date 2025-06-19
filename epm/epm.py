@@ -1034,7 +1034,8 @@ def perform_sensitivity(sensitivity, s):
 
         for val in capacity_factor_sensi:
             df = pd.read_csv(s['baseline'][param])
-            df.loc[:, [i for i in df.columns if i not in ['zone', 'tech', 'q', 'd']]] *= (1 + val)
+            cols = [i for i in df.columns if i not in ['zone', 'tech', 'q', 'd']]
+            df[cols] = (df[cols] * (1 + val)).clip(upper=1)
 
             # Creating a new folder
             folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
