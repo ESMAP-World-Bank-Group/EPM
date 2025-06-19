@@ -54,3 +54,4 @@ parts:
         - file: docs/other_overview
         - file: docs/other_comparison
         - file: docs/other_process
+        - file: docs/other_test
