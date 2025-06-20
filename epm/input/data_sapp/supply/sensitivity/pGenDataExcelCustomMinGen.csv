@@ -307,7 +307,7 @@ New_OnshoreWind2030_MOZ,Mozambique,OnshoreWind,Wind,2030,2056,8000,3,,0,1,1,,,,,
 New_OnshoreWind_NAM,Namibia,OnshoreWind,Wind,2026,2058,8000,3,,0,1,1,,,,,,,,100,0,,0,0,1,0
 New_OnshoreWind_SWZ,Eswatini,OnshoreWind,Wind,2026,2060,1000,3,,0,1,1,,,,,,,,300,0,,0,0,1,0
 New_OnshoreWind_TZA,Tanzania,OnshoreWind,Wind,2025,2060,10000,3,,,,,,,,,,,,500,,,,,,
-New_OnshoreWind_ZAF,South_Africa,OnshoreWind,Wind,2026,2056,40000,3,,,,,,,,,,,,1500,0,,0,0,1,0
+New_OnshoreWind_ZAF,South_Africa,OnshoreWind,Wind,2026,2056,40000,3,,,,,,,,,,,,3500,0,,0,0,1,0
 New_OnshoreWind_ZMB,Zambia,OnshoreWind,Wind,2026,2061,5000,3,,0,1,1,,,,,,,,375,0,,0,0,1,0
 New_OnshoreWind_ZWE,Zimbabwe,OnshoreWind,Wind,2026,2058,8000,3,,0,1,1,,,,,,,,375,0,,0,0,1,0
 New_Pangani_Falls,Tanzania,ReservoirHydro,Water,1995,2060,68,1,,,0.25,0.25,,0.2,3400,0.003,,,,,,,,,,
@@ -322,7 +322,7 @@ New_PV_LSO,Lesotho,PV,Solar,2026,2060,500,3,,0,,,,,,,,,,600,0,,0,0,1,0
 New_PV_NAM,Namibia,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,100,0,,0,0,1,0
 New_PV_SWZ,Eswatini,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,75,0,,0,0,1,0
 New_PV_TZA,Tanzania,PV,Solar,2027,2052,8000,3,,0,,,,,,,,,,500,,,,,,
-New_PV_ZAF,South_Africa,PV,Solar,2026,2060,30000,3,,0,,,,,,,,,,1500,0,,0,0,1,0
+New_PV_ZAF,South_Africa,PV,Solar,2026,2060,30000,3,,0,,,,,,,,,,3500,0,,0,0,1,0
 New_PV_ZMB,Zambia,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,600,0,,0,0,1,0
 New_PV_ZWE,Zimbabwe,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,600,0,,0,0,1,0
 NewCCGTNG_TH_LSO,Lesotho,CCGT,LNG,2027,2074,500,3,0.3,,,,,,,,,1.17732737,,500,0,7,7.1,0.05,0,0

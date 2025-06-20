@@ -38,6 +38,7 @@ Contact:
 **********************************************************************
 """
 
+
 import os
 import subprocess
 import pandas as pd
@@ -285,11 +286,12 @@ def launch_epm(scenario,
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
 
     # Define the logfile name
-    logfile = os.path.join(cwd, 'main.log')
+    #logfile = os.path.join(cwd, 'main.log')
+    logfile = f'{scenario_name}_main.log'
 
     options = [
-        "--LogOption 4", # Write log to standard output and log file
-        f"--LogFile {logfile}" # Specify the name of the log file
+        "LogOption 4", # Write log to standard output and log file
+        f"LogFile {logfile}" # Specify the name of the log file
         ]
     if path_engine_file:
         print('Save file only to prepare running simulation on remote server')
