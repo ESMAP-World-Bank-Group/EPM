@@ -11,7 +11,7 @@ Below is an example of the structure based on the `data_test_region` folder.
 To run the model with Python, use the following command:
 
 ```bash
-python run_epm.py --folder_input data_test_region --config data_test_region/config.csv
+python epm.py --folder_input data_test_region --config input/data_test_region/config.csv
 ```
 
 This folder contains all the input files required to run EPM for the Southern Africa Power Pool (SAPP) region.
