@@ -1,4 +1,13 @@
-## About
+# Electricity Planning Model (EPM)
+
+## Status
+
+[![Test workflows](https://github.com/ESMAP-World-Bank-Group/EPM/actions/workflows/gams_workflow.yml/badge.svg)](https://github.com/ESMAP-World-Bank-Group/EPM/actions/workflows/gams_workflow.yml)
+[![GitHub Pages](https://github.com/ESMAP-World-Bank-Group/EPM/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/ESMAP-World-Bank-Group/EPM/actions/workflows/gh-pages.yml)
+[![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+![Size](https://img.shields.io/github/repo-size/ESMAP-World-Bank-Group/EPM)
+
+
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15591290.svg)](https://doi.org/10.5281/zenodo.15591290)
 
@@ -45,6 +54,7 @@ Chattopadhyay, D., De Sisternes, F., Oguah, S. K. W., World Bank Electricity Pla
   address = {Washington DC}
 }
 ```
+--- 
 
 ## License
 

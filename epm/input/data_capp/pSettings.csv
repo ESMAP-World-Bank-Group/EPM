@@ -15,7 +15,7 @@ PENALTIES,,
 OPTIONAL FEATURES,,
 Include carbon price ,includeCarbonPrice,0
 Include energy efficiency,includeEE,0
-Include CSP optimization,includeCSP,1
+Include CSP optimization,includeCSP,0
 Include Storage operation,includeStorage,1
 Show zero values,show0,0
 Retire plants on economic grounds,econRetire,0
