@@ -13,6 +13,9 @@ xlsxReport.cmd
 
 /epm/output_csv
 
+# Pre-analysis
+/pre-analysis/climatic/
+
 # Postprocessing
 /epm/postprocessing/*.ipynb
 /epm/postprocessing/*.xlsx

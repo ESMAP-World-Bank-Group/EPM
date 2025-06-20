@@ -36,13 +36,11 @@ $eval MINUTE gminute(%TIME%)
 $eval SECOND gsecond(%TIME%)
 $set TIMESTAMP %YEAR%%MONTH%%DAY%_%HOUR%%MINUTE%%SECOND%
 
-$set OUTPUTDIR output/simulation_gmstudio_%TIMESTAMP%
+$set OUTPUTDIR output%system.DirSep%simulation_gmstudio_%TIMESTAMP%
 
 $call mkdir %OUTPUTDIR%
 
-$call cp cplex.opt %OUTPUTDIR%/
+$call cp cplex.opt %OUTPUTDIR%
 
-$call gams "../../main.gms" --ROOT_FOLDER "../.." --ROOT_INPUT "../../input" curdir=%OUTPUTDIR% LogFile %OUTPUTDIR%/main.log
-*LogOption 4 LogFile %OUTPUTDIR%/main.log
+$call gams "../../main.gms" --ROOT_FOLDER "..%system.DirSep%.." --ROOT_INPUT "..%system.DirSep%..%system.DirSep%input" curdir=%OUTPUTDIR% LogOption=4
 
-*$call rm -f run_studio.lst run_studio.lxi
