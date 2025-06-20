@@ -236,6 +236,8 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 ## Example Usage
 
 Run EPM with a custom input folder, sensitivity analysis enabled, and multiple CPU cores:
+> It is important to specify the `config.csv` path when running python. Otherwise, a default value will be used, calibrated on the `data_test_region` folder.
+
 
 ```bash
 python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --sensitivity --cpu 4
