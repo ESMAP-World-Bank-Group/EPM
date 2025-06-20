@@ -836,6 +836,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="advanced_python.html">Advanced Use of the Python API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing.html">Postprocessing with Python</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Load data</a></li>
+
+
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related Projects</span></p>
@@ -1030,37 +1032,42 @@ title="Print to PDF"
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Load data
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#create-geographical-zone-data">
    Create geographical zone data
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#plots">
    Plots
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#transmission-maps">
      Transmission maps
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#capacity">
      Capacity
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#energy">
      Energy
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#system-costs">
      System costs
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#dispatch">
      Dispatch
     </a>
@@ -1078,6 +1085,13 @@ title="Print to PDF"
               
   <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Python Post-processing Noteboook</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">fileinput</span><span class="w"> </span><span class="kn">import</span> <span class="n">filename</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">utils</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -1085,7 +1099,7 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="load-data">
+<section id="load-data">
 <h1>Load data<a class="headerlink" href="#load-data" title="Permalink to this heading">#</a></h1>
 <p>This loads results data from the results folder</p>
 <div class="cell docutils container">
@@ -1131,8 +1145,9 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </div>
 </div>
+</section>
 <section id="create-geographical-zone-data">
-<h2>Create geographical zone data<a class="headerlink" href="#create-geographical-zone-data" title="Permalink to this heading">#</a></h2>
+<h1>Create geographical zone data<a class="headerlink" href="#create-geographical-zone-data" title="Permalink to this heading">#</a></h1>
 <p>Update <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> in <code class="docutils literal notranslate"><span class="pre">postprocessing/static/</span></code> to define zones.</p>
 <p><strong>Required Columns</strong>:</p>
 <ul class="simple">
@@ -1196,9 +1211,9 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </section>
 <section id="plots">
-<h2>Plots<a class="headerlink" href="#plots" title="Permalink to this heading">#</a></h2>
+<h1>Plots<a class="headerlink" href="#plots" title="Permalink to this heading">#</a></h1>
 <section id="transmission-maps">
-<h3>Transmission maps<a class="headerlink" href="#transmission-maps" title="Permalink to this heading">#</a></h3>
+<h2>Transmission maps<a class="headerlink" href="#transmission-maps" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting exchanges with arrows</span>
@@ -1289,7 +1304,7 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </section>
 <section id="capacity">
-<h3>Capacity<a class="headerlink" href="#capacity" title="Permalink to this heading">#</a></h3>
+<h2>Capacity<a class="headerlink" href="#capacity" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pCapacityByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pCapacityByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1388,7 +1403,7 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </section>
 <section id="energy">
-<h3>Energy<a class="headerlink" href="#energy" title="Permalink to this heading">#</a></h3>
+<h2>Energy<a class="headerlink" href="#energy" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pEnergyByFuel</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pEnergyByFuel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1413,7 +1428,7 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </section>
 <section id="system-costs">
-<h3>System costs<a class="headerlink" href="#system-costs" title="Permalink to this heading">#</a></h3>
+<h2>System costs<a class="headerlink" href="#system-costs" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pSummary&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1486,7 +1501,7 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 </section>
 <section id="dispatch">
-<h3>Dispatch<a class="headerlink" href="#dispatch" title="Permalink to this heading">#</a></h3>
+<h2>Dispatch<a class="headerlink" href="#dispatch" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">pDispatch</span> <span class="o">=</span> <span class="n">epm_results</span><span class="p">[</span><span class="s1">&#39;pDispatch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1522,7 +1537,6 @@ pPlantFuelDispatch not found in epm_dict
 <img alt="../_images/295788d65e7f63babc5c92ae1a24f99bb2c4403f03d0fd2eea10d003efa77e2a.png" src="../_images/295788d65e7f63babc5c92ae1a24f99bb2c4403f03d0fd2eea10d003efa77e2a.png" />
 </div>
 </div>
-</section>
 </section>
 </section>
 
@@ -1584,37 +1598,42 @@ pPlantFuelDispatch not found in epm_dict
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Load data
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#create-geographical-zone-data">
    Create geographical zone data
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
+ <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#plots">
    Plots
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#transmission-maps">
      Transmission maps
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#capacity">
      Capacity
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#energy">
      Energy
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#system-costs">
      System costs
     </a>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
+   <li class="toc-h2 nav-item toc-entry">
     <a class="reference internal nav-link" href="#dispatch">
      Dispatch
     </a>
