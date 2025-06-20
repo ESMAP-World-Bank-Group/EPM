@@ -13,6 +13,8 @@ from folium import GeoJson, GeoJsonTooltip
 import geopandas as gpd
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
+import glob
+import time
 
 def get_bbox(ISO_A2):
     """
@@ -33,7 +35,7 @@ def get_bbox(ISO_A2):
     return x_west, y_south, x_east, y_north
 
 
-def read_grib_file(grib_path, step_type=None):
+def read_grib_file(grib_path, step_type=None, max_retries=3):
     """
     Reads a GRIB file and returns an xarray dataset.
     This function uses the cfgrib engine to read the GRIB file and filter by stepType.
@@ -41,23 +43,35 @@ def read_grib_file(grib_path, step_type=None):
     :param grib_path: Path to the GRIB file.
     :return: An xarray dataset containing the data from the GRIB file.
     """
-    print(f"Opening GRIB file: {grib_path}")
-    try:
-        if step_type:
-            ds_avgid = xr.open_dataset(grib_path, engine='cfgrib',
-                                       backend_kwargs={"filter_by_keys": {"stepType": "avgid"}},
-                                       decode_timedelta=True)
-            ds_avgas = xr.open_dataset(grib_path, engine="cfgrib",
-                                       backend_kwargs={"filter_by_keys": {"stepType": "avgas"}},
-                                       decode_timedelta=True)
-            dataset = xr.merge([ds_avgid, ds_avgas], compat='override')
-        else:
-            dataset = xr.open_dataset(grib_path, engine='cfgrib',
-                                       decode_timedelta=True)
 
-        #print(dataset)  # or process the dataset as needed
-    except Exception as e:
-        print(f"Failed to open {grib_path}: {e}")
+    def remove_cfgrib_index_files(grib_path):
+        idx_files = glob.glob(f"{grib_path}.*.idx")
+        for idx in idx_files:
+            try:
+                os.remove(idx)
+            except Exception as e:
+                print(f"Warning: failed to remove idx file {idx}: {e}")
+
+    data_set = None
+    remove_cfgrib_index_files(grib_path)
+
+    print(f"Opening GRIB file: {grib_path}")
+    for attempt in range(max_retries):
+        try:
+            if step_type:
+                ds_avgid = xr.open_dataset(grib_path, engine='cfgrib',
+                                           backend_kwargs={"filter_by_keys": {"stepType": "avgid"}},
+                                           decode_timedelta=True)
+                ds_avgas = xr.open_dataset(grib_path, engine="cfgrib",
+                                           backend_kwargs={"filter_by_keys": {"stepType": "avgas"}},
+                                           decode_timedelta=True)
+                dataset = xr.merge([ds_avgid, ds_avgas], compat='override')
+            else:
+                dataset = xr.open_dataset(grib_path, engine='cfgrib', decode_timedelta=True)
+            break  # success
+        except Exception as e:
+            print(f"[Attempt {attempt+1}] Failed to open {grib_path}: {e}")
+            time.sleep(1)
 
     return dataset
 
