@@ -17,9 +17,8 @@ python run_epm.py --folder_input data_test_region --config data_test_region/conf
 This folder contains all the input files required to run EPM for the Southern Africa Power Pool (SAPP) region.
 
 ```plaintext
+config.csv                              # Main configuration file for baseline run
 data_test_region/
-│
-├── config.csv                          # Main configuration file for baseline run
 │
 ├── constraint/                         # Policy and emissions constraints
 │   ├── pCarbonPrice.csv
