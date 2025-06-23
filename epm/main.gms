@@ -142,6 +142,7 @@ Set
                         capCreditSolar
                         capCreditWind
                         capital_constraints
+                        energy_security
                         captraj
                         costSurplus
                         costcurtail
@@ -305,7 +306,6 @@ Set
    ror(g)               'Run of river units'
    H2statusmap(hh,H2status) 'Hydrogen unit status'
 ;
-
 
 $onmulti
 Set
@@ -492,6 +492,7 @@ $set planning_reserve_constraints         -1
 $set ramp_constraints                     -1
 $set fuel_constraints                     -1
 $set capital_constraints                  -1
+$set energy_security                      -1
 $set mingen_constraints                   -1
 $set includeCSP                           -1
 $set includeStorage                       -1
@@ -532,6 +533,8 @@ pVRECapacityCredits                  = pSettings("VRECapacityCredits");
 pSeasonalReporting                   = pSettings("Seasonalreporting");
 pSystemResultReporting               = pSettings("Systemresultreporting");
 pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
+penergy_security                     = pSettings("energy_security");
+
 *Related to hydrogen model
 pIncludeH2                       = pSettings("IncludeH2");
 pH2UnservedCost                  = pSettings("H2UnservedCost");
@@ -547,6 +550,7 @@ $if not "%planning_reserve_constraints%"        == "-1" pplanning_reserve_constr
 $if not "%ramp_constraints%"                    == "-1" pramp_constraints                    = %ramp_constraints%;
 $if not "%fuel_constraints%"                    == "-1" pfuel_constraints                    = %fuel_constraints%;
 $if not "%capital_constraints%"                 == "-1" pcapital_constraints                 = %capital_constraints%;
+$if not "%energy_security%"                     == "-1" penergy_security                     = %energy_security%;
 $if not "%mingen_constraints%"                  == "-1" pmingen_constraints                  = %mingen_constraints%;
 $if not "%includeCSP%"                          == "-1" pincludeCSP                          = %includeCSP%;
 $if not "%includeStorage%"                      == "-1" pincludeStorage                      = %includeStorage%;
@@ -639,6 +643,9 @@ VRE_noROR(g) = vre(g) and not ror(g);
 
 * Define ramp-down rate for generators
 RampRate(g) = pGenData(g,"RampDnRate");
+
+* SAPP-specific equations to define South Africa subset
+SouthAfrica("South_Africa") = yes ; 
 
 * Map zones (`z`) to fuels (`f`) based on generator-fuel assignments (`gzmap` and `gfmap`)
 zfmap(z,f) = sum((gzmap(g,z),gfmap(g,f)), 1);
