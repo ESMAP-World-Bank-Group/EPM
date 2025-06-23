@@ -78,6 +78,7 @@ Sets
    nVRE(g)          'non VRE generators'
    REH2(g)          'set of RE generators which are NOT VRE'
    nREH2(g)         'set of generators that are dont belong to subset REH2(g)'
+   SouthAfrica(z)   'Selection of South Africa among all zones in the SAPP';
 ;
 
 * Time
@@ -93,6 +94,13 @@ Sets
                                          RampUpRate, RampDnRate,   ResLimShare, UnitSize, Life, Type /
    h2Index      'Index of hydrogen fuels'    /HydrogenIndex/
 ;
+
+************ SAPP specific sets *******************
+Sets
+    South_Africa(z) 'South_Africa'
+;
+
+
 
 alias(hh,hh1);
 
@@ -201,6 +209,7 @@ Parameters
    pramp_constraints                'Whether constraints on ramp up and down are included'
    pfuel_constraints
    pcapital_constraints             'Whether constraints on available capital for infrastructure are included'
+   penergy_security                 'Energy security parameter'
    pmingen_constraints
    pincludeCSP
    pincludeStorage
@@ -388,6 +397,7 @@ Equations
 
    eTransferLimit(z,z2,q,d,t,y)    'Transfer limits'
    eTransferLimitMin(z2,z,q,d,t,y) 'Minimum transfer across some transmission line defined at the hourly scale'
+   eEnergySecurity(z,y)            'Energy security constraint'
    eVREProfile(g,f,z,q,d,t,y)      'VRE generation restricted to VRE profile'
    eMaxImportPrice(c,y)            'import limits: max import from external zones'
    eMaxExportPrice(c,y)            'export limits: max export to external zones'
@@ -708,7 +718,13 @@ eTransferLimit(sTopology(z,z2),q,d,t,y)..
    vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
    
 eTransferLimitMin(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
-   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
+   vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);
+
+
+eEnergySecurity(SouthAfrica,y)$(penergy_security)..
+    sum((sTopology(SouthAfrica,z2),q,d,t), vFlow(SouthAfrica,z2,q,d,t,y)) + sum((sTopology(z2,SouthAfrica),q,d,t), vFlow(z2,SouthAfrica,q,d,t,y))
+     =l= penergy_security * sum((q,d,t), pDemandData(SouthAfrica,q,d,y,t));
+    
 
 eAdditionalTransfer(sTopology(z,z2),y)$pAllowHighTransfer..
    vAdditionalTransfer(z,z2,y) =e=  vAdditionalTransfer(z,z2,y-1) + vBuildTransmission(z,z2,y);
@@ -1035,6 +1051,7 @@ Model PA /
    
    eTransferLimit
    eTransferLimitMin
+   eEnergySecurity
    eYearlyTransmissionAdditions
    eAdditionalTransfer
    eAdditionalTransfer2
