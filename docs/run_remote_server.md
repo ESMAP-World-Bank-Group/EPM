@@ -39,8 +39,16 @@ Once connected, you’ll have access to:
 - Do **not** store data, code, or results in `/home/wb_yourID/`.
 - Use the `/Data` directory for **all** storage and simulations. This is where disk space is allocated.
 
-Once on the server, navigate to your home directory and clone the repository:
+Hence, once on the server, navigate to the `/Data` folder to clone the repository. To do so, you should change working directory after connecting to the server:
+```sh 
+cd /Data
+```
+Then you can create your working directory and change your location in:
+```sh
+mkdir yourdirectory
+```
 
+Then you can clone the EPM repository:
 ```sh
 cd ~
 git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
@@ -103,13 +111,16 @@ To do so, you should change working directory after connecting to the server:
 
 ```sh 
 cd /Data
+```
+Then you can create your working directory and change your location in:
+```sh 
 cd yourdirectory/EPM/epm
 ```
 
 Each time you run:
 ```sh
 conda activate epm_env
-python run_epm.py
+python epm.py
 ```
 
 You can also specify arguments:
