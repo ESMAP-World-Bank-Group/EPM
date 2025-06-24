@@ -1144,7 +1144,15 @@ title="Print to PDF"
 <li><p>Do <strong>not</strong> store data, code, or results in <code class="docutils literal notranslate"><span class="pre">/home/wb_yourID/</span></code>.</p></li>
 <li><p>Use the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> directory for <strong>all</strong> storage and simulations. This is where disk space is allocated.</p></li>
 </ul>
-<p>Once on the server, navigate to your home directory and clone the repository:</p>
+<p>Hence, once on the server, navigate to the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> folder to clone the repository. To do so, you should change working directory after connecting to the server:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/Data
+</pre></div>
+</div>
+<p>Then you can create your working directory and change your location in:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>yourdirectory
+</pre></div>
+</div>
+<p>Then you can clone the EPM repository:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>~
 git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ESMAP-World-Bank-Group/EPM.git
 <span class="nb">cd</span><span class="w"> </span>EPM
@@ -1200,12 +1208,15 @@ conda<span class="w"> </span>--version
 <p>All simulations must be run from the <code class="docutils literal notranslate"><span class="pre">/Data</span></code> folder, not from <code class="docutils literal notranslate"><span class="pre">/home</span></code>.
 To do so, you should change working directory after connecting to the server:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/Data
-<span class="nb">cd</span><span class="w"> </span>yourdirectory/EPM/epm
+</pre></div>
+</div>
+<p>Then you can create your working directory and change your location in:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>yourdirectory/EPM/epm
 </pre></div>
 </div>
 <p>Each time you run:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
-python<span class="w"> </span>run_epm.py
+python<span class="w"> </span>epm.py
 </pre></div>
 </div>
 <p>You can also specify arguments:</p>
