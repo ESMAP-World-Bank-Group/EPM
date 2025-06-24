@@ -15,6 +15,7 @@ xlsxReport.cmd
 
 # Pre-analysis
 /pre-analysis/climatic/
+/pre-analysis/hydro/
 
 # Postprocessing
 /epm/postprocessing/*.ipynb
