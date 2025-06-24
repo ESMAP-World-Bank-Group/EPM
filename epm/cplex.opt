@@ -1,7 +1,7 @@
 barcrossalg=1
 solutiontype=2
 lpmethod=4
-threads=8
+threads=16
 names=yes
 barepcomp=1E-5
 barcolnz=50
