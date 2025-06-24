@@ -32,6 +32,8 @@ parts:
   - caption: Output & Postprocessing
     chapters:
       - file: docs/postprocessing_output
+      - file: docs/postprocessing_output_overview
+      - file: docs/postprocessing_output_details
       - file: docs/postprocessing_tableau
   - caption: Model Description
     chapters:
