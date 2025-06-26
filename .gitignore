@@ -22,6 +22,10 @@ pre-analysis/**/output/*
 !pre-analysis/**/input/.gitkeep
 !pre-analysis/**/output/.gitkeep
 
+!pre-analysis/load/input/load_daily.csv
+!pre-analysis/load/input/load_monthly.csv
+
+
 # Postprocessing
 /epm/postprocessing/*.ipynb
 /epm/postprocessing/*.xlsx
