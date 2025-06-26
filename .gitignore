@@ -14,7 +14,13 @@ xlsxReport.cmd
 /epm/output_csv
 
 # Pre-analysis
-/pre-analysis/climatic/
+# Ignore all files inside input and output directories
+pre-analysis/**/input/*
+pre-analysis/**/output/*
+
+# But keep the folders
+!pre-analysis/**/input/.gitkeep
+!pre-analysis/**/output/.gitkeep
 
 # Postprocessing
 /epm/postprocessing/*.ipynb
