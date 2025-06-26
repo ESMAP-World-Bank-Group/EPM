@@ -1,9 +1,0 @@
-pandas
-numpy
-matplotlib
-geopandas
-folium
-xarray
-branca
-shapely
-rapidfuzz
