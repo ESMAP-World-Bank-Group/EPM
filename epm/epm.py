@@ -1114,8 +1114,8 @@ def main(test_args=None):
     parser.add_argument(
         "--config",
         type=str,
-        default="input/config.csv",
-        help="Path to the configuration file (default: input/config.csv)"
+        default="input/data_test_region/config.csv",
+        help="Path to the configuration file (default: input/data_test_region/config.csv)"
     )
 
     parser.add_argument(
