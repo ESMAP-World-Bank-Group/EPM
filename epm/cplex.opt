@@ -1,15 +1,13 @@
 barcrossalg=1
 solutiontype=2
 lpmethod=4
-threads=16
-names=no
+threads=10
+names=yes
 barepcomp=1E-5
 barcolnz=50
-startalg 4
-bardisplay 2
-auxrootthreads -1
-solvefinal 0
-numericalemphasis 1
-datacheck 2
-mipdisplay 4
-mipinterval 1
+mipdisplay = 4 
+mipinterval = 1  
+barrierdisplay = 2 
+simdisplay = 2  
+numericalemphasis = 1
+datacheck = 2
