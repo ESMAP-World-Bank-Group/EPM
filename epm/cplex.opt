@@ -4,4 +4,8 @@ lpmethod=4
 threads=16
 names=no
 barepcomp=1E-5
-barcolnz=500
+barcolnz=50
+startalg 4
+bardisplay 2
+auxrootthreads -1
+solvefinal 0
