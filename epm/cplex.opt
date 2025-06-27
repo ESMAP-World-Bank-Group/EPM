@@ -9,3 +9,5 @@ startalg 4
 bardisplay 2
 auxrootthreads -1
 solvefinal 0
+numericalemphasis 1
+datacheck 2
