@@ -985,7 +985,7 @@ $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
 
-$if not set MODELTYPE $set MODELTYPE MIP
+$if not set MODELTYPE $set MODELTYPE RMIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
 $ifThenI.solvemode %SOLVEMODE% == 2
