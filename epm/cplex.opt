@@ -11,3 +11,5 @@ auxrootthreads -1
 solvefinal 0
 numericalemphasis 1
 datacheck 2
+mipdisplay 4
+mipinterval 1
