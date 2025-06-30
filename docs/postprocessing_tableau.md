@@ -46,9 +46,9 @@ This file is required for geographic visualizations in Tableau. It can be genera
 
 ### Step 1: Update the `geojson_to_epm.csv`
 
-> Example can be found [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv).
-
 This CSV file defines how names from the GeoJSON file should be translated into EPM-compatible zone names. It also allows you to split countries into sub-zones if needed (e.g. North/South).
+
+> Example can be found [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv).
 
 - `Geojson`: the name of the country or region as it appears in the GeoJSON file.
     _Example_: `United Republic of Tanzania`
