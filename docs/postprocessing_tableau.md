@@ -46,7 +46,7 @@ This file is required for geographic visualizations in Tableau. It can be genera
 
 ### Step 1: Update the `geojson_to_epm.csv`
 
-This CSV file defines how names from the GeoJSON file should be translated into EPM-compatible zone names. It also allows you to split countries into sub-zones if needed (e.g. North/South).
+This CSV file defines how names from the GeoJSON file should be translated into EPM-compatible zone names, and should be stored in the folder `output/tableau`. It also allows you to split countries into sub-zones if needed (e.g. North/South).
 
 > Example can be found [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv).
 
@@ -63,7 +63,11 @@ This CSV file defines how names from the GeoJSON file should be translated into 
   - `EW` = East/West  
   More division types may be added in the future.
 
-### Step 2: Run the script to generate GeoJSON data
+### Step 2: Update the `zcmap.csv`
+
+This is the map from zones to countries used in the EPM model. It is used as an input to the model. You should copy this file from your `input` folder, and paste it inside the `output/tableau` folder.
+
+### Step 3: Run the script to generate GeoJSON data
 
 Run the following command from the root of the repository at `epm/postprocessing`:
 ```sh
@@ -71,7 +75,7 @@ cd EPM/epm/postprocessing
 python create_geojson.py
 ```
 
-The script will generate linestring_countries.geojson for use in Tableau visualizations.
+The script will generate linestring_countries.geojson for use in Tableau visualizations. Input data used by this script is located in the `output/tableau` folder, as specified earlier.
 
 
 ## 3. Upload the folder to OneDrive
