@@ -398,6 +398,9 @@ def launch_epm_multi_scenarios(config='config.csv',
         path_gams = {k: os.path.join(working_directory, i) for k, i in PATH_GAMS.items()}
 
     # Read configuration file
+    if not os.path.exists(config):
+        raise FileNotFoundError(f'Configuration file {os.path.abspath(config)} not found.')
+
     config = pd.read_csv(config).set_index('paramNames').squeeze()
     # Remove title section of the configuration file
     config = config.dropna()

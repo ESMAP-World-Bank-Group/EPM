@@ -30,7 +30,7 @@
 $if not set ROOT_INPUT $set ROOT_INPUT "input"
 $log ROOT_INPUT is "%ROOT_INPUT%"
 
-$if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
+$if not set FOLDER_INPUT $set FOLDER_INPUT "data_capp"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 $if not set TRACE $set TRACE 0
@@ -50,7 +50,7 @@ $if not set sRelevant $set sRelevant %ROOT_INPUT%/%FOLDER_INPUT%/load/sRelevant.
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %ROOT_INPUT%/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataExcel $set pGenDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
+$if not set pGenDataExcel $set pGenDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcel_clean.csv
 $if not set pGenDataExcelDefault $set pGenDataExcelDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
 $if not set pAvailability $set pAvailability %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
