@@ -46,16 +46,28 @@ This file is required for geographic visualizations in Tableau. It can be genera
 
 ### Step 1: Update the `geojson_to_epm.csv`
 
+This CSV file defines how names from the GeoJSON file should be translated into EPM-compatible zone names, and should be stored in the folder `output/tableau`. It also allows you to split countries into sub-zones if needed (e.g. North/South).
+
 > Example can be found [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv).
 
-This CSV file defines how names from the GeoJSON file should be translated into EPM-compatible zone names. It also allows you to split countries into sub-zones if needed (e.g. North/South).
-
 - `Geojson`: the name of the country or region as it appears in the GeoJSON file.
-    _Example_: `United Republic of Tanzania`
-    When a country is split into multiple regions, this name should include the corresponding region. Example: `Democratic Republic of the Congo - North`.
+
+   _Example_: `United Republic of Tanzania`
+  
+   ⚠️ This must match exactly the names in the GeoJSON file used for mapping.
+   By default, the code expects the file countries.geojson available here, so names must match those in this file.
+   If you use a custom GeoJSON file, then the names in this column must match your custom file instead.
+
+  When a country is split into multiple regions, this name should include the corresponding region.
+
+  _Example_: `Democratic Republic of the Congo - North`.
+
+  
 - `EPM`: the name used for that zone in the EPM model.  
-  _Example_: `Tanzania`
+
+   _Example_: `Tanzania`
 - `region`: _(optional)_ only used when splitting a country into several zones. Specifies which part of the country this line refers to.  
+
   _Example_: `north`
 - `country`: _(optional)_ if a country is split, this column gives the full country name (e.g. `Democratic Republic of the Congo`), while the `Geojson` column may be something like `Democratic Republic of the Congo - North`.
 - `division`: _(optional)_ describes how the country is split. Current accepted values:  
@@ -63,16 +75,28 @@ This CSV file defines how names from the GeoJSON file should be translated into 
   - `EW` = East/West  
   More division types may be added in the future.
 
-### Step 2: Run the script to generate GeoJSON data
+### Step 2: Update the map files `zcmap.csv`
+
+This is the map from zones to countries used in the EPM model. It is used as an input to the model. You just need to copy this file from your `input` folder, and paste it inside the `output/tableau` folder.
+
+### Step 3: Run the script to generate GeoJSON data
 
 Run the following command from the root of the repository at `epm/postprocessing`:
+
 ```sh
 cd EPM/epm/postprocessing
-python create_geojson.py
+python create_geojson.py --folder tableau --geojson geojson_to_epm.csv --zcmap zcmap.csv
 ```
 
-The script will generate linestring_countries.geojson for use in Tableau visualizations.
+The script will generate linestring_countries.geojson for use in Tableau visualizations. The following arguments can be noted:
 
+- `--folder tableau`: location of the working Tableau folder (where your CSVs and maps are). `tableau` by default. 
+
+- `--geojson`: the name of the translation file (geojson_to_epm.csv). `geojson_to_epm.csv` by default. 
+
+- `--zcmap`: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. `zcmap.csv` by default. 
+
+- `--zonemap`: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.
 
 ## 3. Upload the folder to OneDrive
 
@@ -123,7 +147,7 @@ As explained above, Tableau Desktop is available from the shared team VDI. This 
 
 A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization dashboard is available on the team's Drive [here](https://worldbankgroup.sharepoint.com/:v:/r/teams/PowerSystemPlanning-WBGroup/Shared%20Documents/EPM/4.%20Developments/Tableau/Tutorial%20Tableau%20June%202025.mov?csf=1&web=1&e=wzOYrj).
 
-### 🔗 1. Connect to a Data Source
+### 1. Connect to a Data Source
 
 1. On the **Start Page**, under **Connect**, choose your data source:
     
@@ -137,7 +161,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
     
 3. Tableau will open the **Data Source** tab, displaying the data preview.
 
-## 📐 2. Prepare the Data
+## 2. Prepare the Data
 
 - Rename fields by double-clicking headers.
     
@@ -145,7 +169,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
     
 - Create calculated fields if needed (`Analysis > Create Calculated Field`).
 
-## 📊 3. Build Visualizations (Sheets)
+## 3. Build Visualizations (Sheets)
 
 1. Click on a **new worksheet** (`Sheet 1`).
     
@@ -161,7 +185,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
         
     - Map: Drag `Country` to the view
 
-## 🧩4. Create a Dashboard
+## 4. Create a Dashboard
 
 1. Click the **New Dashboard** icon (`Dashboard 1`).
     
@@ -171,7 +195,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
     
 4. Adjust layout and sizing to fit your needs.
 
-## 🎛️ 5. Add Interactivity
+## 5. Add Interactivity
 
 - Use **Filters**:
     
@@ -185,7 +209,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
         
     - Link to other sheets or websites
 
-## 💾 6. Save and Share
+## 6. Save and Share
 
 - Save your workbook as `.twb` or `.twbx`.
     
