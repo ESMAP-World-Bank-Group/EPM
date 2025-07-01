@@ -530,45 +530,33 @@ There are two types of reserves in **EPM**:
 
 Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade) for more details.
 
-### `pExtTransferLimit.csv`
+| **File** | **Purpose / Definition** | **Scope** |
+|----------|--------------------------|-----------|
+| **`pTransferLimit.csv`** | Defines transfer capacities between internal zones and network topology. | **Explicit – within region** |
+| **`pNewTransmission.csv`** | Defines candidate internal transmission lines for potential expansion. Used if `pAllowHighTransfer` = 1. | **Explicit – within region** |
+| **`pLossFactor.csv`** | Specifies transmission losses on each internal transmission line (required in interconnected mode). | **Explicit – within region** |
+| **`zext.csv`** | Lists external zones available for trade. These zones are implicit (not modeled in detail). | **Implicit – external trade** |
+| **`pExtTransferLimit.csv`** | Defines seasonal transfer capacities between internal and external zones for price-driven imports/exports. | **Implicit – external trade** |
+| **`pTradePrice.csv`** | Sets import/export prices from/to external zones (by hour, season, day, year). | **Implicit – external trade** |
+| **`pMaxExchangeShare.csv`** | Limits the maximum share of total demand that can be imported or exported by a country. | **Implicit – external trade** |
+
+
+### `pTransferLimit.csv`
 
 - **Description**:  
-
-    Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
-
-    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+    Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
 
 - **Data Structure**:  
   - **Index**
-    - **Internal zone** (*str*) –  Origin of the import/export.  
-    - **External zone** (*str*) – Destination of the import/export.  
+    - **From** (*str*) –  Origin of the import/export.  
+    - **To** (*str*) – Destination of the import/export.  
     - **Seasons** (*str*) – Season for which the capacity is specified.
-    - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
   - **Columns**
     - **Year** (*int*) – Year for which the capacity applies.
   - **Value**
-    - Capacity available for imports or exports.
+    - Capacity available for imports or exports between internal zones.
 
-- **Example Link**: [pExtTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv)  
-
-
-### `pMaxExchangeShare.csv`
-
-- **Description**:  
-
-    Specifies the maximum share of total country-level demand that imports and exports can represent.
-
-    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
-
-- **Data Structure**:  
-  - **Index**
-    - **Year** (*int*) –  Year considered  
-  - **Columns**
-    - **Country** (*str*) – Country considered  
-  - **Value**
-    - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
-
-- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxExchangeShare.csv)
+- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTransferLimit.csv) 
 
 ### `pNewTransmission.csv`
 
@@ -599,6 +587,49 @@ Each transmission line must be specified only once. The order of the From and To
 - **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv)  
 
 
+
+
+### `pLossFactor.csv`
+
+- **Description**:  
+    Defines the transmission losses for each transmission lines. 
+    **Note**: when interconnected mode is activated (intercon = 1), the losses from each transmission line must be specified. 
+
+
+### `zext.csv`
+
+- **Description**:  
+  Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.  
+
+- **Data Structure**:  
+  - **Index**
+    - **zone** (*str*) – Name of external zone
+
+- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/zext.csv)
+
+
+### `pExtTransferLimit.csv`
+
+- **Description**:  
+
+    Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.
+
+    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
+
+- **Data Structure**:  
+  - **Index**
+    - **Internal zone** (*str*) –  Origin of the import/export.  
+    - **External zone** (*str*) – Destination of the import/export.  
+    - **Seasons** (*str*) – Season for which the capacity is specified.
+    - **Import/Export** (*str*) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.
+  - **Columns**
+    - **Year** (*int*) – Year for which the capacity applies.
+  - **Value**
+    - Capacity available for imports or exports.
+
+- **Example Link**: [pExtTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade/pExtTransferLimit.csv)  
+
+
 ### `pTradePrice.csv`
 
 - **Description**:  
@@ -618,39 +649,25 @@ Each transmission line must be specified only once. The order of the From and To
 
 - **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTradePrice.csv)  
 
-### `pTransferLimit.csv`
+
+### `pMaxExchangeShare.csv`
 
 - **Description**:  
-    Defines the available capacity for exchanges between internal zones. This dataframe is used to specify the network topology.
+
+    Specifies the maximum share of total country-level demand that imports and exports can represent.
+
+    Note: This input is only used when `pAllowExports` is set to 1 in `pSettings.csv`. 
 
 - **Data Structure**:  
   - **Index**
-    - **From** (*str*) –  Origin of the import/export.  
-    - **To** (*str*) – Destination of the import/export.  
-    - **Seasons** (*str*) – Season for which the capacity is specified.
+    - **Year** (*int*) –  Year considered  
   - **Columns**
-    - **Year** (*int*) – Year for which the capacity applies.
+    - **Country** (*str*) – Country considered  
   - **Value**
-    - Capacity available for imports or exports between internal zones.
+    - **Maximum exchange share** (*fraction [0-1]*) – Maximum percentage of total demand that imports and exports can reach. 
 
-- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTransferLimit.csv)  
+- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxExchangeShare.csv)
 
-### `zext.csv`
-
-- **Description**:  
-  Lists external zones that can trade with the modeled zones. These external zones can only contribute to imports and exports based on predefined prices; their generation mix and supply availability are not modeled, as they are not explicitly modeled.  
-
-- **Data Structure**:  
-  - **Index**
-    - **zone** (*str*) – Name of external zone
-
-- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/zext.csv)
-
-### `pLossFactor.csv`
-
-- **Description**:  
-    Defines the transmission losses for each transmission lines. 
-    **Note**: when interconnected mode is activated (intercon = 1), the losses from each transmission line must be specified. If LossFactor is empty, then
 
 ---
 
