@@ -47,10 +47,9 @@ parts:
         - file: docs/postprocessing
         - file: docs/planning_analysis_sapp.ipynb
         - file: docs/contributing.md
-  - caption: Related Projects
+  - caption: Pre-processing Analysis
     chapters:
-        - file: docs/related_projects.md
-        - file: docs/representative_days_doc.ipynb
+        - file: docs/pre_overview.md
   - caption: Other Resources
     chapters:
         - file: docs/other_overview
