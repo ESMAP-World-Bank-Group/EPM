@@ -825,7 +825,7 @@ def reduce_year_definition(folder_csv):
 
 def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenario='all',
                        plot_dispatch=None, scenario_reference='baseline', graphs_folder='img',
-                       montecarlo=False, reduce_definition_csv=False):
+                       montecarlo=False, reduce_definition_csv=False, reduced_years=True):
 
     if reduce_definition_csv:  # output csv are reduced in size to improve Tableau performance
         if 'output' not in FOLDER:
@@ -835,7 +835,8 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         for scenario in [i for i in os.listdir(results_folder) if os.path.isdir(os.path.join(results_folder, i))]:
             if 'output_csv' in os.listdir(os.path.join(results_folder, scenario)):
                 folder_csv = os.path.join(results_folder, scenario, 'output_csv')
-                reduce_year_definition(folder_csv=folder_csv)
+                if reduced_years:
+                    reduce_year_definition(folder_csv=folder_csv)
 
     keys_results = None
     if montecarlo:
