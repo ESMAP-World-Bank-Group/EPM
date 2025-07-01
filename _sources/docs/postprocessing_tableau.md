@@ -147,7 +147,7 @@ As explained above, Tableau Desktop is available from the shared team VDI. This 
 
 A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization dashboard is available on the team's Drive [here](https://worldbankgroup.sharepoint.com/:v:/r/teams/PowerSystemPlanning-WBGroup/Shared%20Documents/EPM/4.%20Developments/Tableau/Tutorial%20Tableau%20June%202025.mov?csf=1&web=1&e=wzOYrj).
 
-### 🔗 1. Connect to a Data Source
+### 1. Connect to a Data Source
 
 1. On the **Start Page**, under **Connect**, choose your data source:
     
@@ -161,7 +161,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
     
 3. Tableau will open the **Data Source** tab, displaying the data preview.
 
-## 📐 2. Prepare the Data
+## 2. Prepare the Data
 
 - Rename fields by double-clicking headers.
     
@@ -169,7 +169,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
     
 - Create calculated fields if needed (`Analysis > Create Calculated Field`).
 
-## 📊 3. Build Visualizations (Sheets)
+## 3. Build Visualizations (Sheets)
 
 1. Click on a **new worksheet** (`Sheet 1`).
     
@@ -185,7 +185,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
         
     - Map: Drag `Country` to the view
 
-## 🧩4. Create a Dashboard
+## 4. Create a Dashboard
 
 1. Click the **New Dashboard** icon (`Dashboard 1`).
     
@@ -195,7 +195,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
     
 4. Adjust layout and sizing to fit your needs.
 
-## 🎛️ 5. Add Interactivity
+## 5. Add Interactivity
 
 - Use **Filters**:
     
@@ -209,7 +209,7 @@ A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization da
         
     - Link to other sheets or websites
 
-## 💾 6. Save and Share
+## 6. Save and Share
 
 - Save your workbook as `.twb` or `.twbx`.
     
