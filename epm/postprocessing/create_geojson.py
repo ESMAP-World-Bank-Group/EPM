@@ -175,6 +175,8 @@ if __name__ == '__main__':
                         help="Filename of GeoJSON to EPM mapping (default: geojson_to_epm.csv).")
     parser.add_argument("--zcmap", type=str, default="zcmap.csv",
                         help="Filename of zone-to-country mapping (default: zcmap.csv).")
+    parser.add_argument("--zonemap", type=str, default=None,
+                        help="User-specific geojson file (default: None).")
 
     args = parser.parse_args()
 
@@ -182,7 +184,8 @@ if __name__ == '__main__':
         selected_zones=args.zones,
         geojson_to_epm=args.geojson,
         zcmap=args.zcmap,
-        folder=args.folder
+        folder=args.folder,
+        zone_map=args.zonemap
     )
 
     print("GeoJSON created with", len(linestring), "lines.")
