@@ -60,7 +60,7 @@ This CSV file defines how names from the GeoJSON file should be translated into 
 
   When a country is split into multiple regions, this name should include the corresponding region.
 
-  Example: `Democratic Republic of the Congo - North`.
+  _Example_: `Democratic Republic of the Congo - North`.
 
   
 - `EPM`: the name used for that zone in the EPM model.  
@@ -90,13 +90,13 @@ python create_geojson.py --folder tableau --geojson geojson_to_epm.csv --zcmap z
 
 The script will generate linestring_countries.geojson for use in Tableau visualizations. The following arguments can be noted:
 
-`--folder tableau`: location of the working Tableau folder (where your CSVs and maps are). `tableau` by default. 
+- `--folder tableau`: location of the working Tableau folder (where your CSVs and maps are). `tableau` by default. 
 
-`--geojson`: the name of the translation file (geojson_to_epm.csv). `geojson_to_epm.csv` by default. 
+- `--geojson`: the name of the translation file (geojson_to_epm.csv). `geojson_to_epm.csv` by default. 
 
-`--zcmap`: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. `zcmap.csv` by default. 
+- `--zcmap`: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. `zcmap.csv` by default. 
 
-`--zonemap`: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.
+- `--zonemap`: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.
 
 ## 3. Upload the folder to OneDrive
 
