@@ -1235,7 +1235,7 @@ title="Print to PDF"
 By default, the code expects the file countries.geojson available here, so names must match those in this file.
 If you use a custom GeoJSON file, then the names in this column must match your custom file instead.</p>
 <p>When a country is split into multiple regions, this name should include the corresponding region.</p>
-<p>Example: <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p>
+<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EPM</span></code>: the name used for that zone in the EPM model.</p>
 <p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">Tanzania</span></code></p>
@@ -1265,10 +1265,12 @@ python<span class="w"> </span>create_geojson.py<span class="w"> </span>--folder<
 </pre></div>
 </div>
 <p>The script will generate linestring_countries.geojson for use in Tableau visualizations. The following arguments can be noted:</p>
-<p><code class="docutils literal notranslate"><span class="pre">--folder</span> <span class="pre">tableau</span></code>: location of the working Tableau folder (where your CSVs and maps are). <code class="docutils literal notranslate"><span class="pre">tableau</span></code> by default.</p>
-<p><code class="docutils literal notranslate"><span class="pre">--geojson</span></code>: the name of the translation file (geojson_to_epm.csv). <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> by default.</p>
-<p><code class="docutils literal notranslate"><span class="pre">--zcmap</span></code>: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code> by default.</p>
-<p><code class="docutils literal notranslate"><span class="pre">--zonemap</span></code>: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--folder</span> <span class="pre">tableau</span></code>: location of the working Tableau folder (where your CSVs and maps are). <code class="docutils literal notranslate"><span class="pre">tableau</span></code> by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--geojson</span></code>: the name of the translation file (geojson_to_epm.csv). <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--zcmap</span></code>: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code> by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--zonemap</span></code>: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.</p></li>
+</ul>
 </section>
 </section>
 <section id="upload-the-folder-to-onedrive">
