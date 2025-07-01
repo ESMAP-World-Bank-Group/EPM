@@ -1084,8 +1084,8 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-2-update-the-zcmap-csv">
-     Step 2: Update the
+    <a class="reference internal nav-link" href="#step-2-update-the-map-files-zcmap-csv">
+     Step 2: Update the map files
      <code class="docutils literal notranslate">
       <span class="pre">
        zcmap.csv
@@ -1228,17 +1228,24 @@ title="Print to PDF"
 <blockquote>
 <div><p>Example can be found <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv">here</a>.</p>
 </div></blockquote>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">Geojson</span></code>: the name of the country or region as it appears in the GeoJSON file.
-<em>Example</em>: <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">Tanzania</span></code>
-When a country is split into multiple regions, this name should include the corresponding region. Example: <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">EPM</span></code>: the name used for that zone in the EPM model.<br />
-<em>Example</em>: <code class="docutils literal notranslate"><span class="pre">Tanzania</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">region</span></code>: <em>(optional)</em> only used when splitting a country into several zones. Specifies which part of the country this line refers to.<br />
-<em>Example</em>: <code class="docutils literal notranslate"><span class="pre">north</span></code></p></li>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Geojson</span></code>: the name of the country or region as it appears in the GeoJSON file.</p>
+<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">Tanzania</span></code></p>
+<p>⚠️ This must match exactly the names in the GeoJSON file used for mapping.
+By default, the code expects the file countries.geojson available here, so names must match those in this file.
+If you use a custom GeoJSON file, then the names in this column must match your custom file instead.</p>
+<p>When a country is split into multiple regions, this name should include the corresponding region.</p>
+<p>Example: <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EPM</span></code>: the name used for that zone in the EPM model.</p>
+<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">Tanzania</span></code></p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">region</span></code>: <em>(optional)</em> only used when splitting a country into several zones. Specifies which part of the country this line refers to.</p>
+<p><em>Example</em>: <code class="docutils literal notranslate"><span class="pre">north</span></code></p>
+</li>
 <li><p><code class="docutils literal notranslate"><span class="pre">country</span></code>: <em>(optional)</em> if a country is split, this column gives the full country name (e.g. <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span></code>), while the <code class="docutils literal notranslate"><span class="pre">Geojson</span></code> column may be something like <code class="docutils literal notranslate"><span class="pre">Democratic</span> <span class="pre">Republic</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">Congo</span> <span class="pre">-</span> <span class="pre">North</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">division</span></code>: <em>(optional)</em> describes how the country is split. Current accepted values:</p>
-<ul>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">NS</span></code> = North/South</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">EW</span></code> = East/West<br />
 More division types may be added in the future.</p></li>
@@ -1246,18 +1253,22 @@ More division types may be added in the future.</p></li>
 </li>
 </ul>
 </section>
-<section id="step-2-update-the-zcmap-csv">
-<h3>Step 2: Update the <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code><a class="headerlink" href="#step-2-update-the-zcmap-csv" title="Permalink to this heading">#</a></h3>
-<p>This is the map from zones to countries used in the EPM model. It is used as an input to the model. You should copy this file from your <code class="docutils literal notranslate"><span class="pre">input</span></code> folder, and paste it inside the <code class="docutils literal notranslate"><span class="pre">output/tableau</span></code> folder.</p>
+<section id="step-2-update-the-map-files-zcmap-csv">
+<h3>Step 2: Update the map files <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code><a class="headerlink" href="#step-2-update-the-map-files-zcmap-csv" title="Permalink to this heading">#</a></h3>
+<p>This is the map from zones to countries used in the EPM model. It is used as an input to the model. You just need to copy this file from your <code class="docutils literal notranslate"><span class="pre">input</span></code> folder, and paste it inside the <code class="docutils literal notranslate"><span class="pre">output/tableau</span></code> folder.</p>
 </section>
 <section id="step-3-run-the-script-to-generate-geojson-data">
 <h3>Step 3: Run the script to generate GeoJSON data<a class="headerlink" href="#step-3-run-the-script-to-generate-geojson-data" title="Permalink to this heading">#</a></h3>
 <p>Run the following command from the root of the repository at <code class="docutils literal notranslate"><span class="pre">epm/postprocessing</span></code>:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM/epm/postprocessing
-python<span class="w"> </span>create_geojson.py
+python<span class="w"> </span>create_geojson.py<span class="w"> </span>--folder<span class="w"> </span>tableau<span class="w"> </span>--geojson<span class="w"> </span>geojson_to_epm.csv<span class="w"> </span>--zcmap<span class="w"> </span>zcmap.csv
 </pre></div>
 </div>
-<p>The script will generate linestring_countries.geojson for use in Tableau visualizations. Input data used by this script is located in the <code class="docutils literal notranslate"><span class="pre">output/tableau</span></code> folder, as specified earlier.</p>
+<p>The script will generate linestring_countries.geojson for use in Tableau visualizations. The following arguments can be noted:</p>
+<p><code class="docutils literal notranslate"><span class="pre">--folder</span> <span class="pre">tableau</span></code>: location of the working Tableau folder (where your CSVs and maps are). <code class="docutils literal notranslate"><span class="pre">tableau</span></code> by default.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--geojson</span></code>: the name of the translation file (geojson_to_epm.csv). <code class="docutils literal notranslate"><span class="pre">geojson_to_epm.csv</span></code> by default.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--zcmap</span></code>: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code> by default.</p>
+<p><code class="docutils literal notranslate"><span class="pre">--zonemap</span></code>: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.</p>
 </section>
 </section>
 <section id="upload-the-folder-to-onedrive">
@@ -1478,8 +1489,8 @@ Then re-extract to optimize the new data (Step 6)</p></li>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-2-update-the-zcmap-csv">
-     Step 2: Update the
+    <a class="reference internal nav-link" href="#step-2-update-the-map-files-zcmap-csv">
+     Step 2: Update the map files
      <code class="docutils literal notranslate">
       <span class="pre">
        zcmap.csv
