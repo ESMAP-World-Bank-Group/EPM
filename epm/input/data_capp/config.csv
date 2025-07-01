@@ -15,7 +15,7 @@ pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
-pGenDataExcel,supply/pGenDataExcelCustom.csv
+pGenDataExcel,supply/pGenDataExcel_clean.csv
 pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
 pAvailability,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
