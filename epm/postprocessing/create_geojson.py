@@ -47,7 +47,8 @@ from shapely.geometry import LineString
 from utils import get_json_data, create_zonemap
 
 
-def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau'):
+def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',
+                               zone_map=None):
     """
     Generate a GeoJSON file representing lines between selected EPM zones for use in Tableau visualizations.
 
@@ -96,8 +97,14 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
 
     # Load and process zone geometries for the selected zones
     geojson_to_epm_path = os.path.join('..', 'output', folder, geojson_to_epm)
+
+    if zone_map is not None:
+        assert isinstance(zone_map, str), 'Parameter zone_map must be of type str'
+        zone_map = os.path.join('..', 'output', folder, zone_map)
+
     # Creating zone map for desired zones
-    zone_map, geojson_to_epm_dict = get_json_data(selected_zones=selected_zones, geojson_to_epm=geojson_to_epm_path)
+    zone_map, geojson_to_epm_dict = get_json_data(selected_zones=selected_zones, geojson_to_epm=geojson_to_epm_path,
+                                                  zone_map=zone_map)
 
     zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
