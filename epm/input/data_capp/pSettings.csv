@@ -19,7 +19,7 @@ Include CSP optimization,includeCSP,0
 Include Storage operation,includeStorage,1
 Show zero values,show0,0
 Retire plants on economic grounds,econRetire,0
-Run in interconnected mode,interconMode,1
+Run in interconnected mode,interconMode,0
 Allow exports based on price,allowExports,0
 Remove transfer limits,NoTransferLim,0
 Allow expansion of transfer limits,pAllowHighTransfer,1
