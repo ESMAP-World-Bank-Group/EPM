@@ -48,10 +48,8 @@ $endIf.mode
 
 * Turn on/off additional information to the listing file
 Option limRow=0, limCol=0, sysOut=off, solPrint=off;
-*$if %DEBUG%==1 
-*$onUELlist onUELXRef onListing 
-*$if %DEBUG%==1 
-*Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
+$if %DEBUG%==1 $onUELlist onUELXRef onListing 
+$if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 *-------------------------------------------------------------------------------------
 
@@ -985,7 +983,7 @@ $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
 
-$if not set MODELTYPE $set MODELTYPE RMIP
+$if not set MODELTYPE $set MODELTYPE MIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
 $ifThenI.solvemode %SOLVEMODE% == 2
