@@ -47,7 +47,8 @@ from shapely.geometry import LineString
 from utils import get_json_data, create_zonemap
 
 
-def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau'):
+def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',
+                               zone_map=None):
     """
     Generate a GeoJSON file representing lines between selected EPM zones for use in Tableau visualizations.
 
@@ -96,8 +97,14 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
 
     # Load and process zone geometries for the selected zones
     geojson_to_epm_path = os.path.join('..', 'output', folder, geojson_to_epm)
+
+    if zone_map is not None:
+        assert isinstance(zone_map, str), 'Parameter zone_map must be of type str'
+        zone_map = os.path.join('..', 'output', folder, zone_map)
+
     # Creating zone map for desired zones
-    zone_map, geojson_to_epm_dict = get_json_data(selected_zones=selected_zones, geojson_to_epm=geojson_to_epm_path)
+    zone_map, geojson_to_epm_dict = get_json_data(selected_zones=selected_zones, geojson_to_epm=geojson_to_epm_path,
+                                                  zone_map=zone_map)
 
     zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
@@ -162,12 +169,14 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Generate Tableau-ready GeoJSON for selected zones.")
     parser.add_argument("--zones", nargs="+",
                         help="List of EPM zone names to include (e.g., Angola Botswana Zambia).")
-    parser.add_argument("--folder", type=str,
+    parser.add_argument("--folder", type=str, default='tableau',
                         help="Output folder containing CSVs result - which will be used in Tableau - and where the GeoJSON will be saved.")
     parser.add_argument("--geojson", type=str, default="geojson_to_epm.csv",
                         help="Filename of GeoJSON to EPM mapping (default: geojson_to_epm.csv).")
     parser.add_argument("--zcmap", type=str, default="zcmap.csv",
                         help="Filename of zone-to-country mapping (default: zcmap.csv).")
+    parser.add_argument("--zonemap", type=str, default=None,
+                        help="User-specific geojson file (default: None).")
 
     args = parser.parse_args()
 
@@ -175,7 +184,8 @@ if __name__ == '__main__':
         selected_zones=args.zones,
         geojson_to_epm=args.geojson,
         zcmap=args.zcmap,
-        folder=args.folder
+        folder=args.folder,
+        zone_map=args.zonemap
     )
 
     print("GeoJSON created with", len(linestring), "lines.")
