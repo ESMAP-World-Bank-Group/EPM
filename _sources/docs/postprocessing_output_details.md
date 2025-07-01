@@ -1,4 +1,4 @@
-# 📊 EPM Model Output Documentation (Structured)
+# EPM Output documentation
 
 This document describes the key outputs from the Energy Planning Model (EPM), providing a quick summary of what each file contains and example rows to guide users unfamiliar with the model.
 
