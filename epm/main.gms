@@ -681,7 +681,7 @@ display sTopology;
 
 tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
 
-* Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
+* Identify committed generators (`ng(g)`) based on their status in `gstatusmap`
 commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
 
 
@@ -983,7 +983,7 @@ $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
 
-$if not set MODELTYPE $set MODELTYPE MIP
+$if not set MODELTYPE $set MODELTYPE RMIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
 $ifThenI.solvemode %SOLVEMODE% == 2
