@@ -6,3 +6,5 @@ numpy
 geopandas
 requests
 folium
+timezonefinder
+geopy
