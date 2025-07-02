@@ -38,7 +38,7 @@ Drag and drop your simulation results into the `scenarios/` folder. Each scenari
 
 > **Important**: One scenario must be named `baseline`, or an error will occur.
 
-The `ESMAP_Tableau.twb` file can be downloaded from [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb).
+The `ESMAP_Tableau.twb` file can be downloaded from [here](https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/main/docs/dwld/ESMAP_Tableau.twb)
 
 ## 2. Generate `linestring_countries.geojson` and add to the directory
 
