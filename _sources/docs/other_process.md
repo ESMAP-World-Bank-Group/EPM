@@ -38,7 +38,7 @@ Gather and analyze data on the existing energy system, including generation, tra
 
 A structured data collection template is available to support this process. It lists all required inputs for the EPM model.
 
-> [Download the data template](dwld/Template_Data_Source.xlsx)
+> [Download the Data Collection Template](dwld/TemplateDataCollection.xlsx) 
 
 ---
 

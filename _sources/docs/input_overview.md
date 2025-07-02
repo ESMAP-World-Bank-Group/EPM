@@ -3,7 +3,7 @@
 ## Description
 The following table lists the key input files used in the EPM model, along with a brief description and their structural dimensions. These files define model parameters, energy demand, supply data, constraints, and trade settings.
 
-> In addition, we provide a [template](dwld/Template_Data_Source.xlsx) to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
+> In addition, we provide a [template](dwld/TemplateDataCollection.xlsx) to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
 
 
 | File Name                         | Description                                           | Dimensions           |
