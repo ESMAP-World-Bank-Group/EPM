@@ -1165,6 +1165,12 @@ def main(test_args=None):
     )
 
     parser.add_argument(
+        "--reduce_definition_csv",
+        action="store_true",
+        help="Enable reduced yearly definition for csv files used in Tableau visualization (default: False)"
+    )
+
+    parser.add_argument(
         "--selected_scenarios",
         nargs="+",  # Accepts one or more values
         type=str,
@@ -1263,6 +1269,7 @@ def main(test_args=None):
     print(f"MonteCarlo samples: {args.montecarlo_samples}")
     print(f"Monte Carlo uncertainties file: {args.uncertainties}")
     print(f"Reduced output: {args.reduced_output}")
+    print(f"Reduced definition csv: {args.reduce_definition_csv}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
 
@@ -1297,7 +1304,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=args.reduce_definition_csv)
 
     # Zip the folder if it exists
     folder = path_to_extract_results(folder)
