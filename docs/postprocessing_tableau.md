@@ -113,14 +113,25 @@ From the shared VDI, click on the `.twb` file corresponding to your desired visu
 
 ## 6. Extract data 
 
-Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `Database_Compare`, `Main_Database`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+> Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views. To avoid these delays, you must extract the data. 
+
+For each of these four data sets `Database_Compare`, `Main_Database`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`, you must extract the data.
+Go to `Data` and `Extract data`, then should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+
+Verify that the data is extracted by checking that the `Use Extract` option is checked in the Data Source tab for each of these datasets.
+![Extract data in Tableau](dwld/verify_extract_data.png)
 
 ## 7. Save your Dashboard as Public
 
 Use Tableau Public to visualize and share your results.
 
-In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
+You need to sign up for a free Tableau Public account if you don't have one already.
+
+In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. 
+
+![Save to Tableau Public](dwld/save_tableau_public.png)
+
+Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
 You may adapt the settings based on the intended usage of this visualization, by going to the `Settings` button (after signing in on your browser):
 - Remove `Show Viz on Profile` if you want the visualization to only be accessible to those with a link (hide it from your public profile)
 - Remove `Allow Access` to prevent data download.
