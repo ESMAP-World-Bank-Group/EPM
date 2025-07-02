@@ -1229,6 +1229,14 @@ git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </
 <hr class="docutils" />
 <section id="run-epm-on-the-server-option-1-python-or-gams">
 <h2>5. Run EPM on the Server (Option 1 – Python or GAMS)<a class="headerlink" href="#run-epm-on-the-server-option-1-python-or-gams" title="Permalink to this heading">#</a></h2>
+<blockquote>
+<div><p>⚠️ Important: Monitor RAM Usage
+The AWS cluster instance we are using has a total of 96 GB of RAM available. Individual simulations can often consume more than 10 GB each.
+When multiple users run jobs simultaneously or a single user launches parallel simulations, total memory usage can quickly exceed the available RAM, potentially causing the cluster to crash.</p>
+</div></blockquote>
+<blockquote>
+<div><p>✅ Always monitor your simulations’ memory usage and avoid overloading the cluster.</p>
+</div></blockquote>
 <p>Once your code is ready, you can run EPM on the server using the <strong>same steps as on your computer</strong>.</p>
 <section id="a-python-recommended">
 <h3>A. Python (Recommended)<a class="headerlink" href="#a-python-recommended" title="Permalink to this heading">#</a></h3>
