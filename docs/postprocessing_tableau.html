@@ -62,7 +62,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/postprocessing_tableau.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Mathematical Formulation" href="model_overview.html" />
+    <link rel="next" title="Tableau Advanced Tutorial: How to modify Tableau visualization" href="postprocessing_tableau_advanced.html" />
     <link rel="prev" title="EPM Output documentation" href="postprocessing_output_details.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
@@ -313,6 +313,13 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
                       </a>
                     </li>
                 
@@ -654,6 +661,13 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
+                      <a class="nav-link nav-internal" href="postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="model_overview.html">
                         Mathematical Formulation
                       </a>
@@ -839,6 +853,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_output_details.html">EPM Output documentation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
@@ -1117,43 +1132,6 @@ title="Print to PDF"
    7. Update visualization
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-modify-tableau-visualization">
-   8. How to modify Tableau visualization
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#connect-to-a-data-source">
-     1. Connect to a Data Source
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#prepare-the-data">
-   2. Prepare the Data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#build-visualizations-sheets">
-   3. Build Visualizations (Sheets)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-a-dashboard">
-   4. Create a Dashboard
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#add-interactivity">
-   5. Add Interactivity
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#save-and-share">
-   6. Save and Share
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -1307,85 +1285,6 @@ Then re-extract to optimize the new data (Step 6)</p></li>
 </ol>
 <p><strong>Note</strong>: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).</p>
 </section>
-<section id="how-to-modify-tableau-visualization">
-<h2>8. How to modify Tableau visualization<a class="headerlink" href="#how-to-modify-tableau-visualization" title="Permalink to this heading">#</a></h2>
-<p>As explained above, Tableau Desktop is available from the shared team VDI. This tutorial covers the basics to help you create your first dashboard. For an in-depth analysis, you can also watch this <a class="reference external" href="https://www.youtube.com/watch?v=j8FSP8XuFyk">video</a>.</p>
-<p>A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization dashboard is available on the team’s Drive <a class="reference external" href="https://worldbankgroup.sharepoint.com/:v:/r/teams/PowerSystemPlanning-WBGroup/Shared%20Documents/EPM/4.%20Developments/Tableau/Tutorial%20Tableau%20June%202025.mov?csf=1&amp;web=1&amp;e=wzOYrj">here</a>.</p>
-<section id="connect-to-a-data-source">
-<h3>1. Connect to a Data Source<a class="headerlink" href="#connect-to-a-data-source" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
-<li><p>On the <strong>Start Page</strong>, under <strong>Connect</strong>, choose your data source:</p>
-<ul class="simple">
-<li><p>Excel, Text File, CSV</p></li>
-<li><p>Database (e.g., MySQL, PostgreSQL)</p></li>
-<li><p>Tableau Server or cloud sources</p></li>
-</ul>
-</li>
-<li><p>Browse and select your file or enter credentials for databases.</p></li>
-<li><p>Tableau will open the <strong>Data Source</strong> tab, displaying the data preview.</p></li>
-</ol>
-</section>
-</section>
-<section id="prepare-the-data">
-<h2>2. Prepare the Data<a class="headerlink" href="#prepare-the-data" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Rename fields by double-clicking headers.</p></li>
-<li><p>Change data types by clicking the data type icon.</p></li>
-<li><p>Create calculated fields if needed (<code class="docutils literal notranslate"><span class="pre">Analysis</span> <span class="pre">&gt;</span> <span class="pre">Create</span> <span class="pre">Calculated</span> <span class="pre">Field</span></code>).</p></li>
-</ul>
-</section>
-<section id="build-visualizations-sheets">
-<h2>3. Build Visualizations (Sheets)<a class="headerlink" href="#build-visualizations-sheets" title="Permalink to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Click on a <strong>new worksheet</strong> (<code class="docutils literal notranslate"><span class="pre">Sheet</span> <span class="pre">1</span></code>).</p></li>
-<li><p>Drag fields from the <strong>Data pane</strong> into:</p>
-<ul class="simple">
-<li><p><strong>Rows</strong> and <strong>Columns</strong> to build charts</p></li>
-<li><p><strong>Marks</strong> (Color, Size, Label, etc.) for additional detail</p></li>
-</ul>
-</li>
-<li><p>Examples:</p>
-<ul class="simple">
-<li><p>Bar chart: Drag <code class="docutils literal notranslate"><span class="pre">Category</span></code> to Columns and <code class="docutils literal notranslate"><span class="pre">Sales</span></code> to Rows</p></li>
-<li><p>Map: Drag <code class="docutils literal notranslate"><span class="pre">Country</span></code> to the view</p></li>
-</ul>
-</li>
-</ol>
-</section>
-<section id="create-a-dashboard">
-<h2>4. Create a Dashboard<a class="headerlink" href="#create-a-dashboard" title="Permalink to this heading">#</a></h2>
-<ol class="arabic simple">
-<li><p>Click the <strong>New Dashboard</strong> icon (<code class="docutils literal notranslate"><span class="pre">Dashboard</span> <span class="pre">1</span></code>).</p></li>
-<li><p>Drag sheets from the <strong>Sheets pane</strong> onto the dashboard area.</p></li>
-<li><p>Use objects (e.g., Text, Image, Web) from the left sidebar to enhance your dashboard.</p></li>
-<li><p>Adjust layout and sizing to fit your needs.</p></li>
-</ol>
-</section>
-<section id="add-interactivity">
-<h2>5. Add Interactivity<a class="headerlink" href="#add-interactivity" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Use <strong>Filters</strong>:</p>
-<ul>
-<li><p>Drag a field to Filters on a worksheet, then show it on the dashboard.</p></li>
-</ul>
-</li>
-<li><p>Use <strong>Actions</strong> (<code class="docutils literal notranslate"><span class="pre">Dashboard</span> <span class="pre">&gt;</span> <span class="pre">Actions</span></code>) to:</p>
-<ul>
-<li><p>Filter other views</p></li>
-<li><p>Highlight data</p></li>
-<li><p>Link to other sheets or websites</p></li>
-</ul>
-</li>
-</ul>
-</section>
-<section id="save-and-share">
-<h2>6. Save and Share<a class="headerlink" href="#save-and-share" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Save your workbook as <code class="docutils literal notranslate"><span class="pre">.twb</span></code> or <code class="docutils literal notranslate"><span class="pre">.twbx</span></code>.</p></li>
-<li><p>Export as PDF or Image (<code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span></code>).</p></li>
-<li><p>Publish to Tableau Server, Tableau Public, or Tableau Cloud.</p></li>
-</ul>
-</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1423,10 +1322,10 @@ Then re-extract to optimize the new data (Step 6)</p></li>
           <p class="prev-next-title">EPM Output documentation</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="model_overview.html" title="next page">
+  <a class='right-next' id="next-link" href="postprocessing_tableau_advanced.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Mathematical Formulation</p>
+      <p class="prev-next-title">Tableau Advanced Tutorial: How to modify Tableau visualization</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -1528,43 +1427,6 @@ Then re-extract to optimize the new data (Step 6)</p></li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#update-visualization">
    7. Update visualization
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-modify-tableau-visualization">
-   8. How to modify Tableau visualization
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#connect-to-a-data-source">
-     1. Connect to a Data Source
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#prepare-the-data">
-   2. Prepare the Data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#build-visualizations-sheets">
-   3. Build Visualizations (Sheets)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#create-a-dashboard">
-   4. Create a Dashboard
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#add-interactivity">
-   5. Add Interactivity
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#save-and-share">
-   6. Save and Share
   </a>
  </li>
 </ul>
