@@ -42,10 +42,9 @@ Notebook: `pre-analysis/climatic/climatic_overview.ipynb``
 
 
 
-| Temperature & Precipitation | Monthly precipiation |
-|------------|--------------|
-| 
-![Precipitation and temperature](dwld/pre-analysis/scatter_annual_spatial_means_t2m_tp.png)| ![Monthly precipiation](dwld/pre-analysis/monthly_precipitation_heatmap.png)|
+| Temperature & Precipitation | Monthly precipitation |
+|-----------------------------|-----------------------|
+| <img src="dwld/pre-analysis/scatter_annual_spatial_means_t2m_tp.png" width="300"/> | <img src="dwld/pre-analysis/monthly_precipitation_heatmap.png" width="300"/> |
 
 
 ---
