@@ -42,5 +42,8 @@ $call mkdir %OUTPUTDIR%
 
 $call cp cplex.opt %OUTPUTDIR%
 
-$call gams "../../main.gms" --ROOT_FOLDER "..%system.DirSep%.." --ROOT_INPUT "..%system.DirSep%..%system.DirSep%input" curdir=%OUTPUTDIR% LogOption=4
+* Add argument for main
+$if not set FOLDER_INPUT $set FOLDER_INPUT data_capp
+
+$call gams "../../main.gms" --ROOT_FOLDER "..%system.DirSep%.." --ROOT_INPUT "..%system.DirSep%..%system.DirSep%input" --FOLDER_INPUT=%FOLDER_INPUT% curdir=%OUTPUTDIR% LogOption=4
 

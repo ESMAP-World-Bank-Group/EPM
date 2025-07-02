@@ -412,6 +412,8 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     # Add scenarios if scenarios_specification is defined
     if scenarios_specification is not None:
+        if not os.path.exists(scenarios_specification):
+            raise FileNotFoundError(f'Scenarios specification file {os.path.abspath(scenarios_specification)} not found.')
         scenarios = pd.read_csv(scenarios_specification).set_index('paramNames')
 
         scenarios = normalize_path(scenarios)

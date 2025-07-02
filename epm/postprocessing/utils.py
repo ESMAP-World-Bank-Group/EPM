@@ -3239,6 +3239,8 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     if geojson_to_epm is None:
         geojson_to_epm = dict_specs['geojson_to_epm']
     else:
+        if not os.path.exists(geojson_to_epm):
+            raise FileNotFoundError(f"GeoJSON to EPM mapping file not found: {os.path.abspath(geojson_to_epm)}")
         geojson_to_epm = pd.read_csv(geojson_to_epm)
     epm_to_geojson = {v: k for k, v in
                       geojson_to_epm.set_index('Geojson')['EPM'].to_dict().items()}  # Reverse dictionary
