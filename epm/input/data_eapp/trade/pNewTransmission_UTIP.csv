@@ -1,2 +1,2 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
-Uganda,Tanzania,2030,1,1000,100,40,2
+Uganda,Tanzania,2030,1,1000,500,40,2
