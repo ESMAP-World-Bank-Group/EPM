@@ -8,7 +8,7 @@ This document details the data preparation workflow for energy modeling using va
 
 | Step | Notebook | Key Inputs | Key Outputs |
 |------|----------|------------|-------------|
-| 1 | *zcmap.csv* | List of countries/zones | Perimeter definition |
+| 1 | `zcmap.csv` | List of countries/zones | Perimeter definition |
 | 2 | `pre-analysis/climatic/climatic_overview.ipynb` | `zcmap.csv` | Climate overview plots |
 | 3 | `climatic/get_renewables_irena_data.ipynb` | List of countries (SPLAT names) | Renewable profiles (solar, wind) |
 | 3 | `climatic/get_renewables_ninja_data.ipynb` | Coordinates from `generation/get_renewables_coordinates.ipynb` | Renewable profiles (solar, wind) |
@@ -40,8 +40,13 @@ Notebook: `pre-analysis/climatic/climatic_overview.ipynb``
 - Output: Climate overview plots.
 
 
-![Monthly precipiation](dwld/pre-analysis/monthly_precipitation_heatmap.png)
-![Precipitation and temperature](dwld/pre-analysis/scatter_annual_spatial_means_t2m_tp.pdf)
+
+
+| Temperature & Precipitation | Monthly precipiation |
+|------------|--------------|
+| 
+![Precipitation and temperature](dwld/pre-analysis/scatter_annual_spatial_means_t2m_tp.png)| ![Monthly precipiation](dwld/pre-analysis/monthly_precipitation_heatmap.png)|
+
 
 ---
 
@@ -164,7 +169,7 @@ Notebook: `hydro_basins_map.ipynb`
 
 #### Hydro Inflow Analysis
 
-Notebook: `hydro_inflow_analysis.ipynb``
+Notebook: `hydro_inflow_analysis.ipynb`
 - Analyzes GRDC inflow data for climate change studies.
 
 ---
