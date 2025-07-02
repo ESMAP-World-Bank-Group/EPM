@@ -46,6 +46,7 @@ RE share target year,RETargetYr,
 "Maximum share of imports, %",MaxImports,
 "Maximum share of exports, %",MaxExports,
 "Spinning reserve needs for VRE, %",VREForecastError,0.15
+Apply energy security constraint,energy_security,
 ,,
 User defined Capacity credits,VRECapacityCredits,0
 Seasonal reporting,Seasonalreporting,0
