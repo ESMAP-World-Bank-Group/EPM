@@ -98,9 +98,9 @@ The script will generate linestring_countries.geojson for use in Tableau visuali
 
 - `--zonemap`: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.
 
-## 3. Upload the folder to OneDrive
+## 3. Upload the folder `tableau` to OneDrive
 
-Upload the folder to OneDrive to access from the shared VDI machine. From the VDI, you can access OneDrive and load the files into Tableau.
+Upload the folder `tableau` to OneDrive to access from the shared VDI machine. From the VDI, you can access OneDrive and load the files into Tableau.
 
 ## 4. Connect to the shared VDI
 
