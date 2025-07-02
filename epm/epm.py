@@ -1217,7 +1217,7 @@ def main(test_args=None):
     parser.add_argument(
         "--reduced_years",
         action="store_true",
-        default=True,
+        default=False,
         help="Reduces the number of years to three in the generated csv files. To avoid overloading Tableau. (default: False)"
     )
 
@@ -1304,7 +1304,7 @@ def main(test_args=None):
     print(folder)
     postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True, reduced_years=args.reduced_years)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=False, reduced_years=args.reduced_years)
 
     # Zip the folder if it exists
     folder = path_to_extract_results(folder)
