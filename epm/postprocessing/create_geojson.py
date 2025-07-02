@@ -162,7 +162,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Generate Tableau-ready GeoJSON for selected zones.")
     parser.add_argument("--zones", nargs="+",
                         help="List of EPM zone names to include (e.g., Angola Botswana Zambia).")
-    parser.add_argument("--folder", type=str,
+    parser.add_argument("--folder", type=str, default='tableau',
                         help="Output folder containing CSVs result - which will be used in Tableau - and where the GeoJSON will be saved.")
     parser.add_argument("--geojson", type=str, default="geojson_to_epm.csv",
                         help="Filename of GeoJSON to EPM mapping (default: geojson_to_epm.csv).")
