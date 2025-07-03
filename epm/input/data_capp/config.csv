@@ -17,13 +17,13 @@ pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
 pGenDataExcel,supply/pGenDataExcel_clean.csv
 pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
-pAvailability,supply/pAvailabilityCustom.csv
+pAvailability,supply/pAvailabilityCustom_confidential.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
 pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefault.csv
 pCSPData,supply/pCSPData.csv
 pFuelPrice,supply/pFuelPrice.csv
-pVREgenProfile,supply/pVREgenProfile.csv
+pVREgenProfile,supply/pVREgenProfile_confidential.csv
 pVREProfile,supply/pVREProfile.csv
 pStorDataExcel,supply/pStorDataExcel.csv
 RESERVE,
