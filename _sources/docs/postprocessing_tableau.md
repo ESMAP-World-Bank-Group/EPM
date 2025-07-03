@@ -22,6 +22,7 @@ The folder structure should look like this:
 ├── ESMAP_Tableau.twb
 ├── ESMAP_logo.png
 ├── linestring_countries.geojson
+├── Page de garde.png
 └── scenarios/
     ├── baseline/
     │   ├── output_csv/
