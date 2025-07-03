@@ -144,7 +144,7 @@ You may adapt the settings based on the intended usage of this visualization, by
 
 To update the visualization for new scenarios, you should follow the steps:
 1. Upload new scenarios with the correct structure, ensuring one is named `baseline`.
-2When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
+2. When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
    1. Keep previous extracts but view new data: For each of the dataset above, unclick `Use Extract` (reverts to live mode).
    2. Replace extracts with new data: for each of the dataset above, go to `Extract` → `Remove` → `Remove the extract and delete the extract file`.
    Then re-extract to optimize the new data (Step 6)
