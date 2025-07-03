@@ -31,6 +31,8 @@ from itertools import combinations
 from scipy.optimize import linprog
 from scipy.sparse import lil_matrix
 
+from IPython.display import display
+
 
 logging.basicConfig(level=logging.WARNING)  # Configure logging level
 logger = logging.getLogger(__name__)
@@ -117,7 +119,7 @@ def format_data_energy(filenames):
     keys_to_merge = ['PV', 'Wind', 'Load', 'ROR']
     keys_to_merge = [i for i in keys_to_merge if i in df_energy.keys()]
 
-    print('Annual capacity factor (%):', df_energy.groupby('zone')[keys_to_merge].mean().reset_index())
+    display('Annual capacity factor (%):', df_energy.groupby('zone')[keys_to_merge].mean().reset_index())
     if len(df_energy.zone.unique()) > 1:  # handling the case with multiple zones to rename columns
         df_energy = df_energy.set_index(['zone', 'season', 'day', 'hour']).unstack('zone')
         df_energy.columns = ['_'.join([idx0, idx1]) for idx0, idx1 in df_energy.columns]
@@ -488,7 +490,7 @@ def calculate_pairwise_correlation(df):
     return df
 
 
-def format_optim_repr_days(df_energy, name_data, folder_process_data):
+def format_optim_repr_days(df_energy, folder_process_data):
     """Format the data for the optimization.
 
     Parameters
@@ -511,7 +513,7 @@ def format_optim_repr_days(df_energy, name_data, folder_process_data):
     # # Invert the order of levels
     # df_formatted_optim = df_formatted_optim.swaplevel(0, 1, axis=1)
 
-    path_data_file = os.path.join(folder_process_data, 'data_formatted_optim_{}.csv'.format(name_data))
+    path_data_file = os.path.join(folder_process_data, 'data_formatted_optim.csv')
     df_formatted_optim.to_csv(path_data_file, index=True)
     print('File saved at:', path_data_file)
 
@@ -673,7 +675,7 @@ def parse_repr_days(folder_process_data, special_days):
     return repr_days
 
 
-def format_epm_phours(repr_days, folder, name_data=''):
+def format_epm_phours(repr_days, folder):
     """Format pHours EPM like.
 
     Parameters
@@ -688,7 +690,7 @@ def format_epm_phours(repr_days, folder, name_data=''):
     repr_days_formatted_epm = pd.concat([repr_days_formatted_epm] * 24,
                                         keys=['t{}'.format(i) for i in range(1, 25)], names=['hour'], axis=1)
 
-    path_file = os.path.join(folder, 'pHours_{}.csv'.format(name_data))
+    path_file = os.path.join(folder, 'pHours.csv')
     repr_days_formatted_epm.to_csv(path_file)
     print('pHours file saved at:', path_file)
     print('Number of hours: {:.0f}'.format(repr_days_formatted_epm.sum().sum() / len(repr_days_formatted_epm.columns)))
@@ -712,6 +714,7 @@ def format_epm_pvreprofile(df_energy, repr_days, folder, name_data=''):
     pVREProfile = pVREProfile.set_index(['season', 'day', 'hour'])
     pVREProfile = pVREProfile[[col for col in df_energy.columns if (('PV' in col) or ('Wind' in col))]]
     pVREProfile.columns = pd.MultiIndex.from_tuples([tuple([col.split('_')[0], '_'.join(col.split('_')[1:])]) for col in pVREProfile.columns])
+    # TODO: check why name_data is used there?
     if pVREProfile.columns.nlevels == 1:
         pVREProfile.columns = pd.MultiIndex.from_tuples([(col[0], name_data) for col in pVREProfile.columns])
     pVREProfile.columns.names = ['fuel', 'zone']
@@ -732,8 +735,8 @@ def format_epm_pvreprofile(df_energy, repr_days, folder, name_data=''):
     # Reorder index names
     pVREProfile = pVREProfile.reorder_levels(['zone', 'fuel', 'season', 'daytype'], axis=0)
 
-    pVREProfile.to_csv(os.path.join(folder, 'pVREProfile_{}.csv'.format(name_data)), float_format='%.5f')
-    print('VRE Profile file saved at:', os.path.join(folder, 'pVREProfile_{}.csv'.format(name_data)))
+    pVREProfile.to_csv(os.path.join(folder, 'pVREProfile.csv'), float_format='%.5f')
+    print('VRE Profile file saved at:', os.path.join(folder, 'pVREProfile.csv'))
 
 
 def format_epm_demandprofile(df_energy, repr_days, folder, name_data=''):
@@ -777,8 +780,8 @@ def format_epm_demandprofile(df_energy, repr_days, folder, name_data=''):
 
     pDemandProfile = pDemandProfile.reorder_levels(['zone', 'season', 'daytype'], axis=0)
 
-    pDemandProfile.to_csv(os.path.join(folder, 'pDemandProfile_{}.csv'.format(name_data)))
-    print('pDemandProfile file saved at:', os.path.join(folder, 'pDemandProfile_{}.csv'.format(name_data)))
+    pDemandProfile.to_csv(os.path.join(folder, 'pDemandProfile.csv'))
+    print('pDemandProfile file saved at:', os.path.join(folder, 'pDemandProfile.csv'))
 
 
 def cluster_data(data: pd.DataFrame, n_clusters: int) -> Tuple[np.ndarray, pd.DataFrame]:
@@ -1159,26 +1162,28 @@ def plot_vre_repdays(input_file, vre_profile, pHours, season_colors, countries=N
                 day_data = season_data.loc[day]
                 ax.plot(
                     day_data.index.get_level_values('hour'),
-                    day_data.sum(axis=1),
+                    day_data.mean(axis=1),
                     color=season_colors.get(season, 'orange'),
                     alpha=alpha_background
                 )
 
-            for repday in season_repdays.index.get_level_values('day').unique():
-                day_data = season_repdays.loc[repday]
-                weight = df_hours.xs(season, level='season').xs(repday, level='day').mean()
-                label = f'{season}-{repday} ({int(weight)})'
+            # TODO: Correct to add pDemandProfile
+            if not season_repdays.empty:
+                for repday in season_repdays.index.get_level_values('day').unique():
+                    day_data = season_repdays.loc[repday]
+                    weight = df_hours.xs(season, level='season').xs(repday, level='day').mean()
+                    label = f'{season}-{repday} ({int(weight)})'
 
-                alpha = scale_alpha(weight)
-                ax.plot(
-                    day_data.index.get_level_values('hour'),
-                    day_data.sum(axis=1),
-                    color=season_colors.get(season, 'grey'),
-                    alpha=alpha,
-                    linewidth = 2,
-                    label=label,
-                    zorder=2
-                )
+                    alpha = scale_alpha(weight)
+                    ax.plot(
+                        day_data.index.get_level_values('hour'),
+                        day_data.mean(axis=1),
+                        color=season_colors.get(season, 'grey'),
+                        alpha=alpha,
+                        linewidth = 2,
+                        label=label,
+                        zorder=2
+                    )
 
             ax.set_title(f"{fuel} - {season}")
             ax.legend(loc='upper right', fontsize=fontsize_legend, frameon=False)

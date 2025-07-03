@@ -106,8 +106,6 @@ except Exception as e:
 
 # TODO: Check if pGenData has missing attributes
 
-
-
 # Check if all pHours values are positive
 try:
     # Retrieve parameter pHours from GAMS
