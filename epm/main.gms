@@ -815,31 +815,29 @@ vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0
 
 $ifthen set LOADSOLPATH
   execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vRetire.l, vCapStor.l, vRetireStor.l
-*  vAdditionalTransfer.l
-*  vCapTherm.l,
-*  vBuildTherm.l, vRetireTherm.l, vAdditionalTransfer.l, vYearlyTransmissionAdditions.l, vCapH2.l, vBuildH2.l, vRetireH2.l,
-*  vBuildTransmission.l, vBuiltCapVar.l, vRetireCapVar.l, vBuiltCapVarH2.l, vRetireCapVarH2.l;
+
 ;
+
+* first, handle the very first year
+  vCap.fx(g,y)$(sStartYear(y)) = round(vCap.l(g,y),1);
+* then enforce non–decreasing for all subsequent years
+  loop(g,
+    loop(y$(not sStartYear(y)),
+        if( round(vCap.l(g,y),1) < round(vCap.l(g,y-1),1) ,
+* bump up to the previous year’s level
+          vCap.fx(g,y) = round(vCap.l(g,y-1),1) ;  
+        else
+* otherwise take its own rounded value
+            vCap.fx(g,y) = round(vCap.l(g,y),1) ;    
+        );
+      );
+    );
   
-  vCap.fx(g,y) = round(vCap.l(g,y), 1);
+*  vCap.fx(g,y) = round(vCap.l(g,y), 1);
   vRetire.fx(g,y) = round(vRetire.l(g,y),1);
   vCapStor.fx(g,y) = round(vCapStor.l(g,y),1);
   vRetireStor.fx(g,y) = round(vRetireStor.l(g,y),1);
-*  vAnnCapex.fx(g,y) = vAnnCapex.l(g,y);
-*  vCapTherm.fx(g,y) = vCapTherm.l(g,y);
-*  vBuildStor.fx(g,y) = vBuildStor.l(g,y);
-*  vBuildTherm.fx(g,y) = vBuildTherm.l(g,y);
-*  vRetireTherm.fx(g,y) = vRetireTherm.l(g,y);
-*  vAdditionalTransfer.fx(z,z2,y) = vAdditionalTransfer.l(z,z2,y);
-*  vYearlyTransmissionAdditions.fx(z,y) = vYearlyTransmissionAdditions.l(z,y);
-*  vCapH2.fx(hh,y) = vCapH2.l(hh,y);
-*  vBuildH2.fx(hh,y) = vBuildH2.l(hh,y);
-*  vRetireH2.fx(hh,y) = vRetireH2.l(hh,y);
-*  vBuildTransmission.fx(z,z2,y) = vBuildTransmission.l(z,z2,y);
-*  vBuiltCapVar.fx(g,y) = vBuiltCapVar.l(g,y);
-*  vRetireCapVar.fx(g,y) = vRetireCapVar.l(g,y);
-*  vBuiltCapVarH2.fx(hh,y) = vBuiltCapVarH2.l(hh,y);
-*  vRetireCapVarH2.fx(hh,y) = vRetireCapVarH2.l(hh,y);
+
 $endIf
 
 * Fix capacity to zero for generation projects that have not yet started in a given year
