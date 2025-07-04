@@ -266,8 +266,8 @@ Natron,Tanzania,ST,Geothermal,2030,2060,60,3,,,,,,,,,,,,60,,,,,,
 Near_Salima_Nanjoka_LNG_MWI,Malawi,OCGT,Gas,2055,2060,73,3,,10.42,,,,,,,,0.9,,73,0,,0,0.05,0,0
 New_BESS_AGO,Angola,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,200,0,,0,0,0,0
 New_BESS_BWA,Botswana,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,200,0,,0,0,0,0
-New_BESS_DRC,DRC,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
-New_BESS_DRCSouth,DRC_South,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,200,0,,0,0,0,0
+New_BESS_DRC,DRC,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,50,0,,0,0,0,0
+New_BESS_DRCSouth,DRC_South,Storage,Battery,2027,2055,2000,3,,,,,,,,,,,,50,0,,0,0,0,0
 New_BESS_LSO,Lesotho,Storage,Battery,2027,2055,500,3,,,,,,,,,,,,50,0,,0,0,0,0
 New_BESS_MOZ,Mozambique,Storage,Battery,2032,2055,4000,3,,,,,,,,,,,,200,0,,0,0,0,0
 New_BESS_MWI,Malawi,Storage,Battery,2027,2055,4000,3,,,,,,,,,,,,100,0,,0,0,0,0
@@ -308,8 +308,8 @@ New_PV_2026_MOZ,Mozambique,PV,Solar,2027,2060,200,3,,0,,,,,,,,,,100,0,,0,0,1,0
 New_PV_2030_AGO,Angola,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,800,0,,0,0,1,0
 New_PV_2030_MOZ,Mozambique,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,250,0,,0,0,1,0
 New_PV_BWA,Botswana,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,200,0,,0,0,1,0
-New_PV_DRC,DRC,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,150,0,,0,0,1,0
-New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,150,0,,0,0,1,0
+New_PV_DRC,DRC,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,80,0,,0,0,1,0
+New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,80,0,,0,0,1,0
 New_PV_LSO,Lesotho,PV,Solar,2026,2060,500,3,,0,,,,,,,,,,100,0,,0,0,1,0
 New_PV_NAM,Namibia,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,150,0,,0,0,1,0
 New_PV_SWZ,Eswatini,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,75,0,,0,0,1,0
