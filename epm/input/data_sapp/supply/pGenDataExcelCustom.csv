@@ -308,10 +308,10 @@ New_PV_2026_MOZ,Mozambique,PV,Solar,2027,2060,200,3,,0,,,,,,,,,,100,0,,0,0,1,0
 New_PV_2030_AGO,Angola,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,800,0,,0,0,1,0
 New_PV_2030_MOZ,Mozambique,PV,Solar,2030,2060,8000,3,,0,,,,,,,,,,250,0,,0,0,1,0
 New_PV_BWA,Botswana,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,200,0,,0,0,1,0
-New_PV_DRC,DRC,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,300,0,,0,0,1,0
-New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,300,0,,0,0,1,0
+New_PV_DRC,DRC,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,150,0,,0,0,1,0
+New_PV_DRCSouth,DRC_South,PV,Solar,2026,2060,4000,3,,0,,,,,,,,,,150,0,,0,0,1,0
 New_PV_LSO,Lesotho,PV,Solar,2026,2060,500,3,,0,,,,,,,,,,100,0,,0,0,1,0
-New_PV_NAM,Namibia,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,100,0,,0,0,1,0
+New_PV_NAM,Namibia,PV,Solar,2026,2060,8000,3,,0,,,,,,,,,,150,0,,0,0,1,0
 New_PV_SWZ,Eswatini,PV,Solar,2026,2060,1000,3,,0,,,,,,,,,,75,0,,0,0,1,0
 New_PV_TZA,Tanzania,PV,Solar,2027,2052,8000,3,,0,,,,,,,,,,500,,,,,,
 New_PV_ZAF,South_Africa,PV,Solar,2026,2060,30000,3,,0,,,,,,,,,,3500,0,,0,0,1,0
