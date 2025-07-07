@@ -317,7 +317,7 @@ New_PV_LSO,Lesotho,PV,Solar,2026,2060,10000,3,,0,,,,,,,,,,10000,0,,0,0,1,0
 New_PV_NAM,Namibia,PV,Solar,2026,2060,10000,3,,0,,,,,,,,,,30000,0,,0,0,1,0
 New_PV_SWZ,Eswatini,PV,Solar,2026,2060,10000,3,,0,,,,,,,,,,10000,0,,0,0,1,0
 New_PV_TZA,Tanzania,PV,Solar,2027,2052,10000,3,,0,,,,,,,,,,10000,,,,,,
-New_PV_ZAF,South_Africa,PV,Solar,2026,2060,30000,3,,0,,,,,,,,,,10000,0,,0,0,1,0
+New_PV_ZAF,South_Africa,PV,Solar,2026,2060,40000,3,,0,,,,,,,,,,40000,0,,0,0,1,0
 New_PV_ZMB,Zambia,PV,Solar,2026,2060,10000,3,,0,,,,,,,,,,10000,0,,0,0,1,0
 New_PV_ZWE,Zimbabwe,PV,Solar,2026,2060,10000,3,,0,,,,,,,,,,600,0,,0,0,1,0
 NewCCGTNG_TH_LSO,Lesotho,CCGT,LNG,2027,2074,500,3,,,,,,,,,,1.17732737,,500,0,7,7.1,0.05,0,0
