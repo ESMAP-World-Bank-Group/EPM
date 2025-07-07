@@ -1,4 +1,4 @@
-﻿paramNames,Retrade,TransmissionOptimized
+﻿paramNames,Retrade,TransmissionOptimizedInfinite
 SETTINGS,,
 pSettings,,
 y,,ydetailedlong.csv
@@ -42,7 +42,7 @@ pLossFactor,,
 pMaxPriceImportShare,,
 pMaxExchangeShare,,
 pMinImport,,
-pNewTransmission,trade/pNewTransmissionRetrade.csv,trade/pNewTransmissionRetradeOptimized.csv
+pNewTransmission,trade/pNewTransmissionRetrade.csv,trade/pNewTransmissionRetradeOptimizedInfinite.csv
 pTradePrice,,
 pTransferLimit,,
 H2,,
