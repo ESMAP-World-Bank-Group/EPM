@@ -15,3 +15,7 @@ CSPPlant,Concentrated Solar Power
 PVwSTO,Solar PV with Storage
 STOPV,Storage For PV
 Storage,Grid Connected Storage
+Pumped,Pumped-Hydro
+Peat,Peat-Hydro
+Methane,Methane
+Waste,Waste
