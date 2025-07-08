@@ -7,7 +7,7 @@ PENALTIES,,
 "Cost of unserved energy per MWh, $",VOLL,3000
 "Cost of reserve shortfall per MW, $",ReserveVoLL,60000
 "Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60
-"Cost of surplus power per MWh, $",costSurplus,100
+"Cost of surplus power per MWh, $",costSurplus,0
 "Cost of curtailment per MWh, $",costcurtail,0
 "Cost of curtailment per MWh, $",CO2backstop,300
 "Cost of Climate backstop techno per ton  CO2, $",H2UnservedCost,3000
