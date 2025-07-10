@@ -67,6 +67,7 @@ from shapely.geometry import Point, Polygon
 from matplotlib.patches import FancyArrowPatch
 from shapely.geometry import LineString, Point, LinearRing
 import argparse
+import shutil
 
 
 FUELS = os.path.join('static', 'fuels.csv')
@@ -4701,3 +4702,29 @@ def keep_max_direction(df):
 
     return df_sum
 
+def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
+
+    # Get the data
+
+    results_folder, graphs_folder, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
+    results_folder, folder='')
+
+    tabs_to_update=['pDemandSupply','pCapacityByFuel','pEnergyByFuel','pCostSummary','pCostSummaryCountry','pEmissions','pInterchange']
+
+    output_file = f"{results_folder}_results_summary_dis.xlsx"
+
+    # Create the file from the template
+    shutil.copyfile(template_file, output_file)
+
+    # Charge data
+    with pd.ExcelWriter(output_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+        for tab in tabs_to_update:
+            if tab in epm_results.keys():
+                df_temp = epm_results[tab].copy()
+                col_order = [col for col in df_temp.columns if col != "scenario"] + ["scenario"]
+                df_temp = df_temp[col_order]
+                df_temp.to_excel(writer, sheet_name=tab, index=False)
+            else:
+                print(f"No data for '{tab}' — ignored")
+
+    print(f"Excel generated : {output_file}")
