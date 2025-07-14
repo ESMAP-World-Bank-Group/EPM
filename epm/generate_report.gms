@@ -229,6 +229,8 @@ pFOM(z,y) = sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
 
 
 pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
+pUnmetCountryReserveByZone(z,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c));
+pUnmetSystemReserveByZone(z,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z);
 
 
 pVOM(z,y) = sum((q,d,t), pHours(q,d,t)*(
@@ -320,8 +322,8 @@ pCostSummaryFull(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
 pCostSummaryFull(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummaryFull(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummaryFull(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
-pCostSummaryFull(z,"Unmet reserve costs: $m"                 ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
-pCostSummaryFull(z,"Unmet system reserve costs: $m"          ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
+pCostSummaryFull(z,"Unmet reserve costs: $m"                 ,y) = pUnmetCountryReserveByZone/1e6;
+pCostSummaryFull(z,"Unmet system reserve costs: $m"          ,y) = pUnmetSystemReserveByZone/1e6;
 pCostSummaryFull(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
 pCostSummaryFull(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummaryFull(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
@@ -332,12 +334,12 @@ pCostSummaryFull(z,"Trade shared benefits: $m"               ,y) = pTradeSharedB
 pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
 
 
-pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = (pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y) + pUnmetSystemReserveByZone + pUnmetCountryReserveByZone)/1e6;
 pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y) + pUnmetSystemReserveByZone + pUnmetCountryReserveByZone)/1e6;
                                                     
 
 * For unmet country reserve costs, we allocate them uniformly across zones inside a given country.
@@ -349,8 +351,8 @@ pCostSummary(z,"Total fuel Costs: $m"                        ,y) = pFuelCostsZon
 pCostSummary(z,"Transmission additions: $m"                  ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"                  ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"                      ,y) = pUSECosts(z,y)/1e6;
-pCostSummary(z,"Unmet reserve costs: $m"                     ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
-pCostSummary(z,"Unmet system reserve costs: $m"              ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
+pCostSummary(z,"Unmet reserve costs: $m"                     ,y) = pUnmetCountryReserveByZone/1e6;
+pCostSummary(z,"Unmet system reserve costs: $m"              ,y) = pUnmetSystemReserveByZone/1e6;
 pCostSummary(z,"Excess generation: $m"                       ,y) = pSurplusCosts(z,y)/1e6;
 pCostSummary(z,"VRE curtailment: $m"                         ,y) = pVRECurtailment(z,y)/1e6;
 pCostSummary(z,"Import costs with external zones: $m"        ,y) = pImportCostsExternal(z,y)/1e6;
@@ -371,7 +373,7 @@ pCostSummaryCountry(c,"Country Spinning Reserve violation: $m",y) = pUSRLocCosts
 pCostSummaryCountry(c,"Country Planning Reserve violation: $m",y) = pCountryPlanReserveCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Total CO2 backstop cost by Country: $m",y) = pCO2backstopCosts(c,y)/1e6 ;
 
-pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y))
+pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryFull(z,sumhdr,y))
                                                                   + (pUSRLocCosts(c,y) + pCountryPlanReserveCosts(c,y)
                                                                   + pCO2backstopCosts(c,y))/1e6 ;
 
@@ -382,9 +384,9 @@ pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,
 pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummaryFull(z,sumhdr,y);
 
 
-pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y)
-                                                                          + pFuelCostsZone(z,y) + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y)
-                                                                          + pVRECurtailment(z,y) + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
+                                                         + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
+                                                         + pSurplusCosts(z,y) + pSpinResCosts(z,y) + pUnmetSystemReserveByZone + pUnmetCountryReserveByZone)/1e6;
 
 *--- Cost Summary Weighted by country
 
@@ -395,7 +397,7 @@ pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSu
 pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y) = pWeightYear(y)*pUSRLocCosts(c,y)/1e6;
 pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y) = pWeightYear(y)*pCountryPlanReserveCosts(c,y)/1e6;
 pCostSummaryWeightedCountry(c,"Total CO2 backstop cost by Country: $m"      ,y) = pWeightYear(y)*pCO2backstopCosts(c,y)/1e6 ;
-pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y))
+pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryWeighted(z,sumhdr,y))
                                                                           + pWeightYear(y)*(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)+pCO2backstopCosts(c,y))/1e6;
 
 
