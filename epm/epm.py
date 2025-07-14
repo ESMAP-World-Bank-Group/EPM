@@ -1216,7 +1216,7 @@ def main(test_args=None):
 
     parser.add_argument(
         "--reduced_years",
-        action="store_true",
+        action="store_false",
         default=False,
         help="Reduces the number of years to three in the generated csv files. To avoid overloading Tableau. (default: False)"
     )

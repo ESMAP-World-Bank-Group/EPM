@@ -411,6 +411,15 @@ try:
         zcmap_df = db["zcmap"].records
         countries_planning = set(planning_df['c'].unique())
         countries_def = set(zcmap_df['c'].unique())
+        
+        # Remove countries associated with external zones
+        if db["zext"].records is not None:
+            zext_df = db["zext"].records
+            external_zones = set(zext_df['zext'].unique())
+            zcmap_ext = zcmap_df[zcmap_df['z'].isin(external_zones)]
+            countries_external = set(zcmap_ext['c'].unique())
+            countries_def = countries_def - countries_external
+            
         missing_countries = countries_def - countries_planning
         if missing_countries:
             missing_countries_str = ", ".join(missing_countries)
