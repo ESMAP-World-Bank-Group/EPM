@@ -67,6 +67,7 @@ from shapely.geometry import Point, Polygon
 from matplotlib.patches import FancyArrowPatch
 from shapely.geometry import LineString, Point, LinearRing
 import argparse
+import shutil
 
 
 FUELS = os.path.join('static', 'fuels.csv')
@@ -453,15 +454,38 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         return epm_dict
 
     if keys is None:  # default keys to process in output
-        keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
-                'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice',
-                'pDispatch', 'pFuelDispatch', 'pInterconUtilization',
-                'pSpinningReserveByPlantCountry', 'pCongested', 'pInterchange',
-                'pAnnualTransmissionCapacity', 'AdditiononalCapacity_trans', 'pCurtailedVRET',
-                'pNewCapacityFuelCountry', 'pPlantAnnualLCOE',
-                'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
-                'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
-                'pCostsbyPlant', 'pSolverParameters'}
+        keys = {"pSettings", "pSummary", "pSystemAverageCost", "pZonalAverageCost", "pCountryAverageCost",
+                    "pAveragePrice", "pAveragePriceExp", "pAveragePriceImp", "pPrice", "pAveragePriceHub",
+                    "pAveragePriceCountry", "pAveragePriceExpCountry", "pAveragePriceImpCountry",
+                    "pCostSummary", "pCostSummaryFull", "pCostSummaryCountry", "pCostSummaryWeighted", "pCostSummaryWeightedCountry",
+                    "pCostSummaryWeightedAverageCountry", "pCongestionRevenuesBetweenZones", "pFuelCosts", "pFuelCostsCountry",
+                    "pFuelConsumption", "pFuelConsumptionCountry",
+                    "pEnergyByPlant", "pEnergyByFuel", "pEnergyByFuelCountry", "pEnergyByTechandFuel", "pEnergyByTechandFuelCountry",
+                    "pEnergyMix", "pDemandSupply", "pDemandSupplyCountry", "pVarCost", "pCongested",
+                    "pInterchange", "pInterchangeExtExp", "pInterchangeExtImp", "pInterconUtilization", 
+                    "pInterconUtilizationExtExp", "pInterconUtilizationExtImp", "pLossesTransmission", 
+                    "pInterchangeCountry", "pLossesTransmissionCountry",
+                    "pYearlyTrade", "pYearlyTradeCountry", "pHourlyTradeCountry",
+                    "pPeakCapacity", "pCapacityByFuel", "pNewCapacityFuel", "pCapacityPlan", "pAdditionalCapacity", 
+                    "pAnnualTransmissionCapacity", "pRetirements",
+                    "pPeakCapacityCountry", "pCapacityByFuelCountry", "pCapacityByTechandFuelCountry", 
+                    "pNewCapacityFuelCountry", "pCapacityPlanCountry",
+                    "pNewCapacityTech", "pNewCapacityTechCountry",
+                    "pReserveMarginRes", "pReserveMarginResCountry",
+                    "pCostsbyPlant", "pRetirementsFuel", "pRetirementsCountry", "pRetirementsFuelCountry",
+                    "pAdditionalCapacityCountry",
+                    "pUtilizationByFuel", "pUtilizationByTechandFuel", "pUtilizationByFuelCountry", 
+                    "pUtilizationByTechandFuelCountry",
+                    "pSpinningReserveByPlantZone", "pSpinningReserveByFuelZone", "pSpinningReserveCostsZone", 
+                    "pSpinningReserveByPlantCountry", "pSpinningReserveCostsCountry", "pCapacityCredit",
+                    "pEmissions", "pEmissionsIntensity", "pEmissionsCountry1", "pEmissionsIntensityCountry", 
+                    "pEmissionMarginalCosts", "pEmissionMarginalCostsCountry",
+                    "pDispatch", "pFuelDispatch", "pPlantUtilization", "pPlantAnnualLCOE",
+                    "pFuelUtilization",
+                    "pCSPBalance", "pCSPComponents", "pStorageBalance", "pStorageComponents",
+                    "pSolverParameters", "pDemandSupplySeason", "pEnergyByPlantSeason",
+                    "pInterchangeSeason", "pSeasonTrade", "pInterchangeSeasonCountry", "pSeasonTradeCountry",
+                    "pDemandSupplyH2", "pDemandSupplyCountryH2", "pCapacityPlanH2"}
 
     rename_keys = {}
     for k in keys:
@@ -4702,3 +4726,29 @@ def keep_max_direction(df):
 
     return df_sum
 
+def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
+
+    # Get the data
+
+    results_folder, graphs_folder, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
+    results_folder, folder='')
+
+    tabs_to_update=['pDemandSupply','pCapacityByFuel','pEnergyByFuel','pCostSummary','pCostSummaryCountry','pEmissions','pInterchange']
+
+    output_file = f"{results_folder}_results_summary_dis.xlsx"
+
+    # Create the file from the template
+    shutil.copyfile(template_file, output_file)
+
+    # Charge data
+    with pd.ExcelWriter(output_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+        for tab in tabs_to_update:
+            if tab in epm_results.keys():
+                df_temp = epm_results[tab].copy()
+                col_order = [col for col in df_temp.columns if col != "scenario"] + ["scenario"]
+                df_temp = df_temp[col_order]
+                df_temp.to_excel(writer, sheet_name=tab, index=False)
+            else:
+                print(f"No data for '{tab}' — ignored")
+
+    print(f"Excel generated : {output_file}")
