@@ -671,6 +671,7 @@ sTopology(z,z2)$(not pinterconMode) = no;
 
 * if ignore transfer limit, set limits to high value
 pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
+
 * Default life for transmission lines
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
 $onIDCProtect
@@ -798,10 +799,6 @@ vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransm
 
 sAdditionalTransfer(sTopology(z,z2),y) = yes;
 sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
-
-display sAdditionalTransfer;
-display commtransmission;
-display pNewTransmission;
 
 * Fix
 vAdditionalTransfer.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and pAllowHighTransfer) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
