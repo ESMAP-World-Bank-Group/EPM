@@ -36,7 +36,7 @@ pEmissionsCountry,,,,,
 pMaxFuellimit,,,,,
 pCarbonPrice,,,,,
 TRADE,,,,,
-zext,,,,,
+zext,,trade/zext_TZ.csv,trade/zext_TZ.csv,trade/zext_TZ.csv,trade/zext_TZ.csv
 pExtTransferLimit,,trade/pExtTransferLimit_TZ.csv,trade/pExtTransferLimit_TZ.csv,trade/pExtTransferLimit_TZ.csv,trade/pExtTransferLimit_TZ.csv
 pLossFactor,,,,,
 pMaxPriceImportShare,,,,,
