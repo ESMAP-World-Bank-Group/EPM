@@ -1302,7 +1302,7 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=True)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=False)
 
     # Zip the folder if it exists
     folder = path_to_extract_results(folder)

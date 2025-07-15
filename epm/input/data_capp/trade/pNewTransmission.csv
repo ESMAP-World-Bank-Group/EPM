@@ -1,8 +1,9 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
 Angola,Namibia,2027,1,1514,855.9,30,2
-Cameroon,Chad,2025,1,200,133.7,30,2
+Cameroon,Chad,2027,1,200,744,30,2
 Angola,Congo,2028,1,1514,204.4,30,2
 Burundi,Rwanda,2025,1,100,300,30,2
 DRC,Angola,2027,1,1514,204.4,30,2
 Cameroon,CAR,2032,1,100,300,30,3
 Gabon,Congo,2032,1,80,300,30,3
+DRC,CAR,2035,1,0,22,30,3
