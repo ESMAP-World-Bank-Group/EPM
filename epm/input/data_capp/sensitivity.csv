@@ -1,0 +1,11 @@
+﻿parameter,sensitivity
+pSettings,FALSE
+y,TRUE
+pDemandForecast,TRUE
+pDemandProfile,FALSE
+pAvailabilityDefault,FALSE
+pCapexTrajectoriesDefault,FALSE
+pFuelPrice,FALSE
+ResLimShare,FALSE
+BuildLimitperYear,FALSE
+pVREProfile,FALSE

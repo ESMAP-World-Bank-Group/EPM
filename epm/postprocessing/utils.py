@@ -1277,7 +1277,10 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
                 tmp = epm_results['pInterchange'].copy()
                 df_congested = epm_results['pCongested'].copy().rename(columns={'value': 'congestion'})
                 tmp = tmp.merge(df_congested, on=['scenario', 'year', 'zone', 'z2'], how='left')
-                tmp = tmp.fillna(0)
+                # Fill only numerical columns with 0
+                tmp = tmp.fillna({
+                    col: 0 for col in tmp.select_dtypes(include=["number"]).columns
+                })
                 tmp_rev = tmp.copy().rename(columns={'zone': 'z2', 'z2': 'zone'})
                 tmp_rev['value'] = - tmp_rev['value']
                 df_combined = pd.concat([tmp, tmp_rev], ignore_index=True)
@@ -2112,7 +2115,7 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
 
     fig, ax = plt.subplots(figsize=figsize)
 
-    if df_area is not None:
+    if df_area is not None and not df_area.empty:
         df_area.plot.area(ax=ax, stacked=True, color=dict_colors, linewidth=0)
         pd_index = df_area.index
     if df_line is not None:
@@ -3856,7 +3859,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
                 tooltip_text = f"""
                 <div style="font-size: {label_size}px;">
-                <b>Capacity:</b> {capacity:.2f} GW <br>
+                <b>Capacity:</b> {capacity:.0f} MW <br>
                 <b>Utilization {zone1} - {zone2}:</b> {utilization_1to2:.0f}% <br>
                 <b>Utilization {zone2} - {zone1}:</b> {utilization_2to1:.0f}%
                 </div>
@@ -3869,24 +3872,25 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
     # Add zone markers with popup information and dynamically generated images
     for zone, coords in centers.items():
-        coords = [coords[1], coords[0]]  # changing to Lat,Long as required by Folium
-        popup_content = f"""
-        <b>{zone}</b><br>
-        Generation: {get_value(energy_data, zone, year, scenario, 'Total production: GWh'):.1f} GWh<br>
-        Demand: {get_value(energy_data, zone, year, scenario, 'Demand: GWh'):.1f} GWh<br>
-        Imports: {get_value(energy_data, zone, year, scenario, 'Imports exchange: GWh'):.1f} GWh<br>
-        Exports: {get_value(energy_data, zone, year, scenario, 'Exports exchange: GWh'):.1f} GWh
-        """
+        if zone in energy_data['zone'].unique():
+            coords = [coords[1], coords[0]]  # changing to Lat,Long as required by Folium
+            popup_content = f"""
+            <b>{zone}</b><br>
+            Generation: {get_value(energy_data, zone, year, scenario, 'Total production: GWh'):,.0f} GWh<br>
+            Demand: {get_value(energy_data, zone, year, scenario, 'Demand: GWh'):,.0f} GWh<br>
+            Imports: {get_value(energy_data, zone, year, scenario, 'Imports exchange: GWh'):,.0f} GWh<br>
+            Exports: {get_value(energy_data, zone, year, scenario, 'Exports exchange: GWh'):,.0f} GWh
+            """
 
-        # Generate and embed capacity mix and dispatch plots
-        popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch,
-                                             pPlantDispatch, pPrice, scale_factor=0.8)
+            # Generate and embed capacity mix and dispatch plots
+            popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch,
+                                                pPlantDispatch, pPrice, scale_factor=0.8)
 
-        folium.Marker(
-            location=coords,
-            popup=folium.Popup(popup_content, min_width=800, max_height=700),
-            icon=folium.Icon(color='blue', icon="")
-        ).add_to(energy_map)
+            folium.Marker(
+                location=coords,
+                popup=folium.Popup(popup_content, min_width=800, max_height=700),
+                icon=folium.Icon(color='blue', icon="")
+            ).add_to(energy_map)
 
     # Fit map to bounds
     energy_map.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
