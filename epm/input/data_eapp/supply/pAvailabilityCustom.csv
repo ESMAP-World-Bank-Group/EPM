@@ -1,1071 +1,955 @@
-gen,Q1,Q2,Q3,Q4
-CTH_10,0.90,0.90,0.90,0.90
-CTH_30,0.90,0.90,0.90,0.90
-CTH_5,0.99,0.99,0.99,0.99
-Mubuga,0.33,0.35,0.33,0.31
-Buhiga,0.33,0.35,0.33,0.31
-Gikonge,0.33,0.35,0.33,0.31
-Kayenzi,0.33,0.35,0.33,0.31
-Marangara,0.33,0.35,0.33,0.31
-Mugere,0.33,0.35,0.33,0.31
-Nyemanga,0.54,0.62,0.46,0.45
-Rusumo_Falls,0.54,0.62,0.46,0.45
-Ruvyironza,0.54,0.62,0.46,0.45
-RUZB_007,0.52,0.55,0.51,0.48
-Ruzizi_I,0.52,0.55,0.51,0.48
-Ruzizi_II,0.54,0.62,0.46,0.45
-Rwegura,0.99,0.99,0.99,0.99
-Maramvya,0.33,0.35,0.33,0.31
-Dama015,0.53,0.55,0.52,0.48
-Kabu16,0.33,0.35,0.33,0.31
-Kabu23,0.33,0.35,0.33,0.31
-Kirasa-karonge,0.53,0.55,0.52,0.48
-Mpanda_BUR,0.33,0.35,0.33,0.31
-Mule037_(Mulembwe),0.53,0.55,0.52,0.48
-Mulembwe,0.33,0.35,0.33,0.31
-Mushara,0.33,0.35,0.33,0.31
-Sigu011,0.33,0.35,0.33,0.31
-Waga_(Kanka),0.92,0.92,0.92,0.92
-Centrale_tourbe_(Kayanza),0.53,0.55,0.52,0.48
-Jiji,0.54,0.62,0.46,0.45
-Ruvyi102_(Ruvyironza),0.92,0.92,0.92,0.92
-Centrale_thermique_(Dechets_Municipaux),0.54,0.62,0.46,0.45
-Gikuka_(KIKU002),0.49,0.49,0.49,0.49
-BoulaosM01,0.49,0.49,0.49,0.49
-BoulaosM02,0.49,0.49,0.49,0.49
-BoulaosM03,0.49,0.49,0.49,0.49
-BoulaosM04,0.49,0.49,0.49,0.49
-BoulaosM05,0.80,0.80,0.80,0.80
-BoulaosM06,0.49,0.49,0.49,0.49
-ICE_Aggregate_DJI,0.80,0.80,0.80,0.80
-Obock,0.80,0.80,0.80,0.80
-South,0.80,0.80,0.80,0.80
-Tadjourah,0.49,0.49,0.49,0.49
-HFO_Aggregate_DJI,0.49,0.49,0.49,0.49
-MaraboutG01,0.49,0.49,0.49,0.49
-MaraboutG12,0.49,0.49,0.49,0.49
-MaraboutG13,0.49,0.49,0.49,0.49
-MaraboutG14,0.49,0.49,0.49,0.49
-MaraboutG15,0.49,0.49,0.49,0.49
-MaraboutG16,0.49,0.49,0.49,0.49
-MaraboutG17,0.49,0.49,0.49,0.49
-MaraboutG18,0.49,0.49,0.49,0.49
-MaraboutG21,0.49,0.49,0.49,0.49
-MaraboutG22,0.49,0.49,0.49,0.49
-MaraboutG23,0.49,0.49,0.49,0.49
-MaraboutG24,0.49,0.49,0.49,0.49
-MaraboutG25,0.49,0.49,0.49,0.49
-MaraboutG31,0.49,0.49,0.49,0.49
-MaraboutG32,0.95,0.95,0.95,0.95
-Wind_on,0.99,0.99,0.99,0.99
-Akuo,0.99,0.99,0.99,0.99
-Battery_5MW_DJI,0.80,0.80,0.80,0.80
-HFO_Project_01_DJI,0.80,0.80,0.80,0.80
-HFO_Project_02_DJI,0.80,0.80,0.80,0.80
-HFO_Project_03_DJI,0.80,0.80,0.80,0.80
-HFO_Project_04_DJI,0.80,0.80,0.80,0.80
-HFO_Project_05_DJI,0.90,0.90,0.90,0.90
-CCGT,0.90,0.90,0.90,0.90
-PolyGCL1,0.99,0.99,0.99,0.99
-Geoth,0.90,0.90,0.90,0.90
-Centrale_bifuel1,0.90,0.90,0.90,0.90
-Centrale_bifuel2,0.90,0.90,0.90,0.90
-Centrale_bifuel3,0.90,0.90,0.90,0.90
-OCGT,0.99,0.99,0.99,0.99
-Solar_2,0.99,0.99,0.99,0.99
-Wind_2,0.46,0.51,0.43,0.44
-Lubero,0.46,0.51,0.43,0.44
-LungudiII,0.46,0.51,0.43,0.44
-Matebe,0.46,0.51,0.43,0.44
-Ruzizi_III_DRC,0.52,0.60,0.44,0.44
-VIRUNGATalyiaNord1TalyiaNord2Ivugha,0.64,0.73,0.54,0.53
-Ruzizi_I_DRC,0.52,0.60,0.44,0.44
-Ruzizi_II_DRCMutwanga,0.95,0.95,0.95,0.95
-GENC_CCGT,0.95,0.95,0.95,0.95
-GENC_CCS,0.99,0.99,0.99,0.99
-GENC_CSP,0.95,0.95,0.95,0.95
-Generic_GENC_GT,0.95,0.95,0.95,0.95
-Generic_GENC_RICE,0.98,0.98,0.98,0.98
-Generic_GENC_2024_PV,0.95,0.95,0.95,0.95
-NN-DIE_ST,0.95,0.95,0.95,0.95
-NN-HFO_ST,0.55,0.55,0.55,0.55
-NN_HY,0.99,0.99,0.99,0.99
-Generic_GENC_BAT,0.96,0.96,0.96,0.96
-Generic_GENC_2024_WI,0.96,0.96,0.96,0.96
-NN_OSW,0.98,0.98,0.98,0.98
-ACWA-POWER_PV,0.98,0.98,0.98,0.98
-AMYA-POWER_PV,0.94,0.94,0.94,0.94
-El-Dabaa_NPP-1_NU,0.94,0.94,0.94,0.94
-El-Dabaa_NPP-2_NU,0.94,0.94,0.94,0.94
-El-Dabaa_NPP-3_NU,0.94,0.94,0.94,0.94
-El-Dabaa_NPP-4_NU,0.96,0.96,0.96,0.96
-ACWA-Power_WI,0.96,0.96,0.96,0.96
-AMYA-POWER_WI,0.96,0.96,0.96,0.96
-Engie-Orasco-Toyota_WI,0.96,0.96,0.96,0.96
-Masdar_WI,0.96,0.96,0.96,0.96
-Siemens-Gamesa_WI,0.95,0.95,0.95,0.95
-6Oct-Ext-1_CCGT,0.95,0.95,0.95,0.95
-6Oct-Ext-2_CCGT,0.95,0.95,0.95,0.95
-Banha_CCGT,0.95,0.95,0.95,0.95
-Beni-Suef-1_CCGT,0.95,0.95,0.95,0.95
-Beni-Suef-2_CCGT,0.95,0.95,0.95,0.95
-Beni-Suef-3_CCGT,0.95,0.95,0.95,0.95
-Beni-Suef-4_CCGT,0.95,0.95,0.95,0.95
-Burullus-1_CCGT,0.95,0.95,0.95,0.95
-Burullus-2_CCGT,0.95,0.95,0.95,0.95
-Burullus-3_CCGT,0.95,0.95,0.95,0.95
-Burullus-4_CCGT,0.95,0.95,0.95,0.95
-Cairo-North-1_CCGT,0.95,0.95,0.95,0.95
-Cairo-North-2_CCGT,0.95,0.95,0.95,0.95
-Cairo-South_CCGT,0.95,0.95,0.95,0.95
-Daman-Hour_CCGT,0.95,0.95,0.95,0.95
-Damietta-1_CCGT,0.95,0.95,0.95,0.95
-Damietta-2_CCGT,0.95,0.95,0.95,0.95
-El-Atf_CCGT,0.95,0.95,0.95,0.95
-Giza-1_CCGT,0.95,0.95,0.95,0.95
-Giza-2_CCGT,0.95,0.95,0.95,0.95
-Giza-3_CCGT,0.95,0.95,0.95,0.95
-Kuriemat-1_CCGT,0.95,0.95,0.95,0.95
-Kuriemat-2_CCGT,0.95,0.95,0.95,0.95
-Mahmoudeya_CCGT,0.95,0.95,0.95,0.95
-New-Capital-1_CCGT,0.95,0.95,0.95,0.95
-New-Capital-2_CCGT,0.95,0.95,0.95,0.95
-New-Capital-3_CCGT,0.95,0.95,0.95,0.95
-New-Capital-4_CCGT,0.95,0.95,0.95,0.95
-New-Shabab-1_CCGT,0.95,0.95,0.95,0.95
-New-Shabab-2_CCGT,0.95,0.95,0.95,0.95
-New-Shabab-3_CCGT,0.95,0.95,0.95,0.95
-Nubaria-1_CCGT,0.95,0.95,0.95,0.95
-Nubaria-2_CCGT,0.95,0.95,0.95,0.95
-Nubaria-3_CCGT,0.95,0.95,0.95,0.95
-Sidi-Kirir_CCGT,0.95,0.95,0.95,0.95
-Talkha_CCGT,0.95,0.95,0.95,0.95
-Talkha-2_CCGT,0.95,0.95,0.95,0.95
-West-Assiut-1_CCGT,0.95,0.95,0.95,0.95
-West-Assiut-2_CCGT,0.95,0.95,0.95,0.95
-West-Damietta_CCGT,0.95,0.95,0.95,0.95
-West-Damietta-Ext_CCGT,0.99,0.99,0.99,0.99
-Kuriemat_CSP,0.95,0.95,0.95,0.95
-6Oct-1_GT,0.95,0.95,0.95,0.95
-6Oct-2_GT,0.95,0.95,0.95,0.95
-Abu-Qir_GT,0.95,0.95,0.95,0.95
-Ataga-Ext-1_GT,0.95,0.95,0.95,0.95
-Ataga-Ext-2_GT,0.95,0.95,0.95,0.95
-Bany-Ghaleb_GT,0.95,0.95,0.95,0.95
-Cairo-South_GT,0.95,0.95,0.95,0.95
-East-Cario_GT,0.95,0.95,0.95,0.95
-EL-Basateen_GT,0.95,0.95,0.95,0.95
-El-Masaeed_GT,0.95,0.95,0.95,0.95
-Gerga_GT,0.95,0.95,0.95,0.95
-Heliopoles_GT,0.95,0.95,0.95,0.95
-Hurgha-da_GT,0.95,0.95,0.95,0.95
-Hurgha-da-Ext_GT,0.95,0.95,0.95,0.95
-New-Assiut_GT,0.95,0.95,0.95,0.95
-New-Gas-Damietta_GT,0.95,0.95,0.95,0.95
-New-Mahmoudeya_GT,0.95,0.95,0.95,0.95
-Port-Said_GT,0.95,0.95,0.95,0.95
-Red-Assiut_GT,0.95,0.95,0.95,0.95
-Samalout_GT,0.95,0.95,0.95,0.95
-Shabab_GT,0.95,0.95,0.95,0.95
-Sharm-El-Sheikh_GT,0.95,0.95,0.95,0.95
-Sharm-El-Sheikh-Ext_GT,0.95,0.95,0.95,0.95
-Shoub_GT,0.95,0.95,0.95,0.95
-Wadi_GT,0.95,0.95,0.95,0.95
-West-Malawy_GT,0.98,0.98,0.98,0.98
-Benban_PV,0.98,0.98,0.98,0.98
-Kom-Ombo_PV,0.55,0.55,0.55,0.55
-Assiut_HY,0.90,0.90,0.90,0.90
-Abu-Qir-New-1_ST,0.90,0.90,0.90,0.90
-Abu-Qir-New-2_ST,0.90,0.90,0.90,0.90
-Ain-Sokhna-1_ST,0.90,0.90,0.90,0.90
-Ain-Sokhna-2_ST,0.90,0.90,0.90,0.90
-Arish_ST,0.90,0.90,0.90,0.90
-Cairo-West-Ext-1_ST,0.90,0.90,0.90,0.90
-Cairo-West-Ext-2_ST,0.90,0.90,0.90,0.90
-El-Tibeen_ST,0.90,0.90,0.90,0.90
-Kuriemat-1_ST,0.90,0.90,0.90,0.90
-Kuriemat-2_ST,0.90,0.90,0.90,0.90
-Oyon-Mousa_ST,0.90,0.90,0.90,0.90
-Port-Said-East_ST,0.90,0.90,0.90,0.90
-Sidi-Kirir-1-2_ST,0.90,0.90,0.90,0.90
-Sidi-Kirir-3-4_ST,0.90,0.90,0.90,0.90
-South-Helwan-1_ST,0.90,0.90,0.90,0.90
-South-Helwan-2_ST,0.90,0.90,0.90,0.90
-South-Helwan-3_ST,0.90,0.90,0.90,0.90
-Suez_ST,0.90,0.90,0.90,0.90
-Suez-Gulf_ST,0.90,0.90,0.90,0.90
-Talkha_ST,0.90,0.90,0.90,0.90
-Walideya_ST,0.55,0.55,0.55,0.55
-Aswan-Dam_HY,0.55,0.55,0.55,0.55
-Aswan-Dam-2_HY,0.55,0.55,0.55,0.55
-Esna_HY,0.55,0.55,0.55,0.55
-High-Dam_HY,0.55,0.55,0.55,0.55
-Naga-Hamadi_HY,0.96,0.96,0.96,0.96
-Gabal-El-Zeit_WI,0.96,0.96,0.96,0.96
-Ras-Gharib_WI,0.96,0.96,0.96,0.96
-Zafarana_WI,0.93,0.93,0.93,0.93
-Generic_GCCGT_1,0.90,0.90,0.90,0.90
-Generic_GCCGT_2,0.90,0.90,0.90,0.90
-Boku_Geothermal,0.90,0.90,0.90,0.90
-Dofan_Geothermal,0.90,0.90,0.90,0.90
-Dugna_Fango_Geothermal,0.90,0.90,0.90,0.90
-Fentale_Geothermal,0.89,0.89,0.89,0.89
-Generic_Geothermal_1,0.90,0.90,0.90,0.90
-Shashemene_Geothermal,0.90,0.90,0.90,0.90
-Tendaho-Alalobad_Geothermal,0.93,0.93,0.93,0.93
-Generic_GasCT_1,0.90,0.90,0.90,0.90
-Generic_GasCT_2,0.86,0.86,0.86,0.86
-Generic_LFO_1,0.86,0.86,0.86,0.86
-Generic_LFO_2,0.99,0.99,0.99,0.99
-Gad-II_solar,0.94,0.94,0.94,0.94
-Generic_Solar_1,0.99,0.99,0.99,0.99
-Adigala,0.49,0.51,0.49,0.45
-Aleltu_East_HEP,0.46,0.48,0.46,0.43
-Aleltu_West_HEP,0.46,0.48,0.48,0.45
-Assosa_Bambasi,0.99,0.99,0.99,0.99
-Ayisha-IA,0.99,0.99,0.99,0.99
-Ayisha-IB,0.99,0.99,0.99,0.99
-Ayisha-III_A,0.99,0.99,0.99,0.99
-Ayisha-IIIB,0.46,0.48,0.48,0.45
-Baro_1,0.44,0.46,0.44,0.41
-Baro_2_HEP,0.46,0.48,0.48,0.45
-Beko_Abo,0.46,0.48,0.48,0.45
-Birbir,0.46,0.48,0.48,0.45
-Birbir_R,0.50,0.52,0.49,0.46
-Dabus_HEP,0.16,0.16,0.16,0.16
-Deday,0.46,0.48,0.48,0.45
-Geba_1,0.46,0.48,0.48,0.45
-Geba_2,0.66,0.69,0.66,0.61
-Genale_V,0.72,0.75,0.71,0.66
-Genale_VI,0.46,0.48,0.48,0.45
-Genji_(linked_with_Baro_&_II),0.99,0.99,0.99,0.99
-Gode,0.46,0.48,0.48,0.45
-Gojeb,0.46,0.48,0.48,0.45
-Halele,0.99,0.99,0.99,0.99
-Humera_solar,0.46,0.48,0.48,0.45
-Karadobi,0.99,0.99,0.99,0.99
-KebriBeyah,0.98,0.98,0.98,0.98
-Kesem_BIO,0.46,0.48,0.48,0.45
-Lower_Dabus,0.46,0.48,0.48,0.45
-Lower_Didessa,0.99,0.99,0.99,0.99
-May_Mekdan,0.99,0.99,0.99,0.99
-Mekele_WF,0.99,0.99,0.99,0.99
-Meki_Solar,0.99,0.99,0.99,0.99
-Melkasedi_Solar,0.99,0.99,0.99,0.99
-Meshenti_Solar,0.99,0.99,0.99,0.99
-Metehara_solar,0.99,0.99,0.99,0.99
-Metema_solar,0.99,0.99,0.99,0.99
-Sela_Dingay,0.89,0.92,0.88,0.82
-Sor_2_HEP,0.99,0.99,0.99,0.99
-Sure,0.46,0.48,0.48,0.45
-Tams,0.46,0.48,0.48,0.45
-Tekeze_II,0.99,0.99,0.99,0.99
-Tulu_Guled,0.46,0.48,0.48,0.45
-Upper_Dabus,0.46,0.48,0.48,0.45
-Upper_Mendaya,0.46,0.48,0.48,0.45
-Wabi,0.46,0.48,0.48,0.45
-Wabi_Shebele,0.99,0.99,0.99,0.99
-Welenchiti_solar,0.46,0.48,0.48,0.45
-Werabesa,0.99,0.99,0.99,0.99
-Wereta_Solar,0.98,0.98,0.98,0.98
-Wolkayit_BIO,0.99,0.99,0.99,0.99
-Yirgalem_Solar,0.98,0.98,0.98,0.98
-Beles,0.98,0.98,0.98,0.98
-Omo_Kuraz_BIO,0.83,0.83,0.83,0.83
-Generic_Coal_6_Ethiopia,0.94,0.94,0.94,0.94
-Generic_Wind_1,0.93,0.93,0.93,0.93
-Aluto_Langano,0.90,0.90,0.90,0.90
-Aluto_Langano_I_(Rehabilitation),0.93,0.93,0.93,0.93
-Aluto_Langano_II,0.99,0.99,0.99,0.99
-Asela-I,0.94,0.94,0.94,0.94
-Asela-II_(Iteya),0.94,0.94,0.94,0.94
-Assela,0.94,0.94,0.94,0.94
-Ayisha-I,0.93,0.93,0.93,0.93
-Ayisha-II,0.93,0.93,0.93,0.93
-Corbetti_I,0.90,0.90,0.90,0.90
-Corbetti_II,0.94,0.94,0.94,0.94
-Dabus_Wind,0.94,0.94,0.94,0.94
-Dawa,0.94,0.94,0.94,0.94
-Debre_Birhan,0.94,0.94,0.94,0.94
-Dechatu,0.99,0.99,0.99,0.99
-Dicheto_solar,0.99,0.99,0.99,0.99
-Gad-I_solar,0.24,0.25,0.24,0.23
-GERD_3_HEP,0.24,0.25,0.24,0.23
-GERD_4_HEP,0.35,0.37,0.35,0.33
-GERD_5_HEP,0.94,0.94,0.94,0.94
-Humera,0.94,0.94,0.94,0.94
-HumeraSS4_WeransoMekeleSS3_Wolenchiti,0.46,0.48,0.48,0.45
-Koysha_(Gibe_IV),0.94,0.94,0.94,0.94
-Mekele,0.84,0.84,0.84,0.84
-Replacement_Diesel,0.36,0.37,0.36,0.33
-Replacement_Koka_HEP,0.90,0.90,0.90,0.90
-Tulu_Moye_I,0.90,0.90,0.90,0.90
-Tulu_Moye_II,0.93,0.93,0.93,0.93
-Tulumoya_Abaya,0.94,0.94,0.94,0.94
-Weranso_solar,0.94,0.94,0.94,0.94
-Wolenchiti,0.46,0.48,0.48,0.45
-YedaI,0.46,0.48,0.48,0.45
-YedaII_(linked_with_YedaI),0.31,0.32,0.33,0.32
-Aba_Samuel,0.94,0.94,0.94,0.94
-Adama_I,0.94,0.94,0.94,0.94
-Adama_II,0.95,0.95,0.95,0.95
-Addis_Ababa_EFW,0.94,0.94,0.94,0.94
-Ashegoda,0.31,0.32,0.33,0.32
-Awash_II,0.31,0.32,0.33,0.32
-Awash_III,0.33,0.34,0.33,0.33
-Awash7,0.67,0.68,0.59,0.58
-Beles_HEP,0.84,0.84,0.84,0.84
-Dire_Dawa,0.46,0.48,0.48,0.45
-Finchaa,0.46,0.48,0.48,0.45
-Genale_Dawa_III,0.39,0.41,0.39,0.36
-GERD_1_HEP,0.24,0.25,0.24,0.23
-GERD_2_HEP,0.46,0.48,0.48,0.45
-GERD_3a_HEP,0.46,0.48,0.48,0.45
-Gibe_I,0.31,0.32,0.33,0.32
-Gibe_II,0.46,0.48,0.48,0.45
-Gibe_III,0.84,0.84,0.84,0.84
-Kality,0.21,0.22,0.21,0.23
-Koka_HEP,0.28,0.29,0.25,0.29
-Maleka_Wakana_HEP,0.46,0.48,0.48,0.45
-Neshe,0.69,0.72,0.69,0.64
-Sor_1_HEP,0.46,0.48,0.48,0.45
-Tekeze_I,0.35,0.37,0.35,0.33
-Tis_Abay_I_HEP,0.46,0.48,0.48,0.45
-Tis_Abey_ll,0.65,0.65,0.65,0.65
-Biomass_2024,0.65,0.65,0.65,0.65
-Biomass_2025,0.65,0.65,0.65,0.65
-Cummins_Cogeneration_Kenya_Limited,0.65,0.65,0.65,0.65
-Generic_Biomass,0.65,0.65,0.65,0.65
-Municipal_Waste_to_Energy_,0.65,0.65,0.65,0.65
-Roadtech_Solutions,0.65,0.65,0.65,0.65
-Small_Biomass_Thika_Way,0.65,0.65,0.65,0.65
-Tana_Biomass_Limited_Biogas,0.93,0.93,0.93,0.93
-Dongo_Kundu,0.89,0.89,0.89,0.89
-Generic_GENC_Natural_Gas_-_CCGT,0.93,0.93,0.93,0.93
-Wajir,0.89,0.89,0.89,0.89
-CCGT_GENC_CCS,0.87,0.87,0.87,0.87
-Kitui,0.87,0.87,0.87,0.87
-Lamu_Coal_Power_Station,0.94,0.94,0.94,0.94
-AGIL_Longonot_Stage_1,0.94,0.94,0.94,0.94
-AGIL_Longonot_Stage_2,0.94,0.94,0.94,0.94
-AGIL_Longonot_Stage_3,0.94,0.94,0.94,0.94
-AGIL_Longonot_Stage_4,0.94,0.94,0.94,0.94
-Baringo_Silali__-_Korosi_I,0.94,0.94,0.94,0.94
-Baringo_Silali__-_Paka_I,0.94,0.94,0.94,0.94
-Baringo_Silali__-_Silali_I,0.94,0.94,0.94,0.94
-Eburru_2,0.94,0.94,0.94,0.94
-Generic_GENC_Geothermal,0.94,0.94,0.94,0.94
-Marine_Power_Akiira___Stage_1,0.94,0.94,0.94,0.94
-Marine_Power_Akiira_Stage_2,0.94,0.94,0.94,0.94
-Menengai_I_,0.94,0.94,0.94,0.94
-Menengai_I_Phase_I_Stage_I_-_Orpower22,0.94,0.94,0.94,0.94
-Menengai_III_,0.94,0.94,0.94,0.94
-Menengai_Istage2,0.94,0.94,0.94,0.94
-Menengai_IV_-_Stage_3,0.94,0.94,0.94,0.94
-MenengaiV,0.94,0.94,0.94,0.94
-Olkaria_7,0.94,0.94,0.94,0.94
-Olkaria_8,0.94,0.94,0.94,0.94
-Olkaria_9_&_other_fields,0.94,0.94,0.94,0.94
-Olkaria_Brine,0.94,0.94,0.94,0.94
-Olkaria_III_units_1-9,0.94,0.94,0.94,0.94
-Olkaria_Topping,0.94,0.94,0.94,0.94
-Olkaria_VI,0.94,0.94,0.94,0.94
-Olsuswa_Unit_1,0.94,0.94,0.94,0.94
-Suswa_I,0.94,0.94,0.94,0.94
-Suswa_II,0.94,0.94,0.94,0.94
-Suswa_III,0.89,0.89,0.89,0.89
-Embakasi,0.89,0.89,0.89,0.89
-Generic_GENC_Natural_Gas_-_OGCT,0.90,0.90,0.90,0.90
-Generic_LNG_Gas_Turbine,0.93,0.93,0.93,0.93
-LNG_Gas_Turbine,0.92,0.92,0.92,0.92
-GenericHFO,0.89,0.89,0.89,0.89
-Nuclear_Kenya,0.89,0.89,0.89,0.89
-OCGT_GENC_CCS,0.99,0.99,0.99,0.99
-Greenmillenia_Energy_Ltd,0.99,0.99,0.99,0.99
-Hanan_Arya_Energy,0.99,0.99,0.99,0.99
-Kenergy,0.99,0.99,0.99,0.99
-Kopere_Solar_Park,0.99,0.99,0.99,0.99
-Makindu-_Rareh_(Dafre),0.99,0.99,0.99,0.99
-SevenForksSolarPower,0.99,0.99,0.99,0.99
-Sunpower_Kenya_(Makindu-Kibwezi_I),0.49,0.50,0.52,0.53
-Generic_Small_Hydro,0.49,0.50,0.52,0.53
-Gitaru_Rehab,0.49,0.50,0.52,0.53
-Kamburu_Rehab,0.30,0.32,0.30,0.33
-Karura,0.49,0.50,0.52,0.53
-Kiambere_Rehab,0.49,0.50,0.52,0.53
-Kindaruma_Rehab,0.49,0.50,0.52,0.53
-Masinga_Rehab,0.49,0.50,0.52,0.53
-Sangoro_Rehab,0.49,0.50,0.52,0.53
-Sondu_Rehab,0.49,0.50,0.52,0.53
-Tana_Rehab,0.49,0.50,0.52,0.53
-Turkwel_Rehab,0.49,0.50,0.52,0.53
-Generic_Large_Hydro,0.27,0.27,0.28,0.29
-High_Grand_Falls_-_I,0.27,0.27,0.28,0.29
-High_Grand_Falls_-_II,0.98,0.98,0.98,0.98
-BESS_4,0.97,0.97,0.97,0.97
-Generic_GENC_BESS,0.97,0.97,0.97,0.97
-Pumped_Hydro,0.97,0.97,0.97,0.97
-Aperture_Green_GENC_KEN,0.97,0.97,0.97,0.97
-Bahari_Phase_I,0.97,0.97,0.97,0.97
-Bahari_Phase_II,0.97,0.97,0.97,0.97
-Generic_GENC_Wind_High,0.97,0.97,0.97,0.97
-Generic_GENC_Wind_Low_1,0.97,0.97,0.97,0.97
-Generic_GENC_Wind_Low_2,0.97,0.97,0.97,0.97
-Kajiado_Wind_,0.97,0.97,0.97,0.97
-Limuru_Wind,0.97,0.97,0.97,0.97
-Malindi,0.97,0.97,0.97,0.97
-Marsabit_Phase_I,0.97,0.97,0.97,0.97
-Marsabit_Phase_II,0.97,0.97,0.97,0.97
-Meru_I,0.97,0.97,0.97,0.97
-Ngong_-_1_-_Phase_3,0.97,0.97,0.97,0.97
-Prunus_Wind,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_KEN,0.94,0.94,0.94,0.94
-Menengai_I_Quantum,0.94,0.94,0.94,0.94
-Menengai_I_Sosian,0.94,0.94,0.94,0.94
-Olkaria_1_B_(Rehabilitated),0.94,0.94,0.94,0.94
-Olkaria_1_Unit_6,0.99,0.99,0.99,0.99
-Ergon_Solair_(Kisumu_SolarOne_Ltd),0.99,0.99,0.99,0.99
-Marco_Borero,0.99,0.99,0.99,0.99
-Radiant-_Selenkei,0.49,0.50,0.52,0.53
-Small_Hydro_2021,0.49,0.50,0.52,0.53
-Small_Hydro_2022,0.49,0.50,0.52,0.53
-Small_Hydro_2023,0.49,0.50,0.52,0.53
-Small_Hydro_2024,0.49,0.50,0.52,0.53
-Small_Hydro_2025,0.49,0.50,0.52,0.53
-Small_Hydro_2026,0.99,0.99,0.99,0.99
-Generic_Rooftop_2021,0.99,0.99,0.99,0.99
-Generic_Rooftop_2022,0.99,0.99,0.99,0.99
-Generic_Rooftop_2023,0.99,0.99,0.99,0.99
-Generic_Rooftop_2024,0.99,0.99,0.99,0.99
-Generic_Rooftop_2025,0.99,0.99,0.99,0.99
-Generic_Rooftop_2026,0.99,0.99,0.99,0.99
-Generic_Rooftop_2027,0.99,0.99,0.99,0.99
-Generic_Rooftop_2028,0.99,0.99,0.99,0.99
-Generic_Rooftop_2029,0.99,0.99,0.99,0.99
-Generic_Rooftop_2030,0.99,0.99,0.99,0.99
-Generic_Rooftop_2031,0.99,0.99,0.99,0.99
-Generic_Rooftop_2032,0.99,0.99,0.99,0.99
-Generic_Rooftop_2033,0.99,0.99,0.99,0.99
-Generic_Rooftop_2034,0.99,0.99,0.99,0.99
-Generic_Rooftop_2035,0.99,0.99,0.99,0.99
-Generic_Rooftop_2036,0.99,0.99,0.99,0.99
-Generic_Rooftop_2037,0.99,0.99,0.99,0.99
-Generic_Rooftop_2038,0.99,0.99,0.99,0.99
-Generic_Rooftop_2039,0.99,0.99,0.99,0.99
-Generic_Rooftop_2040,0.98,0.98,0.98,0.98
-BESS_1_2_3,0.97,0.97,0.97,0.97
-Chania_green,0.65,0.65,0.65,0.65
-Kwale_Co-Generation_TAnaBiomass,0.65,0.65,0.65,0.65
-Mumias_(Biomass),0.94,0.94,0.94,0.94
-Olkaria_I_,0.94,0.94,0.94,0.94
-Olkaria_I_units_4_&_5,0.94,0.94,0.94,0.94
-Olkaria_II,0.94,0.94,0.94,0.94
-Olkaria_IV,0.94,0.94,0.94,0.94
-Olkaria_Mobile_Wellheads___Eburru,0.94,0.94,0.94,0.94
-Olkaria_V_,0.94,0.94,0.94,0.94
-Orpower_4_(I),0.94,0.94,0.94,0.94
-Orpower_4_(II),0.94,0.94,0.94,0.94
-Orpower_4_(III),0.94,0.94,0.94,0.94
-Orpower_4_(IV),0.89,0.89,0.89,0.89
-Tsavo,0.92,0.92,0.92,0.92
-Gulf_Energy_,0.82,0.82,0.82,0.82
-Iberafrica_I_&II,0.92,0.92,0.92,0.92
-Kipevu_I_Diesel,0.92,0.92,0.92,0.92
-Kipevu_III_Diesel,0.92,0.92,0.92,0.92
-Muhoroni,0.92,0.92,0.92,0.92
-Rabai_Power,0.92,0.92,0.92,0.92
-Thika_Power,0.92,0.92,0.92,0.92
-Triumph_Diesel,0.99,0.99,0.99,0.99
-Alten_Kesses_1_Kenya_Ltd,0.99,0.99,0.99,0.99
-Eldosol-Cedate,0.99,0.99,0.99,0.99
-Malindi_Solar-_Vateki,0.99,0.99,0.99,0.99
-REA_Garissa_Solar,0.49,0.50,0.52,0.53
-ExistingSmallHydro,0.43,0.44,0.44,0.46
-Gitaru,0.52,0.52,0.52,0.51
-Kamburu,0.67,0.64,0.64,0.66
-Kiambere,0.30,0.33,0.31,0.33
-Kindaruma,0.48,0.26,0.51,0.44
-Masinga,0.39,0.77,0.85,0.79
-Sangoro,0.41,0.79,0.86,0.79
-Sondu,0.42,0.69,0.51,0.65
-Tana,0.64,0.49,0.56,0.59
-Turkwel,0.97,0.97,0.97,0.97
-Kipeto_Wind_-_I,0.97,0.97,0.97,0.97
-Lake_Turkana_Wind_Power,0.97,0.97,0.97,0.97
-Ngong_Hills_Wind,0.90,0.90,0.90,0.90
-CC_CM_GAS_ALC_20_LIB,0.90,0.90,0.90,0.90
-GT_CM_GAS_ALC_22_LIB,0.90,0.90,0.90,0.90
-PV_CM_SPV_ALC_19_LIB,0.90,0.90,0.90,0.90
-ST_CM_GAS_ALC_25_LIB,0.90,0.90,0.90,0.90
-WI_CM_WND_ALC_18_LIB,0.90,0.90,0.90,0.90
-CC_EX_GAS_ALC_07_LIB,0.90,0.90,0.90,0.90
-CC_EX_GAS_ALC_10_LIB,0.90,0.90,0.90,0.90
-CC_EX_GAS_ALC_11_LIB,0.90,0.90,0.90,0.90
-CC_EX_GAS_ALC_15_LIB,0.90,0.90,0.90,0.90
-CC_EX_GAS_ALC_95_LIB,0.90,0.90,0.90,0.90
-GT_EX_GAS_ALC_10_LIB,0.90,0.90,0.90,0.90
-GT_EX_GAS_ALC_15_LIB,0.90,0.90,0.90,0.90
-GT_EX_GAS_ALC_16_LIB,0.90,0.90,0.90,0.90
-GT_EX_GAS_ALC_17_LIB,0.90,0.90,0.90,0.90
-GT_EX_GAS_ALC_82_LIB,0.90,0.90,0.90,0.90
-GT_EX_GAS_ALC_94_LIB,0.90,0.90,0.90,0.90
-ST_EX_GAS_ALC_85_LIB,0.90,0.90,0.90,0.90
-ST_EX_GAS_ALC_92_LIB,0.90,0.90,0.90,0.90
-Generic_CT_MDU,0.90,0.90,0.90,0.90
-Generic_Diesel_MDU,0.70,0.70,0.70,0.70
-Generic_PV_MDU,0.70,0.70,0.70,0.70
-Generic_Wind_MDU,0.90,0.90,0.90,0.90
-Adado_Electric_Supply,0.90,0.90,0.90,0.90
-BECO_MDU,0.70,0.70,0.70,0.70
-Being_Googe_Porcrer_Supply,0.90,0.90,0.90,0.90
-Blue_Sky,0.90,0.90,0.90,0.90
-DAYAH,0.90,0.90,0.90,0.90
-Elays_Electric_Company,0.70,0.70,0.70,0.70
-Hilaac_Electric_Company,0.70,0.70,0.70,0.70
-KAAH,0.90,0.90,0.90,0.90
-Mogadishu_Power_Supply,0.98,0.98,0.98,0.98
-New_Generic_Thermal_(37.8_MW),0.90,0.90,0.90,0.90
-Symbion_SPLK_(_2),0.90,0.90,0.90,0.90
-Symbion_SPLK(_1),0.95,0.95,0.95,0.95
-Hydro_pumped_storage_(11.16_MW),0.99,0.99,0.99,0.99
-Committed_Utility-Scale_Solar_PV_(6_MW),0.55,0.59,0.54,0.53
-Base_1,0.55,0.59,0.54,0.53
-Base_2,0.55,0.59,0.54,0.53
-Bihongore,0.55,0.59,0.54,0.53
-Kavumu_MHPP,0.55,0.59,0.54,0.53
-Kore,0.55,0.59,0.54,0.53
-Ngororero,0.55,0.59,0.54,0.53
-Ntaruka_A,0.55,0.59,0.54,0.53
-Nyirahindwe_1,0.55,0.59,0.54,0.53
-Nyirahindwe_2,0.55,0.59,0.54,0.53
-Nyundo,0.55,0.59,0.54,0.53
-Rucanzogera,0.55,0.59,0.54,0.53
-Rukore,0.55,0.59,0.54,0.53
-Rwondo,0.92,0.92,0.92,0.92
-Hakan_(Unit_2),0.92,0.92,0.92,0.92
-Hakan_Peat-to-Power_(IPP),0.28,0.30,0.28,0.26
-Kavumu-Mwange,0.28,0.30,0.28,0.26
-Nyabarongo_II,0.28,0.30,0.28,0.26
-Rukarara_VI,0.28,0.30,0.28,0.26
-Rusizi_III,0.28,0.30,0.28,0.26
-Rusizi_IV,0.00,0.00,0.00,0.00
-Shema,0.28,0.30,0.28,0.26
-Rusumo,0.90,0.90,0.90,0.90
-Jabana_1,0.90,0.90,0.90,0.90
-Jabana_2,0.90,0.90,0.90,0.90
-SO_Energy,0.99,0.99,0.99,0.99
-GigaWatt,0.99,0.99,0.99,0.99
-Jali,0.99,0.99,0.99,0.99
-Nasho_Solar,0.92,0.92,0.92,0.92
-Gishoma,0.61,0.61,0.61,0.61
-Hakan,0.98,0.98,0.98,0.98
-Kivuwatt_Phase_I,0.92,0.92,0.92,0.92
-KP1,0.28,0.30,0.28,0.26
-Agatobwe,0.50,0.50,0.50,0.50
-Cyimbili,0.90,0.90,0.90,0.90
-Gaseke,0.40,0.40,0.40,0.40
-Gashashi,0.40,0.40,0.40,0.40
-Giciye_I,0.40,0.40,0.40,0.40
-Giciye_II,0.40,0.40,0.40,0.40
-Giciye_III,0.70,0.70,0.70,0.70
-Gihira,0.65,0.65,0.65,0.65
-Gisenyi,0.80,0.80,0.80,0.80
-Janja,0.50,0.50,0.50,0.50
-Keya,0.37,0.37,0.37,0.37
-Kigasa,0.49,0.49,0.49,0.49
-Mazimeru,0.60,0.60,0.60,0.60
-Mukungu_MHPP,0.62,0.62,0.62,0.62
-Mukungwa_I,0.73,0.73,0.73,0.73
-Mukungwa_II,0.45,0.45,0.45,0.45
-Murunda,0.49,0.49,0.49,0.49
-Musarara,0.45,0.45,0.45,0.45
-Mutobo,0.50,0.50,0.50,0.50
-Nkora,0.28,0.30,0.28,0.26
-Nshili_I,0.34,0.34,0.34,0.34
-Ntaruka,0.55,0.55,0.55,0.55
-Nyabahanga_I,0.69,0.69,0.69,0.69
-Nyabarongo_I,0.28,0.30,0.28,0.26
-Nyamyotsi_I,0.28,0.30,0.28,0.26
-Nyamyotsi_II,0.35,0.35,0.35,0.35
-Nyirabuhombohombo,0.65,0.65,0.65,0.65
-Nyirantaruko,0.61,0.61,0.61,0.61
-Rubagabaga,0.50,0.50,0.50,0.50
-Rugezi,0.40,0.40,0.40,0.40
-Rukarara_I,0.53,0.53,0.53,0.53
-Rukarara_II,0.60,0.60,0.60,0.60
-Rukarara_V_Mushishito,0.60,0.60,0.60,0.60
-Rwaza_Muko,0.90,0.90,0.90,0.90
-Generic_CT_HSB,0.90,0.90,0.90,0.90
-Generic_Diesel_HSB,0.90,0.90,0.90,0.90
-Generic_PV_HSB,0.90,0.90,0.90,0.90
-Generic_Wind_HSB,0.90,0.90,0.90,0.90
-Afar_Indhud_Electric_Company,0.70,0.70,0.70,0.70
-BECO_HSB,0.90,0.90,0.90,0.90
-BECO1,0.90,0.90,0.90,0.90
-BECO2,0.70,0.70,0.70,0.70
-Daatax_Muxidiin,0.70,0.70,0.70,0.70
-DAYAH_Electric_Company,0.90,0.90,0.90,0.90
-ENEE1,0.90,0.90,0.90,0.90
-ENEE2,0.70,0.70,0.70,0.70
-Fanoolee_Company,0.90,0.90,0.90,0.90
-Faraj_Electric_Company,0.90,0.90,0.90,0.90
-Golis,0.90,0.90,0.90,0.90
-Hisra_Electric,0.70,0.70,0.70,0.70
-Juba_Electric_Company,0.90,0.90,0.90,0.90
-Liolis_Power,0.70,0.70,0.70,0.70
-Llyas_electric,0.90,0.90,0.90,0.90
-Marka_Electric,0.90,0.90,0.90,0.90
-National_Energy_Corp_of_Somalia,0.70,0.70,0.70,0.70
-Power_Supply_GPS_Galimoow,0.70,0.70,0.70,0.70
-Somali_Power_&_Lighting_Comp1,0.70,0.70,0.70,0.70
-Somali_Power_&_Lighting_Comp2,0.90,0.90,0.90,0.90
-Sometel,0.70,0.70,0.70,0.70
-Generic_Diesel_SML,0.90,0.90,0.90,0.90
-Generic_PV_SML,0.90,0.90,0.90,0.90
-Generic_Wind_SML,0.70,0.70,0.70,0.70
-Aloog_Electric_Company-Borama,0.90,0.90,0.90,0.90
-Beder,0.90,0.90,0.90,0.90
-Gurmad,0.90,0.90,0.90,0.90
-Horn_Electricity_Company,0.90,0.90,0.90,0.90
-Lesco,0.90,0.90,0.90,0.90
-Mohamed_Ali,0.70,0.70,0.70,0.70
-National_Electric_Power,0.90,0.90,0.90,0.90
-SomPower1,0.90,0.90,0.90,0.90
-Sompower2,0.70,0.70,0.70,0.70
-Telesom_Electric_Company,0.70,0.70,0.70,0.70
-Telesom_Electric_Company_-_Borama,0.90,0.90,0.90,0.90
-Telesom_Electric_Company_-_Wajaale,0.70,0.70,0.70,0.70
-GenericHSD_Malakal2,0.90,0.90,0.90,0.90
-GenericHSD_Rumbeck,0.90,0.90,0.90,0.90
-GenericHSD_Wau,0.70,0.70,0.70,0.70
-GenericHSD_Yei,0.85,0.85,0.85,0.85
-Palogue,0.85,0.85,0.85,0.85
-Tharjath,0.30,0.32,0.30,0.28
-Bedden,0.85,0.85,0.85,0.85
-Fula,0.66,0.69,0.65,0.60
-Fula_Rapids,0.85,0.85,0.85,0.85
-Juba_HPP,0.35,0.37,0.35,0.33
-Kinyeti,0.28,0.30,0.28,0.26
-Lakki,0.32,0.34,0.32,0.30
-Shukoli,0.33,0.35,0.33,0.31
-Wau_Dam,0.99,0.99,0.99,0.99
-Juba_Solar_Power_Station,0.85,0.85,0.85,0.85
-Bor,0.85,0.85,0.85,0.85
-Juba,0.85,0.85,0.85,0.85
-Kapoeta,0.85,0.85,0.85,0.85
-Malakal,0.85,0.85,0.85,0.85
-Maridi,0.85,0.85,0.85,0.85
-Rumbek,0.85,0.85,0.85,0.85
-Wau,0.85,0.85,0.85,0.85
-Yambio,0.85,0.85,0.85,0.85
-Yei,0.00,0.00,0.00,0.00
-CSP_CSP_GENC_SUD,0.90,0.90,0.90,0.90
-GT_LF_GENC_SUD,0.77,0.82,0.76,0.71
-HYD_ROR_GENC_SUD,0.90,0.90,0.90,0.90
-ST_HF_GENC_SUD,0.90,0.90,0.90,0.90
-WND_WN_GENC_SUD,0.90,0.90,0.90,0.90
-SC_CO_25_SUD,0.90,0.90,0.90,0.90
-DG_DS_20_SUD,0.73,0.77,0.72,0.67
-HYD_STOHY_25_SUD,0.70,0.74,0.69,0.65
-HYD_STOHY_30_SUD,0.90,0.90,0.90,0.90
-CC_LF_03_SUD,0.90,0.90,0.90,0.90
-SC_CO_09_SUD,0.90,0.90,0.90,0.90
-DG_DS_83_SUD,0.90,0.90,0.90,0.90
-DG_HF_04_SUD,0.90,0.90,0.90,0.90
-DG_HF_10_SUD,0.90,0.90,0.90,0.90
-GT_DS_16_SUD,0.90,0.90,0.90,0.90
-GT_LF_01_SUD,0.70,0.74,0.69,0.65
-HYD_STOHY_Nile_09_SUD,0.77,0.82,0.76,0.71
-HYD_STOHY_16_SUD,0.70,0.74,0.69,0.65
-HYD_STOHY_79_SUD,0.90,0.90,0.90,0.90
-ST_HF_15_SUD,0.90,0.90,0.90,0.90
-ST_HF_94_SUD,0.93,0.93,0.93,0.93
-Bagamoyo,0.93,0.93,0.93,0.93
-Dodoma,0.93,0.93,0.93,0.93
-Kinyerezi_I_New,0.93,0.93,0.93,0.93
-Kinyerezi_II_New,0.93,0.93,0.93,0.93
-Kinyerezi_III,0.93,0.93,0.93,0.93
-Mtwara_I,0.93,0.93,0.93,0.93
-Mtwara_II,0.93,0.93,0.93,0.93
-Mtwara_III,0.93,0.93,0.93,0.93
-Somanga_Fungu__TANESCO,0.93,0.93,0.93,0.93
-Somanga_Fungu_PPP,0.93,0.93,0.93,0.93
-Somanga_Mtama,0.93,0.93,0.93,0.93
-Ubungo_I_New,0.93,0.93,0.93,0.93
-Ubungo_II_New,0.98,0.98,0.98,0.98
-Kinyerezi_I_ext,0.99,0.99,0.99,0.99
-Dodoma_I,0.99,0.99,0.99,0.99
-Dodoma_II,0.99,0.99,0.99,0.99
-Kigoma_PV,0.99,0.99,0.99,0.99
-Manyoni,0.99,0.99,0.99,0.99
-Same_Kilimanjaro,0.99,0.99,0.99,0.99
-Shinyanga_I_(Kishapu),0.99,0.99,0.99,0.99
-Shinyanga_II,0.99,0.99,0.99,0.99
-Singida,0.63,0.73,0.57,0.54
-Kikuletwa,0.92,0.92,0.92,0.92
-Kiwira_I,0.92,0.92,0.92,0.92
-Kiwira_II,0.92,0.92,0.92,0.92
-Kiwira_III,0.92,0.92,0.92,0.92
-Mbeya_I,0.92,0.92,0.92,0.92
-Mbeya_II,0.92,0.92,0.92,0.92
-Mbeya_III,0.92,0.92,0.92,0.92
-Mchuchuma_I,0.92,0.92,0.92,0.92
-Mchuchuma_II,0.92,0.92,0.92,0.92
-Mchuchuma_III,0.92,0.92,0.92,0.92
-Ngaka_I,0.92,0.92,0.92,0.92
-Ngaka_II,0.92,0.92,0.92,0.92
-Rukwa_I,0.92,0.92,0.92,0.92
-Rukwa_II,0.92,0.92,0.92,0.92
-Rungwe,0.62,0.62,0.62,0.62
-Ikondo_Mnyera,0.60,0.68,0.55,0.53
-Iringa_(Ibosa),0.58,0.58,0.58,0.58
-Iringa_(Nginayo),0.77,0.87,0.71,0.68
-Iringa_Kilolo,0.51,0.57,0.47,0.45
-Julius_Nyerere,0.51,0.57,0.47,0.45
-Julius_Nyerere_1,0.63,0.73,0.57,0.54
-Kakono,0.63,0.73,0.57,0.54
-Kikagati_(14_MW)*,0.63,0.73,0.57,0.54
-Kikonge,0.63,0.73,0.57,0.54
-Malagarasi,0.63,0.73,0.57,0.54
-Masigira,0.63,0.73,0.57,0.54
-Mbarali,0.63,0.73,0.57,0.54
-Mhanga,0.56,0.63,0.51,0.49
-Mnyera_Kisingo,0.56,0.63,0.51,0.50
-Mnyera_Kwanini,0.56,0.63,0.51,0.49
-Mnyera_Mnyera,0.56,0.63,0.51,0.49
-Mnyera_Pumbwe,0.56,0.63,0.51,0.50
-Mnyera_Ruaha,0.68,0.77,0.62,0.60
-Mnyera_Taveta,0.63,0.73,0.57,0.54
-Mpanga,0.63,0.73,0.57,0.54
-Nakatuta_(Liparamba),0.63,0.73,0.57,0.54
-Njombe,0.63,0.73,0.57,0.54
-Ruhudji,0.63,0.73,0.57,0.54
-Rumakali,0.63,0.73,0.57,0.54
-Rusumo_(80_MW)*,0.63,0.73,0.57,0.54
-Songea_HPP,0.47,0.50,0.49,0.46
-Songwe_Bipugu_(34_MW)*,0.60,0.60,0.60,0.60
-Songwe_Manolo_(180.2_MW)*,0.54,0.54,0.54,0.54
-Songwe_Sofre_(163.2_MW)*,0.82,0.77,0.76,0.73
-Upper_Kihansi,0.99,0.99,0.99,0.99
-Makambako,0.99,0.99,0.99,0.99
-Njombe_I,0.99,0.99,0.99,0.99
-Njombe_II,0.99,0.99,0.99,0.99
-Singida_I,0.99,0.99,0.99,0.99
-Singida_II,0.99,0.99,0.99,0.99
-Singida_III,0.69,0.69,0.69,0.69
-Songea,0.93,0.93,0.93,0.93
-Kinyerezi_IV,0.98,0.98,0.98,0.98
-Kinyerezi_I,0.98,0.98,0.98,0.98
-Kinyerezi_II,0.98,0.98,0.98,0.98
-Somanga,0.98,0.98,0.98,0.98
-Songas,0.98,0.98,0.98,0.98
-Tegeta,0.98,0.98,0.98,0.98
-Ubungo_I,0.98,0.98,0.98,0.98
-Ubungo_II,0.98,0.98,0.98,0.98
-Ubungo_III,0.90,0.90,0.90,0.90
-Biharamulo,0.90,0.90,0.90,0.90
-Bukoba,0.90,0.90,0.90,0.90
-Inyonga,0.90,0.90,0.90,0.90
-Kasulu,0.90,0.90,0.90,0.90
-Kibondo,0.90,0.90,0.90,0.90
-Kigoma_ICE,0.90,0.90,0.90,0.90
-Liwale,0.90,0.90,0.90,0.90
-Loliondo,0.90,0.90,0.90,0.90
-Ludewa,0.90,0.90,0.90,0.90
-Madaba,0.90,0.90,0.90,0.90
-Mafia,0.90,0.90,0.90,0.90
-Mbinga,0.90,0.90,0.90,0.90
-Mpanda,0.90,0.90,0.90,0.90
-Namtumbo,0.90,0.90,0.90,0.90
-Ngara,0.90,0.90,0.90,0.90
-Nyakato,0.90,0.90,0.90,0.90
-Sumbawanga,0.90,0.90,0.90,0.90
-Tunduru,0.90,0.90,0.90,0.90
-Zuzu,0.64,0.61,0.62,0.62
-Andoya,0.80,0.90,0.73,0.71
-Darakuta,0.64,0.61,0.62,0.62
-Diwale,0.46,0.58,0.51,0.47
-Hale,0.45,0.51,0.41,0.40
-Ikondo,0.62,0.86,0.51,0.41
-Lower_Kihansi,0.72,0.99,0.60,0.41
-Mwenga,0.52,0.72,0.52,0.53
-New_Pangani_Falls,0.64,0.61,0.62,0.62
-Tosamaganga,0.70,0.79,0.64,0.62
-Tulila,0.72,0.71,0.45,0.39
-Uwemba,0.77,0.87,0.71,0.68
-Yovi,0.65,0.65,0.65,0.65
-Kibena,0.65,0.65,0.65,0.65
-Mgololo,0.65,0.65,0.65,0.65
-Misenyi_(Kagera),0.65,0.65,0.65,0.65
-"Mkonge_Energy_System_(I,II_&_III)",0.65,0.65,0.65,0.65
-Mkonge_Energy_System_IV_(Usambara),0.65,0.65,0.65,0.65
-Mufindi_(Cogen),0.65,0.65,0.65,0.65
-Ngombeni_(Mafia),0.65,0.65,0.65,0.65
-Sao_Hill_(Cogen),0.65,0.65,0.65,0.65
-TANWAT,0.65,0.65,0.65,0.65
-TPC,0.66,0.63,0.59,0.61
-Kidatu,0.47,0.50,0.49,0.46
-Madope,0.47,0.50,0.49,0.46
-Matembwe,0.60,0.52,0.66,0.67
-Mtera,0.55,0.51,0.51,0.49
-Nyumba_ya_Mungu,0.90,0.90,0.90,0.90
-Panyimur_Geothermal_Power_Project,0.98,0.98,0.98,0.98
-Excess_Associated_Gas_Thermal_Power_Project,0.98,0.98,0.98,0.98
-Kingfisher_Gas_to_Power_Project,0.99,0.99,0.99,0.99
-Ulepi_Solar,0.65,0.65,0.65,0.65
-Jinja_Waste_to_Energy_Power_Project,0.65,0.65,0.65,0.65
-Kamuli_Sugar_Bagasse_Power_Plant,0.65,0.65,0.65,0.65
-Pece_Biomass_Power_Project,0.65,0.65,0.65,0.65
-Pramukh_Steel_Bagasse_Power_Plant,0.92,0.92,0.92,0.92
-Tilenga_Gas_to_Power_Project_ST,0.65,0.65,0.65,0.65
-Unergy_Biomass_Power_Project,0.46,0.47,0.47,0.46
-Achwa-Aber_Multipurpose_HPP,0.47,0.50,0.49,0.46
-Atari_2_HPP,0.46,0.47,0.47,0.46
-Awere_HPP,0.84,0.89,0.89,0.82
-Ayago_HPP,0.46,0.47,0.47,0.46
-Buwangani_HPP,0.83,0.88,0.88,0.82
-Kiiba_HPP,0.46,0.47,0.47,0.46
-Kiraboha_HPP,0.46,0.47,0.47,0.46
-Kisinga_HPP,0.46,0.47,0.47,0.46
-Latoro_HPP_on_R_Aswa,0.46,0.47,0.47,0.46
-Lower_Achwa_HPP,0.46,0.47,0.47,0.46
-Lwakhakha_HPP,0.46,0.47,0.47,0.46
-Maziba_HPP,0.46,0.47,0.47,0.46
-Mitano_HPP,0.46,0.47,0.47,0.46
-Mukoki_HPP,0.46,0.47,0.47,0.46
-Muzizi_HPP,0.46,0.47,0.47,0.46
-Nengo_Bridge_HPP,0.46,0.47,0.47,0.46
-Ngenge_HPP,0.46,0.47,0.47,0.46
-Nsongi_HPP,0.46,0.47,0.47,0.46
-Nyakinengo_SHP,0.46,0.47,0.47,0.46
-Okollo_SHPP,0.68,0.72,0.72,0.67
-Oriang_HPP,0.46,0.47,0.47,0.46
-Rwembya_SHPP,0.61,0.65,0.64,0.60
-Karuma_HPP,0.61,0.65,0.64,0.60
-Karuma2_HPP,0.47,0.50,0.49,0.46
-Katooke_HPP,0.47,0.50,0.49,0.46
-Simu_HPP,0.47,0.50,0.49,0.46
-Sironko_HPP,0.42,0.45,0.45,0.42
-Sisi_HPP,0.47,0.50,0.49,0.46
-Tokwe_HPP,0.47,0.50,0.49,0.46
-Warugo_HPP,0.65,0.65,0.65,0.65
-SCOUL_Bagasse_Plant,0.47,0.50,0.49,0.46
-Atari_HPP,0.46,0.47,0.47,0.46
-Hoimo_HPP,0.46,0.47,0.47,0.46
-Igassa_HPP,0.46,0.47,0.47,0.46
-Kabasanja_HPP,0.46,0.47,0.47,0.46
-Kabeywa_1_HPP,0.46,0.47,0.47,0.46
-Kabeywa_2_HPP,0.46,0.47,0.47,0.46
-Kigwabya_HPP,0.46,0.47,0.47,0.46
-Kikagati_HPP,0.46,0.47,0.47,0.46
-Muyembe_HPP,0.46,0.47,0.47,0.46
-Nchwera_HPP,0.46,0.47,0.47,0.46
-Nsongya_HPP,0.46,0.47,0.47,0.46
-Nyabuhuka_HPP,0.46,0.47,0.47,0.46
-Nyagak_III_HPP,0.46,0.47,0.47,0.46
-Nyamabuye_HPP,0.59,0.63,0.63,0.59
-Nyamagasani_2_HPP,0.99,0.99,0.99,0.99
-Rupa_Wind_Power_Project,0.99,0.99,0.99,0.99
-Access_Uganda_Solar_Limited,0.99,0.99,0.99,0.99
-Emerging_Power,0.99,0.99,0.99,0.99
-MSS_Xsabo_Power_Limited,0.99,0.99,0.99,0.99
-Tororo_Solar_North,0.47,0.50,0.49,0.46
-Achwa_1_HPP,0.47,0.50,0.49,0.46
-Achwa_2_HPP,0.65,0.69,0.69,0.64
-Africa_EMS_Mpanga,0.69,0.74,0.73,0.68
-Bugoye_Hydro_Limited-_Mubuku_II,0.47,0.50,0.49,0.46
-Eco_Power_Uganda_Limited-_Ishasha,0.42,0.45,0.45,0.42
-Hydromax_Limited_Buseruka,0.47,0.50,0.49,0.46
-Kakaka_HPP,0.47,0.50,0.49,0.46
-Kasese_Cobalt_Company_Limited-_Mubuku_III,0.47,0.50,0.49,0.46
-Kilembe_Mines_Limited-_Mubuku_I,0.47,0.50,0.49,0.46
-Lubilia_Hydropower_Plant,0.47,0.50,0.49,0.46
-Mahoma_Hydropower_Plant,0.63,0.67,0.66,0.62
-Muvumbe_Hydropower_Plant,0.47,0.50,0.49,0.46
-Ndugutu_Hydropower_Plant,0.47,0.50,0.49,0.46
-Nkusi_Hydropower_Plant,0.60,0.60,0.60,0.60
-Rwimi_Hydropower_Plant,0.47,0.50,0.49,0.46
-Sindila_(Butama)_Hydropower_Plant,0.47,0.50,0.49,0.46
-Siti_I_Hydropower_Plant,0.56,0.59,0.59,0.55
-Siti_II_Hydropower_Plant,0.47,0.50,0.49,0.46
-Waki_Hydropower_Plant,0.60,0.64,0.63,0.59
-Ziba_Limited_(Kyambura)_Hydropower_Plant,0.92,0.92,0.92,0.92
-Electro-Maxx_Uganda_Limited,0.92,0.92,0.92,0.92
-Jacobsen_Thermal_Plant,0.65,0.65,0.65,0.65
-Kakira_Sugar_Limited,0.65,0.65,0.65,0.65
-Kinyara_Sugar_Limited,0.65,0.65,0.65,0.65
-Sugar_and_Allied_Industries_Limited,0.63,0.67,0.67,0.62
-Bujagali_Energy_Limited,0.46,0.47,0.47,0.46
-Eskom_(Nalubaale_and_Kiira)_,0.33,0.35,0.35,0.33
-Isimba_Hydropower_Plant,0.59,0.63,0.63,0.59
-Nyamagasani_1_HPP,0.46,0.47,0.47,0.46
-Nyamwamba_Hydropower_Plant,0.46,0.47,0.47,0.46
-Nyamwamba_II_HPP,0.67,0.67,0.67,0.67
-BMST_GENC_BUR,0.85,0.85,0.85,0.85
-NGCC_GENC_BUR,0.85,0.85,0.85,0.85
-COSC_GENC_BUR,0.85,0.85,0.85,0.85
-NGSC_GENC_BUR,0.80,0.80,0.80,0.80
-DSRC_GENC_BUR,0.80,0.80,0.80,0.80
-HFRC_GENC_BUR,0.99,0.99,0.99,0.99
-SOPC_GENC_BUR,0.50,0.50,0.50,0.50
-HYRO_GENC_BUR,0.50,0.50,0.50,0.50
-HYDM_GENC_BUR,0.99,0.99,0.99,0.99
-WDLC_GENC_BUR,0.67,0.67,0.67,0.67
-BMST_GENC_DJI,0.85,0.85,0.85,0.85
-NGCC_GENC_DJI,0.85,0.85,0.85,0.85
-NGSC_GENC_DJI,0.80,0.80,0.80,0.80
-DSRC_GENC_DJI,0.80,0.80,0.80,0.80
-HFRC_GENC_DJI,0.99,0.99,0.99,0.99
-SOPC_GENC_DJI,0.50,0.50,0.50,0.50
-HYRO_GENC_DJI,0.50,0.50,0.50,0.50
-HYDM_GENC_DJI,0.99,0.99,0.99,0.99
-Batt_GENC_DJI,0.99,0.99,0.99,0.99
-WDLC_GENC_DJI,0.67,0.67,0.67,0.67
-BMST_GENC_DRE,0.85,0.85,0.85,0.85
-NGCC_GENC_DRE,0.85,0.85,0.85,0.85
-COSC_GENC_DRE,0.85,0.85,0.85,0.85
-NGSC_GENC_DRE,0.80,0.80,0.80,0.80
-DSRC_GENC_DRE,0.80,0.80,0.80,0.80
-HFRC_GENC_DRE,0.99,0.99,0.99,0.99
-SOPC_GENC_DRE,0.50,0.50,0.50,0.50
-HYRO_GENC_DRE,0.50,0.50,0.50,0.50
-HYDM_GENC_DRE,0.99,0.99,0.99,0.99
-Batt_GENC_DRE,0.99,0.99,0.99,0.99
-WDLC_GENC_DRE,0.67,0.67,0.67,0.67
-BMST_GENC_EGY,0.85,0.85,0.85,0.85
-NGCC_GENC_EGY,0.85,0.85,0.85,0.85
-COSC_GENC_EGY,0.85,0.85,0.85,0.85
-NGSC_GENC_EGY,0.80,0.80,0.80,0.80
-DSRC_GENC_EGY,0.80,0.80,0.80,0.80
-HFRC_GENC_EGY,0.99,0.99,0.99,0.99
-SOPC_GENC_EGY,0.50,0.50,0.50,0.50
-HYRO_GENC_EGY,0.50,0.50,0.50,0.50
-HYDM_GENC_EGY,0.99,0.99,0.99,0.99
-Batt_GENC_EGY,0.99,0.99,0.99,0.99
-WDLC_GENC_EGY,0.67,0.67,0.67,0.67
-BMST_GENC_ETH,0.85,0.85,0.85,0.85
-NGCC_GENC_ETH,0.85,0.85,0.85,0.85
-COSC_GENC_ETH,0.60,0.60,0.60,0.60
-GOCV_GENC_ETH,0.85,0.85,0.85,0.85
-NGSC_GENC_ETH,0.80,0.80,0.80,0.80
-DSRC_GENC_ETH,0.80,0.80,0.80,0.80
-HFRC_GENC_ETH,0.99,0.99,0.99,0.99
-SOPC_GENC_ETH,0.50,0.50,0.50,0.50
-HYRO_GENC_ETH,0.50,0.50,0.50,0.50
-HYDM_GENC_ETH,0.99,0.99,0.99,0.99
-Batt_GENC_ETH,0.99,0.99,0.99,0.99
-WDLC_GENC_ETH,0.67,0.67,0.67,0.67
-BMST_GENC_KEN,0.85,0.85,0.85,0.85
-NGCC_GENC_KEN,0.85,0.85,0.85,0.85
-COSC_GENC_KEN,0.60,0.60,0.60,0.60
-GOCV_GENC_KEN,0.85,0.85,0.85,0.85
-NGSC_GENC_KEN,0.80,0.80,0.80,0.80
-DSRC_GENC_KEN,0.80,0.80,0.80,0.80
-HFRC_GENC_KEN,0.99,0.99,0.99,0.99
-SOPC_GENC_KEN,0.50,0.50,0.50,0.50
-HYRO_GENC_KEN,0.50,0.50,0.50,0.50
-HYDM_GENC_KEN,0.99,0.99,0.99,0.99
-Batt_GENC_KEN,0.99,0.99,0.99,0.99
-WDLC_GENC_KEN,0.67,0.67,0.67,0.67
-BMST_GENC_LIB,0.85,0.85,0.85,0.85
-NGCC_GENC_LIB,0.85,0.85,0.85,0.85
-COSC_GENC_LIB,0.85,0.85,0.85,0.85
-NGSC_GENC_LIB,0.80,0.80,0.80,0.80
-DSRC_GENC_LIB,0.80,0.80,0.80,0.80
-HFRC_GENC_LIB,0.99,0.99,0.99,0.99
-SOPC_GENC_LIB,0.50,0.50,0.50,0.50
-HYRO_GENC_LIB,0.50,0.50,0.50,0.50
-HYDM_GENC_LIB,0.99,0.99,0.99,0.99
-Batt_GENC_LIB,0.99,0.99,0.99,0.99
-WDLC_GENC_LIB,0.67,0.67,0.67,0.67
-BMST_GENC_MOG,0.85,0.85,0.85,0.85
-NGCC_GENC_MOG,0.85,0.85,0.85,0.85
-COSC_GENC_MOG,0.85,0.85,0.85,0.85
-NGSC_GENC_MOG,0.80,0.80,0.80,0.80
-DSRC_GENC_MOG,0.80,0.80,0.80,0.80
-HFRC_GENC_MOG,0.99,0.99,0.99,0.99
-SOPC_GENC_MOG,0.50,0.50,0.50,0.50
-HYRO_GENC_MOG,0.50,0.50,0.50,0.50
-HYDM_GENC_MOG,0.99,0.99,0.99,0.99
-Batt_GENC_MOG,0.99,0.99,0.99,0.99
-WDLC_GENC_MOG,0.67,0.67,0.67,0.67
-BMST_GENC_RWA,0.85,0.85,0.85,0.85
-NGCC_GENC_RWA,0.85,0.85,0.85,0.85
-COSC_GENC_RWA,0.85,0.85,0.85,0.85
-NGSC_GENC_RWA,0.80,0.80,0.80,0.80
-DSRC_GENC_RWA,0.80,0.80,0.80,0.80
-HFRC_GENC_RWA,0.99,0.99,0.99,0.99
-SOPC_GENC_RWA,0.50,0.50,0.50,0.50
-HYRO_GENC_RWA,0.50,0.50,0.50,0.50
-HYDM_GENC_RWA,0.99,0.99,0.99,0.99
-Batt_GENC_RWA,0.99,0.99,0.99,0.99
-WDLC_GENC_RWA,0.67,0.67,0.67,0.67
-BMST_GENC_SOM,0.85,0.85,0.85,0.85
-NGCC_GENC_SOM,0.85,0.85,0.85,0.85
-COSC_GENC_SOM,0.85,0.85,0.85,0.85
-NGSC_GENC_SOM,0.80,0.80,0.80,0.80
-DSRC_GENC_SOM,0.80,0.80,0.80,0.80
-HFRC_GENC_SOM,0.99,0.99,0.99,0.99
-SOPC_GENC_SOM,0.50,0.50,0.50,0.50
-HYRO_GENC_SOM,0.50,0.50,0.50,0.50
-HYDM_GENC_SOM,0.99,0.99,0.99,0.99
-Batt_GENC_SOM,0.99,0.99,0.99,0.99
-WDLC_GENC_SOM,0.67,0.67,0.67,0.67
-BMST_GENC_SOR,0.85,0.85,0.85,0.85
-NGCC_GENC_SOR,0.85,0.85,0.85,0.85
-COSC_GENC_SOR,0.85,0.85,0.85,0.85
-NGSC_GENC_SOR,0.80,0.80,0.80,0.80
-DSRC_GENC_SOR,0.80,0.80,0.80,0.80
-HFRC_GENC_SOR,0.99,0.99,0.99,0.99
-SOPC_GENC_SOR,0.50,0.50,0.50,0.50
-HYRO_GENC_SOR,0.50,0.50,0.50,0.50
-HYDM_GENC_SOR,0.99,0.99,0.99,0.99
-Batt_GENC_SOR,0.99,0.99,0.99,0.99
-WDLC_GENC_SOR,0.80,0.80,0.80,0.80
-DSRC_GENC_SOU,0.80,0.80,0.80,0.80
-HFRC_GENC_SOU,0.99,0.99,0.99,0.99
-SOPC_GENC_SOU,0.50,0.50,0.50,0.50
-HYRO_GENC_SOU,0.50,0.50,0.50,0.50
-HYDM_GENC_SOU,0.99,0.99,0.99,0.99
-Batt_GENC_SOU,0.99,0.99,0.99,0.99
-WDLC_GENC_SOU,0.67,0.67,0.67,0.67
-BMST_GENC_SUD,0.80,0.80,0.80,0.80
-DSRC_GENC_SUD,0.80,0.80,0.80,0.80
-HFRC_GENC_SUD,0.99,0.99,0.99,0.99
-SOPC_GENC_SUD,0.50,0.50,0.50,0.50
-HYRO_GENC_SUD,0.50,0.50,0.50,0.50
-HYDM_GENC_SUD,0.99,0.99,0.99,0.99
-Batt_GENC_SUD,0.99,0.99,0.99,0.99
-WDLC_GENC_SUD,0.67,0.67,0.67,0.67
-BMST_GENC_TAN,0.85,0.85,0.85,0.85
-NGCC_GENC_TAN,0.85,0.85,0.85,0.85
-COSC_GENC_TAN,0.60,0.60,0.60,0.60
-GOCV_GENC_TAN,0.85,0.85,0.85,0.85
-NGSC_GENC_TAN,0.80,0.80,0.80,0.80
-DSRC_GENC_TAN,0.80,0.80,0.80,0.80
-HFRC_GENC_TAN,0.99,0.99,0.99,0.99
-SOPC_GENC_TAN,0.50,0.50,0.50,0.50
-HYRO_GENC_TAN,0.50,0.50,0.50,0.50
-HYDM_GENC_TAN,0.99,0.99,0.99,0.99
-Batt_GENC_TAN,0.99,0.99,0.99,0.99
-WDLC_GENC_TAN,0.67,0.67,0.67,0.67
-BMST_GENC_UGA,0.85,0.85,0.85,0.85
-NGCC_GENC_UGA,0.85,0.85,0.85,0.85
-COSC_GENC_UGA,0.60,0.60,0.60,0.60
-GOCV_GENC_UGA,0.85,0.85,0.85,0.85
-NGSC_GENC_UGA,0.80,0.80,0.80,0.80
-DSRC_GENC_UGA,0.80,0.80,0.80,0.80
-HFRC_GENC_UGA,0.99,0.99,0.99,0.99
-SOPC_GENC_UGA,0.50,0.50,0.50,0.50
-HYRO_GENC_UGA,0.50,0.50,0.50,0.50
-HYDM_GENC_UGA,0.99,0.99,0.99,0.99
-Batt_GENC_UGA,0.99,0.99,0.99,0.99
-WDLC_GENC_UGA,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_DJI,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_EGY,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_LIB,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_MOG,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_SRC,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_SOM,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_SUD,0.97,0.97,0.97,0.97
-OSWD_GENC_OffshoreWind_TAN,0.97,0.97,0.97,0.97
+gen	Q1	Q2	Q3	Q4
+CTH_10	0.9	0.9	0.9	0.9
+CTH_30	0.9	0.9	0.9	0.9
+CTH_5	0.99	0.99	0.99	0.99
+Mubuga	0.33	0.35	0.33	0.31
+Buhiga	0.33	0.35	0.33	0.31
+Gikonge	0.33	0.35	0.33	0.31
+Kayenzi	0.33	0.35	0.33	0.31
+Marangara	0.33	0.35	0.33	0.31
+Mugere	0.33	0.35	0.33	0.31
+Nyemanga	0.54	0.62	0.46	0.45
+Rusumo_Falls	0.54	0.62	0.46	0.45
+Ruvyironza	0.54	0.62	0.46	0.45
+RUZB_007	0.52	0.55	0.51	0.48
+Ruzizi_I	0.52	0.55	0.51	0.48
+Ruzizi_II	0.54	0.62	0.46	0.45
+Rwegura	0.99	0.99	0.99	0.99
+Maramvya	0.33	0.35	0.33	0.31
+Dama015	0.53	0.55	0.52	0.48
+Kabu16	0.33	0.35	0.33	0.31
+Kabu23	0.33	0.35	0.33	0.31
+Kirasa-karonge	0.53	0.55	0.52	0.48
+Mpanda_BUR	0.33	0.35	0.33	0.31
+Mule037_(Mulembwe)	0.53	0.55	0.52	0.48
+Mulembwe	0.33	0.35	0.33	0.31
+Mushara	0.33	0.35	0.33	0.31
+Sigu011	0.33	0.35	0.33	0.31
+Waga_(Kanka)	0.92	0.92	0.92	0.92
+Centrale_tourbe_(Kayanza)	0.53	0.55	0.52	0.48
+Jiji	0.54	0.62	0.46	0.45
+Ruvyi102_(Ruvyironza)	0.92	0.92	0.92	0.92
+Centrale_thermique_(Dechets_Municipaux)	0.54	0.62	0.46	0.45
+Gikuka_(KIKU002)	0.49	0.49	0.49	0.49
+BoulaosM01	0.49	0.49	0.49	0.49
+BoulaosM02	0.49	0.49	0.49	0.49
+BoulaosM03	0.49	0.49	0.49	0.49
+BoulaosM04	0.49	0.49	0.49	0.49
+BoulaosM05	0.8	0.8	0.8	0.8
+BoulaosM06	0.49	0.49	0.49	0.49
+ICE_Aggregate_DJI	0.8	0.8	0.8	0.8
+Obock	0.8	0.8	0.8	0.8
+South	0.8	0.8	0.8	0.8
+Tadjourah	0.49	0.49	0.49	0.49
+HFO_Aggregate_DJI	0.49	0.49	0.49	0.49
+MaraboutG01	0.49	0.49	0.49	0.49
+MaraboutG12	0.49	0.49	0.49	0.49
+MaraboutG13	0.49	0.49	0.49	0.49
+MaraboutG14	0.49	0.49	0.49	0.49
+MaraboutG15	0.49	0.49	0.49	0.49
+MaraboutG16	0.49	0.49	0.49	0.49
+MaraboutG17	0.49	0.49	0.49	0.49
+MaraboutG18	0.49	0.49	0.49	0.49
+MaraboutG21	0.49	0.49	0.49	0.49
+MaraboutG22	0.49	0.49	0.49	0.49
+MaraboutG23	0.49	0.49	0.49	0.49
+MaraboutG24	0.49	0.49	0.49	0.49
+MaraboutG25	0.49	0.49	0.49	0.49
+MaraboutG31	0.49	0.49	0.49	0.49
+MaraboutG32	0.95	0.95	0.95	0.95
+Wind_on	0.99	0.99	0.99	0.99
+Akuo	0.99	0.99	0.99	0.99
+Battery_5MW_DJI	0.8	0.8	0.8	0.8
+HFO_Project_01_DJI	0.8	0.8	0.8	0.8
+HFO_Project_02_DJI	0.8	0.8	0.8	0.8
+HFO_Project_03_DJI	0.8	0.8	0.8	0.8
+HFO_Project_04_DJI	0.8	0.8	0.8	0.8
+HFO_Project_05_DJI	0.9	0.9	0.9	0.9
+CCGT	0.9	0.9	0.9	0.9
+PolyGCL1	0.99	0.99	0.99	0.99
+Geoth	0.9	0.9	0.9	0.9
+Centrale_bifuel1	0.9	0.9	0.9	0.9
+Centrale_bifuel2	0.9	0.9	0.9	0.9
+Centrale_bifuel3	0.9	0.9	0.9	0.9
+OCGT	0.99	0.99	0.99	0.99
+Solar_2	0.99	0.99	0.99	0.99
+Wind_2	0.46	0.51	0.43	0.44
+Lubero	0.46	0.51	0.43	0.44
+LungudiII	0.46	0.51	0.43	0.44
+Matebe	0.46	0.51	0.43	0.44
+Ruzizi_III_DRC	0.52	0.6	0.44	0.44
+VIRUNGATalyiaNord1TalyiaNord2Ivugha	0.64	0.73	0.54	0.53
+Ruzizi_I_DRC	0.52	0.6	0.44	0.44
+Ruzizi_II_DRCMutwanga	0.95	0.95	0.95	0.95
+GENC_CCGT	0.95	0.95	0.95	0.95
+GENC_CCS	0.99	0.99	0.99	0.99
+GENC_CSP	0.95	0.95	0.95	0.95
+Generic_GENC_GT	0.95	0.95	0.95	0.95
+Generic_GENC_RICE	0.98	0.98	0.98	0.98
+Generic_GENC_2024_PV	0.95	0.95	0.95	0.95
+NN-DIE_ST	0.95	0.95	0.95	0.95
+NN-HFO_ST	0.55	0.55	0.55	0.55
+NN_HY	0.99	0.99	0.99	0.99
+Generic_GENC_BAT	0.96	0.96	0.96	0.96
+Generic_GENC_2024_WI	0.96	0.96	0.96	0.96
+NN_OSW	0.98	0.98	0.98	0.98
+ACWA-POWER_PV	0.98	0.98	0.98	0.98
+AMYA-POWER_PV	0.94	0.94	0.94	0.94
+El-Dabaa_NPP-1_NU	0.94	0.94	0.94	0.94
+El-Dabaa_NPP-2_NU	0.94	0.94	0.94	0.94
+El-Dabaa_NPP-3_NU	0.94	0.94	0.94	0.94
+El-Dabaa_NPP-4_NU	0.96	0.96	0.96	0.96
+ACWA-Power_WI	0.96	0.96	0.96	0.96
+AMYA-POWER_WI	0.96	0.96	0.96	0.96
+Engie-Orasco-Toyota_WI	0.96	0.96	0.96	0.96
+Masdar_WI	0.96	0.96	0.96	0.96
+Siemens-Gamesa_WI	0.95	0.95	0.95	0.95
+6Oct-Ext-1_CCGT	0.95	0.95	0.95	0.95
+6Oct-Ext-2_CCGT	0.95	0.95	0.95	0.95
+Banha_CCGT	0.95	0.95	0.95	0.95
+Beni-Suef-1_CCGT	0.95	0.95	0.95	0.95
+Beni-Suef-2_CCGT	0.95	0.95	0.95	0.95
+Beni-Suef-3_CCGT	0.95	0.95	0.95	0.95
+Beni-Suef-4_CCGT	0.95	0.95	0.95	0.95
+Burullus-1_CCGT	0.95	0.95	0.95	0.95
+Burullus-2_CCGT	0.95	0.95	0.95	0.95
+Burullus-3_CCGT	0.95	0.95	0.95	0.95
+Burullus-4_CCGT	0.95	0.95	0.95	0.95
+Cairo-North-1_CCGT	0.95	0.95	0.95	0.95
+Cairo-North-2_CCGT	0.95	0.95	0.95	0.95
+Cairo-South_CCGT	0.95	0.95	0.95	0.95
+Daman-Hour_CCGT	0.95	0.95	0.95	0.95
+Damietta-1_CCGT	0.95	0.95	0.95	0.95
+Damietta-2_CCGT	0.95	0.95	0.95	0.95
+El-Atf_CCGT	0.95	0.95	0.95	0.95
+Giza-1_CCGT	0.95	0.95	0.95	0.95
+Giza-2_CCGT	0.95	0.95	0.95	0.95
+Giza-3_CCGT	0.95	0.95	0.95	0.95
+Kuriemat-1_CCGT	0.95	0.95	0.95	0.95
+Kuriemat-2_CCGT	0.95	0.95	0.95	0.95
+Mahmoudeya_CCGT	0.95	0.95	0.95	0.95
+New-Capital-1_CCGT	0.95	0.95	0.95	0.95
+New-Capital-2_CCGT	0.95	0.95	0.95	0.95
+New-Capital-3_CCGT	0.95	0.95	0.95	0.95
+New-Capital-4_CCGT	0.95	0.95	0.95	0.95
+New-Shabab-1_CCGT	0.95	0.95	0.95	0.95
+New-Shabab-2_CCGT	0.95	0.95	0.95	0.95
+New-Shabab-3_CCGT	0.95	0.95	0.95	0.95
+Nubaria-1_CCGT	0.95	0.95	0.95	0.95
+Nubaria-2_CCGT	0.95	0.95	0.95	0.95
+Nubaria-3_CCGT	0.95	0.95	0.95	0.95
+Sidi-Kirir_CCGT	0.95	0.95	0.95	0.95
+Talkha_CCGT	0.95	0.95	0.95	0.95
+Talkha-2_CCGT	0.95	0.95	0.95	0.95
+West-Assiut-1_CCGT	0.95	0.95	0.95	0.95
+West-Assiut-2_CCGT	0.95	0.95	0.95	0.95
+West-Damietta_CCGT	0.95	0.95	0.95	0.95
+West-Damietta-Ext_CCGT	0.99	0.99	0.99	0.99
+Kuriemat_CSP	0.95	0.95	0.95	0.95
+6Oct-1_GT	0.95	0.95	0.95	0.95
+6Oct-2_GT	0.95	0.95	0.95	0.95
+Abu-Qir_GT	0.95	0.95	0.95	0.95
+Ataga-Ext-1_GT	0.95	0.95	0.95	0.95
+Ataga-Ext-2_GT	0.95	0.95	0.95	0.95
+Bany-Ghaleb_GT	0.95	0.95	0.95	0.95
+Cairo-South_GT	0.95	0.95	0.95	0.95
+East-Cario_GT	0.95	0.95	0.95	0.95
+EL-Basateen_GT	0.95	0.95	0.95	0.95
+El-Masaeed_GT	0.95	0.95	0.95	0.95
+Gerga_GT	0.95	0.95	0.95	0.95
+Heliopoles_GT	0.95	0.95	0.95	0.95
+Hurgha-da_GT	0.95	0.95	0.95	0.95
+Hurgha-da-Ext_GT	0.95	0.95	0.95	0.95
+New-Assiut_GT	0.95	0.95	0.95	0.95
+New-Gas-Damietta_GT	0.95	0.95	0.95	0.95
+New-Mahmoudeya_GT	0.95	0.95	0.95	0.95
+Port-Said_GT	0.95	0.95	0.95	0.95
+Red-Assiut_GT	0.95	0.95	0.95	0.95
+Samalout_GT	0.95	0.95	0.95	0.95
+Shabab_GT	0.95	0.95	0.95	0.95
+Sharm-El-Sheikh_GT	0.95	0.95	0.95	0.95
+Sharm-El-Sheikh-Ext_GT	0.95	0.95	0.95	0.95
+Shoub_GT	0.95	0.95	0.95	0.95
+Wadi_GT	0.95	0.95	0.95	0.95
+West-Malawy_GT	0.98	0.98	0.98	0.98
+Benban_PV	0.98	0.98	0.98	0.98
+Kom-Ombo_PV	0.55	0.55	0.55	0.55
+Assiut_HY	0.9	0.9	0.9	0.9
+Abu-Qir-New-1_ST	0.9	0.9	0.9	0.9
+Abu-Qir-New-2_ST	0.9	0.9	0.9	0.9
+Ain-Sokhna-1_ST	0.9	0.9	0.9	0.9
+Ain-Sokhna-2_ST	0.9	0.9	0.9	0.9
+Arish_ST	0.9	0.9	0.9	0.9
+Cairo-West-Ext-1_ST	0.9	0.9	0.9	0.9
+Cairo-West-Ext-2_ST	0.9	0.9	0.9	0.9
+El-Tibeen_ST	0.9	0.9	0.9	0.9
+Kuriemat-1_ST	0.9	0.9	0.9	0.9
+Kuriemat-2_ST	0.9	0.9	0.9	0.9
+Oyon-Mousa_ST	0.9	0.9	0.9	0.9
+Port-Said-East_ST	0.9	0.9	0.9	0.9
+Sidi-Kirir-1-2_ST	0.9	0.9	0.9	0.9
+Sidi-Kirir-3-4_ST	0.9	0.9	0.9	0.9
+South-Helwan-1_ST	0.9	0.9	0.9	0.9
+South-Helwan-2_ST	0.9	0.9	0.9	0.9
+South-Helwan-3_ST	0.9	0.9	0.9	0.9
+Suez_ST	0.9	0.9	0.9	0.9
+Suez-Gulf_ST	0.9	0.9	0.9	0.9
+Talkha_ST	0.9	0.9	0.9	0.9
+Walideya_ST	0.55	0.55	0.55	0.55
+Aswan-Dam_HY	0.55	0.55	0.55	0.55
+Aswan-Dam-2_HY	0.55	0.55	0.55	0.55
+Esna_HY	0.55	0.55	0.55	0.55
+High-Dam_HY	0.55	0.55	0.55	0.55
+Naga-Hamadi_HY	0.96	0.96	0.96	0.96
+Gabal-El-Zeit_WI	0.96	0.96	0.96	0.96
+Ras-Gharib_WI	0.96	0.96	0.96	0.96
+Zafarana_WI	0.93	0.93	0.93	0.93
+Generic_GCCGT_1	0.9	0.9	0.9	0.9
+Generic_GCCGT_2	0.9	0.9	0.9	0.9
+Boku_Geothermal	0.9	0.9	0.9	0.9
+Dofan_Geothermal	0.9	0.9	0.9	0.9
+Dugna_Fango_Geothermal	0.9	0.9	0.9	0.9
+Fentale_Geothermal	0.89	0.89	0.89	0.89
+Generic_Geothermal_1	0.9	0.9	0.9	0.9
+Shashemene_Geothermal	0.9	0.9	0.9	0.9
+Tendaho-Alalobad_Geothermal	0.93	0.93	0.93	0.93
+Generic_GasCT_1	0.9	0.9	0.9	0.9
+Generic_GasCT_2	0.86	0.86	0.86	0.86
+Generic_LFO_1	0.86	0.86	0.86	0.86
+Generic_LFO_2	0.99	0.99	0.99	0.99
+Gad-II_solar	0.94	0.94	0.94	0.94
+Generic_Solar_1	0.99	0.99	0.99	0.99
+Adigala	0.49	0.51	0.49	0.45
+Aleltu_East_HEP	0.46	0.48	0.46	0.43
+Aleltu_West_HEP	0.46	0.48	0.48	0.45
+Assosa_Bambasi	0.99	0.99	0.99	0.99
+Ayisha-IA	0.99	0.99	0.99	0.99
+Ayisha-IB	0.99	0.99	0.99	0.99
+Ayisha-III_A	0.99	0.99	0.99	0.99
+Ayisha-IIIB	0.46	0.48	0.48	0.45
+Baro_1	0.44	0.46	0.44	0.41
+Baro_2_HEP	0.46	0.48	0.48	0.45
+Beko_Abo	0.46	0.48	0.48	0.45
+Birbir	0.46	0.48	0.48	0.45
+Birbir_R	0.5	0.52	0.49	0.46
+Dabus_HEP	0.16	0.16	0.16	0.16
+Deday	0.46	0.48	0.48	0.45
+Geba_1	0.46	0.48	0.48	0.45
+Geba_2	0.66	0.69	0.66	0.61
+Genale_V	0.72	0.75	0.71	0.66
+Genale_VI	0.46	0.48	0.48	0.45
+Genji_(linked_with_Baro_&_II)	0.99	0.99	0.99	0.99
+Gode	0.46	0.48	0.48	0.45
+Gojeb	0.46	0.48	0.48	0.45
+Halele	0.99	0.99	0.99	0.99
+Humera_solar	0.46	0.48	0.48	0.45
+Karadobi	0.99	0.99	0.99	0.99
+KebriBeyah	0.98	0.98	0.98	0.98
+Kesem_BIO	0.46	0.48	0.48	0.45
+Lower_Dabus	0.46	0.48	0.48	0.45
+Lower_Didessa	0.99	0.99	0.99	0.99
+May_Mekdan	0.99	0.99	0.99	0.99
+Mekele_WF	0.99	0.99	0.99	0.99
+Meki_Solar	0.99	0.99	0.99	0.99
+Melkasedi_Solar	0.99	0.99	0.99	0.99
+Meshenti_Solar	0.99	0.99	0.99	0.99
+Metehara_solar	0.99	0.99	0.99	0.99
+Metema_solar	0.99	0.99	0.99	0.99
+Sela_Dingay	0.89	0.92	0.88	0.82
+Sor_2_HEP	0.99	0.99	0.99	0.99
+Sure	0.46	0.48	0.48	0.45
+Tams	0.46	0.48	0.48	0.45
+Tekeze_II	0.99	0.99	0.99	0.99
+Tulu_Guled	0.46	0.48	0.48	0.45
+Upper_Dabus	0.46	0.48	0.48	0.45
+Upper_Mendaya	0.46	0.48	0.48	0.45
+Wabi	0.46	0.48	0.48	0.45
+Wabi_Shebele	0.99	0.99	0.99	0.99
+Welenchiti_solar	0.46	0.48	0.48	0.45
+Werabesa	0.99	0.99	0.99	0.99
+Wereta_Solar	0.98	0.98	0.98	0.98
+Wolkayit_BIO	0.99	0.99	0.99	0.99
+Yirgalem_Solar	0.98	0.98	0.98	0.98
+Beles	0.98	0.98	0.98	0.98
+Omo_Kuraz_BIO	0.83	0.83	0.83	0.83
+Generic_Coal_6_Ethiopia	0.94	0.94	0.94	0.94
+Generic_Wind_1	0.93	0.93	0.93	0.93
+Aluto_Langano	0.9	0.9	0.9	0.9
+Aluto_Langano_I_(Rehabilitation)	0.93	0.93	0.93	0.93
+Aluto_Langano_II	0.99	0.99	0.99	0.99
+Asela-I	0.94	0.94	0.94	0.94
+Asela-II_(Iteya)	0.94	0.94	0.94	0.94
+Assela	0.94	0.94	0.94	0.94
+Ayisha-I	0.93	0.93	0.93	0.93
+Ayisha-II	0.93	0.93	0.93	0.93
+Corbetti_I	0.9	0.9	0.9	0.9
+Corbetti_II	0.94	0.94	0.94	0.94
+Dabus_Wind	0.94	0.94	0.94	0.94
+Dawa	0.94	0.94	0.94	0.94
+Debre_Birhan	0.94	0.94	0.94	0.94
+Dechatu	0.99	0.99	0.99	0.99
+Dicheto_solar	0.99	0.99	0.99	0.99
+Gad-I_solar	0.24	0.25	0.24	0.23
+GERD_3_HEP	0.24	0.25	0.24	0.23
+GERD_4_HEP	0.35	0.37	0.35	0.33
+GERD_5_HEP	0.94	0.94	0.94	0.94
+Humera	0.94	0.94	0.94	0.94
+HumeraSS4_WeransoMekeleSS3_Wolenchiti	0.46	0.48	0.48	0.45
+Koysha_(Gibe_IV)	0.94	0.94	0.94	0.94
+Mekele	0.84	0.84	0.84	0.84
+Replacement_Diesel	0.36	0.37	0.36	0.33
+Replacement_Koka_HEP	0.9	0.9	0.9	0.9
+Tulu_Moye_I	0.9	0.9	0.9	0.9
+Tulu_Moye_II	0.93	0.93	0.93	0.93
+Tulumoya_Abaya	0.94	0.94	0.94	0.94
+Weranso_solar	0.94	0.94	0.94	0.94
+Wolenchiti	0.46	0.48	0.48	0.45
+YedaI	0.46	0.48	0.48	0.45
+YedaII_(linked_with_YedaI)	0.31	0.32	0.33	0.32
+Aba_Samuel	0.94	0.94	0.94	0.94
+Adama_I	0.94	0.94	0.94	0.94
+Adama_II	0.95	0.95	0.95	0.95
+Addis_Ababa_EFW	0.94	0.94	0.94	0.94
+Ashegoda	0.31	0.32	0.33	0.32
+Awash_II	0.31	0.32	0.33	0.32
+Awash_III	0.33	0.34	0.33	0.33
+Awash7	0.67	0.68	0.59	0.58
+Beles_HEP	0.84	0.84	0.84	0.84
+Dire_Dawa	0.46	0.48	0.48	0.45
+Finchaa	0.46	0.48	0.48	0.45
+Genale_Dawa_III	0.39	0.41	0.39	0.36
+GERD_1_HEP	0.24	0.25	0.24	0.23
+GERD_2_HEP	0.46	0.48	0.48	0.45
+GERD_3a_HEP	0.46	0.48	0.48	0.45
+Gibe_I	0.31	0.32	0.33	0.32
+Gibe_II	0.46	0.48	0.48	0.45
+Gibe_III	0.84	0.84	0.84	0.84
+Kality	0.21	0.22	0.21	0.23
+Koka_HEP	0.28	0.29	0.25	0.29
+Maleka_Wakana_HEP	0.46	0.48	0.48	0.45
+Neshe	0.69	0.72	0.69	0.64
+Sor_1_HEP	0.46	0.48	0.48	0.45
+Tekeze_I	0.35	0.37	0.35	0.33
+Tis_Abay_I_HEP	0.46	0.48	0.48	0.45
+Tis_Abey_ll	0.65	0.65	0.65	0.65
+Biomass_2024	0.65	0.65	0.65	0.65
+Biomass_2025	0.65	0.65	0.65	0.65
+Cummins_Cogeneration_Kenya_Limited	0.65	0.65	0.65	0.65
+Generic_Biomass	0.65	0.65	0.65	0.65
+Municipal_Waste_to_Energy_	0.65	0.65	0.65	0.65
+Roadtech_Solutions	0.65	0.65	0.65	0.65
+Small_Biomass_Thika_Way	0.65	0.65	0.65	0.65
+Tana_Biomass_Limited_Biogas	0.93	0.93	0.93	0.93
+Dongo_Kundu	0.89	0.89	0.89	0.89
+Generic_GENC_Natural_Gas_-_CCGT	0.93	0.93	0.93	0.93
+Wajir	0.89	0.89	0.89	0.89
+CCGT_GENC_CCS	0.87	0.87	0.87	0.87
+Kitui	0.87	0.87	0.87	0.87
+Lamu_Coal_Power_Station	0.94	0.94	0.94	0.94
+AGIL_Longonot_Stage_1	0.94	0.94	0.94	0.94
+AGIL_Longonot_Stage_2	0.94	0.94	0.94	0.94
+AGIL_Longonot_Stage_3	0.94	0.94	0.94	0.94
+AGIL_Longonot_Stage_4	0.94	0.94	0.94	0.94
+Baringo_Silali__-_Korosi_I	0.94	0.94	0.94	0.94
+Baringo_Silali__-_Paka_I	0.94	0.94	0.94	0.94
+Baringo_Silali__-_Silali_I	0.94	0.94	0.94	0.94
+Eburru_2	0.94	0.94	0.94	0.94
+Generic_GENC_Geothermal	0.94	0.94	0.94	0.94
+Marine_Power_Akiira___Stage_1	0.94	0.94	0.94	0.94
+Marine_Power_Akiira_Stage_2	0.94	0.94	0.94	0.94
+Menengai_I_	0.94	0.94	0.94	0.94
+Menengai_I_Phase_I_Stage_I_-_Orpower22	0.94	0.94	0.94	0.94
+Menengai_III_	0.94	0.94	0.94	0.94
+Menengai_Istage2	0.94	0.94	0.94	0.94
+Menengai_IV_-_Stage_3	0.94	0.94	0.94	0.94
+MenengaiV	0.94	0.94	0.94	0.94
+Olkaria_7	0.94	0.94	0.94	0.94
+Olkaria_8	0.94	0.94	0.94	0.94
+Olkaria_9_&_other_fields	0.94	0.94	0.94	0.94
+Olkaria_Brine	0.94	0.94	0.94	0.94
+Olkaria_III_units_1-9	0.94	0.94	0.94	0.94
+Olkaria_Topping	0.94	0.94	0.94	0.94
+Olkaria_VI	0.94	0.94	0.94	0.94
+Olsuswa_Unit_1	0.94	0.94	0.94	0.94
+Suswa_I	0.94	0.94	0.94	0.94
+Suswa_II	0.94	0.94	0.94	0.94
+Suswa_III	0.89	0.89	0.89	0.89
+Embakasi	0.89	0.89	0.89	0.89
+Generic_GENC_Natural_Gas_-_OGCT	0.9	0.9	0.9	0.9
+Generic_LNG_Gas_Turbine	0.93	0.93	0.93	0.93
+LNG_Gas_Turbine	0.92	0.92	0.92	0.92
+GenericHFO	0.89	0.89	0.89	0.89
+Nuclear_Kenya	0.89	0.89	0.89	0.89
+OCGT_GENC_CCS	0.99	0.99	0.99	0.99
+Greenmillenia_Energy_Ltd	0.99	0.99	0.99	0.99
+Hanan_Arya_Energy	0.99	0.99	0.99	0.99
+Kenergy	0.99	0.99	0.99	0.99
+Kopere_Solar_Park	0.99	0.99	0.99	0.99
+Makindu-_Rareh_(Dafre)	0.99	0.99	0.99	0.99
+SevenForksSolarPower	0.99	0.99	0.99	0.99
+Sunpower_Kenya_(Makindu-Kibwezi_I)	0.49	0.5	0.52	0.53
+Generic_Small_Hydro	0.49	0.5	0.52	0.53
+Gitaru_Rehab	0.49	0.5	0.52	0.53
+Kamburu_Rehab	0.3	0.32	0.3	0.33
+Karura	0.49	0.5	0.52	0.53
+Kiambere_Rehab	0.49	0.5	0.52	0.53
+Kindaruma_Rehab	0.49	0.5	0.52	0.53
+Masinga_Rehab	0.49	0.5	0.52	0.53
+Sangoro_Rehab	0.49	0.5	0.52	0.53
+Sondu_Rehab	0.49	0.5	0.52	0.53
+Tana_Rehab	0.49	0.5	0.52	0.53
+Turkwel_Rehab	0.49	0.5	0.52	0.53
+Generic_Large_Hydro	0.27	0.27	0.28	0.29
+High_Grand_Falls_-_I	0.27	0.27	0.28	0.29
+High_Grand_Falls_-_II	0.98	0.98	0.98	0.98
+BESS_4	0.97	0.97	0.97	0.97
+Generic_GENC_BESS	0.97	0.97	0.97	0.97
+Pumped_Hydro	0.97	0.97	0.97	0.97
+Aperture_Green_GENC_KEN	0.97	0.97	0.97	0.97
+Bahari_Phase_I	0.97	0.97	0.97	0.97
+Bahari_Phase_II	0.97	0.97	0.97	0.97
+Generic_GENC_Wind_High	0.97	0.97	0.97	0.97
+Generic_GENC_Wind_Low_1	0.97	0.97	0.97	0.97
+Generic_GENC_Wind_Low_2	0.97	0.97	0.97	0.97
+Kajiado_Wind_	0.97	0.97	0.97	0.97
+Limuru_Wind	0.97	0.97	0.97	0.97
+Malindi	0.97	0.97	0.97	0.97
+Marsabit_Phase_I	0.97	0.97	0.97	0.97
+Marsabit_Phase_II	0.97	0.97	0.97	0.97
+Meru_I	0.97	0.97	0.97	0.97
+Ngong_-_1_-_Phase_3	0.97	0.97	0.97	0.97
+Prunus_Wind	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_KEN	0.94	0.94	0.94	0.94
+Menengai_I_Quantum	0.94	0.94	0.94	0.94
+Menengai_I_Sosian	0.94	0.94	0.94	0.94
+Olkaria_1_B_(Rehabilitated)	0.94	0.94	0.94	0.94
+Olkaria_1_Unit_6	0.99	0.99	0.99	0.99
+Ergon_Solair_(Kisumu_SolarOne_Ltd)	0.99	0.99	0.99	0.99
+Marco_Borero	0.99	0.99	0.99	0.99
+Radiant-_Selenkei	0.49	0.5	0.52	0.53
+Small_Hydro_2021	0.49	0.5	0.52	0.53
+Small_Hydro_2022	0.49	0.5	0.52	0.53
+Small_Hydro_2023	0.49	0.5	0.52	0.53
+Small_Hydro_2024	0.49	0.5	0.52	0.53
+Small_Hydro_2025	0.49	0.5	0.52	0.53
+Small_Hydro_2026	0.99	0.99	0.99	0.99
+Generic_Rooftop_2021	0.99	0.99	0.99	0.99
+Generic_Rooftop_2022	0.99	0.99	0.99	0.99
+Generic_Rooftop_2023	0.99	0.99	0.99	0.99
+Generic_Rooftop_2024	0.99	0.99	0.99	0.99
+Generic_Rooftop_2025	0.99	0.99	0.99	0.99
+Generic_Rooftop_2026	0.99	0.99	0.99	0.99
+Generic_Rooftop_2027	0.99	0.99	0.99	0.99
+Generic_Rooftop_2028	0.99	0.99	0.99	0.99
+Generic_Rooftop_2029	0.99	0.99	0.99	0.99
+Generic_Rooftop_2030	0.99	0.99	0.99	0.99
+Generic_Rooftop_2031	0.99	0.99	0.99	0.99
+Generic_Rooftop_2032	0.99	0.99	0.99	0.99
+Generic_Rooftop_2033	0.99	0.99	0.99	0.99
+Generic_Rooftop_2034	0.99	0.99	0.99	0.99
+Generic_Rooftop_2035	0.99	0.99	0.99	0.99
+Generic_Rooftop_2036	0.99	0.99	0.99	0.99
+Generic_Rooftop_2037	0.99	0.99	0.99	0.99
+Generic_Rooftop_2038	0.99	0.99	0.99	0.99
+Generic_Rooftop_2039	0.99	0.99	0.99	0.99
+Generic_Rooftop_2040	0.98	0.98	0.98	0.98
+BESS_1_2_3	0.97	0.97	0.97	0.97
+Chania_green	0.65	0.65	0.65	0.65
+Kwale_Co-Generation_TAnaBiomass	0.65	0.65	0.65	0.65
+Mumias_(Biomass)	0.94	0.94	0.94	0.94
+Olkaria_I_	0.94	0.94	0.94	0.94
+Olkaria_I_units_4_&_5	0.94	0.94	0.94	0.94
+Olkaria_II	0.94	0.94	0.94	0.94
+Olkaria_IV	0.94	0.94	0.94	0.94
+Olkaria_Mobile_Wellheads___Eburru	0.94	0.94	0.94	0.94
+Olkaria_V_	0.94	0.94	0.94	0.94
+Orpower_4_(I)	0.94	0.94	0.94	0.94
+Orpower_4_(II)	0.94	0.94	0.94	0.94
+Orpower_4_(III)	0.94	0.94	0.94	0.94
+Orpower_4_(IV)	0.89	0.89	0.89	0.89
+Tsavo	0.92	0.92	0.92	0.92
+Gulf_Energy_	0.82	0.82	0.82	0.82
+Iberafrica_I_&II	0.92	0.92	0.92	0.92
+Kipevu_I_Diesel	0.92	0.92	0.92	0.92
+Kipevu_III_Diesel	0.92	0.92	0.92	0.92
+Muhoroni	0.92	0.92	0.92	0.92
+Rabai_Power	0.92	0.92	0.92	0.92
+Thika_Power	0.92	0.92	0.92	0.92
+Triumph_Diesel	0.99	0.99	0.99	0.99
+Alten_Kesses_1_Kenya_Ltd	0.99	0.99	0.99	0.99
+Eldosol-Cedate	0.99	0.99	0.99	0.99
+Malindi_Solar-_Vateki	0.99	0.99	0.99	0.99
+REA_Garissa_Solar	0.49	0.5	0.52	0.53
+ExistingSmallHydro	0.43	0.44	0.44	0.46
+Gitaru	0.52	0.52	0.52	0.51
+Kamburu	0.67	0.64	0.64	0.66
+Kiambere	0.3	0.33	0.31	0.33
+Kindaruma	0.48	0.26	0.51	0.44
+Masinga	0.39	0.77	0.85	0.79
+Sangoro	0.41	0.79	0.86	0.79
+Sondu	0.42	0.69	0.51	0.65
+Tana	0.64	0.49	0.56	0.59
+Turkwel	0.97	0.97	0.97	0.97
+Kipeto_Wind_-_I	0.97	0.97	0.97	0.97
+Lake_Turkana_Wind_Power	0.97	0.97	0.97	0.97
+Ngong_Hills_Wind	0.9	0.9	0.9	0.9
+CC_CM_GAS_ALC_20_LIB	0.9	0.9	0.9	0.9
+GT_CM_GAS_ALC_22_LIB	0.9	0.9	0.9	0.9
+PV_CM_SPV_ALC_19_LIB	0.9	0.9	0.9	0.9
+ST_CM_GAS_ALC_25_LIB	0.9	0.9	0.9	0.9
+WI_CM_WND_ALC_18_LIB	0.9	0.9	0.9	0.9
+CC_EX_GAS_ALC_07_LIB	0.9	0.9	0.9	0.9
+CC_EX_GAS_ALC_10_LIB	0.9	0.9	0.9	0.9
+CC_EX_GAS_ALC_11_LIB	0.9	0.9	0.9	0.9
+CC_EX_GAS_ALC_15_LIB	0.9	0.9	0.9	0.9
+CC_EX_GAS_ALC_95_LIB	0.9	0.9	0.9	0.9
+GT_EX_GAS_ALC_10_LIB	0.9	0.9	0.9	0.9
+GT_EX_GAS_ALC_15_LIB	0.9	0.9	0.9	0.9
+GT_EX_GAS_ALC_16_LIB	0.9	0.9	0.9	0.9
+GT_EX_GAS_ALC_17_LIB	0.9	0.9	0.9	0.9
+GT_EX_GAS_ALC_82_LIB	0.9	0.9	0.9	0.9
+GT_EX_GAS_ALC_94_LIB	0.9	0.9	0.9	0.9
+ST_EX_GAS_ALC_85_LIB	0.9	0.9	0.9	0.9
+ST_EX_GAS_ALC_92_LIB	0.9	0.9	0.9	0.9
+Generic_CT_MDU	0.9	0.9	0.9	0.9
+Generic_Diesel_MDU	0.7	0.7	0.7	0.7
+Generic_PV_MDU	0.7	0.7	0.7	0.7
+Generic_Wind_MDU	0.9	0.9	0.9	0.9
+Adado_Electric_Supply	0.9	0.9	0.9	0.9
+BECO_MDU	0.7	0.7	0.7	0.7
+Being_Googe_Porcrer_Supply	0.9	0.9	0.9	0.9
+Blue_Sky	0.9	0.9	0.9	0.9
+DAYAH	0.9	0.9	0.9	0.9
+Elays_Electric_Company	0.7	0.7	0.7	0.7
+Hilaac_Electric_Company	0.7	0.7	0.7	0.7
+KAAH	0.9	0.9	0.9	0.9
+Mogadishu_Power_Supply	0.98	0.98	0.98	0.98
+New_Generic_Thermal_(37.8_MW)	0.9	0.9	0.9	0.9
+Symbion_SPLK_(_2)	0.9	0.9	0.9	0.9
+Symbion_SPLK(_1)	0.95	0.95	0.95	0.95
+Hydro_pumped_storage_(11.16_MW)	0.99	0.99	0.99	0.99
+Committed_Utility-Scale_Solar_PV_(6_MW)	0.55	0.59	0.54	0.53
+Base_1	0.55	0.59	0.54	0.53
+Base_2	0.55	0.59	0.54	0.53
+Bihongore	0.55	0.59	0.54	0.53
+Kavumu_MHPP	0.55	0.59	0.54	0.53
+Kore	0.55	0.59	0.54	0.53
+Ngororero	0.55	0.59	0.54	0.53
+Ntaruka_A	0.55	0.59	0.54	0.53
+Nyirahindwe_1	0.55	0.59	0.54	0.53
+Nyirahindwe_2	0.55	0.59	0.54	0.53
+Nyundo	0.55	0.59	0.54	0.53
+Rucanzogera	0.55	0.59	0.54	0.53
+Rukore	0.55	0.59	0.54	0.53
+Rwondo	0.92	0.92	0.92	0.92
+Hakan_(Unit_2)	0.92	0.92	0.92	0.92
+Hakan_Peat-to-Power_(IPP)	0.28	0.3	0.28	0.26
+Kavumu-Mwange	0.28	0.3	0.28	0.26
+Nyabarongo_II	0.28	0.3	0.28	0.26
+Rukarara_VI	0.28	0.3	0.28	0.26
+Rusizi_III	0.28	0.3	0.28	0.26
+Rusizi_IV	0	0	0	0
+Shema	0.28	0.3	0.28	0.26
+Rusumo	0.9	0.9	0.9	0.9
+Jabana_1	0.9	0.9	0.9	0.9
+Jabana_2	0.9	0.9	0.9	0.9
+SO_Energy	0.99	0.99	0.99	0.99
+GigaWatt	0.99	0.99	0.99	0.99
+Jali	0.99	0.99	0.99	0.99
+Nasho_Solar	0.92	0.92	0.92	0.92
+Gishoma	0.61	0.61	0.61	0.61
+Hakan	0.98	0.98	0.98	0.98
+Kivuwatt_Phase_I	0.92	0.92	0.92	0.92
+KP1	0.28	0.3	0.28	0.26
+Agatobwe	0.5	0.5	0.5	0.5
+Cyimbili	0.9	0.9	0.9	0.9
+Gaseke	0.4	0.4	0.4	0.4
+Gashashi	0.4	0.4	0.4	0.4
+Giciye_I	0.4	0.4	0.4	0.4
+Giciye_II	0.4	0.4	0.4	0.4
+Giciye_III	0.7	0.7	0.7	0.7
+Gihira	0.65	0.65	0.65	0.65
+Gisenyi	0.8	0.8	0.8	0.8
+Janja	0.5	0.5	0.5	0.5
+Keya	0.37	0.37	0.37	0.37
+Kigasa	0.49	0.49	0.49	0.49
+Mazimeru	0.6	0.6	0.6	0.6
+Mukungu_MHPP	0.62	0.62	0.62	0.62
+Mukungwa_I	0.73	0.73	0.73	0.73
+Mukungwa_II	0.45	0.45	0.45	0.45
+Murunda	0.49	0.49	0.49	0.49
+Musarara	0.45	0.45	0.45	0.45
+Mutobo	0.5	0.5	0.5	0.5
+Nkora	0.28	0.3	0.28	0.26
+Nshili_I	0.34	0.34	0.34	0.34
+Ntaruka	0.55	0.55	0.55	0.55
+Nyabahanga_I	0.69	0.69	0.69	0.69
+Nyabarongo_I	0.28	0.3	0.28	0.26
+Nyamyotsi_I	0.28	0.3	0.28	0.26
+Nyamyotsi_II	0.35	0.35	0.35	0.35
+Nyirabuhombohombo	0.65	0.65	0.65	0.65
+Nyirantaruko	0.61	0.61	0.61	0.61
+Rubagabaga	0.5	0.5	0.5	0.5
+Rugezi	0.4	0.4	0.4	0.4
+Rukarara_I	0.53	0.53	0.53	0.53
+Rukarara_II	0.6	0.6	0.6	0.6
+Rukarara_V_Mushishito	0.6	0.6	0.6	0.6
+Rwaza_Muko	0.9	0.9	0.9	0.9
+Generic_CT_HSB	0.9	0.9	0.9	0.9
+Generic_Diesel_HSB	0.9	0.9	0.9	0.9
+Generic_PV_HSB	0.9	0.9	0.9	0.9
+Generic_Wind_HSB	0.9	0.9	0.9	0.9
+Afar_Indhud_Electric_Company	0.7	0.7	0.7	0.7
+BECO_HSB	0.9	0.9	0.9	0.9
+BECO1	0.9	0.9	0.9	0.9
+BECO2	0.7	0.7	0.7	0.7
+Daatax_Muxidiin	0.7	0.7	0.7	0.7
+DAYAH_Electric_Company	0.9	0.9	0.9	0.9
+ENEE1	0.9	0.9	0.9	0.9
+ENEE2	0.7	0.7	0.7	0.7
+Fanoolee_Company	0.9	0.9	0.9	0.9
+Faraj_Electric_Company	0.9	0.9	0.9	0.9
+Golis	0.9	0.9	0.9	0.9
+Hisra_Electric	0.7	0.7	0.7	0.7
+Juba_Electric_Company	0.9	0.9	0.9	0.9
+Liolis_Power	0.7	0.7	0.7	0.7
+Llyas_electric	0.9	0.9	0.9	0.9
+Marka_Electric	0.9	0.9	0.9	0.9
+National_Energy_Corp_of_Somalia	0.7	0.7	0.7	0.7
+Power_Supply_GPS_Galimoow	0.7	0.7	0.7	0.7
+Somali_Power_&_Lighting_Comp1	0.7	0.7	0.7	0.7
+Somali_Power_&_Lighting_Comp2	0.9	0.9	0.9	0.9
+Sometel	0.7	0.7	0.7	0.7
+Generic_Diesel_SML	0.9	0.9	0.9	0.9
+Generic_PV_SML	0.9	0.9	0.9	0.9
+Generic_Wind_SML	0.7	0.7	0.7	0.7
+Aloog_Electric_Company-Borama	0.9	0.9	0.9	0.9
+Beder	0.9	0.9	0.9	0.9
+Gurmad	0.9	0.9	0.9	0.9
+Horn_Electricity_Company	0.9	0.9	0.9	0.9
+Lesco	0.9	0.9	0.9	0.9
+Mohamed_Ali	0.7	0.7	0.7	0.7
+National_Electric_Power	0.9	0.9	0.9	0.9
+SomPower1	0.9	0.9	0.9	0.9
+Sompower2	0.7	0.7	0.7	0.7
+Telesom_Electric_Company	0.7	0.7	0.7	0.7
+Telesom_Electric_Company_-_Borama	0.9	0.9	0.9	0.9
+Telesom_Electric_Company_-_Wajaale	0.7	0.7	0.7	0.7
+GenericHSD_Malakal2	0.9	0.9	0.9	0.9
+GenericHSD_Rumbeck	0.9	0.9	0.9	0.9
+GenericHSD_Wau	0.7	0.7	0.7	0.7
+GenericHSD_Yei	0.85	0.85	0.85	0.85
+Palogue	0.85	0.85	0.85	0.85
+Tharjath	0.3	0.32	0.3	0.28
+Bedden	0.85	0.85	0.85	0.85
+Fula	0.66	0.69	0.65	0.6
+Fula_Rapids	0.85	0.85	0.85	0.85
+Juba_HPP	0.35	0.37	0.35	0.33
+Kinyeti	0.28	0.3	0.28	0.26
+Lakki	0.32	0.34	0.32	0.3
+Shukoli	0.33	0.35	0.33	0.31
+Wau_Dam	0.99	0.99	0.99	0.99
+Juba_Solar_Power_Station	0.85	0.85	0.85	0.85
+Bor	0.85	0.85	0.85	0.85
+Juba	0.85	0.85	0.85	0.85
+Kapoeta	0.85	0.85	0.85	0.85
+Malakal	0.85	0.85	0.85	0.85
+Maridi	0.85	0.85	0.85	0.85
+Rumbek	0.85	0.85	0.85	0.85
+Wau	0.85	0.85	0.85	0.85
+Yambio	0.85	0.85	0.85	0.85
+Yei	0	0	0	0
+CSP_CSP_GENC_SUD	0.9	0.9	0.9	0.9
+GT_LF_GENC_SUD	0.77	0.82	0.76	0.71
+HYD_ROR_GENC_SUD	0.9	0.9	0.9	0.9
+ST_HF_GENC_SUD	0.9	0.9	0.9	0.9
+WND_WN_GENC_SUD	0.9	0.9	0.9	0.9
+SC_CO_25_SUD	0.9	0.9	0.9	0.9
+DG_DS_20_SUD	0.73	0.77	0.72	0.67
+HYD_STOHY_25_SUD	0.7	0.74	0.69	0.65
+HYD_STOHY_30_SUD	0.9	0.9	0.9	0.9
+CC_LF_03_SUD	0.9	0.9	0.9	0.9
+SC_CO_09_SUD	0.9	0.9	0.9	0.9
+DG_DS_83_SUD	0.9	0.9	0.9	0.9
+DG_HF_04_SUD	0.9	0.9	0.9	0.9
+DG_HF_10_SUD	0.9	0.9	0.9	0.9
+GT_DS_16_SUD	0.9	0.9	0.9	0.9
+GT_LF_01_SUD	0.7	0.74	0.69	0.65
+HYD_STOHY_Nile_09_SUD	0.77	0.82	0.76	0.71
+HYD_STOHY_16_SUD	0.7	0.74	0.69	0.65
+HYD_STOHY_79_SUD	0.9	0.9	0.9	0.9
+ST_HF_15_SUD	0.9	0.9	0.9	0.9
+ST_HF_94_SUD	0.93	0.93	0.93	0.93
+Panyimur_Geothermal_Power_Project	0.98	0.98	0.98	0.98
+Excess_Associated_Gas_Thermal_Power_Project	0.98	0.98	0.98	0.98
+Kingfisher_Gas_to_Power_Project	0.99	0.99	0.99	0.99
+Ulepi_Solar	0.65	0.65	0.65	0.65
+Jinja_Waste_to_Energy_Power_Project	0.65	0.65	0.65	0.65
+Kamuli_Sugar_Bagasse_Power_Plant	0.65	0.65	0.65	0.65
+Pece_Biomass_Power_Project	0.65	0.65	0.65	0.65
+Pramukh_Steel_Bagasse_Power_Plant	0.92	0.92	0.92	0.92
+Tilenga_Gas_to_Power_Project_ST	0.65	0.65	0.65	0.65
+Unergy_Biomass_Power_Project	0.46	0.47	0.47	0.46
+Achwa-Aber_Multipurpose_HPP	0.47	0.5	0.49	0.46
+Atari_2_HPP	0.46	0.47	0.47	0.46
+Awere_HPP	0.84	0.89	0.89	0.82
+Ayago_HPP	0.46	0.47	0.47	0.46
+Buwangani_HPP	0.83	0.88	0.88	0.82
+Kiiba_HPP	0.46	0.47	0.47	0.46
+Kiraboha_HPP	0.46	0.47	0.47	0.46
+Kisinga_HPP	0.46	0.47	0.47	0.46
+Latoro_HPP_on_R_Aswa	0.46	0.47	0.47	0.46
+Lower_Achwa_HPP	0.46	0.47	0.47	0.46
+Lwakhakha_HPP	0.46	0.47	0.47	0.46
+Maziba_HPP	0.46	0.47	0.47	0.46
+Mitano_HPP	0.46	0.47	0.47	0.46
+Mukoki_HPP	0.46	0.47	0.47	0.46
+Muzizi_HPP	0.46	0.47	0.47	0.46
+Nengo_Bridge_HPP	0.46	0.47	0.47	0.46
+Ngenge_HPP	0.46	0.47	0.47	0.46
+Nsongi_HPP	0.46	0.47	0.47	0.46
+Nyakinengo_SHP	0.46	0.47	0.47	0.46
+Okollo_SHPP	0.68	0.72	0.72	0.67
+Oriang_HPP	0.46	0.47	0.47	0.46
+Rwembya_SHPP	0.61	0.65	0.64	0.6
+Karuma_HPP	0.61	0.65	0.64	0.6
+Karuma2_HPP	0.47	0.5	0.49	0.46
+Katooke_HPP	0.47	0.5	0.49	0.46
+Simu_HPP	0.47	0.5	0.49	0.46
+Sironko_HPP	0.42	0.45	0.45	0.42
+Sisi_HPP	0.47	0.5	0.49	0.46
+Tokwe_HPP	0.47	0.5	0.49	0.46
+Warugo_HPP	0.65	0.65	0.65	0.65
+SCOUL_Bagasse_Plant	0.47	0.5	0.49	0.46
+Atari_HPP	0.46	0.47	0.47	0.46
+Hoimo_HPP	0.46	0.47	0.47	0.46
+Igassa_HPP	0.46	0.47	0.47	0.46
+Kabasanja_HPP	0.46	0.47	0.47	0.46
+Kabeywa_1_HPP	0.46	0.47	0.47	0.46
+Kabeywa_2_HPP	0.46	0.47	0.47	0.46
+Kigwabya_HPP	0.46	0.47	0.47	0.46
+Kikagati_HPP	0.46	0.47	0.47	0.46
+Muyembe_HPP	0.46	0.47	0.47	0.46
+Nchwera_HPP	0.46	0.47	0.47	0.46
+Nsongya_HPP	0.46	0.47	0.47	0.46
+Nyabuhuka_HPP	0.46	0.47	0.47	0.46
+Nyagak_III_HPP	0.46	0.47	0.47	0.46
+Nyamabuye_HPP	0.59	0.63	0.63	0.59
+Nyamagasani_2_HPP	0.99	0.99	0.99	0.99
+Rupa_Wind_Power_Project	0.99	0.99	0.99	0.99
+Access_Uganda_Solar_Limited	0.99	0.99	0.99	0.99
+Emerging_Power	0.99	0.99	0.99	0.99
+MSS_Xsabo_Power_Limited	0.99	0.99	0.99	0.99
+Tororo_Solar_North	0.47	0.5	0.49	0.46
+Achwa_1_HPP	0.47	0.5	0.49	0.46
+Achwa_2_HPP	0.65	0.69	0.69	0.64
+Africa_EMS_Mpanga	0.69	0.74	0.73	0.68
+Bugoye_Hydro_Limited-_Mubuku_II	0.47	0.5	0.49	0.46
+Eco_Power_Uganda_Limited-_Ishasha	0.42	0.45	0.45	0.42
+Hydromax_Limited_Buseruka	0.47	0.5	0.49	0.46
+Kakaka_HPP	0.47	0.5	0.49	0.46
+Kasese_Cobalt_Company_Limited-_Mubuku_III	0.47	0.5	0.49	0.46
+Kilembe_Mines_Limited-_Mubuku_I	0.47	0.5	0.49	0.46
+Lubilia_Hydropower_Plant	0.47	0.5	0.49	0.46
+Mahoma_Hydropower_Plant	0.63	0.67	0.66	0.62
+Muvumbe_Hydropower_Plant	0.47	0.5	0.49	0.46
+Ndugutu_Hydropower_Plant	0.47	0.5	0.49	0.46
+Nkusi_Hydropower_Plant	0.6	0.6	0.6	0.6
+Rwimi_Hydropower_Plant	0.47	0.5	0.49	0.46
+Sindila_(Butama)_Hydropower_Plant	0.47	0.5	0.49	0.46
+Siti_I_Hydropower_Plant	0.56	0.59	0.59	0.55
+Siti_II_Hydropower_Plant	0.47	0.5	0.49	0.46
+Waki_Hydropower_Plant	0.6	0.64	0.63	0.59
+Ziba_Limited_(Kyambura)_Hydropower_Plant	0.92	0.92	0.92	0.92
+Electro-Maxx_Uganda_Limited	0.92	0.92	0.92	0.92
+Jacobsen_Thermal_Plant	0.65	0.65	0.65	0.65
+Kakira_Sugar_Limited	0.65	0.65	0.65	0.65
+Kinyara_Sugar_Limited	0.65	0.65	0.65	0.65
+Sugar_and_Allied_Industries_Limited	0.63	0.67	0.67	0.62
+Bujagali_Energy_Limited	0.46	0.47	0.47	0.46
+Eskom_(Nalubaale_and_Kiira)_	0.33	0.35	0.35	0.33
+Isimba_Hydropower_Plant	0.59	0.63	0.63	0.59
+Nyamagasani_1_HPP	0.46	0.47	0.47	0.46
+Nyamwamba_Hydropower_Plant	0.46	0.47	0.47	0.46
+Nyamwamba_II_HPP	0.67	0.67	0.67	0.67
+BMST_GENC_BUR	0.85	0.85	0.85	0.85
+NGCC_GENC_BUR	0.85	0.85	0.85	0.85
+COSC_GENC_BUR	0.85	0.85	0.85	0.85
+NGSC_GENC_BUR	0.8	0.8	0.8	0.8
+DSRC_GENC_BUR	0.8	0.8	0.8	0.8
+HFRC_GENC_BUR	0.99	0.99	0.99	0.99
+SOPC_GENC_BUR	0.5	0.5	0.5	0.5
+HYRO_GENC_BUR	0.5	0.5	0.5	0.5
+HYDM_GENC_BUR	0.99	0.99	0.99	0.99
+WDLC_GENC_BUR	0.67	0.67	0.67	0.67
+BMST_GENC_DJI	0.85	0.85	0.85	0.85
+NGCC_GENC_DJI	0.85	0.85	0.85	0.85
+NGSC_GENC_DJI	0.8	0.8	0.8	0.8
+DSRC_GENC_DJI	0.8	0.8	0.8	0.8
+HFRC_GENC_DJI	0.99	0.99	0.99	0.99
+SOPC_GENC_DJI	0.5	0.5	0.5	0.5
+HYRO_GENC_DJI	0.5	0.5	0.5	0.5
+HYDM_GENC_DJI	0.99	0.99	0.99	0.99
+Batt_GENC_DJI	0.99	0.99	0.99	0.99
+WDLC_GENC_DJI	0.67	0.67	0.67	0.67
+BMST_GENC_DRE	0.85	0.85	0.85	0.85
+NGCC_GENC_DRE	0.85	0.85	0.85	0.85
+COSC_GENC_DRE	0.85	0.85	0.85	0.85
+NGSC_GENC_DRE	0.8	0.8	0.8	0.8
+DSRC_GENC_DRE	0.8	0.8	0.8	0.8
+HFRC_GENC_DRE	0.99	0.99	0.99	0.99
+SOPC_GENC_DRE	0.5	0.5	0.5	0.5
+HYRO_GENC_DRE	0.5	0.5	0.5	0.5
+HYDM_GENC_DRE	0.99	0.99	0.99	0.99
+Batt_GENC_DRE	0.99	0.99	0.99	0.99
+WDLC_GENC_DRE	0.67	0.67	0.67	0.67
+BMST_GENC_EGY	0.85	0.85	0.85	0.85
+NGCC_GENC_EGY	0.85	0.85	0.85	0.85
+COSC_GENC_EGY	0.85	0.85	0.85	0.85
+NGSC_GENC_EGY	0.8	0.8	0.8	0.8
+DSRC_GENC_EGY	0.8	0.8	0.8	0.8
+HFRC_GENC_EGY	0.99	0.99	0.99	0.99
+SOPC_GENC_EGY	0.5	0.5	0.5	0.5
+HYRO_GENC_EGY	0.5	0.5	0.5	0.5
+HYDM_GENC_EGY	0.99	0.99	0.99	0.99
+Batt_GENC_EGY	0.99	0.99	0.99	0.99
+WDLC_GENC_EGY	0.67	0.67	0.67	0.67
+BMST_GENC_ETH	0.85	0.85	0.85	0.85
+NGCC_GENC_ETH	0.85	0.85	0.85	0.85
+COSC_GENC_ETH	0.6	0.6	0.6	0.6
+GOCV_GENC_ETH	0.85	0.85	0.85	0.85
+NGSC_GENC_ETH	0.8	0.8	0.8	0.8
+DSRC_GENC_ETH	0.8	0.8	0.8	0.8
+HFRC_GENC_ETH	0.99	0.99	0.99	0.99
+SOPC_GENC_ETH	0.5	0.5	0.5	0.5
+HYRO_GENC_ETH	0.5	0.5	0.5	0.5
+HYDM_GENC_ETH	0.99	0.99	0.99	0.99
+Batt_GENC_ETH	0.99	0.99	0.99	0.99
+WDLC_GENC_ETH	0.67	0.67	0.67	0.67
+BMST_GENC_KEN	0.85	0.85	0.85	0.85
+NGCC_GENC_KEN	0.85	0.85	0.85	0.85
+COSC_GENC_KEN	0.6	0.6	0.6	0.6
+GOCV_GENC_KEN	0.85	0.85	0.85	0.85
+NGSC_GENC_KEN	0.8	0.8	0.8	0.8
+DSRC_GENC_KEN	0.8	0.8	0.8	0.8
+HFRC_GENC_KEN	0.99	0.99	0.99	0.99
+SOPC_GENC_KEN	0.5	0.5	0.5	0.5
+HYRO_GENC_KEN	0.5	0.5	0.5	0.5
+HYDM_GENC_KEN	0.99	0.99	0.99	0.99
+Batt_GENC_KEN	0.99	0.99	0.99	0.99
+WDLC_GENC_KEN	0.67	0.67	0.67	0.67
+BMST_GENC_LIB	0.85	0.85	0.85	0.85
+NGCC_GENC_LIB	0.85	0.85	0.85	0.85
+COSC_GENC_LIB	0.85	0.85	0.85	0.85
+NGSC_GENC_LIB	0.8	0.8	0.8	0.8
+DSRC_GENC_LIB	0.8	0.8	0.8	0.8
+HFRC_GENC_LIB	0.99	0.99	0.99	0.99
+SOPC_GENC_LIB	0.5	0.5	0.5	0.5
+HYRO_GENC_LIB	0.5	0.5	0.5	0.5
+HYDM_GENC_LIB	0.99	0.99	0.99	0.99
+Batt_GENC_LIB	0.99	0.99	0.99	0.99
+WDLC_GENC_LIB	0.67	0.67	0.67	0.67
+BMST_GENC_MOG	0.85	0.85	0.85	0.85
+NGCC_GENC_MOG	0.85	0.85	0.85	0.85
+COSC_GENC_MOG	0.85	0.85	0.85	0.85
+NGSC_GENC_MOG	0.8	0.8	0.8	0.8
+DSRC_GENC_MOG	0.8	0.8	0.8	0.8
+HFRC_GENC_MOG	0.99	0.99	0.99	0.99
+SOPC_GENC_MOG	0.5	0.5	0.5	0.5
+HYRO_GENC_MOG	0.5	0.5	0.5	0.5
+HYDM_GENC_MOG	0.99	0.99	0.99	0.99
+Batt_GENC_MOG	0.99	0.99	0.99	0.99
+WDLC_GENC_MOG	0.67	0.67	0.67	0.67
+BMST_GENC_RWA	0.85	0.85	0.85	0.85
+NGCC_GENC_RWA	0.85	0.85	0.85	0.85
+COSC_GENC_RWA	0.85	0.85	0.85	0.85
+NGSC_GENC_RWA	0.8	0.8	0.8	0.8
+DSRC_GENC_RWA	0.8	0.8	0.8	0.8
+HFRC_GENC_RWA	0.99	0.99	0.99	0.99
+SOPC_GENC_RWA	0.5	0.5	0.5	0.5
+HYRO_GENC_RWA	0.5	0.5	0.5	0.5
+HYDM_GENC_RWA	0.99	0.99	0.99	0.99
+Batt_GENC_RWA	0.99	0.99	0.99	0.99
+WDLC_GENC_RWA	0.67	0.67	0.67	0.67
+BMST_GENC_SOM	0.85	0.85	0.85	0.85
+NGCC_GENC_SOM	0.85	0.85	0.85	0.85
+COSC_GENC_SOM	0.85	0.85	0.85	0.85
+NGSC_GENC_SOM	0.8	0.8	0.8	0.8
+DSRC_GENC_SOM	0.8	0.8	0.8	0.8
+HFRC_GENC_SOM	0.99	0.99	0.99	0.99
+SOPC_GENC_SOM	0.5	0.5	0.5	0.5
+HYRO_GENC_SOM	0.5	0.5	0.5	0.5
+HYDM_GENC_SOM	0.99	0.99	0.99	0.99
+Batt_GENC_SOM	0.99	0.99	0.99	0.99
+WDLC_GENC_SOM	0.67	0.67	0.67	0.67
+BMST_GENC_SOR	0.85	0.85	0.85	0.85
+NGCC_GENC_SOR	0.85	0.85	0.85	0.85
+COSC_GENC_SOR	0.85	0.85	0.85	0.85
+NGSC_GENC_SOR	0.8	0.8	0.8	0.8
+DSRC_GENC_SOR	0.8	0.8	0.8	0.8
+HFRC_GENC_SOR	0.99	0.99	0.99	0.99
+SOPC_GENC_SOR	0.5	0.5	0.5	0.5
+HYRO_GENC_SOR	0.5	0.5	0.5	0.5
+HYDM_GENC_SOR	0.99	0.99	0.99	0.99
+Batt_GENC_SOR	0.99	0.99	0.99	0.99
+WDLC_GENC_SOR	0.8	0.8	0.8	0.8
+DSRC_GENC_SOU	0.8	0.8	0.8	0.8
+HFRC_GENC_SOU	0.99	0.99	0.99	0.99
+SOPC_GENC_SOU	0.5	0.5	0.5	0.5
+HYRO_GENC_SOU	0.5	0.5	0.5	0.5
+HYDM_GENC_SOU	0.99	0.99	0.99	0.99
+Batt_GENC_SOU	0.99	0.99	0.99	0.99
+WDLC_GENC_SOU	0.67	0.67	0.67	0.67
+BMST_GENC_SUD	0.8	0.8	0.8	0.8
+DSRC_GENC_SUD	0.8	0.8	0.8	0.8
+HFRC_GENC_SUD	0.99	0.99	0.99	0.99
+SOPC_GENC_SUD	0.5	0.5	0.5	0.5
+HYRO_GENC_SUD	0.5	0.5	0.5	0.5
+HYDM_GENC_SUD	0.99	0.99	0.99	0.99
+Batt_GENC_SUD	0.99	0.99	0.99	0.99
+WDLC_GENC_SUD	0.67	0.67	0.67	0.67
+BMST_GENC_UGA	0.85	0.85	0.85	0.85
+NGCC_GENC_UGA	0.85	0.85	0.85	0.85
+COSC_GENC_UGA	0.6	0.6	0.6	0.6
+GOCV_GENC_UGA	0.85	0.85	0.85	0.85
+NGSC_GENC_UGA	0.8	0.8	0.8	0.8
+DSRC_GENC_UGA	0.8	0.8	0.8	0.8
+HFRC_GENC_UGA	0.99	0.99	0.99	0.99
+SOPC_GENC_UGA	0.5	0.5	0.5	0.5
+HYRO_GENC_UGA	0.5	0.5	0.5	0.5
+HYDM_GENC_UGA	0.99	0.99	0.99	0.99
+Batt_GENC_UGA	0.99	0.99	0.99	0.99
+WDLC_GENC_UGA	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_DJI	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_EGY	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_LIB	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_MOG	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_SRC	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_SOM	0.97	0.97	0.97	0.97
+OSWD_GENC_OffshoreWind_SUD	0.97	0.97	0.97	0.97
+Hale	0.229063609	0.26092694	0.212242387	0.217767064
+Iringa_Ibosa	0.933641975	0.917022792	0.334641707	0.186191626
+Iringa_Nginayo	0.842236467	0.774866159	0.390189521	0.310932274
+JNHPP_1	0.485399702	1	0.300047967	0.206042074
+JNHPP_2	0.485399702	1	0.300047967	0.206042074
+Kakono	0.70775463	0.91632326	0.919384058	0.726336051
+Kidatu	0.574164851	0.512416505	0.473323387	0.510398906
+Kidunda	0.490740741	0.929487179	0.215126812	0.37817029
+Kihansi	0.618370835	0.449288132	0.283689267	0.409654662
+Kikonge	0.737044504	0.520870669	0.289463859	0.403305812
+Malagarasi	0.514403292	0.801050801	0.169265115	0.191223833
+Mnyera_Kisingo	0.676311728	0.786401099	0.386850845	0.352128623
+Mnyera_Kwanini	0.677726337	0.790153134	0.389995974	0.348165761
+Mnyera_Mnyera	0.679237632	0.790085827	0.388765471	0.353393103
+Mnyera_Pumbwe	0.67675399	0.786577921	0.387725345	0.352377165
+Mnyera_Ruaha	0.564814815	1	0.254378019	0.296648551
+Mnyera_Taveta	0.823963845	0.957722833	0.471769324	0.428636128
+Mtera	0.439612543	0.487120505	0.58856897	0.484697983
+New_Pangani_Falls	0.361345296	0.506093085	0.364596148	0.367965471
+Nyumba_Ya_Mungu	0.634541602	0.581082074	0.495277869	0.507068134
+Ruhudji	1	0.902449506	0.318673589	0.306022792
+Rumakali	0.823963845	0.957722833	0.471769324	0.428636128
+Rusumo_HY_TZA	0.426573904	0.374933212	0.327530081	0.350962803
+Songwe_Manolo	1	0.923035298	0.211009552	0.281002964
+Songwe_Sofre	0.67675399	0.786577921	0.387725345	0.352377165
+Upper_Kihansi	0.238376675	0.355584132	0.210067838	0.1589963
