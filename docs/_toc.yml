@@ -19,6 +19,7 @@ parts:
       - file: docs/run_git_process.md
       - file: docs/run_troubleshooting.md
       - file: docs/run_summary.md
+      - file: docs/run_cplex_options.md
   - caption: Input
     chapters: 
       - file: docs/input_structure.md
