@@ -883,8 +883,8 @@ Mnyera_Taveta,Tanzania,ROR,Water,2030,2060,84,3,,,,,,0.49,3380,0.003,0,1.4,50,84
 Mtwara_I,Tanzania,CCGT,Gas,2030,2060,300,3,0.2,6.75,,,,0.2,30000,4.5,0,1.21,30,300,,,,,0.05,,
 Mtwara_II,Tanzania,CCGT,Gas,2030,2060,300,3,0.2,6.75,,,,0.2,30000,4.5,0,1.21,30,300,,,,,0.05,,
 Natron,Tanzania,ST,Geothermal,2030,2060,60,3,,,,,,,,,0,,,60,,,,,,,
-New_OnshoreWind_TZA,Tanzania,OnshoreWind,Wind,2025,2060,2000,3,,,,,,,40000,,0,1.81,,1000,,,,,,,
-New_PV_TZA,Tanzania,PV,Solar,2027,2052,8000,3,,,,,,,14000,,0,0.9,25,1000,,,,,,,
+New_OnshoreWind_TZA,Tanzania,OnshoreWind,Wind,2025,2060,2000,3,,,,,,,,,0,,,,,,,,,,
+New_PV_TZA,Tanzania,PV,Solar,2027,2052,8000,3,,,,,,,14000,,0,0.8,25,1000,,,,,,,
 Ngaka_I,Tanzania,ST,Coal,2060,2060,200,3,,9.73,,,,,,,0,,,,,,,,,,
 Ngaka_II,Tanzania,ST,Coal,2060,2060,400,3,,9.73,,,,,,,0,,,,,,,,,,
 Ngozi_I,Tanzania,ST,Geothermal,2030,2060,30,3,,,,,,,,,0,,,30,,,,,,,
@@ -894,8 +894,8 @@ Rukwa_I,Tanzania,ST,Coal,2060,2060,300,3,,9.73,,,,,,,0,,,,,,,,,,
 Rukwa_II,Tanzania,ST,Coal,2060,2060,600,3,,9.73,,,,,,,0,,,,,,,,,,
 Rumakali,Tanzania,ReservoirHydro,Water,2030,2060,222,2,,,0.13,0.13,,0.55,1640,0.5,0,1.7,50,222,,,,,,,
 Rusumo_HY_TZA,Tanzania,ReservoirHydro,Water,2025,2060,27,2,,,0.2,0.2,,0.18,1640,0.5,0,4.2,50,27,,,,,,,
-Singida_II,Tanzania,OnshoreWind,Wind,2026,2060,75,3,,,,,,,40000,,0,1.81,,75,,,,,,,
-SingidaWind2_REN_TZA,Tanzania,OnshoreWind,Wind,2026,2060,75,2,,,,,,,,,0,,,75,,,,,,,
+Singida_II,Tanzania,OnshoreWind,Wind,2026,2060,75,3,,,,,,,,,0,,,,,,,,,,
+SingidaWind2_REN_TZA,Tanzania,OnshoreWind,Wind,2026,2060,75,2,,,,,,,,,0,,,,,,,,,,
 SmallHydro_2025,Tanzania,ReservoirHydro,Water,2025,2060,14,2,,,0.25,0.25,,0.29,15800,0.5,0,4.2,,14,,,,,,,
 SmallHydro_2026,Tanzania,ReservoirHydro,Water,2026,2060,15,2,,,0.25,0.25,,0.29,15800,0.5,0,4.2,,15,,,,,,,
 SmallHydro_2027,Tanzania,ReservoirHydro,Water,2027,2060,27,2,,,0.25,0.25,,0.29,15800,0.5,0,4.2,,27,,,,,,,
@@ -907,7 +907,7 @@ Somanga_Tanesco,Tanzania,CCGT,Gas,2030,2060,450,3,0.2,6.75,,,,0.2,30000,4.5,0,1.
 Songwe_Manolo,Tanzania,ReservoirHydro,Water,2030,2060,88,3,,,,,,0.38,4090,0.5,0,3.1,50,88,,,,,,,
 Songwe_Sofre,Tanzania,ReservoirHydro,Water,2030,2060,80,3,,,,,,0.34,4090,0.5,0,3,50,80,,,,,,,
 Upper_Kihansi,Tanzania,ROR,Water,2030,2060,47,3,,,,,,0.17,4090,0.5,0,1.8,50,47,,,,,,,
-BESS_TZA_Candidate,Tanzania,Storage,Battery,2027,2047,50000,3,0,0,1,1,0,0.5,40000,0,0,0.3,20,250,50000,0,,0,0,0,0
+BESS_TZA_Candidate,Tanzania,Storage,Battery,2027,2047,50000,3,0,0,1,1,0,0.75,40000,0,0,0.3,20,250,50000,0,,0,0,0,0
 Karuma_HPP,Uganda,ROR,Water,2023,2073,600,1,0,0,1,1,0,0.4,0,0.5,0,2.72,50,480,480,0,,0,0,0,0
 Eskom_(Nalubaale_and_Kiira)_,Uganda,ReservoirHydro,Water,2004,2054,380,1,0,0,1,1,0,0.4,50000,0.5,0,0,50,0,0,0,,0,0,0,0
 Bujagali_Energy_Limited,Uganda,ROR,Water,2012,2062,250,1,0,0,1,1,0,0.4,50000,0.5,0,0,50,0,0,0,,0,0,0,0
