@@ -26,6 +26,7 @@ Allow expansion of transfer limits,pAllowHighTransfer,1
 Use less detailed demand definition,altDemand,1
 Allow capex trajectory,Captraj,0
 Include H2 production,IncludeH2,0
+Include transmission lines when assessing country planning reserves,includeIntercoReserves,1
 ,,
 CONSTRAINTS,,
 Apply system CO2 constraints,system_co2_constraints,0
@@ -34,6 +35,7 @@ Apply Max capital constraint,capital_constraints,0
 Apply min generation constraint,mingen_constraints,0
 Apply planning reserve constraint,planning_reserve_constraints,1
 "System planning reserve margin, %",system_reserve_margin,0.1
+"Contribution of transmission lines to country spinning reserves need, %",interco_reserve_contribution,1
 Apply ramp constraints,ramp_constraints,0
 Apply system spinning reserve contraints,system_spinning_reserve_constraints,1
 Apply zonal CO2 constraint,zonal_co2_constraints,0
@@ -44,6 +46,7 @@ RE share target year,RETargetYr,
 "Maximum share of imports, %",MaxImports,
 "Maximum share of exports, %",MaxExports,
 "Spinning reserve needs for VRE, %",VREForecastError,0.15
+Apply energy security constraint,energy_security,
 ,,
 User defined Capacity credits,VRECapacityCredits,0
 Seasonal reporting,Seasonalreporting,0
