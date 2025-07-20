@@ -944,7 +944,7 @@ Sindila_(Butama)_Hydropower_Plant,Uganda,ROR,Water,2019,2069,5.3,1,0,0,1,1,0,0.4
 Siti_I_Hydropower_Plant,Uganda,ROR,Water,2017,2067,6.1,1,0,0,1,1,0,0.4,40000,0.5,0,0,50,0,0,0,,0,0,0,0
 Waki_Hydropower_Plant,Uganda,ROR,Water,2018,2068,5.3,1,0,0,1,1,0,0.4,40000,0.5,0,0,50,0,0,0,,0,0,0,0
 Mahoma_Hydropower_Plant,Uganda,ROR,Water,2018,2068,3,1,0,0,1,1,0,0.4,40000,0.5,0,2.67,50,0,0,0,,0,0,0,0
-Panyimur_Geothermal_Power_Project,Uganda,Geothermal,Geothermal,2026,2056,10,3,0,0,1,1,0,0.05,75000,0,0,3,30,10,10,0,,0,0,0,0
+Panyimur_Geothermal_Power_Project,Uganda,Geothermal,Geothermal,2026,2056,10,3,,0,1,1,0,,75000,0,0,3.5,30,,,0,,0,0.9,1,0
 Excess_Associated_Gas_Thermal_Power_Project,Uganda,OCGT,Gas,2030,2060,146,3,0,9.45,1,1,0,0.2,20000,4,0,0.8,30,146,146,0,,0,0,0,0
 Kingfisher_Gas_to_Power_Project,Uganda,OCGT,Gas,2025,2055,39,3,0,9.45,1,1,0,0.2,20000,4,0,0.8,30,39.1,39.1,0,,0,0,0,0
 Ulepi_Solar,Uganda,PV,Solar,2025,2050,10,3,0,0,1,1,0,0,10000,0,0,0.9,25,10,10,0,,0,0,1,0
@@ -998,7 +998,7 @@ Rupa_Wind_Power_Project,Uganda,OnshoreWind,Wind,2023,2053,20,2,0,0,1,1,0,0,30000
 BMST_GENC_UGA,Uganda,BiomassPlant,Biomass,2027,2057,4321,3,0,15,1,1,0,0.05,75000,2.5,0,2.5,30,86.42,4321,0,,0,0,0,0
 NGCC_GENC_UGA,Uganda,CCGT,Gas,2027,2058,10000,3,,,,,,,,,,,,1000,,,,,,,
 COSC_GENC_UGA,Uganda,ST,Coal,2029,2059,0,3,0,10.2,1,1,0,0.2,112000,2,0,3.74,30,0,0,0,,0,0,0,0
-GOCV_GENC_UGA,Uganda,Geothermal,Geothermal,2027,2057,240,3,0,0,1,1,0,0.05,120000,0,0,4,30,250,240,0,,0,0,0,0
+GOCV_GENC_UGA,Uganda,Geothermal,Geothermal,2027,2057,1210,3,,0,1,1,0,,75000,0,0,3.5,30,,,0,,0,0.9,1,0
 NGSC_GENC_UGA,Uganda,OCGT,Gas,2027,2057,10000,3,,,,,,,,,,,,1000,,,,,,,
 DSRC_GENC_UGA,Uganda,ICE,Diesel,2027,2057,10000,3,,,,,,,,,,,,,,,,,,,
 HFRC_GENC_UGA,Uganda,ICE,HFO,2027,2057,10000,3,,,,,,,,,,,,,,,,,,,
