@@ -42,7 +42,7 @@ pLossFactor,,,,,,,,,,,,,
 pMaxPriceImportShare,,,,,,,,,,,,,
 pMaxExchangeShare,,,,,,,,,,,,,
 pMinImport,,,,,,,,,,,,,
-pNewTransmission,trade/pNewTransmission_UTIP.csv,,trade/pNewTransmission_UTIP.csv,,trade/pNewTransmission_UTIP.csv,trade/pNewTransmission_RETRADE.csv,trade/pNewTransmission_RETRADEXP.csv,,,,,trade/pNewTransmission_UTIP.csv,trade/pNewTransmission_UTIP.csv
+pNewTransmission,trade/pNewTransmission_UTIP.csv,,trade/pNewTransmission_UTIP.csv,,trade/pNewTransmission_UTIP.csv,trade/pNewTransmission_RETRADE.csv,trade/pNewTransmission_RETRADEXP.csv,,,,trade/pNewTransmission_UTIP.csv,trade/pNewTransmission_UTIP.csv,trade/pNewTransmission_UTIP.csv
 pTradePrice,,trade/pTradePrice_TZ.csv,trade/pTradePrice_TZ.csv,trade/pTradePrice_TZ_PPA.csv,trade/pTradePrice_TZ_PPA.csv,trade/pTradePrice_TZ.csv,trade/pTradePrice_TZ.csv,,,,,,
 pTransferLimit,,trade/pTransferLimit_TZ.csv,trade/pTransferLimit_TZ.csv,trade/pTransferLimit_TZ.csv,trade/pTransferLimit_TZ.csv,trade/pTransferLimit_TZ.csv,trade/pTransferLimit_TZ.csv,,,,,,
 H2,,,,,,,,,,,,,
