@@ -26,7 +26,7 @@ Allow expansion of transfer limits,pAllowHighTransfer,1
 Use less detailed demand definition,altDemand,1
 Allow capex trajectory,Captraj,0
 Include H2 production,IncludeH2,0
-Include transmission lines when assessing country planning reserves,includeIntercoReserves,1
+Include transmission lines when assessing country planning reserves,includeIntercoReserves,0
 ,,
 CONSTRAINTS,,
 Apply system CO2 constraints,system_co2_constraints,0
@@ -35,7 +35,7 @@ Apply Max capital constraint,capital_constraints,0
 Apply min generation constraint,mingen_constraints,0
 Apply planning reserve constraint,planning_reserve_constraints,1
 "System planning reserve margin, %",system_reserve_margin,0.1
-"Contribution of transmission lines to country spinning reserves need, %",interco_reserve_contribution,1
+"Contribution of transmission lines to country spinning reserves need, %",interco_reserve_contribution,0
 Apply ramp constraints,ramp_constraints,0
 Apply system spinning reserve contraints,system_spinning_reserve_constraints,1
 Apply zonal CO2 constraint,zonal_co2_constraints,0
