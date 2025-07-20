@@ -1,6 +1,6 @@
 paramNames,UTIP,baseline_TZ,UTIP_TZ,baseline_TZ_PPA,UTIP_TZ_PPA,RETRADE_TZ,RETRADEXP_TZ,baseline_uga_bau,baseline_uga_10fold,baseline_uga_ep,UTIP_uga_bau,UTIP_uga_10fold,UTIP_uga_ep
 SETTINGS,,,,,,,,,,,,,
-pSettings,,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,,,,,,
+pSettings,,,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,,,,,,
 y,,,,,,,,,,,,,
 zcmap,,,,,,,,,,,,,
 pHours,,,,,,,,,,,,,
