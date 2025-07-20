@@ -20,7 +20,7 @@ pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
 pAvailability,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
-pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefault.csv
+pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefaultCCDR.csv
 pCSPData,supply/pCSPData.csv
 pFuelPrice,supply/pFuelPrice.csv
 pVREgenProfile,supply/pVREgenProfile.csv
