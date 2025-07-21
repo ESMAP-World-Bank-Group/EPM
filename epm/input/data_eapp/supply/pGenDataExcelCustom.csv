@@ -884,7 +884,7 @@ Mtwara_I,Tanzania,CCGT,Gas,2030,2060,300,3,0.2,6.75,,,,0.2,30000,4.5,0,1.21,30,3
 Mtwara_II,Tanzania,CCGT,Gas,2030,2060,300,3,0.2,6.75,,,,0.2,30000,4.5,0,1.21,30,300,,,,,0.05,,
 Natron,Tanzania,ST,Geothermal,2030,2060,60,3,,,,,,,,,0,,,60,,,,,,,
 New_OnshoreWind_TZA,Tanzania,OnshoreWind,Wind,2025,2060,2000,3,,,,,,,,,0,,,,,,,,,,
-New_PV_TZA,Tanzania,PV,Solar,2027,2052,6000,3,,,,,,,14000,,0,0.9,25,1000,,,,,,,
+New_PV_TZA,Tanzania,PV,Solar,2027,2052,6000,3,,,,,,,14000,,0,0.8,25,1000,,,,,,,
 Ngaka_I,Tanzania,ST,Coal,2060,2060,200,3,,9.73,,,,,,,0,,,,,,,,,,
 Ngaka_II,Tanzania,ST,Coal,2060,2060,400,3,,9.73,,,,,,,0,,,,,,,,,,
 Ngozi_I,Tanzania,ST,Geothermal,2030,2060,30,3,,,,,,,,,0,,,30,,,,,,,
