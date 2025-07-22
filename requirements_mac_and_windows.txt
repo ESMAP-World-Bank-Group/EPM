@@ -7,3 +7,5 @@ geopandas
 requests
 folium
 chaospy==4.3.18
+timezonefinder
+geopy

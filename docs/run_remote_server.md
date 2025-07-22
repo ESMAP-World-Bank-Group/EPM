@@ -86,6 +86,12 @@ The server is for running simulations, not for code development. Follow these st
 
 ## 5. Run EPM on the Server (Option 1 – Python or GAMS)
 
+> ⚠️ Important: Monitor RAM Usage
+The AWS cluster instance we are using has a total of 96 GB of RAM available. Individual simulations can often consume more than 10 GB each.
+When multiple users run jobs simultaneously or a single user launches parallel simulations, total memory usage can quickly exceed the available RAM, potentially causing the cluster to crash.
+
+> ✅ Always monitor your simulations’ memory usage and avoid overloading the cluster.
+
 Once your code is ready, you can run EPM on the server using the **same steps as on your computer**.
 
 ### A. Python (Recommended)

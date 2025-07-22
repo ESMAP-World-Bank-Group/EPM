@@ -22,6 +22,7 @@ The folder structure should look like this:
 ├── ESMAP_Tableau.twb
 ├── ESMAP_logo.png
 ├── linestring_countries.geojson
+├── Page de garde.png
 └── scenarios/
     ├── baseline/
     │   ├── output_csv/
@@ -38,7 +39,7 @@ Drag and drop your simulation results into the `scenarios/` folder. Each scenari
 
 > **Important**: One scenario must be named `baseline`, or an error will occur.
 
-The `ESMAP_Tableau.twb` file can be downloaded from [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/docs/dwld/ESMAP_Tableau_Overview.twb).
+The `ESMAP_Tableau.twb` file can be downloaded from [here](https://raw.githubusercontent.com/ESMAP-World-Bank-Group/EPM/main/docs/dwld/ESMAP_Tableau.twb)
 
 ## 2. Generate `linestring_countries.geojson` and add to the directory
 
@@ -51,11 +52,23 @@ This CSV file defines how names from the GeoJSON file should be translated into 
 > Example can be found [here](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/postprocessing/static/geojson_to_epm.csv).
 
 - `Geojson`: the name of the country or region as it appears in the GeoJSON file.
-    _Example_: `United Republic of Tanzania`
-    When a country is split into multiple regions, this name should include the corresponding region. Example: `Democratic Republic of the Congo - North`.
+
+   _Example_: `United Republic of Tanzania`
+  
+   ⚠️ This must match exactly the names in the GeoJSON file used for mapping.
+   By default, the code expects the file countries.geojson available here, so names must match those in this file.
+   If you use a custom GeoJSON file, then the names in this column must match your custom file instead.
+
+  When a country is split into multiple regions, this name should include the corresponding region.
+
+  _Example_: `Democratic Republic of the Congo - North`.
+
+  
 - `EPM`: the name used for that zone in the EPM model.  
-  _Example_: `Tanzania`
+
+   _Example_: `Tanzania`
 - `region`: _(optional)_ only used when splitting a country into several zones. Specifies which part of the country this line refers to.  
+
   _Example_: `north`
 - `country`: _(optional)_ if a country is split, this column gives the full country name (e.g. `Democratic Republic of the Congo`), while the `Geojson` column may be something like `Democratic Republic of the Congo - North`.
 - `division`: _(optional)_ describes how the country is split. Current accepted values:  
@@ -63,24 +76,32 @@ This CSV file defines how names from the GeoJSON file should be translated into 
   - `EW` = East/West  
   More division types may be added in the future.
 
-### Step 2: Update the `zcmap.csv`
+### Step 2: Update the map files `zcmap.csv`
 
-This is the map from zones to countries used in the EPM model. It is used as an input to the model. You should copy this file from your `input` folder, and paste it inside the `output/tableau` folder.
+This is the map from zones to countries used in the EPM model. It is used as an input to the model. You just need to copy this file from your `input` folder, and paste it inside the `output/tableau` folder.
 
 ### Step 3: Run the script to generate GeoJSON data
 
 Run the following command from the root of the repository at `epm/postprocessing`:
+
 ```sh
 cd EPM/epm/postprocessing
-python create_geojson.py
+python create_geojson.py --folder tableau --geojson geojson_to_epm.csv --zcmap zcmap.csv
 ```
 
-The script will generate linestring_countries.geojson for use in Tableau visualizations. Input data used by this script is located in the `output/tableau` folder, as specified earlier.
+The script will generate linestring_countries.geojson for use in Tableau visualizations. The following arguments can be noted:
 
+- `--folder tableau`: location of the working Tableau folder (where your CSVs and maps are). `tableau` by default. 
 
-## 3. Upload the folder to OneDrive
+- `--geojson`: the name of the translation file (geojson_to_epm.csv). `geojson_to_epm.csv` by default. 
 
-Upload the folder to OneDrive to access from the shared VDI machine. From the VDI, you can access OneDrive and load the files into Tableau.
+- `--zcmap`: the zone-to-country mapping file (zcmap.csv), typically copied from the model’s input folder. `zcmap.csv` by default. 
+
+- `--zonemap`: (optional) specify a custom GeoJSON file if you want to use a different shapefile instead of the default countries.geojson.
+
+## 3. Upload the folder `tableau` to OneDrive
+
+Upload the folder `tableau` to OneDrive to access from the shared VDI machine. From the VDI, you can access OneDrive and load the files into Tableau.
 
 ## 4. Connect to the shared VDI
 
@@ -93,14 +114,25 @@ From the shared VDI, click on the `.twb` file corresponding to your desired visu
 
 ## 6. Extract data 
 
-Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views.
-To avoid these delays, you must extract the data. For each of these four data sets, you must extract the data by going to `Data` and `Extract data`: `Database_Compare`, `Main_Database`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`. You should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+> Tableau opens in live connection mode by default. This causes delays when interacting with filters or switching views. To avoid these delays, you must extract the data. 
+
+For each of these four data sets `Database_Compare`, `Main_Database`, `pCostSummaryWeightedAverageCountry`, `Plant DB` and `pSummary`, you must extract the data.
+Go to `Data` and `Extract data`, then should click on `Save settings` when asked. If Tableau warns that a file already exists, click Replace this file.
+
+Verify that the data is extracted by checking that the `Use Extract` option is checked in the Data Source tab for each of these datasets.
+![Extract data in Tableau](dwld/verify_extract_data.png)
 
 ## 7. Save your Dashboard as Public
 
 Use Tableau Public to visualize and share your results.
 
-In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
+You need to sign up for a free Tableau Public account if you don't have one already.
+
+In Tableau, go to `Server`, `Tableau Public`, `Save to Tableau Public as`. 
+
+![Save to Tableau Public](dwld/save_tableau_public.png)
+
+Choose a name and complete the upload. You will be asked to sign in Tableau with your IDs. Once published, a browser window will open with your dashboard.
 You may adapt the settings based on the intended usage of this visualization, by going to the `Settings` button (after signing in on your browser):
 - Remove `Show Viz on Profile` if you want the visualization to only be accessible to those with a link (hide it from your public profile)
 - Remove `Allow Access` to prevent data download.
@@ -112,88 +144,10 @@ You may adapt the settings based on the intended usage of this visualization, by
 
 To update the visualization for new scenarios, you should follow the steps:
 1. Upload new scenarios with the correct structure, ensuring one is named `baseline`.
-2When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
+2. When refreshing with new scenarios, extrated data remains based on the previous scenarios. Two steps can be used to refresh the data and access the new visualization:
    1. Keep previous extracts but view new data: For each of the dataset above, unclick `Use Extract` (reverts to live mode).
    2. Replace extracts with new data: for each of the dataset above, go to `Extract` → `Remove` → `Remove the extract and delete the extract file`.
    Then re-extract to optimize the new data (Step 6)
 3. Once this has been done, data is extracted and optimized so that the visualizations will now load faster.
 
 **Note**: If nothing shows up: (i) check the folder and file structure, (ii) verify filters are not hiding the data and (iii) make sure data extraction was completed (especially on slower machines).
-
-
-## 8. How to modify Tableau visualization
-
-As explained above, Tableau Desktop is available from the shared team VDI. This tutorial covers the basics to help you create your first dashboard. For an in-depth analysis, you can also watch this [video](https://www.youtube.com/watch?v=j8FSP8XuFyk).
-
-A tutorial by Mehdi Mikou on how to modify specifically the EPM visualization dashboard is available on the team's Drive [here](https://worldbankgroup.sharepoint.com/:v:/r/teams/PowerSystemPlanning-WBGroup/Shared%20Documents/EPM/4.%20Developments/Tableau/Tutorial%20Tableau%20June%202025.mov?csf=1&web=1&e=wzOYrj).
-
-### 🔗 1. Connect to a Data Source
-
-1. On the **Start Page**, under **Connect**, choose your data source:
-    
-    - Excel, Text File, CSV
-        
-    - Database (e.g., MySQL, PostgreSQL)
-        
-    - Tableau Server or cloud sources
-        
-2. Browse and select your file or enter credentials for databases.
-    
-3. Tableau will open the **Data Source** tab, displaying the data preview.
-
-## 📐 2. Prepare the Data
-
-- Rename fields by double-clicking headers.
-    
-- Change data types by clicking the data type icon.
-    
-- Create calculated fields if needed (`Analysis > Create Calculated Field`).
-
-## 📊 3. Build Visualizations (Sheets)
-
-1. Click on a **new worksheet** (`Sheet 1`).
-    
-2. Drag fields from the **Data pane** into:
-    
-    - **Rows** and **Columns** to build charts
-        
-    - **Marks** (Color, Size, Label, etc.) for additional detail
-        
-3. Examples:
-    
-    - Bar chart: Drag `Category` to Columns and `Sales` to Rows
-        
-    - Map: Drag `Country` to the view
-
-## 🧩4. Create a Dashboard
-
-1. Click the **New Dashboard** icon (`Dashboard 1`).
-    
-2. Drag sheets from the **Sheets pane** onto the dashboard area.
-    
-3. Use objects (e.g., Text, Image, Web) from the left sidebar to enhance your dashboard.
-    
-4. Adjust layout and sizing to fit your needs.
-
-## 🎛️ 5. Add Interactivity
-
-- Use **Filters**:
-    
-    - Drag a field to Filters on a worksheet, then show it on the dashboard.
-        
-- Use **Actions** (`Dashboard > Actions`) to:
-    
-    - Filter other views
-        
-    - Highlight data
-        
-    - Link to other sheets or websites
-
-## 💾 6. Save and Share
-
-- Save your workbook as `.twb` or `.twbx`.
-    
-- Export as PDF or Image (`File > Export`).
-    
-- Publish to Tableau Server, Tableau Public, or Tableau Cloud.
-        

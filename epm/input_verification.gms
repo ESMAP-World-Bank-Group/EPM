@@ -211,26 +211,29 @@ except Exception as e:
 
 # pDemandForecast
 try:
-    df = db["pDemandForecast"].records
-    
-    # Pivot table to create separate columns for 'peak' and 'energy'
-    df_pivot = df.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
+    if db["pDemandForecast"].records is None:
+        gams.printLog("Warning: pDemandForecast is not defined.")
+    else:
+        df = db["pDemandForecast"].records
         
-    # Rename columns for clarity
-    df_pivot.columns.name = None  # Remove the column index name
-    df_pivot.rename(columns={"energy": "energy_value", "peak": "peak_value"}, inplace=True)
-    
-    # Calculate the Energy/Peak Ratio
-    df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
-    
-    # Print summary of Energy/Peak Demand Ratio
-    min_ratio = df_pivot['energy_peak_ratio'].min()
-    max_ratio = df_pivot['energy_peak_ratio'].max()
-    gams.printLog(f"Energy/Peak Demand Ratio - Min: {min_ratio:.2f} & Max: {max_ratio:.2f}")
+        # Pivot table to create separate columns for 'peak' and 'energy'
+        df_pivot = df.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
+            
+        # Rename columns for clarity
+        df_pivot.columns.name = None  # Remove the column index name
+        df_pivot.rename(columns={"energy": "energy_value", "peak": "peak_value"}, inplace=True)
+        
+        # Calculate the Energy/Peak Ratio
+        df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
+        
+        # Print summary of Energy/Peak Demand Ratio
+        min_ratio = df_pivot['energy_peak_ratio'].min()
+        max_ratio = df_pivot['energy_peak_ratio'].max()
+        gams.printLog(f"Energy/Peak Demand Ratio - Min: {min_ratio:.2f} & Max: {max_ratio:.2f}")
 
-    # Optional: raise an error if values are outside expected range
-    if min_ratio < 4 or max_ratio > 10:
-        raise ValueError(f"Energy/Peak Demand Ratio out of expected range [4–10]. Min: {min_ratio:.2f}, Max: {max_ratio:.2f}")
+        # Optional: raise an error if values are outside expected range
+        if min_ratio < 4 or max_ratio > 10:
+            raise ValueError(f"Energy/Peak Demand Ratio out of expected range [4–10]. Min: {min_ratio:.2f}, Max: {max_ratio:.2f}")
 
 except Exception as e:
     gams.printLog('Unexpected error when checking pDemandForecast')
