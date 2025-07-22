@@ -849,7 +849,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         os.mkdir(Path(GRAPHS_FOLDER) / Path('scenarios_comparison'))
 
     if montecarlo:
-        simulations_scenarios = pd.read_csv(os.path.join(RESULTS_FOLDER, 'simulations_scenarios.csv'), index_col=0)
+        simulations_scenarios = pd.read_csv(os.path.join(RESULTS_FOLDER, 'input_scenarios.csv'), index_col=0)
         samples_mc = pd.read_csv(os.path.join(RESULTS_FOLDER, 'samples_montecarlo.csv'), index_col=0)
         samples_mc_substrings = set(samples_mc.columns)
 
@@ -3209,7 +3209,8 @@ def create_zonemap(zone_map, map_geojson_to_epm):
     return zone_map, centers
 
 
-def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None):
+def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojson_to_epm=None, geo_add=None,
+                  zone_map=None):
     """
     Extract and process zone map data, handling divisions for sub-national regions.
 
@@ -3259,7 +3260,11 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         ((key not in selected_zones_to_divide) and (key in epm_to_geojson))
     ]
 
-    zone_map = dict_specs['map_countries']  # getting json data on all countries
+    if zone_map is None:
+        zone_map = dict_specs['map_countries']  # getting json data on all countries
+    else:
+        zone_map = gpd.read_file(zone_map)
+
     zone_map = zone_map[zone_map['ADMIN'].isin(selected_countries_geojson)]
 
     if geo_add is not None:
