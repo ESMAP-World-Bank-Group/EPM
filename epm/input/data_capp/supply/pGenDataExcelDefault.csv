@@ -155,3 +155,16 @@ DRC_South,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
 DRC_South,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
 DRC_South,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
 DRC_South,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
+DRC_East,ST ,Coal,0.3,8.5,0.5,0.5,0,0,60000,3,0,2,30
+DRC_East,ST ,Lignite,0.55,10.3,0.5,0.5,0,0,60000,3,0,2,30
+DRC_East,OCGT,Gas,0,9,1,1,0,0.2,20000,4,0,0.8,30
+DRC_East,OCGT,HFO,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC_East,OCGT,Diesel,0,9.9,1,1,0,0.2,20000,4.4,0,0.8,30
+DRC_East,CCGT,Gas,0.45,6.4,1,1,0,0.05,30000,2,0,0.9,30
+DRC_East,ReservoirHydro,Water,0,,1,1,0,0.45,50000,0.5,0,3.3,50
+DRC_East,ROR,Water,0,,1,1,0,0.4,40000,0.5,0,2.8,50
+DRC_East,PV,Solar,0,,,,,,15000,0,0,0.8,25
+DRC_East,OnshoreWind,Wind,0,,,,,,40000,0,0,1.3,30
+DRC_East,OffshoreWind,Wind,0,,,,,,70000,0,0,3,30
+DRC_East,BiomassPlant,Biomass,0,12.5,1,1,0,0.05,100000,2.5,0,2,30
+DRC_East,Storage,Battery,0,,1,1,0,,40000,0,0,0.3,20
