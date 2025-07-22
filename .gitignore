@@ -49,6 +49,7 @@ epm/output/*
 
 # Ignore everything inside 'scenarios' folder (even if user adds files)
 epm/output/tableau/scenarios/*
+# Except keep the folder itself (via a dummy file)
 !epm/output/tableau/scenarios/.gitkeep
 
 # Ignore everything in the input directory

@@ -258,7 +258,7 @@ pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenuesBetweenZ
 pTradeCostsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + pTradeSharedBenefits(z,y);
 
 * Dividing pNewTransmissionCosts by 2 to avoid double-counting for the two countries involved in transmission line
-pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y) / 2;
+pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y);
 pUSECosts(z,y) = vYearlyUSECost.l(z,y);
 pCO2backstopCosts(c,y) = vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop;
 pSurplusCosts(z,y) = vYearlySurplus.l(z,y);
