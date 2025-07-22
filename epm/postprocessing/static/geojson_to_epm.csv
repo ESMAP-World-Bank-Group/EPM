@@ -1,18 +1,8 @@
 ﻿Geojson,EPM,region,country,division
-South Africa,South_Africa,,,
-Namibia,Namibia,,,
-Mozambique,Mozambique,,,
-United Republic of Tanzania,Tanzania,,,
 Angola,Angola,,,
-Botswana,Botswana,,,
-Zambia,Zambia,,,
-Malawi,Malawi,,,
-Lesotho,Lesotho,,,
-Zimbabwe,Zimbabwe,,,
-Democratic Republic of the Congo - North,DRC,north,Democratic Republic of the Congo,NS
-Democratic Republic of the Congo - South,DRC_South,south,Democratic Republic of the Congo,NS
-Democratic Republic of the Congo - South,DRC_East,east,Democratic Republic of the Congo,NS
-Swaziland,Eswatini,,,
+Democratic Republic of the Congo - North,DRC,north,Democratic Republic of the Congo,NSE
+Democratic Republic of the Congo - South,DRC_South,south,Democratic Republic of the Congo,NSE
+Democratic Republic of the Congo - South,DRC_East,east,Democratic Republic of the Congo,NSE
 Burundi,Burundi,,,
 Cameroon,Cameroon,,,
 Central African Republic,CAR,,,

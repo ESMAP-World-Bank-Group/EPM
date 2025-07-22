@@ -458,7 +458,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
                 'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice',
                 'pDispatch', 'pFuelDispatch', 'pInterconUtilization',
                 'pSpinningReserveByPlantCountry', 'pCongested', 'pInterchange',
-                'pAnnualTransmissionCapacity', 'AdditiononalCapacity_trans', 'pCurtailedVRET',
+                'pAnnualTransmissionCapacity',
                 'pNewCapacityFuelCountry', 'pPlantAnnualLCOE',
                 'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
                 'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
@@ -2301,7 +2301,6 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     Generate and save a fuel dispatch plot:
     dfs_to_plot_area = {
         'pFuelDispatch': epm_dict['pFuelDispatch'],
-        'pCurtailedVRET': epm_dict['pCurtailedVRET'],
         'pDispatch': subset_dispatch
     }
     subset_demand = epm_dict['pDispatch'].loc[epm_dict['pDispatch'].attribute.isin(['Demand'])]
@@ -3310,6 +3309,7 @@ def divide(geodf, country, division):
         Type of division:
         - 'NS' (North-South) splits along the latitude midpoint.
         - 'EW' (East-West) splits along the longitude midpoint.
+        - 'NSE' (North-South-East) splits into three quadrants.
 
     Returns
     -------
@@ -3354,8 +3354,31 @@ def divide(geodf, country, division):
         east_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], east_gdf, how='intersection')
         west_part['region'] = 'west'
         east_part['region'] = 'east'
-
+        
         return pd.concat([west_part, east_part])
+        
+    elif division == 'NSE':
+        median_latitude = (miny + maxy) / 2
+        median_longitude = (minx + maxx) / 2
+        north_polygon = Polygon([(minx, median_latitude), (minx, maxy), (median_longitude, maxy), (median_longitude, median_latitude)])
+        south_polygon = Polygon([(minx, miny), (minx, median_latitude), (median_longitude, median_latitude), (median_longitude, miny)])
+        east_polygon = Polygon([(median_longitude, miny), (median_longitude, median_latitude), (maxx, median_latitude), (maxx, miny)])
+        west_polygon = Polygon([(minx, median_latitude), (minx, maxy), (median_longitude, maxy), (median_longitude, median_latitude)])
+        # Convert to GeoDataFrame with the correct CRS
+        north_gdf = gpd.GeoDataFrame(geometry=[north_polygon], crs=crs)
+        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs= crs)
+        east_gdf = gpd.GeoDataFrame(geometry=[east_polygon], crs= crs)
+        west_gdf = gpd.GeoDataFrame(geometry=[west_polygon], crs= crs)
+        north_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], north_gdf, how='intersection')
+        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
+        east_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], east_gdf, how='intersection')
+        west_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], west_gdf, how='intersection')
+        north_part['region'] = 'north'
+        south_part['region'] = 'south'
+        east_part['region'] = 'east'
+        west_part['region'] = 'west'
+
+        return pd.concat([east_part, north_part, south_part])
 
     else:
         raise ValueError("Invalid division type. Use 'NS' (North-South) or 'EW' (East-West).")
