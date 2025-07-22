@@ -1209,14 +1209,12 @@ def main(test_args=None):
              "Example: --simple DiscreteCap y"
     )
 
-
     parser.add_argument(
         "--engine",
         type=str,
         default=None,
         help="Name of the path engine file (default: None)"
     )
-
 
     parser.add_argument(
         "--postprocess",
@@ -1246,6 +1244,7 @@ def main(test_args=None):
         action="store_false",
         help="Disable dispatch plots (default: True)"
     )
+    
     parser.set_defaults(plot_dispatch=True)
 
     parser.add_argument(
@@ -1305,6 +1304,10 @@ def main(test_args=None):
         print(f"Project folder: {args.postprocess}")
         print("EPM does not run again but use the existing simulation within the folder" )
         folder = args.postprocess
+        if not os.path.exists(folder):
+            raise FileNotFoundError(f"Folder {os.path.abspath(folder)} does not exist. Please provide a valid folder with EPM results.")
+        else:
+            print(f"Find folder {os.path.abspath(folder)} for postprocessing.")
 
 
     postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
