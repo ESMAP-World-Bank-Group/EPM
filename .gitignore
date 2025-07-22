@@ -40,6 +40,7 @@ pre-analysis/**/output/*
 epm/output/*
 !epm/output/tableau/
 
+
 # Keep specific files inside 'tableau'
 !epm/output/tableau/*.twb
 !epm/output/tableau/ESMAP_logo.png
@@ -48,6 +49,7 @@ epm/output/*
 
 # Ignore everything inside 'scenarios' folder (even if user adds files)
 epm/output/tableau/scenarios/*
+!epm/output/tableau/scenarios/.gitkeep
 
 # Ignore everything in the input directory
 input/*
