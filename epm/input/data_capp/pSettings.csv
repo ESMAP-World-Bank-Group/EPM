@@ -4,7 +4,7 @@
 ,,
 ,,
 PENALTIES,,
-"Cost of unserved energy per MWh, $",VOLL,3000
+"Cost of unserved energy per MWh, $",VOLL,1000
 "Cost of reserve shortfall per MW, $",ReserveVoLL,60000
 "Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60
 "Cost of surplus power per MWh, $",costSurplus,0
