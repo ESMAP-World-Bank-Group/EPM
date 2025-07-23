@@ -83,7 +83,8 @@ NAME_COLUMNS = {
     'pCostSummary': 'attribute',
     'pCapacityByFuel': 'fuel',
     'pEnergyByFuel': 'fuel',
-    'pDispatchReserve':'attribute'
+    'pDispatchReserve':'attribute',
+    'pNetExchange':'attribute'
 }
 
 UNIT = {
@@ -1218,6 +1219,18 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 df_group = df_group / df_group.groupby(['zone', 'year']).sum()
                 df_group = df_group.reset_index()
                 
+                df_group = df_group[df_group['year'].isin([min(df_group['year']), max(df_group['year'])])]
+                
+                filename = f'{GRAPHS_FOLDER}/{scenario_reference}/EnergyMixClusteredStackedBarPlot.png'
+                make_stacked_bar_subplots(df_year, filename, dict_specs['colors'], column_stacked='fuel',
+                            column_xaxis='zone',
+                            column_multiple_bars='year',
+                            column_value='value',
+                            format_y=lambda y, _: '{:.0f} %'.format(y * 100), rotation=45,
+                            annotate=False,
+                            title=f'Energy Mix by Fuel')
+
+                
                 for year in [min(df_group['year']), max(df_group['year'])]:
                     df_year = df_group[df_group['year'] == year]
                     filename = f'{GRAPHS_FOLDER}/{scenario_reference}/EnergyMixStackedBarPlot-{year}.png'
@@ -1228,7 +1241,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                               column_value='value',
                                               format_y=lambda y, _: '{:.0f} %'.format(y * 100), rotation=45,
                                               annotate=False,
-                                              title=f'Energy Mix by Fuel {year}',)
+                                              title=f'Energy Mix by Fuel {year}')
 
             years = epm_results['pCostSummary']['year'].unique()
             final_year = max(years)
@@ -4158,9 +4171,19 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
         'pPlantDispatch': filter_dataframe(pPlantDispatch, {'attribute': ['Generation']}),
         'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
     }
+    
+    net_exchange = filter_dataframe(pDispatch, {'attribute': ['Exports', 'Imports']})
+    net_exchange = net_exchange.set_index(['scenario', 'zone', 'attribute', 'year', 'season', 'day', 't']).squeeze().unstack('attribute')
+    # Remove col name
+    net_exchange.columns.name = None
+    net_exchange['value'] = net_exchange['Exports'] + net_exchange['Imports']
+    net_exchange = net_exchange.reset_index()
+    net_exchange['attribute'] = 'Net exchange'
+    net_exchange = net_exchange.loc[:, pDispatch.columns]
 
     dfs_to_plot_line = {
-        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Demand']})
+        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Demand']}),
+        'pNetExchange': net_exchange,
     }
 
     seasons = pPlantDispatch.season.unique()

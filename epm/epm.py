@@ -1039,6 +1039,43 @@ def perform_sensitivity(sensitivity, s):
         # Put in the scenario dir
         s[parameter] = s['baseline'].copy()
         s[parameter][parameter] = path_file
+        
+        # For gen with Candidate name, status 3, fuel Solar, Wind, Battery, divide the BuildLimitperYear by 2
+        df = pd.read_csv(s['baseline'][parameter])
+
+        df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['fuel'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
+        
+        name = f'{parameter}_{param}_reduced'
+        path_file = os.path.basename(s['baseline'][parameter]).replace(parameter, name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+        
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][parameter] = path_file
+                
+    param = 'delayedHydro'
+    if sensitivity.get(param):  # testing implications of delayed hydro projects
+        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+        # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
+        df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
+        
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        name = f'{param}_5years'
+        path_file = os.path.basename(s['baseline']['pGenDataExcel']).replace('pGenDataExcel', name)
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+        
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name]['pGenDataExcel'] = path_file
+        
+        
 
     param  = 'pVREProfile'  # testing implications of a change in VRE production
     if sensitivity.get(param):
