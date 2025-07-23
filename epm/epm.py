@@ -366,6 +366,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                path_engine_file=False,
                                folder_input=None,
                                project_assessment=None,
+                               interco_assessment=None,
                                simple=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
@@ -449,6 +450,10 @@ def launch_epm_multi_scenarios(config='config.csv',
     # Set-up project assessment scenarios if activated
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
+        
+    # Set-up interconnection assessment scenarios if activated
+    if interco_assessment is not None:
+        s = perform_interco_assessment(interco_assessment, s)
 
     # Reduce complexity if activated
     if simple is not None:
@@ -1063,20 +1068,23 @@ def perform_sensitivity(sensitivity, s):
 
 def perform_assessment(project_assessment, s):
     try:
+
         # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
         new_s = {}
         for scenario in s.keys():
-            # Reading the initial value
-            df = pd.read_csv(s[scenario]['pGenDataExcel'])
-            # Multiple projects can be considered if separate by ' & '
-            projects = project_assessment
-            # Remove project(s) in project_assessment
-            df = df.loc[~df['gen'].isin(projects)]
-
-            # Create a specific folder to store the counterfactual scenario
+            
+             # Create a specific folder to store the counterfactual scenario
             folder_assessment = os.path.join(os.path.dirname(s[scenario]['pGenDataExcel']), 'assessment')
             if not os.path.exists(folder_assessment):
                 os.mkdir(folder_assessment)
+                print('Folder created:', folder_assessment)
+            
+            
+            # Reading the initial value
+            df = pd.read_csv(s[scenario]['pGenDataExcel'])
+            
+            # Remove project(s) in project_assessment
+            df = df.loc[~df['gen'].isin(project_assessment)]
 
             # Write the modified file
             name = '-'.join(project_assessment).replace(' ', '')
@@ -1087,6 +1095,7 @@ def perform_assessment(project_assessment, s):
             # Put in the scenario specification dictionary
             new_s[f'{scenario}_wo_{name}'] = s[scenario].copy()
             new_s[f'{scenario}_wo_{name}']['pGenDataExcel'] = path_file
+                
 
     except Exception:
         raise KeyError('Error in project_assessment features')
@@ -1094,6 +1103,72 @@ def perform_assessment(project_assessment, s):
     s.update(new_s)
 
     return s
+
+def perform_interco_assessment(interco_assessment, s, delay=5):
+    try:
+        
+    
+        # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
+        new_s = {}
+        for scenario in s.keys():
+            
+             # Create a specific folder to store the counterfactual scenario
+            folder_assessment = os.path.join(os.path.dirname(s[scenario]['pNewTransmission']), 'assessment')
+            if not os.path.exists(folder_assessment):
+                os.mkdir(folder_assessment)
+                print('Folder created:', folder_assessment)
+            
+            # Reading the initial value
+            df = pd.read_csv(s[scenario]['pNewTransmission'])
+            
+            # Create a helper column with standardized "From-To" or "To-From" format
+            df['interco_key'] = df.apply(lambda row: f"{row['From']}-{row['To']}", axis=1)
+            
+            # Remove project(s) in interco_assessment
+            df_filtered = df[~df['interco_key'].isin(interco_assessment)].drop(columns='interco_key')
+
+            # Write the modified file
+            name = '-'.join(interco_assessment).replace(' ', '')
+            path_file = os.path.basename(s[scenario]['pNewTransmission']).split('.')[0] + '_' + name + '.csv'
+            path_file = os.path.join(folder_assessment, path_file)
+            df_filtered.to_csv(path_file, index=False)
+
+            # Put in the scenario specification dictionary
+            new_s[f'{scenario}_wo_{name}'] = s[scenario].copy()
+            new_s[f'{scenario}_wo_{name}']['pNewTransmission'] = path_file
+            
+            if False:
+                # Delayed project implementation
+                df_delay = df.copy()
+                df_delay.loc[df_delay['interco_key'].isin(interco_assessment), 'EarliestEntry'] += delay
+                df_delay = df_delay.drop(columns='interco_key')
+                path_file = os.path.basename(s[scenario]['pNewTransmission']).split('.')[0] + '_' + name + '.csv'
+                path_file = os.path.join(folder_assessment, path_file)
+                df_delay.to_csv(path_file, index=False)
+                # Put in the scenario specification dictionary
+                new_s[f'{scenario}_{name}_delay{delay}'] = s[scenario].copy()
+                new_s[f'{scenario}_{name}_delay{delay}']['pNewTransmission'] = path_file
+                
+                # Reduce capacity of the interconnection to 50% of the original value
+                df_reduced = df.copy()
+                df_reduced.loc[df_reduced['interco_key'].isin(interco_assessment), 'CapacityPerLine'] *= 0.5
+                df_reduced = df_reduced.drop(columns='interco_key')
+                path_file = os.path.basename(s[scenario]['pNewTransmission']).split('.')[0]
+                path_file = f'{path_file}_{name}.csv'
+                path_file = os.path.join(folder_assessment, path_file)
+                df_reduced.to_csv(path_file, index=False)
+                # Put in the scenario specification dictionary
+                new_s[f'{scenario}_{name}_reduced'] = s[scenario].copy()
+                new_s[f'{scenario}_{name}_reduced']['pNewTransmission'] = path_file
+               
+
+    except Exception:
+        raise KeyError('Error in interco_assessment features')
+
+    s.update(new_s)
+
+    return s
+
 
 def get_job_engine(tokens_simulation):
     # {'baseline': 'a241bf62-34db-436d-8f4f-113333d3c6b9'}
@@ -1195,7 +1270,15 @@ def main(test_args=None):
         nargs="+",  # Accepts one or more values
         type=str,
         default=None,
-        help="Name of the project to assess (default: None). Example usage: --project_assessment Solar Project"
+        help="Name of the project to assess (default: None). Example usage: --project_assessment Solar"
+    )
+    
+    parser.add_argument(
+        "--interco_assessment",
+        nargs="+",  # Accepts one or more values
+        type=str,
+        default=None,
+        help="Name of the project to assess (default: None). Example usage: --interco_assessment Angola-Zambia"
     )
 
     parser.add_argument(
@@ -1298,6 +1381,7 @@ def main(test_args=None):
                                                     selected_scenarios=args.selected_scenarios,
                                                     cpu=args.cpu,
                                                     project_assessment=args.project_assessment,
+                                                    interco_assessment=args.interco_assessment,
                                                     simple=args.simple,
                                                     path_engine_file=args.engine)
     else:
