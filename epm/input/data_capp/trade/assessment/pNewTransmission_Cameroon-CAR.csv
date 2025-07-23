@@ -1,6 +1,5 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
 Cameroon,Chad,2028,1,200,744,30,2
-Cameroon,CAR,2032,1,185,855,30,3
 Cameroon,Gabon,2035,1,210,160,30,3
 Cameroon,EquatorialGuinea,2035,1,210,160,30,3
 CAR,Congo,2035,1,185,855,30,3

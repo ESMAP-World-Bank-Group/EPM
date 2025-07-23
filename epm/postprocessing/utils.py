@@ -791,7 +791,7 @@ def generate_summary_detailed(epm_results, folder):
     summary_detailed = pd.concat(summary_detailed).round(2)
     summary_detailed.index.names = ['Variable', '']
     summary_detailed = summary_detailed.droplevel('', axis=0)
-    summary_detailed.to_csv(os.path.join(folder, 'summary_detailed.csv'), index=True)
+    summary_detailed.to_csv(os.path.join(folder, 'summary_generators.csv'), index=True)
 
 
 def reduce_year_definition(folder_csv):

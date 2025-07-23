@@ -128,7 +128,6 @@ Parameters
    pCapacityPlanCountry(c,g,y)               'Capacity plan MW per country'
    pAdditionalCapacity(z,z2,y)             'Additional transmission capacity between internal zones in MW'
    pAnnualTransmissionCapacity(z,z2,y)       'Annual transmission capacity including base and new ones'
-   pAdditionalCapacityCountry(c,*,y)         'Additional transmission capacity between internal countries in MW'
    pCapacityByTechandFuel(z,tech,f,y)        'Peak capacity by technology and primary fuel in MW per zone'
    pCapacityByTechandFuelCountry(c,tech,f,y) 'Peak capacity by technology and primary fuel in MW per country'
    pUtilizationByFuel(z,f,y)                 'Average capacity factor by fuel'
@@ -1025,7 +1024,6 @@ $ifThenI.reportshort %REPORTSHORT% == 0
                                      pNewCapacityTech, pNewCapacityTechCountry,
                                      pReserveMarginRes, pReserveMarginResCountry,
                                      pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
-                                     pAdditionalCapacityCountry,
                                      pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
                                      pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
                                      pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
