@@ -232,8 +232,16 @@ try:
         gams.printLog(f"Energy/Peak Demand Ratio - Min: {min_ratio:.2f} & Max: {max_ratio:.2f}")
 
         # Optional: raise an error if values are outside expected range
-        if min_ratio < 4 or max_ratio > 10:
-            raise ValueError(f"Energy/Peak Demand Ratio out of expected range [4–10]. Min: {min_ratio:.2f}, Max: {max_ratio:.2f}")
+        if min_ratio < 3 or max_ratio > 10:
+            gams.printLog(f"WARNING: Energy/Peak Demand Ratio out of expected range [3–10]. Min: {min_ratio:.2f}, Max: {max_ratio:.2f}")
+            # Identify the zones and years with extreme ratios
+            extreme_rows = df_pivot[(df_pivot["energy_peak_ratio"] < 3) | (df_pivot["energy_peak_ratio"] > 10)]
+            for _, row in extreme_rows.iterrows():
+                gams.printLog(f"Extreme Energy/Peak Ratio at zone {row['z']}, year {row['y']}: {row['energy_peak_ratio']:.2f}")
+        
+
+            
+
 
 except Exception as e:
     gams.printLog('Unexpected error when checking pDemandForecast')
