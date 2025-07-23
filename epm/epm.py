@@ -881,7 +881,7 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'pDemandForecast'  # testing implications of demand forecast
     if sensitivity.get(param):
-        demand_forecast_sensi = [-0.25, -0.1, 0.1, 0.25]
+        demand_forecast_sensi = [-0.5, 0.5, 1]
         for val in demand_forecast_sensi:
             df = pd.read_csv(s['baseline'][param])
 
@@ -925,7 +925,7 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'pAvailabilityDefault'  # testing implications of a change in availability for thermal power plants (default values, custom values stay the same)
     if sensitivity.get(param):
-        availability_sensi = [0.3, 0.7]
+        availability_sensi = [0.3]
 
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
@@ -1363,8 +1363,9 @@ def main(test_args=None):
     if args.sensitivity:
         sensitivity = os.path.join('input', args.folder_input, 'sensitivity.csv')
         if not os.path.exists(sensitivity):
-            print(f"Warning: sensitivity file {sensitivity} does not exist. No sensitivity analysis will be performed.")
+            print(f"Warning: sensitivity file {os.path.abspath(sensitivity)} does not exist. No sensitivity analysis will be performed.")
         sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
+        print(f"Sensitivity analysis: {sensitivity}")
 
     else:
         sensitivity = None
