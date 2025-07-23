@@ -806,6 +806,62 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
     return s, scenarios_montecarlo
 
 def perform_sensitivity(sensitivity, s):
+    
+    param = 'interco'
+    if sensitivity.get(param):  # testing implications of interconnection mode
+        
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pSettings']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        
+        df = pd.read_csv(s['baseline']['pSettings'])
+        # Modifying the value if it's 1 put 0 and vice versa
+        name = 'NoInterconnection'
+        df.loc[df['Abbreviation'] == 'interconMode', 'Value'] = 0
+
+        path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][param] = path_file
+        
+        #----------------------------------------
+        
+        df = pd.read_csv(s['baseline']['pSettings'])
+        # pAllowHighTransfer
+        name = 'NoInterconnectionExpansion'
+        df.loc[df['Abbreviation'] == 'pAllowHighTransfer', 'Value'] = 0
+        
+        path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+        
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][param] = path_file
+        
+        #----------------------------------------
+        
+        df = pd.read_csv(s['baseline']['pSettings'])
+        # OptimalInterconnection with NoTransferLimit
+        name = 'OptimalInterconnection'
+        df.loc[df['Abbreviation'] == 'NoTransferLimit', 'Value'] = 1
+        
+        path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name][param] = path_file
+        
+        
+
     param = 'pSettings'
     if sensitivity.get(param):  # testing implications of some setting parameters
         settings_sensi = {'VOLL': [250],
@@ -1074,8 +1130,7 @@ def perform_sensitivity(sensitivity, s):
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pGenDataExcel'] = path_file
-        
-        
+    
 
     param  = 'pVREProfile'  # testing implications of a change in VRE production
     if sensitivity.get(param):

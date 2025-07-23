@@ -9,3 +9,4 @@ pFuelPrice,FALSE
 ResLimShare,FALSE
 BuildLimitperYear,TRUE
 pVREProfile,FALSE
+interco,TRUE
