@@ -1406,7 +1406,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
             os.mkdir(folder)
         # Select first and last years
         years = [min(years), max(years)]
-        years = [2025, 2030, 2035, 2040]
+        years = [y for y in [2025, 2030, 2035, 2040] if y in years]
 
         try:
             zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
