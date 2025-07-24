@@ -1214,25 +1214,91 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 df = df_energyfuelfull.copy()
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 
-                df_group = df[df['scenario'] == scenario_reference].drop(columns=['scenario'])
-                df_group = df_group.set_index(['zone', 'year', 'fuel']).squeeze()
-                df_group = df_group / df_group.groupby(['zone', 'year']).sum()
-                df_group = df_group.reset_index()
+                df_percentage = df[df['scenario'] == scenario_reference].drop(columns=['scenario'])
+                df_percentage = df_percentage.set_index(['zone', 'year', 'fuel']).squeeze()
+                df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
+                df_percentage = df_percentage.reset_index()
                 
-                df_group = df_group[df_group['year'].isin([min(df_group['year']), max(df_group['year'])])]
-                
-                filename = f'{GRAPHS_FOLDER}/{scenario_reference}/EnergyMixClusteredStackedBarPlot.png'
-                make_stacked_bar_subplots(df_year, filename, dict_specs['colors'], column_stacked='fuel',
+                # df_group = df_group[df_group['year'].isin([min(df_group['year']), max(df_group['year'])])]
+                filename = f'{GRAPHS_FOLDER}/{scenario_reference}/EnergyMixClusteredStackedBarPlot.pdf'
+                make_stacked_bar_subplots(df_percentage, filename, dict_specs['colors'], column_stacked='fuel',
                             column_xaxis='zone',
                             column_multiple_bars='year',
                             column_value='value',
                             format_y=lambda y, _: '{:.0f} %'.format(y * 100), rotation=45,
                             annotate=False,
-                            title=f'Energy Mix by Fuel')
+                            title=f'Energy Mix by Fuel') # show_total=['Imports', 'Exports']
+                
+                
+                def make_heatmap(df, filename, fmt=".0f", title=''):
+                    """
+                    Create a heatmap from the given DataFrame and save it to a file.
+                    
+                    Parameters:
+                    - df (DataFrame): DataFrame containing 'year', 'zone', and 'value
+                    - filename (str): Path to save the heatmap image.
+                    - fmt (str): Format for the annotations in the heatmap.
+                    - title (str): Title for the heatmap.
+                    
+                    Returns:
+                    - None
+                    """
+                    pivot_df = df.pivot(index='year', columns='zone', values='value')
+
+                    # Plotting
+                    plt.figure(figsize=(10, 6))
+                    ax = sns.heatmap(
+                        pivot_df,
+                        cmap='cividis',
+                        annot=True,
+                        fmt=fmt,
+                        linewidths=0.5,
+                        linecolor='gray',
+                        cbar_kws={'format': '%.0f'}  # No title, format float
+                    )
+
+                    # Customization
+                    ax.set_ylabel("")  # Remove y-axis name
+                    ax.yaxis.set_label_position("left")
+                    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+
+                    # Move x-axis label (zone names) to the top
+                    ax.xaxis.tick_top()
+                    ax.xaxis.set_label_position('top')
+                    ax.set_xlabel("")
+                    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='left')
+                    ax.set_title(title, pad=20)
+
+                    # Save to PDF
+                    plt.tight_layout()
+                    plt.savefig(filename)
+                    plt.close()
+                    
+                    
+                df = df_energyfuelfull[df_energyfuelfull['scenario'] == scenario_reference].drop(columns=['scenario'])
+                net_exchange = df.loc[df['fuel'].isin(['Exports', 'Imports']), :]
+                net_exchange = net_exchange.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
+                net_exchange.columns.name = None
+                net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
+                net_exchange = net_exchange.reset_index()
+                net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
+                net_exchange['fuel'] = 'Net Exchange'
+                filename = f'{GRAPHS_FOLDER}/{scenario_reference}/NetExchangeHeatmap.pdf'
+                make_heatmap(net_exchange, filename, fmt=",.0f", title="Net Exchange Heatmap (GWh)")
+                    
+                net_exchange = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
+                net_exchange = net_exchange.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
+                net_exchange.columns.name = None
+                net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
+                net_exchange = net_exchange.reset_index()
+                net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
+                net_exchange['fuel'] = 'Net Exchange'
+                filename = f'{GRAPHS_FOLDER}/{scenario_reference}/NetExchangeHeatmapPercent.pdf'
+                make_heatmap(net_exchange, filename, fmt=".0%", title="Net Exchange Heatmap (%)")
 
                 
-                for year in [min(df_group['year']), max(df_group['year'])]:
-                    df_year = df_group[df_group['year'] == year]
+                for year in [min(df_percentage['year']), max(df_percentage['year'])]:
+                    df_year = df_percentage[df_percentage['year'] == year]
                     filename = f'{GRAPHS_FOLDER}/{scenario_reference}/EnergyMixStackedBarPlot-{year}.png'
 
                     make_stacked_bar_subplots(df_year, filename, dict_specs['colors'], column_stacked='fuel',
@@ -1267,6 +1333,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                           column_xaxis='zone', column_value='value', column_multiple_bars='scenario',
                                           format_y=lambda y, _: '{:.0f} $m'.format(y), annotate=False, rotation=90,
                                           show_total=True)
+
 
             # Cost comparison with trade
             df = epm_results['pCostSummary'].copy()
@@ -1339,6 +1406,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
             os.mkdir(folder)
         # Select first and last years
         years = [min(years), max(years)]
+        years = [2025, 2030, 2035, 2040]
 
         try:
             zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
@@ -2654,11 +2722,14 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
                             )
 
             if show_total:
-                df_total = df_temp.sum(axis=1)
-                for x, y in zip(df_temp.index, df_total.values):
-                    # Put the total at the y-position equal to the total
-                    ax.text(x, y * (1 + 0.02), f"{y:,.0f}", ha='center', va='bottom', fontsize=10,
-                            color='black', fontweight='bold')
+                if isinstance(show_total, list):
+                    df_total = df_temp.loc[:, show_total].sum(axis=1)
+                else:
+                    df_total = df_temp.sum(axis=1)
+                    for x, y in zip(df_temp.index, df_total.values):
+                        # Put the total at the y-position equal to the total
+                        ax.text(x, y * (1 + 0.02), f"{y:,.0f}", ha='center', va='bottom', fontsize=10,
+                                color='black', fontweight='bold')
                 ax.scatter(df_temp.index, df_total, color='black', s=20)
 
             ax.spines['left'].set_visible(False)
