@@ -582,6 +582,8 @@ pExtTransferLimit(z,zext,q,"Export",y)$(not pallowExports)  = 0 ;
 pExtTransferLimitIn(z,zext,q,y)$pallowExports   = pExtTransferLimit(z,zext,q,"Import",y) ;
 pExtTransferLimitOut(z,zext,q,y)$pallowExports  = pExtTransferLimit(z,zext,q,"Export",y) ;
 
+display pExtTransferLimitIn, pExtTransferLimitOut;
+
 * Define `Zt(z)` to check if total demand in a zone `z` is zero
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 * Define `Zd(z)` as the complement of `Zt(z)`, indicating zones with demand
@@ -982,6 +984,7 @@ $ifThenI.solvemode %SOLVEMODE% == 2
    Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Abort if model was not solved successfully
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
+   execute_unload 'PA.gdx';
 $elseIfI.solvemode %SOLVEMODE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;

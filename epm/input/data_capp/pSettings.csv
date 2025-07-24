@@ -43,8 +43,8 @@ Apply zonal spinning reserve contraints,zonal_spinning_reserve_constraints,1
 Minimum share of RE  (%),MinREshare,0
 RE share target year,RETargetYr,
 "Total maximum capital investments, $ billion",MaxCapital,
-"Maximum share of imports, %",MaxImports,
-"Maximum share of exports, %",MaxExports,
+"Maximum share of imports, %",MaxImports,1
+"Maximum share of exports, %",MaxExports,1
 "Spinning reserve needs for VRE, %",VREForecastError,0.15
 ,,
 User defined Capacity credits,VRECapacityCredits,0

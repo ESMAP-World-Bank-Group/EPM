@@ -501,7 +501,12 @@ def launch_epm_multi_scenarios(config='config.csv',
     if 'output' not in os.listdir():
         os.mkdir('output')
 
-    folder = 'simulations_run_{}'.format(datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+    pre = 'simulations_run'
+    if sensitivity is not None:
+        pre = 'sensitivity_run'
+    if project_assessment is not None:
+        pre = 'project_assessment_run'
+    folder = '{}_{}'.format(pre, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
     folder = os.path.join('output', folder)
     if not os.path.exists(folder):
         os.mkdir(folder)
@@ -942,6 +947,7 @@ def perform_sensitivity(sensitivity, s):
             df = pd.read_csv(s['baseline'][param])
 
             cols = [i for i in df.columns if i not in ['zone', 'type']]
+            df[cols] = df[cols].astype(float)
             df.loc[:, cols] *= (1 + val)
 
             # Creating a new folder

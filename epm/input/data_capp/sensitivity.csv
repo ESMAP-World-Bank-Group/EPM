@@ -7,6 +7,6 @@ pAvailabilityDefault,FALSE
 pCapexTrajectoriesDefault,FALSE
 pFuelPrice,FALSE
 ResLimShare,FALSE
-BuildLimitperYear,TRUE
+BuildLimitperYear,FALSE
 pVREProfile,FALSE
-interco,TRUE
+interco,FALSE
