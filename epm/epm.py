@@ -54,7 +54,8 @@ from gams import GamsWorkspace
 import json
 import argparse
 import math
-from postprocessing.utils import postprocess_output, path_to_extract_results
+from postprocessing.utils import path_to_extract_results
+from postprocessing.automatic_postprocessing import postprocess_output
 import re
 from pathlib import Path
 import sys
