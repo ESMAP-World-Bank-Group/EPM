@@ -640,10 +640,6 @@ nVRE(g)=not VRE(g);
 REH2(g)= sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1) - sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
 nREH2(g)= not REH2(g);
 
-
-
-$offIDCProtect
-
 *-------------------------------------------------------------------
 * TOPOLOGY DEFINITION
 *-------------------------------------------------------------------
@@ -660,8 +656,6 @@ pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 
 * Default life for transmission lines
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
-$onIDCProtect
-
 
 * Map transmission status from input data
 
@@ -688,11 +682,8 @@ pCapacityCredit(g,y)= 1;
 
 
 * Protect against unintended changes while modifying `pVREgenProfile` with `pVREProfile` data
-$offIDCProtect
 *pVREgenProfile(gtechmap(VRE,tech),q,d,t)$(not(pVREgenProfile(VRE,tech,q,d,t))) = sum(gzmap(VRE,z),pVREProfile(z,tech,q,d,t));
 pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap(VRE,z) and gtechmap(VRE,tech)),pVREProfile(z,tech,q,d,t));
-$onIDCProtect
-
 
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
@@ -738,13 +729,11 @@ pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + su
 *-------------------------------------------------------------------
 * Parameter Processing
 *-------------------------------------------------------------------
-$offIDCProtect
 pLossFactor(z2,z,y)$(pLossFactor(z,z2,y) and not pLossFactor(z2,z,y)) = pLossFactor(z,z2,y);
-
 
 pEnergyEfficiencyFactor(z,y)$(not pincludeEE) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
-$onIDCProtect
+
 pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")
                        + sum((gzmap(g,z),zcmap(z,c)),pFuelPrice(c,f,y)*pHeatRate(g,f) )
                        + pStorData(g, "VOMMWh")
@@ -925,10 +914,7 @@ sSpinningReserve(g,q,d,t,y) = yes;
 sSpinningReserve(g,q,d,t,y)$(not (pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints) ) = no;
 
 *To avoid bugs when there is no candidate transmission expansion line
-$offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
-$onIDCProtect
-
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
