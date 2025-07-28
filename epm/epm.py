@@ -53,7 +53,7 @@ from gams.engine.api import jobs_api
 from gams import GamsWorkspace
 import json
 import argparse
-
+import math
 from postprocessing.utils import postprocess_output, path_to_extract_results
 import re
 from pathlib import Path
@@ -75,9 +75,7 @@ PATH_GAMS = {
     'path_cplex_file': 'cplex.opt'
 }
 
-
 URL_ENGINE = "https://engine.gams.com/api"
-
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CREDENTIALS = json.load(open(os.path.join(BASE_DIR, 'credentials_engine.json'), 'r'))
@@ -354,7 +352,6 @@ def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, pat
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
                       path_engine_file=path_engine_file, dict_montecarlo=dict_montecarlo, **path_gams)
 
-
 def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios.csv',
                                selected_scenarios=['baseline'],
@@ -438,6 +435,14 @@ def launch_epm_multi_scenarios(config='config.csv',
     if sensitivity is not None:
         s = perform_sensitivity(sensitivity, s)
 
+    # Set-up project assessment scenarios if activated
+    if project_assessment is not None:
+        s = perform_assessment(project_assessment, s)
+        
+    # Set-up interconnection assessment scenarios if activated
+    if interco_assessment is not None:
+        s = perform_interco_assessment(interco_assessment, s)
+
     # Run montecarlo analysis if activated
     if montecarlo:
         assert uncertainties is not None, "Monte Carlo analysis is activated, but uncertainties is set to None."
@@ -446,14 +451,6 @@ def launch_epm_multi_scenarios(config='config.csv',
         distribution, samples, zone_mapping = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
         s, scenarios_montecarlo = create_scenarios_montecarlo(samples, s, zone_mapping)
         dict_montecarlo = {key: key.split('_')[0] for key in scenarios_montecarlo.keys()}  # getting the correspondence between montecarlo scenario and initial scenario
-
-    # Set-up project assessment scenarios if activated
-    if project_assessment is not None:
-        s = perform_assessment(project_assessment, s)
-        
-    # Set-up interconnection assessment scenarios if activated
-    if interco_assessment is not None:
-        s = perform_interco_assessment(interco_assessment, s)
 
     # Reduce complexity if activated
     if simple is not None:
@@ -552,7 +549,6 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     return folder, result
 
-
 class NamedJ:
     """
     A wrapper around a joint probability distribution created from multiple named distributions.
@@ -616,7 +612,6 @@ class NamedJ:
             samples = samples.reshape(-1, samples.shape[0])
         index = [f"{n}" for n in self.names]
         return pd.DataFrame(samples, index=index)
-
 
 def multiindex2array(multiindex):
     """
@@ -813,7 +808,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
 def perform_sensitivity(sensitivity, s):
     
     param = 'interco'
-    if sensitivity.get(param):  # testing implications of interconnection mode
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of interconnection mode
         
         # Creating a new folder
         folder_sensi = os.path.join(os.path.dirname(s['baseline']['pSettings']), 'sensitivity')
@@ -832,7 +827,7 @@ def perform_sensitivity(sensitivity, s):
 
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
-        s[name][param] = path_file
+        s[name]['pSettings'] = path_file
         
         #----------------------------------------
         
@@ -848,14 +843,14 @@ def perform_sensitivity(sensitivity, s):
         
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
-        s[name][param] = path_file
+        s[name]['pSettings'] = path_file
         
         #----------------------------------------
         
         df = pd.read_csv(s['baseline']['pSettings'])
-        # OptimalInterconnection with NoTransferLimit
+        # OptimalInterconnection with NoTransferLim
         name = 'OptimalInterconnection'
-        df.loc[df['Abbreviation'] == 'NoTransferLimit', 'Value'] = 1
+        df.loc[df['Abbreviation'] == 'NoTransferLim', 'Value'] = 1
         
         path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
         path_file = os.path.join(folder_sensi, path_file)
@@ -863,12 +858,33 @@ def perform_sensitivity(sensitivity, s):
         df.to_csv(path_file, index=False)
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
-        s[name][param] = path_file
+        s[name]['pSettings'] = path_file
+    
+    param = 'RemoveGenericTechnologies'
+    if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
         
+        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+        # Create a list of technologies to remove that are in a string separated by '&'
+        # For example: 'WindOnshore&WindOffshore&SolarPV' will be converted to ['WindOnshore', 'WindOffshore', 'SolarPV']
+        techs_to_remove = sensitivity['RemoveGenericTechnologies'].split('&')
+        # For tech that equal to sensitivity['RemoveGenericTechnologies'], status 3, and Candidate in the name, put BuildLimitperYear to 0
+        mask = df['tech'].isin(techs_to_remove) & (df['Status'] == 3) & (df['gen'].str.contains('Candidate'))
+        df.loc[mask, 'BuildLimitperYear'] = 0
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+        name = 'RemoveGenericTechnologies'
+        path_file = os.path.basename(s['baseline']['pGenDataExcel']).replace('pGenDataExcel', f'pGenDataExcel_{name}')
+        path_file = os.path.join(folder_sensi, path_file)
+        # Write the modified file
+        df.to_csv(path_file, index=False)
+        # Put in the scenario dir
+        s[name] = s['baseline'].copy()
+        s[name]['pGenDataExcel'] = path_file
         
-
     param = 'pSettings'
-    if sensitivity.get(param):  # testing implications of some setting parameters
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of some setting parameters
         settings_sensi = {'VOLL': [250],
                           'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
@@ -902,7 +918,7 @@ def perform_sensitivity(sensitivity, s):
                 s[name][param] = path_file
 
     param = 'y'
-    if sensitivity.get(param):  # testing implications of year definition
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of year definition
         df = pd.read_csv(s['baseline'][param])
         # Check if all years have been include in the analysis
         if not (df[param].diff().dropna() == 1).all():
@@ -941,8 +957,8 @@ def perform_sensitivity(sensitivity, s):
             s[name][param] = path_file
 
     param = 'pDemandForecast'  # testing implications of demand forecast
-    if sensitivity.get(param):
-        demand_forecast_sensi = [-0.5, 0.5, 1]
+    if sensitivity.get(param) and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
+        demand_forecast_sensi = [float(i) for i in sensitivity[param].split('&')]
         for val in demand_forecast_sensi:
             df = pd.read_csv(s['baseline'][param])
 
@@ -966,7 +982,7 @@ def perform_sensitivity(sensitivity, s):
             s[name][param] = path_file
 
     param = 'pDemandProfile'  # testing implications of having a flat profile
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         df = pd.read_csv(s['baseline'][param])
 
         cols = [i for i in df.columns if i not in ['zone', 'q', 'd', 't']]
@@ -986,7 +1002,7 @@ def perform_sensitivity(sensitivity, s):
         s[name][param] = path_file
 
     param = 'pAvailabilityDefault'  # testing implications of a change in availability for thermal power plants (default values, custom values stay the same)
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         availability_sensi = [0.3]
 
         for val in availability_sensi:
@@ -1011,7 +1027,7 @@ def perform_sensitivity(sensitivity, s):
             s[name][param] = path_file
 
     param = 'pCapexTrajectoriesDefault'  # testing implications of constant capex trajectories
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
 
         df = pd.read_csv(s['baseline'][param])
 
@@ -1032,7 +1048,7 @@ def perform_sensitivity(sensitivity, s):
         s[name][param] = path_file
 
     param = 'pFuelPrice'  # testing implications of fuel prices
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         fuel_price_sensi = [-0.2, 0.2]
 
         for val in fuel_price_sensi:
@@ -1057,7 +1073,7 @@ def perform_sensitivity(sensitivity, s):
             s[name][param] = path_file
 
     param = 'ResLimShare'  # testing implications of contribution to reserves
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         parameter = 'pGenDataExcelDefault'
         reslimshare_sensi = [-0.5, -1]
         for val in reslimshare_sensi:
@@ -1081,7 +1097,7 @@ def perform_sensitivity(sensitivity, s):
             s[name][parameter] = path_file
 
     param = 'BuildLimitperYear'  # testing implications of limitations of build per year
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         parameter = 'pGenDataExcel'
 
         df = pd.read_csv(s['baseline'][parameter])
@@ -1118,7 +1134,7 @@ def perform_sensitivity(sensitivity, s):
         s[name][parameter] = path_file
                 
     param = 'delayedHydro'
-    if sensitivity.get(param):  # testing implications of delayed hydro projects
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of delayed hydro projects
         df = pd.read_csv(s['baseline']['pGenDataExcel'])
         # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
         df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
@@ -1137,9 +1153,8 @@ def perform_sensitivity(sensitivity, s):
         s[name] = s['baseline'].copy()
         s[name]['pGenDataExcel'] = path_file
     
-
     param  = 'pVREProfile'  # testing implications of a change in VRE production
-    if sensitivity.get(param):
+    if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         capacity_factor_sensi = [-0.2, 0.2]
 
         for val in capacity_factor_sensi:
@@ -1266,7 +1281,6 @@ def perform_interco_assessment(interco_assessment, s, delay=5):
     s.update(new_s)
 
     return s
-
 
 def get_job_engine(tokens_simulation):
     # {'baseline': 'a241bf62-34db-436d-8f4f-113333d3c6b9'}
@@ -1495,7 +1509,8 @@ def main(test_args=None):
 
     postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, reduce_definition_csv=args.reduce_definition_csv)
+                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
+                       reduce_definition_csv=args.reduce_definition_csv)
 
     # Zip the folder if it exists
     folder = path_to_extract_results(folder)
