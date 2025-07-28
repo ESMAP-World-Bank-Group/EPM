@@ -512,10 +512,10 @@ eYearlyTotalCost(c,y)..
 
 eYearlyFixedCost(z,y)..
    vYearlyFixedCost(z,y) =e= sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6)
+                           + sum(gzmap(dc,z), vAnnCapex(dc,y))
                            + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
                            + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3)
                            + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)
-                           + sum(gzmap(dc,z), vAnnCapex(dc,y))
                            + sum(gzmap(g,z), vCap(g,y)*pGenData(g,"FOMperMW"))
                            + sum(gzmap(st,z),vCap(st,y)*pStorData(st,"FixedOMMWh"))
                            + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))

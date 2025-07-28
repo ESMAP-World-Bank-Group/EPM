@@ -35,17 +35,6 @@ $eolcom //
 $if not set DEBUG $set debug 0
 $if not set EPMVERSION    $set EPMVERSION    9.0
 
-$ifThen.mode not set mode
-$ set mode Excel
-$ if not "x%gams.IDCGDXInput%"=="x" $set mode MIRO
-$endIf.mode
-
-
-***
-*** Declarations
-***
-
-
 * Turn on/off additional information to the listing file
 Option limRow=0, limCol=0, sysOut=off, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
@@ -762,8 +751,9 @@ pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")
                        + pCSPData(g, "Storage", "VOMMWh")
                        + pCSPData(g, "Thermal Field", "VOMMWh");
 
-
 pVarCostH2(hh,y) = pH2Data(hh,"VOM");
+
+* pCRF refers to the Capital Recovery Factor, which is used to calculate the annualized cost of capital for a project.
 pCRF(g)$pGenData(g,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(g,'Life'))));
 pCRFH2(hh)$pH2Data(hh,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pH2Data(hh,'Life'))));
 pCRFsst(st)$pGenData(st,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(st,'Life'))));
@@ -776,10 +766,6 @@ pCRFcth(cs)$pGenData(cs,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(cs,'
 sMapConnectedZonesDiffCountries(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z2,c)), 1) = 0;
 
 *** Simple bounds
-*vImportPrice.up(z,q,d,t,y)$(pMaxImport>1) = pMaxImport;
-*vExportPrice.up(z,q,d,t,y)$(pMaxExport>1) = pMaxExport;
-*vTotalEmissions.up(y)$psystem_CO2_constraints = pEmissionsTotal(y);
-
 
 * Set upper limit for generation capacity based on predefined data
 vCap.up(g,y) = pGenData(g,"Capacity");
