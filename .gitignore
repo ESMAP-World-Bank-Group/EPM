@@ -40,6 +40,8 @@ pre-analysis/**/output/*
 epm/output/*
 !epm/output/tableau/
 
+# Ignore all input files for sensitivity analysis
+**/sensitivity/
 
 # Keep specific files inside 'tableau'
 !epm/output/tableau/*.twb

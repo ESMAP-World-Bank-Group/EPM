@@ -1,7 +1,7 @@
 ﻿parameter,sensitivity
 pSettings,
 y,
-pDemandForecast,
+pDemandForecast,0.25&0.75
 pDemandProfile,
 pAvailabilityDefault,
 pCapexTrajectoriesDefault,
@@ -9,5 +9,5 @@ pFuelPrice,
 ResLimShare,
 BuildLimitperYear,
 pVREProfile,
-interco,TRUE
-RemoveGenericTechnologies,
+interco,
+RemoveGenericTechnologies,Storage&OnshoreWind&OffshoreWind
