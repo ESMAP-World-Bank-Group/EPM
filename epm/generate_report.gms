@@ -63,7 +63,6 @@ Parameters
    pCostSummaryWeighted(z,*,y)               'Summary of costs in millions USD  (weighted and undiscounted) by zone'
    pCostSummaryWeightedCountry(c,*,y)        'Summary of costs in millions USD  (weighted and undiscounted) by country'
    pCostSummaryWeightedAverageCountry(c,*,*) 'Summary of average costs (undiscounted) by country'
-   pCostSummaryWeightedAverageCtry(c,*)      'Summary of average costs (undiscounted) by country (modified pCostSummaryWeightedAverageCountry for MIRO)'
    pFuelCosts(z,f,y)                         'Fuel costs in millions USD by zone'
    pFuelCostsCountry(c,f,y)                  'Fuel costs in millions USD by zone'
    pFuelConsumption(z,f,y)                   'Fuel consumed in unit defined by user (millions of unit)  per zone'
@@ -247,7 +246,6 @@ pImportCostsExternal(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTr
 pExportRevenuesExternal(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
-
 pImportCostsTopology(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
 pExportRevenuesTopology(z,y) = - sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 pCongestionRevenuesBetweenZones(z,Zd,y) = - sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
@@ -263,8 +261,7 @@ pCO2backstopCosts(c,y) = vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop;
 pSurplusCosts(z,y) = vYearlySurplus.l(z,y);
 pVRECurtailment(z,y) = vYearlyCurtailmentCost.l(z,y);
         
-
-* country level
+* Country level
 pCountryPlanReserveCosts(c,y) = vUnmetPlanningReserveCountry.l(c,y)*pPlanningReserveVoLL;
 pUSRLocCosts(c,y) = sum((q,d,t), vUnmetSpinningReserveCountry.l(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 
@@ -312,7 +309,6 @@ pCostSummaryFull(z,"Capex: $m"                    ,y) = pCapex(z,y)/1e6;
 pCostSummaryFull(z,"Annualized capex: $m"         ,y) = pAnncapex(z,y)/1e6;
 pCostSummaryFull(z,"Fixed O&M: $m"                ,y) = pFOM(z,y)/1e6;
 pCostSummaryFull(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
-
 pCostSummaryFull(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
 
 * Should we keep O to be sure we are considering all cost components ?
@@ -334,9 +330,7 @@ pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTo
 pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
+pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = pTradeCostsTopology(z,y)/1e6 + pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y)
                                                     
 
 * For unmet country reserve costs, we allocate them uniformly across zones inside a given country.
@@ -348,6 +342,7 @@ pCostSummary(z,"Total fuel Costs: $m"                        ,y) = pFuelCostsZon
 pCostSummary(z,"Transmission additions: $m"                  ,y) = pNewTransmissionCosts(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"                  ,y) = pSpinResCosts(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"                      ,y) = pUSECosts(z,y)/1e6;
+* Unmet reserver cost is allocated uniformly across zones inside a given country - should be energy based
 pCostSummary(z,"Unmet reserve costs: $m"                     ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
 pCostSummary(z,"Unmet system reserve costs: $m"              ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
 pCostSummary(z,"Excess generation: $m"                       ,y) = pSurplusCosts(z,y)/1e6;
@@ -361,32 +356,28 @@ pCostSummary(z,"Trade shared benefits: $m"                   ,y) = pTradeSharedB
 
 
 *--- Cost Summary Unweighted by country
+* Should only be the sum of pCostSummary aggregate by country
 
 pCostSummaryCountry(c,"Capex: $m",y)= sum(zcmap(z,c), pCapex(z,y))/1e6 ;                     
-
 pCostSummaryCountry(c,sumhdr,y) = sum(zcmap(z,c), pCostSummaryFull(z,sumhdr,y));
-
 pCostSummaryCountry(c,"Country Spinning Reserve violation: $m",y) = pUSRLocCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Country Planning Reserve violation: $m",y) = pCountryPlanReserveCosts(c,y)/1e6;
 pCostSummaryCountry(c,"Total CO2 backstop cost by Country: $m",y) = pCO2backstopCosts(c,y)/1e6 ;
-
 pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y))
                                                                   + (pUSRLocCosts(c,y) + pCountryPlanReserveCosts(c,y)
                                                                   + pCO2backstopCosts(c,y))/1e6 ;
 
                                                       
 
-
 *--- Cost Summary Weighted by zone
 pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummaryFull(z,sumhdr,y);
-
-
-pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y)
-                                                                          + pFuelCostsZone(z,y) + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y)
+* Replace by sum of all cost components
+pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + + pFOM(z,y) + pVOM(z,y) + + pFuelCostsZone(z,y) + pNewTransmissionCosts(z,y) 
+                                                                          + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y)
                                                                           + pVRECurtailment(z,y) + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
 *--- Cost Summary Weighted by country
-
+* Should only pCostSummaryCountry weughted by pWeightYear
 pCostSummaryWeightedCountry(c,"Capex: $m",y)= pCostSummaryCountry(c,"Capex: $m",y);                     
 
 pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSummaryFull(z,sumhdr,y));
@@ -399,33 +390,13 @@ pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(
 
 
 *--- Cost Summary Weighted Averages by country
+* Remove summary
 pCostSummaryWeightedAverageCountry(c,avgsumhdr,'Summary') = sum((sumhdrmap(avgsumhdr,sumhdr),y), pCostSummaryWeightedCountry(c,sumhdr,y))/TimeHorizon;
-
 pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary")=sum(y, pCostSummaryWeightedCountry(c,"Capex: $m",y))/TimeHorizon;;                     
-
 pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve violation: $m","Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y))/TimeHorizon;
 pCostSummaryWeightedAverageCountry(c,"Average Planning Reserve violation: $m","Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y))/TimeHorizon;
 pCostSummaryWeightedAverageCountry(c,"Average CO2 backstop cost by Country: $m" ,"Summary") = sum(y, pCostSummaryWeightedCountry(c,"Total CO2 backstop cost by Country: $m",y))/TimeHorizon;
 pCostSummaryWeightedAverageCountry(c,"Average Total Annual Cost: $m"         ,"Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m",y))/TimeHorizon;
-
-
-* TODO: Why that ? pCostSummaryWeightedAverageCtry ?
-pCostSummaryWeightedAverageCtry(c,"Average Capex: $m")                      = pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary");                     
-pCostSummaryWeightedAverageCtry(c,"Average Annualized capex: $m")           = pCostSummaryWeightedAverageCountry(c,"Average Annualized capex: $m","Summary");          
-pCostSummaryWeightedAverageCtry(c,"Average Transmission additions: $m")     = pCostSummaryWeightedAverageCountry(c,"Average Transmission additions: $m","Summary");    
-pCostSummaryWeightedAverageCtry(c,"Average Fixed O&M: $m")                  = pCostSummaryWeightedAverageCountry(c,"Average Fixed O&M: $m","Summary");                 
-pCostSummaryWeightedAverageCtry(c,"Average Variable O&M: $m")               = pCostSummaryWeightedAverageCountry(c,"Average Variable O&M: $m","Summary");              
-pCostSummaryWeightedAverageCtry(c,"Average Total fuel Costs: $m")           = pCostSummaryWeightedAverageCountry(c,"Average Total fuel Costs: $m","Summary");          
-pCostSummaryWeightedAverageCtry(c,"Average Spinning Reserve costs: $m")     = pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve costs: $m","Summary");    
-pCostSummaryWeightedAverageCtry(c,"Average Unmet demand costs: $m")         = pCostSummaryWeightedAverageCountry(c,"Average Unmet demand costs: $m","Summary");        
-pCostSummaryWeightedAverageCtry(c,"Average Excess generation: $m")          = pCostSummaryWeightedAverageCountry(c,"Average Excess generation: $m","Summary");         
-pCostSummaryWeightedAverageCtry(c,"Average VRE curtailment: $m")            = pCostSummaryWeightedAverageCountry(c,"Average VRE curtailment: $m","Summary");           
-pCostSummaryWeightedAverageCtry(c,"Average Import costs: $m")               = pCostSummaryWeightedAverageCountry(c,"Average Import costs: $m","Summary");              
-pCostSummaryWeightedAverageCtry(c,"Average Export revenue: $m")             = pCostSummaryWeightedAverageCountry(c,"Average Export revenue: $m","Summary");            
-pCostSummaryWeightedAverageCtry(c,"Average Spinning Reserve violation: $m") = pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve violation: $m","Summary");  
-pCostSummaryWeightedAverageCtry(c,"Average Planning Reserve violation: $m") = pCostSummaryWeightedAverageCountry(c,"Average Planning Reserve violation: $m","Summary");  
-pCostSummaryWeightedAverageCtry(c,"Average CO2 backstop cost by Country: $m" )= pCostSummaryWeightedAverageCountry(c,"Average CO2 backstop cost by Country: $m" ,"Summary"); 
-pCostSummaryWeightedAverageCtry(c,"Average Total Annual Cost: $m")          = pCostSummaryWeightedAverageCountry(c,"Average Total Annual Cost: $m","Summary");         
 
 
 *--- Cost and consumption by fuel
@@ -484,6 +455,7 @@ pDemandSupplyH2(z,"H2 produced for power production: mmBTU",       y)        =su
 
 
 * By Country
+* Write it as the sum of all zones in a given country
 pDemandSupplyCountry(c,"Demand: GWh"            ,y) = sum(zcmap(z,c), pDemandSupply(z,"Demand: GWh"            ,y));
 *********************************************************H2 model addition****************************************************************
 pDemandSupplyCountry(c,"Electricity demand for H2 production: GWh",         y) =(sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
@@ -505,12 +477,15 @@ pDemandSupplyCountryH2(c,"External Demand of H2: mmBTU",         y) =sum((zcmap(
 pDemandSupplyCountryH2(c,"Unmet External Demand of H2: mmBTU",   y) =sum((zcmap(z,c),q),vUnmetExternalH2.l(z,q,y) )$pIncludeH2+1e-6;
 pDemandSupplyCountryH2(c,"H2 for power production: mmBTU",       y) =sum((zcmap(z,c),q),vFuelH2Quarter.l(z,q,y)   )$pIncludeH2+1e-6;
 
+* Why doing this?
 pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
 
 *--- Summary of results
+* Start from pCostSummary by zones 
+* Could add some system cost unweighted and undiscounted
 pSummary("NPV of system cost: $m"              ) = vNPVCost.l/1e6;
 pSummary("Annualized capex: $m"                ) = sum((y,z), pRR(y)*pWeightYear(y)*pAnncapex(z,y))/1e6;
-pSummary("Additional transmission costs: $m"   ) = 2* sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
+pSummary("Additional transmission costs: $m"   ) = sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
 pSummary("Fixed O&M: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFOM(z,y))/1e6; 
 pSummary("Variable O&M: $m"                    ) = sum((y,z), pRR(y)*pWeightYear(y)*pVOM(z,y))/1e6;
 pSummary("Fuel cost: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFuelCostsZone(z,y))/1e6;
