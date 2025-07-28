@@ -511,7 +511,7 @@ pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
 *--- Summary of results
 pSummary("NPV of system cost: $m"              ) = vNPVCost.l/1e6;
 pSummary("Annualized capex: $m"                ) = sum((y,z), pRR(y)*pWeightYear(y)*pAnncapex(z,y))/1e6;
-pSummary("Additional transmission costs: $m"   ) = 2* sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
+pSummary("Additional transmission costs: $m"   ) = sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
 pSummary("Fixed O&M: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFOM(z,y))/1e6; 
 pSummary("Variable O&M: $m"                    ) = sum((y,z), pRR(y)*pWeightYear(y)*pVOM(z,y))/1e6;
 pSummary("Fuel cost: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFuelCostsZone(z,y))/1e6;
