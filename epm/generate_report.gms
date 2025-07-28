@@ -330,7 +330,7 @@ pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTo
 pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
                                                     + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
                                                     + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = pTradeCostsTopology(z,y)/1e6 + pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y)
+pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = pTradeCostsTopology(z,y)/1e6 + pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y);
                                                     
 
 * For unmet country reserve costs, we allocate them uniformly across zones inside a given country.
@@ -372,7 +372,7 @@ pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,
 *--- Cost Summary Weighted by zone
 pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummaryFull(z,sumhdr,y);
 * Replace by sum of all cost components
-pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + + pFOM(z,y) + pVOM(z,y) + + pFuelCostsZone(z,y) + pNewTransmissionCosts(z,y) 
+pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y) + pNewTransmissionCosts(z,y) 
                                                                           + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y)
                                                                           + pVRECurtailment(z,y) + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
 
@@ -392,7 +392,7 @@ pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(
 *--- Cost Summary Weighted Averages by country
 * Remove summary
 pCostSummaryWeightedAverageCountry(c,avgsumhdr,'Summary') = sum((sumhdrmap(avgsumhdr,sumhdr),y), pCostSummaryWeightedCountry(c,sumhdr,y))/TimeHorizon;
-pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary")=sum(y, pCostSummaryWeightedCountry(c,"Capex: $m",y))/TimeHorizon;;                     
+pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary")=sum(y, pCostSummaryWeightedCountry(c,"Capex: $m",y))/TimeHorizon;                     
 pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve violation: $m","Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y))/TimeHorizon;
 pCostSummaryWeightedAverageCountry(c,"Average Planning Reserve violation: $m","Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y))/TimeHorizon;
 pCostSummaryWeightedAverageCountry(c,"Average CO2 backstop cost by Country: $m" ,"Summary") = sum(y, pCostSummaryWeightedCountry(c,"Total CO2 backstop cost by Country: $m",y))/TimeHorizon;

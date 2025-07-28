@@ -582,8 +582,6 @@ pExtTransferLimit(z,zext,q,"Export",y)$(not pallowExports)  = 0 ;
 pExtTransferLimitIn(z,zext,q,y)$pallowExports   = pExtTransferLimit(z,zext,q,"Import",y) ;
 pExtTransferLimitOut(z,zext,q,y)$pallowExports  = pExtTransferLimit(z,zext,q,"Export",y) ;
 
-display pExtTransferLimitIn, pExtTransferLimitOut;
-
 * Define `Zt(z)` to check if total demand in a zone `z` is zero
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 * Define `Zd(z)` as the complement of `Zt(z)`, indicating zones with demand
