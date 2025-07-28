@@ -803,7 +803,6 @@ pDemandSupplySeason(z,"Demand: GWh"            ,y,q) = sum((d,t), pDemandData(z,
 pDemandSupplySeason(z,"Total production: GWh"  ,y,q) = sum((zgmap(z,g),gfmap(g,f),d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pDemandSupplySeason(z,"Unmet demand: GWh"      ,y,q) = sum((d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 pDemandSupplySeason(z,"Surplus generation: GWh",y,q) = sum((d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-
 pDemandSupplySeason(z,"Imports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 pDemandSupplySeason(z,"Exports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 
@@ -879,7 +878,6 @@ embeddedCode Connect:
         "pNewCapacityFuel",
         "pNewCapacityFuelCountry",
         "pAnnualTransmissionCapacity",
-        #
         "pUtilizationByFuel",
         "pUtilizationByTechandFuel",
         "pUtilizationByFuelCountry",

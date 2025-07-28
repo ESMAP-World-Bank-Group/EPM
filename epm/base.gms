@@ -313,7 +313,7 @@ Free Variable
    vYearlyUnmetReserveCostCountry(c,y)         'Country unmet spinning and planning reserve'
    vYearlyCarbonCost(z,y)               'country carbon cost'
    vYearlyUnmetReserveCostSystem(y)                 'system unmet planing reserve'
-   vYearlyCO2backCost(c,y)              'ccost of CO2 backstop'
+   vYearlyCO2CostCountry(c,y)              'ccost of CO2 backstop'
    
 ;
 
@@ -354,10 +354,10 @@ Equations
    eMaxhourlyExportsshare(c,q,d,t,y) 'max exports to an external zone (hourly limit)'
    eMaxhourlyImportsshare(c,q,d,t,y) 'max imports from an external zone  (hourly limit)'
 
-   eCapBalance(g,y)                'capacity balance'
-   eCapBalance1(g,y)               'capacity balance'
-   eCapBalance2(g,y)               'capacity balance'
-   eBuildNew(g)
+   eInitialCapacity(g,y)                'capacity balance'
+   eCapacityEvolutionExist(g,y)               'capacity balance'
+   eCapacityEvolutionNew(g,y)               'capacity balance'
+   eInitialBuildLimit(g)
    eBuiltCap(g,y)                  'built capacity'
    eRetireCap(g,y)                 'retired capacity'
 
@@ -488,15 +488,17 @@ eMaxH2PwrInjection(hh,q,d,t,y)
 
 
 *---    Objective function
+* Adding system-level cost of reserves and CO2 backstop to the total cost
 eNPVCost..
-   vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, vYearlyTotalCost(c,y)) + vYearlyUnmetReserveCostSystem(y)+vYearlySysCO2backstop(y)* pCostOfCO2backstop));
+   vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, vYearlyTotalCost(c,y)) + vYearlyUnmetReserveCostSystem(y) + vYearlySysCO2backstop(y) * pCostOfCO2backstop));
 
 *---  Cost equations
 * Note capex is full capex in $m per MW. Also note VarCost includes fuel cost and VOM -
 * essentially the short run marginal cost for the generator
 
+* Adding country-level cost of reserves and CO2 backstop to the total cost
 eYearlyTotalCost(c,y)..
-   vYearlyTotalCost(c,y) =e= vYearlyUnmetReserveCostCountry(c,y)+ vYearlyCO2backCost(c,y) 
+   vYearlyTotalCost(c,y) =e= vYearlyUnmetReserveCostCountry(c,y)+ vYearlyCO2CostCountry(c,y) 
                            + sum(zcmap(z,c), vYearlyFixedCost(z,y)
                                            + vYearlyVariableCost(z,y)
                                            + vYearlySpinningReserveCost(z,y)
@@ -506,9 +508,8 @@ eYearlyTotalCost(c,y)..
                                            + vYearlyTransmissionAdditions(z,y)
                                            + vYearlyCurtailmentCost(z,y)
                                            + vYearlySurplus(z,y)
-*************************************H2 model*************************************************************                                           
                                            + vYearlyH2UnservedCost(z,y)$pIncludeH2);
-***********************************************************************************************************
+
 eYearlyFixedCost(z,y)..
    vYearlyFixedCost(z,y) =e= sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6)
                            + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
@@ -519,22 +520,13 @@ eYearlyFixedCost(z,y)..
                            + sum(gzmap(st,z),vCap(st,y)*pStorData(st,"FixedOMMWh"))
                            + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
                            + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
-                           
-***********************************************Hydrogen model related costs******************************************
-                          + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
-                          + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2
-                          + sum(h2zmap(hh,z), vCapH2(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
-
-*********************************************************************************************************************
-
+                           + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
+                           + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2
+                           + sum(h2zmap(hh,z), vCapH2(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
 
 
 eYearlyVariableCost(z,y)..
-
    vYearlyVariableCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVarCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))
-   
-*********************************************Hydrogen model related costs ************************************
-***(Units for equation below)                              $/mmBTU_H2    x      mmBTU_H2/MWh_e  x      MW_e       x       Hrs
                               + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pIncludeH2;
 
 * Note: ReserveCost is in $/MWh -- this is the DIRECT cost of holding reserve like wear and tear that a generator bids in a market
@@ -559,7 +551,7 @@ eYearlyUnmetReserveCostCountry(c,y)..
                          + sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
                          
 eYearlyCO2backstopCost(c,y)..
-   vYearlyCO2backCost(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
+   vYearlyCO2CostCountry(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
 
 eYearlyUnmetReserveCostSystem(y)..
    vYearlyUnmetReserveCostSystem(y) =e= vUnmetPlanningReserveSystem(y)*pPlanningReserveVoLL
@@ -569,10 +561,8 @@ eYearlyCarbonCost(z,y)..
    vYearlyCarbonCost(z,y) =e= pIncludeCarbon*pCarbonPrice(y)
                             * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
-*****************************************H2 model***********************************************************
 eH2UnservedCost(z,y)..
                 vYearlyH2UnservedCost(z,y)       =e= sum(q, vUnmetExternalH2(z,q,y) )*pH2UnservedCost$(pIncludeH2);
-***************************************************************************************************************                
 
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
@@ -582,53 +572,39 @@ eYearlyTransmissionAdditions(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1)
 
 *--- Demand supply balance constraint
 eDemSupply(z,q,d,t,y)..
-
-**********************Demand supply equations has been redifined to account for H2 production************************************
-
-*
    pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) =e=sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))$(pIncludeH2=0)
-*                                                            The row below is deactivated when H2 feature is on   
-                                                        
-***********************************************************H2 model equations below************************************************
-                                                        +sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
+                                                        + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
                                                           +vPwrREGrid(z,q,d,t,y)$pIncludeH2                                                         
-*                                                         - SUM((h2zmap(hh,z)),vH2PwrIn(hh,q,d,t,y))$pIncludeH2
-                                                        
-*************************************************************************************************************************************
-                                                         
                                                          - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
                                                          + sum(sTopology(z,z2), vFlow(z2,z,q,d,t,y)*(1-pLossFactor(z,z2,y)))
-*                                                        + sum(gzmap(st,z), vStorOut(st,q,d,t,y))
                                                          - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(pincludeStorage)
                                                          + sum(zext, vImportPrice(z,zext,q,d,t,y)) 
                                                          - sum(zext, vExportPrice(z,zext,q,d,t,y)) 
                                                          + vUSE(z,q,d,t,y)
-                                                         - vSurplus(z,q,d,t,y)
-                                                         
+                                                         - vSurplus(z,q,d,t,y)                                                        
                                                          ;
 
 
 
 *--- Generator Capacity equations (check redundance with fix constraints in main.gms)
-eCapBalance(g,sStartYear(y))..
+* Initial capacity balance in the first model year
+eInitialCapacity(g,sStartYear(y))..
    vCap(g,y) =e= pGenData(g,"Capacity")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val))
                + vBuild(g,y) - vRetire(g,y);
 
-eCapBalance1(eg,y)$(not sStartYear(y))..
+* Year-on-year capacity tracking for existing generators
+eCapacityEvolutionExist(eg,y)$(not sStartYear(y))..
    vCap(eg,y) =e= vCap(eg,y-1) + vBuild(eg,y) - vRetire(eg,y);
 
-eCapBalance2(ng,y)$(not sStartYear(y))..
+* Year-on-year capacity tracking for new generators (non-retirable)
+eCapacityEvolutionNew(ng,y)$(not sStartYear(y))..
    vCap(ng,y) =e= vCap(ng,y-1) + vBuild(ng,y);
 
-eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
+* Limit on initial build for new generators (starting after model year 1)
+eInitialBuildLimit(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
    sum(y, vBuild(eg,y)) =l= pGenData(eg,"Capacity");
 
  
-* TODO: Is it used?  
-*eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
-*   sum(y, vBuild(ng,y)) =g= pGenData(ng,"MinTotalBuild");
-
-
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
    sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t)) =g=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
@@ -997,10 +973,10 @@ Model PA /
    eYearlyUnmetReserveCostCountry
    eYearlyCarbonCost
    eDemSupply
-   eCapBalance
-   eCapBalance1
-   eCapBalance2
-   eBuildNew
+   eInitialCapacity
+   eCapacityEvolutionExist
+   eCapacityEvolutionNew
+   eInitialBuildLimit
 *   eMaxBuildTotal
 *   eMinBuildTotal
 
