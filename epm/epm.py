@@ -395,6 +395,9 @@ def launch_epm_multi_scenarios(config='config.csv',
         path_gams = {k: os.path.join(working_directory, i) for k, i in path_gams.items()}
     else:  # use default configuration
         path_gams = {k: os.path.join(working_directory, i) for k, i in PATH_GAMS.items()}
+        
+    # Create the full path folder input
+    folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
 
     # Read configuration file
     config = os.path.join(folder_input, 'config.csv')
@@ -429,7 +432,6 @@ def launch_epm_multi_scenarios(config='config.csv',
         s = {k: s[k] for k in selected_scenarios}
 
     # Add full path to the files
-    folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
     for k in s.keys():
         s[k] = s[k].apply(lambda i: os.path.join(folder_input, i) if '.csv' in i else i)
 
