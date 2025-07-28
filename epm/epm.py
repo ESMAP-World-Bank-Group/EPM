@@ -397,6 +397,7 @@ def launch_epm_multi_scenarios(config='config.csv',
         path_gams = {k: os.path.join(working_directory, i) for k, i in PATH_GAMS.items()}
 
     # Read configuration file
+    config = os.path.join(folder_input, 'config.csv')
     if not os.path.exists(config):
         raise FileNotFoundError(f'Configuration file {os.path.abspath(config)} not found.')
 
@@ -1307,8 +1308,8 @@ def main(test_args=None):
     parser.add_argument(
         "--config",
         type=str,
-        default="input/data_test/config.csv",
-        help="Path to the configuration file (default: input/data_test_region/config.csv)"
+        default="config.csv",
+        help="Path to the configuration file from the folder_input"
     )
 
     parser.add_argument(
