@@ -227,6 +227,7 @@ def launch_epm(scenario,
                path_treatment_file='input_treatment.gms',
                path_demand_file='generate_demand.gms',
                path_cplex_file='cplex.opt',
+               solver='MIP',
                folder_input=None,
                path_engine_file=False,
                dict_montecarlo=None,
@@ -308,7 +309,8 @@ def launch_epm(scenario,
                                                     "--VERIFICATION_FILE {}".format(path_verification_file),
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
-                                                    "--FOLDER_INPUT {}".format(folder_input)
+                                                    "--FOLDER_INPUT {}".format(folder_input),
+                                                    "--MODELTYPE {}".format(solver)
                                                     ] + path_args
 
     # Print the command
@@ -349,9 +351,9 @@ def launch_epm(scenario,
 
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, path_engine_file=False,
-                            dict_montecarlo=None):
+                            solver='MIP', dict_montecarlo=None):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      path_engine_file=path_engine_file, dict_montecarlo=dict_montecarlo, **path_gams)
+                      path_engine_file=path_engine_file, dict_montecarlo=dict_montecarlo, **path_gams, solver=solver)
 
 def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios.csv',
@@ -365,7 +367,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                folder_input=None,
                                project_assessment=None,
                                interco_assessment=None,
-                               simple=None):
+                               simple=None,
+                               solver='MIP'):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -532,7 +535,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     if not montecarlo:
         with Pool(cpu) as pool:
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+                                  [(s[k], k, path_gams, folder_input, path_engine_file, solver) for k in s.keys()])
     else:
         # First, run initial scenarios
         # Ensure config file has extended setting to save output
@@ -540,11 +543,11 @@ def launch_epm_multi_scenarios(config='config.csv',
             for k in s.keys():
                 assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, path_engine_file) for k in s.keys()])
+                                  [(s[k], k, path_gams, folder_input, path_engine_file, solver) for k in s.keys()])
         # Modify config file to ensure limited output saved
         with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, dict_montecarlo) for k in scenarios_montecarlo.keys()])
+                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, solver, dict_montecarlo) for k in scenarios_montecarlo.keys()])
 
     if path_engine_file:
         pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
@@ -1320,6 +1323,13 @@ def main(test_args=None):
         default="data_test",
         help="Input folder name (default: data_test)"
     )
+    
+    parser.add_argument(
+        "--solver",
+        type=str,
+        default="MIP",
+        help="Sover to use in GAMS (default: MIP)."
+    )
 
     parser.add_argument(
         "--scenarios",
@@ -1466,6 +1476,7 @@ def main(test_args=None):
 
     print(f"Config file: {args.config}")
     print(f"Folder input: {args.folder_input}")
+    print(f"Solver: {args.solver}")
     print(f"Scenarios file: {args.scenarios}")
     print(f"Sensitivity: {args.sensitivity}")
     print(f"MonteCarlo: {args.montecarlo}")
@@ -1500,7 +1511,8 @@ def main(test_args=None):
                                                     project_assessment=args.project_assessment,
                                                     interco_assessment=args.interco_assessment,
                                                     simple=args.simple,
-                                                    path_engine_file=args.engine)
+                                                    path_engine_file=args.engine,
+                                                    solver=args.solver)
     else:
         print(f"Project folder: {args.postprocess}")
         print("EPM does not run again but use the existing simulation within the folder" )
