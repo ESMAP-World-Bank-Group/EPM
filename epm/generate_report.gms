@@ -271,7 +271,7 @@ pCostSummary(z,"Annualized capex: $m"                        ,y) = vAnnCapex.l(z
 pCostSummary(z,"Fixed O&M: $m"                               ,y) = vYearlyFOMCost.l(z,y)/1e6;
 pCostSummary(z,"Variable O&M: $m"                            ,y) = vYearlyVOMCost.l(z,y)/1e6;
 pCostSummary(z,"Total fuel Costs: $m"                        ,y) = vYearlyFuelCost.l(z,y)/1e6;
-pCostSummary(z,"Transmission additions: $m"                  ,y) = vYearlyTransmissionAdditions.l(z,y)/1e6;
+pCostSummary(z,"Transmission additions: $m"                  ,y) = vAnnualizedTransmissionCapex.l(z,y)/1e6;
 pCostSummary(z,"Spinning Reserve costs: $m"                  ,y) = vYearlySpinningReserveCost.l(z,y)/1e6;
 pCostSummary(z,"Unmet demand costs: $m"                      ,y) = vYearlyUSECost.l(z,y)/1e6;
 pCostSummary(z,"Unmet spinning reserve costs: $m"            ,y) = sum(c$(zcmap(z,c) and pCountryDemand(c,y) > 0), vYearlyUnmetSpinningReserveCostCountry.l(c,y) * (pZoneDemand(z,y) / pCountryDemand(c,y)))/1e6;
@@ -359,7 +359,7 @@ pDemandSupplyCountryH2(c,dsH2hdr,y) = sum(z$(zcmap(z,c)), pDemandSupplyH2(z,dsH2
 * Could add some system cost unweighted and undiscounted
 pSummary("NPV of system cost: $m"              ) = vNPVCost.l/1e6;
 pSummary("Annualized capex: $m"                ) = sum((y,z), pRR(y)*pWeightYear(y)*vAnnCapex.l(z,y))/1e6;
-pSummary("Additional transmission costs: $m"   ) = sum((y,z), pRR(y)*pWeightYear(y)*vYearlyTransmissionAdditions.l(z,y))/1e6; 
+pSummary("Additional transmission costs: $m"   ) = sum((y,z), pRR(y)*pWeightYear(y)*vAnnualizedTransmissionCapex.l(z,y))/1e6; 
 pSummary("Fixed O&M: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*vYearlyFOMCost.l(z,y))/1e6; 
 pSummary("Variable O&M: $m"                    ) = sum((y,z), pRR(y)*pWeightYear(y)*vYearlyVOMCost.l(z,y))/1e6;
 pSummary("Fuel cost: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*vYearlyFuelCost.l(z,y))/1e6;
@@ -397,7 +397,7 @@ pSummary("Total H2 for power production: mmBTU")        =sum((z,q,y),vFuelH2Quar
 * By zone
 pInterchange(sTopology(z,z2),y) = sum((q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))/1e3;
 pInterconUtilization(sTopology(z,z2),y)$pInterchange(z,z2,y) = 1e3*pInterchange(z,z2,y)
-                                                              /sum((q,d,t),(pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
+                                                              /sum((q,d,t),(pTransferLimit(z,z2,q,y) + vNewTransferCapacity.l(z,z2,y)
                                                                                                      * max(pNewTransmission(z,z2,"CapacityPerLine"),
                                                                                                            pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer
                                                       )*pHours(q,d,t));
@@ -407,7 +407,7 @@ pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pL
 * Calculate line capacity (constant over time, but varies by line and year)
 Scalar epsilon /1/;  
 * Binary indicator for congestion per time step
-isCongested(z,z2,q,d,t,y)$(sTopology(z,z2) and abs(vFlow.l(z,z2,q,d,t,y) - (pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
+isCongested(z,z2,q,d,t,y)$(sTopology(z,z2) and abs(vFlow.l(z,z2,q,d,t,y) - (pTransferLimit(z,z2,q,y) + vNewTransferCapacity.l(z,z2,y)
                                                                                                      * max(pNewTransmission(z,z2,"CapacityPerLine"),
                                                                                                            pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer)) < epsilon) = 1;                                                                                                
 * Now compute percentage of time (weighted by pHours) where line is congested
@@ -532,7 +532,7 @@ pFuelUtilization(z,f,y)$sum((zgmap(z,g),gfmap(g,f))$vCap.l(g,y),vCap.l(g,y)) = s
 
 *--- New TX Capacity by zone
 
-pAdditionalCapacity(sTopology(z,z2),y) = vAdditionalTransfer.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
+pAdditionalCapacity(sTopology(z,z2),y) = vNewTransferCapacity.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
                                                                                                            
 
 pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 

@@ -34,7 +34,7 @@ import numpy as np
 import pandas as pd
 
 
-def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: str):
+def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: str, header: str):
     """
     Overwrites NaN values in a GAMS parameter with values from a default parameter.
 
@@ -64,11 +64,10 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
     # Identify key columns (all except "value")
     columns = param_df.columns
     
-    # Unstack data on 'uni' for correct alignment
-    param_df = param_df.set_index([i for i in param_df.columns if i not in ['value']]).squeeze().unstack('uni')
+    # Unstack data on 'header' for correct alignment
+    param_df = param_df.set_index([i for i in param_df.columns if i not in ['value']]).squeeze().unstack(header)
 
-
-    default_df = default_df.set_index([i for i in default_df.columns if i not in ['value']]).squeeze().unstack('uni')
+    default_df = default_df.set_index([i for i in default_df.columns if i not in ['value']]).squeeze().unstack(header)
     
     # Add missing columns that have been dropped by CONNECT CSV WRITER
     missing_columns = [i for i in default_df.columns if i not in param_df.columns]
@@ -91,7 +90,7 @@ def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: 
 
 def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
                                      cols_tokeep: list,
-                                     param_ref="pGenDataExcel",
+                                     param_ref="pGenDataInput",
                                      column_generator="g"):
     """
     Prepares a generator-based GAMS database parameter by merging it with a reference 
@@ -110,7 +109,7 @@ def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
     cols_tokeep : list
         A list of additional columns to retain in the final output.
     param_ref : str, optional
-        The name of the reference parameter used for merging (default is "pGenDataExcel").
+        The name of the reference parameter used for merging (default is "pGenDataInput").
     column_generator : str, optional
         The name of the column representing the generator (default is "g").
 
@@ -240,7 +239,7 @@ def prepare_lossfactor(db: gt.Container,
     column_loss : str
         Column to be used to specify loss factor when it does not exist.
     param_ref : str, optional
-        The name of the reference parameter used for merging (default is "pGenDataExcel").
+        The name of the reference parameter used for merging (default is "pGenDataInput").
 
     Returns:
     --------
@@ -290,19 +289,19 @@ def prepare_lossfactor(db: gt.Container,
 db = gt.Container(gams.db)
 
 # Complete Generator Data
-overwrite_nan_values(db, "pGenDataExcel", "pGenDataExcelDefault")
+overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
 
 # Prepare pAvailability by filling missing values with default values
 default_df = prepare_generatorbased_parameter(db, "pAvailabilityDefault",
                                               cols_tokeep=['q'],
-                                              param_ref="pGenDataExcel")
+                                              param_ref="pGenDataInput")
                                               
 fill_default_value(db, "pAvailability", default_df)
 
 # Prepare pCapexTrajectories by filling missing values with default values
 default_df = prepare_generatorbased_parameter(db, "pCapexTrajectoriesDefault",
                                               cols_tokeep=['y'],
-                                              param_ref="pGenDataExcel")
+                                              param_ref="pGenDataInput")
                                                                                             
 fill_default_value(db, "pCapexTrajectories", default_df)
 

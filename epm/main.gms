@@ -50,9 +50,6 @@ $if set ROOT_FOLDER $set BASE_FILE %ROOT_FOLDER%/%BASE_FILE%
 
 $log BASE_FILE is "%BASE_FILE%"
 
-
-$if "x%gams.restart%" == "x" $include %BASE_FILE%
-
 $ifThen not set REPORT_FILE
 $set REPORT_FILE "generate_report.gms"
 $endIf
@@ -101,6 +98,8 @@ Singleton Set
    NLPSolver 'Selected NLP Solver' / '' 'conopt4' /
    MIPSolver 'Selected MIP Solver' / '' 'cplex' /
 ;
+
+
 * Evaluate and assign solver settings as macros
 $eval     SOLVERTHREADS solverThreads
 $eval     SOLVEROPTCR   solverOptCR
@@ -113,100 +112,65 @@ option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVERO
 *-------------------------------------------------------------------------------------
 
 
-*-------------------------------------------------------------------------------------
-
-
-Set
-   gstatus  'generator status' / Existing, Candidate, Committed /
-   tstatus  'transmission status' / Candidate, Committed/
-   H2status  'H2 generation plant status' / Existing, Candidate, Committed /
-   techhdr  'techdata headers' / 'RE Technology', 'Hourly Variation' /
+Sets
+   g        'generators or technology-fuel types'
+   f        'fuels'
+   tech     'technologies'
+   y        'years'
+   q        'quarters or seasons'
+   d        'day types'
+   t        'hours of day'
+   z        'zones'
+   c        'countries'
+   zext     'external zones'
+   pGenDataInputHeader 'Generator data input headers'
+   pSettingsHeader
+   pStoreDataHeader
+   pCSPDataHeader
+   pTransmissionHeader
+   pH2Header
+   pTechDataHeader
    pe       'peak energy for demand forecast' /'peak', 'energy'/
-   mipline 'Solver option lines'
-   sc       'settings' /
-                        allowExports
-                        altDemand
-                        capCreditSolar
-                        capCreditWind
-                        capital_constraints
-                        captraj
-                        costSurplus
-                        costcurtail
-                        CO2backstop
-                        DR
-                        fuel_constraints
-                        econRetire
-                        includeCSP
-                        includeCarbonPrice
-                        includeEE
-                        includeStorage
-                        interconMode
-                        maxCapital
-                        maxExports
-                        maxImports
-                        VREForecastError
-                        minREshare
-                        mingen_constraints
-                        noTransferLim
-                        pAllowHighTransfer
-                        planning_reserve_constraints
-                        ramp_constraints
-                        reTargetYr
-                        ReserveVoLL
-                        seasonalreporting
-                        SpinReserveVoLL
-                        system_co2_constraints
-                        system_reserve_margin
-                        system_spinning_reserve_constraints
-                        interco_reserve_contribution
-                        systemresultreporting
-                        VOLL
-                        vRECapacityCredits
-                        WACC
-                        zonal_co2_constraints
-                        zonal_spinning_reserve_constraints
-                        IncludeDecomCom
-                        MaxLoadFractionCCCalc
-                        includeIntercoReserves
-                        IncludeH2
-                        H2UnservedCost 
-                       /
-                       
+*********Hydrogen specific addition***********
+   hh        'Hydrogen production units'
 ;
 
-alias (y,y2);
-alias (f,f1,f2);
-alias (c,c2);
 
-* Sets for mapping and topology
-Set    
-   zcmap(z<,c<)                     'Map zones to countries'
-   sTopology(z,z2)                  'Network topology - defined through network data'
-   sRelevant(d)                     'Relevant days/hours for minimum generation limits'
-   mipopt(mipline<)                 'MIP solver options' / system.empty /
+Sets
+   zcmap(z<,c<)           'map zones to countries'
+   gmap(g,z,tech,f) 'Map generators to firms, zones, technologies and fuels'
+   sRelevant(d)  'relevant day and hours when MinGen limit is applied'
+
 ;
+
+alias (z,z2), (g,g1,g2);
 
 * Input data parameters 
 Parameter
 * Generator data
-   pGenDataExcel(g<,z,tech<,f<,*)      'Generator data from Excel input'
-   pGenDataExcelDefault(z,tech,f,*)     'Default generator data by zone/tech/fuel'
+   pGenDataInput(g<,z,tech<,f<,pGenDataInputHeader<)      'Generator data from Excel input'
+   
+   pGenDataInputDefault(z,tech,f,pGenDataInputHeader)     'Default generator data by zone/tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y) 'Default CAPEX trajectories'
+   pCapexTrajectories(g,y)             'Generator CAPEX trajectories'
    pAvailabilityDefault(z,tech,f,q)     'Default availability factors'
    
 * Storage data
-   pStorDataExcel(g,*,shdr)             'Storage unit specifications'
+   pStorDataExcel(g,*,pStoreDataHeader<)             'Storage unit specifications'
    
 * CSP and technology data
-   pCSPData(g,csphrd,shdr)              'Concentrated solar power data'
-   pTechData(tech,techhdr)              'Technology specifications'
+   pCSPData(g,pCSPDataHeader<,pStoreDataHeader)              'Concentrated solar power data'
+   pTechData(tech,pTechDataHeader<)              'Technology specifications'
    
 * Fuel data
    pFuelCarbonContent(f)                'Carbon content by fuel (tCO2/MMBtu)'
+   pMaxFuellimit(c,f,y)             'Fuel limit in MMBTU*1e6 (million) by country'
+   pFuelPrice(c,f,y)                   'Fuel price forecasts'
+
    
 * Storage and transmission
-   pStorDataInput(g,g2,shdr)            'Storage unit input data'
-   pNewTransmission(z,z2,thdr)          'New transmission line specifications'
+   pStorDataInput(g,g2,pStoreDataHeader)            'Storage unit input data'
+   pNewTransmission(z,z2,pTransmissionHeader<)          'New transmission line specifications'
    
 * Trade parameters
    pTradePrice(zext,q,d,y,t)           'External trade prices'
@@ -224,6 +188,7 @@ Parameter
    
 * Time and transfer parameters
    pHours(q<,d<,t<)                    'Hours mapping'
+   
    pTransferLimit(z,z2,q,y)            'Inter-zonal transfer limits'
    pMinImport(z2,z,y)                  'Minimum import requirements'
    pLossFactor(z,z2,y)                 'Transmission loss factors'
@@ -239,74 +204,21 @@ Parameter
    pPlanningReserveMargin(c)           'Planning reserve margins'
    
 * Other parameters
-   pSettings(sc)                       'Model settings and penalties'
+   pSettings(pSettingsHeader<)         'Model settings and penalties'
+   
    pEnergyEfficiencyFactor(z,y)        'Energy efficiency adjustment factors'
    pExtTransferLimit(z,zext,q,*,y)     'External transfer limits'
    
 * Hydrogen parameters
-   pH2Data(hh,hhdr)                    'Hydrogen production specifications'
+   pH2Data(hh,pH2Header<)                    'Hydrogen production specifications'
    pH2DataExcel(hh<,*)                 'Hydrogen data from Excel'
    pAvailabilityH2(hh,q)               'H2 plant availability'
    pFuelDataH2(f)                      'Hydrogen fuel properties'
    pCapexTrajectoryH2(hh,y)            'H2 CAPEX trajectories'
+   pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
+
 ;   
 
-* Additional parameters for results and reporting
-Parameter
-   pCapexTrajectories(g,y)             'Generator CAPEX trajectories'
-   pAllHours(q,d,y,t)                  'System peak hours'
-   pFuelPrice(c,f,y)                   'Fuel price forecasts'
-   pFindSysPeak(y)                     'System peak by year'
-   pSeasonalReporting                  'Seasonal reporting flag'
-   pSystemResultReporting              'System reporting flag'
-   pInterConMode                       'Interconnection mode flag'
-   pNoTransferLim                      'Transfer limit flag'
-   pAllowExports                       'Export permission flag'
-   pVRECapacityCredits                 'VRE capacity credits'
-   pDR                                 'Discount rate'
-   pCaptraj                           'CAPEX trajectory flag'
-   pIncludeEE                         'Energy efficiency flag'
-   pSystem_CO2_constraints            'System CO2 constraint flag'
-   pExtTransferLimitIn(z,zext,q,y)    'External import limits'
-   pExtTransferLimitOut(z,zext,q,y)   'External export limits'
-   pMaxLoadFractionCCCalc             'Load threshold for capacity credit calc'
-   pVREForecastError                  'VRE forecast error percentage'
-;
-
-* Technology and mapping sets
-Set 
-   gprimf(g,f)          'Primary fuel mapping'
-   tech                  'Technology types' / 
-      ROR               'Run of river hydro'
-      CSPPlant          'Concentrated Solar Power'  
-      PVwSTO            'Solar PV with Storage'
-      STOPV             'Storage For PV'
-      Storage           'Grid Connected Storage' 
-   /
-   gtechmap(g,tech)     'Generator-technology mapping'
-   gstatusmap(g,gstatus) 'Generator status mapping'
-   tstatusmap(z,z2,tstatus) 'Transmission status mapping'
-   Zd(z)                'Zone definitions'
-   Zt(z)                'Zone types'
-   stg(g)               'Grid storage units'
-   ror(g)               'Run of river units'
-   H2statusmap(hh,H2status) 'Hydrogen unit status'
-;
-
-
-$onmulti
-Set
-   ghdr         'Additional headers for pGenData' / CapacityCredit, Heatrate, Heatrate2, Life, VOM /
-   shdr         'Additional headers for pStorData' / VOMMWh /
-   thdr         'Additional header for pNewTransmission' / EarliestEntry, LossFactor, Status/
-;
-$offmulti
-
-
-Set
-   gmap(g,z,tech,f) 'Map generators to firms, zones, technologies and fuels'
-   
-;
 
 
 * Allow multiple definitions of symbols without raising an error (use with caution)
@@ -328,8 +240,8 @@ $gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
 $load zcmap pSettings y pHours
-$load pGenDataExcel gmap
-$load pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+$load pGenDataInput gmap
+$load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
 $load pTechData ftfindex
 
 * Load demand data
@@ -357,6 +269,7 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
 
 *-------------------------------------------------------------------------------------
+
 * Make input verification
 $log ##########################
 $log ### INPUT VERIFICATION ###
@@ -389,12 +302,20 @@ $log ###############################
 
 $if not errorFree $abort Data errors.
 
+*-------------------------------------------------------------------------------------
 
-pStorDataInput(g,g2,shdr) = pStorDataExcel(g,g2,shdr);
-pStorDataInput(g,g,shdr)$pStorDataExcel(g,'',shdr) = pStorDataExcel(g,'',shdr);
+* Only include BASE_FILE if this is a fresh run (i.e., not using a restart file)
+* This prevents reloading sets, parameters, or data already available in the restart
+$if "x%gams.restart%" == "x" $include %BASE_FILE%
+
+*-------------------------------------------------------------------------------------
 
 
-* Generate gfmap and others from pGenDataExcel
+pStorDataInput(g,g2,pStoreDataHeader) = pStorDataExcel(g,g2,pStoreDataHeader);
+pStorDataInput(g,g,pStoreDataHeader)$pStorDataExcel(g,'',pStoreDataHeader) = pStorDataExcel(g,'',pStoreDataHeader);
+
+
+* Generate gfmap and others from pGenDataInput
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
 parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 
@@ -424,34 +345,34 @@ gprimf(g,f) = sum((tech,z), gmap(g,z,tech,f));
 gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 
 * Update `gfmap(g,f)`, ensuring it includes additional mappings 
-* based on `pGenDataExcel(g,z,tech,f2,'fuel2')` when a condition is met.
+* based on `pGenDataInput(g,z,tech,f2,'fuel2')` when a condition is met.
 gfmap(g,f) = gfmap(g,f) 
-         or sum((z,tech,f2), (pGenDataExcel(g,z,tech,f2,'fuel2') = ftfindex(f)));
+         or sum((z,tech,f2), (pGenDataInput(g,z,tech,f2,'fuel2') = ftfindex(f)));
          
 
 * Map generator status from input data
-gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,'status')=gstatIndex(gstatus));
+gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataInput(g,z,tech,f,'status')=gstatIndex(gstatus));
 
 
-pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataExcel(g,z,tech,f,"Heatrate"));
+pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataInput(g,z,tech,f,"Heatrate"));
 pHeatrate(g,f2)$(gfmap(g,f2) and not gprimf(g,f2)) = 
-    sum((z,tech,f), pGenDataExcel(g,z,tech,f,"Heatrate2") 
-*  $(pGenDataExcel(g,z,tech,f,"fuel2") = ftfindex(f2))
+    sum((z,tech,f), pGenDataInput(g,z,tech,f,"Heatrate2") 
+*  $(pGenDataInput(g,z,tech,f,"fuel2") = ftfindex(f2))
     );
 
 
-pGenData(g,ghdr) = sum((z,tech,f),pGenDataExcel(g,z,tech,f,ghdr));
+pGenData(g,pGenDataInputHeader) = sum((z,tech,f),pGenDataInput(g,z,tech,f,pGenDataInputHeader));
 
 ***********************H2 model parameters***************************************************
 
-pH2Data(hh,hhdr)=pH2DataExcel(hh,hhdr);
+pH2Data(hh,pH2Header)=pH2DataExcel(hh,pH2Header);
 H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
 * TODO: Check is that works for H2
 * h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
 h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 
 
-execute_unload "input.gdx" y pHours pTechData pGenDataExcel pGenDataExcelDefault pAvailabilityDefault pCapexTrajectoriesDefault
+execute_unload "input.gdx" y pHours pTechData pGenDataInput pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap gfmap gprimf zcmap sRelevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
 pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
@@ -573,7 +494,7 @@ Zd(z) = not Zt(z);
 
 * Assign storage data from `pStorDataInput` based on the generator-storage mapping
 option gsmap<pStorDataInput;
-loop(gsmap(g2,g), pStorData(g,shdr) = pStorDataInput(g,g2,shdr));
+loop(gsmap(g2,g), pStorData(g,pStoreDataHeader) = pStorDataInput(g,g2,pStoreDataHeader));
 
 * Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
@@ -639,7 +560,7 @@ nREH2(g)= not REH2(g);
 *-------------------------------------------------------------------
 
 * Defining sTopology based on existing, committed and candidate transmission lines
-sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr));
+sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(pTransmissionHeader,pNewTransmission(z,z2,pTransmissionHeader)) + sum(pTransmissionHeader,pNewTransmission(z2,z,pTransmissionHeader));
 
 * If not running in interconnected mode, set network to 0
 sTopology(z,z2)$(not pinterconMode) = no;
@@ -725,8 +646,6 @@ pCRFsst(st)$pGenData(st,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(st,'
 pCRFcst(cs)$pGenData(cs,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(cs,'Life'))));
 pCRFcth(cs)$pGenData(cs,'Life') = pWACC / (1 - (1 / ( (1 + pWACC)**pGenData(cs,'Life'))));
 
-**Create set MapNCZ (neighbouring country zones)
-
 * Defines which connected zones belong to different countries. 
 sMapConnectedZonesDiffCountries(sTopology(z,z2)) = sum(c$(zcmap(z,c) and zcmap(z2,c)), 1) = 0;
 
@@ -742,18 +661,18 @@ vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
-vAdditionalTransfer.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransferCapacity.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
 
 sAdditionalTransfer(sTopology(z,z2),y) = yes;
 sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
 
 * Fix
-vAdditionalTransfer.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and pAllowHighTransfer) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
-vAdditionalTransfer.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and pAllowHighTransfer) = 0;
+vNewTransferCapacity.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and pAllowHighTransfer) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransferCapacity.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and pAllowHighTransfer) = 0;
 
 * Compute bounds 
-vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vAdditionalTransfer.lo(z,z2,y) - vAdditionalTransfer.up(z,z2,y-1));
-vBuildTransmission.up(sTopology(z,z2),y) = max(0,vAdditionalTransfer.up(z,z2,y) - vAdditionalTransfer.lo(z,z2,y-1));
+vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vNewTransferCapacity.lo(z,z2,y) - vNewTransferCapacity.up(z,z2,y-1));
+vBuildTransmission.up(sTopology(z,z2),y) = max(0,vNewTransferCapacity.up(z,z2,y) - vNewTransferCapacity.lo(z,z2,y-1));
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
