@@ -117,13 +117,11 @@ option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVERO
 
 
 Set
-*   tech     'technologies'
    gstatus  'generator status' / Existing, Candidate, Committed /
    tstatus  'transmission status' / Candidate, Committed/
    H2status  'H2 generation plant status' / Existing, Candidate, Committed /
    techhdr  'techdata headers' / 'RE Technology', 'Hourly Variation' /
    pe       'peak energy for demand forecast' /'peak', 'energy'/
-*   ft       'fuel types'
    mipline 'Solver option lines'
    sc       'settings' /
                         allowExports
@@ -321,7 +319,6 @@ Parameter
 $if not errorfree $abort Error before reading input
 *-------------------------------------------------------------------------------------
 * Read inputs
-* The order of loading is important. TODO: Clarifiy to avoid bugs !
 
 * Include the external reader file defined by the macro variable %READER_FILE%
 $include %READER_FILE%
@@ -344,9 +341,6 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin pEnergyEfficiencyFactor  
-
-* Load load data
-
 
 * Load trade data
 $load zext
@@ -587,7 +581,7 @@ gsmap(g,g) = no;
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate');
 
-* Define existing generators (`eg(g)`) as those that are not candidates
+* Define existing generators (`eg(g)`) as those that are not candidates, include comitted
 eg(g)  = not ng(g);
 
 * Identify variable renewable energy (VRE) generators (`vre(g)`) based on hourly variation data
@@ -611,10 +605,10 @@ stg(g) = gtechmap(g,"Storage");
 * Define a general storage category (`st(g)`) as either `STOPV` or `STORAGE`
 st(g)  = gtechmap(g,"STOPV") or gtechmap(g,"Storage");
 
-* Compute discounted capital expenditure (`dc(g)`) based on capex trajectory data
+* Define generators with capex trajectory data
 dc(g)  = sum(y, pCapexTrajectories(g,y));
 
-* Identify non-discounted capital generators (`ndc(g)`) as those that do not have a capex trajectory
+* Define generators without capex trajectory data
 ndc(g) = not dc(g);
 
 * Identify run-of-river hydro generators (`ror(g)`)
@@ -644,7 +638,6 @@ nREH2(g)= not REH2(g);
 * TOPOLOGY DEFINITION
 *-------------------------------------------------------------------
 
-
 * Defining sTopology based on existing, committed and candidate transmission lines
 sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(thdr,pNewTransmission(z,z2,thdr)) + sum(thdr,pNewTransmission(z2,z,thdr));
 
@@ -658,17 +651,14 @@ pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
 
 * Map transmission status from input data
-
 tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
 
-
 *-------------------------------------------------------------------
 * CAPACITY CREDIT
 *-------------------------------------------------------------------
-
 
 * Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
@@ -680,47 +670,32 @@ pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<
 * Default capacity credit for all generators is set to 1
 pCapacityCredit(g,y)= 1;
 
-
 * Protect against unintended changes while modifying `pVREgenProfile` with `pVREProfile` data
-*pVREgenProfile(gtechmap(VRE,tech),q,d,t)$(not(pVREgenProfile(VRE,tech,q,d,t))) = sum(gzmap(VRE,z),pVREProfile(z,tech,q,d,t));
 pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap(VRE,z) and gtechmap(VRE,tech)),pVREProfile(z,tech,q,d,t));
 
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
-
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
-
-* TODO: REMOVE
-*pCapacityCredit(RE,y) =  Sum((z,q,d,t)$gzmap(RE,z),Sum(f$gfmap(RE,f),pREProfile(z,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(RE,f) and gzmap(RE,z) ),pREProfile(z,f,q,d,t))/sum((q,d,t),1));
 
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
 pStoPVProfile(so,q,d,t)  =  sum((z,tech)$(gtechmap(so,tech) and gzmap(so,z)), pVREProfile(z,tech,q,d,t));
 
-
 * H2 model parameters
 pCapexTrajectoriesH2(hh,y) =1;
 pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
-
 
 *-------------------------------------------------------------------
 * COST OF CAPITAL
 *-------------------------------------------------------------------
 
-
 * Set the weight of the start year to 1.0
 pWeightYear(sStartYear) = 1.0;
-
 * Compute weight for each year as the difference from the previous year's cumulative weight
 pWeightYear(y)$(not sStartYear(y)) = y.val - sum(sameas(y2+1,y), y2.val) ;
-*pWeightYear(sFinalYear) = sFinalYear.val - sum(sameas(y2+1,sFinalYear), y2.val)  ;
-
-
-** (mid-year discounting)
-*pRR(y) = 1/[(1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2)))];
 
 * Compute the present value discounting factor considering mid-year adjustments
 pRR(y) = 1.0;
@@ -734,12 +709,13 @@ pLossFactor(z2,z,y)$(pLossFactor(z,z2,y) and not pLossFactor(z2,z,y)) = pLossFac
 pEnergyEfficiencyFactor(z,y)$(not pincludeEE) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
 
-pVarCost(gfmap(g,f),y) = pGenData(g,"VOM")
-                       + sum((gzmap(g,z),zcmap(z,c)),pFuelPrice(c,f,y)*pHeatRate(g,f) )
+pVOMCost(gfmap(g,f),y) = pGenData(g,"VOM")
                        + pStorData(g, "VOMMWh")
                        + pCSPData(g, "Storage", "VOMMWh")
                        + pCSPData(g, "Thermal Field", "VOMMWh");
 
+pFuelCost(g,f,y)$(gfmap(g,f)) = sum((gzmap(g,z),zcmap(z,c)),pFuelPrice(c,f,y)*pHeatRate(g,f));
+pVarCost(g,f,y)$(gfmap(g,f)) = pFuelCost(g,f,y) + pVOMCost(g,f,y);
 pVarCostH2(hh,y) = pH2Data(hh,"VOM");
 
 * pCRF refers to the Capital Recovery Factor, which is used to calculate the annualized cost of capital for a project.
