@@ -296,9 +296,6 @@ Positive Variables
    vFuelH2Quarter(z,q,y)        'H2 fuel saved for H2 electricity generationon a quarterly basis'
    vUnmetExternalH2(z,q,y)        'mmBTU of external H2 demand that cant be met'
    vYearlyH2UnservedCost(z,y)   'Annual Cost of external H2 unserved in USD'  
-
-
-
 ;
 
 Free Variable
@@ -364,8 +361,6 @@ Equations
    eYearlyUnmetSpinningReserveCostSystem(y)              'system unmet spinning reserve'
    eYearlyCO2BackstopCostSystem(y)              'system CO2 backstop cost'
 
-
-
    eTotalAnnualizedCapex(z,y)           'Total annualized capex for all generators in year y'
    eAnnualizedCapexInit(g,y)                  'Annualized capex'
    eAnnualizedCapexUpdate(g,y)
@@ -424,23 +419,23 @@ Equations
    eTotalEmissionsConstraint(y) 	'constraint on total CO2eq emissions by year in tons'
   
 
-   eRampDownInjLimit(g,q,d,t,y)
-   eRampUpInjLimit(g,q,d,t,y)
+   eChargeRampDownLimit(g,q,d,t,y)
+   eChargeRampUpLimit(g,q,d,t,y)
 
    eYearlyCurtailmentCost(z,y)
 
-   eStorBal(g,q,d,t,y)
-   eStorBal1(g,q,d,t,y)
+   eStateOfChargeUpdate(g,q,d,t,y)
+   eStateOfChargeInit(g,q,d,t,y)
    eStorBal2(g,q,d,t,y)
    eStorBal3(g,q,d,y)
 
-   eStorageOutput(g,q,d,t,y)
-   eStorageInjection(g,q,d,t,y)
-   eStorageInjection2(g,q,d,t,y)
-   eStorageNet(g,q,d,t,y)
+   eSOCSupportsReserve(g,q,d,t,y)
+   eChargeCapacityLimit(g,q,d,t,y)
+   eChargeLimitWithPVProfile(g,q,d,t,y)
+   eNetChargeBalance(g,q,d,t,y)
 
-   eStorageCap(g,q,d,t,y)
-   eStorageCap2(g,q,d,t,y)         'storage capacity (energy) must be at least 1 hour if installed'
+   eSOCUpperBound(g,q,d,t,y)
+   eStorageCapMinConstraint(g,q,d,t,y)         'storage capacity (energy) must be at least 1 hour if installed'
 
    eStorageCSPCap(g,q,d,t,y)
    eInjCSP(g,q,d,t,y)
@@ -782,8 +777,6 @@ eMaxhourlyExportsshare(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
    sum((zcmap(z,c), zext),vExportPrice(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxExport * pEnergyEfficiencyFactor(z,y));
 
 
-
-
 eExtZoneLimitImport(z,zext,q,d,t,y)$pallowExports..
    vImportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
 
@@ -791,46 +784,51 @@ eExtZoneLimitExport(z,zext,q,d,t,y)$pallowExports..
    vExportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
 
 *--- Storage-specific equations
-eStorageCap(st,q,d,t,y)$pincludeStorage..
+* Limits state of charge (SOC) by capacit
+eSOCUpperBound(st,q,d,t,y)$pincludeStorage..
    vStorage(st,q,d,t,y) =l= vCapStor(st,y);
 
-*without this, it builds storage capacity to meet reserve
-eStorageCap2(st,q,d,t,y)$pincludeStorage..
+* Prevents storage being used to meet reserves only
+eStorageCapMinConstraint(st,q,d,t,y)$pincludeStorage..
    vCapStor(st,y) =g= vCap(st,y);
 
-eStorageInjection(st,q,d,t,y)$pincludeStorage..
+* Charging power ≤ power capacity
+eChargeCapacityLimit(st,q,d,t,y)$pincludeStorage..
    vStorInj(st,q,d,t,y) =l= vCap(st,y);
 
-*eStorageInjection2(stp,q,d,t,y)$pincludeStorage..
-*   vStorInj(stp,q,d,t,y) =l= sum(so, vCap(so,y)*pStoPVProfile(so,q,d,t));
-
-eStorageInjection2(stp,q,d,t,y)$pincludeStorage..
+* Charge cap from PV-following storage logic
+eChargeLimitWithPVProfile(stp,q,d,t,y)$pincludeStorage..
    vStorInj(stp,q,d,t,y) =l= sum(gsmap(so,stp), vCap(so,y)*pStoPVProfile(so,q,d,t));
 
-eRampDownInjLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
+* Max rate of charge decrease (ramp-down)
+eChargeRampDownLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
    vStorInj(st,q,d,t-1,y) - vStorInj(st,q,d,t,y) =l= pGenData(st,'RampDnRate')*vCap(st,y);
 
-eRampUpInjLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
+* Max rate of charge increase (ramp-up)
+eChargeRampUpLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
    vStorInj(st,q,d,t,y) - vStorInj(st,q,d,t-1,y) =l= pGenData(st,'RampUpRate')*vCap(st,y);
 
-eStorageNet(st,q,d,t,y)$pincludeStorage..
+* Defines net charge as output - input
+eNetChargeBalance(st,q,d,t,y)$pincludeStorage..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
-eStorBal(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage)..
+* SOC dynamics between time steps
+eStateOfChargeUpdate(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage)..
    vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorage(st,q,d,t-1,y);
 
-eStorBal1(st,q,d,sFirstHour(t),y)$pincludeStorage..
+* SOC at first hour (no past state)
+eStateOfChargeInit(st,q,d,sFirstHour(t),y)$pincludeStorage..
    vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
-* To ensure energy balance in one representative day
+* Ensures SOC level can cover spinning reserve
+eSOCSupportsReserve(st,q,d,t,y)$pincludeStorage..
+   vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
+* To ensure energy balance in one representative day
 * eStorBal2(st,q,d,sLastHour(t),y)$(pincludeStorage)..    vStorage(st,q,d,t,y)  =e= vStorage(st,q,d,t-23,y)-(pStorData(st,"efficiency")*vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f),vPwrOut(st,f,q,d,t-23,y))) ;
 
 * eStorBal3(st,q,d,y)$(pincludeStorage)..  pStorData(st,"efficiency")* sum(t,vStorInj(st,q,d,t,y)) =e=  Sum((gfmap(st,f),t),vPwrOut(st,f,q,d,t,y));
 
-
-eStorageOutput(st,q,d,t,y)$pincludeStorage..
-   vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
 *--- CSP-specific equations
 eStorageCSPCap(cs,q,d,t,y)$pincludeCSP..
@@ -1098,19 +1096,19 @@ Model PA /
    eExtZoneLimitImport
    eExtZoneLimitExport   
    
-   eStorageCap
-   eStorageCap2
-   eStorageInjection
-   eStorageInjection2
-   eRampDownInjLimit
-   eRampUpInjLimit
-   eStorageNet
-   eStorBal
-   eStorBal1
+   eSOCUpperBound
+   eStorageCapMinConstraint
+   eChargeCapacityLimit
+   eChargeLimitWithPVProfile
+   eChargeRampDownLimit
+   eChargeRampUpLimit
+   eNetChargeBalance
+   eStateOfChargeUpdate
+   eStateOfChargeInit
 *  eStorBal2
 *  eStorBal3
   
-   eStorageOutput
+   eSOCSupportsReserve
    
    eStorageCSPCap
    eInjCSP
