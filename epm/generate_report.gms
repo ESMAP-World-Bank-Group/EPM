@@ -171,7 +171,9 @@ Parameters
    pInterchangeSeasonCountry(c,c2,y,q)       'Total exchange in GWh between internal zones per season per country'
    pSeasonTradeCountry(c,*,y,q)              'Trade with external zones by season in GWh per country'
    pZonesperCountry(c)                       'Number of zones per country'
-   pTotalHoursperYear(y)                     'Number of hours in a given year' 
+   pTotalHoursperYear(y)                     'Number of hours in a given year'
+
+   pAnnCapex(g,y)                        'Annualized capex for generators in USD' 
 
 ;
 
@@ -240,6 +242,7 @@ pCapex(z,y) = 1e6*sum(gzmap(g,z),  vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTraje
                                  + vBuildStor.l(cs,y)*pCSPData(cs,"Storage","CapexMWh")*pCapexTrajectories(cs,y))
             +1e6*sum(h2zmap(hh,z), vBuildH2.l(hh,y)*pH2Data(hh,"Capex")*pCapexTrajectoriesH2(hh,y))$pIncludeH2+1e-5 ;
 
+pAnnCapex(g,y) = vAnnGenCapex.l(g,y);
 
 * TRADE
 pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
@@ -854,6 +857,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
     execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
                                      pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
+                                     pAnnCapex,
                                      pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
                                      pCostSummary, pCostSummaryCountry, pCostSummaryAverageCountry, pSystemCost,
                                      pCongestionRevenuesBetweenZones, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry

@@ -543,10 +543,18 @@ eYearlyTotalCost(c,y)..
 *--- Capex
 * Annualized CAPEX for all generators in year y
 
-eTotalAnnualizedGenCapex(g,y)..
-   vAnnGenCapex(g,y)  =e= sum(gzmap(dc,z), vAnnCapexGenTraj(dc,y))
-                        + sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6);
+eTotalAnnualizedCapex(z, y)..
+   vAnnCapex(z,y) =e= sum(gzmap(g,z), vAnnGenCapex(g,y))
+                        + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
+                        + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2;
 
+eTotalAnnualizedGenCapex(g,y)..
+   vAnnGenCapex(g,y) =e=
+       vAnnCapexGenTraj(g,y)$(dc(g))
+     + pCRF(g)*vCap(g,y)*pGenData(g,"Capex")*1e6$(ndc(g))
+     + pCRFsst(g)*vCapStor(g,y)*pStorData(g,"CapexMWh")*1e3$(ndc(g) and not cs(g))
+     + pCRFcst(g)*vCapStor(g,y)*pCSPData(g,"Storage","CapexMWh")*1e3$(ndc(g) and not st(g))
+     + pCRFcth(g)*vCapTherm(g,y)*pCSPData(g,"Thermal Field","CapexMWh")*1e6$(ndc(g));
 
 * Annualized CAPEX accumulation (years after the start year) for generators with capex trajectory
 eAnnualizedCapexUpdate(dc,y)$(not sStartYear(y))..
@@ -564,23 +572,13 @@ eAnnualizedCapexInit(dc,sStartYear(y))..
                      + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
                      
 
-eTotalAnnualizedCapex(z, y)..
-   vAnnCapex(z,y) =e= sum(gzmap(g,z), vAnnGenCapex(g,y))
-                        + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
-                        + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3)
-                        + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)
-                        + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
-                        + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2;
-
 *--- FOM
-eYearlyFOMCost(z, y)..
-   vYearlyFOMCost(z, y) =e= sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
-            + sum(gzmap(st,z), vCapStor.l(st,y)*pStorData(st,"FixedOMMWh"))
-            + sum(gzmap(cs,z), vCapStor.l(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
-            + sum(gzmap(cs,z), vCapTherm.l(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
-            + sum(h2zmap(hh,z),  vCapH2.l(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
-
-
+eYearlyFOMCost(z,y)..
+   vYearlyFOMCost(z,y) =e= sum(gzmap(g,z),  vCap(g,y)*pGenData(g,"FOMperMW"))
+            + sum(gzmap(st,z), vCapStor(st,y)*pStorData(st,"FixedOMMWh"))
+            + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
+            + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
+            + sum(h2zmap(hh,z),  vCapH2(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
 
 *-------------------------------------------------
 eYearlyVariableCost(z,y)..
