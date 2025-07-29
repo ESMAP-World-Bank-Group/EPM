@@ -126,7 +126,7 @@ Sets
    pGenDataInputHeader 'Generator data input headers'
    pSettingsHeader
    pStoreDataHeader
-   pCSPDataHeader
+   pCSPDataHeader 'CSP data headers' / 'Storage', 'Thermal Field' /
    pTransmissionHeader
    pH2Header
    pTechDataHeader
@@ -159,7 +159,7 @@ Parameter
    pStorDataExcel(g,*,pStoreDataHeader<)             'Storage unit specifications'
    
 * CSP and technology data
-   pCSPData(g,pCSPDataHeader<,pStoreDataHeader)              'Concentrated solar power data'
+   pCSPData(g,pCSPDataHeader,pStoreDataHeader)              'Concentrated solar power data'
    pTechData(tech,pTechDataHeader<)              'Technology specifications'
    
 * Fuel data
@@ -210,23 +210,17 @@ Parameter
    pExtTransferLimit(z,zext,q,*,y)     'External transfer limits'
    
 * Hydrogen parameters
-   pH2Data(hh,pH2Header<)                    'Hydrogen production specifications'
-   pH2DataExcel(hh<,*)                 'Hydrogen data from Excel'
+   pH2DataExcel(hh<,pH2Header<)                 'Hydrogen data from Excel'
    pAvailabilityH2(hh,q)               'H2 plant availability'
    pFuelDataH2(f)                      'Hydrogen fuel properties'
    pCapexTrajectoryH2(hh,y)            'H2 CAPEX trajectories'
    pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
+   
+   ftfindex(f)
+
 
 ;   
 
-
-
-* Allow multiple definitions of symbols without raising an error (use with caution)
-$onMulti
-
-Parameter
-    ftfindex(f)
-;
    
 $if not errorfree $abort Error before reading input
 *-------------------------------------------------------------------------------------
@@ -252,7 +246,7 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
-$load pPlanningReserveMargin pEnergyEfficiencyFactor  
+$load pPlanningReserveMargin  
 
 * Load trade data
 $load zext
@@ -260,11 +254,11 @@ $load pExtTransferLimit, pNewTransmission, pMinImport
 $load pTradePrice, pMaxExchangeShare
 
 * Load Hydrogen model-related symbols
-$load pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
+$load pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 
 * Close the GDX file after loading all required data
 $gdxIn
-$offmulti
+
 $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
 
@@ -390,21 +384,6 @@ $include %DEMAND_FILE%
 
 *--- Part2: Start of initialisation of other parameters
 
-$set zonal_spinning_reserve_constraints   -1
-$set system_spinning_reserve_constraints  -1
-$set planning_reserve_constraints         -1
-$set ramp_constraints                     -1
-$set fuel_constraints                     -1
-$set capital_constraints                  -1
-$set mingen_constraints                   -1
-$set includeCSP                           -1
-$set includeStorage                       -1
-$set zonal_co2_constraints                -1
-$set system_co2_constraints               -1
-$set IncludeDecomCom                      -1
-*Hydrogen model specific sets
-$set IncludeH2                            -1
-
 
 * Read main parameters from pSettings
 pzonal_spinning_reserve_constraints  = pSettings("zonal_spinning_reserve_constraints");
@@ -440,21 +419,6 @@ pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
 pIncludeH2                       = pSettings("IncludeH2");
 pH2UnservedCost                  = pSettings("H2UnservedCost");
 
-
-* Assign values to model parameters only if their corresponding macro variables are not set to "-1"
-$if not "%zonal_spinning_reserve_constraints%"  == "-1" pzonal_spinning_reserve_constraints  = %zonal_spinning_reserve_constraints%;
-$if not "%system_spinning_reserve_constraints%" == "-1" psystem_spinning_reserve_constraints = %system_spinning_reserve_constraints%;
-$if not "%planning_reserve_constraints%"        == "-1" pplanning_reserve_constraints        = %planning_reserve_constraints%;
-$if not "%ramp_constraints%"                    == "-1" pramp_constraints                    = %ramp_constraints%;
-$if not "%fuel_constraints%"                    == "-1" pfuel_constraints                    = %fuel_constraints%;
-$if not "%capital_constraints%"                 == "-1" pcapital_constraints                 = %capital_constraints%;
-$if not "%mingen_constraints%"                  == "-1" pmingen_constraints                  = %mingen_constraints%;
-$if not "%includeCSP%"                          == "-1" pincludeCSP                          = %includeCSP%;
-$if not "%includeStorage%"                      == "-1" pincludeStorage                      = %includeStorage%;
-$if not "%zonal_co2_constraints%"               == "-1" pzonal_co2_constraints               = %zonal_co2_constraints%;
-$if not "%system_co2_constraints%"              == "-1" psystem_co2_constraints              = %system_co2_constraints%;
-$if not "%IncludeDecomCom%"                     == "-1" pIncludeDecomCom                     = %IncludeDecomCom%;
-$if not "%IncludeH2%"                           == "-1" pIncludeH2                           = %IncludeH2%;
 
 singleton set sFinalYear(y);
 scalar TimeHorizon;

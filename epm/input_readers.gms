@@ -109,7 +109,7 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pSettings%
     name: pSettings
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {.nan: EPS, 0: EPS}
     indexColumns: [2]
     valueColumns: [3]
     type: par
@@ -308,8 +308,7 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pCSPData%
     name: pCSPData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    indexSubstitutions: {.nan: "", .nan: EPS}
     indexColumns: [1, 2]
     header: [1]
     type: par
@@ -554,15 +553,6 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
-
-- CSVReader:
-    trace: %TRACE%
-    file: %pH2DataExcel%
-    name: hh
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    type: set
 
 - CSVReader:
     trace: %TRACE%
