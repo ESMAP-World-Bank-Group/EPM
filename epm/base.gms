@@ -178,13 +178,10 @@ Parameters
    pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
    pFuelCarbonContent(f)            'Fuel carbon content in tCO2 per MMBTu'
 
-
    pEmissionsCountry(c,y)           'Maximum emissions allowed per country and year in tns'
-
-
    pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
-
    pEmissionsTotal(y)               'Maximum system emissions allowed year in tns'
+   
 * Economic parameters
    pRR (y)                          'accumulated return rate factor'
    pWACC                            'Weighted Average Cost of Capital'
@@ -197,6 +194,8 @@ Parameters
    pSpinningReserveVoLL             'Spinning Reserve VoLL per MWh'
    pMaxCapital                      'Capital limit in billion dollars'
    pVarCost(g,f,y)                  'Variable cost - fuel plus VOM'
+   pFuelCost(g,f,y)                 'Fuel cost in USD per MMBTU'
+   pVOMCost(g,f,y)
 * Control parameters
    pramp_constraints                'Whether constraints on ramp up and down are included'
    pfuel_constraints
@@ -232,7 +231,6 @@ Parameters
    pH2UnservedCost                  'Cost of external H2 unserved'
 ************************************************************
 
-
 ;
 
 Positive Variables
@@ -251,7 +249,9 @@ Positive Variables
 
    vFuel(z,f,y)              'annual fuel in MMBTU'
 
-   vAnnCapex(g,y)            'Annualized capex for capacity vCap installed in Year y  carried through planning horizon'
+   vAnnCapexGenTraj(g,y)         'Annualized capex for capacity with capex trajectory'
+   vAnnGenCapex(g,y)            'Annualized capex for capacity installed in Year y'
+   vAnnCapex(z,y)            'Annualized capex for zone z in year y'
 
    vThermalOut(g,q,d,t,y)    'Generation from thermal element (CSP solar field in MW)'
    vCapStor(g,y)             'Total capacity of storage installed (MWh)'
@@ -313,8 +313,18 @@ Free Variable
    vYearlyUnmetReserveCostCountry(c,y)         'Country unmet spinning and planning reserve'
    vYearlyCarbonCost(z,y)               'country carbon cost'
    vYearlyUnmetReserveCostSystem(y)                 'system unmet planing reserve'
-   vYearlyCO2CostCountry(c,y)              'ccost of CO2 backstop'
-   
+   vYearlyCO2BackstopCostCountry(c,y)              'ccost of CO2 backstop'
+   vYearlyUnmetPlanningReserveCostSystem(y)              'system unmet planning reserve cost'
+   vYearlyUnmetSpinningReserveCostSystem(y)              'system unmet spinning reserve cost'
+   vYearlyCO2BackstopCostSystem(y)              'system CO2 backstop cost'
+   vYearlyUnmetReserveCostCountry(c,y)              'country unmet reserve cost'
+   vYearlyUnmetPlanningReserveCostCountry(c,y)              'country unmet planning reserve cost'
+   vYearlyUnmetSpinningReserveCostCountry(c,y)              'country unmet spinning reserve cost'
+   vYearlyFOMCost(z,y)                'country FOM cost'
+   vYearlyFuelCost(z,y)               'country fuel cost'
+   vYearlyVOMCost(z,y)                'country VOM cost'
+   vYearlyImportExternalCost(z,y)        'cost of imports from external zones'
+   vYearlyExportExternalCost(z,y)        'cost of exports to external zones'
 ;
 
 Integer variable
@@ -333,22 +343,34 @@ Integer variable
 ;
 
 
-
-
-
-
-
 Equations
    eNPVCost                        'objective function'
    eYearlyTotalCost(c,y)
-   eYearlyFixedCost(z,y)
-   eYearlyVariableCost(z,y)
+   eYearlyVOMCost(z,y)
    eYearlySpinningReserveCost(z,y)
    eYearlyUSECost(z,y)
    eYearlyTradeCost(z,y)
    eYearlyUnmetReserveCostCountry(c,y)
-   eYearlyUnmetReserveCostSystem(y)            'unmet reserve system'
    eYearlyCarbonCost(z,y)
+   eYearlyFOMCost(z,y)                'Total yearly FOM cost'
+   eYearlyCO2BackstopCostCountry(c,y)     'cost of CO2 backstop'
+   eYearlyVariableCost(z,y)               'Total yearly  cost'
+   eYearlyFuelCost(z,y)                   'Total yearly fuel cost'
+   eYearlImportExternalCost(z,y)        'Total yearly cost of imports from external zones'
+   eYearlyExportExternalCost(z,y)        'Total yearly cost of exports to external zones'
+   eYearlyUnmetSpinningReserveCostCountry(c,y)              'country unmet spinning reserve cost'
+   eYearlyUnmetPlanningReserveCostCountry(c,y)              'country unmet planning reserve cost'
+   eYearlyUnmetPlanningReserveCostSystem(y)              'system unmet planning reserve cost'
+   eYearlyUnmetSpinningReserveCostSystem(y)              'system unmet spinning reserve'
+   eYearlyCO2BackstopCostSystem(y)              'system CO2 backstop cost'
+
+
+
+   eTotalAnnualizedCapex(z,y)           'Total annualized capex for all generators in year y'
+   eAnnualizedCapexInit(g,y)                  'Annualized capex'
+   eAnnualizedCapexUpdate(g,y)
+   eTotalAnnualizedGenCapex(g, y)            'Total annualized capex for all generators in year y'
+
 
    eDemSupply(z,q,d,t,y)           'demand balance'
    eMaxhourlyExportsshare(c,q,d,t,y) 'max exports to an external zone (hourly limit)'
@@ -361,14 +383,8 @@ Equations
    eBuiltCap(g,y)                  'built capacity'
    eRetireCap(g,y)                 'retired capacity'
 
-*   eMaxBuildTotal(g)               'max build over all years'
-*   eMinBuildTotal                  'min build over all years'
-   
-
-
 
    eMinGenRE(c,y)                  'Min Generation of RE after a target year at country level'
-
    eMaxCF(g,q,y)                   'max capacity factor'
    eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
 
@@ -398,8 +414,6 @@ Equations
    eExtZoneLimitImport(z,zext,q,d,t,y) 'import limits from external zone in MW'
    eExtZoneLimitExport(z,zext,q,d,t,y) 'export limits to external zone in MW'
 
-   eAnnCapex(g,y)                  'Annualized capex'
-   eAnnCapex1(g,y)
 
 
    eCapitalConstraint              'capital limit expressed by pMaxCapital in billion USD'
@@ -407,7 +421,6 @@ Equations
    eEmissionsCountry(c,y)          'constraint on country CO2eq emissions'
    eTotalEmissions(y)              'total regional CO2eq emissions by year in tons'
    eEmissionsTotal(y)              'Total CO2eq emissions by year in tons'
-   eYearlyCO2backstopCost(c,y)     'co2 backstop cost in USD'
    eTotalEmissionsConstraint(y) 	'constraint on total CO2eq emissions by year in tons'
   
 
@@ -490,16 +503,32 @@ eMaxH2PwrInjection(hh,q,d,t,y)
 *---    Objective function
 * Adding system-level cost of reserves and CO2 backstop to the total cost
 eNPVCost..
-   vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, vYearlyTotalCost(c,y)) + vYearlyUnmetReserveCostSystem(y) + vYearlySysCO2backstop(y) * pCostOfCO2backstop));
+   vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, 
+                                 vYearlyTotalCost(c,y)) + 
+                                 vYearlyUnmetPlanningReserveCostSystem(y) + 
+                                 vYearlyUnmetSpinningReserveCostSystem(y) +
+                                 vYearlyCO2BackstopCostSystem(y))
+                                 );
 
 *---  Cost equations
+*--- System-level costs
+eYearlyUnmetPlanningReserveCostSystem(y)..
+   vYearlyUnmetPlanningReserveCostSystem(y) =e= vUnmetPlanningReserveSystem(y)*pPlanningReserveVoLL;
+
+eYearlyUnmetSpinningReserveCostSystem(y)..
+   vYearlyUnmetSpinningReserveCostSystem(y) =e= sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
+
+eYearlyCO2BackstopCostSystem(y)..
+   vYearlyCO2BackstopCostSystem(y) =e= vYearlySysCO2backstop(y)*pCostOfCO2backstop;
+
 * Note capex is full capex in $m per MW. Also note VarCost includes fuel cost and VOM -
 * essentially the short run marginal cost for the generator
 
 * Adding country-level cost of reserves and CO2 backstop to the total cost
 eYearlyTotalCost(c,y)..
-   vYearlyTotalCost(c,y) =e= vYearlyUnmetReserveCostCountry(c,y)+ vYearlyCO2CostCountry(c,y) 
-                           + sum(zcmap(z,c), vYearlyFixedCost(z,y)
+   vYearlyTotalCost(c,y) =e= vYearlyUnmetReserveCostCountry(c,y)+ vYearlyCO2BackstopCostCountry(c,y) 
+                           + sum(zcmap(z,c), vAnnCapex(z, y) 
+                                           + vYearlyFOMCost(z, y)
                                            + vYearlyVariableCost(z,y)
                                            + vYearlySpinningReserveCost(z,y)
                                            + vYearlyUSECost(z,y)
@@ -510,29 +539,67 @@ eYearlyTotalCost(c,y)..
                                            + vYearlySurplus(z,y)
                                            + vYearlyH2UnservedCost(z,y)$pIncludeH2);
 
-eYearlyFixedCost(z,y)..
-   vYearlyFixedCost(z,y) =e= sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6)
-                           + sum(gzmap(dc,z), vAnnCapex(dc,y))
-                           + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
-                           + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3)
-                           + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)
-                           + sum(gzmap(g,z), vCap(g,y)*pGenData(g,"FOMperMW"))
-                           + sum(gzmap(st,z),vCap(st,y)*pStorData(st,"FixedOMMWh"))
-                           + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
-                           + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
-                           + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
-                           + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2
-                           + sum(h2zmap(hh,z), vCapH2(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
+                           
+*--- Capex
+* Annualized CAPEX for all generators in year y
+
+eTotalAnnualizedGenCapex(g,y)..
+   vAnnGenCapex(g,y)  =e= sum(gzmap(dc,z), vAnnCapexGenTraj(dc,y))
+                        + sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6);
 
 
+* Annualized CAPEX accumulation (years after the start year) for generators with capex trajectory
+eAnnualizedCapexUpdate(dc,y)$(not sStartYear(y))..
+   vAnnCapexGenTraj(dc,y) =e= vAnnCapexGenTraj(dc,y-1)
+                     + vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
+                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
+                                                                          
+* Initial annualized CAPEX in the start year for generators with capex trajectory
+eAnnualizedCapexInit(dc,sStartYear(y))..
+   vAnnCapexGenTraj(dc,y) =e= vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
+                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
+                     
+
+eTotalAnnualizedCapex(z, y)..
+   vAnnCapex(z,y) =e= sum(gzmap(g,z), vAnnGenCapex(g,y))
+                        + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
+                        + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3)
+                        + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)
+                        + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
+                        + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2;
+
+*--- FOM
+eYearlyFOMCost(z, y)..
+   vYearlyFOMCost(z, y) =e= sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
+            + sum(gzmap(st,z), vCapStor.l(st,y)*pStorData(st,"FixedOMMWh"))
+            + sum(gzmap(cs,z), vCapStor.l(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
+            + sum(gzmap(cs,z), vCapTherm.l(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
+            + sum(h2zmap(hh,z),  vCapH2.l(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
+
+
+
+*-------------------------------------------------
 eYearlyVariableCost(z,y)..
-   vYearlyVariableCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVarCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))
+   vYearlyVariableCost(z,y) =e= vYearlyFuelCost(z,y) + vYearlyVOMCost(z,y);
+
+*--- Fuel costs
+eYearlyFuelCost(z,y)..
+   vYearlyFuelCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pFuelCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t));
+
+*--- VOM
+eYearlyVOMCost(z,y)..
+   vYearlyVOMCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVOMCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))
                               + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pIncludeH2;
 
 * Note: ReserveCost is in $/MWh -- this is the DIRECT cost of holding reserve like wear and tear that a generator bids in a market
 eYearlySpinningReserveCost(z,y)..
    vYearlySpinningReserveCost(z,y) =e= sum((gzmap(g,z),q,d,t), vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t));
 
+*--- Unserved energy cost (USE)
 eYearlyUSECost(z,y)..
    vYearlyUSECost(z,y) =e= sum((q,d,t), vUSE(z,q,d,t,y)*pVoLL*pHours(q,d,t));
 
@@ -543,26 +610,33 @@ eYearlyCurtailmentCost(z,y)..
    vYearlyCurtailmentCost(z,y) =e= sum((gzmap(g,z),q,d,t), vCurtailedVRE(z,g,q,d,t,y)*pCostOfCurtailment*pHours(q,d,t));
 
 eYearlyTradeCost(z,y)..
-   vYearlyTradeCost(z,y) =e= sum((zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
-                           - sum((zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+   vYearlyTradeCost(z,y) =e= vYearlyImportExternalCost(z,y) - vYearlyExportExternalCost(z,y);
+
+eYearlImportExternalCost(z,y)..
+   vYearlyImportExternalCost(z,y) =e= sum((zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+
+eYearlyExportExternalCost(z,y)..
+   vYearlyExportExternalCost(z,y) =e= sum((zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 eYearlyUnmetReserveCostCountry(c,y)..
-   vYearlyUnmetReserveCostCountry(c,y) =e= vUnmetPlanningReserveCountry(c,y)*pPlanningReserveVoLL
-                         + sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
-                         
-eYearlyCO2backstopCost(c,y)..
-   vYearlyCO2CostCountry(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
+   vYearlyUnmetReserveCostCountry(c,y) =e= vYearlyUnmetPlanningReserveCostCountry(c,y) + vYearlyUnmetSpinningReserveCostCountry(c,y);
 
-eYearlyUnmetReserveCostSystem(y)..
-   vYearlyUnmetReserveCostSystem(y) =e= vUnmetPlanningReserveSystem(y)*pPlanningReserveVoLL
-                          + sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
+eYearlyUnmetSpinningReserveCostCountry(c,y)..
+   vYearlyUnmetSpinningReserveCostCountry(c,y) =e= sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
+
+eYearlyUnmetPlanningReserveCostCountry(c,y)..
+   vYearlyUnmetPlanningReserveCostCountry(c,y) =e= vUnmetPlanningReserveCountry(c,y)*pPlanningReserveVoLL;
+                         
+eYearlyCO2BackstopCostCountry(c,y)..
+   vYearlyCO2BackstopCostCountry(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
 
 eYearlyCarbonCost(z,y)..
    vYearlyCarbonCost(z,y) =e= pIncludeCarbon*pCarbonPrice(y)
                             * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 eH2UnservedCost(z,y)..
-                vYearlyH2UnservedCost(z,y)       =e= sum(q, vUnmetExternalH2(z,q,y) )*pH2UnservedCost$(pIncludeH2);
+   vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y) )*pH2UnservedCost$(pIncludeH2);
+
 
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
@@ -830,20 +904,7 @@ eCapThermBalance3(ng,sStartYear(y))$pincludeCSP..
 eBuildThermNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeCSP)..
    sum(y, vBuildTherm(eg,y)) =l= pCSPData(eg,"Thermal Field","CapacityMWh");
 
-*---  Calculate capex for generators with reducing capex
-eAnnCapex1(dc,y)$(not sStartYear(y))..
-   vAnnCapex(dc,y) =e= vAnnCapex(dc,y-1)
-                     + vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
-                                                                          ;
-
-eAnnCapex(dc,sStartYear(y))..
-   vAnnCapex(dc,y) =e= vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;                                                                          ;
+*---  Calculate capex for generators with reducing capex                                                                         ;
 
 eCapitalConstraint$pcapital_constraints..
    sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= pMaxCapital*1e3;
@@ -965,13 +1026,30 @@ eRE2H2(RE,f,q,d,t,y)$pIncludeH2..
 
 Model PA /
    eNPVCost
+   eYearlyUnmetPlanningReserveCostSystem
+   eYearlyUnmetSpinningReserveCostSystem
+   eYearlyCO2BackstopCostSystem
    eYearlyTotalCost
-   eYearlyFixedCost
+   eAnnualizedCapexUpdate
+   eAnnualizedCapexInit
+   eTotalAnnualizedGenCapex
+   eTotalAnnualizedCapex
+   eYearlyFOMCost
    eYearlyVariableCost
+   eYearlyFuelCost
+   eYearlyVOMCost
    eYearlySpinningReserveCost
    eYearlyUSECost
    eYearlyUnmetReserveCostCountry
+   eYearlImportExternalCost
+   eYearlyExportExternalCost
+   eYearlyUnmetSpinningReserveCostCountry
+   eYearlyUnmetPlanningReserveCostCountry
    eYearlyCarbonCost
+   eYearlyCurtailmentCost
+   eYearlyCO2BackstopCostCountry
+   eYearlySurplusCost
+
    eDemSupply
    eInitialCapacity
    eCapacityEvolutionExist
@@ -995,6 +1073,7 @@ Model PA /
    eSpinningReserveReqCountry
    eSpinningReserveReqSystem
    ePlanningReserveReqCountry
+   ePlanningReserveReqSystem
    
    eVREProfile
    eFuelLimit
@@ -1003,8 +1082,7 @@ Model PA /
    eEmissionsCountry
    eTotalEmissions
    eTotalEmissionsConstraint
-   eYearlyCurtailmentCost
-   eYearlyCO2backstopCost
+
    
    eBuiltCap
    eRetireCap
@@ -1021,12 +1099,6 @@ Model PA /
    eYearlyTradeCost
    eExtZoneLimitImport
    eExtZoneLimitExport   
-
-
-   ePlanningReserveReqSystem
-   eYearlyUnmetReserveCostSystem
-   eYearlySurplusCost
-
    
    eStorageCap
    eStorageCap2
@@ -1064,8 +1136,7 @@ Model PA /
    eCapThermBalance3
    eBuildThermNew
    
-   eAnnCapex1
-   eAnnCapex
+
    
 
 *   eSimultComDecom
