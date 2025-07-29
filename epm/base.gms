@@ -368,8 +368,8 @@ Equations
 
 
    eDemSupply(z,q,d,t,y)           'demand balance'
-   eMaxhourlyExportsshare(c,q,d,t,y) 'max exports to an external zone (hourly limit)'
-   eMaxhourlyImportsshare(c,q,d,t,y) 'max imports from an external zone  (hourly limit)'
+   eMaxHourlyExportShareRevenue(c,q,d,t,y) 'max exports to an external zone (hourly limit)'
+   eMaxHourlyImportShareCost(c,q,d,t,y) 'max imports from an external zone  (hourly limit)'
 
    eInitialCapacity(g,y)                'capacity balance'
    eCapacityEvolutionExist(g,y)               'capacity balance'
@@ -397,17 +397,17 @@ Equations
    ePlanningReserveReqSystem(y)                'Min system planning reserve requirement'
    ePlanningReserveReqCountry(c,y)                'Minimum capacity reserve over peak demand at country level'
 
-   eTransferLimit(z,z2,q,d,t,y)    'Transfer limits'
-   eTransferLimitMin(z2,z,q,d,t,y) 'Minimum transfer across some transmission line defined at the hourly scale'
+   eTransferCapacityLimit(z,z2,q,d,t,y)    'Transfer limits'
+   eMinImportRequirement(z2,z,q,d,t,y) 'Minimum transfer across some transmission line defined at the hourly scale'
    eVREProfile(g,f,z,q,d,t,y)      'VRE generation restricted to VRE profile'
-   eMaxImportPrice(c,y)            'import limits: max import from external zones'
-   eMaxExportPrice(c,y)            'export limits: max export to external zones'
+   eMaxAnnualImportShareCost(c,y)            'import limits: max import from external zones'
+   eMaxAnnualExportShareRevenue(c,y)            'export limits: max export to external zones'
    eYearlySurplusCost(z,y)
-   eAdditionalTransfer(z,z2,y)
-   eAdditionalTransfer2(z,z2,y)
+   eCumulativeTransferExpansion(z,z2,y)
+   eSymmetricTransferBuild(z,z2,y)
    eYearlyTransmissionAdditions (z,y)
-   eExtZoneLimitImport(z,zext,q,d,t,y) 'import limits from external zone in MW'
-   eExtZoneLimitExport(z,zext,q,d,t,y) 'export limits to external zone in MW'
+   eExternalImportLimit(z,zext,q,d,t,y) 'import limits from external zone in MW'
+   eExternalExportLimit(z,zext,q,d,t,y) 'export limits to external zone in MW'
 
 
 
@@ -426,8 +426,8 @@ Equations
 
    eStateOfChargeUpdate(g,q,d,t,y)
    eStateOfChargeInit(g,q,d,t,y)
-   eStorBal2(g,q,d,t,y)
-   eStorBal3(g,q,d,y)
+   eSOCCycleClosure(g,q,d,t,y)
+   eDailyStorageEnergyBalance(g,q,d,y)
 
    eSOCSupportsReserve(g,q,d,t,y)
    eChargeCapacityLimit(g,q,d,t,y)
@@ -631,11 +631,20 @@ eH2UnservedCost(z,y)..
    vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y) )*pH2UnservedCost$(pIncludeH2);
 
 
+* Ensures that when accessing parameters like CostPerLine or Life for a connection between zones i and j, 
+* the model always uses the maximum of both directions, regardless of ordering.
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
+* Computes annualized investment cost of new transmission lines connected to zone z
+* using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
 eYearlyTransmissionAdditions(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1))..
-   vYearlyTransmissionAdditions(z,y) =e= sum(sTopology(z,z2), vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CostPerLine")*1e6)
-                                       / 2*(pWACC/(1-(1/((1+pWACC)**sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
+   vYearlyTransmissionAdditions(z,y) =e=
+       sum(sTopology(z,z2),
+           vAdditionalTransfer(z,z2,y)
+         * symmax(pNewTransmission,z,z2,"CostPerLine")
+         * 1e6)
+     / 2
+     * (pWACC / (1 - (1 / ((1 + pWACC) ** sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
 
 *--- Demand supply balance constraint
 eDemSupply(z,q,d,t,y)..
@@ -747,40 +756,46 @@ ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psystem_reserve_
 
 
 *--- Transfer equations
-eTransferLimit(sTopology(z,z2),q,d,t,y)..
+* Limits flow between zones to existing + expandable transmission capacity
+eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)..
    vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
-   
-eTransferLimitMin(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
+
+* Enforces minimum import flow into a zone when specified
+eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
 
-eAdditionalTransfer(sTopology(z,z2),y)$pAllowHighTransfer..
+* Cumulative build-out of new transfer capacity over time
+eCumulativeTransferExpansion(sTopology(z,z2),y)$pAllowHighTransfer..
    vAdditionalTransfer(z,z2,y) =e=  vAdditionalTransfer(z,z2,y-1) + vBuildTransmission(z,z2,y);
-   
-eAdditionalTransfer2(sTopology(z,z2),y)$pAllowHighTransfer..
+
+* Ensures symmetry in bidirectional transmission investment
+eSymmetricTransferBuild(sTopology(z,z2),y)$pAllowHighTransfer..
    vBuildTransmission(z,z2,y)  =e=  vBuildTransmission(z2,z,y);
    
-
-eMaxImportPrice(c,y)$(pallowExports)..
+* Caps total import cost based on annual demand and max share
+eMaxAnnualImportShareCost(c,y)$(pallowExports)..
    sum((zcmap(z,c),zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
-eMaxExportPrice(c,y)$(pallowExports)..
+* Caps total export value based on annual demand and max share
+eMaxAnnualExportShareRevenue(c,y)$(pallowExports)..
    sum((zcmap(z,c),zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
-
-eMaxhourlyImportsshare(c,q,d,t,y)$(pMaxImport<1 and pallowExports)..
-
+* Limits hourly import cost as a share of hourly demand
+eMaxHourlyImportShareCost(c,q,d,t,y)$(pMaxImport<1 and pallowExports)..
    sum((zcmap(z,c), zext), vImportPrice(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxImport * pEnergyEfficiencyFactor(z,y));
 
-eMaxhourlyExportsshare(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
+* Limits hourly export value as a share of hourly demand
+eMaxHourlyExportShareRevenue(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
    sum((zcmap(z,c), zext),vExportPrice(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxExport * pEnergyEfficiencyFactor(z,y));
 
-
-eExtZoneLimitImport(z,zext,q,d,t,y)$pallowExports..
+* Caps import volume from an external zone to internal zone
+eExternalImportLimit(z,zext,q,d,t,y)$pallowExports..
    vImportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
 
-eExtZoneLimitExport(z,zext,q,d,t,y)$pallowExports..
+* Caps export volume from internal zone to an external zone
+eExternalExportLimit(z,zext,q,d,t,y)$pallowExports..
    vExportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
 
 *--- Storage-specific equations
@@ -824,11 +839,14 @@ eStateOfChargeInit(st,q,d,sFirstHour(t),y)$pincludeStorage..
 eSOCSupportsReserve(st,q,d,t,y)$pincludeStorage..
    vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
-* To ensure energy balance in one representative day
-* eStorBal2(st,q,d,sLastHour(t),y)$(pincludeStorage)..    vStorage(st,q,d,t,y)  =e= vStorage(st,q,d,t-23,y)-(pStorData(st,"efficiency")*vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f),vPwrOut(st,f,q,d,t-23,y))) ;
+* Ensures that the state of charge at the end of the representative day equals the initial state
+* This avoids artificial energy gains/losses over the daily cycle
+* eSOCCycleClosure(st,q,d,sLastHour(t),y)$(pincludeStorage)..
+*   vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-23,y) - (pStorData(st,"efficiency") * vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t-23,y)));
 
-* eStorBal3(st,q,d,y)$(pincludeStorage)..  pStorData(st,"efficiency")* sum(t,vStorInj(st,q,d,t,y)) =e=  Sum((gfmap(st,f),t),vPwrOut(st,f,q,d,t,y));
-
+* Ensures energy conservation over the full representative day: total input × efficiency = total output
+* eDailyStorageEnergyBalance(st,q,d,y)$(pincludeStorage)..
+*   pStorData(st,"efficiency") * sum(t, vStorInj(st,q,d,t,y)) =e= sum((gfmap(st,f),t), vPwrOut(st,f,q,d,t,y));
 
 *--- CSP-specific equations
 eStorageCSPCap(cs,q,d,t,y)$pincludeCSP..
@@ -1083,18 +1101,18 @@ Model PA /
    eBuiltCap
    eRetireCap
    
-   eTransferLimit
-   eTransferLimitMin
+   eTransferCapacityLimit
+   eMinImportRequirement
    eYearlyTransmissionAdditions
-   eAdditionalTransfer
-   eAdditionalTransfer2
-   eMaxImportPrice
-   eMaxExportPrice  
-   eMaxhourlyImportsshare
-   eMaxhourlyExportsshare
+   eCumulativeTransferExpansion
+   eSymmetricTransferBuild
+   eMaxAnnualImportShareCost
+   eMaxAnnualExportShareRevenue  
+   eMaxHourlyImportShareCost
+   eMaxHourlyExportShareRevenue
    eYearlyTradeCost
-   eExtZoneLimitImport
-   eExtZoneLimitExport   
+   eExternalImportLimit
+   eExternalExportLimit   
    
    eSOCUpperBound
    eStorageCapMinConstraint
@@ -1105,8 +1123,8 @@ Model PA /
    eNetChargeBalance
    eStateOfChargeUpdate
    eStateOfChargeInit
-*  eStorBal2
-*  eStorBal3
+*  eSOCCycleClosure
+*  eDailyStorageEnergyBalance
   
    eSOCSupportsReserve
    
