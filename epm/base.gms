@@ -242,6 +242,8 @@ Parameters
    pCapexTrajectoriesH2(hh,y)       'CAPEX trajectories for hydrogen generation units'
    pVarCostH2(hh,y)                 'Variable cost - H2 production'
    pH2UnservedCost                  'Cost of external H2 unserved'
+   pH2Data(hh,pH2Header)                    'Hydrogen production specifications'
+
 ************************************************************
 
 ;
