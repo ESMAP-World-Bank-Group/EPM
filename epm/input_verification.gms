@@ -2,7 +2,7 @@
 * ELECTRICITY PLANNING MODEL (EPM)
 * Developed at the World Bank
 **********************************************************************
-* Description:
+* DepSettingsHeaderription:
 * This GAMS-based model is designed for electricity system planning, 
 * incorporating capacity expansion, generation dispatch, and policy 
 * constraints such as renewable energy targets, emissions reductions, 
@@ -44,10 +44,10 @@ try:
         list_missing = []
         list_zero_values = []
         for e in list_required_values:
-            if e not in list(settings_df['sc']):
+            if e not in list(settings_df['pSettingsHeader']):
                 list_missing.append(e)
         for e in list_warning_values:
-            if e not in list(settings_df['sc']):
+            if e not in list(settings_df['pSettingsHeader']):
                 list_zero_values.append(e)
                 
         if list_missing:
@@ -68,7 +68,7 @@ except Exception as e:
 
 # Check that all these parameters are not None
 try:
-    essential_param = ["y", "pHours", "zcmap", "pSettings", "pGenDataExcel", "pFuelPrice",
+    essential_param = ["y", "pHours", "zcmap", "pSettings", "pGenDataInput", "pFuelPrice",
         "pFuelCarbonContent", "pTechData"]
     for param in  essential_param:
         if param not in db:
@@ -344,8 +344,8 @@ except Exception as e:
 try:
     if db["pSettings"].records is not None:
         settings_df = db["pSettings"].records
-        if 'interconMode' in settings_df.set_index('sc').index:
-            if settings_df.set_index('sc').loc['interconMode'].values[0]:  # running in interconnected mode
+        if 'interconMode' in settings_df.set_index('pSettingsHeader').index:
+            if settings_df.set_index('pSettingsHeader').loc['interconMode'].values[0]:  # running in interconnected mode
                 if db["pLossFactor"].records is not None:
                     loss_factor_df = db["pLossFactor"].records
                     topology_lossfactor = loss_factor_df.set_index(['z', 'z2']).index.unique()
@@ -439,9 +439,9 @@ except Exception as e:
 try:
     if db["ftfindex"].records is not None:
         ftfindex = db["ftfindex"].records
-        pGenDataExcel = db["pGenDataExcel"].records
+        pGenDataInput = db["pGenDataInput"].records
         fuels = set(ftfindex['f'].unique())
-        fuels_in_gendata = set(pGenDataExcel['f'].unique())
+        fuels_in_gendata = set(pGenDataInput['f'].unique())
         missing_fuels = fuels_in_gendata - fuels
         additional_fuels = fuels - fuels_in_gendata
         if missing_fuels:
@@ -501,7 +501,7 @@ except Exception as e:
 try:
     if db["pSettings"].records is not None:
         pSettings = db["pSettings"].records
-        allowExports = pSettings.loc[pSettings.sc == 'allowExports']
+        allowExports = pSettings.loc[pSettings.pSettingsHeader == 'allowExports']
         if not allowExports.empty:  # we authorize exchanges with external zones
             if db["pExtTransferLimit"].records is None:
                 gams.printLog("Warning: exchanges with external zones are allowed, but imports and exports capacities are not specified.")
@@ -514,9 +514,9 @@ except Exception as e:
 try:
     if db["pStorDataExcel"].records is not None:
         pStorDataExcel = db["pStorDataExcel"].records
-        pGenDataExcel = db["pGenDataExcel"].records
+        pGenDataInput = db["pGenDataInput"].records
         gen_storage = set(pStorDataExcel['g'].unique())
-        gen_ref = set(pGenDataExcel.loc[pGenDataExcel.tech == 'Storage']['g'].unique())
+        gen_ref = set(pGenDataInput.loc[pGenDataInput.tech == 'Storage']['g'].unique())
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:
             msg = f"Error: The following fuels are in gendata but not defined in pStorData: \n{missing_storage_gen}"
@@ -531,19 +531,19 @@ except Exception as e:
     raise # Re-raise the exception for debuggings
     
 
-# pGenDataExcelDefault
+# pGenDataInputDefault
 try:
-    # Check if pGenDataExcelDefault contains all zones
-    pGenDataExcelDefault = db["pGenDataExcelDefault"]
-    if pGenDataExcelDefault.records is not None:
-        pGenDataExcelDefault_df = db["pGenDataExcelDefault"].records
-        zones_to_include = db["pGenDataExcel"].records
+    # Check if pGenDataInputDefault contains all zones
+    pGenDataInputDefault = db["pGenDataInputDefault"]
+    if pGenDataInputDefault.records is not None:
+        pGenDataExcelDefault_df = db["pGenDataInputDefault"].records
+        zones_to_include = db["pGenDataInput"].records
         zones_to_include = set(zones_to_include['z'].unique())
         for fuel, group in pGenDataExcelDefault_df.groupby('f', observed=False):
             zones = set(group['z'].unique())
             missing = zones_to_include - zones
             if missing:
-                gams.printLog(f"Warning: The following zones are declared in pGenDataExcel but are not specified in pGenDataExcelDefault for fuel {fuel}: {missing}.")
+                gams.printLog(f"Warning: The following zones are declared in pGenDataInput but are not specified in pGenDataInputDefault for fuel {fuel}: {missing}.")
 except ValueError:
     raise  # Let this one bubble up with your message
 except Exception as e:

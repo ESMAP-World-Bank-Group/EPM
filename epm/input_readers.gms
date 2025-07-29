@@ -50,8 +50,8 @@ $if not set sRelevant $set sRelevant %ROOT_INPUT%/%FOLDER_INPUT%/load/sRelevant.
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %ROOT_INPUT%/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataExcel $set pGenDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcel.csv
-$if not set pGenDataExcelDefault $set pGenDataExcelDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
+$if not set pGenDataInput $set pGenDataInput %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInput.csv
+$if not set pGenDataInputDefault $set pGenDataInputDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityCustom_confidential.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
 $if not set pVREgenProfile $set pVREgenProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREgenProfile_confidential.csv
@@ -210,7 +210,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pGenDataExcel%
+    file: %pGenDataInput%
     name: gmap
     indexSubstitutions: {.nan: ""}
     indexColumns: [1,2,3,4]
@@ -218,8 +218,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pGenDataExcel%
-    name: pGenDataExcel
+    file: %pGenDataInput%
+    name: pGenDataInput
     indexColumns: [1,2,3,4]
     valueSubstitutions: {0: EPS}
     header: [1]
@@ -228,8 +228,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: %TRACE%
-    file: %pGenDataExcelDefault%
-    name: pGenDataExcelDefault
+    file: %pGenDataInputDefault%
+    name: pGenDataInputDefault
     indexColumns: [1,2,3]
     valueSubstitutions: {0: EPS}
     header: [1]

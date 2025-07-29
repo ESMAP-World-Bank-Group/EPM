@@ -34,22 +34,12 @@ $eolCom //
 * DECLARATION OF SETS, PARAMETERS AND VARIABLES
 *-------------------------------------------------------------------
 
-Sets
-   g        'generators or technology-fuel types'
-   f        'fuels'
-   tech     'technologies'
-   y        'years'
-   q        'quarters or seasons'
-   d        'day types'
-   t        'hours of day'
-   z        'zones'
-   c        'countries'
-   zext     'external zones'
-*********Hydrogen specific addition***********
-   hh        'Hydrogen production units'
-;
 
-alias (z,z2), (g,g1,g2);
+
+alias (y,y2);
+alias (f,f1,f2);
+alias (c,c2);
+
 
 
 * Generators
@@ -82,15 +72,6 @@ Sets
 
 * Time
 Sets
-   ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW,
-                                        MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize /
-   shdr         'Header for pStorData' / CapacityMWh, CapexMWh, FixedOMMWh, Efficiency/
-   csphrd       'Header for pCSPData' / Storage, "Thermal Field" /
-   thdr         'Header for pNewTransmission' / CapacityPerLine, CostPerLine, Life, MaximumNumOfLines /
-   sRelevant(d)  'relevant day and hours when MinGen limit is applied'
-***********************Hydrogen model related sets*********************
-   hhdr         'Header for pH2Data' / StYr, RetrYr,  Capacity, Capex, HeatRate,VOM, FOMperMW,  Efficiency,  BuildLimitperYear,  DescreteCap,
-                                         RampUpRate, RampDnRate,   ResLimShare, UnitSize, Life, Type /
    h2Index      'Index of hydrogen fuels'    /HydrogenIndex/
 ;
 
@@ -102,7 +83,6 @@ Sets
    gzmap(g,z)             'generator g mapped to zone z'
    zfmap(z,f)             'fuel f available in zone z'
    gsmap(g2,g)            'generator storage map'
-   zcmap(z<,c<)           'map zones to countries'
    sTopology(z,z2)        'network topology - to be assigned through network data'
    sMapConnectedZonesDiffCountries(z,z2)          'set of connecting zones belonging to different countries'   
 **************Hydrogen production model related sets*******************************
@@ -110,12 +90,25 @@ Sets
 *   ft
 ;
 
+
+* To check
+Set
+   gstatus  'generator status' / Existing, Candidate, Committed /
+   tstatus  'transmission status' / Candidate, Committed/
+   H2status  'H2 generation plant status' / Existing, Candidate, Committed /
+   mipline 'Solver option lines'                    
+;
+
+Set    
+   mipopt(mipline<)                 'MIP solver options' / system.empty /
+;
+
 * Implicit variable domain
 Sets
    sPwrOut(g,f,q,d,t,y)        'valid tuples for vPwrOut'
    sExportPrice(z,zext,q,d,t,y)     'valid tuples for vExportPrice'
    sImportPrice(z,zext,q,d,t,y)     'valid tuples for vImportPrice'
-   sAdditionalTransfer(z,z2,y) 'valid tuples for vAdditionalTransfer'
+   sAdditionalTransfer(z,z2,y) 'valid tuples for vNewTransferCapacity'
    sFlow(z,z2,q,d,t,y)         'valid tuples for vFlow'
    sSpinningReserve(g,q,d,t,y)         'valid tuples for vSpinningReserve'
 ************************H2 related set***************************************
@@ -130,18 +123,57 @@ Singleton sets
    sFirstDay(d)
 ;
 
+
+
+
+* Additional parameters for results and reporting
+Parameter
+   pAllHours(q,d,y,t)                  'System peak hours'
+   pFindSysPeak(y)                     'System peak by year'
+   pSeasonalReporting                  'Seasonal reporting flag'
+   pSystemResultReporting              'System reporting flag'
+   pInterConMode                       'Interconnection mode flag'
+   pNoTransferLim                      'Transfer limit flag'
+   pAllowExports                       'Export permission flag'
+   pVRECapacityCredits                 'VRE capacity credits'
+   pDR                                 'Discount rate'
+   pCaptraj                           'CAPEX trajectory flag'
+   pIncludeEE                         'Energy efficiency flag'
+   pSystem_CO2_constraints            'System CO2 constraint flag'
+   pExtTransferLimitIn(z,zext,q,y)    'External import limits'
+   pExtTransferLimitOut(z,zext,q,y)   'External export limits'
+   pMaxLoadFractionCCCalc             'Load threshold for capacity credit calc'
+   pVREForecastError                  'VRE forecast error percentage'
+;
+
+* Technology and mapping sets
+Set 
+   gprimf(g,f)          'Primary fuel mapping'
+   gtechmap(g,tech)     'Generator-technology mapping'
+   gstatusmap(g,gstatus) 'Generator status mapping'
+   tstatusmap(z,z2,tstatus) 'Transmission status mapping'
+   Zd(z)                'Zone definitions'
+   Zt(z)                'Zone types'
+   stg(g)               'Grid storage units'
+   ror(g)               'Run of river units'
+   H2statusmap(hh,H2status) 'Hydrogen unit status'
+;
+
+
+
+
+
+
+
 Parameters
    pCostOfCurtailment               'Cost of curtailment'
    pCostOfCO2backstop               'Cost of climate backstop techno in $ per ton of CO2'
-   pHours(q<,d<,t<)
    pWeightYear(y)                   'weight on years'
 * Generators
-   pGenData(g,ghdr)                 'generator data'
+   pGenData(g,pGenDataInputHeader)                 'generator data'
    pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
    pCapexTrajectories(g,y)          'capex trajectory  final'
 * Exchanges
-   pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
-   pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
    pMaxExchangeShare(y,c)           'Max share of exchanges by country [same limit for imports or exports for now]'
 
    pAllowHighTransfer
@@ -152,35 +184,21 @@ Parameters
    pExtTransferLimit(z,zext,q,*,y)  'external transfer limit'
    pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
    pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
-* Fuels
-   pMaxFuellimit(c,f,y)             'Fuel limit in MMBTU*1e6 (million) by country'
 * Demand
    pDemandData(z,q,d,y,t)           'hourly load curves by quarter(seasonal) and year'
-   pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
-* T&D
-   pLossFactor(z,z2,y)              'loss factor in percentage'
-   pNewTransmission(z,z2,thdr)      'new transmission lines'
 * Renewables and storage
-   pVREgenProfile(g,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
-   pCSPData(g,csphrd,shdr)
    pCSPProfile(g,q,d,t)             'solar profile for CSP in pu'
    pStoPVProfile(g,q,d,t)           'solar profile for Pv with Storage in pu'
-   pStorData(g,shdr)                'Storage data'
+   pStorData(g,pStoreDataHeader)                'Storage data'
    pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
    
 * Reserves
-   pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
-   pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
-   pPlanningReserveMargin(c)        'Country planning reserve margin'
    pCapacityCredit(g,y)             'Share of capacity counted towards planning reserves'
    pVREForecastError                'Spinning reserve needs for VRE (as a share of VRE generation)'
 * CO2
    pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
    pFuelCarbonContent(f)            'Fuel carbon content in tCO2 per MMBTu'
 
-   pEmissionsCountry(c,y)           'Maximum emissions allowed per country and year in tns'
-   pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
-   pEmissionsTotal(y)               'Maximum system emissions allowed year in tns'
    
 * Economic parameters
    pRR (y)                          'accumulated return rate factor'
@@ -219,15 +237,10 @@ Parameters
    pIncludeDecomCom                 'Include simultaneous commissioning'
      
 **************H2 model related parameters
-   pH2Data(hh,hhdr)                 'hydrogen generating units'
    pIncludeH2                       'Flag to activate hydrogen related equations'
-   pAvailabilityH2(hh,q)            'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pFuelDataH2(f)
    pCRFH2(hh)                       'Capital recovery factor'
    pCapexTrajectoriesH2(hh,y)       'CAPEX trajectories for hydrogen generation units'
    pVarCostH2(hh,y)                 'Variable cost - H2 production'
-
-   pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
    pH2UnservedCost                  'Cost of external H2 unserved'
 ************************************************************
 
@@ -276,8 +289,8 @@ Positive Variables
    vYearlySysCO2backstop(y)     'system CO2 emissions above the constraint(t)'
 
 
-   vAdditionalTransfer(z,z2,y)        'additional transfer limit'
-   vYearlyTransmissionAdditions(z,y)  'added transmission cost (not included in cost of generation)'
+   vNewTransferCapacity(z,z2,y)        'additional transfer limit'
+   vAnnualizedTransmissionCapex(z,y)  'added transmission cost (not included in cost of generation)'
    vYearlyCurtailmentCost(z,y)
    vCurtailedVRE(z,g,q,d,t,y)
 
@@ -405,7 +418,7 @@ Equations
    eYearlySurplusCost(z,y)
    eCumulativeTransferExpansion(z,z2,y)
    eSymmetricTransferBuild(z,z2,y)
-   eYearlyTransmissionAdditions (z,y)
+   eAnnualizedTransmissionCapex (z,y)
    eExternalImportLimit(z,zext,q,d,t,y) 'import limits from external zone in MW'
    eExternalExportLimit(z,zext,q,d,t,y) 'export limits to external zone in MW'
 
@@ -529,7 +542,7 @@ eYearlyTotalCost(c,y)..
                                            + vYearlyUSECost(z,y)
                                            + vYearlyCarbonCost(z,y)
                                            + vYearlyTradeCost(z,y)
-                                           + vYearlyTransmissionAdditions(z,y)
+                                           + vAnnualizedTransmissionCapex(z,y)
                                            + vYearlyCurtailmentCost(z,y)
                                            + vYearlySurplus(z,y)
                                            + vYearlyH2UnservedCost(z,y)$pIncludeH2);
@@ -637,10 +650,10 @@ $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
 * Computes annualized investment cost of new transmission lines connected to zone z
 * using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
-eYearlyTransmissionAdditions(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1))..
-   vYearlyTransmissionAdditions(z,y) =e=
+eAnnualizedTransmissionCapex(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1))..
+   vAnnualizedTransmissionCapex(z,y) =e=
        sum(sTopology(z,z2),
-           vAdditionalTransfer(z,z2,y)
+           vNewTransferCapacity(z,z2,y)
          * symmax(pNewTransmission,z,z2,"CostPerLine")
          * 1e6)
      / 2
@@ -734,7 +747,7 @@ eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
  + pinterco_reserve_contribution * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer
+                                        + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer
                                         - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
    
@@ -746,7 +759,7 @@ eSpinningReserveReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
 ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer))$pIncludeIntercoReserves
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer))$pIncludeIntercoReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
@@ -758,7 +771,7 @@ ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psystem_reserve_
 *--- Transfer equations
 * Limits flow between zones to existing + expandable transmission capacity
 eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
+   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransferCapacity(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
@@ -766,7 +779,7 @@ eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$pAllowHighTransfer..
-   vAdditionalTransfer(z,z2,y) =e=  vAdditionalTransfer(z,z2,y-1) + vBuildTransmission(z,z2,y);
+   vNewTransferCapacity(z,z2,y) =e=  vNewTransferCapacity(z,z2,y-1) + vBuildTransmission(z,z2,y);
 
 * Ensures symmetry in bidirectional transmission investment
 eSymmetricTransferBuild(sTopology(z,z2),y)$pAllowHighTransfer..
@@ -854,7 +867,7 @@ eStorageCSPCap(cs,q,d,t,y)$pincludeCSP..
 
 eInjCSP(cs,q,d,t,y)$pincludeCSP..
    vStorInj(cs,q,d,t,y) =l= vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency");
-*without this, there is storage injection without storage (injection and withdrawal occur at the same time)
+*without this, there is storage injection without storage (injection and wipTransmissionHeaderawal occur at the same time)
 
 eInjCSP1(cs,q,d,t,y)$pincludeCSP..
    vStorInj(cs,q,d,t,y) =l= vCapStor(cs,y);
@@ -1103,7 +1116,7 @@ Model PA /
    
    eTransferCapacityLimit
    eMinImportRequirement
-   eYearlyTransmissionAdditions
+   eAnnualizedTransmissionCapex
    eCumulativeTransferExpansion
    eSymmetricTransferBuild
    eMaxAnnualImportShareCost
@@ -1159,7 +1172,7 @@ Model PA /
    vPwrOut(sPwrOut)
    vExportPrice(sExportPrice)
    vImportPrice(sImportPrice)
-   vAdditionalTransfer(sAdditionalTransfer)
+   vNewTransferCapacity(sAdditionalTransfer)
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)
    
