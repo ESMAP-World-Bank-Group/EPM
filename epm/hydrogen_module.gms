@@ -115,11 +115,12 @@ eH2UnservedCost(z,y)..
    vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y)) * pH2UnservedCost $pIncludeH2;
 
 * --- Hydrogen Supply Contribution to Demand Balance ---
-Equation eDemSupply_H2Contribution;
+Equation eSupply_H2Contribution;
 
-eDemSupply_H2Contribution(z,q,d,t,y)..
-   0 =e=
-     sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
+eSupply_H2Contribution(z,q,d,t,y)..
+   vSupply(z,q,d,t,y) =e=vSupply(z,q,d,t,y)
+        -sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))
+     + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
      + vPwrREGrid(z,q,d,t,y)$pIncludeH2;
 
 * =============================
@@ -213,6 +214,10 @@ eRE2H2(RE,f,q,d,t,y)$pIncludeH2..
 
 *For example equation below is deactivated when H2 is on and is replaced by eVREProfile2
 
+* =============================
+* Updating Hydrogen Model
+* =============================
+
 
 $onMulti
 Model PA /
@@ -221,7 +226,7 @@ Model PA /
     eTotalAnnualizedCapex_H2Contribution,
     eYearlyVOMCost_H2Contribution,
     eH2UnservedCost,
-    eDemSupply_H2Contribution
+    eSupply_H2Contribution
 
    vH2PwrIn(sH2PwrIn)
    eBuildNewH2
