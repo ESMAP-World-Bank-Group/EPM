@@ -57,25 +57,9 @@ Sets
    re(g)                  'renewable generators'
    RampRate(g)            'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
    VRE_noROR(g)           'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
-    
-************** H2 model specific sets ***************************
-   eh(hh)           'existing hydrogen generation plants'
-   nh(hh)           'new hydrogen generation plants'
-   RampRateH2(hh)   'ramp rate constrained H2 generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
-   dcH2(hh)         'candidate generators with capex trajectory'
-   ndcH2(hh)        'candidate generators without capex trajectory'
-   nRE(g)           'non RE generators'
-   nVRE(g)          'non VRE generators'
-   REH2(g)          'set of RE generators which are NOT VRE'
-   nREH2(g)         'set of generators that are dont belong to subset REH2(g)'
 ;
 
-* Time
-Sets
-   h2Index      'Index of hydrogen fuels'    /HydrogenIndex/
-;
 
-alias(hh,hh1);
 
 * Mapping (fuel, storage...)
 Sets
@@ -85,9 +69,6 @@ Sets
    gsmap(g2,g)            'generator storage map'
    sTopology(z,z2)        'network topology - to be assigned through network data'
    sMapConnectedZonesDiffCountries(z,z2)          'set of connecting zones belonging to different countries'   
-**************Hydrogen production model related sets*******************************
-   h2zmap(hh,z)
-*   ft
 ;
 
 
@@ -95,7 +76,6 @@ Sets
 Set
    gstatus  'generator status' / Existing, Candidate, Committed /
    tstatus  'transmission status' / Candidate, Committed/
-   H2status  'H2 generation plant status' / Existing, Candidate, Committed /
    mipline 'Solver option lines'                    
 ;
 
@@ -111,19 +91,14 @@ Sets
    sAdditionalTransfer(z,z2,y) 'valid tuples for vNewTransferCapacity'
    sFlow(z,z2,q,d,t,y)         'valid tuples for vFlow'
    sSpinningReserve(g,q,d,t,y)         'valid tuples for vSpinningReserve'
-************************H2 related set***************************************
-   sH2PwrIn(hh,q,d,t,y)
 ;
 
-*Set MapGG(g,g1)  mapping of generators where simultaneous commissioning decommissioning exists;
 Singleton sets
    sStartYear(y)
    sFirstHour(t)
    sLastHour(t)
    sFirstDay(d)
 ;
-
-
 
 
 * Additional parameters for results and reporting
@@ -156,13 +131,7 @@ Set
    Zt(z)                'Zone types'
    stg(g)               'Grid storage units'
    ror(g)               'Run of river units'
-   H2statusmap(hh,H2status) 'Hydrogen unit status'
 ;
-
-
-
-
-
 
 
 Parameters
@@ -235,17 +204,6 @@ Parameters
    psystem_reserve_margin                'Share of peak demand that should be met with planning reserves'
    pHeatrate(g,f)                   'Heatrate of fuel f in generator g'
    pIncludeDecomCom                 'Include simultaneous commissioning'
-     
-**************H2 model related parameters
-   pIncludeH2                       'Flag to activate hydrogen related equations'
-   pCRFH2(hh)                       'Capital recovery factor'
-   pCapexTrajectoriesH2(hh,y)       'CAPEX trajectories for hydrogen generation units'
-   pVarCostH2(hh,y)                 'Variable cost - H2 production'
-   pH2UnservedCost                  'Cost of external H2 unserved'
-   pH2Data(hh,pH2Header)                    'Hydrogen production specifications'
-
-************************************************************
-
 ;
 
 Positive Variables
@@ -296,21 +254,6 @@ Positive Variables
    vYearlyCurtailmentCost(z,y)
    vCurtailedVRE(z,g,q,d,t,y)
 
-*************H2 MODEL SPECIFIC VARIABLES***************************
-   vCapH2(hh,y)                'total capacity in place accounting for legacy, new and retired plants (MW)'
-   vBuildH2(hh,y)              'Build (MW)'
-   vRetireH2(hh,y)             'Retire (MW)'
-   vNetCurtailedVRE(z,q,d,t,y) 'Curtailed VRE as an outcome of not being used for H2 production'
-   vH2PwrIn(hh,q,d,t,y)        'Power drawn by H2 plants for H2 production in MW'
-   vFuelH2(z,y)                'Annual H2 production in MMBTU'
-   vAnnCapexH2(hh,y)           'Annualized CAPEX of H2 producing technologies'
-   vPwrREH2(z,q,d,t,y)          'Generation from RE generators that goes to H2 production'
-   vPwrREGrid(z,q,d,t,y)       'Generation from RE generators that goes to the grid'
-   vREPwr2H2(g,f,q,d,t,y)       'Generation from RE generators that goes to H2 production'
-   vREPwr2Grid(g,f,q,d,t,y)    'Generation from VRE generators that goes to the grid'
-   vFuelH2Quarter(z,q,y)        'H2 fuel saved for H2 electricity generationon a quarterly basis'
-   vUnmetExternalH2(z,q,y)        'mmBTU of external H2 demand that cant be met'
-   vYearlyH2UnservedCost(z,y)   'Annual Cost of external H2 unserved in USD'  
 ;
 
 Free Variable
@@ -343,15 +286,6 @@ Integer variable
    vBuildTransmission(z,z2,y)
    vBuiltCapVar(g,y)
    vRetireCapVar(g,y)
-   
-
-*******H2 production model integer variables******************
-   vBuiltCapVarH2(hh,y)
-
-   vRetireCapVarH2(hh,y)
-
-
-********************************************
 ;
 
 
@@ -462,9 +396,9 @@ Equations
 
    eCapacityStorLimit(g,y)
    eCapStorBalance(g,y)
-   eCapStorBalance1(g,y)
-   eCapStorBalance2(g,y)
-   eCapStorBalance3(g,y)
+   eCapStorAnnualUpdateEG(g,y)
+   eCapStorAnnualUpdateNG(g,y)
+   eCapStorInitialNG(g,y)
    eBuildStorNew(g)
 
    eCapacityThermLimit(g,y)
@@ -472,41 +406,6 @@ Equations
    eCapThermBalance2(g,y)
    eCapThermBalance3(g,y)
    eBuildThermNew(g)
-*   eSimultComDecom(g,g1,y)          Simultaneous commissioning and decommissioning of pair of units
-   
-
-***********************************Hydrogen production model**************************************
-eH2UnservedCost(z,y)
-eCapBalanceH2(hh,y)
-eCapBalance1H2(hh,y)
-eCapBalance2H2
-eBuildNewH2(hh)
-eBuiltCapH2(hh,y)
-eRetireCapH2(hh,y)
-*eDemSupplyH2(z,q,d,t,y)
-eMaxCF_H2(hh,q,y)
-eFuel_H2(c,q,y)
-eFuel_H2_2(c,z,y)
-eRampDnLimitH2(hh,q,d,t,y)
-eRampUpLimitH2(hh,q,d,t,y)
-eFuelLimitH2(c,f,y)
-eFuelLimitH2_2(c,f,y)
-eAnnCapexH2_1(hh,y)
-eAnnCapexH2(hh,y)
-
-eVRE2H2_2(z,g,f,q,d,t,y)
-eVRE2H2_3(z,q,d,t,y)
-eVRE2H2_4(z,q,d,t,y)
-eRE2H2(g,f,q,d,t,y)
-eRE2H2_2(z,q,d,t,y)
-eRE2H2_3(z,q,d,t,y)
-eRE2H2_4(z,q,d,t,y)
-eMaxH2PwrInjection(hh,q,d,t,y)
-
-*eRE2H2_3(z,q,d,t,y)
-***********************************************************************************************
-
-
 ;
 
 
@@ -546,17 +445,15 @@ eYearlyTotalCost(c,y)..
                                            + vYearlyTradeCost(z,y)
                                            + vAnnualizedTransmissionCapex(z,y)
                                            + vYearlyCurtailmentCost(z,y)
-                                           + vYearlySurplus(z,y)
-                                           + vYearlyH2UnservedCost(z,y)$pIncludeH2);
+                                           + vYearlySurplus(z,y));
 
                            
 *--- Capex
 * Annualized CAPEX for all generators in year y
 
 eTotalAnnualizedCapex(z, y)..
-   vAnnCapex(z,y) =e= sum(gzmap(g,z), vAnnGenCapex(g,y))
-                        + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
-                        + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2;
+   vAnnCapex(z,y) =e= sum(gzmap(g,z), vAnnGenCapex(g,y));
+
 
 eTotalAnnualizedGenCapex(g,y)..
    vAnnGenCapex(g,y) =e=
@@ -587,8 +484,7 @@ eYearlyFOMCost(z,y)..
    vYearlyFOMCost(z,y) =e= sum(gzmap(g,z),  vCap(g,y)*pGenData(g,"FOMperMW"))
             + sum(gzmap(st,z), vCapStor(st,y)*pStorData(st,"FixedOMMWh"))
             + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
-            + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
-            + sum(h2zmap(hh,z),  vCapH2(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
+            + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"));
 
 *-------------------------------------------------
 eYearlyVariableCost(z,y)..
@@ -600,8 +496,7 @@ eYearlyFuelCost(z,y)..
 
 *--- VOM
 eYearlyVOMCost(z,y)..
-   vYearlyVOMCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVOMCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))
-                              + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pIncludeH2;
+   vYearlyVOMCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVOMCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t));
 
 * Note: ReserveCost is in $/MWh -- this is the DIRECT cost of holding reserve like wear and tear that a generator bids in a market
 eYearlySpinningReserveCost(z,y)..
@@ -642,9 +537,6 @@ eYearlyCarbonCost(z,y)..
    vYearlyCarbonCost(z,y) =e= pIncludeCarbon*pCarbonPrice(y)
                             * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
-eH2UnservedCost(z,y)..
-   vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y) )*pH2UnservedCost$(pIncludeH2);
-
 
 * Ensures that when accessing parameters like CostPerLine or Life for a connection between zones i and j, 
 * the model always uses the maximum of both directions, regardless of ordering.
@@ -663,9 +555,7 @@ eAnnualizedTransmissionCapex(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1)
 
 *--- Demand supply balance constraint
 eDemSupply(z,q,d,t,y)..
-   pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) =e=sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))$(pIncludeH2=0)
-                                                        + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
-                                                          +vPwrREGrid(z,q,d,t,y)$pIncludeH2                                                         
+   pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) =e=sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))
                                                          - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
                                                          + sum(sTopology(z,z2), vFlow(z2,z,q,d,t,y)*(1-pLossFactor(z,z2,y)))
                                                          - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(pincludeStorage)
@@ -677,7 +567,9 @@ eDemSupply(z,q,d,t,y)..
 
 
 
-*--- Generator Capacity equations (check redundance with fix constraints in main.gms)
+
+
+*--- Generator Capacity equations 
 * Initial capacity balance in the first model year
 eInitialCapacity(g,sStartYear(y))..
    vCap(g,y) =e= pGenData(g,"Capacity")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val))
@@ -695,7 +587,6 @@ eCapacityEvolutionNew(ng,y)$(not sStartYear(y))..
 eInitialBuildLimit(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
    sum(y, vBuild(eg,y)) =l= pGenData(eg,"Capacity");
 
- 
 eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
    sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t)) =g=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
@@ -889,9 +780,6 @@ eStorageCSPBal(cs,q,d,t,y)$(not sFirstHour(t) and pincludeCSP)..
 
 eStorageCSPBal1(cs,q,d,sFirstHour(t),y)$pincludeCSP..
    vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y) ;
-**deleted estorageCSPbal2  
-
-
 
 *Equation needed in dispatch mode but not for capacity expansion with representative days
 *eStorageCSPBal2(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and pincludeCSP)..
@@ -899,19 +787,25 @@ eStorageCSPBal1(cs,q,d,sFirstHour(t),y)$pincludeCSP..
 
 
 *--- Energy (storage) capacity limits
+
+* Limits total installed storage capacity to predefined technical data from pStorData and CSP-related capacity from pCSPData. Only applies if storage is included (pincludeStorage).
 eCapacityStorLimit(g,y)$pincludeStorage..
    vCapStor(g,y) =l= pStorData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
 
+* Sets initial year’s storage capacity equal to existing capacity (if online) plus new builds minus retirements.
 eCapStorBalance(g, sStartYear(y))..
     vCapStor(g,y) =e= pStorData(g,"CapacityMWh")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val)) + vBuildStor(g,y) - vRetireStor(g,y);
 
-eCapStorBalance1(eg,y)$(not sStartYear(y) and pincludeStorage)..
+* Tracks annual storage capacity changes for existing generators (EGs): previous year’s capacity + builds − retirements.
+eCapStorAnnualUpdateEG(eg,y)$(not sStartYear(y) and pincludeStorage)..
    vCapStor(eg,y) =e= vCapStor(eg,y-1) + vBuildStor(eg,y) - vRetireStor(eg,y);
 
-eCapStorBalance2(ng,y)$(not sStartYear(y) and pincludeStorage)..
+* Tracks annual storage capacity for new generators (NGs): previous year’s capacity + builds. Assumes no retirement.
+eCapStorAnnualUpdateNG(ng,y)$(not sStartYear(y) and pincludeStorage)..
    vCapStor(ng,y) =e= vCapStor(ng,y-1) + vBuildStor(ng,y);
 
-eCapStorBalance3(ng,sStartYear(y))$pincludeStorage..
+* Sets initial capacity for new generators at start year equal to build amount. Applies only in the first year.
+eCapStorInitialNG(ng,sStartYear(y))$pincludeStorage..
    vCapStor(ng,y) =e= vBuildStor(ng,y);
 
 eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeStorage)..
@@ -945,10 +839,7 @@ eZonalEmissions(z,y)..
    sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 eEmissionsCountry(c,y)$pzonal_co2_constraints..
-
    sum(zcmap(z,c), vZonalEmissions(z,y))-vYearlyCO2backstop(c,y)=l= pEmissionsCountry(c,y);
-
-
 
 eTotalEmissions(y)..
     sum(z, vZonalEmissions(z,y))=e= vTotalEmissions(y);
@@ -957,100 +848,6 @@ eTotalEmissionsConstraint(y)$pSystem_CO2_constraints..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
 *eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
-
-
-*********************Hydrogen production equations******************
-
-*  Total capacity of H2 plants at 1st year of optimization is equal to pre-existing capacity plus capacity being bulit minus retired capacity
-*Checked
-eCapBalanceH2(hh,sStartYear(y))$(pIncludeH2)..
-   vCapH2(hh,y) =e= pH2Data(hh,"Capacity")$(eh(hh) and (pH2Data(hh,"StYr") <= sStartYear.val))
-               + vBuildH2(hh,y) - vRetireH2(hh,y);
-
-*  Total capacity of existing H2 palnts is equal to capacity over previous year plus capacity being built in current year minus retired capacity in current year
-*Checked
-eCapBalance1H2(eh,y)$(not sStartYear(y) and pIncludeH2)..
-   vCapH2(eh,y) =e= vCapH2(eh,y-1) + vBuildH2(eh,y) - vRetireH2(eh,y);
-
-*Total capacity of candidate H2 plants is equal to total capacity at previous year plus capacity being built in current year minus retired capacity in current year
-*Checked
-eCapBalance2H2(nh,y)$(not sStartYear(y) and pIncludeH2)..
-   vCapH2(nh,y) =e= vCapH2(nh,y-1) + vBuildH2(nh,y);
-
-* New H2 plants can be buuilt only after the StYr; the newly built capacity need to be less than declared capacity
-*Checked
-eBuildNewH2(eh)$(pH2Data(eh,"StYr") > sStartYear.val and pIncludeH2)..
-    sum(y, vBuildH2(eh,y)) =l= pH2Data(eh,"Capacity");
-
-
-* (Integer units ) Built capacity each year is equal to unit size
-*Checked
-eBuiltCapH2(nh,y)$(pH2Data(nh,"DescreteCap") and pIncludeH2)..
-   vBuildH2(nh,y) =e= pH2Data(nh,"UnitSize")*vBuiltCapVarH2(nh,y);
-
-* (Integer units ) Retired capacity each year is equal to unit size
-*Checked
-eRetireCapH2(eh,y)$(pH2Data(eh,"DescreteCap") and (y.val <= pH2Data(eh,"RetrYr")) and pIncludeH2)..
-   vRetireH2(eh,y) =e= pH2Data(eh,"UnitSize")*vRetireCapVarH2(eh,y);
-
-*  Maximum capacity factor of H2 production based on availability
-*Checked
-eMaxCF_H2(hh,q,y)$(pIncludeH2)..
-   sum((d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)) =l= pAvailabilityH2(hh,q)*vCapH2(hh,y)*sum((d,t), pHours(q,d,t));
-
-*       mmBTU of H2 produced
-eFuel_H2(c,q,y)$(pIncludeH2)..
-*                   mmBTU            mmBTU                    mmBTU                                                                     -MWe-                Hr                mmBTU/MWhe 
-    sum(zcmap(z,c), pExternalH2(z,q,y)-vUnmetExternalH2(z,q,y)$pExternalH2(z,q,y)+vFuelH2Quarter(z,q,y)) =e= sum( (zcmap(z,c),h2zmap(hh,z), d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"));
-
-eFuel_H2_2(c,z,y)$(pIncludeH2)..
-    sum((zcmap(z,c),q),vFuelH2Quarter(z,q,y)) =e=  sum(zcmap(z,c),vFuelH2(z,y));
-
-eMaxH2PwrInjection(hh,q,d,t,y)$pIncludeH2..
-    vH2PwrIn(hh,q,d,t,y)  =l= vCapH2(hh,y);
-
-* The amount of hydrogen fuel that can be used for electricity generation can not be more than the amount of H2 that was produced from VRE curtailment
-eFuelLimitH2(c,f,y)$(pFuelDataH2(f) and pIncludeH2)..
-   sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  sum((zcmap(z,c)), vFuelH2(z,y));
-
-
-*When the H2 production flag is off don't account for H2 fuel
-eFuelLimitH2_2(c,f,y)$(pFuelDataH2(f) and pIncludeH2=0)..
-   sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  0;
-
-
-eRampDnLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and pramp_constraints and pIncludeH2)..
-    vH2PwrIn(hh,q,d,t-1,y) -  vH2PwrIn(hh,q,d,t,y) =l= vCapH2(hh,y)*pH2Data(hh,"RampDnRate");
-
-eRampUpLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and pramp_constraints and pIncludeH2)..
-   vH2PwrIn(hh,q,d,t,y) -  vH2PwrIn(hh,q,d,t-1,y) =l= vCapH2(hh,y)*pH2Data(hh,"RampUpRate");
-
-*Calculation of Annualized CAPEX for electrolyzers
-eAnnCapexH2_1(dcH2,y)$(not sStartYear(y) and pIncludeH2)..
-   vAnnCapexH2(dcH2,y) =e= vAnnCapexH2(dcH2,y-1)
-                     + vBuildH2(dcH2,y)*pH2Data(dcH2,"Capex")*pCapexTrajectoriesH2(dcH2,y)*pCRFH2(dcH2)*1e6;
-
-eAnnCapexH2(dcH2,sStartYear(y))$pIncludeH2..
-   vAnnCapexH2(dcH2,y) =e= vBuildH2(dcH2,y)*pH2Data(dcH2,"Capex")*pCapexTrajectoriesH2(dcH2,y)*pCRFH2(dcH2)*1e6;                                                                          ;
-
-eRE2H2_4(z,q,d,t,y)$pIncludeH2..
-  sum(h2zmap(hh,z),vH2PwrIn(hh,q,d,t,y))=e=vPwrREH2(z,q,d,t,y);
- 
-
-eRE2H2_3(z,q,d,t,y)$pIncludeH2..
- vPwrREH2(z,q,d,t,y) =e= sum((gfmap(RE,f),gzmap(RE,z)),vREPwr2H2(RE,f,q,d,t,y));
-
-eRE2H2_2(z,q,d,t,y)$pIncludeH2..
-vPwrREGrid(z,q,d,t,y)=e=sum((gfmap(RE,f),gzmap(RE,z)),vREPwr2Grid(RE,f,q,d,t,y));
-
-eRE2H2(RE,f,q,d,t,y)$pIncludeH2..
- vPwrOut(RE,f,q,d,t,y)=e=vREPwr2Grid(RE,f,q,d,t,y)+vREPwr2H2(RE,f,q,d,t,y);
-
-*For example equation below is deactivated when H2 is on and is replaced by eVREProfile2
-
-***********************************end of H2 equations section**************************************
-
-
 
 
 Model PA /
@@ -1154,9 +951,9 @@ Model PA /
    
    eCapacityStorLimit
    eCapStorBalance
-   eCapStorBalance1
-   eCapStorBalance2
-   eCapStorBalance3
+   eCapStorAnnualUpdateEG
+   eCapStorAnnualUpdateNG
+   eCapStorInitialNG
    eBuildStorNew
    
    eCapacityThermLimit
@@ -1166,11 +963,6 @@ Model PA /
    eBuildThermNew
    
 
-   
-
-*   eSimultComDecom
-
-* variable limited domains
    vPwrOut(sPwrOut)
    vExportPrice(sExportPrice)
    vImportPrice(sImportPrice)
@@ -1178,34 +970,5 @@ Model PA /
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)
    
-
-***************************Equations for H2 model*******************************
-   vH2PwrIn(sH2PwrIn)
-
-   eH2UnservedCost
-   eBuildNewH2
-   eCapBalance1H2
-   eCapBalance2H2
-   eCapBalanceH2
-   eBuiltCapH2
-   eRetireCapH2
-*eDemSupplyH2
-   eMaxCF_H2
-   eFuel_H2
-   eFuel_H2_2
-   eRampDnLimitH2
-   eRampUpLimitH2
-   eFuelLimitH2
-   eFuelLimitH2_2
-*eYearlyCurtailmentCost2
-
-   eRE2H2
-   eRE2H2_2
-   eRE2H2_3
-   eRE2H2_4
-   eMaxH2PwrInjection
-
-   eAnnCapexH2_1
-   eAnnCapexH2
   
 /;

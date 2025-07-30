@@ -65,6 +65,11 @@ $if not set pCSPData $set pCSPData %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCSPData.c
 $if not set pStorDataExcel $set pStorDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pStorDataExcel.csv
 
 * RESOURCES
+$if not set pSettingsHeader $set pSettingsHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pSettingsHeader.csv
+$if not set pGenDataInputHeader $set pGenDataInputHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pGenDataInputHeader.csv
+$if not set pStoreDataHeader $set pStoreDataHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pStoreDataHeader.csv
+$if not set pH2Header $set pH2Header %ROOT_INPUT%/%FOLDER_INPUT%/resources/pH2Header.csv
+
 $if not set ftfindex $set ftfindex %ROOT_INPUT%/%FOLDER_INPUT%/resources/ftfindex.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent %ROOT_INPUT%/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
 $if not set pTechData $set pTechData %ROOT_INPUT%/%FOLDER_INPUT%/resources/pTechData.csv
@@ -107,12 +112,40 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
+    file: %pSettingsHeader%
+    name: pSettingsHeader
+    indexColumns: [1]
+    type: set
+
+
+- CSVReader:
+    trace: %TRACE%
     file: %pSettings%
     name: pSettings
-    valueSubstitutions: {.nan: EPS, 0: EPS}
     indexColumns: [2]
     valueColumns: [3]
     type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pGenDataInputHeader%
+    name: pGenDataInputHeader
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: %TRACE%
+    file: %pStoreDataHeader%
+    name: pStoreDataHeader
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: %TRACE%
+    file: %pH2Header%
+    name: pH2Header
+    indexColumns: [1]
+    type: set
 
 
 - CSVReader:
@@ -221,7 +254,6 @@ $onEmbeddedCode Connect:
     file: %pGenDataInput%
     name: pGenDataInput
     indexColumns: [1,2,3,4]
-    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
 
@@ -522,6 +554,7 @@ $onEmbeddedCode Connect:
     indexColumns: [1]
     header: [1]
     type: par
+
 
 - CSVReader:
     trace: %TRACE%
