@@ -163,7 +163,6 @@ Parameters
    pSolarEnergy(z,q,d,t,y)                   'Solar output in MWh'                                        
    pSolverParameters(*)                      'Solver parameters'                                                                                 
    pDemandSupplySeason(z,*,y,q)              'Seasonal demand supply parameters per zone'
-   pDemandSupplySeasonH2(z,*,y,q)              'Seasonal demand supply parameters per zone'
    
    pEnergyByPlantSeason(z,g,y,q)             'Energy by plant in GWh per season  per zone'
    pInterchangeSeason(z,z2,y,q)              'Total exchange in GWh between internal zones per season per zone'

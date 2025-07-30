@@ -11,7 +11,6 @@ Sets
    nVRE(g)          'non VRE generators'
    REH2(g)          'set of RE generators which are NOT VRE'
    nREH2(g)         'set of generators that are dont belong to subset REH2(g)'
-   h2Index      'Index of hydrogen fuels'    /HydrogenIndex/
    h2zmap(hh,z)
    sH2PwrIn(hh,q,d,t,y)
 ;
@@ -19,9 +18,6 @@ Sets
 Sets
    H2statusmap(hh,H2status) 'Hydrogen unit status'
 ;
-
-alias(hh,hh1);
-
 
 Parameters
     pIncludeH2
@@ -36,7 +32,6 @@ Positive Variables
    vCapH2(hh,y)                'total capacity in place accounting for legacy, new and retired plants (MW)'
    vBuildH2(hh,y)              'Build (MW)'
    vRetireH2(hh,y)             'Retire (MW)'
-   vNetCurtailedVRE(z,q,d,t,y) 'Curtailed VRE as an outcome of not being used for H2 production'
    vH2PwrIn(hh,q,d,t,y)        'Power drawn by H2 plants for H2 production in MW'
    vFuelH2(z,y)                'Annual H2 production in MMBTU'
    vAnnCapexH2(hh,y)           'Annualized CAPEX of H2 producing technologies'
@@ -71,9 +66,6 @@ Equations
     eFuelLimitH2_2(c,f,y)
     eAnnCapexH2_1(hh,y)
     eAnnCapexH2(hh,y)
-    eVRE2H2_2(z,g,f,q,d,t,y)
-    eVRE2H2_3(z,q,d,t,y)
-    eVRE2H2_4(z,q,d,t,y)
     eRE2H2(g,f,q,d,t,y)
     eRE2H2_2(z,q,d,t,y)
     eRE2H2_3(z,q,d,t,y)

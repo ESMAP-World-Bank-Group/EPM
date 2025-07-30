@@ -142,7 +142,7 @@ Sets
 
 ;
 
-alias (z,z2), (g,g1,g2);
+alias (z,z2), (g,g2);
 
 * Input data parameters 
 Parameter
@@ -319,11 +319,6 @@ parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
 
 
-* TODO: Bug if removed, but never called?
-set addHdr / fuel1, fuel2, Zone, Type, 'Assigned Value', status, Heatrate2,
-             'RE Technology', 'Hourly Variation' /;
-             
-
 * Aggregate `gmap(g,z,tech,f)` over `tech` and `f` to get `gzmap(g,z)`,
 * which represents the mapping of generator `g` to zone `z`.
 gzmap(g,z) = sum((tech,f), gmap(g,z,tech,f));
@@ -345,7 +340,6 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 gfmap(g,f) = gfmap(g,f) 
          or sum((z,tech,f2), (pGenDataInput(g,z,tech,f2,'fuel2') = ftfindex(f)));
          
-
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataInput(g,z,tech,f,'status')=gstatIndex(gstatus));
 
@@ -745,7 +739,6 @@ vRetireH2.fx(eh,y)$(pH2Data(eh,"Life") = 99) = 0;
 vCapH2.fx(eh,y)$((pSettings("econRetire") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
 
 sH2PwrIn(hh,q,d,t,y) = yes;
-
 vREPwr2H2.fx(nRE,f,q,d,t,y)=0;       
 vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;     
 
@@ -755,9 +748,9 @@ sPwrOut(gfmap(st,f),q,d,t,y)$(not pincludeStorage) = yes;
 
 * If price based export is not allowed, set to 0
 sExportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
-sImportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
-
 sExportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
+
+sImportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
 sImportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 
 vImportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitIn(z,zext,q,y);
@@ -767,12 +760,11 @@ vExportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y)
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 
+* Define the flow of electricity between zones
+sFlow(z,z2,q,d,t,y)$(sTopology(z,z2)) = yes;
 
-sFlow(z,z2,q,d,t,y) = yes;
-sFlow(z,z2,q,d,t,y)$(not sTopology(z,z2)) = no;
-
-sSpinningReserve(g,q,d,t,y) = yes;
-sSpinningReserve(g,q,d,t,y)$(not (pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints) ) = no;
+* Define spinning reserve constraints based on the settings for zonal and system spinning reserves
+sSpinningReserve(g,q,d,t,y)$((pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints) ) = yes;
 
 *To avoid bugs when there is no candidate transmission expansion line
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
