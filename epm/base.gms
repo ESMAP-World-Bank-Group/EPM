@@ -37,7 +37,7 @@ $eolCom //
 
 
 alias (y,y2);
-alias (f,f1,f2);
+alias (f,f2);
 alias (c,c2);
 
 
@@ -259,14 +259,12 @@ Free Variable
    vNPVCost                     'discounted total system cost'
    vStorNet(g,q,d,t,y)
    vYearlyTotalCost(c,y)
-   vYearlyFixedCost(z,y)
    vYearlyVariableCost(z,y)
    vYearlyUSECost(z,y)
    vYearlyExternalTradeCost(z,y)
    vYearlySpinningReserveCost(z,y)      'Yearly spinning reserve costs'
    vYearlyUnmetReserveCostCountry(c,y)         'Country unmet spinning and planning reserve'
    vYearlyCarbonCost(z,y)               'country carbon cost'
-   vYearlyUnmetReserveCostSystem(y)                 'system unmet planing reserve'
    vYearlyCO2BackstopCostCountry(c,y)              'ccost of CO2 backstop'
    vYearlyUnmetPlanningReserveCostSystem(y)              'system unmet planning reserve cost'
    vYearlyUnmetSpinningReserveCostSystem(y)              'system unmet spinning reserve cost'
@@ -365,7 +363,6 @@ Equations
    eZonalEmissions(z,y)            'CO2eq emissions by zone and year in tons'
    eEmissionsCountry(c,y)          'constraint on country CO2eq emissions'
    eTotalEmissions(y)              'total regional CO2eq emissions by year in tons'
-   eEmissionsTotal(y)              'Total CO2eq emissions by year in tons'
    eTotalEmissionsConstraint(y) 	'constraint on total CO2eq emissions by year in tons'
   
 
@@ -376,8 +373,8 @@ Equations
 
    eStateOfChargeUpdate(g,q,d,t,y)
    eStateOfChargeInit(g,q,d,t,y)
-   eSOCCycleClosure(g,q,d,t,y)
-   eDailyStorageEnergyBalance(g,q,d,y)
+* eSOCCycleClosure(g,q,d,t,y)
+* eDailyStorageEnergyBalance(g,q,d,y)
 
    eSOCSupportsReserve(g,q,d,t,y)
    eChargeCapacityLimit(g,q,d,t,y)
@@ -895,6 +892,7 @@ Model PA /
    eYearlySurplusCost
 
    eDemSupply
+   eDefineSupply
    eInitialCapacity
    eCapacityEvolutionExist
    eCapacityEvolutionNew
