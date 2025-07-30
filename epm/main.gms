@@ -131,7 +131,6 @@ Sets
    pH2Header
    pTechDataHeader
    pe       'peak energy for demand forecast' /'peak', 'energy'/
-*********Hydrogen specific addition***********
    hh        'Hydrogen production units'
 ;
 
@@ -148,19 +147,18 @@ alias (z,z2), (g,g1,g2);
 * Input data parameters 
 Parameter
 * Generator data
-   pGenDataInput(g<,z,tech<,f<,pGenDataInputHeader<)      'Generator data from Excel input'
-   
+   pTechData(tech<,pTechDataHeader<)              'Technology specifications'
+   pGenDataInput(g<,z,tech,f<,pGenDataInputHeader)      'Generator data from Excel input'
    pGenDataInputDefault(z,tech,f,pGenDataInputHeader)     'Default generator data by zone/tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y) 'Default CAPEX trajectories'
    pCapexTrajectories(g,y)             'Generator CAPEX trajectories'
    pAvailabilityDefault(z,tech,f,q)     'Default availability factors'
    
 * Storage data
-   pStorDataExcel(g,*,pStoreDataHeader<)             'Storage unit specifications'
+   pStorDataExcel(g,*,pStoreDataHeader)             'Storage unit specifications'
    
 * CSP and technology data
    pCSPData(g,pCSPDataHeader,pStoreDataHeader)              'Concentrated solar power data'
-   pTechData(tech,pTechDataHeader<)              'Technology specifications'
    
 * Fuel data
    pFuelCarbonContent(f)                'Carbon content by fuel (tCO2/MMBtu)'
@@ -204,22 +202,23 @@ Parameter
    pPlanningReserveMargin(c)           'Planning reserve margins'
    
 * Other parameters
-   pSettings(pSettingsHeader<)         'Model settings and penalties'
+   pSettings(pSettingsHeader)         'Model settings and penalties'
    
    pEnergyEfficiencyFactor(z,y)        'Energy efficiency adjustment factors'
    pExtTransferLimit(z,zext,q,*,y)     'External transfer limits'
    
 * Hydrogen parameters
-   pH2DataExcel(hh<,pH2Header<)                 'Hydrogen data from Excel'
+   pH2DataExcel(hh<,pH2Header)                 'Hydrogen data from Excel'
    pAvailabilityH2(hh,q)               'H2 plant availability'
    pFuelDataH2(f)                      'Hydrogen fuel properties'
    pCapexTrajectoryH2(hh,y)            'H2 CAPEX trajectories'
    pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
    
    ftfindex(f)
-
-
 ;   
+
+
+* Add to pGenDataInputHeader the headers that are optional for users but necessary for the model
 
    
 $if not errorfree $abort Error before reading input
@@ -233,10 +232,12 @@ $include %READER_FILE%
 $gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
-$load zcmap pSettings y pHours
+$load zcmap pSettingsHeader y pHours
+$load pGenDataInputHeader, pTechData, pStoreDataHeader, 
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
-$load pTechData ftfindex
+$load ftfindex
+$load pSettings
 
 * Load demand data
 $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sRelevant
@@ -254,7 +255,7 @@ $load pExtTransferLimit, pNewTransmission, pMinImport
 $load pTradePrice, pMaxExchangeShare
 
 * Load Hydrogen model-related symbols
-$load pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
+$load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
 
 * Close the GDX file after loading all required data
 $gdxIn
@@ -302,8 +303,9 @@ $if not errorFree $abort Data errors.
 * This prevents reloading sets, parameters, or data already available in the restart
 $if "x%gams.restart%" == "x" $include %BASE_FILE%
 
-*-------------------------------------------------------------------------------------
+$include hydrogen_module.gms
 
+*-------------------------------------------------------------------------------------
 
 pStorDataInput(g,g2,pStoreDataHeader) = pStorDataExcel(g,g2,pStoreDataHeader);
 pStorDataInput(g,g,pStoreDataHeader)$pStorDataExcel(g,'',pStoreDataHeader) = pStorDataExcel(g,'',pStoreDataHeader);
@@ -415,9 +417,19 @@ pVRECapacityCredits                  = pSettings("VRECapacityCredits");
 pSeasonalReporting                   = pSettings("Seasonalreporting");
 pSystemResultReporting               = pSettings("Systemresultreporting");
 pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
-*Related to hydrogen model
 pIncludeH2                       = pSettings("IncludeH2");
 pH2UnservedCost                  = pSettings("H2UnservedCost");
+pDR              = pSettings("DR");
+pWACC            = pSettings("WACC");
+pVOLL            = pSettings("VOLL");
+pPlanningReserveVoLL     = pSettings("ReserveVoLL");
+pMaxCapital      = pSettings("MaxCapital")*1e6;
+pSpinningReserveVoLL = pSettings("SpinReserveVoLL");
+pIncludeCarbon   = pSettings("includeCarbonPrice");
+pinterconMode    = pSettings("interconMode");
+pnoTransferLim   = pSettings("noTransferLim");
+pincludeEE       = pSettings("includeEE");
+pIncludeDecomCom = pSettings("IncludeDecomCom");
 
 
 singleton set sFinalYear(y);
@@ -430,17 +442,7 @@ sFirstHour(t) = t.first;
 sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
 
-pDR              = pSettings("DR");
-pWACC            = pSettings("WACC");
-pVOLL            = pSettings("VOLL");
-pPlanningReserveVoLL     = pSettings("ReserveVoLL");
-pMaxCapital      = pSettings("MaxCapital")*1e6;
-pSpinningReserveVoLL = pSettings("SpinReserveVoLL");
-pIncludeCarbon   = pSettings("includeCarbonPrice");
-pinterconMode    = pSettings("interconMode");
-pnoTransferLim   = pSettings("noTransferLim");
-pincludeEE       = pSettings("includeEE");
-pIncludeDecomCom = pSettings("IncludeDecomCom");
+
 
 * Set external transfer limits to zero if exports are not allowed
 pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
@@ -559,7 +561,7 @@ pCapacityCredit(g,y)= 1;
 pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap(VRE,z) and gtechmap(VRE,tech)),pVREProfile(z,tech,q,d,t));
 
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
-pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
+*pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
 pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
