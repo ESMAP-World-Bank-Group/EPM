@@ -3,8 +3,8 @@
 The World Bank's remote server is designed for **running computationally heavy EPM simulations**.
 
 ## Server Specifications
-- **CPU**: 4 cores  
-- **Total RAM**: 31 GB  
+- **vCPU**: 64  
+- **Total RAM**: 64 GB  
 - **Typical Free RAM**: ~6 GB  
 - Use `free -h` and `top` to monitor real-time usage.
 
