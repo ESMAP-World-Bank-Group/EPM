@@ -25,3 +25,5 @@ Generic_GENC_BAT,NN_BAT,400000,200.8333333,0,0,0.85,20
 Generic_GENC_BESS,,200000,290,0,0,0.85,20
 Pumped_Hydro,,3000,150,0,0,0.8,60
 Hydro_pumped_storage_(11.16_MW),,3000,150,0,0,0.8,60
+BESS_generic,,200000,150,0,0,0.8,60
+PSH_generic,,21000,290,0,0,0.85,20
