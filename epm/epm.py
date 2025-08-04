@@ -799,8 +799,8 @@ def perform_sensitivity(sensitivity, s):
     param = 'pSettings'
     if sensitivity.get(param):  # testing implications of some setting parameters
         settings_sensi = {
-                    #    'VOLL': [500, 1000, 5000],
-                        'VREForecastError': [0, 0.15, 0.3]
+                        'VOLL': [500, 1000, 5000]
+                    #    'VREForecastError': [0, 0.15, 0.3]
                     #    'ReserveVoLL': [6000, 60000, 100000], 
                     #    'SpinReserveVoLL': [60, 100], 
                     #    'costSurplus': [5, 100, 500], 
