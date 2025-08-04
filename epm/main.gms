@@ -141,6 +141,7 @@ Set
                         altDemand
                         capCreditSolar
                         capCreditWind
+                        CapCreditSto
                         capital_constraints
                         captraj
                         costSurplus
@@ -284,6 +285,7 @@ Parameter
    pExtTransferLimitOut(z,zext,q,y)   'External export limits'
    pMaxLoadFractionCCCalc             'Load threshold for capacity credit calc'
    pVREForecastError                  'VRE forecast error percentage'
+   pCapCreditSto                      'Default capacity credit for storage'
 ;
 
 * Technology and mapping sets
@@ -500,6 +502,7 @@ $set system_co2_constraints               -1
 $set IncludeDecomCom                      -1
 *Hydrogen model specific sets
 $set IncludeH2                            -1
+$set CapCreditSto                         1
 
 
 * Read main parameters from pSettings
@@ -535,6 +538,7 @@ pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
 *Related to hydrogen model
 pIncludeH2                       = pSettings("IncludeH2");
 pH2UnservedCost                  = pSettings("H2UnservedCost");
+pCapCreditSto                     = pSettings("CapCreditSto");
 
 
 display pzonal_spinning_reserve_constraints, pplanning_reserve_constraints, pinterco_reserve_contribution;
@@ -554,6 +558,7 @@ $if not "%zonal_co2_constraints%"               == "-1" pzonal_co2_constraints  
 $if not "%system_co2_constraints%"              == "-1" psystem_co2_constraints              = %system_co2_constraints%;
 $if not "%IncludeDecomCom%"                     == "-1" pIncludeDecomCom                     = %IncludeDecomCom%;
 $if not "%IncludeH2%"                           == "-1" pIncludeH2                           = %IncludeH2%;
+$if not "%CapCreditSto%"                        ==  "1" pCapCreditSto                        = %CapCreditSto%;
 
 singleton set sFinalYear(y);
 scalar TimeHorizon;
@@ -715,6 +720,9 @@ pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Su
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+
+* Capacity credit for storage (batteries)
+pCapacityCredit(st,y) = pCapCreditSto;
 
 * TODO: REMOVE
 *pCapacityCredit(RE,y) =  Sum((z,q,d,t)$gzmap(RE,z),Sum(f$gfmap(RE,f),pREProfile(z,f,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(RE,f) and gzmap(RE,z) ),pREProfile(z,f,q,d,t))/sum((q,d,t),1));

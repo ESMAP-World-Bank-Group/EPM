@@ -798,11 +798,9 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
 def perform_sensitivity(sensitivity, s):
     param = 'pSettings'
     if sensitivity.get(param):  # testing implications of some setting parameters
-        settings_sensi = {'VOLL': [250],
-                          'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
-                          'zonal_spinning_reserve_constraints': [0],
-                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1],
-                          'includeIntercoReserves': [0,1], 'interco_reserve_contribution': [0, 0.5]}
+        settings_sensi = {'VOLL': [500, 1000, 5000, 10000],'VREForecastError': [0, 0.15, 0.3], 'ReserveVoLL': [6000, 60000, 100000], 'SpinReserveVoLL': [60, 100], 
+                          'costSurplus': [1, 10, 100, 500], 'costcurtail': [1, 10], 'costcurtail': [1, 10],
+                          'includeIntercoReserves': [0,1], 'interco_reserve_contribution': [0, 0.5, 1], 'CapCreditSto': [0, 0.25, 0.5]}
 
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
@@ -1278,6 +1276,7 @@ def main(test_args=None):
         if not os.path.exists(sensitivity):
             print(f"Warning: sensitivity file {sensitivity} does not exist. No sensitivity analysis will be performed.")
         sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
+        print(sensitivity)
 
     else:
         sensitivity = None
