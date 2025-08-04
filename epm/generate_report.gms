@@ -1045,7 +1045,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 
 ;
 
-execute_unload 'All';
+*execute_unload 'All';
 $elseIfI.reportshort %REPORTSHORT% == 1
 *  Limited reporting is used
     execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull, pDemandSupply
