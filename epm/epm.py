@@ -801,11 +801,11 @@ def perform_sensitivity(sensitivity, s):
         settings_sensi = {
                     #    'VOLL': [500, 5000],
                     #    'VREForecastError': [0, 0.3],
-                    #    'ReserveVoLL': [60000, 100000] 
+                        'ReserveVoLL': [60000, 100000] 
                     #    'SpinReserveVoLL': [100], 
                      #   'costSurplus': [5, 100, 500], 
                      #   'costcurtail': [1, 10], 
-                        'DR': [0.09, 0.11],
+                     #   'DR': [0.09, 0.11],
                      #  'includeIntercoReserves': [0], 
                       # 'interco_reserve_contribution': [0, 0.5], 
                       #  'CapCreditSto': [0, 0.5]
