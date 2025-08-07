@@ -909,10 +909,10 @@ Nyabuhuka_HPP,Uganda,ROR,Water,2023,2073,3,2,0,0,1,1,0,0.4,50000,0.5,0,2.8,50,3.
 Nyamabuye_HPP,Uganda,ROR,Water,2025,2075,7,2,0,0,1,1,0,0.4,50000,0.5,0,2.8,50,7,7,0,,0,0,0,0
 Rupa_Wind_Power_Project,Uganda,OnshoreWind,Wind,2023,2053,20,2,0,0,1,1,0,0,30000,0,0,1.3,30,20,20,0,,0,0,1,0
 BMST_GENC_UGA,Uganda,BiomassPlant,Biomass,2027,2057,4321,3,0,15,1,1,0,0.05,75000,2.5,0,2.5,30,86.42,4321,0,,0,0,0,0
-NGCC_GENC_UGA,Uganda,CCGT,Gas,2027,2058,10000,3,,,,,,,,,,,,1000,,,,,,,
+NGCC_GENC_UGA,Uganda,CCGT,Gas,2027,2058,2800,3,,,,,,,,,,,,1000,,,,,,,
 COSC_GENC_UGA,Uganda,ST,Coal,2029,2059,0,3,0,10.2,1,1,0,0.2,112000,2,0,3.74,30,0,0,0,,0,0,0,0
 GOCV_GENC_UGA,Uganda,Geothermal,Geothermal,2027,2057,1210,3,,0,1,1,0,,75000,0,0,3.5,30,,,0,,0,0.9,1,0
-NGSC_GENC_UGA,Uganda,OCGT,Gas,2027,2057,10000,3,,,,,,,,,,,,1000,,,,,,,
+NGSC_GENC_UGA,Uganda,OCGT,Gas,2027,2057,0,3,,,,,,,,,,,,1000,,,,,,,
 DSRC_GENC_UGA,Uganda,ICE,Diesel,2027,2057,10000,3,,,,,,,,,,,,,,,,,,,
 HFRC_GENC_UGA,Uganda,ICE,HFO,2027,2057,10000,3,,,,,,,,,,,,,,,,,,,
 SOPC_GENC_UGA,Uganda,PV,Solar,2027,2052,8000,3,0,0,1,1,0,0,10000,0,0,0.9,25,400,10000,0,,0,0,1,0
@@ -939,7 +939,7 @@ BukasaOffgrid_PV,Uganda,PV,Solar,2020,2050,0.1,1,0,0,1,1,0,0,10000,0,0,,,,,,,,,,
 Pam_Ssekanyonyi_PV,Uganda,PV,Solar,2014,2044,0.1,1,0,0,1,1,0,0,10000,0,0,,,,,,,,,,
 Pam_Tiribogo_PV,Uganda,PV,Solar,2014,2044,0.1,1,0,0,1,1,0,0,10000,0,0,,,,,,,,,,
 Tororo_PV,Uganda,PV,Solar,2019,2049,10.6,1,0,0,1,1,0,0,78841,0,0,,,,,,,,,,
-Nuclear_UGA_Candidate,Uganda,Nuclear,Uranium,2036,2086,30000,3,0,11.35,1,1,0,0,55560,7,0,4.9,50,2,,,,,0.8,,
+Nuclear_UGA_Candidate,Uganda,Nuclear,Uranium,2036,2086,30000,3,0,11.35,1,1,0,0,55560,7,0,4.9,50,8000,,,,,0.8,,
 SmallHydro_2027,Tanzania,ReservoirHydro,Water,2027,2060,27,2,,,0.25,0.25,,0.29,15800,0.5,0,4.2,,27,,,,,,,
 SmallHydro_TZA,Tanzania,ROR,Water,2016,2060,40,1,,,0.25,0.25,,0.22,15800,0.5,0,,,,,,,,,,
 Songwe_Manolo,Tanzania,ReservoirHydro,Water,2030,2060,88,3,,,,,,0.38,4090,0.5,0,3.1,50,88,,,,,,,
