@@ -1,4 +1,4 @@
-paramNames,ISO,UTIP,baseline_TZ,UTIP_TZ,baseline_TZ_PPA80,baseline_TZ_PPA60,baseline_TZ_profile,UTIP_TZ_PPA80,UTIP_TZ_PPA60,UTIP_TZ_profile,RETRADE_TZ,RETRADEXP_TZ,baseline_uga_10fold,baseline_uga_ep,UTIP_uga_10fold,UTIP_uga_ep,baseline_uga_bau_nores,UTIP_uga_bau_nores,baseline_tza_100,baseline_tza_120,UTIP_tza_100,UTIP_tza_120
+paramNames,ISO,UTIP,baseline_TZ,UTIP_TZ,baseline_TZ_PPA80,baseline_TZ_PPA60,baseline_TZ_profile,UTIP_TZ_PPA80,UTIP_TZ_PPA60,UTIP_TZ_profile,RETRADE_TZ,RETRADEXP_TZ,baseline_uga_10fold,baseline_uga_ep,UTIP_uga_10fold,UTIP_uga_ep,baseline_uga_bau_nores,UTIP_uga_bau_nores,baseline_tza_80,baseline_tza_120,UTIP_tza_80,UTIP_tza_120
 SETTINGS,,,,,,,,,,,,,,,,,,,,,,
 pSettings,pSettings_iso.csv,,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,pSettings_TZ.csv,,,,,pSettings_nores.csv,pSettings_nores.csv,,,,
 y,,,,,,,,,,,,,,,,,,,,,,
@@ -10,7 +10,7 @@ pFuelCarbonContent,,,,,,,,,,,,,,,,,,,,,,
 pTechData,,,,,,,,,,,,,,,,,,,,,,
 LOAD,,,,,,,,,,,,,,,,,,,,,,
 pDemandData,,,,,,,,,,,,,,,,,,,,,,
-pDemandForecast,,,,,,,,,,,,,load/pDemandForecast_uga_10fold.csv,load/pDemandForecast_uga_ep.csv,load/pDemandForecast_uga_10fold.csv,load/pDemandForecast_uga_ep.csv,load/pDemandForecast_uga_bau.csv,load/pDemandForecast_uga_bau.csv,load/pDemandForecast_uga_bau_tza_100.csv,load/pDemandForecast_uga_bau_tza_120.csv,load/pDemandForecast_uga_bau_tza_100.csv,load/pDemandForecast_uga_bau_tza_120.csv
+pDemandForecast,,,,,,,,,,,,,load/pDemandForecast_uga_10fold.csv,load/pDemandForecast_uga_ep.csv,load/pDemandForecast_uga_10fold.csv,load/pDemandForecast_uga_ep.csv,load/pDemandForecast_uga_bau.csv,load/pDemandForecast_uga_bau.csv,load/pDemandForecast_uga_bau_tza_80.csv,load/pDemandForecast_uga_bau_tza_120.csv,load/pDemandForecast_uga_bau_tza_80.csv,load/pDemandForecast_uga_bau_tza_120.csv
 pDemandProfile,,,,,,,,,,,,,,,,,,,,,,
 sRelevant,,,,,,,,,,,,,,,,,,,,,,
 pEnergyEfficiencyFactor,,,,,,,,,,,,,,,,,,,,,,
