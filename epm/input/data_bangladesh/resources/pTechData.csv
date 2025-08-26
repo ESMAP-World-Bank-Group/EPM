@@ -1,0 +1,22 @@
+﻿Tech0logy,Hourly Variation,RE Tech0logy
+Gas Turbine,0,0
+Combined Cycle Gas Turbine,0,0
+Coal Plant,0,0
+Storage hydro,0,1
+Wind,1,1
+Solar PV,1,1
+Biogas,0,1
+Interconnection,0,0
+Combined Heat & Power,0,0
+Internal Combustion Engine,0,0
+Biomass,0,1
+Run of river hydro,1,1
+Steam Turbine,0,0
+Concentrated Solar Power,0,1
+Solar PV with Storage,1,1
+Storage For PV,0,1
+Grid Connected Storage,0,0
+Coal with CCS,0,0
+CCGT with CCS,0,0
+CCGT on Green Hydrogen,0,1
+Wind Offshore,1,1

@@ -1,0 +1,15 @@
+﻿zone,tech,fuel,Q1,Q2,Q3,Q4;;
+BangladeshE;CCGT;Gas
+BangladeshW;CCGT;Gas
+BangladeshE;COAL;DomCoal
+BangladeshW;COAL;DomCoal
+BangladeshE;GT;Gas
+BangladeshW;GT;Gas
+BangladeshE;GT;FuelOil
+BangladeshW;GT;FuelOil
+BangladeshE;PV;PV
+BangladeshW;PV;PV
+BangladeshE;WIND;Wind
+BangladeshW;WIND;Wind
+BangladeshE;STORAGE;Battery
+BangladeshW;STORAGE;Battery
