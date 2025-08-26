@@ -1,0 +1,44 @@
+﻿gen;Linked plant;CapacityMWh;CapexMWh;VOMMWh;FixedOMMWh;Efficiency;Life
+NN_AndhraPradesh_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_Gujarat_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_HimachalPradesh_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_JammuKashmir_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_Karnataka_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_MadhyaPradesh_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_Maharashtra_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_Rajasthan_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_TamilNadu_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_UttarPradesh_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_Uttarakhand_STORAGE_Battery;; 150 000 ; 25 ;0; 247 ;0.95; 20 
+NN_PakistanN_STORAGE_Battery;; 75 000 ; 25 ;0; 247 ;0.95; 20 
+NN_PakistanS_STORAGE_Battery;; 75 000 ; 25 ;0; 247 ;0.95; 20 
+NN_BangladeshE_STORAGE_Battery;; 75 000 ; 25 ;0; 247 ;0.95; 20 
+NN_BangladeshW_STORAGE_Battery;; 75 000 ; 25 ;0; 247 ;0.95; 20 
+NN_SriLanka_STORAGE_Battery;; 75 000 ; 25 ;0; 247 ;0.95; 20 
+Purulia PSH Project_PSH;; 5 400 ; 11 ;0; 550 ;0.95; 60 
+Ghatghar PSH Project_PSH;; 1 500 ; 11 ;0; 550 ;0.95; 60 
+Tehri PSH Project_PSH;; 6 000 ; 11 ;0; 550 ;0.95; 60 
+Kundah PSH Project_PSH;; 3 000 ; 11 ;0; 550 ;0.95; 60 
+Pinnapuram PSH Project_PSH;; 7 200 ; 11 ;0; 550 ;0.95; 60 
+MP 30 PSH Project_PSH;; 8 640 ; 11 ;0; 550 ;0.95; 60 
+Saharavathy PSH Project_PSH;; 12 000 ; 11 ;0; 550 ;0.95; 60 
+Saundatti PSH Project_PSH;; 7 560 ; 11 ;0; 550 ;0.95; 60 
+Upper Indravati PSH Project_PSH;; 3 600 ; 11 ;0; 550 ;0.95; 60 
+Turga PSH Project_PSH;; 6 000 ; 11 ;0; 550 ;0.95; 60 
+Chitravathi PSH Project_PSH;; 3 000 ; 11 ;0; 550 ;0.95; 60 
+Upper Sileru PSH Project_PSH;; 8 100 ; 11 ;0; 550 ;0.95; 60 
+Gandikota PSH Project_PSH;; 6 000 ; 11 ;0; 550 ;0.95; 60 
+Owk PSH Project_PSH;; 4 800 ; 11 ;0; 550 ;0.95; 60 
+Sillahalla PSH Project_PSH;; 6 000 ; 11 ;0; 550 ;0.95; 60 
+Upper Kolab PSH Project_PSH;; 1 920 ; 11 ;0; 550 ;0.95; 60 
+Kodayar PSH Project_PSH;; 3 000 ; 11 ;0; 550 ;0.95; 60 
+Balimela PSH Project_PSH;; 3 000 ; 11 ;0; 550 ;0.95; 60 
+Kurukutti PSH Project_PSH;; 7 200 ; 11 ;0; 550 ;0.95; 60 
+Karrivalasa PSH Project_PSH;; 6 000 ; 11 ;0; 550 ;0.95; 60 
+Somasila PSH Project_PSH;; 5 400 ; 11 ;0; 550 ;0.95; 60 
+Yarravaram PSH Project_PSH;; 7 200 ; 11 ;0; 550 ;0.95; 60 
+Wewathenna 1 PSH Project_PSH;; 2 100 ; 11 ;0; 550 ;0.95; 60 
+Wewathenna 2 PSH Project_PSH;; 2 100 ; 11 ;0; 550 ;0.95; 60 
+Wewathenna 3 PSH Project_PSH;; 2 100 ; 11 ;0; 550 ;0.95; 60 
+Wewathenna 4 PSH Project_PSH;; 2 100 ; 11 ;0; 550 ;0.95; 60 
+NN_Maldives_BESS;; 5 000 ; 25 ;0; 247 ;0.95; 20 

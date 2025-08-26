@@ -235,14 +235,14 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
-- CSVReader:
-    trace: %TRACE%
+- CSVReader: 
+    trace: %TRACE% 
     file: %pAvailability%
-    name: pAvailability
-    valueSubstitutions: {0: EPS}
-    indexColumns: [1]
-    header: [1]
-    type: par
+    name: pAvailability 
+    valueSubstitutions: {0: EPS} 
+    indexColumns: [1] 
+    header: [1] 
+    type: par 
     
 - CSVReader:
     trace: %TRACE%

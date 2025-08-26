@@ -31,8 +31,7 @@ $onEmbeddedCode Python:
 
 import gams.transfer as gt
 
-# Create a GAMS workspace and database
-db = gt.Container(gams.db)
+db = gt.Container(gams.db, system_directory=r"%gams.sysdir% ".rstrip())
 
 
 # Settings specification - checking all required parameters are specified
