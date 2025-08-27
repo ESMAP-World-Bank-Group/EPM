@@ -319,7 +319,6 @@ except Exception as e:
 try:
     if db["pNewTransmission"].records is not None:
         newtransmission_df = db["pNewTransmission"].records
-        print(newtransmission_df)
         zones1 = newtransmission_df['z'].unique()
         zones2 = newtransmission_df['z2'].unique()
         zones_newtransmission = set(zones1).union(set(zones2))

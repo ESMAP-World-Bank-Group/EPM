@@ -169,7 +169,7 @@ Parameters
 
    
 * Economic parameters
-   pRR (y)                          'accumulated return rate factor'
+   pRR(y)                          'accumulated return rate factor'
    pWACC                            'Weighted Average Cost of Capital'
    pCRF (G)                         'capital recovery factor'
    pCRFsst(g)                       'capital recovery factor storage'
@@ -216,8 +216,8 @@ Positive Variables
    vRetire(g,y)              'Retire (MW)'
 
    vFlow(z,z2,q,d,t,y)       'flow from z to z2 in MW'
-   vImportPrice(z,zext,q,d,t,y)   'external price driven import'
-   vExportPrice(z,zext,q,d,t,y)   'external price driven export'
+   vImportPrice(z,zext,q,d,t,y)   'external price DiscountRateiven import'
+   vExportPrice(z,zext,q,d,t,y)   'external price DiscountRateiven export'
 
    vFuel(z,f,y)              'annual fuel in MMBTU'
 

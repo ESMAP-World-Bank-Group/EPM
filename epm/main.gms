@@ -142,7 +142,7 @@ Sets
 
 ;
 
-alias (z,z2), (g,g2);
+alias (z,z2), (g,g1,g2);
 
 * Input data parameters 
 Parameter
@@ -318,6 +318,7 @@ parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 *H2 model parameter
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
 
+             
 
 * Aggregate `gmap(g,z,tech,f)` over `tech` and `f` to get `gzmap(g,z)`,
 * which represents the mapping of generator `g` to zone `z`.
@@ -340,6 +341,7 @@ gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 gfmap(g,f) = gfmap(g,f) 
          or sum((z,tech,f2), (pGenDataInput(g,z,tech,f2,'fuel2') = ftfindex(f)));
          
+
 * Map generator status from input data
 gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataInput(g,z,tech,f,'status')=gstatIndex(gstatus));
 
@@ -435,8 +437,6 @@ TimeHorizon = sFinalYear.val - sStartYear.val + 1;
 sFirstHour(t) = t.first;
 sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
-
-
 
 * Set external transfer limits to zero if exports are not allowed
 pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
@@ -544,7 +544,6 @@ commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
 * Identify the system peak demand for each year based on the highest total demand across all zones, times, and demand segments
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
 
-
 * Identify hours that are close to the peak demand for capacity credit calculations
 pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<pMaxLoadFractionCCCalc);
 
@@ -570,7 +569,7 @@ pCapexTrajectoriesH2(hh,y) =1;
 pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
 
 *-------------------------------------------------------------------
-* COST OF CAPITAL
+* Cost of capital
 *-------------------------------------------------------------------
 
 * Set the weight of the start year to 1.0
@@ -644,33 +643,43 @@ vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0
 * Fixed conditions
 *-------------------------------------------------------------------
 
+
+********************* Load a previously saved solution**********************************************************
+
+* Load a previously saved solution from the specified path (if LOADSOLPATH is defined)
+* This solution contains the .l (level) values of capacity-related variables from a previous run
 $ifthen set LOADSOLPATH
   execute_loadpoint "%LOADSOLPATH%%system.dirsep%PA_p.gdx", vCap.l, vRetire.l, vCapStor.l, vRetireStor.l
-
 ;
 
-* first, handle the very first year
+* --- Fix capacity and retirement variables to values from the previous solution ---
+
+* Step 1: Handle the first model year
+* Fix vCap (generation capacity) for each generator g in the first year y to its rounded value
   vCap.fx(g,y)$(sStartYear(y)) = round(vCap.l(g,y),1);
-* then enforce non–decreasing for all subsequent years
+
+* Step 2: Enforce non-decreasing capacity in all following years
   loop(g,
     loop(y$(not sStartYear(y)),
         if( round(vCap.l(g,y),1) < round(vCap.l(g,y-1),1) ,
-* bump up to the previous year’s level
+* If the capacity in year y is less than the previous year (y-1), fix it to the previous year’s value
           vCap.fx(g,y) = round(vCap.l(g,y-1),1) ;  
         else
-* otherwise take its own rounded value
+* Otherwise take its own rounded value
             vCap.fx(g,y) = round(vCap.l(g,y),1) ;    
         );
       );
     );
   
-*  vCap.fx(g,y) = round(vCap.l(g,y), 1);
+* Step 3: Fix other capacity-related variables to their rounded solution values
+* Fix retirements and storage capacities from previous solution
   vRetire.fx(g,y) = round(vRetire.l(g,y),1);
   vCapStor.fx(g,y) = round(vCapStor.l(g,y),1);
   vRetireStor.fx(g,y) = round(vRetireStor.l(g,y),1);
 
 $endIf
 
+********************* Equations for generation capacity**********************************************************
 * Fix capacity to zero for generation projects that have not yet started in a given year
 vCap.fx(g,y)$(pGenData(g,"StYr") > y.val) = 0;
 
@@ -739,10 +748,13 @@ vRetireH2.fx(eh,y)$(pH2Data(eh,"Life") = 99) = 0;
 vCapH2.fx(eh,y)$((pSettings("econRetire") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
 
 sH2PwrIn(hh,q,d,t,y) = yes;
+
 vREPwr2H2.fx(nRE,f,q,d,t,y)=0;       
 vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;     
 
 *******************************************************************************************************************
+
+
 sPwrOut(gfmap(g,f),q,d,t,y) = yes;
 sPwrOut(gfmap(st,f),q,d,t,y)$(not pincludeStorage) = yes;
 
@@ -750,6 +762,7 @@ sPwrOut(gfmap(st,f),q,d,t,y)$(not pincludeStorage) = yes;
 sExportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
 sExportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 
+* If price based import is not allowed, set to 0
 sImportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
 sImportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 

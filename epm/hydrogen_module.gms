@@ -82,14 +82,16 @@ Equations
 Equation eYearlyTotalCost_H2Contribution;
 
 eYearlyTotalCost_H2Contribution(c,y)..
-   vYearlyTotalCost(c,y) =e= vYearlyTotalCost(c,y)
+*   vYearlyTotalCost(c,y) =e= vYearlyTotalCost(c,y)
+    0 =e=
                           + sum(zcmap(z,c), vYearlyH2UnservedCost(z,y))$pIncludeH2;
 
 * --- Hydrogen Contribution to Total Annualized CAPEX ---
 Equation eTotalAnnualizedCapex_H2Contribution;
 
 eTotalAnnualizedCapex_H2Contribution(z,y)..
-   vAnnCapex(z,y) =e= vAnnCapex(z,y)
+*   vAnnCapex(z,y) =e= vAnnCapex(z,y)
+    0 =e=
                    + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
                    + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2;
 
@@ -97,7 +99,8 @@ eTotalAnnualizedCapex_H2Contribution(z,y)..
 Equation eYearlyVOMCost_H2Contribution;
 
 eYearlyVOMCost_H2Contribution(z,y)..
-   vYearlyVOMCost(z,y) =e= vYearlyVOMCost(z,y)
+*   vYearlyVOMCost(z,y) =e= vYearlyVOMCost(z,y)
+    0 =e=
                          + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pIncludeH2;
 
 * --- Hydrogen Unserved Demand Cost (can stay modular as-is) ---
@@ -109,9 +112,11 @@ eH2UnservedCost(z,y)..
 * --- Hydrogen Supply Contribution to Demand Balance ---
 Equation eSupply_H2Contribution;
 
+* TODO: Change that
 eSupply_H2Contribution(z,q,d,t,y)..
-   vSupply(z,q,d,t,y) =e=vSupply(z,q,d,t,y)
-        -sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))
+*   vSupply(z,q,d,t,y) =e=vSupply(z,q,d,t,y)
+*        -sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))
+    0 =e=
      + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
      + vPwrREGrid(z,q,d,t,y)$pIncludeH2;
 
