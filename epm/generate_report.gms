@@ -258,7 +258,7 @@ pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenuesBetweenZ
 pTradeCostsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + pTradeSharedBenefits(z,y);
 
 * Dividing pNewTransmissionCosts by 2 to avoid double-counting for the two countries involved in transmission line
-pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y) / 2;
+pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y);
 pUSECosts(z,y) = vYearlyUSECost.l(z,y);
 pCO2backstopCosts(c,y) = vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop;
 pSurplusCosts(z,y) = vYearlySurplus.l(z,y);
@@ -511,7 +511,7 @@ pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
 *--- Summary of results
 pSummary("NPV of system cost: $m"              ) = vNPVCost.l/1e6;
 pSummary("Annualized capex: $m"                ) = sum((y,z), pRR(y)*pWeightYear(y)*pAnncapex(z,y))/1e6;
-pSummary("Additional transmission costs: $m"   ) = 2* sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
+pSummary("Additional transmission costs: $m"   ) = sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
 pSummary("Fixed O&M: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFOM(z,y))/1e6; 
 pSummary("Variable O&M: $m"                    ) = sum((y,z), pRR(y)*pWeightYear(y)*pVOM(z,y))/1e6;
 pSummary("Fuel cost: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFuelCostsZone(z,y))/1e6;
