@@ -163,6 +163,7 @@ Parameters
    pSolarEnergy(z,q,d,t,y)                   'Solar output in MWh'                                        
    pSolverParameters(*)                      'Solver parameters'                                                                                 
    pDemandSupplySeason(z,*,y,q)              'Seasonal demand supply parameters per zone'
+   pDemandSupplySeasonH2(z,*,y,q)              'Seasonal demand supply parameters per zone'
    
    pEnergyByPlantSeason(z,g,y,q)             'Energy by plant in GWh per season  per zone'
    pInterchangeSeason(z,z2,y,q)              'Total exchange in GWh between internal zones per season per zone'
@@ -298,7 +299,7 @@ pSystemCost(sumhdr) = sum((y,z), pCostSummary(z,sumhdr,y) * pRR(y) * pWeightYear
 
 
 *--- Cost and consumption by fuel
-* By zone
+* By zone / change that already define
 pFuelCosts(z,f,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t)*pFuelPrice(c,f,y)*pHeatRate(g,f))/1e6;
 pFuelConsumption(z,f,y) = vFuel.l(z,f,y)/1e6;
 
