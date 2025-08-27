@@ -56,3 +56,4 @@ CapacityCredits for Reporting,,
 SolarCapacityCredit,CapCreditSolar,
 WindCapacityCredit,CapCreditWind,
 MaxLoadFraction for Cap Credit Calculation,MaxLoadFractionCCCalc ,
+StorageCapacityCredit,CapCreditSto,0.25

@@ -5,7 +5,7 @@ The main generation and storage technologies modeled in EPM are presented in the
 > In addition, we provide a [template](dwld/pGenDataExcelDefault_CCDR.csv) to help you create your own technology data file. This template includes the required columns and example values for each technology. You can use it as a starting point to input your own data.
 
 
-For more detailed guidelines on technology-specific assumptions, you can refer to the CCDR EEX Methodology Note.
+For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](dwld/CCDR_Note.docx).
 
 ---
 ### Technology data summary
