@@ -573,7 +573,7 @@ Each transmission line must be specified only once. The order of the From and To
     - **EarliestEntry** (*int*) – Earliest year the line can be built.
     - **MaximumNumOfLines** (*int*) – Maximum number of lines that can be constructed (lines must be built in whole units).
     - **CapacityPerLine** (*int*) – Capacity of a single transmission line.
-    - **CostPerLine** (*float*) – Investment cost per line.
+    - **CostPerLine** (*float*) – Investment cost per line (in Million USD).
     - **Life** (*int*) – Expected lifespan of the transmission line.
     - **Status** (*int*) – Line status
       - `2`: committed line
