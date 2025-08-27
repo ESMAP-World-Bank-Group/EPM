@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>CPLEX Options &#8212; Energy Planning Model</title>
+    <title>Debugging EPM Models in GAMS &#8212; Energy Planning Model</title>
   
   
   
@@ -58,12 +58,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run_cplex_options';</script>
-    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run_cplex_options.html" />
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run_debugging';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run_debugging.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Input Folder Structure" href="input_structure.html" />
-    <link rel="prev" title="Summary Command line" href="run_summary.html" />
+    <link rel="next" title="Common Issues &amp; Troubleshooting" href="run_troubleshooting.html" />
+    <link rel="prev" title="Git Procedure for Beginners" href="run_git_process.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -219,6 +219,13 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_troubleshooting.html">
                         Common Issues & Troubleshooting
@@ -233,9 +240,16 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        CPLEX Options
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_thread.html">
+                        Threading and Parallelism in EPM
                       </a>
                     </li>
                 
@@ -271,13 +285,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
                         Transitioning from Excel to CSV
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_solver_options.html">
-                        Solver Options for EPM
                       </a>
                     </li>
                 
@@ -583,6 +590,13 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="run_troubleshooting.html">
                         Common Issues & Troubleshooting
@@ -597,9 +611,16 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="#">
-                        CPLEX Options
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_thread.html">
+                        Threading and Parallelism in EPM
                       </a>
                     </li>
                 
@@ -635,13 +656,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
                         Transitioning from Excel to CSV
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_solver_options.html">
-                        Solver Options for EPM
                       </a>
                     </li>
                 
@@ -875,9 +889,14 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="run_python_summary.html">Run EPM with Python - Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Run EPM on the Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Debugging EPM Models in GAMS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_summary.html">Summary Command line</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">CPLEX Options</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
@@ -886,7 +905,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_representative_days.html">Representative Days</a></li>
 </ul>
@@ -1000,7 +1018,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/run_cplex_options.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/run_debugging.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -1015,7 +1033,7 @@ title="Open an issue"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/run_cplex_options.md" target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/run_debugging.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -1040,7 +1058,7 @@ title="Edit this page"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="../_sources/docs/run_cplex_options.md" target="_blank"
+      <li><a href="../_sources/docs/run_debugging.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -1083,7 +1101,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>CPLEX Options</h1>
+    <h1>Debugging EPM Models in GAMS</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -1094,21 +1112,59 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#number-of-threads">
-   1. Number of threads
+  <a class="reference internal nav-link" href="#understanding-the-pa-gdx-output">
+   1. Understanding the
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     PA.gdx
+    </span>
+   </code>
+   Output
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reminder-what-are-cpu-core-thread-and-vcpu">
-     Reminder - What are CPU, Core, Thread, and vCPU?
+    <a class="reference internal nav-link" href="#what-to-look-for">
+     What to Look for
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#to-complete">
-   2. TO COMPLETE
+  <a class="reference internal nav-link" href="#reference-outputs-for-debugging">
+   2. Reference Outputs for Debugging
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#log-file-execution-log">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .log
+      </span>
+     </code>
+     File — Execution Log
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ref-file-model-symbol-reference">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .ref
+      </span>
+     </code>
+     File — Model Symbol Reference
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lst-file-execution-listing">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .lst
+      </span>
+     </code>
+     File — Execution Listing
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1119,57 +1175,110 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="cplex-options">
-<h1>CPLEX Options<a class="headerlink" href="#cplex-options" title="Permalink to this heading">#</a></h1>
-<p>TODO</p>
-<ul class="simple">
-<li><p>What it is</p></li>
-<li><p>What are the main parameters</p></li>
-<li><p>But also other parameters</p></li>
-</ul>
-<section id="number-of-threads">
-<h2>1. Number of threads<a class="headerlink" href="#number-of-threads" title="Permalink to this heading">#</a></h2>
-<p>TODO: Th thread option</p>
-<section id="reminder-what-are-cpu-core-thread-and-vcpu">
-<h3>Reminder - What are CPU, Core, Thread, and vCPU?<a class="headerlink" href="#reminder-what-are-cpu-core-thread-and-vcpu" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p><strong>CPU</strong> (Central Processing Unit): The physical processor. A machine may have one or multiple CPUs.</p></li>
-<li><p><strong>Core</strong>: Each CPU contains one or more cores. Each core can execute tasks independently.</p></li>
-<li><p><strong>Thread</strong>: A core can run one or more threads (typically 2 with hyperthreading). A thread is a stream of execution.</p></li>
-<li><p><strong>vCPU</strong> (Virtual CPU): A virtualized unit of compute, typically mapped to a single thread, not an entire core. It is the basic unit of processing in cloud environments.</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="debugging-epm-models-in-gams">
+<h1>Debugging EPM Models in GAMS<a class="headerlink" href="#debugging-epm-models-in-gams" title="Permalink to this heading">#</a></h1>
+<p>If your run <strong>didn’t converge</strong>, or worse, <strong>converged with unrealistic results</strong>, this guide provides tools and methods to investigate what went wrong.</p>
+<hr class="docutils" />
+<section id="understanding-the-pa-gdx-output">
+<h2>1. Understanding the <code class="docutils literal notranslate"><span class="pre">PA.gdx</span></code> Output<a class="headerlink" href="#understanding-the-pa-gdx-output" title="Permalink to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">PA.gdx</span></code> file (often auto-generated) contains <strong>post-solve values</strong> for variables and equations. It’s critical for diagnosing model behavior.</p>
+<p>Each variable includes:</p>
 <table class="table">
 <thead>
-<tr class="row-odd"><th class="head text-left"><p>Term</p></th>
-<th class="head text-left"><p>Description</p></th>
-<th class="head text-left"><p>Relation to Others</p></th>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Meaning</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-left"><p><strong>CPU</strong></p></td>
-<td class="text-left"><p>Physical processor</p></td>
-<td class="text-left"><p>Contains multiple <strong>cores</strong></p></td>
+<tr class="row-even"><td><p><strong>Level</strong></p></td>
+<td><p>The actual solution value (e.g. power output, demand served, etc.)</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong>Core</strong></p></td>
-<td class="text-left"><p>Independent processing unit</p></td>
-<td class="text-left"><p>May run 1–2 <strong>threads</strong></p></td>
+<tr class="row-odd"><td><p><strong>Marginal</strong></p></td>
+<td><p>Dual value — often shadow price or reduced cost</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p><strong>Thread</strong></p></td>
-<td class="text-left"><p>Smallest unit of execution</p></td>
-<td class="text-left"><p>Mapped to 1 <strong>vCPU</strong></p></td>
+<tr class="row-even"><td><p><strong>Lower</strong></p></td>
+<td><p>Lower bound on the variable</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong>vCPU</strong></p></td>
-<td class="text-left"><p>Virtualized thread (cloud environment)</p></td>
-<td class="text-left"><p>≈ 1 <strong>thread</strong> (part of a <strong>core</strong>)</p></td>
+<tr class="row-odd"><td><p><strong>Upper</strong></p></td>
+<td><p>Upper bound on the variable</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Scale</strong></p></td>
+<td><p>Scaling factor applied (typically 1 unless specified otherwise)</p></td>
 </tr>
 </tbody>
 </table>
-<p>Note: A vCPU does not include multiple cores. It typically corresponds to a single thread within a core. When cloud providers offer “4 vCPUs”, this means your virtual machine can run 4 tasks in parallel — but not necessarily with access to 4 full cores.</p>
+<section id="what-to-look-for">
+<h3>What to Look for<a class="headerlink" href="#what-to-look-for" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Zero levels</strong>: If all levels are zero, check if:</p>
+<ul>
+<li><p>The variable was properly connected in constraints.</p></li>
+<li><p>It had a feasible range (<code class="docutils literal notranslate"><span class="pre">Lower</span></code>, <code class="docutils literal notranslate"><span class="pre">Upper</span></code>) that allowed movement.</p></li>
+<li><p>There’s a cost or penalty preventing it from being selected.</p></li>
+</ul>
+</li>
+<li><p><strong>Marginals = EPS</strong>: GAMS uses <code class="docutils literal notranslate"><span class="pre">EPS</span></code> (epsilon) when dual values are <strong>effectively zero</strong>, i.e. the bound is <strong>not active</strong>. This is normal unless you expected that variable to be tightly constrained.</p></li>
+<li><p><strong>Very high or low levels</strong>: Could indicate:</p>
+<ul>
+<li><p>Missing unit conversions (e.g. kW vs MW)</p></li>
+<li><p>Mis-specified bounds or parameters</p></li>
+<li><p>A cost that unintentionally encourages unrealistic dispatch</p></li>
+</ul>
+</li>
+</ul>
 </section>
 </section>
 <hr class="docutils" />
-<section id="to-complete">
-<h2>2. TO COMPLETE<a class="headerlink" href="#to-complete" title="Permalink to this heading">#</a></h2>
+<section id="reference-outputs-for-debugging">
+<h2>2. Reference Outputs for Debugging<a class="headerlink" href="#reference-outputs-for-debugging" title="Permalink to this heading">#</a></h2>
+<p>GAMS provides reference files to trace model structure, usage, and execution flow.</p>
+<hr class="docutils" />
+<section id="log-file-execution-log">
+<h3><code class="docutils literal notranslate"><span class="pre">.log</span></code> File — Execution Log<a class="headerlink" href="#log-file-execution-log" title="Permalink to this heading">#</a></h3>
+<p>Contains runtime logs and time stamps:</p>
+<ul class="simple">
+<li><p>File inclusions</p></li>
+<li><p>Model generation times</p></li>
+<li><p>Solver startup and memory use</p></li>
+<li><p>Useful for checking if the solver started, crashed, or timed out</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="ref-file-model-symbol-reference">
+<h3><code class="docutils literal notranslate"><span class="pre">.ref</span></code> File — Model Symbol Reference<a class="headerlink" href="#ref-file-model-symbol-reference" title="Permalink to this heading">#</a></h3>
+<p>Enable it within GAMS Studio using command parameters.</p>
+<p>This produces <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;.ref</span></code> which contains:</p>
+<ul class="simple">
+<li><p>All declared <strong>symbols</strong> (sets, parameters, variables, equations)</p></li>
+<li><p>Where each symbol was:</p>
+<ul>
+<li><p>Declared</p></li>
+<li><p>Defined</p></li>
+<li><p>Assigned</p></li>
+<li><p>Referenced</p></li>
+</ul>
+</li>
+<li><p>Warnings for &#64;<strong>declared but unused</strong> symbols</p></li>
+</ul>
+<p><strong>Why it’s useful</strong>: Quickly shows whether a variable like <code class="docutils literal notranslate"><span class="pre">vPwrOut(g,f,q,d,t,y)</span></code> is declared but never referenced in a constraint — a common source of “zero everywhere” issues.</p>
+</section>
+<hr class="docutils" />
+<section id="lst-file-execution-listing">
+<h3><code class="docutils literal notranslate"><span class="pre">.lst</span></code> File — Execution Listing<a class="headerlink" href="#lst-file-execution-listing" title="Permalink to this heading">#</a></h3>
+<p>Automatically generated. Includes:</p>
+<ul class="simple">
+<li><p>Compilation diagnostics</p></li>
+<li><p>Code listing</p></li>
+<li><p>Full equation listings (left-hand side, right-hand side, status)</p></li>
+<li><p>Solver messages and summaries</p></li>
+</ul>
+<p><strong>Tips</strong>:</p>
+<ul class="simple">
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">option</span> <span class="pre">limcol</span> <span class="pre">=</span> <span class="pre">0;</span> <span class="pre">option</span> <span class="pre">limrow</span> <span class="pre">=</span> <span class="pre">0;</span></code> to limit variable/equation listings.</p></li>
+<li><p>Use the <strong>“Variable Listing”</strong> and <strong>“Equation Listing”</strong> sections to examine values in context.</p></li>
+</ul>
+<hr class="docutils" />
+</section>
 </section>
 </section>
 
@@ -1201,17 +1310,17 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="run_summary.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="run_git_process.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Summary Command line</p>
+          <p class="prev-next-title">Git Procedure for Beginners</p>
       </div>
   </a>
-  <a class='right-next' id="next-link" href="input_structure.html" title="next page">
+  <a class='right-next' id="next-link" href="run_troubleshooting.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">Input Folder Structure</p>
+      <p class="prev-next-title">Common Issues &amp; Troubleshooting</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -1232,21 +1341,59 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#number-of-threads">
-   1. Number of threads
+  <a class="reference internal nav-link" href="#understanding-the-pa-gdx-output">
+   1. Understanding the
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     PA.gdx
+    </span>
+   </code>
+   Output
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#reminder-what-are-cpu-core-thread-and-vcpu">
-     Reminder - What are CPU, Core, Thread, and vCPU?
+    <a class="reference internal nav-link" href="#what-to-look-for">
+     What to Look for
     </a>
    </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#to-complete">
-   2. TO COMPLETE
+  <a class="reference internal nav-link" href="#reference-outputs-for-debugging">
+   2. Reference Outputs for Debugging
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#log-file-execution-log">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .log
+      </span>
+     </code>
+     File — Execution Log
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ref-file-model-symbol-reference">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .ref
+      </span>
+     </code>
+     File — Model Symbol Reference
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lst-file-execution-listing">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       .lst
+      </span>
+     </code>
+     File — Execution Listing
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 

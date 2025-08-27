@@ -63,7 +63,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Summary Command line" href="run_summary.html" />
-    <link rel="prev" title="Git Procedure for Beginners" href="run_git_process.html" />
+    <link rel="prev" title="Debugging EPM Models in GAMS" href="run_debugging.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -219,6 +219,13 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Common Issues & Troubleshooting
@@ -234,8 +241,15 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_cplex_options.html">
-                        CPLEX Options
+                      <a class="nav-link nav-internal" href="options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_thread.html">
+                        Threading and Parallelism in EPM
                       </a>
                     </li>
                 
@@ -271,13 +285,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
                         Transitioning from Excel to CSV
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_solver_options.html">
-                        Solver Options for EPM
                       </a>
                     </li>
                 
@@ -583,6 +590,13 @@ const thebe_selector_output = ".output, .cell_output"
                     </li>
                 
 
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Common Issues & Troubleshooting
@@ -598,8 +612,15 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="run_cplex_options.html">
-                        CPLEX Options
+                      <a class="nav-link nav-internal" href="options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_thread.html">
+                        Threading and Parallelism in EPM
                       </a>
                     </li>
                 
@@ -635,13 +656,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
                         Transitioning from Excel to CSV
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="input_solver_options.html">
-                        Solver Options for EPM
                       </a>
                     </li>
                 
@@ -875,9 +889,14 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="run_python_summary.html">Run EPM with Python - Summary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Run EPM on the Remote Server</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_debugging.html">Debugging EPM Models in GAMS</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Common Issues &amp; Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_summary.html">Summary Command line</a></li>
-<li class="toctree-l1"><a class="reference internal" href="run_cplex_options.html">CPLEX Options</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
@@ -886,7 +905,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
 <li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
-<li class="toctree-l1"><a class="reference internal" href="input_solver_options.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_representative_days.html">Representative Days</a></li>
 </ul>
@@ -1329,11 +1347,11 @@ If it is set to 0, the model will ignore <code class="docutils literal notransla
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='left-prev' id="prev-link" href="run_git_process.html" title="previous page">
+  <a class='left-prev' id="prev-link" href="run_debugging.html" title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
           <p class="prev-next-subtitle">previous</p>
-          <p class="prev-next-title">Git Procedure for Beginners</p>
+          <p class="prev-next-title">Debugging EPM Models in GAMS</p>
       </div>
   </a>
   <a class='right-next' id="next-link" href="run_summary.html" title="next page">

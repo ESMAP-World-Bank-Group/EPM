@@ -20,11 +20,11 @@ This method is recommended for **debugging**, **testing**, and initial **setup**
    > All arguments must be prefixed with `--`.  
    > Example:  
    > ```
-   > --FOLDER_INPUT epm/input/data_eapp/ --BASE_FILE base.gms
+   > --FOLDER_INPUT data_eapp --BASE_FILE base.gms
    > ```
 
    **Note**:  
-   - `%FOLDER_INPUT%` must always be defined (no default).  
+   - `%FOLDER_INPUT%` must always be defined (no default), and by default is a subfolder of `epm/input/`.  
    - Other files have defaults if not specified (see below).  
    - The `BASE_FILE` is only included if you are not restarting a run (`gams.restart` is not set).
 
