@@ -673,6 +673,7 @@ sTopology(z,z2)$(not pinterconMode) = no;
 
 * if ignore transfer limit, set limits to high value
 pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
+
 * Default life for transmission lines
 pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
 $onIDCProtect
