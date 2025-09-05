@@ -10,7 +10,7 @@ pFuelCarbonContent,resources/pFuelCarbonContent.csv
 pTechData,resources/pTechData.csv
 LOAD,
 pDemandData,load/pDemandData.csv
-pDemandForecast,load/pDemandForecast_uga_bau.csv
+pDemandForecast,load/pDemandForecast_uga_bau_tza_100.csv
 pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
