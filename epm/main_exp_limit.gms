@@ -978,6 +978,10 @@ pCountryBuildLimit('Somalia')   = 50;
 * For all the years
 pCountryBuildLimitY(c,y) = pCountryBuildLimit(c);
 
+execute_unload "input.gdx" pCountryBuildLimitY;
+ 
+display pCountryBuildLimitY;
+
 *To avoid bugs when there is no candidate transmission expansion line
 $offIDCProtect
 pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
