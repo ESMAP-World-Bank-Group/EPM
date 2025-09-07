@@ -7,8 +7,3 @@ barepcomp=1E-5
 barcolnz=50
 iis=1
 mipdisplay=5
-iisfind 1
-iisdisplay 2
-feasopt 1
-feasopttype 3
-feasoptdisplay 2
