@@ -978,7 +978,7 @@ pCountryBuildLimit('Somalia')   = 50;
 * For all the years
 pCountryBuildLimitY(c,y) = pCountryBuildLimit(c);
 
-execute_unload "input.gdx" pCountryBuildLimitY;
+execute_unload "pCountryBuildLimitY.gdx" pCountryBuildLimitY;
  
 display pCountryBuildLimitY;
 
@@ -1018,7 +1018,7 @@ $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
 
-$if not set MODELTYPE $set MODELTYPE MIP
+$if not set MODELTYPE $set MODELTYPE RMIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
 $ifThenI.solvemode %SOLVEMODE% == 2
