@@ -989,12 +989,7 @@ eRE2H2(RE,f,q,d,t,y)$pIncludeH2..
 
 * Limit annual sum of new builds in each country:
 eCountryBuildLimit(c,y)..
-    sum( (ng(g), z)$( gzmap(g,z) and zcmap(z,c) ),
-         vBuild(g,y)
-    )
-    =l= pCountryBuildLimitY(c,y);
-
-
+    sum((ng(g), z)$( gzmap(g,z) and zcmap(z,c) ),vBuild(g,y))=l= pCountryBuildLimitY(c,y);
 
 Model PA /
    eNPVCost
