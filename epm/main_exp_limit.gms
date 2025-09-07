@@ -47,7 +47,7 @@ $endIf.mode
 
 
 * Turn on/off additional information to the listing file
-Option limRow=50, limCol=0, sysOut=off, solPrint=off;
+Option limRow=50, limCol=0, sysOut=on, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
