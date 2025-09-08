@@ -975,8 +975,14 @@ pCountryBuildLimit('Egypt')     = 3000;
 pCountryBuildLimit('Libya')     = 200;
 pCountryBuildLimit('Somalia')   = 50;   
 
+Parameter pTimeFactor(y) 'scaling factor for capacity limits by year';
+pTimeFactor(y) = 1;
+pTimeFactor(y)$(ord(y) > 5) = 2;
+pTimeFactor(y)$(ord(y) > 10) = 3;
+pTimeFactor(y)$(ord(y) > 15) = 5;
+
 * For all the years
-pCountryBuildLimitY(c,y) = pCountryBuildLimit(c);
+pCountryBuildLimitY(c,y) = pCountryBuildLimit(c) * pTimeFactor(y);
 
 execute_unload "pCountryBuildLimitY.gdx" pCountryBuildLimitY;
  
