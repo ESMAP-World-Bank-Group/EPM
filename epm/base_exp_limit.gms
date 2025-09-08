@@ -234,7 +234,7 @@ Parameters
 
 * --- Country build limit (MW per year) ---
     pCountryBuildLimit(c)         'Max annual capacity addition per country (MW)'
-    pCountryBuildLimitY(c,y)      'Same, indexed by year (for convenience)';
+    pCountryBuildLimitY(c,y)      'Same, indexed by year (for convenience)'
 
 ;
 
@@ -337,7 +337,7 @@ Integer variable
 
 
 Positive Variable vCapSlack(c,y);
-Scalar capPenalty /1e6/;
+Scalar capPenalty /1e9/;
 
 
 
