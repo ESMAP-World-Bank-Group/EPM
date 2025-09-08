@@ -1041,6 +1041,7 @@ $elseIfI.solvemode %SOLVEMODE% == 0
 $endIf.solvemode
 * ####################################
 
+execute_unload 'capSlack.gdx', vCapSlack;
 
 $log ###############################
 $log ##### GENERATING REPORT #####
