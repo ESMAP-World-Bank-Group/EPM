@@ -977,9 +977,9 @@ pCountryBuildLimit('Somalia')   = 50;
 
 Parameter pTimeFactor(y) 'scaling factor for capacity limits by year';
 pTimeFactor(y) = 1;
-pTimeFactor(y)$(ord(y) > 5) = 2;
-pTimeFactor(y)$(ord(y) > 10) = 3;
-pTimeFactor(y)$(ord(y) > 15) = 5;
+pTimeFactor(y)$(ord(y) > 2) = 2;
+pTimeFactor(y)$(ord(y) > 5) = 3;
+pTimeFactor(y)$(ord(y) > 7) = 5;
 
 * For all the years
 pCountryBuildLimitY(c,y) = pCountryBuildLimit(c) * pTimeFactor(y);
