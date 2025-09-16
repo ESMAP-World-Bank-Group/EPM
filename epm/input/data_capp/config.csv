@@ -8,6 +8,10 @@ RESOURCES,
 ftfindex,resources/ftfindex.csv
 pFuelCarbonContent,resources/pFuelCarbonContent.csv
 pTechData,resources/pTechData.csv
+pSettingsHeader,resources/pSettingsHeader.csv
+pGenDataInputHeader,resources/pGenDataInputHeader.csv
+pStoreDataHeader,resources/pStoreDataHeader.csv
+pH2Header,resources/pH2Header.csv
 LOAD,
 pDemandData,load/pDemandData.csv
 pDemandForecast,load/pDemandForecast.csv
@@ -15,8 +19,8 @@ pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
-pGenDataExcel,supply/pGenDataExcel.csv
-pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
+pGenDataInput,supply/pGenDataInput.csv
+pGenDataInputDefault,supply/pGenDataInputDefault.csv
 pAvailability,supply/pAvailabilityCustom_confidential.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv

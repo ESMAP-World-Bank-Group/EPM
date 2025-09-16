@@ -303,7 +303,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['pGenDataExcel', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
+    keys = ['pGenDataInput', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
             'zcmap']
     rename_keys = {}
 
@@ -326,7 +326,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     mapping_fuel = epm_input['ftfindex'].loc[:, ['fuel', 'value']].drop_duplicates().set_index(
         'value').squeeze().to_dict()
 
-    # TODO: this may be extracted from pGenDataExcel now if we get rid of pTechDataExcel and pZoneIndex in future versions
+    # TODO: this may be extracted from pGenDataInput now if we get rid of pTechDataExcel and pZoneIndex in future versions
     temp = epm_input['pTechData']
     temp['uni'] = temp['uni'].astype(str)
     temp = temp[temp['uni'] == 'Assigned Value']
@@ -334,8 +334,8 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         'value').squeeze()
     mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)"""
 
-    # Modify pGenDataExcel
-    df = epm_dict['pGenDataExcel'].pivot(index=['scenario', 'zone', 'generator', 'tech', 'fuel'], columns='attribute', values='value').reset_index(['tech', 'fuel'])
+    # Modify pGenDataInput
+    df = epm_dict['pGenDataInput'].pivot(index=['scenario', 'zone', 'generator', 'tech', 'fuel'], columns='pGenDataInputHeader', values='value').reset_index(['tech', 'fuel'])
     #df = df.loc[:, ['tech', 'fuel']]
     df['fuel'] = df['fuel'].replace(dict_specs['fuel_mapping'])
     # Test if all new fuel values are in dict_specs['fuel_mapping'].values
@@ -349,7 +349,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         if k not in dict_specs['tech_mapping'].values():
             print(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
 
-    epm_dict['pGenDataExcel'] = df.reset_index()
+    epm_dict['pGenDataInput'] = df.reset_index()
 
     return epm_dict
 
