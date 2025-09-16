@@ -86,6 +86,15 @@ $if set ROOT_FOLDER $set DEMAND_FILE %ROOT_FOLDER%/%DEMAND_FILE%
 $log DEMAND_FILE is "%DEMAND_FILE%"
 
 
+$ifThen not set HYDROGEN_FILE
+$set HYDROGEN_FILE "hydrogen_module.gms"
+$endIf
+$if set ROOT_FOLDER $set HYDROGEN_FILE %ROOT_FOLDER%/%HYDROGEN_FILE%
+$log HYDROGEN_FILE is "%HYDROGEN_FILE%"
+
+
+
+
 *-------------------------------------------------------------------------------------
 
 * Define solver-related options
@@ -303,7 +312,7 @@ $if not errorFree $abort Data errors.
 * This prevents reloading sets, parameters, or data already available in the restart
 $if "x%gams.restart%" == "x" $include %BASE_FILE%
 
-$include hydrogen_module.gms
+$include %HYDROGEN_FILE%
 
 *-------------------------------------------------------------------------------------
 

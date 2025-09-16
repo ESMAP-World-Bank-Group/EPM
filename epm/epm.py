@@ -73,6 +73,7 @@ PATH_GAMS = {
     'path_verification_file': 'input_verification.gms',
     'path_treatment_file': 'input_treatment.gms',
     'path_demand_file': 'generate_demand.gms',
+    'path_hydrogen_file': 'hydrogen_module.gms',
     'path_cplex_file': 'cplex.opt'
 }
 
@@ -152,6 +153,7 @@ def launch_epm_checkpoint(scenario,
                path_verification_file='input_verification.gms',
                path_treatment_file='input_treatment.gms',
                path_demand_file='generate_demand.gms',
+               path_hydrogen_file='hydrogen_module.gms',
                path_cplex_file='cplex.opt',
                folder_input=None,
                path_engine_file=False,
@@ -200,6 +202,7 @@ def launch_epm_checkpoint(scenario,
         'VERIFICATION_FILE': path_verification_file,
         'TREATMENT_FILE': path_treatment_file,
         'DEMAND_FILE': path_demand_file,
+        'HYDROGEN_FILE': path_hydrogen_file,
         'FOLDER_INPUT': folder_input,
     })
 
@@ -226,6 +229,7 @@ def launch_epm(scenario,
                path_verification_file='input_verification.gms',
                path_treatment_file='input_treatment.gms',
                path_demand_file='generate_demand.gms',
+               path_hydrogen_file='hydrogen_module.gms',
                path_cplex_file='cplex.opt',
                solver='MIP',
                folder_input=None,
@@ -309,6 +313,7 @@ def launch_epm(scenario,
                                                     "--VERIFICATION_FILE {}".format(path_verification_file),
                                                     "--TREATMENT_FILE {}".format(path_treatment_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
+                                                    "--HYDROGEN_FILE {}".format(path_hydrogen_file),
                                                     "--FOLDER_INPUT {}".format(folder_input),
                                                     "--MODELTYPE {}".format(solver)
                                                     ] + path_args

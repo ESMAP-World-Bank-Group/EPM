@@ -73,7 +73,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
         # Extract and process EPM inputs
         epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
         epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
-        mapping_gen_fuel = epm_input['pGenDataExcel'].loc[:, ['scenario', 'generator', 'fuel']]
+        mapping_gen_fuel = epm_input['pGenDataInput'].loc[:, ['scenario', 'generator', 'fuel']]
         mapping_zone_country = epm_input['zcmap'].loc[:, ['scenario', 'zone', 'country']]
 
         # Extract and process EPM results
