@@ -8,11 +8,11 @@ The EPM code performs several automatic checks on input data. If the model fails
 
 ## Debugging Input File Errors
 
-Modifying input files or reading functions may introduce errors. To help identify which input is causing issues, we recommend enabling **trace mode** in GAMS Studio.
+`90% of errors come from incorrectly formatted input files, and GAMS logs are not always helpful for pinpointing the faulty one.
 
-Use command-line arguments to set the `TRACE` parameter to `1` when running the model. This will provide detailed logs of which input files are being read and any issues encountered.
+To identify which input is causing the issue, enable trace mode by setting `--TRACE` to 1 in GAMS Studio. Trace mode prints the full log when reading `.csv` files, making it easier to see which file fails.
 
-Example:
+Example in `input_readers.gms`:
 ```gams
 $onEmbeddedCode Connect:
 
@@ -25,10 +25,14 @@ $onEmbeddedCode Connect:
     type: par
 ```
 
-Trace parameter can also be defined in the `config.csv` with `trace=0 or 1`.
-
+In GAMS Studio, pass --TRACE=1 as a command-line argument when running the model.
+Alternatively, change $if not set TRACE $set TRACE 0 to $if not set TRACE $set TRACE 1 directly in input_readers.gms.
 You may add an `$exit` statement in the code after input loading statement to simplify debugging.
 
+Then run the model again. 
+Each input file being read will appear in sequence; the faulty one is either the next one that does not appear or the last printed (based on the order in `input_readers.gms`).
+
+Trace parameter can also be defined in the `config.csv` when using Python API with `trace=0 or 1`, but you should debug with GAMS Studio.
 ---
 
 ## Time Definitions
