@@ -8,7 +8,7 @@ The EPM code performs several automatic checks on input data. If the model fails
 
 ## Debugging Input File Errors
 
-`90% of errors come from incorrectly formatted input files, and GAMS logs are not always helpful for pinpointing the faulty one.
+`90% of errors` come from incorrectly formatted input files, and GAMS logs are not always helpful for pinpointing the faulty one.
 
 To identify which input is causing the issue, enable trace mode by setting `--TRACE` to 1 in GAMS Studio. Trace mode prints the full log when reading `.csv` files, making it easier to see which file fails.
 
@@ -25,8 +25,8 @@ $onEmbeddedCode Connect:
     type: par
 ```
 
-In GAMS Studio, pass --TRACE=1 as a command-line argument when running the model.
-Alternatively, change $if not set TRACE $set TRACE 0 to $if not set TRACE $set TRACE 1 directly in input_readers.gms.
+In GAMS Studio, pass `--TRACE=1` as a command-line argument when running the model.
+Alternatively, change `$if not set TRACE $set TRACE 0` to `$if not set TRACE $set TRACE 1` directly in `input_readers.gms`.
 You may add an `$exit` statement in the code after input loading statement to simplify debugging.
 
 Then run the model again. 
