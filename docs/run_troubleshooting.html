@@ -58,6 +58,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run_troubleshooting';</script>
     <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run_troubleshooting.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -1117,6 +1119,29 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trace-parameter-can-also-be-defined-in-the-config-csv-when-using-python-api-with-trace-0-or-1-but-you-should-debug-with-gams-studio">
+   Trace parameter can also be defined in the
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     config.csv
+    </span>
+   </code>
+   when using Python API with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     trace=0
+    </span>
+    <span class="pre">
+     or
+    </span>
+    <span class="pre">
+     1
+    </span>
+   </code>
+   , but you should debug with GAMS Studio.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#time-definitions">
    Time Definitions
   </a>
@@ -1189,9 +1214,9 @@ title="Print to PDF"
 <hr class="docutils" />
 <section id="debugging-input-file-errors">
 <h2>Debugging Input File Errors<a class="headerlink" href="#debugging-input-file-errors" title="Permalink to this heading">#</a></h2>
-<p>Modifying input files or reading functions may introduce errors. To help identify which input is causing issues, we recommend enabling <strong>trace mode</strong> in GAMS Studio.</p>
-<p>Use command-line arguments to set the <code class="docutils literal notranslate"><span class="pre">TRACE</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">1</span></code> when running the model. This will provide detailed logs of which input files are being read and any issues encountered.</p>
-<p>Example:</p>
+<p>`90% of errors come from incorrectly formatted input files, and GAMS logs are not always helpful for pinpointing the faulty one.</p>
+<p>To identify which input is causing the issue, enable trace mode by setting <code class="docutils literal notranslate"><span class="pre">--TRACE</span></code> to 1 in GAMS Studio. Trace mode prints the full log when reading <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files, making it easier to see which file fails.</p>
+<p>Example in <code class="docutils literal notranslate"><span class="pre">input_readers.gms</span></code>:</p>
 <div class="highlight-gams notranslate"><div class="highlight"><pre><span></span>$onEmbeddedCode Connect:
 
 - CSVReader:
@@ -1203,10 +1228,15 @@ title="Print to PDF"
     type: par
 </pre></div>
 </div>
-<p>Trace parameter can also be defined in the <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> with <code class="docutils literal notranslate"><span class="pre">trace=0</span> <span class="pre">or</span> <span class="pre">1</span></code>.</p>
-<p>You may add an <code class="docutils literal notranslate"><span class="pre">$exit</span></code> statement in the code after input loading statement to simplify debugging.</p>
+<p>In GAMS Studio, pass –TRACE=1 as a command-line argument when running the model.
+Alternatively, change <span class="math notranslate nohighlight">\(if not set TRACE \)</span>set TRACE 0 to <span class="math notranslate nohighlight">\(if not set TRACE \)</span>set TRACE 1 directly in input_readers.gms.
+You may add an <code class="docutils literal notranslate"><span class="pre">$exit</span></code> statement in the code after input loading statement to simplify debugging.</p>
+<p>Then run the model again.
+Each input file being read will appear in sequence; the faulty one is either the next one that does not appear or the last printed (based on the order in <code class="docutils literal notranslate"><span class="pre">input_readers.gms</span></code>).</p>
 </section>
-<hr class="docutils" />
+<section id="trace-parameter-can-also-be-defined-in-the-config-csv-when-using-python-api-with-trace-0-or-1-but-you-should-debug-with-gams-studio">
+<h2>Trace parameter can also be defined in the <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> when using Python API with <code class="docutils literal notranslate"><span class="pre">trace=0</span> <span class="pre">or</span> <span class="pre">1</span></code>, but you should debug with GAMS Studio.<a class="headerlink" href="#trace-parameter-can-also-be-defined-in-the-config-csv-when-using-python-api-with-trace-0-or-1-but-you-should-debug-with-gams-studio" title="Permalink to this heading">#</a></h2>
+</section>
 <section id="time-definitions">
 <h2>Time Definitions<a class="headerlink" href="#time-definitions" title="Permalink to this heading">#</a></h2>
 <p>The following parameters must share the same time structure (q, d, t):</p>
@@ -1383,6 +1413,29 @@ If it is set to 0, the model will ignore <code class="docutils literal notransla
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trace-parameter-can-also-be-defined-in-the-config-csv-when-using-python-api-with-trace-0-or-1-but-you-should-debug-with-gams-studio">
+   Trace parameter can also be defined in the
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     config.csv
+    </span>
+   </code>
+   when using Python API with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     trace=0
+    </span>
+    <span class="pre">
+     or
+    </span>
+    <span class="pre">
+     1
+    </span>
+   </code>
+   , but you should debug with GAMS Studio.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#time-definitions">
    Time Definitions
   </a>
@@ -1465,7 +1518,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Aug 27, 2025.<br>
+Last updated on Sep 30, 2025.<br>
 </p>
   </div>
   
