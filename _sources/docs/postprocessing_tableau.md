@@ -9,7 +9,6 @@ This dashboard directly uses the CSV files exported during EPM runs. No manual d
 
 ## How to use Tableau for EPM
 
-1. **Setup a new Tableau project** for your simulation results. **Done only once per project, using the shared VDI machine**  
 > A **Tableau Creator license** is required for creating or editing dashboards. Contact the energy planning team for more details.
 
 2. **Analyze results online from Tableau Public**, accessible from any computer.
