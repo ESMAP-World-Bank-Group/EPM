@@ -10,10 +10,7 @@ This dashboard directly uses the CSV files exported during EPM runs. No manual d
 ## How to use Tableau for EPM
 
 > A **Tableau Creator license** is required for creating or editing dashboards. Contact the energy planning team for more details.
-
-2. **Analyze results online from Tableau Public**, accessible from any computer.
  
-
 ## 1. Create the folder structure for Tableau
 
 The folder structure should look like this:
