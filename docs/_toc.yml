@@ -35,6 +35,7 @@ parts:
       - file: docs/input_representative_days.md
   - caption: Output & Postprocessing
     chapters:
+      - file: docs/postprocessing_output_EPM
       - file: docs/postprocessing_output
       - file: docs/postprocessing_output_overview
       - file: docs/postprocessing_output_details
