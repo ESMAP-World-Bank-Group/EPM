@@ -76,12 +76,12 @@ GEOJSON = os.path.join('static', 'countries.geojson')
 GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
 
 NAME_COLUMNS = {
-    'pFuelDispatch': 'fuel',
-    'pPlantDispatch': 'fuel',
+    'pDispatchFuel': 'fuel',
+    'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
-    'pCostSummary': 'attribute',
-    'pCapacityByFuel': 'fuel',
-    'pEnergyByFuel': 'fuel',
+    'pCostZone': 'attribute',
+    'pCapacityFuel': 'fuel',
+    'pEnergyFuel': 'fuel',
     'pDispatchReserve':'attribute',
     'pNetExchange':'attribute'
 }
@@ -454,15 +454,33 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         return epm_dict
 
     if keys is None:  # default keys to process in output
-        keys = {'pDemandSupplyCountry', 'pDemandSupply', 'pPeakCapacity', 'pEnergyByPlant', 'pEnergyByFuel', 'pCapacityByFuel', 'pCapacityPlan',
-                'pPlantUtilization', 'pFuelUtilization', 'pCostSummary', 'pCostSummaryCountry', 'pEmissions', 'pPrice',
-                'pDispatch', 'pFuelDispatch', 'pInterconUtilization',
-                'pSpinningReserveByPlantCountry', 'pCongested', 'pInterchange',
-                'pAnnualTransmissionCapacity',
-                'pNewCapacityFuelCountry', 'pPlantAnnualLCOE',
-                'pSpinningReserveByPlantCountry', 'pPlantDispatch', 'pSummary', 'pSystemAverageCost', 'pNewCapacityFuel',
-                'pCostSummaryWeightedAverageCountry', 'pReserveMarginResCountry', 'pSpinningReserveByPlantZone',
-                'pCostsbyPlant', 'pSolverParameters'}
+        keys = {
+            # 1. Capacity expansion
+            'pCapacityPlant', 'pCapacityFuel', 
+            'pNewCapacityFuel', 'pNewCapacityFuelCountry',
+            'pAnnualTransmissionCapacity', 'pAdditionalCapacity',
+            # 2. Cost
+            'pPrice',
+            'pCostsPlant', 'pCostZone', 'pCostCountry', 'pCostSystem',
+            # 3. Energy balance
+            'pEnergyPlant', 'pEnergyFuel', 
+            'pEnergyBalance',
+            'pUtilizationPlant', 'pUtilizationFuel',
+            # 4. Energy dispatch
+            'pDispatchPlant', 'pDispatch', 'pDispatchFuel',
+            # 5. Reserves
+            'pReserveSpinningPlantZone', 'pReserveSpinningPlantCountry',
+            'pReserveMarginCountry',
+            # 6. Interconnections
+            'pInterchange', 'pInterconUtilization',
+            # 7. Emissions
+            'pEmissionsZone',
+            # 10. Metrics
+            'pPlantAnnualLCOE', 
+            'pZonalAverageCost', 'pSystemAverageCost',
+            # 11. Other
+            'pSolverParameters'
+            }
 
     rename_keys = {}
     for k in keys:
@@ -472,7 +490,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_results.items() if
                 k in keys and k in epm_results.keys()}
 
-    # pSpinningReserveByPlantCountry, pSpinningReserveByPlantZone
+    # pReserveSpinningPlantCountry, pReserveSpinningPlantZone
 
     if rename_keys is not None:
         epm_dict.update({rename_keys[k]: i for k, i in epm_dict.items() if k in rename_keys.keys()})
@@ -482,7 +500,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
             if 'scenario' in i.columns:
                 i['scenario'] = i['scenario'].replace(scenarios_rename)
 
-    list_keys = ['pSpinningReserveByPlantCountry', 'pPlantReserve', 'pCapacityPlan']
+    list_keys = ['pReserveSpinningPlantCountry', 'pPlantReserve', 'pCapacityPlant']
     list_keys = [i for i in list_keys if i in epm_dict.keys()]
     epm_dict = remove_unused_tech(epm_dict, list_keys)
 
@@ -506,25 +524,24 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
     # Standardize names
-    standardize_names(epm_dict, 'pEnergyByFuel', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pCapacityByFuel', dict_specs['fuel_mapping'])
+    standardize_names(epm_dict, 'pEnergyFuel', dict_specs['fuel_mapping'])
+    standardize_names(epm_dict, 'pCapacityFuel', dict_specs['fuel_mapping'])
     standardize_names(epm_dict, 'pNewCapacityFuelCountry', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pFuelUtilization', dict_specs['fuel_mapping'])
-
-    standardize_names(epm_dict, 'pFuelDispatch', dict_specs['fuel_mapping'])
+    standardize_names(epm_dict, 'pUtilizationFuel', dict_specs['fuel_mapping'])
+    standardize_names(epm_dict, 'pDispatchFuel', dict_specs['fuel_mapping'])
 
     # Add fuel type to the results
     if mapping_gen_fuel is not None:
         # Add fuel type to the results
-        plant_result = ['pSpinningReserveByPlantZone', 'pPlantAnnualLCOE', 'pEnergyByPlant', 'pCapacityPlan',
-                        'pPlantDispatch', 'pCostsbyPlant', 'pPlantUtilization']
+        plant_result = ['pReserveSpinningPlantZone', 'pPlantAnnualLCOE', 'pEnergyPlant', 'pCapacityPlant',
+                        'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
         for key in [k for k in plant_result if k in epm_dict.keys()]:
             epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
     # Add country to the results
     if mapping_zone_country is not None:
         # Add country to the results
-        plant_result = ['pEnergyByPlant', 'pCapacityPlan', 'pPlantDispatch', 'pCostsbyPlant', 'pPlantUtilization']
+        plant_result = ['pEnergyPlant', 'pCapacityPlant', 'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
         for key in [k for k in plant_result if k in epm_dict.keys()]:
             epm_dict[key] = epm_dict[key].merge(mapping_zone_country, on=['scenario', 'zone'], how='left')
 
@@ -571,66 +588,67 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pSystemAverageCost in epm_results')
 
-    if 'pCostSummaryWeightedAverageCountry' in epm_results.keys():
-        t = epm_results['pCostSummaryWeightedAverageCountry'].copy()
-        t.rename(columns={'uni_1': 'attribute'}, inplace=True)
-        t.drop('uni_2', axis=1, inplace=True)
-        summary.update({'pCostSummaryWeightedAverageCountry': t})
-    else:
-        print('No pCostSummaryWeightedAverageCountry in epm_results')
+    if False:
+        if 'pZonalAverageCost' in epm_results.keys():
+            t = epm_results['pZonalAverageCost'].copy()
+            t.rename(columns={'uni_1': 'attribute'}, inplace=True)
+            t.drop('uni_2', axis=1, inplace=True)
+            summary.update({'pZonalAverageCost': t})
+        else:
+            print('No pZonalAverageCost in epm_results')
 
-    if 'pSummary' in epm_results.keys():
-        t = epm_results['pSummary'].copy()
+    if 'pCostZone' in epm_results.keys():
+        t = epm_results['pCostZone'].copy()
         t = t[t['value'] > 1e-2]
-        summary.update({'pSummary': t})
+        summary.update({'pCostZone': t})
     else:
-        print('No pSummary in epm_results')
+        print('No pCostZone in epm_results')
 
-    if 'pDemandSupply' in epm_results.keys():
-        t = epm_results['pDemandSupply'].copy()
+    if 'pEnergyBalance' in epm_results.keys():
+        t = epm_results['pEnergyBalance'].copy()
         t = t[t['value'] > 1e-2]
         t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
-        summary.update({'pDemandSupply': t})
+        summary.update({'pEnergyBalance': t})
     else:
-        print('No pDemandSupply in epm_results')
+        print('No pEnergyBalance in epm_results')
 
-    if 'pReserveMarginResCountry' in epm_results.keys():
-        t = epm_results['pReserveMarginResCountry'].copy()
+    if 'pReserveMarginCountry' in epm_results.keys():
+        t = epm_results['pReserveMarginCountry'].copy()
         t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
         summary.update({'pReserveMarginResCountry': t})
     else:
-        print('No pDemandSupply in epm_results')
+        print('No pReserveMarginCountry in epm_results')
 
-    if 'pEmissions' in epm_results.keys():
-        t = epm_results['pEmissions'].copy()
+    if 'pEmissionsZone' in epm_results.keys():
+        t = epm_results['pEmissionsZone'].copy()
         t['attribute'] = 'Emissions: MtCO2'
-        summary.update({'pEmissions': t})
+        summary.update({'pEmissionsZone': t})
     else:
-        print('No pEmissions in epm_results')
+        print('No pEmissionsZone in epm_results')
 
 
-    if 'pSpinningReserveByPlantZone' in epm_results.keys():
-        t = epm_results['pSpinningReserveByPlantZone'].copy()
+    if 'pReserveSpinningPlantZone' in epm_results.keys():
+        t = epm_results['pReserveSpinningPlantZone'].copy()
         t = t.groupby(['scenario', 'zone', 'year'])['value'].sum().reset_index()
         t['attribute'] = 'Spinning Reserve: GWh'
-        summary.update({'pSpinningReserveByPlantZone': t})
+        summary.update({'pReserveSpinningPlantZone': t})
     else:
-        print('No pSpinningReserveByPlantZone in epm_results')
+        print('No pReserveSpinningPlantZone in epm_results')
 
-    if 'pCostSummaryCountry' in epm_results.keys():
-        t = epm_results['pCostSummaryCountry'].copy()
-        summary.update({'pCostSummaryCountry': t})
+    if 'pCostCountry' in epm_results.keys():
+        t = epm_results['pCostCountry'].copy()
+        summary.update({'pCostCountry': t})
     else:
-        print('No pCostSummaryCountry in epm_results')
+        print('No pCostCountry in epm_results')
 
-    if 'pCapacityByFuel' in epm_results.keys():
-        t = epm_results['pCapacityByFuel'].copy()
+    if 'pCapacityFuel' in epm_results.keys():
+        t = epm_results['pCapacityFuel'].copy()
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
         summary.update({'Capacity: MW': t})
     else:
-        print('No pCapacityByFuel in epm_results')
+        print('No pCapacityFuel in epm_results')
 
     if 'pNewCapacityFuel' in epm_results.keys():
         t = epm_results['pNewCapacityFuel'].copy()
@@ -641,14 +659,14 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pNewCapacityFuel in epm_results')
 
-    if 'pEnergyByFuel' in epm_results.keys():
-        t = epm_results['pEnergyByFuel'].copy()
+    if 'pEnergyFuel' in epm_results.keys():
+        t = epm_results['pEnergyFuel'].copy()
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
         summary.update({'Energy: GWh': t})
     else:
-        print('No pEnergyByFuel in epm_results')
+        print('No pEnergyFuel in epm_results')
         
     if 'pAnnualTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -658,14 +676,14 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pAnnualTransmissionCapacity in epm_results')
         
-    if 'pAdditonalCapacity' in epm_results.keys():
-        t = epm_results['pAdditonalCapacity'].copy()
+    if 'pAdditionalCapacity' in epm_results.keys():
+        t = epm_results['pAdditionalCapacity'].copy()
         t['attribute'] = 'Additional Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
         summary.update({'Additional Capacity: MW': t})
     else:
-        print('No pAdditonalCapacity in epm_results')
+        print('No pAdditionalCapacity in epm_results')
 
 
     summary = pd.concat(summary)
@@ -712,40 +730,40 @@ def generate_summary(epm_results, folder, epm_input):
 
 def generate_summary_detailed(epm_results, folder):
     summary_detailed = {}
-    if 'pCapacityPlan' in epm_results.keys():
-        temp = epm_results['pCapacityPlan'].copy()
+    if 'pCapacityPlant' in epm_results.keys():
+        temp = epm_results['pCapacityPlant'].copy()
         temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Capacity: MW': temp.copy()})
     else:
         print('No pCapacityPlan in epm_results')
 
-    if 'pPlantUtilization' in epm_results.keys():
-        temp = epm_results['pPlantUtilization'].copy()
+    if 'pUtilizationPlant' in epm_results.keys():
+        temp = epm_results['pUtilizationPlant'].copy()
         temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Utilization: percent': temp.copy()})
     else:
-        print('No pPlantUtilization in epm_results')
+        print('No pUtilizationPlant in epm_results')
 
-    if 'pEnergyByPlant' in epm_results.keys():
-        temp = epm_results['pEnergyByPlant'].copy()
+    if 'pEnergyPlant' in epm_results.keys():
+        temp = epm_results['pEnergyPlant'].copy()
         temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Energy: GWh': temp.copy()})
     else:
-        print('No pEnergyByPlant in epm_results')
+        print('No pEnergyPlant in epm_results')
 
-    if 'pSpinningReserveByPlantZone' in epm_results.keys():
-        temp = epm_results['pSpinningReserveByPlantZone'].copy()
+    if 'pReserveSpinningPlantZone' in epm_results.keys():
+        temp = epm_results['pReserveSpinningPlantZone'].copy()
         temp = temp.set_index(['scenario', 'zone', 'generator', 'fuel', 'year']).squeeze().unstack('scenario')
         temp.reset_index(inplace=True)
         summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
     else:
-        print('No pSpinningReserveByPlantZone in epm_results')
+        print('No pReserveSpinningPlantZone in epm_results')
 
-    if 'pCostsbyPlant' in epm_results.keys():
-        temp = epm_results['pCostsbyPlant'].copy()
+    if 'pCostsPlant' in epm_results.keys():
+        temp = epm_results['pCostsPlant'].copy()
         temp = temp.set_index(['scenario', 'country', 'zone', 'generator', 'fuel', 'year', 'attribute']).squeeze().unstack(
             'scenario')
         temp.reset_index(inplace=True)
@@ -753,7 +771,7 @@ def generate_summary_detailed(epm_results, folder):
         grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
         summary_detailed.update(grouped_dfs)
     else:
-        print('No pCostsByPlant in epm_results')
+        print('No pCostsPlant in epm_results')
 
     if 'pPlantAnnualLCOE' in epm_results.keys():
         temp = epm_results['pPlantAnnualLCOE'].copy()
@@ -936,13 +954,13 @@ def bar_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figs
     return None
 
 
-def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar', selected_scenario=None, unit='MWh'):
+def make_demand_plot(pEnergyBalanceCountry, folder, years=None, plot_option='bar', selected_scenario=None, unit='MWh'):
     """
     Depreciated. Makes a plot of demand for all countries.
     
     Parameters:
     ----------
-    pDemandSupplyCountry: pd.DataFrame
+    pEnergyBalanceCountry: pd.DataFrame
         Contains demand data for all countries
     folder: str
         Path to folder where the plot will be saved
@@ -957,7 +975,7 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
     """
     # TODO: add scenario grouping, currently only works when selected_scenario is not None
 
-    df_tot = pDemandSupplyCountry.loc[pDemandSupplyCountry['attribute'] == 'Demand: GWh']
+    df_tot = pEnergyBalanceCountry.loc[pEnergyBalanceCountry['attribute'] == 'Demand: GWh']
     if selected_scenario is not None:
         df_tot = df_tot[df_tot['scenario'] == selected_scenario]
     df_tot = df_tot.groupby(['year']).agg({'value': 'sum'}).reset_index()
@@ -986,14 +1004,14 @@ def make_demand_plot(pDemandSupplyCountry, folder, years=None, plot_option='bar'
         raise ValueError('Invalid plot_option argument. Choose between "line" and "bar"')
 
 
-def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', selected_scenario=None, unit='GWh',
+def make_generation_plot(pEnergyFuel, folder, years=None, plot_option='bar', selected_scenario=None, unit='GWh',
                          BESS_included=True, Hydro_stor_included=True):
     """
     Makes a plot of demand for all countries.
 
     Parameters:
     ----------
-    pDemandSupplyCountry: pd.DataFrame
+    pEnergyBalanceCountry: pd.DataFrame
         Contains demand data for all countries
     folder: str
         Path to folder where the plot will be saved
@@ -1008,15 +1026,15 @@ def make_generation_plot(pEnergyByFuel, folder, years=None, plot_option='bar', s
     """
     # TODO: add scenario grouping, currently only works when selected_scenario is not None
     if selected_scenario is not None:
-        pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['scenario'] == selected_scenario]
+        pEnergyFuel = pEnergyFuel[pEnergyFuel['scenario'] == selected_scenario]
 
     if not BESS_included:
-        pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['fuel'] != 'Battery Storage']
+        pEnergyFuel = pEnergyFuel[pEnergyFuel['fuel'] != 'Battery Storage']
 
     if not Hydro_stor_included:
-        pEnergyByFuel = pEnergyByFuel[pEnergyByFuel['fuel'] != 'Pumped-Hydro Storage']
+        pEnergyFuel = pEnergyFuel[pEnergyFuel['fuel'] != 'Pumped-Hydro Storage']
 
-    df_tot = pEnergyByFuel.groupby('year').agg({'value': 'sum'}).reset_index()
+    df_tot = pEnergyFuel.groupby('year').agg({'value': 'sum'}).reset_index()
 
     if unit == 'TWh':
         df_tot['value'] = df_tot['value'] / 1000
@@ -1704,7 +1722,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
     -------
     Generate and save a fuel dispatch plot:
     dfs_to_plot_area = {
-        'pFuelDispatch': epm_dict['pFuelDispatch'],
+        'pDispatchFuel': epm_dict['pDispatchFuel'],
         'pDispatch': subset_dispatch
     }
     subset_demand = epm_dict['pDispatch'].loc[epm_dict['pDispatch'].attribute.isin(['Demand'])]
@@ -2075,7 +2093,7 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
         'DemandHigh': 'High Demand',
         'LowImport_LowThermal': 'LowImport_LowThermal'
     }
-    make_stacked_bar_subplots(epm_dict['pCapacityByFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
+    make_stacked_bar_subplots(epm_dict['pCapacityFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
                               select_xaxis=[2025, 2028, 2030], dict_grouping=fuel_grouping, dict_scenarios=scenario_names,
                               order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                               format_y=lambda y, _: '{:.0f} MW'.format(y))
@@ -2522,8 +2540,7 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     summary = []
 
     if required_keys is None:
-        required_keys = ['pCapacityByFuel', 'pEnergyByFuel', 'pEmissions', 'pDemandSupplyCountry', 'pCostSummary',
-                         'pNPVByYear']
+        required_keys = ['pCapacityFuel', 'pEnergyFuel', 'pEmissionsZone', 'pCostZone']
 
     assert all(
         key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
@@ -2537,31 +2554,31 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     if summary_metrics_list is None:
         summary_metrics_list = ['Capex: $m']
 
-    if 'pCapacityByFuel' in required_keys:
-        temp = epm_results['pCapacityByFuel'].copy()
+    if 'pCapacityFuel' in required_keys:
+        temp = epm_results['pCapacityFuel'].copy()
         temp = temp[(temp['year'] == year)]
         if zone_list is not None:
             temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityByFuel'], values='value')
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityFuel'], values='value')
         temp = temp.loc[:, fuel_capa_list]
         temp = rename_and_reoder(temp, rename_columns=RENAME_COLUMNS)
         temp.columns = [f'{col} (MW)' for col in temp.columns]
         temp = temp.round(0)
         summary.append(temp)
 
-    if 'pEnergyByFuel' in required_keys:
-        temp = epm_results['pEnergyByFuel'].copy()
+    if 'pEnergyFuel' in required_keys:
+        temp = epm_results['pEnergyFuel'].copy()
         temp = temp[(temp['year'] == year)]
         if zone_list is not None:
             temp = temp[temp['zone'].isin(zone_list)]
         temp = temp.loc[:, fuel_gen_list]
-        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyByFuel'], values='value')
+        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyFuel'], values='value')
         temp.columns = [f'{col} (GWh)' for col in temp.columns]
         temp = temp.round(0)
         summary.append(temp)
 
-    if 'pEmissions' in required_keys:
-        temp = epm_results['pEmissions'].copy()
+    if 'pEmissionsZone' in required_keys:
+        temp = epm_results['pEmissionsZone'].copy()
         temp = temp[(temp['year'] == year)]
         if zone_list is not None:
             temp = temp[temp['zone'].isin(zone_list)]
@@ -2570,40 +2587,41 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
         temp.rename('ktCO2', inplace=True).to_frame()
         summary.append(temp)
 
-    if 'pDemandSupplyCountry' in required_keys:
-        temp = epm_results['pDemandSupplyCountry'].copy()
-        temp = temp[temp['attribute'] == 'Unmet demand: GWh']
-        temp = temp.groupby(['scenario'])['value'].sum()
+    if False:
+        if 'pEnergyBalanceCountry' in required_keys:
+            temp = epm_results['pEnergyBalanceCountry'].copy()
+            temp = temp[temp['attribute'] == 'Unmet demand: GWh']
+            temp = temp.groupby(['scenario'])['value'].sum()
 
-        t = epm_results['pDemandSupplyCountry'].copy()
-        t = t[t['attribute'] == 'Demand: GWh']
-        t = t.groupby(['scenario'])['value'].sum()
-        temp = (temp / t) * 1e3
-        temp.rename('Unmet (‰)', inplace=True).to_frame()
-        summary.append(temp)
+            t = epm_results['pEnergyBalanceCountry'].copy()
+            t = t[t['attribute'] == 'Demand: GWh']
+            t = t.groupby(['scenario'])['value'].sum()
+            temp = (temp / t) * 1e3
+            temp.rename('Unmet (‰)', inplace=True).to_frame()
+            summary.append(temp)
 
-        temp = epm_results['pDemandSupplyCountry'].copy()
-        if zone_list is not None:
-            temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp[temp['attribute'] == 'Surplus generation: GWh']
-        temp = temp.groupby(['scenario'])['value'].sum()
+            temp = epm_results['pEnergyBalanceCountry'].copy()
+            if zone_list is not None:
+                temp = temp[temp['zone'].isin(zone_list)]
+            temp = temp[temp['attribute'] == 'Surplus generation: GWh']
+            temp = temp.groupby(['scenario'])['value'].sum()
 
-        t = epm_results['pDemandSupplyCountry'].copy()
-        if zone_list is not None:
-            t = t[t['zone'].isin(zone_list)]
-        t = t[t['attribute'] == 'Demand: GWh']
-        t = t.groupby(['scenario'])['value'].sum()
-        temp = (temp / t) * 1000
+            t = epm_results['pEnergyBalanceCountry'].copy()
+            if zone_list is not None:
+                t = t[t['zone'].isin(zone_list)]
+            t = t[t['attribute'] == 'Demand: GWh']
+            t = t.groupby(['scenario'])['value'].sum()
+            temp = (temp / t) * 1000
 
-        temp.rename('Surplus (‰)', inplace=True).to_frame()
-        summary.append(temp)
+            temp.rename('Surplus (‰)', inplace=True).to_frame()
+            summary.append(temp)
 
-    if 'pCostSummary' in required_keys:
-        temp = epm_results['pCostSummary'].copy()
+    if 'pCostZone' in required_keys:
+        temp = epm_results['pCostZone'].copy()
         temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
         temp = calculate_total_system_cost(temp, discount_rate)
 
-        t = epm_results['pDemandSupply'].copy()
+        t = epm_results['pEnergyBalance'].copy()
         if zone_list is not None:
             t = t[t['zone'].isin(zone_list)]
         t = t[t['attribute'] == 'Demand: GWh']
@@ -2732,12 +2750,12 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
         plt.show()
 
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice, scale_factor=0.8):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
-    df1 = pCapacityByFuel.copy()
+    df1 = pCapacityFuel.copy()
     df1['attribute'] = 'Capacity'
-    df2 = pEnergyByFuel.copy()
+    df2 = pEnergyFuel.copy()
     df2['attribute'] = 'Energy'
     df = pd.concat([df1, df2])
     capacity_plot = make_pie_chart_interactive(
@@ -2759,7 +2777,7 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
     df_price = pPrice.copy()
 
     dfs_to_plot_area = {
-        'pPlantDispatch': filter_dataframe(pPlantDispatch, {'attribute': ['Generation']}),
+        'pDispatchPlant': filter_dataframe(pDispatchPlant, {'attribute': ['Generation']}),
         'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
     }
     
@@ -2777,8 +2795,8 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEner
         'pNetExchange': net_exchange,
     }
 
-    seasons = pPlantDispatch.season.unique()
-    days = pPlantDispatch.day.unique()
+    seasons = pDispatchPlant.season.unique()
+    days = pDispatchPlant.day.unique()
 
     select_time = {'season': seasons, 'day': days}
 
@@ -2873,7 +2891,7 @@ def combine_and_resize_images(image_list, scale_factor=0.6):
     return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
 
 
-def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_colors, zone, year, scenario,
+def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_colors, zone, year, scenario,
                                 filename=None, BESS_included=True, Hydro_stor_included=True,title='Dispatch',
                                 select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
     """
@@ -2881,7 +2899,7 @@ def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_c
 
     Parameters
     ----------
-    pFuelDispatch : DataFrame
+    pDispatchFuel : DataFrame
         Dataframe containing dispatch data by fuel type.
     pDispatch : DataFrame
         Dataframe containing total demand and other key dispatch attributes.
@@ -2916,23 +2934,23 @@ def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_c
     """
 
        # Extracting unique seasons and representative days
-    dispatch_seasons = list(pFuelDispatch['season'].unique())
-    n_rep_days = len(list(pFuelDispatch['day'].unique()))
+    dispatch_seasons = list(pDispatchFuel['season'].unique())
+    n_rep_days = len(list(pDispatchFuel['day'].unique()))
 
     # Filtrer les données de production
-    pFuelDispatch_zone = pFuelDispatch.loc[
-        (pFuelDispatch['zone'] == zone) & (pFuelDispatch['year'] == year) & (pFuelDispatch['scenario'] == scenario)
+    pDispatchFuel_zone = pDispatchFuel.loc[
+        (pDispatchFuel['zone'] == zone) & (pDispatchFuel['year'] == year) & (pDispatchFuel['scenario'] == scenario)
     ]
 
     # Exclure les stockages si nécessaire
     if not BESS_included:
-        pFuelDispatch_zone = pFuelDispatch_zone[pFuelDispatch_zone['fuel'] != 'Battery Storage']
+        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Battery Storage']
     if not Hydro_stor_included:
-        pFuelDispatch_zone = pFuelDispatch_zone[pFuelDispatch_zone['fuel'] != 'Pumped-Hydro']
-    y_max_dispatch = float(pFuelDispatch_zone['value'].max())
+        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Pumped-Hydro']
+    y_max_dispatch = float(pDispatchFuel_zone['value'].max())
 
     # Mise en forme pour le stacked area plot
-    pFuelDispatch_pivot = pFuelDispatch_zone.pivot_table(index=['season', 'day', 't'],
+    pDispatchFuel_pivot = pDispatchFuel_zone.pivot_table(index=['season', 'day', 't'],
                                                           columns='fuel', values='value', aggfunc='sum')
 
     # Récupérer la demande
@@ -2944,15 +2962,15 @@ def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_c
     pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
 
     # Extraire les saisons et jours représentatifs
-    dispatch_seasons = list(pFuelDispatch['season'].unique())
-    n_rep_days = len(list(pFuelDispatch['day'].unique()))
+    dispatch_seasons = list(pDispatchFuel['season'].unique())
+    n_rep_days = len(list(pDispatchFuel['day'].unique()))
 
     # Créer le graphique
     fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
 
     # Tracer la production en stacked area
-    if not pFuelDispatch_pivot.empty:
-        pFuelDispatch_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pFuelDispatch_pivot.columns])
+    if not pDispatchFuel_pivot.empty:
+        pDispatchFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchFuel_pivot.columns])
 
     # Tracer la demande
     if not pDemand_pivot.empty:

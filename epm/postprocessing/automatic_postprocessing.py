@@ -84,8 +84,8 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
 
         # Update color dict with plant colors
         if True:
-            if 'pCapacityPlan' in epm_results.keys():
-                temp = epm_results['pCapacityPlan'].copy()
+            if 'pCapacityPlant' in epm_results.keys():
+                temp = epm_results['pCapacityPlant'].copy()
                 plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
 
                 # Map base colors from fuel types
@@ -160,7 +160,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
         return not any(sample in col for sample in samples_mc_substrings)
     original_scenarios = [c for c in simulations_scenarios.columns if is_not_subset(c)]
 
-    df_summary = epm_results['pSummary'].copy()
+    df_summary = epm_results['pCostSystem'].copy()
     df_summary = df_summary.loc[df_summary.attribute.isin(['NPV of system cost: $m'])]
     df_summary_baseline = df_summary.loc[df_summary.scenario.isin(original_scenarios)]
     df_summary_baseline = df_summary_baseline.drop(columns=['attribute']).set_index('scenario')
@@ -179,7 +179,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                 format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                 annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-    df_cost_summary = epm_results['pCostSummary'].copy()
+    df_cost_summary = epm_results['pCostZone'].copy()
     # df_cost_summary = df_cost_summary.loc[df_cost_summary.attribute.isin(['Total Annual Cost by Zone: $m'])]
     df_cost_summary_baseline = df_cost_summary.loc[df_cost_summary.scenario.isin(original_scenarios)]
     df_cost_summary['scenario_mapping'] = df_cost_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -193,7 +193,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
                         # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
                         ]
-    df_cost_summary_no_trade = epm_results['pCostSummaryFull'].copy()
+    df_cost_summary_no_trade = epm_results['pCostZoneFull'].copy()
     df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.attribute.isin(costs_notrade)]
     df_cost_summary_baseline_notrade = df_cost_summary_no_trade.loc[(df_cost_summary_no_trade.scenario.isin(original_scenarios))]
     df_cost_summary_no_trade['scenario_mapping'] = df_cost_summary_no_trade.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -205,7 +205,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
     demand_supply = ["Unmet demand: GWh", "Imports exchange: GWh", "Exports exchange: GWh"
                         ]
 
-    df_demandsupply = epm_results['pDemandSupply'].copy()
+    df_demandsupply = epm_results['pEnergyBalance'].copy()
     df_demandsupply = df_demandsupply.loc[df_demandsupply.attribute.isin(demand_supply)]
     df_demandsupply_baseline = df_demandsupply.loc[(df_demandsupply.scenario.isin(original_scenarios))]
     df_demandsupply['scenario_mapping'] = df_demandsupply.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -236,7 +236,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
         .reset_index()
     )  # adding elements which only have error bars
 
-    years = sorted(epm_results['pCostSummary']['year'].unique())
+    years = sorted(epm_results['pCostZone']['year'].unique())
 
     n = len(years)
     middle_index = n // 2
@@ -263,7 +263,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                     annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-    zones = epm_results['pCostSummary']['zone'].unique()
+    zones = epm_results['pCostZone']['zone'].unique()
     for zone in zones:
         # Only interested in subset of years
         df_cost_summary_baseline = df_cost_summary_baseline.loc[df_cost_summary_baseline.year.isin(years)]
@@ -348,7 +348,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
     keys_results = None
     if montecarlo:
-        keys_results = {'pSummary', 'pCostSummary', 'pCostSummaryFull', 'pDemandSupply'}
+        keys_results = {'pCostSystem', 'pCostZone', 'pCostZoneFull', 'pEnergyBalance'}
 
     # Process results
     RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
@@ -367,10 +367,10 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
         if isinstance(selected_scenario, str):
             if selected_scenario == 'all':
-                selected_scenarios = list(epm_results['pEnergyByFuel'].scenario.unique())  # we choose all scenarios
+                selected_scenarios = list(epm_results['pEnergyFuel'].scenario.unique())  # we choose all scenarios
             else:
                 selected_scenarios = [selected_scenario]
-                assert selected_scenario in list(epm_results['pEnergyByFuel'].scenario.unique()), "Selected scenario does not belong to the set of scenarios."
+                assert selected_scenario in list(epm_results['pEnergyFuel'].scenario.unique()), "Selected scenario does not belong to the set of scenarios."
         else:
             selected_scenarios = selected_scenario
 
@@ -386,13 +386,13 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             generate_summary_detailed(epm_results, RESULTS_FOLDER)
 
             # Define dataframes for capacity, energy, exchange
-            df_capacityplan = epm_results['pCapacityPlan'].copy()
-            df_capacityfuel = epm_results['pCapacityByFuel'].copy()
-            df_energyplant = epm_results['pEnergyByPlant'].copy()
-            df_energyfuel = epm_results['pEnergyByFuel'].copy()
+            df_capacityplan = epm_results['pCapacityPlant'].copy()
+            df_capacityfuel = epm_results['pCapacityFuel'].copy()
+            df_energyplant = epm_results['pEnergyPlant'].copy()
+            df_energyfuel = epm_results['pEnergyFuel'].copy()
             
-            # Additionnal energy information not in pEnergyByFuel
-            df_exchange = epm_results['pDemandSupply'].copy()
+            # Additionnal energy information not in pEnergyFuel
+            df_exchange = epm_results['pEnergyBalance'].copy()
             df_exchange = df_exchange.loc[df_exchange['attribute'].isin(['Unmet demand: GWh', 'Exports exchange: GWh', 'Imports exchange: GWh'])]
             df_exchange = df_exchange.replace({'Unmet demand: GWh': 'Unmet demand',
                                               'Exports exchange: GWh': 'Exports',
@@ -404,7 +404,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             df_energyfuelfull = pd.concat([df_energyfuel, df_exchange], ignore_index=True)
             
             # Define dataframes with system costs 
-            df_systemcost = epm_results['pSummary'].copy()
+            df_systemcost = epm_results['pCostSystem'].copy()
             df_systemcost = df_systemcost.loc[df_systemcost.scenario.isin(selected_scenarios)]
             attributes = [
                 "Annualized capex: $m",
@@ -446,9 +446,9 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             print('Generating scenario-specific figures...')
             for scenario in selected_scenarios:
                 
-                if scenario not in epm_results['pEnergyByPlant']['scenario'].unique():
+                if scenario not in epm_results['pEnergyPlant']['scenario'].unique():
                     print(f'No {scenario} in epm_results')
-                    scenario = epm_results['pEnergyByPlant']['scenario'].unique()[0]
+                    scenario = epm_results['pEnergyPlant']['scenario'].unique()[0]
                     print(f'Selected scenario is set to: {scenario}')
 
                 print('Creating folder for scenario:', scenario)
@@ -594,7 +594,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 selected_scenario=scenario,
                                                 sorting_column='fuel')
                 
-                if len(df_energyplant.zone.unique()) == 1 and len(epm_results['pEnergyByPlant']['generator'].unique()) < 20:
+                if len(df_energyplant.zone.unique()) == 1 and len(epm_results['pEnergyPlant']['generator'].unique()) < 20:
                     print('Generating energy figures for single zone by generators...')
                     temp = df_energyplant[df_energyplant['scenario'] == scenario]
                     filename = f'{folder_scenario}/energy/EnergyPlantsStackedAreaPlot-{scenario}.png'
@@ -740,10 +740,10 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 
                 # ---------------Zone cost comparison----------------
                 print('Generating zone cost figures...')
-                years = epm_results['pCostSummary']['year'].unique()
+                years = epm_results['pCostZone']['year'].unique()
                 final_year = max(years)
                 # TODO: Cost comparison without trade
-                df = epm_results['pCostSummary'].copy()
+                df = epm_results['pCostZone'].copy()
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
                                     "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
@@ -767,7 +767,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
 
                 # Cost comparison with trade
-                df = epm_results['pCostSummary'].copy()
+                df = epm_results['pCostZone'].copy()
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 costs_comparison = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Transmission additions: $m",
                                     "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
@@ -921,7 +921,7 @@ def generate_summary_excel(results_folder, template_file="epm_results_summary_di
     results_folder, graphs_folder, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
     results_folder, folder='')
 
-    tabs_to_update=['pDemandSupply','pCapacityByFuel','pEnergyByFuel','pCostSummary','pCostSummaryCountry','pEmissions','pInterchange']
+    tabs_to_update=['pEnergyBalance','pCapacityFuel','pEnergyFuel','pCostZone','pCostZoneCountry','pEmissions','pInterchange']
 
     output_file = f"{results_folder}_results_summary_dis.xlsx"
 
