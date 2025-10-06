@@ -1411,6 +1411,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
 * 4. ENERGY DISPATCH
       pDispatchPlant, pDispatchFuel, pDispatch,
+* 5. RESERVES
       pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningPlantCountry,
       pReserveMargin, pReserveMarginCountry,
 * 5. INTERCONNECTIONS
