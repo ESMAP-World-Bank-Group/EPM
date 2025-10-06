@@ -85,8 +85,8 @@ Sets
 * Implicit variable domain
 Sets
    sPwrOut(g,f,q,d,t,y)        'valid tuples for vPwrOut'
-   sExportPrice(z,zext,q,d,t,y)     'valid tuples for vExportPrice'
-   sImportPrice(z,zext,q,d,t,y)     'valid tuples for vImportPrice'
+   sExportPrice(z,zext,q,d,t,y)     'valid tuples for vYearlyExportExternal'
+   sImportPrice(z,zext,q,d,t,y)     'valid tuples for vYearlyImportExternal'
    sAdditionalTransfer(z,z2,y) 'valid tuples for vNewTransferCapacity'
    sFlow(z,z2,q,d,t,y)         'valid tuples for vFlow'
    sSpinningReserve(g,q,d,t,y)         'valid tuples for vSpinningReserve'
@@ -216,8 +216,8 @@ Positive Variables
    vRetire(g,y)              'Retire (MW)'
 
    vFlow(z,z2,q,d,t,y)       'flow from z to z2 in MW'
-   vImportPrice(z,zext,q,d,t,y)   'external price DiscountRateiven import'
-   vExportPrice(z,zext,q,d,t,y)   'external price DiscountRateiven export'
+   vYearlyImportExternal(z,zext,q,d,t,y)   'external (price-driven) import'
+   vYearlyExportExternal(z,zext,q,d,t,y)   'external (price-driven) export'
 
    vFuel(z,f,y)              'annual fuel in MMBTU'
 
@@ -535,11 +535,11 @@ eYearlyExternalTradeCost(z,y)..
 
 * Yearly import and export costs from external zones
 eYearlImportExternalCost(z,y)..
-   vYearlyImportExternalCost(z,y) =e= sum((zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+   vYearlyImportExternalCost(z,y) =e= sum((zext,q,d,t), vYearlyImportExternal(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 * Yearly export cost to external zones
 eYearlyExportExternalCost(z,y)..
-   vYearlyExportExternalCost(z,y) =e= sum((zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+   vYearlyExportExternalCost(z,y) =e= sum((zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
 * Yearly CO2 emissions cost for each zone
 eYearlyCarbonCost(z,y)..
@@ -572,8 +572,8 @@ eDefineSupply(z,q,d,t,y)..
    - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
    + sum(sTopology(z,z2), vFlow(z2,z,q,d,t,y) * (1 - pLossFactor(z,z2,y)))
    - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(pincludeStorage)
-   + sum(zext, vImportPrice(z,zext,q,d,t,y))
-   - sum(zext, vExportPrice(z,zext,q,d,t,y))
+   + sum(zext, vYearlyImportExternal(z,zext,q,d,t,y))
+   - sum(zext, vYearlyExportExternal(z,zext,q,d,t,y))
    + vUSE(z,q,d,t,y)
    - vSurplus(z,q,d,t,y);
 
@@ -691,29 +691,29 @@ eSymmetricTransferBuild(sTopology(z,z2),y)$pAllowHighTransfer..
    
 * Caps total import cost based on annual demand and max share
 eMaxAnnualImportShareCost(c,y)$(pallowExports)..
-   sum((zcmap(z,c),zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((zcmap(z,c),zext,q,d,t), vYearlyImportExternal(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
 * Caps total export value based on annual demand and max share
 eMaxAnnualExportShareRevenue(c,y)$(pallowExports)..
-   sum((zcmap(z,c),zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((zcmap(z,c),zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
 * Limits hourly import cost as a share of hourly demand
 eMaxHourlyImportShareCost(c,q,d,t,y)$(pMaxImport<1 and pallowExports)..
-   sum((zcmap(z,c), zext), vImportPrice(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxImport * pEnergyEfficiencyFactor(z,y));
+   sum((zcmap(z,c), zext), vYearlyImportExternal(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxImport * pEnergyEfficiencyFactor(z,y));
 
 * Limits hourly export value as a share of hourly demand
 eMaxHourlyExportShareRevenue(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
-   sum((zcmap(z,c), zext),vExportPrice(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxExport * pEnergyEfficiencyFactor(z,y));
+   sum((zcmap(z,c), zext),vYearlyExportExternal(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxExport * pEnergyEfficiencyFactor(z,y));
 
 * Caps import volume from an external zone to internal zone
 eExternalImportLimit(z,zext,q,d,t,y)$pallowExports..
-   vImportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
+   vYearlyImportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
 
 * Caps export volume from internal zone to an external zone
 eExternalExportLimit(z,zext,q,d,t,y)$pallowExports..
-   vExportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
+   vYearlyExportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
 
 *--- Storage-specific equations
 * Limits state of charge (SOC) by capacit
@@ -975,8 +975,8 @@ Model PA /
    
 
    vPwrOut(sPwrOut)
-   vExportPrice(sExportPrice)
-   vImportPrice(sImportPrice)
+   vYearlyExportExternal(sExportPrice)
+   vYearlyImportExternal(sImportPrice)
    vNewTransferCapacity(sAdditionalTransfer)
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)

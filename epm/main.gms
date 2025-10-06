@@ -775,8 +775,8 @@ sExportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 sImportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
 sImportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
 
-vImportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitIn(z,zext,q,y);
-vExportPrice.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y);
+vYearlyImportExternal.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitIn(z,zext,q,y);
+vYearlyExportExternal.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y);
 
 * Do not allow imports and exports for a zone without import/export prices
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
