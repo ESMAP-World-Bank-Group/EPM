@@ -74,10 +74,11 @@ Parameters
   pCongestionRevenues(z, z2, y)                 'Congestion rents [USD] from saturated lines z→z2 by year'
   pTradeSharedBenefits(z, y)                    'Congestion rents shared equally between countries [USD] by zone and year'
 
-  pCostZone(z, *, y)                            'Annual cost summary [million USD] by zone and year'
-  pCostCountry(c, *, y)                         'Annual cost summary [million USD] by country and year'
+  pYearlyCostsZone(z, *, y)                      'Annual cost summary [million USD] by zone and year'
+  pCostsZone(z, *)                          'Total cost [million USD] by zone and cost category'
+  pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
   pCostAverageCountry(c, *)                     'Average annual cost [million USD] by country (undiscounted)'
-  pCostSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
+  pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
 
   pFuelCosts(z, f, y)                           'Annual fuel costs [million USD] by fuel, zone, and year'
   pFuelCostsCountry(c, f, y)                    'Annual fuel costs [million USD] by fuel, country, and year'
@@ -223,7 +224,7 @@ set sumhdr /
   "Import costs with internal zones: $m",
   "Export revenues with internal zones: $m",
   "Trade shared benefits: $m",
-  "Carbon cost: $m",
+  "Carbon costs: $m",
   "NPV of system cost: $m"
 /;
 
@@ -514,7 +515,7 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 * ---------------------------------------------------------
 * Zone-level cost components [$m]
 * ---------------------------------------------------------
-* Each entry in pCostZone stores one annual cost component
+* Each entry in pYearlyCostsZone stores one annual cost component
 * at the zonal level in million $.
 *
 * Categories included:
@@ -534,86 +535,91 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 * ---------------------------------------------------------
 
 * Investment-related costs
-pCostZone(z, "Annualized capex: $m", y) =
+pYearlyCostsZone(z, "Annualized capex: $m", y) =
   vAnnCapex.l(z, y) / 1e6;
 
-pCostZone(z, "Transmission additions: $m", y) =
+pYearlyCostsZone(z, "Transmission additions: $m", y) =
   vAnnualizedTransmissionCapex.l(z, y) / 1e6;
 
 * Operation-related costs
-pCostZone(z, "Fixed O&M: $m", y) =
+pYearlyCostsZone(z, "Fixed O&M: $m", y) =
   vYearlyFOMCost.l(z, y) / 1e6;
 
-pCostZone(z, "Variable O&M: $m", y) =
+pYearlyCostsZone(z, "Variable O&M: $m", y) =
   vYearlyVOMCost.l(z, y) / 1e6;
 
-pCostZone(z, "Fuel costs: $m", y) =
+pYearlyCostsZone(z, "Fuel costs: $m", y) =
   vYearlyFuelCost.l(z, y) / 1e6;
 
 * System balancing costs
-pCostZone(z, "Unmet demand costs: $m", y) =
+pYearlyCostsZone(z, "Unmet demand costs: $m", y) =
   vYearlyUSECost.l(z, y) / 1e6;
 
-pCostZone(z, "Excess generation: $m", y) =
+pYearlyCostsZone(z, "Excess generation: $m", y) =
   vYearlySurplus.l(z, y) / 1e6;
 
-pCostZone(z, "VRE curtailment: $m", y) =
+pYearlyCostsZone(z, "VRE curtailment: $m", y) =
   vYearlyCurtailmentCost.l(z, y) / 1e6;
 
 * Reserve-related costs
-pCostZone(z, "Spinning reserve costs: $m", y) =
+pYearlyCostsZone(z, "Spinning reserve costs: $m", y) =
   vYearlySpinningReserveCost.l(z, y) / 1e6;
 
-pCostZone(z, "Unmet country spinning reserve costs: $m", y) =
+pYearlyCostsZone(z, "Unmet country spinning reserve costs: $m", y) =
   sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
     vYearlyUnmetSpinningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
   ) / 1e6;
 
-pCostZone(z, "Unmet country planning reserve costs: $m", y) =
+pYearlyCostsZone(z, "Unmet country planning reserve costs: $m", y) =
   sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
     vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
   ) / 1e6;
 
-pCostZone(z, "Unmet system planning reserve costs: $m", y) =
+pYearlyCostsZone(z, "Unmet system planning reserve costs: $m", y) =
   vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
 
-pCostZone(z, "Unmet system spinning reserve costs: $m", y) =
+pYearlyCostsZone(z, "Unmet system spinning reserve costs: $m", y) =
   vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
 
 * Carbon-related costs
-pCostZone(z, "Carbon cost: $m", y) =
+pYearlyCostsZone(z, "Carbon costs: $m", y) =
   vYearlyCarbonCost.l(z, y) / 1e6;
 
-pCostZone(z, "Unmet country CO2 backstop cost: $m", y) =
+pYearlyCostsZone(z, "Unmet country CO2 backstop cost: $m", y) =
   sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
     vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
   ) / 1e6;
 
-pCostZone(z, "Unmet system CO2 backstop cost: $m", y) =
+pYearlyCostsZone(z, "Unmet system CO2 backstop cost: $m", y) =
   vYearlyCO2BackstopCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
 
 * Trade-related costs
-pCostZone(z, "Import costs with internal zones: $m", y) =
+pYearlyCostsZone(z, "Import costs with internal zones: $m", y) =
   pImportCostsInternal(z, y) / 1e6;
 
-pCostZone(z, "Export revenues with internal zones: $m", y) =
+pYearlyCostsZone(z, "Export revenues with internal zones: $m", y) =
   -pExportRevenuesInternal(z, y) / 1e6;
 
-pCostZone(z, "Trade shared benefits: $m", y) =
+pYearlyCostsZone(z, "Trade shared benefits: $m", y) =
   pTradeSharedBenefits(z, y) / 1e6;
 
-pCostZone(z, "Import costs with external zones: $m", y) =
+pYearlyCostsZone(z, "Import costs with external zones: $m", y) =
   vYearlyImportExternalCost.l(z, y) / 1e6;
 
-pCostZone(z, "Export revenues with external zones: $m", y) =
+pYearlyCostsZone(z, "Export revenues with external zones: $m", y) =
   -vYearlyExportExternalCost.l(z, y) / 1e6;
+
+* Cost 
+pCostsZone(z, sumhdr) =
+    sum(y, pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
+
 * ---------------------------------------------------------
 
 * Cost by country and year 
-pCostCountry(c,sumhdr,y) = sum(z$(zcmap(z,c)), pCostZone(z,sumhdr,y));                                        
+pYearlyCostsCountry(c,sumhdr,y) = sum(z$(zcmap(z,c)), pYearlyCostsZone(z,sumhdr,y));                                        
 
 * Cost average by country over the time horizon
-pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pCostCountry(c,sumhdr,y))/TimeHorizon;
+pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pYearlyCostsCountry(c,sumhdr,y))/TimeHorizon;
 
 * ---------------------------------------------------------
 * System-level cost summary
@@ -621,7 +627,7 @@ pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pCostCountry(c,sumhdr,y)
 * Aggregates all zone-level costs into a single system-wide
 * metric across the entire time horizon.
 *
-* - pCostSystem(sumhdr):
+* - pCostsSystem(sumhdr):
 *     Weighted sum of all zone-level costs
 *     Units: million $ (after scaling)
 *
@@ -630,10 +636,10 @@ pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pCostCountry(c,sumhdr,y)
 *     Directly taken from optimization variable vNPVCost
 * ---------------------------------------------------------
 
-pCostSystem(sumhdr) =
-    sum((y,z), pCostZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
+* pCostsSystem(sumhdr) = sum((y,z), pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
+pCostsSystem(sumhdr) = sum(z, pCostsZone(z,sumhdr));
 
-pCostSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
+pCostsSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
 
 
 * ---------------------------------------------------------
@@ -1153,22 +1159,22 @@ Parameter
 
 * Trade 
 pZoneTradeCost(z,y) =
-      pCostZone(z,"Import costs with external zones: $m",y)
-    + pCostZone(z,"Export revenues with external zones: $m",y)
-    + pCostZone(z,"Import costs with internal zones: $m",y)
-    + pCostZone(z,"Export revenues with internal zones: $m",y)
-    + pCostZone(z,"Trade shared benefits: $m",y);
+      pYearlyCostsZone(z,"Import costs with external zones: $m",y)
+    + pYearlyCostsZone(z,"Export revenues with external zones: $m",y)
+    + pYearlyCostsZone(z,"Import costs with internal zones: $m",y)
+    + pYearlyCostsZone(z,"Export revenues with internal zones: $m",y)
+    + pYearlyCostsZone(z,"Trade shared benefits: $m",y);
 
 * Generation-only cost
 pZoneGenCost(z,y) =
-      pCostZone(z,"Annualized capex: $m",y)
-    + pCostZone(z,"Fixed O&M: $m",y)
-    + pCostZone(z,"Variable O&M: $m",y)
-    + pCostZone(z,"Fuel costs: $m",y)
-    + pCostZone(z,"Spinning Reserve costs: $m",y);
+      pYearlyCostsZone(z,"Annualized capex: $m",y)
+    + pYearlyCostsZone(z,"Fixed O&M: $m",y)
+    + pYearlyCostsZone(z,"Variable O&M: $m",y)
+    + pYearlyCostsZone(z,"Fuel costs: $m",y)
+    + pYearlyCostsZone(z,"Spinning Reserve costs: $m",y);
 
 * Total system cost at zone level (gen + trade + transmission)
-pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + pCostZone(z,"Transmission additions: $m",y);
+pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + pYearlyCostsZone(z,"Transmission additions: $m",y);
 
 
 * ---------------------------------------------------------
@@ -1342,10 +1348,10 @@ embeddedCode Connect:
         "pCostsPlant",
         "pCapexInvestment",
         "pPrice",
-        "pCostZone",
-        "pCostCountry",
+        "pYearlyCostsZone",
+        "pYearlyCostsCountry",
         "pCostAverageCountry",
-        "pCostSystem",
+        "pCostsSystem",
         "pFuelCosts",
         "pFuelCostsCountry",
         
@@ -1409,7 +1415,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 2. COSTS
       pCostsPlant, pCapexInvestment,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
-      pCostZone, pCostCountry, pCostAverageCountry, pCostSystem,
+      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
       pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyTechFuelCountry, pEnergyFuelCountry,
@@ -1443,6 +1449,6 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 ;
 $elseIfI.reportshort %REPORTSHORT% == 1
 *  Limited reporting is used
-    execute_unload 'epmresults', pCostZone, pCostZoneFull, pEnergyBalance
+    execute_unload 'epmresults', pYearlyCostsZone, pYearlyCostsZoneFull, pEnergyBalance
     ;
 $endIf.reportshort

@@ -28,19 +28,18 @@ Onshore Wind, steelblue
 Offshore Wind,blue
 Concentrated Solar,yellow
 Geothermal,brown
-Annualized capex: $m,cornflowerblue
-Fixed O&M: $m,green
-Variable O&M: $m,rosybrown
-Total fuel Costs: $m,grey
-Fuel cost: $m,grey
-Transmission additions: $m,purple
-Spinning Reserve costs: $m,pink
-Unmet reserve cost: $m,pink
-Unmet demand costs: $m,black
-Unmet demand cost: $m,black
-Excess generation: $m,yellow
-VRE curtailment: $m,orange
-Trade Costs: $m,lightskyblue
+Annualized capex,cornflowerblue
+Fixed O&M,green
+Variable O&M,rosybrown
+Fuel costs,grey
+Transmission additions,purple
+Spinning reserve costs,pink
+Unmet reserve cost,pink
+Unmet demand costs,black
+Excess generation,yellow
+VRE curtailment,orange
+Carbon costs,darkgreen
+Trade costs,lightskyblue
 Angola,teal
 Botswana,firebrick
 DRC,dodgerblue
