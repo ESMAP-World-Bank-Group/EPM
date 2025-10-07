@@ -223,6 +223,7 @@ set sumhdr /
   "Import costs with internal zones: $m",
   "Export revenues with internal zones: $m",
   "Trade shared benefits: $m",
+  "Carbon cost: $m",
   "NPV of system cost: $m"
 /;
 
@@ -371,7 +372,6 @@ pCapacitySummaryCountry(c,"Peak demand: MW"       ,y) = smax((q,d,t), sum(zcmap(
 pCapacitySummaryCountry(c,"New capacity: MW"      ,y) = sum(zcmap(z,c), pCapacitySummary(z,"New capacity: MW",y));
 pCapacitySummaryCountry(c,"Retired capacity: MW"  ,y) = sum(zcmap(z,c), pCapacitySummary(z,"Retired capacity: MW",y));
 pCapacitySummaryCountry(c,"Committed Total TX capacity: MW",y) = sum(zcmap(z,c), pCapacitySummary(z,"Committed Total TX capacity: MW",y));
-
 
 * H2 model additions
 pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pIncludeH2+1e-6;
@@ -533,9 +533,14 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 *   - Carbon costs (system-wide total)
 * ---------------------------------------------------------
 
+* Investment-related costs
 pCostZone(z, "Annualized capex: $m", y) =
   vAnnCapex.l(z, y) / 1e6;
 
+pCostZone(z, "Transmission additions: $m", y) =
+  vAnnualizedTransmissionCapex.l(z, y) / 1e6;
+
+* Operation-related costs
 pCostZone(z, "Fixed O&M: $m", y) =
   vYearlyFOMCost.l(z, y) / 1e6;
 
@@ -545,14 +550,19 @@ pCostZone(z, "Variable O&M: $m", y) =
 pCostZone(z, "Fuel costs: $m", y) =
   vYearlyFuelCost.l(z, y) / 1e6;
 
-pCostZone(z, "Transmission additions: $m", y) =
-  vAnnualizedTransmissionCapex.l(z, y) / 1e6;
-
-pCostZone(z, "Spinning reserve costs: $m", y) =
-  vYearlySpinningReserveCost.l(z, y) / 1e6;
-
+* System balancing costs
 pCostZone(z, "Unmet demand costs: $m", y) =
   vYearlyUSECost.l(z, y) / 1e6;
+
+pCostZone(z, "Excess generation: $m", y) =
+  vYearlySurplus.l(z, y) / 1e6;
+
+pCostZone(z, "VRE curtailment: $m", y) =
+  vYearlyCurtailmentCost.l(z, y) / 1e6;
+
+* Reserve-related costs
+pCostZone(z, "Spinning reserve costs: $m", y) =
+  vYearlySpinningReserveCost.l(z, y) / 1e6;
 
 pCostZone(z, "Unmet country spinning reserve costs: $m", y) =
   sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
@@ -564,32 +574,25 @@ pCostZone(z, "Unmet country planning reserve costs: $m", y) =
     vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
   ) / 1e6;
 
-pCostZone(z, "Unmet country CO2 backstop cost: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
-  ) / 1e6;
-
 pCostZone(z, "Unmet system planning reserve costs: $m", y) =
   vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
 
 pCostZone(z, "Unmet system spinning reserve costs: $m", y) =
   vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
 
+* Carbon-related costs
+pCostZone(z, "Carbon cost: $m", y) =
+  vYearlyCarbonCost.l(z, y) / 1e6;
+
+pCostZone(z, "Unmet country CO2 backstop cost: $m", y) =
+  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
+    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  ) / 1e6;
+
 pCostZone(z, "Unmet system CO2 backstop cost: $m", y) =
   vYearlyCO2BackstopCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
 
-pCostZone(z, "Excess generation: $m", y) =
-  vYearlySurplus.l(z, y) / 1e6;
-
-pCostZone(z, "VRE curtailment: $m", y) =
-  vYearlyCurtailmentCost.l(z, y) / 1e6;
-
-pCostZone(z, "Import costs with external zones: $m", y) =
-  vYearlyImportExternalCost.l(z, y) / 1e6;
-
-pCostZone(z, "Export revenues with external zones: $m", y) =
-  -vYearlyExportExternalCost.l(z, y) / 1e6;
-
+* Trade-related costs
 pCostZone(z, "Import costs with internal zones: $m", y) =
   pImportCostsInternal(z, y) / 1e6;
 
@@ -599,9 +602,12 @@ pCostZone(z, "Export revenues with internal zones: $m", y) =
 pCostZone(z, "Trade shared benefits: $m", y) =
   pTradeSharedBenefits(z, y) / 1e6;
 
-pCostZone(z, "Total cost: $m", y) =
-  vYearlyCarbonCost.l(z, y) / 1e6;
+pCostZone(z, "Import costs with external zones: $m", y) =
+  vYearlyImportExternalCost.l(z, y) / 1e6;
 
+pCostZone(z, "Export revenues with external zones: $m", y) =
+  -vYearlyExportExternalCost.l(z, y) / 1e6;
+* ---------------------------------------------------------
 
 * Cost by country and year 
 pCostCountry(c,sumhdr,y) = sum(z$(zcmap(z,c)), pCostZone(z,sumhdr,y));                                        
