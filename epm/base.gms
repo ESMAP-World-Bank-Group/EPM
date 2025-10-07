@@ -306,7 +306,7 @@ Equations
    eYearlyUnmetPlanningReserveCostCountry(c,y)              'country unmet planning reserve cost'
    eYearlyUnmetPlanningReserveCostSystem(y)              'system unmet planning reserve cost'
    eYearlyUnmetSpinningReserveCostSystem(y)              'system unmet spinning reserve'
-   eYearlyCO2BackstopCostSystem(y)              'system CO2 backstop cost'
+   eYearlyCO2BackstopCostsSystem(y)              'system CO2 backstop cost'
 
    eTotalAnnualizedCapex(z,y)           'Total annualized capex for all generators in year y'
    eAnnualizedCapexInit(g,y)                  'Annualized capex'
@@ -425,7 +425,7 @@ eYearlyUnmetPlanningReserveCostSystem(y)..
 eYearlyUnmetSpinningReserveCostSystem(y)..
    vYearlyUnmetSpinningReserveCostSystem(y) =e= sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 
-eYearlyCO2BackstopCostSystem(y)..
+eYearlyCO2BackstopCostsSystem(y)..
    vYearlyCO2BackstopCostSystem(y) =e= vYearlySysCO2backstop(y)*pCostOfCO2backstop;
 
 * Note capex is full capex in $m per MW. Also note VarCost includes fuel cost and VOM -
@@ -869,7 +869,7 @@ Model PA /
    eNPVCost
    eYearlyUnmetPlanningReserveCostSystem
    eYearlyUnmetSpinningReserveCostSystem
-   eYearlyCO2BackstopCostSystem
+   eYearlyCO2BackstopCostsSystem
    eYearlyTotalCost
    eAnnualizedCapexUpdate
    eAnnualizedCapexInit

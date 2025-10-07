@@ -798,6 +798,29 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
 def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios=None):
     # TODO: ongoing work
+    def keep_max_direction(df):
+        # Make sure zone names are consistent strings
+        df_grouped = df.copy()
+        df_grouped['zone'] = df_grouped['zone'].astype(str)
+        df_grouped['z2'] = df_grouped['z2'].astype(str)
+
+        # Create a canonical pair identifier (sorted zones)
+        df_grouped['zone_pair'] = df_grouped.apply(lambda row: tuple(sorted([row['zone'], row['z2']])), axis=1)
+
+        df_grouped = df_grouped.sort_values('value', ascending=False)
+        # Group by scenario, year, and zone_pair
+        # df_grouped = df_grouped.sort_values('value', ascending=False).groupby(['scenario', 'year', 'zone_pair'], as_index=False)['value'].sum()
+        df_sum = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False)['value'].sum()
+
+        df_grouped = df_grouped.groupby(['scenario', 'year', 'zone_pair'], as_index=False).first()  # this line is used to keep the direction corresponding to the maximum utilization
+
+        df_sum = df_sum.merge(df_grouped[['scenario', 'year', 'zone_pair', 'zone', 'z2']], on=['scenario', 'year', 'zone_pair'], how='left')
+        # Drop the helper column
+        df_sum = df_sum.drop(columns='zone_pair')
+
+        return df_sum
+
+    
     if selected_scenarios is None:
         selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
 
