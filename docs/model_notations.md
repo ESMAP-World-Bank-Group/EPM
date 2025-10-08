@@ -1,81 +1,80 @@
-
 # Notations
 
 ## Indices and Sets
 
-| Indices    | Set |
-| --- | --- |
-| $c \in C$   | where $C$ is the set of countries |
-| $d \in D$     | where $D$ is the set of types of days or weeks |
-| $f \in F$    | where $F$ is the set of fuels |
-| $g \in G$     | where $G$ is the set of generators that can be built or the set of technology-specific types of aggregated generators |
-| $q \in Q$    | where $Q$ is the set of seasons or quarters |
-| $h \in H$    | where $H$ is the set of electrolyzers that can be built |
-| $y \in Y$   | where $Y$ is the set of years considered in the planning model |
-| $z, z_2 \in Z$    | where $Z$ is the set of zones/regions modeled |
-| $sc \in S$   | where $S$ is the set of flags and penalties used to include/exclude certain features of the model |
-| **Subsets considered** |     |
-| $EN, NG \in G$    | where $EG$ and $NG$ is a partition of set $G$ and the former (EG) contains generators existing at the starting year of the planning horizon and the latter contains candidate generators<sup><sup>[\[1\]](#footnote-2)</sup></sup> |
-| $DC, NDC \in G$    | where $DC$ and $NDC$ are partitions of set $G$ separating generators with a CAPEX cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances. |
-| $EH, NH \in H$    | where $EH$ and $NH$ is a partition of $H$ set and the former ($HG$) contains electrolyzers existing at the starting year of the planning horizon and the latter contains candidate electrolyzers<sup><sup>[\[2\]](#footnote-3)</sup></sup> |
-| $DH, NDH \in H$    | where $DH$ and $NDH$ are partitions of set H separating electrolyzers with a CAPEX cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances. |
-| $so \in G$    | PV unit linked to a storage unit as a partition of set $G$ (this is the PV part of PV linked with storage) |
-| $stp \in st$    | Storage unit linked to a PV plant as a partition of set $G$ (this is the storage part of PV linked with storage) |
-| $MD \in D$    | where $MD$ is a subset of days the planner expects the minimum load levels to be binding |
-| $RE \in F$    | where $F$ is a subset of set considered as renewable according to regulator's criteria<sup><sup>[\[3\]](#footnote-4)</sup></sup> |
-| $RG \in G$    | Subset of renewable generators |
-| $map_{c,z}$    | includes the subset of zones that correspond to each country |
-| $map_{g,f}$   | includes valid combinations of fuels and generators; subset of the set $G x F$ |
-| $map_{eg,ef}$    | includes combinations of existing and candidate generators; subset of set $EG x NG$ |
-| $map_{g,z}$    | includes the subset of generators that correspond to each zone |
-| $map_{h,z}$    | includes the subset of electrolyzers that correspond to each zone |
+| Indices                | Set                                                                                                                                                                                                                                                                                                                                        |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| $c \in C$              | where $C$ is the set of countries                                                                                                                                                                                                                                                                                                          |
+| $d \in D$              | where $D$ is the set of types of days or weeks                                                                                                                                                                                                                                                                                             |
+| $f \in F$              | where $F$ is the set of fuels                                                                                                                                                                                                                                                                                                              |
+| $g \in G$              | where $G$ is the set of generators that can be built or the set of technology-specific types of aggregated generators                                                                                                                                                                                                                      |
+| $q \in Q$              | where $Q$ is the set of seasons or quarters                                                                                                                                                                                                                                                                                                |
+| $h \in H$              | where $H$ is the set of electrolyzers that can be built                                                                                                                                                                                                                                                                                    |
+| $y \in Y$              | where $Y$ is the set of years considered in the planning model                                                                                                                                                                                                                                                                             |
+| $z, z_2 \in Z$         | where $Z$ is the set of zones/regions modeled                                                                                                                                                                                                                                                                                              |
+| $sc \in S$             | where $S$ is the set of flags and penalties used to include/exclude certain features of the model                                                                                                                                                                                                                                          |
+| **Subsets considered** |                                                                                                                                                                                                                                                                                                                                            |
+| $EN, NG \in G$         | where $EG$ and $NG$ is a partition of set $G$ and the former (EG) contains generators existing at the starting year of the planning horizon and the latter contains candidate generators<sup><sup>[\[1\]](#footnote-2)</sup></sup>                                                                                                         |
+| $DC, NDC \in G$        | where $DC$ and $NDC$ are partitions of set $G$ separating generators with a CAPEX cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.     |
+| $EH, NH \in H$         | where $EH$ and $NH$ is a partition of $H$ set and the former ($HG$) contains electrolyzers existing at the starting year of the planning horizon and the latter contains candidate electrolyzers<sup><sup>[\[2\]](#footnote-3)</sup></sup>                                                                                                 |
+| $DH, NDH \in H$        | where $DH$ and $NDH$ are partitions of set H separating electrolyzers with a CAPEX cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances. |
+| $so \in G$             | PV unit linked to a storage unit as a partition of set $G$ (this is the PV part of PV linked with storage)                                                                                                                                                                                                                                 |
+| $stp \in st$           | Storage unit linked to a PV plant as a partition of set $G$ (this is the storage part of PV linked with storage)                                                                                                                                                                                                                           |
+| $MD \in D$             | where $MD$ is a subset of days the planner expects the minimum load levels to be binding                                                                                                                                                                                                                                                   |
+| $RE \in F$             | where $F$ is a subset of set considered as renewable according to regulator's criteria<sup><sup>[\[3\]](#footnote-4)</sup></sup>                                                                                                                                                                                                           |
+| $RG \in G$             | Subset of renewable generators                                                                                                                                                                                                                                                                                                             |
+| $map_{c,z}$            | includes the subset of zones that correspond to each country                                                                                                                                                                                                                                                                               |
+| $map_{g,f}$            | includes valid combinations of fuels and generators; subset of the set $G x F$                                                                                                                                                                                                                                                             |
+| $map_{eg,ef}$          | includes combinations of existing and candidate generators; subset of set $EG x NG$                                                                                                                                                                                                                                                        |
+| $map_{g,z}$            | includes the subset of generators that correspond to each zone                                                                                                                                                                                                                                                                             |
+| $map_{h,z}$            | includes the subset of electrolyzers that correspond to each zone                                                                                                                                                                                                                                                                          |
 
 ### Variables
 
-| **Non-negative decision variables** |     |
-| ---  | --- |
-| $𝐴𝑑𝑑𝑖𝑡𝑖𝑜𝑛𝑎𝑙𝑇𝑟𝑎𝑛𝑠𝑓𝑒𝑟_{𝑧,𝑧2,𝑦}$    | Additional number of lines between z and z2 in year y |
-| $𝑏𝑢𝑖𝑙𝑑_{g,y}$   | Generator investment in MW |
-| $𝑏𝑢𝑖𝑙𝑑𝐻2_{h,y}$    | Electrolyzer investment in MW |
-| $𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟_{g,y}$    | Integer variable to model discrete unit capacity |
-| $𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟𝐻2_{h,y}$    | Integer variable to model discrete unit capacity |
-| $𝑏𝑢𝑖𝑙𝑡𝑇𝑟𝑎𝑛𝑠𝑚𝑖𝑠𝑠𝑖𝑜𝑛_{z,z2,y}$    | Integer variable to model number of new transmission lines added between z and z2 in year y |
-| $𝑐𝑎𝑝_{g,y}$    | Generator capacity available at year in MW |
-| $𝑐𝑎𝑝𝐻2_{h,y}$    | Electrolyzer capacity available at year in MW |
-| $𝐶𝑂2𝑏𝑎𝑐𝑘𝑠𝑡𝑜𝑝_{c,y}$    | Annual country CO2 emissions above the system emissions constraint cap |
-| $𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠_{z,y}$    | Total system emissions of carbon dioxide in tons |
-| $𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠_𝑍𝑜_{z,y}$    | Emissions of carbon dioxide in tons per zone |
-| $𝑒𝑥𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒_{z,q,d,t,y}$    | External price driven export in MW |
-| $𝑓𝑢𝑒𝑙𝐻2𝑄𝑢𝑎𝑟𝑡𝑒𝑟_{z,q,y}$    | Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in (MMBTU per quarter and year) |
-| $𝑓𝑢𝑒𝑙𝐻2_{z,q,y}$    | Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in (MMBTU per year) |
-| $𝑓𝑢𝑒𝑙_{z,f,y}$    | Fuel consumption in MMBTU |
-| $𝑔𝑒𝑛_{g,f,q,d,t,y}$    | Generator output in MW |
-| $𝑔𝑒𝑛𝐶𝑆𝑃_{g,z,q,d,t,y}$    | Power output of the solar panel in MW |
-| $𝑖𝑚𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒_{z,q,d,t,y}$    | External price driven import in MW |
-| $𝐻2𝑃𝑤𝑟𝐼𝑛_{h,q,d,t,y}$    | Power drawn by electrolyzer h in MW |
-| $𝑟𝑒𝑡𝑖𝑟𝑒_{g,y}$    | Capacity in MW retired |
-| $𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟_{g,y}$    | Supplementary integer variable to model discrete unit capacity |
-| $𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟𝐻2_{h,y}$    | Supplementary integer variable to model discrete unit capacity |
-| $𝑟𝑒𝑠𝑒𝑟𝑣𝑒_{g,q,d,t,y}$    | Spinning reserve requirement met in MW |
-| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒_{st,q,d,t,y}$    | Level of energy in MWh stored in storage unit |
-| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑖𝑛𝑗_{st,q,d,t,y}$    | Power injected in MW in storage unit is charged during hour |
-| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑐𝑎𝑝𝑎𝑐𝑖𝑡𝑦_{st,q,d,t,y}$    | Total deployed energy storage capacity in MWh for storage unit |
-| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃_{g,z,q,d,t,y}$    | Level of energy in MWh stored in CSP unit at zone |
-| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑖𝑛𝑗_{g,z,q,d,t,y}$    | Power level in MW at which the CSP storage unit is charged during hour |
-| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑜𝑢𝑡_{g,z,q,d,t,y}$    | Power level in MW at which the CSP storage unit is discharged during hour |
-| $𝑠𝑢𝑟𝑝𝑙𝑢𝑠_{z,q,d,t,y}$    | Surplus generation in MW |
-| $𝑢𝑛𝑚𝑒𝑡𝐷𝑒𝑚_{z,q,d,t,y}$    | Annual system CO2 emissions above the system emissions constraint cap |
-| $𝑢𝑛𝑚𝑒𝑡𝐻2𝐸𝑥𝑡𝑒𝑟𝑛𝑎𝑙_{z,q,y}$    | Active power in MW flowing from to |
-| $𝑢𝑛𝑚𝑒𝑡𝑅𝑒𝑠_{z,y}$    | Unmet demand in MW (or equivalently violation of the load balance constraint) |
-| $𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑍𝑜_{z,q,d,t,y}$    | Unmet quantity of hydrogen in MW (or equivalently violation of the external demand for hydrogen balance constraint) |
-| $𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑆𝑌_{q,d,t,y}$    | Violation of the planning reserve constraint in MW |
-| $unmetSResZo$    | Violation of the zonal/regional spinning reserve constraint in MW |
-| $unmetSResSY$    | Violation of the system-level spinning reserve constraint in MW |
+| **Non-negative decision variables** |                                                                                                                                                        |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| $𝐴𝑑𝑑𝑖𝑡𝑖𝑜𝑛𝑎𝑙𝑇𝑟𝑎𝑛𝑠𝑓𝑒𝑟_{𝑧,𝑧2,𝑦}$       | Additional number of lines between z and z2 in year y                                                                                                  |
+| $𝑏𝑢𝑖𝑙𝑑_{g,y}$                       | Generator investment in MW                                                                                                                             |
+| $𝑏𝑢𝑖𝑙𝑑𝐻2_{h,y}$                     | Electrolyzer investment in MW                                                                                                                          |
+| $𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟_{g,y}$                 | Integer variable to model discrete unit capacity                                                                                                       |
+| $𝑏𝑢𝑖𝑙𝑡𝐶𝑎𝑝𝑉𝑎𝑟𝐻2_{h,y}$               | Integer variable to model discrete unit capacity                                                                                                       |
+| $𝑏𝑢𝑖𝑙𝑡𝑇𝑟𝑎𝑛𝑠𝑚𝑖𝑠𝑠𝑖𝑜𝑛_{z,z2,y}$        | Integer variable to model number of new transmission lines added between z and z2 in year y                                                            |
+| $𝑐𝑎𝑝_{g,y}$                         | Generator capacity available at year in MW                                                                                                             |
+| $𝑐𝑎𝑝𝐻2_{h,y}$                       | Electrolyzer capacity available at year in MW                                                                                                          |
+| $𝐶𝑂2𝑏𝑎𝑐𝑘𝑠𝑡𝑜𝑝_{c,y}$                 | Annual country CO2 emissions above the system emissions constraint cap                                                                                 |
+| $𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠_{z,y}$                   | Total system emissions of carbon dioxide in tons                                                                                                       |
+| $𝑒𝑚𝑖𝑠𝑠𝑖𝑜𝑛𝑠_𝑍𝑜_{z,y}$                | Emissions of carbon dioxide in tons per zone                                                                                                           |
+| $𝑒𝑥𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒_{z,q,d,t,y}$           | External price driven export in MW                                                                                                                     |
+| $𝑓𝑢𝑒𝑙𝐻2𝑄𝑢𝑎𝑟𝑡𝑒𝑟_{z,q,y}$             | Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in (MMBTU per quarter and year) |
+| $𝑓𝑢𝑒𝑙𝐻2_{z,q,y}$                    | Hydrogen fuel consumption for electricity production hydrogen produced intended for re-circulation in the power sector in (MMBTU per year)             |
+| $𝑓𝑢𝑒𝑙_{z,f,y}$                      | Fuel consumption in MMBTU                                                                                                                              |
+| $𝑔𝑒𝑛_{g,f,q,d,t,y}$                 | Generator output in MW                                                                                                                                 |
+| $𝑔𝑒𝑛𝐶𝑆𝑃_{g,z,q,d,t,y}$              | Power output of the solar panel in MW                                                                                                                  |
+| $𝑖𝑚𝑝𝑜𝑟𝑡𝑃𝑟𝑖𝑐𝑒_{z,q,d,t,y}$           | External price driven import in MW                                                                                                                     |
+| $𝐻2𝑃𝑤𝑟𝐼𝑛_{h,q,d,t,y}$               | Power drawn by electrolyzer h in MW                                                                                                                    |
+| $𝑟𝑒𝑡𝑖𝑟𝑒_{g,y}$                      | Capacity in MW retired                                                                                                                                 |
+| $𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟_{g,y}$                | Supplementary integer variable to model discrete unit capacity                                                                                         |
+| $𝑟𝑒𝑡𝑖𝑟𝑒𝐶𝑎𝑝𝑉𝑎𝑟𝐻2_{h,y}$              | Supplementary integer variable to model discrete unit capacity                                                                                         |
+| $𝑟𝑒𝑠𝑒𝑟𝑣𝑒_{g,q,d,t,y}$               | Spinning reserve requirement met in MW                                                                                                                 |
+| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒_{st,q,d,t,y}$              | Level of energy in MWh stored in storage unit                                                                                                          |
+| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑖𝑛𝑗_{st,q,d,t,y}$          | Power injected in MW in storage unit is charged during hour                                                                                            |
+| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒_𝑐𝑎𝑝𝑎𝑐𝑖𝑡𝑦_{st,q,d,t,y}$     | Total deployed energy storage capacity in MWh for storage unit                                                                                         |
+| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃_{g,z,q,d,t,y}$          | Level of energy in MWh stored in CSP unit at zone                                                                                                      |
+| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑖𝑛𝑗_{g,z,q,d,t,y}$       | Power level in MW at which the CSP storage unit is charged during hour                                                                                 |
+| $𝑠𝑡𝑜𝑟𝑎𝑔𝑒𝐶𝑆𝑃𝑜𝑢𝑡_{g,z,q,d,t,y}$       | Power level in MW at which the CSP storage unit is discharged during hour                                                                              |
+| $𝑠𝑢𝑟𝑝𝑙𝑢𝑠_{z,q,d,t,y}$               | Surplus generation in MW                                                                                                                               |
+| $𝑢𝑛𝑚𝑒𝑡𝐷𝑒𝑚_{z,q,d,t,y}$              | Annual system CO2 emissions above the system emissions constraint cap                                                                                  |
+| $𝑢𝑛𝑚𝑒𝑡𝐻2𝐸𝑥𝑡𝑒𝑟𝑛𝑎𝑙_{z,q,y}$           | Active power in MW flowing from to                                                                                                                     |
+| $𝑢𝑛𝑚𝑒𝑡𝑅𝑒𝑠_{z,y}$                    | Unmet demand in MW (or equivalently violation of the load balance constraint)                                                                          |
+| $𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑍𝑜_{z,q,d,t,y}$           | Unmet quantity of hydrogen in MW (or equivalently violation of the external demand for hydrogen balance constraint)                                    |
+| $𝑢𝑛𝑚𝑒𝑡𝑆𝑅𝑒𝑠𝑆𝑌_{q,d,t,y}$             | Violation of the planning reserve constraint in MW                                                                                                     |
+| $unmetSResZo$                       | Violation of the zonal/regional spinning reserve constraint in MW                                                                                      |
+| $unmetSResSY$                       | Violation of the system-level spinning reserve constraint in MW                                                                                        |
 
-| **Variables for modeling objective function** |     |
-| --- | --- |
-| $npvcost = \sum_{z,y} ReturnRate_y \cdot WeightYear_y \cdot totalcost_{z,y}$ | Net present value of power system cost over the whole planning horizon; objective function that optimization model tries to minimize |
-| $totalcost_{z,y} = fixedcost_{z,y} + variablecost_{z,y} + reservecost_{z,y} + usecost_{z,y} + usrcost_{z,y} + carboncost_{z,y} + CO2backCost_y + TradeCost_{z,y} + CostTransmissionAdditions_{z1,z2,y} + CurtailmentCost_{z,y} + SurplusCost_{z,y} + usrcostH2_{z,y}$ | Annual system cost in constant prices |
+| **Variables for modeling objective function**                                                                                                                                                                                                                         |                                                                                                                                      |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| $npvcost = \sum_{z,y} ReturnRate_y \cdot WeightYear_y \cdot totalcost_{z,y}$                                                                                                                                                                                          | Net present value of power system cost over the whole planning horizon; objective function that optimization model tries to minimize |
+| $totalcost_{z,y} = fixedcost_{z,y} + variablecost_{z,y} + reservecost_{z,y} + usecost_{z,y} + usrcost_{z,y} + carboncost_{z,y} + CO2backCost_y + TradeCost_{z,y} + CostTransmissionAdditions_{z1,z2,y} + CurtailmentCost_{z,y} + SurplusCost_{z,y} + usrcostH2_{z,y}$ | Annual system cost in constant prices                                                                                                |
 
 ## Model formulation
 
@@ -130,7 +129,7 @@ $$
 Costs associated with unmet demand:
 
 $$
-\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VOLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
+\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VoLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
 $$
 
 Costs for unmet reserve requirements:
@@ -518,7 +517,7 @@ $$
 Fuel consumption calculation.
 
 $$
-\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{MaxCapital}
+\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{sMaxCapitalInvestment}
 $$
 
 Capital investment constraint.

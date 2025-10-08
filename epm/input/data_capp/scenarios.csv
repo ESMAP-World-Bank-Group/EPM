@@ -1,6 +1,6 @@
-paramNames,NoTransferLimit,NoInterconnection,NoTransmissionExpansion
+paramNames,fRemoveInternalTransferLimitit,NoInterconnection,NoTransmissionExpansion
 SETTINGS,,,
-pSettings,pSettings_NoTransferLimit.csv,pSettings_NoInterconnection.csv,pSettings_NoTransmissionExpansion.csv
+pSettings,pSettings_fRemoveInternalTransferLimitit.csv,pSettings_NoInterconnection.csv,pSettings_NoTransmissionExpansion.csv
 y,,,
 zcmap,,,
 pHours,,,

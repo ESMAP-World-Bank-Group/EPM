@@ -144,7 +144,11 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios)
         grouping_columns = [col for col in df_system.columns if col not in {'value', 'zone'}]
 
         if grouping_columns:
-            df_system = df_system.groupby(grouping_columns, as_index=False)['value'].sum()
+            df_system = df_system.groupby(
+                grouping_columns,
+                as_index=False,
+                observed=False
+            )['value'].sum()
         else:
             df_system = pd.DataFrame({'value': [df_system['value'].sum()]})
 
@@ -769,14 +773,14 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                         # Tranform in stacked bat plot
                         make_annotated_stacked_area_plot(df_zone, filename, dict_colors=dict_specs['colors'])
                 
+            # 1.5 Capex investment figures
             
             # ------------------------------------------------------------------------------------
             # 2. Cost figures
             # ------------------------------------------------------------------------------------
 
             print('Generating cost figures...')
-            
-            
+             
             # 2.0 Total system cost
             if len(selected_scenarios) < scenarios_threshold:
                 df = epm_results['pCostsSystem'].copy()
@@ -872,7 +876,6 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 title='Incremental Annual Cost vs. Baseline (million USD)', 
                                                 show_total=True)
                         
-
             # 2.2 Evolution of capacity mix per zone
             # Capacity mix in percentage by fuel by zone
             figure_name = 'CostBreakdownEvolutionZone'
@@ -940,7 +943,6 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                             annotate=False,
                                             title=f'Cost Composition by Zone in {year} (million USD)')
             
-
             # ------------------------------------------------------------------------------------
             # 3. Energy figures
             # ------------------------------------------------------------------------------------
@@ -960,8 +962,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             df_exchange['value'] = df_exchange.apply(lambda row: -row['value'] if row['attribute'] == 'Exports' else row['value'], axis=1)
             df_exchange.rename(columns={'attribute': 'fuel'}, inplace=True)
             # Define energyfuelfull to include exchange
-            df_energyfuelfull = pd.concat([df_energyfuel, df_exchange], ignore_index=True)
-                      
+            df_energyfuelfull = pd.concat([df_energyfuel, df_exchange], ignore_index=True)         
             
             # 3.1 Evolution of capacity mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
@@ -1001,7 +1002,6 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 annotate=True,
                                                 title='Incremental Energy Mix vs Baseline (GWh)', show_total=True)
                         
-
             # 3.2 Evolution of capacity mix per zone
             figure_name = 'EnergyMixEvolutionZone'
             if FIGURES_ACTIVATED.get(figure_name, False):
@@ -1169,19 +1169,22 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                 valuecolumn='value'
                             )
                             
-            if plot_dispatch and False:
+            if plot_dispatch:
                 print('Generating dispatch figures...')
                 # Perform automatic Energy DispatchFigures
                 make_automatic_dispatch(epm_results, dict_specs, subfolders['5_dispatch'],
                                         selected_scenarios=selected_scenarios)
             
             # ---------------------Scenario-specific interactive maps----------------
+            
             if 'pAnnualTransmissionCapacity' in epm_results.keys():
-                print('Generating interactive map figures...')
-                if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  # we have multiple zones
-                    selected_scenarios = [s for s in selected_scenarios if 'baseline' in s]
+                
+                # Check if multiple zone
+                if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  
+
+                    print('Generating interactive map figures...')
                     make_automatic_map(epm_results, dict_specs, subfolders['6_maps'],
-                                    selected_scenarios=selected_scenarios)
+                                    selected_scenarios=['baseline'])
 
 
 

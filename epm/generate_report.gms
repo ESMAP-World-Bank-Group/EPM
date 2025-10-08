@@ -317,7 +317,7 @@ pRetirementsFuel(z, f, y) =
 *   - Equals existing maximum transfer limit plus any new additions
 * ---------------------------------------------------------
 
-pAdditionalCapacity(sTopology(z,z2),y) = vNewTransferCapacity.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;                                                                                                        
+pAdditionalCapacity(sTopology(z,z2),y) = vNewTransferCapacity.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
 pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
 * ---------------------------------------------------------
@@ -364,7 +364,7 @@ pRetirementsCountry(c, y) =
 
 pCapacitySummary(z,"Available capacity: MW",y) = sum(gzmap(g,z), vCap.l(g,y));
 pCapacitySummary(z,"Peak demand: MW"       ,y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
-pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2+1e-6;
+pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$pfEnableH2Production+1e-6;
 pCapacitySummary(z,"New capacity: MW"      ,y) = sum(gzmap(g,z), vBuild.l(g,y));
 pCapacitySummary(z,"Retired capacity: MW"  ,y) = sum(gzmap(g,z), vRetire.l(g,y));
 pCapacitySummary(z,"Committed Total TX capacity: MW"  ,y) = sum((z2,q), pTransferLimit(z,z2,q,y)/card(q));
@@ -376,7 +376,7 @@ pCapacitySummaryCountry(c,"Retired capacity: MW"  ,y) = sum(zcmap(z,c), pCapacit
 pCapacitySummaryCountry(c,"Committed Total TX capacity: MW",y) = sum(zcmap(z,c), pCapacitySummary(z,"Committed Total TX capacity: MW",y));
 
 * H2 model additions
-pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pIncludeH2+1e-6;
+pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
 
 * ============================================================
 * 2. COSTS
@@ -432,7 +432,7 @@ pCapexInvestment(z, y) =
   )
   + 1e6 * sum(h2zmap(hh, z),
     vBuildH2.l(hh, y) * pH2Data(hh, "Capex") * pCapexTrajectoriesH2(hh, y)
-  ) $ pIncludeH2
+  ) $ pfEnableH2Production
   + 1e-6;
 
 
@@ -637,7 +637,7 @@ pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pYearlyCostsCountry(c,su
 *     Directly taken from optimization variable vNPVCost
 * ---------------------------------------------------------
 
-pYearlyCostsSystem(sumhdr, y) = sum(z, pYearlyCostsZone(z, sumhdr, y))
+pYearlyCostsSystem(sumhdr, y) = sum(z, pYearlyCostsZone(z, sumhdr, y));
 
 * pCostsSystem(sumhdr) = sum((y,z), pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
 pCostsSystem(sumhdr) = sum(z, pCostsZone(z,sumhdr));
@@ -745,7 +745,7 @@ pEnergyBalance(z, "Demand: GWh", y) =
   sum((q, d, t), pDemandData(z, q, d, y, t) * pHours(q, d, t) * pEnergyEfficiencyFactor(z, y)) / 1e3;
 
 pEnergyBalance(z, "Demand H2: GWh", y) =
-  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (pIncludeH2 + 1e-6);
+  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (pfEnableH2Production + 1e-6);
 
 pEnergyBalance(z, "Total Demand: GWh", y) =
   pEnergyBalance(z, "Demand: GWh", y) + pEnergyBalance(z, "Demand H2: GWh", y);
@@ -777,11 +777,11 @@ pEnergyBalanceCountry(c,dshdr,y) = sum(z$(zcmap(z,c)), pEnergyBalance(z,dshdr,y)
 
 
 *--- H2 Demand-Supply Balance
-pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pIncludeH2+1e-6; 
-pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
-pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pIncludeH2+1e-6;
-pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pIncludeH2+1e-6;
-pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pIncludeH2+1e-6;
+pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pfEnableH2Production+1e-6; 
+pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pfEnableH2Production+1e-6;
 
 pEnergyBalanceCountryH2(c,dsH2hdr,y) = sum(z$(zcmap(z,c)), pEnergyBalanceH2(z,dsH2hdr,y));
 
@@ -858,7 +858,7 @@ pInterconUtilization(sTopology(z, z2), y)$pInterchange(z, z2, y) =
      + vNewTransferCapacity.l(z, z2, y)
        * max(pNewTransmission(z, z2, "CapacityPerLine"),
          pNewTransmission(z2, z, "CapacityPerLine"))
-       * pAllowHighTransfer)
+       * fAllowTransferExpansion)
     * pHours(q, d, t)
     );
 
@@ -889,7 +889,7 @@ isCongested(z, z2, q, d, t, y)$(
       + vNewTransferCapacity.l(z, z2, y)
         * max(pNewTransmission(z, z2, "CapacityPerLine"),
           pNewTransmission(z2, z, "CapacityPerLine"))
-        * pAllowHighTransfer
+        * fAllowTransferExpansion
       )
     ) < 1e-5
 ) = 1;

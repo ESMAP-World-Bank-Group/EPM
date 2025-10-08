@@ -39,8 +39,8 @@ db = gt.Container(gams.db)
 try:
     if db["pSettings"].records is not None:
         settings_df = db["pSettings"].records
-        list_required_values = ['VOLL', 'ReserveVoLL', 'SpinReserveVoLL', 'WACC', 'DR']
-        list_warning_values = ['interco_reserve_contribution', 'includeIntercoReserves']
+        list_required_values = ['VoLL', 'ReserveVoLL', 'SpinReserveVoLL', 'WACC', 'DR']
+        list_warning_values = ['sIntercoReserveContributionPct', 'fCountIntercoForReserves']
         list_missing = []
         list_zero_values = []
         for e in list_required_values:
@@ -343,8 +343,8 @@ except Exception as e:
 try:
     if db["pSettings"].records is not None:
         settings_df = db["pSettings"].records
-        if 'interconMode' in settings_df.set_index('pSettingsHeader').index:
-            if settings_df.set_index('pSettingsHeader').loc['interconMode'].values[0]:  # running in interconnected mode
+        if "fEnableInternalExchange" in settings_df.set_index('pSettingsHeader').index:
+            if settings_df.set_index('pSettingsHeader').loc["fEnableInternalExchange"].values[0]:  # running in interconnected mode
                 if db["pLossFactor"].records is not None:
                     loss_factor_df = db["pLossFactor"].records
                     topology_lossfactor = loss_factor_df.set_index(['z', 'z2']).index.unique()
@@ -500,8 +500,8 @@ except Exception as e:
 try:
     if db["pSettings"].records is not None:
         pSettings = db["pSettings"].records
-        allowExports = pSettings.loc[pSettings.pSettingsHeader == 'allowExports']
-        if not allowExports.empty:  # we authorize exchanges with external zones
+        fAllowTransferExpansion = pSettings.loc[pSettings.pSettingsHeader == 'fAllowTransferExpansion']
+        if not fAllowTransferExpansion.empty:  # we authorize exchanges with external zones
             if db["pExtTransferLimit"].records is None:
                 gams.printLog("Warning: exchanges with external zones are allowed, but imports and exports capacities are not specified.")
 except Exception as e:

@@ -105,19 +105,16 @@ Parameter
    pAllHours(q,d,y,t)                  'System peak hours'
    pFindSysPeak(y)                     'System peak by year'
    pSeasonalReporting                  'Seasonal reporting flag'
-   pSystemResultReporting              'System reporting flag'
-   pInterConMode                       'Interconnection mode flag'
-   pNoTransferLim                      'Transfer limit flag'
-   pAllowExports                       'Export permission flag'
-   pVRECapacityCredits                 'VRE capacity credits'
+   fEnableInternalExchange                       'Interconnection mode flag'
+   fRemoveInternalTransferLimit                      'Transfer limit flag'
+   fAllowTransferExpansion                       'Export permission flag'
    pDR                                 'Discount rate'
-   pCaptraj                           'CAPEX trajectory flag'
-   pIncludeEE                         'Energy efficiency flag'
-   pSystem_CO2_constraints            'System CO2 constraint flag'
+   fEnableCapexTrajectoryH2                           'CAPEX trajectory flag'
+   pfEnableEnergyEfficiency                         'Energy efficiency flag'
+   pfApplySystemCo2Constraint            'System CO2 constraint flag'
    pExtTransferLimitIn(z,zext,q,y)    'External import limits'
    pExtTransferLimitOut(z,zext,q,y)   'External export limits'
-   pMaxLoadFractionCCCalc             'Load threshold for capacity credit calc'
-   pVREForecastError                  'VRE forecast error percentage'
+   psVREForecastErrorPct                  'VRE forecast error percentage'
 ;
 
 * Technology and mapping sets
@@ -144,11 +141,11 @@ Parameters
 * Exchanges
    pMaxExchangeShare(y,c)           'Max share of exchanges by country [same limit for imports or exports for now]'
 
-   pAllowHighTransfer
-   pAllowExports                    'Allow price based exports'   
+   fAllowTransferExpansion
+   fAllowTransferExpansion                    'Allow price based exports'   
    pTradePrice(zext,q,d,y,t)        'trade price - export or import driven by prices [assuming each zone in a country can only trade with one external zone]'
-   pMaxImport                       'Maximum Hourly Imports, based on hourly country demand'   
-   pMaxExport                       'Maximum Hourly Exports, based on hourly country demand'
+   sMaxImportSharePct                       'Maximum Hourly Imports, based on hourly country demand'   
+   sMaxExportSharePct                       'Maximum Hourly Exports, based on hourly country demand'
    pExtTransferLimit(z,zext,q,*,y)  'external transfer limit'
    pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
    pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
@@ -158,11 +155,10 @@ Parameters
    pCSPProfile(g,q,d,t)             'solar profile for CSP in pu'
    pStoPVProfile(g,q,d,t)           'solar profile for Pv with Storage in pu'
    pStorData(g,pStoreDataHeader)                'Storage data'
-   pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
    
 * Reserves
    pCapacityCredit(g,y)             'Share of capacity counted towards planning reserves'
-   pVREForecastError                'Spinning reserve needs for VRE (as a share of VRE generation)'
+   psVREForecastErrorPct                'Spinning reserve needs for VRE (as a share of VRE generation)'
 * CO2
    pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
    pFuelCarbonContent(f)            'Fuel carbon content in tCO2 per MMBTu'
@@ -175,34 +171,33 @@ Parameters
    pCRFsst(g)                       'capital recovery factor storage'
    pCRFcst(g)                       'capital recovery factor CSP storage'
    pCRFcth(g)                       'capital recovery factor CSP thermal'
-   pVOLL                            'VOLL'
+   pVoLL                            'VoLL'
    pPlanningReserveVoLL             'Planning Reserve VoLL per MW'
    pSpinningReserveVoLL             'Spinning Reserve VoLL per MWh'
-   pMaxCapital                      'Capital limit in billion dollars'
+   ssMaxCapitalInvestmentInvestment                      'Capital limit in billion dollars'
    pVarCost(g,f,y)                  'Variable cost - fuel plus VOM'
    pFuelCost(g,f,y)                 'Fuel cost in USD per MMBTU'
    pVOMCost(g,f,y)
 * Control parameters
-   pramp_constraints                'Whether constraints on ramp up and down are included'
-   pfuel_constraints
-   pcapital_constraints             'Whether constraints on available capital for infrastructure are included'
-   pmingen_constraints
-   pincludeCSP
-   pincludeStorage
+   fApplyRampConstraint                'Whether constraints on ramp up and down are included'
+   fApplyFuelConstraint
+   fApplyCapitalConstraint             'Whether constraints on available capital for infrastructure are included'
+   fApplyMinGenerationConstraint
+   fEnableCSP
+   fEnableStorage
    pIncludeCarbon                   'include the cost of carbon'
    pSurplusPenalty
    pMinRE
-   pMinRETargetYr
-   pzonal_CO2_constraints
-   pSystem_CO2_constraints
-   pzonal_spinning_reserve_constraints   'Whether constraints on spinning reserves at the country level are included'
-   psystem_spinning_reserve_constraints  'Whether constraints on spinning reserves at the region level are included'
-   pplanning_reserve_constraints         'Whether constraints on planning reserves are included'
-   pinterco_reserve_contribution         'How much interconnections contribute to spinning reserve needs at the country level'
-   pIncludeIntercoReserves               'Whether transmission lines are considered when assessing planning reserve needs at the country level'
-   psystem_reserve_margin                'Share of peak demand that should be met with planning reserves'
+   pMinsRenewableTargetYear
+   fApplyCountryCo2Constraint
+   pfApplySystemCo2Constraint
+   fApplyCountrySpinReserveConstraint   'Whether constraints on spinning reserves at the country level are included'
+   pfApplySystemSpinReserveConstraint  'Whether constraints on spinning reserves at the region level are included'
+   fApplyPlanningReserveConstraint         'Whether constraints on planning reserves are included'
+   sIntercoReserveContributionPct         'How much interconnections contribute to spinning reserve needs at the country level'
+   fCountIntercoForReserves               'Whether transmission lines are considered when assessing planning reserve needs at the country level'
+   sReserveMarginPct                'Share of peak demand that should be met with planning reserves'
    pHeatrate(g,f)                   'Heatrate of fuel f in generator g'
-   pIncludeDecomCom                 'Include simultaneous commissioning'
 ;
 
 Positive Variables
@@ -359,7 +354,7 @@ Equations
 
 
 
-   eCapitalConstraint              'capital limit expressed by pMaxCapital in billion USD'
+   eCapitalConstraint              'capital limit expressed by ssMaxCapitalInvestmentInvestment in billion USD'
    eZonalEmissions(z,y)            'CO2eq emissions by zone and year in tons'
    eEmissionsCountry(c,y)          'constraint on country CO2eq emissions'
    eTotalEmissions(y)              'total regional CO2eq emissions by year in tons'
@@ -553,7 +548,7 @@ $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
 * Computes annualized investment cost of new transmission lines connected to zone z
 * using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
-eAnnualizedTransmissionCapex(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1))..
+eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z2),1))..
    vAnnualizedTransmissionCapex(z,y) =e=
        sum(sTopology(z,z2),
            vNewTransferCapacity(z,z2,y)
@@ -571,7 +566,7 @@ eDefineSupply(z,q,d,t,y)..
      sum((gzmap(g,z),gfmap(g,f)), vPwrOut(g,f,q,d,t,y))
    - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
    + sum(sTopology(z,z2), vFlow(z2,z,q,d,t,y) * (1 - pLossFactor(z,z2,y)))
-   - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(pincludeStorage)
+   - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(fEnableStorage)
    + sum(zext, vYearlyImportExternal(z,zext,q,d,t,y))
    - sum(zext, vYearlyExportExternal(z,zext,q,d,t,y))
    + vUSE(z,q,d,t,y)
@@ -596,7 +591,7 @@ eCapacityEvolutionNew(ng,y)$(not sStartYear(y))..
 eInitialBuildLimit(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
    sum(y, vBuild(eg,y)) =l= pGenData(eg,"Capacity");
 
-eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
+eMinGenRE(c,y)$(pMinRE and y.val >= pMinsRenewableTargetYear)..
    sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t)) =g=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
 
@@ -617,16 +612,16 @@ eMaxCF(g,q,y)..
 eFuel(zfmap(z,f),y)..
    vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,f));
 
-eFuelLimit(c,f,y)$(pfuel_constraints and pMaxFuelLimit(c,f,y) > 0)..
+eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
-eMinGen(g,q,d,t,y)$(pmingen_constraints and pGenData(g,"MinLimitShare") > 0)..
+eMinGen(g,q,d,t,y)$(fApplyMinGenerationConstraint and pGenData(g,"MinLimitShare") > 0)..
     sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinLimitShare") ; 
 
-eRampDnLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints)..
+eRampDnLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t-1,y)) - sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =l= vCap(g,y)*pGenData(g,"RampDnRate");
 
-eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints)..
+eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) - sum(gfmap(g,f), vPwrOut(g,f,q,d,t-1,y)) =l= vCap(g,y)*pGenData(g,"RampUpRate");
 
 * Note that we are effectively assuming grid-connected RE generation to be dispatchable. Generally speaking, most RE will be
@@ -638,173 +633,173 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
 
 *--- Reserve equations
 * Spinning reserve limit as a share of capacity
-eSpinningReserveLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+eSpinningReserveLim(g,q,d,t,y)$(fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint)..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
    
 * Spinning reserve limit for VRE as a share of capacity adjusted for production profile
-eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint)..
     vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
-eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
+eSpinningReserveReqCountry(c,q,d,t,y)$fApplyCountrySpinReserveConstraint..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
- + pinterco_reserve_contribution * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                        + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer
+ + sIntercoReserveContributionPct * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
+                                        + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion
                                         - vFlow(z2,z,q,d,t,y))
-   =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
+   =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
    
 * System spinning reserve requirement
-eSpinningReserveReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
-   sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
+eSpinningReserveReqSystem(q,d,t,y)$pfApplySystemSpinReserveConstraint..
+   sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
 
 * Planning reserve requirement at the country level
-ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningReserveMargin(c))..
+ePlanningReserveReqCountry(c,y)$(fApplyPlanningReserveConstraint and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer))$pIncludeIntercoReserves
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion))$fCountIntercoForReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 * Planning reserve requirement at the system level
-ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psystem_reserve_margin)..
+ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMarginPct)..
    sum(g, vCap(g,y)*pCapacityCredit(g,y)) + vUnmetPlanningReserveSystem(y)
-   =g= (1+psystem_reserve_margin)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
+   =g= (1+sReserveMarginPct)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
 *--- Transfer equations
 * Limits flow between zones to existing + expandable transmission capacity
 eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransferCapacity(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
+   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransferCapacity(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
 
 * Cumulative build-out of new transfer capacity over time
-eCumulativeTransferExpansion(sTopology(z,z2),y)$pAllowHighTransfer..
+eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
    vNewTransferCapacity(z,z2,y) =e=  vNewTransferCapacity(z,z2,y-1) + vBuildTransmission(z,z2,y);
 
 * Ensures symmetry in bidirectional transmission investment
-eSymmetricTransferBuild(sTopology(z,z2),y)$pAllowHighTransfer..
+eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
    vBuildTransmission(z,z2,y)  =e=  vBuildTransmission(z2,z,y);
    
 * Caps total import cost based on annual demand and max share
-eMaxAnnualImportShareCost(c,y)$(pallowExports)..
+eMaxAnnualImportShareCost(c,y)$(fAllowTransferExpansion)..
    sum((zcmap(z,c),zext,q,d,t), vYearlyImportExternal(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
 * Caps total export value based on annual demand and max share
-eMaxAnnualExportShareRevenue(c,y)$(pallowExports)..
+eMaxAnnualExportShareRevenue(c,y)$(fAllowTransferExpansion)..
    sum((zcmap(z,c),zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
 
 * Limits hourly import cost as a share of hourly demand
-eMaxHourlyImportShareCost(c,q,d,t,y)$(pMaxImport<1 and pallowExports)..
-   sum((zcmap(z,c), zext), vYearlyImportExternal(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxImport * pEnergyEfficiencyFactor(z,y));
+eMaxHourlyImportShareCost(c,q,d,t,y)$(sMaxImportSharePct<1 and fAllowTransferExpansion)..
+   sum((zcmap(z,c), zext), vYearlyImportExternal(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxImportSharePct * pEnergyEfficiencyFactor(z,y));
 
 * Limits hourly export value as a share of hourly demand
-eMaxHourlyExportShareRevenue(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
-   sum((zcmap(z,c), zext),vYearlyExportExternal(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxExport * pEnergyEfficiencyFactor(z,y));
+eMaxHourlyExportShareRevenue(c,q,d,t,y)$(sMaxExportSharePct<1 and fAllowTransferExpansion)..
+   sum((zcmap(z,c), zext),vYearlyExportExternal(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxExportSharePct * pEnergyEfficiencyFactor(z,y));
 
 * Caps import volume from an external zone to internal zone
-eExternalImportLimit(z,zext,q,d,t,y)$pallowExports..
+eExternalImportLimit(z,zext,q,d,t,y)$fAllowTransferExpansion..
    vYearlyImportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
 
 * Caps export volume from internal zone to an external zone
-eExternalExportLimit(z,zext,q,d,t,y)$pallowExports..
+eExternalExportLimit(z,zext,q,d,t,y)$fAllowTransferExpansion..
    vYearlyExportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
 
 *--- Storage-specific equations
 * Limits state of charge (SOC) by capacit
-eSOCUpperBound(st,q,d,t,y)$pincludeStorage..
+eSOCUpperBound(st,q,d,t,y)$fEnableStorage..
    vStorage(st,q,d,t,y) =l= vCapStor(st,y);
 
 * Prevents storage being used to meet reserves only
-eStorageCapMinConstraint(st,q,d,t,y)$pincludeStorage..
+eStorageCapMinConstraint(st,q,d,t,y)$fEnableStorage..
    vCapStor(st,y) =g= vCap(st,y);
 
 * Charging power ≤ power capacity
-eChargeCapacityLimit(st,q,d,t,y)$pincludeStorage..
+eChargeCapacityLimit(st,q,d,t,y)$fEnableStorage..
    vStorInj(st,q,d,t,y) =l= vCap(st,y);
 
 * Charge cap from PV-following storage logic
-eChargeLimitWithPVProfile(stp,q,d,t,y)$pincludeStorage..
+eChargeLimitWithPVProfile(stp,q,d,t,y)$fEnableStorage..
    vStorInj(stp,q,d,t,y) =l= sum(gsmap(so,stp), vCap(so,y)*pStoPVProfile(so,q,d,t));
 
 * Max rate of charge decrease (ramp-down)
-eChargeRampDownLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
+eChargeRampDownLimit(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage and fApplyRampConstraint)..
    vStorInj(st,q,d,t-1,y) - vStorInj(st,q,d,t,y) =l= pGenData(st,'RampDnRate')*vCap(st,y);
 
 * Max rate of charge increase (ramp-up)
-eChargeRampUpLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
+eChargeRampUpLimit(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage and fApplyRampConstraint)..
    vStorInj(st,q,d,t,y) - vStorInj(st,q,d,t-1,y) =l= pGenData(st,'RampUpRate')*vCap(st,y);
 
 * Defines net charge as output - input
-eNetChargeBalance(st,q,d,t,y)$pincludeStorage..
+eNetChargeBalance(st,q,d,t,y)$fEnableStorage..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
 * SOC dynamics between time steps
-eStateOfChargeUpdate(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage)..
+eStateOfChargeUpdate(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage)..
    vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorage(st,q,d,t-1,y);
 
 * SOC at first hour (no past state)
-eStateOfChargeInit(st,q,d,sFirstHour(t),y)$pincludeStorage..
+eStateOfChargeInit(st,q,d,sFirstHour(t),y)$fEnableStorage..
    vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
 * Ensures SOC level can cover spinning reserve
-eSOCSupportsReserve(st,q,d,t,y)$pincludeStorage..
+eSOCSupportsReserve(st,q,d,t,y)$fEnableStorage..
    vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
 * Ensures that the state of charge at the end of the representative day equals the initial state
 * This avoids artificial energy gains/losses over the daily cycle
-* eSOCCycleClosure(st,q,d,sLastHour(t),y)$(pincludeStorage)..
+* eSOCCycleClosure(st,q,d,sLastHour(t),y)$(fEnableStorage)..
 *   vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-23,y) - (pStorData(st,"efficiency") * vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t-23,y)));
 
 * Ensures energy conservation over the full representative day: total input × efficiency = total output
-* eDailyStorageEnergyBalance(st,q,d,y)$(pincludeStorage)..
+* eDailyStorageEnergyBalance(st,q,d,y)$(fEnableStorage)..
 *   pStorData(st,"efficiency") * sum(t, vStorInj(st,q,d,t,y)) =e= sum((gfmap(st,f),t), vPwrOut(st,f,q,d,t,y));
 
 *--- CSP-specific equations
 
 * Limits CSP storage level to installed storage capacity.
-eCSPStorageCapacityLimit(cs,q,d,t,y)$pincludeCSP..
+eCSPStorageCapacityLimit(cs,q,d,t,y)$fEnableCSP..
    vStorage(cs,q,d,t,y) =l= vCapStor(cs,y);
 
 * Limits CSP storage injection to thermal energy output * efficiency. Prevents unrealistic injection behavior.
-eCSPStorageInjectionLimit(cs,q,d,t,y)$pincludeCSP..
+eCSPStorageInjectionLimit(cs,q,d,t,y)$fEnableCSP..
    vStorInj(cs,q,d,t,y) =l= vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency");
 
 * Prevents CSP storage injection exceeding installed capacity.
-eCSPStorageInjectionCap(cs,q,d,t,y)$pincludeCSP..
+eCSPStorageInjectionCap(cs,q,d,t,y)$fEnableCSP..
    vStorInj(cs,q,d,t,y) =l= vCapStor(cs,y);
 
 *Limits thermal energy output to installed thermal field capacity * hourly solar profile.
-eCSPThermalOutputLimit(cs,q,d,t,y)$pincludeCSP..
+eCSPThermalOutputLimit(cs,q,d,t,y)$fEnableCSP..
    vThermalOut(cs,q,d,t,y) =l= vCapTherm(cs,y)*pCSPProfile(cs,q,d,t);
 
 * Balances CSP thermal output, storage in/out, and generator dispatch.
-eCSPPowerBalance(cs,q,d,t,y)$pincludeCSP..
+eCSPPowerBalance(cs,q,d,t,y)$fEnableCSP..
    vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency")
  - vStorInj(cs,q,d,t,y) + vStorOut(cs,q,d,t,y)*pCSPData(cs,"Storage","Efficiency")
    =e= sum(gfmap(cs,f), vPwrOut(cs,f,q,d,t,y));
 
 * Tracks CSP storage state of charge across time (except for first hour).
-eCSPStorageEnergyBalance(cs,q,d,t,y)$(not sFirstHour(t) and pincludeCSP)..
+eCSPStorageEnergyBalance(cs,q,d,t,y)$(not sFirstHour(t) and fEnableCSP)..
    vStorage(cs,q,d,t,y) =e= vStorage(cs,q,d,t-1,y) + vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
 
 * Initializes CSP storage balance for the first hour of the day.
-eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$pincludeCSP..
+eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$fEnableCSP..
    vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
 
 *Equation needed in dispatch mode but not for capacity expansion with representative days
-*eStorageCSPBal2(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and pincludeCSP)..
+*eStorageCSPBal2(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and fEnableCSP)..
 *   vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y) + vStorage(cs,q,d-1,sLastHour,y);
 
 *--- Energy (storage) capacity limits
 
-* Limits total installed storage capacity to predefined technical data from pStorData and CSP-related capacity from pCSPData. Only applies if storage is included (pincludeStorage).
-eCapacityStorLimit(g,y)$pincludeStorage..
+* Limits total installed storage capacity to predefined technical data from pStorData and CSP-related capacity from pCSPData. Only applies if storage is included (fEnableStorage).
+eCapacityStorLimit(g,y)$fEnableStorage..
    vCapStor(g,y) =l= pStorData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
 
 * Sets initial year’s storage capacity equal to existing capacity (if online) plus new builds minus retirements.
@@ -812,40 +807,40 @@ eCapStorBalance(g, sStartYear(y))..
     vCapStor(g,y) =e= pStorData(g,"CapacityMWh")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val)) + vBuildStor(g,y) - vRetireStor(g,y);
 
 * Tracks annual storage capacity changes for existing generators (EGs): previous year’s capacity + builds − retirements.
-eCapStorAnnualUpdateEG(eg,y)$(not sStartYear(y) and pincludeStorage)..
+eCapStorAnnualUpdateEG(eg,y)$(not sStartYear(y) and fEnableStorage)..
    vCapStor(eg,y) =e= vCapStor(eg,y-1) + vBuildStor(eg,y) - vRetireStor(eg,y);
 
 * Tracks annual storage capacity for new generators (NGs): previous year’s capacity + builds. Assumes no retirement.
-eCapStorAnnualUpdateNG(ng,y)$(not sStartYear(y) and pincludeStorage)..
+eCapStorAnnualUpdateNG(ng,y)$(not sStartYear(y) and fEnableStorage)..
    vCapStor(ng,y) =e= vCapStor(ng,y-1) + vBuildStor(ng,y);
 
 * Sets initial capacity for new generators at start year equal to build amount. Applies only in the first year.
-eCapStorInitialNG(ng,sStartYear(y))$pincludeStorage..
+eCapStorInitialNG(ng,sStartYear(y))$fEnableStorage..
    vCapStor(ng,y) =e= vBuildStor(ng,y);
 
-eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeStorage)..
+eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and fEnableStorage)..
    sum(y, vBuildStor(eg,y)) =l= pStorData(eg,"CapacityMWh");
    
 *--- Thermal elements (csp solar field) capacity limits
-eCapacityThermLimit(g,y)$pincludeCSP..
+eCapacityThermLimit(g,y)$fEnableCSP..
    vCapTherm(g,y) =l= pCSPData(g,"Thermal Field","CapacityMWh");
 
-eCapThermBalance1(eg,y)$(not sStartYear(y) and pincludeCSP)..
+eCapThermBalance1(eg,y)$(not sStartYear(y) and fEnableCSP)..
    vCapTherm(eg,y) =e= vCapTherm(eg,y-1) + vBuildTherm(eg,y) - vRetireTherm(eg,y);
 
-eCapThermBalance2(ng,y)$(not sStartYear(y) and pincludeCSP)..
+eCapThermBalance2(ng,y)$(not sStartYear(y) and fEnableCSP)..
    vCapTherm(ng,y) =e= vCapTherm(ng,y-1) + vBuildTherm(ng,y);
 
-eCapThermBalance3(ng,sStartYear(y))$pincludeCSP..
+eCapThermBalance3(ng,sStartYear(y))$fEnableCSP..
    vCapTherm(ng,y) =e= vBuildTherm(ng,y);
 
-eBuildThermNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeCSP)..
+eBuildThermNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and fEnableCSP)..
    sum(y, vBuildTherm(eg,y)) =l= pCSPData(eg,"Thermal Field","CapacityMWh");
 
 *---  Calculate capex for generators with reducing capex                                                                         ;
 
-eCapitalConstraint$pcapital_constraints..
-   sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= pMaxCapital*1e3;
+eCapitalConstraint$fApplyCapitalConstraint..
+   sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= ssMaxCapitalInvestmentInvestment*1e3;
    
 *--- Emissions related equations
 
@@ -853,17 +848,15 @@ eZonalEmissions(z,y)..
    vZonalEmissions(z,y) =e=
    sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
-eEmissionsCountry(c,y)$pzonal_co2_constraints..
+eEmissionsCountry(c,y)$fApplyCountryCo2Constraint..
    sum(zcmap(z,c), vZonalEmissions(z,y))-vYearlyCO2backstop(c,y)=l= pEmissionsCountry(c,y);
 
 eTotalEmissions(y)..
     sum(z, vZonalEmissions(z,y))=e= vTotalEmissions(y);
     
-eTotalEmissionsConstraint(y)$pSystem_CO2_constraints..
+eTotalEmissionsConstraint(y)$pfApplySystemCo2Constraint..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
-*eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
-
 
 Model PA /
    eNPVCost

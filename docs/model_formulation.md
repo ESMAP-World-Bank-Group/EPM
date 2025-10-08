@@ -1,4 +1,3 @@
-
 # Model Formulation
 
 ## Objective function and its components
@@ -38,7 +37,7 @@ $$
 $$
 
 $$
-\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VOLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
+\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VoLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
 $$
 
 $$
@@ -136,7 +135,6 @@ $$
 $$
 
 ### Generation constraints
-
 
 $$
 \sum_f \text{gen}_{g,f,q,d,t,y} + \text{reserve}_{g,q,d,t,y} \leq (1 + \text{OverLoadFactor}_g) \cdot \text{cap}_{g,y}
@@ -323,11 +321,10 @@ $$
 $$
 
 $$
-\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{MaxCapital}
+\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{sMaxCapitalInvestment}
 $$
 
 ## Environmental policy
-
 
 $$
 \text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
@@ -346,7 +343,6 @@ $$
 $$
 
 ## CCS retrofits
-
 
 $$
 \text{build}_{\text{ng},y} - \text{retire}_{\text{eg},y} \leq 0 \quad \forall \text{ng},\text{eg} \in \text{GG}

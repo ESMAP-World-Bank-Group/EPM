@@ -393,49 +393,52 @@ $include %DEMAND_FILE%
 
 
 * Read main parameters from pSettings
-pzonal_spinning_reserve_constraints  = pSettings("zonal_spinning_reserve_constraints");
-psystem_spinning_reserve_constraints = pSettings("system_spinning_reserve_constraints");
-psystem_reserve_margin               = pSettings("system_reserve_margin");
-pplanning_reserve_constraints        = pSettings("planning_reserve_constraints");
-pinterco_reserve_contribution        = pSettings("interco_reserve_contribution");
-pramp_constraints                    = pSettings("ramp_constraints");
-pfuel_constraints                    = pSettings("fuel_constraints");
-pcapital_constraints                 = pSettings("capital_constraints");
-pmingen_constraints                  = pSettings("mingen_constraints");
-pincludeCSP                          = pSettings("includeCSP");
-pincludeStorage                      = pSettings("includeStorage");
-pMinRE                               = pSettings("MinREshare");
-pMinRETargetYr                       = pSettings("RETargetYr");
-pzonal_co2_constraints               = pSettings("zonal_co2_constraints");
-psystem_co2_constraints              = pSettings("system_co2_constraints");
-pAllowExports                        = pSettings("allowExports");
-pSurplusPenalty                      = pSettings("costSurplus");
-pAllowHighTransfer                   = pSettings("pAllowHighTransfer");
-pCostOfCurtailment                   = pSettings("costcurtail");
-pCostOfCO2backstop                   = pSettings("CO2backstop");
-pMaxImport                           = pSettings("MaxImports");
-pMaxExport                           = pSettings("MaxExports");
-pVREForecastError                    = pSettings("VREForecastError");
-pCaptraj                             = pSettings("Captraj");
-pIncludeIntercoReserves              = pSettings("includeIntercoReserves");
-pVRECapacityCredits                  = pSettings("VRECapacityCredits");
-pSeasonalReporting                   = pSettings("Seasonalreporting");
-pSystemResultReporting               = pSettings("Systemresultreporting");
-pMaxLoadFractionCCCalc               = pSettings("MaxLoadFractionCCCalc");
-pIncludeH2                       = pSettings("IncludeH2");
-pH2UnservedCost                  = pSettings("H2UnservedCost");
-pDR              = pSettings("DR");
-pWACC            = pSettings("WACC");
-pVOLL            = pSettings("VOLL");
-pPlanningReserveVoLL     = pSettings("ReserveVoLL");
-pMaxCapital      = pSettings("MaxCapital")*1e6;
-pSpinningReserveVoLL = pSettings("SpinReserveVoLL");
-pIncludeCarbon   = pSettings("includeCarbonPrice");
-pinterconMode    = pSettings("interconMode");
-pnoTransferLim   = pSettings("noTransferLim");
-pincludeEE       = pSettings("includeEE");
-pIncludeDecomCom = pSettings("IncludeDecomCom");
 
+* --- Settings: Economic parameters and penalties
+pDR                          = pSettings("DR");
+pWACC                        = pSettings("WACC");
+pVoLL                        = pSettings("VoLL");
+pPlanningReserveVoLL         = pSettings("ReserveVoLL");
+pSpinningReserveVoLL         = pSettings("SpinReserveVoLL");
+pSurplusPenalty              = pSettings("CostSurplus");
+pCostOfCurtailment           = pSettings("CostCurtail");
+pCostOfCO2backstop           = pSettings("CO2backstop");
+pH2UnservedCost              = pSettings("H2UnservedCost");
+ssMaxCapitalInvestmentInvestment = pSettings("sMaxCapitalInvestment") * 1e6;
+
+* --- Settings: Reserve requirements
+fApplyPlanningReserveConstraint    = pSettings("fApplyPlanningReserveConstraint");
+sReserveMarginPct                  = pSettings("sReserveMarginPct");
+fApplyCountrySpinReserveConstraint = pSettings("fApplyCountrySpinReserveConstraint");
+pfApplySystemSpinReserveConstraint = pSettings("fApplySystemSpinReserveConstraint");
+psVREForecastErrorPct              = pSettings("sVREForecastErrorPct");
+sIntercoReserveContributionPct     = pSettings("sIntercoReserveContributionPct");
+fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
+
+* --- Settings: Policy and operational switches
+fApplyRampConstraint               = pSettings("fApplyRampConstraint");
+fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
+fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
+fApplyMinGenerationConstraint      = pSettings("fApplyMinGenerationConstraint");
+fEnableCSP                         = pSettings("fEnableCSP");
+fEnableStorage                     = pSettings("fEnableStorage");
+pMinRE                             = pSettings("sMinRenewableSharePct");
+pMinsRenewableTargetYear           = pSettings("sRenewableTargetYear");
+fApplyCountryCo2Constraint         = pSettings("fApplyCountryCo2Constraint");
+pfApplySystemCo2Constraint         = pSettings("fApplySystemCo2Constraint");
+pIncludeCarbon                     = pSettings("fEnableCarbonPrice");
+pfEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
+
+* --- Settings: Transmission and trade
+fEnableInternalExchange            = pSettings("fEnableInternalExchange");
+fRemoveInternalTransferLimit       = pSettings("fRemoveInternalTransferLimit");
+fAllowTransferExpansion            = pSettings("fAllowTransferExpansion");
+sMaxImportSharePct                 = pSettings("sMaxImportSharePct");
+sMaxExportSharePct                 = pSettings("sMaxExportSharePct");
+
+* --- Settings: Hydrogen options
+fEnableCapexTrajectoryH2           = pSettings("fEnableCapexTrajectoryH2");
+pfEnableH2Production               = pSettings("fEnableH2Production");
 
 singleton set sFinalYear(y);
 scalar TimeHorizon;
@@ -448,12 +451,12 @@ sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
 
 * Set external transfer limits to zero if exports are not allowed
-pExtTransferLimit(z,zext,q,"Import",y)$(not pallowExports)  = 0 ;
-pExtTransferLimit(z,zext,q,"Export",y)$(not pallowExports)  = 0 ;
+pExtTransferLimit(z,zext,q,"Import",y)$(not fAllowTransferExpansion)  = 0 ;
+pExtTransferLimit(z,zext,q,"Export",y)$(not fAllowTransferExpansion)  = 0 ;
 
 * Assign import and export transfer limits only if exports are allowed
-pExtTransferLimitIn(z,zext,q,y)$pallowExports   = pExtTransferLimit(z,zext,q,"Import",y) ;
-pExtTransferLimitOut(z,zext,q,y)$pallowExports  = pExtTransferLimit(z,zext,q,"Export",y) ;
+pExtTransferLimitIn(z,zext,q,y)$fAllowTransferExpansion   = pExtTransferLimit(z,zext,q,"Import",y) ;
+pExtTransferLimitOut(z,zext,q,y)$fAllowTransferExpansion  = pExtTransferLimit(z,zext,q,"Export",y) ;
 
 * Define `Zt(z)` to check if total demand in a zone `z` is zero
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
@@ -532,13 +535,13 @@ nREH2(g)= not REH2(g);
 sTopology(z,z2) = sum((q,y),pTransferLimit(z,z2,q,y)) + sum(pTransmissionHeader,pNewTransmission(z,z2,pTransmissionHeader)) + sum(pTransmissionHeader,pNewTransmission(z2,z,pTransmissionHeader));
 
 * If not running in interconnected mode, set network to 0
-sTopology(z,z2)$(not pinterconMode) = no;
+sTopology(z,z2)$(not fEnableInternalExchange) = no;
 
 * if ignore transfer limit, set limits to high value
-pTransferLimit(sTopology,q,y)$pnoTransferLim = inf;
+pTransferLimit(sTopology,q,y)$fRemoveInternalTransferLimit = inf;
 
 * Default life for transmission lines
-pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and pAllowHighTransfer) = 30; 
+pNewTransmission(sTopology,"Life")$(pNewTransmission(sTopology,"Life")=0 and fAllowTransferExpansion) = 30; 
 
 * Map transmission status from input data
 tstatusmap(sTopology(z,z2),tstatus) = (pNewTransmission(z,z2, 'status')=tstatIndex(tstatus)) + (pNewTransmission(z2,z, 'status')=tstatIndex(tstatus));
@@ -554,7 +557,7 @@ commtransmission(sTopology(z,z2))  = tstatusmap(z,z2,'committed');
 pFindSysPeak(y)     = smax((t,d,q), sum(z, pDemandData(z,q,d,y,t)));
 
 * Identify hours that are close to the peak demand for capacity credit calculations
-pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<pMaxLoadFractionCCCalc);
+pAllHours(q,d,y,t)  = 1$(abs(sum(z,pDemandData(z,q,d,y,t))/pFindSysPeak(y) - 1)<pSettings("sPeakLoadProximityThreshold"));
 
 * Default capacity credit for all generators is set to 1
 pCapacityCredit(g,y)= 1;
@@ -563,8 +566,7 @@ pCapacityCredit(g,y)= 1;
 pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap(VRE,z) and gtechmap(VRE,tech)),pVREProfile(z,tech,q,d,t));
 
 * Set capacity credit for VRE based on predefined values or calculated generation-weighted availability
-*pCapacityCredit(VRE,y)$(pVRECapacityCredits =1) =  pGenData(VRE,"CapacityCredit")   ;
-pCapacityCredit(VRE,y)$(pVRECapacityCredits =0) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
+pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
@@ -575,7 +577,7 @@ pStoPVProfile(so,q,d,t)  =  sum((z,tech)$(gtechmap(so,tech) and gzmap(so,z)), pV
 
 * H2 model parameters
 pCapexTrajectoriesH2(hh,y) =1;
-pCapexTrajectoriesH2(dch2,y)$pCaptraj = pCapexTrajectoryH2(dcH2,y);
+pCapexTrajectoriesH2(dch2,y)$fEnableCapexTrajectoryH2 = pCapexTrajectoryH2(dcH2,y);
 
 *-------------------------------------------------------------------
 * Cost of capital
@@ -595,7 +597,7 @@ pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + su
 *-------------------------------------------------------------------
 pLossFactor(z2,z,y)$(pLossFactor(z,z2,y) and not pLossFactor(z2,z,y)) = pLossFactor(z,z2,y);
 
-pEnergyEfficiencyFactor(z,y)$(not pincludeEE) = 1;
+pEnergyEfficiencyFactor(z,y)$(not pfEnableEnergyEfficiency) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
 
 pVOMCost(gfmap(g,f),y) = pGenData(g,"VOM")
@@ -629,24 +631,24 @@ vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
-vNewTransferCapacity.up(sTopology(z,z2),y)$pAllowHighTransfer = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransferCapacity.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
 
 sAdditionalTransfer(sTopology(z,z2),y) = yes;
 sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
 
 * Fix
-vNewTransferCapacity.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and pAllowHighTransfer) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
-vNewTransferCapacity.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and pAllowHighTransfer) = 0;
+vNewTransferCapacity.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransferCapacity.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and fAllowTransferExpansion) = 0;
 
 * Compute bounds 
 vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vNewTransferCapacity.lo(z,z2,y) - vNewTransferCapacity.up(z,z2,y-1));
 vBuildTransmission.up(sTopology(z,z2),y) = max(0,vNewTransferCapacity.up(z,z2,y) - vNewTransferCapacity.lo(z,z2,y-1));
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
-vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeStorage) = 0;
+vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) = 0;
 
 * Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
-vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and pincludeCSP) = 0;
+vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableCSP) = 0;
 
 *-------------------------------------------------------------------
 * Fixed conditions
@@ -708,7 +710,7 @@ vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg
 vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorData(eg,"CapacityMWh");
 
 * Prevent decommissioning of storage hours from existing storage when economic retirement is disabled
-vCapStor.fx(eg,y)$((pSettings("econRetire") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
+vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
 
 * Fix the retirement variable to zero, meaning no unit is retired by default unless specified otherwise
 vRetire.fx(ng,y) = 0;
@@ -717,7 +719,7 @@ vRetire.fx(ng,y) = 0;
 vRetire.fx(eg,y)$(pGenData(eg,"Life") = 99) = 0;
 
 * Ensure capacity remains unchanged when economic retirement is disabled and the plant is still within its operational lifetime
-vCap.fx(eg,y)$((pSettings("econRetire") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pGenData(eg,"Capacity");
+vCap.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0 and pGenData(eg,"StYr") < y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pGenData(eg,"Capacity");
 
 * Prevent thermal capacity from appearing in years before the commissioning date
 vCapTherm.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
@@ -726,7 +728,7 @@ vCapTherm.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 vCapStor.fx(ng,y)$(pGenData(ng,"StYr") > y.val) = 0;
 
 * Ensure storage capacity is set to zero if storage is not included in the scenario
-vCapStor.fx(ng,y)$(not pincludeStorage) = 0;
+vCapStor.fx(ng,y)$(not fEnableStorage) = 0;
 
 
 ********************* Equations for hydrogen production**********************************************************
@@ -754,7 +756,7 @@ vCapH2.fx(eh,y)$(pH2Data(eh,"RetrYr") and (pH2Data(eh,"RetrYr") <= y.val)) = 0;
 vRetireH2.fx(nh,y) = 0;
 vRetireH2.fx(eh,y)$(pH2Data(eh,"Life") = 99) = 0;
 
-vCapH2.fx(eh,y)$((pSettings("econRetire") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
+vCapH2.fx(eh,y)$((pSettings("fEnableEconomicRetirement") = 0 and pH2Data(eh,"StYr") < y.val) and (pH2Data(eh,"RetrYr") >= y.val)) = pH2Data(eh,"Capacity");
 
 sH2PwrIn(hh,q,d,t,y) = yes;
 
@@ -765,18 +767,18 @@ vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;
 
 
 sPwrOut(gfmap(g,f),q,d,t,y) = yes;
-sPwrOut(gfmap(st,f),q,d,t,y)$(not pincludeStorage) = yes;
+sPwrOut(gfmap(st,f),q,d,t,y)$(not fEnableStorage) = yes;
 
 * If price based export is not allowed, set to 0
-sExportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
-sExportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
+sExportPrice(z,zext,q,d,t,y)$(fAllowTransferExpansion) = yes;
+sExportPrice(z,zext,q,d,t,y)$(not fAllowTransferExpansion) = no;
 
 * If price based import is not allowed, set to 0
-sImportPrice(z,zext,q,d,t,y)$(pallowExports) = yes;
-sImportPrice(z,zext,q,d,t,y)$(not pallowExports) = no;
+sImportPrice(z,zext,q,d,t,y)$(fAllowTransferExpansion) = yes;
+sImportPrice(z,zext,q,d,t,y)$(not fAllowTransferExpansion) = no;
 
-vYearlyImportExternal.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitIn(z,zext,q,y);
-vYearlyExportExternal.up(z,zext,q,d,t,y)$pallowExports = pExtTransferLimitOut(z,zext,q,y);
+vYearlyImportExternal.up(z,zext,q,d,t,y)$fAllowTransferExpansion = pExtTransferLimitIn(z,zext,q,y);
+vYearlyExportExternal.up(z,zext,q,d,t,y)$fAllowTransferExpansion = pExtTransferLimitOut(z,zext,q,y);
 
 * Do not allow imports and exports for a zone without import/export prices
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
@@ -786,10 +788,10 @@ sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 sFlow(z,z2,q,d,t,y)$(sTopology(z,z2)) = yes;
 
 * Define spinning reserve constraints based on the settings for zonal and system spinning reserves
-sSpinningReserve(g,q,d,t,y)$((pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints) ) = yes;
+sSpinningReserve(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint) ) = yes;
 
 *To avoid bugs when there is no candidate transmission expansion line
-pNewTransmission(z,z2,"EarliestEntry")$(not pAllowHighTransfer) = 2500;
+pNewTransmission(z,z2,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
 
 *-------------------------------------------------------------------------------------
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
