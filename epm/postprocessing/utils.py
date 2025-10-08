@@ -503,12 +503,23 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         if 'attribute' in i.columns:
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
-    # Standardize names for outputs
-    standardize_names(epm_dict, 'pEnergyFuel', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pCapacityFuel', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pNewCapacityFuelCountry', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pUtilizationFuel', dict_specs['fuel_mapping'])
-    standardize_names(epm_dict, 'pDispatchFuel', dict_specs['fuel_mapping'])
+    # Align naming across every fuel-based output now shipped with EPM
+    fuel_outputs = [
+        'pEnergyFuel',
+        'pEnergyFuelCountry',
+        'pCapacityFuel',
+        'pCapacityFuelCountry',
+        'pNewCapacityFuel',
+        'pNewCapacityFuelCountry',
+        'pUtilizationFuel',
+        'pDispatchFuel',
+        'pFuelCosts',
+        'pFuelCostsCountry',
+        'pFuelConsumption',
+        'pFuelConsumptionCountry'
+    ]
+    for key in fuel_outputs:
+        standardize_names(epm_dict, key, dict_specs['fuel_mapping'])
 
     # Add fuel type to Plant-based results
     if mapping_gen_fuel is not None:
@@ -569,15 +580,43 @@ def generate_summary(epm_results, folder, epm_input):
         summary.update({'SystemAverageCost': t})
     else:
         print('No pSystemAverageCost in epm_results')
+        
+    if 'pCostsSystem' in epm_results.keys():
+        t = epm_results['pCostsSystem'].copy()
+        summary.update({'SystemAverageCost': t})
+    else:
+        print('No pCostsSystem in epm_results')
 
-    if False:
-        if 'pZonalAverageCost' in epm_results.keys():
-            t = epm_results['pZonalAverageCost'].copy()
-            t.rename(columns={'uni_1': 'attribute'}, inplace=True)
-            t.drop('uni_2', axis=1, inplace=True)
-            summary.update({'pZonalAverageCost': t})
-        else:
+    if 'pZonalAverageCost' in epm_results.keys():
+        t = epm_results['pZonalAverageCost'].copy()
+        t['attribute'] = 'Average Cost: $/MWh'
+        summary.update({'pZonalAverageCost': t})
+    else:
             print('No pZonalAverageCost in epm_results')
+
+    if 'pCountryAverageCost' in epm_results.keys():
+        t = epm_results['pCountryAverageCost'].copy()
+        t['attribute'] = 'Average Cost: $/MWh'
+        summary.update({'pCountryAverageCost': t})
+    else:
+        print('No pCountryAverageCost in epm_results')
+
+
+    if 'pZonalAverageGenCost' in epm_results.keys():
+        t = epm_results['pZonalAverageGenCost'].copy()
+        t['attribute'] = 'Average Generation Cost: $/MWh'
+        summary.update({'pZonalAverageGenCost': t})
+    else:
+        print('No pZonalAverageGenCost in epm_results')
+
+
+    if 'pCountryAverageGenCost' in epm_results.keys():
+        t = epm_results['pCountryAverageGenCost'].copy()
+        t['attribute'] = 'Average Generation Cost: $/MWh'
+        summary.update({'pCountryAverageGenCost': t})
+    else:
+        print('No pCountryAverageGenCost in epm_results')
+
 
     if 'pYearlyCostsCountry' in epm_results.keys():
         t = epm_results['pYearlyCostsCountry'].copy()
@@ -592,6 +631,15 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pYearlyCostsZone in epm_results')
 
+    if 'pCapexInvestment' in epm_results.keys():
+        t = epm_results['pCapexInvestment'].copy()
+        t = t[t['value'] > 1e-2]
+        t['value'] = t['value'] / 1e6
+        t['attribute'] = 'Capex Investment: m$'
+        summary.update({'pCapexInvestment': t})
+    else:
+        print('No pCapexInvestment in epm_results')
+
     # 2. Capacity
     
     if 'pCapacityFuel' in epm_results.keys():
@@ -599,24 +647,42 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'Capacity: MW': t})
+        summary.update({'pCapacityFuel': t})
     else:
         print('No pCapacityFuel in epm_results')
+
+    if 'pCapacityFuelCountry' in epm_results.keys():
+        t = epm_results['pCapacityFuelCountry'].copy()
+        t['attribute'] = 'Capacity: MW'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-2]
+        summary.update({'pCapacityFuelCountry': t})
+    else:
+        print('No pCapacityFuelCountry in epm_results')
 
     if 'pNewCapacityFuel' in epm_results.keys():
         t = epm_results['pNewCapacityFuel'].copy()
         t['attribute'] = 'New Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'NewCapacity: MW': t})
+        summary.update({'pNewCapacityFuel': t})
     else:
         print('No pNewCapacityFuel in epm_results')
+
+    if 'pNewCapacityFuelCountry' in epm_results.keys():
+        t = epm_results['pNewCapacityFuelCountry'].copy()
+        t['attribute'] = 'New Capacity: MW'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-2]
+        summary.update({'pNewCapacityFuelCountry': t})
+    else:
+        print('No pNewCapacityFuelCountry in epm_results')
 
     if 'pAnnualTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAnnualTransmissionCapacity'].copy()
         t['attribute'] = 'Annual Transmission Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
-        summary.update({'Annual Transmission Capacity: MW': t})
+        summary.update({'pAnnualTransmissionCapacity': t})
     else:
         print('No pAnnualTransmissionCapacity in epm_results')
         
@@ -625,7 +691,7 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Additional Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'Additional Capacity: MW': t})
+        summary.update({'pAdditionalCapacity': t})
     else:
         print('No pAdditionalCapacity in epm_results')
 
@@ -644,11 +710,20 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'Energy: GWh': t})
+        summary.update({'pEnergyFuel': t})
     else:
         print('No pEnergyFuel in epm_results')
-        
-    # 4. Reserves
+    
+    if 'pEnergyFuelCountry' in epm_results.keys():
+        t = epm_results['pEnergyFuelCountry'].copy()
+        t['attribute'] = 'Energy: GWh'
+        t.rename(columns={'fuel': 'resolution'}, inplace=True)
+        t = t[t['value'] > 1e-2]
+        summary.update({'pEnergyFuelCountry': t})
+    else:
+        print('No pEnergyFuelCountry in epm_results')
+       
+    # 5. Reserves
     
     if 'pReserveSpinningPlantZone' in epm_results.keys():
         t = epm_results['pReserveSpinningPlantZone'].copy()
@@ -665,7 +740,34 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pReserveMarginCountry in epm_results')
 
-    # 5. Emissions
+    # 6. Interconnections
+    
+    if 'pInterchange' in epm_results.keys():
+        t = epm_results['pInterchange'].copy()
+        t['attribute'] = 'Annual Energy Exchanges: GWh'
+        t.rename(columns={'z2': 'resolution'}, inplace=True)
+        summary.update({'pInterchange': t})
+    else:
+        print('No pInterchange in epm_results')
+            
+
+    if 'pInterchangeExternalExports' in epm_results.keys():
+        t = epm_results['pInterchangeExternalExports'].copy()
+        t['attribute'] = 'Annual Energy Exports External: GWh'
+        t.rename(columns={'zext': 'resolution'}, inplace=True)
+        summary.update({'pInterchangeExternalExports': t})
+    else:
+        print('No pInterchangeExternalExports in epm_results')
+        
+    if 'pInterchangeExternalImports' in epm_results.keys():
+        t = epm_results['pInterchangeExternalImports'].copy()
+        t['attribute'] = 'Annual Energy Imports External: GWh'
+        t.rename(columns={'zext': 'resolution'}, inplace=True)
+        summary.update({'pInterchangeExternalImports': t})
+    else:
+        print('No pInterchangeExternalImports in epm_results')
+
+    # 7. Emissions
 
     if 'pEmissionsZone' in epm_results.keys():
         t = epm_results['pEmissionsZone'].copy()
@@ -674,58 +776,111 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pEmissionsZone in epm_results')
 
+    if 'pEmissionsIntensityZone' in epm_results.keys():
+        t = epm_results['pEmissionsIntensityZone'].copy()
+        t['attribute'] = 'Emissions: tCO2/GWh'
+        summary.update({'pEmissionsIntensityZone': t})
+    else:
+        print('No pEmissionsIntensityZone in epm_results')
+
+    # 8. Prices
+    
+    if 'pYearlyPriceHub' in epm_results.keys():
+        t = epm_results['pYearlyPriceHub'].copy()
+        t['attribute'] = 'Price: $/MWh'
+        summary.update({'pYearlyPriceHub': t})
+    else:
+        print('No pYearlyPriceHub in epm_results')
+
+
     # Concatenate all dataframes in the summary dictionary
 
     summary = pd.concat(summary)
 
     # Define the order that will appear in the summary.csv file
-    order = ['NPV of system cost: $m',
-            "Annualized capex: $m",
-            "Fixed O&M: $m",
-            "Variable O&M: $m",
-            "Fuel costs: $m",
-            "Transmission additions: $m",
-            "Spinning reserve costs: $m",
-            "Unmet demand costs: $m",
-            "Unmet country spinning reserve costs: $m",
-            "Unmet country planning reserve costs: $m",
-            "Unmet country CO2 backstop cost: $m",
-            "Unmet system planning reserve costs: $m",
-            "Unmet system spinning reserve costs: $m",
-            "Unmet system CO2 backstop cost: $m",
-            "Excess generation: $m",
-            "VRE curtailment: $m",
-            "Import costs with external zones: $m",
-            "Export revenues with external zones: $m",
-            "Import costs with internal zones: $m",
-            "Export revenues with internal zones: $m",
-            "Trade shared benefits: $m",
-            "Carbon costs: $m",
-             'Demand: GWh', 
-             'Generation: GWh', 
-             'Unmet demand: GWh',
-             'Surplus generation: GWh',
-             'Peak demand: MW', 
-             'Firm Capacity: MW', 
-             'Planning Reserve: MW',
-             'Spinning Reserve: GWh',
-             'Average Cost: $/MWh',
-             'Capex: $m'
-             ]
-    order = [i for i in order if i in summary['attribute'].unique()]
-    order = order + [i for i in summary['attribute'].unique() if i not in order]
+    if False:
+        order = ['NPV of system cost: $m',
+                "Annualized capex: $m",
+                "Fixed O&M: $m",
+                "Variable O&M: $m",
+                "Fuel costs: $m",
+                "Transmission additions: $m",
+                "Spinning reserve costs: $m",
+                "Unmet demand costs: $m",
+                "Unmet country spinning reserve costs: $m",
+                "Unmet country planning reserve costs: $m",
+                "Unmet country CO2 backstop cost: $m",
+                "Unmet system planning reserve costs: $m",
+                "Unmet system spinning reserve costs: $m",
+                "Unmet system CO2 backstop cost: $m",
+                "Excess generation: $m",
+                "VRE curtailment: $m",
+                "Import costs with external zones: $m",
+                "Export revenues with external zones: $m",
+                "Import costs with internal zones: $m",
+                "Export revenues with internal zones: $m",
+                "Trade shared benefits: $m",
+                "Carbon costs: $m",
+                'Demand: GWh', 
+                'Generation: GWh', 
+                'Unmet demand: GWh',
+                'Surplus generation: GWh',
+                'Peak demand: MW', 
+                'Firm Capacity: MW', 
+                'Planning Reserve: MW',
+                'Spinning Reserve: GWh',
+                'Average Cost: $/MWh',
+                'Capex: $m'
+                ]
+        order = [i for i in order if i in summary['attribute'].unique()]
+        order = order + [i for i in summary['attribute'].unique() if i not in order]
 
     summary.reset_index(drop=True, inplace=True)
     summary = summary.set_index(['scenario', 'country', 'zone', 'attribute', 'resolution', 'year']).squeeze().unstack('scenario')
     summary.reset_index(inplace=True)
     #summary = summary.sort_values()
-    # Create a mapping of attributes to their position in the list
-    order_dict = {attr: index for index, attr in enumerate(order)}
-    summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
+    
+    if False:
+        # Create a mapping of attributes to their position in the list
+        order_dict = {attr: index for index, attr in enumerate(order)}
+        summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
 
     zone_to_country = epm_input['zcmap'].set_index('zone')['country'].to_dict()
     summary['country'] = summary['country'].fillna(summary['zone'].map(zone_to_country))
+    # Remove duplicates
+    
+    def drop_redundant_country_rows(df):
+        idx_cols = ["country", "attribute", "resolution", "year"]
 
+        # mark entries that already sit at the zone level
+        zone_level = df["zone"].notna() & df["zone"].ne("")
+
+        # countries with a single zone have redundant country-level rows
+        single_zone_countries = (
+            df.loc[zone_level]
+              .groupby("country")["zone"]
+              .nunique()
+              .pipe(lambda s: set(s[s == 1].index))
+        )
+
+        # capture attribute/resolution/year combos available at zone level
+        zone_keys = (
+            df.loc[zone_level, idx_cols]
+              .drop_duplicates()
+              .apply(tuple, axis=1)
+        )
+
+        # drop country-level counterparts when they duplicate zone-level info
+        mask = (
+            df["country"].isin(single_zone_countries)
+            & ~zone_level
+            & df[idx_cols].apply(tuple, axis=1).isin(zone_keys)
+        )
+
+        return df.loc[~mask].copy()
+    
+    summary = drop_redundant_country_rows(summary)
+    
     summary.round(1).to_csv(os.path.join(folder, 'summary.csv'), index=False)
 
 

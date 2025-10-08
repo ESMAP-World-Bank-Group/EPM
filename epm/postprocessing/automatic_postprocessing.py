@@ -49,15 +49,19 @@ from .interactive_map import make_automatic_map
 
 KEYS_RESULTS = {
     # 1. Capacity expansion
-    'pCapacityPlant', 'pCapacityFuel',
+    'pCapacityPlant', 
+    'pCapacityFuel', 'pCapacityFuelCountry',
     'pNewCapacityFuel', 'pNewCapacityFuelCountry',
     'pAnnualTransmissionCapacity', 'pAdditionalCapacity',
     # 2. Cost
     'pPrice',
-    'pCostsPlant', 'pYearlyCostsZone', 'pYearlyCostsCountry', 
-    'pCostsZone','pCostsSystem',
+    'pCapexInvestment',
+    'pCostsPlant',  
+    'pYearlyCostsZone', 'pYearlyCostsCountry',
+    'pCostsZone', 'pCostsSystem',
+    'pFuelCosts', 'pFuelConsumption',
     # 3. Energy balance
-    'pEnergyPlant', 'pEnergyFuel',
+    'pEnergyPlant', 'pEnergyFuel', 'pEnergyFuelCountry',
     'pEnergyBalance',
     'pUtilizationPlant', 'pUtilizationFuel',
     # 4. Energy dispatch
@@ -67,11 +71,18 @@ KEYS_RESULTS = {
     'pReserveMarginCountry',
     # 6. Interconnections
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
+    'pInterchangeExternalExports', 'pInterchangeExternalImports',
     # 7. Emissions
-    'pEmissionsZone',
+    'pEmissionsZone', 'pEmissionsIntensityZone',
+    # 8. Prices
+    'pYearlyPriceHub',
     # 10. Metrics
     'pPlantAnnualLCOE',
-    'pZonalAverageCost', 'pSystemAverageCost',
+    'pZonalAverageCost',
+    'pZonalAverageGenCost',
+    'pCountryAverageCost',
+    'pCountryAverageGenCost', 
+    'pSystemAverageCost',
     # 11. Other
     'pSolverParameters'
 }
@@ -96,14 +107,14 @@ FIGURES_ACTIVATED = {
     # 3. Energy figures
     'EnergyMixSystemEvolutionScenarios': False,
     'EnergyMixSystemEvolutionScenariosRelative': False,
-    'EnergyMixEvolutionZone': True,
+    'EnergyMixEvolutionZone': False,
     'EnergyMixZoneScenarios': False,
     'EnergyPlants': False,
     
     # 4. Interconnection figures
-    'InterconnectionHeatmap': True,
-    'InterconnectionHeatmapShare': True,
-    'InterconnectionUtilizationHeatmap': True,
+    'InterconnectionHeatmap': False,
+    'InterconnectionHeatmapShare': False,
+    'InterconnectionUtilizationHeatmap': False,
 }
 
 TRADE_ATTRS = [

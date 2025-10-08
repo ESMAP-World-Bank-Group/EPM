@@ -75,9 +75,9 @@ Parameters
   pTradeSharedBenefits(z, y)                    'Congestion rents shared equally between countries [USD] by zone and year'
 
   pYearlyCostsZone(z, *, y)                      'Annual cost summary [million USD] by zone and year'
-  pCostsZone(z, *)                          'Total cost [million USD] by zone and cost category'
+  pCostsZone(z, *)                               'Total cost [million USD] by zone and cost category'
   pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
-  pCostAverageCountry(c, *)                     'Average annual cost [million USD] by country (undiscounted)'
+  pCostAverageCountry(c, *)                      'Average annual cost [million USD] by country (undiscounted)'
   pYearlyCostsSystem
   pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
 
