@@ -78,6 +78,7 @@ Parameters
   pCostsZone(z, *)                          'Total cost [million USD] by zone and cost category'
   pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
   pCostAverageCountry(c, *)                     'Average annual cost [million USD] by country (undiscounted)'
+  pYearlyCostsSystem
   pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
 
   pFuelCosts(z, f, y)                           'Annual fuel costs [million USD] by fuel, zone, and year'
@@ -598,7 +599,7 @@ pYearlyCostsZone(z, "Import costs with internal zones: $m", y) =
   pImportCostsInternal(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Export revenues with internal zones: $m", y) =
-  -pExportRevenuesInternal(z, y) / 1e6;
+  pExportRevenuesInternal(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Trade shared benefits: $m", y) =
   pTradeSharedBenefits(z, y) / 1e6;
@@ -607,7 +608,7 @@ pYearlyCostsZone(z, "Import costs with external zones: $m", y) =
   vYearlyImportExternalCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Export revenues with external zones: $m", y) =
-  -vYearlyExportExternalCost.l(z, y) / 1e6;
+  vYearlyExportExternalCost.l(z, y) / 1e6;
 
 * Cost 
 pCostsZone(z, sumhdr) =
@@ -635,6 +636,8 @@ pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pYearlyCostsCountry(c,su
 *     The model's computed Net Present Value of system costs
 *     Directly taken from optimization variable vNPVCost
 * ---------------------------------------------------------
+
+pYearlyCostsSystem(sumhdr, y) = sum(z, pYearlyCostsZone(z, sumhdr, y))
 
 * pCostsSystem(sumhdr) = sum((y,z), pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
 pCostsSystem(sumhdr) = sum(z, pCostsZone(z,sumhdr));
@@ -1415,7 +1418,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 2. COSTS
       pCostsPlant, pCapexInvestment,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
-      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem,
+      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pYearlyCostsSystem
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
       pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyTechFuelCountry, pEnergyFuelCountry,
