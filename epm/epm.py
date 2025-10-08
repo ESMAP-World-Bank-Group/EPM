@@ -830,7 +830,7 @@ def perform_sensitivity(sensitivity, s):
         df = pd.read_csv(s['baseline']['pSettings'])
         # Modifying the value if it's 1 put 0 and vice versa
         name = 'NoInterconnection'
-        df.loc[df['Abbreviation'] == 'interconMode', 'Value'] = 0
+        df.loc[df['Abbreviation'] == "fEnableInternalExchange", 'Value'] = 0
 
         path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
         path_file = os.path.join(folder_sensi, path_file)
@@ -844,9 +844,9 @@ def perform_sensitivity(sensitivity, s):
         #----------------------------------------
         
         df = pd.read_csv(s['baseline']['pSettings'])
-        # pAllowHighTransfer
+        # fAllowTransferExpansion
         name = 'NoInterconnectionExpansion'
-        df.loc[df['Abbreviation'] == 'pAllowHighTransfer', 'Value'] = 0
+        df.loc[df['Abbreviation'] == 'fAllowTransferExpansion', 'Value'] = 0
         
         path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
         path_file = os.path.join(folder_sensi, path_file)
@@ -860,9 +860,9 @@ def perform_sensitivity(sensitivity, s):
         #----------------------------------------
         
         df = pd.read_csv(s['baseline']['pSettings'])
-        # OptimalInterconnection with NoTransferLim
+        # OptimalInterconnection with fRemoveInternalTransferLimit
         name = 'OptimalInterconnection'
-        df.loc[df['Abbreviation'] == 'NoTransferLim', 'Value'] = 1
+        df.loc[df['Abbreviation'] == 'fRemoveInternalTransferLimit', 'Value'] = 1
         
         path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
         path_file = os.path.join(folder_sensi, path_file)
@@ -897,11 +897,11 @@ def perform_sensitivity(sensitivity, s):
         
     param = 'pSettings'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of some setting parameters
-        settings_sensi = {'VOLL': [250],
-                          'planning_reserve_constraints': [0], 'VREForecastError': [0, 0.3],
+        settings_sensi = {'VoLL': [250],
+                          'fApplyPlanningReserveConstraint': [0], 'sVREForecastErrorPct': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
-                          'costSurplus': [1, 5], 'costcurtail': [1, 5], 'interconMode': [0,1],
-                          'includeIntercoReserves': [0,1], 'interco_reserve_contribution': [0, 0.5]}
+                          'CostSurplus': [1, 5], 'CostCurtail': [1, 5], "fEnableInternalExchange": [0,1],
+                          'fCountIntercoForReserves': [0,1], 'sIntercoReserveContributionPct': [0, 0.5]}
 
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
