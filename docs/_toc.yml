@@ -25,7 +25,7 @@ parts:
       - file: docs/options_solver.md
       - file: docs/options_thread.md
   - caption: Input
-    chapters: 
+    chapters:
       - file: docs/input_structure.md
       - file: docs/input_overview.md
       - file: docs/input_detailed.md
@@ -43,23 +43,27 @@ parts:
       - file: docs/postprocessing_tableau_advanced
   - caption: Model Description
     chapters:
-        - file: docs/model_overview
-        - file: docs/model_description
-        - file: docs/model_notations
-        - file: docs/model_formulation
+      - file: docs/model_overview
+      - file: docs/model_description
+      - file: docs/model_notations
+      - file: docs/model_formulation
   - caption: Advanced Topics
     chapters:
-        - file: docs/advanced_python
-        - file: docs/postprocessing
-        - file: docs/planning_analysis_sapp.ipynb
-        - file: docs/contributing.md
+      - file: docs/advanced_python
+      - file: docs/postprocessing
+      - file: docs/planning_analysis_sapp.ipynb
+  - caption: Contributing
+    chapters:
+      - file: docs/contributing_code.md
+      - file: docs/contributing_docs.md
+      - file: docs/contributing_postprocess.md
   - caption: Pre-processing Analysis
     chapters:
-        - file: docs/pre_overview.md
-        - file: docs/pre_projects.md
+      - file: docs/pre_overview.md
+      - file: docs/pre_projects.md
   - caption: Other Resources
     chapters:
-        - file: docs/other_overview
-        - file: docs/other_comparison
-        - file: docs/other_open_data
-        - file: docs/other_process
+      - file: docs/other_overview
+      - file: docs/other_comparison
+      - file: docs/other_open_data
+      - file: docs/other_process

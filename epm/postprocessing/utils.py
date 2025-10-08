@@ -3804,7 +3804,6 @@ def get_extended_pastel_palette(n):
     return base_colors + extra_colors
 
 
-
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
                            dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice, label_size=14):
     """
@@ -4004,6 +4003,7 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
         plt.close()
     else:
         plt.show()
+
 
 def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
@@ -4266,6 +4266,7 @@ def make_complete_dispatch_plot_for_interactive(pFuelDispatch, pDispatch, dict_c
     else:
         plt.show()
 
+
 def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fuel'):
     """
     Generates a pie chart using the existing subplot_pie function and returns it as a base64 image string.
@@ -4316,6 +4317,7 @@ def encode_image_from_memory(img):
         return ""
     encoded_str = base64.b64encode(img.read()).decode()
     return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
+
 
 def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
  
@@ -4701,6 +4703,7 @@ def keep_max_direction(df):
     df_sum = df_sum.drop(columns='zone_pair')
 
     return df_sum
+
 
 def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
 
