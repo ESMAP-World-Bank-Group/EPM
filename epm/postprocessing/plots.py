@@ -59,6 +59,9 @@ from matplotlib.patches import FancyArrowPatch
 from shapely.geometry import LineString, Point, LinearRing
 import argparse
 import shutil
+from matplotlib.ticker import FuncFormatter
+
+from .utils import NAME_COLUMNS, RENAME_COLUMNS
 
 def format_ax(ax, linewidth=True):
     """
@@ -92,6 +95,28 @@ def format_ax(ax, linewidth=True):
     ax.spines['right'].set_visible(True)
     ax.spines['bottom'].set_visible(True)
     ax.spines['left'].set_visible(True)
+
+
+def make_auto_formatter(unit=""):
+    def _format(y, _):
+        # percentages handled separately
+        if unit == "%":
+            y = y * 100
+            txt = f"{y:.2f}".rstrip('0').rstrip('.')
+            return f"{txt}%"
+
+        # other units: GW, MW, GWh, etc.
+        # show fewer decimals cleanly
+        if abs(y) >= 100:
+            txt = f"{y:.0f}"
+        elif abs(y) >= 1:
+            txt = f"{y:.1f}"
+        else:
+            txt = f"{y:.2f}"
+        # txt = txt.rstrip('0').rstrip('.')
+        return f"{txt} {unit}".strip()
+
+    return _format
 
 
 def line_plot(df, x, y, xlabel=None, ylabel=None, title=None, filename=None, figsize=(10, 6)):
@@ -404,7 +429,7 @@ def plot_pie_on_ax(ax, df, index, percent_cap, colors, title, radius=None, annot
     return handles, labels
 
 
-def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value', stack_column='fuel',
+def stacked_area_plot(df, filename, dict_colors=None, column_xaxis='year', column_value='value', column_stacked='fuel',
                       df_2=None, title='', x_label='Years', y_label='',
                       legend_title='', y2_label='', figsize=(10, 6), selected_scenario=None,
                       annotate=None, sorting_column=None):
@@ -419,11 +444,11 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
         Path to save the plot.
     dict_colors : dict, optional
         Dictionary mapping fuel types to colors.
-    x_column : str, default 'year'
+    column_xaxis : str, default 'year'
         Column for x-axis.
-    y_column : str, default 'value'
+    column_value : str, default 'value'
         Column for y-axis.
-    stack_column : str, default 'fuel'
+    column_stacked : str, default 'fuel'
         Column for stacking.
     legend_title : str
         Title for the legend.
@@ -451,10 +476,10 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
 
     if sorting_column is not None:
         # Create a mapping to control order
-        sorting_column = df.groupby(stack_column)[sorting_column].first().sort_values().index
+        sorting_column = df.groupby(column_stacked)[sorting_column].first().sort_values().index
 
     # Plot stacked area for generation
-    temp = df.groupby([x_column, stack_column])[y_column].sum().unstack(stack_column)
+    temp = df.groupby([column_xaxis, column_stacked])[column_value].sum().unstack(column_stacked)
 
     if sorting_column is not None:
         temp = temp[sorting_column]
@@ -481,7 +506,7 @@ def stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column=
         # Remove legend ax1
         ax1.get_legend().remove()
 
-        temp = df_2.groupby([x_column])[y_column].sum()
+        temp = df_2.groupby([column_xaxis])[column_value].sum()
         ax2 = ax1.twinx()
         line, = ax2.plot(temp.index, temp, color='brown', label=y2_label)
         ax2.set_ylabel(y2_label, color='brown')
@@ -544,7 +569,7 @@ def make_stacked_area_subplots(df, filename, dict_colors, selected_zone=None, se
                         rotation=rotation)
 
 
-def stacked_area_subplots(df, column_group, filename, dict_colors=None, order_scenarios=None, order_columns=None,
+def stacked_area_subplots(df, column_stacked, filename, dict_colors=None, order_scenarios=None, order_stacked=None,
                         dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
                         title=None, figsize=(10,6)):
     """
@@ -553,7 +578,7 @@ def stacked_area_subplots(df, column_group, filename, dict_colors=None, order_sc
     ----------
     df : pandas.DataFrame
         DataFrame containing the data to plot.
-    column_group : str
+    column_stacked : str
         Column name to group by for the stacked bars.
     filename : str
         Path to save the plot image. If None, the plot is shown instead.
@@ -565,7 +590,7 @@ def stacked_area_subplots(df, column_group, filename, dict_colors=None, order_sc
         Initial year to highlight in the plot. Default is None.
     order_scenarios : list, optional
         List of scenario names to order the bars. Default is None.
-    order_columns : list, optional
+    order_stacked : list, optional
         List of column names to order the stacked bars. Default is None.
     dict_scenarios : dict, optional
         Dictionary mapping scenario names to new names for the plot. Default is None.
@@ -604,10 +629,10 @@ def stacked_area_subplots(df, column_group, filename, dict_colors=None, order_sc
         ax = axes[k]
 
         try:
-            df_temp = df[key].unstack(column_group)
+            df_temp = df[key].unstack(column_stacked)
 
-            if order_columns is not None:
-                df_temp = df_temp[order_columns]
+            if order_stacked is not None:
+                df_temp = df_temp[order_stacked]
 
             df_temp.plot.area(ax=ax, stacked=True, alpha=0.8, color=dict_colors if dict_colors else None)
 
@@ -658,16 +683,20 @@ def stacked_area_subplots(df, column_group, filename, dict_colors=None, order_sc
         plt.show()
 
 
-def make_annotated_stacked_area_plot(df, filename, dict_colors=None, x_column='year', y_column='value',
-                                     stack_column='fuel', annotate_column='generator'):
-    df.sort_values(stack_column, inplace=True)
+def make_annotated_stacked_area_plot(df, filename, dict_colors=None, column_xaxis='year', column_value='value',
+                                     column_stacked='fuel', annotate_column='generator'):
+    
+    df.sort_values(column_stacked, inplace=True)
     # complete year with 0 capacity when no data
-    years = df[x_column].unique()
-
-    result = {}
+    years = df[column_xaxis].unique()
+    
+    # For each group in the DataFrame, calculate year-over-year differences of the target column,
+    # keep values greater than 1, format them with the group label, and merge into a dictionary 
+    # (aggregating multiple group labels if they share the same year).
+    annotate_dict = {}
     for n, g in df.groupby([annotate_column]):
-        g.set_index(x_column, inplace=True)
-        g = g.loc[:, y_column]
+        g.set_index(column_xaxis, inplace=True)
+        g = g.loc[:, column_value]
         g = g.reindex(years, fill_value=0)
         g.sort_index(inplace=True)
         g = g.diff()
@@ -675,13 +704,13 @@ def make_annotated_stacked_area_plot(df, filename, dict_colors=None, x_column='y
         g = {k: '{} - {:.0f}'.format(n[0], i) for k, i in g.items()}
         # if k in result.keys() add values to the existing dictionary
         for k, i in g.items():
-            if k in result.keys():
-                result[k] += '\n' + i
+            if k in annotate_dict.keys():
+                annotate_dict[k] += '\n' + i
             else:
-                result[k] = i
+                annotate_dict[k] = i
 
-    stacked_area_plot(df, filename, dict_colors, x_column='year', y_column='value', stack_column='fuel',
-                      annotate=result)
+    stacked_area_plot(df, filename, dict_colors, column_xaxis='year', column_value='value', column_stacked='fuel',
+                      annotate=annotate_dict)
 
 
 def format_dispatch_ax(ax, pd_index):
@@ -1004,16 +1033,17 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
         temp = 'all'
     temp = f'{year}_{temp}'
     if filename is not None and isinstance(filename, str):  # Only modify filename if it's a string
-        filename = filename.split('.png')[0] + f'_{temp}.png'
+        filename = filename.split('.')[0] + f'_{temp}.pdf'
 
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom,
                   figsize=figsize, ylabel=ylabel, title=title)
 
 
-def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colors=None, year_ini=None,order_scenarios=None,
-                        order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
+def stacked_bar_subplot(df, column_stacked, filename, df_errorbars=None, dict_colors=None, year_ini=None, order_scenarios=None,
+                        order_stacked=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
                         cap=6, annotate=True, show_total=False, title=None, figsize=(10,6), fontsize_label=10,
-                        format_label="{:.1f}", hspace=0.4, cols_per_row=3, juxtaposed=False):
+                        format_label="{:.1f}", hspace=0.4, cols_per_row=3, juxtaposed=False, bar_annotations=None,
+                        annotation_pad=0.02, annotation_joiner='\n'):
     """
     Create a stacked bar subplot from a DataFrame.
     Parameters
@@ -1021,7 +1051,7 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
     df : pandas.DataFrame
         DataFrame containing the data to plot. Index may be multiple levels. First level corresponds to x axis, second level corresponds to stacked values.
         Columns of df correspond to subplots.
-    column_group : str
+    column_stacked : str
         Column name to group by for the stacked bars.
     filename : str
         Path to save the plot image. If None, the plot is shown instead.
@@ -1033,7 +1063,7 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
         Initial year to highlight in the plot. Default is None.
     order_scenarios : list, optional
         List of scenario names to order the bars. Default is None.
-    order_columns : list, optional
+    order_stacked : list, optional
         List of column names to order the stacked bars. Default is None.
     dict_scenarios : dict, optional
         Dictionary mapping scenario names to new names for the plot. Default is None.
@@ -1051,13 +1081,20 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
         Whether to annotate each bar with its height. Default is True.
     show_total : bool, optional
         Whether to show the total value on top of each bar. Default is False.
+    bar_annotations : dict, optional
+        Nested dictionary keyed by subplot (column of df) and bar label mapping to an iterable of strings (e.g. power plants)
+        to display above each bar. Default is None.
+    annotation_pad : float, optional
+        Relative padding (as a fraction of the maximum bar height) to place annotations above bars. Default is 0.02.
+    annotation_joiner : str, optional
+        String used to join items when the annotation is provided as an iterable. Default is a newline.
     Returns
     -------
     None
     """
-    
+
     list_keys = list(df.columns)
-    n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_group][0]).unique()
+    n_scenario = df.index.get_level_values([i for i in df.index.names if i != column_stacked][0]).unique()
     num_subplots = int(len(list_keys))
     n_columns = min(cols_per_row, num_subplots)  # Limit to 3 columns per row
     n_rows = int(np.ceil(num_subplots / n_columns))
@@ -1074,19 +1111,29 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
 
     # Add figure title 
     if len(list_keys) > 1:
-        fig.suptitle(title)
+        fig.suptitle(title, fontsize=16, fontweight='bold')
 
     # should we use a stacked bar plot or not
     stacked = True
-    if column_group is None:
+    if column_stacked is None:
         stacked = False
 
     handles, labels = None, None
+    bar_annotations = bar_annotations or {}
     for k, key in enumerate(list_keys):
         ax = axes[k]
 
         try:
-            df_temp = df[key].unstack(column_group) if column_group else df[key].to_frame()
+            df_temp = df[key].unstack(column_stacked) if column_stacked else df[key].to_frame()
+
+            annotations_for_subplot = None
+            if bar_annotations:
+                if key in bar_annotations:
+                    annotations_for_subplot = bar_annotations[key]
+                elif len(list_keys) == 1 and bar_annotations:
+                    annotations_for_subplot = next(iter(bar_annotations.values()))
+                elif isinstance(key, tuple):
+                    annotations_for_subplot = bar_annotations.get(tuple(key))
 
             if key == year_ini:
                 df_temp = df_temp.iloc[0, :]
@@ -1095,10 +1142,12 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
             else:
                 if dict_scenarios is not None:  # Renaming scenarios for plots
                     df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
+                    if annotations_for_subplot is not None:
+                        annotations_for_subplot = {dict_scenarios.get(k, k): v for k, v in annotations_for_subplot.items()}
                 if order_scenarios is not None:  # Reordering scenarios
                     df_temp = df_temp.loc[[c for c in order_scenarios if c in df_temp.index], :]
-                if order_columns is not None:
-                    new_order = [c for c in order_columns if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_columns]
+                if order_stacked is not None:
+                    new_order = [c for c in order_stacked if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_stacked]
                     df_temp = df_temp.loc[:,new_order]
 
             if not juxtaposed:
@@ -1109,7 +1158,7 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
                             color=dict_colors if dict_colors else None)
 
             # Plot error bars if provided
-            df_total = df_temp.sum(axis=1)
+            df_bar_totals = df_temp.sum(axis=1)
 
             if df_errorbars is not None:
                 if not juxtaposed:
@@ -1119,7 +1168,7 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
 
                     for i, idx in enumerate(df_temp.index):
                         x = i  # bar positions correspond to index in this order
-                        height = df_total.loc[idx]
+                        height = df_bar_totals.loc[idx]
                         low = df_err_low.loc[idx] if pd.notna(df_err_low.loc[idx]) else height
                         high = df_err_high.loc[idx] if pd.notna(df_err_high.loc[idx]) else height
                         err_low = max(height - low, 0)
@@ -1203,6 +1252,27 @@ def stacked_bar_subplot(df, column_group, filename, df_errorbars=None, dict_colo
                                 color='black', fontweight='bold')
                 ax.scatter(df_temp.index, df_total, color='black', s=20)
 
+            if annotations_for_subplot and not juxtaposed:
+                max_height = df_bar_totals.max() if not df_bar_totals.empty else 0
+                pad_value = max_height * annotation_pad if max_height else annotation_pad
+                xtick_positions = ax.get_xticks()
+                for i, idx in enumerate(df_temp.index):
+                    raw_text = annotations_for_subplot.get(idx)
+                    if not raw_text:
+                        continue
+                    if isinstance(raw_text, str):
+                        text = raw_text
+                    else:
+                        text = annotation_joiner.join([str(item) for item in raw_text if str(item)])
+                    if not text:
+                        continue
+                    bar_height = df_bar_totals.loc[idx] if idx in df_bar_totals.index else None
+                    if bar_height is None or pd.isna(bar_height):
+                        continue
+                    x_coord = xtick_positions[i] if i < len(xtick_positions) else i
+                    y_coord = bar_height + pad_value
+                    ax.text(x_coord, y_coord, text, ha='center', va='bottom', fontsize=fontsize_label, color='black')
+
             ax.spines['left'].set_visible(False)
             ax.spines['right'].set_visible(False)
             ax.spines['top'].set_visible(False)
@@ -1260,7 +1330,8 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
                               column_value='value', select_xaxis=None, dict_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
                               show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10,
-                              format_label="{:.1f}", figsize=(10,6), hspace=0.4, cols_per_row=3, juxtaposed=False, year_ini=None):
+                              format_label="{:.1f}", figsize=(10,6), hspace=0.4, cols_per_row=3, juxtaposed=False, year_ini=None,
+                              column_annotation=None, annotation_pad=0.02, annotation_joiner='\n'):
     """
     Subplots with stacked bars. Can be used to explore the evolution of capacity over time and across scenarios.
     
@@ -1300,6 +1371,12 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
         Whether to annotate the bars.
     show_total : bool, optional
         Whether to show the total value on top of each bar.
+    column_annotation : str, optional
+        Column name containing categorical labels (e.g. plant names) to display above each bar.
+    annotation_pad : float, optional
+        Relative padding (fraction of bar height) for positioning annotations above bars.
+    annotation_joiner : str, optional
+        Separator used to join multiple annotation labels for a bar.
 
     Example
     -------
@@ -1331,6 +1408,11 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
                               format_y=lambda y, _: '{:.0f} GWh'.format(y),
                               order_stacked=['Hydro', 'Oil'], cap=2)
     """
+    if column_multiple_bars is None:
+        print('column_multiple_bars cannot be None, but column_xaxis can. Automatically inverting.')
+        column_multiple_bars = column_xaxis
+        column_xaxis = None
+    
     if selected_zone is not None:
         df = df[(df['zone'] == selected_zone)]
         df = df.drop(columns=['zone'])
@@ -1350,12 +1432,73 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
             assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
             df[key] = df[key].replace(grouping)  # case-specific, according to level of preciseness for dispatch plot
 
+    bar_annotations = None
+    if column_annotation is not None:
+        if column_annotation not in df.columns:
+            raise ValueError(f"column_annotation '{column_annotation}' not found in DataFrame columns.")
+
+        annotation_df = df.copy()
+        if column_value in annotation_df.columns:
+            annotation_df = annotation_df[annotation_df[column_value] > 0]
+
+        grouping_keys = []
+        if column_xaxis is not None:
+            grouping_keys.append(column_xaxis)
+        if column_multiple_bars is not None:
+            grouping_keys.append(column_multiple_bars)
+
+        if not grouping_keys:
+            grouping_keys = [column_annotation]
+
+        annotation_df = annotation_df.dropna(subset=[column_annotation])
+
+        def _collect_annotations(group):
+            if column_annotation not in group.columns:
+                return []
+            if column_value in group.columns:
+                totals = (group.groupby(column_annotation, observed=False)[column_value]
+                          .sum()
+                          .loc[lambda s: s > 0])
+                if not totals.empty:
+                    return totals.sort_values(ascending=False).index.tolist()
+            values = group[column_annotation].tolist()
+            unique_values = []
+            for val in values:
+                if val not in unique_values and val != "":
+                    unique_values.append(val)
+            return unique_values
+
+        grouped_annotations = annotation_df.groupby(grouping_keys, observed=False).apply(_collect_annotations)
+
+        if column_xaxis is not None:
+            bar_annotations = {}
+            for idx, plant_list in grouped_annotations.items():
+                if not plant_list:
+                    continue
+                if isinstance(idx, tuple):
+                    subplot_key = idx[0]
+                    bar_key = idx[1] if len(idx) > 1 else None
+                else:
+                    subplot_key = idx
+                    bar_key = None
+                if len(grouping_keys) == 2:
+                    subplot_key, bar_key = idx
+                elif bar_key is None and column_multiple_bars is not None:
+                    bar_key = idx
+                if bar_key is None:
+                    continue
+                bar_annotations.setdefault(subplot_key, {})[bar_key] = plant_list
+        else:
+            bar_annotations = {'__single__': {}}
+            for bar_key, plant_list in grouped_annotations.items():
+                if not plant_list:
+                    continue
+                bar_annotations['__single__'][bar_key] = plant_list
+
     if column_xaxis is not None:
         if column_stacked is not None:
-
             df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
             df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
-
         else:
             df = (df.groupby([column_xaxis, column_multiple_bars], observed=False)[column_value].sum().reset_index())
             df = df.set_index([column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
@@ -1381,16 +1524,34 @@ def make_stacked_bar_subplots(df, filename, dict_colors, df_errorbars=None, sele
             df_errorbars = (df_errorbars.groupby(['error', column_multiple_bars], observed=False)[column_value].sum().reset_index())
             df_errorbars = df_errorbars.set_index(['error', column_multiple_bars])
 
-
     if select_xaxis is not None:
         df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
+
+    if bar_annotations is not None:
+        if column_xaxis is None:
+            fallback = bar_annotations.get('__single__', {})
+            if len(df.columns) == 1:
+                bar_annotations = {df.columns[0]: fallback}
+            else:
+                bar_annotations = {col: fallback for col in df.columns if fallback}
+        else:
+            filtered_annotations = {}
+            for key in df.columns:
+                annotations_for_key = bar_annotations.get(key)
+                if annotations_for_key:
+                    filtered_annotations[key] = annotations_for_key
+            bar_annotations = filtered_annotations if filtered_annotations else None
+
+    if bar_annotations is not None and not bar_annotations:
+        bar_annotations = None
 
     if not df.empty:  # handling the case where the subset is empty
         stacked_bar_subplot(df, column_stacked, filename, dict_colors=dict_colors, df_errorbars=df_errorbars, format_y=format_y,
                             rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
-                            order_columns=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
+                            order_stacked=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
                             format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row,
-                            juxtaposed=juxtaposed, year_ini=year_ini)
+                            juxtaposed=juxtaposed, year_ini=year_ini, bar_annotations=bar_annotations,
+                            annotation_pad=annotation_pad, annotation_joiner=annotation_joiner)
 
 
 def scatter_plot_with_colors(df, column_xaxis, column_yaxis, column_color, color_dict, ymax=None, xmax=None, title='',
@@ -1624,7 +1785,7 @@ def scatter_plot_on_ax(ax, df, column_xaxis, column_yaxis, column_color, color_d
     ax.grid(True, linestyle='--', alpha=0.5)
 
 
-def simple_heatmap_plot(df, filename, fmt=".0f", title='', xcolumn='zone', ycolumn='year', valuecolumn='value'):
+def simple_heatmap_plot(df, filename, unit="", title='', xcolumn='zone', ycolumn='year', valuecolumn='value'):
     """
     Create a heatmap from the given DataFrame and save it to a file.
     
@@ -1637,19 +1798,46 @@ def simple_heatmap_plot(df, filename, fmt=".0f", title='', xcolumn='zone', ycolu
     Returns:
     - None
     """
-    pivot_df = df.pivot(index=ycolumn, columns=xcolumn, values=valuecolumn)
+    def make_formatter(unit):
+        def _format(value):
+            if pd.isna(value):
+                return ""
+            if unit == "%":
+                value = value * 100
+                txt = f"{value:.0f}"
+                return f"{txt}%"
+            if abs(value) >= 100:
+                txt = f"{value:.0f}"
+            elif abs(value) >= 1:
+                txt = f"{value:.1f}"
+            else:
+                txt = f"{value:.2f}"
+            txt = txt.rstrip('0').rstrip('.')
+            return f"{txt} {unit}".strip()
+        return _format
 
-    # Plotting
+    fmt_func = make_formatter(unit)
+
+    pivot_df = df.pivot(index=ycolumn, columns=xcolumn, values=valuecolumn)
+    annot_df = pivot_df.map(fmt_func)
+
     plt.figure(figsize=(10, 6))
     ax = sns.heatmap(
         pivot_df,
         cmap='cividis',
-        annot=True,
-        fmt=fmt,
+        annot=annot_df,
+        fmt='',
         linewidths=0.5,
-        linecolor='gray',
-        cbar_kws={'format': '%.0f'}  # No title, format float
+        linecolor='gray'
     )
+
+    cbar = ax.collections[0].colorbar
+    if cbar is not None:
+        from matplotlib.ticker import FuncFormatter
+        formatter = FuncFormatter(lambda v, _: fmt_func(v))
+        cbar.ax.yaxis.set_major_formatter(formatter)
+        cbar.ax.yaxis.get_offset_text().set_visible(False)
+        cbar.update_ticks()
 
     # Customization
     ax.set_ylabel("")  # Remove y-axis name
@@ -1750,15 +1938,15 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     scenario_order
     discount_rate
     """
-    def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_columns=None):
+    def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_stacked=None):
         if rename_index is not None:
             df.index = df.index.map(lambda x: rename_index.get(x, x))
         if rename_columns is not None:
             df.columns = df.columns.map(lambda x: rename_columns.get(x, x))
         if order_index is not None:
             df = df.loc[order_index, :]
-        if order_columns is not None:
-            df = df.loc[:, order_columns]
+        if order_stacked is not None:
+            df = df.loc[:, order_stacked]
         return df
     
     summary = []
@@ -1868,466 +2056,6 @@ def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=No
     heatmap_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
 
 
-def get_value(df, zone, year, scenario, attribute, column_to_select='attribute'):
-    """Safely retrieves an energy value for a given zone, year, scenario, and attribute."""
-    value = df.loc[
-        (df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario) & (df[column_to_select] == attribute),
-        'value'
-    ]
-    return value.values[0] if not value.empty else 0
-
-
-def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_value, title,
-                                      filename=None, select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
-    """
-    Generates and saves a dispatch plot for a specific value (e.g., Imports, Exports, Demand).
-
-    Parameters
-    ----------
-    dfs_value : dict
-        Dictionary containing dataframes for the selected value plot.
-    zone : str
-        The zone to visualize.
-    year : int
-        The target year.
-    scenario : str
-        The scenario to visualize.
-    value : str
-        The specific attribute to visualize (e.g., 'Imports', 'Exports', 'Demand').
-    unit_value : str
-        Unit of the displayed value (e.g., 'GWh', 'MW').
-    title : str
-        Title of the plot.
-    filename : str, optional
-        Path to save the figure, default is None.
-    select_time : dict, optional
-        Time selection parameters for filtering the data.
-    legend_loc : str, optional
-        Location of the legend (default is 'bottom').
-    bottom : float, optional
-        Adjusts bottom margin for better layout (default is 0).
-    figsize : tuple, optional
-        Size of the figure, default is (10,6).
-
-    Returns
-    -------
-    None
-    """
-
-    df_dispatch_value = df_dispatch.loc[(df_dispatch['zone']==zone)&(df_dispatch['scenario']==scenario)&(df_dispatch['year']==year)]
-
-    # Extracting unique seasons and representative days
-    dispatch_seasons = list(df_dispatch['season'].unique())
-    n_rep_days = len(list(df_dispatch['day'].unique()))
-
-    # Selecting
-
-    # Plot
-    fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
-
-    # Plot the selected value dispatch
-    df_dispatch_value = df_dispatch_value.set_index(['scenario', 'year', 'season', 'day', 't'])
-    df_dispatch_value.plot(ax=ax, color='steelblue')
-
-    ax.legend().remove()
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-
-    # Adding the representative days as vertical lines
-    m = 0
-    d_m = 0
-    x_ds = []
-    for d in range(len(dispatch_seasons) * n_rep_days):
-        if d != 0:
-            m = m + 1
-            d_m = d_m + 1
-            x_d = 24 * d - 1
-            if m == n_rep_days:
-                ax.axvline(x=x_d, color='slategrey', linestyle='-')
-                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
-                m = 0
-                d_m = 0
-            else:
-                ax.axvline(x=x_d, color='slategrey', linestyle='--')
-                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
-            x_ds = x_ds + [x_d]
-
-    # Adding the last day label
-    ax.text(x=x_d+12, y=(ax.get_ylim()[1]) * 0.9, s=f'd{str(int(d_m+1))}', ha='center')
-    ax.set_xlabel("")
-    ax.set_ylabel(unit_value, fontsize=fontsize, fontweight='bold')
-    ax.text(0, 1.2, title, fontsize=fontsize, fontweight='bold', transform=ax.transAxes)
-    ax.set_xticks([])
-    ax.set_xticks([24 * n_rep_days * s - 24 * n_rep_days / 2 for s in range(len(dispatch_seasons) + 1)])
-    ax.set_xticklabels([''] + [str(s) for s in dispatch_seasons])
-    ax.set_xlim(left=0)
-
-    fig.text(0.5, 0.05, 'Hours', ha='center', fontsize=fontsize, fontweight='bold')
-
-    # Save plot if filename is provided
-    if filename:
-        plt.savefig(filename, bbox_inches='tight')
-        plt.close()
-    else:
-        plt.show()
-
-
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
-    """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
-    # Generate capacity mix pie chart using existing function
-    df1 = pCapacityFuel.copy()
-    df1['attribute'] = 'Capacity'
-    df2 = pEnergyFuel.copy()
-    df2['attribute'] = 'Energy'
-    df = pd.concat([df1, df2])
-    capacity_plot = make_pie_chart_interactive(
-        df=df, zone=zone, year=year, scenario=scenario,
-        dict_colors=dict_specs['colors'], index='fuel'
-    )
-
-    df_exchanges = pDispatch.loc[pDispatch['attribute'].isin(['Imports', 'Exports'])]
-    df_exchanges_piv = df_exchanges.pivot(index= ['scenario', 'year', 'season', 'day', 't', 'zone'], columns = 'attribute', values = 'value').reset_index()
-    df_exchanges_piv[['Exports', 'Imports']] = df_exchanges_piv[['Exports', 'Imports']].fillna(0)
-    df_exchanges_piv['Net imports'] =  df_exchanges_piv['Imports'] + df_exchanges_piv['Exports']
-    time_index = df_exchanges_piv[['year', 'season', 'day', 't']].drop_duplicates()
-    zone_scenario_index = df_exchanges_piv[['zone', 'scenario']].drop_duplicates()
-    full_index = zone_scenario_index.merge(time_index, how='cross')
-    df_exchanges_piv = full_index.merge(df_exchanges_piv, on=['scenario', 'year', 'season', 'day', 't', 'zone'], how='left')
-    df_exchanges_piv['Net imports'] = df_exchanges_piv['Net imports'].fillna(0)
-    df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
-
-    df_price = pPrice.copy()
-
-    dfs_to_plot_area = {
-        'pDispatchPlant': filter_dataframe(pDispatchPlant, {'attribute': ['Generation']}),
-        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
-    }
-    
-    net_exchange = filter_dataframe(pDispatch, {'attribute': ['Exports', 'Imports']})
-    net_exchange = net_exchange.set_index(['scenario', 'zone', 'attribute', 'year', 'season', 'day', 't']).squeeze().unstack('attribute')
-    # Remove col name
-    net_exchange.columns.name = None
-    net_exchange['value'] = net_exchange['Exports'] + net_exchange['Imports']
-    net_exchange = net_exchange.reset_index()
-    net_exchange['attribute'] = 'Net exchange'
-    net_exchange = net_exchange.loc[:, pDispatch.columns]
-
-    dfs_to_plot_line = {
-        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Demand']}),
-        'pNetExchange': net_exchange,
-    }
-
-    seasons = pDispatchPlant.season.unique()
-    days = pDispatchPlant.day.unique()
-
-    select_time = {'season': seasons, 'day': days}
-
-    dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario,
-                                                    select_time=select_time, stacked=True,
-                                                    reorder_dispatch=['Hydro', 'Solar', 'Wind', 'Nuclear', 'Coal', 'Oil', 'Gas', 'Imports', 'Battery Storage'])
-
-    dfs_to_plot_area = {
-    }
-
-    dfs_to_plot_line = {
-        'pPrice': df_price.rename(columns={'value': 'price'})
-    }
-
-    price_plot = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
-                                                    year=year, scenario=scenario, select_time=select_time, stacked=False,
-                                                    ylabel='Price (US $/MWh)')
-
-    dfs_to_plot_area = {
-    }
-
-    dfs_to_plot_line = {
-        'pNetImports': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
-    }
-
-    imports_zero = dfs_to_plot_line['pNetImports']
-    imports_zero = imports_zero.loc[(imports_zero.scenario == scenario) & ((imports_zero.zone == zone)) & (imports_zero.year == year)]
-    imports_zero = (imports_zero['Net imports'] == 0).all().all()
-    if not imports_zero:  # plotting net imports only when there is some variation
-        net_imports_plots = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
-                                                        year=year, scenario=scenario, select_time=select_time, stacked=False,
-                                                        ylabel='Net imports (MWh)')
-
-        final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot, net_imports_plots], scale_factor=scale_factor)
-    else:
-        final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot],
-                                                scale_factor=scale_factor)
-
-    # Convert images to base64 and embed in popup
-    return f'<br>{final_image}'
-
-
-def combine_and_resize_images(image_list, scale_factor=0.6):
-    """
-    Takes a list of base64-encoded images, resizes them to the same width,
-    and vertically stacks them before returning as a base64-encoded image.
-
-    Parameters:
-    - image_list: List of base64-encoded images
-    - scale_factor: Factor to scale down images
-
-    Returns:
-    - base64-encoded combined image
-    """
-    images = []
-
-    # Decode base64 images into PIL images
-    for img_str in image_list:
-        if img_str:
-            img_data = base64.b64decode(img_str.split(",")[1])
-            img = Image.open(io.BytesIO(img_data))
-            images.append(img)
-
-    if not images:
-        return ""
-
-    # Resize all images to the same width
-    target_width = max(img.width for img in images)
-    resized_images = [img.resize((target_width, int(img.height * (target_width / img.width)))) for img
-                      in images]
-
-    # Stack images vertically
-    total_height = sum(img.height for img in resized_images)
-    final_img = Image.new("RGB", (target_width, total_height), (255, 255, 255))  # White background
-
-    y_offset = 0
-    for img in resized_images:
-        final_img.paste(img, (0, y_offset))
-        y_offset += img.height
-
-    # Resize the entire combined image
-    new_width = int(final_img.width * scale_factor)
-    new_height = int(final_img.height * scale_factor)
-    final_img = final_img.resize((new_width, new_height))
-
-    # Convert back to base64
-    img_io = io.BytesIO()
-    final_img.save(img_io, format="PNG")
-    img_io.seek(0)
-    encoded_str = base64.b64encode(img_io.getvalue()).decode()
-
-    return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
-
-
-def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_colors, zone, year, scenario,
-                                filename=None, BESS_included=True, Hydro_stor_included=True,title='Dispatch',
-                                select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
-    """
-    Generates and saves a dispatch plot for fuel-based generation in a given zone, year, and scenario.
-
-    Parameters
-    ----------
-    pDispatchFuel : DataFrame
-        Dataframe containing dispatch data by fuel type.
-    pDispatch : DataFrame
-        Dataframe containing total demand and other key dispatch attributes.
-    dict_colors : dict
-        Dictionary mapping fuel types to colors.
-    zone : str
-        The zone to visualize.
-    year : int
-        The target year.
-    scenario : str
-        The scenario to visualize.
-    filename : str, optional
-        Path to save the figure, default is None.
-    BESS_included : bool, optional
-        Whether to include Battery Storage in the dispatch, default is True.
-    Hydro_stor_included : bool, optional
-        Whether to include Pumped-Hydro Storage, default is True.
-    select_time : dict, optional
-        Time selection parameters for filtering the data.
-    legend_loc : str, optional
-        Location of the legend (default is 'bottom').
-    bottom : float, optional
-        Adjusts bottom margin for better layout (default is 0).
-    figsize : tuple, optional
-        Size of the figure, default is (20,6).
-    fontsize : int, optional
-        Font size for labels and titles.
-
-    Returns
-    -------
-    None
-    """
-
-       # Extracting unique seasons and representative days
-    dispatch_seasons = list(pDispatchFuel['season'].unique())
-    n_rep_days = len(list(pDispatchFuel['day'].unique()))
-
-    # Filtrer les données de production
-    pDispatchFuel_zone = pDispatchFuel.loc[
-        (pDispatchFuel['zone'] == zone) & (pDispatchFuel['year'] == year) & (pDispatchFuel['scenario'] == scenario)
-    ]
-
-    # Exclure les stockages si nécessaire
-    if not BESS_included:
-        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Battery Storage']
-    if not Hydro_stor_included:
-        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Pumped-Hydro']
-    y_max_dispatch = float(pDispatchFuel_zone['value'].max())
-
-    # Mise en forme pour le stacked area plot
-    pDispatchFuel_pivot = pDispatchFuel_zone.pivot_table(index=['season', 'day', 't'],
-                                                          columns='fuel', values='value', aggfunc='sum')
-
-    # Récupérer la demande
-    pDemand_zone = pDispatch.loc[
-        (pDispatch['zone'] == zone) & (pDispatch['year'] == year) & (pDispatch['scenario'] == scenario) & (pDispatch['attribute'] == 'Demand')
-    ]
-    y_max_demand = float(pDemand_zone['value'].max())
-
-    pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
-
-    # Extraire les saisons et jours représentatifs
-    dispatch_seasons = list(pDispatchFuel['season'].unique())
-    n_rep_days = len(list(pDispatchFuel['day'].unique()))
-
-    # Créer le graphique
-    fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
-
-    # Tracer la production en stacked area
-    if not pDispatchFuel_pivot.empty:
-        pDispatchFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchFuel_pivot.columns])
-
-    # Tracer la demande
-    if not pDemand_pivot.empty:
-        pDemand_pivot.plot(ax=ax, linewidth=1.5, color='darkred', linestyle='-', label='Demand')
-
-    ax.legend().remove()
-    ax.spines['top'].set_visible(False)
-    ax.spines['right'].set_visible(False)
-    ax.spines['bottom'].set_visible(False)
-    ax.spines['left'].set_visible(False)
-
-    # Adding the representative days as vertical lines
-    m = 0
-    d_m = 0
-    x_ds = []
-    for d in range(len(dispatch_seasons) * n_rep_days):
-        if d != 0:
-            m = m + 1
-            d_m = d_m + 1
-            x_d = 24 * d - 1
-            if m == n_rep_days:
-                ax.axvline(x=x_d, color='slategrey', linestyle='-')
-                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
-                m = 0
-                d_m = 0
-            else:
-                ax.axvline(x=x_d, color='slategrey', linestyle='--')
-                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
-            x_ds = x_ds + [x_d]
-
-    # Adding the last day label
-    ax.text(x=x_d+12, y=(ax.get_ylim()[1]) * 0.9, s=f'd{str(int(d_m+1))}', ha='center')
-    ax.set_xlabel("")
-    ax.set_ylabel('GWh', fontsize=fontsize, fontweight='bold')
-    ax.text(0, 1.2, title, fontsize=fontsize, fontweight='bold', transform=ax.transAxes)
-    ax.set_xticks([])
-    ax.set_xticks([24 * n_rep_days * s - 24 * n_rep_days / 2 for s in range(len(dispatch_seasons) + 1)])
-    ax.set_xticklabels([''] + [str(s) for s in dispatch_seasons])
-    ax.set_xlim(left=0)
-    ax.set_ylim(top=max(y_max_dispatch, y_max_demand))
-
-    fig.text(0.5, 0.05, 'Hours', ha='center', fontsize=fontsize, fontweight='bold')
-
-    # Save plot if filename is provided
-    if filename:
-        plt.savefig(filename, bbox_inches='tight')
-        plt.close()
-    else:
-        plt.show()
-
-
-def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fuel'):
-    """
-    Generates a pie chart using the existing subplot_pie function and returns it as a base64 image string.
-    """
-
-    temp_df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
-    if temp_df.empty:
-        return ""
-
-    img = BytesIO()
-
-    fig_width = 12
-    fig_height = 2  # Shorter height for better fit
-
-    subplot_pie(
-        df=temp_df, index=index, dict_colors=dict_colors, title=f'Power mix - {zone} - {year}',
-        filename=img, figsize=(fig_width, fig_height), subplot_column='attribute', legend_ncol=1, legend_fontsize=8,
-        bbox_to_anchor=(0.9, 0.5), legend=False
-    )
-
-    img.seek(0)
-    encoded_str = base64.b64encode(img.getvalue()).decode()
-    return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
-
-
-def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, scenario, select_time, stacked=True,
-                                       ylabel=None, bottom=None, reorder_dispatch=None):
-    """Generates a dispatch plot and returns it as a base64 image string."""
-    img = BytesIO()
-
-    fig_width = 14
-    fig_height = 4  # Shorter height for better fit
-
-    make_complete_fuel_dispatch_plot(
-        dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
-        zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img, figsize=(fig_width,fig_height),
-        stacked=stacked, ylabel=ylabel, bottom=bottom, reorder_dispatch=reorder_dispatch,
-    )
-
-    img.seek(0)
-    encoded_str = base64.b64encode(img.getvalue()).decode()
-    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
-
-
-def encode_image_from_memory(img):
-    """Encodes an in-memory image (BytesIO) to base64 for embedding in HTML."""
-    if img is None:
-        return ""
-    encoded_str = base64.b64encode(img.read()).decode()
-    return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
-
-
-def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
- 
-    img = BytesIO()
-
-    fig_width = 12
-    fig_height = 2  # Shorter height for better fit
-    fontsize=6
-
-    make_complete_value_dispatch_plot(
-        df_dispatch=df_dispatch, zone=zone, year=year, scenario=scenario, 
-        unit_value=unit_value, title=title, filename=img, select_time=select_time, 
-        figsize=(fig_width, fig_height),fontsize=fontsize
-    )
-
-    img.seek(0)
-    encoded_str = base64.b64encode(img.getvalue()).decode()
-    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
-
-
-def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250), end_color=(139, 0, 0)):
-    """Generates a color gradient based on a value range."""
-    ratio = (value - min_val) / (max_val - min_val)
-    ratio = min(max(ratio, 0), 1)  # Clamp between 0 and 1
-    ratio = ratio**2.5  # Exponential scaling
-    r = int(start_color[0] * (1 - ratio) + end_color[0] * ratio)
-    g = int(start_color[1] * (1 - ratio) + end_color[1] * ratio)
-    b = int(start_color[2] * (1 - ratio) + end_color[2] * ratio)
-    return f'#{r:02x}{g:02x}{b:02x}'
-
-
 def make_multiple_lines_subplots(df, filename, dict_colors, selected_zone=None, selected_year=None, column_subplots='scenario',
                               column_multiple_lines='competition', column_xaxis='t',
                               column_value='value', select_subplots=None, order_index=None,
@@ -2401,12 +2129,12 @@ def make_multiple_lines_subplots(df, filename, dict_colors, selected_zone=None, 
 
     multiple_lines_subplot(df, column_multiple_lines, filename, figsize=figsize, dict_colors=dict_colors,  format_y=format_y,
                            annotation_format=annotation_format,  rotation=rotation, order_index=order_index, dict_scenarios=dict_scenarios,
-                           order_columns=order_stacked, max_ticks=max_ticks, annotate=annotate, show_total=show_total,
+                           order_stacked=order_stacked, max_ticks=max_ticks, annotate=annotate, show_total=show_total,
                            fonttick=fonttick, title=title)
 
 
 def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), dict_colors=None, order_index=None,
-                            order_columns=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
+                            order_stacked=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True,
                            format_y=lambda y, _: '{:.0f} GW'.format(y), annotation_format="{:.0f}",
                            max_ticks=10, annotate=True, show_total=False, title=None, ylim_bottom=None):
     """
@@ -2415,7 +2143,7 @@ def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), 
     ----------
     df : pandas.DataFrame
         DataFrame containing the data to plot.
-    column_group : str
+    column_stacked : str
         Column name to group by for the stacked bars.
     filename : str
         Path to save the plot image. If None, the plot is shown instead.
@@ -2427,7 +2155,7 @@ def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), 
         Initial year to highlight in the plot. Default is None.
     order_index : list, optional
         List of scenario names to order the bars. Default is None.
-    order_columns : list, optional
+    order_stacked : list, optional
         List of column names to order the stacked bars. Default is None.
     dict_scenarios : dict, optional
         Dictionary mapping scenario names to new names for the plot. Default is None.
@@ -2462,8 +2190,8 @@ def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), 
                 df_temp.index = df_temp.index.map(lambda x: dict_scenarios.get(x, x))
             if order_index is not None:
                 df_temp = df_temp.loc[[c for c in order_index if c in df_temp.index], :]
-            if order_columns is not None:
-                df_temp = df_temp[[c for c in order_columns if c in df_temp.columns]]
+            if order_stacked is not None:
+                df_temp = df_temp[[c for c in order_stacked if c in df_temp.columns]]
 
             df_temp = df_temp.dropna(axis=1, how='all')  # drop columns with all NaNs
 
@@ -2569,7 +2297,7 @@ def multiple_lines_subplot(df, column_multiple_lines, filename, figsize=(10,6), 
         plt.show()
 
 
-def make_line_subplots(df, filename, x_column, y_column, subplot_column,
+def make_line_subplots(df, filename, column_xaxis, column_value, subplot_column,
                        group_column=None, dict_colors=None, format_y=None,
                        figsize=(10, 5), rotation=0, fonttick=12, title=None,
                        xlabel=None, ylabel=None):
@@ -2582,9 +2310,9 @@ def make_line_subplots(df, filename, x_column, y_column, subplot_column,
         The data to be plotted.
     filename : str
         Path to save the resulting figure.
-    x_column : str
+    column_xaxis : str
         Name of the column for the x-axis.
-    y_column : str
+    column_value : str
         Name of the column for the y-axis.
     subplot_column : str
         Column used to create one subplot per unique value (e.g., 'zone', 'attribute').
@@ -2622,9 +2350,9 @@ def make_line_subplots(df, filename, x_column, y_column, subplot_column,
         if group_column:
             for g, data in subset.groupby(group_column):
                 color = dict_colors[g] if dict_colors and g in dict_colors else None
-                ax.plot(data[x_column], data[y_column], label=str(g), color=color)
+                ax.plot(data[column_xaxis], data[column_value], label=str(g), color=color)
         else:
-            ax.plot(subset[x_column], subset[y_column], color='steelblue')
+            ax.plot(subset[column_xaxis], subset[column_value], color='steelblue')
 
         ax.set_title(str(key), fontsize=fonttick, fontweight='bold')
         ax.tick_params(axis='x', rotation=rotation)
@@ -2634,10 +2362,10 @@ def make_line_subplots(df, filename, x_column, y_column, subplot_column,
             ax.yaxis.set_major_formatter(plt.FuncFormatter(format_y))
 
         if i % ncols == 0:
-            ax.set_ylabel(ylabel if ylabel else y_column, fontsize=fonttick)
+            ax.set_ylabel(ylabel if ylabel else column_value, fontsize=fonttick)
 
         if i >= (nrows - 1) * ncols:
-            ax.set_xlabel(xlabel if xlabel else x_column, fontsize=fonttick)
+            ax.set_xlabel(xlabel if xlabel else column_xaxis, fontsize=fonttick)
 
         if group_column:
             ax.legend(frameon=False, fontsize=fonttick - 2)
@@ -2651,4 +2379,3 @@ def make_line_subplots(df, filename, x_column, y_column, subplot_column,
     plt.tight_layout()
     plt.savefig(filename, bbox_inches='tight')
     plt.show()
-

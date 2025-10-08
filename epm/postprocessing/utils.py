@@ -76,35 +76,6 @@ GEOJSON = os.path.join('static', 'countries.geojson')
 GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
 
 
-KEYS_RESULTS = {
-    # 1. Capacity expansion
-    'pCapacityPlant', 'pCapacityFuel',
-    'pNewCapacityFuel', 'pNewCapacityFuelCountry',
-    'pAnnualTransmissionCapacity', 'pAdditionalCapacity',
-    # 2. Cost
-    'pPrice',
-    'pCostsPlant', 'pYearlyCostsZone', 'pYearlyCostsCountry', 
-    'pCostsZone','pCostsSystem',
-    # 3. Energy balance
-    'pEnergyPlant', 'pEnergyFuel',
-    'pEnergyBalance',
-    'pUtilizationPlant', 'pUtilizationFuel',
-    # 4. Energy dispatch
-    'pDispatchPlant', 'pDispatch', 'pDispatchFuel',
-    # 5. Reserves
-    'pReserveSpinningPlantZone', 'pReserveSpinningPlantCountry',
-    'pReserveMarginCountry',
-    # 6. Interconnections
-    'pInterchange', 'pInterconUtilization',
-    # 7. Emissions
-    'pEmissionsZone',
-    # 10. Metrics
-    'pPlantAnnualLCOE',
-    'pZonalAverageCost', 'pSystemAverageCost',
-    # 11. Other
-    'pSolverParameters'
-}
-
 NAME_COLUMNS = {
     'pDispatchFuel': 'fuel',
     'pDispatchPlant': 'fuel',
@@ -905,7 +876,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postproces
         epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
         epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
                                           mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
-                                          keys=KEYS_RESULTS)
+                                          keys=keys_results)
 
         # Update color dict with plant colors
         if True:

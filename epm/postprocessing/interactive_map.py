@@ -42,7 +42,7 @@ import os
 import folium
 import geopandas as gpd
 from .utils import *
-
+from .plots import subplot_pie, make_complete_fuel_dispatch_plot
 
 def create_zonemap(zone_map, map_geojson_to_epm):
     """
@@ -159,6 +159,15 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         zone_map = pd.concat([zone_map, zone_map_divide]).to_crs(epsg=4326)
     geojson_to_epm = geojson_to_epm.set_index('Geojson')['EPM'].to_dict()  # get only relevant info
     return zone_map, geojson_to_epm
+
+
+def get_value(df, zone, year, scenario, attribute, column_to_select='attribute'):
+    """Safely retrieves an energy value for a given zone, year, scenario, and attribute."""
+    value = df.loc[
+        (df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario) & (df[column_to_select] == attribute),
+        'value'
+    ]
+    return value.values[0] if not value.empty else 0
 
 
 def divide(geodf, country, division):
@@ -373,7 +382,7 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
     return 0
 
 
-def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year, region, scenario, filename,
+def make_capacity_mix_map(zone_map, pCapacityFuel, dict_colors, centers, year, region, scenario, filename,
                           map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), percent_cap=25,
                           bbox_to_anchor=(0.5, -0.1), loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
     """
@@ -415,15 +424,15 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
         """Calculate pie chart size based on region area."""
         # area = region_sizes.loc[region_sizes['Name'] == zone, 'area'].values[0]
         # normalized_area = (area - region_sizes['area'].min()) / (region_sizes['area'].max() - region_sizes['area'].min())
-        area = pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)].value.sum()
+        area = pCapacityFuel[(pCapacityFuel['zone'] == zone) & (pCapacityFuel['year'] == year)].value.sum()
         normalized_area = (area - CapacityByFuel.groupby('zone').value.sum().min()) / (CapacityByFuel.groupby('zone').value.sum().max() - CapacityByFuel.groupby('zone').value.sum().min())
         return min_size + normalized_area * (max_size - min_size)
 
     handles, labels = [], []
     # Plot pie charts for each zone
-    for zone in pCapacityByFuel['zone'].unique():
+    for zone in pCapacityFuel['zone'].unique():
         # Extract capacity mix for the given zone and year
-        CapacityMix_plot = (pCapacityByFuel[(pCapacityByFuel['zone'] == zone) & (pCapacityByFuel['year'] == year)  & (pCapacityByFuel['scenario'] == scenario)]
+        CapacityMix_plot = (pCapacityFuel[(pCapacityFuel['zone'] == zone) & (pCapacityFuel['year'] == year)  & (pCapacityFuel['scenario'] == scenario)]
                             .set_index(index)['value']
                             .fillna(0)).reset_index()
 
@@ -439,9 +448,9 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
         size = [0.03, 0.07]
         if pie_sizing:
             if list_reduced_size is not None:
-                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityByFuel)
+                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityFuel)
             else:
-                pie_size = calculate_pie_size(zone, pCapacityByFuel)
+                pie_size = calculate_pie_size(zone, pCapacityFuel)
         else:
             pie_size = None
 
@@ -465,6 +474,459 @@ def make_capacity_mix_map(zone_map, pCapacityByFuel, dict_colors, centers, year,
         plt.close(fig)
     else:
         plt.show()
+
+
+def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250), end_color=(139, 0, 0)):
+    """Generates a color gradient based on a value range."""
+    ratio = (value - min_val) / (max_val - min_val)
+    ratio = min(max(ratio, 0), 1)  # Clamp between 0 and 1
+    ratio = ratio**2.5  # Exponential scaling
+    r = int(start_color[0] * (1 - ratio) + end_color[0] * ratio)
+    g = int(start_color[1] * (1 - ratio) + end_color[1] * ratio)
+    b = int(start_color[2] * (1 - ratio) + end_color[2] * ratio)
+    return f'#{r:02x}{g:02x}{b:02x}'
+
+
+
+def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_value, title,
+                                      filename=None, select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
+    """
+    Generates and saves a dispatch plot for a specific value (e.g., Imports, Exports, Demand).
+
+    Parameters
+    ----------
+    dfs_value : dict
+        Dictionary containing dataframes for the selected value plot.
+    zone : str
+        The zone to visualize.
+    year : int
+        The target year.
+    scenario : str
+        The scenario to visualize.
+    value : str
+        The specific attribute to visualize (e.g., 'Imports', 'Exports', 'Demand').
+    unit_value : str
+        Unit of the displayed value (e.g., 'GWh', 'MW').
+    title : str
+        Title of the plot.
+    filename : str, optional
+        Path to save the figure, default is None.
+    select_time : dict, optional
+        Time selection parameters for filtering the data.
+    legend_loc : str, optional
+        Location of the legend (default is 'bottom').
+    bottom : float, optional
+        Adjusts bottom margin for better layout (default is 0).
+    figsize : tuple, optional
+        Size of the figure, default is (10,6).
+
+    Returns
+    -------
+    None
+    """
+
+    df_dispatch_value = df_dispatch.loc[(df_dispatch['zone']==zone)&(df_dispatch['scenario']==scenario)&(df_dispatch['year']==year)]
+
+    # Extracting unique seasons and representative days
+    dispatch_seasons = list(df_dispatch['season'].unique())
+    n_rep_days = len(list(df_dispatch['day'].unique()))
+
+    # Selecting
+
+    # Plot
+    fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
+
+    # Plot the selected value dispatch
+    df_dispatch_value = df_dispatch_value.set_index(['scenario', 'year', 'season', 'day', 't'])
+    df_dispatch_value.plot(ax=ax, color='steelblue')
+
+    ax.legend().remove()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    # Adding the representative days as vertical lines
+    m = 0
+    d_m = 0
+    x_ds = []
+    for d in range(len(dispatch_seasons) * n_rep_days):
+        if d != 0:
+            m = m + 1
+            d_m = d_m + 1
+            x_d = 24 * d - 1
+            if m == n_rep_days:
+                ax.axvline(x=x_d, color='slategrey', linestyle='-')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+                m = 0
+                d_m = 0
+            else:
+                ax.axvline(x=x_d, color='slategrey', linestyle='--')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+            x_ds = x_ds + [x_d]
+
+    # Adding the last day label
+    ax.text(x=x_d+12, y=(ax.get_ylim()[1]) * 0.9, s=f'd{str(int(d_m+1))}', ha='center')
+    ax.set_xlabel("")
+    ax.set_ylabel(unit_value, fontsize=fontsize, fontweight='bold')
+    ax.text(0, 1.2, title, fontsize=fontsize, fontweight='bold', transform=ax.transAxes)
+    ax.set_xticks([])
+    ax.set_xticks([24 * n_rep_days * s - 24 * n_rep_days / 2 for s in range(len(dispatch_seasons) + 1)])
+    ax.set_xticklabels([''] + [str(s) for s in dispatch_seasons])
+    ax.set_xlim(left=0)
+
+    fig.text(0.5, 0.05, 'Hours', ha='center', fontsize=fontsize, fontweight='bold')
+
+    # Save plot if filename is provided
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+
+
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
+    """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
+    # Generate capacity mix pie chart using existing function
+    df1 = pCapacityFuel.copy()
+    df1['attribute'] = 'Capacity'
+    df2 = pEnergyFuel.copy()
+    df2['attribute'] = 'Energy'
+    df = pd.concat([df1, df2])
+    capacity_plot = make_pie_chart_interactive(
+        df=df, zone=zone, year=year, scenario=scenario,
+        dict_colors=dict_specs['colors'], index='fuel'
+    )
+
+    df_exchanges = pDispatch.loc[pDispatch['attribute'].isin(['Imports', 'Exports'])]
+    df_exchanges_piv = df_exchanges.pivot(index= ['scenario', 'year', 'season', 'day', 't', 'zone'], columns = 'attribute', values = 'value').reset_index()
+    df_exchanges_piv[['Exports', 'Imports']] = df_exchanges_piv[['Exports', 'Imports']].fillna(0)
+    df_exchanges_piv['Net imports'] =  df_exchanges_piv['Imports'] + df_exchanges_piv['Exports']
+    time_index = df_exchanges_piv[['year', 'season', 'day', 't']].drop_duplicates()
+    zone_scenario_index = df_exchanges_piv[['zone', 'scenario']].drop_duplicates()
+    full_index = zone_scenario_index.merge(time_index, how='cross')
+    df_exchanges_piv = full_index.merge(df_exchanges_piv, on=['scenario', 'year', 'season', 'day', 't', 'zone'], how='left')
+    df_exchanges_piv['Net imports'] = df_exchanges_piv['Net imports'].fillna(0)
+    df_net_imports = df_exchanges_piv.drop(columns=['Imports', 'Exports']).copy()
+
+    df_price = pPrice.copy()
+
+    dfs_to_plot_area = {
+        'pDispatchPlant': filter_dataframe(pDispatchPlant, {'attribute': ['Generation']}),
+        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']})
+    }
+    
+    net_exchange = filter_dataframe(pDispatch, {'attribute': ['Exports', 'Imports']})
+    net_exchange = net_exchange.set_index(['scenario', 'zone', 'attribute', 'year', 'season', 'day', 't']).squeeze().unstack('attribute')
+    # Remove col name
+    net_exchange.columns.name = None
+    net_exchange['value'] = net_exchange['Exports'] + net_exchange['Imports']
+    net_exchange = net_exchange.reset_index()
+    net_exchange['attribute'] = 'Net exchange'
+    net_exchange = net_exchange.loc[:, pDispatch.columns]
+
+    dfs_to_plot_line = {
+        'pDispatch': filter_dataframe(pDispatch, {'attribute': ['Demand']}),
+        'pNetExchange': net_exchange,
+    }
+
+    seasons = pDispatchPlant.season.unique()
+    days = pDispatchPlant.day.unique()
+
+    select_time = {'season': seasons, 'day': days}
+
+    dispatch_plot =  make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_specs['colors'], zone, year, scenario,
+                                                    select_time=select_time, stacked=True,
+                                                    reorder_dispatch=['Hydro', 'Solar', 'Wind', 'Nuclear', 'Coal', 'Oil', 'Gas', 'Imports', 'Battery Storage'])
+
+    dfs_to_plot_area = {
+    }
+
+    dfs_to_plot_line = {
+        'pPrice': df_price.rename(columns={'value': 'price'})
+    }
+
+    price_plot = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
+                                                    year=year, scenario=scenario, select_time=select_time, stacked=False,
+                                                    ylabel='Price (US $/MWh)')
+
+    dfs_to_plot_area = {
+    }
+
+    dfs_to_plot_line = {
+        'pNetImports': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
+    }
+
+    imports_zero = dfs_to_plot_line['pNetImports']
+    imports_zero = imports_zero.loc[(imports_zero.scenario == scenario) & ((imports_zero.zone == zone)) & (imports_zero.year == year)]
+    imports_zero = (imports_zero['Net imports'] == 0).all().all()
+    if not imports_zero:  # plotting net imports only when there is some variation
+        net_imports_plots = make_dispatch_plot_interactive(dfs_to_plot_area, dfs_to_plot_line, dict_colors=None, zone=zone,
+                                                        year=year, scenario=scenario, select_time=select_time, stacked=False,
+                                                        ylabel='Net imports (MWh)')
+
+        final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot, net_imports_plots], scale_factor=scale_factor)
+    else:
+        final_image = combine_and_resize_images([capacity_plot, dispatch_plot, price_plot],
+                                                scale_factor=scale_factor)
+
+    # Convert images to base64 and embed in popup
+    return f'<br>{final_image}'
+
+
+def combine_and_resize_images(image_list, scale_factor=0.6):
+    """
+    Takes a list of base64-encoded images, resizes them to the same width,
+    and vertically stacks them before returning as a base64-encoded image.
+
+    Parameters:
+    - image_list: List of base64-encoded images
+    - scale_factor: Factor to scale down images
+
+    Returns:
+    - base64-encoded combined image
+    """
+    images = []
+
+    # Decode base64 images into PIL images
+    for img_str in image_list:
+        if img_str:
+            img_data = base64.b64decode(img_str.split(",")[1])
+            img = Image.open(io.BytesIO(img_data))
+            images.append(img)
+
+    if not images:
+        return ""
+
+    # Resize all images to the same width
+    target_width = max(img.width for img in images)
+    resized_images = [img.resize((target_width, int(img.height * (target_width / img.width)))) for img
+                      in images]
+
+    # Stack images vertically
+    total_height = sum(img.height for img in resized_images)
+    final_img = Image.new("RGB", (target_width, total_height), (255, 255, 255))  # White background
+
+    y_offset = 0
+    for img in resized_images:
+        final_img.paste(img, (0, y_offset))
+        y_offset += img.height
+
+    # Resize the entire combined image
+    new_width = int(final_img.width * scale_factor)
+    new_height = int(final_img.height * scale_factor)
+    final_img = final_img.resize((new_width, new_height))
+
+    # Convert back to base64
+    img_io = io.BytesIO()
+    final_img.save(img_io, format="PNG")
+    img_io.seek(0)
+    encoded_str = base64.b64encode(img_io.getvalue()).decode()
+
+    return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
+
+
+def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_colors, zone, year, scenario,
+                                filename=None, BESS_included=True, Hydro_stor_included=True,title='Dispatch',
+                                select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
+    """
+    Generates and saves a dispatch plot for fuel-based generation in a given zone, year, and scenario.
+
+    Parameters
+    ----------
+    pDispatchFuel : DataFrame
+        Dataframe containing dispatch data by fuel type.
+    pDispatch : DataFrame
+        Dataframe containing total demand and other key dispatch attributes.
+    dict_colors : dict
+        Dictionary mapping fuel types to colors.
+    zone : str
+        The zone to visualize.
+    year : int
+        The target year.
+    scenario : str
+        The scenario to visualize.
+    filename : str, optional
+        Path to save the figure, default is None.
+    BESS_included : bool, optional
+        Whether to include Battery Storage in the dispatch, default is True.
+    Hydro_stor_included : bool, optional
+        Whether to include Pumped-Hydro Storage, default is True.
+    select_time : dict, optional
+        Time selection parameters for filtering the data.
+    legend_loc : str, optional
+        Location of the legend (default is 'bottom').
+    bottom : float, optional
+        Adjusts bottom margin for better layout (default is 0).
+    figsize : tuple, optional
+        Size of the figure, default is (20,6).
+    fontsize : int, optional
+        Font size for labels and titles.
+
+    Returns
+    -------
+    None
+    """
+
+       # Extracting unique seasons and representative days
+    dispatch_seasons = list(pDispatchFuel['season'].unique())
+    n_rep_days = len(list(pDispatchFuel['day'].unique()))
+
+    # Filtrer les données de production
+    pDispatchFuel_zone = pDispatchFuel.loc[
+        (pDispatchFuel['zone'] == zone) & (pDispatchFuel['year'] == year) & (pDispatchFuel['scenario'] == scenario)
+    ]
+
+    # Exclure les stockages si nécessaire
+    if not BESS_included:
+        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Battery Storage']
+    if not Hydro_stor_included:
+        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Pumped-Hydro']
+    y_max_dispatch = float(pDispatchFuel_zone['value'].max())
+
+    # Mise en forme pour le stacked area plot
+    pDispatchFuel_pivot = pDispatchFuel_zone.pivot_table(index=['season', 'day', 't'],
+                                                          columns='fuel', values='value', aggfunc='sum')
+
+    # Récupérer la demande
+    pDemand_zone = pDispatch.loc[
+        (pDispatch['zone'] == zone) & (pDispatch['year'] == year) & (pDispatch['scenario'] == scenario) & (pDispatch['attribute'] == 'Demand')
+    ]
+    y_max_demand = float(pDemand_zone['value'].max())
+
+    pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
+
+    # Extraire les saisons et jours représentatifs
+    dispatch_seasons = list(pDispatchFuel['season'].unique())
+    n_rep_days = len(list(pDispatchFuel['day'].unique()))
+
+    # Créer le graphique
+    fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
+
+    # Tracer la production en stacked area
+    if not pDispatchFuel_pivot.empty:
+        pDispatchFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchFuel_pivot.columns])
+
+    # Tracer la demande
+    if not pDemand_pivot.empty:
+        pDemand_pivot.plot(ax=ax, linewidth=1.5, color='darkred', linestyle='-', label='Demand')
+
+    ax.legend().remove()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    # Adding the representative days as vertical lines
+    m = 0
+    d_m = 0
+    x_ds = []
+    for d in range(len(dispatch_seasons) * n_rep_days):
+        if d != 0:
+            m = m + 1
+            d_m = d_m + 1
+            x_d = 24 * d - 1
+            if m == n_rep_days:
+                ax.axvline(x=x_d, color='slategrey', linestyle='-')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+                m = 0
+                d_m = 0
+            else:
+                ax.axvline(x=x_d, color='slategrey', linestyle='--')
+                ax.text(x=x_d-12, y=(ax.get_ylim()[1]) * 0.99, s=f'd{str(int(d_m))}', ha='center')
+            x_ds = x_ds + [x_d]
+
+    # Adding the last day label
+    ax.text(x=x_d+12, y=(ax.get_ylim()[1]) * 0.9, s=f'd{str(int(d_m+1))}', ha='center')
+    ax.set_xlabel("")
+    ax.set_ylabel('GWh', fontsize=fontsize, fontweight='bold')
+    ax.text(0, 1.2, title, fontsize=fontsize, fontweight='bold', transform=ax.transAxes)
+    ax.set_xticks([])
+    ax.set_xticks([24 * n_rep_days * s - 24 * n_rep_days / 2 for s in range(len(dispatch_seasons) + 1)])
+    ax.set_xticklabels([''] + [str(s) for s in dispatch_seasons])
+    ax.set_xlim(left=0)
+    ax.set_ylim(top=max(y_max_dispatch, y_max_demand))
+
+    fig.text(0.5, 0.05, 'Hours', ha='center', fontsize=fontsize, fontweight='bold')
+
+    # Save plot if filename is provided
+    if filename:
+        plt.savefig(filename, bbox_inches='tight')
+        plt.close()
+    else:
+        plt.show()
+
+
+def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fuel'):
+    """
+    Generates a pie chart using the existing subplot_pie function and returns it as a base64 image string.
+    """
+
+    temp_df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+    if temp_df.empty:
+        return ""
+
+    img = BytesIO()
+
+    fig_width = 12
+    fig_height = 2  # Shorter height for better fit
+
+    subplot_pie(
+        df=temp_df, index=index, dict_colors=dict_colors, title=f'Power mix - {zone} - {year}',
+        filename=img, figsize=(fig_width, fig_height), subplot_column='attribute', legend_ncol=1, legend_fontsize=8,
+        bbox_to_anchor=(0.9, 0.5), legend=False
+    )
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
+
+
+def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, scenario, select_time, stacked=True,
+                                       ylabel=None, bottom=None, reorder_dispatch=None):
+    """Generates a dispatch plot and returns it as a base64 image string."""
+    img = BytesIO()
+
+    fig_width = 14
+    fig_height = 4  # Shorter height for better fit
+
+    make_complete_fuel_dispatch_plot(
+        dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
+        zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img, figsize=(fig_width,fig_height),
+        stacked=stacked, ylabel=ylabel, bottom=bottom, reorder_dispatch=reorder_dispatch,
+    )
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
+
+
+def encode_image_from_memory(img):
+    """Encodes an in-memory image (BytesIO) to base64 for embedding in HTML."""
+    if img is None:
+        return ""
+    encoded_str = base64.b64encode(img.read()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
+
+
+def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
+ 
+    img = BytesIO()
+
+    fig_width = 12
+    fig_height = 2  # Shorter height for better fit
+    fontsize=6
+
+    make_complete_value_dispatch_plot(
+        df_dispatch=df_dispatch, zone=zone, year=year, scenario=scenario, 
+        unit_value=unit_value, title=title, filename=img, select_time=select_time, 
+        figsize=(fig_width, fig_height),fontsize=fontsize
+    )
+
+    img.seek(0)
+    encoded_str = base64.b64encode(img.getvalue()).decode()
+    return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
+
 
 
 def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', color_col=None, filename=None,
@@ -701,7 +1163,7 @@ def get_extended_pastel_palette(n):
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice, label_size=14):
+                           dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -715,7 +1177,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     - scenario (str): Scenario name
     - filename (str): Output HTML file name
     - dict_specs (dict): Specifications for plotting
-    - pCapacityByFuel (DataFrame): Capacity mix data
+    - pCapacityFuel (DataFrame): Capacity mix data
     - pDispatch (DataFrame): Dispatch data
     """
     # Focus the map on the bounding box of the region
@@ -779,8 +1241,8 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
             """
 
             # Generate and embed capacity mix and dispatch plots
-            popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch,
-                                                pPlantDispatch, pPrice, scale_factor=0.8)
+            popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergyFuel, pDispatch,
+                                                pDispatchPlant, pPrice, scale_factor=0.8)
 
             folium.Marker(
                 location=coords,
@@ -796,7 +1258,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     print(f"Interactive map saved to {filename}")
 
 
-def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenarios=None):
+def make_automatic_map(epm_results, dict_specs, folder, selected_scenarios=None):
     # TODO: ongoing work
     def keep_max_direction(df):
         # Make sure zone names are consistent strings
@@ -822,7 +1284,7 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
 
     
     if selected_scenarios is None:
-        selected_scenarios = list(epm_results['pPlantDispatch'].scenario.unique())
+        selected_scenarios = list(epm_results['pDispatchPlant'].scenario.unique())
 
     pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
     pInterconUtilization = epm_results['pInterconUtilization'].copy()
@@ -831,9 +1293,6 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
 
     for selected_scenario in selected_scenarios:
         print(f'Automatic map for scenario {selected_scenario}')
-        folder = f'{GRAPHS_FOLDER}/{selected_scenario}/map'
-        if not os.path.exists(folder):
-            os.mkdir(folder)
         # Select first and last years
         years = [min(years), max(years)]
         #years = [y for y in [2025, 2030, 2035, 2040] if y in years]
@@ -858,14 +1317,14 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
         for year in years:
-            filename = f'{folder}/TransmissionCapacity_{selected_scenario}_{year}.png'
+            filename = f'{folder}/TransmissionCapacity_{selected_scenario}_{year}.pdf'
 
             if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
                 make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='capacity',
                                          label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
                                          min_display_value=200, filename=filename, title='Transmission capacity (MW)')
 
-                filename = f'{folder}/TransmissionUtilization_{selected_scenario}_{year}.png'
+                filename = f'{folder}/TransmissionUtilization_{selected_scenario}_{year}.pdf'
 
                 make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='utilization',
                                          min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
@@ -879,38 +1338,39 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
                                          format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
                                          title='Transmission utilization (%)', show_arrows=True, arrow_offset_ratio=0.4,
                                          arrow_size=25, plot_colored_countries=False)
+             
+                if False:
+                    tmp = epm_results['pInterchange'].copy()
+                    df_congested = epm_results['pCongestionShare'].copy().rename(columns={'value': 'congestion'})
+                    tmp = tmp.merge(df_congested, on=['scenario', 'year', 'zone', 'z2'], how='left')
+                    # Fill only numerical columns with 0
+                    tmp = tmp.fillna({
+                        col: 0 for col in tmp.select_dtypes(include=["number"]).columns
+                    })
+                    tmp_rev = tmp.copy().rename(columns={'zone': 'z2', 'z2': 'zone'})
+                    tmp_rev['value'] = - tmp_rev['value']
+                    df_combined = pd.concat([tmp, tmp_rev], ignore_index=True)
+                    df_combined = df_combined.groupby(['scenario', 'year', 'zone', 'z2'])[['value', 'congestion']].sum().reset_index()
+                    df_net = df_combined[df_combined['value'] > 0]
+                    df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
-                tmp = epm_results['pInterchange'].copy()
-                df_congested = epm_results['pCongested'].copy().rename(columns={'value': 'congestion'})
-                tmp = tmp.merge(df_congested, on=['scenario', 'year', 'zone', 'z2'], how='left')
-                # Fill only numerical columns with 0
-                tmp = tmp.fillna({
-                    col: 0 for col in tmp.select_dtypes(include=["number"]).columns
-                })
-                tmp_rev = tmp.copy().rename(columns={'zone': 'z2', 'z2': 'zone'})
-                tmp_rev['value'] = - tmp_rev['value']
-                df_combined = pd.concat([tmp, tmp_rev], ignore_index=True)
-                df_combined = df_combined.groupby(['scenario', 'year', 'zone', 'z2'])[['value', 'congestion']].sum().reset_index()
-                df_net = df_combined[df_combined['value'] > 0]
-                df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+                    filename = f'{folder}/NetExports_{selected_scenario}_{year}.pdf'
 
-                filename = f'{folder}/NetExports_{selected_scenario}_{year}.png'
+                    make_interconnection_map(zone_map, df_net, centers, filename=filename, year=year, scenario=selected_scenario,
+                                            title='Net Exports (GWh)',
+                                            label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
+                                            plot_colored_countries=False,
+                                            min_display_value=100, column='value', plot_lines=False,
+                                            format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
+                                            min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
+                                            color_col='congestion')
 
-                make_interconnection_map(zone_map, df_net, centers, filename=filename, year=year, scenario=selected_scenario,
-                                         title='Net Exports (GWh)',
-                                         label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
-                                         plot_colored_countries=False,
-                                         min_display_value=100, column='value', plot_lines=False,
-                                         format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
-                                         min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
-                                         color_col='congestion')
-
-            if len(epm_results['pDemandSupply'].loc[(epm_results['pDemandSupply'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
-                    energy_data = epm_results['pDemandSupply'].copy()
-                    pCapacityByFuel = epm_results['pCapacityByFuel'].copy()
-                    pEnergyByFuel = epm_results['pEnergyByFuel'].copy()
+            if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
+                    energy_data = epm_results['pEnergyBalance'].copy()
+                    pCapacityFuel = epm_results['pCapacityFuel'].copy()
+                    pEnergyFuel = epm_results['pEnergyFuel'].copy()
                     pDispatch = epm_results['pDispatch'].copy()
-                    pPlantDispatch = epm_results['pPlantDispatch'].copy()
+                    pDispatchPlant = epm_results['pDispatchPlant'].copy()
                     pPrice = epm_results['pPrice'].copy()
                     filename = f'{folder}/InteractiveMap_{selected_scenario}_{year}.html'
 
@@ -920,4 +1380,4 @@ def make_automatic_map(epm_results, dict_specs, GRAPHS_FOLDER, selected_scenario
                     transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                     create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
-                                           dict_specs, pCapacityByFuel, pEnergyByFuel, pDispatch, pPlantDispatch, pPrice)
+                                           dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice)

@@ -34,8 +34,8 @@ Variable O&M,rosybrown
 Fuel costs,grey
 Transmission additions,purple
 Spinning reserve costs,pink
-Unmet reserve cost,pink
-Unmet demand costs,black
+Unmet reserve costs,pink
+Unmet demand costs,firebrick
 Excess generation,yellow
 VRE curtailment,orange
 Carbon costs,darkgreen
