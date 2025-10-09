@@ -239,7 +239,7 @@ This document describes the key outputs from the Energy Planning Model (EPM), pr
 
 ---
 
-## `pAdditionalCapacity.csv`
+## `pAdditionalTransmissionCapacity.csv`
 
 🔹 **Description:** Additional required capacity beyond existing/planned levels.
 

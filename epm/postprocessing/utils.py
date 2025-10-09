@@ -686,14 +686,14 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pAnnualTransmissionCapacity in epm_results')
         
-    if 'pAdditionalCapacity' in epm_results.keys():
-        t = epm_results['pAdditionalCapacity'].copy()
+    if 'pAdditionalTransmissionCapacity' in epm_results.keys():
+        t = epm_results['pAdditionalTransmissionCapacity'].copy()
         t['attribute'] = 'Additional Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pAdditionalCapacity': t})
+        summary.update({'pAdditionalTransmissionCapacity': t})
     else:
-        print('No pAdditionalCapacity in epm_results')
+        print('No pAdditionalTransmissionCapacity in epm_results')
 
     # 3. Energy balance
 

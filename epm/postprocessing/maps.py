@@ -487,7 +487,6 @@ def calculate_color_gradient(value, min_val, max_val, start_color=(135, 206, 250
     return f'#{r:02x}{g:02x}{b:02x}'
 
 
-
 def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_value, title,
                                       filename=None, select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
     """
@@ -929,7 +928,7 @@ def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit
 
 
 
-def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, year, scenario, column='value', color_col=None, filename=None,
+def make_interconnection_map(zone_map, df, centers, column='value', color_col=None, filename=None,
                              min_capacity=0.1, figsize=(12, 8), show_labels=True, label_yoffset=0.02, label_xoffset=0.02,
                              label_fontsize=12, predefined_colors=None, min_display_value=100,
                              min_line_width=1, max_line_width=5, format_y=lambda y, _: '{:.0f} MW'.format(y),
@@ -981,12 +980,8 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
         predefined_colors = {country: colors[i] for i, country in enumerate(unique_countries)}
         # predefined_colors = {country: plt.cm.Pastel1(i % 9) for i, country in enumerate(unique_countries)}
 
-    # Filter data for the given year and scenario
-    transmission_data = pAnnualTransmissionCapacity[
-        (pAnnualTransmissionCapacity['year'] == year) &
-        (pAnnualTransmissionCapacity['scenario'] == scenario) &
-        (pAnnualTransmissionCapacity[column] > min_capacity)
-        ]
+    # Filter data based on min_capacity
+    transmission_data = df[df[column] > min_capacity]
 
     # Compute capacity range for scaling line width
     if not transmission_data.empty:
@@ -1022,7 +1017,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
     # Remove axes for a clean map
     ax.set_aspect('equal')
     ax.set_axis_off()
-    ax.set_title(f'{title} - {scenario} - {year}', loc='center')
+    ax.set_title(title, loc='center')
 
     # Get vertical and horizontal extent of the figure to normalize offsets
     ymin, ymax = ax.get_ylim()
@@ -1108,7 +1103,7 @@ def make_interconnection_map(zone_map, pAnnualTransmissionCapacity, centers, yea
                 # Plot arrow
                 arrow = FancyArrowPatch((start_x, start_y), (end_x, end_y),
                                         arrowstyle=arrowstyle,
-                                        color=color,
+                                        facecolor=color,
                                         edgecolor='black',  # Optional: to match the example style
                                         linewidth=0,  # outline thickness (not width of the arrow)
                                         mutation_scale=mutation_scale,
@@ -1258,7 +1253,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     print(f"Interactive map saved to {filename}")
 
 
-def make_automatic_map(epm_results, dict_specs, folder, selected_scenarios=None):
+def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selected_scenarios=None):
     # TODO: ongoing work
     def keep_max_direction(df):
         # Make sure zone names are consistent strings
@@ -1281,25 +1276,21 @@ def make_automatic_map(epm_results, dict_specs, folder, selected_scenarios=None)
         df_sum = df_sum.drop(columns='zone_pair')
 
         return df_sum
-
-    
+ 
     if selected_scenarios is None:
         selected_scenarios = list(epm_results['pDispatchPlant'].scenario.unique())
 
-    pAnnualTransmissionCapacity = epm_results['pAnnualTransmissionCapacity'].copy()
-    pInterconUtilization = epm_results['pInterconUtilization'].copy()
-    pInterconUtilization['value'] = pInterconUtilization['value'] * 100  # percentage
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
+    # One figure per scenario
     for selected_scenario in selected_scenarios:
-        print(f'Automatic map for scenario {selected_scenario}')
+        print(f'Generating map for scenario {selected_scenario}')
         # Select first and last years
         years = [min(years), max(years)]
         #years = [y for y in [2025, 2030, 2035, 2040] if y in years]
 
         try:
             zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
-
             zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
         except Exception as e:
@@ -1310,36 +1301,50 @@ def make_automatic_map(epm_results, dict_specs, folder, selected_scenarios=None)
         capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
         utilization_transmission = epm_results['pInterconUtilization'].copy()
         utilization_transmission['value'] = utilization_transmission['value'] * 100  # percentage
-        utilization_transmission_max = keep_max_direction(utilization_transmission)  # we sum utilization across both directions, and keep the direction with the maximum utilization (for arrows on graph)
+        # We sum utilization across both directions, and keep the direction with the maximum utilization (for arrows on graph)
+        utilization_transmission_max = keep_max_direction(utilization_transmission)
         transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
             utilization_transmission_max.rename
             (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
         for year in years:
-            filename = f'{folder}/TransmissionCapacity_{selected_scenario}_{year}.pdf'
 
-            if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty:  # only plotting transmission when there is information to plot
-                make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='capacity',
-                                         label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
-                                         min_display_value=200, filename=filename, title='Transmission capacity (MW)')
+            if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty: 
+   
+                # Filter data for the given year and scenario
+                df = transmission_data[
+                    (transmission_data['year'] == year) &
+                    (transmission_data['scenario'] == selected_scenario)
+                    ]
+   
+                figure_name = 'TransmissionCapacityMap'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    
+                    title = f'Transmission capacity [MW] - {selected_scenario} - {year}'
+                    filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
+                    make_interconnection_map(zone_map, df, centers, title=title, column='capacity',
+                                            label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
+                                            min_display_value=50, filename=filename)
 
-                filename = f'{folder}/TransmissionUtilization_{selected_scenario}_{year}.pdf'
-
-                make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario, column='utilization',
-                                         min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
-                                         label_fontsize=10, show_labels=False, min_display_value=50,
-                                         format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename, title='Transmission utilization (%)')
-
-                make_interconnection_map(zone_map, transmission_data, centers, year=year, scenario=selected_scenario,
-                                         column='utilization',
-                                         min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
-                                         label_fontsize=10, show_labels=False, min_display_value=50,
-                                         format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
-                                         title='Transmission utilization (%)', show_arrows=True, arrow_offset_ratio=0.4,
-                                         arrow_size=25, plot_colored_countries=False)
+                figure_name = 'TransmissionUtilizationMap'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    title = f'Transmission utilization [%] - {selected_scenario} - {year}'
+                    filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
+                    make_interconnection_map(zone_map, df, centers,
+                                            column='utilization',
+                                            min_capacity=0.01, label_yoffset=0.01, label_xoffset=-0.05,
+                                            label_fontsize=10, show_labels=False, min_display_value=20,
+                                            format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
+                                            title=title, show_arrows=True, arrow_offset_ratio=0.4,
+                                            arrow_size=25, plot_colored_countries=True)
              
-                if False:
+                figure_name = 'NetExportsMap'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    title = f'Net Exports [GWh] - {selected_scenario} - {year}'
+                    filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
+
+                    
                     tmp = epm_results['pInterchange'].copy()
                     df_congested = epm_results['pCongestionShare'].copy().rename(columns={'value': 'congestion'})
                     tmp = tmp.merge(df_congested, on=['scenario', 'year', 'zone', 'z2'], how='left')
@@ -1354,30 +1359,26 @@ def make_automatic_map(epm_results, dict_specs, folder, selected_scenarios=None)
                     df_net = df_combined[df_combined['value'] > 0]
                     df_net = df_net.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
-                    filename = f'{folder}/NetExports_{selected_scenario}_{year}.pdf'
-
-                    make_interconnection_map(zone_map, df_net, centers, filename=filename, year=year, scenario=selected_scenario,
-                                            title='Net Exports (GWh)',
+                    make_interconnection_map(zone_map, df_net, centers, filename=filename,
+                                            title=title,
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
-                                            plot_colored_countries=False,
+                                            plot_colored_countries=True,
                                             min_display_value=100, column='value', plot_lines=False,
                                             format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
                                             min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
                                             color_col='congestion')
 
             if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
-                    energy_data = epm_results['pEnergyBalance'].copy()
-                    pCapacityFuel = epm_results['pCapacityFuel'].copy()
-                    pEnergyFuel = epm_results['pEnergyFuel'].copy()
-                    pDispatch = epm_results['pDispatch'].copy()
-                    pDispatchPlant = epm_results['pDispatchPlant'].copy()
-                    pPrice = epm_results['pPrice'].copy()
-                    filename = f'{folder}/InteractiveMap_{selected_scenario}_{year}.html'
-
+                    
+                    figure_name = 'InteractiveMap'
+                    if FIGURES_ACTIVATED.get(figure_name, False):
+                        filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.html')
+                    
+                    
                     transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
                         utilization_transmission.rename
                         (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
                     transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
-                    create_interactive_map(zone_map, centers, transmission_data, energy_data, year, selected_scenario, filename,
-                                           dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice)
+                    create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
+                                           dict_specs, epm_results['pCapacityFuel'], epm_results['pEnergyFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])

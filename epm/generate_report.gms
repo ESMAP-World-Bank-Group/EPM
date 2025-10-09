@@ -54,7 +54,7 @@ Parameters
   pNewCapacityTechCountry(c,tech,y)          'Newly added capacity [MW] by technology and country'
   
   pAnnualTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
-  pAdditionalCapacity(z,z2,y)                'Additional transmission capacity [MW] between internal zones'
+  pAdditionalTransmissionCapacity(z,z2,y)                'Additional transmission capacity [MW] between internal zones'
 
   pCapacitySummary(z,*,y)                    'Summary of capacity indicators [MW] by zone and year'
   pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
@@ -327,7 +327,7 @@ pRetirementsFuel(z, f, y) =
 * ---------------------------------------------------------
 * Transmission capacity expansion and annual limits
 * ---------------------------------------------------------
-* pAdditionalCapacity:
+* pAdditionalTransmissionCapacity:
 *   - New transmission capacity added between zones
 *   - Based on build decision, per-line capacity, and allowed factor
 *
@@ -336,8 +336,8 @@ pRetirementsFuel(z, f, y) =
 *   - Equals existing maximum transfer limit plus any new additions
 * ---------------------------------------------------------
 
-pAdditionalCapacity(sTopology(z,z2),y) = vNewTransferCapacity.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
-pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
+pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransferCapacity.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
+pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalTransmissionCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
 * ---------------------------------------------------------
 * Country-level capacity, new builds, retirements, and utilization
@@ -1384,7 +1384,7 @@ embeddedCode Connect:
         "pCapacityPlant",
         "pCapacityFuel",
         "pCapacityFuelCountry",
-        "pAdditionalCapacity",
+        "pAdditionalTransmissionCapacity",
         "pNewCapacityFuel",
         "pNewCapacityFuelCountry",
         "pAnnualTransmissionCapacity",
@@ -1459,7 +1459,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
       pNewCapacityFuel, pNewCapacityTech, pNewCapacityFuelCountry, pNewCapacityTechCountry,
-      pAnnualTransmissionCapacity, pAdditionalCapacity,
+      pAnnualTransmissionCapacity, pAdditionalTransmissionCapacity,
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
       pCostsPlant, 
