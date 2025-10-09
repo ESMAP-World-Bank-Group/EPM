@@ -59,7 +59,7 @@ KEYS_RESULTS = {
     'pCostsPlant',  
     'pYearlyCostsZone', 'pYearlyCostsCountry',
     'pCostsZone', 'pCostsSystem',
-    'pFuelCosts', 'pFuelConsumption',
+    'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption', 'pFuelConsumptionCountry',
     # 3. Energy balance
     'pEnergyPlant', 'pEnergyFuel', 'pEnergyFuelCountry',
     'pEnergyBalance',

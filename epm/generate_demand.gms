@@ -39,7 +39,7 @@ Parameters
    pTempDemand(z,q,d,y,t)
 ;
 
-variable
+Variable
    pyval(z,q,d,y,t)
    divisor(z,y)
    obj
@@ -47,7 +47,7 @@ variable
 
 divisor.lo(z,y) = card(q)*card(d)*card(t);
 
-equation
+Equation
    getDivisor(z,q,d,y,t)
    getArea(z,y)
    objFn

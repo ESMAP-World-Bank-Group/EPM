@@ -38,9 +38,9 @@ pCarbonPrice,constraint/pCarbonPrice.csv
 TRADE,
 zext,trade/zext.csv
 pExtTransferLimit,trade/pExtTransferLimit.csv
-pLossFactor,trade/pLossFactor.csv
+pLossFactorInternal,trade/pLossFactorInternal.csv
 pMaxPriceImportShare,trade/pMaxPriceImportShare.csv
-pMaxExchangeShare,trade/pMaxExchangeShare.csv
+pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 pMinImport,trade/pMinImport.csv
 pNewTransmission,trade/pNewTransmissionBaseline.csv
 pTradePrice,trade/pTradePrice.csv

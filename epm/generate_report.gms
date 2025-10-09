@@ -67,8 +67,7 @@ Parameters
 
   pCostsPlant(z, g, *, y)                       'Yearly cost breakdown by plant and year'
   
-  pCapexInvestmentPlantComponent(z, g, *, y) 'CAPEX investment [USD] by plant and component'                                               
-  pCapexInvestmentPlant(z, g, y)                'Annual CAPEX investment [USD] by plant and year'
+  pCapexInvestmentPlant(z, g, *, y) 'CAPEX investment [USD] by plant and component'                                               
   pCapexInvestmentComponent(z, *, y) 'Annual CAPEX investment [USD] by component and zone'                                          
   pCapexInvestment(z, y)                        'Annual CAPEX investment in USD by zone and year'
 
@@ -433,25 +432,21 @@ pCostsPlant(z, g, "Spinning Reserve Cost: $m", y) =
 * hydrogen entries later on.
 * ---------------------------------------------------------
 
-pCapexInvestmentPlantComponent(zgmap(z,g), "Generation", y)$((not st(g))) =
+pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g))) =
   1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
-pCapexInvestmentPlantComponent(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
+pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
   1e3 * vBuildStor.l(g, y) * pStorData(g, "CapexMWh") * pCapexTrajectories(g, y);
 
-pCapexInvestmentPlantComponent(zgmap(z,g), "CSPThermalField", y)$cs(g) =
+pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$cs(g) =
   1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3 * pCapexTrajectories(g, y);
 
-pCapexInvestmentPlantComponent(zgmap(z,g), "CSPStorage", y)$cs(g) =
+pCapexInvestmentPlant(zgmap(z,g), "CSPStorage", y)$cs(g) =
   1e3 * vBuildStor.l(g, y) * pCSPData(g, "Storage", "CapexMWh") * pCapexTrajectories(g, y);
-
-* Aggregate component breakdown back to the plant level
-pCapexInvestmentPlant(zgmap(z, g), y) =
-  sum(capexComponentPlant, pCapexInvestmentPlantComponent(z, g, capexComponentPlant, y));
 
 * Derive zonal totals per component (generation-related ones come from plants)
 pCapexInvestmentComponent(z, capexComponentPlant, y) =
-  sum(zgmap(z, g), pCapexInvestmentPlantComponent(z, g, capexComponentPlant, y));
+  sum(zgmap(z, g), pCapexInvestmentPlant(z, g, capexComponentPlant, y));
 
 * Hydrogen CAPEX is tracked separately
 pCapexInvestmentComponent(z, "Hydrogen", y)$pfEnableH2Production =
@@ -914,7 +909,7 @@ pInterconUtilization(sTopology(z, z2), y)$pInterchange(z, z2, y) =
 * Transmission losses between internal zones in MWh per zone
 pLossesTransmission(z, y) =
   sum((sTopology(z, z2), q, d, t),
-    vFlow.l(z2, z, q, d, t, y) * pLossFactor(z, z2, y) * pHours(q, d, t)
+    vFlow.l(z2, z, q, d, t, y) * pLossFactorInternal(z, z2, y) * pHours(q, d, t)
   );
 
 * Country-level interchange and losses
@@ -1397,7 +1392,7 @@ embeddedCode Connect:
         "pCapacitySummaryCountry",
 
         "pCostsPlant",
-        "pCapexInvestmentPlantComponent",
+        "pCapexInvestmentPlant",
         "pCapexInvestmentPlant",
         "pCapexInvestmentComponent",
         "pCapexInvestment",
@@ -1468,7 +1463,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
       pCostsPlant, 
-      pCapexInvestment, pCapexInvestmentPlantComponent, pCapexInvestmentPlant, pCapexInvestmentComponent,
+      pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentComponent,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
       pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pYearlyCostsSystem
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
