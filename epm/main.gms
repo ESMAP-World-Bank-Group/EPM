@@ -280,7 +280,16 @@ $log ### INPUT VERIFICATION ###
 $log ##########################
 
 $include %VERIFICATION_FILE%
+
+$onText
+$onEmbeddedCode Python:
+import .input_verification 
+input_verification.run_checks(gams) 
+$offEmbeddedCode 
+$offText
+
 $if not errorfree $abort PythonError in input_verification.gms
+
 
 $log ##############################
 $log ### INPUT VERIFICATION END ###
