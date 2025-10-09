@@ -12,8 +12,8 @@ fEnableInternalExchange
 fRemoveInternalTransferLimit
 fAllowTransferExpansion
 fEnableExternalExchange
-sMaxImportSharePct
-sMaxExportSharePct
+sMaxHourlyImportExternalShare
+sMaxHourlyExportExternalShare
 fEnableCarbonPrice
 fEnableEnergyEfficiency
 fEnableCSP

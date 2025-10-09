@@ -584,15 +584,15 @@ There are two types of reserves in **EPM**:
 
 Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/trade) for more details.
 
-| **File**                    | **Purpose / Definition**                                                                                      | **Scope**                     |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| **`pTransferLimit.csv`**    | Defines transfer capacities between internal zones and network topology.                                      | **Explicit – within region**  |
-| **`pNewTransmission.csv`**  | Defines candidate internal transmission lines for potential expansion. Used if `fAllowTransferExpansion` = 1. | **Explicit – within region**  |
-| **`pLossFactor.csv`**       | Specifies transmission losses on each internal transmission line (required in interconnected mode).           | **Explicit – within region**  |
-| **`zext.csv`**              | Lists external zones available for trade. These zones are implicit (not modeled in detail).                   | **Implicit – external trade** |
-| **`pExtTransferLimit.csv`** | Defines seasonal transfer capacities between internal and external zones for price-driven imports/exports.    | **Implicit – external trade** |
-| **`pTradePrice.csv`**       | Sets import/export prices from/to external zones (by hour, season, day, year).                                | **Implicit – external trade** |
-| **`pMaxExchangeShare.csv`** | Limits the maximum share of total demand that can be imported or exported by a country.                       | **Implicit – external trade** |
+| **File**                               | **Purpose / Definition**                                                                                      | **Scope**                     |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| **`pTransferLimit.csv`**               | Defines transfer capacities between internal zones and network topology.                                      | **Explicit – within region**  |
+| **`pNewTransmission.csv`**             | Defines candidate internal transmission lines for potential expansion. Used if `fAllowTransferExpansion` = 1. | **Explicit – within region**  |
+| **`pLossFactorInternal.csv`**          | Specifies transmission losses on each internal transmission line (required in interconnected mode).           | **Explicit – within region**  |
+| **`zext.csv`**                         | Lists external zones available for trade. These zones are implicit (not modeled in detail).                   | **Implicit – external trade** |
+| **`pExtTransferLimit.csv`**            | Defines seasonal transfer capacities between internal and external zones for price-driven imports/exports.    | **Implicit – external trade** |
+| **`pTradePrice.csv`**                  | Sets import/export prices from/to external zones (by hour, season, day, year).                                | **Implicit – external trade** |
+| **`pMaxAnnualExternalTradeShare.csv`** | Limits the maximum share of total demand that can be imported or exported by a country.                       | **Implicit – external trade** |
 
 ### `pTransferLimit.csv`
 
@@ -640,7 +640,7 @@ Each transmission line must be specified only once. The order of the From and To
 
 - **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv)
 
-### `pLossFactor.csv`
+### `pLossFactorInternal.csv`
 
 - **Description**:  
    Defines the transmission losses for each transmission lines.
@@ -699,7 +699,7 @@ Each transmission line must be specified only once. The order of the From and To
 
 - **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTradePrice.csv)
 
-### `pMaxExchangeShare.csv`
+### `pMaxAnnualExternalTradeShare.csv`
 
 - **Description**:
 
@@ -716,7 +716,7 @@ Each transmission line must be specified only once. The order of the From and To
   - **Value**
     - **Maximum exchange share** (_fraction [0-1]_) – Maximum percentage of total demand that imports and exports can reach.
 
-- **Example Link**: [pMaxExchangeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxExchangeShare.csv)
+- **Example Link**: [pMaxAnnualExternalTradeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxAnnualExternalTradeShare.csv)
 
 ---
 

@@ -220,7 +220,7 @@ def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFra
 
 def prepare_lossfactor(db: gt.Container, 
                                      param_ref="pNewTransmission",
-                                     param_loss="pLossFactor",
+                                     param_loss="pLossFactorInternal",
                                      param_y="y",
                                      column_loss="value"):
     """
@@ -259,7 +259,7 @@ def prepare_lossfactor(db: gt.Container,
                 gams.printLog("newtransmission_loss_df")
                 gams.printLog(f"Warning: NaN values found in pNewTransmission, skipping specification of loss factor through pNewTransmission.")
                 if db[param_loss].records is None:
-                    raise ValueError(f"Error: Loss factor is not specified through pLossFactor.csv. There is missing data for the model")
+                    raise ValueError(f"Error: Loss factor is not specified through pLossFactorInternal.csv. There is missing data for the model")
             else:
                 gams.printLog(f"Defining {param_loss} based on {param_ref}.")
                 # write loss_factor by expanding the column newtransmission_df with header param_y (as columns)
@@ -280,7 +280,7 @@ def prepare_lossfactor(db: gt.Container,
             # check that there are no NaN values. Otherwise, skip this step, and check that db[LossFactor ].records exists. If it is not the case, raise an error. If this exists, do nothing. 
         else:  # Loss factor is not specified
             if db[param_loss].records is None:
-                raise ValueError(f"Error: Loss factor is not specified through pLossFactor.csv. There is missing data for the model")
+                raise ValueError(f"Error: Loss factor is not specified through pLossFactorInternal.csv. There is missing data for the model")
 
     
 
@@ -307,7 +307,7 @@ fill_default_value(db, "pCapexTrajectories", default_df)
 
 
 # LossFactor must be defined through a specific csv
-# prepare_lossfactor(db, "pNewTransmission", "pLossFactor", "y", "value")
+# prepare_lossfactor(db, "pNewTransmission", "pLossFactorInternal", "y", "value")
 
 $offEmbeddedCode
 

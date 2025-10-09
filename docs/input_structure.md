@@ -3,6 +3,7 @@
 All input files must be placed inside the `epm/input` folder.
 
 The input structure consists of:
+
 - A folder containing all necessary input `.csv` files for the model. This folder is specified using the `--folder_input` argument when running the model with Python.
 - A main configuration file (`config.csv`) that defines which input files correspond to each model parameter. This file is specified using the `--config` argument.
 
@@ -79,8 +80,8 @@ data_test_region/
 │
 ├── trade/                              # Cross-border trade and transmission
 │   ├── pExtTransferLimit.csv
-│   ├── pLossFactor.csv
-│   ├── pMaxExchangeShare.csv
+│   ├── pLossFactorInternal.csv
+│   ├── pMaxAnnualExternalTradeShare.csv
 │   ├── pMaxPriceImportShare.csv
 │   ├── pMinImport.csv
 │   ├── pNewTransmission.csv
@@ -98,11 +99,10 @@ data_test_region/
 ├── ydetailed.csv                       # Year list (detailed)
 └── zcmap.csv                           # Zone-country mapping
 ```
+
 ---
 
 ### Example: Difference Between Scenario Files
 
 - `scenarios_sapp.csv`: Full scenario set with detailed assumptions for demand growth, new capacity, and trade policies.
 - `scenarios_sapp_small.csv`: Minimal variant for fast testing (e.g., fewer years or countries, no new builds).
-
-

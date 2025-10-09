@@ -345,8 +345,8 @@ try:
         settings_df = db["pSettings"].records
         if "fEnableInternalExchange" in settings_df.set_index('pSettingsHeader').index:
             if settings_df.set_index('pSettingsHeader').loc["fEnableInternalExchange"].values[0]:  # running in interconnected mode
-                if db["pLossFactor"].records is not None:
-                    loss_factor_df = db["pLossFactor"].records
+                if db["pLossFactorInternal"].records is not None:
+                    loss_factor_df = db["pLossFactorInternal"].records
                     topology_lossfactor = loss_factor_df.set_index(['z', 'z2']).index.unique()
                     if (db["pNewTransmission"].records is not None) and  (db["pTransferLimit"].records is not None):
                         new_transmission_df = db["pNewTransmission"].records
@@ -373,16 +373,16 @@ try:
                         if (z2, z) not in final_topology:
                             final_topology.add((z, z2))
                     
-                    # Check that all lines in topology exist in pLossFactor
+                    # Check that all lines in topology exist in pLossFactorInternal
                     missing_lines = [line for line in final_topology if line not in topology_lossfactor and (line[1], line[0]) not in topology_lossfactor]
                     if missing_lines:
-                        msg = f"Error: The following lines in topology are missing from pLossFactor: {missing_lines}"
+                        msg = f"Error: The following lines in topology are missing from pLossFactorInternal: {missing_lines}"
                         gams.printLog(msg)
                         raise ValueError(msg)
                     else:
                         gams.printLog("Success: All transmission lines have a lossfactor specified.")
                         
-                    # Check that if a line appears twice in pLossFactor (as both (z, z2) and (z2, z)), its values are the same
+                    # Check that if a line appears twice in pLossFactorInternal (as both (z, z2) and (z2, z)), its values are the same
                     loss_factor_df.set_index(['z', 'z2'], inplace=True)
                     duplicate_mismatches = []
                     for (z, z2) in topology_lossfactor:
@@ -395,11 +395,11 @@ try:
                                 duplicate_mismatches.append(((z, z2), (z2, z)))
     
                     if duplicate_mismatches:
-                        msg = f"Error: The following lines in pLossFactor have inconsistent values: {duplicate_mismatches}"
+                        msg = f"Error: The following lines in pLossFactorInternal have inconsistent values: {duplicate_mismatches}"
                         gams.printLog(msg)
                         raise ValueError(msg)
                     else:
-                        gams.printLog("Success: No problem in duplicate values in pLossFactor.")
+                        gams.printLog("Success: No problem in duplicate values in pLossFactorInternal.")
                     
                 else:
                     msg = f"Error: Interconnected mode is activated, but LossFactor is empty"

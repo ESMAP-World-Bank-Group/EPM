@@ -18,8 +18,8 @@ Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
 Allow expansion of transfer limits,fAllowTransferExpansion,1
 EXTERNAL,,
 Activate exchange between external zone,fEnableExternalExchange,1
-"Maximum external import share, %",sMaxImportSharePct,1
-"Maximum external export share, %",sMaxExportSharePct,1
+"Maximum external import share, %",sMaxHourlyImportExternalShare,1
+"Maximum external export share, %",sMaxHourlyExportExternalShare,1
 ,,
 OPTIONAL FEATURES,,
 Include carbon price ,fEnableCarbonPrice,0

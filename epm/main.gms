@@ -181,7 +181,7 @@ Parameter
    
 * Trade parameters
    pTradePrice(zext,q,d,y,t)           'External trade prices'
-   pMaxExchangeShare(y,c)              'Maximum trade share by country'
+   pMaxAnnualExternalTradeShare(y,c)              'Maximum trade share by country'
    
 * Demand parameters
    pDemandProfile(z,q,d,t)             'Normalized demand profiles'
@@ -198,7 +198,7 @@ Parameter
    
    pTransferLimit(z,z2,q,y)            'Inter-zonal transfer limits'
    pMinImport(z2,z,y)                  'Minimum import requirements'
-   pLossFactor(z,z2,y)                 'Transmission loss factors'
+   pLossFactorInternal(z,z2,y)                 'Transmission loss factors'
    
 * VRE and availability
    pVREProfile(z,tech,q,d,t)           'VRE generation profiles by site'
@@ -254,14 +254,14 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
 * Load trade data
 $load zext
 $load pExtTransferLimit, pNewTransmission, pMinImport
-$load pTradePrice, pMaxExchangeShare
+$load pTradePrice, pMaxAnnualExternalTradeShare
 
 * Load Hydrogen model-related symbols
 $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2
@@ -376,9 +376,9 @@ h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 execute_unload "input.gdx" y pHours pTechData pGenDataInput pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
 zext ftfindex gmap gfmap gprimf zcmap sRelevant pDemandData pDemandForecast
 pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
-pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactor pVREProfile pVREgenProfile pAvailability
+pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailability
 pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
-pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxExchangeShare
+pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxAnnualExternalTradeShare
 pExtTransferLimit pNewTransmission pMinImport
 pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2 pHeatrate
 ;
@@ -433,8 +433,10 @@ pfEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
 fEnableInternalExchange            = pSettings("fEnableInternalExchange");
 fRemoveInternalTransferLimit       = pSettings("fRemoveInternalTransferLimit");
 fAllowTransferExpansion            = pSettings("fAllowTransferExpansion");
-sMaxImportSharePct                 = pSettings("sMaxImportSharePct");
-sMaxExportSharePct                 = pSettings("sMaxExportSharePct");
+
+fEnableExternalExchange            = pSettings("fEnableExternalExchange");
+sMaxHourlyImportExternalShare                 = pSettings("sMaxHourlyImportExternalShare");
+sMaxHourlyExportExternalShare                 = pSettings("sMaxHourlyExportExternalShare");
 
 * --- Settings: Hydrogen options
 fEnableCapexTrajectoryH2           = pSettings("fEnableCapexTrajectoryH2");
@@ -451,12 +453,12 @@ sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
 
 * Set external transfer limits to zero if exports are not allowed
-pExtTransferLimit(z,zext,q,"Import",y)$(not fAllowTransferExpansion)  = 0 ;
-pExtTransferLimit(z,zext,q,"Export",y)$(not fAllowTransferExpansion)  = 0 ;
+pExtTransferLimit(z,zext,q,"Import",y)$(not fEnableExternalExchange)  = 0 ;
+pExtTransferLimit(z,zext,q,"Export",y)$(not fEnableExternalExchange)  = 0 ;
 
 * Assign import and export transfer limits only if exports are allowed
-pExtTransferLimitIn(z,zext,q,y)$fAllowTransferExpansion   = pExtTransferLimit(z,zext,q,"Import",y) ;
-pExtTransferLimitOut(z,zext,q,y)$fAllowTransferExpansion  = pExtTransferLimit(z,zext,q,"Export",y) ;
+pExtTransferLimitIn(z,zext,q,y)$fEnableExternalExchange   = pExtTransferLimit(z,zext,q,"Import",y) ;
+pExtTransferLimitOut(z,zext,q,y)$fEnableExternalExchange  = pExtTransferLimit(z,zext,q,"Export",y) ;
 
 * Define `Zt(z)` to check if total demand in a zone `z` is zero
 Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
@@ -595,7 +597,7 @@ pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + su
 *-------------------------------------------------------------------
 * Parameter Processing
 *-------------------------------------------------------------------
-pLossFactor(z2,z,y)$(pLossFactor(z,z2,y) and not pLossFactor(z2,z,y)) = pLossFactor(z,z2,y);
+pLossFactorInternal(z2,z,y)$(pLossFactorInternal(z,z2,y) and not pLossFactorInternal(z2,z,y)) = pLossFactorInternal(z,z2,y);
 
 pEnergyEfficiencyFactor(z,y)$(not pfEnableEnergyEfficiency) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
@@ -770,15 +772,15 @@ sPwrOut(gfmap(g,f),q,d,t,y) = yes;
 sPwrOut(gfmap(st,f),q,d,t,y)$(not fEnableStorage) = yes;
 
 * If price based export is not allowed, set to 0
-sExportPrice(z,zext,q,d,t,y)$(fAllowTransferExpansion) = yes;
-sExportPrice(z,zext,q,d,t,y)$(not fAllowTransferExpansion) = no;
+sExportPrice(z,zext,q,d,t,y)$(fEnableExternalExchange) = yes;
+sExportPrice(z,zext,q,d,t,y)$(not fEnableExternalExchange) = no;
 
 * If price based import is not allowed, set to 0
-sImportPrice(z,zext,q,d,t,y)$(fAllowTransferExpansion) = yes;
-sImportPrice(z,zext,q,d,t,y)$(not fAllowTransferExpansion) = no;
+sImportPrice(z,zext,q,d,t,y)$(fEnableExternalExchange) = yes;
+sImportPrice(z,zext,q,d,t,y)$(not fEnableExternalExchange) = no;
 
-vYearlyImportExternal.up(z,zext,q,d,t,y)$fAllowTransferExpansion = pExtTransferLimitIn(z,zext,q,y);
-vYearlyExportExternal.up(z,zext,q,d,t,y)$fAllowTransferExpansion = pExtTransferLimitOut(z,zext,q,y);
+vYearlyImportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitIn(z,zext,q,y);
+vYearlyExportExternal.up(z,zext,q,d,t,y)$fEnableExternalExchange = pExtTransferLimitOut(z,zext,q,y);
 
 * Do not allow imports and exports for a zone without import/export prices
 sExportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;

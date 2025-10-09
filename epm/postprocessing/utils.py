@@ -583,7 +583,7 @@ def generate_summary(epm_results, folder, epm_input):
         
     if 'pCostsSystem' in epm_results.keys():
         t = epm_results['pCostsSystem'].copy()
-        summary.update({'SystemAverageCost': t})
+        summary.update({'pCostsSystem': t})
     else:
         print('No pCostsSystem in epm_results')
 
