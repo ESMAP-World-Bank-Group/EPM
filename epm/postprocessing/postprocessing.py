@@ -44,7 +44,7 @@ import pandas as pd
 # Relave imports as it's a submodule
 from .utils import *
 from .plots import *
-from .interactive_map import make_automatic_map
+from .maps import make_automatic_map
 
 
 KEYS_RESULTS = {
@@ -52,10 +52,10 @@ KEYS_RESULTS = {
     'pCapacityPlant', 
     'pCapacityFuel', 'pCapacityFuelCountry',
     'pNewCapacityFuel', 'pNewCapacityFuelCountry',
-    'pAnnualTransmissionCapacity', 'pAdditionalCapacity',
+    'pAnnualTransmissionCapacity', 'pAdditionalTransmissionCapacity',
     # 2. Cost
     'pPrice',
-    'pCapexInvestment',
+    'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
     'pCostsPlant',  
     'pYearlyCostsZone', 'pYearlyCostsCountry',
     'pCostsZone', 'pCostsSystem',
@@ -115,6 +115,12 @@ FIGURES_ACTIVATED = {
     'InterconnectionHeatmap': False,
     'InterconnectionHeatmapShare': False,
     'InterconnectionUtilizationHeatmap': False,
+    
+    # 6. Maps
+    'TransmissionCapacityMap': True, 
+    'TransmissionUtilizationMap': True,
+    'NetExportsMap': True, 
+    'InteractiveMap': True
 }
 
 TRADE_ATTRS = [
@@ -532,7 +538,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
         postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER)
 
     # If not Monte Carlo, we proceed with the regular postprocessing
-    if not montecarlo:
+    else:
 
         if isinstance(selected_scenario, str):
             if selected_scenario == 'all':
@@ -1184,7 +1190,8 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
                     print('Generating interactive map figures...')
                     make_automatic_map(epm_results, dict_specs, subfolders['6_maps'],
-                                    selected_scenarios=['baseline'])
+                                       FIGURES_ACTIVATED,
+                                       selected_scenarios=['baseline'])
 
 
 
@@ -1294,5 +1301,4 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                             title=f'Additional Capacity with the Project {year}', show_total=True)
                     print(f'Capacity assessment figures generated successfully: {filename}')
 
-    else:
-        return 0
+

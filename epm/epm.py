@@ -55,7 +55,7 @@ import json
 import argparse
 import math
 from postprocessing.utils import path_to_extract_results
-from postprocessing.automatic_postprocessing import postprocess_output
+from postprocessing.postprocessing import postprocess_output
 import re
 from pathlib import Path
 import sys
