@@ -460,8 +460,10 @@ try:
     if db["zext"].records is not None:
         zext = db["zext"].records
         z = db["z"].records
-        zext = set(zext['zext'].unique())
-        z = set(z['z'].unique())
+        zext = set(zext['uni'].unique())
+        z = set(z['uni'].unique())
+        gams.printLog(zext)
+        gams.printLog(z)
         common_elements = zext & z
         if common_elements:
             msg = f"Error: The following zones are included both as external and internal zones:\n{common_elements}."
