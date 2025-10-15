@@ -642,18 +642,18 @@ vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
-vNewTransferCapacity.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
 
 sAdditionalTransfer(sTopology(z,z2),y) = yes;
 sAdditionalTransfer(sTopology(z,z2),y) $((y.val < pNewTransmission(z,z2,"EarliestEntry")) or (y.val < pNewTransmission(z2,z,"EarliestEntry"))) = no;
 
 * Fix
-vNewTransferCapacity.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
-vNewTransferCapacity.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and fAllowTransferExpansion) = 0;
+vNewTransmissionLine.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2,"EarliestEntry") <= y.val) and fAllowTransferExpansion) = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");
+vNewTransmissionLine.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and fAllowTransferExpansion) = 0;
 
 * Compute bounds 
-vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vNewTransferCapacity.lo(z,z2,y) - vNewTransferCapacity.up(z,z2,y-1));
-vBuildTransmission.up(sTopology(z,z2),y) = max(0,vNewTransferCapacity.up(z,z2,y) - vNewTransferCapacity.lo(z,z2,y-1));
+vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vNewTransmissionLine.lo(z,z2,y) - vNewTransmissionLine.up(z,z2,y-1));
+vBuildTransmission.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z2,y) - vNewTransmissionLine.lo(z,z2,y-1));
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) = 0;

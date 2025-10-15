@@ -908,6 +908,197 @@ def encode_image_from_memory(img):
     return f'<img src="data:image/png;base64,{encoded_str}" width="300">'
 
 
+def _resolve_predefined_colors(zone_map, predefined_colors):
+    if predefined_colors is not None:
+        return predefined_colors
+    unique_countries = zone_map['ADMIN'].unique()
+    colors = get_extended_pastel_palette(len(unique_countries))
+    return {country: colors[i] for i, country in enumerate(unique_countries)}
+
+
+def _plot_interconnection_map_on_axis(
+        ax,
+        zone_map,
+        transmission_data,
+        centers,
+        column='value',
+        color_col=None,
+        show_labels=True,
+        label_yoffset=0.02,
+        label_xoffset=0.02,
+        label_fontsize=12,
+        predefined_colors=None,
+        min_display_value=100,
+        format_y=lambda y, _: '{:.0f} MW'.format(y),
+        subplot_title='Transmission capacity',
+        show_arrows=False,
+        arrow_style='-|>',
+        arrow_size=20,
+        arrow_offset_ratio=0.1,
+        plot_colored_countries=True,
+        plot_lines=True,
+        offset=0.5,
+        mutation_scale=3,
+        scale_line_width=lambda _: 1,
+        line_color_range=None,
+        arrow_color_range=None):
+    predefined_colors = _resolve_predefined_colors(zone_map, predefined_colors)
+
+    if isinstance(plot_colored_countries, bool):
+        if plot_colored_countries:
+            zone_map_plot = zone_map.assign(color=zone_map['ADMIN'].map(predefined_colors))
+            zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+        else:
+            zone_map.plot(ax=ax, color='white', edgecolor='black')
+    else:
+        assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
+        zone_map_plot = zone_map.assign(
+            color=zone_map['ADMIN'].apply(
+                lambda c: predefined_colors.get(c, 'white') if c in plot_colored_countries else 'white'
+            )
+        )
+        zone_map_plot.plot(ax=ax, color=zone_map_plot['color'], edgecolor='black')
+
+    ax.set_aspect('equal')
+    ax.set_axis_off()
+    ax.set_title(subplot_title, loc='center')
+
+    ymin, ymax = ax.get_ylim()
+    xmin, xmax = ax.get_xlim()
+    y_offset = (ymax - ymin) * label_yoffset
+    x_offset = (xmax - xmin) * label_xoffset
+
+    if line_color_range is None:
+        line_color_range = (0, 1)
+    min_color_value, max_color_value = line_color_range
+    if max_color_value == min_color_value:
+        max_color_value = min_color_value + 1
+
+    if arrow_color_range is not None:
+        min_color_value_arrow, max_color_value_arrow = arrow_color_range
+        if max_color_value_arrow == min_color_value_arrow:
+            max_color_value_arrow = min_color_value_arrow + 1
+    else:
+        min_color_value_arrow = max_color_value_arrow = None
+
+    if show_labels:
+        for zone, coord in centers.items():
+            ax.text(
+                coord[0] + x_offset,
+                coord[1] + y_offset,
+                zone.replace('_', ' '),
+                fontsize=label_fontsize,
+                ha='center',
+                va='bottom'
+            )
+
+    if transmission_data.empty:
+        return
+
+    for _, row in transmission_data.iterrows():
+        zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
+
+        if zone_from not in centers or zone_to not in centers:
+            continue
+
+        coord_from, coord_to = centers[zone_from], centers[zone_to]
+        coor_mid = [(coord_from[0] + coord_to[0]) / 2, (coord_from[1] + coord_to[1]) / 2]
+
+        line_width = scale_line_width(value)
+        color = calculate_color_gradient(value, min_color_value, max_color_value)
+
+        if plot_lines:
+            ax.plot(
+                [coord_from[0], coord_to[0]],
+                [coord_from[1], coord_to[1]],
+                color=color,
+                linewidth=3
+            )
+
+            if show_arrows:
+                dx = coord_to[0] - coord_from[0]
+                dy = coord_to[1] - coord_from[1]
+                start_x = coord_from[0] + dx * (0.5 - arrow_offset_ratio)
+                start_y = coord_from[1] + dy * (0.5 - arrow_offset_ratio)
+                end_x = coord_from[0] + dx * (0.5 + arrow_offset_ratio)
+                end_y = coord_from[1] + dy * (0.5 + arrow_offset_ratio)
+
+                arrow = FancyArrowPatch(
+                    (start_x, start_y),
+                    (end_x, end_y),
+                    arrowstyle=arrow_style,
+                    color=color,
+                    mutation_scale=arrow_size,
+                    linewidth=0
+                )
+                ax.add_patch(arrow)
+
+            if value >= min_display_value:
+                ax.text(
+                    coor_mid[0],
+                    coor_mid[1],
+                    format_y(value, None),
+                    ha='center',
+                    va='center',
+                    bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'),
+                    fontsize=10
+                )
+        else:
+            dx = coord_to[0] - coord_from[0]
+            dy = coord_to[1] - coord_from[1]
+            norm = np.hypot(dx, dy)
+            if norm == 0:
+                continue
+
+            mid_x = (coord_from[0] + coord_to[0]) / 2
+            mid_y = (coord_from[1] + coord_to[1]) / 2
+
+            arrow_offset = arrow_offset_ratio
+            start_x = coord_from[0] + dx * arrow_offset
+            start_y = coord_from[1] + dy * arrow_offset
+            end_x = coord_to[0] - dx * arrow_offset
+            end_y = coord_to[1] - dy * arrow_offset
+
+            unit_dx, unit_dy = dx / norm, dy / norm
+            norm_dx = -unit_dy
+            norm_dy = unit_dx
+
+            if color_col is not None and min_color_value_arrow is not None and max_color_value_arrow is not None:
+                color_value = row[color_col]
+                color = calculate_color_gradient(color_value, min_color_value_arrow, max_color_value_arrow)
+            else:
+                color = 'black'
+
+            arrow_linewidth = scale_line_width(value)
+            arrowstyle = f"simple,head_length=0.5,head_width=0.5,tail_width={0.2 * arrow_linewidth}"
+
+            arrow = FancyArrowPatch(
+                (start_x, start_y),
+                (end_x, end_y),
+                arrowstyle=arrowstyle,
+                facecolor=color,
+                edgecolor='black',
+                linewidth=0,
+                mutation_scale=mutation_scale,
+                zorder=5
+            )
+            ax.add_patch(arrow)
+
+            if value >= min_display_value:
+                text_x = mid_x + offset * norm_dx
+                text_y = mid_y + offset * norm_dy
+
+                ax.text(
+                    text_x,
+                    text_y,
+                    format_y(value, None),
+                    ha='center',
+                    va='center',
+                    fontsize=label_fontsize,
+                    fontweight='bold',
+                    color='black'
+                )
+
 def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
  
     img = BytesIO()
@@ -974,160 +1165,238 @@ def make_interconnection_map(zone_map, df, centers, column='value', color_col=No
     Maximum line width for the largest transmission capacity (default 5).
     """
     # Define consistent colors for each country
-    if predefined_colors is None:
-        unique_countries = zone_map['ADMIN'].unique()
-        colors = get_extended_pastel_palette(len(unique_countries))
-        predefined_colors = {country: colors[i] for i, country in enumerate(unique_countries)}
-        # predefined_colors = {country: plt.cm.Pastel1(i % 9) for i, country in enumerate(unique_countries)}
+    predefined_colors = _resolve_predefined_colors(zone_map, predefined_colors)
 
-    # Filter data based on min_capacity
     transmission_data = df[df[column] > min_capacity]
 
-    # Compute capacity range for scaling line width
     if not transmission_data.empty:
         min_cap = transmission_data[column].min()
         max_cap = transmission_data[column].max()
+        line_color_range = (min_cap, max_cap)
     else:
-        min_cap = max_cap = 1  # Avoid division by zero
+        min_cap = max_cap = 1
+        line_color_range = (0, 1)
 
-    # Function to scale line width
     def scale_line_width(capacity):
         if max_cap == min_cap:
             return min_line_width
         return min_line_width + (capacity - min_cap) / (max_cap - min_cap) * (max_line_width - min_line_width)
 
-    # Create figure and axis
+    arrow_color_range = None
+    if color_col is not None and not transmission_data.empty:
+        arrow_values = transmission_data[color_col].dropna()
+        if not arrow_values.empty:
+            arrow_color_range = (arrow_values.min(), arrow_values.max())
+
     fig, ax = plt.subplots(figsize=figsize, constrained_layout=True)
 
-    # Plot the base zone map with predefined colors for each country
-    if isinstance(plot_colored_countries, bool):
-        if plot_colored_countries:
-            zone_map['color'] = zone_map['ADMIN'].map(predefined_colors)
-            zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
-        else:
-            zone_map.plot(ax=ax, color='white', edgecolor='black')
-    else:  # plot_colored_countries is a list of countries
-        assert isinstance(plot_colored_countries, list), 'plot_colored_countries must be a list or a bool'
-        zone_map['color'] = zone_map['ADMIN'].apply(
-            lambda c: predefined_colors[c] if c in plot_colored_countries else 'white'
-        )
-        zone_map.plot(ax=ax, color=zone_map['color'], edgecolor='black')
+    _plot_interconnection_map_on_axis(
+        ax=ax,
+        zone_map=zone_map,
+        transmission_data=transmission_data,
+        centers=centers,
+        column=column,
+        color_col=color_col,
+        show_labels=show_labels,
+        label_yoffset=label_yoffset,
+        label_xoffset=label_xoffset,
+        label_fontsize=label_fontsize,
+        predefined_colors=predefined_colors,
+        min_display_value=min_display_value,
+        format_y=format_y,
+        subplot_title=title,
+        show_arrows=show_arrows,
+        arrow_style=arrow_style,
+        arrow_size=arrow_size,
+        arrow_offset_ratio=arrow_offset_ratio,
+        plot_colored_countries=plot_colored_countries,
+        plot_lines=plot_lines,
+        offset=offset,
+        mutation_scale=mutation_scale,
+        scale_line_width=scale_line_width,
+        line_color_range=line_color_range,
+        arrow_color_range=arrow_color_range
+    )
 
-
-    # Remove axes for a clean map
-    ax.set_aspect('equal')
-    ax.set_axis_off()
-    ax.set_title(title, loc='center')
-
-    # Get vertical and horizontal extent of the figure to normalize offsets
-    ymin, ymax = ax.get_ylim()
-    xmin, xmax = ax.get_xlim()
-    y_offset = (ymax - ymin) * label_yoffset
-    x_offset = (xmax - xmin) * label_xoffset
-
-    min_color_value = transmission_data[column].min()
-    max_color_value = transmission_data[column].max()
-
-    if color_col is not None:
-        min_color_value_arrow = transmission_data[color_col].min()
-        max_color_value_arrow = transmission_data[color_col].max()
-
-    # Plot interconnections
-    for _, row in transmission_data.iterrows():
-        zone_from, zone_to, value = row['zone_from'], row['zone_to'], row[column]
-
-        if zone_from in centers and zone_to in centers:
-            coord_from, coord_to = centers[zone_from], centers[zone_to]
-            coor_mid = [(coord_from[0] + coord_to[0]) / 2, (coord_from[1] + coord_to[1]) / 2]
-
-            line_width = scale_line_width(value)
-
-            color = calculate_color_gradient(value, min_color_value, max_color_value)
-
-            if plot_lines:  # plotting transmission lines
-                ax.plot([coord_from[0], coord_to[0]], [coord_from[1], coord_to[1]], color=color,
-                        linewidth=3)
-
-                # Optional arrow
-                if show_arrows:
-                    dx = coord_to[0] - coord_from[0]
-                    dy = coord_to[1] - coord_from[1]
-                    start_x = coord_from[0] + dx * (0.5 - arrow_offset_ratio)
-                    start_y = coord_from[1] + dy * (0.5 - arrow_offset_ratio)
-                    end_x = coord_from[0] + dx * (0.5 + arrow_offset_ratio)
-                    end_y = coord_from[1] + dy * (0.5 + arrow_offset_ratio)
-
-                    arrow = FancyArrowPatch((start_x, start_y), (end_x, end_y),
-                                            arrowstyle=arrow_style,
-                                            color=color,
-                                            mutation_scale=arrow_size,
-                                            linewidth=0)
-                    ax.add_patch(arrow)
-
-                if value >= min_display_value:
-                    ax.text(coor_mid[0], coor_mid[1], format_y(value, None), ha='center', va='center',
-                            bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'), fontsize=10)
-
-            else:   # Plotting flows
-
-                dx = coord_to[0] - coord_from[0]
-                dy = coord_to[1] - coord_from[1]
-
-                # Midpoint for label placement
-                mid_x = (coord_from[0] + coord_to[0]) / 2
-                mid_y = (coord_from[1] + coord_to[1]) / 2
-
-                # Shorten the arrow to avoid overlapping arrowheads
-                arrow_offset = arrow_offset_ratio
-                start_x = coord_from[0] + dx * arrow_offset
-                start_y = coord_from[1] + dy * arrow_offset
-                end_x = coord_to[0] - dx * arrow_offset
-                end_y = coord_to[1] - dy * arrow_offset
-
-                # Compute direction for label offset
-                norm = np.hypot(dx, dy)
-                unit_dx, unit_dy = dx / norm, dy / norm
-                norm_dx = -unit_dy
-                norm_dy = unit_dx
-
-                if color_col is not None:
-                    color_value = row[color_col]
-                    color = calculate_color_gradient(color_value, min_color_value_arrow, max_color_value_arrow)
-                else:
-                    color = 'black'
-
-                # Arrow width scaling with value
-                arrow_linewidth = scale_line_width(value)  # or define your own scaling logic
-                arrowstyle = f"simple,head_length={0.5},head_width={0.5},tail_width={0.2*arrow_linewidth}"
-
-                # Plot arrow
-                arrow = FancyArrowPatch((start_x, start_y), (end_x, end_y),
-                                        arrowstyle=arrowstyle,
-                                        facecolor=color,
-                                        edgecolor='black',  # Optional: to match the example style
-                                        linewidth=0,  # outline thickness (not width of the arrow)
-                                        mutation_scale=mutation_scale,
-                                        zorder=5)
-                ax.add_patch(arrow)
-
-                # Add text at midpoint with perpendicular offset
-                if value >= min_display_value:
-                    text_x = mid_x + offset * norm_dx
-                    text_y = mid_y + offset * norm_dy
-
-                    ax.text(text_x, text_y, format_y(value, None),
-                            ha='center', va='center', fontsize=label_fontsize,
-                            fontweight='bold', color='black')
-
-    # Optionally plot zone labels with a normalized offset
-    if show_labels:
-        for zone, coord in centers.items():
-            ax.text(coord[0] + x_offset, coord[1] + y_offset, zone.replace('_', ' '), fontsize=label_fontsize,
-                    ha='center', va='bottom')
-
-    # Save or show the figure
     if filename:
         plt.savefig(filename, bbox_inches='tight')
+        plt.close(fig)
+    else:
+        plt.show()
+
+
+def make_interconnection_map_faceted(
+        zone_map,
+        df,
+        centers,
+        column='value',
+        color_col=None,
+        filename=None,
+        min_capacity=0.1,
+        figsize=(12, 8),
+        show_labels=True,
+        label_yoffset=0.02,
+        label_xoffset=0.02,
+        label_fontsize=12,
+        predefined_colors=None,
+        min_display_value=100,
+        min_line_width=1,
+        max_line_width=5,
+        format_y=lambda y, _: '{:.0f} MW'.format(y),
+        title='Transmission capacity',
+        show_arrows=False,
+        arrow_style='-|>',
+        arrow_size=20,
+        arrow_offset_ratio=0.1,
+        plot_colored_countries=True,
+        plot_lines=True,
+        offset=0.5,
+        arrow_linewidth=1,
+        mutation_scale=3,
+        subplotcolumn='year',
+        col_wrap=3,
+        subplot_order=None):
+    """
+    Create multiple interconnection maps faceted by the values of `subplotcolumn`.
+
+    Parameters extend `make_interconnection_map` with:
+    - subplotcolumn (str): Column used to create subplots.
+    - col_wrap (int): Maximum number of subplot columns per row.
+    - subplot_order (Sequence, optional): Explicit ordering for facet panels.
+
+    Returns:
+    - None
+    """
+    if subplotcolumn not in df.columns:
+        raise ValueError(f"Column '{subplotcolumn}' not found in DataFrame.")
+
+    predefined_colors = _resolve_predefined_colors(zone_map, predefined_colors)
+
+    transmission_data_all = df[df[column] > min_capacity]
+
+    if not transmission_data_all.empty:
+        min_cap = transmission_data_all[column].min()
+        max_cap = transmission_data_all[column].max()
+        line_color_range = (min_cap, max_cap)
+    else:
+        min_cap = max_cap = 1
+        line_color_range = (0, 1)
+
+    def scale_line_width(capacity):
+        if max_cap == min_cap:
+            return min_line_width
+        return min_line_width + (capacity - min_cap) / (max_cap - min_cap) * (max_line_width - min_line_width)
+
+    arrow_color_range = None
+    if color_col is not None and not transmission_data_all.empty and color_col in transmission_data_all.columns:
+        arrow_values = transmission_data_all[color_col].dropna()
+        if not arrow_values.empty:
+            arrow_color_range = (arrow_values.min(), arrow_values.max())
+
+    facet_values = df[subplotcolumn].dropna().unique()
+
+    def sort_facet_values(values, reference_series):
+        ref_dtype = reference_series.dtype
+        if pd.api.types.is_categorical_dtype(ref_dtype):
+            return [value for value in reference_series.cat.categories if value in values]
+
+        numeric_coerced = pd.to_numeric(pd.Series(values), errors='coerce')
+        if not numeric_coerced.isna().any():
+            return [val for _, val in sorted(zip(numeric_coerced.tolist(), values))]
+
+        datetime_coerced = pd.to_datetime(pd.Series(values), errors='coerce')
+        if not datetime_coerced.isna().any():
+            return [val for _, val in sorted(zip(datetime_coerced.tolist(), values))]
+
+        try:
+            return sorted(values)
+        except TypeError:
+            return list(values)
+
+    if subplot_order is not None:
+        missing = [value for value in subplot_order if value not in facet_values]
+        if missing:
+            raise ValueError(f"Values {missing} in 'subplot_order' not found in '{subplotcolumn}'.")
+        ordered_values = [value for value in subplot_order if value in facet_values]
+        leftover = [value for value in facet_values if value not in ordered_values]
+        if leftover:
+            ordered_values.extend(sort_facet_values(list(leftover), df[subplotcolumn]))
+    elif pd.api.types.is_categorical_dtype(df[subplotcolumn]):
+        ordered_values = [value for value in df[subplotcolumn].cat.categories if value in facet_values]
+    else:
+        ordered_values = pd.unique(facet_values)
+        if len(ordered_values) > 1:
+            ordered_values = sort_facet_values(list(ordered_values), df[subplotcolumn])
+
+    if len(ordered_values) == 0:
+        raise ValueError(f"No data available to facet by '{subplotcolumn}'.")
+
+    if col_wrap is None or col_wrap <= 0:
+        col_wrap = len(ordered_values)
+
+    ncols = min(col_wrap, len(ordered_values))
+    nrows = int(np.ceil(len(ordered_values) / ncols))
+
+    width_total, height_total = figsize
+    base_cols = max(1, min(col_wrap, len(ordered_values)))
+    width_per_subplot = width_total / base_cols
+    height_per_subplot = height_total / max(1, nrows)
+
+    fig_width = width_per_subplot * ncols
+    fig_height = height_per_subplot * nrows
+
+    fig, axes = plt.subplots(
+        nrows=nrows,
+        ncols=ncols,
+        figsize=(fig_width, fig_height),
+        constrained_layout=True
+    )
+    axes = np.atleast_1d(axes).flatten()
+
+    for idx, value in enumerate(ordered_values):
+        ax = axes[idx]
+        subset = df[df[subplotcolumn] == value]
+        transmission_subset = subset[subset[column] > min_capacity]
+
+        _plot_interconnection_map_on_axis(
+            ax=ax,
+            zone_map=zone_map,
+            transmission_data=transmission_subset,
+            centers=centers,
+            column=column,
+            color_col=color_col,
+            show_labels=show_labels,
+            label_yoffset=label_yoffset,
+            label_xoffset=label_xoffset,
+            label_fontsize=label_fontsize,
+            predefined_colors=predefined_colors,
+            min_display_value=min_display_value,
+            format_y=format_y,
+            subplot_title=str(value),
+            show_arrows=show_arrows,
+            arrow_style=arrow_style,
+            arrow_size=arrow_size,
+            arrow_offset_ratio=arrow_offset_ratio,
+            plot_colored_countries=plot_colored_countries,
+            plot_lines=plot_lines,
+            offset=offset,
+            mutation_scale=mutation_scale,
+            scale_line_width=scale_line_width,
+            line_color_range=line_color_range,
+            arrow_color_range=arrow_color_range
+        )
+
+    for idx in range(len(ordered_values), len(axes)):
+        axes[idx].axis('off')
+
+    if title:
+        fig.suptitle(title, y=0.98)
+        fig.tight_layout(rect=[0, 0, 1, 0.95])
+    else:
+        fig.tight_layout()
+
+    if filename:
+        fig.savefig(filename, bbox_inches='tight')
         plt.close(fig)
     else:
         plt.show()
@@ -1278,7 +1547,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
         return df_sum
  
     if selected_scenarios is None:
-        selected_scenarios = list(epm_results['pDispatchPlant'].scenario.unique())
+        selected_scenarios = list(epm_results['pAnnualTransmissionCapacity'].scenario.unique())
 
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
@@ -1286,8 +1555,8 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
     for selected_scenario in selected_scenarios:
         print(f'Generating map for scenario {selected_scenario}')
         # Select first and last years
-        years = [min(years), max(years)]
-        #years = [y for y in [2025, 2030, 2035, 2040] if y in years]
+        #years = [min(years), max(years)]
+        years = [y for y in [2025, 2030, 2035, 2040] if y in years]
 
         try:
             zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
@@ -1308,6 +1577,40 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
             (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
+        figure_name = 'TransmissionCapacityMapEvolution'
+        if FIGURES_ACTIVATED.get(figure_name, False):
+            title = f'Evolution Transmission Capacity [MW] - {selected_scenario}'
+            filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
+            
+            selected_years = [2025, 2035, 2040]
+            df = transmission_data[
+                    (transmission_data['scenario'] == selected_scenario) &
+                    (transmission_data['year'].isin(selected_years))
+                    ]
+            
+            make_interconnection_map_faceted(zone_map, df, centers, title=title, column='capacity',
+                                    label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
+                                    min_display_value=50, filename=filename, subplotcolumn='year', col_wrap=3)
+        
+        figure_name = 'TransmissionUtilizationMapEvolution'
+        if FIGURES_ACTIVATED.get(figure_name, False):
+            title = f'Evolution Transmission Utilization [%] - {selected_scenario}'
+            filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
+            
+            selected_years = [2025, 2035, 2040]
+            df = transmission_data[
+                    (transmission_data['scenario'] == selected_scenario) &
+                    (transmission_data['year'].isin(selected_years))
+                    ]
+            
+            make_interconnection_map_faceted(zone_map, df, centers, title=title, column='utilization',
+                                    label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
+                                    min_display_value=10, filename=filename, subplotcolumn='year', col_wrap=3,
+                                    format_y=lambda y, _: '{:.0f} %'.format(y), show_arrows=True, arrow_offset_ratio=0.4,
+                                    arrow_size=25)
+        
+        
+        
         for year in years:
 
             if not transmission_data.loc[transmission_data.scenario == selected_scenario].empty: 
@@ -1324,7 +1627,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     title = f'Transmission capacity [MW] - {selected_scenario} - {year}'
                     filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
                     make_interconnection_map(zone_map, df, centers, title=title, column='capacity',
-                                            label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=True,
+                                            label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                             min_display_value=50, filename=filename)
 
                 figure_name = 'TransmissionUtilizationMap'
@@ -1374,11 +1677,10 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     if FIGURES_ACTIVATED.get(figure_name, False):
                         filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.html')
                     
-                    
-                    transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
-                        utilization_transmission.rename
-                        (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
-                    transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
+                        transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
+                            utilization_transmission.rename
+                            (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
+                        transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
-                    create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
-                                           dict_specs, epm_results['pCapacityFuel'], epm_results['pEnergyFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
+                        create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
+                                            dict_specs, epm_results['pCapacityFuel'], epm_results['pEnergyFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])

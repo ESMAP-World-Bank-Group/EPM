@@ -83,6 +83,9 @@ Parameters
   pCostAverageCountry(c, *)                      'Average annual cost [million USD] by country (undiscounted)'
   pYearlyCostsSystem
   pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
+  pCostsSystemPerMWh(*)                          'System-level cost summary [$ / MWh], weighted and discounted'
+  pYearlySystemCostEnergyBasis(y)                'System cost energy denominator [MWh] by year'
+  pDiscountedSystemCostEnergyBasis               'Discounted system cost energy denominator [MWh]'
 
   pFuelCosts(z, f, y)                           'Annual fuel costs [million USD] by fuel, zone, and year'
   pFuelCostsCountry(c, f, y)                    'Annual fuel costs [million USD] by fuel, country, and year'
@@ -199,7 +202,7 @@ Parameters
   pZonalAverageGenCost(z,y)        'Zone average generation cost [USD/MWh] by year'
   pCountryAverageCost(c,y)         'Country average total cost [USD/MWh] by year'
   pCountryAverageGenCost(c,y)      'Country average generation cost [USD/MWh] by year'
-  pSystemAverageCost(y)            'System average cost [USD/MWh] by year'
+  pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
 
 * ============================================================
 * 11. SOLVER PARAMETERS
@@ -212,7 +215,7 @@ set sumhdr /
   "Fixed O&M: $m",
   "Variable O&M: $m",
   "Fuel costs: $m",
-  "Transmission additions: $m",
+  "Transmission costs: $m",
   "Spinning reserve costs: $m",
   "Unmet demand costs: $m",
   "Unmet country spinning reserve costs: $m",
@@ -336,7 +339,7 @@ pRetirementsFuel(z, f, y) =
 *   - Equals existing maximum transfer limit plus any new additions
 * ---------------------------------------------------------
 
-pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransferCapacity.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
+pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransmissionLine.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
 pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalTransmissionCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
 
 * ---------------------------------------------------------
@@ -569,7 +572,7 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 *   - Fixed O&M
 *   - Variable O&M
 *   - Fuel costs
-*   - Transmission additions
+*   - Transmission costs
 *   - Spinning reserve costs
 *   - Unmet demand, reserve, and CO2 backstop costs
 *       (allocated proportionally to zonal demand at country/system level)
@@ -584,7 +587,7 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 pYearlyCostsZone(z, "Annualized capex: $m", y) =
   vAnnCapex.l(z, y) / 1e6;
 
-pYearlyCostsZone(z, "Transmission additions: $m", y) =
+pYearlyCostsZone(z, "Transmission costs: $m", y) =
   vAnnualizedTransmissionCapex.l(z, y) / 1e6;
 
 * Operation-related costs
@@ -688,6 +691,7 @@ pYearlyCostsSystem(sumhdr, y) = sum(z, pYearlyCostsZone(z, sumhdr, y));
 pCostsSystem(sumhdr) = sum(z, pCostsZone(z,sumhdr));
 
 pCostsSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
+
 
 
 * ---------------------------------------------------------
@@ -899,7 +903,7 @@ pInterconUtilization(sTopology(z, z2), y)$pInterchange(z, z2, y) =
   1e3 * pInterchange(z, z2, y)
   / sum((q, d, t),
     (pTransferLimit(z, z2, q, y)
-     + vNewTransferCapacity.l(z, z2, y)
+     + vNewTransmissionLine.l(z, z2, y)
        * max(pNewTransmission(z, z2, "CapacityPerLine"),
          pNewTransmission(z2, z, "CapacityPerLine"))
        * fAllowTransferExpansion)
@@ -930,7 +934,7 @@ isCongested(z, z2, q, d, t, y)$(
     vFlow.l(z, z2, q, d, t, y)
     - (
       pTransferLimit(z, z2, q, y)
-      + vNewTransferCapacity.l(z, z2, y)
+      + vNewTransmissionLine.l(z, z2, y)
         * max(pNewTransmission(z, z2, "CapacityPerLine"),
           pNewTransmission(z2, z, "CapacityPerLine"))
         * fAllowTransferExpansion
@@ -1220,7 +1224,7 @@ pZoneGenCost(z,y) =
     + pYearlyCostsZone(z,"Spinning Reserve costs: $m",y));
 
 * Total system cost at zone level (gen + trade + transmission)
-pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + 1e6 * pYearlyCostsZone(z,"Transmission additions: $m",y);
+pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + 1e6 * pYearlyCostsZone(z,"Transmission costs: $m",y);
 
 
 * ---------------------------------------------------------
@@ -1277,6 +1281,16 @@ pCountryCostEnergyBasis(c,y) =
     + pCountryEnergyMWh(c,y);
 
 
+pYearlySystemCostEnergyBasis(y) =
+    sum(z, pZoneCostEnergyBasis(z,y));
+
+pDiscountedSystemCostEnergyBasis =
+    sum(y, pYearlySystemCostEnergyBasis(y) * pRR(y) * pWeightYear(y));
+    
+pCostsSystemPerMWh(sumhdr)$pDiscountedSystemCostEnergyBasis =
+    (pCostsSystem(sumhdr) * 1e6) / pDiscountedSystemCostEnergyBasis;
+
+
 * ---------------------------------------------------------
 * Average costs [$/MWh]
 * ---------------------------------------------------------
@@ -1319,7 +1333,7 @@ pCountryAverageGenCost(c,y)$pCountryEnergyMWh(c,y) =
 * Result = system average cost of supplying electricity
 * ---------------------------------------------------------
 
-pSystemAverageCost(y)$sum(z, pZoneEnergyMWh(z,y)) =
+pYearlySystemAverageCost(y)$sum(z, pZoneEnergyMWh(z,y)) =
     (   sum((z,zext,q,d,t),
             (vYearlyImportExternal.l(z,zext,q,d,t,y)
            - vYearlyExportExternal.l(z,zext,q,d,t,y))
@@ -1401,6 +1415,7 @@ embeddedCode Connect:
         "pYearlyCostsCountry",
         "pCostAverageCountry",
         "pCostsSystem",
+        "pCostsSystemPerMWh",
         "pFuelCosts",
         "pFuelCostsCountry",
         
@@ -1465,7 +1480,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCostsPlant, 
       pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentComponent,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
-      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pYearlyCostsSystem
+      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
       pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyTechFuelCountry, pEnergyFuelCountry,
@@ -1491,7 +1506,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 9. METRICS
-      pPlantAnnualLCOE, pZonalAverageCost, pZonalAverageGenCost, pCountryAverageCost, pCountryAverageGenCost, pSystemAverageCost,
+      pPlantAnnualLCOE, pZonalAverageCost, pZonalAverageGenCost, pCountryAverageCost, pCountryAverageGenCost, pYearlySystemAverageCost,
 * 10. SOLVER PARAMETERS
       pSolverParameters,
 * 11. ADDITIONAL OUTPUTS

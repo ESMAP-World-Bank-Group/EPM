@@ -18,13 +18,13 @@ Import,thistle
 Hydro MC,lightskyblue
 Hydro RoR,lightskyblue
 Hydro Storage,lightskyblue
-Unmet demand,darkgray
+Unmet demand,firebrick
 Demand,red
 Exports,green
 Imports,thistle
 Storage Charge,pink
 Nuclear,#66CDAA
-Onshore Wind, steelblue
+Onshore Wind,steelblue
 Offshore Wind,blue
 Concentrated Solar,yellow
 Geothermal,brown
@@ -32,7 +32,7 @@ Annualized capex,cornflowerblue
 Fixed O&M,green
 Variable O&M,rosybrown
 Fuel costs,grey
-Transmission additions,purple
+Transmission costs,purple
 Spinning reserve costs,pink
 Unmet reserve costs,pink
 Unmet demand costs,firebrick
@@ -56,3 +56,6 @@ Zambia,mediumslateblue
 Net exchange,purple
 Import costs with external zones: $m,purple
 Export revenues with external zones: $m,orange
+Generation,firebrick
+StorageEnergy,darkgreen
+Transmission,steelblue

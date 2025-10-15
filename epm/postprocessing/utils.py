@@ -574,12 +574,12 @@ def generate_summary(epm_results, folder, epm_input):
     
     # 1. Costs
 
-    if 'pSystemAverageCost' in epm_results.keys():
-        t = epm_results['pSystemAverageCost'].copy()
+    if 'pYearlySystemAverageCost' in epm_results.keys():
+        t = epm_results['pYearlySystemAverageCost'].copy()
         t['attribute'] = 'Average Cost: $/MWh'
         summary.update({'SystemAverageCost': t})
     else:
-        print('No pSystemAverageCost in epm_results')
+        print('No pYearlySystemAverageCost in epm_results')
         
     if 'pCostsSystem' in epm_results.keys():
         t = epm_results['pCostsSystem'].copy()
@@ -688,7 +688,7 @@ def generate_summary(epm_results, folder, epm_input):
         
     if 'pAdditionalTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAdditionalTransmissionCapacity'].copy()
-        t['attribute'] = 'Additional Capacity: MW'
+        t['attribute'] = 'Additional Transmission Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
         summary.update({'pAdditionalTransmissionCapacity': t})
@@ -750,7 +750,6 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pInterchange in epm_results')
             
-
     if 'pInterchangeExternalExports' in epm_results.keys():
         t = epm_results['pInterchangeExternalExports'].copy()
         t['attribute'] = 'Annual Energy Exports External: GWh'
@@ -804,7 +803,7 @@ def generate_summary(epm_results, folder, epm_input):
                 "Fixed O&M: $m",
                 "Variable O&M: $m",
                 "Fuel costs: $m",
-                "Transmission additions: $m",
+                "Transmission costs: $m",
                 "Spinning reserve costs: $m",
                 "Unmet demand costs: $m",
                 "Unmet country spinning reserve costs: $m",
