@@ -108,11 +108,11 @@ def make_auto_formatter(unit=""):
         # other units: GW, MW, GWh, etc.
         # show fewer decimals cleanly
         if abs(y) >= 100:
-            txt = f"{y:.0f}"
+            txt = f"{y:,.0f}"
         elif abs(y) >= 1:
-            txt = f"{y:.1f}"
+            txt = f"{y:,.1f}"
         else:
-            txt = f"{y:.2f}"
+            txt = f"{y:,.2f}"
         # txt = txt.rstrip('0').rstrip('.')
         return f"{txt} {unit}".strip()
 
@@ -1246,11 +1246,27 @@ def stacked_bar_subplot(df, column_stacked, filename, df_errorbars=None, dict_co
                     df_total = df_temp.loc[:, show_total].sum(axis=1)
                 else:
                     df_total = df_temp.sum(axis=1)
-                    for x, y in zip(df_temp.index, df_total.values):
-                        # Put the total at the y-position equal to the total
-                        ax.text(x, y * (1 + 0.02), f"{y:,.0f}", ha='center', va='bottom', fontsize=10,
-                                color='black', fontweight='bold')
-                ax.scatter(df_temp.index, df_total, color='black', s=20)
+
+                x_positions = ax.get_xticks()
+                if len(x_positions) < len(df_total):
+                    x_positions = np.arange(len(df_total))
+                else:
+                    x_positions = x_positions[:len(df_total)]
+
+                for (label, total), x in zip(df_total.items(), x_positions):
+                    if pd.isna(total):
+                        continue
+                    ax.text(
+                        x,
+                        total * (1 + 0.02),
+                        f"{total:,.0f}",
+                        ha='center',
+                        va='bottom',
+                        fontsize=10,
+                        color='black',
+                        fontweight='bold'
+                    )
+                ax.scatter(x_positions, df_total.values, color='black', s=20)
 
             if annotations_for_subplot and not juxtaposed:
                 max_height = df_bar_totals.max() if not df_bar_totals.empty else 0
@@ -1855,7 +1871,201 @@ def simple_heatmap_plot(df, filename, unit="", title='', xcolumn='zone', ycolumn
     plt.tight_layout()
     plt.savefig(filename)
     plt.close()
-                        
+
+
+def faceted_heatmap_plot(
+        df,
+        filename,
+        unit="",
+        title='',
+        xcolumn='zone',
+        ycolumn='year',
+        valuecolumn='value',
+        subplotcolumn='scenario',
+        col_wrap=3,
+        subplot_order=None,
+        align_axes=False,
+        xorder=None,
+        yorder=None):
+    """
+    Create multiple heatmaps faceted by the values of `subplotcolumn`.
+
+    Parameters:
+    - df (DataFrame): Input data.
+    - filename (str): Path to save the image.
+    - unit (str): Unit string appended to annotations and colorbar.
+    - title (str): Figure title.
+    - xcolumn (str), ycolumn (str), valuecolumn (str): Columns to pivot.
+    - subplotcolumn (str): Column used to create subplots.
+    - col_wrap (int): Maximum number of subplot columns per row.
+    - subplot_order (Sequence, optional): Explicit ordering for facet panels.
+    - align_axes (bool): Whether to align all subplots on the same x/y labels.
+    - xorder (Sequence, optional): Ordering applied to x-axis labels when aligning.
+    - yorder (Sequence, optional): Ordering applied to y-axis labels when aligning.
+
+    Returns:
+    - None
+    """
+    if subplotcolumn not in df.columns:
+        raise ValueError(f"Column '{subplotcolumn}' not found in DataFrame.")
+
+    def sort_values(values, reference_series):
+        dtype = reference_series.dtype
+
+        if pd.api.types.is_categorical_dtype(dtype):
+            categories = reference_series.cat.categories
+            return [value for value in categories if value in values]
+
+        if hasattr(dtype, "kind") and dtype.kind in "biufcM":
+            return sorted(values)
+
+        numeric_coerced = pd.to_numeric(pd.Series(values), errors='coerce')
+        if not numeric_coerced.isna().any():
+            return [v for _, v in sorted(zip(numeric_coerced.tolist(), values))]
+
+        datetime_coerced = pd.to_datetime(pd.Series(values), errors='coerce')
+        if not datetime_coerced.isna().any():
+            return [v for _, v in sorted(zip(datetime_coerced.tolist(), values))]
+
+        try:
+            return sorted(values)
+        except TypeError:
+            return list(values)
+
+    def make_formatter(unit):
+        def _format(value):
+            if pd.isna(value):
+                return ""
+            if unit == "%":
+                value = value * 100
+                txt = f"{value:.0f}"
+                return f"{txt}%"
+            if abs(value) >= 100:
+                txt = f"{value:.0f}"
+            elif abs(value) >= 1:
+                txt = f"{value:.1f}"
+            else:
+                txt = f"{value:.2f}"
+            txt = txt.rstrip('0').rstrip('.')
+            return f"{txt} {unit}".strip()
+        return _format
+
+    fmt_func = make_formatter(unit)
+
+    available_values = df[subplotcolumn].dropna().unique()
+
+    if subplot_order is not None:
+        missing = [value for value in subplot_order if value not in available_values]
+        if missing:
+            raise ValueError(f"Values {missing} in 'subplot_order' not found in '{subplotcolumn}'.")
+        ordered_values = [value for value in subplot_order if value in available_values]
+        leftover = [value for value in available_values if value not in ordered_values]
+        if leftover:
+            leftover_sorted = sort_values(list(leftover), df[subplotcolumn])
+            ordered_values.extend(leftover_sorted)
+    elif pd.api.types.is_categorical_dtype(df[subplotcolumn]):
+        ordered_values = [value for value in df[subplotcolumn].cat.categories if value in available_values]
+    else:
+        ordered_values = pd.unique(available_values)
+        if len(ordered_values) > 1:
+            ordered_values = sort_values(list(ordered_values), df[subplotcolumn])
+
+    if len(ordered_values) == 0:
+        raise ValueError(f"No data available to facet by '{subplotcolumn}'.")
+
+    numeric_values = df[valuecolumn].to_numpy(dtype=float)
+    if np.isnan(numeric_values).all():
+        raise ValueError(f"Column '{valuecolumn}' contains only NaN values.")
+
+    vmin = np.nanmin(numeric_values)
+    vmax = np.nanmax(numeric_values)
+
+    if align_axes:
+        unique_x = df[xcolumn].dropna().unique()
+        unique_y = df[ycolumn].dropna().unique()
+
+        if xorder is not None:
+            unknown_x = [value for value in xorder if value not in unique_x]
+            if unknown_x:
+                raise ValueError(f"Values {unknown_x} in 'xorder' not present in '{xcolumn}'.")
+            x_labels = [value for value in xorder if value in unique_x]
+        else:
+            x_labels = sort_values(list(unique_x), df[xcolumn]) if len(unique_x) > 1 else list(unique_x)
+
+        if yorder is not None:
+            unknown_y = [value for value in yorder if value not in unique_y]
+            if unknown_y:
+                raise ValueError(f"Values {unknown_y} in 'yorder' not present in '{ycolumn}'.")
+            y_labels = [value for value in yorder if value in unique_y]
+        else:
+            y_labels = sort_values(list(unique_y), df[ycolumn]) if len(unique_y) > 1 else list(unique_y)
+    else:
+        x_labels = None
+        y_labels = None
+
+    if col_wrap is None or col_wrap <= 0:
+        col_wrap = len(ordered_values)
+
+    ncols = min(col_wrap, len(ordered_values))
+    nrows = int(np.ceil(len(ordered_values) / ncols))
+
+    figsize = (ncols * 4.5, nrows * 4.0)
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=figsize, squeeze=False)
+    axes_flat = axes.flatten()
+
+    colorbar = None
+    for idx, value in enumerate(ordered_values):
+        ax = axes_flat[idx]
+        subset = df[df[subplotcolumn] == value]
+        pivot_df = subset.pivot(index=ycolumn, columns=xcolumn, values=valuecolumn)
+
+        if align_axes:
+            pivot_df = pivot_df.reindex(index=y_labels, columns=x_labels)
+
+        annot_df = pivot_df.map(fmt_func)
+
+        heatmap = sns.heatmap(
+            pivot_df,
+            cmap='cividis',
+            annot=annot_df,
+            fmt='',
+            linewidths=0.5,
+            linecolor='gray',
+            ax=ax,
+            vmin=vmin,
+            vmax=vmax,
+            cbar=(idx == 0)
+        )
+
+        if idx == 0:
+            colorbar = heatmap.collections[0].colorbar
+            if colorbar is not None:
+                formatter = FuncFormatter(lambda v, _: fmt_func(v))
+                colorbar.ax.yaxis.set_major_formatter(formatter)
+                colorbar.ax.yaxis.get_offset_text().set_visible(False)
+                colorbar.update_ticks()
+
+        ax.set_ylabel("")
+        ax.yaxis.set_label_position("left")
+        ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+        ax.xaxis.tick_top()
+        ax.xaxis.set_label_position('top')
+        ax.set_xlabel("")
+        ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='left')
+        ax.set_title(str(value), pad=12)
+
+    for idx in range(len(ordered_values), len(axes_flat)):
+        axes_flat[idx].axis('off')
+
+    if title:
+        fig.suptitle(title, y=0.98)
+        fig.tight_layout(rect=[0, 0, 1, 0.95])
+    else:
+        fig.tight_layout()
+
+    fig.savefig(filename)
+    plt.close(fig)
+
 
 def heatmap_plot(data, filename=None, percentage=False, baseline='Baseline'):
     """

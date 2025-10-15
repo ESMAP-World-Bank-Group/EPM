@@ -246,7 +246,7 @@ Positive Variables
    vStorInj(g,q,d,t,y)       'Charging power (MW)'
    vStorOut(g,q,d,t,y)       'Discharging power (MW)'
    vBuildStor(g,y)           'New storage build (MWh)'
-  vRetireStor(g,y)          'Storage retirement (MWh)'
+   vRetireStor(g,y)          'Storage retirement (MWh)'
    vBuildTherm(g,y)          'CSP thermal field build (MW)'
    vRetireTherm(g,y)         'CSP thermal field retirement (MW)'
 
@@ -264,7 +264,7 @@ Positive Variables
    vYearlySysCO2backstop(y)  'System CO₂ backstop usage (t)'
 
 * Network expansion & curtailment
-   vNewTransferCapacity(z,z2,y) 'New transmission capacity (MW)'
+   vNewTransmissionLine(z,z2,y) 'New transmission capacity (MW)'
    vAnnualizedTransmissionCapex(z,y) 'Annualized transmission CAPEX (USD)'
    vYearlyCurtailmentCost(z,y)  'Annual curtailment penalty (USD)'
    vCurtailedVRE(z,g,q,d,t,y)   'Curtailment of VRE (MW)'
@@ -629,7 +629,7 @@ $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z2),1))..
    vAnnualizedTransmissionCapex(z,y) =e=
        sum(sTopology(z,z2),
-           vNewTransferCapacity(z,z2,y)
+           vNewTransmissionLine(z,z2,y)
          * symmax(pNewTransmission,z,z2,"CostPerLine")
          * 1e6)
      / 2
@@ -735,9 +735,9 @@ eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(fApplyCountrySpinReserveConstraint
 eSpinningReserveReqCountry(c,q,d,t,y)$fApplyCountrySpinReserveConstraint..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
- + sIntercoReserveContributionPct * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                        + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion
-                                        - vFlow(z2,z,q,d,t,y))
+* + sIntercoReserveContributionPct * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
+*                                        + vNewTransmissionLine(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion
+*                                        - vFlow(z2,z,q,d,t,y))
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
    
 * System spinning reserve requirement
@@ -748,7 +748,7 @@ eSpinningReserveReqSystem(q,d,t,y)$pfApplySystemSpinReserveConstraint..
 ePlanningReserveReqCountry(c,y)$(fApplyPlanningReserveConstraint and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransferCapacity(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion))$fCountIntercoForReserves
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransmissionLine(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion))$fCountIntercoForReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 * Planning reserve requirement at the system level
@@ -763,7 +763,7 @@ ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMargin
 * ------------------------------
 * Limits flow between zones to existing + expandable transmission capacity
 eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransferCapacity(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
+   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransmissionLine(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
 
 * Enforces minimum import flow into a zone when specified
 eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
@@ -771,7 +771,7 @@ eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vNewTransferCapacity(z,z2,y) =e=  vNewTransferCapacity(z,z2,y-1) + vBuildTransmission(z,z2,y);
+   vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmission(z,z2,y);
 
 * Ensures symmetry in bidirectional transmission investment
 eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
@@ -1083,7 +1083,7 @@ Model PA /
    vPwrOut(sPwrOut)
    vYearlyExportExternal(sExportPrice)
    vYearlyImportExternal(sImportPrice)
-   vNewTransferCapacity(sAdditionalTransfer)
+   vNewTransmissionLine(sAdditionalTransfer)
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)
    

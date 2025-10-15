@@ -82,15 +82,15 @@ KEYS_RESULTS = {
     'pZonalAverageGenCost',
     'pCountryAverageCost',
     'pCountryAverageGenCost', 
-    'pSystemAverageCost',
+    'pYearlySystemAverageCost',
     # 11. Other
     'pSolverParameters'
 }
 
 FIGURES_ACTIVATED = {
     # 1. Capacity figures
-    'CapacityMixSystemEvolutionScenarios': False,
-    'CapacityMixSystemEvolutionScenariosRelative': False,
+    'CapacityMixSystemEvolutionScenarios': True,
+    'CapacityMixSystemEvolutionScenariosRelative': True,
     'CapacityMixEvolutionZone': False,
     'CapacityMixZoneScenarios': False,
     'NewCapacityInstalledTimeline': False,
@@ -98,29 +98,34 @@ FIGURES_ACTIVATED = {
     # 2. Cost figures
     'CostSystemScenarios': False,
     'CostSystemScenariosRelative': False,
-    'CostBreakdownEvolutionScenarios': False,
-    'CostBreakdownEvolutionScenariosRelative': False,
-    'CostBreakdownEvolutionZone': False,
-    'CostBreakdownEvolutionZonePercentage': False,
+    'CostSystemEvolutionScenarios': False,
+    'CostSystemEvolutionScenariosRelative': False,
+    'CostZoneEvolution': False,
+    'CostZoneEvolutionPercentage': False,
     'CostZoneScenarios': False,
+    'CapexEvolutionZone': False,
                     
     # 3. Energy figures
-    'EnergyMixSystemEvolutionScenarios': False,
-    'EnergyMixSystemEvolutionScenariosRelative': False,
-    'EnergyMixEvolutionZone': False,
-    'EnergyMixZoneScenarios': False,
-    'EnergyPlants': False,
+    'EnergyMixSystemEvolutionScenarios': True,
+    'EnergyMixSystemEvolutionScenariosRelative': True,
+    'EnergyMixZoneEvolution': True,
+    'EnergyMixZoneScenarios': True,
+    'EnergyPlants': True,
+    'EnergyPlantZoneTop10': False,
     
     # 4. Interconnection figures
-    'InterconnectionHeatmap': False,
-    'InterconnectionHeatmapShare': False,
+    'NetImports': False,
+    'NetImportsShare': False,
     'InterconnectionUtilizationHeatmap': False,
     
     # 6. Maps
-    'TransmissionCapacityMap': True, 
-    'TransmissionUtilizationMap': True,
-    'NetExportsMap': True, 
-    'InteractiveMap': True
+    'TransmissionCapacityMap': False, 
+    'TransmissionCapacityMapEvolution': False,
+    'TransmissionUtilizationMap': False,
+    'TransmissionUtilizationMapEvolution': False,
+    'NetExportsMap': False, 
+    
+    'InteractiveMap': False
 }
 
 TRADE_ATTRS = [
@@ -179,7 +184,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios)
         'pDispatch': demand_df
     }
 
-    dispatch_full = epm_results['pDispatch']
+    dispatch_full = epm_results['pDispatch'].copy()
 
     for selected_scenario in selected_scenarios:
         scenario_dispatch = dispatch_full[dispatch_full['scenario'] == selected_scenario]
@@ -367,7 +372,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
     df_cost_summary.index.names = ['scenario', 'zone', 'year', 'error']
     df_cost_summary.reset_index(inplace=True)
 
-    costs_notrade = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission additions: $m",
+    costs_notrade = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission costs: $m",
                         "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
                         # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
@@ -481,7 +486,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
 
 
 def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenario='all',
-                       plot_dispatch=None, scenario_reference='baseline', graphs_folder='img',
+                       plot_dispatch=False, scenario_reference='baseline', graphs_folder='img',
                        montecarlo=False, reduce_definition_csv=False):
     
     def reduce_year_definition(folder_csv):
@@ -617,7 +622,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             
             # Create subfolders directly under GRAPHS_FOLDER
             subfolders = {}
-            for subfolder in ['1_capacity', '2_cost', '3_energy', '4_interonnection', '5_dispatch', '6_maps']:
+            for subfolder in ['1_capacity', '2_cost', '3_energy', '4_interconnection', '5_dispatch', '6_maps']:
                 subfolders[subfolder] = Path(GRAPHS_FOLDER) / Path(subfolder)
                 if not os.path.exists(subfolders[subfolder]):
                     os.mkdir(subfolders[subfolder])
@@ -628,7 +633,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
 
             scenarios_threshold = 10
             
-            def calculate_diff(df, scenario_ref=scenario_reference, attribute='attribute'):
+            def calculate_diff(df, scenario_ref=scenario_reference):
                 """
                 Calculate the difference in 'value' between each scenario and the reference scenario.
                 Parameters:
@@ -638,7 +643,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 - pd.DataFrame: DataFrame with differences in 'value' for each scenario compared to
                 the reference scenario.
                 """
-                df_diff = df.pivot_table(index=[attribute], columns='scenario', values='value', fill_value=0)
+                df_diff = df.pivot_table(index=[i for i in df.columns if i not in ['scenario', 'value']], columns='scenario', values='value', fill_value=0)
                 df_diff = (df_diff.T - df_diff[scenario_reference]).T
                 df_diff = df_diff.drop(scenario_ref, axis=1)
                 df_diff = df_diff.stack().reset_index()
@@ -651,7 +656,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             # ------------------------------------------------------------------------------------
 
             print('Generating capacity figures...')
-            
+                        
             # 1.1 Evolution of capacity mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
                 df = epm_results['pCapacityFuel'].copy()
@@ -678,21 +683,25 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                     
                     
                 if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
-                    # Capacity comparison between scenarios compare to the reference scenario
-                    df_diff = calculate_diff(df, scenario_reference, attribute='fuel')
                     
                     figure_name = 'CapacityMixSystemEvolutionScenariosRelative'
                     if FIGURES_ACTIVATED.get(figure_name, False):
+                        
+                        # Capacity comparison between scenarios compare to the reference scenario
+                        df_diff = calculate_diff(df, scenario_reference)
+                        df_diff['value'] = df_diff['value'] * 1e3
+                        
                         filename = os.path.join(subfolders['1_capacity'], f'{figure_name}.pdf')
                         
-                        make_stacked_bar_subplots(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
-                                                column_xaxis=None,
+                        make_stacked_bar_subplots(df_diff, filename, dict_specs['colors'], 
+                                                  column_stacked='fuel',
+                                                column_xaxis='year',
                                                 column_multiple_bars='scenario',
                                                 column_value='value',
-                                                format_y=make_auto_formatter("GW"), 
+                                                format_y=make_auto_formatter("MW"), 
                                                 rotation=45,
                                                 annotate=False,
-                                                title='Incremental Capacity Mix vs Baseline (GW)', 
+                                                title='Incremental Capacity Mix vs Baseline (MW)', 
                                                 show_total=True)
                         
 
@@ -829,7 +838,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 column_value='value',
                                                 format_y=make_auto_formatter("m$"), 
                                                 rotation=45,
-                                                annotate=True,
+                                                annotate=False,
                                                 title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                 show_total=True)
             
@@ -847,7 +856,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 
                 # TODO: Add year_ini=df['year'].min()
-                figure_name = 'CostBreakdownEvolutionScenarios'
+                figure_name = 'CostSystemEvolutionScenarios'
                 if FIGURES_ACTIVATED.get(figure_name, False):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                     
@@ -859,16 +868,17 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                             select_xaxis=selected_years,
                                             format_y=make_auto_formatter("m$"), 
                                             rotation=45, 
-                                            annotate=True,
+                                            annotate=False,
                                             format_label="{:.0f}",
-                                            title='Annual Cost Breakdown by Scenario (million USD)')
+                                            show_total=True,
+                                            title='System Cost Breakdown by Scenario (million USD)')
                     
                     
                 if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
                     # Capacity comparison between scenarios compare to the reference scenario
-                    df_diff = calculate_diff(df, scenario_reference, attribute='fuel')
+                    df_diff = calculate_diff(df, scenario_reference)
                     
-                    figure_name = 'CostBreakdownEvolutionScenariosRelative'
+                    figure_name = 'CostSystemEvolutionScenariosRelative'
                     if FIGURES_ACTIVATED.get(figure_name, False):
                         filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                         
@@ -877,14 +887,15 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 column_multiple_bars='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_formatter("m$"), 
+                                                format_label="{:.0f}",
                                                 rotation=45,
                                                 annotate=True,
-                                                title='Incremental Annual Cost vs. Baseline (million USD)', 
+                                                title='Incremental System Cost vs. Baseline (million USD)', 
                                                 show_total=True)
                         
             # 2.2 Evolution of capacity mix per zone
             # Capacity mix in percentage by fuel by zone
-            figure_name = 'CostBreakdownEvolutionZone'
+            figure_name = 'CostZoneEvolution'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 for scenario in selected_scenarios:
                     df = df_costzone.copy()
@@ -903,6 +914,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 format_y=make_auto_formatter("m$"), 
                                                 rotation=45,
                                                 annotate=False,
+                                                show_total=True,
                                                 title=f'Annual Cost Breakdown by Zone – {scenario} (million USD)'
                                                 )                     
                     
@@ -947,7 +959,33 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                             format_y=make_auto_formatter("m$"), 
                                             rotation=45,
                                             annotate=False,
+                                            show_total=True,
                                             title=f'Cost Composition by Zone in {year} (million USD)')
+            
+            # 2.4 Capex investment
+            figure_name = 'CapexEvolutionZone'
+            if FIGURES_ACTIVATED.get(figure_name, False):
+                for scenario in selected_scenarios:
+                        df = epm_results['pCapexInvestmentComponent'].copy()
+                        df = df[df['scenario'] == scenario]
+                        df = df.drop(columns=['scenario'])
+                        df['value'] = df['value'] / 1e6
+                        
+                        filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
+                        
+                        make_stacked_bar_subplots(df, 
+                                                    filename, 
+                                                    dict_specs['colors'], 
+                                                    column_stacked='attribute',
+                                                    column_xaxis='zone',
+                                                    column_multiple_bars='year',
+                                                    column_value='value',
+                                                    format_y=make_auto_formatter("m$"), 
+                                                    rotation=45,
+                                                    annotate=False,
+                                                    title=f'Annual Capex by Zone – {scenario} (million USD)'
+                                                    )   
+                                
             
             # ------------------------------------------------------------------------------------
             # 3. Energy figures
@@ -973,6 +1011,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             # 3.1 Evolution of capacity mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
                 df = df_energyfuelfull.copy()
+                df = df[~df['fuel'].isin(['Imports', 'Exports'])]
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 
                 figure_name = 'EnergyMixSystemEvolutionScenarios'
@@ -987,29 +1026,31 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                             select_xaxis=selected_years,
                                             format_y=make_auto_formatter("GWh"), 
                                             rotation=45, 
+                                            show_total=False,
                                             format_label="{:.0f}",
-                                            title = 'Energy Generation Mix by Fuel - System (GWh)',
+                                            title = 'System Energy Generation Mix by Fuel (GWh)',
                                             annotate=False)
                     
                     
                 if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
                     # Capacity comparison between scenarios compare to the reference scenario
-                    df_diff = calculate_diff(df, scenario_reference, attribute='fuel')
+                    df_diff = calculate_diff(df, scenario_reference)
                     
                     figure_name = 'EnergyMixSystemEvolutionScenariosRelative'
                     if FIGURES_ACTIVATED.get(figure_name, False):
                         filename = os.path.join(subfolders['3_energy'], f'{figure_name}.pdf')
                         
-                        make_stacked_bar_subplots(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
-                                                column_xaxis=None,
+                        make_stacked_bar_subplots(df_diff, filename, dict_specs['colors'], column_stacked='fuel',
+                                                column_xaxis='year',
                                                 column_multiple_bars='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_formatter("GWh"), rotation=45,
-                                                annotate=True,
-                                                title='Incremental Energy Mix vs Baseline (GWh)', show_total=True)
-                        
+                                                annotate=False,
+                                                title='Incremental Energy Generation Mix vs Baseline (GWh)', show_total=True)
+            
+            
             # 3.2 Evolution of capacity mix per zone
-            figure_name = 'EnergyMixEvolutionZone'
+            figure_name = 'EnergyMixZoneEvolution'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 for scenario in selected_scenarios:
                     df = df_energyfuelfull.copy()
@@ -1074,12 +1115,48 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                                 annotate=False,
                                                 title=f'Energy Mix by Fuel - {year} (GWh)')
 
+            # 3.4 Energy generation by plant (Top generators by country)
+            figure_name = 'EnergyPlantZoneTop10'
+            if FIGURES_ACTIVATED.get(figure_name, False):
+                df_top = df_energyplant[df_energyplant['scenario'].isin(selected_scenarios)].copy()
+                if 'zone' not in df_top.columns:
+                    raise ValueError("Column 'zone' is required to build EnergyPlantsTop10 figures by zone.")
+
+                for zone, df_zone in df_top.groupby('zone'):
+                    df_zone = (df_zone
+                                  .groupby(['scenario', 'year', 'generator'], observed=False)['value']
+                                  .sum()
+                                  .reset_index())
+                    df_zone['rank'] = df_zone.groupby(['scenario', 'year'])['value'].rank(method='first', ascending=False)
+                    df_zone = df_zone[df_zone['rank'] <= 10].drop(columns='rank')
+
+                    if df_zone.empty:
+                        continue
+
+                    zone_slug = str(zone).replace(' ', '_')
+                    filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{zone_slug}.pdf')
+
+                    make_stacked_bar_subplots(
+                        df_zone,
+                        filename,
+                        dict_specs['colors'],
+                        column_stacked='generator',
+                        column_xaxis='year',
+                        column_multiple_bars='scenario',
+                        column_value='value',
+                        format_y=make_auto_formatter("GWh"),
+                        rotation=45,
+                        annotate=False,
+                        title=f'Top 10 Plants - {zone} (GWh)'
+                    ) 
+                
+            
             # 3.4 Energy generation by plant
             figure_name = 'EnergyPlants'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{scenario_reference}.pdf')
                 if len(df_energyplant.zone.unique()) == 1 and len(epm_results['pEnergyPlant']['generator'].unique()) < 20:
-                    print('Generating energy figures for single zone by generators...')
+                    print('Generating energy figures for single zone by generators... (not tested yet)')
                     temp = df_energyplant[df_energyplant['scenario'] == scenario_reference]
                     stacked_area_plot(temp, filename, dict_specs['colors'], column_xaxis='year',
                                         column_value='value',
@@ -1096,9 +1173,33 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
             
             # 4.1 Net exchange heatmap [GWh and %]
             
-            figure_name = 'InterconnectionHeatmap'
+            figure_name = 'AnnualTransmissionCapacity'
+            
+            
+            for s in df['scenario'].unique():
+            
+                df = epm_results['pAnnualTransmissionCapacity'].copy()
+                df = df[df['scenario'] == s]
+                select_years = [2025, 2035, 2040]
+                df = df[df['year'].isin(select_years)]
+                
+                filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}-{s}.pdf')
+                faceted_heatmap_plot(
+                    df,
+                    filename,
+                    unit="",
+                    title='Annual Transmission Capacity [MW]',
+                    xcolumn='zone',
+                    ycolumn='z2',
+                    valuecolumn='value',
+                    subplotcolumn='year',
+                    col_wrap=3
+                )
+            
+            
+            figure_name = 'NetImports'
             if FIGURES_ACTIVATED.get(figure_name, False):
-                filename = os.path.join(subfolders['4_interonnection'], f'{figure_name}.pdf')
+                filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
             
                 net_exchange = df_exchange[df_exchange['scenario'] == scenario_reference]
                 net_exchange = net_exchange.drop(columns=['scenario'])
@@ -1114,10 +1215,11 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
                 net_exchange['fuel'] = 'Net Exchange'
                 simple_heatmap_plot(net_exchange, filename, unit="GWh", title=f"Net Imports by Zone over Time - {scenario_reference} [GWh]")
+                
 
-            figure_name = 'InterconnectionHeatmapShare'
+            figure_name = 'NetImportsShare'
             if FIGURES_ACTIVATED.get(figure_name, False):
-                filename = os.path.join(subfolders['4_interonnection'], f'{figure_name}.pdf')
+                filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
                 
                 net_exchange = df_exchange_percentage.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
                 net_exchange.columns.name = None
@@ -1127,7 +1229,7 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
                 net_exchange['fuel'] = 'Net Exchange'
                 
-                simple_heatmap_plot(net_exchange, filename, unit="%", title=f"Net Imports by Zone over Time - {scenario_reference} [% of energy generation]")
+                simple_heatmap_plot(net_exchange, filename, unit="%", title=f"Net Imports by Zone over Time - {scenario_reference} [% of energy demand]")
 
             figure_name = 'InterconnectionUtilizationHeatmap'
             if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterconUtilization' in epm_results:
@@ -1147,33 +1249,24 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                         if df_utilization.empty:
                             print(f"Skipping {figure_name}: no utilization data for scenario '{scenario_reference}'")
                         else:
-                            df_utilization = df_utilization.groupby(
-                                ['zone', 'z2', 'year'],
-                                as_index=False,
-                                observed=False
-                            )['value'].mean()
-                            df_utilization['interconnection'] = (
-                                df_utilization['zone'].astype(str) + ' -> ' + df_utilization['z2'].astype(str)
-                            )
+                            for year in df_utilization['year'].unique():
+                                
+                                df_plot = df_utilization[df_utilization['year'] == year]
+                                filename = os.path.join(
+                                    subfolders['4_interconnection'],
+                                    f'{figure_name}-{scenario_reference}-{year}.pdf'
+                                )
 
-                            df_plot = df_utilization[['year', 'interconnection', 'value']].copy()
-                            df_plot = df_plot.sort_values(['interconnection', 'year'])
-
-                            filename = os.path.join(
-                                subfolders['4_interonnection'],
-                                f'{figure_name}-{scenario_reference}.pdf'
-                            )
-
-                            title = f'Interconnection Utilization - {scenario_reference} (%)'
-                            simple_heatmap_plot(
-                                df_plot,
-                                filename,
-                                unit="%",
-                                title=title,
-                                xcolumn='interconnection',
-                                ycolumn='year',
-                                valuecolumn='value'
-                            )
+                                title = f'Interconnection Utilization - {scenario_reference} - {year} (%)'
+                                simple_heatmap_plot(
+                                    df_plot,
+                                    filename,
+                                    unit="%",
+                                    title=title,
+                                    xcolumn='zone',
+                                    ycolumn='z2',
+                                    valuecolumn='value'
+                                )
                             
             if plot_dispatch:
                 print('Generating dispatch figures...')
@@ -1181,18 +1274,18 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                 make_automatic_dispatch(epm_results, dict_specs, subfolders['5_dispatch'],
                                         selected_scenarios=selected_scenarios)
             
-            # ---------------------Scenario-specific interactive maps----------------
+            # ------------------------------------------------------------------------------------
+            # 4. Interactive Map
+            # ------------------------------------------------------------------------------------
             
-            if 'pAnnualTransmissionCapacity' in epm_results.keys():
-                
-                # Check if multiple zone
-                if len(epm_results['pAnnualTransmissionCapacity'].zone.unique()) > 0:  
+            if (
+                'pAnnualTransmissionCapacity' in epm_results
+                and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
+            ):
 
                     print('Generating interactive map figures...')
                     make_automatic_map(epm_results, dict_specs, subfolders['6_maps'],
-                                       FIGURES_ACTIVATED,
-                                       selected_scenarios=['baseline'])
-
+                                       FIGURES_ACTIVATED)
 
 
             if False:
@@ -1300,5 +1393,3 @@ def postprocess_output(FOLDER, reduced_output=False, folder='', selected_scenari
                                             annotate=False,
                                             title=f'Additional Capacity with the Project {year}', show_total=True)
                     print(f'Capacity assessment figures generated successfully: {filename}')
-
-

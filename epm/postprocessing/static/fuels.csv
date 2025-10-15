@@ -10,7 +10,7 @@ PV,Solar
 Imports,Trade
 Water,Hydro
 Battery,Battery Storage
-Diesel,Oil diesel
+Diesel,Oil
 BESS4hr,Battery Storage 4h
 BESS8hr,Battery Storage 8h
 BESS_4h,Battery Storage 4h

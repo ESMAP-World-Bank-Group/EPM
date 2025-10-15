@@ -1597,7 +1597,7 @@
               <bucket>&quot;Solar&quot;</bucket>
             </map-pri>
             <map-pri to='multiordinal_pink_10_0'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map-pri>
             <map-pri to='multiordinal_pink_10_0'>
               <bucket>&quot;Unmet demand costs: $m&quot;</bucket>
@@ -1701,7 +1701,7 @@
               <bucket>&quot;Exports exchange: GWh&quot;</bucket>
             </map>
             <map to='#e15759'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
               <bucket>&quot;Uranium&quot;</bucket>
@@ -5075,7 +5075,7 @@
               <bucket>&quot;Unmet reserve costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
               <bucket>&quot;Uranium&quot;</bucket>
@@ -5182,7 +5182,7 @@
               <bucket>&quot;Exports exchange: GWh&quot;</bucket>
             </map>
             <map to='#e15759'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
               <bucket>&quot;Uranium&quot;</bucket>

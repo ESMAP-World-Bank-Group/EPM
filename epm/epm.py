@@ -1459,7 +1459,7 @@ def main(test_args=None):
         help="Disable dispatch plots (default: True)"
     )
     
-    parser.set_defaults(plot_dispatch=True)
+    parser.set_defaults(plot_dispatch=False)
 
     parser.add_argument(
         "--graphs_folder",
