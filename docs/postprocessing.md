@@ -32,12 +32,12 @@ The postprocessing is divided into two main parts:
 ### Postrocessing & plotting
 
 - **`postprocess_output`**: Processes simulation results, generates summaries, and creates visualizations.
-- **`stacked_area_plot`**: Creates a stacked area plot of generation by fuel type.
+- **`make_stacked_areaplot`**: Creates a stacked area plot of generation by fuel type.
 - **`bar_plot`**: Creates a bar plot.
 - **`line_plot`**: Creates a line plot.
 - **`dispatch_plot)`**: Creates a dispatch plot with stacked areas and line plots.
 - **`make_complete_fuel_dispatch_plot`**: Generates and saves a complete fuel dispatch plot.
-- **`make_stacked_bar_subplots`**: Creates stacked bar subplots for comparing capacity over time and across scenarios.
+- **`make_stacked_barplot`**: Creates stacked bar subplots for comparing capacity over time and across scenarios.
 - **`subplot_pie`**: Creates pie chart subplots.
 - **`make_capacity_mix_map`**: Creates a capacity mix map with pie charts overlaid on a regional map.
 - **`make_interconnection_map`**: Generates an interconnection map showing transmission capacities.
@@ -329,31 +329,36 @@ postprocess_output('output/simulations_run_20250317_132656', reduced_output=True
 
 ---
 
-#### `stacked_area_plot`
+#### `make_stacked_areaplot`
 
-Creates a stacked area plot, commonly used to visualize energy generation by fuel type over time.
+Creates stacked area charts for one or many panels, with optional annotations and a secondary axis.
 
-##### Parameters
+##### Key Parameters
 
-- `df` (pd.DataFrame): Input data containing the variables to be plotted.
-- `filename` (str): Path to save the generated plot.
-- `dict_colors` (dict, optional): Dictionary mapping categories (e.g., fuel types) to colors.
-- `column_xaxis` (str, default=`'year'`): Column name representing the x-axis (e.g., time).
-- `column_value` (str, default=`'value'`): Column name representing the y-axis (e.g., energy produced).
-- `column_stacked` (str, default=`'fuel'`): Column name used to stack different categories in the plot.
-
----
-
-##### Functionality
-
-- Groups data by `column_xaxis` and `column_stacked`, summing values.
-- Uses area plotting to visualize the contribution of different categories (e.g., fuel types).
-- Colors are applied based on `dict_colors`, if provided.
+- `df` _(pd.DataFrame)_: Source data containing at least the x, value, and stack columns.
+- `filename` _(str | None)_: Where to save the figure. When `None`, the plot is shown interactively.
+- `column_xaxis` _(str, default `'year'`)_: Column plotted on the x-axis.
+- `column_value` _(str, default `'value'`)_: Column providing stacked values.
+- `column_stacked` _(str, default `'fuel'`)_: Column defining each stacked layer.
+- `column_subplot` _(str, optional)_: Adds one subplot per unique value (e.g., scenario).
+- `colors` _(dict, optional)_: Custom colour mapping for stack categories.
+- `annotation_source` _(str, optional)_: Column used to auto-annotate year-on-year increases.
+- `secondary_df` _(pd.DataFrame, optional)_: Dataset drawn on a secondary y-axis for single-panel charts.
 
 ##### Example Usage
 
 ```python
-stacked_area_plot(df=energy_data, filename="generation.png", column_xaxis="year", column_value="value", column_stacked="fuel", dict_colors=color_dict)
+make_stacked_areaplot(
+    df=energy_data,
+    filename="generation.png",
+    column_xaxis="year",
+    column_value="value",
+    column_stacked="fuel",
+    colors=dict_colors,
+    column_subplot="scenario",
+    annotation_source="generator",
+    annotation_template="{category} - {value:.0f}"
+)
 ```
 
 ---
@@ -479,7 +484,7 @@ make_complete_fuel_dispatch_plot(dfs_area=generation_data, dfs_line=demand_data,
 
 ---
 
-#### `make_stacked_bar_subplots`
+#### `make_stacked_barplot`
 
 Creates stacked bar subplots to analyze energy system evolution, such as capacity changes over time or across scenarios.
 
@@ -495,7 +500,7 @@ Creates stacked bar subplots to analyze energy system evolution, such as capacit
 - `column_multiple_bars` (str, default=`'scenario'`): Column defining multiple bars within a single subplot.
 - `column_value` (str, default=`'value'`): Column containing numerical values to be plotted.
 - `select_xaxis` (list, optional): Subset of values to display on the x-axis.
-- `dict_grouping` (dict, optional): Mapping of categories for aggregation.
+- `stacked_grouping` (dict, optional): Mapping of categories for aggregation.
 - `order_scenarios` (list, optional): Order in which scenarios should be displayed.
 - `dict_scenarios` (dict, optional): Dictionary mapping scenario names to new labels.
 - `format_y` (function, optional, default=`'{:.0f} MW'.format(y)`): Function to format y-axis labels.
@@ -517,7 +522,7 @@ Creates stacked bar subplots to analyze energy system evolution, such as capacit
 ##### Example Usage
 
 ```python
-make_stacked_bar_subplots(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_xaxis=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
+make_stacked_barplot(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_xaxis=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
 ```
 
 ---
