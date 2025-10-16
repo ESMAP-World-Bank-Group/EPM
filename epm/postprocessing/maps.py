@@ -653,10 +653,10 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergy
     }
 
     dfs_to_plot_line = {
-        'pNetImports': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
+        'pNetImportsZoneEvolution': df_net_imports[['year', 'season', 'day', 't', 'zone', 'scenario', 'Net imports']]
     }
 
-    imports_zero = dfs_to_plot_line['pNetImports']
+    imports_zero = dfs_to_plot_line['pNetImportsZoneEvolution']
     imports_zero = imports_zero.loc[(imports_zero.scenario == scenario) & ((imports_zero.zone == zone)) & (imports_zero.year == year)]
     imports_zero = (imports_zero['Net imports'] == 0).all().all()
     if not imports_zero:  # plotting net imports only when there is some variation
@@ -872,7 +872,7 @@ def make_pie_chart_interactive(df, zone, year, scenario, dict_colors, index='fue
 
     subplot_pie(
         df=temp_df, index=index, dict_colors=dict_colors, title=f'Power mix - {zone} - {year}',
-        filename=img, figsize=(fig_width, fig_height), subplot_column='attribute', legend_ncol=1, legend_fontsize=8,
+        filename=img, figsize=(fig_width, fig_height), column_subplot='attribute', legend_ncol=1, legend_fontsize=8,
         bbox_to_anchor=(0.9, 0.5), legend=False
     )
 

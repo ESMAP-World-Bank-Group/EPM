@@ -1459,7 +1459,7 @@ def main(test_args=None):
         help="Disable dispatch plots (default: True)"
     )
     
-    parser.set_defaults(plot_dispatch=False)
+    parser.set_defaults(plot_dispatch=True)
 
     parser.add_argument(
         "--graphs_folder",
@@ -1528,7 +1528,7 @@ def main(test_args=None):
             print(f"Find folder {os.path.abspath(folder)} for postprocessing.")
 
 
-    postprocess_output(folder, reduced_output=args.reduced_output, folder='postprocessing',
+    postprocess_output(folder, reduced_output=args.reduced_output,
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                        graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
                        reduce_definition_csv=args.reduce_definition_csv)

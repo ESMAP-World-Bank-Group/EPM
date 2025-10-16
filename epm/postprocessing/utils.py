@@ -98,7 +98,7 @@ RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', '
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
 
 
-def read_plot_specs(folder=''):
+def read_plot_specs(folder='postprocessing'):
     """
     Read the specifications for the plots from the static files.
     
@@ -995,64 +995,58 @@ def calculate_npv(data, discount_rate, start_year=None, end_year=None):
     return pd.DataFrame(results).set_index('scenario').squeeze()
 
 
-def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, folder='postprocessing',
-                               graphs_folder = 'img', keys_results=None):
-        # Create the folder path
-        def adjust_color(color, factor=0.1):
-            """Adjusts the color slightly by modifying its HSL components."""
-            rgb = mcolors.to_rgb(color)  # Convert to RGB
-            h, l, s = colorsys.rgb_to_hls(*rgb)  # Convert to HLS
+def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None):
+    # Create the folder path
+    def adjust_color(color, factor=0.1):
+        """Adjusts the color slightly by modifying its HSL components."""
+        rgb = mcolors.to_rgb(color)  # Convert to RGB
+        h, l, s = colorsys.rgb_to_hls(*rgb)  # Convert to HLS
 
-            # Adjust lightness slightly to differentiate (factor controls how much)
-            l = min(1, max(0, l + factor * (0.5 - l)))
+        # Adjust lightness slightly to differentiate (factor controls how much)
+        l = min(1, max(0, l + factor * (0.5 - l)))
 
-            # Convert back to RGB
-            new_rgb = colorsys.hls_to_rgb(h, l, s)
-            return mcolors.to_hex(new_rgb)
+        # Convert back to RGB
+        new_rgb = colorsys.hls_to_rgb(h, l, s)
+        return mcolors.to_hex(new_rgb)
 
-        RESULTS_FOLDER = path_to_extract_results(FOLDER)
+    RESULTS_FOLDER = path_to_extract_results(FOLDER)
 
-        GRAPHS_FOLDER = os.path.join(RESULTS_FOLDER, graphs_folder)
-        if not os.path.exists(GRAPHS_FOLDER):
-            os.makedirs(GRAPHS_FOLDER)
-            print(f'Created folder {GRAPHS_FOLDER}')
+    # Read the plot specifications
+    dict_specs = read_plot_specs()
 
-        # Read the plot specifications
-        dict_specs = read_plot_specs(folder=folder)
+    # Extract and process EPM inputs
+    epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
+    epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
+    mapping_gen_fuel = epm_input['pGenDataInput'].loc[:, ['scenario', 'generator', 'fuel']]
+    mapping_zone_country = epm_input['zcmap'].loc[:, ['scenario', 'zone', 'country']]
 
-        # Extract and process EPM inputs
-        epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
-        epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
-        mapping_gen_fuel = epm_input['pGenDataInput'].loc[:, ['scenario', 'generator', 'fuel']]
-        mapping_zone_country = epm_input['zcmap'].loc[:, ['scenario', 'zone', 'country']]
+    # Extract and process EPM results
+    epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
+    epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
+                                        mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
+                                        keys=keys_results)
 
-        # Extract and process EPM results
-        epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
-        epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
-                                          mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
-                                          keys=keys_results)
+    # Update color dict with plant colors
+    if True:
+        if 'pCapacityPlant' in epm_results.keys():
+            temp = epm_results['pCapacityPlant'].copy()
+            plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
 
-        # Update color dict with plant colors
-        if True:
-            if 'pCapacityPlant' in epm_results.keys():
-                temp = epm_results['pCapacityPlant'].copy()
-                plant_fuel_pairs = temp[['generator', 'fuel']].drop_duplicates()
+            # Map base colors from fuel types
+            plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
 
-                # Map base colors from fuel types
-                plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
+            # Generate slightly varied colors for each generator
+            plant_fuel_pairs['colors'] = plant_fuel_pairs.apply(
+                lambda row: adjust_color(row['colors'], factor=0.2 * hash(row['generator']) % 5), axis=1
+            )
 
-                # Generate slightly varied colors for each generator
-                plant_fuel_pairs['colors'] = plant_fuel_pairs.apply(
-                    lambda row: adjust_color(row['colors'], factor=0.2 * hash(row['generator']) % 5), axis=1
-                )
+            # Create the mapping
+            plant_to_color = dict(zip(plant_fuel_pairs['generator'], plant_fuel_pairs['colors']))
 
-                # Create the mapping
-                plant_to_color = dict(zip(plant_fuel_pairs['generator'], plant_fuel_pairs['colors']))
+            # Update dict_specs with the new colors
+            dict_specs['colors'].update(plant_to_color)
 
-                # Update dict_specs with the new colors
-                dict_specs['colors'].update(plant_to_color)
-
-        return RESULTS_FOLDER, GRAPHS_FOLDER, dict_specs, epm_input, epm_results, mapping_gen_fuel
+    return RESULTS_FOLDER, dict_specs, epm_input, epm_results
 
 
 def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
