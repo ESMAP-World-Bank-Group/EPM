@@ -1345,11 +1345,12 @@ def make_interconnection_map_faceted(
     fig_width = width_per_subplot * ncols
     fig_height = height_per_subplot * nrows
 
+    use_constrained_layout = True
     fig, axes = plt.subplots(
         nrows=nrows,
         ncols=ncols,
         figsize=(fig_width, fig_height),
-        constrained_layout=True
+        constrained_layout=use_constrained_layout
     )
     axes = np.atleast_1d(axes).flatten()
 
@@ -1391,9 +1392,11 @@ def make_interconnection_map_faceted(
 
     if title:
         fig.suptitle(title, y=0.98)
-        fig.tight_layout(rect=[0, 0, 1, 0.95])
+        if not use_constrained_layout:
+            fig.tight_layout(rect=[0, 0, 1, 0.95])
     else:
-        fig.tight_layout()
+        if not use_constrained_layout:
+            fig.tight_layout()
 
     if filename:
         fig.savefig(filename, bbox_inches='tight')
@@ -1519,7 +1522,6 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
 
     # Save the map
     energy_map.save(filename)
-    print(f"Interactive map saved to {filename}")
 
 
 def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selected_scenarios=None):

@@ -92,49 +92,50 @@ FIGURES_ACTIVATED = {
     'SummaryHeatmap': True,
     
     # 1. Capacity figures
-    'CapacityMixSystemEvolutionScenarios': False,
-    'CapacityMixSystemEvolutionScenariosRelative': False,
-    'CapacityMixEvolutionZone': False,
-    'CapacityMixZoneScenarios': False,
-    'NewCapacityInstalledTimeline': False,
+    'CapacityMixSystemEvolutionScenarios': True,
+    'CapacityMixSystemEvolutionScenariosRelative': True,
+    'CapacityMixEvolutionZone': True,
+    'CapacityMixZoneScenarios': True,
+    'NewCapacityInstalledTimeline': True,
     
     # 2. Cost figures
-    'CostSystemScenarios': False,
-    'CostSystemScenariosRelative': False,
-    'CostSystemEvolutionScenarios': False,
-    'CostSystemEvolutionScenariosRelative': False,
-    'CostZoneEvolution': False,
-    'CostZoneEvolutionPercentage': False,
-    'CostZoneScenarios': False,
+    'CostSystemScenarios': True,
+    'CostSystemScenariosRelative': True,
+    'CostSystemEvolutionScenarios': True,
+    'CostSystemEvolutionScenariosRelative': True,
+    'CostZoneEvolution': True,
+    'CostZoneEvolutionPercentage': True,
+    'CostZoneScenarios': True,
     'CapexZoneEvolution': True,
                     
     # 3. Energy figures
-    'EnergyMixSystemEvolutionScenarios': False,
-    'EnergyMixSystemEvolutionScenariosRelative': False,
-    'EnergyMixZoneEvolution': False,
-    'EnergyMixZoneScenarios': False,
-    'EnergyPlants': False,
-    'EnergyPlantZoneTop10': False,
+    'EnergyMixSystemEvolutionScenarios': True,
+    'EnergyMixSystemEvolutionScenariosRelative': True,
+    'EnergyMixZoneEvolution': True,
+    'EnergyMixZoneScenarios': True,
+    'EnergyPlants': True,
+    'EnergyPlantZoneTop10': True,
     
-    # 4. Interconnection figures
-    'NetImportsZoneEvolution': False,
-    'NetImportsZoneEvolutionZoneEvolutionShare': False,
-    'InterconnectionUtilizationHeatmap': False,
+    # 4. Dispatch figures
+    'DispatchZoneMaxLoadDay': True,
+    'DispatchZoneMaxLoadSeason': True,
+    'DispatchSystemMaxLoadDay': True,
+    'DispatchSystemMaxLoadSeason': True,
     
-    # 5. Dispatch figures
-    'DispatchZoneMaxLoadDay': False,
-    'DispatchZoneMaxLoadSeason': False,
-    'DispatchSystemMaxLoadDay': False,
-    'DispatchSystemMaxLoadSeason': False,
-    
+    # 5. Interconnection figures
+    'NetImportsZoneEvolution': True,
+    'NetImportsZoneEvolutionZoneEvolutionShare': True,
+    'InterconnectionExchangeHeatmap': True,
+    'InterconnectionUtilizationHeatmap': True,
+
     # 6. Maps
-    'TransmissionCapacityMap': False, 
-    'TransmissionCapacityMapEvolution': False,
-    'TransmissionUtilizationMap': False,
-    'TransmissionUtilizationMapEvolution': False,
-    'NetExportsMap': False, 
+    # 'TransmissionCapacityMap': False, 
+    'TransmissionCapacityMapEvolution': True,
+    # 'TransmissionUtilizationMap': False,
+    'TransmissionUtilizationMapEvolution': True,
+    # 'NetExportsMap': True, 
     
-    'InteractiveMap': False
+    'InteractiveMap': True
 }
 
 TRADE_ATTRS = [
@@ -767,16 +768,25 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 for scenario in selected_scenarios:
                     df = epm_results['pCapacityFuel'].copy()
                     # MW to GW
-                    df['value'] = df['value'] / 1e3
+                    df['value'] /= 1e3
                     
                     df = df[df['scenario'] == scenario]
                     df = df.drop(columns=['scenario'])
                     
                     filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}.pdf')
                     
+                    df_line = epm_input['pDemandForecast'].copy()
+                    df_line = df_line[df_line['scenario'] == scenario]
+                    df_line = df_line.drop(columns=['scenario'])
+                    df_line = df_line[df_line['pe'] == 'peak']
+                    df_line['value'] /= 1e3
+                    
+                    
                     make_stacked_barplot(df, 
                                                 filename, 
-                                                dict_specs['colors'], 
+                                                dict_specs['colors'],
+                                                overlay_df=df_line,
+                                                legend_label='Peak demand',
                                                 column_stacked='fuel',
                                                 column_subplot='zone',
                                                 column_xaxis='year',
@@ -1292,13 +1302,26 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         stack_sort_by='fuel'
                     )
             
+            
+            
             # ------------------------------------------------------------------------------------
-            # 4. Interconnection
+            # 4. Dispatch
+            # ------------------------------------------------------------------------------------                  
+                        
+            if plot_dispatch:
+                print('Generating energy dispatch figures...')
+                # Perform automatic Energy DispatchFigures
+                make_automatic_dispatch(epm_results, dict_specs, subfolders['5_dispatch'],
+                                        ['baseline'], FIGURES_ACTIVATED)
+            
+            
+            # ------------------------------------------------------------------------------------
+            # 5. Interconnection Heamap
             # ------------------------------------------------------------------------------------
                   
             print('Generating interconnection figures...')
             
-            # 4.1 Net exchange heatmap [GWh and %]
+            # 4.1 Net exchange heatmap [GWh and %] evolution
             
             figure_name = 'NetImportsZoneEvolution'
             if FIGURES_ACTIVATED.get(figure_name, False):
@@ -1349,6 +1372,47 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     value_column='value'
                 )
 
+
+            # 4.2 Exchange between zones (energy)
+            figure_name = 'InterconnectionExchangeHeatmap'
+            if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterchange' in epm_results:
+                df_interchange = epm_results['pInterchange'].copy()
+                df_interchange = df_interchange[df_interchange['scenario'].isin(selected_scenarios)]
+
+                required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
+                missing_cols = required_cols.difference(df_interchange.columns)
+                if missing_cols:
+                    print(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}")
+                else:
+                    if scenario_reference not in df_interchange['scenario'].unique():
+                        print(f"Skipping {figure_name}: scenario '{scenario_reference}' not available")
+                    else:
+                        df_interchange = df_interchange[df_interchange['scenario'] == scenario_reference]
+                        df_interchange = df_interchange[df_interchange['zone'] != df_interchange['z2']]
+                        if df_interchange.empty:
+                            print(f"Skipping {figure_name}: no interchange data for scenario '{scenario_reference}'")
+                        else:
+                            df_interchange = df_interchange.copy()
+                            df_interchange['value'] = df_interchange['value'].abs()
+                            for year in sorted(df_interchange['year'].unique()):
+                                df_plot = df_interchange[df_interchange['year'] == year]
+                                if df_plot.empty:
+                                    continue
+                                filename = os.path.join(
+                                    subfolders['4_interconnection'],
+                                    f'{figure_name}-{scenario_reference}-{year}.pdf'
+                                )
+                                title = f'Interconnection Energy Exchange - {scenario_reference} - {year} (GWh)'
+                                heatmap_plot(
+                                    df_plot,
+                                    filename=filename,
+                                    unit="GWh",
+                                    title=title,
+                                    x_column='zone',
+                                    y_column='z2',
+                                    value_column='value'
+                                )
+                                
             figure_name = 'InterconnectionUtilizationHeatmap'
             if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterconUtilization' in epm_results:
                 df_utilization = epm_results['pInterconUtilization'].copy()
@@ -1385,15 +1449,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                     y_column='z2',
                                     value_column='value'
                                 )
-                            
-            if plot_dispatch:
-                print('Generating energy dispatch figures...')
-                # Perform automatic Energy DispatchFigures
-                make_automatic_dispatch(epm_results, dict_specs, subfolders['5_dispatch'],
-                                        ['baseline'], FIGURES_ACTIVATED)
             
+
             # ------------------------------------------------------------------------------------
-            # 4. Interactive Map
+            # 6. Interconnection Maps
             # ------------------------------------------------------------------------------------
             
             if (
@@ -1406,6 +1465,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                        FIGURES_ACTIVATED)
 
 
+            
             if False:
                 #----------------------- Project Economic Assessment -----------------------
                 # Difference between scenarios with and without a project

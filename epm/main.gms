@@ -277,9 +277,6 @@ run_input_verification(gams)
 $offEmbeddedCode 
 
 
-*$include %VERIFICATION_FILE%
-
-
 $if not errorfree $abort PythonError in input_verification.gms
 
 
@@ -291,8 +288,6 @@ $log ### INPUT TREATMENT ####
 $log ########################
 
 $onMulti
-*$include %TREATMENT_FILE%
-
 
 $onEmbeddedCode Python:
 import sys, os
@@ -309,7 +304,6 @@ run_input_treatment(gams)
 $offEmbeddedCode 
 
 $if not errorfree $abort PythonError in input_treatment.gms
-
 
 $offMulti
 

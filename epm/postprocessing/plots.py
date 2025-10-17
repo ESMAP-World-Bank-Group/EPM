@@ -60,7 +60,7 @@ import argparse
 import shutil
 from matplotlib.ticker import FuncFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
 from .utils import NAME_COLUMNS, RENAME_COLUMNS
 
@@ -221,11 +221,15 @@ def build_axis_annotations(
 
         for x_val, groups in structured_entries.items():
             lines = []
-            for group_key, entries in groups.items():
+            group_totals = {
+                group_key: sum(value for _, value in entries)
+                for group_key, entries in groups.items()
+            }
+            for group_key, entries in sorted(groups.items(), key=lambda item: group_totals[item[0]], reverse=True):
                 group_label = category_formatter(group_key)
                 if group_label:
                     lines.append(group_label)
-                for item_key, value in entries:
+                for item_key, value in sorted(entries, key=lambda item: item[1], reverse=True):
                     item_label = ''
                     if item_key is not None:
                         item_label = category_formatter(item_key)
@@ -615,18 +619,24 @@ def make_stacked_areaplot(
     num_panels = len(subplot_values)
     ncols = min(3, num_panels)
     nrows = int(np.ceil(num_panels / ncols))
+    if num_panels == 1:
+        fig_width, fig_height = figsize
+    else:
+        fig_width = figsize[0] * ncols
+        fig_height = figsize[1] * nrows
     fig, axes = plt.subplots(
         nrows,
         ncols,
-        figsize=(figsize[0], figsize[1] * nrows),
+        figsize=(fig_width, fig_height),
         sharey=True if column_subplot is not None else False
     )
     axes = np.atleast_1d(axes).flatten()
 
     legend_handles = None
     legend_labels = None
-    primary_handles = None
-    primary_labels = None
+    primary_handles = []
+    primary_labels = []
+    single_panel_title = title if column_subplot is None else None
 
     bottom_row_start = (nrows - 1) * ncols
 
@@ -727,7 +737,7 @@ def make_stacked_areaplot(
         if column_subplot is not None:
             subplot_title = subplot_labels.get(subplot_value, subplot_value)
             if subplot_title is not None:
-                ax.set_title(str(subplot_title), fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
+                ax.set_title(str(subplot_title), fontweight='bold', color='dimgrey', pad=6, fontsize=fonttick)
 
         handles, labels = ax.get_legend_handles_labels()
         legend_obj = ax.get_legend()
@@ -736,8 +746,8 @@ def make_stacked_areaplot(
         labels = [str(label).replace('_', ' ') for label in labels]
 
         if column_subplot is None:
-            primary_handles = list(handles)
-            primary_labels = list(labels)
+            primary_handles.extend(handles)
+            primary_labels.extend(labels)
         else:
             if legend_handles is None:
                 legend_handles = list(handles)
@@ -762,7 +772,7 @@ def make_stacked_areaplot(
         valid_annotations = {key: text for key, text in resolved_annotations.items() if text}
         if valid_annotations:
             divider = make_axes_locatable(ax)
-            band_ax = divider.append_axes("top", size="18%", pad=0.25, sharex=ax)
+            band_ax = divider.append_axes("top", size="20%", pad=0.6, sharex=ax)
             band_ax.set_ylim(0, 1)
             band_ax.set_facecolor('none')
             band_ax.set_yticks([])
@@ -789,9 +799,10 @@ def make_stacked_areaplot(
         fig.delaxes(axes[idx])
 
     tight_rect = None
+    legend_anchor_x = 0.92
 
     if column_subplot is not None and show_legend and legend_handles:
-        legend_kwargs = dict(loc='center left', frameon=False, bbox_to_anchor=(1, 0.5))
+        legend_kwargs = dict(loc='center left', frameon=False, bbox_to_anchor=(legend_anchor_x, 0.5))
         if legend_title:
             legend_kwargs['title'] = legend_title
         fig.legend(
@@ -799,13 +810,10 @@ def make_stacked_areaplot(
             [label.replace('_', ' ') for label in legend_labels[::-1]],
             **legend_kwargs
         )
-        tight_rect = [0, 0, 0.88, 1]
+        tight_rect = [0, 0, legend_anchor_x, 1]
 
     if column_subplot is None:
         ax = axes[0]
-        if title:
-            ax.set_title(title, fontweight='bold', color='dimgrey', pad=6, fontsize=fonttick + 1)
-
         secondary_handles = []
         secondary_labels = []
 
@@ -849,15 +857,21 @@ def make_stacked_areaplot(
                 combined_handles.extend(secondary_handles)
                 combined_labels.extend(secondary_labels)
             if combined_handles:
-                legend_kwargs = dict(loc='center left', frameon=False, bbox_to_anchor=(1, 0.5))
+                unique = OrderedDict()
+                for handle, label in zip(combined_handles, combined_labels):
+                    if label not in unique:
+                        unique[label] = handle
+                final_labels = list(unique.keys())
+                final_handles = list(unique.values())
+                legend_kwargs = dict(loc='center left', frameon=False, bbox_to_anchor=(legend_anchor_x, 0.5))
                 if legend_title:
                     legend_kwargs['title'] = legend_title
                 fig.legend(
-                    combined_handles,
-                    combined_labels,
+                    final_handles,
+                    final_labels,
                     **legend_kwargs
                 )
-                tight_rect = [0, 0, 0.88, 1]
+                tight_rect = [0, 0, legend_anchor_x, 1]
         else:
             legend_obj = ax.get_legend()
             if legend_obj is not None:
@@ -871,9 +885,18 @@ def make_stacked_areaplot(
                 tight_rect[3] = min(tight_rect[3], 0.95)
 
     if tight_rect:
-        fig.tight_layout(rect=tight_rect)
+        top_bound = min(tight_rect[3], 0.92)
+        fig.tight_layout(rect=[tight_rect[0], tight_rect[1], min(tight_rect[2], 0.96), top_bound])
     else:
-        fig.tight_layout()
+        fig.tight_layout(rect=[0, 0, 0.96, 0.92])
+
+    if column_subplot is None:
+        if single_panel_title:
+            fig.subplots_adjust(top=0.86)
+            fig.suptitle(single_panel_title, fontsize=fonttick + 2, fontweight='bold', color='dimgrey')
+    else:
+        if title:
+            fig.suptitle(title, fontsize=fonttick + 2, y=0.97)
 
     if filename:
         fig.savefig(filename, bbox_inches='tight')
@@ -1147,7 +1170,7 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
 
 # Stacked bar plots
 
-def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_subplot='year',
+def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_df=None, legend_label=None, column_subplot='year',
                               column_stacked='fuel', column_xaxis='scenario',
                               column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
@@ -1165,6 +1188,11 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
         Path to save the figure.
     dict_colors : dict
         Dictionary with color arguments.
+    overlay_df : pd.DataFrame, optional
+        Additional data sharing the same `column_subplot` (when provided), `column_xaxis`, and `column_value`
+        used to overlay a line (with markers) on the bars.
+    legend_label : str, optional
+        Legend label associated with the overlay line. When provided the line is included in the primary legend.
     selected_zone : str
         Zone to select.
     column_subplot : str
@@ -1230,7 +1258,7 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
                               format_y=lambda y, _: '{:.0f} GWh'.format(y),
                               order_stacked=['Hydro', 'Oil'], cap=2)
     """
-    def stacked_bar_subplot(df, column_stacked, filename, df_errorbars=None, dict_colors=None, year_ini=None, order_scenarios=None,
+    def stacked_bar_subplot(df, column_stacked, filename, df_errorbars=None, overlay_lookup=None, legend_label=None, dict_colors=None, year_ini=None, order_scenarios=None,
                         order_stacked=None, dict_scenarios=None, rotation=0, fonttick=14, legend=True, format_y=lambda y, _: '{:.0f} GW'.format(y),
                         cap=6, annotate=True, show_total=False, title=None, figsize=(10,6), fontsize_label=10,
                         format_label="{:.1f}", hspace=0.4, cols_per_row=3, juxtaposed=False, bar_annotations=None,
@@ -1246,6 +1274,14 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
             Column name to group by for the stacked bars.
         filename : str
             Path to save the plot image. If None, the plot is shown instead.
+        df_errorbars : pandas.DataFrame, optional
+            Error bar bounds to display for each bar. Expected columns include ``'error'`` with values
+            ``'min'``/``'max'`` alongside the grouping keys.
+        overlay_lookup : dict[str, pandas.Series], optional
+            Mapping from subplot keys to 1D series indexed by ``column_xaxis`` that will be plotted as a
+            line with markers over each bar, sharing the same y-axis.
+        legend_label : str, optional
+            Legend label for the overlay line when present.
         dict_colors : dict, optional
             Dictionary mapping column names to colors for the bars. Default is None.
         figsize : tuple, optional
@@ -1310,9 +1346,11 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
             stacked = False
 
         handles, labels = None, None
+        overlay_label_used = False
         bar_annotations = bar_annotations or {}
         for k, key in enumerate(list_keys):
             ax = axes[k]
+            overlay_series = None
 
             try:
                 df_temp = df[key].unstack(column_stacked) if column_stacked else df[key].to_frame()
@@ -1341,6 +1379,20 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
                         new_order = [c for c in order_stacked if c in df_temp.columns] + [c for c in df_temp.columns if c not in order_stacked]
                         df_temp = df_temp.loc[:,new_order]
 
+                if overlay_lookup is not None and not juxtaposed:
+                    overlay_series = overlay_lookup.get(key)
+                    if overlay_series is None and isinstance(key, tuple):
+                        overlay_series = overlay_lookup.get(tuple(key))
+                    if overlay_series is None and len(list_keys) == 1 and overlay_lookup:
+                        overlay_series = next(iter(overlay_lookup.values()))
+                    if overlay_series is not None:
+                        overlay_series = overlay_series.copy()
+                        if dict_scenarios is not None:
+                            overlay_series.index = overlay_series.index.map(lambda x: dict_scenarios.get(x, x))
+                        if order_scenarios is not None:
+                            overlay_series = overlay_series.reindex(order_scenarios)
+                        overlay_series = overlay_series.reindex(df_temp.index)
+
                 if not juxtaposed:
                     df_temp.plot(ax=ax, kind='bar', stacked=stacked, linewidth=0,
                                 color=dict_colors if dict_colors else None)
@@ -1350,6 +1402,25 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
 
                 # Plot error bars if provided
                 df_bar_totals = df_temp.sum(axis=1)
+
+                if overlay_series is not None and overlay_series.notna().any():
+                    bar_centers = ax.get_xticks()
+                    x_vals = []
+                    y_vals = []
+                    for idx_pos, idx_name in enumerate(df_temp.index):
+                        if idx_name not in overlay_series.index:
+                            continue
+                        value = overlay_series.loc[idx_name]
+                        if pd.isna(value):
+                            continue
+                        x_coord = bar_centers[idx_pos] if idx_pos < len(bar_centers) else idx_pos
+                        x_vals.append(x_coord)
+                        y_vals.append(value)
+                    if x_vals:
+                        use_label = legend_label if legend_label and not overlay_label_used else '_nolegend_'
+                        ax.plot(x_vals, y_vals, color='tab:red', marker='o', linewidth=1.5, zorder=4, label=use_label)
+                        if legend_label and not overlay_label_used:
+                            overlay_label_used = True
 
                 if df_errorbars is not None:
                     if not juxtaposed:
@@ -1536,6 +1607,18 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
         column_xaxis = column_subplot
         column_subplot = None
     
+    overlay_lookup = None
+    overlay_source = None
+    if overlay_df is not None:
+        required_columns = {column_xaxis, column_value}
+        if column_subplot is not None:
+            required_columns.add(column_subplot)
+        missing_columns = required_columns.difference(overlay_df.columns)
+        if missing_columns:
+            missing_fmt = ', '.join(sorted(missing_columns))
+            raise ValueError(f"overlay_df is missing required columns: {missing_fmt}")
+        overlay_source = overlay_df.copy()
+
     if stacked_grouping is not None:
         for key, grouping in stacked_grouping.items():
             assert key in df.columns, f'Grouping parameter with key {key} is used but {key} is not in the columns.'
@@ -1632,8 +1715,29 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
             df_errorbars = (df_errorbars.groupby(['error', column_xaxis], observed=False)[column_value].sum().reset_index())
             df_errorbars = df_errorbars.set_index(['error', column_xaxis])
 
+    if overlay_source is not None:
+        if column_subplot is not None:
+            overlay_grouped = (overlay_source.groupby([column_subplot, column_xaxis], observed=False)[column_value]
+                               .sum()
+                               .reset_index())
+            overlay_lookup = {
+                subplot_key: subgroup.set_index(column_xaxis)[column_value]
+                for subplot_key, subgroup in overlay_grouped.groupby(column_subplot, observed=False)
+            }
+        else:
+            overlay_series = (overlay_source.groupby([column_xaxis], observed=False)[column_value]
+                              .sum()
+                              .rename(column_value))
+            column_key = next(iter(df.columns), column_value)
+            overlay_lookup = {column_key: overlay_series}
+
     if select_subplot is not None:
         df = df.loc[:, [i for i in df.columns if i in select_subplot]]
+        if overlay_lookup is not None and column_subplot is not None:
+            overlay_lookup = {k: v for k, v in overlay_lookup.items() if k in select_subplot}
+
+    if overlay_lookup is not None and not overlay_lookup:
+        overlay_lookup = None
 
     if bar_annotations is not None:
         if column_subplot is None:
@@ -1654,7 +1758,7 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_su
         bar_annotations = None
 
     if not df.empty:  # handling the case where the subset is empty
-        stacked_bar_subplot(df, column_stacked, filename, dict_colors=dict_colors, df_errorbars=df_errorbars, format_y=format_y,
+        stacked_bar_subplot(df, column_stacked, filename, dict_colors=dict_colors, df_errorbars=df_errorbars, overlay_lookup=overlay_lookup, legend_label=legend_label, format_y=format_y,
                             rotation=rotation, order_scenarios=order_scenarios, dict_scenarios=dict_scenarios,
                             order_stacked=order_stacked, cap=cap, annotate=annotate, show_total=show_total, fonttick=fonttick, title=title, fontsize_label=fontsize_label,
                             format_label=format_label, figsize=figsize, hspace=hspace, cols_per_row=cols_per_row,

@@ -1413,7 +1413,7 @@ embeddedCode Connect:
 
         "pCostsPlant",
         "pCapexInvestmentPlant",
-        "pCapexInvestmentPlant",
+        "pCapexInvestmentTransmission",
         "pCapexInvestmentComponent",
         "pCapexInvestment",
         "pPrice",

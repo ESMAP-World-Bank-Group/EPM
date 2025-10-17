@@ -21,7 +21,7 @@
 *
 * Notes:
 * - Ensure GAMS is installed before running this model.
-* - The model requires input data in .GDX or Excel format.
+* - The model requires input data in .GDX.
 *
 * Contact:
 * Claire Nicolas, c.nicolas@worldbank.org
