@@ -9,7 +9,7 @@ The following table lists the key input files used in the EPM model, along with 
 | File Name                          | Description                           | Dimensions       |
 | ---------------------------------- | ------------------------------------- | ---------------- |
 | **Configuration Files**            |                                       |                  |
-| `pSettings.csv`                    | Global model parameters and settings. | 5 sections       |
+| `pSettings.csv`                    | Global model parameters and settings. | Multiple blocks  |
 | `y.csv`                            | List of model years.                  | 1 column         |
 | `zcmap.csv`                        | Maps zones to countries.              | 2 columns        |
 | **Resources**                      |                                       |                  |
