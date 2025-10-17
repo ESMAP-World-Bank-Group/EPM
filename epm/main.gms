@@ -60,13 +60,11 @@ $if set ROOT_FOLDER $set REPORT_FILE %ROOT_FOLDER%/%REPORT_FILE%
 $log REPORT_FILE is "%REPORT_FILE%"
 
 
-
 $ifThen not set READER_FILE
 $set READER_FILE "input_readers.gms"
 $endIf
 $if set ROOT_FOLDER $set READER_FILE %ROOT_FOLDER%/%READER_FILE%
 $log READER_FILE is "%READER_FILE%"
-
 
 
 $ifThen not set DEMAND_FILE
@@ -81,9 +79,6 @@ $set HYDROGEN_FILE "hydrogen_module.gms"
 $endIf
 $if set ROOT_FOLDER $set HYDROGEN_FILE %ROOT_FOLDER%/%HYDROGEN_FILE%
 $log HYDROGEN_FILE is "%HYDROGEN_FILE%"
-
-
-
 
 *-------------------------------------------------------------------------------------
 
@@ -146,74 +141,72 @@ alias (z,z2), (g,g1,g2);
 * Input data parameters 
 Parameter
 * Generator data
-   pTechData(tech<,pTechDataHeader<)              'Technology specifications'
-   pGenDataInput(g<,z,tech,f<,pGenDataInputHeader)      'Generator data from Excel input'
-   pGenDataInputDefault(z,tech,f,pGenDataInputHeader)     'Default generator data by zone/tech/fuel'
-   pCapexTrajectoriesDefault(z,tech,f,y) 'Default CAPEX trajectories'
-   pCapexTrajectories(g,y)             'Generator CAPEX trajectories'
-   pAvailabilityDefault(z,tech,f,q)     'Default availability factors'
+   pTechData(tech<,pTechDataHeader<)                     'Technology specifications'
+   pGenDataInput(g<,z,tech,f<,pGenDataInputHeader)       'Generator data from Excel input'
+   pGenDataInputDefault(z,tech,f,pGenDataInputHeader)    'Default generator data by zone/tech/fuel'
+   pCapexTrajectoriesDefault(z,tech,f,y)                 'Default CAPEX trajectories'
+   pCapexTrajectories(g,y)                               'Generator CAPEX trajectories'
+   pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
-   pStorDataExcel(g,*,pStoreDataHeader)             'Storage unit specifications'
+   pStorDataExcel(g,*,pStoreDataHeader)                  'Storage unit specifications'
    
 * CSP and technology data
-   pCSPData(g,pCSPDataHeader,pStoreDataHeader)              'Concentrated solar power data'
+   pCSPData(g,pCSPDataHeader,pStoreDataHeader)           'Concentrated solar power data'
    
 * Fuel data
-   pFuelCarbonContent(f)                'Carbon content by fuel (tCO2/MMBtu)'
-   pMaxFuellimit(c,f,y)             'Fuel limit in MMBTU*1e6 (million) by country'
-   pFuelPrice(c,f,y)                   'Fuel price forecasts'
+   pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
+   pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
+   pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
-   
+
 * Storage and transmission
-   pStorDataInput(g,g2,pStoreDataHeader)            'Storage unit input data'
-   pNewTransmission(z,z2,pTransmissionHeader<)          'New transmission line specifications'
+   pStorDataInput(g,g2,pStoreDataHeader)                 'Storage unit input data'
+   pNewTransmission(z,z2,pTransmissionHeader<)           'New transmission line specifications'
    
 * Trade parameters
-   pTradePrice(zext,q,d,y,t)           'External trade prices'
-   pMaxAnnualExternalTradeShare(y,c)              'Maximum trade share by country'
+   pTradePrice(zext,q,d,y,t)                             'External trade prices'
+   pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
    
 * Demand parameters
-   pDemandProfile(z,q,d,t)             'Normalized demand profiles'
-   pDemandForecast(z,pe,y)             'Peak/energy demand forecasts (MW/GWh)'
-   pDemandData(z,q,d,y,t)              'Hourly load curves'
+   pDemandProfile(z,q,d,t)                               'Normalized demand profiles'
+   pDemandForecast(z,pe,y)                               'Peak/energy demand forecasts (MW/GWh)'
+   pDemandData(z,q,d,y,t)                                'Hourly load curves'
    
 * Emissions and carbon
-   pEmissionsCountry(c,y)              'Country emission limits (tons)'
-   pEmissionsTotal(y)                  'System-wide emission limits (tons)'
-   pCarbonPrice(y)                     'Carbon price (USD/ton CO2)'
+   pEmissionsCountry(c,y)                                'Country emission limits (tons)'
+   pEmissionsTotal(y)                                    'System-wide emission limits (tons)'
+   pCarbonPrice(y)                                       'Carbon price (USD/ton CO2)'
    
 * Time and transfer parameters
-   pHours(q<,d<,t<)                    'Hours mapping'
-   
-   pTransferLimit(z,z2,q,y)            'Inter-zonal transfer limits'
-   pMinImport(z2,z,y)                  'Minimum import requirements'
-   pLossFactorInternal(z,z2,y)                 'Transmission loss factors'
+   pHours(q<,d<,t<)                                      'Hours mapping'
+   pTransferLimit(z,z2,q,y)                              'Inter-zonal transfer limits'
+   pMinImport(z2,z,y)                                    'Minimum import requirements'
+   pLossFactorInternal(z,z2,y)                           'Transmission loss factors'
    
 * VRE and availability
-   pVREProfile(z,tech,q,d,t)           'VRE generation profiles by site'
-   pVREgenProfile(g,q,d,t)             'VRE generation profiles by plant'
-   pAvailability(g,q)                  'Seasonal availability factors'
+   pVREProfile(z,tech,q,d,t)                             'VRE generation profiles by site'
+   pVREgenProfile(g,q,d,t)                               'VRE generation profiles by plant'
+   pAvailability(g,q)                                    'Seasonal availability factors'
    
 * Reserve requirements
-   pSpinningReserveReqCountry(c,y)     'Country spinning reserve requirements'
-   pSpinningReserveReqSystem(y)        'System spinning reserve requirements'
-   pPlanningReserveMargin(c)           'Planning reserve margins'
+   pSpinningReserveReqCountry(c,y)                       'Country spinning reserve requirements'
+   pSpinningReserveReqSystem(y)                          'System spinning reserve requirements'
+   pPlanningReserveMargin(c)                             'Planning reserve margins'
    
 * Other parameters
-   pSettings(pSettingsHeader)         'Model settings and penalties'
-   
-   pEnergyEfficiencyFactor(z,y)        'Energy efficiency adjustment factors'
-   pExtTransferLimit(z,zext,q,*,y)     'External transfer limits'
+   pSettings(pSettingsHeader)                            'Model settings and penalties'
+   pEnergyEfficiencyFactor(z,y)                          'Energy efficiency adjustment factors'
+   pExtTransferLimit(z,zext,q,*,y)                       'External transfer limits'
    
 * Hydrogen parameters
-   pH2DataExcel(hh<,pH2Header)                 'Hydrogen data from Excel'
-   pAvailabilityH2(hh,q)               'H2 plant availability'
-   pFuelDataH2(f)                      'Hydrogen fuel properties'
-   pCapexTrajectoryH2(hh,y)            'H2 CAPEX trajectories'
-   pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
+   pH2DataExcel(hh<,pH2Header)                           'Hydrogen data from Excel'
+   pAvailabilityH2(hh,q)                                 'H2 plant availability'
+   pFuelDataH2(f)                                        'Hydrogen fuel properties'
+   pCapexTrajectoryH2(hh,y)                              'H2 CAPEX trajectories'
+   pExternalH2(z,q,y)                                    'External H2 demand (MMBtu) to be met'
    
-   ftfindex(f)
+   ftfindex(f)                                           'Fuel-to-fuel index mapping'
 ;   
 
 
