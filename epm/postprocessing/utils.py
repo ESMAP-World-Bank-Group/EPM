@@ -1049,6 +1049,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
     return RESULTS_FOLDER, dict_specs, epm_input, epm_results
 
 
+
 def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
 
     # Get the data

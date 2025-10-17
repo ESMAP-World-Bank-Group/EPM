@@ -37,6 +37,29 @@ Solver settings are defined in a `cplex.opt` file.
   auxrootthreads = 0
   ```
 
+## Solver Types for EPM
+
+In EPM, the `MODELTYPE` determines the class of optimization problem used during the `Solve` statement. You can set it via a macro like:
+
+```gams
+Solve PA using %MODELTYPE% minimizing vNPVcost;
+```
+
+
+Using the Python API, `epm.py`, it's the parameter `--solver` that can be used to specify the solver (`MIP`or `RMIP`))
+
+
+| MODELTYPE | Description                                  | Use Case / Notes |
+|-----------|----------------------------------------------|------------------|
+| `LP`      | Linear Programming                           | All variables and constraints are linear. Use for fastest solve when there's no need for integer or binary decisions. |
+| `MIP`     | Mixed Integer Programming                    | Linear model with some variables constrained to be integer or binary. Use when decisions involve on/off or countable options. |
+| `RMIP`    | Relaxed MIP                                  | Like MIP, but all integer/binary constraints are relaxed to continuous. Useful for debugging or getting bounds before full MIP solve. |
+
+> - `RMIP` **keeps the full structure of a MIP model** (including integer vars), but relaxes integrality — making it solvable as a continuous problem.
+> - `LP` is **purely linear**, and expects all variables to be continuous.
+> - Use `RMIP` when you want to check bounds or feasibility of a MIP model without solving the full integer problem.
+
+
 
 ## Resources
 
