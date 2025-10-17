@@ -32,824 +32,1081 @@ $onMulti
 * Report
 
 Parameters
-*---- Summary
-   pSummary(*)                               'Summary of total results with costs in million USD'
-   pCapex(z,y)                               'Capex  in USD'
-   pAnncapex(z,y)                            'Annualized capex in USD'
-   pFOM(z,y)                                 'FOM in USD'
-   pVOM(z,y)                                 'VOM  in USD'
-   pFuelCostsZone(z,y)                       'Fuel costs in USD'
-   pImportCostsExternal(z,y)                 'Net import costs from trade with external zones in USD'
-   pExportRevenuesExternal(z,y)               'Export revenue from trade with external zones in USD'
-   pImportCostsTopology(z,y)                 'Import costs with internal zones in USD'
-   pExportRevenuesTopology(z,y)              'Export revenues with internal zones in USD'
-   pCongestionRevenuesBetweenZones(z,z2,y)   'Congestion revenues from saturation of direction z,Zd in USD'
-   pTradeSharedBenefits(z,y)                 'Congestion revenues assumed to be shared equally between involved countries in USD'
-   pTradeCostsTopology(z,y)                  'Trade costs from imports, exports and sharing congestion rent among countries in USD'
-   pNewTransmissionCosts(z,y)                'Added transmission costs in USD'
-   pUSECosts(z,y)                            'Unmet demand costs in USD'
-   pCO2backstopCosts(c,y)                    'CO2backstop costs in USD'
-   pSurplusCosts(z,y)                        'Surplus generation costs  in USD'
-   pVRECurtailment(z,y)                      'VRE curtailment costs'
-   pUSRSysCosts(y)                           'Unmet system spinning reserve violation costs'
-   pUPRSysCosts(y)                           'Unmet system planning reserve violation costs'
-   pSpinResCosts(z,y)                        'Spinning res costs  by zone in USD'
-   pUSRLocCosts(c,y)                         'Unmet locational spinning reserve costs per country'
-   pCountryPlanReserveCosts(c,y)             'Planning reserve violation cost by zone in USD'
-   pCostsbyPlant(z,g,*,y)                    'Yearly Costs by Plant'
-   pCostSummary(z,*,y)                       'Summary of costs in millions USD  (unweighted and undiscounted) by zone'
-   pCostSummaryFull(z,*,y)                   'Summary of costs in millions USD  (unweighted and undiscounted) by zone - full version'
-   pCostSummaryCountry(c,*,y)                'Summary of costs in millions USD  (unweighted and undiscounted) by country'
-   pCostSummaryWeighted(z,*,y)               'Summary of costs in millions USD  (weighted and undiscounted) by zone'
-   pCostSummaryWeightedCountry(c,*,y)        'Summary of costs in millions USD  (weighted and undiscounted) by country'
-   pCostSummaryWeightedAverageCountry(c,*,*) 'Summary of average costs (undiscounted) by country'
-   pCostSummaryWeightedAverageCtry(c,*)      'Summary of average costs (undiscounted) by country (modified pCostSummaryWeightedAverageCountry for MIRO)'
-   pFuelCosts(z,f,y)                         'Fuel costs in millions USD by zone'
-   pFuelCostsCountry(c,f,y)                  'Fuel costs in millions USD by zone'
-   pFuelConsumption(z,f,y)                   'Fuel consumed in unit defined by user (millions of unit)  per zone'
-   pFuelConsumptionCountry(c,f,y)            'Fuel consumed in unit defined by user (millions of unit)  per country'
-   pEnergyByPlant(z,g,y)                     'Energy by plant in GWh'
-   pEnergyByFuel(z,f,y)                      'Energy by fuel in GWh per zone'
-   pEnergyByFuelCountry(c,f,y)               'Energy by fuel in GWh per country'
-   pEnergyByTechandFuel(z,tech,f,y)          'Energy by technology and fuel in GWh per zone'
-   pEnergyByTechandFuelCountry(c,tech,f,y)   'Energy by technology and fuel in GWh per country'
-   pEnergyMix(c,f,y)                         'Energy mix by country'
-                                             
-   pDemandSupply(z,*,y)                      'Supply demand in GWh per zone'
-   pDemandSupplyCountry(c,*,y)               'Supply demand in GWh per country'
- 
 
-************************************H2  model additions***************************************************  
-   pDemandSupplyH2(z,*,y)                      'H2 Supply demand in mmBTU of H2 per zone'
-   pDemandSupplyCountryH2(c,*,y)               'H2 Supply demand in mmBTU of H2 per country'
-   pCapacityPlanH2(z,hh,y)                      'Capacity plan of electrolyzers in MW per zone'
+* ============================================================
+* 1. CAPACITY
+* ============================================================
 
-***********************************************************************************************************
+  pCapacityPlant(z,g,y)                      'Installed capacity [MW] by plant, zone, and year'
+  pCapacityTechFuel(z,tech,f,y)              'Installed capacity [MW] by technology, fuel, and zone'
+  pCapacityFuel(z,f,y)                       'Installed capacity [MW] by fuel and zone'
+  pCapacityTechFuelCountry(c,tech,f,y)       'Installed capacity [MW] by technology, fuel, and country'
+  pCapacityFuelCountry(c,f,y)                'Installed capacity [MW] by fuel and country'
 
-   pInterchange(z,z2,y)                      'Total exchange in GWh between internal zones  per zone'
-   pInterchangeExtExp(z, zext, y)                'Total exchange in GWh between internal and external zones  per zone for exportd'
-   pInterchangeExtImp(zext, z, y)                'Total exchange in GWh between internal and external zones  per zone for imports'
-   pInterconUtilization(z,z2,y)              'Utilization of interconnection throughout modeling horizon (between internal zones)'
-   pInterconUtilizationExtExp(z,zext,y)         'Utilization of interconnection throughout modeling horizon (between external zones for exports)'
-   pInterconUtilizationExtImp(zext,z,y)         'Utilization of interconnection throughout modeling horizon (between external zones) for imports'
-   pCongested(z,z2,y)                        'Percentage of time when the line is congested'
-   isCongested(z,z2,q,d,t,y)                 'Whether the line is congested at some point in time'
-   pLossesTransmission(z,y)                  'Transmission losses between internal zones in MWh per zone'
-   pInterchangeCountry(c,c2,y)               'Total exchange in GWh between countries per country'
-   pLossesTransmissionCountry(c,y)           'Total Transmission losses in MWh per country'
-   pYearlyTrade(z,*,y)                       'Trade with external zones by year in GWh per zone'
-   pHourlyTrade(z,y,q,d,*,t)                 'Trade with external zones in MW per zone'
-   pYearlyTradeCountry(c,*,y)                'Trade with external zones by year in GWh per country'
-   pHourlyTradeCountry(c,y,q,d,*,t)          'Trade with external zones in MW per country'
-   pPrice(z,q,d,t,y)                         'Marginal cost in USD per MWh  per zone'
-   pAveragePrice(z,y)                        'Average price by internal zone'
-   pAveragePriceHub(z,y)                     'Average price hub'
-   pAveragePriceExp(z,y)                     'Average Marginal cost of exports to internal zones in USD per MWh'
-   pAveragePriceImp(z,y)                     'Average Marginal cost of imports to internal zones in USD per MWh'
-   pAveragePriceCountry(c,y)                 'Average price by internal zone per country'
-   pAveragePriceExpCountry(c,y)              'Average Marginal cost of exports to internal zones in USD per MWh for each country'
-   pAveragePriceImpCountry(c,y)              'Average Marginal cost of imports to internal zones in USD per MWh for each country'
-   pPeakCapacity(z,*,y)                      'Peak capacity in MW per zone'
-   pCapacityByFuel(z,f,y)                    'Peak capacity by primary fuel in MW per zone'
-   pNewCapacityFuel(z,f,y)                   'New capacity by fuel in MW per zone'
-   pNewCapacityTech(z,tech,y)                'New capacity by technology in MW per zone'
-   pPlantUtilization(z,g,y)                  'Plant utilization'
-   pPlantUtilizationTech(z,tech,y)           'Plant utilization with Technology'
-   pFuelUtilization(z,f,y)                   'Plant utilization with fuel'  
-   pRetirements(z,g,y)                       'Retirements in MW per zone'
-   pRetirementsFuel(z,f,y)                   'Retirements by fuel in MW per zone'
-   pRetirementsCountry(c,y)                'Retirements in MW per country'
-   pRetirementsFuelCountry(c,f,y)            'Retirements by fuel in MW per country'
-   pCapacityPlan(z,g,y)                      'Capacity plan MW per zone'
-   pPeakCapacityCountry(c,*,y)               'Peak capacity in MW  per country'
-   pCapacityByFuelCountry(c,f,y)             'Peak capacity by primary fuel in MW per country'
-   pNewCapacityFuelCountry(c,f,y)            'New capacity by fuel in MW per country'
-   pNewCapacityTechCountry(c,tech,y)         'New capacity by technology in MW per country'
-   pCapacityPlanCountry(c,g,y)               'Capacity plan MW per country'
-   pAdditionalCapacity(z,z2,y)             'Additional transmission capacity between internal zones in MW'
-   pAnnualTransmissionCapacity(z,z2,y)       'Annual transmission capacity including base and new ones'
-   pAdditionalCapacityCountry(c,*,y)         'Additional transmission capacity between internal countries in MW'
-   pCapacityByTechandFuel(z,tech,f,y)        'Peak capacity by technology and primary fuel in MW per zone'
-   pCapacityByTechandFuelCountry(c,tech,f,y) 'Peak capacity by technology and primary fuel in MW per country'
-   pUtilizationByFuel(z,f,y)                 'Average capacity factor by fuel'
-   pUtilizationByTechandFuel(z,tech,f,y)     'Average capacity factor by technology and fuel'
-   pUtilizationByFuelCountry(c,f,y)          'Average capacity factor by fuel in country'
-   pUtilizationByTechandFuelCountry(c,tech,f,y) 'Average capacity factor by technology and fuel in country'
+  pRetirementsPlant(z,g,y)                   'Retired capacity [MW] by plant, zone, and year'
+  pRetirementsFuel(z,f,y)                    'Retired capacity [MW] by fuel and zone'
+  pRetirementsCountry(c,y)                   'Total retired capacity [MW] by country and year'
+  pRetirementsFuelCountry(c,f,y)             'Retired capacity [MW] by fuel and country'
+  
+  pNewCapacityFuel(z,f,y)                    'Newly added capacity [MW] by fuel and zone'
+  pNewCapacityTech(z,tech,y)                 'Newly added capacity [MW] by technology and zone'
+  pNewCapacityFuelCountry(c,f,y)             'Newly added capacity [MW] by fuel and country'
+  pNewCapacityTechCountry(c,tech,y)          'Newly added capacity [MW] by technology and country'
+  
+  pAnnualTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
+  pAdditionalTransmissionCapacity(z,z2,y)                'Additional transmission capacity [MW] between internal zones'
+
+  pCapacitySummary(z,*,y)                    'Summary of capacity indicators [MW] by zone and year'
+  pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
+  
+  pCapacityPlantH2(z,hh,y)                   'Capacity plan of electrolyzers [MW] by zone'
+
+* ============================================================
+* 2. COSTS
+* ============================================================
+
+  pCostsPlant(z, g, *, y)                       'Yearly cost breakdown by plant and year'
+  
+  pCapexInvestmentPlant(z, g, *, y) 'CAPEX investment [USD] by plant and component'
+  pCapexInvestmentTransmission(z, z2, y) 'Transmission CAPEX [USD] by line and year'
+  pCapexInvestmentComponent(z, *, y) 'Annual CAPEX investment [USD] by component and zone'                                          
+  pCapexInvestment(z, y)                        'Annual CAPEX investment in USD by zone and year'
+
+  pPrice(z, q, d, t, y)                         'Marginal cost [USD/MWh] by zone, time, and year'
+  pImportCostsInternal(z, y)                    'Import costs with internal zones [USD] by zone and year'
+  pExportRevenuesInternal(z, y)                 'Export revenues with internal zones [USD] by zone and year'
+  pCongestionRevenues(z, z2, y)                 'Congestion rents [USD] from saturated lines z→z2 by year'
+  pTradeSharedBenefits(z, y)                    'Congestion rents shared equally between countries [USD] by zone and year'
+
+  pYearlyCostsZone(z, *, y)                      'Annual cost summary [million USD] by zone and year'
+  pCostsZone(z, *)                               'Total cost [million USD] by zone and cost category'
+  pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
+  pCostAverageCountry(c, *)                      'Average annual cost [million USD] by country (undiscounted)'
+  pYearlyCostsSystem
+  pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
+  pCostsSystemPerMWh(*)                          'System-level cost summary [$ / MWh], weighted and discounted'
+  pYearlySystemCostEnergyBasis(y)                'System cost energy denominator [MWh] by year'
+  pDiscountedSystemCostEnergyBasis               'Discounted system cost energy denominator [MWh]'
+
+  pFuelCosts(z, f, y)                           'Annual fuel costs [million USD] by fuel, zone, and year'
+  pFuelCostsCountry(c, f, y)                    'Annual fuel costs [million USD] by fuel, country, and year'
+  pFuelConsumption(z, f, y)                     'Annual fuel consumption [MMBtu] by fuel, zone, and year'
+  pFuelConsumptionCountry(c, f, y)              'Annual fuel consumption [MMBtu] by fuel, country, and year'
+
+* ============================================================
+* 3. ENERGY BALANCE
+* ============================================================
+
+  pEnergyPlant(z,g,y)                     'Annual energy generation by plant [GWh]'
+  pEnergyFuel(z,f,y)                      'Annual energy generation by fuel and zone [GWh]'
+  pEnergyFuelCountry(c,f,y)               'Annual energy generation by fuel and country [GWh]'
+  pEnergyTechFuel(z,tech,f,y)             'Annual energy generation by technology, fuel, and zone [GWh]'
+  pEnergyTechFuelCountry(c,tech,f,y)      'Annual energy generation by technology, fuel, and country [GWh]'
+  
+  pEnergyBalance(z,*,y)                   'Annual supply-demand balance by zone [GWh]'
+  pEnergyBalanceCountry(c,*,y)            'Annual supply-demand balance by country [GWh]'
+  pEnergyBalanceH2(z,*,y)                 'Annual hydrogen supply-demand balance by zone [mmBTU]'
+  pEnergyBalanceCountryH2(c,*,y)          'Annual hydrogen supply-demand balance by country [mmBTU]'
+  
+  pUtilizationPlant(z,g,y)                'Annual plant utilization factor'
+  pUtilizationTech(z,tech,y)              'Annual technology utilization factor'
+  pUtilizationFuel(z,f,y)                 'Annual average capacity factor by fuel'
+  pUtilizationTechFuel(z,tech,f,y)        'Annual average capacity factor by technology and fuel'
+  pUtilizationFuelCountry(c,f,y)          'Annual average capacity factor by fuel and country'
+  pUtilizationTechFuelCountry(c,tech,f,y) 'Annual average capacity factor by technology, fuel, and country'
+
+* ============================================================
+* 4. ENERGY DISPATCH
+* ============================================================
+
+  pDispatchPlant(z, y, q, d, g, t, *)      'Plant-level hourly dispatch and reserve [MW]'
+  pDispatchFuel(z, y, q, d, f, t)          'Fuel-level hourly dispatch [MW]'
+  pDispatch(z, y, q, d, *, t)              'Zone-level hourly dispatch and flows [MW]'
+
+* ============================================================
+* 5. RESERVES
+* ============================================================
+
+  pReserveSpinningPlantZone(z,g,y)        'Spinning reserve provided by plant [MWh] per zone and year'
+  pReserveSpinningFuelZone(z,f,y)         'Spinning reserve provided by fuel [MWh] per zone and year'
+  pReserveSpinningPlantCountry(c,g,y)     'Spinning reserve provided by plant [MWh] per country and year'
+  
+  pReserveMargin(z,*,y)                   'Reserve margin indicators by zone and year'
+  pReserveMarginCountry(c,*,y)            'Reserve margin indicators by country and year'
+
+* ============================================================
+* 6. INTERCONNECTIONS
+* ============================================================
+
+  pInterchange(z, z2, y)                'Annual energy exchanged [GWh] between internal zones'
+  pInterconUtilization(z, z2, y)        'Interconnection utilization [%] between internal zones'
+  pLossesTransmission(z, y)             'Transmission losses [MWh] per internal zone'
+  pInterchangeCountry(c, c2, y)         'Annual energy exchanged [GWh] between countries'
+  pLossesTransmissionCountry(c, y)      'Transmission losses [MWh] per country'
+  isCongested(z, z2, q, d, t, y)        'Congestion indicator for line z-z2 at time q,d,t,y'
+  pCongestionShare(z, z2, y)            'Share of time congested [%] for line z-z2'
+
+  pHourlyInterchangeExternal(z, y, q, d, *, t)            'Hourly external trade [MW] per zone'
+  pYearlyInterchangeExternal(z, *, y)                     'Annual external trade [GWh] per zone'
+  pYearlyInterchangeExternalCountry(c, *, y)              'Annual external trade [GWh] per country'
+  pHourlyInterchangeExternalCountry(c, y, q, d, *, t)     'Hourly external trade [MW] per country'
+
+  pInterchangeExternalExports(z, zext, y)                 'Annual exports [GWh] from zone z to external zone zext'
+  pInterchangeExternalImports(zext, z, y)                 'Annual imports [GWh] from external zone zext to zone z'
+  pInterconUtilizationExternalExports(z, zext, y)         'External export line utilization [%] zone z to zext'
+  pInterconUtilizationExternalImports(zext, z, y)         'External import line utilization [%] zext to zone z'
+
+* ============================================================
+* 7. EMISSIONS
+* ============================================================
                                          
-   
-   pSpinningReserveCostsZone(z,g,y)                      'Cost of reserves by plant in dollars per zone'
-   pSpinningReserveByPlantZone(z,g,y)                    'Reserve contribution by plant in MWh per zone'
-   pSpinningReserveByFuelZone(z,f,y)                 'Reserve contribution by fuel in MWh per zone'
-   pSpinningReserveCostsCountry(c,g,y)               'Cost of reserves by plant in dollars per country'
-   pSpinningReserveByPlantCountry(c,g,y)             'Reserve contribution by plant in MWh per country'
+  pEmissionsZone(z,y)                    'CO2 emissions [Mt] by zone and year'
+  pEmissionsIntensityZone(z,y)           'CO2 intensity [tCO2/GWh] by zone and year'
+  pEmissionsCountrySummary(c,*,y)        'CO2 emissions [Mt] by country, type, and year'
+  pEmissionsIntensityCountry(c,y)        'CO2 intensity [tCO2/GWh] by country and year'
+  
+  pEmissionMarginalCostsCountry(c,y)     'Marginal cost of country emission constraint [USD/tCO2]'
+  pEmissionMarginalCosts(y)              'Marginal cost of system emission constraint [USD/tCO2]'
 
-   pReserveMarginRes(z,*,y)                     'Resulting reserve margin calculations by zone'
-   pReserveMarginResCountry(c,*,y)              'Resulting reserve margin calculations by country'
-
-                                         
-   pEmissions(z,y)                           'Emissions in Megaton CO2 by zone'
-   pEmissionsIntensity(z,y)                  'Emissions intensity tCO2 per GWh by zone'
-   pEmissionsCountry1(c,*,y)                  'Emissions in Megaton CO2 by country'
-   pEmissionsIntensityCountry(c,y)           'Emissions intensity tCO2 per GWh by country'
-   pEmissionMarginalCostsCountry(c,y)        'Marginal costs of Emission Limit Constraint eEmissionsCountry'        
-   pEmissionMarginalCosts(y)                 'Marginal costs of Emission Limit Constraint eTotalEmissionsConstraint'                                                                                    
+* ============================================================
+* 8. PRICES
+* ============================================================
    
-   pDenom(z,g,y)                             'Energy by plant in MWh'
-   pDenom2(z,y)                              'Energy by zone in MWh'
-   pDenom3(c,y)                              'Energy by country in MWh'
-   pPlantAnnualLCOE(z,g,y)                   'Plant levelized cost by year USD per MWh'
-   pZonalAverageCost(z,y)                    'Zonal annual cost of generation+ import by year USD per MWh'
-   pZonalAverageGenCost(z,y)                 'Zonal annual cost of generation by year USD per MWh'
-   pCountryAverageCost(c,y)                  'Country annual cost of generation + trade by year USD per MWh'
-   pCountryAverageGenCost(c,y)               'Country annual cost of generation by year USD per MWh'
-   pSystemAverageCost(y)                     'System annual cost of generation by year USD per MWh'
-                                             
-   pPlantDispatch(z,y,q,d,g,t,*)             'Detailed dispatch and reserve by plant in MW'
-   pFuelDispatch(z,y,q,d,f,t)                'Dispatch by fuel in MW'
-   pDispatch(z,y,q,d,*,t)                    'Detailed dispatch and flows'
-   
+  pYearlyPrice(z,y)                        'Demand-weighted average electricity price [USD/MWh] by zone and year'
+  pYearlyPriceExport(z,y)                  'Flow-weighted average export price [USD/MWh] by zone and year'
+  pYearlyPriceImport(z,y)                  'Flow-weighted average import price [USD/MWh] by zone and year'
+  pYearlyPriceHub(z,y)                     'Flow-weighted hub price [USD/MWh] by zone and year'
+  pYearlyPriceCountry(c,y)                 'Demand-weighted average electricity price [USD/MWh] by country and year'
+  pYearlyPriceExportCountry(c,y)           'Flow-weighted average export price [USD/MWh] by country and year'
+  pYearlyPriceImportCountry(c,y)           'Flow-weighted average import price [USD/MWh] by country and year'
 
-                                             
-   pCSPBalance(y,g,q,d,*,t)                  'in MW'
-   pCSPComponents(g,*, y)                    'CSP specific output'
-   pPVwSTOBalance(y,q,d,g,*,t)               'pVwithStorage specific output'
-   pPVwSTOComponents(g,*,y)                  'pVwithStorage specific output'
-   pStorageBalance(y,g,q,d,*,t)              'in MW'
-   pStorageComponents(g,*,y)                 'Storage specific output'
-                                             
-   pSolarValue(z,y)                          'Value of solar energy in USD'
-   pSolarCost(z,y)                           
-   pSolarEnergy(z,q,d,t,y)                   'Solar output in MWh'                                        
+* ============================================================
+* 9. SPECIAL TECHNOLOGIES
+* ============================================================
+
+  pCSPBalance(y,g,q,d,*,t)                  'CSP hourly output by type [MW]'
+  pCSPComponents(g,*,y)                     'CSP installed components and metrics'
+  pPVwSTOBalance(y,q,d,g,*,t)               'PV+Storage hourly output by type [MW]'
+  pPVwSTOComponents(g,*,y)                  'PV+Storage installed components and metrics'
+  pStorageBalance(y,g,q,d,*,t)              'Generic storage hourly output by type [MW]'
+  pStorageComponents(g,*,y)                 'Generic storage installed components and metrics'
+  pSolarValueZone(z,y)                      'Average market value of solar [USD/MWh]'
+  pSolarCost(z,y)                           'Levelized cost of solar [USD/MWh]'
+  pSolarPower(z,q,d,t,y)                    'Solar hourly output [MWh]'
+
+* ============================================================
+* 10. METRICS
+* ============================================================
+
+  pPlantAnnualLCOE(z,g,y)          'Plant-level LCOE [USD/MWh] by year'
+  pZonalAverageCost(z,y)           'Zone average total cost [USD/MWh] by year'
+  pZonalAverageGenCost(z,y)        'Zone average generation cost [USD/MWh] by year'
+  pCountryAverageCost(c,y)         'Country average total cost [USD/MWh] by year'
+  pCountryAverageGenCost(c,y)      'Country average generation cost [USD/MWh] by year'
+  pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
+
+* ============================================================
+* 11. SOLVER PARAMETERS
+* ============================================================
    pSolverParameters(*)                      'Solver parameters'                                                                                 
-   pDemandSupplySeason(z,*,y,q)              'Seasonal demand supply parameters per zone'
-***********************H2 related addition*********************************************
-   pDemandSupplySeasonH2(z,*,y,q)              'Seasonal demand supply parameters per zone'
-******************************************************************************************
-   
-   pEnergyByPlantSeason(z,g,y,q)             'Energy by plant in GWh per season  per zone'
-   pInterchangeSeason(z,z2,y,q)              'Total exchange in GWh between internal zones per season per zone'
-   pSeasonTrade(z,*,y,q)                     'Trade with external zones by season in GWh per zone'
-   pInterchangeSeasonCountry(c,c2,y,q)       'Total exchange in GWh between internal zones per season per country'
-   pSeasonTradeCountry(c,*,y,q)              'Trade with external zones by season in GWh per country'
-   pZonesperCountry(c)                       'Number of zones per country'
-   pTotalHoursperYear(y)                     'Number of hours in a given year'       
 ;
 
-Scalar MaxZonesperCountry;
+set sumhdr /
+  "Annualized capex: $m",
+  "Fixed O&M: $m",
+  "Variable O&M: $m",
+  "Fuel costs: $m",
+  "Transmission costs: $m",
+  "Spinning reserve costs: $m",
+  "Unmet demand costs: $m",
+  "Unmet country spinning reserve costs: $m",
+  "Unmet country planning reserve costs: $m",
+  "Unmet country CO2 backstop cost: $m",
+  "Unmet system planning reserve costs: $m",
+  "Unmet system spinning reserve costs: $m",
+  "Unmet system CO2 backstop cost: $m",
+  "Excess generation: $m",
+  "VRE curtailment: $m",
+  "Import costs with external zones: $m",
+  "Export revenues with external zones: $m",
+  "Import costs with internal zones: $m",
+  "Export revenues with internal zones: $m",
+  "Trade shared benefits: $m",
+  "Carbon costs: $m",
+  "NPV of system cost: $m"
+/;
 
-*--- START of results
+* Set of demand-related summary labels
+set dshdr /
+  "Demand: GWh",
+  "Electricity demand for H2 production: GWh",
+  "Total Demand (Including P to H2): GWh",
+  "Total production: GWh",
+  "Unmet demand: GWh",
+  "Surplus generation: GWh",
+  "Imports exchange: GWh",
+  "Exports exchange: GWh",
+  "Net interchange: GWh",
+  "Net interchange Ratio: GWh"
+/;
 
-pTotalHoursperYear(y) = sum((q,d,t), pHours(q,d,t));
-pSpinningReserveCostsZone(z,g,y)          = 0;
-pSpinningReserveCostsCountry(c,g,y)   = 0;
+* H2-specific
+set dsH2hdr /
+  "Electricity demand for H2 production: GWh",
+  "Total H2 Production: mmBTU",
+  "External Demand of H2: mmBTU",
+  "Unmet External Demand of H2: mmBTU",
+  "H2 produced for power production: mmBTU"
+/;
 
-*--- Cost Items and Penalty Costs
+set zgmap(z,g); option zgmap<gzmap;
+set zH2map(z,hh); option zH2map<h2zmap;
 
-* zonal level
-pCapex(z,y) = 1e6*sum(gzmap(g,z),  vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTrajectories(g,y))
-            + 1e3*sum(gzmap(st,z), vBuildStor.l(st,y)*pStorData(st,"CapexMWh")*pCapexTrajectories(st,y))
-            + 1e3*sum(gzmap(cs,z), vBuildTherm.l(cs,y)*pCSPData(cs,"Thermal Field","CapexMWh")*1e3*pCapexTrajectories(cs,y)
-                                 + vBuildStor.l(cs,y)*pCSPData(cs,"Storage","CapexMWh")*pCapexTrajectories(cs,y))
-            +1e6*sum(h2zmap(hh,z), vBuildH2.l(hh,y)*pH2Data(hh,"Capex")*pCapexTrajectoriesH2(hh,y))$pIncludeH2+1e-5 ;
+set capexComponent /
+  Generation,
+  StorageEnergy,
+  CSPThermalField,
+  CSPStorage,
+  Hydrogen,
+  Transmission
+/;
 
-pAnncapex(z,y) = 1e6*sum(gzmap(ndc,z),               pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))
-               + 1e3*sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))
-               + 1e3*sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))
-               + 1e6*sum(gzmap(ndc,z),               pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))
-               +     sum(gzmap(dc,z),                vAnnCapex.l(dc,y))
-               +     sum(h2zmap(dch2,z),                vAnnCapexH2.l(dch2,y))
-               +1e6*sum(h2zmap(ndcH2,z),              pCRFH2(ndcH2)*vCapH2.l(ndcH2,y)*pH2Data(ndcH2,"Capex"))$pIncludeH2;
+set capexComponentPlant(capexComponent) /
+  Generation,
+  StorageEnergy,
+  CSPThermalField,
+  CSPStorage
+/;
 
-pFOM(z,y) = sum(gzmap(g,z),  vCap.l(g,y)*pGenData(g,"FOMperMW"))
-          + sum(gzmap(st,z), vCapStor.l(st,y)*pStorData(st,"FixedOMMWh"))
-          + sum(gzmap(cs,z), vCapStor.l(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
-          + sum(gzmap(cs,z), vCapTherm.l(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
-**************************H2 model addition**************************************************************
-          + sum(h2zmap(hh,z),  vCapH2.l(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
+* ============================================================
+* 1. CAPACITY
+* ============================================================
+
+* ---------------------------------------------------------
+* Plant and technology-level capacity and utilization
+* ---------------------------------------------------------
+* Records installed capacity, retirements, and utilization
+* factors for each plant and aggregated by technology:
+*   - pCapacityPlant: installed capacity by plant
+*   - pRetirementsPlant: retired capacity by plant
+
+* ---------------------------------------------------------
+
+pCapacityPlant(zgmap(z,g),y)                 = vCap.l(g,y);
+
+pRetirementsPlant(zgmap(z,g),y)                  = vRetire.l(g,y);
+
+* ---------------------------------------------------------
+* Capacity, new builds, retirements, and utilization by fuel and technology
+* ---------------------------------------------------------
+* Tracks installed capacity, new capacity, and retirements
+* disaggregated by fuel type and technology. 
+* Also computes utilization factors:
+*   - pCapacityTechFuel / pCapacityFuel: installed capacity
+*   - pNewCapacityFuel / pNewCapacityTech: new builds
+*   - pRetirementsFuel: retirements
+
+* ---------------------------------------------------------
+
+* Installed capacity by technology and fuel [MW]
+pCapacityTechFuel(z, tech, f, y) =
+  sum((gzmap(g, z), gtechmap(g, tech), gprimf(g, f)), vCap.l(g, y));
+
+* Installed capacity by fuel [MW]
+pCapacityFuel(z, f, y) =
+  sum((gzmap(g, z), gprimf(g, f)), vCap.l(g, y));
+
+* New capacity by fuel [MW]
+pNewCapacityFuel(z, f, y) =
+  sum((gzmap(g, z), gprimf(g, f)), vBuild.l(g, y));
+
+* New capacity by technology [MW]
+pNewCapacityTech(z, tech, y) =
+  sum((gzmap(g, z), gtechmap(g, tech), gprimf(g, f)), vBuild.l(g, y));
+
+* Retirements by fuel [MW]
+pRetirementsFuel(z, f, y) =
+  sum((gzmap(g, z), gprimf(g, f)), vRetire.l(g, y));
+
+* ---------------------------------------------------------
+* Transmission capacity expansion and annual limits
+* ---------------------------------------------------------
+* pAdditionalTransmissionCapacity:
+*   - New transmission capacity added between zones
+*   - Based on build decision, per-line capacity, and allowed factor
+*
+* pAnnualTransmissionCapacity:
+*   - Total available transfer capacity in a year
+*   - Equals existing maximum transfer limit plus any new additions
+* ---------------------------------------------------------
+
+pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransmissionLine.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
+pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalTransmissionCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
+
+* ---------------------------------------------------------
+* Country-level capacity, new builds, retirements, and utilization
+* ---------------------------------------------------------
+* Aggregates zonal results to the country level:
+*   - pCapacityPlantCountry: installed capacity by plant
+*   - pCapacityTechFuelCountry / pCapacityFuelCountry: installed capacity by tech-fuel or fuel
+*   - pNewCapacityFuelCountry / pNewCapacityTechCountry: new builds by fuel or tech
+*   - pRetirementsFuelCountry / pRetirementsCountry: retirements by fuel and total
+*   - pUtilizationFuelCountry / pUtilizationTechFuelCountry:
+*       utilization factors (energy ÷ capacity × hours) by fuel or tech-fuel
+* ---------------------------------------------------------
+
+pCapacityTechFuelCountry(c, tech, f, y) =
+  sum(zcmap(z, c), pCapacityTechFuel(z, tech, f, y));
+
+pCapacityFuelCountry(c, f, y) =
+  sum(zcmap(z, c), pCapacityFuel(z, f, y));
+
+pNewCapacityFuelCountry(c, f, y) =
+  sum(zcmap(z, c), pNewCapacityFuel(z, f, y));
+
+pNewCapacityTechCountry(c, tech, y) =
+  sum(zcmap(z, c), pNewCapacityTech(z, tech, y));
+
+pRetirementsFuelCountry(c, f, y) =
+  sum(zcmap(z, c), pRetirementsFuel(z, f, y));
+
+pRetirementsCountry(c, y) =
+  sum((zcmap(z, c), f), pRetirementsFuel(z, f, y));
+
+* ---------------------------------------------------------
+* Capacity summary at zone and country level [MW]
+* ---------------------------------------------------------
+* Provides aggregated indicators of system capacity:
+*   - Available capacity
+*   - Peak demand (with and without power-to-hydrogen load)
+*   - New capacity builds
+*   - Retired capacity
+*   - Committed total transmission capacity
+* Reported at both zonal and country aggregation levels.
+* ---------------------------------------------------------
+
+pCapacitySummary(z,"Available capacity: MW",y) = sum(gzmap(g,z), vCap.l(g,y));
+pCapacitySummary(z,"Peak demand: MW"       ,y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
+pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$pfEnableH2Production+1e-6;
+pCapacitySummary(z,"New capacity: MW"      ,y) = sum(gzmap(g,z), vBuild.l(g,y));
+pCapacitySummary(z,"Retired capacity: MW"  ,y) = sum(gzmap(g,z), vRetire.l(g,y));
+pCapacitySummary(z,"Committed Total TX capacity: MW"  ,y) = sum((z2,q), pTransferLimit(z,z2,q,y)/card(q));
+
+pCapacitySummaryCountry(c,"Available capacity: MW",y) = sum(zcmap(z,c), pCapacitySummary(z,"Available capacity: MW",y));
+pCapacitySummaryCountry(c,"Peak demand: MW"       ,y) = smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
+pCapacitySummaryCountry(c,"New capacity: MW"      ,y) = sum(zcmap(z,c), pCapacitySummary(z,"New capacity: MW",y));
+pCapacitySummaryCountry(c,"Retired capacity: MW"  ,y) = sum(zcmap(z,c), pCapacitySummary(z,"Retired capacity: MW",y));
+pCapacitySummaryCountry(c,"Committed Total TX capacity: MW",y) = sum(zcmap(z,c), pCapacitySummary(z,"Committed Total TX capacity: MW",y));
+
+* H2 model additions
+pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
+
+* ============================================================
+* 2. COSTS
+* ============================================================
+
+* Reporting costs by plant
+* Plant-level cost reporting (prettier formatting)
+pCostsPlant(z, g, "Annualized capex: $m", y) =
+  vAnnGenCapex.l(g, y) / 1e6;
+
+pCostsPlant(z, g, "Fixed O&M: $m", y) =
+  (
+    vCap.l(g, y)      * pGenData(g, "FOMperMW")
+    + vCapStor.l(g, y)  * pStorData(g, "FixedOMMWh")
+    + vCapStor.l(g, y)  * pCSPData(g, "Storage", "FixedOMMWh")
+    + vCapTherm.l(g, y) * pCSPData(g, "Thermal field", "FixedOMMWh")
+  ) / 1e6;
+
+pCostsPlant(z, g, "Variable Cost: $m", y) =
+  sum((gfmap(g, f), q, d, t),
+    pVarCost(g, f, y) * vPwrOut.l(g, f, q, d, t, y) * pHours(q, d, t)
+  ) / 1e6;
+
+pCostsPlant(z, g, "Spinning Reserve Cost: $m", y) =
+  sum((q, d, t),
+    vSpinningReserve.l(g, q, d, t, y) * pGenData(g, "ReserveCost") * pHours(q, d, t)
+  ) / 1e6;
+
+* ---------------------------------------------------------
+* Plant-level CAPEX investment breakdown [USD]
+* ---------------------------------------------------------
+* Stores the non-annualized CAPEX flows for each plant and
+* component so that we can add dedicated transmission and
+* hydrogen entries later on.
+* ---------------------------------------------------------
+
+pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g))) =
+  1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
+
+pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
+  1e3 * vBuildStor.l(g, y) * pStorData(g, "CapexMWh") * pCapexTrajectories(g, y);
+
+pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$cs(g) =
+  1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3 * pCapexTrajectories(g, y);
+
+pCapexInvestmentPlant(zgmap(z,g), "CSPStorage", y)$cs(g) =
+  1e3 * vBuildStor.l(g, y) * pCSPData(g, "Storage", "CapexMWh") * pCapexTrajectories(g, y);
+
+* Derive zonal totals per component (generation-related ones come from plants)
+pCapexInvestmentComponent(z, capexComponentPlant, y) =
+  sum(zgmap(z, g), pCapexInvestmentPlant(z, g, capexComponentPlant, y));
+
+* Hydrogen CAPEX is tracked separately
+pCapexInvestmentComponent(z, "Hydrogen", y)$pfEnableH2Production =
+  1e6 * sum(zH2map(z, hh),
+    vBuildH2.l(hh, y) * pH2Data(hh, "Capex") * pCapexTrajectoriesH2(hh, y)
+  );
+
+* Transmission CAPEX additions
+pCapexInvestmentComponent(z, "Transmission", y)$(fAllowTransferExpansion and sum(sTopology(z, z2), 1)) =
+  0.5 * sum(sTopology(z, z2),
+    vBuildTransmission.l(z, z2, y)
+    * symmax(pNewTransmission, z, z2, "CostPerLine")
+    * 1e6
+  );
+
+pCapexInvestmentTransmission(sTopology(z, z2), y)$fAllowTransferExpansion =
+  0.5 * vBuildTransmission.l(z, z2, y)
+  * symmax(pNewTransmission, z, z2, "CostPerLine")
+  * 1e6;
+
+* ---------------------------------------------------------
+* Zone-level CAPEX investment flows [$]
+* ---------------------------------------------------------
+* Captures the annual capital expenditures for new builds
+* in zone z and year y, before annualization.
+*
+* Components:
+*   - Generation builds (MW × $/MW × cost trajectory)
+*   - Storage builds (MWh × $/MWh × cost trajectory)
+*   - CSP thermal field and storage builds (MWh × $/MWh × trajectory)
+*   - Hydrogen builds (MW × $/MW × cost trajectory), optional
+*   - Small epsilon added to avoid divide-by-zero issues
+* ---------------------------------------------------------
+
+pCapexInvestment(z, y) =
+  sum(capexComponent, pCapexInvestmentComponent(z, capexComponent, y))
+  + 1e-6;
 
 
-pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
-
-
-pVOM(z,y) = sum((q,d,t), pHours(q,d,t)*(
-                           sum((gzmap(g,z),gfmap(g,f)),   pGenData(g,"VOM")*vPwrOut.l(g,f,q,d,t,y))
-                         + sum((gzmap(st,z),gfmap(st,f)), pStorData(st,"VOMMWh")*vPwrOut.l(st,f,q,d,t,y))
-                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Storage","VOMMWh")*vPwrOut.l(cs,f,q,d,t,y))
-                         + sum((gzmap(cs,z),gfmap(cs,f)), pCSPData(cs,"Thermal Field","VOMMWh")*vPwrOut.l(cs,f,q,d,t,y))
-**************************H2 model addition**************************************************************
-***(units for equation below)**********       $/mMBTU_H2          mmBTU_H2/MWh_e        MW_e
-                        + sum((h2zmap(hh,z)), pH2Data(hh,"VOM")*pH2Data(hh,"Heatrate")*vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2));
-
-
-pFuelCostsZone(z,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t)*pFuelPrice(c,f,y)*pHeatRate(g,f));
-
-
-pImportCostsExternal(z,y) = sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
-pExportRevenuesExternal(z,y) = sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+* ---------------------------------------------------------
+* Price calculation [$/MWh]
+* ---------------------------------------------------------
+* Market clearing price derived from the dual variable of the
+* demand-supply balance constraint, scaled by operating hours,
+* discount rate (pRR), and year weight.
+* --------------------------------------------------------
 
 pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y)/pWeightYear(y);
 
-pImportCostsTopology(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
-pExportRevenuesTopology(z,y) = - sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
-pCongestionRevenuesBetweenZones(z,Zd,y) = - sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
-* Choosing one allocation rule for the congestion rent
-pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenuesBetweenZones(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenuesBetweenZones(z,Zd,y));
-* This is equivalent with chosen allocation with pricing imports and exports at the average marginal price between the two zones
-pTradeCostsTopology(z,y) = pExportRevenuesTopology(z,y) + pImportCostsTopology(z,y) + pTradeSharedBenefits(z,y);
+* ---------------------------------------------------------
+* Import and export costs with internal zones [$]
+* ---------------------------------------------------------
+* Import costs:
+*   - Value of inflows from neighboring zones
+*   - Calculated as local price × imported flow × hours
+*
+* Export revenues:
+*   - Value of outflows to neighboring zones
+*   - Negative sign ensures revenues reduce total cost
+* ---------------------------------------------------------
 
-* Dividing pNewTransmissionCosts by 2 to avoid double-counting for the two countries involved in transmission line
-pNewTransmissionCosts(z,y) = vYearlyTransmissionAdditions.l(z,y);
-pUSECosts(z,y) = vYearlyUSECost.l(z,y);
-pCO2backstopCosts(c,y) = vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop;
-pSurplusCosts(z,y) = vYearlySurplus.l(z,y);
-pVRECurtailment(z,y) = vYearlyCurtailmentCost.l(z,y);
-        
+pImportCostsInternal(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+pExportRevenuesInternal(z,y) = - sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 
-* country level
-pCountryPlanReserveCosts(c,y) = vUnmetPlanningReserveCountry.l(c,y)*pPlanningReserveVoLL;
-pUSRLocCosts(c,y) = sum((q,d,t), vUnmetSpinningReserveCountry.l(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
+* ---------------------------------------------------------
+* Congestion rents between zones [$]
+* ---------------------------------------------------------
+* Difference in marginal prices × traded flow × hours
+* Negative sign ensures consistency with rent allocation
+* ---------------------------------------------------------
 
-* System level
-pUSRSysCosts(y) = sum((q,d,t), vUnmetSpinningReserveSystem.l(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
-pUPRSysCosts(y) = vUnmetPlanningReserveSystem.l(y)*pPlanningReserveVoLL;
+pCongestionRevenues(z,Zd,y) = - sum((q,d,t), (pPrice(zD,q,d,t,y) - pPrice(z,q,d,t,y))*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 
-* Defining number of zones per country
-parameter nZonesInCountry(c);
-nZonesInCountry(c) = sum(z$(zcmap(z,c)), 1);
- 
+* ---------------------------------------------------------
+* Trade shared benefits [$]
+* ---------------------------------------------------------
+* Congestion rents are split equally (50/50) between
+* importing and exporting zones as the allocation rule
+* ---------------------------------------------------------
 
-set sumhdr /
+pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)) + 0.5*sum(sTopology(z,Zd), pCongestionRevenues(z,Zd,y));
 
-   "Annualized capex: $m"      
-   "Fixed O&M: $m"             
-   "Variable O&M: $m"          
-   "Total fuel Costs: $m"      
-   "Transmission additions: $m"
-   "Spinning Reserve costs: $m"
-   "Unmet demand costs: $m"    
-   "Excess generation: $m"     
-   "VRE curtailment: $m"       
-   "Import costs wiht external zones: $m"          
-   "Export revenues with external zones: $m"
-   "Min Gen penalty cost: $m"/;
-set avgsumhdr /
-   "Average Capex: $m"                    
-   "Average Annualized capex: $m"      
-   "Average Fixed O&M: $m"             
-   "Average Variable O&M: $m"          
-   "Average Total fuel Costs: $m"      
-   "Average Transmission additions: $m"
-   "Average Spinning Reserve costs: $m"
-   "Average Unmet demand costs: $m"    
-   "Average Excess generation: $m"     
-   "Average VRE curtailment: $m"       
-   "Average Import costs: $m"          
-   "Average Export revenue: $m"
-   "Average Min Gen penalty cost: $m" /;
-set sumhdrmap(avgsumhdr,sumhdr) / #avgsumhdr:#sumhdr /;
-   
-*--- Cost Summary Unweighted by zone
-pCostSummaryFull(z,"Capex: $m"                    ,y) = pCapex(z,y)/1e6;
-pCostSummaryFull(z,"Annualized capex: $m"         ,y) = pAnncapex(z,y)/1e6;
-pCostSummaryFull(z,"Fixed O&M: $m"                ,y) = pFOM(z,y)/1e6;
-pCostSummaryFull(z,"Variable O&M: $m"             ,y) = pVOM(z,y)/1e6;
+* ---------------------------------------------------------
+* Net trade costs with internal zones [$]
+* ---------------------------------------------------------
+* Equivalent formulation where:
+*   Trade cost = Import cost + Export revenues + Shared rents
+* This matches pricing trades at the average marginal price
+* between connected zones
+* ---------------------------------------------------------
 
-pCostSummaryFull(z,"Total fuel Costs: $m"         ,y) = pFuelCostsZone(z,y)/1e6;
+* pTradeCostsInternal(z,y) = pExportRevenuesInternal(z,y) + pImportCostsInternal(z,y) + pTradeSharedBenefits(z,y);
 
-* Should we keep O to be sure we are considering all cost components ?
-pCostSummaryFull(z,"Transmission additions: $m"              ,y) = pNewTransmissionCosts(z,y)/1e6;
-pCostSummaryFull(z,"Spinning Reserve costs: $m"              ,y) = pSpinResCosts(z,y)/1e6;
-pCostSummaryFull(z,"Unmet demand costs: $m"                  ,y) = pUSECosts(z,y)/1e6;
-pCostSummaryFull(z,"Unmet reserve costs: $m"                 ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
-pCostSummaryFull(z,"Unmet system reserve costs: $m"          ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
-pCostSummaryFull(z,"Excess generation: $m"                   ,y) = pSurplusCosts(z,y)/1e6;
-pCostSummaryFull(z,"VRE curtailment: $m"                     ,y) = pVRECurtailment(z,y)/1e6;
-pCostSummaryFull(z,"Import costs wiht external zones: $m"    ,y) = pImportCostsExternal(z,y)/1e6;
-pCostSummaryFull(z,"Export revenues with external zones: $m" ,y) = pExportRevenuesExternal(z,y)/1e6;
-pCostSummaryFull(z,"Import costs with internal zones: $m"    ,y) = pImportCostsTopology(z,y)/1e6;
-pCostSummaryFull(z,"Export revenues with internal zones: $m" ,y) = pExportRevenuesTopology(z,y)/1e6;
-pCostSummaryFull(z,"Trade shared benefits: $m"               ,y) = pTradeSharedBenefits(z,y)/1e6;
-pCostSummaryFull(z,"Trade Costs: $m"                         ,y) = pTradeCostsTopology(z,y)/1e6;
+* ---------------------------------------------------------
+* Demand allocation [GWh → TWh]
+* ---------------------------------------------------------
+* Zone-level demand:
+*   - Sum of hourly demand × operating hours
+*   - Adjusted by efficiency factor
+*   - Converted from GWh to TWh
+*
+* Country-level demand:
+*   - Aggregation of zonal demand by mapping zones to countries
+* ---------------------------------------------------------
+Parameter
+  pDemandZone(z,y)                         'Total demand in GWh per zone'
+  pDemandCountry(c,y)                      'Total demand in GWh per country'
+  pDemand(y)
+;
+
+pDemandZone(z,y) = sum((q,d,t), 
+    pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)
+) / 1e3;
+pDemandCountry(c,y) = sum(z$(zcmap(z,c)), pDemandZone(z,y));
+pDemand(y) = sum(z, pDemandZone(z,y));
+
+* ---------------------------------------------------------
+* Zone-level cost components [$m]
+* ---------------------------------------------------------
+* Each entry in pYearlyCostsZone stores one annual cost component
+* at the zonal level in million $.
+*
+* Categories included:
+*   - Annualized CAPEX
+*   - Fixed O&M
+*   - Variable O&M
+*   - Fuel costs
+*   - Transmission costs
+*   - Spinning reserve costs
+*   - Unmet demand, reserve, and CO2 backstop costs
+*       (allocated proportionally to zonal demand at country/system level)
+*   - Excess generation
+*   - VRE curtailment
+*   - Import/export costs (external and internal zones)
+*   - Trade shared benefits
+*   - Carbon costs (system-wide total)
+* ---------------------------------------------------------
+
+* Investment-related costs
+pYearlyCostsZone(z, "Annualized capex: $m", y) =
+  vAnnCapex.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Transmission costs: $m", y) =
+  vAnnualizedTransmissionCapex.l(z, y) / 1e6;
+
+* Operation-related costs
+pYearlyCostsZone(z, "Fixed O&M: $m", y) =
+  vYearlyFOMCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Variable O&M: $m", y) =
+  vYearlyVOMCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Fuel costs: $m", y) =
+  vYearlyFuelCost.l(z, y) / 1e6;
+
+* System balancing costs
+pYearlyCostsZone(z, "Unmet demand costs: $m", y) =
+  vYearlyUSECost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Excess generation: $m", y) =
+  vYearlySurplus.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "VRE curtailment: $m", y) =
+  vYearlyCurtailmentCost.l(z, y) / 1e6;
+
+* Reserve-related costs
+pYearlyCostsZone(z, "Spinning reserve costs: $m", y) =
+  vYearlySpinningReserveCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Unmet country spinning reserve costs: $m", y) =
+  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
+    vYearlyUnmetSpinningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  ) / 1e6;
+
+pYearlyCostsZone(z, "Unmet country planning reserve costs: $m", y) =
+  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
+    vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  ) / 1e6;
+
+pYearlyCostsZone(z, "Unmet system planning reserve costs: $m", y) =
+  vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+
+pYearlyCostsZone(z, "Unmet system spinning reserve costs: $m", y) =
+  vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+
+* Carbon-related costs
+pYearlyCostsZone(z, "Carbon costs: $m", y) =
+  vYearlyCarbonCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Unmet country CO2 backstop cost: $m", y) =
+  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
+    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  ) / 1e6;
+
+pYearlyCostsZone(z, "Unmet system CO2 backstop cost: $m", y) =
+  vYearlyCO2BackstopCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+
+* Trade-related costs
+pYearlyCostsZone(z, "Import costs with internal zones: $m", y) =
+  pImportCostsInternal(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Export revenues with internal zones: $m", y) =
+  pExportRevenuesInternal(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Trade shared benefits: $m", y) =
+  pTradeSharedBenefits(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Import costs with external zones: $m", y) =
+  vYearlyImportExternalCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Export revenues with external zones: $m", y) =
+  vYearlyExportExternalCost.l(z, y) / 1e6;
+
+* Cost 
+pCostsZone(z, sumhdr) =
+    sum(y, pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
+
+* ---------------------------------------------------------
+
+* Cost by country and year 
+pYearlyCostsCountry(c,sumhdr,y) = sum(z$(zcmap(z,c)), pYearlyCostsZone(z,sumhdr,y));                                        
+
+* Cost average by country over the time horizon
+pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pYearlyCostsCountry(c,sumhdr,y))/TimeHorizon;
+
+* ---------------------------------------------------------
+* System-level cost summary
+* ---------------------------------------------------------
+* Aggregates all zone-level costs into a single system-wide
+* metric across the entire time horizon.
+*
+* - pCostsSystem(sumhdr):
+*     Weighted sum of all zone-level costs
+*     Units: million $ (after scaling)
+*
+* - "NPV of system cost: $m":
+*     The model's computed Net Present Value of system costs
+*     Directly taken from optimization variable vNPVCost
+* ---------------------------------------------------------
+
+pYearlyCostsSystem(sumhdr, y) = sum(z, pYearlyCostsZone(z, sumhdr, y));
+
+* pCostsSystem(sumhdr) = sum((y,z), pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
+pCostsSystem(sumhdr) = sum(z, pCostsZone(z,sumhdr));
+
+pCostsSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
 
 
-pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y) = ( pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-pCostSummaryFull(z,"Total Annual Cost by Zone with trade: $m",y) = (pTradeCostsTopology(z,y) + pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y)
-                                                    + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y) + pVRECurtailment(z,y)
-                                                    + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-                                                    
 
-* For unmet country reserve costs, we allocate them uniformly across zones inside a given country.
-* Similarly for system-level reserves
-pCostSummary(z,"Annualized capex: $m"                        ,y) = pAnncapex(z,y)/1e6;
-pCostSummary(z,"Fixed O&M: $m"                               ,y) = pFOM(z,y)/1e6;
-pCostSummary(z,"Variable O&M: $m"                            ,y) = pVOM(z,y)/1e6;
-pCostSummary(z,"Total fuel Costs: $m"                        ,y) = pFuelCostsZone(z,y)/1e6;
-pCostSummary(z,"Transmission additions: $m"                  ,y) = pNewTransmissionCosts(z,y)/1e6;
-pCostSummary(z,"Spinning Reserve costs: $m"                  ,y) = pSpinResCosts(z,y)/1e6;
-pCostSummary(z,"Unmet demand costs: $m"                      ,y) = pUSECosts(z,y)/1e6;
-pCostSummary(z,"Unmet reserve costs: $m"                     ,y) = sum(c$(zcmap(z,c)),(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)) / nZonesInCountry(c))/1e6;
-pCostSummary(z,"Unmet system reserve costs: $m"              ,y) = (pUSRSysCosts(y) + pUPRSysCosts(y)) / card(z) / 1e6;
-pCostSummary(z,"Excess generation: $m"                       ,y) = pSurplusCosts(z,y)/1e6;
-pCostSummary(z,"VRE curtailment: $m"                         ,y) = pVRECurtailment(z,y)/1e6;
-pCostSummary(z,"Import costs with external zones: $m"        ,y) = pImportCostsExternal(z,y)/1e6;
-pCostSummary(z,"Export revenues with external zones: $m"     ,y) = pExportRevenuesExternal(z,y)/1e6;
-pCostSummary(z,"Import costs with internal zones: $m"        ,y) = pImportCostsTopology(z,y)/1e6;
-pCostSummary(z,"Export revenues with internal zones: $m"     ,y) = pExportRevenuesTopology(z,y)/1e6;
-pCostSummary(z,"Trade shared benefits: $m"                   ,y) = pTradeSharedBenefits(z,y)/1e6;
+* ---------------------------------------------------------
+* Fuel costs and consumption [$m, PJ] by zone and country
+* ---------------------------------------------------------
+* Calculates annual fuel expenditures and consumption
+* based on generation output, heat rates, and fuel prices.
+* Results are stored at both zonal and country aggregation levels.
+* ---------------------------------------------------------
 
-
-
-*--- Cost Summary Unweighted by country
-
-pCostSummaryCountry(c,"Capex: $m",y)= sum(zcmap(z,c), pCapex(z,y))/1e6 ;                     
-
-pCostSummaryCountry(c,sumhdr,y) = sum(zcmap(z,c), pCostSummaryFull(z,sumhdr,y));
-
-pCostSummaryCountry(c,"Country Spinning Reserve violation: $m",y) = pUSRLocCosts(c,y)/1e6;
-pCostSummaryCountry(c,"Country Planning Reserve violation: $m",y) = pCountryPlanReserveCosts(c,y)/1e6;
-pCostSummaryCountry(c,"Total CO2 backstop cost by Country: $m",y) = pCO2backstopCosts(c,y)/1e6 ;
-
-pCostSummaryCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryFull(z,"Total Annual Cost by Zone: $m",y))
-                                                                  + (pUSRLocCosts(c,y) + pCountryPlanReserveCosts(c,y)
-                                                                  + pCO2backstopCosts(c,y))/1e6 ;
-
-                                                      
-
-
-*--- Cost Summary Weighted by zone
-pCostSummaryWeighted(z,sumhdr,y) = pWeightYear(y)*pCostSummaryFull(z,sumhdr,y);
-
-
-pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y) = pWeightYear(y)*(pAnncapex(z,y) + pNewTransmissionCosts(z,y) + pFOM(z,y) + pVOM(z,y)
-                                                                          + pFuelCostsZone(z,y) + pImportCostsExternal(z,y) - pExportRevenuesExternal(z,y) + pUSECosts(z,y)
-                                                                          + pVRECurtailment(z,y) + pSurplusCosts(z,y) + pSpinResCosts(z,y))/1e6;
-
-*--- Cost Summary Weighted by country
-
-pCostSummaryWeightedCountry(c,"Capex: $m",y)= pCostSummaryCountry(c,"Capex: $m",y);                     
-
-pCostSummaryWeightedCountry(c,sumhdr,y) = sum(zcmap(z,c), pWeightYear(y)*pCostSummaryFull(z,sumhdr,y));
-
-pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y) = pWeightYear(y)*pUSRLocCosts(c,y)/1e6;
-pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y) = pWeightYear(y)*pCountryPlanReserveCosts(c,y)/1e6;
-pCostSummaryWeightedCountry(c,"Total CO2 backstop cost by Country: $m"      ,y) = pWeightYear(y)*pCO2backstopCosts(c,y)/1e6 ;
-pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m"      ,y) = sum(zcmap(z,c), pCostSummaryWeighted(z,"Total Annual Cost by Zone: $m",y))
-                                                                          + pWeightYear(y)*(pCountryPlanReserveCosts(c,y) + pUSRLocCosts(c,y)+pCO2backstopCosts(c,y))/1e6;
-
-
-*--- Cost Summary Weighted Averages by country
-pCostSummaryWeightedAverageCountry(c,avgsumhdr,'Summary') = sum((sumhdrmap(avgsumhdr,sumhdr),y), pCostSummaryWeightedCountry(c,sumhdr,y))/TimeHorizon;
-
-pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary")=sum(y, pCostSummaryWeightedCountry(c,"Capex: $m",y))/TimeHorizon;;                     
-
-pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve violation: $m","Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Country Spinning Reserve violation: $m",y))/TimeHorizon;
-pCostSummaryWeightedAverageCountry(c,"Average Planning Reserve violation: $m","Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Country Planning Reserve violation: $m",y))/TimeHorizon;
-pCostSummaryWeightedAverageCountry(c,"Average CO2 backstop cost by Country: $m" ,"Summary") = sum(y, pCostSummaryWeightedCountry(c,"Total CO2 backstop cost by Country: $m",y))/TimeHorizon;
-pCostSummaryWeightedAverageCountry(c,"Average Total Annual Cost: $m"         ,"Summary")    = sum(y, pCostSummaryWeightedCountry(c,"Total Annual Cost by Country: $m",y))/TimeHorizon;
-
-
-* TODO: Why that ? pCostSummaryWeightedAverageCtry ?
-pCostSummaryWeightedAverageCtry(c,"Average Capex: $m")                      = pCostSummaryWeightedAverageCountry(c,"Average Capex: $m","Summary");                     
-pCostSummaryWeightedAverageCtry(c,"Average Annualized capex: $m")           = pCostSummaryWeightedAverageCountry(c,"Average Annualized capex: $m","Summary");          
-pCostSummaryWeightedAverageCtry(c,"Average Transmission additions: $m")     = pCostSummaryWeightedAverageCountry(c,"Average Transmission additions: $m","Summary");    
-pCostSummaryWeightedAverageCtry(c,"Average Fixed O&M: $m")                  = pCostSummaryWeightedAverageCountry(c,"Average Fixed O&M: $m","Summary");                 
-pCostSummaryWeightedAverageCtry(c,"Average Variable O&M: $m")               = pCostSummaryWeightedAverageCountry(c,"Average Variable O&M: $m","Summary");              
-pCostSummaryWeightedAverageCtry(c,"Average Total fuel Costs: $m")           = pCostSummaryWeightedAverageCountry(c,"Average Total fuel Costs: $m","Summary");          
-pCostSummaryWeightedAverageCtry(c,"Average Spinning Reserve costs: $m")     = pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve costs: $m","Summary");    
-pCostSummaryWeightedAverageCtry(c,"Average Unmet demand costs: $m")         = pCostSummaryWeightedAverageCountry(c,"Average Unmet demand costs: $m","Summary");        
-pCostSummaryWeightedAverageCtry(c,"Average Excess generation: $m")          = pCostSummaryWeightedAverageCountry(c,"Average Excess generation: $m","Summary");         
-pCostSummaryWeightedAverageCtry(c,"Average VRE curtailment: $m")            = pCostSummaryWeightedAverageCountry(c,"Average VRE curtailment: $m","Summary");           
-pCostSummaryWeightedAverageCtry(c,"Average Import costs: $m")               = pCostSummaryWeightedAverageCountry(c,"Average Import costs: $m","Summary");              
-pCostSummaryWeightedAverageCtry(c,"Average Export revenue: $m")             = pCostSummaryWeightedAverageCountry(c,"Average Export revenue: $m","Summary");            
-pCostSummaryWeightedAverageCtry(c,"Average Spinning Reserve violation: $m") = pCostSummaryWeightedAverageCountry(c,"Average Spinning Reserve violation: $m","Summary");  
-pCostSummaryWeightedAverageCtry(c,"Average Planning Reserve violation: $m") = pCostSummaryWeightedAverageCountry(c,"Average Planning Reserve violation: $m","Summary");  
-pCostSummaryWeightedAverageCtry(c,"Average CO2 backstop cost by Country: $m" )= pCostSummaryWeightedAverageCountry(c,"Average CO2 backstop cost by Country: $m" ,"Summary"); 
-pCostSummaryWeightedAverageCtry(c,"Average Total Annual Cost: $m")          = pCostSummaryWeightedAverageCountry(c,"Average Total Annual Cost: $m","Summary");         
-
-
-*--- Cost and consumption by fuel
-
-* By zone
 pFuelCosts(z,f,y) = sum((gzmap(g,z),gfmap(g,f),zcmap(z,c),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t)*pFuelPrice(c,f,y)*pHeatRate(g,f))/1e6;
 pFuelConsumption(z,f,y) = vFuel.l(z,f,y)/1e6;
 
-* By country
 pFuelCostsCountry(c,f,y) = sum(zcmap(z,c), pFuelCosts(z,f,y));
 pFuelConsumptionCountry(c,f,y) = sum(zcmap(z,c), pFuelConsumption(z,f,y));
 
+* ============================================================
+* 3. ENERGY BALANCE
+* ============================================================
 
-*--- Energy Results (Energy by Fuel, by Plant and Energy mix)
-set zgmap(z,g); option zgmap<gzmap;
+* ---------------------------------------------------------
+* Energy generation by plant, technology-fuel, and country
+* ---------------------------------------------------------
+* Calculates annual electricity generation (TWh) from model
+* outputs at different aggregation levels:
+*   - pEnergyPlant: plant-level generation
+*   - pEnergyTechFuel / pEnergyTechFuelCountry: by technology and fuel, zonal and country
+*   - pEnergyFuel / pEnergyFuelCountry: by fuel, zonal and country
+* ---------------------------------------------------------
 
-**************************Hydrogen model****************************
-set zH2map(z,hh); option zH2map<h2zmap;
+pEnergyPlant(zgmap(z,g),y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuel(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyFuel(z,f,y));
 
-pEnergyByFuel(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyByFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyByFuel(z,f,y));
-pEnergyByTechandFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyByTechandFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyByTechandFuel(z,tech,f,y));
-
-pEnergyMix(c,f,y) = pEnergyByFuelCountry(c,f,y)/(sum(f2, pEnergyByFuelCountry(c,f2,y)) + 1e-5);
-
-pEnergyByPlant(zgmap(z,g),y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
-
-*--- Demand-Supply Balance
-
-*A. Demand - Production Balance
-
-* By zone
-pDemandSupply(z,"Demand: GWh"            ,y) = sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3;
-*********************************************************H2 model addition****************************************************************
-pDemandSupply(z,"Electricity demand for H2 production: GWh",         y) =(sum((h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
-pDemandSupply(z,"Total Demand (Including P to H2): GWh"      ,y) =(sum((q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3+sum((h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
-
-pDemandSupply(z,"Total production: GWh"  ,y) = sum(gzmap(g,z), pEnergyByPlant(z,g,y));
-pDemandSupply(z,"Unmet demand: GWh"      ,y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-pDemandSupply(z,"Surplus generation: GWh",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-
-pDemandSupply(z,"Imports exchange: GWh"     ,y) = (sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pDemandSupply(z,"Exports exchange: GWh"     ,y) = (sum((sTopology(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pDemandSupply(z,"Net interchange: GWh"      ,y) = pDemandSupply(z,"Imports exchange: GWh",y) - pDemandSupply(z,"Exports exchange: GWh",y);
-pDemandSupply(z,"Net interchange Ratio: GWh",y)$pDemandSupply(z,"Demand: GWh",y) = pDemandSupply(z,"Net interchange: GWh",y)/pDemandSupply(z,"Demand: GWh",y);
+* TODO: Optional
+pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyTechFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyTechFuel(z,tech,f,y));
 
 
-
-**************************************************************H2 model addition**************************************************************************
-pDemandSupplyH2(z,"Electricity demand for H2 production: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pIncludeH2+1e-6; 
-pDemandSupplyH2(z,"Total H2 Production: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
-pDemandSupplyH2(z,"External Demand of H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pIncludeH2+1e-6;
-pDemandSupplyH2(z,"Unmet External Demand of H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pIncludeH2+1e-6;
-pDemandSupplyH2(z,"H2 produced for power production: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pIncludeH2+1e-6;
-
-
-* By Country
-pDemandSupplyCountry(c,"Demand: GWh"            ,y) = sum(zcmap(z,c), pDemandSupply(z,"Demand: GWh"            ,y));
-*********************************************************H2 model addition****************************************************************
-pDemandSupplyCountry(c,"Electricity demand for H2 production: GWh",         y) =(sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
-pDemandSupplyCountry(c,"Total Demand (Including P to H2): GWh"      ,y) =(sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3+sum((zcmap(z,c),h2zmap(hh,z),q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
-
-pDemandSupplyCountry(c,"Total production: GWh"  ,y) = sum(zcmap(z,c), pDemandSupply(z,"Total production: GWh"  ,y));
-pDemandSupplyCountry(c,"Unmet demand: GWh"      ,y) = sum(zcmap(z,c), pDemandSupply(z,"Unmet demand: GWh"      ,y));
-pDemandSupplyCountry(c,"Surplus generation: GWh",y) = sum(zcmap(z,c), pDemandSupply(z,"Surplus generation: GWh",y));
-
-pDemandSupplyCountry(c,"Imports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z),q,d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pDemandSupplyCountry(c,"Exports exchange: GWh"     ,y) = (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z,z2),q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zcmap(z,c),zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pDemandSupplyCountry(c,"Net interchange: GWh"      ,y) = pDemandSupplyCountry(c,"Imports exchange: GWh",y) - pDemandSupplyCountry(c,"Exports exchange: GWh",y);
-pDemandSupplyCountry(c,"Net interchange Ratio: GWh",y)$pDemandSupplyCountry(c,"Demand: GWh",y) = pDemandSupplyCountry(c,"Net interchange: GWh",y)/pDemandSupplyCountry(c,"Demand: GWh",y);
-
-****************************************************H2 model additions*******************************************************************
-pDemandSupplyCountryH2(c,"Total electricity demand for H2 production: GWh",y)   =(sum( (zcmap(z,c),h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pIncludeH2+1e-6; 
-pDemandSupplyCountryH2(c,"Total H2 Production: mmBTU",           y) =sum((zcmap(z,c),h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
-pDemandSupplyCountryH2(c,"External Demand of H2: mmBTU",         y) =sum((zcmap(z,c),q),pExternalH2(z,q,y)       )$pIncludeH2+1e-6;
-pDemandSupplyCountryH2(c,"Unmet External Demand of H2: mmBTU",   y) =sum((zcmap(z,c),q),vUnmetExternalH2.l(z,q,y) )$pIncludeH2+1e-6;
-pDemandSupplyCountryH2(c,"H2 for power production: mmBTU",       y) =sum((zcmap(z,c),q),vFuelH2Quarter.l(z,q,y)   )$pIncludeH2+1e-6;
-
-pSpinResCosts(z,y) = vYearlySpinningReserveCost.l(z,y);
-
-*--- Summary of results
-pSummary("NPV of system cost: $m"              ) = vNPVCost.l/1e6;
-pSummary("Annualized capex: $m"                ) = sum((y,z), pRR(y)*pWeightYear(y)*pAnncapex(z,y))/1e6;
-pSummary("Additional transmission costs: $m"   ) = sum((y,z), pRR(y)*pWeightYear(y)*pNewTransmissionCosts(z,y))/1e6; 
-pSummary("Fixed O&M: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFOM(z,y))/1e6; 
-pSummary("Variable O&M: $m"                    ) = sum((y,z), pRR(y)*pWeightYear(y)*pVOM(z,y))/1e6;
-pSummary("Fuel cost: $m"                       ) = sum((y,z), pRR(y)*pWeightYear(y)*pFuelCostsZone(z,y))/1e6;
-pSummary("Unmet demand cost: $m"               ) = sum((y,z), pRR(y)*pWeightYear(y)*pUSECosts(z,y))/1e6;
-pSummary("Carbon costs: $m"                    ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyCarbonCost.l(z,y))/1e6;
-pSummary("Trade costs: $m"                     ) = sum((z,y), pWeightYear(y)*pRR(y)*vYearlyTradeCost.l( z,y))/1e6;
-pSummary("VRE curtailment: $m"                 ) = sum((z,y), pWeightYear(y)*pRR(y)*pVRECurtailment(z,y))/1e6;
-pSummary("Sys Spinning Reserve violation: $m"  ) = sum(y, pWeightYear(y)*pRR(y)*pUSRSysCosts(y))/1e6;
-pSummary("Sys Planning Reserve violation: $m"  ) = sum(y, pWeightYear(y)*pRR(y)*pUPRSysCosts(y))/1e6;
-pSummary("Zonal Spinning Reserve violation: $m") = sum((c,y), pWeightYear(y)*pRR(y)*pUSRLocCosts(c,y))/1e6;
-pSummary("Zonal Planning Reserve violation: $m") = sum((c,y), pWeightYear(y)*pRR(y)*pCountryPlanReserveCosts(c,y))/1e6;
-pSummary("Excess Generation Costs: $m"         ) = sum((z,y), pWeightYear(y)*pRR(y)*eYearlySurplusCost.l(z,y))/1e6;                                      
-pSummary("Spinning reserve costs: $m"          ) = sum((z,y), pWeightYear(y)*pRR(y)*pSpinResCosts(z,y))/1e6;
-pSummary("Climate backstop cost: $m"           ) = sum((c,y), pWeightYear(y)*pRR(y)*vYearlyCO2backstop.l(c,y)*pCostOfCO2backstop)/1e6+sum(y, pWeightYear(y)*pRR(y)*pCostOfCO2backstop*vYearlySysCO2backstop.l(y))/1e6;
+* ---------------------------------------------------------
+* Utilization factors by plant, technology, fuel, and country
+* ---------------------------------------------------------
+* Computes average utilization (capacity factor) as the ratio
+* of generated energy to available capacity and hours:
+*   - pUtilizationPlant / pUtilizationTech: plant-level 
+*     and tech-level capacity factors
+*   - pUtilizationFuel / pUtilizationTechFuel: by fuel and tech-fuel at zone level
+*   - pUtilizationFuelCountry / pUtilizationTechFuelCountry: 
+*     by fuel and tech-fuel at country level
+* ---------------------------------------------------------
 
 
-pSummary("Total Generation: GWh"           ) = sum((gzmap(g,z),y), pWeightYear(y)*pEnergyByPlant(z,g,y));
-pSummary("Total Demand: GWh"               ) = sum((z,y), pWeightYear(y)*pDemandSupply(z,"Demand: GWh",y));
-pSummary("Total Capacity Added: MW"        ) = sum((g,y), vBuild.l(g,y));
-pSummary("Total Investment Undiscounted: $m"   ) = sum((g,y)$(ndc(g)), vBuild.l(g,y)*pGenData(g,"Capex")+ vBuildStor.l(g,y)*(pStorData(g,"CapexMWh")+pCSPData(g,"Storage","CapexMWh"))/1e3+vBuildTherm.l(g,y)*pCSPData(g,"Thermal Field","CapexMWh")) + sum((g,y)$(dc(g)), vBuild.l(g,y)*pGenData(g,"Capex")*pCapexTrajectories(g,y)+(vBuildStor.l(g,y)*(pStorData(g,"CapexMWh")+pCSPData(g,"Storage","CapexMWh"))/1e3+vBuildTherm.l(g,y)*pCSPData(g,"Thermal Field","CapexMWh"))*pCapexTrajectories(g,y));
-pSummary("Total Trade: GWh"                ) = sum((z,y), pDemandSupply(z,"Imports exchange: GWh" ,y));
-pSummary("Total USE: GWh"                  ) = sum((z,y), pWeightYear(y)*pDemandSupply(z,"Unmet demand: GWh",y));
-pSummary("Total Emission: mt"              ) = sum((z,y), pWeightYear(y)*vZonalEmissions.l(z,y))/1e6;
+* Plant-level utilization (capacity factor, annual average)
+pUtilizationPlant(zgmap(z,g),y)$vCap.l(g,y) =
+  sum((gfmap(g,f), q, d, t), vPwrOut.l(g,f,q,d,t,y) * pHours(q,d,t))
+  / vCap.l(g,y) / 8760;
+
+* Technology-level utilization (capacity factor, annual average)
+pUtilizationTech(z, tech, y)$sum((zgmap(z,g), gfmap(g,f), gtechmap(g,tech))$vCap.l(g,y), vCap.l(g,y)) =
+  sum((zgmap(z,g), gfmap(g,f), gtechmap(g,tech), q, d, t)$vCap.l(g,y),
+    vPwrOut.l(g,f,q,d,t,y) * pHours(q,d,t))
+  / sum((zgmap(z,g), gfmap(g,f), gtechmap(g,tech))$vCap.l(g,y), vCap.l(g,y))
+  / 8760;
+
+* Fuel-level utilization (capacity factor, annual average)
+pUtilizationFuel(z, f, y)$(pCapacityFuel(z, f, y)) =
+  pEnergyFuel(z, f, y)
+  / (pCapacityFuel(z, f, y) * sum((q, d, t), pHours(q, d, t)))
+  * 1000;
+
+* Technology-fuel-level utilization (capacity factor, annual average)
+pUtilizationTechFuel(z, tech, f, y)$(pCapacityTechFuel(z, tech, f, y)) =
+  pEnergyTechFuel(z, tech, f, y)
+  / (pCapacityTechFuel(z, tech, f, y) * sum((q, d, t), pHours(q, d, t)))
+  * 1000;
+
+* Country-level fuel utilization (capacity factor, annual average)
+pUtilizationFuelCountry(c, f, y)$(pCapacityFuelCountry(c, f, y)) =
+  pEnergyFuelCountry(c, f, y)
+  / (pCapacityFuelCountry(c, f, y) * sum((q, d, t), pHours(q, d, t)))
+  * 1000;
+
+* Country-level technology-fuel utilization (capacity factor, annual average)
+pUtilizationTechFuelCountry(c, tech, f, y)$(pCapacityTechFuelCountry(c, tech, f, y)) =
+  pEnergyTechFuelCountry(c, tech, f, y)
+  / (pCapacityTechFuelCountry(c, tech, f, y) * sum((q, d, t), pHours(q, d, t)))
+  * 1000;
 
 
-**************************************************************H2 model additions******************************************************************************************************
-pSummary("Total Demand for H2 production: GWh") =(sum((h2zmap(hh,z),y,q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3)$pIncludeH2+0.000001;
-pSummary("Total Demand including demand for H2 production: GWh") =(sum((h2zmap(hh,z),y,q,d,t),vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t) )/1e3+ sum((z,y), pWeightYear(y)*pDemandSupply(z,"Demand: GWh",y))  )$pIncludeH2+0.000001;
-pSummary("Total H2 produced: mmBTU" )                   =sum((h2zmap(hh,z),y, q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pIncludeH2+1e-6;
-pSummary("Total External Demand of H2: mmBTU")          =sum((z,q,y),pExternalH2(z,q,y)        )$pIncludeH2+1e-6;
-pSummary("Total Unmet External Demand of H2: mmBTU")    =sum((z,q,y),vUnmetExternalH2.l(z,q,y) )$pIncludeH2+1e-6;
-pSummary("Total H2 for power production: mmBTU")        =sum((z,q,y),vFuelH2Quarter.l(z,q,y)   )$pIncludeH2+1e-6;
+* ---------------------------------------------------------
+* Energy balance [GWh] by zone and country
+* ---------------------------------------------------------
+* Accounts for demand (electricity and H2), production,
+* unmet demand, surplus generation, imports/exports,
+* and net interchange, with aggregation to country level.
+* ---------------------------------------------------------
 
-*B. Interchange and Losses with INTERNAL zones
+pEnergyBalance(z, "Demand: GWh", y) =
+  sum((q, d, t), pDemandData(z, q, d, y, t) * pHours(q, d, t) * pEnergyEfficiencyFactor(z, y)) / 1e3;
 
-* By zone
-pInterchange(sTopology(z,z2),y) = sum((q,d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))/1e3;
-pInterconUtilization(sTopology(z,z2),y)$pInterchange(z,z2,y) = 1e3*pInterchange(z,z2,y)
-                                                              /sum((q,d,t),(pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
-                                                                                                     * max(pNewTransmission(z,z2,"CapacityPerLine"),
-                                                                                                           pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer
-                                                      )*pHours(q,d,t));
-pLossesTransmission(z,y) = sum((sTopology(z,z2),q,d,t), vFlow.l(z2,z,q,d,t,y)*pLossFactor(z,z2,y)*pHours(q,d,t));
+pEnergyBalance(z, "Demand H2: GWh", y) =
+  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (pfEnableH2Production + 1e-6);
+
+pEnergyBalance(z, "Total Demand: GWh", y) =
+  pEnergyBalance(z, "Demand: GWh", y) + pEnergyBalance(z, "Demand H2: GWh", y);
+
+pEnergyBalance(z, "Total production: GWh", y) =
+  sum(gzmap(g, z), pEnergyPlant(z, g, y));
+
+pEnergyBalance(z, "Unmet demand: GWh", y) =
+  sum((q, d, t), vUSE.l(z, q, d, t, y) * pHours(q, d, t)) / 1e3;
+
+pEnergyBalance(z, "Surplus generation: GWh", y) =
+  sum((q, d, t), vSurplus.l(z, q, d, t, y) * pHours(q, d, t)) / 1e3;
+
+pEnergyBalance(z, "Imports exchange: GWh", y) =
+  (sum((sTopology(z, z2), q, d, t), vFlow.l(z2, z, q, d, t, y) * pHours(q, d, t))
+   + sum((zext, q, d, t), vYearlyImportExternal.l(z, zext, q, d, t, y) * pHours(q, d, t))) / 1e3;
+
+pEnergyBalance(z, "Exports exchange: GWh", y) =
+  (sum((sTopology(z, z2), q, d, t), vFlow.l(z, z2, q, d, t, y) * pHours(q, d, t))
+   + sum((zext, q, d, t), vYearlyExportExternal.l(z, zext, q, d, t, y) * pHours(q, d, t))) / 1e3;
+
+pEnergyBalance(z, "Net interchange: GWh", y) =
+  pEnergyBalance(z, "Imports exchange: GWh", y) - pEnergyBalance(z, "Exports exchange: GWh", y);
+
+pEnergyBalance(z, "Net interchange Ratio: GWh", y) $ pEnergyBalance(z, "Demand: GWh", y) =
+  pEnergyBalance(z, "Net interchange: GWh", y) / pEnergyBalance(z, "Demand: GWh", y);
+
+pEnergyBalanceCountry(c,dshdr,y) = sum(z$(zcmap(z,c)), pEnergyBalance(z,dshdr,y));
 
 
-* Calculate line capacity (constant over time, but varies by line and year)
-Scalar epsilon /1/;  
-* Binary indicator for congestion per time step
-isCongested(z,z2,q,d,t,y)$(sTopology(z,z2) and abs(vFlow.l(z,z2,q,d,t,y) - (pTransferLimit(z,z2,q,y) + vAdditionalTransfer.l(z,z2,y)
-                                                                                                     * max(pNewTransmission(z,z2,"CapacityPerLine"),
-                                                                                                           pNewTransmission(z2,z,"CapacityPerLine"))*pAllowHighTransfer)) < epsilon) = 1;                                                                                                
-* Now compute percentage of time (weighted by pHours) where line is congested
-pCongested(sTopology(z,z2),y) = sum((q,d,t), isCongested(z,z2,q,d,t,y)*pHours(q,d,t))
-                                / sum((q,d,t), pHours(q,d,t));
+*--- H2 Demand-Supply Balance
+pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pfEnableH2Production+1e-6; 
+pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pfEnableH2Production+1e-6;
 
+pEnergyBalanceCountryH2(c,dsH2hdr,y) = sum(z$(zcmap(z,c)), pEnergyBalanceH2(z,dsH2hdr,y));
 
-**By country
+* ============================================================
+* 4. ENERGY DISPATCH
+* ============================================================
+
+* ---------------------------------------------------------
+* Hourly dispatch reporting: plant, fuel, and zone level
+* ---------------------------------------------------------
+* - pDispatchPlant: plant-level hourly generation and reserve [MW]
+* - pDispatchFuel: fuel-level hourly generation [MW]
+* - pDispatch: zone-level hourly imports, exports, unmet demand, storage charge, and demand [MW]
+* ---------------------------------------------------------
+
+pDispatchPlant(z, y, q, d, g, t, "Generation")$zgmap(z, g) = sum(gfmap(g, f), vPwrOut.l(g, f, q, d, t, y));
+pDispatchPlant(z, y, q, d, g, t, "Reserve")$zgmap(z, g) = vSpinningReserve.l(g, q, d, t, y);
+
+pDispatchFuel(z, y, q, d, f, t) = sum((gzmap(g, z), gfmap(g, f)), vPwrOut.l(g, f, q, d, t, y));
+
+pDispatch(z, y, q, d, "Imports", t) = sum(sTopology(z, z2), vFlow.l(z2, z, q, d, t, y)) + sum(zext, vYearlyImportExternal.l(z, zext, q, d, t, y));
+pDispatch(z, y, q, d, "Exports", t) = -sum(sTopology(z, z2), vFlow.l(z, z2, q, d, t, y)) - sum(zext, vYearlyExportExternal.l(z, zext, q, d, t, y));
+pDispatch(z, y, q, d, "Unmet demand", t) = vUSE.l(z, q, d, t, y);
+pDispatch(z, y, q, d, "Storage Charge", t) = -sum(zgmap(z, st), vStorInj.l(st, q, d, t, y));
+pDispatch(z, y, q, d, "Demand", t) = pDemandData(z, q, d, y, t) * pEnergyEfficiencyFactor(z, y);
+
+* ============================================================
+* 5. RESERVES
+* ============================================================
+
+* ---------------------------------------------------------
+* Spinning reserve and reserve margin reporting
+* ---------------------------------------------------------
+* - pReserveSpinningPlantZone: annual spinning reserve provided by plant and zone [GWh]
+* - pReserveSpinningFuelZone: annual spinning reserve provided by fuel and zone [GWh]
+* - pReserveSpinningPlantCountry: annual spinning reserve provided by plant and country [GWh]
+* - pReserveMargin / pReserveMarginCountry: peak demand, total firm capacity, and reserve margin by zone/country
+* ---------------------------------------------------------
+
+pReserveSpinningPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
+pReserveSpinningFuelZone(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
+pReserveSpinningPlantCountry(c,g,y)=  sum((zcmap(z,c),zgmap(z,g)), pReserveSpinningPlantZone(z,g,y));
+
+pReserveMargin(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
+pReserveMargin(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
+pReserveMargin(z,"ReserveMargin",y)$(pReserveMargin(z,"TotalFirmCapacity",y)) = pReserveMargin(z,"TotalFirmCapacity",y)/pReserveMargin(z,"Peak demand: MW",y)  ;             
+
+pReserveMarginCountry(c,"Peak demand: MW",y) =   pCapacitySummaryCountry(c,"Peak demand: MW"       ,y);
+pReserveMarginCountry(c,"TotalFirmCapacity",y) = sum(zcmap(z,c), pReserveMargin(z,"TotalFirmCapacity",y));
+pReserveMarginCountry(c,"ReserveMargin",y)$(pReserveMarginCountry(c,"TotalFirmCapacity",y)) = pReserveMarginCountry(c,"TotalFirmCapacity",y)/ pReserveMarginCountry(c,"Peak demand: MW",y)  ;   
+
+* ============================================================
+* 6. INTERCONNECTIONS
+* ============================================================
+
+* ---------------------------------------------------------
+* Internal zones: interchange, utilization, losses, congestion
+* ---------------------------------------------------------
+* - pInterchange / pInterchangeCountry: net interchange flow [GWh]
+* - pInterconUtilization: utilization of transfer capacity [%]
+* - pLossesTransmission / pLossesTransmissionCountry: transmission losses [GWh]
+* - isCongested / pCongestionShare: binary indicator and share of time congested
+* ---------------------------------------------------------
+
+* Annual interchange between internal zones [GWh]
+pInterchange(sTopology(z, z2), y) =
+  sum((q, d, t), vFlow.l(z, z2, q, d, t, y) * pHours(q, d, t)) / 1e3;
+
+* Utilization of interconnection throughout modeling horizon [%]
+pInterconUtilization(sTopology(z, z2), y)$pInterchange(z, z2, y) =
+  1e3 * pInterchange(z, z2, y)
+  / sum((q, d, t),
+    (pTransferLimit(z, z2, q, y)
+     + vNewTransmissionLine.l(z, z2, y)
+       * max(pNewTransmission(z, z2, "CapacityPerLine"),
+         pNewTransmission(z2, z, "CapacityPerLine"))
+       * fAllowTransferExpansion)
+    * pHours(q, d, t)
+    );
+
+* Transmission losses between internal zones in MWh per zone
+pLossesTransmission(z, y) =
+  sum((sTopology(z, z2), q, d, t),
+    vFlow.l(z2, z, q, d, t, y) * pLossFactorInternal(z, z2, y) * pHours(q, d, t)
+  );
+
+* Country-level interchange and losses
 alias (zcmap, zcmap2);
-pInterchangeCountry(c,c2,y)= sum((zcmap(z,c),zcmap2(z2,c2),sMapConnectedZonesDiffCountries(z2,z)), pInterchange(z,z2,y));
-pLossesTransmissionCountry(c,y) = sum(zcmap(z,c), pLossesTransmission(z,y));
+
+pInterchangeCountry(c, c2, y) =
+  sum((zcmap(z, c), zcmap2(z2, c2), sMapConnectedZonesDiffCountries(z2, z)),
+    pInterchange(z, z2, y)
+  );
+
+pLossesTransmissionCountry(c, y) =
+  sum(zcmap(z, c), pLossesTransmission(z, y));
+
+* Binary indicator for congestion per time step
+isCongested(z, z2, q, d, t, y)$(
+  sTopology(z, z2)
+  and abs(
+    vFlow.l(z, z2, q, d, t, y)
+    - (
+      pTransferLimit(z, z2, q, y)
+      + vNewTransmissionLine.l(z, z2, y)
+        * max(pNewTransmission(z, z2, "CapacityPerLine"),
+          pNewTransmission(z2, z, "CapacityPerLine"))
+        * fAllowTransferExpansion
+      )
+    ) < 1e-5
+) = 1;
+
+* Percentage of time (weighted by pHours) when the line is congested
+pCongestionShare(sTopology(z, z2), y) =
+  sum((q, d, t), isCongested(z, z2, q, d, t, y) * pHours(q, d, t))
+  / sum((q, d, t), pHours(q, d, t));
 
 
-*C. Trade with EXTERNAL zones
+* ---------------------------------------------------------
+* External zones: imports and exports
+* ---------------------------------------------------------
+* - pHourlyInterchangeExternal / pYearlyInterchangeExternal: hourly and annual imports/exports [GWh]
+* - pInterchangeExternalExports / pInterconUtilizationExternalExports: exports and line utilization [%]
+* - pInterchangeExternalImports / pInterconUtilizationExternalImports: imports and line utilization [%]
+* - pHourlyInterchangeExternalCountry / pYearlyInterchangeExternalCountry: aggregated country-level interchange [GWh]
+* ---------------------------------------------------------
 
-* By Zone
 set thrd / Imports, Exports /;
-pHourlyTrade(z,y,q,d,"Imports",t) =   sum(zext,vImportPrice.l(z,zext,q,d,t,y)); 
-pHourlyTrade(z,y,q,d,"Exports",t) =   sum(zext,vExportPrice.l(z,zext,q,d,t,y)); 
-pYearlyTrade(z,thrd,y) = sum((q,d,t), pHourlyTrade(z,y,q,d,thrd,t)*pHours(q,d,t))/1e3;
-pInterchangeExtExp(z,zext,y) = sum((q,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
-pInterconUtilizationExtExp(z,zext,y)$pInterchangeExtExp(z,zext,y) = 1e3*pInterchangeExtExp(z,zext,y) /sum((q,d,t),pExtTransferLimitOut(z,zext,q,y)*pHours(q,d,t));
-pInterchangeExtImp(zext,z,y) = sum((q,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
-pInterconUtilizationExtImp(zext,z,y)$pInterchangeExtImp(zext,z,y) = 1e3*pInterchangeExtImp(zext,z,y) /sum((q,d,t),pExtTransferLimitIn(z,zext,q,y)*pHours(q,d,t));
 
+* Hourly interchange with external zones [MW]
+pHourlyInterchangeExternal(z, y, q, d, "Imports", t) =
+  sum(zext, vYearlyImportExternal.l(z, zext, q, d, t, y));
 
-* By Country
-pHourlyTradeCountry(c,y,q,d,thrd,t) = sum(zcmap(z,c), pHourlyTrade(z,y,q,d,thrd,t));
-pYearlyTradeCountry(c,thrd,y) = sum(zcmap(z,c), pYearlyTrade(z,thrd,y));
+pHourlyInterchangeExternal(z, y, q, d, "Exports", t) =
+  sum(zext, vYearlyExportExternal.l(z, zext, q, d, t, y));
 
-*---   Prices Costs -- Marginal costs
+* Annual interchange with external zones [GWh]
+pYearlyInterchangeExternal(z, thrd, y) =
+  sum((q, d, t), pHourlyInterchangeExternal(z, y, q, d, thrd, t) * pHours(q, d, t)) / 1e3;
 
-* By zone
+* Annual exports and imports with external zones [GWh]
+pInterchangeExternalExports(z, zext, y) =
+  sum((q, d, t), vYearlyExportExternal.l(z, zext, q, d, t, y) * pHours(q, d, t)) / 1e3;
 
+pInterchangeExternalImports(zext, z, y) =
+  sum((q, d, t), vYearlyImportExternal.l(z, zext, q, d, t, y) * pHours(q, d, t)) / 1e3;
 
-pAveragePrice(z,y)$pDemandSupply(z,"Demand: GWh",y) = 1e-3*sum((q,d,t),pPrice(z,q,d,t,y)*pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))
-                                                     /pDemandSupply(z,"Demand: GWh",y) ;
+* Utilization of external interconnections [%]
+pInterconUtilizationExternalExports(z, zext, y)$pInterchangeExternalExports(z, zext, y) =
+  1e3 * pInterchangeExternalExports(z, zext, y)
+  / sum((q, d, t), pExtTransferLimitOut(z, zext, q, y) * pHours(q, d, t));
 
-Parameter zzFlow(z,z2,y), zzFlowpH(z,z2,y);
-zzFlow(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y));
-zzFlowpH(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
+pInterconUtilizationExternalImports(zext, z, y)$pInterchangeExternalImports(zext, z, y) =
+  1e3 * pInterchangeExternalImports(zext, z, y)
+  / sum((q, d, t), pExtTransferLimitIn(z, zext, q, y) * pHours(q, d, t));
 
-pAveragePriceExp(z,y) $(sum(Zd, zzFlowpH(z,Zd,y))  > 0) = (sum((sTopology(z,Zd),q,d,t),  pPrice(z,q,d,t,y) *vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
-                                                           + sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y) * pHours(q,d,t))) 
-                                                         /(sum(Zd, zzFlowpH(z,Zd,y))+ sum((zext,q,d,t), vExportPrice.l(z,zext,q,d,t,y)* pHours(q,d,t)));
-pAveragePriceImp(z,y) $(sum(Zd, zzFlowpH(Zd,z,y))  > 0) = (sum((sTopology(Zd,z),q,d,t),  pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
-                                                            + sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)* pTradePrice(zext,q,d,y,t)  * pHours(q,d,t))) 
-                                                         /(sum(Zd, zzFlowpH(Zd,z,y))+ sum((zext,q,d,t), vImportPrice.l(z,zext,q,d,t,y)  * pHours(q,d,t)));
+* Country-level hourly and annual interchange with external zones
+pHourlyInterchangeExternalCountry(c, y, q, d, thrd, t) =
+  sum(zcmap(z, c), pHourlyInterchangeExternal(z, y, q, d, thrd, t));
 
-pAveragePriceHub(Zt,y)$(sum(Zd, zzFlow(Zt,Zd,y))   > 0) = sum((sTopology(Zt,Zd),q,d,t), pPrice(Zt,q,d,t,y)*vFlow.l(Zt,Zd,q,d,t,y))
-                                                         /sum(Zd, zzFlow(Zt,Zd,y));
+pYearlyInterchangeExternalCountry(c, thrd, y) =
+  sum(zcmap(z, c), pYearlyInterchangeExternal(z, thrd, y));
 
-* By Country
-pAveragePriceCountry(c,y)$pDemandSupplyCountry(c,"Demand: GWh",y) = sum(zcmap(z,c), pAveragePrice(z,y)*pDemandSupply(z,"Demand: GWh",y))/pDemandSupplyCountry(c,"Demand: GWh",y);
+* ============================================================
+* 7. EMISSIONS
+* ============================================================
 
-Parameter cFlowpH(c,y);
-cFlowpH(c,y) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z,Zd)), zzFlowpH(z,Zd,y));
-pAveragePriceExpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z,Zd),q,d,t), pPrice(z,q,d,t,y)* vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
-                                                 /cFlowpH(c,y);
-cFlowpH(c,y) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z)), zzFlowpH(Zd,z,y));
-pAveragePriceImpCountry(c,y)$(cFlowpH(c,y) > 0) = sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
-                                                 /cFlowpH(c,y);
-*pAveragePriceHubCountry(Zt,y)$(sum((Zd,q,d,t),vFlow.l(Zt,Zd,q,d,t,y))>0) = sum((Zd,q,d,t)$sTopology(Zt,Zd), pPrice(Zt,q,d,t,y) * vFlow.l(Zt,Zd,q,d,t,y))/ sum((Zd,q,d,t),vFlow.l(Zt,Zd,q,d,t,y)) ;
+* ---------------------------------------------------------
+* Emissions reporting: zone, country, and marginal costs
+* ---------------------------------------------------------
+* - pEmissionsZone: total CO2 emissions [Mt] by zone and year
+* - pEmissionsIntensityZone: CO2 intensity [tCO2/GWh] by zone and year
+* - pEmissionsCountrySummary: total and backstop CO2 emissions [Mt] by country and year
+* - pEmissionsIntensityCountry: CO2 intensity [tCO2/GWh] by country and year
+* - pEmissionMarginalCosts / pEmissionMarginalCostsCountry: marginal cost of emission constraints [USD/tCO2]
+* ---------------------------------------------------------
 
+pEmissionsZone(z,y)                                                     =  vZonalEmissions.l(z,y)/1e6 ;
+pEmissionsIntensityZone(z,y)$pEnergyBalance(z,"Total production: GWh",y) = 1e-3*pEmissionsZone(z,y)/pEnergyBalance(z,"Total production: GWh",y);
+pEmissionsCountrySummary(c,"Emissions: mm tCO2eq",y)                               = sum(zcmap(z,c), pEmissionsZone(z,y));
+pEmissionsCountrySummary(c,"CO2backstopEmissions: mm tCO2eq",y)                    = vYearlyCO2backstop.l(c,y)/1e6;
+pEmissionsIntensityCountry(c,y)$pEnergyBalanceCountry(c,"Total production: GWh",y) = 1e-3*sum(zcmap(z,c), vZonalEmissions.l(z,y))/pEnergyBalanceCountry(c,"Total production: GWh",y);
 
-*--- Capacity and Utilization Results
-
-* By Zone
-pPeakCapacity(z,"Available capacity: MW",y) = sum(gzmap(g,z), vCap.l(g,y));
-pPeakCapacity(z,"Peak demand: MW"       ,y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
-
-
-*********************H2 model addition***************************************************************************************************
-pPeakCapacity(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$pIncludeH2+1e-6;
-
-pPeakCapacity(z,"New capacity: MW"      ,y) = sum(gzmap(g,z), vBuild.l(g,y));
-pPeakCapacity(z,"Retired capacity: MW"  ,y) = sum(gzmap(g,z), vRetire.l(g,y));
-pPeakCapacity(z,"Committed Total TX capacity: MW"  ,y) = sum((z2,q), pTransferLimit(z,z2,q,y)/card(q));
-
-pCapacityByFuel(z,f,y)  = sum((gzmap(g,z),gprimf(g,f)), vCap.l(g,y));
-pCapacityByTechandFuel(z,tech,f,y)  = sum((gzmap(g,z),gtechmap(g,tech),gprimf(g,f)), vCap.l(g,y));   
-pNewCapacityFuel(z,f,y) = sum((gzmap(g,z),gprimf(g,f)), vBuild.l(g,y));
-
-pNewCapacityTech(z,tech,y)       = sum((gzmap(g,z),gtechmap(g,tech),gprimf(g,f)), vBuild.l(g,y));
-pRetirementsFuel(z,f,y)          = sum((gzmap(g,z),gprimf(g,f)),vRetire.l(g,y));
-
-
-
-
-
-pUtilizationByFuel(z,f,y)$(pCapacityByFuel(z,f,y)) = pEnergyByFuel(z,f,y)/(pCapacityByFuel(z,f,y) * pTotalHoursperYear(y))*1000;
-pUtilizationByTechandFuel(z,tech,f,y)$(pCapacityByTechandFuel(z,tech,f,y)) = pEnergyByTechandFuel(z,tech,f,y)/(pCapacityByTechandFuel(z,tech,f,y) * pTotalHoursperYear(y))*1000;
-
-* By Country
-pPeakCapacityCountry(c,"Available capacity: MW",y) = sum(zcmap(z,c), pPeakCapacity(z,"Available capacity: MW",y));
-pPeakCapacityCountry(c,"Peak demand: MW"       ,y) = smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
-pPeakCapacityCountry(c,"New capacity: MW"      ,y) = sum(zcmap(z,c), pPeakCapacity(z,"New capacity: MW",y));
-pPeakCapacityCountry(c,"Retired capacity: MW"  ,y) = sum(zcmap(z,c), pPeakCapacity(z,"Retired capacity: MW",y));
-pPeakCapacityCountry(c,"Committed Total TX capacity: MW",y) = sum(zcmap(z,c), pPeakCapacity(z,"Committed Total TX capacity: MW",y));
-
-pCapacityByFuelCountry(c,f,y)  = sum(zcmap(z,c), pCapacityByFuel(z,f,y));
-pCapacityByTechandFuelCountry(c,tech,f,y)  = sum(zcmap(z,c), pCapacityByTechandFuel(z,tech,f,y));      
-pNewCapacityFuelCountry(c,f,y) = sum(zcmap(z,c), pNewCapacityFuel(z,f,y));
-
-pNewCapacityTechCountry(c,tech,y)=sum(zcmap(z,c), pNewCapacityTech(z,tech,y));
-
-pCapacityPlanCountry(c,g,y)    = sum((zcmap(z,c),gzmap(g,z)), vCap.l(g,y));
-pUtilizationByFuelCountry(c,f,y)$(pCapacityByFuelCountry(c,f,y)) = pEnergyByFuelCountry(c,f,y)/(pCapacityByFuelCountry(c,f,y)* pTotalHoursperYear(y))*1000;
-pUtilizationByTechandFuelCountry(c,tech,f,y)$(pCapacityByTechandFuelCountry(c,tech,f,y)) = pEnergyByTechandFuelCountry(c,tech,f,y)/(pCapacityByTechandFuelCountry(c,tech,f,y) * pTotalHoursperYear(y))*1000;
-
-pRetirementsCountry(c,y)          = sum((zcmap(z,c),f),pRetirementsFuel(z,f,y));
-pRetirementsFuelCountry(c,f,y)      = sum(zcmap(z,c),pRetirementsFuel(z,f,y));
-
-
-* By Plant
-pCapacityPlan(zgmap(z,g),y)                 = vCap.l(g,y);
-pRetirements(zgmap(z,g),y)                  = vRetire.l(g,y);
-pPlantUtilization(zgmap(z,g),y)$vCap.l(g,y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/vCap.l(g,y)/8760;
-pPlantUtilizationTech(z,tech,y)$sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y)) = sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech),q,d,t)$vCap.l(g,y), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))
-                                                                                                        /sum((zgmap(z,g),gfmap(g,f),gtechmap(g,tech))$vCap.l(g,y),vCap.l(g,y))/8760;
-pFuelUtilization(z,f,y)$sum((zgmap(z,g),gfmap(g,f))$vCap.l(g,y),vCap.l(g,y)) = sum((zgmap(z,g),gfmap(g,f),q,d,t)$vCap.l(g,y), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/sum((zgmap(z,g),gfmap(g,f))$vCap.l(g,y), vCap.l(g,y))/8760;      
-
-*--- New TX Capacity by zone
-
-pAdditionalCapacity(sTopology(z,z2),y) = vAdditionalTransfer.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
-                                                                                                           
-
-pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
-
-
-*--- Reserve Results
-* By Zone
-pSpinningReserveCostsZone(zgmap(z,g),y)   = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))/1e6 ;
-pSpinningReserveByPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
-pSpinningReserveByFuelZone(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
-
-pReserveMarginRes(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
-pReserveMarginRes(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
-pReserveMarginRes(z,"ReserveMargin",y)$(pReserveMarginRes(z,"TotalFirmCapacity",y)) = pReserveMarginRes(z,"TotalFirmCapacity",y)/pReserveMarginRes(z,"Peak demand: MW",y)  ;             
-
-
-
-* By Country
-pSpinningReserveCostsCountry(c,g,y)  =  sum((zcmap(z,c),zgmap(z,g)), pSpinningReserveCostsZone(z,g,y));
-pSpinningReserveByPlantCountry(c,g,y)=  sum((zcmap(z,c),zgmap(z,g)), pSpinningReserveByPlantZone(z,g,y));
-
-
-pReserveMarginResCountry(c,"Peak demand: MW",y) =   pPeakCapacityCountry(c,"Peak demand: MW"       ,y);
-pReserveMarginResCountry(c,"TotalFirmCapacity",y) = sum(zcmap(z,c), pReserveMarginRes(z,"TotalFirmCapacity",y));
-pReserveMarginResCountry(c,"ReserveMargin",y)$(pReserveMarginResCountry(c,"TotalFirmCapacity",y)) = pReserveMarginResCountry(c,"TotalFirmCapacity",y)/ pReserveMarginResCountry(c,"Peak demand: MW",y)  ;   
-
-
-
-
-*--- Emission Results
-* By Zone
-pEmissions(z,y)                                                     =  vZonalEmissions.l(z,y)/1e6 ;
-pEmissionsIntensity(z,y)$pDemandSupply(z,"Total production: GWh",y) = 1e-3*vZonalEmissions.l(z,y)/pDemandSupply(z,"Total production: GWh",y);
-
-pEmissionsCountry1(c,"Emissions: mm tCO2eq",y)                               = sum(zcmap(z,c), pEmissions(z,y)  );
-pEmissionsCountry1(c,"CO2backstopEmissions: mm tCO2eq",y)                    = vYearlyCO2backstop.l(c,y)/1e6;
-pEmissionsIntensityCountry(c,y)$pDemandSupplyCountry(c,"Total production: GWh",y) = 1e-3*sum(zcmap(z,c), vZonalEmissions.l(z,y))/pDemandSupplyCountry(c,"Total production: GWh",y);
-
-*--- Emission marginal costs
- 
 pEmissionMarginalCosts(y) $(pWeightYear(y))                  = -eTotalEmissionsConstraint.M(y)/pRR(y)/pWeightYear(y);
 pEmissionMarginalCostsCountry(c,y) $(pWeightYear(y))         = -eEmissionsCountry.M(c,y)/pRR(y)/pWeightYear(y);  
 
+* ============================================================
+* 8. PRICES
+* ============================================================
+* ---------------------------------------------------------
+* Average yearly electricity prices at zone and country level
+* ---------------------------------------------------------
+* Calculates demand-weighted consumer prices, export/import
+* prices weighted by actual flows (internal & external),
+* and hub prices. Aggregates results to country averages
+* using zonal weights and interconnection flows.
+* ---------------------------------------------------------
 
-*--- Solar Energy (zonal results)
-set PVtech(tech) / PV, PVwSTO /;
-Parameter zSolar(z,y), zSolarpH(z,y);
-pSolarEnergy(z,q,d,t,y) = sum((gzmap(g,z),gtechmap(g,PVtech),gfmap(g,f)), vPwrOut.l(g,f,q,d,t,y));
+* Average yearly price paid by consumers, weighted by demand
+pYearlyPrice(z,y)$pEnergyBalance(z,"Demand: GWh",y) = 1e-3*sum((q,d,t),pPrice(z,q,d,t,y)*pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))
+                                                     /pEnergyBalance(z,"Demand: GWh",y) ;
 
-zSolar(z,y) = sum((q,d,t), pSolarEnergy(z,q,d,t,y));
-pSolarValue(z,y)$(zSolar(z,y) > 0) = sum((q,d,t), pPrice(z,q,d,t,y)*pSolarEnergy(z,q,d,t,y))/zSolar(z,y);
+Parameter
+  pFlowMWSum(z,z2,y)    "Sum of hourly MW flows over the year (used for weights)"
+  pFlowMWh(z,z2,y)      "Annual energy flow between zones [MWh]"
+;
 
-zSolarpH(z,y) = sum((q,d,t), pSolarEnergy(z,q,d,t,y)*pHours(q,d,t));
-pSolarCost(z,y)$(zSolarpH(z,y) > 0) = (sum((gzmap(ng,z),gtechmap(ng,PVtech)), pCRF(ng)*vCap.l(ng,y)*pGenData(ng,"Capex")*pCapexTrajectories(ng,y))*1e6)/zSolarpH(z,y);
+pFlowMWSum(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y));
+pFlowMWh(z,z2,y) = sum(sFlow(z,z2,q,d,t,y),vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t));
 
-*--- Dispatch Results
+* Average price of exports and imports, weighted by actual flows on the lines
+pYearlyPriceExport(z,y) $(sum(Zd, pFlowMWh(z,Zd,y))  > 0) = (sum((sTopology(z,Zd),q,d,t),  pPrice(z,q,d,t,y) *vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+                                                           + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y) * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))) 
+                                                         /(sum(Zd, pFlowMWh(z,Zd,y))+ sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)* pHours(q,d,t)));
 
-pPlantDispatch(z,y,q,d,g,t,"Generation")$zgmap(z,g) = sum(gfmap(g,f), vPwrOut.l(g,f,q,d,t,y));
-pPlantDispatch(z,y,q,d,g,t,"Reserve")$zgmap(z,g) = vSpinningReserve.l(g,q,d,t,y);
+pYearlyPriceImport(z,y) $(sum(Zd, pFlowMWh(Zd,z,y))  > 0) = (sum((sTopology(Zd,z),q,d,t),  pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+                                                            + sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y) * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))) 
+                                                         /(sum(Zd, pFlowMWh(Zd,z,y))+ sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)  * pHours(q,d,t)));
 
-pFuelDispatch(z,y,q,d,f,t) = sum((gzmap(g,z),gfmap(g,f)), vPwrOut.l(g,f,q,d,t,y));
+* Average price at the hub, weighted by actual flows on the lines (TODO: check not with pHours)
+pYearlyPriceHub(Zt,y)$(sum(Zd, pFlowMWSum(Zt,Zd,y))   > 0) = sum((sTopology(Zt,Zd),q,d,t), pPrice(Zt,q,d,t,y)*vFlow.l(Zt,Zd,q,d,t,y))
+                                                         /sum(Zd, pFlowMWSum(Zt,Zd,y));
 
-pDispatch(z,y,q,d,"Imports"       ,t) =      sum(sTopology(z,z2), vFlow.l(z2,z,q,d,t,y)) + sum(zext,vImportPrice.l(z,zext,q,d,t,y));
-pDispatch(z,y,q,d,"Exports"       ,t) = 0 - (sum(sTopology(z,z2), vFlow.l(z,z2,q,d,t,y)) + sum(zext,vExportPrice.l(z,zext,q,d,t,y)));
-pDispatch(z,y,q,d,"Net imports"   ,t) = pDispatch(z,y,q,d,"Imports",t) + pDispatch(z,y,q,d,"Exports",t);
-pDispatch(z,y,q,d,"Unmet demand"  ,t) = vUSE.l(z,q,d,t,y);
-pDispatch(z,y,q,d,"Storage Charge",t) = 0 - sum(zgmap(z,st), vStorInj.l(st,q,d,t,y));
-pDispatch(z,y,q,d,"Demand"        ,t) = pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y);
+* Average yearly price paid by consumers, weighted by demand
+pYearlyPriceCountry(c,y)$pEnergyBalanceCountry(c,"Demand: GWh",y) = sum(zcmap(z,c), pYearlyPrice(z,y)*pEnergyBalance(z,"Demand: GWh",y))/pEnergyBalanceCountry(c,"Demand: GWh",y);
 
-*--- LCOE and Average Cost Results
+* ---------------------------------------------------------
+* Country-level interconnection energy flows [MWh]
+* ---------------------------------------------------------
+* Aggregated annual energy exchanged between a country and its 
+* neighboring countries, used as weights to compute average 
+* export and import prices:
+*   - pCountryExportFlowMWh: total export energy from country c
+*   - pCountryImportFlowMWh: total import energy into country c
+* ---------------------------------------------------------
 
-pDenom(z,g,y) = 1;
-pDenom2(z,y)  = 1;
-pDenom(z,g,y)$pEnergyByPlant(z,g,y) = pEnergyByPlant(z,g,y)*1e3;
-pDenom2(z,y)$pDemandSupply(z,"Total production: GWh",y) = pDemandSupply(z,"Total production: GWh",y)*1e3;
-pDenom3(c,y)  = sum(zcmap(z,c), pDenom2(z,y));
+Parameter 
+    pCountryExportFlowMWh(c,y) "Annual exported energy [MWh] from country c"
+    pCountryImportFlowMWh(c,y) "Annual imported energy [MWh] into country c";
 
+pCountryExportFlowMWh(c,y) = sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z,Zd)), pFlowMWh(z,Zd,y));
 
-pSystemAverageCost(y)$sum(z, pDenom2(z,y)) =
-                        (sum((z,zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y)-vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
-*                 max(1,Sum((z,q,d,t),vImportPrice.l(z,q,d,t,y)*pHours(q,d,t))));
-                       + sum(ndc, pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-                       + sum(ndc$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
-                       + sum(ndc$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
-                       + sum(ndc, pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
-                       + sum(dc, vAnnCapex.l(dc,y))
-                       + sum(z, pFOM(z,y) + pVOM(z,y) + pFuelCostsZone(z,y) + pSpinResCosts(z,y))
-                       )/sum(z, sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t)) + pDenom2(z,y));
+pYearlyPriceExportCountry(c,y)$(pCountryExportFlowMWh(c,y) > 0) =
+    sum((zcmap(z,c), sMapConnectedZonesDiffCountries(z,Zd),q,d,t),
+        pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+    / pCountryExportFlowMWh(c,y);
 
+pCountryImportFlowMWh(c,y) = sum((zcmap(z,c), sMapConnectedZonesDiffCountries(Zd,z)), pFlowMWh(Zd,z,y));
 
-
-pPlantAnnualLCOE(zgmap(z,ndc),y)$pDenom(z,ndc,y) = (pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex")*1e6
-                                                  + vCap.l(ndc,y)*pGenData(ndc,"FOMperMW")
-                                                  + vCapStor.l(ndc,y)*pStorData(ndc,"FixedOMMWh")
-                                                  + vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","FixedOMMWh")
-                                                  + vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal field","FixedOMMWh")
-                                                  + sum((gfmap(ndc,f),q,d,t), pVarCost(ndc,f,y)*vPwrOut.l(ndc,f,q,d,t,y)*pHours(q,d,t))
-*                                                 + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))
-                                                   )/pDenom(z,ndc,y);
-
-pPlantAnnualLCOE(zgmap(z,dc),y)$pDenom(z,dc,y) =  (vAnnCapex.l(dc,y)
-                                                 + vCap.l(dc,y)*pGenData(dc,"FOMperMW")
-                                                 + vCapStor.l(dc,y)*pStorData(dc,"FixedOMMWh")
-                                                 + vCapStor.l(dc,y)*pCSPData(dc,"Storage","FixedOMMWh")
-                                                 + vCapTherm.l(dc,y)*pCSPData(dc,"Thermal field","FixedOMMWh")
-                                                 + sum((gfmap(dc,f),q,d,t), pVarCost(dc,f,y)*vPwrOut.l(dc,f,q,d,t,y)*pHours(q,d,t))
-*                                                + sum((q,d,t)$(gfmap(g,f)),  vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t))
-                                                  )/pDenom(z,dc,y);
-
-
-parameter zctmp(z,y);
-zctmp(z,y) = sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
-           + sum((sTopology(Zd,z),q,d,t), pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
-           + sum(zgmap(z,dc), vAnnCapex.l(dc,y))
-           + sum(zgmap(z,ndc), pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-           + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
-           + sum(zgmap(z,ndc)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
-           + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
-           + pFOM(z,y) + pVOM(z,y)+ pFuelCostsZone(z,y) + pSpinResCosts(z,y);
-
-pZonalAverageCost(z,y)$pDenom2(z,y) = zctmp(z,y)/(sum((zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
-                                                + sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t)) + pDenom2(z,y));
-
-pCountryAverageCost(c,y)$pDenom3(c,y) = sum(zcmap(z,c), zctmp(z,y))/(sum((zcmap(z,c),zext,q,d,t), (vImportPrice.l(z,zext,q,d,t,y) - vExportPrice.l(z,zext,q,d,t,y))*pHours(q,d,t))
-                                                                   + pDenom3(c,y)
-                                                                   + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t)));
-
-option clear=zctmp;
-
-zctmp(z,y) = sum(zgmap(z,dc), vAnnCapex.l(dc,y))
-           + sum(zgmap(z,ndc), pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-           + sum(zgmap(z,ndc)$(not cs(ndc)), pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
-           + sum(zgmap(z,ndc)$(not st(ndc)), pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
-           + sum(zgmap(z,ndc), pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
-           + pFOM(z,y) + pVOM(z,y) + pFuelcostsZone(z,y) + pSpinResCosts(z,y);
-
-pZonalAverageGenCost(z,y)$pDenom2(z,y) = zctmp(z,y)/pDenom2(z,y);
-pCountryAverageGenCost(c,y)$pDenom3(c,y) = sum(zcmap(z,c),zctmp(z,y))/pDenom3(c,y);
+pYearlyPriceImportCountry(c,y)$(pCountryImportFlowMWh(c,y) > 0) =
+    sum((zcmap(z,c), sMapConnectedZonesDiffCountries(Zd,z),q,d,t),
+        pPrice(Zd,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+    / pCountryImportFlowMWh(c,y);
 
 
 
-*CostSummarybyPlant
+* ============================================================
+* 9. SPECIAL TECHNOLOGIES
+* ============================================================
+* ---------------------------------------------------------
+* CSP, PV+Storage, and Generic Storage balances and components
+* ---------------------------------------------------------
+* Tracks technology-specific balances and installed components:
+*   - pCSPBalance: thermal, storage input/output, and power output by CSP
+*   - pCSPComponents: thermal field, storage, power block, solar multiple, storage hours
+*   - pPVwSTOBalance: PV output, storage input/output, storage losses and levels for PV+storage systems
+*   - pPVwSTOComponents: PV capacity, storage MW/MWh, storage hours
+*   - pStorageBalance: input, output, losses, net change, and storage level for generic storage
+*   - pStorageComponents: installed MW, MWh, and storage hours
+* ---------------------------------------------------------
 
-pCostsbyPlant(zgmap(z,ndc), "Annuity Cost in MUSD",y)= (pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex")*1e6
-                                                 + pCRF(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh")*1e3
-                                                 + pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3
-                                                 + pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)/1e6;
-                                                 
-pCostsbyPlant(zgmap(z,dc), "Annuity Cost in MUSD",y)=   vAnnCapex.l(dc,y)/1e6;
-
-
-pCostsbyPlant(zgmap(z,g),"Fixed Cost in MUSD",y)=       (  vCap.l(g,y)*pGenData(g,"FOMperMW")
-                                                 + vCapStor.l(g,y)*pStorData(g,"FixedOMMWh")
-                                                 + vCapStor.l(g,y)*pCSPData(g,"Storage","FixedOMMWh")
-                                                 + vCapTherm.l(g,y)*pCSPData(g,"Thermal field","FixedOMMWh"))/1e6;
-
-pCostsbyPlant(zgmap(z,g),"Variable Cost in MUSD",y)= sum((gfmap(g,f),q,d,t), pVarCost(g,f,y)*vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e6;
-pCostsbyPlant(zgmap(z,g),"Spinning Reserve Cost in MUSD",y)= pSpinningReserveCostsZone(z,g,y);
-pCostsbyPlant(zgmap(z,g),"Capacity Factor",y)= pPlantUtilization(z,g,y);
-
-
-
-
-*---  CSP and storage
 pCSPBalance(y, g,q,d,"Thermal output",t) = vThermalOut.l(g,q,d,t,y);
 pCSPBalance(y,cs,q,d,"Storage Input" ,t) = vStorInj.l(cs,q,d,t,y);
 pCSPBalance(y,cs,q,d,"Storage Output",t) = vStorOut.l(cs,q,d,t,y);
@@ -878,54 +1135,253 @@ pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorData(stg,"Efficiency
 pStorageBalance(y,stg,q,d,"Net Storage Change",t) = vStorNet.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Level"     ,t) = vStorage.l(stg,q,d,t,y);
 
-pStorageComponents(stg,"Storage Capacity in MW",y) = vCap.l(stg,y);
-pStorageComponents(stg,"Storage Capacity MWh"  ,y) = vCapStor.l(stg,y);
+pStorageComponents(stg,"Storage Capacity: MW",y) = vCap.l(stg,y);
+pStorageComponents(stg,"Storage Capacity: MWh"  ,y) = vCapStor.l(stg,y);
 pStorageComponents(stg,"Storage Hours"         ,y) = vCapStor.l(stg,y)/max(vCap.l(stg,y),1);
 
-*pLossesStorage(z,y) = (1-pStorage(z,y,"Efficiency"))*Sum((q,d,t),vStorInj.l(z,q,d,t,y)*pHours(q,d,t));
+* ---------------------------------------------------------
+* Zonal solar energy, value, and cost indicators
+* ---------------------------------------------------------
+* Computes solar power output, annual energy, market value,
+* and levelized cost of solar at the zonal level:
+*   - pSolarPower: hourly solar generation
+*   - pSolarEnergyZone: total annual solar energy (MWh)
+*   - pSolarValueZone: average market value of solar ($/MWh)
+*   - pSolarCost: levelized cost of solar based on annualized CAPEX ($/MWh)
+* ---------------------------------------------------------
 
-*--- Solver parameters
+set PVtech(tech) / PV, PVwSTO /;
+Parameter pSolarEnergyZone(z,y);
+
+pSolarPower(z,q,d,t,y) = sum((gzmap(g,z),gtechmap(g,PVtech),gfmap(g,f)), vPwrOut.l(g,f,q,d,t,y));
+pSolarEnergyZone(z,y) = sum((q,d,t), pSolarPower(z,q,d,t,y)*pHours(q,d,t));
+pSolarValueZone(z,y)$(pSolarEnergyZone(z,y) > 0) = sum((q,d,t), pPrice(z,q,d,t,y)*pSolarPower(z,q,d,t,y))/pSolarEnergyZone(z,y);
+pSolarCost(z,y)$(pSolarEnergyZone(z,y) > 0) = (sum((gzmap(ng,z),gtechmap(ng,PVtech)), pCRF(ng)*vCap.l(ng,y)*pGenData(ng,"Capex")*pCapexTrajectories(ng,y))*1e6)/pSolarEnergyZone(z,y);
+
+
+* ============================================================
+* 10. METRICS
+* ============================================================
+
+* ---------------------------------------------------------
+* LCOE by plant [$/MWh]
+* ---------------------------------------------------------
+
+Parameter
+  pPlantEnergyMWh(z,g,y) "Annual energy production by plant [MWh]"
+;
+
+* Plant-level energy denominator
+pPlantEnergyMWh(z,g,y)$pEnergyPlant(z,g,y) = pEnergyPlant(z,g,y)*1e3;
+
+* LCOE for new capacity plants (without direct spinning reserve cost)
+pPlantAnnualLCOE(z,g,y)$pPlantEnergyMWh(z,g,y) =
+    ( pCostsPlant(z, g, "Annualized capex: $m", y)
+    + pCostsPlant(z, g, "Variable Cost: $m", y) 
+    + pCostsPlant(z, g, "Variable Cost: $m", y) ) / pPlantEnergyMWh(z,g,y);
+
+* ---------------------------------------------------------
+* Cost components by zone [$/year]
+* ---------------------------------------------------------
+* Each cost component represents one part of the total
+* annual system cost in a given zone z and year y.
+*
+* Trade cost:
+*   - External imports minus exports
+*   - Valued at external trade price × operating hours
+*
+* Transmission cost:
+*   - Interzonal flows
+*   - Valued at zonal market price × operating hours
+*
+* Investment CAPEX:
+*   - Annualized cost of generation, storage, CSP storage,
+*     and CSP thermal field capacity
+*   - Uses CRFs (capital recovery factors) to annualize
+*   - Scaled to $ from MW or MWh basis
+*
+* Operating costs (O&M):
+*   - Fixed O&M (FOM)
+*   - Variable O&M (VOM)
+*   - Fuel expenditures
+*   - Spinning reserve provision
+* ---------------------------------------------------------
+
+Parameter
+    pZoneTradeCost
+    pZoneGenCost
+    pZoneTotalCost
+;
+
+* Trade 
+pZoneTradeCost(z,y) =
+      1e6 * (pYearlyCostsZone(z,"Import costs with external zones: $m",y)
+    + pYearlyCostsZone(z,"Export revenues with external zones: $m",y)
+    + pYearlyCostsZone(z,"Import costs with internal zones: $m",y)
+    + pYearlyCostsZone(z,"Export revenues with internal zones: $m",y)
+    + pYearlyCostsZone(z,"Trade shared benefits: $m",y));
+
+* Generation-only cost
+pZoneGenCost(z,y) =
+      1e6 * (pYearlyCostsZone(z,"Annualized capex: $m",y)
+    + pYearlyCostsZone(z,"Fixed O&M: $m",y)
+    + pYearlyCostsZone(z,"Variable O&M: $m",y)
+    + pYearlyCostsZone(z,"Fuel costs: $m",y)
+    + pYearlyCostsZone(z,"Spinning Reserve costs: $m",y));
+
+* Total system cost at zone level (gen + trade + transmission)
+pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + 1e6 * pYearlyCostsZone(z,"Transmission costs: $m",y);
+
+
+* ---------------------------------------------------------
+* Energy denominators for normalization [MWh]
+* ---------------------------------------------------------
+* Zone energy basis:
+*   - Derived from the zone-level energy balance
+*   - Converts GWh → MWh
+* Country energy basis:
+*   - Aggregates the zonal energy bases into countries
+* ---------------------------------------------------------
+
+Parameter
+    pZoneEnergyMWh(z,y)              'Annual energy output by zone [MWh]'
+    pCountryEnergyMWh(c,y)           'Annual energy output by country [MWh]'
+;
+
+* Zone-level energy denominator
+pZoneEnergyMWh(z,y)$pEnergyBalance(z,"Total production: GWh",y) =
+    pEnergyBalance(z,"Total production: GWh",y)*1e3;
+
+* Country-level energy denominator (aggregation)
+pCountryEnergyMWh(c,y) = sum(zcmap(z,c), pZoneEnergyMWh(z,y));
+
+* ---------------------------------------------------------
+* Energy basis (MWh) used to normalize system costs
+* ---------------------------------------------------------
+* For zones: includes local production + net imports/exports 
+*            + interzonal flows.
+* For countries: aggregates the zonal bases and accounts 
+*                for cross-border flows between countries.
+* ---------------------------------------------------------
+
+Parameter
+    pZoneCostEnergyBasis
+    pCountryCostEnergyBasis
+;
+    
+
+pZoneCostEnergyBasis(z,y) =
+      sum((zext,q,d,t),
+          (vYearlyImportExternal.l(z,zext,q,d,t,y)
+         - vYearlyExportExternal.l(z,zext,q,d,t,y)) * pHours(q,d,t))
+    + sum((sTopology(Zd,z),q,d,t),
+          vFlow.l(Zd,z,q,d,t,y) * pHours(q,d,t))
+    + pZoneEnergyMWh(z,y);
+
+pCountryCostEnergyBasis(c,y) =
+      sum((zcmap(z,c),zext,q,d,t),
+          (vYearlyImportExternal.l(z,zext,q,d,t,y)
+         - vYearlyExportExternal.l(z,zext,q,d,t,y)) * pHours(q,d,t))
+    + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t),
+          vFlow.l(Zd,z,q,d,t,y) * pHours(q,d,t))
+    + pCountryEnergyMWh(c,y);
+
+
+pYearlySystemCostEnergyBasis(y) =
+    sum(z, pZoneCostEnergyBasis(z,y));
+
+pDiscountedSystemCostEnergyBasis =
+    sum(y, pYearlySystemCostEnergyBasis(y) * pRR(y) * pWeightYear(y));
+    
+pCostsSystemPerMWh(sumhdr)$pDiscountedSystemCostEnergyBasis =
+    (pCostsSystem(sumhdr) * 1e6) / pDiscountedSystemCostEnergyBasis;
+
+
+* ---------------------------------------------------------
+* Average costs [$/MWh]
+* ---------------------------------------------------------
+* Each average cost is defined as:
+*   (Total annual cost in $) / (Energy basis in MWh)
+*
+* Zonal averages:
+*   - Total average cost: includes generation, O&M, trade, transmission
+*   - Generation-only average cost: includes only generation + O&M
+*
+* Country averages:
+*   - Aggregated from zones belonging to the country
+*   - Same distinction: total vs. generation-only
+* ---------------------------------------------------------
+
+* Zone-level average total system cost ($/MWh)
+pZonalAverageCost(z,y)$pZoneEnergyMWh(z,y) =
+    pZoneTotalCost(z,y) / pZoneCostEnergyBasis(z,y);
+
+* Zone-level average generation cost only ($/MWh)
+pZonalAverageGenCost(z,y)$pZoneEnergyMWh(z,y) =
+    pZoneGenCost(z,y) / pZoneEnergyMWh(z,y);
+
+* Country-level average total system cost ($/MWh)
+pCountryAverageCost(c,y)$pCountryEnergyMWh(c,y) =
+    sum(zcmap(z,c), pZoneTotalCost(z,y)) / pCountryCostEnergyBasis(c,y);
+
+* Country-level average generation cost only ($/MWh)
+pCountryAverageGenCost(c,y)$pCountryEnergyMWh(c,y) =
+    sum(zcmap(z,c), pZoneGenCost(z,y)) / pCountryEnergyMWh(c,y);
+
+
+* ---------------------------------------------------------
+* System average cost [$ / MWh]
+* ---------------------------------------------------------
+* For each year y:
+*   Numerator = trade costs + annualized CAPEX + O&M costs
+*   Denominator = system-wide net imports + total energy produced
+*
+* Result = system average cost of supplying electricity
+* ---------------------------------------------------------
+
+pYearlySystemAverageCost(y)$sum(z, pZoneEnergyMWh(z,y)) =
+    (   sum((z,zext,q,d,t),
+            (vYearlyImportExternal.l(z,zext,q,d,t,y)
+           - vYearlyExportExternal.l(z,zext,q,d,t,y))
+          * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))
+
+      + sum(ndc,
+            pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
+
+      + sum(ndc$(not cs(ndc)),
+            pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
+
+      + sum(ndc$(not st(ndc)),
+            pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
+
+      + sum(ndc,
+            pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
+
+      + sum(dc, vAnnCapexGenTraj.l(dc,y))
+
+      + sum(z, vYearlyFOMCost.l(z,y) + vYearlyVOMCost.l(z,y)
+               + vYearlyFuelCost.l(z,y) + vYearlySpinningReserveCost.l(z,y))
+    )
+    /
+    (   sum(z,
+            sum((zext,q,d,t),
+                (vYearlyImportExternal.l(z,zext,q,d,t,y)
+               - vYearlyExportExternal.l(z,zext,q,d,t,y))
+              * pHours(q,d,t))
+          + pZoneEnergyMWh(z,y))
+    );
+
+* ============================================================
+* 11. SOLVER PARAMETERS
+* ============================================================
+
 pSolverParameters("Solver Status")               = PA.modelstat + EPS;
 pSolverParameters("Solver Time: ms")             = PA.etSolve + EPS;
 pSolverParameters("Absolute gap")                = PA.objVal-PA.objEst + EPS;
 pSolverParameters("Relative gap")$(PA.objVal >0) = pSolverParameters("Absolute gap")/PA.objVal + EPS;
 
-*--- Seasonal Results
-
-* A. Seasonal Demand-Supply Balance Results
-pDemandSupplySeason(z,"Demand: GWh"            ,y,q) = sum((d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))/1e3;
-pDemandSupplySeason(z,"Total production: GWh"  ,y,q) = sum((zgmap(z,g),gfmap(g,f),d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
-pDemandSupplySeason(z,"Unmet demand: GWh"      ,y,q) = sum((d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-pDemandSupplySeason(z,"Surplus generation: GWh",y,q) = sum((d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-
-pDemandSupplySeason(z,"Imports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z2,z,q,d,t,y)*pHours(q,d,t)) + sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pDemandSupplySeason(z,"Exports exchange: GWh",y,q) = (sum((sTopology(z,z2),d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t)) + sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-
-* B. Seasonal Energy by Plant
-pEnergyByPlantSeason(zgmap(z,g),y,q) = sum((gfmap(g,f),d,t),vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
-
-
-* C.Interchange
-
-* By Zone
-pInterchangeSeason(sTopology(z,z2),y,q) = sum((d,t), vFlow.l(z,z2,q,d,t,y)*pHours(q,d,t))/1e3;
-pSeasonTrade(z,"External Zone Imports",y,q) = sum((zext,d,t), vImportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
-pSeasonTrade(z,"External Zone Exports",y,q) = sum((zext,d,t), vExportPrice.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
-
-* By Country
-pInterchangeSeasonCountry(c,c2,y,q) = sum((zcmap(z,c),zcmap2(z2,c2),sMapConnectedZonesDiffCountries(z,z2)), pInterchangeSeason(z,z2,y,q));
-pSeasonTradeCountry(c,"External Zone Imports",y,q) = sum(zcmap(z,c), pSeasonTrade(z,"External Zone Imports",y,q));
-pSeasonTradeCountry(c,"External Zone Exports",y,q) = sum(zcmap(z,c), pSeasonTrade(z,"External Zone Exports",y,q));
-
-*******************************H2 model additions****************************************************
-
-pCapacityPlanH2(zh2map(z,hh),y)                 = vCapH2.l(hh,y)$pIncludeH2+1e-6;
-****************************************************************************************************
-
 *--- END RESULTS
 
-pZonesperCountry(c) = sum(zcmap(z,c), 1);
-MaxZonesperCountry = smax(c,pZonesperCountry(c));
 
 $if not set OUTPUT_DIR $set OUTPUT_DIR output_csv
 * create output directory
@@ -944,54 +1400,61 @@ embeddedCode Connect:
 - PythonCode:
     code: |
       symbols = [
-        "pSettings",
-        "pSummary",
-        "pPeakCapacity",
-        "pPeakCapacityCountry",
-        "pPrice",
-        "pCostSummary",
-        "pCostSummaryFull",
-        "pCostSummaryCountry",
-        "pCostSummaryWeightedAverageCountry",
-        "pCostsbyPlant",
-        "pFuelCosts",
-        "pFuelCostsCountry",
-        "pEnergyByPlant",
-        "pEnergyByFuel",
-        "pEnergyByFuelCountry",
-        "pEnergyMix",
-        "pDemandSupply",
-        "pDemandSupplySeason",
-        "pInterchange",
-        "pInterconUtilization",
-        "pInterchangeCountry",
-        "pCongested",
-        "pCapacityPlan",
-        "pCapacityByFuel",
-        "pCapacityByFuelCountry",
-        "pAdditionalCapacity",
+      
+        "pCapacityPlant",
+        "pCapacityFuel",
+        "pCapacityFuelCountry",
+        "pAdditionalTransmissionCapacity",
         "pNewCapacityFuel",
         "pNewCapacityFuelCountry",
         "pAnnualTransmissionCapacity",
-        #
-        "pUtilizationByFuel",
-        "pUtilizationByTechandFuel",
-        "pUtilizationByFuelCountry",
-        "pUtilizationByTechandFuelCountry",
-        "pSpinningReserveByPlantZone",
-        "pSpinningReserveCostsZone",
-        "pSpinningReserveByPlantCountry",
-        "pSpinningReserveCostsCountry",
-        "pSpinningReserveByFuelZone",
+        "pCapacitySummary",
+        "pCapacitySummaryCountry",
+
+        "pCostsPlant",
+        "pCapexInvestmentPlant",
+        "pCapexInvestmentTransmission",
+        "pCapexInvestmentComponent",
+        "pCapexInvestment",
+        "pPrice",
+        "pYearlyCostsZone",
+        "pYearlyCostsCountry",
+        "pCostAverageCountry",
+        "pCostsSystem",
+        "pCostsSystemPerMWh",
+        "pFuelCosts",
+        "pFuelCostsCountry",
+        
+        "pEnergyPlant",
+        "pEnergyFuel",
+        "pEnergyFuelCountry",
+        "pEnergyBalance",
+        "pUtilizationPlant",
+        "pUtilizationFuel",
+        "pUtilizationTechFuel",
+        "pUtilizationFuelCountry",
+        "pUtilizationTechFuelCountry",
+        
+        "pInterchange",
+        "pInterconUtilization",
+        "pInterchangeCountry",
+        "pCongestionShare",
+
+        "pReserveSpinningPlantZone",
+        "pReserveSpinningPlantCountry",
+        "pReserveSpinningFuelZone",
         "pCapacityCredit",
-        "pEmissions",
-        "pEmissionsIntensity",
-        "pFuelDispatch",
+        
+        "pEmissionsZone",
+        "pEmissionsIntensityZone",
+        
+        "pDispatchFuel",
         "pDispatch",
-        "pPlantUtilization",
+        
         "pPlantAnnualLCOE",
         "pZonalAverageCost",
-        "zcmap"
+        "zcmap",
+        "pSettings"
         ]
       instructions.append(
         {'GAMSReader': {'symbols': [{'name': s} for s in symbols]}}
@@ -1007,38 +1470,56 @@ embeddedCode Connect:
         })
 endEmbeddedCode
 
-* Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValue, pSolarCost, pCapacityByTechandFuel, pPlantUtilizationTech
+* Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValueZone, pSolarCost, pCapacityTechFuel, pUtilizationTech
 
 $ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
-    execute_unload 'epmresults',     pSettings, pSummary, pSystemAverageCost, pZonalAverageCost,pCountryAverageCost
-                                     pAveragePrice, pAveragePriceExp, pAveragePriceImp, pPrice, pAveragePriceHub,
-                                     pAveragePriceCountry, pAveragePriceExpCountry, pAveragePriceImpCountry,
-                                     pCostSummary, pCostSummaryFull, pCostSummaryCountry, pCostSummaryWeighted, pCostSummaryWeightedCountry,
-                                     pCostSummaryWeightedAverageCountry, pCongestionRevenuesBetweenZones, pFuelCosts,pFuelCostsCountry,pFuelConsumption,pFuelConsumptionCountry
-                                     pEnergyByPlant, pEnergyByFuel,pEnergyByFuelCountry, pEnergyByTechandFuel,pEnergyByTechandFuelCountry,pEnergyMix,
-                                     pDemandSupply,  pDemandSupplyCountry, pVarCost, pCongested,
-                                     pInterchange, pInterchangeExtExp, pInterchangeExtImp, pInterconUtilization, pInterconUtilizationExtExp, pInterconUtilizationExtImp, pLossesTransmission, pInterchangeCountry,pLossesTransmissionCountry,
-                                     pYearlyTrade,pHourlyTrade,pYearlyTradeCountry,pHourlyTradeCountry,
-                                     pPeakCapacity, pCapacityByFuel, pNewCapacityFuel, pCapacityPlan,pAdditionalCapacity, pAnnualTransmissionCapacity, pRetirements,
-                                     pPeakCapacityCountry, pCapacityByFuelCountry, pCapacityByTechandFuelCountry, pNewCapacityFuelCountry,pCapacityPlanCountry,
-                                     pNewCapacityTech, pNewCapacityTechCountry,
-                                     pReserveMarginRes, pReserveMarginResCountry,
-                                     pCostsbyPlant,pRetirementsFuel,pRetirementsCountry,pRetirementsFuelCountry,
-                                     pAdditionalCapacityCountry,
-                                     pUtilizationByFuel,pUtilizationByTechandFuel,pUtilizationByFuelCountry,pUtilizationByTechandFuelCountry,
-                                     pSpinningReserveByPlantZone, pSpinningReserveByFuelZone, pSpinningReserveCostsZone,pSpinningReserveByPlantCountry, pSpinningReserveCostsCountry,pCapacityCredit,
-                                     pEmissions, pEmissionsIntensity,pEmissionsCountry1, pEmissionsIntensityCountry,pEmissionMarginalCosts,pEmissionMarginalCostsCountry,
-                                     pPlantDispatch, pDispatch, pFuelDispatch, pPlantUtilization, pPlantAnnualLCOE,
-                                     pFuelUtilization,
-                                     pCSPBalance, pCSPComponents,pStorageBalance,pStorageComponents,
-                                     pSolverParameters,pDemandSupplySeason,pEnergyByPlantSeason,
-                                     pInterchangeSeason,pSeasonTrade,pInterchangeSeasonCountry,pSeasonTradeCountry,
-                                     pDemandSupplyH2,pDemandSupplyCountryH2, pCapacityPlanH2
-
+    execute_unload 'epmresults',
+      pSettings,
+* 1. CAPACITY
+      pCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
+      pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
+      pNewCapacityFuel, pNewCapacityTech, pNewCapacityFuelCountry, pNewCapacityTechCountry,
+      pAnnualTransmissionCapacity, pAdditionalTransmissionCapacity,
+      pCapacitySummary, pCapacitySummaryCountry,
+* 2. COSTS
+      pCostsPlant, 
+      pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentComponent,
+      pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
+      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
+      pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
+* 3. ENERGY BALANCE
+      pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyTechFuelCountry, pEnergyFuelCountry,
+      pUtilizationPlant, pUtilizationTech, pUtilizationFuel, pUtilizationTechFuel, pUtilizationFuelCountry, pUtilizationTechFuelCountry,
+      pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
+* 4. ENERGY DISPATCH
+      pDispatchPlant, pDispatchFuel, pDispatch,
+* 5. RESERVES
+      pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningPlantCountry,
+      pReserveMargin, pReserveMarginCountry,
+* 5. INTERCONNECTIONS
+      pInterchange, pInterconUtilization, pLossesTransmission, pInterchangeCountry, pLossesTransmissionCountry,
+      pCongestionShare,
+      pHourlyInterchangeExternal, pYearlyInterchangeExternal, pYearlyInterchangeExternalCountry, pHourlyInterchangeExternalCountry,
+      pInterchangeExternalExports, pInterchangeExternalImports, pInterconUtilizationExternalExports, pInterconUtilizationExternalImports,
+* 6. EMISSIONS
+      pEmissionsZone, pEmissionsIntensityZone, pEmissionsCountrySummary, pEmissionsIntensityCountry,
+      pEmissionMarginalCosts, pEmissionMarginalCostsCountry,
+* 7. PRICES
+      pYearlyPrice, pYearlyPriceExport, pYearlyPriceImport, pYearlyPriceHub,
+      pYearlyPriceCountry, pYearlyPriceExportCountry, pYearlyPriceImportCountry,
+* 8. SPECIAL TECHNOLOGIES
+      pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
+      pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
+* 9. METRICS
+      pPlantAnnualLCOE, pZonalAverageCost, pZonalAverageGenCost, pCountryAverageCost, pCountryAverageGenCost, pYearlySystemAverageCost,
+* 10. SOLVER PARAMETERS
+      pSolverParameters,
+* 11. ADDITIONAL OUTPUTS
+      pVarCost, pCapacityCredit
 ;
 $elseIfI.reportshort %REPORTSHORT% == 1
 *  Limited reporting is used
-    execute_unload 'epmresults', pSummary, pCostSummary, pCostSummaryFull, pDemandSupply
+    execute_unload 'epmresults', pYearlyCostsZone, pYearlyCostsZoneFull, pEnergyBalance
     ;
 $endIf.reportshort

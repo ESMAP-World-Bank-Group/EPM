@@ -1,4 +1,6 @@
 
+**/*confidential*
+
 # Ignore all temp files
 **/~*
 *.dat
@@ -22,6 +24,11 @@ pre-analysis/**/output/*
 !pre-analysis/**/input/.gitkeep
 !pre-analysis/**/output/.gitkeep
 
+!pre-analysis/load/input/load_daily.csv
+!pre-analysis/load/input/load_monthly.csv
+
+!pre-analysis/hydro/input/utility
+
 # Postprocessing
 /epm/postprocessing/*.ipynb
 /epm/postprocessing/*.xlsx
@@ -32,6 +39,9 @@ pre-analysis/**/output/*
 # Ignore everything in epm/output except 'tableau' folder
 epm/output/*
 !epm/output/tableau/
+
+# Ignore all input files for sensitivity analysis
+**/sensitivity/
 
 # Keep specific files inside 'tableau'
 !epm/output/tableau/*.twb

@@ -1,22 +1,118 @@
-gen,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10,m11,m12
-Kotu G5,,,,,,,,,,,,
-Kotu G6,,,,,,,,,,,,
-Kotu G7,,,,,,,,,,,,
-Kotu G8,,,,,,,,,,,,
-Brikama G1,,,,,,,,,,,,
-Brikama G3,,,,,,,,,,,,
-Brikama G4,,,,,,,,,,,,
-Brikama G6,,,,,,,,,,,,
-Brikama G7,,,,,,,,,,,,
-Brikama II,,,,,,,,,,,,
-Brikama III G1,,,,,,,,,,,,
-Brikama III G2,,,,,,,,,,,,
-Karpower 1,,,,,,,,,,,,
-Karpower 2,,,,,,,,,,,,
-Farafenni,0,0,0,0,0,0,0,0,0,0,0,0
-Basse,0,0,0,0,0,0,0,0,0,0,0,0
-Jambur PV,,,,,,,,,,,,
-Jambur BESS,,,,,,,,,,,,
-Import Guinea,0.45,0.45,0.45,0.45,1,1,1,1,1,1,0.45,0.45
-Import Senegal,1,1,1,1,1,1,1,1,1,1,1,1
-Import Senegal MV,1,1,1,1,1,1,1,1,1,1,1,1
+gen,Q1,Q2
+AH Mabubas,0.29,0.802857143
+Baynes,0.346,0.311428571
+Bikongo,0.356,0.567142857
+Boali 1 Rebuild,0.91,0.92
+Boali 2,0.894,0.911428571
+Boali 3,0.728,0.727142857
+Bousanga,0.49,0.637142857
+Cacula Cabasa,0.188,0.601428571
+Cafula (Keve),0.066,0.648571429
+Calengue (Catumbela),0.188,0.601428571
+Cambambe 1,0.282,0.684285714
+Cambambe 2,0.282,0.684285714
+Capanda,0.068,0.435714286
+Chicapa/Biopio  ,0.18,0.515714286
+Chollet (Congo),0.266,0.345714286
+Dimoli (CAR),0.542,0.651428571
+Dimoli (Cameroon),0.542,0.651428571
+Djibloho,0.44,0.507142857
+Djoue Rebuild,0.356,0.604285714
+Gamboma,0.356,0.567142857
+Giciye 3,0.404,0.615714286
+Gihira,0.404,0.615714286
+Gikuka,0.544,0.711428571
+Gove  ,0.286,0.522857143
+Grand Eweng,0.918,0.711428571
+Grand Poubara,0.384,0.418571429
+Ibabanga,0.356,0.567142857
+Ibenga,0.356,0.567142857
+Imboulou,0.45,0.481428571
+Inga 1,0.84,0.841428571
+Inga 2,0.944,0.998571429
+Inga 3,0.944,0.998571429
+Jamba Ya Mina  ,0.11,0.294285714
+Jamba Ya Oma  ,0.112,0.281428571
+Kakamoeka,0.356,0.567142857
+Kakobola,0.37,0.621428571
+Katende,0.356,0.602857143
+Kigasa,0.404,0.615714286
+Kikot,0.882,0.661428571
+Kilubi,0.49,0.637142857
+Kiniangui,0.356,0.567142857
+Kiteke,0.356,0.567142857
+Koni,0.48,0.498571429
+Kotto,0.604,0.418571429
+Kouembali,0.448,0.484285714
+Lagdo,0.384,0.277142857
+Lancremo,0.486,0.18
+Lifouta,0.506,0.705714286
+Linzolo,0.356,0.567142857
+Liouesso,0.344,0.511428571
+Lobaye,0.694,0.635714286
+Lom-Pangar,0.624,0.664285714
+Lomaum  ,0.078,0.294285714
+Lomaum 2  ,0.078,0.294285714
+Loufoulakari,0.356,0.567142857
+Luachimo,0.278,0.471428571
+Matala  ,0.18,0.515714286
+Mbamba,0.358,0.6
+Mbandza Ndounga,0.356,0.567142857
+Moanga Mapita 1,0.356,0.567142857
+Moanga Mapita 2,0.356,0.567142857
+Mobayi,0.49,0.637142857
+Motaba,0.356,0.567142857
+Moukouloukou,0.526,0.617142857
+Moukouloukou 2,0.526,0.617142857
+Mourala,0.324,0.677142857
+Mpanda,0.376,0.49
+Mpoukou,0.224,0.751428571
+Mukungwa 1,0.966,1
+Mwadingusha,0.65,0.735714286
+Nachtigal Amont,0.9,0.738571429
+Ngoulmendjim,0.616,0.778571429
+Nkomo dam,0.356,0.567142857
+Nseke,0.98,0.867142857
+Ntaruka 1,0.216,0.482857143
+Ntoula,0.356,0.567142857
+Nyabarongo 2,0.374,0.391428571
+Nyanga,0.304,0.634285714
+Nzilo,0.48,0.635714286
+Nzongo,0.49,0.637142857
+Nzongoii,0.49,0.637142857
+Nzoro,0.49,0.637142857
+Ouyama,0.534,0.64
+Palambo,0.694,0.635714286
+Poubara 1 Rebuild,0.626,0.728571429
+Poubara 2,0.626,0.728571429
+Poubara 2 Rebuild,0.626,0.728571429
+Quilengue,0.188,0.601428571
+Rukarara 1,0.374,0.391428571
+Ruvyironza,0.654,0.812857143
+Ruzibazi,1,1
+Ruzizi 1 (DRC),0.234,0.638571429
+Ruzizi 2 (Burundi),0.316,0.817142857
+Ruzizi 2 (DRC),0.234,0.638571429
+Ruzizi 2 (Rwanda),0.358,0.788571429
+Ruzizi 3 (Burundi),0.172,0.468571429
+Ruzizi 3 (DRC),0.172,0.468571429
+Ruzizi 3 (Rwanda),0.172,0.468571429
+Ruzizi 4 (Burundi),0.316,0.817142857
+Ruzizi 4 (Rwanda),0.358,0.788571429
+Rwegura,0.278,0.374285714
+Sanga,0.55,0.622857143
+Sendje,0.44,0.507142857
+Soleniama,0.49,0.637142857
+Sombwe,0.274,0.484285714
+Song Loulou,0.85,0.788571429
+Song Mbengue,0.76,0.64
+Sounda Gorge,0.276,0.468571429
+Tchimbele,0.356,0.4
+Tshopo,0.226,0.318571429
+Tumuludo Casador,0.098,0.618571429
+Ubangui ,0.608,0.474285714
+Vuka,0.308,0.517142857
+Wanie Rukula,0.428,0.598571429
+Zenzo 1,0.098,0.618571429
+Zongo 1,0.146,0.237142857
+Zongo 2,0.656,0.924285714

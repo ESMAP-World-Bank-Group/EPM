@@ -39,7 +39,7 @@ Parameters
    pTempDemand(z,q,d,y,t)
 ;
 
-variable
+Variable
    pyval(z,q,d,y,t)
    divisor(z,y)
    obj
@@ -47,7 +47,7 @@ variable
 
 divisor.lo(z,y) = card(q)*card(d)*card(t);
 
-equation
+Equation
    getDivisor(z,q,d,y,t)
    getArea(z,y)
    objFn
@@ -60,7 +60,7 @@ objFn..                  obj =e= sum((z,q,d,y,t), pyval(z,q,d,y,t));
 model demand / getDivisor, getArea, objFn /;
 
 * If using alt demand:
-if (pSettings("altDemand") = 1,
+if (pSettings("fUseSimplifiedDemand") = 1,
    pTempDemand(z,q,d,y,t) = pDemandProfile(z,q,d,t) * pDemandForecast(z,"Peak",y);
 
    pdiff(z,y) = ((pDemandForecast(z,"Energy",y)*1e3) - sum((q,d,t), pTempDemand(z,q,d,y,t)*pHours(q,d,t) )) ;
