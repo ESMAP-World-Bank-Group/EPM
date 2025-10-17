@@ -1203,11 +1203,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#issues-with-pgendataexcelcustom">
+  <a class="reference internal nav-link" href="#issues-with-pgendatainputcustom">
    Issues with
    <code class="docutils literal notranslate">
     <span class="pre">
-     pGenDataExcelCustom
+     pGenDataInputCustom
     </span>
    </code>
   </a>
@@ -1297,7 +1297,7 @@ Each input file being read will appear in sequence; the faulty one is either the
 <hr class="docutils" />
 <section id="default-dataframes">
 <h2>Default DataFrames<a class="headerlink" href="#default-dataframes" title="Permalink to this heading">#</a></h2>
-<p>Files like <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code> must include all combinations of <strong>zone</strong>, <strong>tech</strong>, and <strong>fuel</strong> defined in <code class="docutils literal notranslate"><span class="pre">pGenDataExcel</span></code>.</p>
+<p>Files like <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault.csv</span></code> must include all combinations of <strong>zone</strong>, <strong>tech</strong>, and <strong>fuel</strong> defined in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code>.</p>
 <p><strong>Typical error</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Exception from Python (line 264): &lt;class &#39;ValueError&#39;&gt;:
 Missing values in default is not permitted.
@@ -1317,13 +1317,13 @@ To fix this bug ensure that all combinations in pAvailabilityDefault are include
 </ul>
 <p>Also review:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pGenDataExcelDefault.csv</span></code>: Core generator data inputs. All fuel and technology names must be consistent with the files above.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault.csv</span></code>: Core generator data inputs. All fuel and technology names must be consistent with the files above.</p></li>
 </ul>
 <p>Refer to the <strong>Data Structure Documentation</strong> for accepted naming conventions.</p>
 </section>
 <hr class="docutils" />
-<section id="issues-with-pgendataexcelcustom">
-<h2>Issues with <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom</span></code><a class="headerlink" href="#issues-with-pgendataexcelcustom" title="Permalink to this heading">#</a></h2>
+<section id="issues-with-pgendatainputcustom">
+<h2>Issues with <code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom</span></code><a class="headerlink" href="#issues-with-pgendatainputcustom" title="Permalink to this heading">#</a></h2>
 <ul>
 <li><p><strong>Missing candidate plants in output</strong>: Check that <code class="docutils literal notranslate"><span class="pre">BuildLimitperYear</span></code> is properly filled.</p></li>
 <li><p><strong>Error due to long plant names</strong>. When some plant names are too long, this will raise an error:</p>
@@ -1337,7 +1337,7 @@ cannot access local variable &#39;was_relaxed&#39; where it is not associated wi
 <hr class="docutils" />
 <section id="issues-with-pstoragedataexcel">
 <h2>Issues with <code class="docutils literal notranslate"><span class="pre">pStorageDataExcel</span></code><a class="headerlink" href="#issues-with-pstoragedataexcel" title="Permalink to this heading">#</a></h2>
-<p>All <strong>storage technologies</strong> listed in <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom</span></code> must also be included in <code class="docutils literal notranslate"><span class="pre">pStorageDataExcel</span></code>.</p>
+<p>All <strong>storage technologies</strong> listed in <code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom</span></code> must also be included in <code class="docutils literal notranslate"><span class="pre">pStorageDataExcel</span></code>.</p>
 <p><strong>Typical error</strong>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Exception from Python (line 455): &lt;class &#39;ValueError&#39;&gt;:
 Error: The following fuels are in gendata but not defined in pStorData:
@@ -1355,22 +1355,22 @@ Error: The following fuels are in gendata but not defined in pStorData:
 <section id="zone-definition">
 <h2>Zone definition<a class="headerlink" href="#zone-definition" title="Permalink to this heading">#</a></h2>
 <p>Zones are defined in the file <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
-pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactor, pVREProfile</p>
+pGenDataInput, pGenDataInputDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactorInternal, pVREProfile</p>
 <p>The following input files must use zone names that match those defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>:</p>
 <p>The list of zones used in your model is defined in the file <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>. This file acts as the master reference for zone names across the entire model workflow.</p>
 <blockquote>
 <div><p>⚠️ All other input files that refer to zones will <strong>only</strong> recognize zones that are listed in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p>
 </div></blockquote>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcel</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcelDefault</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pNewTransmission</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pDemandProfile</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pDemandForecast</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pLossFactor</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pLossFactorInternal</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pVREProfile</span></code></p></li>
 </ul>
 <p>We recommend validating zone names across files before launching the model to avoid silent errors or ignored data.</p>
@@ -1497,11 +1497,11 @@ If it is set to 0, the model will ignore <code class="docutils literal notransla
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#issues-with-pgendataexcelcustom">
+  <a class="reference internal nav-link" href="#issues-with-pgendatainputcustom">
    Issues with
    <code class="docutils literal notranslate">
     <span class="pre">
-     pGenDataExcelCustom
+     pGenDataInputCustom
     </span>
    </code>
   </a>
@@ -1564,7 +1564,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Oct 08, 2025.<br>
+Last updated on Oct 17, 2025.<br>
 </p>
   </div>
   

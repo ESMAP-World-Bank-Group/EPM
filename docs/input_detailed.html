@@ -1349,19 +1349,19 @@ title="Print to PDF"
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pgendataexcelcustom-csv">
+    <a class="reference internal nav-link" href="#pgendatainputcustom-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pGenDataExcelCustom.csv
+       pGenDataInputCustom.csv
       </span>
      </code>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pgendataexceldefault-csv">
+    <a class="reference internal nav-link" href="#pgendatainputdefault-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pGenDataExcelDefault.csv
+       pGenDataInputDefault.csv
       </span>
      </code>
     </a>
@@ -1537,10 +1537,10 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plossfactor-csv">
+    <a class="reference internal nav-link" href="#plossfactorinternal-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pLossFactor.csv
+       pLossFactorInternal.csv
       </span>
      </code>
     </a>
@@ -1573,10 +1573,10 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pmaxexchangeshare-csv">
+    <a class="reference internal nav-link" href="#pmaxannualexternaltradeshare-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pMaxExchangeShare.csv
+       pMaxAnnualExternalTradeShare.csv
       </span>
      </code>
     </a>
@@ -1599,7 +1599,7 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="input-description">
 <h1>Input Description<a class="headerlink" href="#input-description" title="Permalink to this heading">#</a></h1>
-<p>Input files are  located in the data_input folder, and are organized into several subfolders based on their type and purpose.</p>
+<p>Input files are located in the data_input folder, and are organized into several subfolders based on their type and purpose.</p>
 <section id="psettings-csv">
 <h2><strong><code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code></strong><a class="headerlink" href="#psettings-csv" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
@@ -1657,7 +1657,7 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Cost of unserved energy per MWh</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">VOLL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">VoLL</span></code></p></td>
 <td><p>500</p></td>
 <td><p>$/MWh</p></td>
 </tr>
@@ -1672,12 +1672,12 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>$/MWh</p></td>
 </tr>
 <tr class="row-odd"><td><p>Cost of surplus power per MWh</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">costSurplus</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CostSurplus</span></code></p></td>
 <td><p>0</p></td>
 <td><p>$/MWh</p></td>
 </tr>
 <tr class="row-even"><td><p>Cost of curtailment per MWh</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">costcurtail</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CostCurtail</span></code></p></td>
 <td><p>0</p></td>
 <td><p>$/MWh</p></td>
 </tr>
@@ -1707,19 +1707,19 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Include carbon price</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">includeCarbonPrice</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fEnableCarbonPrice</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Include energy efficiency</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">includeEE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fEnableEnergyEfficiency</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Include CSP optimization</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">includeCSP</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fEnableCSP</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Include storage operation</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">includeStorage</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fEnableStorage</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Show zero values</p></td>
@@ -1727,7 +1727,7 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Retire plants on economic grounds</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">econRetire</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fEnableEconomicRetirement</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Run in interconnected mode</p></td>
@@ -1735,19 +1735,19 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Allow exports based on price</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">allowExports</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fAllowTransferExpansion</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Remove transfer limits</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">NoTransferLim</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fRemoveInternalTransferLimit</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Allow expansion of transfer limits</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fAllowTransferExpansion</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Use less detailed demand definition</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">altDemand</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fUseSimplifiedDemand</span></code></p></td>
 <td><p>1</p></td>
 </tr>
 <tr class="row-odd"><td><p>Allow CAPEX trajectory</p></td>
@@ -1755,11 +1755,11 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Include H₂ production</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">IncludeH2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fEnableH2Production</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Include transmission lines when assessing country planning reserves</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">includeIntercoReserves</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fCountIntercoForReserves</span></code></p></td>
 <td><p>1</p></td>
 </tr>
 </tbody>
@@ -1778,23 +1778,23 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Apply system CO₂ constraints</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">system_co2_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplySystemCo2Constraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Apply fuel constraints</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">fuel_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplyFuelConstraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Apply maximum capital constraint</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">capital_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplyCapitalConstraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Apply minimum generation constraint</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">mingen_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplyMinGenerationConstraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Apply planning reserve constraint</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">planning_reserve_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplyPlanningReserveConstraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>System planning reserve margin (%)</p></td>
@@ -1802,15 +1802,15 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>0.1</p></td>
 </tr>
 <tr class="row-even"><td><p>Contribution of transmission lines to country spinning reserves need (%)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">interco_reserve_contribution</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sIntercoReserveContributionPct</span></code></p></td>
 <td><p>1</p></td>
 </tr>
 <tr class="row-odd"><td><p>Apply ramp constraints</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">ramp_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplyRampConstraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>Apply system spinning reserve constraints</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">system_spinning_reserve_constraints</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fApplySystemSpinReserveConstraint</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Apply zonal CO₂ constraint</p></td>
@@ -1822,15 +1822,15 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>0</p></td>
 </tr>
 <tr class="row-odd"><td><p>Minimum share of RE (%)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">MinREshare</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sMinRenewableSharePct</span></code></p></td>
 <td><p>0</p></td>
 </tr>
 <tr class="row-even"><td><p>RE share target year</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">RETargetYr</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sRenewableTargetYear</span></code></p></td>
 <td><p>-</p></td>
 </tr>
 <tr class="row-odd"><td><p>Total maximum capital investments ($ billion)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">MaxCapital</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sMaxCapitalInvestment</span></code></p></td>
 <td><p>-</p></td>
 </tr>
 <tr class="row-even"><td><p>Maximum share of imports (%)</p></td>
@@ -1842,7 +1842,7 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <td><p>-</p></td>
 </tr>
 <tr class="row-even"><td><p>Spinning reserve needs for VRE (%)</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">VREForecastError</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sVREForecastErrorPct</span></code></p></td>
 <td><p>0.15</p></td>
 </tr>
 <tr class="row-odd"><td><p>User-defined capacity credits</p></td>
@@ -1932,7 +1932,7 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <ul>
 <li><p><strong>Index</strong></p>
 <ul>
-<li><p><strong>y</strong> (<em>int</em>) –  Years to be included in the model.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – Years to be included in the model.</p></li>
 </ul>
 </li>
 </ul>
@@ -2096,8 +2096,8 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <section id="supply-data">
 <h2>Supply Data<a class="headerlink" href="#supply-data" title="Permalink to this heading">#</a></h2>
 <p>All files in this section are stored in the <strong><code class="docutils literal notranslate"><span class="pre">supply</span></code></strong> folder.</p>
-<section id="pgendataexcelcustom-csv">
-<h3><code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code><a class="headerlink" href="#pgendataexcelcustom-csv" title="Permalink to this heading">#</a></h3>
+<section id="pgendatainputcustom-csv">
+<h3><code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom.csv</span></code><a class="headerlink" href="#pgendatainputcustom-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>: The main data table defining all power plants, including their <strong>technical</strong> and <strong>economic</strong> characteristics.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
@@ -2129,15 +2129,15 @@ To ensure accurate outcomes, it is essential to update your <code class="docutil
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">MaxTotalBuild</span></code></strong> (<em>MW</em>) – Maximum total capacity allowed for the plant.</p></li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelCustom.csv">pGenDataExcelCustom.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataInputCustom.csv">pGenDataInputCustom.csv</a></p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="pgendataexceldefault-csv">
-<h3><code class="docutils literal notranslate"><span class="pre">pGenDataExcelDefault.csv</span></code><a class="headerlink" href="#pgendataexceldefault-csv" title="Permalink to this heading">#</a></h3>
+<section id="pgendatainputdefault-csv">
+<h3><code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault.csv</span></code><a class="headerlink" href="#pgendatainputdefault-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-A dataset with <strong>default</strong> characteristics for power generation technologies, reducing the need for repetitive entries in <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code>.<br />
+A dataset with <strong>default</strong> characteristics for power generation technologies, reducing the need for repetitive entries in <code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom.csv</span></code>.<br />
 It provides <strong>default values</strong> based on <strong>zone, technology name, and fuel name</strong> for various plant characteristics.</p></li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul>
@@ -2152,12 +2152,12 @@ It provides <strong>default values</strong> based on <strong>zone, technology na
 </ul>
 </li>
 <li><p><strong>Column Descriptions</strong>:<br />
-The columns follow the same structure as <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code>.<br />
+The columns follow the same structure as <code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom.csv</span></code>.<br />
 Please refer to its documentation for details on each field, including <strong>capacity, efficiency, operational constraints, and cost parameters</strong>.</p></li>
 <li><p><strong>Source</strong>:<br />
 The initial dataset is typically based on <strong>CCDR (Country Climate and Development Report) guidelines</strong>.</p></li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelDefault.csv">pGenDataExcelDefault.csv</a></p></li>
-<li><p><strong>Link to Standard Data</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_rwanda/supply/pGenDataExcelDefaultStandard.csv">pGenDataExcelDefaultStandard.csv</a> - See <a class="reference external" href="https://esmap-world-bank-group.github.io/EPM/docs/input_technology_brief.html">Technology overview</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataInputDefault.csv">pGenDataInputDefault.csv</a></p></li>
+<li><p><strong>Link to Standard Data</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_rwanda/supply/pGenDataInputDefaultStandard.csv">pGenDataInputDefaultStandard.csv</a> - See <a class="reference external" href="https://esmap-world-bank-group.github.io/EPM/docs/input_technology_brief.html">Technology overview</a></p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -2292,7 +2292,7 @@ Provides <strong>fuel price projections</strong> by country and year, used for e
 </section>
 <section id="others">
 <h3>Others<a class="headerlink" href="#others" title="Permalink to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">pCSPData.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pStorDataExcel.csv</span></code> are not included in the documentation, as we want to merge them into <code class="docutils literal notranslate"><span class="pre">pGenDataExcel.csv</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pCSPData.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pStorDataExcel.csv</span></code> are not included in the documentation, as we want to merge them into <code class="docutils literal notranslate"><span class="pre">pGenDataInput.csv</span></code>.</p>
 <ul class="simple">
 <li><p><strong>Example Link</strong>:</p>
 <ul>
@@ -2447,10 +2447,10 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <td><p><strong>Explicit – within region</strong></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code></strong></p></td>
-<td><p>Defines candidate internal transmission lines for potential expansion. Used if <code class="docutils literal notranslate"><span class="pre">pAllowHighTransfer</span></code> = 1.</p></td>
+<td><p>Defines candidate internal transmission lines for potential expansion. Used if <code class="docutils literal notranslate"><span class="pre">fAllowTransferExpansion</span></code> = 1.</p></td>
 <td><p><strong>Explicit – within region</strong></p></td>
 </tr>
-<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">pLossFactor.csv</span></code></strong></p></td>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">pLossFactorInternal.csv</span></code></strong></p></td>
 <td><p>Specifies transmission losses on each internal transmission line (required in interconnected mode).</p></td>
 <td><p><strong>Explicit – within region</strong></p></td>
 </tr>
@@ -2466,7 +2466,7 @@ Defines the <strong>total system-wide spinning reserve requirement</strong>, sum
 <td><p>Sets import/export prices from/to external zones (by hour, season, day, year).</p></td>
 <td><p><strong>Implicit – external trade</strong></p></td>
 </tr>
-<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">pMaxExchangeShare.csv</span></code></strong></p></td>
+<tr class="row-even"><td><p><strong><code class="docutils literal notranslate"><span class="pre">pMaxAnnualExternalTradeShare.csv</span></code></strong></p></td>
 <td><p>Limits the maximum share of total demand that can be imported or exported by a country.</p></td>
 <td><p><strong>Implicit – external trade</strong></p></td>
 </tr>
@@ -2481,7 +2481,7 @@ Defines the available capacity for exchanges between internal zones. This datafr
 <ul>
 <li><p><strong>Index</strong></p>
 <ul>
-<li><p><strong>From</strong> (<em>str</em>) –  Origin of the import/export.</p></li>
+<li><p><strong>From</strong> (<em>str</em>) – Origin of the import/export.</p></li>
 <li><p><strong>To</strong> (<em>str</em>) – Destination of the import/export.</p></li>
 <li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
 </ul>
@@ -2505,7 +2505,7 @@ Defines the available capacity for exchanges between internal zones. This datafr
 <h3><code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code><a class="headerlink" href="#pnewtransmission-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
-Defines candidate transmission lines for potential expansion. <strong>This file is only used when pAllowHighTransfer is set to 1 in pSettings.csv.</strong></p></li>
+Defines candidate transmission lines for potential expansion. <strong>This file is only used when fAllowTransferExpansion is set to 1 in pSettings.csv.</strong></p></li>
 </ul>
 <p>Each transmission line must be specified only once. The order of the From and To locations does not matter (e.g., specify either Angola–Namibia or Namibia–Angola, but not both).</p>
 <ul class="simple">
@@ -2522,7 +2522,7 @@ Defines candidate transmission lines for potential expansion. <strong>This file 
 <li><p><strong>EarliestEntry</strong> (<em>int</em>) – Earliest year the line can be built.</p></li>
 <li><p><strong>MaximumNumOfLines</strong> (<em>int</em>) – Maximum number of lines that can be constructed (lines must be built in whole units).</p></li>
 <li><p><strong>CapacityPerLine</strong> (<em>int</em>) – Capacity of a single transmission line.</p></li>
-<li><p><strong>CostPerLine</strong> (<em>float</em>) – Investment cost per line (in Million USD).</p></li>
+<li><p><strong>CostPerLine</strong> (<em>float</em>) – Investment cost per line.</p></li>
 <li><p><strong>Life</strong> (<em>int</em>) – Expected lifespan of the transmission line.</p></li>
 <li><p><strong>Status</strong> (<em>int</em>) – Line status</p>
 <ul>
@@ -2542,8 +2542,8 @@ Defines candidate transmission lines for potential expansion. <strong>This file 
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv">pNewTransmission.csv</a></p></li>
 </ul>
 </section>
-<section id="plossfactor-csv">
-<h3><code class="docutils literal notranslate"><span class="pre">pLossFactor.csv</span></code><a class="headerlink" href="#plossfactor-csv" title="Permalink to this heading">#</a></h3>
+<section id="plossfactorinternal-csv">
+<h3><code class="docutils literal notranslate"><span class="pre">pLossFactorInternal.csv</span></code><a class="headerlink" href="#plossfactorinternal-csv" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Description</strong>:<br />
 Defines the transmission losses for each transmission lines.
@@ -2572,16 +2572,16 @@ Lists external zones that can trade with the modeled zones. These external zones
 <ul>
 <li><p><strong>Description</strong>:</p>
 <p>Defines the available capacity for price-driven imports and exports on a seasonal basis. This input can be adjusted alongside the code to support finer time resolutions, such as hourly capacity definitions.</p>
-<p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
+<p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">fAllowTransferExpansion</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
 </li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul class="simple">
 <li><p><strong>Index</strong></p>
 <ul>
-<li><p><strong>Internal zone</strong> (<em>str</em>) –  Origin of the import/export.</p></li>
+<li><p><strong>Internal zone</strong> (<em>str</em>) – Origin of the import/export.</p></li>
 <li><p><strong>External zone</strong> (<em>str</em>) – Destination of the import/export.</p></li>
 <li><p><strong>Seasons</strong> (<em>str</em>) – Season for which the capacity is specified.</p></li>
-<li><p><strong>Import/Export</strong> (<em>str</em>) –  Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.</p></li>
+<li><p><strong>Import/Export</strong> (<em>str</em>) – Indicates whether the capacity applies to imports or exports. Allowed values: Export, Import.</p></li>
 </ul>
 </li>
 <li><p><strong>Columns</strong></p>
@@ -2629,18 +2629,18 @@ Trade price for imports and exports driven by price.</p></li>
 <li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTradePrice.csv">pTradePrice.csv</a></p></li>
 </ul>
 </section>
-<section id="pmaxexchangeshare-csv">
-<h3><code class="docutils literal notranslate"><span class="pre">pMaxExchangeShare.csv</span></code><a class="headerlink" href="#pmaxexchangeshare-csv" title="Permalink to this heading">#</a></h3>
+<section id="pmaxannualexternaltradeshare-csv">
+<h3><code class="docutils literal notranslate"><span class="pre">pMaxAnnualExternalTradeShare.csv</span></code><a class="headerlink" href="#pmaxannualexternaltradeshare-csv" title="Permalink to this heading">#</a></h3>
 <ul>
 <li><p><strong>Description</strong>:</p>
 <p>Specifies the maximum share of total country-level demand that imports and exports can represent.</p>
-<p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">pAllowExports</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
+<p>Note: This input is only used when <code class="docutils literal notranslate"><span class="pre">fAllowTransferExpansion</span></code> is set to 1 in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code>.</p>
 </li>
 <li><p><strong>Data Structure</strong>:</p>
 <ul class="simple">
 <li><p><strong>Index</strong></p>
 <ul>
-<li><p><strong>Year</strong> (<em>int</em>) –  Year considered</p></li>
+<li><p><strong>Year</strong> (<em>int</em>) – Year considered</p></li>
 </ul>
 </li>
 <li><p><strong>Columns</strong></p>
@@ -2655,7 +2655,7 @@ Trade price for imports and exports driven by price.</p></li>
 </li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxExchangeShare.csv">pMaxExchangeShare.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxAnnualExternalTradeShare.csv">pMaxAnnualExternalTradeShare.csv</a></p></li>
 </ul>
 </section>
 </section>
@@ -2914,19 +2914,19 @@ Trade price for imports and exports driven by price.</p></li>
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pgendataexcelcustom-csv">
+    <a class="reference internal nav-link" href="#pgendatainputcustom-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pGenDataExcelCustom.csv
+       pGenDataInputCustom.csv
       </span>
      </code>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pgendataexceldefault-csv">
+    <a class="reference internal nav-link" href="#pgendatainputdefault-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pGenDataExcelDefault.csv
+       pGenDataInputDefault.csv
       </span>
      </code>
     </a>
@@ -3102,10 +3102,10 @@ Trade price for imports and exports driven by price.</p></li>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plossfactor-csv">
+    <a class="reference internal nav-link" href="#plossfactorinternal-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pLossFactor.csv
+       pLossFactorInternal.csv
       </span>
      </code>
     </a>
@@ -3138,10 +3138,10 @@ Trade price for imports and exports driven by price.</p></li>
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#pmaxexchangeshare-csv">
+    <a class="reference internal nav-link" href="#pmaxannualexternaltradeshare-csv">
      <code class="docutils literal notranslate">
       <span class="pre">
-       pMaxExchangeShare.csv
+       pMaxAnnualExternalTradeShare.csv
       </span>
      </code>
     </a>
@@ -3181,7 +3181,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Oct 08, 2025.<br>
+Last updated on Oct 17, 2025.<br>
 </p>
   </div>
   

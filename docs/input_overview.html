@@ -1261,11 +1261,11 @@ title="Print to PDF"
 <td><p></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom.csv</span></code></p></td>
 <td><p>Custom generation data.</p></td>
 <td><p>Multiple columns</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataExcelDefault.csv</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault.csv</span></code></p></td>
 <td><p>Default generation data.</p></td>
 <td><p>Multiple columns</p></td>
 </tr>
@@ -1341,7 +1341,7 @@ title="Print to PDF"
 <td><p>External transfer limits.</p></td>
 <td><p>Multiple columns</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pMaxExchangeShare.csv</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pMaxAnnualExternalTradeShare.csv</span></code></p></td>
 <td><p>Max energy exchange share.</p></td>
 <td><p>Multiple columns</p></td>
 </tr>
@@ -1361,7 +1361,7 @@ title="Print to PDF"
 <td><p>External zone definitions.</p></td>
 <td><p>1 column</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pLossFactor.csv</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pLossFactorInternal.csv</span></code></p></td>
 <td><p>Transmission loss factors.</p></td>
 <td><p>2 columns</p></td>
 </tr>
@@ -1403,7 +1403,7 @@ If <code class="docutils literal notranslate"><span class="pre">pAvailabilityDef
 <p>⚠️ Important Notes</p>
 <ul class="simple">
 <li><p>Required fields: For <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesCustom.csv</span></code>, missing values for any combination of zone, tech, and fuel may cause errors. This is described in the Troubleshooting section below.</p></li>
-<li><p>Optional fields: For generation data <code class="docutils literal notranslate"><span class="pre">pGenDataExcelCustom.csv</span></code> (e.g., Capex, vOM), missing values default to zero in GAMS, with no error.</p></li>
+<li><p>Optional fields: For generation data <code class="docutils literal notranslate"><span class="pre">pGenDataInputCustom.csv</span></code> (e.g., Capex, vOM), missing values default to zero in GAMS, with no error.</p></li>
 </ul>
 <p>✅ Recommended Workflow</p>
 <ul class="simple">
@@ -1518,7 +1518,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Oct 08, 2025.<br>
+Last updated on Oct 17, 2025.<br>
 </p>
   </div>
   

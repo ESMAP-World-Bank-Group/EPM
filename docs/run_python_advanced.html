@@ -1295,15 +1295,15 @@ pVREProfile,TRUE
 <td><p>Model setting parameters (all tested within the same <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code> file)</p></td>
 <td><p>See detailed parameters below</p></td>
 </tr>
-<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">VOLL</span></code></p></td>
+<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">VoLL</span></code></p></td>
 <td><p>Value of Lost Load</p></td>
 <td><p>250</p></td>
 </tr>
-<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">planning_reserve_constraints</span></code></p></td>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fApplyPlanningReserveConstraint</span></code></p></td>
 <td><p>Planning reserve constraints</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">VREForecastError</span></code></p></td>
+<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">sVREForecastErrorPct</span></code></p></td>
 <td><p>VRE forecast error</p></td>
 <td><p>0, 0.3</p></td>
 </tr>
@@ -1311,11 +1311,11 @@ pVREProfile,TRUE
 <td><p>Zonal spinning reserve constraints</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">costSurplus</span></code></p></td>
+<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">CostSurplus</span></code></p></td>
 <td><p>Cost of surplus generation</p></td>
 <td><p>1, 5</p></td>
 </tr>
-<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">costcurtail</span></code></p></td>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">CostCurtail</span></code></p></td>
 <td><p>Cost of curtailment</p></td>
 <td><p>1, 5</p></td>
 </tr>
@@ -1323,11 +1323,11 @@ pVREProfile,TRUE
 <td><p>Interconnection mode</p></td>
 <td><p>0, 1</p></td>
 </tr>
-<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">includeIntercoReserves</span></code></p></td>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fCountIntercoForReserves</span></code></p></td>
 <td><p>Include interconnection reserves</p></td>
 <td><p>0, 1</p></td>
 </tr>
-<tr class="row-odd"><td><p>└─ <code class="docutils literal notranslate"><span class="pre">interco_reserve_contribution</span></code></p></td>
+<tr class="row-odd"><td><p>└─ <code class="docutils literal notranslate"><span class="pre">sIntercoReserveContributionPct</span></code></p></td>
 <td><p>Contribution of interconnection reserves</p></td>
 <td><p>0, 0.5</p></td>
 </tr>
@@ -1355,7 +1355,7 @@ pVREProfile,TRUE
 <td><p>Fuel price scaling</p></td>
 <td><p>-20%, +20%</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ResLimShare</span></code> (in <code class="docutils literal notranslate"><span class="pre">pGenDataExcelDefault</span></code>)</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ResLimShare</span></code> (in <code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault</span></code>)</p></td>
 <td><p>Contribution to reserves</p></td>
 <td><p>-50%, -100%</p></td>
 </tr>
@@ -1411,7 +1411,7 @@ Uncertainty sampling is powered by the <a class="reference external" href="https
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">demand</span></code>: scales the entire demand forecast (peak &amp; energy) uniformly by a percentage across zones specified</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">hydro</span></code>: scales hydro trajectories uniformly by a percentage  across zones specified
+<li><p><code class="docutils literal notranslate"><span class="pre">hydro</span></code>: scales hydro trajectories uniformly by a percentage across zones specified
 Example file: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/mc_uncertainties.csv">mc_uncertainties.csv example</a>.</p></li>
 </ul>
 <ol class="arabic simple" start="2">
@@ -1561,7 +1561,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Oct 08, 2025.<br>
+Last updated on Oct 17, 2025.<br>
 </p>
   </div>
   
