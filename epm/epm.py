@@ -480,21 +480,21 @@ def launch_epm_multi_scenarios(config='config.csv',
 
             if 'DiscreteCap' in simple:
                 # Remove DiscreteCap
-                df = pd.read_csv(s[k]['pGenDataExcel'])
+                df = pd.read_csv(s[k]['pGenDataInput'])
 
                 df.loc[:, 'DiscreteCap'] = 0
 
                 # Creating a new folder
-                folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataExcel']), 'sensitivity')
+                folder_sensi = os.path.join(os.path.dirname(s[k]['pGenDataInput']), 'sensitivity')
                 if not os.path.exists(folder_sensi):
                     os.mkdir(folder_sensi)
-                path_file = os.path.basename(s[k]['pGenDataExcel']).split('.')[0] + '_linear.csv'
+                path_file = os.path.basename(s[k]['pGenDataInput']).split('.')[0] + '_linear.csv'
                 path_file = os.path.join(folder_sensi, path_file)
                 # Write the modified file
                 df.to_csv(path_file, index=False)
 
                 # Put in the scenario dir
-                s[k]['pGenDataExcel'] = path_file
+                s[k]['pGenDataInput'] = path_file
 
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
@@ -784,7 +784,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
 
                     # Then handling custom values
                     param = 'pAvailability'
-                    param_to_merge = 'pGenDataExcel'
+                    param_to_merge = 'pGenDataInput'
                     availability_custom = pd.read_csv(s[name][param], index_col=[0]).copy()
 
                     gendata = pd.read_csv(s[name][param_to_merge], index_col=[0,1,2,3]).copy()
@@ -865,7 +865,7 @@ def perform_sensitivity(sensitivity, s):
     param = 'RemoveGenericTechnologies'
     if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
         
-        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+        df = pd.read_csv(s['baseline']['pGenDataInput'])
         # Create a list of technologies to remove that are in a string separated by '&'
         # For example: 'WindOnshore&WindOffshore&SolarPV' will be converted to ['WindOnshore', 'WindOffshore', 'SolarPV']
         techs_to_remove = sensitivity['RemoveGenericTechnologies'].split('&')
@@ -873,17 +873,17 @@ def perform_sensitivity(sensitivity, s):
         mask = df['tech'].isin(techs_to_remove) & (df['Status'] == 3) & (df['gen'].str.contains('Candidate'))
         df.loc[mask, 'BuildLimitperYear'] = 0
         # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'sensitivity')
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
         if not os.path.exists(folder_sensi):
             os.mkdir(folder_sensi)
         name = 'RemoveGenericTechnologies'
-        path_file = os.path.basename(s['baseline']['pGenDataExcel']).replace('pGenDataExcel', f'pGenDataExcel_{name}')
+        path_file = os.path.basename(s['baseline']['pGenDataInput']).replace('pGenDataInput', f'pGenDataInput_{name}')
         path_file = os.path.join(folder_sensi, path_file)
         # Write the modified file
         df.to_csv(path_file, index=False)
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
-        s[name]['pGenDataExcel'] = path_file
+        s[name]['pGenDataInput'] = path_file
         
     param = 'pSettings'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of some setting parameters
@@ -1076,7 +1076,7 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'ResLimShare'  # testing implications of contribution to reserves
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
-        parameter = 'pGenDataExcelDefault'
+        parameter = 'pGenDataInputDefault'
         reslimshare_sensi = [-0.5, -1]
         for val in reslimshare_sensi:
 
@@ -1100,7 +1100,7 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'BuildLimitperYear'  # testing implications of limitations of build per year
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
-        parameter = 'pGenDataExcel'
+        parameter = 'pGenDataInput'
 
         df = pd.read_csv(s['baseline'][parameter])
         # Remove any built limitation per year
@@ -1137,23 +1137,23 @@ def perform_sensitivity(sensitivity, s):
                 
     param = 'delayedHydro'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of delayed hydro projects
-        df = pd.read_csv(s['baseline']['pGenDataExcel'])
+        df = pd.read_csv(s['baseline']['pGenDataInput'])
         # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
         df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
         
         # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataExcel']), 'sensitivity')
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
         if not os.path.exists(folder_sensi):
             os.mkdir(folder_sensi)
         name = f'{param}_5years'
-        path_file = os.path.basename(s['baseline']['pGenDataExcel']).replace('pGenDataExcel', name)
+        path_file = os.path.basename(s['baseline']['pGenDataInput']).replace('pGenDataInput', name)
         path_file = os.path.join(folder_sensi, path_file)
         # Write the modified file
         df.to_csv(path_file, index=False)
         
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
-        s[name]['pGenDataExcel'] = path_file
+        s[name]['pGenDataInput'] = path_file
     
     param  = 'pVREProfile'  # testing implications of a change in VRE production
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
@@ -1189,27 +1189,27 @@ def perform_assessment(project_assessment, s):
         for scenario in s.keys():
             
              # Create a specific folder to store the counterfactual scenario
-            folder_assessment = os.path.join(os.path.dirname(s[scenario]['pGenDataExcel']), 'assessment')
+            folder_assessment = os.path.join(os.path.dirname(s[scenario]['pGenDataInput']), 'assessment')
             if not os.path.exists(folder_assessment):
                 os.mkdir(folder_assessment)
                 print('Folder created:', folder_assessment)
             
             
             # Reading the initial value
-            df = pd.read_csv(s[scenario]['pGenDataExcel'])
+            df = pd.read_csv(s[scenario]['pGenDataInput'])
             
             # Remove project(s) in project_assessment
             df = df.loc[~df['gen'].isin(project_assessment)]
 
             # Write the modified file
             name = '-'.join(project_assessment).replace(' ', '')
-            path_file = os.path.basename(s[scenario]['pGenDataExcel']).split('.')[0] + '_' + name + '.csv'
+            path_file = os.path.basename(s[scenario]['pGenDataInput']).split('.')[0] + '_' + name + '.csv'
             path_file = os.path.join(folder_assessment, path_file)
             df.to_csv(path_file, index=False)
 
             # Put in the scenario specification dictionary
             new_s[f'{scenario}_wo_{name}'] = s[scenario].copy()
-            new_s[f'{scenario}_wo_{name}']['pGenDataExcel'] = path_file
+            new_s[f'{scenario}_wo_{name}']['pGenDataInput'] = path_file
                 
 
     except Exception:

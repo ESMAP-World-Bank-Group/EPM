@@ -23,8 +23,8 @@ The following table lists the key input files used in the EPM model, along with 
 | `pEnergyEfficiencyFactor.csv`      | Energy efficiency factors.            | 2 columns        |
 | `sRelevants.csv`                   | Relevant scenarios.                   | 1 column         |
 | **Supply Data**                    |                                       |                  |
-| `pGenDataExcelCustom.csv`          | Custom generation data.               | Multiple columns |
-| `pGenDataExcelDefault.csv`         | Default generation data.              | Multiple columns |
+| `pGenDataInputCustom.csv`          | Custom generation data.               | Multiple columns |
+| `pGenDataInputDefault.csv`         | Default generation data.              | Multiple columns |
 | `pAvailabilityCustom.csv`          | Custom generation availability.       | Multiple columns |
 | `pAvailabilityDefault.csv`         | Default generation availability.      | Multiple columns |
 | `pVREgenProfile.csv`               | Renewable energy generation profiles. | Multiple columns |
@@ -75,7 +75,7 @@ If `pAvailabilityDefault.csv` sets a default availability for coal in South Afri
 ⚠️ Important Notes
 
 - Required fields: For `pAvailabilityDefault.csv` and `pCapexTrajectoriesCustom.csv`, missing values for any combination of zone, tech, and fuel may cause errors. This is described in the Troubleshooting section below.
-- Optional fields: For generation data `pGenDataExcelCustom.csv` (e.g., Capex, vOM), missing values default to zero in GAMS, with no error.
+- Optional fields: For generation data `pGenDataInputCustom.csv` (e.g., Capex, vOM), missing values default to zero in GAMS, with no error.
 
 ✅ Recommended Workflow
 

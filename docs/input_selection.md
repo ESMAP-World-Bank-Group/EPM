@@ -7,6 +7,7 @@ The input folder contains all necessary `.csv` files, organized by type (e.g., `
 The `config.csv` file contains the path of the file within the input folder, and the model reads these files to set up the parameters. This allows you to easily switch between different sets of input data without modifying the model code.
 
 Whether running from Python or GAMS Studio, it is **always required** to define the base input folder (`FOLDER_INPUT`) either:
+
 - via command-line argument, or
 - by setting it manually in `input_readers.gms`.
 
@@ -16,19 +17,19 @@ This ensures the model correctly points to the appropriate folder of `.csv` file
 
 ## Running from Python
 
-As detailed in the section *Running EPM from Python*, the model reads `config.csv` by default.
+As detailed in the section _Running EPM from Python_, the model reads `config.csv` by default.
 
-- **`name`**: name of the parameter (e.g., `pGenDataExcelCustom`)
+- **`name`**: name of the parameter (e.g., `pGenDataInputCustom`)
 - **`file`**: path to the corresponding `.csv` input file
 
 Only a few additional options are specified directly in `config.csv`:
 
-| Option         | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| `solvemode`    | How the model is solved:<br> `2` = normal (default)<br> `1` = write savepoint `PA_pd.gdx`<br> `0` = generate model only (no solve) |
-| `trace`        | Logging verbosity:<br> `0` = minimal (default)<br> `1` = detailed debugging output |
-| `reportshort`  | Report size:<br> `0` = full report (default)<br> `1` = compact report for multiple runs (e.g., Monte Carlo) |
-| `modeltype`    | Solver type:<br> `MIP` = default<br> `RMIP` = force LP relaxation |
+| Option        | Description                                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `solvemode`   | How the model is solved:<br> `2` = normal (default)<br> `1` = write savepoint `PA_pd.gdx`<br> `0` = generate model only (no solve) |
+| `trace`       | Logging verbosity:<br> `0` = minimal (default)<br> `1` = detailed debugging output                                                 |
+| `reportshort` | Report size:<br> `0` = full report (default)<br> `1` = compact report for multiple runs (e.g., Monte Carlo)                        |
+| `modeltype`   | Solver type:<br> `MIP` = default<br> `RMIP` = force LP relaxation                                                                  |
 
 ---
 
@@ -46,19 +47,21 @@ To run multiple variants, use the `--scenarios` argument. Each row in `scenarios
 When using GAMS Studio, **only one scenario** can be run at a time.
 
 ### Option 1: Command-line Arguments (recommended)
+
 You can override files directly in the command line:
+
 ```sh
 --FOLDER_INPUT input/data_test_region --pNewTransmission input/data_test_region/trade/pNewTransmission.csv
 ```
+
 This method is flexible but tedious for large sets of files.
 
 ### Option 2: Modify `input_readers.gms`
+
 You can hard-code the baseline inputs:
+
 ```gams
 $if not set pSettings $set pSettings input/%FOLDER_INPUT%/pSettings_baseline.csv
 ```
 
 > ⚠️ Always make changes in a branch dedicated to your use case—not in the `main` branch.
-
-
-
