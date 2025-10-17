@@ -40,7 +40,7 @@ Contact:
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
+from matplotlib.patches import Patch, FancyArrowPatch, Rectangle
 import numpy as np
 import os
 import gams.transfer as gt
@@ -55,7 +55,6 @@ import base64
 from io import BytesIO
 import io
 from shapely.geometry import Point, Polygon
-from matplotlib.patches import FancyArrowPatch
 from shapely.geometry import LineString, Point, LinearRing
 import argparse
 import shutil
@@ -981,7 +980,7 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
         plt.show()
 
 
-def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year, scenario, stacked=True,
+def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario, stacked=True,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
                                     legend_loc='bottom', bottom=None, figsize=(10,6), ylabel=None, title=None):
     """
@@ -1026,7 +1025,7 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
         'Battery Storage 2h': 'Battery Discharge',
         'Battery Storage 3h': 'Battery Discharge',
     }
-    make_complete_fuel_dispatch_plot(dfs_to_plot_area, dfs_to_plot_line, folder_results / Path('images'), dict_specs['colors'],
+    make_fuel_dispatchplot(dfs_to_plot_area, dfs_to_plot_line, folder_results / Path('images'), dict_specs['colors'],
                                  zone='Liberia', year=2030, scenario=scenario, fuel_grouping=fuel_grouping,
                                  select_time=select_time, reorder_dispatch=['MtCoffee', 'Oil', 'Solar'], season=False)
     """
@@ -1148,9 +1147,9 @@ def make_complete_fuel_dispatch_plot(dfs_area, dfs_line, dict_colors, zone, year
 
 # Stacked bar plots
 
-def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xaxis='year',
-                              column_stacked='fuel', column_multiple_bars='scenario',
-                              column_value='value', select_xaxis=None, stacked_grouping=None, order_scenarios=None, dict_scenarios=None,
+def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_subplot='year',
+                              column_stacked='fuel', column_xaxis='scenario',
+                              column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None, dict_scenarios=None,
                               format_y=lambda y, _: '{:.0f} MW'.format(y), order_stacked=None, cap=2, annotate=True,
                               show_total=False, fonttick=12, rotation=0, title=None, fontsize_label=10,
                               format_label="{:.1f}", figsize=(10,6), hspace=0.4, cols_per_row=3, juxtaposed=False, year_ini=None,
@@ -1168,15 +1167,15 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
         Dictionary with color arguments.
     selected_zone : str
         Zone to select.
-    column_xaxis : str
+    column_subplot : str
         Column for choosing the subplots.
     column_stacked : str
         Column name for choosing the column to stack values.
-    column_multiple_bars : str
+    column_xaxis : str
         Column for choosing the type of bars inside a given subplot.
     column_value : str
         Column name for the values to be plotted.
-    select_xaxis : list, optional
+    select_subplot : list, optional
         Select a subset of subplots (e.g., a number of years).
     stacked_grouping : dict, optional
         Dictionary for grouping variables and summing over a given group.
@@ -1218,15 +1217,15 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
         'LowImport_LowThermal': 'LowImport_LowThermal'
     }
     make_stacked_barplot(epm_dict['pCapacityFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
-                              select_xaxis=[2025, 2028, 2030], stacked_grouping=fuel_grouping, dict_scenarios=scenario_names,
+                              select_subplot=[2025, 2028, 2030], stacked_grouping=fuel_grouping, dict_scenarios=scenario_names,
                               order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                               format_y=lambda y, _: '{:.0f} MW'.format(y))
 
     Stacked bar subplots for reserve evolution:
     filename = Path(RESULTS_FOLDER) / Path('images') / Path('ReserveEvolution.png')
     make_stacked_barplot(epm_dict['pReserveByPlant'], filename, dict_colors=dict_specs['colors'], selected_zone='Liberia',
-                              column_xaxis='year', column_stacked='fuel', column_multiple_bars='scenario',
-                              select_xaxis=[2025, 2028, 2030], stacked_grouping=stacked_grouping, dict_scenarios=scenario_names,
+                              column_subplot='year', column_stacked='fuel', column_xaxis='scenario',
+                              select_subplot=[2025, 2028, 2030], stacked_grouping=stacked_grouping, dict_scenarios=scenario_names,
                               order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                               format_y=lambda y, _: '{:.0f} GWh'.format(y),
                               order_stacked=['Hydro', 'Oil'], cap=2)
@@ -1532,10 +1531,10 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
         else:
             plt.show()
 
-    if column_multiple_bars is None:
-        print('column_multiple_bars cannot be None, but column_xaxis can. Automatically inverting.')
-        column_multiple_bars = column_xaxis
-        column_xaxis = None
+    if column_xaxis is None:
+        print('column_xaxis cannot be None, but column_subplot can. Automatically inverting.')
+        column_xaxis = column_subplot
+        column_subplot = None
     
     if stacked_grouping is not None:
         for key, grouping in stacked_grouping.items():
@@ -1552,10 +1551,10 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
             annotation_df = annotation_df[annotation_df[column_value] > 0]
 
         grouping_keys = []
+        if column_subplot is not None:
+            grouping_keys.append(column_subplot)
         if column_xaxis is not None:
             grouping_keys.append(column_xaxis)
-        if column_multiple_bars is not None:
-            grouping_keys.append(column_multiple_bars)
 
         if not grouping_keys:
             grouping_keys = [column_annotation]
@@ -1580,7 +1579,7 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
 
         grouped_annotations = annotation_df.groupby(grouping_keys, observed=False).apply(_collect_annotations)
 
-        if column_xaxis is not None:
+        if column_subplot is not None:
             bar_annotations = {}
             for idx, plant_list in grouped_annotations.items():
                 if not plant_list:
@@ -1593,7 +1592,7 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
                     bar_key = None
                 if len(grouping_keys) == 2:
                     subplot_key, bar_key = idx
-                elif bar_key is None and column_multiple_bars is not None:
+                elif bar_key is None and column_xaxis is not None:
                     bar_key = idx
                 if bar_key is None:
                     continue
@@ -1605,39 +1604,39 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, column_xa
                     continue
                 bar_annotations['__single__'][bar_key] = plant_list
 
-    if column_xaxis is not None:
+    if column_subplot is not None:
         if column_stacked is not None:
-            df = (df.groupby([column_xaxis, column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-            df = df.set_index([column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+            df = (df.groupby([column_subplot, column_stacked, column_xaxis], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_stacked, column_xaxis, column_subplot]).squeeze().unstack(column_subplot)
         else:
-            df = (df.groupby([column_xaxis, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-            df = df.set_index([column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+            df = (df.groupby([column_subplot, column_xaxis], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_xaxis, column_subplot]).squeeze().unstack(column_subplot)
         if df_errorbars is not None:
             if not juxtaposed:  # we sum over the stacked column
-                df_errorbars = (df_errorbars.groupby([column_xaxis, 'error', column_multiple_bars], observed=False)[
+                df_errorbars = (df_errorbars.groupby([column_subplot, 'error', column_xaxis], observed=False)[
                           column_value].sum().reset_index())
-                df_errorbars = df_errorbars.set_index(['error', column_multiple_bars, column_xaxis]).squeeze().unstack(column_xaxis)
+                df_errorbars = df_errorbars.set_index(['error', column_xaxis, column_subplot]).squeeze().unstack(column_subplot)
             else:  # we keep the stacked column
-                df_errorbars = (df_errorbars.groupby([column_xaxis, 'error', column_stacked, column_multiple_bars], observed=False)[
+                df_errorbars = (df_errorbars.groupby([column_subplot, 'error', column_stacked, column_xaxis], observed=False)[
                           column_value].sum().reset_index())
-                df_errorbars = df_errorbars.set_index(['error', column_stacked, column_multiple_bars, column_xaxis]).squeeze().unstack(
-                    column_xaxis)
+                df_errorbars = df_errorbars.set_index(['error', column_stacked, column_xaxis, column_subplot]).squeeze().unstack(
+                    column_subplot)
     else:  # no subplots in this case
         if column_stacked is not None:
-            df = (df.groupby([column_stacked, column_multiple_bars], observed=False)[column_value].sum().reset_index())
-            df = df.set_index([column_stacked, column_multiple_bars])
+            df = (df.groupby([column_stacked, column_xaxis], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_stacked, column_xaxis])
         else:
-            df = (df.groupby([column_multiple_bars], observed=False)[column_value].sum().reset_index())
-            df = df.set_index([column_multiple_bars])
+            df = (df.groupby([column_xaxis], observed=False)[column_value].sum().reset_index())
+            df = df.set_index([column_xaxis])
         if df_errorbars is not None:
-            df_errorbars = (df_errorbars.groupby(['error', column_multiple_bars], observed=False)[column_value].sum().reset_index())
-            df_errorbars = df_errorbars.set_index(['error', column_multiple_bars])
+            df_errorbars = (df_errorbars.groupby(['error', column_xaxis], observed=False)[column_value].sum().reset_index())
+            df_errorbars = df_errorbars.set_index(['error', column_xaxis])
 
-    if select_xaxis is not None:
-        df = df.loc[:, [i for i in df.columns if i in select_xaxis]]
+    if select_subplot is not None:
+        df = df.loc[:, [i for i in df.columns if i in select_subplot]]
 
     if bar_annotations is not None:
-        if column_xaxis is None:
+        if column_subplot is None:
             fallback = bar_annotations.get('__single__', {})
             if len(df.columns) == 1:
                 bar_annotations = {df.columns[0]: fallback}
@@ -2100,60 +2099,127 @@ def heatmap_plot(
         plt.close(fig)
 
 
-def heatmap_difference_plot(data, filename=None, percentage=False, baseline='Baseline'):
+def heatmap_difference_plot(
+    data,
+    filename=None,
+    percentage=False,
+    color_by_percentage=True,
+    reference='baseline',
+    reference_label='Reference'
+):
     """
-    Plots a heatmap showing differences from baseline with color scales defined per column.
+    Plots a heatmap showing differences from a reference scenario with color scales defined per column.
 
     Parameters
     ----------
     data : pd.DataFrame
-        Input data with scenarios as rows and metrics as columns.
+        Table with metrics as rows and scenarios as columns.
     filename : str
         Path to save the plot.
     percentage : bool, optional
-        Whether to show differences as percentages.
+        Whether to show differences as percentages in the annotations.
+    color_by_percentage : bool, optional
+        If True (default), the colour scale is based on percentage differences relative to the reference.
+        When False, absolute differences drive the colour scale.
+    reference : str, optional
+        Scenario name used as the reference (defaults to ``'baseline'``).
+    reference_label : str, optional
+        Display label for the reference column in the heatmap.
     """
 
-    # Calculate differences from baseline
-    baseline_values = data.loc[baseline, :]
-    diff_from_baseline = data.subtract(baseline_values, axis=1)
+    if reference not in data.columns:
+        raise ValueError(f"Reference scenario '{reference}' not found in data columns.")
+
+    # Ensure reference column is first
+    column_order = [reference] + [col for col in data.columns if col != reference]
+    data = data[column_order]
+
+    # Calculate differences from the reference scenario
+    baseline_values = data[reference]
+    diff_absolute = data.subtract(baseline_values, axis=0)
+    with np.errstate(divide='ignore', invalid='ignore'):
+        diff_percentage = diff_absolute.divide(baseline_values.replace({0: np.nan}), axis=0)
+    diff_percentage = diff_percentage.replace([np.inf, -np.inf], np.nan)
 
     # Combine differences and baseline values for annotations
     annotations = data.map(lambda x: f"{x:,.0f}")  # Format baseline values
     # Format differences in percentage
     if percentage:
-        diff_from_baseline = diff_from_baseline / baseline_values
-        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0%})")
+        def _fmt_pct(x):
+            if pd.isna(x):
+                return " (n/a)"
+            return f" ({x:+,.0%})"
+        diff_annotations = diff_percentage.applymap(_fmt_pct)
     else:
-        diff_annotations = diff_from_baseline.map(lambda x: f" ({x:+,.0f})")
+        diff_annotations = diff_absolute.map(lambda x: f" ({x:+,.0f})")
     combined_annotations = annotations + diff_annotations  # Combine both
 
     # Normalize the color scale by column
-    diff_normalized = diff_from_baseline.copy()
-    for column in diff_from_baseline.columns:
-        col_min = diff_from_baseline[column].min()
-        col_max = diff_from_baseline[column].max()
-        diff_normalized[column] = (diff_from_baseline[column] - col_min) / (col_max - col_min)
+    color_matrix = diff_percentage if color_by_percentage else diff_absolute
+    color_matrix = color_matrix.fillna(0.0)
+    diff_normalized = color_matrix.copy()
+    for column in color_matrix.columns:
+        col = color_matrix[column]
+        col_min = col.min()
+        col_max = col.max()
+        if np.isclose(col_max, col_min):
+            diff_normalized[column] = 0
+        else:
+            diff_normalized[column] = (col - col_min) / (col_max - col_min)
+
+    # Rename reference column for display
+    diff_norm_plot = diff_normalized.rename(columns={reference: reference_label})
+    combined_annotations_plot = combined_annotations.rename(columns={reference: reference_label})
 
     # Create a figure
     fig, ax = plt.subplots(figsize=(12, 8))
 
     # Plot the heatmap
     sns.heatmap(
-        diff_normalized,
+        diff_norm_plot,
         cmap=sns.diverging_palette(220, 20, as_cmap=True),
-        annot=combined_annotations,  # Show baseline values and differences
+        annot=combined_annotations_plot,  # Show baseline values and differences
         fmt="",  # Disable default formatting
         linewidths=0.5,
         ax=ax,
         cbar=False  # Remove color bar
     )
 
+    # Highlight reference column with a light grey background
+    ref_col_idx = list(diff_norm_plot.columns).index(reference_label)
+    n_rows = diff_norm_plot.shape[0]
+    for row_idx in range(n_rows):
+        rect = Rectangle(
+            (ref_col_idx, row_idx),
+            1,
+            1,
+            facecolor='lightgrey',
+            edgecolor='grey',
+            linewidth=0.3,
+            alpha=0.35,
+            zorder=2,
+            clip_on=False
+        )
+        ax.add_patch(rect)
+
     # Customize the axes
     ax.xaxis.set_label_position('top')
     ax.xaxis.tick_top()
     ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=9)
     ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+    bold_markers = (
+        'NPV of system cost',
+        'Capacity - Total',
+        'CAPEX - Total',
+        'Transmission capacity'
+    )
+    for label in ax.get_yticklabels():
+        text = label.get_text()
+        if any(marker in text for marker in bold_markers):
+            label.set_fontweight('bold')
+    for label in ax.get_xticklabels():
+        if label.get_text() == reference_label:
+            label.set_fontweight('bold')
     ax.set_xlabel("")
     ax.set_ylabel("")
 
@@ -2165,138 +2231,259 @@ def heatmap_difference_plot(data, filename=None, percentage=False, baseline='Bas
         plt.show()
 
 
-def make_heatmap_plot(epm_results, filename, percentage=False, scenario_order=None,
-                       discount_rate=0, year=2050, required_keys=None, fuel_capa_list=None,
-                       fuel_gen_list=None, summary_metrics_list=None, zone_list=None, rows_index='zone',
-                       rename_columns=None):
+def make_heatmap_plot(
+    epm_results,
+    filename,
+    percentage=False,
+    scenario_order=None,
+    year=None,
+    zone_list=None,
+    rename_columns=None,
+    reference='baseline'
+):
     """
-    Make a heatmap plot for the results of the EPM model.
+    Build a scenario-comparison heatmap summarising core system metrics.
 
+    The summary includes, in order:
+        1. Discounted system costs (``pCostsSystem``), with the NPV column shown first.
+        2. System costs converted to $/MWh (``pCostsSystemPerMWh``).
+        3. System-wide installed capacity by fuel in the final model year.
+        4. Total available transmission capacity in the final year (no double counting).
+        5. Cumulative CAPEX by component up to the final year.
 
     Parameters
     ----------
-    epm_results: dict
-    filename: str
-    percentage: bool, optional, default is False
-    scenario_order
-    discount_rate
+    epm_results : dict
+        Dictionary with post-processed EPM outputs (DataFrames).
+    filename : str or Path
+        Where to save the heatmap. If None, the figure is displayed.
+    percentage : bool, optional
+        When True, differences are displayed in percentage terms relative to the reference scenario.
+    scenario_order : list-like, optional
+        Desired ordering of scenarios.
+    discount_rate, required_keys, fuel_capa_list, fuel_gen_list, summary_metrics_list, rows_index : deprecated
+        Maintained only for backwards compatibility; they have no effect.
+    zone_list : iterable, optional
+        Optional subset of zones to include when aggregating system metrics.
+    year : int, optional
+        Year to use for annual metrics. Defaults to the maximum year found in each dataset.
+    rename_columns : dict, optional
+        Mapping applied to the final summary columns.
+    reference : str, optional
+        Scenario name to use as the reference column (defaults to ``'baseline'``).
     """
-    def rename_and_reoder(df, rename_index=None, rename_columns=None, order_index=None, order_stacked=None):
-        if rename_index is not None:
-            df.index = df.index.map(lambda x: rename_index.get(x, x))
-        if rename_columns is not None:
-            df.columns = df.columns.map(lambda x: rename_columns.get(x, x))
-        if order_index is not None:
-            df = df.loc[order_index, :]
-        if order_stacked is not None:
-            df = df.loc[:, order_stacked]
+
+    TRADE_ATTRS = [
+        "Import costs with internal zones: $m",
+        "Import costs with external zones: $m",
+        "Export revenues with internal zones: $m",
+        "Export revenues with external zones: $m",
+        "Trade shared benefits: $m",
+        "Import costs with internal zones: $/MWh",
+        "Import costs with external zones: $/MWh",
+        "Export revenues with internal zones: $/MWh",
+        "Export revenues with external zones: $/MWh",
+        "Trade shared benefits: $/MWh"
+    ]
+
+    RESERVE_ATTRS = [
+        "Unmet country spinning reserve costs: $m",
+        "Unmet country planning reserve costs: $m",
+        "Unmet country CO2 backstop cost: $m",
+        "Unmet system planning reserve costs: $m",
+        "Unmet system spinning reserve costs: $m",
+        "Unmet country spinning reserve costs: $/MWh",
+        "Unmet country planning reserve costs: $/MWh",
+        "Unmet country CO2 backstop cost: $/MWh",
+        "Unmet system planning reserve costs: $/MWh",
+        "Unmet system spinning reserve costs: $/MWh"
+    ]
+
+    def _get_dataframe(key: str) -> pd.DataFrame:
+        if key not in epm_results:
+            raise KeyError(f"'{key}' is required in epm_results to build the heatmap.")
+        df = epm_results[key].copy()
+        if not isinstance(df, pd.DataFrame):
+            raise TypeError(f"Expected '{key}' to be a pandas DataFrame, got {type(df)}.")
         return df
-    
-    summary = []
 
-    if required_keys is None:
-        required_keys = ['pCapacityFuel', 'pEnergyFuel', 'pEmissionsZone', 'pYearlyCostsZone']
+    def _merge_attribute_group(df: pd.DataFrame, attributes: list, group_name: str) -> pd.DataFrame:
+        if 'attribute' not in df.columns:
+            return df
+        mask = df['attribute'].isin(attributes)
+        if not mask.any():
+            return df
+        group_cols = [col for col in df.columns if col not in {'attribute', 'value'}]
+        aggregated = (
+            df.loc[mask]
+            .groupby(group_cols, observed=False)['value']
+            .sum()
+            .reset_index()
+        )
+        suffix = ''
+        for attr in attributes:
+            if attr in df['attribute'].values and ':' in attr:
+                suffix = attr.split(':', 1)[1].strip()
+                break
+        label = f"{group_name}: {suffix}" if suffix else group_name
+        aggregated['attribute'] = label
+        df_remaining = df.loc[~mask]
+        df_merged = pd.concat([df_remaining, aggregated], ignore_index=True)
+        return df_merged
 
-    assert all(
-        key in epm_results for key in required_keys), "Required keys for the summary are not included in epm_results"
+    def _format_cost_columns(df: pd.DataFrame, unit_label: str) -> pd.DataFrame:
+        formatted = {}
+        for column in df.columns:
+            base = column.split(':')[0].strip()
+            formatted[column] = f'{base} ({unit_label})'
+        return df.rename(columns=formatted)
 
-    if fuel_capa_list is None:
-        fuel_capa_list = ['Hydro', 'Solar', 'Wind']
+    def _filter_zone(df: pd.DataFrame) -> pd.DataFrame:
+        if zone_list is None or 'zone' not in df.columns:
+            return df
+        return df[df['zone'].isin(zone_list)]
 
-    if fuel_gen_list is None:
-        fuel_gen_list = ['Hydro', 'Oil']
+    frames = []
 
-    if summary_metrics_list is None:
-        summary_metrics_list = ['Capex: $m']
+    # 1. Discounted system costs (pCostsSystem)
+    costs_system = _get_dataframe('pCostsSystem')
+    costs_system = _merge_attribute_group(costs_system, TRADE_ATTRS, "Trade costs")
+    costs_system = _merge_attribute_group(costs_system, RESERVE_ATTRS, "Reserve costs")
+    costs_pivot_raw = costs_system.pivot_table(index='scenario', columns='attribute', values='value', aggfunc='sum')
+    ordered_cost_columns = list(costs_pivot_raw.columns)
+    npv_label = 'NPV of system cost: $m'
+    if npv_label in ordered_cost_columns:
+        ordered_cost_columns = [npv_label] + [col for col in ordered_cost_columns if col != npv_label]
+    costs_pivot = costs_pivot_raw.reindex(columns=ordered_cost_columns)
+    costs_pivot = _format_cost_columns(costs_pivot, 'M$')
+    frames.append(costs_pivot)
 
-    if 'pCapacityFuel' in required_keys:
-        temp = epm_results['pCapacityFuel'].copy()
-        temp = temp[(temp['year'] == year)]
-        if zone_list is not None:
-            temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pCapacityFuel'], values='value')
-        temp = temp.loc[:, fuel_capa_list]
-        temp = rename_and_reoder(temp, rename_columns=RENAME_COLUMNS)
-        temp.columns = [f'{col} (MW)' for col in temp.columns]
-        temp = temp.round(0)
-        summary.append(temp)
+    # 2. System costs per MWh (pCostsSystemPerMWh)
+    costs_per_mwh = _get_dataframe('pCostsSystemPerMWh')
+    costs_per_mwh = _merge_attribute_group(costs_per_mwh, TRADE_ATTRS, "Trade costs")
+    costs_per_mwh = _merge_attribute_group(costs_per_mwh, RESERVE_ATTRS, "Reserve costs")
+    costs_per_mwh_pivot_raw = costs_per_mwh.pivot_table(
+        index='scenario', columns='attribute', values='value', aggfunc='sum'
+    )
+    ordered_per_mwh_columns = [col for col in ordered_cost_columns if col in costs_per_mwh_pivot_raw.columns]
+    ordered_per_mwh_columns += [
+        col for col in costs_per_mwh_pivot_raw.columns if col not in ordered_per_mwh_columns
+    ]
+    costs_per_mwh_pivot = costs_per_mwh_pivot_raw.reindex(columns=ordered_per_mwh_columns)
+    costs_per_mwh_pivot = _format_cost_columns(costs_per_mwh_pivot, '$/MWh')
+    frames.append(costs_per_mwh_pivot)
 
-    if 'pEnergyFuel' in required_keys:
-        temp = epm_results['pEnergyFuel'].copy()
-        temp = temp[(temp['year'] == year)]
-        if zone_list is not None:
-            temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp.loc[:, fuel_gen_list]
-        temp = temp.pivot_table(index=[rows_index], columns=NAME_COLUMNS['pEnergyFuel'], values='value')
-        temp.columns = [f'{col} (GWh)' for col in temp.columns]
-        temp = temp.round(0)
-        summary.append(temp)
+    # Determine final year helper
+    def _resolve_year(df: pd.DataFrame) -> int:
+        if 'year' not in df.columns:
+            raise KeyError("Expected a 'year' column when computing annual aggregates.")
+        available_years = df['year'].dropna().unique()
+        if year is not None:
+            if year not in available_years:
+                raise ValueError(f"Requested year {year} not available. Available years: {sorted(available_years)}")
+            return int(year)
+        return int(max(available_years))
 
-    if 'pEmissionsZone' in required_keys:
-        temp = epm_results['pEmissionsZone'].copy()
-        temp = temp[(temp['year'] == year)]
-        if zone_list is not None:
-            temp = temp[temp['zone'].isin(zone_list)]
-        temp = temp.set_index(['scenario'])['value']
-        temp = temp * 1e3
-        temp.rename('ktCO2', inplace=True).to_frame()
-        summary.append(temp)
+    # 3. System capacity by fuel in the final year
+    capacity_fuel_all = _get_dataframe('pCapacityFuel')
+    capacity_year = _resolve_year(capacity_fuel_all)
+    capacity_fuel = _filter_zone(capacity_fuel_all)
+    capacity_summary = (
+        capacity_fuel[capacity_fuel['year'] == capacity_year]
+        .groupby(['scenario', 'fuel'], observed=False)['value']
+        .sum()
+        .unstack('fuel')
+        .fillna(0)
+    )
+    fuel_columns = list(capacity_summary.columns)
+    renamed_capacity = {col: f'Capacity - {col} (MW)' for col in fuel_columns}
+    capacity_summary = capacity_summary.rename(columns=renamed_capacity)
+    capacity_total_col = f'Capacity - Total {capacity_year} (MW)'
+    capacity_summary[capacity_total_col] = capacity_summary.sum(axis=1)
+    ordered_capacity_cols = [capacity_total_col] + [renamed_capacity[col] for col in fuel_columns]
+    capacity_summary = capacity_summary[ordered_capacity_cols]
+    frames.append(capacity_summary)
 
-    if False:
-        if 'pEnergyBalanceCountry' in required_keys:
-            temp = epm_results['pEnergyBalanceCountry'].copy()
-            temp = temp[temp['attribute'] == 'Unmet demand: GWh']
-            temp = temp.groupby(['scenario'])['value'].sum()
+    # 4. Transmission capacity (no double counting) in final year
+    transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
+    transmission_year = _resolve_year(transmission_all)
+    transmission = transmission_all.copy()
+    if zone_list is not None and {'zone', 'z2'}.issubset(transmission.columns):
+        transmission = transmission[
+            transmission['zone'].isin(zone_list) | transmission['z2'].isin(zone_list)
+        ]
+    transmission_year_df = transmission[transmission['year'] == transmission_year].copy()
+    if not transmission_year_df.empty:
+        transmission_year_df['pair'] = transmission_year_df.apply(
+            lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
+        )
+        transmission_summary = (
+            transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
+            .max()
+            .groupby('scenario')
+            .sum()
+            .to_frame(f'Transmission capacity {transmission_year} (MW)')
+        )
+    else:
+        transmission_summary = pd.DataFrame(
+            columns=[f'Transmission capacity {transmission_year} (MW)']
+        ).astype(float)
+    frames.append(transmission_summary)
 
-            t = epm_results['pEnergyBalanceCountry'].copy()
-            t = t[t['attribute'] == 'Demand: GWh']
-            t = t.groupby(['scenario'])['value'].sum()
-            temp = (temp / t) * 1e3
-            temp.rename('Unmet (‰)', inplace=True).to_frame()
-            summary.append(temp)
+    # 5. Cumulative CAPEX by component up to final year
+    capex_component_all = _get_dataframe('pCapexInvestmentComponent')
+    capex_year = _resolve_year(capex_component_all)
+    capex_component = _filter_zone(capex_component_all)
+    capex_cumulative = (
+        capex_component[capex_component['year'] <= capex_year]
+        .groupby(['scenario', 'attribute'], observed=False)['value']
+        .sum()
+        .unstack('attribute')
+        .fillna(0)
+        / 1e6  # convert USD to million USD
+    )
+    capex_columns = list(capex_cumulative.columns)
+    capex_cumulative.columns = [f'CAPEX - {col} (M$)' for col in capex_columns]
+    capex_total_col = f'CAPEX - {capex_year} (M$)'
+    capex_cumulative[capex_total_col] = capex_cumulative.sum(axis=1)
+    capex_cumulative = capex_cumulative[[capex_total_col] + [col for col in capex_cumulative.columns if col != capex_total_col]]
+    frames.append(capex_cumulative)
 
-            temp = epm_results['pEnergyBalanceCountry'].copy()
-            if zone_list is not None:
-                temp = temp[temp['zone'].isin(zone_list)]
-            temp = temp[temp['attribute'] == 'Surplus generation: GWh']
-            temp = temp.groupby(['scenario'])['value'].sum()
+    # Align scenario index across all frames
+    scenario_index = frames[0].index
+    for frame in frames[1:]:
+        scenario_index = scenario_index.union(frame.index)
+    frames = [frame.reindex(scenario_index) for frame in frames]
 
-            t = epm_results['pEnergyBalanceCountry'].copy()
-            if zone_list is not None:
-                t = t[t['zone'].isin(zone_list)]
-            t = t[t['attribute'] == 'Demand: GWh']
-            t = t.groupby(['scenario'])['value'].sum()
-            temp = (temp / t) * 1000
+    summary = pd.concat(frames, axis=1)
+    summary = summary.fillna(0.0).astype(float)
 
-            temp.rename('Surplus (‰)', inplace=True).to_frame()
-            summary.append(temp)
+    if rename_columns:
+        summary = summary.rename(columns=rename_columns)
 
-    if 'pYearlyCostsZone' in required_keys:
-        temp = epm_results['pYearlyCostsZone'].copy()
-        temp = temp[temp['attribute'] == 'Total Annual Cost by Zone: $m']
-        temp = calculate_npv(temp, discount_rate)
+    if reference not in summary.index:
+        raise ValueError(f"Reference scenario '{reference}' not present in the summary.")
 
-        t = epm_results['pEnergyBalance'].copy()
-        if zone_list is not None:
-            t = t[t['zone'].isin(zone_list)]
-        t = t[t['attribute'] == 'Demand: GWh']
-        t = calculate_npv(t, discount_rate)
-
-        temp = (temp * 1e6) / (t * 1e3)
-
-        if isinstance(temp, (float, int)):
-            temp = pd.Series(temp, index=[epm_results['pNPVByYear']['scenario'][0]])
-        temp.rename('NPV ($/MWh)', inplace=True).to_frame()
-        summary.append(temp)
-
-    summary = pd.concat(summary, axis=1)
+    # Ensure reference scenario is first in row order
+    summary = summary.loc[[reference] + [idx for idx in summary.index if idx != reference]]
 
     if scenario_order is not None:
-        scenario_order = [i for i in scenario_order if i in summary.index] + [i for i in summary.index if
-                                                                              i not in scenario_order]
-        summary = summary.loc[scenario_order]
+        ordered = [scenario for scenario in scenario_order if scenario in summary.index]
+        ordered += [scenario for scenario in summary.index if scenario not in ordered]
+        ordered = [reference] + [idx for idx in ordered if idx != reference]
+        summary = summary.loc[ordered]
 
-    heatmap_difference_plot(summary, filename, percentage=percentage, baseline=summary.index[0])
+    # Rotate so metrics are rows and scenarios are columns
+    summary = summary.T
+    summary = summary[[reference] + [col for col in summary.columns if col != reference]]
+
+    heatmap_difference_plot(
+        summary,
+        filename,
+        percentage=percentage,
+        reference=reference,
+        reference_label='Reference'
+    )
 
 # Line plots
 

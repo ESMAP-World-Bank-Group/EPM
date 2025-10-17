@@ -105,35 +105,35 @@ option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVERO
 
 *-------------------------------------------------------------------------------------
 
-
+* Core domain sets loaded from external files
 Sets
-   g        'generators or technology-fuel types'
-   f        'fuels'
-   tech     'technologies'
-   y        'years'
-   q        'quarters or seasons'
-   d        'day types'
-   t        'hours of day'
-   z        'zones'
-   c        'countries'
-   zext     'external zones'
+   g        'Generators or technology-fuel types'
+   f        'Fuels'
+   tech     'Technologies'
+   y        'Planning years'
+   q        'Seasonal blocks (quarters)'
+   d        'Representative days'
+   t        'Hours of day'
+   z        'System zones'
+   c        'Countries'
+   zext     'External trading zones'
    pGenDataInputHeader 'Generator data input headers'
    pSettingsHeader
-   pStoreDataHeader
-   pCSPDataHeader 'CSP data headers' / 'Storage', 'Thermal Field' /
-   pTransmissionHeader
-   pH2Header
-   pTechDataHeader
-   pe       'peak energy for demand forecast' /'peak', 'energy'/
-   hh        'Hydrogen production units'
+   pStoreDataHeader                                        'Storage data headers'
+   pCSPDataHeader       'CSP data headers'                 / 'Storage', 'Thermal Field' /
+   pTransmissionHeader  'Transmission data headers'
+   pH2Header            'Hydrogen data headers'
+   pTechDataHeader      'Technology data headers'
+   pe                   'Peak/energy tags for demand'      / 'peak', 'energy' /
+   hh                   'Hydrogen production units'
 ;
 
 
+* Relationship sets derived from the inputs
 Sets
-   zcmap(z<,c<)           'map zones to countries'
-   gmap(g,z,tech,f) 'Map generators to firms, zones, technologies and fuels'
-   sRelevant(d)  'relevant day and hours when MinGen limit is applied'
-
+   zcmap(z<,c<) 'Zone-to-country mapping'
+   gmap(g,z,tech,f) 'Generator-to-zone/technology/fuel mapping'
+   sRelevant(d) 'Days where minimum generation limits apply'
 ;
 
 alias (z,z2), (g,g1,g2);
@@ -158,7 +158,6 @@ Parameter
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
    pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
-
 
 * Storage and transmission
    pStorDataInput(g,g2,pStoreDataHeader)                 'Storage unit input data'
@@ -872,5 +871,4 @@ $if not set REPORTSHORT $set REPORTSHORT 0
 $log LOG: REPORTSHORT = "%REPORTSHORT%"
 
 $include %REPORT_FILE%
-
 

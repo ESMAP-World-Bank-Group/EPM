@@ -209,8 +209,8 @@
     <datasource caption='Database_Compare' inline='true' name='federated.1nfw8zd1hbpwa11dux5o50rl41si (copie)' version='18.1'>
       <connection class='federated'>
         <named-connections>
-          <named-connection caption='pAnnualTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu (copie)'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pYearlyTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu (copie)'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pYearlyTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCapacityFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -2133,8 +2133,8 @@
           <named-connection caption='pCapacityFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pAnnualTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pYearlyTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pYearlyTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pNewCapacityFuel' name='textscan.0lr8ktj10tgslw11ffk750e9laz1'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pNewCapacityFuel.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -2516,7 +2516,7 @@
           <relation all='true' connection='textscan.0dj8u4901rvu411h4oemp138phvu' include-siblings='true' is-recursive='true' name='Union7' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pAnnualTransmissionCapacity.csv' />
+                <expression op='pYearlyTransmissionCapacity.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -4675,7 +4675,7 @@
       <_.fcp.ObjectModelTableType.true...column caption='pCongestionShare' datatype='table' name='[__tableau_internal_object_id__].[_B9442543F0F04EF087A2B4BDFF476CB9]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pCostSummary' datatype='table' name='[__tableau_internal_object_id__].[_C534530D9DED4735A28CFC2FC79484D7]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pCapacityFuel' datatype='table' name='[__tableau_internal_object_id__].[_D8E0A79FD4764106928A31A5D475FFB2]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pAnnualTransmissionCapacity' datatype='table' name='[__tableau_internal_object_id__].[_EC20D51E04D14EDDBAF939AA1B6C415C]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pYearlyTransmissionCapacity' datatype='table' name='[__tableau_internal_object_id__].[_EC20D51E04D14EDDBAF939AA1B6C415C]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pCongestionShare 2' datatype='table' name='[__tableau_internal_object_id__].[_F162C219741548B781C90C9B3774470B]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pFuelDispatch' datatype='table' name='[__tableau_internal_object_id__].[_FB78585EE1C54699832ADF189ED8736A]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pInterconUtilization' datatype='table' name='[__tableau_internal_object_id__].[_FD7A9788C75B491CB822C90FD5DA6F17]' role='measure' type='quantitative' />
@@ -5576,12 +5576,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pAnnualTransmissionCapacity' id='_EC20D51E04D14EDDBAF939AA1B6C415C'>
+          <object caption='pYearlyTransmissionCapacity' id='_EC20D51E04D14EDDBAF939AA1B6C415C'>
             <properties context=''>
               <relation all='true' connection='textscan.0dj8u4901rvu411h4oemp138phvu' include-siblings='true' is-recursive='true' name='Union7' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pAnnualTransmissionCapacity.csv' />
+                    <expression op='pYearlyTransmissionCapacity.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
