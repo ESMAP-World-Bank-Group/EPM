@@ -1,4 +1,3 @@
-
 # Model Description
 
 EPM cand be used (i) as a least-cost capacity expansion model to optimize investments in the power sector over a specified horizon that could extend from a few years to decades or as (ii) an economic dispatch model to optimize the operation of a specified power system over a relatively short period compared to Capacity Expansion Model (1-week to 1-year). Like every optimization software the problem is mathematically described through an objective function and several accompanying equations (system constraints). System constraints are used to describe mathematically the physical part of the system, laws of physics, policy targets and other realities specific to the system (for example fuel availability). More detailed description of system constraints can be found on subsequent sections.
@@ -33,7 +32,7 @@ The Value of Lost Load (VoLL) is an economic penalty used to ensure that the mod
 
 VoLL affects both the total-non served energy in the system and peaking supply investment decisions. In some cases, allowing for some loss of load might be preferable compared to investing into supply options that will only operate for a tiny amount of the annual time. The user will need to calibrate the model considering the local realities and system rules since the maximum allowed number of hours failing to meet demand is constrained by reliability criteria. When a value for VoLL is not available in global literature the EPM user can select a reported VoLL from a country with similar economic characteristics. Alternatively, the assessment of VoLL can be based on analytical expressions or based on the assumption that demand is sensitive to electricity price. In the latter case VoLL can take the value of cost of generation of the most expensive asset in the system which are usually backup diesel generators \[2\].
 
-Typically, back-up generators are fueled with expensive diesel, and if they are used in the mode just described, the system VOLL would take the value of the variable cost of these generators (~500 $/MWh).
+Typically, back-up generators are fueled with expensive diesel, and if they are used in the mode just described, the system VoLL would take the value of the variable cost of these generators (~500 $/MWh).
 
 ## Transmission network constraints
 
@@ -41,12 +40,12 @@ Kirchhoff’s laws are physical laws governing the flows over transmission lines
 
 $$
 \begin{aligned}
-& \sum_{g \in Z, f} \text{gen}_{g,f,q,d,t,y} 
+& \sum_{g \in Z, f} \text{gen}_{g,f,q,d,t,y}
 - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} \\
 & + \sum_{z2} \left( 1 - \text{LossFactor}_{z,z2,y} \right) \cdot \text{trans}_{z2,z,q,d,t,y} \\
-& - \text{storage\_inj}_{z,q,d,t,y} 
+& - \text{storage\_inj}_{z,q,d,t,y}
 + \text{unmetDem}_{z,q,d,t,y} \\
-& - \text{surplus}_{z,q,d,t,y} 
+& - \text{surplus}_{z,q,d,t,y}
 + \text{importPrice}_{z,q,d,t,y} \\
 & - \text{exportPrice}_{z,q,d,t,y} \\
 & = \text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y} \quad (14)
@@ -70,18 +69,18 @@ The modelled zones, countries and regions are usually not isolated from the exte
 
 $$
 \begin{aligned}
-& \sum_{z \in c, q, d, t} \left( \text{importPrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) 
-\leq \sum_{z \in c, q, d, t} \left( 
-\text{Demand}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EEfactor}_{z,y} 
-\cdot \text{MaxPriceImShare}_{y,c} 
+& \sum_{z \in c, q, d, t} \left( \text{importPrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right)
+\leq \sum_{z \in c, q, d, t} \left(
+\text{Demand}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EEfactor}_{z,y}
+\cdot \text{MaxPriceImShare}_{y,c}
 \right) \\
-& \sum_{z \in c} \text{importPrice}_{z,q,d,t,y} 
-\leq \sum_{z \in c} \left( 
-\text{Demand}_{z,q,d,t,y} \cdot \text{MaxImport} 
+& \sum_{z \in c} \text{importPrice}_{z,q,d,t,y}
+\leq \sum_{z \in c} \left(
+\text{Demand}_{z,q,d,t,y} \cdot \text{MaxImport}
 \right) \\
-& \sum_{z \in c} \text{exportPrice}_{z,q,d,t,y} 
-\leq \sum_{z \in c} \left( 
-\text{Demand}_{z,q,d,t,y} \cdot \text{MaxExport} 
+& \sum_{z \in c} \text{exportPrice}_{z,q,d,t,y}
+\leq \sum_{z \in c} \left(
+\text{Demand}_{z,q,d,t,y} \cdot \text{MaxExport}
 \right)
 \end{aligned}
 $$
@@ -94,15 +93,15 @@ The amount of spinning reserve required depends on several factors that the plan
 
 $$
 \begin{aligned}
-& \sum_{g \in z} \text{reserve}_{g,q,d,t,y} 
+& \sum_{g \in z} \text{reserve}_{g,q,d,t,y}
 + \text{unmetSResSY}_{z,q,d,t,y} \\
-& + \sum_{z2} \big( 
-\text{TransLimit}_{z,z2,q,y} 
-+ \text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} 
-- \text{trans}_{z2,z,q,d,t,y} 
+& + \sum_{z2} \big(
+\text{TransLimit}_{z,z2,q,y}
++ \text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2}
+- \text{trans}_{z2,z,q,d,t,y}
 \big) \\
-& \geq \text{SResSY}_{z,y} 
-+ \text{VREforecastingerror} \cdot \sum_{\text{VRE} \in z} \text{gen}_{\text{VRE},f,q,d,t,y} 
+& \geq \text{SResSY}_{z,y}
++ \text{VREforecastingerror} \cdot \sum_{\text{VRE} \in z} \text{gen}_{\text{VRE},f,q,d,t,y}
 \quad \forall z,q,d,t,y \quad (19)
 \end{aligned}
 $$
@@ -111,10 +110,10 @@ Planners usually consider a planning reserve margin (PRM) to account for forecas
 
 $$
 \begin{aligned}
-& \sum_{g \in Z} \big( \text{cap}_{g,y} \cdot \text{CapCredit}_{g,y} \big) 
-+ \text{unmetRes}_{z,y} 
+& \sum_{g \in Z} \big( \text{cap}_{g,y} \cdot \text{CapCredit}_{g,y} \big)
++ \text{unmetRes}_{z,y}
 + \sum_{z2} \sum_{q} \text{TransLimit}_{z2,z,q,y} \\
-& \geq (1 + \text{PRM}_{z}) \cdot \max_{q,d,t} \big( \text{Demand}_{z,q,d,t,y} \big) 
+& \geq (1 + \text{PRM}_{z}) \cdot \max_{q,d,t} \big( \text{Demand}_{z,q,d,t,y} \big)
 \quad \forall z,y
 \end{aligned}
 $$
@@ -125,7 +124,7 @@ Spinning reserve capacity is modeled as it is a very important dimension of a sy
 
 $$
 \begin{aligned}
-& \sum_{f} \text{gen}_{g,f,q,d,t,y} 
+& \sum_{f} \text{gen}_{g,f,q,d,t,y}
 + \text{reserve}_{g,q,d,t,y} \\
 & \leq (1 + \text{OverLoadFactor}_{g}) \cdot \text{cap}_{g,y}
 \end{aligned}
@@ -143,11 +142,11 @@ Ramping constraints acknowledge that the generation units have inertia in changi
 
 $$
 \begin{aligned}
-& \sum_{f} \text{gen}_{g,f,q,d,t-1,y} 
-- \sum_{f} \text{gen}_{g,f,q,d,t,y} 
+& \sum_{f} \text{gen}_{g,f,q,d,t-1,y}
+- \sum_{f} \text{gen}_{g,f,q,d,t,y}
 \leq \text{cap}_{g,y} \cdot \text{RampDn}_{g} \quad \forall t > 1 \quad (24) \\
-& \sum_{f} \text{gen}_{g,f,q,d,t,y} 
-- \sum_{f} \text{gen}_{g,f,q,d,t-1,y} 
+& \sum_{f} \text{gen}_{g,f,q,d,t,y}
+- \sum_{f} \text{gen}_{g,f,q,d,t-1,y}
 \leq \text{cap}_{g,y} \cdot \text{RampUp}_{g} \quad \forall t > 1 \quad (25)
 \end{aligned}
 $$
@@ -155,16 +154,16 @@ $$
 Another important feature of generators is the minimum load. The minimum load can either be determined based on technical specifications provided by the manufacturer or be calculated as an “economic” minimum beyond which the unit can provide energy economically. The minimum load constraint is really important for unit commitment and requires the use of binaries variables that make sure the constraint is enforced when the unit is on. However, in generation expansion models operations are approximated through a simple dispatch model for representative hours of the year. In this case, if deemed important, an approximation of the minimum load constraint can be applied for the thermal units for which it is relevant. The constraint can be applied for a subset of the days modeled and the constraint is activated only for those days or to all days. Constraint (26) is forcing all units to generate power equal to at least their minimum loading levels for specific days in the year.
 
 $$
-\sum_{f} \text{gen}_{g,f,q,d,t,y} 
-\geq \text{MinCapFac}_{g} \cdot \text{cap}_{g,y} 
+\sum_{f} \text{gen}_{g,f,q,d,t,y}
+\geq \text{MinCapFac}_{g} \cdot \text{cap}_{g,y}
 \quad \forall d \in M \quad (26)
 $$
 
 Generating units require maintenance every year. Given that, we should consider the units as unavailable for certain periods during the year. In this particular application, we consider a uniform availability factor per quarter to account for maintenance.
 
 $$
-\sum_{f,d,t} \big( \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y} \big) 
-\leq \text{Availability}_{g,q} \cdot \sum_{d,t} \big( \text{Duration}_{q,d,t,y} \cdot \text{cap}_{g,y} \big) 
+\sum_{f,d,t} \big( \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y} \big)
+\leq \text{Availability}_{g,q} \cdot \sum_{d,t} \big( \text{Duration}_{q,d,t,y} \cdot \text{cap}_{g,y} \big)
 \quad (27)
 $$
 
@@ -173,8 +172,8 @@ $$
 Renewable generation differs from conventional units in that its output is, to a certain extent, uncontrollable and intermittent. The power generated by renewables such as wind or solar depends on wind velocity or solar irradiation. Collecting historical data that records weather information (such as wind speed, temperature, wind direction, etc.) or the power generation output by installed renewables at specific locations, analysts usually employ statistical methods such as k-means to reduce the number of hours required to approximate the intermittent nature of renewables \[5\]. In this particular application, the generation profile for each renewable energy technology (such as wind or solar PV) is defined by the hourly capacity factor, in a year, of a generic power plant of each type, modeled at a specified location. Then, given this hourly profile for a year, we choose the amount of days modeled based on the days selected for the load approximation (see Section 1.4.3), i.e., the renewable profile during the 12 days in the year selected, for load, is maintained.
 
 $$
-\text{gen}_{g,f,q,d,t,y} 
-\leq \text{RPprofile}_{g,\text{RE},q,d,y,t} \cdot \text{cap}_{g,y} 
+\text{gen}_{g,f,q,d,t,y}
+\leq \text{RPprofile}_{g,\text{RE},q,d,y,t} \cdot \text{cap}_{g,y}
 \quad (28)
 $$
 
@@ -185,45 +184,45 @@ Note that the renewable profile is highly dependent on the region/location the r
 CSP technology modeling differs from other renewable technologies due to the complexity derived by its storage capabilities. The CSP configuration considered in this model consists of two integrated subsystems; these include the thermal storage system, and power cycle. Thermal storage is modeled using a simple energy balance approach that includes charging and discharging energy. The power cycle model provides a simple mechanism for modeling the conversion from thermal energy output from the solar field, and thermal storage into electrical energy.
 
 $$
-\text{storageCSP}_{g,z,q,d,t,y} 
-\leq \text{cap}_{g,y} \cdot \text{CSP\_storage} 
+\text{storageCSP}_{g,z,q,d,t,y}
+\leq \text{cap}_{g,y} \cdot \text{CSP\_storage}
 \quad \forall \text{map}(g, \text{CSP}) \quad (29)
 $$
 
 Equation (29) indicate that at any time the CSP storage level cannot exceed its storage capability.
 
 $$
-\text{genCSP}_{g,z,q,d,t,y} = 
-\text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot 
-\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}} 
+\text{genCSP}_{g,z,q,d,t,y} =
+\text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
 \quad (30)
 $$
 
 The power output of the solar panel is calculated by multiplying the nameplate capacity of the CSP power plant, the capacity factor of the system, and the solar multiple, then, dividing this by the turbine and solar field efficiencies (Equation (30)).
 
 $$
-\sum_{f \in \text{CSP}} \text{gen}_{g,f,q,d,t,y} 
-\leq \text{cap}_{g,y} 
+\sum_{f \in \text{CSP}} \text{gen}_{g,f,q,d,t,y}
+\leq \text{cap}_{g,y}
 \quad (31)
 $$
 
 Equation (31) indicate that all the power output produced by CSP generators at any given zone, cannot exceed the nameplate capacity. Finally, Equations (32) and (33) detail the power balance formulations for the power cycle and thermal storage subsystems.
 
 $$
-\sum_{f \in \text{CSP}} \big( 
-\text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency}_{\text{CSP}} 
-- \text{storageCSPinj}_{g,z,q,d,t,y} 
-+ \text{storageCSPout}_{g,z,q,d,t,y} 
-\big) 
-= \frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency}_{\text{CSP}}} 
+\sum_{f \in \text{CSP}} \big(
+\text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency}_{\text{CSP}}
+- \text{storageCSPinj}_{g,z,q,d,t,y}
++ \text{storageCSPout}_{g,z,q,d,t,y}
+\big)
+= \frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency}_{\text{CSP}}}
 \quad \forall g,z,q,d,t,y \quad (32)
 $$
 
 $$
-\text{storageCSP}_{g,z,q,d,t,y} = 
-\text{storageCSP}_{g,z,q,d,t-1,y} 
-+ \text{storageCSPinj}_{g,z,q,d,t,y} 
-- \text{storageCSPout}_{g,z,q,d,t,y} 
+\text{storageCSP}_{g,z,q,d,t,y} =
+\text{storageCSP}_{g,z,q,d,t-1,y}
++ \text{storageCSPinj}_{g,z,q,d,t,y}
+- \text{storageCSPout}_{g,z,q,d,t,y}
 \quad (33)
 $$
 
@@ -232,10 +231,10 @@ $$
 We use constraint (34) to track the capacity in consecutive years. In particular, generation capacity at year equals capacity at previous year plus any investment minus any retirement at year .
 
 $$
-\text{cap}_{g \in \text{EG},y} = 
-\text{cap}_{\text{EG},y-1} 
-+ \text{build}_{\text{EG},y} 
-- \text{retire}_{\text{EG},y} 
+\text{cap}_{g \in \text{EG},y} =
+\text{cap}_{\text{EG},y-1}
++ \text{build}_{\text{EG},y}
+- \text{retire}_{\text{EG},y}
 \quad \forall \text{ord}(y) > 1 \quad (34)
 $$
 
@@ -244,62 +243,62 @@ Several more constraints are formulated to fix the capacity at pre-specified lev
 - The first constraint sets the capacity of the existing units in the first year to the predefined capacity, if the commissioning year is earlier then the first year of the optimization horizon.
 
 $$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_{g} 
-\quad \forall (y, g \in \text{EG}) : \big( \text{ord}(y) = 1 \land \text{StartYear} < \text{Commission\_year}_{g} \big) 
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_{g}
+\quad \forall (y, g \in \text{EG}) : \big( \text{ord}(y) = 1 \land \text{StartYear} < \text{Commission\_year}_{g} \big)
 \quad (35)
 $$
 
 - The second constraint sets the capacity of the existing units to the predefined capacity, for all the years exceeding the commissioning year, but before the defined retirement year.
 
 $$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_{g} 
-\quad \forall (y, g \in \text{EG}) : \big( 
-\text{Commission\_year}_{g} \geq \text{StartYear} \land 
-\text{ord}(y) \geq \text{Commission\_year}_{g} \land 
-\text{ord}(y) < \text{Retirement\_year}_{\text{EG}} 
-\big) 
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_{g}
+\quad \forall (y, g \in \text{EG}) : \big(
+\text{Commission\_year}_{g} \geq \text{StartYear} \land
+\text{ord}(y) \geq \text{Commission\_year}_{g} \land
+\text{ord}(y) < \text{Retirement\_year}_{\text{EG}}
+\big)
 \quad (36)
 $$
 
 - The third constraint forces the capacity of the existing units to 0, when the retirement year is reached.
 
 $$
-\text{cap}_{g \in \text{EG},y} = 0 
-\quad \forall (y, g \in \text{EG}) : \big( 
-\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}} 
-\big) 
+\text{cap}_{g \in \text{EG},y} = 0
+\quad \forall (y, g \in \text{EG}) : \big(
+\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}}
+\big)
 \quad (37)
 $$
 
 - The fourth constraint states that the total capacity of a new generator equals the capacity of that new generator built the previous year plus the capacity to be built the current year:
 
 $$
-\text{cap}_{g \in \text{NG},y} = 
-\text{cap}_{\text{NG},y-1} + \text{build}_{\text{NG},y} 
-\quad \forall \text{ord}(y) > 1 
+\text{cap}_{g \in \text{NG},y} =
+\text{cap}_{\text{NG},y-1} + \text{build}_{\text{NG},y}
+\quad \forall \text{ord}(y) > 1
 \quad (38)
 $$
 
 - The fifth constraint forces the capacity at the first year of the horizon for new units to be equal to the capacity installed that year
 
 $$
-\text{cap}_{g \in \text{NG},y} = \text{build}_{\text{NG},y} 
-\quad \forall \text{ord}(y) = 1 
+\text{cap}_{g \in \text{NG},y} = \text{build}_{\text{NG},y}
+\quad \forall \text{ord}(y) = 1
 \quad (39)
 $$
 
 - The sixth constraint limits the capacity to the predefined available or installed capacity of the unit.
 
 $$
-\text{cap}_{g} \leq \text{GenCap}_{g} 
+\text{cap}_{g} \leq \text{GenCap}_{g}
 \quad (40)
 $$
 
 - The seventh constraint forces the capacity of planned and candidate units at zero for years preceding the commission year of the unit.
 
 $$
-\text{cap}_{g,y} = 0 
-\quad \forall (y, g) : \big( \text{ord}(y) < \text{Commission\_year}_{g} \big) 
+\text{cap}_{g,y} = 0
+\quad \forall (y, g) : \big( \text{ord}(y) < \text{Commission\_year}_{g} \big)
 \quad (41)
 $$
 
@@ -310,31 +309,31 @@ Economically efficient storage in power systems has mainly been pumped hydro sto
 Storage is modeled differently compared to conventional units since it requires two more variables: (1) one variable to keep track of the storage level (storage) and (2) one variable (_storageinj_) to model the injection of energy into the storage unit. The variable _gen_ used to track the generator output of conventional units is used to account for the output of a storage unit when it is discharged. Moreover, the chronological sequence of the time slices is important to make sure that the simulated operation is feasible e.g., we cannot discharge a storage unit if charging of the unit has not preceded. Finally, storage of energy requires the conversion of electricity to another form of energy e.g., mechanical for flywheels or chemical for fuel cells and common batteries. The conversion of one form of energy to another involves losses that we should consider in our models. Equations (30) and (31) represent the storage balance equations on the first hour of a representative day and any other hour of a representative day respectively:
 
 $$
-\text{storage}_{st,z,q,d,t=1,y} = \text{Storage\_efficiency}_{st} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{st,z,q,d,t=1,y} 
+\text{storage}_{st,z,q,d,t=1,y} = \text{Storage\_efficiency}_{st} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{st,z,q,d,t=1,y}
 \quad \forall t=1 \quad (42)
 $$
 
 $$
-\text{storage}_{st,z,q,d,t>1,y} = \text{storage}_{st,z,q,d,t-1,y} + \text{Storage\_efficiency}_{st} \cdot \text{storage\_inj}_{st,z,q,d,t-1,y} - \text{gen}_{st,z,q,d,t-1,y} 
+\text{storage}_{st,z,q,d,t>1,y} = \text{storage}_{st,z,q,d,t-1,y} + \text{Storage\_efficiency}_{st} \cdot \text{storage\_inj}_{st,z,q,d,t-1,y} - \text{gen}_{st,z,q,d,t-1,y}
 \quad \forall t>1 \quad (43)
 $$
 
 The first equation (42) makes sure that the battery is discharged at the start of each representative day. The choice for not making a link between different days and thus having the battery discharged at the start of each day is because the standard formulation of the model works with representative days (e.g peak load, minimum load, and average load days) instead of actual days. Equation (43)in turn keeps track of the energy stored in the storage unit between consecutive hours of the same day: the energy stored in the unit at time slice _t_ (t > 1) equals the energy stored in the unit at time slice _t-1_ plus any injection reduced by the storage efficiency minus any discharge at time _t_. In case the storage unit is linked to a PV plant, the injection is given by the PV profile:
 
 $$
-\text{storage\_inj}_{stp,q,d,t,y} = \text{Cap}_{so,y} \cdot \text{pStoragePVProfile}_{so,q,d,t,y} 
+\text{storage\_inj}_{stp,q,d,t,y} = \text{Cap}_{so,y} \cdot \text{pStoragePVProfile}_{so,q,d,t,y}
 \quad (44)
 $$
 
 Two additional constraints are used to make sure that the operation of storage in each time slice is feasible considering the peak storage capacity (in MW):
 
 $$
-\text{storage\_inj}_{st,q,d,t,y} \leq \text{Cap}_{st,y} 
+\text{storage\_inj}_{st,q,d,t,y} \leq \text{Cap}_{st,y}
 \quad (45)
 $$
 
 $$
-\text{storage}_{st,q,d,t,y} \leq \text{Storage\_Capacity}_{st,y} 
+\text{storage}_{st,q,d,t,y} \leq \text{Storage\_Capacity}_{st,y}
 \quad (46)
 $$
 
@@ -343,29 +342,29 @@ The first constraint ensures that the hourly energy injection is lower or equal 
 Furthermore, the storage units can be charged or discharged at a rate, which cannot exceed a specific value. To model this behavior, we include constraints (47) and (48) respectively.
 
 $$
-\text{storage\_inj}_{st,q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{st,y} \cdot \text{RampDn}_{st} 
+\text{storage\_inj}_{st,q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{st,y} \cdot \text{RampDn}_{st}
 \quad \forall t>1 \quad (47)
 $$
 
 $$
-\text{storage\_inj}_{st,q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{st,y} \cdot \text{RampUp}_{st} 
+\text{storage\_inj}_{st,q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{st,y} \cdot \text{RampUp}_{st}
 \quad \forall t>1 \quad (48)
 $$
 
 Three equations keep track of the deployed energy storage capacity (in MWh) of the storage units:
 
 $$
-\text{Storage\_Capacity}_{EG,y} = \text{Storage\_Capacity}_{EG,y-1} + \text{Build\_Storage\_Capacity}_{EG,y-1} - \text{Retire\_Storage\_Capacity}_{EG,y-1} 
+\text{Storage\_Capacity}_{EG,y} = \text{Storage\_Capacity}_{EG,y-1} + \text{Build\_Storage\_Capacity}_{EG,y-1} - \text{Retire\_Storage\_Capacity}_{EG,y-1}
 \quad \forall y>1 \quad (49)
 $$
 
 $$
-\text{Storage\_Capacity}_{NG,y} = \text{Storage\_Capacity}_{NG,y-1} + \text{Build\_Storage\_Capacity}_{NG,y-1} 
+\text{Storage\_Capacity}_{NG,y} = \text{Storage\_Capacity}_{NG,y-1} + \text{Build\_Storage\_Capacity}_{NG,y-1}
 \quad \forall y>1 \quad (50)
 $$
 
 $$
-\text{Storage\_Capacity}_{NG,y} = \text{Build\_Storage\_Capacity}_{NG,y-1} 
+\text{Storage\_Capacity}_{NG,y} = \text{Build\_Storage\_Capacity}_{NG,y-1}
 \quad \forall y=1 \quad (51)
 $$
 
@@ -374,17 +373,17 @@ Equation (49) keeps track of the energy storage capacity for existing storage un
 Three final constraints limit the total deployed energy storage capacity (in MWh):
 
 $$
-\text{StorageCapacity}_{st,y} \geq \text{Cap}_{st,y} 
+\text{StorageCapacity}_{st,y} \geq \text{Cap}_{st,y}
 \quad (52)
 $$
 
 $$
-\text{StorageCapacity}_{st,y} \leq \text{Maximum\_Storage\_Energy}_{st,y} + \text{CSP\_storage}_{CSP,y} 
+\text{StorageCapacity}_{st,y} \leq \text{Maximum\_Storage\_Energy}_{st,y} + \text{CSP\_storage}_{CSP,y}
 \quad (53)
 $$
 
 $$
-\sum_y \text{Build\_Storage\_Capacity}_{EG,y} \leq \text{Maximum\_Storage\_Energy}_{EG,y} 
+\sum_y \text{Build\_Storage\_Capacity}_{EG,y} \leq \text{Maximum\_Storage\_Energy}_{EG,y}
 \quad (54)
 $$
 
@@ -397,40 +396,40 @@ Planners consider several constraints when they decide on a generation investmen
 Constraint (55) usually reflects land use considerations, regulation that imposes an upper bound on capacity of specific technologies or simply resource potential (e.g., for wind there is a finite amount of locations where wind farms can provide the capacity factor modeled).
 
 $$
-\sum_y \text{build}_{g \in NG,y} \leq \text{MaxNewCap}_{NG} 
+\sum_y \text{build}_{g \in NG,y} \leq \text{MaxNewCap}_{NG}
 \quad (55)
 $$
 
 Constraint (58) is usually employed to reflect practical limitations on construction and spread the construction of new units more uniformly over time. For example, it seems pretty unrealistic that the whole system capacity can be built in one year.
 
 $$
-\text{build}_{g \in NG,y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y 
+\text{build}_{g \in NG,y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
 \quad (58)
 $$
 
 Constraint (62) imposes an upper bound on fuel consumption. This upper bound might correspond to the fuel reserves a country might have at its disposal or the capacities of refinement units or importing units such as size of LNG terminals. Constraint (63) simply estimates the fuel consumption. Note that in case we want to reduce the number of variables in our model, we can get rid of the fuel variable since it is defined in terms of the generation variable.
 
 $$
-\text{fuel}_{z,f,y} \leq \text{MaxFuelOff}_{f,y} 
+\text{fuel}_{z,f,y} \leq \text{MaxFuelOff}_{f,y}
 \quad (62)
 $$
 
 $$
-\text{fuel}_{z,f,y} = \sum_{g \in Z,q,d,t} \text{Duration}_{q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{gen}_{g,f,q,d,t,y} 
+\text{fuel}_{z,f,y} = \sum_{g \in Z,q,d,t} \text{Duration}_{q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{gen}_{g,f,q,d,t,y}
 \quad (63)
 $$
 
-Constraint (64) represents a budget constraint. It limits the capital expenses withdrawal to be lower than a pre-specified amount. In this formulation, we assume that the _MaxCapital_ parameter is similar to the maximum debt payments that a power system planner can do over the horizon.
+Constraint (64) represents a budget constraint. It limits the capital expenses withdrawal to be lower than a pre-specified amount. In this formulation, we assume that the _sMaxCapitalInvestment_ parameter is similar to the maximum debt payments that a power system planner can do over the horizon.
 
 $$
-\sum_{y,g \in NG} \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{NG} \cdot \text{CapCost}_{NG,y} \cdot \text{cap}_{g,y} \leq \text{MaxCapital} 
+\sum_{y,g \in NG} \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{NG} \cdot \text{CapCost}_{NG,y} \cdot \text{cap}_{g,y} \leq \text{sMaxCapitalInvestment}
 \quad (64)
 $$
 
 An alternative constraint that addresses the same concern but relies on different information is expressed by constraint (69). In that case, the planner does not know the maximum amount of debt payments that the power plant owners might do but he has a good understanding of the maximum capital available to the system for investment. In that case, the sum of the overnight capital expenditure is not allowed to exceed this known budget.
 
 $$
-\sum_{g \in NG,y} \text{CapCost}_{g,y} \leq \text{MaxBudget} 
+\sum_{g \in NG,y} \text{CapCost}_{g,y} \leq \text{MaxBudget}
 \quad (69)
 $$
 
@@ -439,30 +438,29 @@ $$
 Environmental concerns often lead policymakers to adoption of caps on the amount of emissions of certain pollutants. Several countries have announced targets to reduce their carbon dioxide emissions below particular amounts. Given that the power system is a big contributor to carbon dioxide emissions, power system caps are usually enforced at the country or at multi-country level. Constraints (65) and (66) impose the caps decided by regulators. Note that constraints (67) and (68) are modeled as “hard” constraints with no violation allowed. We would like to note that environmental policy might impose caps on more pollutants beyond carbon dioxide. For example, in the USA certain caps apply on and emissions. The dual variables of constraint (66) and (68) provide valuable information to the planner since they estimate the additional cost the planner would have to bear to decrease the amount of the pollutant by an infinitely small amount. In other words, the dual prices of (66) and (68) provide an approximation of the prices that the planner would pay per unit of pollutant if slightly stricter regulation would be applied.
 
 $$
-\text{emissions\_Co}_{c,y} = \sum_{g \in c,q,d,t} \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} 
+\text{emissions\_Co}_{c,y} = \sum_{g \in c,q,d,t} \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y}
 \quad (65)
 $$
 
 $$
-\text{emissions\_Co}_{c,y} - \text{CO2backstop}_{c,y} \leq \text{CO\_emission\_cap}_{c,z} 
+\text{emissions\_Co}_{c,y} - \text{CO2backstop}_{c,y} \leq \text{CO\_emission\_cap}_{c,z}
 \quad (66)
 $$
 
 $$
-\text{emissions}_y = \sum_c \text{emissions\_Co}_{c,y} 
+\text{emissions}_y = \sum_c \text{emissions\_Co}_{c,y}
 \quad (67)
 $$
 
 $$
-\text{emissions}_y - \text{SysCO2backstop}_y \leq \text{Sys\_emission\_cap}_y 
+\text{emissions}_y - \text{SysCO2backstop}_y \leq \text{Sys\_emission\_cap}_y
 \quad (68)
 $$
 
 Another policy mechanism related to carbon emissions is a carbon tax (less popular than the cap-and-trade system at present). We model the carbon tax as part of the objective function. Note that the carbon tax does not correspond to an actual cost for the society since it is a transfer payment for emitters to the government. It reflects an actual cost, though, only if it attempts to monetize the public health cost and the damage to the environment. However, it reflects an actual cost for power system since generators would probably have to pay the tax to the government and that explains why it is part of the objective function (8).
 
-
 $$
-\text{carboncost}_{z,y} = \sum_{g \in Z,f,q,d,t} \text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y} 
+\text{carboncost}_{z,y} = \sum_{g \in Z,f,q,d,t} \text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}
 \quad (8)
 $$
 
@@ -473,10 +471,9 @@ CCS technology investments can be modelled on EPM as either greenfield or retrof
 CCS retrofits are modeled as a sudden change on the techno-economic parameters of an existing plant subject to some CAPEX incurred. More specifically, this change is modelled as a decommissioning of the existing plant and a simultaneous commissioning of the retrofitted plan. The retrofit CAPEX and the updated techno-economic parameters need to be carefully selected based on international experience. The mathematical addition of CCS retrofit on EPM is done through equation 69 below:
 
 $$
-\text{build}_{ng,y} - \text{retire}_{eg,y} \leq 0 
+\text{build}_{ng,y} - \text{retire}_{eg,y} \leq 0
 \quad \forall ng, eg \in \text{mapGG}(eg, ng) \quad (69)
 $$
-
 
 Set mapGG containing the relevant pairs of the existing plant (candidate for retrofit) and the new plant (retrofitted plant) is automatically generated through the inputs development phase. The relevant connection (pairs of plants) is made by the EPM user on excel tab named LinkedComDecom
 
@@ -494,121 +491,116 @@ Investments on electrolyzers are mathematically constrained to dictate time cons
 Generation capacity of existing electrolyzer capacity at year equals capacity at previous year plus any investment minus any retirement at year where y is not the first year of the study horizon (equation 70)
 
 $$
-\text{capH2}_{eh,y} = \text{capH2}_{eh,y-1} + \text{buildH2}_{eh,y} - \text{retireH2}_{eh,y} 
+\text{capH2}_{eh,y} = \text{capH2}_{eh,y-1} + \text{buildH2}_{eh,y} - \text{retireH2}_{eh,y}
 \quad \forall \text{ord}(y)>1 \quad (70)
 $$
 
 Equation (71) is the same constraint as (70) modified for candidate capacity
 
 $$
-\text{capH2}_{nh,y} = \text{capH2}_{nh,y-1} + \text{buildH2}_{nh,y} 
+\text{capH2}_{nh,y} = \text{capH2}_{nh,y-1} + \text{buildH2}_{nh,y}
 \quad \forall \text{ord}(y)>1 \quad (71)
 $$
-
 
 Equation (72) constraints total electrolyzer capacity at the end of the first year of the optimization horizon. At the beginning of horizon existing capacity is the one defined in the inputs section and by the end of year the capacity is adjusted by any optimized additions or retirement throughout the year.
 
 $$
-\text{capH2}_{h,y} = \text{H2Cap}_{h \in EH,y} + \text{buildH2}_{h,y} - \text{retireH2}_{EH,y} 
+\text{capH2}_{h,y} = \text{H2Cap}_{h \in EH,y} + \text{buildH2}_{h,y} - \text{retireH2}_{EH,y}
 \quad \forall \text{ord}(y)=1 \quad (72)
 $$
 
 Total electrolyzer capacity that can be developed into mandatory projects (decision for development has been made) can not exceed the maximum electrolyzer capacity provided as input
 
 $$
-\sum_{y \in Y} \text{buildH2}_{eh,y} \leq \text{H2Cap}_{eh} 
+\sum_{y \in Y} \text{buildH2}_{eh,y} \leq \text{H2Cap}_{eh}
 \quad (73)
 $$
 
 Total new electrolyzer capacity that can be developed in candidate projects (decision to be optimized) cannot exceed the maximum electrolyzer capacity provided as input
 
 $$
-\sum_{y \in Y} \text{buildH2}_{nh,y} \leq \text{MaxNewCapH2}_{nh} 
+\sum_{y \in Y} \text{buildH2}_{nh,y} \leq \text{MaxNewCapH2}_{nh}
 \quad (74)
 $$
 
 Electolyzer candidate investments can also be set as integer decisions. In such cases the defined capacity can either be built in one step or stay out of the plan (equation 75). Similarly retirement of existing electrolyzer plant takes place in a single step (76). In equations (75) and (76), variables and can only take positive integer values
 
-
 $$
-\text{buildH2}_{nh,y} = \text{UnitSizeH2}_{nh} \cdot \text{buildCapVarH2}_{nh,y} 
+\text{buildH2}_{nh,y} = \text{UnitSizeH2}_{nh} \cdot \text{buildCapVarH2}_{nh,y}
 \quad (75)
 $$
 
 $$
-\text{retireH2}_{eh,y} = \text{UnitSizeH2}_{eh} \cdot \text{retireCapVarH2}_{eh,y} 
+\text{retireH2}_{eh,y} = \text{UnitSizeH2}_{eh} \cdot \text{retireCapVarH2}_{eh,y}
 \quad (76)
 $$
-
 
 Equation 77 puts a constraint on operational time of electrolyzers so that it doesn’t exceed their technical availability:
 
 $$
-\sum_{d,t} \big( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \big) \leq \text{AvailabilityH2}_{h,q} \cdot \text{CapH2}_{h,y} \cdot \sum_{d,t} \text{Duration}_{q,d,t,y} 
+\sum_{d,t} \big( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \big) \leq \text{AvailabilityH2}_{h,q} \cdot \text{CapH2}_{h,y} \cdot \sum_{d,t} \text{Duration}_{q,d,t,y}
 \quad (77)
 $$
 
 Equation 78 describes the thermal balance of hydrogen within the system (in mmBTU). Total mmBTU of hydrogen produced are equal to hydrogen demand for other sectors minus unmet hydrogen demand plus hydrogen recirculate in the power sector as fuel.
 
 $$
-\sum_z \big( \text{ExternalH2}_{z,q,y} - \text{unmetH2External}_{z,q,y} + \text{fuelH2Quarter}_{z,q,y} \big) 
-\leq \sum_{z,h \in \text{map}(h,z)} \big( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EfficiencyH2}_h \big) 
+\sum_z \big( \text{ExternalH2}_{z,q,y} - \text{unmetH2External}_{z,q,y} + \text{fuelH2Quarter}_{z,q,y} \big)
+\leq \sum_{z,h \in \text{map}(h,z)} \big( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EfficiencyH2}_h \big)
 \quad (78)
 $$
 
 Equation 79 makes a connection between quarterly an annual amount of hydrogen fuel produced in the system:
 
 $$
-\sum_z \text{fuelH2Quarter}_{z,q,y} = \text{fuelH2}_{z,y} 
+\sum_z \text{fuelH2Quarter}_{z,q,y} = \text{fuelH2}_{z,y}
 \quad (79)
 $$
-
 
 Equation 80 puts a constraint on total amount of electricity drawn by an electrolyzer. Max power absorbed can’t be more than the electrolyzer capacity:
 
 $$
-\text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y} 
+\text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y}
 \quad (80)
 $$
 
 Equations 81 and 82 define ramping constraints for electrolyzer operation:
 
 $$
-\text{H2PwrIn}_{h,q,d,t-1,y} - \text{H2PwrIn}_{h,q,d,t,y} 
-\leq \text{CapH2}_{h,y} \cdot \text{RampDnH2}_h 
+\text{H2PwrIn}_{h,q,d,t-1,y} - \text{H2PwrIn}_{h,q,d,t,y}
+\leq \text{CapH2}_{h,y} \cdot \text{RampDnH2}_h
 \quad (81)
 $$
 
 $$
-\text{H2PwrIn}_{h,q,d,t,y} - \text{H2PwrIn}_{h,q,d,t-1,y} 
-\leq \text{CapH2}_{h,y} \cdot \text{RampUpH2}_h 
+\text{H2PwrIn}_{h,q,d,t,y} - \text{H2PwrIn}_{h,q,d,t-1,y}
+\leq \text{CapH2}_{h,y} \cdot \text{RampUpH2}_h
 \quad (82)
 $$
-
 
 Equations 83 sets an energy balance on renewable electricity. Total renewable electricity generated is equal to renewable electricity consumed by end-use sectors and renewable electricity consumed by electrolyzes:
 
 $$
-\text{Gen}_{RE,f,d,t,y} = \text{REPwr2Grid}_{RE,f,d,t,y} + \text{REPwr2H2}_{RE,f,d,t,y} 
+\text{Gen}_{RE,f,d,t,y} = \text{REPwr2Grid}_{RE,f,d,t,y} + \text{REPwr2H2}_{RE,f,d,t,y}
 \quad (83)
 $$
 
 Equation 84 makes a connection between renewable power produced and electricity drawn by electrolyzers:
 
 $$
-\sum_{z,h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y} 
+\sum_{z,h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
 \quad (84)
 $$
 
 Finally, equations 85 and 86 are mapping renewable electricity produced on a zonal basis which is necessary for the architecture of the hydrogen model:
 
 $$
-\sum_{RE,f,z \in (\text{map}(RE,f), \text{map}(RE,z))} \text{REPwr2H2}_{RE,f,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y} 
+\sum_{RE,f,z \in (\text{map}(RE,f), \text{map}(RE,z))} \text{REPwr2H2}_{RE,f,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
 \quad (85)
 $$
 
 $$
-\sum_{RE,f,z \in (\text{map}(RE,f), \text{map}(RE,z))} \text{REPwr2Grid}_{RE,f,q,d,t,y} = \text{PwrREGrid}_{z,q,d,t,y} 
+\sum_{RE,f,z \in (\text{map}(RE,f), \text{map}(RE,z))} \text{REPwr2Grid}_{RE,f,q,d,t,y} = \text{PwrREGrid}_{z,q,d,t,y}
 \quad (86)
 $$
 
@@ -630,26 +622,23 @@ As any model, this model also has some limitations in most practical system appl
 
 ## Bibliography
 
-| \[1\] | A. Van Der Welle and B. Van Der Zwaan, "An overview of selected studies on the value of lost load (VOLL)," _Energy Research Centre of the Netherlands (ECN), Amsterdam,_ 2007. |
-| --- | --- |
-| \[2\] | F. De Sisternes, "Investment model for renewable electricity systems (IMRES): an electricity generation capacity expansion formulation with unit commitment constraints," _MIT, Cambridge MA,_ 2013. |
-| \[3\] | NERC, "Glossary of Terms Used in NERC Reliability Standards," \[Online\]. Available: <http://www.nerc.com/pa/stand/glossary> of terms/glossary_of_terms.pdf. \[Accessed 12 December 2016\]. |
-| \[4\] | B. Hobbs and C. Bothwell, "System Adequacy with Intermittent Resources : Capacity Value and Economic Distortions," ISO New England, 2016. \[Online\]. Available: <https://www.iso-ne.com/static-assets/documents/2016/09/PSPC09222016_A4_Cindy-Bothwell-Johns-Hopkins-University-System-Adequacy-with-Intermittent-Resources-Capacity-Value-and-Economic-Distortions.pdf>. \[Accessed 2 October 2016\]. |
-| \[5\] | L. Baringo and A. J. Conejo, "Correlated wind-power production and electric load scenarios for investment decisions," _Applied Energy,_ vol. 101, pp. 475-482, 2013. |
-| \[6\] | CESI, "Pan-Arab Regional Energy Trade Platform (PA-RETP). Power Market Study: Gas Comsumption Assessment for the Power Sector accross MENA Region," CESI, 2016. |
-| \[7\] | CESI-Ramboll, "Feasibility Study of the Electrical Interconnection and Energy Trade between Arab Countries," Arab Fund for Economic and Social Development, 2014. |
-| \[8\] | The World Bank, "Energy Efficiency Study in Lebanon," The World Bank, Washington, DC, 2009. |
-| \[9\] | Presidency of the Council of Ministries Central Administration of Statistics, "Energy". |
-| \[10\] | Palestinian Electricity Regulatory Council, "Annual Report 2011,," Palestinian Electricity Regulatory Council, 2011. |
-| \[11\] | DSIRE, "N.C. Clean Energy Technology Center," DSIRE, \[Online\]. Available: <http://programs.dsireusa.org/system/program/tables>. \[Accessed 12 December 2016\]. |
-| \[12\] | A. Hainoun, "Construction of the hourly load curves and detecting the annual peak load of future Syrian electric power demand using bottom-up approach," _International Journal of Electrical Power & Energy Systems,_ vol. 31, no. 1, pp. 1-12, 2009. |
-| \[13\] | P. Khajavi, H. Monsef and H. Abniki, "Load profile reformation through demand response programs using smart grid," in _Proceedings of the International Symposium Modern Electric Power Systems (MEPS), 2010_, 2010. |
-| \[14\] | A. Khazaee, M. Ghasempour, H. Hoseinzadeh and H. Hooshmandi, "DEMAND MANAGEMENT PROGRAM FOR LARGE INDUSTRIAL CONSUMERS BY USING THE AMI SYSTEM," in _23rd International Conference on Electricity Distribution_, 2015. |
-| \[15\] | A. Salimi-Beni, D. Farrokhzad, M. Fotuhi-Firuzabad and S. Alemohammad, "A new approach to determine base, intermediate and peak-demand in an electric power system," in _International Conference on Power System Technology, 2006. PowerCon 2006._, 2006. |
-| \[16\] | W. Short, P. Sullivan, T. Mai, M. Mowers, C. Uriarte, N. Blair, D. Heimiller and A. Martinez, "Regional Energy Deployment System ( ReEDS)," NREL, 2011. |
-
-
-
+| \[1\]  | A. Van Der Welle and B. Van Der Zwaan, "An overview of selected studies on the value of lost load (VoLL)," _Energy Research Centre of the Netherlands (ECN), Amsterdam,_ 2007.                                                                                                                                                                                                                          |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| \[2\]  | F. De Sisternes, "Investment model for renewable electricity systems (IMRES): an electricity generation capacity expansion formulation with unit commitment constraints," _MIT, Cambridge MA,_ 2013.                                                                                                                                                                                                    |
+| \[3\]  | NERC, "Glossary of Terms Used in NERC Reliability Standards," \[Online\]. Available: <http://www.nerc.com/pa/stand/glossary> of terms/glossary_of_terms.pdf. \[Accessed 12 December 2016\].                                                                                                                                                                                                             |
+| \[4\]  | B. Hobbs and C. Bothwell, "System Adequacy with Intermittent Resources : Capacity Value and Economic Distortions," ISO New England, 2016. \[Online\]. Available: <https://www.iso-ne.com/static-assets/documents/2016/09/PSPC09222016_A4_Cindy-Bothwell-Johns-Hopkins-University-System-Adequacy-with-Intermittent-Resources-Capacity-Value-and-Economic-Distortions.pdf>. \[Accessed 2 October 2016\]. |
+| \[5\]  | L. Baringo and A. J. Conejo, "Correlated wind-power production and electric load scenarios for investment decisions," _Applied Energy,_ vol. 101, pp. 475-482, 2013.                                                                                                                                                                                                                                    |
+| \[6\]  | CESI, "Pan-Arab Regional Energy Trade Platform (PA-RETP). Power Market Study: Gas Comsumption Assessment for the Power Sector accross MENA Region," CESI, 2016.                                                                                                                                                                                                                                         |
+| \[7\]  | CESI-Ramboll, "Feasibility Study of the Electrical Interconnection and Energy Trade between Arab Countries," Arab Fund for Economic and Social Development, 2014.                                                                                                                                                                                                                                       |
+| \[8\]  | The World Bank, "Energy Efficiency Study in Lebanon," The World Bank, Washington, DC, 2009.                                                                                                                                                                                                                                                                                                             |
+| \[9\]  | Presidency of the Council of Ministries Central Administration of Statistics, "Energy".                                                                                                                                                                                                                                                                                                                 |
+| \[10\] | Palestinian Electricity Regulatory Council, "Annual Report 2011,," Palestinian Electricity Regulatory Council, 2011.                                                                                                                                                                                                                                                                                    |
+| \[11\] | DSIRE, "N.C. Clean Energy Technology Center," DSIRE, \[Online\]. Available: <http://programs.dsireusa.org/system/program/tables>. \[Accessed 12 December 2016\].                                                                                                                                                                                                                                        |
+| \[12\] | A. Hainoun, "Construction of the hourly load curves and detecting the annual peak load of future Syrian electric power demand using bottom-up approach," _International Journal of Electrical Power & Energy Systems,_ vol. 31, no. 1, pp. 1-12, 2009.                                                                                                                                                  |
+| \[13\] | P. Khajavi, H. Monsef and H. Abniki, "Load profile reformation through demand response programs using smart grid," in _Proceedings of the International Symposium Modern Electric Power Systems (MEPS), 2010_, 2010.                                                                                                                                                                                    |
+| \[14\] | A. Khazaee, M. Ghasempour, H. Hoseinzadeh and H. Hooshmandi, "DEMAND MANAGEMENT PROGRAM FOR LARGE INDUSTRIAL CONSUMERS BY USING THE AMI SYSTEM," in _23rd International Conference on Electricity Distribution_, 2015.                                                                                                                                                                                  |
+| \[15\] | A. Salimi-Beni, D. Farrokhzad, M. Fotuhi-Firuzabad and S. Alemohammad, "A new approach to determine base, intermediate and peak-demand in an electric power system," in _International Conference on Power System Technology, 2006. PowerCon 2006._, 2006.                                                                                                                                              |
+| \[16\] | W. Short, P. Sullivan, T. Mai, M. Mowers, C. Uriarte, N. Blair, D. Heimiller and A. Martinez, "Regional Energy Deployment System ( ReEDS)," NREL, 2011.                                                                                                                                                                                                                                                 |
 
 1. The generators already planned are included in any of the two sets depending on criteria such as their capacity, status of their construction process etc. [↑](#footnote-ref-2)
 

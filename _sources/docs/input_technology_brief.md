@@ -1,13 +1,13 @@
 # Technology Overview
 
-The main generation and storage technologies modeled in EPM are presented in the table below and the following paragraphs. 
+The main generation and storage technologies modeled in EPM are presented in the table below and the following paragraphs.
 
-> In addition, we provide a [template](dwld/pGenDataExcelDefault_CCDR.csv) to help you create your own technology data file. This template includes the required columns and example values for each technology. You can use it as a starting point to input your own data.
-
+> In addition, we provide a [template](dwld/pGenDataInputDefault_CCDR.csv) to help you create your own technology data file. This template includes the required columns and example values for each technology. You can use it as a starting point to input your own data.
 
 For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](dwld/CCDR_Note.docx).
 
 ---
+
 ### Technology data summary
 
 <style>
@@ -117,7 +117,7 @@ Steam turbines are generally inflexible due to their reliance on large boiler sy
 **Fuel differences:** Natural gas and LNG offer cleaner combustion, fast response, and low maintenance. Diesel is less clean but still suitable for fast-start backup. HFO requires preheating and atomization, resulting in slower ramping and more maintenance due to fouling and corrosion.
 
 **Technical characteristics:**  
-OCGTs are valued for their good operational flexibility and ability to provide reserve services. They can ramp up or down quickly, often within a few minutes, making them ideal for reserve and peaking applications. Minimum generation is close to zero, allowing shutdown when not needed. However, this flexibility comes at the expense of efficiency: heat rates are high (typically above 9 MMBtu/MWh), particularly when operating on liquid fuels like diesel or HFO. Despite low capital costs and relatively short construction times, O&M costs are higher when using HFO or diesel. 
+OCGTs are valued for their good operational flexibility and ability to provide reserve services. They can ramp up or down quickly, often within a few minutes, making them ideal for reserve and peaking applications. Minimum generation is close to zero, allowing shutdown when not needed. However, this flexibility comes at the expense of efficiency: heat rates are high (typically above 9 MMBtu/MWh), particularly when operating on liquid fuels like diesel or HFO. Despite low capital costs and relatively short construction times, O&M costs are higher when using HFO or diesel.
 
 ---
 
@@ -207,7 +207,7 @@ PV generation is renewable and fully dependent on sunlight and thus inherently v
 **Fuel:** Wind.
 
 **Technical characteristics:**  
-Wind turbines produce variable power depending on wind speed and direction. Minimum generation is zero and ramping cannot be controlled—power may drop or spike quickly based on weather. These renewable-sourced systems generally do not contribute to reserves unless supported by advanced controls or storage. Offshore wind offers higher capacity factors but entails higher capital and maintenance costs. 
+Wind turbines produce variable power depending on wind speed and direction. Minimum generation is zero and ramping cannot be controlled—power may drop or spike quickly based on weather. These renewable-sourced systems generally do not contribute to reserves unless supported by advanced controls or storage. Offshore wind offers higher capacity factors but entails higher capital and maintenance costs.
 
 ---
 
@@ -218,7 +218,7 @@ Wind turbines produce variable power depending on wind speed and direction. Mini
 **Fuel:** Electricity.
 
 **Technical characteristics:**  
-Battery storage offers flexibility. It can ramp up or down almost instantaneously, provide fast-response reserves, and operate at full flexibility down to zero output. Round-trip efficiency is high (typically 85–90%). However, storage duration is generally limited to a few hours. Capital costs per MWh stored remain high, although declining, while O&M costs are relatively low. Lifespans depend on usage and cycling patterns, usually ranging from 10 to 15 years. 
+Battery storage offers flexibility. It can ramp up or down almost instantaneously, provide fast-response reserves, and operate at full flexibility down to zero output. Round-trip efficiency is high (typically 85–90%). However, storage duration is generally limited to a few hours. Capital costs per MWh stored remain high, although declining, while O&M costs are relatively low. Lifespans depend on usage and cycling patterns, usually ranging from 10 to 15 years.
 
 ---
 
@@ -229,4 +229,4 @@ Battery storage offers flexibility. It can ramp up or down almost instantaneousl
 **Fuel:** Electricity (stored mechanically).
 
 **Technical characteristics:**  
-Pumped hydro provides large-scale, long-duration energy storage. It can be fully modulated, with zero minimum generation and fast ramping both up and down. Its round-trip efficiency is typically between 75% and 80%. While capital costs are very high due to infrastructure, O&M costs are low, and lifetimes often exceed 50 years. 
+Pumped hydro provides large-scale, long-duration energy storage. It can be fully modulated, with zero minimum generation and fast ramping both up and down. Its round-trip efficiency is typically between 75% and 80%. While capital costs are very high due to infrastructure, O&M costs are low, and lifetimes often exceed 50 years.

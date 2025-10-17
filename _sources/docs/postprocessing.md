@@ -1,24 +1,23 @@
-
 # Postprocessing with Python
 
-This section describes the postprocessing with Python of the results of the simulation. 
+This section describes the postprocessing with Python of the results of the simulation.
 It enables the user to quickly visualize the results and generate standardized figures with Jupyter notebooks.
 
 It is recommended for advanced users who want to customize the postprocessing and visualization of the results, and are comfortable with Python and Jupyter notebooks.
 
-
 ## 1. Structure
 
 The postprocessing is divided into two main parts:
+
 - `epm/postprocessing/utils.py`: Contains the functions to read the results and generate the figures.
 - Jupyter notebooks to run the postprocessing. An example of the postprocessing is provided bellow. User need to adapt the code to their needs.
-
 
 ---
 
 ## 2. `utils` package overview
 
 ### Data Handling
+
 - **`read_plot_specs`**: Reads plot specifications (colors, fuel mappings, technology mappings, etc.).
 - **`extract_gdx`**: Extracts parameters and sets from a `.gdx` file into a dictionary of DataFrames.
 - **`extract_epm_folder`**: Extracts GDX results from multiple scenarios in a folder.
@@ -31,13 +30,14 @@ The postprocessing is divided into two main parts:
 - **`generate_summary`**: Generates a summary of key EPM results.
 
 ### Postrocessing & plotting
+
 - **`postprocess_output`**: Processes simulation results, generates summaries, and creates visualizations.
-- **`stacked_area_plot`**: Creates a stacked area plot of generation by fuel type.
+- **`make_stacked_areaplot`**: Creates a stacked area plot of generation by fuel type.
 - **`bar_plot`**: Creates a bar plot.
 - **`line_plot`**: Creates a line plot.
 - **`dispatch_plot)`**: Creates a dispatch plot with stacked areas and line plots.
-- **`make_complete_fuel_dispatch_plot`**: Generates and saves a complete fuel dispatch plot.
-- **`make_stacked_bar_subplots`**: Creates stacked bar subplots for comparing capacity over time and across scenarios.
+- **`make_fuel_dispatchplot`**: Generates and saves a complete fuel dispatch plot.
+- **`make_stacked_barplot`**: Creates stacked bar subplots for comparing capacity over time and across scenarios.
 - **`subplot_pie`**: Creates pie chart subplots.
 - **`make_capacity_mix_map`**: Creates a capacity mix map with pie charts overlaid on a regional map.
 - **`make_interconnection_map`**: Generates an interconnection map showing transmission capacities.
@@ -46,168 +46,220 @@ The postprocessing is divided into two main parts:
 ---
 
 ## 3.Data handling functions
+
 ---
+
 #### `read_plot_specs`
-`read_plot_specs(folder='')` 
+
+`read_plot_specs(folder='')`
 Reads static plot specifications including color mappings, fuel mappings, and geographic data.
 
 ##### Parameters
+
 - `folder` (str, optional): Path to the directory containing static files.
 
 ##### Returns
+
 - `dict_specs` (dict): A dictionary containing:
   - Colors for fuels and technologies.
   - Fuel and technology mappings.
   - Geographic data for mapping.
 
 ##### Example Usage
+
 ```python
 specs = read_plot_specs('static/')
 print(specs['colors'])  # Displays color mapping for fuels
 ```
+
 ---
+
 #### `extract_gdx`
+
 `extract_gdx(file)`
 Extracts parameters and sets from a `.gdx` file into a dictionary of DataFrames.
 
 ##### Parameters
+
 - `file` (str): Path to the `.gdx` file.
 
 ##### Returns
+
 - `epm_result` (dict): Dictionary where:
   - Keys are parameter or set names from the GDX file.
   - Values are Pandas DataFrames containing the extracted data.
 
 ##### Example Usage
+
 ```python
 results = extract_gdx('output/epmresults.gdx')
 print(results.keys())  # Displays the available parameters in the GDX file
 ```
+
 ---
+
 #### `extract_epm_folder`
+
 `extract_epm_folder(results_folder, file='epmresults.gdx')`
 Extracts GDX results from multiple scenarios stored in a given folder.
 
 ##### Parameters
+
 - `results_folder` (str): Path to the folder containing scenario outputs.
 - `file` (str, optional, default=`'epmresults.gdx'`): Name of the `.gdx` file to extract.
 
 ##### Returns
+
 - `inverted_dict` (dict): Dictionary where:
-  - Keys are result categories (e.g., `pCapacityByFuel`, `pEnergyByFuel`).
+  - Keys are result categories (e.g., `pCapacityFuel`, `pEnergyFuel`).
   - Values are Pandas DataFrames with extracted results across multiple scenarios.
 
 ##### Example Usage
+
 ```python
 epm_results = extract_epm_folder('output/simulations_run_20250317_132656')
-print(epm_results['pCapacityByFuel'])  # Displays capacity by fuel for all scenarios
+print(epm_results['pCapacityFuel'])  # Displays capacity by fuel for all scenarios
 ```
+
 ---
 
 #### `standardize_names`
+
 Standardizes fuel or technology names in DataFrames using a predefined mapping.
 
 ##### Parameters
+
 - `dict_df` (dict): Dictionary of DataFrames containing EPM results.
 - `key` (str): Key corresponding to the DataFrame to modify.
 - `mapping` (dict): Dictionary mapping original names to standardized names.
 - `column` (str, optional, default=`'fuel'`): Column to apply standardization.
 
 ##### Functionality
+
 - Replaces values in the specified column according to the provided mapping.
 - Aggregates values if multiple original names are mapped to the same standardized name.
 - Raises an error if new, unmapped values are found in the column.
 
 ##### Example Usage
+
 ```python
 fuel_mapping = {'Diesel': 'Oil', 'Heavy Fuel Oil': 'Oil'}
-standardize_names(epm_results, 'pEnergyByFuel', fuel_mapping)
+standardize_names(epm_results, 'pEnergyFuel', fuel_mapping)
 ```
+
 ---
+
 #### `filter_dataframe`
+
 Filters a DataFrame based on specified conditions.
 
 ##### Parameters
+
 - `df` (pd.DataFrame): The DataFrame to filter.
 - `conditions` (dict): Dictionary where:
   - Keys are column names.
   - Values specify filter criteria (either a single value or a list of values).
 
 ##### Returns
+
 - `pd.DataFrame`: Filtered DataFrame containing only rows that match the given conditions.
 
 ##### Example Usage
+
 ```python
 conditions = {'scenario': 'Baseline', 'year': 2050}
-filtered_df = filter_dataframe(epm_results['pCapacityByFuel'], conditions)
+filtered_df = filter_dataframe(epm_results['pCapacityFuel'], conditions)
 ```
+
 ---
+
 #### `filter_dataframe_by_index`
+
 Filters a DataFrame based on conditions applied to its index levels.
 
 ##### Parameters
+
 - `df` (pd.DataFrame): The DataFrame to filter, where conditions apply to index levels.
 - `conditions` (dict): Dictionary where:
   - Keys are index level names.
   - Values specify filter criteria (either a single value or a list of values).
 
 ##### Returns
+
 - `pd.DataFrame`: Filtered DataFrame containing only rows where the index levels match the given conditions.
 
 ##### Example Usage
+
 ```python
 conditions = {'scenario': 'Baseline', 'year': 2050}
-filtered_df = filter_dataframe_by_index(epm_results['pEnergyByFuel'], conditions)
+filtered_df = filter_dataframe_by_index(epm_results['pEnergyFuel'], conditions)
 ```
+
 ---
+
 #### `process_epm_inputs`
+
 Processes EPM input files for visualization by standardizing names and formatting columns.
 
 ##### Parameters
+
 - `epm_input` (dict): Dictionary containing raw input data from the `.gdx` file.
 - `dict_specs` (dict): Plot specifications obtained from `read_plot_specs()`, including mappings for fuels and technologies.
 - `scenarios_rename` (dict, optional): Dictionary mapping old scenario names to new ones for consistency.
 
 ##### Returns
+
 - `epm_dict` (dict): Processed input data where:
   - Columns are standardized using predefined mappings.
   - Data types are correctly formatted.
   - Scenario names are updated if a rename mapping is provided.
 
 ##### Example Usage
+
 ```python
 processed_inputs = process_epm_inputs(epm_inputs, specs)
 ```
+
 ---
+
 #### `process_epm_results`
+
 Processes EPM model outputs for visualization by standardizing names, formatting data, and handling fuel mappings.
 
 ##### Parameters
+
 - `epm_results` (dict): Raw GDX extraction results, containing multiple EPM output parameters.
 - `dict_specs` (dict): Plot specifications obtained from `read_plot_specs()`, including color mappings and fuel/technology mappings.
 - `scenarios_rename` (dict, optional): Dictionary mapping old scenario names to new ones for consistency in visualization.
 - `mapping_gen_fuel` (pd.DataFrame, optional): DataFrame mapping generators to fuel types, used to standardize plant-level results.
 
 ##### Returns
+
 - `epm_dict` (dict): Processed results where:
   - Fuel and technology names are standardized.
   - Scenario names are updated if a rename mapping is provided.
   - Data is cleaned, formatted, and ready for visualization.
 
 ##### Example Usage
+
 ```python
 processed_results = process_epm_results(epm_results, specs)
 ```
+
 ---
+
 #### `process_simulation_results`
+
 Processes both inputs and outputs from a simulation run, preparing them for analysis and visualization.
 
 ##### Parameters
+
 - `FOLDER` (str): Path to the simulation output folder.
 - `SCENARIOS_RENAME` (dict, optional): Dictionary mapping old scenario names to new ones for consistency.
 - `folder` (str, optional): Path to the static folder containing additional mappings (e.g., color mappings, fuel classifications).
 
 ##### Returns
+
 - `RESULTS_FOLDER` (str): Path to results folder.
 - `GRAPHS_FOLDER` (str): Path to folder storing generated graphs.
 - `dict_specs` (dict): Specifications for plots, including color mappings and technology classifications.
@@ -216,76 +268,107 @@ Processes both inputs and outputs from a simulation run, preparing them for anal
 - `mapping_gen_fuel` (pd.DataFrame): DataFrame mapping generators to fuels.
 
 ##### Example Usage
+
 ```python
 RESULTS_FOLDER, GRAPHS_FOLDER, specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results('output/simulations_run_20250317_132656')
 ```
+
 ---
+
 #### `generate_summary`
+
 Generates a summary of key EPM results, aggregating important indicators such as system costs, emissions, generation, and capacity.
 
 ##### Parameters
+
 - `epm_results` (dict): Processed EPM output data containing key model results.
 - `folder` (str): Path to the folder where the summary CSV file will be saved.
 - `epm_input` (dict): Processed input data, used for context in the summary.
 
 ##### Functionality
+
 - Extracts key indicators such as system costs, demand, capacity, generation, and emissions.
 - Aggregates results across years and scenarios.
 - Saves the summary as a CSV file in the specified folder.
 
 ##### Example Usage
+
 ```python
 generate_summary(epm_results, 'output/simulations_run_20250317_132656', epm_input)
 ```
+
 ---
+
 #### `postprocess_output`
+
 Runs the entire post-processing workflow, which includes processing simulation results, generating summary tables, and creating visualizations.
 
 ##### Parameters
+
 - `FOLDER` (str): Path to the simulation output folder.
 - `reduced_output` (bool, optional, default=`False`): If `True`, generates a reduced set of outputs to save processing time.
 - `plot_all` (bool, optional, default=`False`): If `True`, generates all available plots instead of a limited selection.
 - `folder` (str, optional): Path to the static mapping files, containing information such as color schemes and technology groupings.
 
 ##### Functionality
+
 - Calls `process_simulation_results()` to extract and format inputs and outputs.
 - Generates summary statistics via `generate_summary()`.
 - Creates visualizations such as stacked area plots, dispatch plots, and bar charts.
 - Saves results and graphs in the designated output folder.
 
 ##### Example Usage
+
 ```python
 postprocess_output('output/simulations_run_20250317_132656', reduced_output=True, plot_all=False)
 ```
+
 ---
 
 ### 4.Plotting functions
----
-#### `stacked_area_plot`
-Creates a stacked area plot, commonly used to visualize energy generation by fuel type over time.
 
-##### Parameters
-- `df` (pd.DataFrame): Input data containing the variables to be plotted.
-- `filename` (str): Path to save the generated plot.
-- `dict_colors` (dict, optional): Dictionary mapping categories (e.g., fuel types) to colors.
-- `x_column` (str, default=`'year'`): Column name representing the x-axis (e.g., time).
-- `y_column` (str, default=`'value'`): Column name representing the y-axis (e.g., energy produced).
-- `stack_column` (str, default=`'fuel'`): Column name used to stack different categories in the plot.
 ---
-##### Functionality
-- Groups data by `x_column` and `stack_column`, summing values.
-- Uses area plotting to visualize the contribution of different categories (e.g., fuel types).
-- Colors are applied based on `dict_colors`, if provided.
+
+#### `make_stacked_areaplot`
+
+Creates stacked area charts for one or many panels, with optional annotations and a secondary axis.
+
+##### Key Parameters
+
+- `df` _(pd.DataFrame)_: Source data containing at least the x, value, and stack columns.
+- `filename` _(str | None)_: Where to save the figure. When `None`, the plot is shown interactively.
+- `column_xaxis` _(str, default `'year'`)_: Column plotted on the x-axis.
+- `column_value` _(str, default `'value'`)_: Column providing stacked values.
+- `column_stacked` _(str, default `'fuel'`)_: Column defining each stacked layer.
+- `column_subplot` _(str, optional)_: Adds one subplot per unique value (e.g., scenario).
+- `colors` _(dict, optional)_: Custom colour mapping for stack categories.
+- `annotation_source` _(str, optional)_: Column used to auto-annotate year-on-year increases.
+- `secondary_df` _(pd.DataFrame, optional)_: Dataset drawn on a secondary y-axis for single-panel charts.
 
 ##### Example Usage
+
 ```python
-stacked_area_plot(df=energy_data, filename="generation.png", x_column="year", y_column="value", stack_column="fuel", dict_colors=color_dict)
+make_stacked_areaplot(
+    df=energy_data,
+    filename="generation.png",
+    column_xaxis="year",
+    column_value="value",
+    column_stacked="fuel",
+    colors=dict_colors,
+    column_subplot="scenario",
+    annotation_source="generator",
+    annotation_template="{category} - {value:.0f}"
+)
 ```
+
 ---
+
 #### `bar_plot`
+
 Creates a bar plot to visualize categorical data, such as capacity by fuel or cost breakdown.
 
 ##### Parameters
+
 - `df` (pd.DataFrame): Input data containing the variables to be plotted.
 - `x` (str): Column name for the x-axis categories.
 - `y` (str): Column name for the y-axis values.
@@ -296,19 +379,25 @@ Creates a bar plot to visualize categorical data, such as capacity by fuel or co
 - `figsize` (tuple, default=`(8, 5)`): Size of the figure.
 
 ##### Functionality
+
 - Creates a bar plot using the specified x and y variables.
 - Adds annotations to bars for clarity.
 - Saves the figure if `filename` is provided; otherwise, displays the plot.
 
 #### Example Usage
+
 ```python
 bar_plot(df=capacity_data, x="fuel", y="value", xlabel="Fuel Type", ylabel="Installed Capacity (MW)", title="Capacity by Fuel", filename="capacity_bar.png")
 ```
+
 ---
+
 #### `line_plot`
+
 Creates a line plot to visualize trends over time, such as cost evolution or energy generation by year.
 
 ##### Parameters
+
 - `df` (pd.DataFrame): Input data containing the variables to be plotted.
 - `x` (str): Column name for the x-axis values.
 - `y` (str): Column name for the y-axis values.
@@ -319,19 +408,25 @@ Creates a line plot to visualize trends over time, such as cost evolution or ene
 - `figsize` (tuple, default=`(10, 6)`): Size of the figure.
 
 ##### Functionality
+
 - Plots a line chart using `x` and `y` columns from the DataFrame.
 - Adds axis labels and title if provided.
 - Saves the figure if `filename` is provided; otherwise, displays the plot.
 
 ##### Example Usage
+
 ```python
 line_plot(df=cost_data, x="year", y="value", xlabel="Year", ylabel="Total System Cost ($M)", title="System Cost Evolution", filename="cost_evolution.png")
 ```
+
 ---
+
 #### `dispatch_plot`
+
 Creates a dispatch plot combining stacked area and line plots to visualize electricity generation, demand, and storage dynamics.
 
 ##### Parameters
+
 - `df_area` (pd.DataFrame, optional): DataFrame for stacked area plots (e.g., generation by fuel).
 - `filename` (str, optional): Path to save the generated plot.
 - `dict_colors` (dict, optional): Dictionary mapping categories (e.g., fuels) to colors.
@@ -341,19 +436,25 @@ Creates a dispatch plot combining stacked area and line plots to visualize elect
 - `bottom` (int, default=`0`): Minimum value for the y-axis.
 
 ##### Functionality
+
 - Uses a stacked area plot to show generation by fuel type.
 - Overlays line plots for demand and other attributes.
 - Formats the plot with axis labels and a customizable legend position.
 
 ##### Example Usage
+
 ```python
 dispatch_plot(df_area=generation_data, df_line=demand_data, dict_colors=fuel_colors, filename="dispatch_plot.png")
 ```
+
 ---
-#### `make_complete_fuel_dispatch_plot`
+
+#### `make_fuel_dispatchplot`
+
 Generates and saves a complete fuel dispatch plot, including generation, demand, and other dispatch components.
 
 ##### Parameters
+
 - `dfs_area` (dict): Dictionary of DataFrames for stacked area plots (e.g., generation by fuel).
 - `dfs_line` (dict): Dictionary of DataFrames for line plots (e.g., demand curve).
 - `dict_colors` (dict): Dictionary mapping fuel types to colors.
@@ -369,31 +470,37 @@ Generates and saves a complete fuel dispatch plot, including generation, demand,
 - `figsize` (tuple, default=`(10,6)`): Size of the figure.
 
 ##### Functionality
+
 - Filters the input DataFrames based on the specified zone, year, and scenario.
 - Processes data for stacked area and line plots.
 - Generates a dispatch plot showing electricity generation, demand, and storage behavior.
 - Saves the figure if `filename` is provided; otherwise, displays the plot.
 
 ##### Example Usage
+
 ```python
-make_complete_fuel_dispatch_plot(dfs_area=generation_data, dfs_line=demand_data, dict_colors=fuel_colors, zone='Liberia', year=2030, scenario='Baseline', filename="dispatch_fuel_plot.png")
+make_fuel_dispatchplot(dfs_area=generation_data, dfs_line=demand_data, dict_colors=fuel_colors, zone='Liberia', year=2030, scenario='Baseline', filename="dispatch_fuel_plot.png")
 ```
+
 ---
-#### `make_stacked_bar_subplots`
+
+#### `make_stacked_barplot`
+
 Creates stacked bar subplots to analyze energy system evolution, such as capacity changes over time or across scenarios.
 
 ##### Parameters
+
 - `df` (pd.DataFrame): DataFrame containing the results.
 - `filename` (str): Path to save the figure.
 - `dict_colors` (dict): Dictionary mapping categories (e.g., fuel types) to colors.
 - `selected_zone` (str, optional): Filter the data for a specific zone.
 - `selected_year` (int, optional): Filter the data for a specific year.
-- `column_xaxis` (str, default=`'year'`): Column for subplot separation.
+- `column_subplot` (str, default=`'year'`): Column for subplot separation.
 - `column_stacked` (str, default=`'fuel'`): Column to use for stacking bars.
-- `column_multiple_bars` (str, default=`'scenario'`): Column defining multiple bars within a single subplot.
+- `column_xaxis` (str, default=`'scenario'`): Column defining multiple bars within a single subplot.
 - `column_value` (str, default=`'value'`): Column containing numerical values to be plotted.
-- `select_xaxis` (list, optional): Subset of values to display on the x-axis.
-- `dict_grouping` (dict, optional): Mapping of categories for aggregation.
+- `select_subplot` (list, optional): Subset of values to display as separate subplots.
+- `stacked_grouping` (dict, optional): Mapping of categories for aggregation.
 - `order_scenarios` (list, optional): Order in which scenarios should be displayed.
 - `dict_scenarios` (dict, optional): Dictionary mapping scenario names to new labels.
 - `format_y` (function, optional, default=`'{:.0f} MW'.format(y)`): Function to format y-axis labels.
@@ -406,20 +513,26 @@ Creates stacked bar subplots to analyze energy system evolution, such as capacit
 - `title` (str, optional): Title of the plot.
 
 ##### Functionality
+
 - Groups data according to the selected columns and aggregates values.
 - Generates multiple subplots for different x-axis categories (e.g., years).
 - Stacks bars by fuel type or technology.
 - Displays labels and annotations as specified.
 
 ##### Example Usage
+
 ```python
-make_stacked_bar_subplots(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_xaxis=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
+make_stacked_barplot(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_subplot=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
 ```
+
 ---
+
 #### `subplot_pie`
+
 Creates pie chart subplots to visualize the share of different categories, such as capacity mix or energy generation by fuel type.
 
 ##### Parameters
+
 - `df` (pd.DataFrame): DataFrame containing the data to be plotted.
 - `index` (str): Column used to differentiate pie charts (e.g., scenario, year, or zone).
 - `dict_colors` (dict): Dictionary mapping categories (e.g., fuel types) to colors.
@@ -430,22 +543,28 @@ Creates pie chart subplots to visualize the share of different categories, such 
 - `explode` (dict, optional): Dictionary specifying which slices should be exploded for emphasis.
 
 ##### Functionality
+
 - Groups data by the specified `index` and normalizes values to calculate percentages.
 - Generates multiple pie charts as subplots for different categories.
 - Applies consistent colors using `dict_colors`.
 - Saves the figure if `filename` is provided; otherwise, displays the plot.
 
 ##### Example Usage
+
 ```python
 subplot_pie(df=capacity_mix, index="scenario", dict_colors=fuel_colors, filename="capacity_pie.png", title="Capacity Mix by Scenario")
 ```
+
 ---
+
 #### `make_capacity_mix_map`
+
 Creates a capacity mix map with pie charts overlaid on a regional map, showing the share of different fuel types in each zone.
 
 ##### Parameters
+
 - `zone_map` (GeoDataFrame): Geospatial map of the zones.
-- `pCapacityByFuel` (pd.DataFrame): DataFrame containing capacity data by fuel type for each zone.
+- `pCapacityFuel` (pd.DataFrame): DataFrame containing capacity data by fuel type for each zone.
 - `dict_colors` (dict): Dictionary mapping fuel types to colors.
 - `centers` (dict): Dictionary mapping zone names to their geographic coordinates.
 - `year` (int): Year to visualize.
@@ -454,20 +573,26 @@ Creates a capacity mix map with pie charts overlaid on a regional map, showing t
 - `folder` (str, optional): Directory where additional static files (e.g., shapefiles) are stored.
 
 ##### Functionality
-- Filters `pCapacityByFuel` for the selected `year` and `scenario`.
+
+- Filters `pCapacityFuel` for the selected `year` and `scenario`.
 - Normalizes values to compute capacity shares for each fuel type.
 - Overlays pie charts on the map to represent the fuel mix in each zone.
 - Saves the figure if `filename` is provided; otherwise, displays the map.
 
 ##### Example Usage
+
 ```python
 make_capacity_mix_map(zone_map, capacity_data, dict_colors, centers, year=2030, scenario="Baseline", filename="capacity_mix_map.png")
 ```
+
 ---
+
 #### `make_interconnection_map`
+
 Generates an interconnection map showing transmission capacities between zones.
 
 ##### Parameters
+
 - `zone_map` (GeoDataFrame): Geospatial map of the zones.
 - `interconnection_data` (pd.DataFrame): DataFrame containing transmission capacities between zones.
 - `dict_colors` (dict): Dictionary mapping different interconnection types to colors.
@@ -478,20 +603,26 @@ Generates an interconnection map showing transmission capacities between zones.
 - `folder` (str, optional): Directory where additional static files (e.g., shapefiles) are stored.
 
 ##### Functionality
+
 - Filters `interconnection_data` for the selected `year` and `scenario`.
 - Plots transmission lines between zones, with thickness representing capacity.
 - Uses `dict_colors` to differentiate interconnection types.
 - Saves the figure if `filename` is provided; otherwise, displays the map.
 
 ##### Example Usage
+
 ```python
 make_interconnection_map(zone_map, interconnection_data, dict_colors, centers, year=2030, scenario="Baseline", filename="interconnection_map.png")
 ```
+
 ---
+
 #### `create_interactive_map`
+
 Generates an interactive map using Folium to visualize energy capacity, dispatch, and interconnections.
 
 ##### Parameters
+
 - `zone_map` (GeoDataFrame): Geospatial map of the zones.
 - `centers` (dict): Dictionary mapping zone names to their geographic coordinates.
 - `transmission_data` (pd.DataFrame): DataFrame containing transmission capacities between zones.
@@ -502,6 +633,7 @@ Generates an interactive map using Folium to visualize energy capacity, dispatch
 - `folder` (str, optional): Directory where additional static files (e.g., shapefiles) are stored.
 
 ##### Functionality
+
 - Filters `transmission_data` and `energy_data` for the selected `year` and `scenario`.
 - Creates an interactive map using Folium.
 - Overlays pie charts representing generation mix and demand for each zone.
@@ -509,7 +641,9 @@ Generates an interactive map using Folium to visualize energy capacity, dispatch
 - Saves the map as an HTML file if `filename` is provided; otherwise, displays it in the browser.
 
 ##### Example Usage
+
 ```python
 create_interactive_map(zone_map, centers, transmission_data, energy_data, year=2030, scenario="Baseline", filename="interactive_map.html")
 ```
+
 ---
