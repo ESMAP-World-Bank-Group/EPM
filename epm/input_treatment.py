@@ -1,7 +1,47 @@
+"""
+**********************************************************************
+* ELECTRICITY PLANNING MODEL (EPM)
+* Developed at the World Bank
+**********************************************************************
+Description:
+    This Python script is part of the GAMS-based Electricity Planning Model (EPM),
+    designed for electricity system planning. It supports tasks such as capacity
+    expansion, generation dispatch, and the enforcement of policy constraints,
+    including renewable energy targets and emissions limits.
+
+Author(s):
+    ESMAP Modelling Team
+
+Organization:
+    World Bank
+
+Version:
+    (Specify version here)
+
+License:
+    Creative Commons Zero v1.0 Universal
+
+Key Features:
+    - Optimization of electricity generation and capacity planning
+    - Inclusion of renewable energy integration and storage technologies
+    - Multi-period, multi-region modeling framework
+    - CO₂ emissions constraints and policy instruments
+
+Notes:
+    - Ensure GAMS is installed and the model has completed execution
+      before running this script.
+    - The model generates output files in the working directory
+      which will be organized by this script.
+
+Contact:
+    Claire Nicolas — c.nicolas@worldbank.org
+**********************************************************************
+"""
 
 import gams.transfer as gt
 import numpy as np
 import pandas as pd
+from types import SimpleNamespace
 
 def run_input_treatment(gams):
 
@@ -279,3 +319,87 @@ def run_input_treatment(gams):
 
     # LossFactor must be defined through a specific csv
     # prepare_lossfactor(db, "pNewTransmission", "pLossFactorInternal", "y", "value")
+
+
+def run_input_treatment_from_gdx(gdx_path, *, verbose=True, log_func=None):
+    """
+    Execute the full input-treatment routine using a standalone GDX file.
+
+    Parameters
+    ----------
+    gdx_path : str or pathlib.Path
+        Path to the GDX file providing the inputs.
+    verbose : bool, optional
+        When True (default) log messages are echoed to stdout.
+    log_func : callable, optional
+        Custom logging callback receiving each message.
+
+    Returns
+    -------
+    tuple[gt.Container, list[str]]
+        The mutated GT container and the ordered log messages.
+    """
+    container = gt.Container()
+    container.read(gdx_path)
+
+    logs = []
+
+    def _log(message):
+        logs.append(message)
+        if log_func is not None:
+            log_func(message)
+        elif verbose:
+            print(message)
+
+    dummy_gams = SimpleNamespace(db=container, printLog=_log)
+    run_input_treatment(dummy_gams)
+    return container, logs
+
+
+if __name__ == "__main__":
+    import argparse
+    import sys
+
+    DEFAULT_GDX = "test/input.gdx"
+
+    usage_note = (
+        "Run the treatment step directly from Python:\n"
+        f"  python -m epm.input_treatment [GDX_PATH] [-o OUTPUT]\n\n"
+        "Defaults:\n"
+        "  GDX_PATH = ep/test/input.gdx\n"
+        "  OUTPUT   = (in-place update; specify -o to write a new GDX)\n"
+        "Use --quiet to suppress log echoing."
+    )
+
+    parser = argparse.ArgumentParser(
+        description="Run the EPM input treatment on a standalone GDX file.",
+        epilog=usage_note,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument(
+        "gdx_path",
+        nargs="?",
+        default=DEFAULT_GDX,
+        help="Path to the input GDX file (default: %(default)s)."
+    )
+    parser.add_argument(
+        "-o", "--output",
+        help="Optional path to save the treated data as a new GDX file."
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Suppress log echoing; messages remain available in the return value."
+    )
+    args = parser.parse_args()
+
+    try:
+        container, logs = run_input_treatment_from_gdx(args.gdx_path, verbose=not args.quiet)
+    except Exception as exc:  # noqa: BLE001
+        print(f"Input treatment failed: {exc}", file=sys.stderr)
+        sys.exit(1)
+
+    if args.output:
+        container.write(args.output)
+    elif args.quiet:
+        print("\n".join(logs))
