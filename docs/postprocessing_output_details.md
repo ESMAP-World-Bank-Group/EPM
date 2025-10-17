@@ -233,7 +233,7 @@ This document describes the key outputs from the Energy Planning Model (EPM), pr
 
 ---
 
-## `pAnnualTransmissionCapacity.csv`
+## `pYearlyTransmissionCapacity.csv`
 
 🔹 **Description:** Annual transmission capacity available between zones or countries.
 

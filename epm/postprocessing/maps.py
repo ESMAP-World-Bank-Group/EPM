@@ -42,7 +42,7 @@ import os
 import folium
 import geopandas as gpd
 from .utils import *
-from .plots import subplot_pie, make_complete_fuel_dispatch_plot
+from .plots import subplot_pie, make_fuel_dispatchplot
 
 def create_zonemap(zone_map, map_geojson_to_epm):
     """
@@ -889,7 +889,7 @@ def make_dispatch_plot_interactive(dfs_area, dfs_line, dict_colors, zone, year, 
     fig_width = 14
     fig_height = 4  # Shorter height for better fit
 
-    make_complete_fuel_dispatch_plot(
+    make_fuel_dispatchplot(
         dfs_area=dfs_area, dfs_line=dfs_line, dict_colors=dict_colors,
         zone=zone, year=year, scenario=scenario, select_time=select_time, filename=img, figsize=(fig_width,fig_height),
         stacked=stacked, ylabel=ylabel, bottom=bottom, reorder_dispatch=reorder_dispatch,

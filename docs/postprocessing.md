@@ -36,7 +36,7 @@ The postprocessing is divided into two main parts:
 - **`bar_plot`**: Creates a bar plot.
 - **`line_plot`**: Creates a line plot.
 - **`dispatch_plot)`**: Creates a dispatch plot with stacked areas and line plots.
-- **`make_complete_fuel_dispatch_plot`**: Generates and saves a complete fuel dispatch plot.
+- **`make_fuel_dispatchplot`**: Generates and saves a complete fuel dispatch plot.
 - **`make_stacked_barplot`**: Creates stacked bar subplots for comparing capacity over time and across scenarios.
 - **`subplot_pie`**: Creates pie chart subplots.
 - **`make_capacity_mix_map`**: Creates a capacity mix map with pie charts overlaid on a regional map.
@@ -449,7 +449,7 @@ dispatch_plot(df_area=generation_data, df_line=demand_data, dict_colors=fuel_col
 
 ---
 
-#### `make_complete_fuel_dispatch_plot`
+#### `make_fuel_dispatchplot`
 
 Generates and saves a complete fuel dispatch plot, including generation, demand, and other dispatch components.
 
@@ -479,7 +479,7 @@ Generates and saves a complete fuel dispatch plot, including generation, demand,
 ##### Example Usage
 
 ```python
-make_complete_fuel_dispatch_plot(dfs_area=generation_data, dfs_line=demand_data, dict_colors=fuel_colors, zone='Liberia', year=2030, scenario='Baseline', filename="dispatch_fuel_plot.png")
+make_fuel_dispatchplot(dfs_area=generation_data, dfs_line=demand_data, dict_colors=fuel_colors, zone='Liberia', year=2030, scenario='Baseline', filename="dispatch_fuel_plot.png")
 ```
 
 ---
@@ -495,11 +495,11 @@ Creates stacked bar subplots to analyze energy system evolution, such as capacit
 - `dict_colors` (dict): Dictionary mapping categories (e.g., fuel types) to colors.
 - `selected_zone` (str, optional): Filter the data for a specific zone.
 - `selected_year` (int, optional): Filter the data for a specific year.
-- `column_xaxis` (str, default=`'year'`): Column for subplot separation.
+- `column_subplot` (str, default=`'year'`): Column for subplot separation.
 - `column_stacked` (str, default=`'fuel'`): Column to use for stacking bars.
-- `column_multiple_bars` (str, default=`'scenario'`): Column defining multiple bars within a single subplot.
+- `column_xaxis` (str, default=`'scenario'`): Column defining multiple bars within a single subplot.
 - `column_value` (str, default=`'value'`): Column containing numerical values to be plotted.
-- `select_xaxis` (list, optional): Subset of values to display on the x-axis.
+- `select_subplot` (list, optional): Subset of values to display as separate subplots.
 - `stacked_grouping` (dict, optional): Mapping of categories for aggregation.
 - `order_scenarios` (list, optional): Order in which scenarios should be displayed.
 - `dict_scenarios` (dict, optional): Dictionary mapping scenario names to new labels.
@@ -522,7 +522,7 @@ Creates stacked bar subplots to analyze energy system evolution, such as capacit
 ##### Example Usage
 
 ```python
-make_stacked_barplot(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_xaxis=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
+make_stacked_barplot(df=capacity_data, filename="capacity_evolution.png", dict_colors=fuel_colors, selected_zone='Liberia', select_subplot=[2025, 2030, 2040], order_scenarios=['Baseline', 'High Hydro', 'High Demand'], format_y=lambda y, _: '{:.0f} MW'.format(y))
 ```
 
 ---
