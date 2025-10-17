@@ -52,9 +52,9 @@ $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %ROOT_INPUT%/%F
 * SUPPLY DATA
 $if not set pGenDataInput $set pGenDataInput %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInput.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInputDefault.csv
-$if not set pAvailability $set pAvailability %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityCustom_confidential.csv
+$if not set pAvailability $set pAvailability %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
-$if not set pVREgenProfile $set pVREgenProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREgenProfile_confidential.csv
+$if not set pVREgenProfile $set pVREgenProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREgenProfile.csv
 $if not set pVREProfile $set pVREProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREProfile.csv
 $if not set pCapexTrajectories $set pCapexTrajectories %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
 $if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv

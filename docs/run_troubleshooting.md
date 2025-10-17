@@ -47,7 +47,7 @@ An error is raised if they are inconsistent.
 
 ## Default DataFrames
 
-Files like `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` must include all combinations of **zone**, **tech**, and **fuel** defined in `pGenDataExcel`.
+Files like `pAvailabilityDefault.csv` and `pCapexTrajectoriesDefault.csv` must include all combinations of **zone**, **tech**, and **fuel** defined in `pGenDataInput`.
 
 **Typical error**:
 
@@ -71,13 +71,13 @@ Do not modify the following reference files:
 
 Also review:
 
-- `pGenDataExcelCustom.csv` and `pGenDataExcelDefault.csv`: Core generator data inputs. All fuel and technology names must be consistent with the files above.
+- `pGenDataInputCustom.csv` and `pGenDataInputDefault.csv`: Core generator data inputs. All fuel and technology names must be consistent with the files above.
 
 Refer to the **Data Structure Documentation** for accepted naming conventions.
 
 ---
 
-## Issues with `pGenDataExcelCustom`
+## Issues with `pGenDataInputCustom`
 
 - **Missing candidate plants in output**: Check that `BuildLimitperYear` is properly filled.
 - **Error due to long plant names**. When some plant names are too long, this will raise an error:
@@ -90,7 +90,7 @@ Refer to the **Data Structure Documentation** for accepted naming conventions.
 
 ## Issues with `pStorageDataExcel`
 
-All **storage technologies** listed in `pGenDataExcelCustom` must also be included in `pStorageDataExcel`.
+All **storage technologies** listed in `pGenDataInputCustom` must also be included in `pStorageDataExcel`.
 
 **Typical error**:
 
@@ -108,7 +108,7 @@ Error: The following fuels are in gendata but not defined in pStorData:
 ## Zone definition
 
 Zones are defined in the file `zcmap.csv`. All other files containing zones will only consider zones which are defined in zcmap. Therefore, you should pay attention in how you spell those zones, to make sure they are being considered. In particular:
-pGenDataExcel, pGenDataExcelDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactorInternal, pVREProfile
+pGenDataInput, pGenDataInputDefault, pCapexTrajectoriesDefault, pAvailabilityDefault, pNewTransmission, pDemandProfile, pDemandForecast, pTransferLimit, pLossFactorInternal, pVREProfile
 
 The following input files must use zone names that match those defined in `zcmap.csv`:
 
@@ -116,8 +116,8 @@ The list of zones used in your model is defined in the file `zcmap.csv`. This fi
 
 > ⚠️ All other input files that refer to zones will **only** recognize zones that are listed in `zcmap.csv`.
 
-- `pGenDataExcel`
-- `pGenDataExcelDefault`
+- `pGenDataInput`
+- `pGenDataInputDefault`
 - `pCapexTrajectoriesDefault`
 - `pAvailabilityDefault`
 - `pNewTransmission`

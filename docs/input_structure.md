@@ -67,11 +67,11 @@ data_test_region/
 │   ├── pCSPData.csv
 │   ├── pFuelPrice.csv
 │   ├── pFuelPriceUpdated.csv
-│   ├── pGenDataExcel.csv
-│   ├── pGenDataExcelCustom.csv
-│   ├── pGenDataExcelDefault.csv
-│   ├── pGenDataExcelDefaultEmpty.csv
-│   ├── pGenDataExcelDefaultRampHydro.csv
+│   ├── pGenDataInput.csv
+│   ├── pGenDataInputCustom.csv
+│   ├── pGenDataInputDefault.csv
+│   ├── pGenDataInputDefaultEmpty.csv
+│   ├── pGenDataInputDefaultRampHydro.csv
 │   ├── pStorDataExcel.csv
 │   ├── pVREgenProfile.csv
 │   ├── pVREgenProfileFullROR.csv

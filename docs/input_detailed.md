@@ -267,7 +267,7 @@ All files in this section are included in the `load` folder.
 
 All files in this section are stored in the **`supply`** folder.
 
-### `pGenDataExcelCustom.csv`
+### `pGenDataInputCustom.csv`
 
 - **Description**: The main data table defining all power plants, including their **technical** and **economic** characteristics.
 - **Data Structure**:
@@ -298,14 +298,14 @@ All files in this section are stored in the **`supply`** folder.
   - **`BuildLimitperYear`** (_MW/year_) – Maximum allowable capacity additions per year.
   - **`MaxTotalBuild`** (_MW_) – Maximum total capacity allowed for the plant.
 
-- **Example Link**: [pGenDataExcelCustom.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelCustom.csv)
+- **Example Link**: [pGenDataInputCustom.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataInputCustom.csv)
 
 ---
 
-### `pGenDataExcelDefault.csv`
+### `pGenDataInputDefault.csv`
 
 - **Description**:  
-  A dataset with **default** characteristics for power generation technologies, reducing the need for repetitive entries in `pGenDataExcelCustom.csv`.  
+  A dataset with **default** characteristics for power generation technologies, reducing the need for repetitive entries in `pGenDataInputCustom.csv`.  
   It provides **default values** based on **zone, technology name, and fuel name** for various plant characteristics.
 
 - **Data Structure**:
@@ -317,14 +317,14 @@ All files in this section are stored in the **`supply`** folder.
     4. **Characteristics** – Default technical and economic characteristics.
 
 - **Column Descriptions**:  
-  The columns follow the same structure as `pGenDataExcelCustom.csv`.  
+  The columns follow the same structure as `pGenDataInputCustom.csv`.  
   Please refer to its documentation for details on each field, including **capacity, efficiency, operational constraints, and cost parameters**.
 
 - **Source**:  
   The initial dataset is typically based on **CCDR (Country Climate and Development Report) guidelines**.
 
-- **Example Link**: [pGenDataExcelDefault.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataExcelDefault.csv)
-- **Link to Standard Data**: [pGenDataExcelDefaultStandard.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_rwanda/supply/pGenDataExcelDefaultStandard.csv) - See [Technology overview](https://esmap-world-bank-group.github.io/EPM/docs/input_technology_brief.html)
+- **Example Link**: [pGenDataInputDefault.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pGenDataInputDefault.csv)
+- **Link to Standard Data**: [pGenDataInputDefaultStandard.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_rwanda/supply/pGenDataInputDefaultStandard.csv) - See [Technology overview](https://esmap-world-bank-group.github.io/EPM/docs/input_technology_brief.html)
 
 ---
 
@@ -454,7 +454,7 @@ All files in this section are stored in the **`supply`** folder.
 
 ### Others
 
-`pCSPData.csv` and `pStorDataExcel.csv` are not included in the documentation, as we want to merge them into `pGenDataExcel.csv`.
+`pCSPData.csv` and `pStorDataExcel.csv` are not included in the documentation, as we want to merge them into `pGenDataInput.csv`.
 
 - **Example Link**:
   - [pCSPData.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_gambia/supply/pCSPData.csv)

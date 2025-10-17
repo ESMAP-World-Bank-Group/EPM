@@ -1,0 +1,32 @@
+name: Run Python Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: gams/gams:latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+
+    - name: Inject GAMS license
+      env:
+        GAMS_LICENSE: ${{ secrets.GAMS_LICENSE }}
+      run: |
+        echo "$GAMS_LICENSE" > /gams/gamslice.txt
+
+    - name: Run GAMS model (sanity check)
+      run: |
+        cd epm
+        gams main.gms lo=2
+
+    - name: Run Python script (depends on GAMS)
+      run: |
+        python epm/epm.py --simple --solver RMIP --folder_input data_test --config config.csv

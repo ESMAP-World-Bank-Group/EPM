@@ -96,7 +96,7 @@ python epm.py --input_folder input/your_data_folder --sensitivity
 | `pAvailabilityDefault`                    | Thermal plant availability (default values)                                | 0.3, 0.7                                            |
 | `pCapexTrajectoriesDefault`               | Capital expenditure trajectories                                           | Flat trajectory (all values = 1)                    |
 | `pFuelPrice`                              | Fuel price scaling                                                         | -20%, +20%                                          |
-| `ResLimShare` (in `pGenDataExcelDefault`) | Contribution to reserves                                                   | -50%, -100%                                         |
+| `ResLimShare` (in `pGenDataInputDefault`) | Contribution to reserves                                                   | -50%, -100%                                         |
 | `BuildLimitperYear`                       | Build limit removal for candidate plants                                   | Set build limit = plant capacity (removal)          |
 | `pVREProfile`                             | Variable renewable energy generation scaling                               | -20%, +20%                                          |
 
