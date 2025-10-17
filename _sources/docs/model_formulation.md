@@ -1,419 +1,313 @@
 # Model Formulation
 
-## Objective function and its components
-
-$$
-\text{npvcost} = \sum_{z,y} (\text{ReturnRate}_y \cdot \text{WeightYear}_y \cdot \text{totalcost}_{z,y})
-$$
-
-$$
-\text{totalcost}_{z,y} = \text{fixedcost}_{z,y} + \text{variablecost}_{z,y} + \text{reservecost}_{z,y} + \text{usecost}_{z,y} + \text{usrcost}_{z,y} + \text{carboncost}_{z,y} + \text{CO2backCost}_y + \text{TradeCost}_{z,y} + \text{CostTransmissionAdditions}_{z1,z2,y} + \text{CurtailmentCost}_{z,y} + \text{SurplusCost}_{z,y} + \text{usrcostH2}_{z,y}
-$$
-
-$$
-\text{fixedcost}_{z,y} = \sum_{g \in \text{NG} \cap \text{NDC}} (\text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y}) +
-\sum_{g \in \text{NG} \cap \text{DC}} \text{AnnCapex}_{\text{NG},y} +
-\sum_g (\text{FixedOM}_{g,y} \cdot \text{cap}_{g,y}) +
-\sum_{h \in \text{NH} \cap \text{NDH}} (\text{CRF}_{\text{NH}} \cdot \text{CapCostH2}_{\text{NH},y} \cdot \text{cap}_{h,y}) +
-\sum_{h \in \text{NH} \cap \text{DH}} \text{AnnCapexH2}_{\text{NH},y} +
-\sum_h (\text{FixedOMH2}_{h,y} \cdot \text{capH2}_{h,y})
-$$
-
-$$
-\text{AnnCapex}_{g \in \text{DC},y} = \text{CFR}_{g \in \text{DC}} \cdot \text{CapCost}_{g \in \text{DC}} \cdot \text{CapexTrajectories}_{g \in \text{DC},y} \cdot \text{build}_{g \in \text{DC},y}
-$$
-
-$$
-\text{AnnCapexH2}_{h \in \text{DH},y} = \text{CFR}_{h \in \text{DH}} \cdot \text{CapCost}_{h \in \text{DH}} \cdot \text{CapexTrajectories}_{h \in \text{DH},y} \cdot \text{build}_{h \in \text{DH},y}
-$$
-
-$$
-\text{variablecost}_{z,y} = \sum_{g \in \text{G},f,q,d,t} (\text{GenCost}_{g,f,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y}) +
-\sum_{h \in \text{H},q,d,t} (\text{VOM}_{\text{H2},h,y} \cdot \text{EfficiencyH2}_h \cdot \text{vH2PwrIn}_{h,g,q,d,t,y} \cdot \text{pHours}_{q,d,t,y})
-$$
-
-$$
-\text{reservecost}_{z,y} = \sum_{g \in \text{Z},q,d,t} (\text{ResCost}_g \cdot \text{Duration}_{q,d,t,y} \cdot \text{reserve}_{g,q,d,t,y})
-$$
-
-$$
-\text{usecost}_{z,y} = \sum_{q,d,t} (\text{VoLL} \cdot \text{Duration}_{q,d,t,y} \cdot \text{unmetDem}_{z,q,d,t,y})
-$$
-
-$$
-\text{usrcost}_{z,y} = \sum_{q,d,t} (\text{RESVoLL} \cdot \text{unmetRes}_{z,y}) +
-\sum_{z,q,d,t,y} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResZo}_{z,q,d,t,y}) +
-\sum_{q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{SRESVoLL} \cdot \text{unmetSResSY}_{q,d,t,y})
-$$
-
-$$
-\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
-\sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
-\text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
-$$
-
-$$
-\text{CO2backCost}_{,y} = \text{CO2backstopPenalty} \cdot \text{CO2backstop}_y
-$$
-
-$$
-\text{YearlyTradeCost}_{z,y} = \sum_{q,d,t} ((\text{ImportPrice}_{z,q,d,t,y} - \text{ExportPrice}_{z,q,d,t,y}) \cdot \text{TradePrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y})
-$$
-
-$$
-\text{CurtailmentCost}_{z,y} = \text{CurtailmentPenalty} \cdot \text{Curtailment}_{z,y}
-$$
-
-$$
-\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPEX}_{z1,z2})
-$$
-
-$$
-\text{SurplusCost}_{z,y} = \text{SurplusPenalty} \cdot \text{Surplus}_{z,y}
-$$
-
-$$
-\text{usrcostH2}_{z,y} = \sum_q (\text{CostH2Unserved} \cdot \text{unmetH2External}_{z,q,y})
-$$
-
-## Transmission network constraints
-
-$$
-\sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
-\sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
-\text{storage\_out}_{z,q,d,t,y} - \text{storage\_inj}_{z,q,d,t,y} +
-\text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
-\text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
-\text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
-$$
-
-$$
-\text{trans}_{z,z2,q,d,t,y} \leq \text{TransLimit}_{z,z2,q,y} + \text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2}
-$$
-
-$$
-\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z,z2,y-1} + \text{BuildTransmission}_{z,z2,y}
-$$
-
-$$
-\text{AdditionalTransfer}_{z,z2,y} = \text{AdditionalTransfer}_{z2,z,y}
-$$
-
-$$
-\sum_{z \in c,q,d,t} \left( \text{importPrice}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq
-\sum_{z \in c,q,d,t} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EEfactor}_{z,y} \cdot \text{MaxPriceImShare}_{y,c} \right)
-$$
-
-$$
-\sum_{z \in c} \text{importPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxImport} \right)
-$$
-
-$$
-\sum_{z \in c} \text{exportPrice}_{z,q,d,t,y} \leq \sum_{z \in c} \left( \text{Demand}_{z,q,d,t,y} \cdot \text{MaxExport} \right)
-$$
-
-## System requirements
-
-$$
-\sum_{g \in z} \text{reserve}_{g,q,d,t,y} +
-\text{unmetSResSY}_{z,q,d,t,y} +
-\sum_{z2} \left( \text{TransLimit}_{z,z2,q,y} +
-\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
-\text{SResSY}_{z,y} + 0.2 \cdot \sum_{VRE \in z} \text{gen}_{VRE,f,q,d,t,y} \quad \forall z,q,d,t,y
-$$
-
-$$
-\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
-$$
-
-$$
-\sum_{g \in Z} \text{cap}_{g,y} \cdot \text{CapCredit}_{g,y} +
-\text{unmetRes}_{z,y} +
-\sum_{z2} \sum_q \left( \text{TransLimit}_{z,z2,q,y} +
-\text{AdditionalTransfer}_{z,z2,y} \cdot \text{TransCapPerLine}_{z,z2} - \text{trans}_{z2,z,q,d,t,y} \right) \geq
-(1 + \text{PRM}_z) \cdot \max_{q,d,t} \text{Demand}_{z,q,d,t,y} \quad \forall z,y
-$$
-
-### Generation constraints
-
-$$
-\sum_f \text{gen}_{g,f,q,d,t,y} + \text{reserve}_{g,q,d,t,y} \leq (1 + \text{OverLoadFactor}_g) \cdot \text{cap}_{g,y}
-$$
-
-$$
-\text{reserve}_{g,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{ResOffer}_g
-$$
-
-$$
-\sum_f \text{gen}_{g,f,q,d,t-1,y} - \sum_f \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{RampDn}_g \quad \forall t > 1
-$$
-
-$$
-\sum_f \text{gen}_{g,f,q,d,t,y} - \sum_f \text{gen}_{g,f,q,d,t-1,y} \leq \text{cap}_{g,y} \cdot \text{RampUp}_g \quad \forall t > 1
-$$
-
-$$
-\sum_f \text{gen}_{g,f,q,d,t,y} \geq \text{MinCapFac}_g \cdot \text{cap}_{g,y} \quad \forall d \in M
-$$
-
-$$
-\sum_{f,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{gen}_{g,f,q,d,t,y} \right) \leq
-\text{Availability}_{g,q} \cdot \sum_{d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{cap}_{g,y} \right)
-$$
-
-## Renewable generation
-
-$$
-\text{gen}_{g,f,q,d,t,y} \leq \text{RPprofile}_{g,\text{RE},q,d,y,t} \cdot \text{cap}_{g,y} \quad \forall \text{RE} \notin \text{CSP}
-$$
-
-## Concentrated Solar Power (CSP) Generation
-
-$$
-\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSP\_storage} \quad \forall \text{map}(g,\text{CSP})
-$$
-
-$$
-\text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
-\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
-$$
-
-$$
-\sum_{f \in \text{CSP}} \text{gen}_{g,f,q,d,t,y} \leq \text{cap}_{g,y}
-$$
-
-$$
-\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency\_CSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
-\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency\_CSP}} \quad \forall g,z,q,d,t,y
-$$
-
-$$
-\text{storageCSP}_{g,z,q,d,t,y} = \text{storageCSP}_{g,z,q,d,t-1,y} + \text{storageCSPinj}_{g,z,q,d,t,y} - \text{storageCSPout}_{g,z,q,d,t,y}
-$$
-
-## Time consistency of power system additions and retirements
+This document presents the core mathematical relations implemented in `epm/base.gms`. The notation mirrors the GAMS model to keep the documentation and the code synchronized.
+
+## Notation
+
+| Symbol | Description |
+|--------|-------------|
+| `y ∈ Y` | Planning years (`sStartYear(y)` marks the first model year). |
+| `q ∈ Q` | Representative seasons or quarters. |
+| `d ∈ D` | Representative days within each season. |
+| `t ∈ T` | Intra-day time slices (typically hours). |
+| `z ∈ Z` | Internal zones; `zext` denotes external trading zones. |
+| `c ∈ C` | Countries (used for policy and reporting aggregation). |
+| `g ∈ G` | Generating assets. Subsets `eg`, `ng`, `st`, `cs`, `vre`, `re`, `RampRate`, `VRE_noROR`, etc. capture technology groupings. |
+| `f ∈ F` | Fuels; `gfmap(g,f)` links generators to fuels. |
+| `gzmap(g,z)` | Generator-to-zone mapping. |
+| `sTopology(z,z2)` | Internal transmission pairs; symmetric in `z` and `z2`. |
+| `pHours(q,d,t)` | Weight of each time slice (hours represented). |
+
+Unless otherwise noted, all summations are over the valid combinations defined by the mapping sets above. Variables beginning with `v` are decision or reporting variables; parameters beginning with `p`, `f`, or `s` are inputs or switches.
+
+## Objective Function and Cost Components
+
+The system-wide net present value minimization is written as
+
+```math
+vNPVCost = \sum_{y} pRR_y \cdot pWeightYear_y \cdot \Big(
+  \sum_{c} vYearlyTotalCost_{c,y}
+  + vYearlyUnmetPlanningReserveCostSystem_y
+  + vYearlyUnmetSpinningReserveCostSystem_y
+  + vYearlyCO2BackstopCostSystem_y
+\Big).
+```
+
+The yearly country cost balance expands to
+
+```math
+\begin{aligned}
+vYearlyTotalCost_{c,y} ={}& vYearlyUnmetReserveCostCountry_{c,y}
+                         + vYearlyCO2BackstopCostCountry_{c,y} \\
+&+ \sum_{z \in c} \Big(
+      vAnnCapex_{z,y} + vYearlyFOMCost_{z,y}
+    + vYearlyVariableCost_{z,y} + vYearlySpinningReserveCost_{z,y} \\
+&\qquad\qquad\quad + vYearlyUSECost_{z,y} + vYearlyCarbonCost_{z,y}
+    + vYearlyExternalTradeCost_{z,y} + vAnnualizedTransmissionCapex_{z,y} \\
+&\qquad\qquad\quad + vYearlyCurtailmentCost_{z,y} + vYearlySurplus_{z,y}
+  \Big).
+\end{aligned}
+```
+
+Annual cost components are defined as follows:
+
+- `vYearlyFOMCost`: fixed O&M costs for generators, storage, and CSP thermal fields.
+- `vYearlyVariableCost = vYearlyFuelCost + vYearlyVOMCost`.
+- `vYearlySpinningReserveCost`: reserve cost bids multiplied by reserve provision and time weights.
+- `vYearlyUSECost`: value of lost load applied to unserved energy.
+- `vYearlySurplus`: penalty on over-generation.
+- `vYearlyCurtailmentCost`: penalty on curtailed VRE output.
+- `vYearlyExternalTradeCost = vYearlyImportExternalCost - vYearlyExportExternalCost`.
+- `vYearlyCarbonCost`: carbon price times the emissions implied by dispatched generation.
+- `vAnnualizedTransmissionCapex`: annualized cost of new transmission builds associated with each zone.
+- `vYearlyUnmetReserveCostCountry = vYearlyUnmetPlanningReserveCostCountry + vYearlyUnmetSpinningReserveCostCountry`.
 
-$$
-\text{cap}_{g \in \text{EG},y} = \text{cap}_{\text{EG},y-1} + \text{build}_{\text{EG},y} - \text{retire}_{\text{EG},y} \quad \forall (y, g \in \text{EG}), \forall \text{ord}(y) > 1
-$$
+Each of these relations is coded in `base.gms` as equations `eYearly*`.
 
-$$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} > \text{Commission\_year}_g)
-$$
+## Demand and Supply Balance
 
-$$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{Commission\_year}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{Commission\_year}_g \wedge \text{ord}(y) < \text{Retirement\_year}_{\text{EG}})
-$$
+The demand balance (`eDemSupply`) equates demand to the composite supply variable:
 
-$$
-\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}})
-$$
+```math
+pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y} = vSupply_{z,q,d,t,y}.
+```
 
-$$
-\text{cap}_{g \in \text{NG},y} = \text{cap}_{\text{NG},y-1} + \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) > 1
-$$
+`vSupply` is defined in `eDefineSupply`:
 
-$$
-\text{cap}_{g \in \text{NG},y} = \text{build}_{\text{NG},y} \quad \forall \text{ord}(y) = 1
-$$
+```math
+\begin{aligned}
+vSupply_{z,q,d,t,y} ={}&
+  \sum_{g,f} vPwrOut_{g,f,q,d,t,y}
+  - \sum_{z_2} vFlow_{z,z_2,q,d,t,y} \\
+&+ \sum_{z_2} (1 - pLossFactorInternal_{z,z_2,y}) \cdot vFlow_{z_2,z,q,d,t,y} \\
+&- \sum_{st} vStorInj_{st,q,d,t,y} \cdot \mathbb{1}_{fEnableStorage} \\
+&+ \sum_{z_\text{ext}} vYearlyImportExternal_{z,z_\text{ext},q,d,t,y} \\
+&- \sum_{z_\text{ext}} vYearlyExportExternal_{z,z_\text{ext},q,d,t,y} \\
+&+ vUSE_{z,q,d,t,y} - vSurplus_{z,q,d,t,y}.
+\end{aligned}
+```
 
-$$
-\text{cap}_g \leq \text{GenCap}_g
-$$
+See [Demand and Supply Balance](#demand-and-supply-balance) for a detailed discussion.
 
-$$
-\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) < \text{Commission\_year}_g)
-$$
+## Capacity Evolution
 
-### Storage constraints
+Capacity trajectories for each generator are tracked through:
 
-$$
-\text{storage}_{\text{st},z,q,d,t=1,y} = \text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
-$$
+```math
+vCap_{g,y_0} = pGenData_{g,\text{Capacity}} + vBuild_{g,y_0} - vRetire_{g,y_0}
+```
+for the first modelled year `y₀`, when the unit exists and starts before the study horizon.
 
-$$
-\text{storage}_{\text{st},z,q,d,t>1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
-\text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t>1
-$$
+```math
+vCap_{eg,y} = vCap_{eg,y-1} + vBuild_{eg,y} - vRetire_{eg,y}
+```
+for existing assets (`eCapacityEvolutionExist`), and
 
-$$
-\text{storage\_inj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
-$$
+```math
+vCap_{ng,y} = vCap_{ng,y-1} + vBuild_{ng,y}
+```
+for new entrants without retirement (`eCapacityEvolutionNew`). Discrete build/retirement decisions are enforced through
 
-$$
-\text{storage\_inj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
-$$
+```math
+vBuild_{ng,y} = pGenData_{ng,\text{UnitSize}} \cdot vBuiltCapVar_{ng,y},
+```
 
-$$
-\text{storage}_{\text{st},q,d,t,y} \leq \text{Storage\_Capacity}_{\text{st},y}
-$$
+```math
+vRetire_{eg,y} = pGenData_{eg,\text{UnitSize}} \cdot vRetireCapVar_{eg,y},
+```
 
-$$
-\text{storage\_inj}_{\text{st},q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t>1
-$$
+with additional bounds on cumulative builds and commissioning years (`eInitialBuildLimit`, `eBuiltCap`, `eRetireCap`). Storage and CSP thermal capacity follow analogous recursions (`eCapStor*`, `eCapTherm*`).
 
-$$
-\text{storage\_inj}_{\text{st},q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t>1
-$$
+## Generator Operating Limits
 
-$$
-\text{Storage\_Capacity}_{\text{EG},y} = \text{Storage\_Capacity}_{\text{EG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{EG},y-1} - \text{Retire}_{\text{Storage\_Capacity}_{\text{EG},y-1}} \quad \forall y>1
-$$
+### Dispatch and Reserve Envelope
 
-$$
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Storage\_Capacity}_{\text{NG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y>1
-$$
+The joint dispatch and reserve constraint (`eJointResCap`) caps the combined output and spinning reserve at the installed capacity with optional overloading:
 
-$$
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y=1
-$$
+```math
+\sum_f vPwrOut_{g,f,q,d,t,y} + vSpinningReserve_{g,q,d,t,y}
+  \le (1 + pGenData_{g,\text{Overloadfactor}}) \cdot vCap_{g,y}.
+```
 
-$$
-\text{StorageCapacity}_{\text{st},y} \geq \text{Cap}_{\text{st},y}
-$$
+### Availability and Minimum Output
 
-$$
-\text{StorageCapacity}_{\text{st},y} \leq \text{Maximum\_Storage\_Energy}_{\text{st},y} + \text{Maximum\_Storage\_Energy}_{\text{CSP},y}
-$$
+Seasonal availability (`eMaxCF`) limits the energy produced within each quarter:
 
-$$
-\sum_{y} \text{Build\_Storage\_Capacity}_{\text{EG},y} \leq \text{Maximum\_Storage\_Energy}_{\text{EG},y}
-$$
+```math
+\sum_{f,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t}
+ \le pAvailability_{g,q} \cdot vCap_{g,y} \cdot \sum_{d,t} pHours_{q,d,t}.
+```
 
-### Investment constraints
+Optional minimum loading requirements (`eMinGen`) enforce:
 
-$$
-\sum_y \text{build}_{g \in \text{NG},y} \leq \text{MaxNewCap}_{\text{NG}}
-$$
+```math
+\sum_f vPwrOut_{g,f,q,d,t,y} \ge pGenData_{g,\text{MinLimitShare}} \cdot vCap_{g,y},
+```
+whenever the flag `fApplyMinGenerationConstraint` is active.
 
-$$
-\sum_y \text{build}_{g \in \text{NG},y} \geq \text{MinNewCap}_{\text{NG}}
-$$
+### Renewable Generation with Curtailment
 
-$$
-\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{Commission\_year}_g > \text{StartYear})
-$$
+Variable renewable energy (VRE) generators follow exogenous profiles (`eVREProfile`):
 
-$$
-\text{build}_{g \in \text{NG},y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
-$$
+```math
+vPwrOut_{g,f,q,d,t,y} + vCurtailedVRE_{z,g,q,d,t,y}
+  = pVREgenProfile_{g,q,d,t} \cdot vCap_{g,y}.
+```
 
-$$
-\text{build}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{builtCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
-$$
+Curtailment is tracked explicitly and priced through `vYearlyCurtailmentCost`.
 
-$$
-\text{retire}_{g \in \text{NG},y} = \text{DiscreteCap}_{g \in \text{NG}} \cdot \text{retireCapVar}_{g \in \text{NG},y} \quad \forall g: (\text{DiscreteCap}_g \geq 0)
-$$
+### Fuel Consumption
 
-$$
-\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{Commission\_year}_g)
-$$
+Fuel use is accounted for via `eFuel`:
 
-$$
-\text{fuel}_{z,f,y} \leq \text{MaxFuelOff}_{f,y}
-$$
+```math
+vFuel_{z,f,y} = \sum_{g,q,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t} \cdot pHeatRate_{g,f}.
+```
 
-$$
-\text{fuel}_{z,f,y} = \sum_{g \in Z,q,d,t} \left( \text{Duration}_{q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{gen}_{g,f,q,d,t,y} \right)
-$$
+Optional limits (`eFuelLimit`) apply upper bounds by country and fuel.
 
-$$
-\sum_{y,g \in \text{NG}} \left( \text{ReturnRate}_y \cdot \text{pweight}_y \cdot \text{CRF}_{\text{NG}} \cdot \text{CapCost}_{\text{NG},y} \cdot \text{cap}_{g,y} \right) \leq \text{sMaxCapitalInvestment}
-$$
+## Ramp Rate Constraints
 
-## Environmental policy
+When the ramp flag is enabled, inter-hour changes must satisfy:
 
-$$
-\text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
-$$
+```math
+\sum_f vPwrOut_{g,f,q,d,t,y} - \sum_f vPwrOut_{g,f,q,d,t-1,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{RampUpRate}},
+```
 
-$$
-\text{emissions\_Zo}_{z,y} \leq \text{Zo\_emission\_cap}_{y,z}
-$$
+```math
+\sum_f vPwrOut_{g,f,q,d,t-1,y} - \sum_f vPwrOut_{g,f,q,d,t,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{RampDnRate}},
+```
+(`eRampUpLimit`, `eRampDnLimit`), with analogous bounds for storage charging (`eChargeRampUpLimit`, `eChargeRampDownLimit`).
 
-$$
-\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
-$$
+## Reserve Requirements
 
-$$
-\text{emissions}_{z,y} \leq \text{Sy\_emission\_cap}_y
-$$
+### Generator-Level Reserve Limits
 
-## CCS retrofits
+Maximum reserve provision is enforced through:
 
-$$
-\text{build}_{\text{ng},y} - \text{retire}_{\text{eg},y} \leq 0 \quad \forall \text{ng},\text{eg} \in \text{GG}
-$$
+```math
+vSpinningReserve_{g,q,d,t,y}
+  \le vCap_{g,y} \cdot pGenData_{g,\text{ResLimShare}},
+```
+(`eSpinningReserveLim`), with an additional VRE-specific scaling (`eSpinningReserveLimVRE`) that multiplies by the hourly profile.
 
-## Green hydrogen production
+### Country and System Requirements
 
-$$
-\text{capH2}_{\text{eh},y} = \text{capH2}_{\text{eh},y-1} + \text{buildH2}_{\text{eh},y} - \text{retireH2}_{\text{eh},y} \quad \forall \text{ord}(y) > 1
-$$
+Spinning reserve requirements are applied at the country and system level:
 
-$$
-\text{capH2}_{\text{nh},y} = \text{capH2}_{\text{nh},y-1} + \text{buildH2}_{\text{nh},y} \quad \forall \text{ord}(y) > 1
-$$
+```math
+\sum_{z \in c} \sum_{g \in z} vSpinningReserve_{g,q,d,t,y}
+  + vUnmetSpinningReserveCountry_{c,q,d,t,y}
+  = pSpinningReserveReqCountry_{c,y}
+    + \sum_{g \in \text{VRE\_noROR}} vPwrOut_{g,\cdot,q,d,t,y} \cdot psVREForecastErrorPct,
+```
 
-$$
-\text{capH2}_{h,y} = \text{H2Cap}_{h \in \text{EH},y} + \text{buildH2}_{h,y} - \text{retireH2}_{\text{EH},y} \quad \forall \text{ord}(y) = 1
-$$
+```math
+\sum_{g} vSpinningReserve_{g,q,d,t,y}
+  + vUnmetSpinningReserveSystem_{q,d,t,y}
+  = pSpinningReserveReqSystem_y
+    + \sum_{g \in \text{VRE\_noROR}} vPwrOut_{g,\cdot,q,d,t,y} \cdot psVREForecastErrorPct.
+```
 
-$$
-\sum_{y \in Y} \text{buildH2}_{\text{eh},y} \leq \text{H2Cap}_{\text{eh}}
-$$
+Planning reserve margins relate capacity credits to peak demand:
 
-$$
-\sum_{y \in Y} \text{buildH2}_{\text{nh},y} \leq \text{MaxNewCapH2}_{\text{nh}}
-$$
+```math
+\sum_{z \in c} \sum_{g \in z} vCap_{g,y} \cdot pCapacityCredit_{g,y}
+  + vUnmetPlanningReserveCountry_{c,y}
+  \ge (1 + pPlanningReserveMargin_c) \cdot \max_{q,d,t}
+      \sum_{z \in c} pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y},
+```
 
-$$
-\text{buildH2}_{\text{nh},y} = \text{UnitSizeH2}_{\text{nh}} \cdot \text{buildCapVarH2}_{\text{nh},y}
-$$
+```math
+\sum_{g} vCap_{g,y} \cdot pCapacityCredit_{g,y}
+  + vUnmetPlanningReserveSystem_y
+  \ge (1 + sReserveMarginPct) \cdot \max_{q,d,t}
+      \sum_z pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y}.
+```
 
-$$
-\text{retireH2}_{\text{eh},y} = \text{UnitSizeH2}_{\text{eh}} \cdot \text{retireCapVarH2}_{\text{eh},y}
-$$
+Interconnection capacity can contribute to these margins when the relevant flags are enabled.
 
-$$
-\sum_{d,t} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \right) \leq \text{AvailabilityH2}_{h,q} \cdot \text{CapH2}_{h,y} \cdot \sum_{d,t} \text{Duration}_{q,d,t,y}
-$$
+## Transmission and Trade Constraints
 
-$$
-\sum_z \left( \text{ExternalH2}_{z,q,y} - \text{unmetH2External}_{z,q,y} + \text{fuelH2Quarter}_{z,q,y} \right) \leq \sum_{z,h \in \text{map}(h,z)} \left( \text{H2PwrIn}_{h,q,d,t,y} \cdot \text{Duration}_{q,d,t,y} \cdot \text{EfficiencyH2}_h \right)
-$$
+Internal transfers are bounded by existing and expandable capacities:
 
-$$
-\sum_z \text{fuelH2Quarter}_{z,q,y} = \text{fuelH2}_{z,y}
-$$
+```math
+vFlow_{z,z_2,q,d,t,y}
+  \le pTransferLimit_{z,z_2,q,y}
+     + vNewTransmissionLine_{z,z_2,y}
+       \cdot pNewTransmission_{z,z_2,\text{CapacityPerLine}}
+       \cdot fAllowTransferExpansion.
+```
 
-$$
-\text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y}
-$$
+Symmetry and cumulative build constraints (`eCumulativeTransferExpansion`, `eSymmetricTransferBuild`) keep both directions consistent.
 
-$$
-\text{H2PwrIn}_{h,q,d,t-1,y} - \text{H2PwrIn}_{h,q,d,t,y} \leq \text{CapH2}_{h,y} \cdot \text{RampDnH2}_h
-$$
+External exchange limits include:
 
-$$
-\text{H2PwrIn}_{h,q,d,t,y} - \text{H2PwrIn}_{h,q,d,t-1,y} \leq \text{CapH2}_{h,y} \cdot \text{RampUpH2}_h
-$$
+- Annual import/export share caps (`eMaxAnnualImportShareEnergy`, `eMaxAnnualExportShareEnergy`).
+- Hourly import/export share caps (`eMaxHourlyImportShareEnergy`, `eMaxHourlyExportShareEnergy`).
+- Point-to-point limits (`eExternalImportLimit`, `eExternalExportLimit`).
 
-$$
-\text{Gen}_{\text{RE},f,d,t,y} = \text{REPwr2Grid}_{\text{RE},f,d,t,y} + \text{REPwr2H2}_{\text{RE},f,d,t,y}
-$$
+Trade costs accumulate through `vYearlyImportExternalCost` and `vYearlyExportExternalCost`, each linked to `pTradePrice`.
 
-$$
-\sum_{z,h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
-$$
+## Storage Operations
 
-$$
-\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2H2}_{\text{RE},f,q,d,t,y} = \text{PwrREH2}_{z,q,d,t,y}
-$$
+Storage devices (`st`) follow these relations:
 
-$$
-\sum_{\text{RE},f,z \in (\text{map}(\text{RE},f),\text{map}(\text{RE},z))} \text{REPwr2Grid}_{\text{RE},f,q,d,t,y} = \text{PwrREGrid}_{z,q,d,t,y}
-$$
+- **State-of-charge bound** (`eSOCUpperBound`):
+  ```math
+  vStorage_{st,q,d,t,y} \le vCapStor_{st,y}.
+  ```
+- **Power and energy limits** (`eChargeCapacityLimit`, `eStorageCapMinConstraint`):
+  ```math
+  vStorInj_{st,q,d,t,y} \le vCap_{st,y}, \qquad
+  vCapStor_{st,y} \ge vCap_{st,y}.
+  ```
+- **Net charge definition** (`eNetChargeBalance`):
+  ```math
+  vStorNet_{st,q,d,t,y} = \sum_f vPwrOut_{st,f,q,d,t,y} - vStorInj_{st,q,d,t,y}.
+  ```
+- **Inter-hour SOC dynamics** (`eStateOfChargeUpdate`, `eStateOfChargeInit`):
+  ```math
+  vStorage_{st,q,d,t,y}
+    = pStorData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
+      - \sum_f vPwrOut_{st,f,q,d,t,y}
+      + vStorage_{st,q,d,t-1,y},
+  ```
+  with an initialization equation for the first hour of each day.
+- **Reserve contribution** (`eSOCSupportsReserve`):
+  ```math
+  vSpinningReserve_{st,q,d,t,y} \le vStorage_{st,q,d,t,y}.
+  ```
+
+PV-coupled batteries (`stp`) are additionally capped by the paired PV capacity profile (`eChargeLimitWithPVProfile`).
+
+## CSP Extensions
+
+CSP units (`cs`) use the same storage state variables with technology-specific limits:
+
+- **Storage capacity** (`eCSPStorageCapacityLimit`) and **charging bounds** (`eCSPStorageInjectionCap`).
+- **Thermal balance** (`eCSPStorageInjectionLimit`, `eCSPThermalOutputLimit`) relating the solar field, storage, and turbine output.
+- **Energy recursion** (`eCSPStorageEnergyBalance`, `eCSPStorageInitialBalance`).
+- **Capacity evolution** for storage and thermal subsystems (`eCapStor*`, `eCapacityThermLimit`, `eCapThermBalance*`, `eBuildStorNew`, `eBuildThermNew`).
+
+## Investment and Policy Constraints
+
+The model includes optional constraints on:
+
+- Total capital expenditure (`ssMaxCapitalInvestmentInvestment` via `fApplyCapitalConstraint`).
+- Renewable energy share (`eMinGenRE`).
+- Fuel limits (`eFuelLimit`).
+- Minimum import requirements (`eMinImportRequirement`).
+
+These are activated through the corresponding Boolean flags in the configuration files.
+
+## Integer Decisions
+
+Discrete transmission builds (`vBuildTransmission`) and generator builds/retirements (`vBuiltCapVar`, `vRetireCapVar`) are defined as integer variables. Their bounding equations ensure consistency between the integer choice and the continuous capacity variables.
+
+---
+
+Each equation name referenced above matches the label in `base.gms`, enabling cross-navigation between documentation, configuration, and the implementation.
+

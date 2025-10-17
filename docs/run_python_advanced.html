@@ -1307,24 +1307,32 @@ pVREProfile,TRUE
 <td><p>VRE forecast error</p></td>
 <td><p>0, 0.3</p></td>
 </tr>
-<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">zonal_spinning_reserve_constraints</span></code></p></td>
-<td><p>Zonal spinning reserve constraints</p></td>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fApplyCountrySpinReserveConstraint</span></code></p></td>
+<td><p>Country-level spinning reserve enforcement</p></td>
 <td><p>0</p></td>
 </tr>
-<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">CostSurplus</span></code></p></td>
+<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fApplySystemSpinReserveConstraint</span></code></p></td>
+<td><p>System-level spinning reserve enforcement</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">CostSurplus</span></code></p></td>
 <td><p>Cost of surplus generation</p></td>
 <td><p>1, 5</p></td>
 </tr>
-<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">CostCurtail</span></code></p></td>
+<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">CostCurtail</span></code></p></td>
 <td><p>Cost of curtailment</p></td>
 <td><p>1, 5</p></td>
 </tr>
-<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">interconMode</span></code></p></td>
-<td><p>Interconnection mode</p></td>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fEnableInternalExchange</span></code></p></td>
+<td><p>Enable internal exchanges</p></td>
 <td><p>0, 1</p></td>
 </tr>
-<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fCountIntercoForReserves</span></code></p></td>
-<td><p>Include interconnection reserves</p></td>
+<tr class="row-odd"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fEnableExternalExchange</span></code></p></td>
+<td><p>Enable exchanges with external zones</p></td>
+<td><p>0, 1</p></td>
+</tr>
+<tr class="row-even"><td><p>├─ <code class="docutils literal notranslate"><span class="pre">fAllowTransferExpansion</span></code></p></td>
+<td><p>Allow expansion of transfer limits</p></td>
 <td><p>0, 1</p></td>
 </tr>
 <tr class="row-odd"><td><p>└─ <code class="docutils literal notranslate"><span class="pre">sIntercoReserveContributionPct</span></code></p></td>
