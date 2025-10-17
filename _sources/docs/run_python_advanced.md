@@ -84,11 +84,13 @@ python epm.py --input_folder input/your_data_folder --sensitivity
 | ├─ `VoLL`                                 | Value of Lost Load                                                         | 250                                                 |
 | ├─ `fApplyPlanningReserveConstraint`      | Planning reserve constraints                                               | 0                                                   |
 | ├─ `sVREForecastErrorPct`                 | VRE forecast error                                                         | 0, 0.3                                              |
-| ├─ `zonal_spinning_reserve_constraints`   | Zonal spinning reserve constraints                                         | 0                                                   |
+| ├─ `fApplyCountrySpinReserveConstraint`   | Country-level spinning reserve enforcement                                 | 0                                                   |
+| ├─ `fApplySystemSpinReserveConstraint`    | System-level spinning reserve enforcement                                  | 0                                                   |
 | ├─ `CostSurplus`                          | Cost of surplus generation                                                 | 1, 5                                                |
 | ├─ `CostCurtail`                          | Cost of curtailment                                                        | 1, 5                                                |
-| ├─ `interconMode`                         | Interconnection mode                                                       | 0, 1                                                |
-| ├─ `fCountIntercoForReserves`             | Include interconnection reserves                                           | 0, 1                                                |
+| ├─ `fEnableInternalExchange`              | Enable internal exchanges                                                  | 0, 1                                                |
+| ├─ `fEnableExternalExchange`              | Enable exchanges with external zones                                       | 0, 1                                                |
+| ├─ `fAllowTransferExpansion`              | Allow expansion of transfer limits                                         | 0, 1                                                |
 | └─ `sIntercoReserveContributionPct`       | Contribution of interconnection reserves                                   | 0, 0.5                                              |
 | `y`                                       | Year definitions                                                           | Full continuous years range; first & last year only |
 | `pDemandForecast`                         | Total demand forecast scaling                                              | -25%, -10%, +10%, +25%                              |

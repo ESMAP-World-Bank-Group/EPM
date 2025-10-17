@@ -13,117 +13,123 @@ Input files are located in the data_input folder, and are organized into several
   - **Value** (_varied units_) – The assigned numerical value or toggle (0/1) for the parameter.
 - **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/config/pSettings.csv)
 
-**!! Important !!** Some parameters have been added in the latest EPM version. If you are using an older version of `pSettings.csv`, these new parameters will be missing and will therefore be set to zero by default in GAMS, which can significantly alter model results.
-To ensure accurate outcomes, it is essential to update your `pSettings.csv` file to include all new parameters when running the latest version of EPM.
+**!! Important !!** The validated `pSettings.csv` template in the repository now includes the full set of required parameters. Starting from EPM v2024.09, the model expects this structure. Always copy the latest file (or extend your custom copy) to avoid missing parameters that would otherwise default to zero.
+
+The CSV groups parameters by topical blocks. Each row exposes a human-readable label, the abbreviation used in GAMS, and the default value provided in the template.
 
 ---
 
-#### **Economic Assumptions**
+#### **Core Parameters (`PARAMETERS` block)**
 
-These parameters define key **financial** and **economic** inputs.
+| CSV label                                           | Abbreviation     | Default value | Units / Notes                                  |
+| --------------------------------------------------- | ---------------- | ------------- | ---------------------------------------------- |
+| Weighted Average Cost of Capital (WACC), %          | `WACC`           | 0.06          | Fraction (6%)                                  |
+| Discount rate, %                                    | `DR`             | 0.06          | Fraction (6%)                                  |
+| Cost of unserved energy per MWh, $                  | `VoLL`           | 1000          | $/MWh                                          |
+| Cost of reserve shortfall per MW, $                 | `ReserveVoLL`    | 60000         | $/MW                                           |
+| Spin Reserve VoLL per MWh, $                        | `SpinReserveVoLL`| 60            | $/MWh                                          |
+| Cost of surplus power per MWh, $                    | `CostSurplus`    | 0             | $/MWh                                          |
+| Cost of curtailment per MWh, $                      | `CostCurtail`    | 0             | $/MWh                                          |
+| Cost of curtailment per MWh, $¹                     | `CO2backstop`    | 300           | $/tCO₂ (label kept as-is in the CSV)           |
+| Cost of climate backstop techno per ton CO₂, $      | `H2UnservedCost` | 3000          | $/tCO₂                                         |
 
-| Parameter                               | Abbreviation | Value | Unit     |
-| --------------------------------------- | ------------ | ----- | -------- |
-| Weighted Average Cost of Capital (WACC) | `WACC`       | 0.06  | Fraction |
-| Discount rate                           | `DR`         | 0.06  | Fraction |
-
----
-
-#### **Penalties**
-
-These define the **costs associated with system constraints** and **violations**.
-
-| Parameter                                       | Abbreviation      | Value | Unit   |
-| ----------------------------------------------- | ----------------- | ----- | ------ |
-| Cost of unserved energy per MWh                 | `VoLL`            | 500   | $/MWh  |
-| Cost of reserve shortfall per MW                | `ReserveVoLL`     | 60000 | $/MW   |
-| Spinning reserve VoLL per MWh                   | `SpinReserveVoLL` | 25    | $/MWh  |
-| Cost of surplus power per MWh                   | `CostSurplus`     | 0     | $/MWh  |
-| Cost of curtailment per MWh                     | `CostCurtail`     | 0     | $/MWh  |
-| CO₂ backstop price                              | `CO2backstop`     | 300   | $/tCO₂ |
-| Cost of climate backstop technology per ton CO₂ | `H2UnservedCost`  | 3000  | $/tCO₂ |
+¹CSV label duplicates the curtailment text but the abbreviation drives the CO₂ backstop penalty.
 
 ---
 
-#### **Optional Features**
+#### **Interconnection settings**
 
-These parameters **toggle optional modeling features** (0 = disabled, 1 = enabled).
+**Internal exchanges (`INTERNAL` block)**
 
-| Parameter                                                           | Abbreviation                   | Value |
-| ------------------------------------------------------------------- | ------------------------------ | ----- |
-| Include carbon price                                                | `fEnableCarbonPrice`           | 0     |
-| Include energy efficiency                                           | `fEnableEnergyEfficiency`      | 0     |
-| Include CSP optimization                                            | `fEnableCSP`                   | 0     |
-| Include storage operation                                           | `fEnableStorage`               | 0     |
-| Show zero values                                                    | `show0`                        | 0     |
-| Retire plants on economic grounds                                   | `fEnableEconomicRetirement`    | 0     |
-| Run in interconnected mode                                          | `interconMode`                 | 0     |
-| Allow exports based on price                                        | `fAllowTransferExpansion`      | 0     |
-| Remove transfer limits                                              | `fRemoveInternalTransferLimit` | 0     |
-| Allow expansion of transfer limits                                  | `fAllowTransferExpansion`      | 0     |
-| Use less detailed demand definition                                 | `fUseSimplifiedDemand`         | 1     |
-| Allow CAPEX trajectory                                              | `Captraj`                      | 0     |
-| Include H₂ production                                               | `fEnableH2Production`          | 0     |
-| Include transmission lines when assessing country planning reserves | `fCountIntercoForReserves`     | 1     |
+| CSV label                                   | Abbreviation                   | Default value | Units / Notes                        |
+| ------------------------------------------- | ------------------------------ | ------------- | ------------------------------------ |
+| Activate exchange between internal zone     | `fEnableInternalExchange`      | 1             | Toggle (1 = enabled)                 |
+| Remove transfer limits between internal zone| `fRemoveInternalTransferLimit` | 0             | Toggle                               |
+| Allow expansion of transfer limits          | `fAllowTransferExpansion`      | 1             | Toggle                               |
+
+**External exchanges (`EXTERNAL` block)**
+
+| CSV label                                 | Abbreviation                       | Default value | Units / Notes                        |
+| ----------------------------------------- | ---------------------------------- | ------------- | ------------------------------------ |
+| Activate exchange between external zone   | `fEnableExternalExchange`          | 1             | Toggle                               |
+| Maximum external import share, %          | `sMaxHourlyImportExternalShare`    | 1             | Fraction (1 = 100%)                  |
+| Maximum external export share, %          | `sMaxHourlyExportExternalShare`    | 1             | Fraction (1 = 100%)                  |
 
 ---
 
-#### **Constraints**
+#### **Optional features**
 
-These parameters define **model constraints**, limiting **emissions, fuel use, capacity investments, and operational reserves**.
-
-| Parameter                                                                | Abbreviation                         | Value |
-| ------------------------------------------------------------------------ | ------------------------------------ | ----- |
-| Apply system CO₂ constraints                                             | `fApplySystemCo2Constraint`          | 0     |
-| Apply fuel constraints                                                   | `fApplyFuelConstraint`               | 0     |
-| Apply maximum capital constraint                                         | `fApplyCapitalConstraint`            | 0     |
-| Apply minimum generation constraint                                      | `fApplyMinGenerationConstraint`      | 0     |
-| Apply planning reserve constraint                                        | `fApplyPlanningReserveConstraint`    | 0     |
-| System planning reserve margin (%)                                       | `system_reserve_margin`              | 0.1   |
-| Contribution of transmission lines to country spinning reserves need (%) | `sIntercoReserveContributionPct`     | 1     |
-| Apply ramp constraints                                                   | `fApplyRampConstraint`               | 0     |
-| Apply system spinning reserve constraints                                | `fApplySystemSpinReserveConstraint`  | 0     |
-| Apply zonal CO₂ constraint                                               | `zonal_co2_constraints`              | 0     |
-| Apply zonal spinning reserve constraints                                 | `zonal_spinning_reserve_constraints` | 0     |
-| Minimum share of RE (%)                                                  | `sMinRenewableSharePct`              | 0     |
-| RE share target year                                                     | `sRenewableTargetYear`               | -     |
-| Total maximum capital investments ($ billion)                            | `sMaxCapitalInvestment`              | -     |
-| Maximum share of imports (%)                                             | `MaxImports`                         | -     |
-| Maximum share of exports (%)                                             | `MaxExports`                         | -     |
-| Spinning reserve needs for VRE (%)                                       | `sVREForecastErrorPct`               | 0.15  |
-| User-defined capacity credits                                            | `VRECapacityCredits`                 | -     |
+| CSV label                                                                 | Abbreviation                  | Default value | Units / Notes                                              |
+| ------------------------------------------------------------------------- | ----------------------------- | ------------- | ---------------------------------------------------------- |
+| Include carbon price                                                      | `fEnableCarbonPrice`          | 0             | Toggle                                                     |
+| Include energy efficiency                                                 | `fEnableEnergyEfficiency`     | 0             | Toggle                                                     |
+| Include CSP optimization                                                  | `fEnableCSP`                  | 0             | Toggle                                                     |
+| Include Storage operation                                                 | `fEnableStorage`              | 1             | Toggle                                                     |
+| Retire plants on economic grounds                                         | `fEnableEconomicRetirement`   | 0             | Toggle                                                     |
+| Use less detailed demand definition                                       | `fUseSimplifiedDemand`        | 1             | Toggle                                                     |
+| Fractional tolerance around system peak load used to identify ‘near-peak’ | `sPeakLoadProximityThreshold` | *(blank)*     | Provide a fraction when using the near-peak filter         |
 
 ---
 
-#### **Reporting and Scenario Settings**
+#### **Planning reserves (`PLANNING RESERVES` block)**
 
-These parameters **control reporting options and fuel price scenarios**.
-
-| Parameter                                              | Abbreviation            | Value |
-| ------------------------------------------------------ | ----------------------- | ----- |
-| Seasonal reporting                                     | `Seasonalreporting`     | -     |
-| System results file production                         | `Systemresultreporting` | -     |
-| Include decom and committed capacity in system results | `IncludeDecomCom`       | -     |
-| Active fuel price scenario                             | `FuelPriceScenario`     | -     |
+| CSV label                                                       | Abbreviation                | Default value | Units / Notes                        |
+| --------------------------------------------------------------- | --------------------------- | ------------- | ------------------------------------ |
+| Include transmission lines when assessing country planning reserves | `fCountIntercoForReserves` | 1             | Toggle                               |
+| Apply planning reserve constraint                               | `fApplyPlanningReserveConstraint` | 1       | Toggle                               |
+| System planning reserve margin, %                               | `sReserveMarginPct`         | 0.1           | Fraction (10%)                       |
 
 ---
 
-#### **Capacity Credit Calculation**
+#### **Spinning reserves (`SPINNING RESERVES` block)**
 
-These parameters define **capacity credits** for reporting and system reliability evaluation.
+| CSV label                                                                   | Abbreviation                         | Default value | Units / Notes               |
+| --------------------------------------------------------------------------- | ------------------------------------ | ------------- | --------------------------- |
+| Apply country spinning reserve constraints                                 | `fApplyCountrySpinReserveConstraint` | 1             | Toggle                      |
+| Apply system spinning reserve constraints                                  | `fApplySystemSpinReserveConstraint`  | 0             | Toggle                      |
+| Spinning (country and system) reserve needs for VRE, %                      | `sVREForecastErrorPct`               | 0.15          | Fraction (15%)              |
+| Contribution of transmission lines to country spinning reserves need, %     | `sIntercoReserveContributionPct`     | 0             | Fraction                     |
 
-| Parameter                                         | Abbreviation            | Value |
-| ------------------------------------------------- | ----------------------- | ----- |
-| Capacity credits for reporting                    | `CapacityCredits`       | -     |
-| Solar capacity credit                             | `CapCreditSolar`        | -     |
-| Wind capacity credit                              | `CapCreditWind`         | -     |
-| Max load fraction for capacity credit calculation | `MaxLoadFractionCCCalc` | -     |
+---
 
-#### **Notes:**
+#### **Hydrogen options (`H2` block)**
 
-- **All cost values are in USD ($).**
-- **All percentages are in fractional format (e.g., 0.06 for 6%).**
-- **Parameters with `0` or `1` act as toggles (0 = disabled, 1 = enabled).**
+| CSV label                    | Abbreviation              | Default value | Units / Notes |
+| ---------------------------- | ------------------------- | ------------- | ------------- |
+| Allow capex trajectory H2    | `fEnableCapexTrajectoryH2`| 0             | Toggle        |
+| Include H2 production        | `fEnableH2Production`     | 0             | Toggle        |
+
+---
+
+#### **Policy levers (`POLICY` block)**
+
+| CSV label                            | Abbreviation                | Default value | Units / Notes        |
+| ------------------------------------ | --------------------------- | ------------- | ---------------------|
+| Apply country CO₂ constraint         | `fApplyCountryCo2Constraint`| 0             | Toggle               |
+| Apply system CO₂ constraints         | `fApplySystemCo2Constraint` | 0             | Toggle               |
+| Minimum share of RE, %               | `sMinRenewableSharePct`     | 0             | Fraction             |
+| RE share target year                 | `sRenewableTargetYear`      | *(blank)*     | Year (leave blank if unused) |
+| Apply fuel constraints               | `fApplyFuelConstraint`      | 0             | Toggle               |
+| Apply max capital constraint         | `fApplyCapitalConstraint`   | 0             | Toggle               |
+| Total maximum capital investments, $ billion | `sMaxCapitalInvestment` | *(blank)*     | Billion USD          |
+
+---
+
+#### **Plant operations (`PLANTS` block)**
+
+| CSV label                     | Abbreviation                | Default value | Units / Notes |
+| ----------------------------- | --------------------------- | ------------- | ------------- |
+| Apply min generation constraint | `fApplyMinGenerationConstraint` | 0         | Toggle        |
+| Apply ramp constraints        | `fApplyRampConstraint`      | 0             | Toggle        |
+
+---
+
+**Notes:**
+
+- All cost values in the template are expressed in USD.
+- Percentages are stored as fractions (e.g., `0.06` = 6%).
+- Toggle parameters use `0` (disabled) and `1` (enabled).
+- Blank values in the template indicate that you must provide project-specific numbers before running a study.
 
 ---
 
