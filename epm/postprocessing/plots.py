@@ -60,6 +60,8 @@ from shapely.geometry import LineString, Point, LinearRing
 import argparse
 import shutil
 from matplotlib.ticker import FuncFormatter
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from collections import defaultdict
 
 from .utils import NAME_COLUMNS, RENAME_COLUMNS
 
@@ -95,6 +97,163 @@ def format_ax(ax, linewidth=True):
     ax.spines['right'].set_visible(True)
     ax.spines['bottom'].set_visible(True)
     ax.spines['left'].set_visible(True)
+
+
+def _format_annotation_category(value):
+    """
+    Convert raw annotation categories into human-readable strings.
+
+    Parameters
+    ----------
+    value : Any
+        Original category label used when grouping the source dataframe.
+
+    Returns
+    -------
+    str
+        Clean text representation suitable for display in annotations.
+        Tuple inputs are joined with ``" - "`` to improve readability.
+    """
+    if isinstance(value, tuple):
+        return ' - '.join(str(v) for v in value)
+    return str(value)
+
+
+def build_axis_annotations(
+    index_values,
+    numeric_index,
+    grouped,
+    subset,
+    column_xaxis,
+    column_value,
+    annotation_map=None,
+    column_subplot=None,
+    subplot_value=None,
+    annotation_source=None,
+    annotation_template="{category} - {value:.0f}",
+    annotation_threshold=1.0,
+    category_formatter=_format_annotation_category,
+):
+    """
+    Combine manual and automatic annotations for charts sharing stacked-data logic.
+
+    The helper merges user-specified labels from ``annotation_map`` and automatically
+    generated messages highlighting sharp increases in ``annotation_source``. Automatic
+    entries are triggered when the aggregated value rises by more than
+    ``annotation_threshold`` between successive x-axis points. The resulting dictionaries
+    can be reused by area, bar, or line plots that rely on the same stacked aggregation.
+
+    Parameters
+    ----------
+    index_values : list
+        Ordered x-axis values present in the plotted panel.
+    numeric_index : bool
+        Indicates whether x-axis labels are numeric (coordinates can be used directly).
+    grouped : pandas.DataFrame
+        Pivoted dataframe used to render the stacked layers; index must match ``index_values``.
+    subset : pandas.DataFrame
+        Filtered dataframe feeding the current panel, used to infer automatic annotations.
+    column_xaxis : str
+        Name of the column supplying x-axis values.
+    column_value : str
+        Name of the column providing numeric values to stack.
+    annotation_map : dict, optional
+        Manual annotations either keyed directly by x value or nested as
+        ``subplot_value -> {x_value: text}``.
+    column_subplot : str, optional
+        Column name used for faceting; required when ``annotation_map`` stores nested keys.
+    subplot_value : Any, optional
+        Current facet identifier; used when extracting nested annotations.
+    annotation_source : str, optional
+        Column used to compute automatic annotations (e.g., plant name or fuel type).
+    annotation_template : str, optional
+        Template applied to automatic annotations. Must accept ``category`` and ``value``.
+    annotation_threshold : float, optional
+        Minimum increase (absolute value) that triggers an automatic annotation.
+    category_formatter : callable, optional
+        Function that converts raw ``annotation_source`` labels to readable text.
+
+    Returns
+    -------
+    tuple(dict, dict)
+        ``x_coord_map`` maps x values to matplotlib coordinates. ``resolved_annotations``
+        stores the final annotation text per x value (empty entries are omitted).
+    """
+    x_coord_map = {val: (val if numeric_index else pos) for pos, val in enumerate(index_values)}
+
+    resolved_annotations = {}
+    if annotation_map:
+        if column_subplot is not None and isinstance(annotation_map.get(subplot_value), dict):
+            resolved_annotations.update(annotation_map.get(subplot_value, {}))
+        elif column_subplot is None:
+            resolved_annotations.update(annotation_map)
+
+    resolved_annotations = {
+        key: resolved_annotations[key]
+        for key in resolved_annotations
+        if key in x_coord_map
+    }
+
+    if annotation_source is not None and annotation_source in subset.columns:
+        auto_annotations = {}
+        structured_entries = defaultdict(lambda: defaultdict(list))
+        fallback_entries = defaultdict(list)
+        ordered_x = list(grouped.index)
+        grouped_source = subset.groupby(annotation_source, observed=False)
+        for category, group in grouped_source:
+            series = (
+                group.groupby(column_xaxis, observed=False)[column_value]
+                .sum()
+                .reindex(ordered_x, fill_value=0)
+                .sort_index()
+            )
+            for x_val, delta in series.diff().dropna().items():
+                if delta > annotation_threshold:
+                    if isinstance(category, tuple) and len(category) >= 2:
+                        group_key = category[0]
+                        item_key = category[1] if len(category) == 2 else category[1:]
+                        structured_entries[x_val][group_key].append((item_key, delta))
+                    else:
+                        text = annotation_template.format(
+                            category=category_formatter(category),
+                            value=delta
+                        )
+                        fallback_entries[x_val].append(text)
+
+        for x_val, groups in structured_entries.items():
+            lines = []
+            for group_key, entries in groups.items():
+                group_label = category_formatter(group_key)
+                if group_label:
+                    lines.append(group_label)
+                for item_key, value in entries:
+                    item_label = ''
+                    if item_key is not None:
+                        item_label = category_formatter(item_key)
+                    if item_label:
+                        lines.append(f"  • {item_label}: {value:.0f} MW")
+                    else:
+                        lines.append(f"  • {value:.0f} MW")
+            if fallback_entries.get(x_val):
+                lines.extend(fallback_entries.pop(x_val))
+            auto_annotations[x_val] = "\n".join(lines).strip()
+
+        for x_val, texts in fallback_entries.items():
+            text = "\n".join(texts).strip()
+            if not text:
+                continue
+            if x_val in auto_annotations and auto_annotations[x_val]:
+                auto_annotations[x_val] = f"{auto_annotations[x_val]}\n{text}"
+            else:
+                auto_annotations[x_val] = text
+
+        for key, text in auto_annotations.items():
+            if key in resolved_annotations and resolved_annotations[key]:
+                resolved_annotations[key] = f"{resolved_annotations[key]}\n{text}"
+            else:
+                resolved_annotations[key] = text
+
+    return x_coord_map, resolved_annotations
 
 
 def format_dispatch_ax(ax, pd_index):
@@ -324,18 +483,18 @@ def make_stacked_areaplot(
     select_x=None,
     rename_x=None,
     x_tick_interval=None,
-    format_y=lambda y, _: '{:.0f} MW'.format(y),
+    format_y=None,
     rotation=0,
     fonttick=12,
     title=None,
     x_label=None,
     y_label=None,
-    legend_title='',
+    legend_title=None,
     secondary_df=None,
     secondary_label='',
     secondary_color='brown',
     secondary_column_value=None,
-    figsize=(10, 6),
+    figsize=(12, 6),
     show_legend=True,
     annotation_map=None,
     annotation_source=None,
@@ -344,6 +503,7 @@ def make_stacked_areaplot(
 ):
     """
     Render stacked area charts with optional subplots, annotations, and a secondary axis.
+    Automatic annotations are rendered in a dedicated band above each subplot to avoid overlap.
 
     Parameters
     ----------
@@ -392,7 +552,7 @@ def make_stacked_areaplot(
     y_label : str, optional
         Custom label for the y-axis (defaults to ``column_value``).
     legend_title : str, optional
-        Title displayed above legend entries.
+        Title displayed above the legend. When omitted, the legend has no heading (consistent with stacked bar plots).
     secondary_df : pd.DataFrame, optional
         Auxiliary dataset rendered on a secondary y-axis (single panel only).
     secondary_label : str, optional
@@ -401,7 +561,7 @@ def make_stacked_areaplot(
         Colour used for the secondary axis line.
     secondary_column_value : str, optional
         Column used from ``secondary_df``; defaults to ``column_value``.
-    figsize : tuple, default (10, 6)
+    figsize : tuple, default (12, 6)
         Figure size for a single panel. Multi-panel layouts scale the height automatically.
     show_legend : bool, default True
         Whether to render legend entries.
@@ -422,6 +582,8 @@ def make_stacked_areaplot(
     rename_x = rename_x or {}
     subplot_labels = subplot_labels or {}
     annotation_map = annotation_map or {}
+    if format_y is None:
+        format_y = make_auto_yaxis_formatter("")
 
     for column, allowed in filters.items():
         if column not in df.columns:
@@ -468,11 +630,6 @@ def make_stacked_areaplot(
     primary_labels = None
 
     bottom_row_start = (nrows - 1) * ncols
-
-    def _format_category(value):
-        if isinstance(value, tuple):
-            return ' - '.join(str(v) for v in value)
-        return str(value)
 
     for idx, subplot_value in enumerate(subplot_values):
         ax = axes[idx]
@@ -527,7 +684,7 @@ def make_stacked_areaplot(
 
         if numeric_index:
             ax.set_xticks(index_values)
-            ax.set_xticklabels(display_labels, rotation=rotation)
+            ax.set_xticklabels([str(lbl) for lbl in display_labels], rotation=rotation)
             if x_tick_interval:
                 try:
                     base = index_values[0]
@@ -537,29 +694,32 @@ def make_stacked_areaplot(
                     ]
                     if tick_candidates:
                         ax.set_xticks(tick_candidates)
-                        ax.set_xticklabels([rename_x.get(val, val) for val in tick_candidates], rotation=rotation)
+                        ax.set_xticklabels([str(rename_x.get(val, val)) for val in tick_candidates], rotation=rotation)
                 except TypeError:
                     pass
         else:
             positions = np.arange(len(index_values))
             ax.set_xticks(positions)
-            ax.set_xticklabels(display_labels, rotation=rotation)
+            ax.set_xticklabels([str(lbl) for lbl in display_labels], rotation=rotation)
 
-        ax.tick_params(axis='both', which='both', length=0)
+        format_ax(ax)
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
-        format_ax(ax)
+        ax.tick_params(axis='x', which='both', bottom=True, labelbottom=True, labelrotation=rotation)
 
         if column_subplot is not None:
             if idx < bottom_row_start:
                 ax.set_xlabel('')
             else:
-                ax.set_xlabel(x_label or column_xaxis, fontsize=fonttick)
+                label = '' if x_label is None else x_label
+                ax.set_xlabel(label, fontsize=fonttick if label else fonttick)
         else:
-            ax.set_xlabel(x_label or column_xaxis, fontsize=fonttick)
+            label = '' if x_label is None else x_label
+            ax.set_xlabel(label, fontsize=fonttick if label else fonttick)
 
         if idx % ncols == 0:
-            ax.set_ylabel(y_label or column_value, fontsize=fonttick)
+            ylabel_text = '' if y_label is None else y_label
+            ax.set_ylabel(ylabel_text, fontsize=fonttick if ylabel_text else fonttick)
             ax.yaxis.set_major_formatter(FuncFormatter(format_y))
         else:
             ax.set_ylabel('')
@@ -571,6 +731,9 @@ def make_stacked_areaplot(
                 ax.set_title(str(subplot_title), fontweight='bold', color='dimgrey', pad=-1.6, fontsize=fonttick)
 
         handles, labels = ax.get_legend_handles_labels()
+        legend_obj = ax.get_legend()
+        if legend_obj is not None:
+            legend_obj.remove()
         labels = [str(label).replace('_', ' ') for label in labels]
 
         if column_subplot is None:
@@ -580,66 +743,47 @@ def make_stacked_areaplot(
             if legend_handles is None:
                 legend_handles = list(handles)
                 legend_labels = list(labels)
-            legend_obj = ax.get_legend()
-            if legend_obj is not None:
-                legend_obj.remove()
 
-        # Prepare annotations
-        x_coord_map = {val: (val if numeric_index else pos) for pos, val in enumerate(index_values)}
+        x_coord_map, resolved_annotations = build_axis_annotations(
+            index_values=index_values,
+            numeric_index=numeric_index,
+            grouped=grouped,
+            subset=subset,
+            column_xaxis=column_xaxis,
+            column_value=column_value,
+            annotation_map=annotation_map,
+            column_subplot=column_subplot,
+            subplot_value=subplot_value,
+            annotation_source=annotation_source,
+            annotation_template=annotation_template,
+            annotation_threshold=annotation_threshold,
+            category_formatter=_format_annotation_category,
+        )
 
-        resolved_annotations = {}
-        if annotation_map:
-            if column_subplot is not None and isinstance(annotation_map.get(subplot_value), dict):
-                resolved_annotations.update(annotation_map.get(subplot_value, {}))
-            elif column_subplot is None:
-                resolved_annotations.update(annotation_map)
-        resolved_annotations = {
-            key: resolved_annotations[key]
-            for key in resolved_annotations
-            if key in x_coord_map
-        }
-
-        if annotation_source is not None and annotation_source in subset.columns:
-            auto_annotations = {}
-            ordered_x = list(grouped.index)
-            grouped_source = subset.groupby(annotation_source, observed=False)
-            for category, group in grouped_source:
-                series = (
-                    group.groupby(column_xaxis, observed=False)[column_value]
-                    .sum()
-                    .reindex(ordered_x, fill_value=0)
-                    .sort_index()
+        valid_annotations = {key: text for key, text in resolved_annotations.items() if text}
+        if valid_annotations:
+            divider = make_axes_locatable(ax)
+            band_ax = divider.append_axes("top", size="18%", pad=0.25, sharex=ax)
+            band_ax.set_ylim(0, 1)
+            band_ax.set_facecolor('none')
+            band_ax.set_yticks([])
+            plt.setp(band_ax.get_xticklabels(), visible=False)
+            for spine in band_ax.spines.values():
+                spine.set_visible(False)
+            for x_val, text in valid_annotations.items():
+                if x_val not in grouped.index:
+                    continue
+                x_pos = x_coord_map[x_val]
+                band_ax.text(
+                    x_pos,
+                    0.5,
+                    text,
+                    ha='center',
+                    va='center',
+                    fontsize=max(fonttick - 2, 8),
+                    bbox=dict(boxstyle='round,pad=0.3', facecolor='white', edgecolor='lightgrey', linewidth=0.8)
                 )
-                for x_val, delta in series.diff().dropna().items():
-                    if delta > annotation_threshold:
-                        text = annotation_template.format(
-                            category=_format_category(category),
-                            value=delta
-                        )
-                        if x_val in auto_annotations:
-                            auto_annotations[x_val] = f"{auto_annotations[x_val]}\n{text}"
-                        else:
-                            auto_annotations[x_val] = text
-            for key, text in auto_annotations.items():
-                if key in resolved_annotations and resolved_annotations[key]:
-                    resolved_annotations[key] = f"{resolved_annotations[key]}\n{text}"
-                else:
-                    resolved_annotations[key] = text
-
-        for x_val, text in resolved_annotations.items():
-            if not text or x_val not in grouped.index:
-                continue
-            total_height = grouped.loc[x_val].sum()
-            ax.annotate(
-                text,
-                xy=(x_coord_map[x_val], total_height),
-                xytext=(0, 6),
-                textcoords='offset points',
-                fontsize=max(fonttick - 2, 8),
-                ha='center',
-                va='bottom',
-                color='black'
-            )
+            band_ax.tick_params(axis='x', which='both', length=0, labelbottom=False)
 
     # Hide any unused axes
     for idx in range(num_panels, len(axes)):
@@ -648,15 +792,15 @@ def make_stacked_areaplot(
     tight_rect = None
 
     if column_subplot is not None and show_legend and legend_handles:
+        legend_kwargs = dict(loc='center left', frameon=False, bbox_to_anchor=(1, 0.5))
+        if legend_title:
+            legend_kwargs['title'] = legend_title
         fig.legend(
             legend_handles[::-1],
             [label.replace('_', ' ') for label in legend_labels[::-1]],
-            title=legend_title or column_stacked,
-            loc='center left',
-            frameon=False,
-            bbox_to_anchor=(1, 0.5)
+            **legend_kwargs
         )
-        tight_rect = [0, 0, 0.85, 1]
+        tight_rect = [0, 0, 0.88, 1]
 
     if column_subplot is None:
         ax = axes[0]
@@ -706,15 +850,15 @@ def make_stacked_areaplot(
                 combined_handles.extend(secondary_handles)
                 combined_labels.extend(secondary_labels)
             if combined_handles:
+                legend_kwargs = dict(loc='center left', frameon=False, bbox_to_anchor=(1, 0.5))
+                if legend_title:
+                    legend_kwargs['title'] = legend_title
                 fig.legend(
                     combined_handles,
                     combined_labels,
-                    title=legend_title or column_stacked,
-                    loc='center left',
-                    frameon=False,
-                    bbox_to_anchor=(1, 0.5)
+                    **legend_kwargs
                 )
-                tight_rect = [0, 0, 0.85, 1]
+                tight_rect = [0, 0, 0.88, 1]
         else:
             legend_obj = ax.get_legend()
             if legend_obj is not None:

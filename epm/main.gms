@@ -40,6 +40,9 @@ Option limRow=0, limCol=0, sysOut=off, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
 $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
+* Useful for Python import
+$setglobal modeldir %system.fp%
+
 *-------------------------------------------------------------------------------------
 
 * Only include base if we don't restart
@@ -64,19 +67,6 @@ $endIf
 $if set ROOT_FOLDER $set READER_FILE %ROOT_FOLDER%/%READER_FILE%
 $log READER_FILE is "%READER_FILE%"
 
-
-$ifThen not set VERIFICATION_FILE
-$set VERIFICATION_FILE "input_verification.gms"
-$endIf
-$if set ROOT_FOLDER $set VERIFICATION_FILE %ROOT_FOLDER%/%VERIFICATION_FILE%
-$log VERIFICATION_FILE is "%VERIFICATION_FILE%"
-
-
-$ifThen not set TREATMENT_FILE
-$set TREATMENT_FILE "input_treatment.gms"
-$endIf
-$if set ROOT_FOLDER $set TREATMENT_FILE %ROOT_FOLDER%/%TREATMENT_FILE%
-$log TREATMENT_FILE is "%TREATMENT_FILE%"
 
 
 $ifThen not set DEMAND_FILE
@@ -279,37 +269,57 @@ $log ##########################
 $log ### INPUT VERIFICATION ###
 $log ##########################
 
-$include %VERIFICATION_FILE%
 
-$onText
 $onEmbeddedCode Python:
-import .input_verification 
-input_verification.run_checks(gams) 
+import sys, os
+
+# get directory of the .gms file
+gms_dir = os.path.dirname(r"%modeldir%")
+
+# ensure it's in sys.path
+if gms_dir not in sys.path:
+    sys.path.insert(0, gms_dir)
+
+from input_verification import run_input_verification
+run_input_verification(gams)
 $offEmbeddedCode 
-$offText
+
+
+*$include %VERIFICATION_FILE%
+
 
 $if not errorfree $abort PythonError in input_verification.gms
 
 
-$log ##############################
-$log ### INPUT VERIFICATION END ###
-$log ##############################
-
 *-------------------------------------------------------------------------------------
 * Make input treatment
 
-$log ###########################
-$log ##### INPUT TREATMENT #####
-$log ###########################
+$log ########################
+$log ### INPUT TREATMENT ####
+$log ########################
 
 $onMulti
-$include %TREATMENT_FILE%
-$if not errorfree $abort PythonError in input_treatment.gms
-$offMulti
+*$include %TREATMENT_FILE%
 
-$log ###############################
-$log ##### INPUT TREATMENT END #####
-$log ###############################
+
+$onEmbeddedCode Python:
+import sys, os
+
+# get directory of the .gms file
+gms_dir = os.path.dirname(r"%modeldir%")
+
+# ensure it's in sys.path
+if gms_dir not in sys.path:
+    sys.path.insert(0, gms_dir)
+
+from input_treatment import run_input_treatment
+run_input_treatment(gams)
+$offEmbeddedCode 
+
+$if not errorfree $abort PythonError in input_treatment.gms
+
+
+$offMulti
 
 *-------------------------------------------------------------------------------------
 

@@ -67,7 +67,8 @@ Parameters
 
   pCostsPlant(z, g, *, y)                       'Yearly cost breakdown by plant and year'
   
-  pCapexInvestmentPlant(z, g, *, y) 'CAPEX investment [USD] by plant and component'                                               
+  pCapexInvestmentPlant(z, g, *, y) 'CAPEX investment [USD] by plant and component'
+  pCapexInvestmentTransmission(z, z2, y) 'Transmission CAPEX [USD] by line and year'
   pCapexInvestmentComponent(z, *, y) 'Annual CAPEX investment [USD] by component and zone'                                          
   pCapexInvestment(z, y)                        'Annual CAPEX investment in USD by zone and year'
 
@@ -464,6 +465,11 @@ pCapexInvestmentComponent(z, "Transmission", y)$(fAllowTransferExpansion and sum
     * symmax(pNewTransmission, z, z2, "CostPerLine")
     * 1e6
   );
+
+pCapexInvestmentTransmission(sTopology(z, z2), y)$fAllowTransferExpansion =
+  0.5 * vBuildTransmission.l(z, z2, y)
+  * symmax(pNewTransmission, z, z2, "CostPerLine")
+  * 1e6;
 
 * ---------------------------------------------------------
 * Zone-level CAPEX investment flows [$]
@@ -1478,7 +1484,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
       pCostsPlant, 
-      pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentComponent,
+      pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentComponent,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
       pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,

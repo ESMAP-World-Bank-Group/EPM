@@ -89,11 +89,11 @@ KEYS_RESULTS = {
 
 FIGURES_ACTIVATED = {
     # 1. Capacity figures
-    'CapacityMixSystemEvolutionScenarios': False,
+    'CapacityMixSystemEvolutionScenarios': True,
     'CapacityMixSystemEvolutionScenariosRelative': False,
     'CapacityMixEvolutionZone': False,
     'CapacityMixZoneScenarios': False,
-    'NewCapacityInstalledTimeline': False,
+    'NewCapacityInstalledTimeline': True,
     
     # 2. Cost figures
     'CostSystemScenarios': False,
@@ -119,10 +119,10 @@ FIGURES_ACTIVATED = {
     'InterconnectionUtilizationHeatmap': False,
     
     # 5. Dispatch figures
-    'DispatchZoneMaxLoadDay': True,
-    'DispatchZoneMaxLoadSeason': True,
-    'DispatchSystemMaxLoadDay': True,
-    'DispatchSystemMaxLoadSeason': True,
+    'DispatchZoneMaxLoadDay': False,
+    'DispatchZoneMaxLoadSeason': False,
+    'DispatchSystemMaxLoadDay': False,
+    'DispatchSystemMaxLoadSeason': False,
     
     # 6. Maps
     'TransmissionCapacityMap': False, 
@@ -838,28 +838,86 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 rotation=45,
                                                 annotate=False,
                                                 title=f'Installed Capacity Mix by Fuel - {year} (GW)')
-                
-            # 1.4 New capacity installed per zone
-            for scenario in [scenario_reference]:
-                
-                # System level
-                
-                
-                for zone in epm_results['pCapacityPlant'].zone.unique():
-                    df_zone = epm_results['pCapacityPlant'].copy()
-                    df_zone = df_zone[(df_zone['scenario'] == scenario) & (df_zone['zone'] == zone)]
-                    
-                    figure_name = 'NewCapacityInstalledTimeline'
-                    if FIGURES_ACTIVATED.get(figure_name, False):
-                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}-{zone}.pdf')
+            
+            
+            figure_name = 'NewCapacityInstalledTimeline'
+            if FIGURES_ACTIVATED.get(figure_name, False):
+                # 1.4 New capacity installed per zone
+                for scenario in [scenario_reference]:
+                                    
+                    # System-level
 
-                        
+
+                    for zone in epm_results['pCapacityPlant'].zone.unique():
+                        df_generation = epm_results['pCapacityPlant'].copy()
+                        df_generation = df_generation[
+                            (df_generation['scenario'] == scenario) & (df_generation['zone'] == zone)
+                        ]
+                        df_generation = df_generation.copy()
+                        df_generation['annotation_label'] = df_generation['generator'].astype(str).apply(
+                            lambda name: ('Generation', name)
+                        )
+
+                        df_transmission_zone = pd.DataFrame()
+                        if 'pAnnualTransmissionCapacity' in epm_results:
+                            df_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                            if 'scenario' in df_transmission.columns:
+                                df_transmission = df_transmission[df_transmission['scenario'] == scenario]
+                            else:
+                                df_transmission = df_transmission.assign(scenario=scenario)
+
+                            df_transmission = df_transmission[
+                                (df_transmission['zone'] == zone) | (df_transmission['z2'] == zone)
+                            ]
+
+                            if not df_transmission.empty:
+                                line_names = (
+                                    df_transmission[['zone', 'z2']]
+                                    .astype(str)
+                                    .apply(lambda row: '-'.join(sorted(row)), axis=1)
+                                )
+                                df_transmission = df_transmission.assign(
+                                    generator=line_names,
+                                    fuel='Transmission',
+                                    zone=zone,
+                                    annotation_label=line_names.apply(lambda name: ('Transmission', name))
+                                )
+                                df_transmission_zone = (
+                                    df_transmission[
+                                        ['scenario', 'zone', 'year', 'fuel', 'generator', 'annotation_label', 'value']
+                                    ]
+                                    .groupby(
+                                        ['scenario', 'zone', 'year', 'fuel', 'generator', 'annotation_label'],
+                                        observed=False
+                                    )['value']
+                                    .max()
+                                    .reset_index()
+                                )
+
+                        df_zone = pd.concat(
+                            [
+                                df_generation,
+                                df_transmission_zone
+                            ],
+                            ignore_index=True,
+                            sort=False
+                        )
+
+                        if df_zone.empty:
+                            continue
+                    
+                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}-{zone}.pdf')
                         make_stacked_areaplot(
                             df_zone,
                             filename,
                             colors=dict_specs['colors'],
-                            annotation_source='generator',
-                            annotation_template="{category} - {value:.0f}"
+                            column_xaxis='year',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("MW"),
+                            column_stacked='fuel',
+                            annotation_source='annotation_label',
+                            annotation_template="{category}: {value:.0f} MW",
+                            title=f'Installed Capacity {zone} - {scenario} [MW]'
                         )
                 
             # 1.5 Capex investment figures
