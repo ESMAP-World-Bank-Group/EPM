@@ -44,7 +44,7 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import LineString
 # Importing utility functions for data processing
-from utils import get_json_data, create_zonemap
+from interactive_map import get_json_data, create_zonemap
 
 
 def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',

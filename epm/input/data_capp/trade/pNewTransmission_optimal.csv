@@ -1,0 +1,14 @@
+From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
+Cameroon,Chad,2028,1,200,744,30,2
+Cameroon,CAR,2030,10,185,855,30,3
+Cameroon,Gabon,2030,10,210,160,30,3
+Cameroon,EquatorialGuinea,2030,10,210,160,30,3
+CAR,Congo,2030,10,185,855,30,3
+Gabon,EquatorialGuinea,2030,10,210,100,30,3
+Gabon,Congo,2030,10,500,400,30,3
+Congo,DRC,2030,10,235,102,30,3
+Angola,Congo,2030,10,500,400,30,3
+Angola,DRC,2030,10,500,400,30,3
+DRC,DRC_South,2030,10,300,885,30,3
+Burundi,Rwanda,2030,10,100,100,30,3
+Burundi,DRC_East,2027,10,750,350,30,3

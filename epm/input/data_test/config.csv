@@ -8,6 +8,10 @@ RESOURCES,
 ftfindex,resources/ftfindex.csv
 pFuelCarbonContent,resources/pFuelCarbonContent.csv
 pTechData,resources/pTechData.csv
+pSettingsHeader,resources/pSettingsHeader.csv
+pGenDataInputHeader,resources/pGenDataInputHeader.csv
+pStoreDataHeader,resources/pStoreDataHeader.csv
+pH2Header,resources/pH2Header.csv
 LOAD,
 pDemandData,load/pDemandData.csv
 pDemandForecast,load/pDemandForecast.csv
@@ -15,8 +19,8 @@ pDemandProfile,load/pDemandProfile.csv
 sRelevant,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 SUPPLY,
-pGenDataExcel,supply/pGenDataExcelCustom.csv
-pGenDataExcelDefault,supply/pGenDataExcelDefault.csv
+pGenDataInput,supply/pGenDataInput.csv
+pGenDataInputDefault,supply/pGenDataInputDefault.csv
 pAvailability,supply/pAvailabilityCustom.csv
 pAvailabilityDefault,supply/pAvailabilityDefault.csv
 pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
@@ -38,9 +42,9 @@ pCarbonPrice,constraint/pCarbonPrice.csv
 TRADE,
 zext,trade/zext.csv
 pExtTransferLimit,trade/pExtTransferLimit.csv
-pLossFactor,trade/pLossFactor.csv
+pLossFactorInternal,trade/pLossFactorInternal.csv
 pMaxPriceImportShare,trade/pMaxPriceImportShare.csv
-pMaxExchangeShare,trade/pMaxExchangeShare.csv
+pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 pMinImport,trade/pMinImport.csv
 pNewTransmission,trade/pNewTransmission.csv
 pTradePrice,trade/pTradePrice.csv

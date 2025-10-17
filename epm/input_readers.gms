@@ -21,7 +21,7 @@
 *
 * Notes:
 * - Ensure GAMS is installed before running this model.
-* - The model requires input data in .GDX or Excel format.
+* - The model requires input data in .GDX.
 *
 * Contact:
 * Claire Nicolas, c.nicolas@worldbank.org
@@ -30,7 +30,7 @@
 $if not set ROOT_INPUT $set ROOT_INPUT "input"
 $log ROOT_INPUT is "%ROOT_INPUT%"
 
-$if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
+$if not set FOLDER_INPUT $set FOLDER_INPUT "data_capp"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 $if not set TRACE $set TRACE 0
@@ -50,8 +50,8 @@ $if not set sRelevant $set sRelevant %ROOT_INPUT%/%FOLDER_INPUT%/load/sRelevant.
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %ROOT_INPUT%/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataExcel $set pGenDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcelCustom.csv
-$if not set pGenDataExcelDefault $set pGenDataExcelDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataExcelDefault.csv
+$if not set pGenDataInput $set pGenDataInput %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInput.csv
+$if not set pGenDataInputDefault $set pGenDataInputDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
 $if not set pVREgenProfile $set pVREgenProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREgenProfile.csv
@@ -65,6 +65,11 @@ $if not set pCSPData $set pCSPData %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCSPData.c
 $if not set pStorDataExcel $set pStorDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pStorDataExcel.csv
 
 * RESOURCES
+$if not set pSettingsHeader $set pSettingsHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pSettingsHeader.csv
+$if not set pGenDataInputHeader $set pGenDataInputHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pGenDataInputHeader.csv
+$if not set pStoreDataHeader $set pStoreDataHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pStoreDataHeader.csv
+$if not set pH2Header $set pH2Header %ROOT_INPUT%/%FOLDER_INPUT%/resources/pH2Header.csv
+
 $if not set ftfindex $set ftfindex %ROOT_INPUT%/%FOLDER_INPUT%/resources/ftfindex.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent %ROOT_INPUT%/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
 $if not set pTechData $set pTechData %ROOT_INPUT%/%FOLDER_INPUT%/resources/pTechData.csv
@@ -77,9 +82,9 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %ROOT_INPUT
 * TRADE
 $if not set zext $set zext %ROOT_INPUT%/%FOLDER_INPUT%/trade/zext.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %ROOT_INPUT%/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
-$if not set pLossFactor $set pLossFactor %ROOT_INPUT%/%FOLDER_INPUT%/trade/pLossFactor.csv
+$if not set pLossFactorInternal $set pLossFactorInternal %ROOT_INPUT%/%FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxPriceImportShare $set pMaxPriceImportShare %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
-$if not set pMaxExchangeShare $set pMaxExchangeShare %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMaxExchangeShare.csv
+$if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMinImport $set pMinImport %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %ROOT_INPUT%/%FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %ROOT_INPUT%/%FOLDER_INPUT%/trade/pTradePrice.csv
@@ -107,12 +112,40 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
+    file: %pSettingsHeader%
+    name: pSettingsHeader
+    indexColumns: [1]
+    type: set
+
+
+- CSVReader:
+    trace: %TRACE%
     file: %pSettings%
     name: pSettings
-    valueSubstitutions: {0: .nan}
     indexColumns: [2]
     valueColumns: [3]
     type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pGenDataInputHeader%
+    name: pGenDataInputHeader
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: %TRACE%
+    file: %pStoreDataHeader%
+    name: pStoreDataHeader
+    indexColumns: [1]
+    type: set
+    
+- CSVReader:
+    trace: %TRACE%
+    file: %pH2Header%
+    name: pH2Header
+    indexColumns: [1]
+    type: set
 
 
 - CSVReader:
@@ -210,7 +243,7 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pGenDataExcel%
+    file: %pGenDataInput%
     name: gmap
     indexSubstitutions: {.nan: ""}
     indexColumns: [1,2,3,4]
@@ -218,18 +251,17 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pGenDataExcel%
-    name: pGenDataExcel
+    file: %pGenDataInput%
+    name: pGenDataInput
     indexColumns: [1,2,3,4]
-    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
 
     
 - CSVReader:
     trace: %TRACE%
-    file: %pGenDataExcelDefault%
-    name: pGenDataExcelDefault
+    file: %pGenDataInputDefault%
+    name: pGenDataInputDefault
     indexColumns: [1,2,3]
     valueSubstitutions: {0: EPS}
     header: [1]
@@ -308,8 +340,7 @@ $onEmbeddedCode Connect:
     trace: %TRACE%
     file: %pCSPData%
     name: pCSPData
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    indexSubstitutions: {.nan: "", .nan: EPS}
     indexColumns: [1, 2]
     header: [1]
     type: par
@@ -401,8 +432,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pMaxExchangeShare%
-    name: pMaxExchangeShare
+    file: %pMaxAnnualExternalTradeShare%
+    name: pMaxAnnualExternalTradeShare
     indexColumns: [1]
     header: [1]
     type: par
@@ -439,8 +470,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pLossFactor%
-    name: pLossFactor
+    file: %pLossFactorInternal%
+    name: pLossFactorInternal
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
@@ -524,6 +555,7 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
+
 - CSVReader:
     trace: %TRACE%
     file: %pAvailabilityH2%
@@ -554,15 +586,6 @@ $onEmbeddedCode Connect:
     header: [1]
     type: par
 
-
-- CSVReader:
-    trace: %TRACE%
-    file: %pH2DataExcel%
-    name: hh
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    type: set
 
 - CSVReader:
     trace: %TRACE%

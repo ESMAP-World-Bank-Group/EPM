@@ -34,95 +34,70 @@ $eolCom //
 * DECLARATION OF SETS, PARAMETERS AND VARIABLES
 *-------------------------------------------------------------------
 
+
+
+alias (y,y2);
+alias (f,f2);
+alias (c,c2);
+
+
+
+* -------------------------------------------------------------
+* Generator classification sets
+* -------------------------------------------------------------
 Sets
-   g        'generators or technology-fuel types'
-   f        'fuels'
-   tech     'technologies'
-   y        'years'
-   q        'quarters or seasons'
-   d        'day types'
-   t        'hours of day'
-   z        'zones'
-   c        'countries'
-   zext     'external zones'
-*********Hydrogen specific addition***********
-   hh        'Hydrogen production units'
+   eg(g)                  'Existing generator fleet'
+   ng(g)                  'New-build candidates'
+   commtransmission(z,z2) 'Committed transmission corridors'
+   cs(g)                  'Concentrated solar power units'
+   so(g)                  'PV plants paired with storage'
+   stp(g)                 'Dedicated storage blocks for PV plants'
+   st(g)                  'All storage technologies (incl. standalone)'
+   dc(g)                  'Candidates with CAPEX trajectory data'
+   ndc(g)                 'Candidates without CAPEX trajectory data'
+   vre(g)                 'Variable renewable technologies'
+   re(g)                  'Renewable technologies (broader than VRE)'
+   RampRate(g)            'Generators subject to ramp constraints (filters out inflexible units)'
+   VRE_noROR(g)           'VRE assets excluding run-of-river (used for spinning reserve sizing)'
 ;
 
-alias (z,z2), (g,g1,g2);
 
-
-* Generators
+* -------------------------------------------------------------
+* Mapping sets (generator-to-fuel/zone, network structure)
+* -------------------------------------------------------------
 Sets
-   eg(g)                  'existing generators'
-   ng(g)                  'new generators'
-   commtransmission(z,z2) 'Committed transmission lines'
-   cs(g)                  'concentrated solar power'
-   so(g)                  'PV plants with storage'
-   stp(g)                 'storage for PV plant'
-   st(g)                  'all storage plants'
-   dc(g)                  'candidate generators with capex trajectory'
-   ndc(g)                 'candidate generators without capec trajectory'
-   vre(g)                 'variable renewable generators'
-   re(g)                  'renewable generators'
-   RampRate(g)            'ramp rate constrained generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
-   VRE_noROR(g)           'VRE generators that are not RoR generators - used to estimate spinning reserve needs'
-    
-************** H2 model specific sets ***************************
-   eh(hh)           'existing hydrogen generation plants'
-   nh(hh)           'new hydrogen generation plants'
-   RampRateH2(hh)   'ramp rate constrained H2 generator blocks' // Ramprate takes out inflexible generators for a stronger formulation so that it runs faster
-   dcH2(hh)         'candidate generators with capex trajectory'
-   ndcH2(hh)        'candidate generators without capex trajectory'
-   nRE(g)           'non RE generators'
-   nVRE(g)          'non VRE generators'
-   REH2(g)          'set of RE generators which are NOT VRE'
-   nREH2(g)         'set of generators that are dont belong to subset REH2(g)'
+   gfmap(g,f)             'Generator-to-fuel association'
+   gzmap(g,z)             'Generator-to-zone association'
+   zfmap(z,f)             'Fuel availability by zone'
+   gsmap(g2,g)            'Storage-to-generator linkage'
+   sTopology(z,z2)        'Internal network adjacency'
+   sMapConnectedZonesDiffCountries(z,z2) 'Cross-country connections subset (topology filter)'
 ;
 
-* Time
+
+* -------------------------------------------------------------
+* Status and solver-control sets
+* -------------------------------------------------------------
 Sets
-   ghdr         'Header for pGenData' / BuildLimitperYear, Capacity, Capex, DescreteCap, FOMperMW,
-                                        MinLimitShare, MinTotalBuild, Overloadfactor, RampDnRate, RampUpRate, ReserveCost, ResLimShare, RetrYr, StYr, UnitSize /
-   shdr         'Header for pStorData' / CapacityMWh, CapexMWh, FixedOMMWh, Efficiency/
-   csphrd       'Header for pCSPData' / Storage, "Thermal Field" /
-   thdr         'Header for pNewTransmission' / CapacityPerLine, CostPerLine, Life, MaximumNumOfLines /
-   sRelevant(d)  'relevant day and hours when MinGen limit is applied'
-***********************Hydrogen model related sets*********************
-   hhdr         'Header for pH2Data' / StYr, RetrYr,  Capacity, Capex, HeatRate,VOM, FOMperMW,  Efficiency,  BuildLimitperYear,  DescreteCap,
-                                         RampUpRate, RampDnRate,   ResLimShare, UnitSize, Life, Type /
-   h2Index      'Index of hydrogen fuels'    /HydrogenIndex/
+   gstatus  'Generator status lookup'           / Existing, Candidate, Committed /
+   tstatus  'Transmission project status'      / Candidate, Committed /
+   mipline  'Solver option line identifiers'
+   mipopt(mipline<) 'MIP solver option key-value pairs' / system.empty /
 ;
 
-alias(hh,hh1);
 
-* Mapping (fuel, storage...)
+* -------------------------------------------------------------
+* Implicit domains (restrict variables to meaningful tuples)
+* -------------------------------------------------------------
 Sets
-   gfmap(g,f)             'generator g mapped to fuel f'
-   gzmap(g,z)             'generator g mapped to zone z'
-   zfmap(z,f)             'fuel f available in zone z'
-   gsmap(g2,g)            'generator storage map'
-   zcmap(z<,c<)           'map zones to countries'
-   sTopology(z,z2)        'network topology - to be assigned through network data'
-   sMapConnectedZonesDiffCountries(z,z2)          'set of connecting zones belonging to different countries'   
-**************Hydrogen production model related sets*******************************
-   h2zmap(hh,z)
-*   ft
+   sPwrOut(g,f,q,d,t,y)        'Active generator-fuel-time combinations'
+   sExportPrice(z,zext,q,d,t,y) 'Valid export price records (external zones)'
+   sImportPrice(z,zext,q,d,t,y) 'Valid import price records (external zones)'
+   sAdditionalTransfer(z,z2,y)  'Transmission build decision domain'
+   sFlow(z,z2,q,d,t,y)         'Feasible flow pairs'
+   sSpinningReserve(g,q,d,t,y) 'Generators able to provide spinning reserve'
 ;
 
-* Implicit variable domain
-Sets
-   sPwrOut(g,f,q,d,t,y)        'valid tuples for vPwrOut'
-   sExportPrice(z,zext,q,d,t,y)     'valid tuples for vExportPrice'
-   sImportPrice(z,zext,q,d,t,y)     'valid tuples for vImportPrice'
-   sAdditionalTransfer(z,z2,y) 'valid tuples for vAdditionalTransfer'
-   sFlow(z,z2,q,d,t,y)         'valid tuples for vFlow'
-   sSpinningReserve(g,q,d,t,y)         'valid tuples for vSpinningReserve'
-************************H2 related set***************************************
-   sH2PwrIn(hh,q,d,t,y)
-;
-
-*Set MapGG(g,g1)  mapping of generators where simultaneous commissioning decommissioning exists;
 Singleton sets
    sStartYear(y)
    sFirstHour(t)
@@ -130,506 +105,577 @@ Singleton sets
    sFirstDay(d)
 ;
 
+
+* Additional parameters for results and reporting
+* -------------------------------------------------------------
+* Global flags and shared parameters for reporting/constraints
+* -------------------------------------------------------------
+Parameter
+   pAllHours(q,d,y,t)           'All operating hours (used for peak tracking)'
+   pFindSysPeak(y)              'Yearly system peak indicator'
+   pSeasonalReporting           'Enable seasonal report outputs'
+   fEnableInternalExchange      'Allow internal zone trading'
+   fRemoveInternalTransferLimit 'Override internal transfer limits'
+   fAllowTransferExpansion      'Permit expansion of internal transmission (set elsewhere too; redundant flag)'
+   pDR                          'Discount rate applied in objective'
+   fEnableCapexTrajectoryH2     'Toggle CAPEX trajectory for hydrogen assets'
+   pfEnableEnergyEfficiency     'Enable demand-side efficiency adjustments'
+   pfApplySystemCo2Constraint   'Apply system-wide CO₂ constraint'
+   pExtTransferLimitIn(z,zext,q,y)  'Exogenous import limit from external zones'
+   pExtTransferLimitOut(z,zext,q,y) 'Exogenous export limit to external zones'
+   psVREForecastErrorPct        'Forecast error percentage for VRE (used in reserves)'
+;
+
+* Additional structure sets (technology/mapping)
+Set 
+   gprimf(g,f)            'Primary fuel used by each generator'
+   gtechmap(g,tech)       'Generator-to-technology linkage'
+   gstatusmap(g,gstatus)  'Generator status lookup (existing/candidate/committed)'
+   tstatusmap(z,z2,tstatus) 'Transmission status lookup'
+   Zd(z)                  'Demand-serving zones'
+   Zt(z)                  'Zone type classification (often redundant with Zd)'
+   stg(g)                 'Storage generators (grid-scale)'
+   ror(g)                 'Run-of-river assets (subset of renewables)'
+;
+
+
 Parameters
-   pCostOfCurtailment               'Cost of curtailment'
-   pCostOfCO2backstop               'Cost of climate backstop techno in $ per ton of CO2'
-   pHours(q<,d<,t<)
-   pWeightYear(y)                   'weight on years'
-* Generators
-   pGenData(g,ghdr)                 'generator data'
-   pAvailability(g,q)               'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pCapexTrajectories(g,y)          'capex trajectory  final'
-* Exchanges
-   pTransferLimit(z,z2,q,y)         'Transfer limits by quarter (seasonal) and year between zones'
-   pMinImport(z2,z,y)               'Minimum trade constraint between zones defined at the yearly scale, and applied uniformly across each hour'
-   pMaxExchangeShare(y,c)           'Max share of exchanges by country [same limit for imports or exports for now]'
+   pCostOfCurtailment          'Penalty on curtailed VRE (check usage – may be redundant)'
+   pCostOfCO2backstop          'CO₂ backstop cost ($/ton)'
+   pWeightYear(y)              'Inter-year weighting factor'
 
-   pAllowHighTransfer
-   pAllowExports                    'Allow price based exports'   
-   pTradePrice(zext,q,d,y,t)        'trade price - export or import driven by prices [assuming each zone in a country can only trade with one external zone]'
-   pMaxImport                       'Maximum Hourly Imports, based on hourly country demand'   
-   pMaxExport                       'Maximum Hourly Exports, based on hourly country demand'
-   pExtTransferLimit(z,zext,q,*,y)  'external transfer limit'
-   pExtTransferLimitIn(z,zext,q,y)  'transfer limit with external zone for import towards internal zone'
-   pExtTransferLimitOut(z,zext,q,y) 'transfer limit with external zone for export towards external zone'
-* Fuels
-   pMaxFuellimit(c,f,y)             'Fuel limit in MMBTU*1e6 (million) by country'
-* Demand
-   pDemandData(z,q,d,y,t)           'hourly load curves by quarter(seasonal) and year'
-   pEnergyEfficiencyFactor(z,y)     'Scaling factor for energy efficiency measures'
-* T&D
-   pLossFactor(z,z2,y)              'loss factor in percentage'
-   pNewTransmission(z,z2,thdr)      'new transmission lines'
-* Renewables and storage
-   pVREgenProfile(g,q,d,t)        'VRE generation profile by plant quarter day type and YEAR -- normalized (per MW of solar and wind capacity)'
-   pCSPData(g,csphrd,shdr)
-   pCSPProfile(g,q,d,t)             'solar profile for CSP in pu'
-   pStoPVProfile(g,q,d,t)           'solar profile for Pv with Storage in pu'
-   pStorData(g,shdr)                'Storage data'
-   pVREForecastError                'Percentage error in VRE forecast [used to estimated required amount of spinning reserve]'
-   
-* Reserves
-   pSpinningReserveReqCountry(c,y)     'Spinning reserve requirement local at country level (MW)  -- for isolated system operation scenarios'
-   pSpinningReserveReqSystem(y)     'Spinning reserve requirement systemwide (MW) -- for integrated system operation scenarios'
-   pPlanningReserveMargin(c)        'Country planning reserve margin'
-   pCapacityCredit(g,y)             'Share of capacity counted towards planning reserves'
-   pVREForecastError                'Spinning reserve needs for VRE (as a share of VRE generation)'
-* CO2
-   pCarbonPrice(y)                  'Carbon price in USD per ton of CO2eq'
-   pFuelCarbonContent(f)            'Fuel carbon content in tCO2 per MMBTu'
+* Generator data
+   pGenData(g,pGenDataInputHeader) 'Generator characteristics (capex, heat rate, etc.)'
+   pAvailability(g,q)             'Seasonal availability factors'
+   pCapexTrajectories(g,y)        'CAPEX trajectory multipliers'
 
+* External exchange data
+   fEnableExternalExchange          'Permit external exchange'
+   pMaxAnnualExternalTradeShare(y,c) 'Annual import/export share cap by country'
+   pTradePrice(zext,q,d,y,t)      'Border price for external trades'
+   sMaxHourlyImportExternalShare  'Hourly import cap (share of demand)'
+   sMaxHourlyExportExternalShare  'Hourly export cap (share of demand)'
+   pExtTransferLimit(z,zext,q,*,y) 'Full external transfer limit tensor'
+   pExtTransferLimitIn(z,zext,q,y) 'Import limit (duplicate of earlier parameter)'
+   pExtTransferLimitOut(z,zext,q,y)'Export limit (duplicate of earlier parameter)'
 
-   pEmissionsCountry(c,y)           'Maximum emissions allowed per country and year in tns'
+* Demand inputs
+   pDemandData(z,q,d,y,t)         'Demand time series (seasonal, daily, hourly)'
 
+* Renewable/storage inputs
+   pCSPProfile(g,q,d,t)           'CSP solar profile (pu)'
+   pStoPVProfile(g,q,d,t)         'PV-with-storage profile (pu)'
+   pStorData(g,pStoreDataHeader)  'Storage technical data'
 
-   pEmissionsCountry(c,y)              'Maximum zonal emissions allowed per country and year in tns'
+* Reserve and policy inputs
+   pCapacityCredit(g,y)           'Capacity credit for planning reserves'
+   psVREForecastErrorPct          'Reserve add-on for VRE (note: duplicate naming with parameter above)'
+   pCarbonPrice(y)                'Carbon price trajectory'
+   pFuelCarbonContent(f)          'Fuel carbon intensity (tCO₂/MMBtu)'
 
-   pEmissionsTotal(y)               'Maximum system emissions allowed year in tns'
 * Economic parameters
-   pRR (y)                          'accumulated return rate factor'
-   pWACC                            'Weighted Average Cost of Capital'
-   pCRF (G)                         'capital recovery factor'
-   pCRFsst(g)                       'capital recovery factor storage'
-   pCRFcst(g)                       'capital recovery factor CSP storage'
-   pCRFcth(g)                       'capital recovery factor CSP thermal'
-   pVOLL                            'VOLL'
-   pPlanningReserveVoLL             'Planning Reserve VoLL per MW'
-   pSpinningReserveVoLL             'Spinning Reserve VoLL per MWh'
-   pMaxCapital                      'Capital limit in billion dollars'
-   pVarCost(g,f,y)                  'Variable cost - fuel plus VOM'
-* Control parameters
-   pramp_constraints                'Whether constraints on ramp up and down are included'
-   pfuel_constraints
-   pcapital_constraints             'Whether constraints on available capital for infrastructure are included'
-   pmingen_constraints
-   pincludeCSP
-   pincludeStorage
-   pIncludeCarbon                   'include the cost of carbon'
-   pSurplusPenalty
-   pMinRE
-   pMinRETargetYr
-   pzonal_CO2_constraints
-   pSystem_CO2_constraints
-   pzonal_spinning_reserve_constraints   'Whether constraints on spinning reserves at the country level are included'
-   psystem_spinning_reserve_constraints  'Whether constraints on spinning reserves at the region level are included'
-   pplanning_reserve_constraints         'Whether constraints on planning reserves are included'
-   pinterco_reserve_contribution         'How much interconnections contribute to spinning reserve needs at the country level'
-   pIncludeIntercoReserves               'Whether transmission lines are considered when assessing planning reserve needs at the country level'
-   psystem_reserve_margin                'Share of peak demand that should be met with planning reserves'
-   pHeatrate(g,f)                   'Heatrate of fuel f in generator g'
-   pIncludeDecomCom                 'Include simultaneous commissioning'
-     
-**************H2 model related parameters
-   pH2Data(hh,hhdr)                 'hydrogen generating units'
-   pIncludeH2                       'Flag to activate hydrogen related equations'
-   pAvailabilityH2(hh,q)            'Availability by generation type and season or quarter in percentage - need to reflect maintenance'
-   pFuelDataH2(f)
-   pCRFH2(hh)                       'Capital recovery factor'
-   pCapexTrajectoriesH2(hh,y)       'CAPEX trajectories for hydrogen generation units'
-   pVarCostH2(hh,y)                 'Variable cost - H2 production'
+   pRR(y)                         'Discount factor (accumulated)'
+   pWACC                          'Weighted average cost of capital'
+   pCRF(g)                        'Capital recovery factor (generator)'
+   pCRFsst(g)                     'Capital recovery factor (storage)'
+   pCRFcst(g)                     'Capital recovery factor (CSP storage)'
+   pCRFcth(g)                     'Capital recovery factor (CSP thermal field)'
+   pVoLL                          'Value of lost load'
+   pPlanningReserveVoLL           'Penalty for planning reserve shortfall'
+   pSpinningReserveVoLL           'Penalty for spinning reserve shortfall'
+   ssMaxCapitalInvestmentInvestment 'Total capital limit (USD) – consider renaming for clarity'
+   pVarCost(g,f,y)                'Variable cost (fuel + VOM)'
+   pFuelCost(g,f,y)               'Fuel price'
+   pVOMCost(g,f,y)                'Variable O&M component'
 
-   pExternalH2(z,q,y)               'mmBTUs of H2 as external demand that need to be met'
-   pH2UnservedCost                  'Cost of external H2 unserved'
-************************************************************
-
-
+* Control toggles
+   fApplyRampConstraint           'Enable ramping constraints'
+   fApplyFuelConstraint           'Enable fuel availability limits'
+   fApplyCapitalConstraint        'Enable total capital constraint'
+   fApplyMinGenerationConstraint  'Minimum generation constraint toggle'
+   fEnableCSP                     'Enable CSP features'
+   fEnableStorage                 'Enable storage operations'
+   pIncludeCarbon                 'Apply carbon cost'
+   pSurplusPenalty                'Penalty on surplus energy'
+   pMinRE                         'Minimum RE share target'
+   pMinsRenewableTargetYear       'Year from which RE target applies'
+   fApplyCountryCo2Constraint     'Country-level CO₂ constraint toggle'
+   pfApplySystemCo2Constraint     'System-level CO₂ constraint toggle (duplicate flag name earlier)'
+   fApplyCountrySpinReserveConstraint 'Enable country spinning reserve constraint'
+   pfApplySystemSpinReserveConstraint 'Enable system spinning reserve constraint'
+   fApplyPlanningReserveConstraint 'Enable planning reserve constraint'
+   sIntercoReserveContributionPct 'Share of interconnection capacity counted toward reserves'
+   fCountIntercoForReserves       'Include interconnections in planning reserve assessment'
+   sReserveMarginPct              'Planning reserve margin target'
+   pHeatrate(g,f)                 'Generator heat rate'
 ;
 
+* -------------------------------------------------------------
+* Positive decision variables (continuous)
+* -------------------------------------------------------------
 Positive Variables
-   vPwrOut(g,f,q,d,t,y)      'generation dispatch for aggregated generators in MW'
-   vUSE(z,q,d,t,y)           'unserved demand'
-   vSurplus(z,q,d,t,y)       'surplus generation'
-   vYearlySurplus(z,y)
-   
-   vCap(g,y)                 'total capacity in place accounting for legacy, new and retired plants (MW)'
-   vBuild(g,y)               'Build (MW)'
-   vRetire(g,y)              'Retire (MW)'
+* Dispatch and demand balance
+   vPwrOut(g,f,q,d,t,y)      'Generation output (MW)'
+   vUSE(z,q,d,t,y)           'Unserved demand (MW)'
+   vSurplus(z,q,d,t,y)       'Surplus generation (MW)'
+   vYearlySurplus(z,y)       'Annual surplus energy (aggregated)'
 
-   vFlow(z,z2,q,d,t,y)       'flow from z to z2 in MW'
-   vImportPrice(z,zext,q,d,t,y)   'external price driven import'
-   vExportPrice(z,zext,q,d,t,y)   'external price driven export'
+* Capacity evolution
+   vCap(g,y)                 'Installed capacity (MW)'
+   vBuild(g,y)               'New build decision (MW)'
+   vRetire(g,y)              'Retirement decision (MW)'
 
-   vFuel(z,f,y)              'annual fuel in MMBTU'
+* Network flows and external trade
+   vFlow(z,z2,q,d,t,y)       'Internal power flow (MW)'
+   vYearlyImportExternal(z,zext,q,d,t,y)  'External imports (MW)'
+   vYearlyExportExternal(z,zext,q,d,t,y)  'External exports (MW)'
 
-   vAnnCapex(g,y)            'Annualized capex for capacity vCap installed in Year y  carried through planning horizon'
+* Fuel consumption
+   vFuel(z,f,y)              'Annual fuel consumption (MMBtu)'
 
-   vThermalOut(g,q,d,t,y)    'Generation from thermal element (CSP solar field in MW)'
-   vCapStor(g,y)             'Total capacity of storage installed (MWh)'
-   vCapTherm(g,y)            'Total thermal CSP solar field capacity installed (MW)'
-   vStorage(g,q,d,t,y)       'Storage level  (MW)'
-   vStorInj(g,q,d,t,y)       'Storage injection  (MW)'
-   vStorOut(g,q,d,t,y)       'Storage output (MW)'
-   vBuildStor(g,y)           'Build storage variable (MWh)'
-   vRetireStor(g,y)          'Retire storage variable (MWh)'
-   vBuildTherm(g,y)          'Build thermal elements (CSP solar field) variable (MW)'
-   vRetireTherm(g,y)         'Retire thermal elemtns (CSP solar field) variable (MW)'
+* Annualized CAPEX trackers (note potential overlap among these three)
+   vAnnCapexGenTraj(g,y)     'Annualized CAPEX with trajectory (verify alongside vAnnGenCapex)'
+   vAnnGenCapex(g,y)         'Annualized CAPEX for builds in year y'
+   vAnnCapex(z,y)            'Annualized CAPEX aggregated by zone'
 
-   vSpinningReserve(g,q,d,t,y)                 'Spinning reserve provision (MW)'
-   vUnmetPlanningReserveCountry(c,y)              'Unserved zonal planning reserve'
-   vUnmetPlanningReserveSystem(y)              'Unmet reserve for system -- capacity reserve'
-   vUnmetSpinningReserveCountry(c,q,d,t,y)        'Unmet spinning reserve - local constraint'
-   vUnmetSpinningReserveSystem(q,d,t,y)        'Unmet spinning reserve - system constraint'
+* Storage and CSP state variables
+   vThermalOut(g,q,d,t,y)    'CSP thermal output (MW)'
+   vCapStor(g,y)             'Installed storage energy capacity (MWh)'
+   vCapTherm(g,y)            'Installed CSP thermal capacity (MW)'
+   vStorage(g,q,d,t,y)       'State of charge (MW-equivalent)'
+   vStorInj(g,q,d,t,y)       'Charging power (MW)'
+   vStorOut(g,q,d,t,y)       'Discharging power (MW)'
+   vBuildStor(g,y)           'New storage build (MWh)'
+   vRetireStor(g,y)          'Storage retirement (MWh)'
+   vBuildTherm(g,y)          'CSP thermal field build (MW)'
+   vRetireTherm(g,y)         'CSP thermal field retirement (MW)'
 
-   vZonalEmissions(z,y)      'average CO2eq emissions per year and zone in tons per MWh'
-   vTotalEmissions(y)        'total regional CO2eq emissions per year in tons'
-   vYearlyCO2backstop(c,y)      'CO2 emissions above the constraint by zone (t)'
-   vYearlySysCO2backstop(y)     'system CO2 emissions above the constraint(t)'
+* Reserve shortfalls
+   vSpinningReserve(g,q,d,t,y)           'Spinning reserve provision (MW)'
+   vUnmetPlanningReserveCountry(c,y)     'Country planning reserve shortfall'
+   vUnmetPlanningReserveSystem(y)        'System planning reserve shortfall'
+   vUnmetSpinningReserveCountry(c,q,d,t,y) 'Country spinning reserve shortfall'
+   vUnmetSpinningReserveSystem(q,d,t,y)  'System spinning reserve shortfall'
 
+* Emissions accounting
+   vZonalEmissions(z,y)      'Zonal emissions intensity (tCO₂/MWh)'
+   vTotalEmissions(y)        'System emissions (tCO₂)'
+   vYearlyCO2backstop(c,y)   'Country CO₂ backstop usage (t)'
+   vYearlySysCO2backstop(y)  'System CO₂ backstop usage (t)'
 
-   vAdditionalTransfer(z,z2,y)        'additional transfer limit'
-   vYearlyTransmissionAdditions(z,y)  'added transmission cost (not included in cost of generation)'
-   vYearlyCurtailmentCost(z,y)
-   vCurtailedVRE(z,g,q,d,t,y)
-
-*************H2 MODEL SPECIFIC VARIABLES***************************
-   vCapH2(hh,y)                'total capacity in place accounting for legacy, new and retired plants (MW)'
-   vBuildH2(hh,y)              'Build (MW)'
-   vRetireH2(hh,y)             'Retire (MW)'
-   vNetCurtailedVRE(z,q,d,t,y) 'Curtailed VRE as an outcome of not being used for H2 production'
-   vH2PwrIn(hh,q,d,t,y)        'Power drawn by H2 plants for H2 production in MW'
-   vFuelH2(z,y)                'Annual H2 production in MMBTU'
-   vAnnCapexH2(hh,y)           'Annualized CAPEX of H2 producing technologies'
-   vPwrREH2(z,q,d,t,y)          'Generation from RE generators that goes to H2 production'
-   vPwrREGrid(z,q,d,t,y)       'Generation from RE generators that goes to the grid'
-   vREPwr2H2(g,f,q,d,t,y)       'Generation from RE generators that goes to H2 production'
-   vREPwr2Grid(g,f,q,d,t,y)    'Generation from VRE generators that goes to the grid'
-   vFuelH2Quarter(z,q,y)        'H2 fuel saved for H2 electricity generationon a quarterly basis'
-   vUnmetExternalH2(z,q,y)        'mmBTU of external H2 demand that cant be met'
-   vYearlyH2UnservedCost(z,y)   'Annual Cost of external H2 unserved in USD'  
-
-
-
+* Network expansion & curtailment
+   vNewTransmissionLine(z,z2,y) 'New transmission capacity (MW)'
+   vAnnualizedTransmissionCapex(z,y) 'Annualized transmission CAPEX (USD)'
+   vYearlyCurtailmentCost(z,y)  'Annual curtailment penalty (USD)'
+   vCurtailedVRE(z,g,q,d,t,y)   'Curtailment of VRE (MW)'
 ;
 
+* -------------------------------------------------------------
+* Free variables (objective & reporting)
+* -------------------------------------------------------------
 Free Variable
-   vNPVCost                     'discounted total system cost'
-   vStorNet(g,q,d,t,y)
-   vYearlyTotalCost(c,y)
-   vYearlyFixedCost(z,y)
-   vYearlyVariableCost(z,y)
-   vYearlyUSECost(z,y)
-   vYearlyTradeCost(z,y)
-   vYearlySpinningReserveCost(z,y)      'Yearly spinning reserve costs'
-   vYearlyUnmetReserveCostCountry(c,y)         'Country unmet spinning and planning reserve'
-   vYearlyCarbonCost(z,y)               'country carbon cost'
-   vYearlyUnmetReserveCostSystem(y)                 'system unmet planing reserve'
-   vYearlyCO2backCost(c,y)              'ccost of CO2 backstop'
-   
+   vNPVCost                       'Net present value of total system cost'
+   vStorNet(g,q,d,t,y)            'Net storage power (discharge - charge)'
+   vYearlyTotalCost(c,y)          'Annual total cost by country'
+   vYearlyVariableCost(z,y)       'Annual variable cost by zone'
+   vYearlyUSECost(z,y)            'Cost of unserved energy'
+   vYearlyExternalTradeCost(z,y)  'Net external trade cost'
+   vYearlySpinningReserveCost(z,y)'Spinning reserve penalty'
+   vYearlyUnmetReserveCostCountry(c,y) 'Country-level reserve shortfall cost'
+   vYearlyCarbonCost(z,y)         'Zonal carbon cost'
+   vYearlyCO2BackstopCostCountry(c,y) 'Country CO₂ backstop cost'
+   vYearlyUnmetPlanningReserveCostSystem(y) 'System planning reserve cost'
+   vYearlyUnmetSpinningReserveCostSystem(y) 'System spinning reserve cost'
+   vYearlyCO2BackstopCostSystem(y) 'System CO₂ backstop cost'
+   vYearlyUnmetPlanningReserveCostCountry(c,y) 'Country planning reserve cost'
+   vYearlyUnmetSpinningReserveCostCountry(c,y) 'Country spinning reserve cost'
+   vYearlyFOMCost(z,y)            'Zone fixed O&M cost'
+   vYearlyFuelCost(z,y)           'Zone fuel cost'
+   vYearlyVOMCost(z,y)            'Zone variable O&M cost'
+   vYearlyImportExternalCost(z,y) 'Cost of imports from external zones'
+   vYearlyExportExternalCost(z,y) 'Revenue from exports to external zones'
+   vSupply(z,q,d,t,y)             'Total supply meeting demand (balance variable)'
 ;
 
+* -------------------------------------------------------------
+* Integer decision variables
+* -------------------------------------------------------------
 Integer variable
-   vBuildTransmission(z,z2,y)
-   vBuiltCapVar(g,y)
-   vRetireCapVar(g,y)
-   
-
-*******H2 production model integer variables******************
-   vBuiltCapVarH2(hh,y)
-
-   vRetireCapVarH2(hh,y)
-
-
-********************************************
+   vBuildTransmission(z,z2,y) 'Integer builds for transmission'
+   vBuiltCapVar(g,y)          'Integer build decision (unit commitment for discrete capacity)'
+   vRetireCapVar(g,y)         'Integer retirement decision'
 ;
 
 
-
-
-
-
-
+* -------------------------------------------------------------
+* Core equations (objective, balances, constraints)
+* -------------------------------------------------------------
 Equations
-   eNPVCost                        'objective function'
-   eYearlyTotalCost(c,y)
-   eYearlyFixedCost(z,y)
-   eYearlyVariableCost(z,y)
-   eYearlySpinningReserveCost(z,y)
-   eYearlyUSECost(z,y)
-   eYearlyTradeCost(z,y)
-   eYearlyUnmetReserveCostCountry(c,y)
-   eYearlyUnmetReserveCostSystem(y)            'unmet reserve system'
-   eYearlyCarbonCost(z,y)
 
-   eDemSupply(z,q,d,t,y)           'demand balance'
-   eMaxhourlyExportsshare(c,q,d,t,y) 'max exports to an external zone (hourly limit)'
-   eMaxhourlyImportsshare(c,q,d,t,y) 'max imports from an external zone  (hourly limit)'
+* ------------------------------
+* Objective and cost accounting
+* Summarizes NPV and annual cost components across system and countries.
+* ------------------------------
+   eNPVCost                        'Objective function – discounted system cost'
+   eYearlyTotalCost(c,y)           'Aggregate annual cost at country level'
+   eYearlyVOMCost(z,y)             'Variable O&M spend by zone'
+   eYearlySpinningReserveCost(z,y) 'Cost of holding spinning reserves'
+   eYearlyUSECost(z,y)             'Penalty on unserved demand'
+   eYearlyExternalTradeCost(z,y)   'Net external trade cost (imports minus exports)'
+   eYearlyUnmetReserveCostCountry(c,y) 'Combined reserve shortfall penalty'
+   eYearlyCarbonCost(z,y)          'Carbon-price cost for zone emissions'
+   eYearlyFOMCost(z,y)                'Total yearly FOM cost'
+   eYearlyCO2BackstopCostCountry(c,y) 'Cost of CO₂ backstop'
+   eYearlyVariableCost(z,y)        'Sum of fuel and VOM costs'
+   eYearlyFuelCost(z,y)            'Fuel expenditure by zone'
+   eYearlyImportExternalCost(z,y)  'Cost of imports from external zones'
+   eYearlyExportExternalCost(z,y)  'Revenue from power exported externally'
+   eYearlyUnmetSpinningReserveCostCountry(c,y) 'Country spinning reserve shortfall cost'
+   eYearlyUnmetPlanningReserveCostCountry(c,y) 'Country planning reserve shortfall cost'
+   eYearlyUnmetPlanningReserveCostSystem(y) 'System planning reserve shortfall cost'
+   eYearlyUnmetSpinningReserveCostSystem(y) 'System spinning reserve shortfall cost'
+   eYearlyCO2BackstopCostsSystem(y) 'System CO₂ backstop expenditure'
 
-   eCapBalance(g,y)                'capacity balance'
-   eCapBalance1(g,y)               'capacity balance'
-   eCapBalance2(g,y)               'capacity balance'
-   eBuildNew(g)
-   eBuiltCap(g,y)                  'built capacity'
-   eRetireCap(g,y)                 'retired capacity'
+* ------------------------------
+* Annualized CAPEX tracking
+* Handles annualization of generator CAPEX for trajectory and flat-cost assets.
+* ------------------------------
+   eTotalAnnualizedCapex(z,y)     'Accumulate annualized CAPEX by zone'
+   eAnnualizedCapexInit(g,y)      'Initial annualized CAPEX for trajectory assets'
+   eAnnualizedCapexUpdate(g,y)    'Recursive update of annualized CAPEX'
+   eTotalAnnualizedGenCapex(g,y)  'Annualized CAPEX per generator'
 
-*   eMaxBuildTotal(g)               'max build over all years'
-*   eMinBuildTotal                  'min build over all years'
-   
+* ------------------------------
+* Demand balance and supply definition
+* Ensures zonal demand is met by generation, flows, storage, and trade.
+* ------------------------------
+   eDemSupply(z,q,d,t,y)          'Demand equals total supply'
+   eDefineSupply(z,q,d,t,y)       'Supply components (gen/flows/storage)'
+   eMaxHourlyExportShareEnergy(c,q,d,t,y) 'Limit hourly exports as demand share'
+   eMaxHourlyImportShareEnergy(c,q,d,t,y) 'Limit hourly imports as demand share'
 
+* ------------------------------
+* Capacity evolution
+* Updates installed capacity over time for existing and new units, including discrete builds.
+* ------------------------------
+   eInitialCapacity(g,y)          'Initial capacity accounting'
+   eCapacityEvolutionExist(g,y)   'Existing unit capacity recursion'
+   eCapacityEvolutionNew(g,y)     'New unit capacity recursion'
+   eInitialBuildLimit(g)          'Initial build limit for existing assets'
+   eBuiltCap(g,y)                 'Link integer build variable to capacity'
+   eRetireCap(g,y)                'Link integer retirement variable to capacity'
 
+* ------------------------------
+* Generation operating limits
+* Applies minimum output, availability, and VRE profile constraints.
+* ------------------------------
+   eMinGenRE(c,y)                 'Country minimum renewable generation'
+   eMaxCF(g,q,y)                  'Capacity factor ceiling'
+   eMinGen(g,q,d,t,y)             'Minimum dispatch requirement'
 
-   eMinGenRE(c,y)                  'Min Generation of RE after a target year at country level'
+* ------------------------------
+* Fuel and resource limits
+* Tracks fuel usage and enforces optional availability caps by country.
+* ------------------------------
+   eFuel(z,f,y)                   'Fuel consumption accounting'
+   eFuelLimit(c,f,y)              'Fuel availability constraint'
 
-   eMaxCF(g,q,y)                   'max capacity factor'
-   eMinGen(g,q,d,t,y)              'Minimum generation limit for new generators'
+* ------------------------------
+* Ramp and reserve constraints
+* Applies ramp-rate limits and spinning/planning reserve requirements.
+* ------------------------------
+   eRampUpLimit(g,q,d,t,y)        'Ramp-up constraint'
+   eRampDnLimit(g,q,d,t,y)        'Ramp-down constraint'
+   eSpinningReserveLim(g,q,d,t,y) 'Reserve capability vs capacity'
+   eSpinningReserveLimVRE(g,f,q,d,t,y) 'Reserve limit adjusted for VRE profile'
+   eJointResCap(g,q,d,t,y)        'Joint dispatch-reserve envelope'
+   eSpinningReserveReqCountry(c,q,d,t,y) 'Country spinning reserve requirement'
+   eSpinningReserveReqSystem(q,d,t,y) 'System spinning reserve requirement'
+   ePlanningReserveReqSystem(y)   'System planning reserve requirement'
+   ePlanningReserveReqCountry(c,y) 'Country planning reserve requirement'
 
-   eFuel(z,f,y)                    'fuel balance'
-   eFuelLimit(c,f,y)               'fuel limit at country level'
+* ------------------------------
+* Transmission and trade constraints
+* Bounds internal transfers and external exchanges (hourly and annual).
+* ------------------------------
+   eTransferCapacityLimit(z,z2,q,d,t,y) 'Transmission capacity limit'
+   eMinImportRequirement(z2,z,q,d,t,y) 'Minimum flow requirement if specified'
+   eVREProfile(g,f,z,q,d,t,y)      'Follow VRE production profile with slack'
+   eMaxAnnualImportShareEnergy(c,y) 'Annual import share cap'
+   eMaxAnnualExportShareEnergy(c,y) 'Annual export share cap'
+   eYearlySurplusCost(z,y)         'Penalty on surplus energy'
+   eCumulativeTransferExpansion(z,z2,y) 'Cumulative new transfer capacity'
+   eSymmetricTransferBuild(z,z2,y) 'Symmetric new build requirement'
+   eAnnualizedTransmissionCapex (z,y) 'Annualized transmission CAPEX'
+   eExternalImportLimit(z,zext,q,d,t,y) 'Import limit from external zone (MW)'
+   eExternalExportLimit(z,zext,q,d,t,y) 'Export limit to external zone (MW)'
 
-   eRampUpLimit(g,q,d,t,y)         'Ramp up limit'
-   eRampDnLimit(g,q,d,t,y)         'Ramp down limit'
+* ------------------------------
+* Capital & emissions
+* Enforces capital budget and CO₂ caps with backstop slack variables.
+* ------------------------------
+   eCapitalConstraint              'Enforce overall capital budget (legacy name)'
+   eZonalEmissions(z,y)            'Compute zonal CO₂ emissions'
+   eEmissionsCountry(c,y)          'Country CO₂ cap with backstop slack'
+   eTotalEmissions(y)              'Aggregate emissions across zones'
+   eTotalEmissionsConstraint(y)    'System-wide CO₂ cap with backstop'
 
-   eSpinningReserveLim(g,q,d,t,y)              'Reserve limit as a share of capacity'
-   eSpinningReserveLimVRE(g,f,q,d,t,y)           'Reserve limit for VRE as a share of capacity adjusted for production profile'
-   eJointResCap(g,q,d,t,y)                     'Joint reserve and generation limit'
-   eSpinningReserveReqCountry(c,q,d,t,y)          'Country spinning reserve requirement'
-   eSpinningReserveReqSystem(q,d,t,y)          'System spinning reserve requirement'
-   ePlanningReserveReqSystem(y)                'Min system planning reserve requirement'
-   ePlanningReserveReqCountry(c,y)                'Minimum capacity reserve over peak demand at country level'
+* ------------------------------
+* Storage operations
+* Controls storage charging, SOC evolution, and reserve support obligations.
+* ------------------------------
+   eChargeRampDownLimit(g,q,d,t,y) 'Limit decrease in storage charging'
+   eChargeRampUpLimit(g,q,d,t,y)   'Limit increase in storage charging'
+   eYearlyCurtailmentCost(z,y)     'Curtailment penalty (zone)'
+   eStateOfChargeUpdate(g,q,d,t,y) 'Storage SOC recurrence'
+   eStateOfChargeInit(g,q,d,t,y)   'SOC initial condition per representative day'
+*  eSOCCycleClosure(g,q,d,t,y)
+*  eDailyStorageEnergyBalance(g,q,d,y)
+   eSOCSupportsReserve(g,q,d,t,y)  'Ensure SOC can cover reserve commitment'
+   eChargeCapacityLimit(g,q,d,t,y) 'Charging limited by power capacity'
+   eChargeLimitWithPVProfile(g,q,d,t,y) 'PV-coupled storage charging limit'
+   eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
+   eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
+   eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
 
-   eTransferLimit(z,z2,q,d,t,y)    'Transfer limits'
-   eTransferLimitMin(z2,z,q,d,t,y) 'Minimum transfer across some transmission line defined at the hourly scale'
-   eVREProfile(g,f,z,q,d,t,y)      'VRE generation restricted to VRE profile'
-   eMaxImportPrice(c,y)            'import limits: max import from external zones'
-   eMaxExportPrice(c,y)            'export limits: max export to external zones'
-   eYearlySurplusCost(z,y)
-   eAdditionalTransfer(z,z2,y)
-   eAdditionalTransfer2(z,z2,y)
-   eYearlyTransmissionAdditions (z,y)
-   eExtZoneLimitImport(z,zext,q,d,t,y) 'import limits from external zone in MW'
-   eExtZoneLimitExport(z,zext,q,d,t,y) 'export limits to external zone in MW'
-
-   eAnnCapex(g,y)                  'Annualized capex'
-   eAnnCapex1(g,y)
-
-
-   eCapitalConstraint              'capital limit expressed by pMaxCapital in billion USD'
-   eZonalEmissions(z,y)            'CO2eq emissions by zone and year in tons'
-   eEmissionsCountry(c,y)          'constraint on country CO2eq emissions'
-   eTotalEmissions(y)              'total regional CO2eq emissions by year in tons'
-   eEmissionsTotal(y)              'Total CO2eq emissions by year in tons'
-   eYearlyCO2backstopCost(c,y)     'co2 backstop cost in USD'
-   eTotalEmissionsConstraint(y) 	'constraint on total CO2eq emissions by year in tons'
-  
-
-   eRampDownInjLimit(g,q,d,t,y)
-   eRampUpInjLimit(g,q,d,t,y)
-
-   eYearlyCurtailmentCost(z,y)
-
-   eStorBal(g,q,d,t,y)
-   eStorBal1(g,q,d,t,y)
-   eStorBal2(g,q,d,t,y)
-   eStorBal3(g,q,d,y)
-
-   eStorageOutput(g,q,d,t,y)
-   eStorageInjection(g,q,d,t,y)
-   eStorageInjection2(g,q,d,t,y)
-   eStorageNet(g,q,d,t,y)
-
-   eStorageCap(g,q,d,t,y)
-   eStorageCap2(g,q,d,t,y)         'storage capacity (energy) must be at least 1 hour if installed'
-
-   eStorageCSPCap(g,q,d,t,y)
-   eInjCSP(g,q,d,t,y)
-   eInjCSP1(g,q,d,t,y)
-   eThermCSP(g,q,d,t,y)
-   eGenCSP(g,q,d,t,y)
-   eStorageCSPBal(g,q,d,t,y)
-   eStorageCSPBal1(g,q,d,t,y)
-
-   eCapacityStorLimit(g,y)
-   eCapStorBalance(g,y)
-   eCapStorBalance1(g,y)
-   eCapStorBalance2(g,y)
-   eCapStorBalance3(g,y)
-   eBuildStorNew(g)
-
-   eCapacityThermLimit(g,y)
-   eCapThermBalance1(g,y)
-   eCapThermBalance2(g,y)
-   eCapThermBalance3(g,y)
-   eBuildThermNew(g)
-*   eSimultComDecom(g,g1,y)          Simultaneous commissioning and decommissioning of pair of units
-   
-
-***********************************Hydrogen production model**************************************
-eH2UnservedCost(z,y)
-eCapBalanceH2(hh,y)
-eCapBalance1H2(hh,y)
-eCapBalance2H2
-eBuildNewH2(hh)
-eBuiltCapH2(hh,y)
-eRetireCapH2(hh,y)
-*eDemSupplyH2(z,q,d,t,y)
-eMaxCF_H2(hh,q,y)
-eFuel_H2(c,q,y)
-eFuel_H2_2(c,z,y)
-eRampDnLimitH2(hh,q,d,t,y)
-eRampUpLimitH2(hh,q,d,t,y)
-eFuelLimitH2(c,f,y)
-eFuelLimitH2_2(c,f,y)
-eAnnCapexH2_1(hh,y)
-eAnnCapexH2(hh,y)
-
-eVRE2H2_2(z,g,f,q,d,t,y)
-eVRE2H2_3(z,q,d,t,y)
-eVRE2H2_4(z,q,d,t,y)
-eRE2H2(g,f,q,d,t,y)
-eRE2H2_2(z,q,d,t,y)
-eRE2H2_3(z,q,d,t,y)
-eRE2H2_4(z,q,d,t,y)
-eMaxH2PwrInjection(hh,q,d,t,y)
-
-*eRE2H2_3(z,q,d,t,y)
-***********************************************************************************************
-
-
+* ------------------------------
+* CSP-specific and storage capacity evolution
+* Governs CSP thermal/storage balances and long-term storage capacity updates.
+* ------------------------------
+   eCSPStorageCapacityLimit(g,q,d,t,y) 'CSP storage <= installed capacity'
+   eCSPStorageInjectionLimit(g,q,d,t,y) 'Limit CSP charging to thermal output'
+   eCSPStorageInjectionCap(g,q,d,t,y) 'CSP charging bounded by capacity'
+   eCSPThermalOutputLimit(g,q,d,t,y) 'Thermal output limited by field capacity'
+   eCSPPowerBalance(g,q,d,t,y)     'Thermal/storage/power balance for CSP'
+   eCSPStorageEnergyBalance(g,q,d,t,y) 'CSP storage state-of-charge recursion'
+   eCSPStorageInitialBalance(g,q,d,t,y) 'Initial CSP storage state'
+   eCapacityStorLimit(g,y)         'Cap storage energy capacity'
+   eCapStorBalance(g,y)            'Initial storage capacity balance'
+   eCapStorAnnualUpdateEG(g,y)     'Storage capacity recursion (existing)'
+   eCapStorAnnualUpdateNG(g,y)     'Storage capacity recursion (new)'
+   eCapStorInitialNG(g,y)          'Initial storage for new plants'
+   eBuildStorNew(g)                'Limit storage builds for entrants'
+   eCapacityThermLimit(g,y)        'CSP thermal capacity cap'
+   eCapThermBalance1(g,y)          'Thermal capacity recursion (existing)'
+   eCapThermBalance2(g,y)          'Thermal capacity recursion (new)'
+   eCapThermBalance3(g,y)          'Initial thermal capacity for new units'
+   eBuildThermNew(g)               'Limit CSP thermal builds for entrants'
 ;
 
 
-*---    Objective function
+*-------------------------------------------------------------------
+* OBJECTIVE FUNCTION
+*-------------------------------------------------------------------
+* Adding system-level cost of reserves and CO2 backstop to the total cost
 eNPVCost..
-   vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, vYearlyTotalCost(c,y)) + vYearlyUnmetReserveCostSystem(y)+vYearlySysCO2backstop(y)* pCostOfCO2backstop));
+   vNPVCost =e= sum(y, pRR(y)*pWeightYear(y)*(sum(c, 
+                                 vYearlyTotalCost(c,y)) + 
+                                 vYearlyUnmetPlanningReserveCostSystem(y) + 
+                                 vYearlyUnmetSpinningReserveCostSystem(y) +
+                                 vYearlyCO2BackstopCostSystem(y))
+                                 );
 
-*---  Cost equations
+*-------------------------------------------------------------------
+* 1. COST
+*-------------------------------------------------------------------
+* ------------------------------
+* System-level Cost accounting
+* ------------------------------
+
+eYearlyUnmetPlanningReserveCostSystem(y)..
+   vYearlyUnmetPlanningReserveCostSystem(y) =e= vUnmetPlanningReserveSystem(y)*pPlanningReserveVoLL;
+
+eYearlyUnmetSpinningReserveCostSystem(y)..
+   vYearlyUnmetSpinningReserveCostSystem(y) =e= sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
+
+eYearlyCO2BackstopCostsSystem(y)..
+   vYearlyCO2BackstopCostSystem(y) =e= vYearlySysCO2backstop(y)*pCostOfCO2backstop;
+
 * Note capex is full capex in $m per MW. Also note VarCost includes fuel cost and VOM -
 * essentially the short run marginal cost for the generator
 
+* Adding country-level cost of reserves and CO2 backstop to the total cost
 eYearlyTotalCost(c,y)..
-   vYearlyTotalCost(c,y) =e= vYearlyUnmetReserveCostCountry(c,y)+ vYearlyCO2backCost(c,y) 
-                           + sum(zcmap(z,c), vYearlyFixedCost(z,y)
+   vYearlyTotalCost(c,y) =e= vYearlyUnmetReserveCostCountry(c,y)+ vYearlyCO2BackstopCostCountry(c,y) 
+                           + sum(zcmap(z,c), vAnnCapex(z, y) 
+                                           + vYearlyFOMCost(z, y)
                                            + vYearlyVariableCost(z,y)
                                            + vYearlySpinningReserveCost(z,y)
                                            + vYearlyUSECost(z,y)
                                            + vYearlyCarbonCost(z,y)
-                                           + vYearlyTradeCost(z,y)
-                                           + vYearlyTransmissionAdditions(z,y)
+                                           + vYearlyExternalTradeCost(z,y)
+                                           + vAnnualizedTransmissionCapex(z,y)
                                            + vYearlyCurtailmentCost(z,y)
-                                           + vYearlySurplus(z,y)
-*************************************H2 model*************************************************************                                           
-                                           + vYearlyH2UnservedCost(z,y)$pIncludeH2);
-***********************************************************************************************************
-eYearlyFixedCost(z,y)..
-   vYearlyFixedCost(z,y) =e= sum(gzmap(ndc,z), pCRF(ndc)*vCap(ndc,y)*pGenData(ndc,"Capex")*1e6)
-                           + sum(gzmap(ndc,z)$(not cs(ndc)), pCRFsst(ndc)*vCapStor(ndc,y)*pStorData(ndc,"CapexMWh")*1e3)
-                           + sum(gzmap(ndc,z)$(not st(ndc)), pCRFcst(ndc)*vCapStor(ndc,y)*pCSPData(ndc,"Storage","CapexMWh")*1e3)
-                           + sum(gzmap(ndc,z), pCRFcth(ndc)*vCapTherm(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh")*1e6)
-                           + sum(gzmap(dc,z), vAnnCapex(dc,y))
-                           + sum(gzmap(g,z), vCap(g,y)*pGenData(g,"FOMperMW"))
-                           + sum(gzmap(st,z),vCap(st,y)*pStorData(st,"FixedOMMWh"))
-                           + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
-                           + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"))
-                           
-***********************************************Hydrogen model related costs******************************************
-                          + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pIncludeH2
-                          + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pIncludeH2
-                          + sum(h2zmap(hh,z), vCapH2(hh,y)*pH2Data(hh,"FOMperMW"))$pIncludeH2;
+                                           + vYearlySurplus(z,y));
 
-*********************************************************************************************************************
+* ------------------------------
+* Country-level Cost accounting
+* ------------------------------
 
+* Yearly unmet reserve cost at the country level
+eYearlyUnmetReserveCostCountry(c,y)..
+   vYearlyUnmetReserveCostCountry(c,y) =e= vYearlyUnmetPlanningReserveCostCountry(c,y) + vYearlyUnmetSpinningReserveCostCountry(c,y);
 
+* Yearly unmet spinning reserve cost at the country level
+eYearlyUnmetSpinningReserveCostCountry(c,y)..
+   vYearlyUnmetSpinningReserveCostCountry(c,y) =e= sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
 
+* Yearly unmet planning reserve cost at the country level
+eYearlyUnmetPlanningReserveCostCountry(c,y)..
+   vYearlyUnmetPlanningReserveCostCountry(c,y) =e= vUnmetPlanningReserveCountry(c,y)*pPlanningReserveVoLL;
+
+* Yearly CO2 backstop cost at the country level                    
+eYearlyCO2BackstopCostCountry(c,y)..
+   vYearlyCO2BackstopCostCountry(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
+
+* ------------------------------
+* Zonal CAPEX accounting
+* Aggregates generator-level annualized CAPEX to the zone level.
+* ------------------------------
+* Annualized CAPEX for all zones in year y
+eTotalAnnualizedCapex(z, y)..
+   vAnnCapex(z,y) =e= sum(gzmap(g,z), vAnnGenCapex(g,y));
+
+* Annualized CAPEX for all generators in year y
+* Separate treatment keeps time-varying CAPEX trajectories (dc) distinct
+* from flat-cost assets (ndc) when annualizing capital costs.
+* Assets tagged in set dc(g) follow time-varying CAPEX trajectories (stored
+* in vAnnCapexGenTraj), while flat-cost assets (ndc(g)) use
+* conventional CRF-based annualization. We keep both paths to preserve the
+* different depreciation logic without double-counting.
+eTotalAnnualizedGenCapex(g,y)..
+   vAnnGenCapex(g,y) =e=
+       vAnnCapexGenTraj(g,y)$(dc(g))
+     + pCRF(g)*vCap(g,y)*pGenData(g,"Capex")*1e6$(ndc(g))
+     + pCRFsst(g)*vCapStor(g,y)*pStorData(g,"CapexMWh")*1e3$(ndc(g) and not cs(g))
+     + pCRFcst(g)*vCapStor(g,y)*pCSPData(g,"Storage","CapexMWh")*1e3$(ndc(g) and not st(g))
+     + pCRFcth(g)*vCapTherm(g,y)*pCSPData(g,"Thermal Field","CapexMWh")*1e6$(ndc(g));
+
+* Annualized CAPEX accumulation (years after the start year) for generators with capex trajectory
+eAnnualizedCapexUpdate(dc,y)$(not sStartYear(y))..
+   vAnnCapexGenTraj(dc,y) =e= vAnnCapexGenTraj(dc,y-1)
+                     + vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
+                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
+                                                                          
+* Initial annualized CAPEX in the start year for generators with capex trajectory
+eAnnualizedCapexInit(dc,sStartYear(y))..
+   vAnnCapexGenTraj(dc,y) =e= vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
+                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
+                     
+
+* FOM costs including fixed O&M costs for generators, storage, and CSP thermal field
+eYearlyFOMCost(z,y)..
+   vYearlyFOMCost(z,y) =e= sum(gzmap(g,z),  vCap(g,y)*pGenData(g,"FOMperMW"))
+            + sum(gzmap(st,z), vCapStor(st,y)*pStorData(st,"FixedOMMWh"))
+            + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
+            + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"));
+
+* Variable costs equals fuel cost plus VOM cost
 eYearlyVariableCost(z,y)..
+   vYearlyVariableCost(z,y) =e= vYearlyFuelCost(z,y) + vYearlyVOMCost(z,y);
 
-   vYearlyVariableCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVarCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))
-   
-*********************************************Hydrogen model related costs ************************************
-***(Units for equation below)                              $/mmBTU_H2    x      mmBTU_H2/MWh_e  x      MW_e       x       Hrs
-                              + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pIncludeH2;
+* Fuel costs
+eYearlyFuelCost(z,y)..
+   vYearlyFuelCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pFuelCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t));
+
+* VOM
+eYearlyVOMCost(z,y)..
+   vYearlyVOMCost(z,y) =e= sum((gzmap(g,z),f,q,d,t), pVOMCost(g,f,y)*vPwrOut(g,f,q,d,t,y)*pHours(q,d,t));
 
 * Note: ReserveCost is in $/MWh -- this is the DIRECT cost of holding reserve like wear and tear that a generator bids in a market
 eYearlySpinningReserveCost(z,y)..
    vYearlySpinningReserveCost(z,y) =e= sum((gzmap(g,z),q,d,t), vSpinningReserve(g,q,d,t,y)*pGenData(g,"ReserveCost")*pHours(q,d,t));
 
+* Unserved energy cost (USE)
 eYearlyUSECost(z,y)..
    vYearlyUSECost(z,y) =e= sum((q,d,t), vUSE(z,q,d,t,y)*pVoLL*pHours(q,d,t));
 
+* Surplus cost
 eYearlySurplusCost(z,y)..
    vYearlySurplus(z,y) =e= sum((q,d,t), vSurplus(z,q,d,t,y)*pSurplusPenalty*pHours(q,d,t));
 
+* Curtailment cost
 eYearlyCurtailmentCost(z,y)..
    vYearlyCurtailmentCost(z,y) =e= sum((gzmap(g,z),q,d,t), vCurtailedVRE(z,g,q,d,t,y)*pCostOfCurtailment*pHours(q,d,t));
 
-eYearlyTradeCost(z,y)..
-   vYearlyTradeCost(z,y) =e= sum((zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t))
-                           - sum((zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
+* Yearly trade cost
+eYearlyExternalTradeCost(z,y)..
+   vYearlyExternalTradeCost(z,y) =e= vYearlyImportExternalCost(z,y) - vYearlyExportExternalCost(z,y);
 
-eYearlyUnmetReserveCostCountry(c,y)..
-   vYearlyUnmetReserveCostCountry(c,y) =e= vUnmetPlanningReserveCountry(c,y)*pPlanningReserveVoLL
-                         + sum((q,d,t), vUnmetSpinningReserveCountry(c,q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
-                         
-eYearlyCO2backstopCost(c,y)..
-   vYearlyCO2backCost(c,y) =e= vYearlyCO2backstop(c,y)*pCostOfCO2backstop;
+* Yearly import and export costs from external zones
+eYearlyImportExternalCost(z,y)..
+   vYearlyImportExternalCost(z,y) =e= sum((zext,q,d,t), vYearlyImportExternal(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
-eYearlyUnmetReserveCostSystem(y)..
-   vYearlyUnmetReserveCostSystem(y) =e= vUnmetPlanningReserveSystem(y)*pPlanningReserveVoLL
-                          + sum((q,d,t), vUnmetSpinningReserveSystem(q,d,t,y)*pHours(q,d,t)*pSpinningReserveVoLL);
+* Yearly export cost to external zones
+eYearlyExportExternalCost(z,y)..
+   vYearlyExportExternalCost(z,y) =e= sum((zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pTradePrice(zext,q,d,y,t)*pHours(q,d,t));
 
+* Yearly CO2 emissions cost for each zone
 eYearlyCarbonCost(z,y)..
    vYearlyCarbonCost(z,y) =e= pIncludeCarbon*pCarbonPrice(y)
                             * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
-*****************************************H2 model***********************************************************
-eH2UnservedCost(z,y)..
-                vYearlyH2UnservedCost(z,y)       =e= sum(q, vUnmetExternalH2(z,q,y) )*pH2UnservedCost$(pIncludeH2);
-***************************************************************************************************************                
 
+* Ensures that when accessing parameters like CostPerLine or Life for a connection between zones i and j, 
+* the model always uses the maximum of both directions, regardless of ordering.
 $macro symmax(s,i,j,h) max(s(i,j,h),s(j,i,h))
 
-eYearlyTransmissionAdditions(z,y)$(pAllowHighTransfer and sum(sTopology(z,z2),1))..
-   vYearlyTransmissionAdditions(z,y) =e= sum(sTopology(z,z2), vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CostPerLine")*1e6)
-                                       / 2*(pWACC/(1-(1/((1+pWACC)**sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
+* Computes annualized investment cost of new transmission lines connected to zone z
+* using the annuity formula and averaging (divided by 2) to avoid double-counting symmetric lines
+eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z2),1))..
+   vAnnualizedTransmissionCapex(z,y) =e=
+       sum(sTopology(z,z2),
+           vNewTransmissionLine(z,z2,y)
+         * symmax(pNewTransmission,z,z2,"CostPerLine")
+         * 1e6)
+     / 2
+     * (pWACC / (1 - (1 / ((1 + pWACC) ** sum(sTopology(z,z2), symmax(pNewTransmission,z,z2,"Life"))))));
 
-*--- Demand supply balance constraint
+* ------------------------------
+* Demand and supply balance
+* Ensures zonal demand matches supply components.
+* ------------------------------
 eDemSupply(z,q,d,t,y)..
+   pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y) =e= vSupply(z,q,d,t,y);
 
-**********************Demand supply equations has been redifined to account for H2 production************************************
-
-*
-   pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) =e=sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))$(pIncludeH2=0)
-*                                                            The row below is deactivated when H2 feature is on   
-                                                        
-***********************************************************H2 model equations below************************************************
-                                                        +sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pIncludeH2)
-                                                          +vPwrREGrid(z,q,d,t,y)$pIncludeH2                                                         
-*                                                         - SUM((h2zmap(hh,z)),vH2PwrIn(hh,q,d,t,y))$pIncludeH2
-                                                        
-*************************************************************************************************************************************
-                                                         
-                                                         - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
-                                                         + sum(sTopology(z,z2), vFlow(z2,z,q,d,t,y)*(1-pLossFactor(z,z2,y)))
-*                                                        + sum(gzmap(st,z), vStorOut(st,q,d,t,y))
-                                                         - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(pincludeStorage)
-                                                         + sum(zext, vImportPrice(z,zext,q,d,t,y)) 
-                                                         - sum(zext, vExportPrice(z,zext,q,d,t,y)) 
-                                                         + vUSE(z,q,d,t,y)
-                                                         - vSurplus(z,q,d,t,y)
-                                                         
-                                                         ;
+eDefineSupply(z,q,d,t,y)..
+   vSupply(z,q,d,t,y) =e=
+     sum((gzmap(g,z),gfmap(g,f)), vPwrOut(g,f,q,d,t,y))
+   - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
+   + sum(sTopology(z,z2), vFlow(z2,z,q,d,t,y) * (1 - pLossFactorInternal(z,z2,y)))
+   - sum(gzmap(st,z), vStorInj(st,q,d,t,y))$(fEnableStorage)
+   + sum(zext, vYearlyImportExternal(z,zext,q,d,t,y))
+   - sum(zext, vYearlyExportExternal(z,zext,q,d,t,y))
+   + vUSE(z,q,d,t,y)
+   - vSurplus(z,q,d,t,y);
 
 
-
-*--- Generator Capacity equations (check redundance with fix constraints in main.gms)
-eCapBalance(g,sStartYear(y))..
+* ------------------------------
+* Generator capacity equations
+* Tracks installed capacity for existing/new units.
+* ------------------------------
+* Initial capacity balance in the first model year
+eInitialCapacity(g,sStartYear(y))..
    vCap(g,y) =e= pGenData(g,"Capacity")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val))
                + vBuild(g,y) - vRetire(g,y);
 
-eCapBalance1(eg,y)$(not sStartYear(y))..
+* Year-on-year capacity tracking for existing generators
+eCapacityEvolutionExist(eg,y)$(not sStartYear(y))..
    vCap(eg,y) =e= vCap(eg,y-1) + vBuild(eg,y) - vRetire(eg,y);
 
-eCapBalance2(ng,y)$(not sStartYear(y))..
+* Year-on-year capacity tracking for new generators (non-retirable)
+eCapacityEvolutionNew(ng,y)$(not sStartYear(y))..
    vCap(ng,y) =e= vCap(ng,y-1) + vBuild(ng,y);
 
-eBuildNew(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
+* Limit on initial build for new generators (starting after model year 1)
+eInitialBuildLimit(eg)$(pGenData(eg,"StYr") > sStartYear.val)..
    sum(y, vBuild(eg,y)) =l= pGenData(eg,"Capacity");
 
- 
-* TODO: Is it used?  
-*eMinBuildTotal(ng)$pGenData(ng,"MinTotalBuild")..
-*   sum(y, vBuild(ng,y)) =g= pGenData(ng,"MinTotalBuild");
-
-
-eMinGenRE(c,y)$(pMinRE and y.val >= pMinRETargetYr)..
+eMinGenRE(c,y)$(pMinRE and y.val >= pMinsRenewableTargetYear)..
    sum((zcmap(z,c),gzmap(RE,z),gfmap(RE,f),q,d,t), vPwrOut(RE,f,q,d,t,y)*pHours(q,d,t)) =g=
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMinRE;
 
@@ -640,7 +686,10 @@ eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")
    vRetire(eg,y) =e= pGenData(eg,"UnitSize")*vRetireCapVar(eg,y);
 
 
-*--- Production equations
+* ------------------------------
+* Production equations
+* Constrains generator dispatch, ramping, and minimum output.
+* ------------------------------
 eJointResCap(g,q,d,t,y)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) + vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*(1+pGenData(g,"Overloadfactor"));
 
@@ -650,16 +699,16 @@ eMaxCF(g,q,y)..
 eFuel(zfmap(z,f),y)..
    vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,f));
 
-eFuelLimit(c,f,y)$(pfuel_constraints and pMaxFuelLimit(c,f,y) > 0)..
+eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
-eMinGen(g,q,d,t,y)$(pmingen_constraints and pGenData(g,"MinLimitShare") > 0)..
+eMinGen(g,q,d,t,y)$(fApplyMinGenerationConstraint and pGenData(g,"MinLimitShare") > 0)..
     sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinLimitShare") ; 
 
-eRampDnLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints)..
+eRampDnLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t-1,y)) - sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =l= vCap(g,y)*pGenData(g,"RampDnRate");
 
-eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and pramp_constraints)..
+eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint)..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) - sum(gfmap(g,f), vPwrOut(g,f,q,d,t-1,y)) =l= vCap(g,y)*pGenData(g,"RampUpRate");
 
 * Note that we are effectively assuming grid-connected RE generation to be dispatchable. Generally speaking, most RE will be
@@ -669,341 +718,291 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
    vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,q,d,t)*vCap(VRE,y);
 
 
-*--- Reserve equations
-eSpinningReserveLim(g,q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+* ------------------------------
+* Reserve equations
+* Enforces spinning and planning reserve requirements.
+* ------------------------------
+* Spinning reserve limit as a share of capacity
+eSpinningReserveLim(g,q,d,t,y)$(fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint)..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
    
-eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(pzonal_spinning_reserve_constraints or psystem_spinning_reserve_constraints)..
+* Spinning reserve limit for VRE as a share of capacity adjusted for production profile
+eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint)..
     vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
-eSpinningReserveReqCountry(c,q,d,t,y)$pzonal_spinning_reserve_constraints..
+eSpinningReserveReqCountry(c,q,d,t,y)$fApplyCountrySpinReserveConstraint..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
- + pinterco_reserve_contribution * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
-                                        + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer
-                                        - vFlow(z2,z,q,d,t,y))
-   =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
+* + sIntercoReserveContributionPct * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
+*                                        + vNewTransmissionLine(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion
+*                                        - vFlow(z2,z,q,d,t,y))
+   =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
    
+* System spinning reserve requirement
+eSpinningReserveReqSystem(q,d,t,y)$pfApplySystemSpinReserveConstraint..
+   sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
 
-eSpinningReserveReqSystem(q,d,t,y)$psystem_spinning_reserve_constraints..
-   sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*pVREForecastError;
-
-
-ePlanningReserveReqCountry(c,y)$(pplanning_reserve_constraints and pPlanningReserveMargin(c))..
+* Planning reserve requirement at the country level
+ePlanningReserveReqCountry(c,y)$(fApplyPlanningReserveConstraint and pPlanningReserveMargin(c))..
    sum((zcmap(z,c),gzmap(g,z)), vCap(g,y)*pCapacityCredit(g,y))
  + vUnmetPlanningReserveCountry(c,y)
- + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vAdditionalTransfer(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer))$pIncludeIntercoReserves
+ + (sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), sum(q,pTransferLimit(z2,z,q,y))/card(q) + vNewTransmissionLine(z2,z,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion))$fCountIntercoForReserves
    =g= (1+pPlanningReserveMargin(c))*smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
-
-ePlanningReserveReqSystem(y)$(pplanning_reserve_constraints and psystem_reserve_margin)..
+* Planning reserve requirement at the system level
+ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMarginPct)..
    sum(g, vCap(g,y)*pCapacityCredit(g,y)) + vUnmetPlanningReserveSystem(y)
-   =g= (1+psystem_reserve_margin)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
+   =g= (1+sReserveMarginPct)*smax((q,d,t), sum(z, pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y)));
 
 
-*--- Transfer equations
-eTransferLimit(sTopology(z,z2),q,d,t,y)..
-   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vAdditionalTransfer(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*pAllowHighTransfer;
-   
-eTransferLimitMin(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
+* ------------------------------
+* Transfer equations
+* Limits internal flows and applies trade caps.
+* ------------------------------
+* Limits flow between zones to existing + expandable transmission capacity
+eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)..
+   vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransmissionLine(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
+
+* Enforces minimum import flow into a zone when specified
+eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
 
-eAdditionalTransfer(sTopology(z,z2),y)$pAllowHighTransfer..
-   vAdditionalTransfer(z,z2,y) =e=  vAdditionalTransfer(z,z2,y-1) + vBuildTransmission(z,z2,y);
-   
-eAdditionalTransfer2(sTopology(z,z2),y)$pAllowHighTransfer..
+* Cumulative build-out of new transfer capacity over time
+eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
+   vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmission(z,z2,y);
+
+* Ensures symmetry in bidirectional transmission investment
+eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
    vBuildTransmission(z,z2,y)  =e=  vBuildTransmission(z2,z,y);
-   
 
-eMaxImportPrice(c,y)$(pallowExports)..
-   sum((zcmap(z,c),zext,q,d,t), vImportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
-   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
+* External trade
 
-eMaxExportPrice(c,y)$(pallowExports)..
-   sum((zcmap(z,c),zext,q,d,t), vExportPrice(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
-   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxExchangeShare(y,c);
+* Caps total import energy based on annual demand and max external trade share
+eMaxAnnualImportShareEnergy(c,y)$fEnableExternalExchange..
+   sum((zcmap(z,c),zext,q,d,t), vYearlyImportExternal(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualExternalTradeShare(y,c);
 
+* Caps total export energy based on annual demand and max external trade share
+eMaxAnnualExportShareEnergy(c,y)$fEnableExternalExchange..
+   sum((zcmap(z,c),zext,q,d,t), vYearlyExportExternal(z,zext,q,d,t,y)*pHours(q,d,t)) =l=
+   sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualExternalTradeShare(y,c);
 
-eMaxhourlyImportsshare(c,q,d,t,y)$(pMaxImport<1 and pallowExports)..
+* Limits hourly import energy as a share of hourly demand
+eMaxHourlyImportShareEnergy(c,q,d,t,y)$(sMaxHourlyImportExternalShare<1 and fEnableExternalExchange)..
+   sum((zcmap(z,c), zext), vYearlyImportExternal(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxHourlyImportExternalShare * pEnergyEfficiencyFactor(z,y));
 
-   sum((zcmap(z,c), zext), vImportPrice(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxImport * pEnergyEfficiencyFactor(z,y));
+* Limits hourly export energy as a share of hourly demand
+eMaxHourlyExportShareEnergy(c,q,d,t,y)$(sMaxHourlyExportExternalShare<1 and fEnableExternalExchange)..
+   sum((zcmap(z,c), zext),vYearlyExportExternal(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxHourlyExportExternalShare * pEnergyEfficiencyFactor(z,y));
 
-eMaxhourlyExportsshare(c,q,d,t,y)$(pMaxExport<1 and pallowExports)..
-   sum((zcmap(z,c), zext),vExportPrice(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*pMaxExport * pEnergyEfficiencyFactor(z,y));
+* Caps import volume from an external zone to internal zone
+eExternalImportLimit(z,zext,q,d,t,y)$fEnableExternalExchange..
+   vYearlyImportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
 
+* Caps export volume from internal zone to an external zone
+eExternalExportLimit(z,zext,q,d,t,y)$fEnableExternalExchange..
+   vYearlyExportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
 
-
-
-eExtZoneLimitImport(z,zext,q,d,t,y)$pallowExports..
-   vImportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
-
-eExtZoneLimitExport(z,zext,q,d,t,y)$pallowExports..
-   vExportPrice(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
-
-*--- Storage-specific equations
-eStorageCap(st,q,d,t,y)$pincludeStorage..
+* ------------------------------
+* Storage operations
+* Controls storage SOC, charging, and reserve support.
+* ------------------------------
+* Limits state of charge (SOC) by capacit
+eSOCUpperBound(st,q,d,t,y)$fEnableStorage..
    vStorage(st,q,d,t,y) =l= vCapStor(st,y);
 
-*without this, it builds storage capacity to meet reserve
-eStorageCap2(st,q,d,t,y)$pincludeStorage..
+* Prevents storage being used to meet reserves only
+eStorageCapMinConstraint(st,q,d,t,y)$fEnableStorage..
    vCapStor(st,y) =g= vCap(st,y);
 
-eStorageInjection(st,q,d,t,y)$pincludeStorage..
+* Charging power ≤ power capacity
+eChargeCapacityLimit(st,q,d,t,y)$fEnableStorage..
    vStorInj(st,q,d,t,y) =l= vCap(st,y);
 
-*eStorageInjection2(stp,q,d,t,y)$pincludeStorage..
-*   vStorInj(stp,q,d,t,y) =l= sum(so, vCap(so,y)*pStoPVProfile(so,q,d,t));
-
-eStorageInjection2(stp,q,d,t,y)$pincludeStorage..
+* Charge cap from PV-following storage logic
+eChargeLimitWithPVProfile(stp,q,d,t,y)$fEnableStorage..
    vStorInj(stp,q,d,t,y) =l= sum(gsmap(so,stp), vCap(so,y)*pStoPVProfile(so,q,d,t));
 
-eRampDownInjLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
+* Max rate of charge decrease (ramp-down)
+eChargeRampDownLimit(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage and fApplyRampConstraint)..
    vStorInj(st,q,d,t-1,y) - vStorInj(st,q,d,t,y) =l= pGenData(st,'RampDnRate')*vCap(st,y);
 
-eRampUpInjLimit(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage and pramp_constraints)..
+* Max rate of charge increase (ramp-up)
+eChargeRampUpLimit(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage and fApplyRampConstraint)..
    vStorInj(st,q,d,t,y) - vStorInj(st,q,d,t-1,y) =l= pGenData(st,'RampUpRate')*vCap(st,y);
 
-eStorageNet(st,q,d,t,y)$pincludeStorage..
+* Defines net charge as output - input
+eNetChargeBalance(st,q,d,t,y)$fEnableStorage..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
-eStorBal(st,q,d,t,y)$(not sFirstHour(t) and pincludeStorage)..
+* SOC dynamics between time steps
+eStateOfChargeUpdate(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage)..
    vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorage(st,q,d,t-1,y);
 
-eStorBal1(st,q,d,sFirstHour(t),y)$pincludeStorage..
+* SOC at first hour (no past state)
+eStateOfChargeInit(st,q,d,sFirstHour(t),y)$fEnableStorage..
    vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
-* To ensure energy balance in one representative day
-
-* eStorBal2(st,q,d,sLastHour(t),y)$(pincludeStorage)..    vStorage(st,q,d,t,y)  =e= vStorage(st,q,d,t-23,y)-(pStorData(st,"efficiency")*vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f),vPwrOut(st,f,q,d,t-23,y))) ;
-
-* eStorBal3(st,q,d,y)$(pincludeStorage)..  pStorData(st,"efficiency")* sum(t,vStorInj(st,q,d,t,y)) =e=  Sum((gfmap(st,f),t),vPwrOut(st,f,q,d,t,y));
-
-
-eStorageOutput(st,q,d,t,y)$pincludeStorage..
+* Ensures SOC level can cover spinning reserve
+eSOCSupportsReserve(st,q,d,t,y)$fEnableStorage..
    vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
-*--- CSP-specific equations
-eStorageCSPCap(cs,q,d,t,y)$pincludeCSP..
+* Ensures that the state of charge at the end of the representative day equals the initial state
+* This avoids artificial energy gains/losses over the daily cycle
+* eSOCCycleClosure(st,q,d,sLastHour(t),y)$(fEnableStorage)..
+*   vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-23,y) - (pStorData(st,"efficiency") * vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t-23,y)));
+
+* Ensures energy conservation over the full representative day: total input × efficiency = total output
+* eDailyStorageEnergyBalance(st,q,d,y)$(fEnableStorage)..
+*   pStorData(st,"efficiency") * sum(t, vStorInj(st,q,d,t,y)) =e= sum((gfmap(st,f),t), vPwrOut(st,f,q,d,t,y));
+
+* ------------------------------
+* CSP-specific equations
+* Constrains CSP thermal and storage operations.
+* ------------------------------
+
+* Limits CSP storage level to installed storage capacity.
+eCSPStorageCapacityLimit(cs,q,d,t,y)$fEnableCSP..
    vStorage(cs,q,d,t,y) =l= vCapStor(cs,y);
 
-eInjCSP(cs,q,d,t,y)$pincludeCSP..
+* Limits CSP storage injection to thermal energy output * efficiency. Prevents unrealistic injection behavior.
+eCSPStorageInjectionLimit(cs,q,d,t,y)$fEnableCSP..
    vStorInj(cs,q,d,t,y) =l= vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency");
-*without this, there is storage injection without storage (injection and withdrawal occur at the same time)
 
-eInjCSP1(cs,q,d,t,y)$pincludeCSP..
+* Prevents CSP storage injection exceeding installed capacity.
+eCSPStorageInjectionCap(cs,q,d,t,y)$fEnableCSP..
    vStorInj(cs,q,d,t,y) =l= vCapStor(cs,y);
 
-eThermCSP(cs,q,d,t,y)$pincludeCSP..
+*Limits thermal energy output to installed thermal field capacity * hourly solar profile.
+eCSPThermalOutputLimit(cs,q,d,t,y)$fEnableCSP..
    vThermalOut(cs,q,d,t,y) =l= vCapTherm(cs,y)*pCSPProfile(cs,q,d,t);
 
-eGenCSP(cs,q,d,t,y)$pincludeCSP..
+* Balances CSP thermal output, storage in/out, and generator dispatch.
+eCSPPowerBalance(cs,q,d,t,y)$fEnableCSP..
    vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency")
  - vStorInj(cs,q,d,t,y) + vStorOut(cs,q,d,t,y)*pCSPData(cs,"Storage","Efficiency")
    =e= sum(gfmap(cs,f), vPwrOut(cs,f,q,d,t,y));
 
-
-
-eStorageCSPBal(cs,q,d,t,y)$(not sFirstHour(t) and pincludeCSP)..
+* Tracks CSP storage state of charge across time (except for first hour).
+eCSPStorageEnergyBalance(cs,q,d,t,y)$(not sFirstHour(t) and fEnableCSP)..
    vStorage(cs,q,d,t,y) =e= vStorage(cs,q,d,t-1,y) + vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
 
-eStorageCSPBal1(cs,q,d,sFirstHour(t),y)$pincludeCSP..
-   vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y) ;
-**deleted estorageCSPbal2  
-
-
+* Initializes CSP storage balance for the first hour of the day.
+eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$fEnableCSP..
+   vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
 
 *Equation needed in dispatch mode but not for capacity expansion with representative days
-*eStorageCSPBal2(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and pincludeCSP)..
+*eStorageCSPBal2(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and fEnableCSP)..
 *   vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y) + vStorage(cs,q,d-1,sLastHour,y);
 
+* ------------------------------
+* Storage capacity evolution
+* Tracks storage energy capacity builds/retirements.
+* ------------------------------
 
-*--- Energy (storage) capacity limits
-eCapacityStorLimit(g,y)$pincludeStorage..
+* Limits total installed storage capacity to predefined technical data from pStorData and CSP-related capacity from pCSPData. Only applies if storage is included (fEnableStorage).
+eCapacityStorLimit(g,y)$fEnableStorage..
    vCapStor(g,y) =l= pStorData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
 
+* Sets initial year’s storage capacity equal to existing capacity (if online) plus new builds minus retirements.
 eCapStorBalance(g, sStartYear(y))..
     vCapStor(g,y) =e= pStorData(g,"CapacityMWh")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val)) + vBuildStor(g,y) - vRetireStor(g,y);
 
-eCapStorBalance1(eg,y)$(not sStartYear(y) and pincludeStorage)..
+* Tracks annual storage capacity changes for existing generators (EGs): previous year’s capacity + builds − retirements.
+eCapStorAnnualUpdateEG(eg,y)$(not sStartYear(y) and fEnableStorage)..
    vCapStor(eg,y) =e= vCapStor(eg,y-1) + vBuildStor(eg,y) - vRetireStor(eg,y);
 
-eCapStorBalance2(ng,y)$(not sStartYear(y) and pincludeStorage)..
+* Tracks annual storage capacity for new generators (NGs): previous year’s capacity + builds. Assumes no retirement.
+eCapStorAnnualUpdateNG(ng,y)$(not sStartYear(y) and fEnableStorage)..
    vCapStor(ng,y) =e= vCapStor(ng,y-1) + vBuildStor(ng,y);
 
-eCapStorBalance3(ng,sStartYear(y))$pincludeStorage..
+* Sets initial capacity for new generators at start year equal to build amount. Applies only in the first year.
+eCapStorInitialNG(ng,sStartYear(y))$fEnableStorage..
    vCapStor(ng,y) =e= vBuildStor(ng,y);
 
-eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeStorage)..
+eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and fEnableStorage)..
    sum(y, vBuildStor(eg,y)) =l= pStorData(eg,"CapacityMWh");
    
-*--- Thermal elements (csp solar field) capacity limits
-eCapacityThermLimit(g,y)$pincludeCSP..
+* ------------------------------
+* CSP thermal capacity limits
+* Tracks CSP thermal field builds and limits.
+* ------------------------------
+eCapacityThermLimit(g,y)$fEnableCSP..
    vCapTherm(g,y) =l= pCSPData(g,"Thermal Field","CapacityMWh");
 
-eCapThermBalance1(eg,y)$(not sStartYear(y) and pincludeCSP)..
+eCapThermBalance1(eg,y)$(not sStartYear(y) and fEnableCSP)..
    vCapTherm(eg,y) =e= vCapTherm(eg,y-1) + vBuildTherm(eg,y) - vRetireTherm(eg,y);
 
-eCapThermBalance2(ng,y)$(not sStartYear(y) and pincludeCSP)..
+eCapThermBalance2(ng,y)$(not sStartYear(y) and fEnableCSP)..
    vCapTherm(ng,y) =e= vCapTherm(ng,y-1) + vBuildTherm(ng,y);
 
-eCapThermBalance3(ng,sStartYear(y))$pincludeCSP..
+eCapThermBalance3(ng,sStartYear(y))$fEnableCSP..
    vCapTherm(ng,y) =e= vBuildTherm(ng,y);
 
-eBuildThermNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and pincludeCSP)..
+eBuildThermNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and fEnableCSP)..
    sum(y, vBuildTherm(eg,y)) =l= pCSPData(eg,"Thermal Field","CapacityMWh");
 
-*---  Calculate capex for generators with reducing capex
-eAnnCapex1(dc,y)$(not sStartYear(y))..
-   vAnnCapex(dc,y) =e= vAnnCapex(dc,y-1)
-                     + vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
-                                                                          ;
+* ------------------------------
+* Capital budget constraint
+* Enforces the global investment ceiling.
+* ------------------------------
 
-eAnnCapex(dc,sStartYear(y))..
-   vAnnCapex(dc,y) =e= vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;                                                                          ;
-
-eCapitalConstraint$pcapital_constraints..
-   sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= pMaxCapital*1e3;
+eCapitalConstraint$fApplyCapitalConstraint..
+   sum(y, pRR(y)*pWeightYear(y)*sum(ng, pCRF(ng)*vCap(ng,y)*pGenData(ng,"Capex"))) =l= ssMaxCapitalInvestmentInvestment*1e3;
    
-*--- Emissions related equations
+* ------------------------------
+* Emissions related equations
+* Computes CO₂ emissions and applies caps/backstops.
+* ------------------------------
 
 eZonalEmissions(z,y)..
    vZonalEmissions(z,y) =e=
    sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
-eEmissionsCountry(c,y)$pzonal_co2_constraints..
-
+eEmissionsCountry(c,y)$fApplyCountryCo2Constraint..
    sum(zcmap(z,c), vZonalEmissions(z,y))-vYearlyCO2backstop(c,y)=l= pEmissionsCountry(c,y);
-
-
 
 eTotalEmissions(y)..
     sum(z, vZonalEmissions(z,y))=e= vTotalEmissions(y);
     
-eTotalEmissionsConstraint(y)$pSystem_CO2_constraints..
+eTotalEmissionsConstraint(y)$pfApplySystemCo2Constraint..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
-*eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(ng,y) -  vRetire(eg,y) =l= 0;
-
-
-*********************Hydrogen production equations******************
-
-*  Total capacity of H2 plants at 1st year of optimization is equal to pre-existing capacity plus capacity being bulit minus retired capacity
-*Checked
-eCapBalanceH2(hh,sStartYear(y))$(pIncludeH2)..
-   vCapH2(hh,y) =e= pH2Data(hh,"Capacity")$(eh(hh) and (pH2Data(hh,"StYr") <= sStartYear.val))
-               + vBuildH2(hh,y) - vRetireH2(hh,y);
-
-*  Total capacity of existing H2 palnts is equal to capacity over previous year plus capacity being built in current year minus retired capacity in current year
-*Checked
-eCapBalance1H2(eh,y)$(not sStartYear(y) and pIncludeH2)..
-   vCapH2(eh,y) =e= vCapH2(eh,y-1) + vBuildH2(eh,y) - vRetireH2(eh,y);
-
-*Total capacity of candidate H2 plants is equal to total capacity at previous year plus capacity being built in current year minus retired capacity in current year
-*Checked
-eCapBalance2H2(nh,y)$(not sStartYear(y) and pIncludeH2)..
-   vCapH2(nh,y) =e= vCapH2(nh,y-1) + vBuildH2(nh,y);
-
-* New H2 plants can be buuilt only after the StYr; the newly built capacity need to be less than declared capacity
-*Checked
-eBuildNewH2(eh)$(pH2Data(eh,"StYr") > sStartYear.val and pIncludeH2)..
-    sum(y, vBuildH2(eh,y)) =l= pH2Data(eh,"Capacity");
-
-
-* (Integer units ) Built capacity each year is equal to unit size
-*Checked
-eBuiltCapH2(nh,y)$(pH2Data(nh,"DescreteCap") and pIncludeH2)..
-   vBuildH2(nh,y) =e= pH2Data(nh,"UnitSize")*vBuiltCapVarH2(nh,y);
-
-* (Integer units ) Retired capacity each year is equal to unit size
-*Checked
-eRetireCapH2(eh,y)$(pH2Data(eh,"DescreteCap") and (y.val <= pH2Data(eh,"RetrYr")) and pIncludeH2)..
-   vRetireH2(eh,y) =e= pH2Data(eh,"UnitSize")*vRetireCapVarH2(eh,y);
-
-*  Maximum capacity factor of H2 production based on availability
-*Checked
-eMaxCF_H2(hh,q,y)$(pIncludeH2)..
-   sum((d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)) =l= pAvailabilityH2(hh,q)*vCapH2(hh,y)*sum((d,t), pHours(q,d,t));
-
-*       mmBTU of H2 produced
-eFuel_H2(c,q,y)$(pIncludeH2)..
-*                   mmBTU            mmBTU                    mmBTU                                                                     -MWe-                Hr                mmBTU/MWhe 
-    sum(zcmap(z,c), pExternalH2(z,q,y)-vUnmetExternalH2(z,q,y)$pExternalH2(z,q,y)+vFuelH2Quarter(z,q,y)) =e= sum( (zcmap(z,c),h2zmap(hh,z), d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"));
-
-eFuel_H2_2(c,z,y)$(pIncludeH2)..
-    sum((zcmap(z,c),q),vFuelH2Quarter(z,q,y)) =e=  sum(zcmap(z,c),vFuelH2(z,y));
-
-eMaxH2PwrInjection(hh,q,d,t,y)$pIncludeH2..
-    vH2PwrIn(hh,q,d,t,y)  =l= vCapH2(hh,y);
-
-* The amount of hydrogen fuel that can be used for electricity generation can not be more than the amount of H2 that was produced from VRE curtailment
-eFuelLimitH2(c,f,y)$(pFuelDataH2(f) and pIncludeH2)..
-   sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  sum((zcmap(z,c)), vFuelH2(z,y));
-
-
-*When the H2 production flag is off don't account for H2 fuel
-eFuelLimitH2_2(c,f,y)$(pFuelDataH2(f) and pIncludeH2=0)..
-   sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  0;
-
-
-eRampDnLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and pramp_constraints and pIncludeH2)..
-    vH2PwrIn(hh,q,d,t-1,y) -  vH2PwrIn(hh,q,d,t,y) =l= vCapH2(hh,y)*pH2Data(hh,"RampDnRate");
-
-eRampUpLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and pramp_constraints and pIncludeH2)..
-   vH2PwrIn(hh,q,d,t,y) -  vH2PwrIn(hh,q,d,t-1,y) =l= vCapH2(hh,y)*pH2Data(hh,"RampUpRate");
-
-*Calculation of Annualized CAPEX for electrolyzers
-eAnnCapexH2_1(dcH2,y)$(not sStartYear(y) and pIncludeH2)..
-   vAnnCapexH2(dcH2,y) =e= vAnnCapexH2(dcH2,y-1)
-                     + vBuildH2(dcH2,y)*pH2Data(dcH2,"Capex")*pCapexTrajectoriesH2(dcH2,y)*pCRFH2(dcH2)*1e6;
-
-eAnnCapexH2(dcH2,sStartYear(y))$pIncludeH2..
-   vAnnCapexH2(dcH2,y) =e= vBuildH2(dcH2,y)*pH2Data(dcH2,"Capex")*pCapexTrajectoriesH2(dcH2,y)*pCRFH2(dcH2)*1e6;                                                                          ;
-
-eRE2H2_4(z,q,d,t,y)$pIncludeH2..
-  sum(h2zmap(hh,z),vH2PwrIn(hh,q,d,t,y))=e=vPwrREH2(z,q,d,t,y);
- 
-
-eRE2H2_3(z,q,d,t,y)$pIncludeH2..
- vPwrREH2(z,q,d,t,y) =e= sum((gfmap(RE,f),gzmap(RE,z)),vREPwr2H2(RE,f,q,d,t,y));
-
-eRE2H2_2(z,q,d,t,y)$pIncludeH2..
-vPwrREGrid(z,q,d,t,y)=e=sum((gfmap(RE,f),gzmap(RE,z)),vREPwr2Grid(RE,f,q,d,t,y));
-
-eRE2H2(RE,f,q,d,t,y)$pIncludeH2..
- vPwrOut(RE,f,q,d,t,y)=e=vREPwr2Grid(RE,f,q,d,t,y)+vREPwr2H2(RE,f,q,d,t,y);
-
-*For example equation below is deactivated when H2 is on and is replaced by eVREProfile2
-
-***********************************end of H2 equations section**************************************
-
-
-
 
 Model PA /
    eNPVCost
+   eYearlyUnmetPlanningReserveCostSystem
+   eYearlyUnmetSpinningReserveCostSystem
+   eYearlyCO2BackstopCostsSystem
    eYearlyTotalCost
-   eYearlyFixedCost
+   eAnnualizedCapexUpdate
+   eAnnualizedCapexInit
+   eTotalAnnualizedGenCapex
+   eTotalAnnualizedCapex
+   eYearlyFOMCost
    eYearlyVariableCost
+   eYearlyFuelCost
+   eYearlyVOMCost
    eYearlySpinningReserveCost
    eYearlyUSECost
    eYearlyUnmetReserveCostCountry
+   eYearlyImportExternalCost
+   eYearlyExportExternalCost
+   eYearlyUnmetSpinningReserveCostCountry
+   eYearlyUnmetPlanningReserveCostCountry
    eYearlyCarbonCost
-   eDemSupply
-   eCapBalance
-   eCapBalance1
-   eCapBalance2
-   eBuildNew
-*   eMaxBuildTotal
-*   eMinBuildTotal
+   eYearlyCurtailmentCost
+   eYearlyCO2BackstopCostCountry
+   eYearlySurplusCost
 
+   eDemSupply
+   eDefineSupply
+   eInitialCapacity
+   eCapacityEvolutionExist
+   eCapacityEvolutionNew
+   eInitialBuildLimit
 
    eMinGenRE
    eMaxCF
@@ -1014,11 +1013,11 @@ Model PA /
    eRampDnLimit
    eSpinningReserveLim
    eSpinningReserveLimVRE
-*  eResLim_CSP
    eJointResCap
    eSpinningReserveReqCountry
    eSpinningReserveReqSystem
    ePlanningReserveReqCountry
+   ePlanningReserveReqSystem
    
    eVREProfile
    eFuelLimit
@@ -1027,59 +1026,51 @@ Model PA /
    eEmissionsCountry
    eTotalEmissions
    eTotalEmissionsConstraint
-   eYearlyCurtailmentCost
-   eYearlyCO2backstopCost
+
    
    eBuiltCap
    eRetireCap
    
-   eTransferLimit
-   eTransferLimitMin
-   eYearlyTransmissionAdditions
-   eAdditionalTransfer
-   eAdditionalTransfer2
-   eMaxImportPrice
-   eMaxExportPrice  
-   eMaxhourlyImportsshare
-   eMaxhourlyExportsshare
-   eYearlyTradeCost
-   eExtZoneLimitImport
-   eExtZoneLimitExport   
-
-
-   ePlanningReserveReqSystem
-   eYearlyUnmetReserveCostSystem
-   eYearlySurplusCost
-
+   eTransferCapacityLimit
+   eMinImportRequirement
+   eAnnualizedTransmissionCapex
+   eCumulativeTransferExpansion
+   eSymmetricTransferBuild
+   eMaxAnnualImportShareEnergy
+   eMaxAnnualExportShareEnergy  
+   eMaxHourlyImportShareEnergy
+   eMaxHourlyExportShareEnergy
+   eYearlyExternalTradeCost
+   eExternalImportLimit
+   eExternalExportLimit   
    
-   eStorageCap
-   eStorageCap2
-   eStorageInjection
-   eStorageInjection2
-   eRampDownInjLimit
-   eRampUpInjLimit
-   eStorageNet
-   eStorBal
-   eStorBal1
-*  eStorBal2
-*  eStorBal3
+   eSOCUpperBound
+   eStorageCapMinConstraint
+   eChargeCapacityLimit
+   eChargeLimitWithPVProfile
+   eChargeRampDownLimit
+   eChargeRampUpLimit
+   eNetChargeBalance
+   eStateOfChargeUpdate
+   eStateOfChargeInit
+
   
-   eStorageOutput
+   eSOCSupportsReserve
    
-   eStorageCSPCap
-   eInjCSP
-   eInjCSP1
-   eThermCSP
-   eGenCSP
+   eCSPStorageCapacityLimit
+   eCSPStorageInjectionLimit
+   eCSPStorageInjectionCap
+   eCSPThermalOutputLimit
+   eCSPPowerBalance
   
-   eStorageCSPBal
-   eStorageCSPBal1
+   eCSPStorageEnergyBalance
+   eCSPStorageInitialBalance
    
    eCapacityStorLimit
    eCapStorBalance
-   eCapStorBalance1
-   eCapStorBalance2
-   eCapStorBalance3
+   eCapStorAnnualUpdateEG
+   eCapStorAnnualUpdateNG
+   eCapStorInitialNG
    eBuildStorNew
    
    eCapacityThermLimit
@@ -1088,48 +1079,13 @@ Model PA /
    eCapThermBalance3
    eBuildThermNew
    
-   eAnnCapex1
-   eAnnCapex
-   
 
-*   eSimultComDecom
-
-* variable limited domains
    vPwrOut(sPwrOut)
-   vExportPrice(sExportPrice)
-   vImportPrice(sImportPrice)
-   vAdditionalTransfer(sAdditionalTransfer)
+   vYearlyExportExternal(sExportPrice)
+   vYearlyImportExternal(sImportPrice)
+   vNewTransmissionLine(sAdditionalTransfer)
    vFlow(sFlow)
    vSpinningReserve(sSpinningReserve)
    
-
-***************************Equations for H2 model*******************************
-   vH2PwrIn(sH2PwrIn)
-
-   eH2UnservedCost
-   eBuildNewH2
-   eCapBalance1H2
-   eCapBalance2H2
-   eCapBalanceH2
-   eBuiltCapH2
-   eRetireCapH2
-*eDemSupplyH2
-   eMaxCF_H2
-   eFuel_H2
-   eFuel_H2_2
-   eRampDnLimitH2
-   eRampUpLimitH2
-   eFuelLimitH2
-   eFuelLimitH2_2
-*eYearlyCurtailmentCost2
-
-   eRE2H2
-   eRE2H2_2
-   eRE2H2_3
-   eRE2H2_4
-   eMaxH2PwrInjection
-
-   eAnnCapexH2_1
-   eAnnCapexH2
   
 /;

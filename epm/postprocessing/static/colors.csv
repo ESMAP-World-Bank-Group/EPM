@@ -18,29 +18,28 @@ Import,thistle
 Hydro MC,lightskyblue
 Hydro RoR,lightskyblue
 Hydro Storage,lightskyblue
-Unmet demand,black
+Unmet demand,firebrick
 Demand,red
 Exports,green
 Imports,thistle
 Storage Charge,pink
 Nuclear,#66CDAA
-Onshore Wind, steelblue
+Onshore Wind,steelblue
 Offshore Wind,blue
 Concentrated Solar,yellow
 Geothermal,brown
-Annualized capex: $m,cornflowerblue
-Fixed O&M: $m,green
-Variable O&M: $m,rosybrown
-Total fuel Costs: $m,grey
-Fuel cost: $m,grey
-Transmission additions: $m,purple
-Spinning Reserve costs: $m,pink
-Unmet reserve cost: $m,pink
-Unmet demand costs: $m,black
-Unmet demand cost: $m,black
-Excess generation: $m,yellow
-VRE curtailment: $m,orange
-Trade Costs: $m,lightskyblue
+Annualized capex,cornflowerblue
+Fixed O&M,green
+Variable O&M,rosybrown
+Fuel costs,grey
+Transmission costs,purple
+Spinning reserve costs,pink
+Unmet reserve costs,pink
+Unmet demand costs,firebrick
+Excess generation,yellow
+VRE curtailment,orange
+Carbon costs,darkgreen
+Trade costs,lightskyblue
 Angola,teal
 Botswana,firebrick
 DRC,dodgerblue
@@ -54,3 +53,9 @@ Namibia,mediumvioletred
 Tanzania,seagreen
 Zimbabwe,crimson
 Zambia,mediumslateblue
+Net exchange,purple
+Import costs with external zones: $m,purple
+Export revenues with external zones: $m,orange
+Generation,firebrick
+StorageEnergy,darkgreen
+Transmission,purple

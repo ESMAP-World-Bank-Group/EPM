@@ -209,11 +209,11 @@
     <datasource caption='Database_Compare' inline='true' name='federated.1nfw8zd1hbpwa11dux5o50rl41si (copie)' version='18.1'>
       <connection class='federated'>
         <named-connections>
-          <named-connection caption='pAnnualTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu (copie)'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pYearlyTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu (copie)'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pYearlyTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pCapacityByFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx (copie)'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pCapacityFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx (copie)'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCostSummary' name='textscan.0y0fn4r0hht2nt14wrqcz1is619w (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummary.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -221,8 +221,8 @@
           <named-connection caption='pCostSummaryFull' name='textscan.0v2vs2s194b49b146t5cf1eu3ebv (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pDemandSupply' name='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8 (copie)'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDemandSupply.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pEnergyBalance' name='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8 (copie)'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyBalance.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pDispatch' name='textscan.1jzug5l0xkrgb5159egh10e04sz7 (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -233,8 +233,8 @@
           <named-connection caption='pEmissionsIntensity' name='textscan.0cbi8bx0g5yzfu1ggwetg0v4myei (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEmissionsIntensity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pEnergyByFuelCountry' name='textscan.1theoj70mnavz5196v4sy126tyie (copie)'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pEnergyFuelCountry' name='textscan.1theoj70mnavz5196v4sy126tyie (copie)'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pFuelCosts' name='textscan.1bvrd1e1gnreoj11sgpx50jodjcu (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pFuelCosts.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -286,7 +286,7 @@
           <relation all='true' connection='textscan.1theoj70mnavz5196v4sy126tyie (copie)' include-siblings='true' is-recursive='true' name='Union5' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pEnergyByFuel.csv' />
+                <expression op='pEnergyFuel.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -316,7 +316,7 @@
           <relation all='true' connection='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8 (copie)' include-siblings='true' is-recursive='true' name='Union13' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pDemandSupply.csv' />
+                <expression op='pEnergyBalance.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -361,7 +361,7 @@
           <relation all='true' connection='textscan.1qnqzjs066djz012v3n480ez9smx (copie)' include-siblings='true' is-recursive='true' name='Union6' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pCapacityByFuel.csv' />
+                <expression op='pCapacityFuel.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -1058,7 +1058,7 @@
       <column caption='Value Total Annual Cost by Zone' datatype='real' hidden='true' name='[Calculation_1551771556724764672]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
       </column>
-      <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+      <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
       </column>
       <column caption='Value dispatch fuel uni' datatype='real' hidden='true' name='[Calculation_1623829209315450880]' role='measure' type='quantitative'>
@@ -1213,11 +1213,11 @@
         <calculation class='tableau' formula='CASE [Parameters].[Indicator Advanced 1 (copie)_451204451707670529]&#13;&#10;WHEN &quot;Capacity&quot; THEN SUM([value (Union6)])&#13;&#10;WHEN &quot;Energy&quot; THEN SUM([value (Union5)])&#13;&#10;when &quot;New capacity&quot; THEN SUM([value (Union8)])&#13;&#10;WHEN &quot;Fuel cost&quot; THEN SUM([value (Union9)])&#13;&#10;WHEN &quot;Costs&quot; THEN SUM([Calculation_127508171045437440])&#13;&#10;WHEN &quot;Reserve&quot; THEN SUM([value (pSpinningReserveByPlantZone.csv+)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1551771556731363331])&#13;&#10;&#13;&#10;END' />
       </column>
       <_.fcp.ObjectModelTableType.true...column caption='pFuelCosts' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_13D4D7879E034EAE898A83F335CAE3D6]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pDemandSupply' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_6FE4D67D525A44D49C9675A870180F63]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pEnergyByFuel' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_76EE71DB0BB349B6AECA863820F82016]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pEnergyBalance' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_6FE4D67D525A44D49C9675A870180F63]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pEnergyFuel' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_76EE71DB0BB349B6AECA863820F82016]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pNewCapacityFuel' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_9B193BF505BD407081FF5958CCC525FD]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pCostSummary' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_C534530D9DED4735A28CFC2FC79484D7]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pCapacityByFuel' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_D8E0A79FD4764106928A31A5D475FFB2]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pCapacityFuel' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[_D8E0A79FD4764106928A31A5D475FFB2]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pSpinningReserveByFuelZone' datatype='table' hidden='true' name='[__tableau_internal_object_id__].[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]' role='measure' type='quantitative' />
       <column caption='fuel' datatype='string' name='[f (Union6)]' role='dimension' type='nominal' />
       <column datatype='string' hidden='true' name='[f (Union8)]' role='dimension' type='nominal' />
@@ -1597,7 +1597,7 @@
               <bucket>&quot;Solar&quot;</bucket>
             </map-pri>
             <map-pri to='multiordinal_pink_10_0'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map-pri>
             <map-pri to='multiordinal_pink_10_0'>
               <bucket>&quot;Unmet demand costs: $m&quot;</bucket>
@@ -1701,7 +1701,7 @@
               <bucket>&quot;Exports exchange: GWh&quot;</bucket>
             </map>
             <map to='#e15759'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
               <bucket>&quot;Uranium&quot;</bucket>
@@ -1863,12 +1863,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pDemandSupply' id='_6FE4D67D525A44D49C9675A870180F63'>
+          <object caption='pEnergyBalance' id='_6FE4D67D525A44D49C9675A870180F63'>
             <properties context=''>
               <relation all='true' connection='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8 (copie)' include-siblings='true' is-recursive='true' name='Union13' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pDemandSupply.csv' />
+                    <expression op='pEnergyBalance.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -1882,12 +1882,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pEnergyByFuel' id='_76EE71DB0BB349B6AECA863820F82016'>
+          <object caption='pEnergyFuel' id='_76EE71DB0BB349B6AECA863820F82016'>
             <properties context=''>
               <relation all='true' connection='textscan.1theoj70mnavz5196v4sy126tyie (copie)' include-siblings='true' is-recursive='true' name='Union5' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pEnergyByFuel.csv' />
+                    <expression op='pEnergyFuel.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -1939,12 +1939,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pCapacityByFuel' id='_D8E0A79FD4764106928A31A5D475FFB2'>
+          <object caption='pCapacityFuel' id='_D8E0A79FD4764106928A31A5D475FFB2'>
             <properties context=''>
               <relation all='true' connection='textscan.1qnqzjs066djz012v3n480ez9smx (copie)' include-siblings='true' is-recursive='true' name='Union6' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pCapacityByFuel.csv' />
+                    <expression op='pCapacityFuel.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -2127,14 +2127,14 @@
           <named-connection caption='pInterconUtilization (2)' name='textscan.1fippds1tqr2h51dwgir30z1ynxn'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pInterconUtilization.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pEnergyByFuelCountry' name='textscan.1theoj70mnavz5196v4sy126tyie'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pEnergyFuelCountry' name='textscan.1theoj70mnavz5196v4sy126tyie'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pCapacityByFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityByFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pCapacityFuelCountry' name='textscan.1qnqzjs066djz012v3n480ez9smx'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCapacityFuelCountry.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pAnnualTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pAnnualTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pYearlyTransmissionCapacity' name='textscan.0dj8u4901rvu411h4oemp138phvu'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pYearlyTransmissionCapacity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pNewCapacityFuel' name='textscan.0lr8ktj10tgslw11ffk750e9laz1'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pNewCapacityFuel.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -2151,8 +2151,8 @@
           <named-connection caption='pEmissionsIntensity' name='textscan.0cbi8bx0g5yzfu1ggwetg0v4myei'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEmissionsIntensity.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pDemandSupply' name='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pDemandSupply.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pEnergyBalance' name='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pEnergyBalance.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pPrice' name='textscan.0i6qw2r1boe6zl1h4z0j41t1z5lf'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pPrice.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -2169,11 +2169,11 @@
           <named-connection caption='pCostSummaryFull' name='textscan.0v2vs2s194b49b146t5cf1eu3ebv'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pCongested' name='textscan.1t3xuja1orrxx1183p8hj1b1rw9c'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCongested.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pCongestionShare' name='textscan.1t3xuja1orrxx1183p8hj1b1rw9c'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCongestionShare.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pCongested (2)' name='textscan.0bg8zrs03jn1631cwel7r08uyn47'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCongested.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pCongestionShare (2)' name='textscan.0bg8zrs03jn1631cwel7r08uyn47'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCongestionShare.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
         </named-connections>
         <_.fcp.ObjectModelEncapsulateLegacy.false...relation all='true' connection='textscan.1u6fqjo0zup8iu1fszv8r18dmf66' include-siblings='true' is-recursive='true' name='Union11' path='' type='batch-union'>
@@ -2241,7 +2241,7 @@
           <relation all='true' connection='textscan.0bg8zrs03jn1631cwel7r08uyn47' include-siblings='true' is-recursive='true' name='Union17' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pCongested.csv' />
+                <expression op='pCongestionShare.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -2256,7 +2256,7 @@
           <relation all='true' connection='textscan.1t3xuja1orrxx1183p8hj1b1rw9c' include-siblings='true' is-recursive='true' name='Union16' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pCongested.csv' />
+                <expression op='pCongestionShare.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -2303,7 +2303,7 @@
           <relation all='true' connection='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8' include-siblings='true' is-recursive='true' name='Union13' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pDemandSupply.csv' />
+                <expression op='pEnergyBalance.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -2318,7 +2318,7 @@
           <relation all='true' connection='textscan.1theoj70mnavz5196v4sy126tyie' include-siblings='true' is-recursive='true' name='Union5' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pEnergyByFuel.csv' />
+                <expression op='pEnergyFuel.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -2363,7 +2363,7 @@
           <relation all='true' connection='textscan.1qnqzjs066djz012v3n480ez9smx' include-siblings='true' is-recursive='true' name='Union6' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pCapacityByFuel.csv' />
+                <expression op='pCapacityFuel.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -2516,7 +2516,7 @@
           <relation all='true' connection='textscan.0dj8u4901rvu411h4oemp138phvu' include-siblings='true' is-recursive='true' name='Union7' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pAnnualTransmissionCapacity.csv' />
+                <expression op='pYearlyTransmissionCapacity.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -4509,7 +4509,7 @@
       <column caption='Value Total Annual Cost by Zone' datatype='real' name='[Calculation_1551771556724764672]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
       </column>
-      <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+      <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
       </column>
       <column caption='Value dispatch fuel uni' datatype='real' name='[Calculation_1623829209315450880]' role='measure' type='quantitative'>
@@ -4666,17 +4666,17 @@
       <_.fcp.ObjectModelTableType.true...column caption='pFuelCosts' datatype='table' name='[__tableau_internal_object_id__].[_13D4D7879E034EAE898A83F335CAE3D6]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pInterchange.csv' datatype='table' name='[__tableau_internal_object_id__].[_2BFA25F686184AAFBCB382E89C8D4F74]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pInterconUtilization 2' datatype='table' name='[__tableau_internal_object_id__].[_545F528282C148B39C9A079FC87E1C6A]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pDemandSupply' datatype='table' name='[__tableau_internal_object_id__].[_6FE4D67D525A44D49C9675A870180F63]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pEnergyByFuel' datatype='table' name='[__tableau_internal_object_id__].[_76EE71DB0BB349B6AECA863820F82016]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pEnergyBalance' datatype='table' name='[__tableau_internal_object_id__].[_6FE4D67D525A44D49C9675A870180F63]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pEnergyFuel' datatype='table' name='[__tableau_internal_object_id__].[_76EE71DB0BB349B6AECA863820F82016]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pEmissionsIntensity' datatype='table' name='[__tableau_internal_object_id__].[_793854CF2DB34058AAB52C80392EF9C3]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pDispatch' datatype='table' name='[__tableau_internal_object_id__].[_9AA97880241B48BABDECF5319623B520]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pNewCapacityFuel' datatype='table' name='[__tableau_internal_object_id__].[_9B193BF505BD407081FF5958CCC525FD]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pCostSummaryFull' datatype='table' name='[__tableau_internal_object_id__].[_AEC56BC284C94C82BF76088C52EBEDC7]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pCongested' datatype='table' name='[__tableau_internal_object_id__].[_B9442543F0F04EF087A2B4BDFF476CB9]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pCongestionShare' datatype='table' name='[__tableau_internal_object_id__].[_B9442543F0F04EF087A2B4BDFF476CB9]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pCostSummary' datatype='table' name='[__tableau_internal_object_id__].[_C534530D9DED4735A28CFC2FC79484D7]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pCapacityByFuel' datatype='table' name='[__tableau_internal_object_id__].[_D8E0A79FD4764106928A31A5D475FFB2]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pAnnualTransmissionCapacity' datatype='table' name='[__tableau_internal_object_id__].[_EC20D51E04D14EDDBAF939AA1B6C415C]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pCongested 2' datatype='table' name='[__tableau_internal_object_id__].[_F162C219741548B781C90C9B3774470B]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pCapacityFuel' datatype='table' name='[__tableau_internal_object_id__].[_D8E0A79FD4764106928A31A5D475FFB2]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pYearlyTransmissionCapacity' datatype='table' name='[__tableau_internal_object_id__].[_EC20D51E04D14EDDBAF939AA1B6C415C]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pCongestionShare 2' datatype='table' name='[__tableau_internal_object_id__].[_F162C219741548B781C90C9B3774470B]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pFuelDispatch' datatype='table' name='[__tableau_internal_object_id__].[_FB78585EE1C54699832ADF189ED8736A]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pInterconUtilization' datatype='table' name='[__tableau_internal_object_id__].[_FD7A9788C75B491CB822C90FD5DA6F17]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='linestring_countries.geojson' datatype='table' name='[__tableau_internal_object_id__].[linestring_countries.geojson_3A4099F7C92C48C79DA68CFA95BE288B]' role='measure' type='quantitative' />
@@ -5075,7 +5075,7 @@
               <bucket>&quot;Unmet reserve costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
               <bucket>&quot;Uranium&quot;</bucket>
@@ -5182,7 +5182,7 @@
               <bucket>&quot;Exports exchange: GWh&quot;</bucket>
             </map>
             <map to='#e15759'>
-              <bucket>&quot;Transmission additions: $m&quot;</bucket>
+              <bucket>&quot;Transmission costs: $m&quot;</bucket>
             </map>
             <map to='#e15759'>
               <bucket>&quot;Uranium&quot;</bucket>
@@ -5403,12 +5403,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pDemandSupply' id='_6FE4D67D525A44D49C9675A870180F63'>
+          <object caption='pEnergyBalance' id='_6FE4D67D525A44D49C9675A870180F63'>
             <properties context=''>
               <relation all='true' connection='textscan.1mp7fu70b08s0p0zvx8xo1s73ru8' include-siblings='true' is-recursive='true' name='Union13' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pDemandSupply.csv' />
+                    <expression op='pEnergyBalance.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -5422,12 +5422,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pEnergyByFuel' id='_76EE71DB0BB349B6AECA863820F82016'>
+          <object caption='pEnergyFuel' id='_76EE71DB0BB349B6AECA863820F82016'>
             <properties context=''>
               <relation all='true' connection='textscan.1theoj70mnavz5196v4sy126tyie' include-siblings='true' is-recursive='true' name='Union5' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pEnergyByFuel.csv' />
+                    <expression op='pEnergyFuel.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -5519,12 +5519,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pCongested' id='_B9442543F0F04EF087A2B4BDFF476CB9'>
+          <object caption='pCongestionShare' id='_B9442543F0F04EF087A2B4BDFF476CB9'>
             <properties context=''>
               <relation all='true' connection='textscan.1t3xuja1orrxx1183p8hj1b1rw9c' include-siblings='true' is-recursive='true' name='Union16' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pCongested.csv' />
+                    <expression op='pCongestionShare.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -5557,12 +5557,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pCapacityByFuel' id='_D8E0A79FD4764106928A31A5D475FFB2'>
+          <object caption='pCapacityFuel' id='_D8E0A79FD4764106928A31A5D475FFB2'>
             <properties context=''>
               <relation all='true' connection='textscan.1qnqzjs066djz012v3n480ez9smx' include-siblings='true' is-recursive='true' name='Union6' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pCapacityByFuel.csv' />
+                    <expression op='pCapacityFuel.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -5576,12 +5576,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pAnnualTransmissionCapacity' id='_EC20D51E04D14EDDBAF939AA1B6C415C'>
+          <object caption='pYearlyTransmissionCapacity' id='_EC20D51E04D14EDDBAF939AA1B6C415C'>
             <properties context=''>
               <relation all='true' connection='textscan.0dj8u4901rvu411h4oemp138phvu' include-siblings='true' is-recursive='true' name='Union7' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pAnnualTransmissionCapacity.csv' />
+                    <expression op='pYearlyTransmissionCapacity.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -5595,12 +5595,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pCongested 2' id='_F162C219741548B781C90C9B3774470B'>
+          <object caption='pCongestionShare 2' id='_F162C219741548B781C90C9B3774470B'>
             <properties context=''>
               <relation all='true' connection='textscan.0bg8zrs03jn1631cwel7r08uyn47' include-siblings='true' is-recursive='true' name='Union17' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pCongested.csv' />
+                    <expression op='pCongestionShare.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -10549,7 +10549,7 @@
             <column caption='Value Total Annual Cost by Zone' datatype='real' name='[Calculation_1551771556724764672]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Value Share Imports' datatype='real' name='[Calculation_1997065025128837124]' role='measure' type='quantitative'>
@@ -10885,7 +10885,7 @@
             <column caption='Value Total Annual Cost by Zone' datatype='real' name='[Calculation_1551771556724764672]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Value Share Imports' datatype='real' name='[Calculation_1997065025128837124]' role='measure' type='quantitative'>
@@ -11196,7 +11196,7 @@
             <column caption='Value PcostSummary' datatype='real' name='[Calculation_127508171045437440]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[value (Union10)]' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display right axis' datatype='string' name='[Calculation_2249266545575505921]' role='dimension' type='nominal'>
@@ -11413,7 +11413,7 @@
             <column caption='Positive values' datatype='boolean' name='[Calculation_127508171051917313]' role='measure' type='nominal'>
               <calculation class='tableau' formula='ABS([Value indicator (copie)_693554406646398977])&gt;0' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display right axis' datatype='string' name='[Calculation_2249266545575505921]' role='dimension' type='nominal'>
@@ -11652,7 +11652,7 @@
             <column caption='Value Total Annual Cost by Zone' datatype='real' name='[Calculation_1551771556724764672]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Value Share Imports' datatype='real' name='[Calculation_1997065025128837124]' role='measure' type='quantitative'>
@@ -11978,7 +11978,7 @@
             <column caption='Value PcostSummary' datatype='real' name='[Calculation_127508171045437440]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[value (Union10)]' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display Sheet Order' datatype='string' name='[Calculation_2426877312875229193]' role='dimension' type='nominal'>
@@ -12241,7 +12241,7 @@
             <column caption='Value PcostSummary' datatype='real' name='[Calculation_127508171045437440]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[value (Union10)]' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display Sheet Order' datatype='string' name='[Calculation_2426877312875229193]' role='dimension' type='nominal'>
@@ -12397,7 +12397,7 @@
             <column caption='Value PcostSummary' datatype='real' name='[Calculation_127508171045437440]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[value (Union10)]' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display Sheet Order' datatype='string' name='[Calculation_2426877312875229193]' role='dimension' type='nominal'>
@@ -12653,7 +12653,7 @@
             <column caption='Value Total Annual Cost by Zone' datatype='real' name='[Calculation_1551771556724764672]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Value Share Imports' datatype='real' name='[Calculation_1997065025128837124]' role='measure' type='quantitative'>
@@ -12990,7 +12990,7 @@
             <column caption='Value PcostSummary' datatype='real' name='[Calculation_127508171045437440]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='[value (Union10)]' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display right axis' datatype='string' name='[Calculation_2249266545575505921]' role='dimension' type='nominal'>
@@ -13212,7 +13212,7 @@
             <column caption='Positive values' datatype='boolean' name='[Calculation_127508171051917313]' role='measure' type='nominal'>
               <calculation class='tableau' formula='ABS([Value indicator (copie)_693554406646398977])&gt;0' />
             </column>
-            <column caption='Value pdemandsupply' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
+            <column caption='Value pEnergyBalance' datatype='real' name='[Calculation_1551771556731363331]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [uni (Union13)]&#13;&#10;WHEN &quot;Exports exchange: GWh&quot; THEN - [value (Union13)]&#13;&#10;ELSE [value (Union13)]&#13;&#10;END' />
             </column>
             <column caption='Display right axis' datatype='string' name='[Calculation_2249266545575505921]' role='dimension' type='nominal'>
@@ -18431,7 +18431,7 @@
       xkPtQ7Ot90a4AhOHcJFdic6mJdzP1cxF93EPCqFg02YKgKFjptA3pmsnmHDRpSBbhVdoKBq7
       BcFFpOtZ7gAeNNTtxYBAycIfiO03vBfTtrDg0/lUNrYSkF3Cg/f1ThNo5+rFrNl1ZEsWL9Hw
       BrVKhcOqY8EnH+MTN4RBo4f1ggUQHB/AkoVLsdscVKxTcuGV1/VKugC1OTv55uc/MBTrCZr7
-      HJG+J94PaKrIY/53f+7M0U8kFEKmVOLlp2XN4h8przIz65mnRdM+yx3AHXd3Oy2OQEYlB7K/
+      HJG+J94PaKrIY/53f+7M0U8kFEKmVoLLp2XN4h8przIz65mnRdM+yx3AHXd3Oy2OQEYlB7K/
       RjwArGcI9B00iqDKbGqMil4rffsPH01pg4GBoybRJ7LrBfxH+Gnee5Q4gpgydhIJk6a4nDTr
       Lv7BATTX1zN0wkVU7tmAyeYiEq0H2C12Lrn2erYsmI/FYgWRRl538QuLY+SQNMwekYw/bwBi
       SznK9qzlk4WruOW2GegrFSRGiK8oPCMnwrpPE14Bw7kgwZO1B3VcN8P5aEbPkVFfX8+0GVdw
