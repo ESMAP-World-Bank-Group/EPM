@@ -30,7 +30,7 @@
 $if not set ROOT_INPUT $set ROOT_INPUT "input"
 $log ROOT_INPUT is "%ROOT_INPUT%"
 
-$if not set FOLDER_INPUT $set FOLDER_INPUT "data_capp"
+$if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 $if not set TRACE $set TRACE 0

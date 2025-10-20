@@ -307,6 +307,11 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
             'zcmap']
     rename_keys = {}
 
+    dimension_aliases = {'pDemandForecast': 'year', 'pDemandProfile': 't'}
+    for key, new_label in dimension_aliases.items():
+        if key in epm_input and 'uni' in epm_input[key].columns:
+            epm_input[key] = epm_input[key].rename(columns={'uni': new_label})
+
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_input.items() if k in keys and k in epm_input.keys()}
 
     if rename_keys is not None:
@@ -322,20 +327,8 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
             if column in epm_dict[key].columns:
                 epm_dict[key][column] = epm_dict[key][column].astype(type)
 
-    """epm_input['ftfindex'].rename(columns={'f': 'fuel'}, inplace=True)
-    mapping_fuel = epm_input['ftfindex'].loc[:, ['fuel', 'value']].drop_duplicates().set_index(
-        'value').squeeze().to_dict()
-
-    # TODO: this may be extracted from pGenDataInput now if we get rid of pTechDataExcel and pZoneIndex in future versions
-    temp = epm_input['pTechData']
-    temp['uni'] = temp['uni'].astype(str)
-    temp = temp[temp['uni'] == 'Assigned Value']
-    mapping_tech = temp.loc[:, ['Abbreviation', 'value']].drop_duplicates().set_index(
-        'value').squeeze()
-    mapping_tech.replace(dict_specs['tech_mapping'], inplace=True)"""
-
     # Modify pGenDataInput
-    df = epm_dict['pGenDataInput'].pivot(index=['scenario', 'zone', 'generator', 'tech', 'fuel'], columns='pGenDataInputHeader', values='value').reset_index(['tech', 'fuel'])
+    df = epm_dict['pGenDataInput'].pivot(index=['scenario', 'zone', 'generator', 'tech', 'fuel'], columns='attribute', values='value').reset_index(['tech', 'fuel'])
     #df = df.loc[:, ['tech', 'fuel']]
     df['fuel'] = df['fuel'].replace(dict_specs['fuel_mapping'])
     # Test if all new fuel values are in dict_specs['fuel_mapping'].values
