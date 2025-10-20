@@ -45,11 +45,6 @@ import pandas as pd
 import datetime
 from multiprocessing import Pool
 import shutil
-from zipfile import ZipFile, ZIP_DEFLATED
-from requests import post, get
-from requests.auth import HTTPBasicAuth
-import gams.engine
-from gams.engine.api import jobs_api
 from gams import GamsWorkspace
 import json
 import argparse
@@ -61,7 +56,6 @@ from pathlib import Path
 import sys
 import chaospy
 import numpy as np
-import shutil
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -75,10 +69,8 @@ PATH_GAMS = {
     'path_cplex_file': 'cplex.opt'
 }
 
-URL_ENGINE = "https://engine.gams.com/api"
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CREDENTIALS = json.load(open(os.path.join(BASE_DIR, 'credentials_engine.json'), 'r'))
+
 
 def normalize_path(df):
     """
@@ -98,49 +90,6 @@ def normalize_path(df):
         return str(Path(df).as_posix()) if isinstance(df, (Path, str)) else df
 
 
-def get_auth_engine():
-    user_name = CREDENTIALS['username']
-    password = CREDENTIALS['password']
-    auth = HTTPBasicAuth(user_name, password)
-    return auth
-
-
-def get_configuration():
-    configuration = gams.engine.Configuration(
-        host='https://engine.gams.com/api',
-        username=CREDENTIALS['username'],
-        password=CREDENTIALS['password'])
-    return configuration
-
-
-def post_job_engine(scenario_name, path_zipfile):
-    """
-    Post a job to the GAMS Engine.
-
-    Parameters
-    ----------
-    scenario_name
-    path_zipfile
-
-    Returns
-    -------
-
-    """
-
-    auth = get_auth_engine()
-
-    # Send the job to the server
-    query_params = {
-        "model": 'engine_{}'.format(scenario_name),
-        "namespace": "wb",
-        "labels": "instance=GAMS_z1d.2xlarge_282_S"
-    }
-    job_files = {"model_data": open(path_zipfile, "rb")}
-    req = post(
-        URL_ENGINE + "/jobs/", params=query_params, files=job_files, auth=auth
-    )
-    return req
-
 
 def launch_epm_checkpoint(scenario,
                scenario_name='',
@@ -152,7 +101,6 @@ def launch_epm_checkpoint(scenario,
                path_hydrogen_file='hydrogen_module.gms',
                path_cplex_file='cplex.opt',
                folder_input=None,
-               path_engine_file=False,
                prefix='' #'simulation_'
                ):
     """
@@ -225,9 +173,8 @@ def launch_epm(scenario,
                path_cplex_file='cplex.opt',
                solver='MIP',
                folder_input=None,
-               path_engine_file=False,
                dict_montecarlo=None,
-               prefix='' #'simulation_'
+               prefix=''  # 'simulation_'
                ):
     """
     Launch the EPM model with the given scenario
@@ -247,15 +194,13 @@ def launch_epm(scenario,
     path_cplex_file: str
         The path to the CPLEX file
     folder_input: str, optional, default None
-    path_engine_file: str, optional, default False
-        The path to the GAMS engine file
     dict_montecarlo: dict, optional, default None
         Correspondence for solution when running montecarlo scenarios
 
     Returns
     -------
-    dict
-        A dictionary with the name of the scenario, the path to the simulation folder and the token for the job
+    None
+        Output files are written to the scenario-specific folder.
     """
 
     # If no scenario name is provided, use the current date and time
@@ -289,11 +234,6 @@ def launch_epm(scenario,
         "LogOption 4", # Write log to standard output and log file
         f"LogFile {logfile}" # Specify the name of the log file
         ]
-    if path_engine_file:
-        print('Save file only to prepare running simulation on remote server')
-        # Run GAMS with the updated environment
-
-        options.extend(['a=c', 'xs=engine_{}'.format(scenario_name)])
 
     if dict_montecarlo is not None:
         loadsolpath = os.path.join(os.path.abspath(os.path.join(cwd, os.pardir)), dict_montecarlo[scenario_name])
@@ -319,36 +259,13 @@ def launch_epm(scenario,
     if rslt.returncode != 0:
         raise RuntimeError('GAMS Error: check GAMS logs file ')
 
-    result = None
-    # Generate the command for Engine
-    if path_engine_file:
-        # Open Engine_Base.gms as text file and replace
-        with open(path_engine_file, 'r') as file:
-            filedata = file.read()
-
-            # Replace the target string
-            filedata = filedata.replace('Engine_Base', 'engine_{}'.format(scenario_name))
-
-        # Store the new file in the simulation folder
-        with open(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'w') as file:
-            file.write(filedata)
-
-        # Make a ZipFile that can be sent to the server
-        with ZipFile(os.path.join(cwd, 'engine_{}.zip'.format(scenario_name)), 'w', ZIP_DEFLATED) as files_ziped:
-            files_ziped.write(os.path.join(cwd, 'engine_{}.gms'.format(scenario_name)), 'engine_{}.gms'.format(scenario_name))
-            files_ziped.write(os.path.join(cwd, 'engine_{}.g00'.format(scenario_name)), 'engine_{}.g00'.format(scenario_name))
-
-        path_zipfile = os.path.join(cwd, 'engine_{}.zip'.format(scenario_name))
-        req = post_job_engine(scenario_name, path_zipfile)
-        result = {'name': scenario_name, 'path': cwd, 'token': req.json()['token']}
-
-    return result
+    return None
 
 
-def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None, path_engine_file=False,
+def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None,
                             solver='MIP', dict_montecarlo=None):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      path_engine_file=path_engine_file, dict_montecarlo=dict_montecarlo, **path_gams, solver=solver)
+                      dict_montecarlo=dict_montecarlo, **path_gams, solver=solver)
 
 def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios.csv',
@@ -358,7 +275,6 @@ def launch_epm_multi_scenarios(config='config.csv',
                                montecarlo=False,
                                montecarlo_nb_samples=10,
                                uncertainties=None,
-                               path_engine_file=False,
                                folder_input=None,
                                project_assessment=None,
                                interco_assessment=None,
@@ -377,16 +293,11 @@ def launch_epm_multi_scenarios(config='config.csv',
         Number of CPUs to use
     selected_scenarios: list, optional, default None
         List of scenarios to run
-    path_engine_file: str, optional, default False
     folder_input: str, optional, default None
         Folder where data input files are stored
     """
 
     working_directory = os.getcwd()
-
-    # Add the full path to the files
-    if path_engine_file:
-        path_engine_file = os.path.join(working_directory, path_engine_file)
 
     # Read the scenario CSV file
     if path_gams is not None:  # path for required gams file is provided
@@ -398,12 +309,21 @@ def launch_epm_multi_scenarios(config='config.csv',
     folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
 
     # Read configuration file
-    config = os.path.join(folder_input, 'config.csv')
-    if not os.path.exists(config):
-        raise FileNotFoundError(f'Configuration file {os.path.abspath(config)} not found.')
+    config_path = os.path.join(folder_input, 'config.csv')
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f'Configuration file {os.path.abspath(config_path)} not found.')
 
-    config = pd.read_csv(config).set_index('paramNames').squeeze()
-    # Remove title section of the configuration file
+    required_columns = ['paramNames', 'file']
+    try:
+        config = pd.read_csv(config_path, usecols=required_columns)
+    except ValueError as err:
+        if 'Usecols do not match columns' in str(err):
+            header_columns = pd.read_csv(config_path, nrows=0).columns
+            missing_columns = [col for col in required_columns if col not in header_columns]
+            print(f"Error: Missing required columns {missing_columns} in {os.path.abspath(config_path)}.")
+            raise ValueError(f"Missing required columns {missing_columns} in {os.path.abspath(config_path)}.") from None
+        raise
+    config = config.set_index('paramNames')['file']
     config = config.dropna()
     # Normalize path
     config = normalize_path(config)
@@ -530,7 +450,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     if not montecarlo:
         with Pool(cpu) as pool:
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, path_engine_file, solver) for k in s.keys()])
+                                  [(s[k], k, path_gams, folder_input, solver) for k in s.keys()])
     else:
         # First, run initial scenarios
         # Ensure config file has extended setting to save output
@@ -538,14 +458,11 @@ def launch_epm_multi_scenarios(config='config.csv',
             for k in s.keys():
                 assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, path_engine_file, solver) for k in s.keys()])
+                                  [(s[k], k, path_gams, folder_input, solver) for k in s.keys()])
         # Modify config file to ensure limited output saved
         with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, path_engine_file, solver, dict_montecarlo) for k in scenarios_montecarlo.keys()])
-
-    if path_engine_file:
-        pd.DataFrame(result).to_csv('tokens_simulation.csv', index=False)
+                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, solver, dict_montecarlo) for k in scenarios_montecarlo.keys()])
 
     os.chdir(working_directory)
 
@@ -1284,24 +1201,6 @@ def perform_interco_assessment(interco_assessment, s, delay=5):
 
     return s
 
-def get_job_engine(tokens_simulation):
-    # {'baseline': 'a241bf62-34db-436d-8f4f-113333d3c6b9'}
-
-    tokens = pd.read_csv(tokens_simulation).set_index('path')['token']
-
-    configuration = get_configuration()
-
-    for scenario, token in tokens.items():
-
-        with gams.engine.ApiClient(configuration) as api_client:
-            if not os.path.exists(scenario):
-                os.makedirs(scenario)
-
-            job_api_instance = jobs_api.JobsApi(api_client)
-
-        with ZipFile(job_api_instance.get_job_zip(token)) as zf:
-            zf.extractall(path=scenario)
-
 def main(test_args=None):
     parser = argparse.ArgumentParser(description="Process some configurations.")
 
@@ -1414,13 +1313,6 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--engine",
-        type=str,
-        default=None,
-        help="Name of the path engine file (default: None)"
-    )
-
-    parser.add_argument(
         "--postprocess",
         type=str,
         default=None,
@@ -1506,7 +1398,6 @@ def main(test_args=None):
                                                     project_assessment=args.project_assessment,
                                                     interco_assessment=args.interco_assessment,
                                                     simple=args.simple,
-                                                    path_engine_file=args.engine,
                                                     solver=args.solver)
     else:
         print(f"Project folder: {args.postprocess}")
@@ -1534,4 +1425,3 @@ def main(test_args=None):
 
 if __name__ == '__main__':
     main()
-

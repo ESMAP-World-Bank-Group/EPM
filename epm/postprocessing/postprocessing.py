@@ -778,7 +778,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     df_line = epm_input['pDemandForecast'].copy()
                     df_line = df_line[df_line['scenario'] == scenario]
                     df_line = df_line.drop(columns=['scenario'])
-                    df_line = df_line[df_line['pe'] == 'peak']
+                    df_line = df_line[df_line['type'] == 'peak']
                     df_line['value'] /= 1e3
                     
                     

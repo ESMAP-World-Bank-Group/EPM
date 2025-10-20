@@ -377,17 +377,6 @@ H2statusmap(hh,H2status) = pH2DataExcel(hh,'status')=H2statIndex(H2status);
 * h2zmap(hh,z) = pH2DataExcel(hh,'Zone')=pZoneIndex(z);
 h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 
-
-execute_unload "input.gdx" y pHours pTechData pGenDataInput pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
-zext ftfindex gmap gfmap gprimf zcmap sRelevant pDemandData pDemandForecast
-pDemandProfile pFuelCarbonContent pCarbonPrice pEmissionsCountry
-pEmissionsTotal pFuelPrice pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailability
-pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem pSettings
-pPlanningReserveMargin pEnergyEfficiencyFactor pTradePrice pMaxAnnualExternalTradeShare
-pExtTransferLimit pNewTransmission pMinImport
-pH2DataExcel hh pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pExternalH2 pHeatrate
-;
-
 *-------------------------------------------------------------------------------------
 
 *--- Parameter initialisation for same demand profile for all years
@@ -577,8 +566,6 @@ pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenP
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
 pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
-* Capacity credit for storage (batteries)
-pCapacityCredit(st,y) = pCapCreditSto;
 
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
