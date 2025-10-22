@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Postprocessing Output Overview &#8212; Energy Planning Model</title>
+    <title>EPM Output Overview &#8212; Energy Planning Model</title>
   
   
   
@@ -305,7 +305,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Postprocessing Output Overview
+                        EPM Output Overview
                       </a>
                     </li>
                 
@@ -320,13 +320,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="postprocessing_output_overview.html">
                         Postprocessing Output Overview
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="postprocessing_output_details.html">
-                        EPM Output documentation
                       </a>
                     </li>
                 
@@ -697,7 +690,7 @@ const thebe_selector_output = ".output, .cell_output"
 
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
-                        Postprocessing Output Overview
+                        EPM Output Overview
                       </a>
                     </li>
                 
@@ -712,13 +705,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="postprocessing_output_overview.html">
                         Postprocessing Output Overview
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="postprocessing_output_details.html">
-                        EPM Output documentation
                       </a>
                     </li>
                 
@@ -952,10 +938,9 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Postprocessing Output Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">EPM Output Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_output.html">Output Folder Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="postprocessing_output_details.html">EPM Output documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_tableau.html">Tableau Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
 </ul>
@@ -1149,7 +1134,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Postprocessing Output Overview</h1>
+    <h1>EPM Output Overview</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -1159,6 +1144,11 @@ title="Print to PDF"
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tips">
+   Tips
+  </a>
+ </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#capacity">
    1. CAPACITY
@@ -1219,6 +1209,11 @@ title="Print to PDF"
    OTHER OUTPUTS &amp; AUXILIARY VARIABLES
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-only-not-exported-by-default">
+   Model-Only (Not Exported by Default)
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -1228,70 +1223,121 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="postprocessing-output-overview">
-<h1>Postprocessing Output Overview<a class="headerlink" href="#postprocessing-output-overview" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="epm-output-overview">
+<h1>EPM Output Overview<a class="headerlink" href="#epm-output-overview" title="Permalink to this heading">#</a></h1>
+<p>The postprocessing pipeline reads the GAMS run artifacts located under each scenario folder (for example <code class="docutils literal notranslate"><span class="pre">output/&lt;run_id&gt;/&lt;scenario&gt;/</span></code>). Two types of result files are produced when the model is executed with <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">0</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> – the complete data dump written by the <code class="docutils literal notranslate"><span class="pre">execute_unload</span></code> statement in <code class="docutils literal notranslate"><span class="pre">generate_report.gms</span></code>.</p></li>
+<li><p>Comma-separated files created by the embedded GAMS Connect block in <code class="docutils literal notranslate"><span class="pre">generate_report.gms</span></code>. Each CSV mirrors the identically named GDX symbol and is stored next to the scenario GDX file.</p></li>
+</ul>
+<p>Unless stated otherwise, the columns <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> and <code class="docutils literal notranslate"><span class="pre">CSV</span> <span class="pre">export</span></code> indicate whether each symbol is produced by default when <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">0</span></code>.</p>
+<section id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Large CSVs can be slimmed down using <code class="docutils literal notranslate"><span class="pre">reduce_definition_csv</span></code> in <code class="docutils literal notranslate"><span class="pre">postprocessing.py</span></code> (keeps first, middle, last year).</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">1</span></code>, only <code class="docutils literal notranslate"><span class="pre">pYearlyCostsZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsZoneFull</span></code>, and <code class="docutils literal notranslate"><span class="pre">pEnergyBalance</span></code> are exported; the tables below assume the default detailed reporting.</p></li>
+</ul>
+</section>
 <section id="capacity">
 <h2>1. CAPACITY<a class="headerlink" href="#capacity" title="Permalink to this heading">#</a></h2>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pCapacityPlant</p></td>
 <td><p>Installed capacity [MW] by plant, zone, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCapacityTechFuel</p></td>
 <td><p>Installed capacity [MW] by technology, fuel, and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pCapacityFuel</p></td>
 <td><p>Installed capacity [MW] by fuel and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCapacityTechFuelCountry</p></td>
 <td><p>Installed capacity [MW] by technology, fuel, and country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pCapacityFuelCountry</p></td>
 <td><p>Installed capacity [MW] by fuel and country</p></td>
-</tr>
-<tr class="row-odd"><td><p>pRetirementsPlant</p></td>
-<td><p>Retired capacity [MW] by plant, zone, and year</p></td>
-</tr>
-<tr class="row-even"><td><p>pRetirementsFuel</p></td>
-<td><p>Retired capacity [MW] by fuel and zone</p></td>
-</tr>
-<tr class="row-odd"><td><p>pRetirementsCountry</p></td>
-<td><p>Total retired capacity [MW] by country and year</p></td>
-</tr>
-<tr class="row-even"><td><p>pRetirementsFuelCountry</p></td>
-<td><p>Retired capacity [MW] by fuel and country</p></td>
-</tr>
-<tr class="row-odd"><td><p>pNewCapacityFuel</p></td>
-<td><p>Newly added capacity [MW] by fuel and zone</p></td>
-</tr>
-<tr class="row-even"><td><p>pNewCapacityTech</p></td>
-<td><p>Newly added capacity [MW] by technology and zone</p></td>
-</tr>
-<tr class="row-odd"><td><p>pNewCapacityFuelCountry</p></td>
-<td><p>Newly added capacity [MW] by fuel and country</p></td>
-</tr>
-<tr class="row-even"><td><p>pNewCapacityTechCountry</p></td>
-<td><p>Newly added capacity [MW] by technology and country</p></td>
-</tr>
-<tr class="row-odd"><td><p>pAnnualTransmissionCapacity</p></td>
-<td><p>Total available transmission capacity [MW] between internal zones</p></td>
-</tr>
-<tr class="row-even"><td><p>pAdditionalCapacity</p></td>
-<td><p>Additional transmission capacity [MW] between internal zones</p></td>
-</tr>
-<tr class="row-odd"><td><p>pCapacitySummary</p></td>
-<td><p>Summary of capacity indicators [MW] by zone and year</p></td>
-</tr>
-<tr class="row-even"><td><p>pCapacitySummaryCountry</p></td>
-<td><p>Summary of capacity indicators [MW] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCapacityPlantH2</p></td>
 <td><p>Installed electrolyzer capacity [MW] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pRetirementsPlant</p></td>
+<td><p>Retired capacity [MW] by plant, zone, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pRetirementsFuel</p></td>
+<td><p>Retired capacity [MW] by fuel and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pRetirementsCountry</p></td>
+<td><p>Total retired capacity [MW] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pRetirementsFuelCountry</p></td>
+<td><p>Retired capacity [MW] by fuel and country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pNewCapacityFuel</p></td>
+<td><p>Newly added capacity [MW] by fuel and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pNewCapacityTech</p></td>
+<td><p>Newly added capacity [MW] by technology and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pNewCapacityFuelCountry</p></td>
+<td><p>Newly added capacity [MW] by fuel and country</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pNewCapacityTechCountry</p></td>
+<td><p>Newly added capacity [MW] by technology and country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pAnnualTransmissionCapacity</p></td>
+<td><p>Total available transmission capacity [MW] between internal zones</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pAdditionalTransmissionCapacity</p></td>
+<td><p>Additional transmission capacity [MW] between internal zones</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>pCapacitySummary</p></td>
+<td><p>Summary of capacity indicators [MW] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pCapacitySummaryCountry</p></td>
+<td><p>Summary of capacity indicators [MW] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 </tbody>
 </table>
@@ -1302,53 +1348,115 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pCostsPlant</p></td>
 <td><p>Yearly cost breakdown by plant and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCapexInvestment</p></td>
-<td><p>Annual CAPEX investment in USD by zone and year</p></td>
+<td><p>Annual CAPEX investment [USD] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pPrice</p></td>
+<tr class="row-even"><td><p>pCapexInvestmentPlant</p></td>
+<td><p>CAPEX investment [USD] by plant and component</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pCapexInvestmentTransmission</p></td>
+<td><p>Transmission CAPEX [USD] by line and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>pCapexInvestmentComponent</p></td>
+<td><p>Annual CAPEX investment [USD] by component and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pPrice</p></td>
 <td><p>Marginal cost [USD/MWh] by zone, time, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pImportCostsInternal</p></td>
-<td><p>Import costs from internal zones [USD] by zone and year</p></td>
+<tr class="row-even"><td><p>pImportCostsInternal</p></td>
+<td><p>Import costs with internal zones [USD] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pExportRevenuesInternal</p></td>
-<td><p>Export revenues to internal zones [USD] by zone and year</p></td>
+<tr class="row-odd"><td><p>pExportRevenuesInternal</p></td>
+<td><p>Export revenues with internal zones [USD] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pCongestionRevenues</p></td>
+<tr class="row-even"><td><p>pCongestionRevenues</p></td>
 <td><p>Congestion rents [USD] from saturated internal lines by year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pTradeSharedBenefits</p></td>
-<td><p>Shared congestion rents [USD] allocated between zones</p></td>
+<tr class="row-odd"><td><p>pTradeSharedBenefits</p></td>
+<td><p>Congestion rents shared equally between zones [USD]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pCostZone</p></td>
+<tr class="row-even"><td><p>pYearlyCostsZone</p></td>
 <td><p>Annual cost summary [million USD] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostCountry</p></td>
+<tr class="row-odd"><td><p>pYearlyCostsCountry</p></td>
 <td><p>Annual cost summary [million USD] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pCostAverageCountry</p></td>
+<tr class="row-even"><td><p>pCostAverageCountry</p></td>
 <td><p>Average annual cost [million USD] by country (undiscounted)</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostSystem</p></td>
+<tr class="row-odd"><td><p>pCostsZone</p></td>
+<td><p>Total cost [million USD] by zone and cost category</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pCostsSystem</p></td>
 <td><p>System-level cost summary [million USD], weighted and discounted</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pCostsSystemPerMWh</p></td>
+<td><p>System-level cost summary [USD/MWh], weighted and discounted</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>pYearlyCostsSystem</p></td>
+<td><p>Annual system cost summary [million USD] by cost category and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pFuelCosts</p></td>
 <td><p>Annual fuel costs [million USD] by fuel, zone, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pFuelCostsCountry</p></td>
 <td><p>Annual fuel costs [million USD] by fuel, country, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pFuelConsumption</p></td>
 <td><p>Annual fuel consumption [MMBtu] by fuel, zone, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pFuelConsumptionCountry</p></td>
 <td><p>Annual fuel consumption [MMBtu] by fuel, country, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1359,53 +1467,85 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pEnergyPlant</p></td>
 <td><p>Annual energy generation [GWh] by plant, zone, and year</p></td>
-</tr>
-<tr class="row-odd"><td><p>pEnergyFuel</p></td>
-<td><p>Annual energy generation [GWh] by fuel and zone</p></td>
-</tr>
-<tr class="row-even"><td><p>pEnergyFuelCountry</p></td>
-<td><p>Annual energy generation [GWh] by fuel and country</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pEnergyTechFuel</p></td>
 <td><p>Annual energy generation [GWh] by technology, fuel, and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pEnergyTechFuelCountry</p></td>
+<tr class="row-even"><td><p>pEnergyFuel</p></td>
+<td><p>Annual energy generation [GWh] by fuel and zone</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>pEnergyTechFuelCountry</p></td>
 <td><p>Annual energy generation [GWh] by technology, fuel, and country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pEnergyFuelCountry</p></td>
+<td><p>Annual energy generation [GWh] by fuel and country</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pEnergyBalance</p></td>
-<td><p>Annual supply–demand balance [GWh] by zone</p></td>
+<td><p>Annual supply-demand balance [GWh] by zone</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pEnergyBalanceCountry</p></td>
-<td><p>Annual supply–demand balance [GWh] by country</p></td>
+<td><p>Annual supply-demand balance [GWh] by country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pEnergyBalanceH2</p></td>
-<td><p>Annual hydrogen supply–demand balance [mmBTU] by zone</p></td>
+<td><p>Annual hydrogen supply-demand balance [mmBTU] by zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pEnergyBalanceCountryH2</p></td>
-<td><p>Annual hydrogen supply–demand balance [mmBTU] by country</p></td>
+<td><p>Annual hydrogen supply-demand balance [mmBTU] by country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pUtilizationPlant</p></td>
 <td><p>Annual plant utilization factor</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pUtilizationTech</p></td>
 <td><p>Annual technology utilization factor</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pUtilizationFuel</p></td>
 <td><p>Annual average capacity factor by fuel</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pUtilizationTechFuel</p></td>
 <td><p>Annual average capacity factor by technology and fuel</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pUtilizationFuelCountry</p></td>
 <td><p>Annual average capacity factor by fuel and country</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pUtilizationTechFuelCountry</p></td>
 <td><p>Annual average capacity factor by technology, fuel, and country</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 </tbody>
 </table>
@@ -1416,17 +1556,25 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pDispatchPlant</p></td>
-<td><p>Plant-level hourly dispatch and reserve [MW] by zone, plant, time, and year</p></td>
+<td><p>Plant-level hourly dispatch and reserve [MW]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pDispatchFuel</p></td>
-<td><p>Fuel-level hourly dispatch [MW] by zone, fuel, time, and year</p></td>
+<td><p>Fuel-level hourly dispatch [MW]</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pDispatch</p></td>
-<td><p>Zone-level hourly dispatch and flows [MW] (imports, exports, unmet demand, storage charge, demand)</p></td>
+<td><p>Zone-level hourly dispatch and flows [MW]</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 </tbody>
 </table>
@@ -1437,23 +1585,35 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pReserveSpinningPlantZone</p></td>
-<td><p>Annual spinning reserve provided by plant [GWh] per zone and year</p></td>
+<td><p>Spinning reserve provided by plant [MWh] per zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pReserveSpinningFuelZone</p></td>
-<td><p>Annual spinning reserve provided by fuel [GWh] per zone and year</p></td>
+<td><p>Spinning reserve provided by fuel [MWh] per zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pReserveSpinningPlantCountry</p></td>
-<td><p>Annual spinning reserve provided by plant [GWh] per country and year</p></td>
+<td><p>Spinning reserve provided by plant [MWh] per country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pReserveMargin</p></td>
-<td><p>Reserve margin indicators by zone and year (peak demand, total firm capacity, reserve margin)</p></td>
+<td><p>Reserve margin indicators by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pReserveMarginCountry</p></td>
 <td><p>Reserve margin indicators by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1464,53 +1624,80 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pInterchange</p></td>
 <td><p>Annual energy exchanged [GWh] between internal zones</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pInterconUtilization</p></td>
 <td><p>Interconnection utilization [%] between internal zones</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pLossesTransmission</p></td>
 <td><p>Transmission losses [MWh] per internal zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pInterchangeCountry</p></td>
 <td><p>Annual energy exchanged [GWh] between countries</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pLossesTransmissionCountry</p></td>
 <td><p>Transmission losses [MWh] per country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>isCongested</p></td>
-<td><p>Congestion indicator (binary) for line z–z2 per timestep</p></td>
+<tr class="row-odd"><td><p>pCongestionShare</p></td>
+<td><p>Share of time congested [%] for line z–z2</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCongestionShare</p></td>
-<td><p>Share of time congested [%] for each internal line</p></td>
-</tr>
-<tr class="row-odd"><td><p>pHourlyInterchangeExternal</p></td>
+<tr class="row-even"><td><p>pHourlyInterchangeExternal</p></td>
 <td><p>Hourly external trade [MW] per zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyInterchangeExternal</p></td>
+<tr class="row-odd"><td><p>pYearlyInterchangeExternal</p></td>
 <td><p>Annual external trade [GWh] per zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pYearlyInterchangeExternalCountry</p></td>
+<tr class="row-even"><td><p>pYearlyInterchangeExternalCountry</p></td>
 <td><p>Annual external trade [GWh] per country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pHourlyInterchangeExternalCountry</p></td>
+<tr class="row-odd"><td><p>pHourlyInterchangeExternalCountry</p></td>
 <td><p>Hourly external trade [MW] per country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pInterchangeExternalExports</p></td>
+<tr class="row-even"><td><p>pInterchangeExternalExports</p></td>
 <td><p>Annual exports [GWh] from zone to external zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pInterchangeExternalImports</p></td>
-<td><p>Annual imports [GWh] from external zone to zone</p></td>
+<tr class="row-odd"><td><p>pInterchangeExternalImports</p></td>
+<td><p>Annual imports [GWh] from external zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pInterconUtilizationExternalExports</p></td>
+<tr class="row-even"><td><p>pInterconUtilizationExternalExports</p></td>
 <td><p>External export line utilization [%]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pInterconUtilizationExternalImports</p></td>
+<tr class="row-odd"><td><p>pInterconUtilizationExternalImports</p></td>
 <td><p>External import line utilization [%]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1521,26 +1708,40 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pEmissionsZone</p></td>
-<td><p>CO2 emissions [Mt] by zone and year</p></td>
+<td><p>CO₂ emissions [Mt] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pEmissionsIntensityZone</p></td>
-<td><p>CO2 intensity [tCO2/GWh] by zone and year</p></td>
+<td><p>CO₂ intensity [tCO₂/GWh] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pEmissionsCountrySummary</p></td>
-<td><p>CO2 emissions and backstop emissions [Mt] by country and year</p></td>
+<td><p>CO₂ emissions [Mt] by country, type, and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pEmissionsIntensityCountry</p></td>
-<td><p>CO2 intensity [tCO2/GWh] by country and year</p></td>
+<td><p>CO₂ intensity [tCO₂/GWh] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pEmissionMarginalCosts</p></td>
-<td><p>Marginal cost of system emission constraint [USD/tCO2]</p></td>
+<td><p>Marginal cost of system emission constraint [USD/tCO₂]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pEmissionMarginalCostsCountry</p></td>
-<td><p>Marginal cost of country emission constraint [USD/tCO2]</p></td>
+<td><p>Marginal cost of country emission constraint [USD/tCO₂]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1551,41 +1752,45 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pYearlyPrice</p></td>
 <td><p>Demand-weighted average electricity price [USD/MWh] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pYearlyPriceExport</p></td>
 <td><p>Flow-weighted average export price [USD/MWh] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pYearlyPriceImport</p></td>
 <td><p>Flow-weighted average import price [USD/MWh] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pYearlyPriceHub</p></td>
 <td><p>Flow-weighted hub price [USD/MWh] by zone and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pYearlyPriceCountry</p></td>
 <td><p>Demand-weighted average electricity price [USD/MWh] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pYearlyPriceExportCountry</p></td>
 <td><p>Flow-weighted average export price [USD/MWh] by country and year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pYearlyPriceImportCountry</p></td>
 <td><p>Flow-weighted average import price [USD/MWh] by country and year</p></td>
-</tr>
-<tr class="row-odd"><td><p>pFlowMWSum</p></td>
-<td><p>Sum of hourly MW flows over the year (used for weights)</p></td>
-</tr>
-<tr class="row-even"><td><p>pFlowMWh</p></td>
-<td><p>Annual energy flow [MWh] between zones</p></td>
-</tr>
-<tr class="row-odd"><td><p>pCountryExportFlowMWh</p></td>
-<td><p>Annual exported energy [MWh] from country</p></td>
-</tr>
-<tr class="row-even"><td><p>pCountryImportFlowMWh</p></td>
-<td><p>Annual imported energy [MWh] into country</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1596,38 +1801,60 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pCSPBalance</p></td>
-<td><p>CSP hourly output by type [MW] (thermal, storage input/output, power)</p></td>
+<td><p>CSP hourly output by type [MW]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCSPComponents</p></td>
-<td><p>CSP installed components and metrics (thermal field, storage, power block, solar multiple, storage hours)</p></td>
+<td><p>CSP installed components and metrics</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pPVwSTOBalance</p></td>
 <td><p>PV+Storage hourly output by type [MW]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pPVwSTOComponents</p></td>
 <td><p>PV+Storage installed components and metrics</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pStorageBalance</p></td>
 <td><p>Generic storage hourly output [MW] and storage level</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pStorageComponents</p></td>
 <td><p>Generic storage installed capacity [MW, MWh] and storage hours</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pSolarPower</p></td>
 <td><p>Solar hourly output [MWh]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pSolarEnergyZone</p></td>
 <td><p>Annual solar energy [MWh] by zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pSolarValueZone</p></td>
 <td><p>Average market value of solar [USD/MWh] by zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pSolarCost</p></td>
 <td><p>Levelized cost of solar [USD/MWh] by zone</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1638,50 +1865,40 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pPlantAnnualLCOE</p></td>
 <td><p>Plant-level LCOE [USD/MWh] by year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>pZonalAverageCost</p></td>
 <td><p>Zone average total cost [USD/MWh] by year</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pZonalAverageGenCost</p></td>
 <td><p>Zone average generation cost [USD/MWh] by year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCountryAverageCost</p></td>
 <td><p>Country average total cost [USD/MWh] by year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-even"><td><p>pCountryAverageGenCost</p></td>
 <td><p>Country average generation cost [USD/MWh] by year</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pSystemAverageCost</p></td>
+<tr class="row-odd"><td><p>pYearlySystemAverageCost</p></td>
 <td><p>System average cost [USD/MWh] by year</p></td>
-</tr>
-<tr class="row-even"><td><p>pZoneTradeCost</p></td>
-<td><p>Combined internal/external trade costs by zone and year</p></td>
-</tr>
-<tr class="row-odd"><td><p>pZoneGenCost</p></td>
-<td><p>Generation-only cost by zone and year</p></td>
-</tr>
-<tr class="row-even"><td><p>pZoneTotalCost</p></td>
-<td><p>Total system cost by zone and year</p></td>
-</tr>
-<tr class="row-odd"><td><p>pZoneEnergyMWh</p></td>
-<td><p>Annual energy output by zone [MWh]</p></td>
-</tr>
-<tr class="row-even"><td><p>pCountryEnergyMWh</p></td>
-<td><p>Annual energy output by country [MWh]</p></td>
-</tr>
-<tr class="row-odd"><td><p>pZoneCostEnergyBasis</p></td>
-<td><p>Energy basis for cost normalization by zone [MWh]</p></td>
-</tr>
-<tr class="row-even"><td><p>pCountryCostEnergyBasis</p></td>
-<td><p>Energy basis for cost normalization by country [MWh]</p></td>
-</tr>
-<tr class="row-odd"><td><p>pPlantEnergyMWh</p></td>
-<td><p>Annual energy production by plant [MWh]</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1692,26 +1909,19 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pSolverParameters</p></td>
 <td><p>Solver status, time, and gap diagnostics</p></td>
-</tr>
-<tr class="row-odd"><td><p>“Solver Status”</p></td>
-<td><p>Model status code</p></td>
-</tr>
-<tr class="row-even"><td><p>“Solver Time: ms”</p></td>
-<td><p>Solution time in milliseconds</p></td>
-</tr>
-<tr class="row-odd"><td><p>“Absolute gap”</p></td>
-<td><p>Absolute optimality gap</p></td>
-</tr>
-<tr class="row-even"><td><p>“Relative gap”</p></td>
-<td><p>Relative optimality gap</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
+<p><code class="docutils literal notranslate"><span class="pre">pSolverParameters</span></code> includes entries such as <code class="docutils literal notranslate"><span class="pre">Solver</span> <span class="pre">Status</span></code>, <code class="docutils literal notranslate"><span class="pre">Solver</span> <span class="pre">Time:</span> <span class="pre">ms</span></code>, <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">gap</span></code>, and <code class="docutils literal notranslate"><span class="pre">Relative</span> <span class="pre">gap</span></code>.</p>
 </section>
 <section id="other-outputs-auxiliary-variables">
 <h2>OTHER OUTPUTS &amp; AUXILIARY VARIABLES<a class="headerlink" href="#other-outputs-auxiliary-variables" title="Permalink to this heading">#</a></h2>
@@ -1719,20 +1929,105 @@ title="Print to PDF"
 <thead>
 <tr class="row-odd"><th class="head"><p>Variable</p></th>
 <th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>pSettings</p></td>
 <td><p>Model configuration and run settings</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-odd"><td><p>zcmap</p></td>
 <td><p>Zone-to-country mapping</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
 </tr>
 <tr class="row-even"><td><p>pVarCost</p></td>
 <td><p>Variable cost inputs by generator/fuel</p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
 </tr>
 <tr class="row-odd"><td><p>pCapacityCredit</p></td>
 <td><p>Capacity credit factors by generator</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="model-only-not-exported-by-default">
+<h2>Model-Only (Not Exported by Default)<a class="headerlink" href="#model-only-not-exported-by-default" title="Permalink to this heading">#</a></h2>
+<p>These symbols are defined in <code class="docutils literal notranslate"><span class="pre">generate_report.gms</span></code> but are not written to <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> or the default CSV set. Use them only if you plan to add custom export instructions.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>epmresults.gdx</p></th>
+<th class="head"><p>CSV export</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>pCountryCostEnergyBasis</p></td>
+<td><p>Energy basis for cost normalization by country [MWh]</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pCountryEnergyMWh</p></td>
+<td><p>Annual energy output by country [MWh]</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pCountryExportFlowMWh</p></td>
+<td><p>Annual exported energy [MWh] from country</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pCountryImportFlowMWh</p></td>
+<td><p>Annual imported energy [MWh] into country</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pFlowMWSum</p></td>
+<td><p>Sum of hourly MW flows over the year (flow weights)</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pFlowMWh</p></td>
+<td><p>Annual energy flow [MWh] between zones</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pPlantEnergyMWh</p></td>
+<td><p>Annual energy production by plant [MWh]</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pZoneCostEnergyBasis</p></td>
+<td><p>Energy basis for cost normalization by zone [MWh]</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pZoneEnergyMWh</p></td>
+<td><p>Annual energy output by zone [MWh]</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pZoneGenCost</p></td>
+<td><p>Generation-only cost by zone and year</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-even"><td><p>pZoneTotalCost</p></td>
+<td><p>Total system cost by zone and year</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p>pZoneTradeCost</p></td>
+<td><p>Combined internal/external trade costs by zone and year</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -1798,6 +2093,11 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#tips">
+   Tips
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#capacity">
    1. CAPACITY
   </a>
@@ -1857,6 +2157,11 @@ title="Print to PDF"
    OTHER OUTPUTS &amp; AUXILIARY VARIABLES
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-only-not-exported-by-default">
+   Model-Only (Not Exported by Default)
+  </a>
+ </li>
 </ul>
 
 </nav>
@@ -1885,7 +2190,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Oct 20, 2025.<br>
+Last updated on Oct 22, 2025.<br>
 </p>
   </div>
   
