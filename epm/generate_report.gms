@@ -31,6 +31,81 @@
 $onMulti
 * Report
 
+set sumhdr /
+  "Annualized capex: $m",
+  "Fixed O&M: $m",
+  "Variable O&M: $m",
+  "Fuel costs: $m",
+  "Transmission costs: $m",
+  "Spinning reserve costs: $m",
+  "Unmet demand costs: $m",
+  "Unmet country spinning reserve costs: $m",
+  "Unmet country planning reserve costs: $m",
+  "Unmet country CO2 backstop cost: $m",
+  "Unmet system planning reserve costs: $m",
+  "Unmet system spinning reserve costs: $m",
+  "Unmet system CO2 backstop cost: $m",
+  "Excess generation: $m",
+  "VRE curtailment: $m",
+  "Import costs with external zones: $m",
+  "Export revenues with external zones: $m",
+  "Import costs with internal zones: $m",
+  "Export revenues with internal zones: $m",
+  "Trade shared benefits: $m",
+  "Carbon costs: $m",
+  "NPV of system cost: $m"
+/;
+
+* Set of demand-related summary labels
+set dshdr /
+  "Demand: GWh",
+  "Electricity demand for H2 production: GWh",
+  "Total Demand (Including P to H2): GWh",
+  "Total production: GWh",
+  "Unmet demand: GWh",
+  "Surplus generation: GWh",
+  "Imports exchange: GWh",
+  "Exports exchange: GWh",
+  "Net interchange: GWh",
+  "Net interchange Ratio: GWh"
+/;
+
+* H2-specific
+set dsH2hdr /
+  "Electricity demand for H2 production: GWh",
+  "Total H2 Production: mmBTU",
+  "External Demand of H2: mmBTU",
+  "Unmet External Demand of H2: mmBTU",
+  "H2 produced for power production: mmBTU"
+/;
+
+set zgmap(z,g); option zgmap<gzmap;
+set zH2map(z,hh); option zH2map<h2zmap;
+
+set capexComponent /
+  Generation,
+  StorageEnergy,
+  CSPThermalField,
+  CSPStorage,
+  Hydrogen,
+  Transmission
+/;
+
+set capexComponentPlant(capexComponent) /
+  Generation,
+  StorageEnergy,
+  CSPThermalField,
+  CSPStorage
+/;
+
+set fEnergyBalance /
+  #f,
+  UnmetDemand,
+  Surplus,
+  Imports,
+  Exports
+/;
+
 Parameters
 
 * ============================================================
@@ -100,6 +175,7 @@ Parameters
   pEnergyPlant(z,g,y)                     'Annual energy generation by plant [GWh]'
   pEnergyFuel(z,f,y)                      'Annual energy generation by fuel and zone [GWh]'
   pEnergyFuelCountry(c,f,y)               'Annual energy generation by fuel and country [GWh]'
+  pEnergyFuelComplete(z,*,y) 'Energy balance by fuel and slack components [GWh]'
   pEnergyTechFuel(z,tech,f,y)             'Annual energy generation by technology, fuel, and zone [GWh]'
   pEnergyTechFuelCountry(c,tech,f,y)      'Annual energy generation by technology, fuel, and country [GWh]'
   
@@ -203,6 +279,8 @@ Parameters
   pZonalAverageGenCost(z,y)        'Zone average generation cost [USD/MWh] by year'
   pCountryAverageCost(c,y)         'Country average total cost [USD/MWh] by year'
   pCountryAverageGenCost(c,y)      'Country average generation cost [USD/MWh] by year'
+  pYearlyAverageCostZone(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
+  pYearlyAverageCostCountry(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
   pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
 
 * ============================================================
@@ -211,72 +289,9 @@ Parameters
    pSolverParameters(*)                      'Solver parameters'                                                                                 
 ;
 
-set sumhdr /
-  "Annualized capex: $m",
-  "Fixed O&M: $m",
-  "Variable O&M: $m",
-  "Fuel costs: $m",
-  "Transmission costs: $m",
-  "Spinning reserve costs: $m",
-  "Unmet demand costs: $m",
-  "Unmet country spinning reserve costs: $m",
-  "Unmet country planning reserve costs: $m",
-  "Unmet country CO2 backstop cost: $m",
-  "Unmet system planning reserve costs: $m",
-  "Unmet system spinning reserve costs: $m",
-  "Unmet system CO2 backstop cost: $m",
-  "Excess generation: $m",
-  "VRE curtailment: $m",
-  "Import costs with external zones: $m",
-  "Export revenues with external zones: $m",
-  "Import costs with internal zones: $m",
-  "Export revenues with internal zones: $m",
-  "Trade shared benefits: $m",
-  "Carbon costs: $m",
-  "NPV of system cost: $m"
-/;
 
-* Set of demand-related summary labels
-set dshdr /
-  "Demand: GWh",
-  "Electricity demand for H2 production: GWh",
-  "Total Demand (Including P to H2): GWh",
-  "Total production: GWh",
-  "Unmet demand: GWh",
-  "Surplus generation: GWh",
-  "Imports exchange: GWh",
-  "Exports exchange: GWh",
-  "Net interchange: GWh",
-  "Net interchange Ratio: GWh"
-/;
 
-* H2-specific
-set dsH2hdr /
-  "Electricity demand for H2 production: GWh",
-  "Total H2 Production: mmBTU",
-  "External Demand of H2: mmBTU",
-  "Unmet External Demand of H2: mmBTU",
-  "H2 produced for power production: mmBTU"
-/;
 
-set zgmap(z,g); option zgmap<gzmap;
-set zH2map(z,hh); option zH2map<h2zmap;
-
-set capexComponent /
-  Generation,
-  StorageEnergy,
-  CSPThermalField,
-  CSPStorage,
-  Hydrogen,
-  Transmission
-/;
-
-set capexComponentPlant(capexComponent) /
-  Generation,
-  StorageEnergy,
-  CSPThermalField,
-  CSPStorage
-/;
 
 * ============================================================
 * 1. CAPACITY
@@ -731,6 +746,13 @@ pFuelConsumptionCountry(c,f,y) = sum(zcmap(z,c), pFuelConsumption(z,f,y));
 pEnergyPlant(zgmap(z,g),y) = sum((gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuel(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyFuel(z,f,y));
+
+* Energy balance including demand slack, surplus, and exchanges
+pEnergyFuelComplete(z,f,y) = pEnergyFuel(z,f,y);
+pEnergyFuelComplete(z,"UnmetDemand",y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Surplus",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))/1e3;
 
 * TODO: Optional
 pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
@@ -1328,6 +1350,13 @@ pCountryAverageCost(c,y)$pCountryEnergyMWh(c,y) =
 pCountryAverageGenCost(c,y)$pCountryEnergyMWh(c,y) =
     sum(zcmap(z,c), pZoneGenCost(z,y)) / pCountryEnergyMWh(c,y);
 
+* Component-level averages ($/MWh)
+pYearlyAverageCostZone(z,sumhdr,y)$pZoneCostEnergyBasis(z,y) =
+    pYearlyCostsZone(z,sumhdr,y)*1e6 / pZoneCostEnergyBasis(z,y);
+
+pYearlyAverageCostCountry(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
+    1e6 * sum(zcmap(z,c), pYearlyCostsZone(z,sumhdr,y)) / pCountryCostEnergyBasis(c,y);
+
 
 * ---------------------------------------------------------
 * System average cost [$ / MWh]
@@ -1453,6 +1482,11 @@ embeddedCode Connect:
         
         "pPlantAnnualLCOE",
         "pZonalAverageCost",
+        "pZonalAverageGenCost",
+        "pCountryAverageCost",
+        "pCountryAverageGenCost",
+        "pYearlyAverageCostZone",
+        "pYearlyAverageCostCountry",
         "zcmap",
         "pSettings"
         ]
@@ -1489,7 +1523,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
-      pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyTechFuelCountry, pEnergyFuelCountry,
+      pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyFuelComplete, pEnergyTechFuelCountry, pEnergyFuelCountry,
       pUtilizationPlant, pUtilizationTech, pUtilizationFuel, pUtilizationTechFuel, pUtilizationFuelCountry, pUtilizationTechFuelCountry,
       pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
 * 4. ENERGY DISPATCH
@@ -1512,7 +1546,8 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 9. METRICS
-      pPlantAnnualLCOE, pZonalAverageCost, pZonalAverageGenCost, pCountryAverageCost, pCountryAverageGenCost, pYearlySystemAverageCost,
+      pPlantAnnualLCOE, pZonalAverageCost, pZonalAverageGenCost, pCountryAverageCost, pCountryAverageGenCost,
+      pYearlyAverageCostZone, pYearlyAverageCostCountry, pYearlySystemAverageCost,
 * 10. SOLVER PARAMETERS
       pSolverParameters,
 * 11. ADDITIONAL OUTPUTS
