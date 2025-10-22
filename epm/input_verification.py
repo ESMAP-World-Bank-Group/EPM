@@ -686,6 +686,7 @@ def _check_zone_consistency(gams, db):
     try:
         if db["zext"].records is not None:
             zext_records = db["zext"].records
+            print(zext_records)
             z_records = db["zcmap"].records
             zext = set(zext_records['zext'].unique()) if zext_records is not None else set()
             z = set(z_records['z'].unique()) if z_records is not None else set()
