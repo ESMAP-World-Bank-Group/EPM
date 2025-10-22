@@ -2,9 +2,9 @@ name: Run GAMS Model
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -13,16 +13,16 @@ jobs:
       image: gams/gams:latest
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Inject GAMS license
-      env:
-        GAMS_LICENSE: ${{ secrets.GAMS_LICENSE }}
-      run: |
-        echo "$GAMS_LICENSE" > /gams/gamslice.txt
+      - name: Inject GAMS license
+        env:
+          GAMS_LICENSE: ${{ secrets.GAMS_LICENSE }}
+        run: |
+          echo "$GAMS_LICENSE" > /gams/gamslice.txt
 
-    - name: Run GAMS model
-      run: |
-        cd epm
-        gams main.gms
+      - name: Run GAMS model
+        run: |
+          cd epm
+          gams main.gms --MODELTYPE RMIP
