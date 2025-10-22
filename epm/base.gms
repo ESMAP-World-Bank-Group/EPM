@@ -894,7 +894,7 @@ eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$fEnableCSP..
    vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
 
 *Equation needed in dispatch mode but not for capacity expansion with representative days
-*eStorageCSPBal2(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and fEnableCSP)..
+*eCSPStorageDayLink(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and fEnableCSP)..
 *   vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y) + vStorage(cs,q,d-1,sLastHour,y);
 
 * ------------------------------
