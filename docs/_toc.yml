@@ -50,7 +50,6 @@ parts:
     chapters:
       - file: docs/advanced_python
       - file: docs/postprocessing
-      - file: docs/planning_analysis_sapp.ipynb
   - caption: Contributing
     chapters:
       - file: docs/contributing_code.md
