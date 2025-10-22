@@ -21,12 +21,12 @@ This folder includes all outputs from the simulation, organized as follows:
 simulations_run_<timestamp>/
 │
 ├── img/                             # Automatically generated plots
-│   ├── baseline/                    # Plots for the baseline scenario
-│   │   ├── dispatch/                # Hourly dispatch plots
-│   │   ├── energy/                  # Annual energy mix plots
-│   │   ├── capacity/                # Installed capacity over time
-│   │   └── map/                     # Geographic visualizations (if applicable)
-│   └── scenarios_comparison/        # Plots comparing scenarios run together
+│   ├── 1_capacity/                  # Installed capacity figures
+│   ├── 2_cost/                      # Cost breakdown figures
+│   ├── 3_energy/                    # Energy balance and generation plots
+│   ├── 4_interconnection/           # Interconnection flows and utilization plots
+│   ├── 5_dispatch/                  # Hourly dispatch plots
+│   └── 6_maps/                      # Spatial visualizations (if applicable)
 │
 ├── baseline/                        # Scenario-specific GAMS outputs and logs
 │   ├── main.lst                     # GAMS listing file (solver logs and diagnostics)
@@ -44,12 +44,12 @@ simulations_run_<timestamp>/
 - This structure is generated **automatically** for each run done with Python.
 - When running **multiple scenarios**, results are merged in shared summary and comparison outputs, but each scenario still produces its own dedicated subfolders.
 - The `img/` folder only appears if plotting is enabled and includes both per-scenario and cross-scenario visuals.
+
 ---
+
 ## Ouput Workflows
 
 There are two main workflows for visualizing EPM model results:
+
 - _Tableau_ for interactive exploration and dashboards
 - _Python_ for custom plots and analyses, relying on in-house libraries. Check out the Advanced Topics for more details.
-
-
-

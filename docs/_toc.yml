@@ -38,7 +38,6 @@ parts:
       - file: docs/postprocessing_output_EPM
       - file: docs/postprocessing_output
       - file: docs/postprocessing_output_overview
-      - file: docs/postprocessing_output_details
       - file: docs/postprocessing_tableau
       - file: docs/postprocessing_tableau_advanced
   - caption: Model Description
