@@ -277,7 +277,7 @@ run_input_verification(gams)
 $offEmbeddedCode 
 
 
-$if not errorfree $abort PythonError in input_verification.gms
+$if not errorfree $abort PythonError in input_verification.py
 
 
 *-------------------------------------------------------------------------------------
@@ -303,7 +303,7 @@ from input_treatment import run_input_treatment
 run_input_treatment(gams)
 $offEmbeddedCode 
 
-$if not errorfree $abort PythonError in input_treatment.gms
+$if not errorfree $abort PythonError in input_treatment.py
 
 $offMulti
 
