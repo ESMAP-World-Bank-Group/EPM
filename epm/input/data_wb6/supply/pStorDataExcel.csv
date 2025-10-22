@@ -1,4 +1,4 @@
-﻿gen,Linked plant,CapacityMWh,CapexMWh,VOMMWh,FixedOMMWh,Efficiency,
+﻿gen,Linked plant,CapacityMWh,CapexMWh,VOMMWh,FixedOMMWh,Efficiency,Life
 PSPCapljina,,3520,,,,0.8,
 PHP_Vrilo ,,528,77,,,0.8,
 PHP_New_BiH,,8000,77,0,0,0.8,40
@@ -83,6 +83,6 @@ PHP__Cebren,,3330,77,0,0,0.8,20
 BESS2027_Mon,,200,,0,0,0.87,20
 PHP__Serbia,,5440,77,0,0,0.8,40
 BESS2028_Ser,,1000,,0,0,0.87,20
-Derdap 3,,15000,,,,0.8,
+Derdap 3,,15000,,,,0.8,20
 BESS2028_2h_Ser,,400,,,,0.8,
 Bistrica,,5000,,,,0.8,
