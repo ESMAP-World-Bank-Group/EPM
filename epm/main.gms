@@ -381,9 +381,17 @@ h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 
 *--- Parameter initialisation for same demand profile for all years
 
+$log ##########################
+$log ###### DEMAND OPTIM ######
+$log ##########################
+
 $include %DEMAND_FILE%
 
 *--- Part2: Start of initialisation of other parameters
+
+$log ##########################
+$log # SUPPLY-DEMAND OPTIM ####
+$log ##########################
 
 
 * Read main parameters from pSettings
