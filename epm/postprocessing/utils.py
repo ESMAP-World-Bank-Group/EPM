@@ -624,15 +624,6 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pYearlyCostsZone in epm_results')
 
-    if 'pCapexInvestment' in epm_results.keys():
-        t = epm_results['pCapexInvestment'].copy()
-        t = t[t['value'] > 1e-2]
-        t['value'] = t['value'] / 1e6
-        t['attribute'] = 'Capex Investment: m$'
-        summary.update({'pCapexInvestment': t})
-    else:
-        print('No pCapexInvestment in epm_results')
-
     # 2. Capacity
     
     if 'pCapacityFuel' in epm_results.keys():
