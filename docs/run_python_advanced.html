@@ -1383,6 +1383,9 @@ If left empty, the uncertainty applies to all zones.</p></li>
 </ul>
 <p>Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
 Uncertainty sampling is powered by the <a class="reference external" href="https://pypi.org/project/chaospy/"><code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package</a>, so only distributions available in <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> can be used.</p>
+<blockquote>
+<div><p>Reminder: <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> is an optional dependency used exclusively for Monte Carlo analysis. Install it before running this section with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">chaospy==4.3.18</span></code> (or via conda on Linux if preferred).</p>
+</div></blockquote>
 <p>Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">fossilfuel</span></code>: scales fuel price trajectories for all fossil fuel types (Coal, HFO, LNG, Gas, Diesel) uniformly by a percentage</p></li>

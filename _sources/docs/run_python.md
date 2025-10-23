@@ -17,7 +17,7 @@ A Python environment ensures that all required libraries for EPM are available a
 
 ### On Windows
 
-On Windows, you first need to install `Microsoft C++ Build Tools` to compile some of the packages (specifically, `chaospy`):
+If you plan to run Monte Carlo analysis on **Windows**, first install `Microsoft C++ Build Tools` (needed to compile the optional `chaospy` package):
 
 1. Go to [VSCode build tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
 2. Download and install Build Tools for Visual Studio.
@@ -25,27 +25,31 @@ On Windows, you first need to install `Microsoft C++ Build Tools` to compile som
 
 Then you can follow these steps:
 
-5. Open a terminal or command prompt (Anaconda Prompt).
-6. Navigate to the folder where you cloned EPM:
+1. Open a terminal or command prompt (Anaconda Prompt).
+2. Navigate to the folder where you cloned EPM:
    ```sh
    cd EPM
    ```
-7. Create a new environment named `epm_env`:
+3. Create a new environment named `epm_env`:
    ```sh
    conda create -n epm_env python=3.10
    ```
-8. Activate the environment:
+4. Activate the environment:
    ```sh
    conda activate epm_env
    ```
-9. Install all required libraries:
+5. Install the required libraries:
    ```sh
    pip install -r requirements_mac_and_windows.txt
+   ```
+6. *(Optional – Monte Carlo only)* Install `chaospy`:
+   ```sh
+   pip install chaospy==4.3.18
    ```
 
 ### On Mac
 
-You can follow the 5 to 9 steps above (the prior installation of `Microsoft C++ Build Tools` is not needed). 
+Follow the same steps as on Windows (minus the Build Tools prerequisite). Install `chaospy` only if you plan to run Monte Carlo analysis.
 
 ### On Linux (remote server)
 
@@ -66,14 +70,14 @@ conda activate epm_env
 export TMPDIR=~/pip_tmp
 ```
 
-5. Install with conda the `chaospy` package, necessary for Monte-Carlo simulations 
-```sh 
-conda install -c conda-forge chaospy
-```
-
-6. Install additional packages from the `requirements.txt` file specific to Linux
+5. Install additional packages from the `requirements.txt` file specific to Linux
 ```sh 
 pip install -r requirements.txt
+```
+
+6. *(Optional – Monte Carlo only)* Install `chaospy`:
+```sh
+pip install chaospy==4.3.18
 ```
 
 ---
@@ -252,5 +256,3 @@ Run Monte Carlo analysis with 20 samples and a specified uncertainties file:
 ```bash
 python epm.py --folder_input data_test_region --config input/data_test_region/config.csv --montecarlo --montecarlo_samples 20 --uncertainties input/data_test_region/uncertainties.csv
 ``` 
-
-

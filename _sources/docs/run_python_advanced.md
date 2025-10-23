@@ -138,6 +138,7 @@ How to run this feature:
 
 Currently, the code supports uniform distributions (i.e., sampling uniformly between lower and upper bounds). Support for additional distributions (e.g., normal, beta) will be added in future versions.
 Uncertainty sampling is powered by the [`chaospy` package](https://pypi.org/project/chaospy/), so only distributions available in `chaospy` can be used.
+> Reminder: `chaospy` is an optional dependency used exclusively for Monte Carlo analysis. Install it before running this section with `pip install chaospy==4.3.18` (or via conda on Linux if preferred).
 
 Each row in your uncertainty definition file must correspond to a supported feature. Currently implemented features include:
 
