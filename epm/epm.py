@@ -54,8 +54,12 @@ from postprocessing.postprocessing import postprocess_output
 import re
 from pathlib import Path
 import sys
-import chaospy
 import numpy as np
+
+try:
+    import chaospy  # optional dependency for Monte Carlo analysis
+except ImportError:  # pragma: no cover - handled at runtime when Monte Carlo is requested
+    chaospy = None
 
 # TODO: Add all cplex option and other simulation parameters that were in Looping.py
 
@@ -70,6 +74,28 @@ PATH_GAMS = {
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def _ensure_chaospy():
+    """
+    Lazily import chaospy only when Monte Carlo features are requested.
+
+    Returns
+    -------
+    module
+        The imported chaospy module.
+
+    Raises
+    ------
+    ImportError
+        If chaospy is not installed and Monte Carlo is requested.
+    """
+    if chaospy is None:
+        raise ImportError(
+            "Monte Carlo analysis requires the optional dependency 'chaospy'. "
+            "Install it with `pip install chaospy` and rerun the command."
+        )
+    return chaospy
 
 
 def normalize_path(df):
@@ -486,6 +512,7 @@ class NamedJ:
             - "type": name of a chaospy distribution (e.g., "Uniform")
             - "args": arguments passed to the distribution (e.g., lower and upper bounds)
         """
+        _ensure_chaospy()
         self.J = self.J_from_dict(distributions.values())
         self.names = distributions.keys()
         self.mapping = {k: i for i, k in enumerate(self.names)}
@@ -502,11 +529,12 @@ class NamedJ:
         return self.J[self.mapping[attr]]
 
     def J_from_dict(self, values):
+        cp = _ensure_chaospy()
         DD = []
         for v in values:
-            D = getattr(chaospy, v["type"])
+            D = getattr(cp, v["type"])
             DD.append(D(*v["args"]))
-        return chaospy.J(*DD)
+        return cp.J(*DD)
 
     def sample(self, size=100, rule="halton", fmt=3):
         """
@@ -560,12 +588,13 @@ def define_samples(df_uncertainties, nb_samples):
     tuple
         (NamedJ distribution object, dict of samples keyed by a readable string for each sample)
     """
+    cp = _ensure_chaospy()
     uncertainties = {}
     zone_mapping = {}
     chaospy_distributions = [
-        name for name in dir(chaospy)
-        if callable(getattr(chaospy, name)) and hasattr(getattr(chaospy, name), '__module__')
-           and 'chaospy' in getattr(chaospy, name).__module__.lower()
+        name for name in dir(cp)
+        if callable(getattr(cp, name)) and hasattr(getattr(cp, name), '__module__')
+           and 'chaospy' in getattr(cp, name).__module__.lower()
     ]
     for _, row in df_uncertainties.iterrows():
         feature, type, lowerbound, upperbound = row['feature'], row['type'], row['lowerbound'], row['upperbound']

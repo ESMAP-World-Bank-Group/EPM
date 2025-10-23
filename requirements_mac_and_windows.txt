@@ -6,6 +6,7 @@ numpy
 geopandas
 requests
 folium
-chaospy==4.3.18
 timezonefinder
 geopy
+# Optional (Monte Carlo analysis only):
+# chaospy==4.3.18

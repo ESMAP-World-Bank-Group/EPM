@@ -836,17 +836,12 @@ $elseIfI.solvemode %SOLVEMODE% == 1
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
 $elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
-   PA.JustScrDir = 1;
+   PA.JustScrDir = 1; 
    Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Use savepoint file to load state of the solve from savepoint file
-   execute_loadpoint "PA_p.gdx";
+*  execute_loadpoint "PA_p.gdx";
 $endIf.solvemode
 * ####################################
-
-
-$log ###############################
-$log ##### GENERATING REPORT #####
-$log ###############################
 
 * Include the external report file specified by `%REPORT_FILE%`
 
@@ -854,4 +849,3 @@ $if not set REPORTSHORT $set REPORTSHORT 0
 $log LOG: REPORTSHORT = "%REPORTSHORT%"
 
 $include %REPORT_FILE%
-
