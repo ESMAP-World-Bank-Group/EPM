@@ -37,6 +37,8 @@ GAMS is used to solve the energy planning model. A free version with limited cap
 
 Ask your institution or the World Bank team if you need a full license.
 
+We are using gamsapi version >= 48.2.0, you should run a version of GAMS that is **at least version 48.2.0.**, released on October 29, 2024.
+
 ---
 
 ### Add GAMS to Your System PATH
@@ -44,6 +46,7 @@ Ask your institution or the World Bank team if you need a full license.
 This step allows you to call `gams` from your terminal or command line.
 
 #### On Windows
+
 1. Open GAMS Studio → go to `Help > About` → copy the install path (e.g., `C:\GAMS\40.1`)
 2. Search for **Environment Variables** in the Start Menu and open it.
 3. In the **System Properties** window:
@@ -57,6 +60,7 @@ This step allows you to call `gams` from your terminal or command line.
    ```
 
 #### On macOS
+
 1. Locate your GAMS installation (e.g., `/Applications/GAMS40.1`)
 2. Open Terminal and run:
    ```sh
@@ -98,15 +102,18 @@ Python is used to run EPM through its Python API, enabling advanced features suc
 A code editor helps you navigate, compare, and edit model files efficiently—even if you don't plan to modify the Python code.
 
 ### Recommended Editors
-- [Visual Studio Code](https://code.visualstudio.com/)
+
+- [Visual Studio Code](https://code.visualstudio.com/) (recommended)
 - [PyCharm](https://www.jetbrains.com/pycharm/download/)
 
 These editors also offer:
+
 - Git integration to track changes and synchronize with the repository
 - File diff tools to compare versions
 - Syntax highlighting and code validation
 
 We especially recommend using them to:
+
 - Compare your regional/country version of the model with updates from the main EPM framework
 - Merge changes when the EPM core is updated to maintain compatibility
 
