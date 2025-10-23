@@ -25,4 +25,4 @@ jobs:
       - name: Run GAMS model
         run: |
           cd epm
-          gams main.gms --MODELTYPE RMIP
+          gams main.gms --MODELTYPE RMIP --simple

@@ -39,6 +39,7 @@ pre-analysis/**/output/*
 # Ignore everything in epm/output except 'tableau' folder
 epm/output/*
 !epm/output/tableau/
+!epm/output/simulations_test/
 
 # Ignore all input files for sensitivity analysis
 **/sensitivity/

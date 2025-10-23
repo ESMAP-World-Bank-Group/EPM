@@ -1,0 +1,349 @@
+z,g,y,value
+Angola,Soyo,2025,750.0
+Angola,Soyo,2035,750.0
+Angola,Malembo,2025,105.0
+Angola,Malembo,2035,0.011576188663626514
+Angola,Baia farta,2025,96.0
+Angola,Baia farta,2035,96.00002637704542
+Angola,Biopo,2025,188.0
+Angola,Biopo,2035,188.00002535844646
+Angola,Saurimo,2025,27.0
+Angola,Saurimo,2035,27.00002713937384
+Angola,AH Mabubas,2025,12.8
+Angola,AH Mabubas,2035,12.8
+Angola,Cambambe 1,2025,180.0
+Angola,Cambambe 1,2035,180.0
+Angola,Cambambe 2,2025,700.0
+Angola,Cambambe 2,2035,699.999985894596
+Angola,Cafunfo,2035,40.00002624130287
+Angola,Cambulo,2035,37.000026274935585
+Angola,Capanda,2025,500.0
+Angola,Capanda,2035,0.003451902806694921
+Angola,Chicapa/Biopio,2025,30.0
+Angola,Chicapa/Biopio,2035,30.0
+Angola,Gove,2025,60.0
+Angola,Gove,2035,60.00001912407192
+Angola,Lomaum,2025,50.0
+Angola,Lomaum,2035,50.0
+Angola,Luachimo,2025,6.0
+Angola,Luachimo,2035,6.0000074173693365
+Angola,Matala,2025,41.0
+Angola,Matala,2035,41.0
+Angola,Cabinda Oil,2025,45.0
+Angola,Cabinda Oil,2035,0.0026354108930116567
+Angola,Luanda Gas,2025,520.0
+Angola,Luanda Gas,2035,0.011610786032489433
+Angola,Luanda Oil,2025,62.0
+Angola,Luanda Oil,2035,0.0026369935644356473
+Angola,Malanje,2025,20.0
+Angola,Malanje,2035,0.0026280751506707234
+Angola,Belengua Oil,2025,16.0
+Angola,Belengua Oil,2035,0.0026248336121108013
+Angola,Belengua Gas,2025,22.0
+Angola,Belengua Gas,2035,0.0026292715898847134
+Angola,Huambo Oil,2025,28.0
+Angola,Huambo Oil,2035,0.0026317431683780283
+Angola,Huambo Gas,2025,50.0
+Angola,Huambo Gas,2035,0.0115330428818309
+Angola,Bie,2025,34.0
+Angola,Bie,2035,0.0026334127697659406
+Angola,Candidate_PV_Angola,2035,2000.0000022265901
+Angola,Huila,2025,95.0
+Angola,Huila,2035,0.002638783189012938
+Angola,Cuando,2025,70.0
+Angola,Cuando,2035,0.0026375371030066905
+Angola,Cunene Oil,2025,38.0
+Angola,Cunene Oil,2035,0.0026342691200876103
+Angola,Lunda,2025,90.0
+Angola,Lunda,2035,0.00263859777334943
+Angola,Moxico,2025,80.0
+Angola,Moxico,2035,0.0026381266898922897
+Angola,Bailundo,2035,8.0
+Angola,Kuito,2035,15.0
+Angola,Lucapa,2035,7.0
+Angola,Luena,2035,27.0
+Angola,Baynes,2035,430.0
+Angola,Cacula Cabasa,2035,2100.0
+Angola,Cafula (Keve),2035,0.17718131189054379
+Angola,Calengue (Catumbela),2035,199.99997943598382
+Angola,Candidate_BESS_Angola,2035,0.004263370889344392
+Angola,Candidate_CCGT_Gas_Angola,2035,209.0523908722961
+Angola,Caraculo,2035,25.000026410214183
+Angola,Catete,2035,8.000026620115051
+Angola,Cuango,2035,11.000026577549075
+Angola,Cunene,2035,8.000026620115051
+Angola,Kiwaba,2035,104.00002659434396
+Angola,Lubango,2035,35.00002629738123
+Angola,Jamba Ya Mina,2035,0.002357562242062402
+Angola,Quilemba,2035,35.00002629738123
+Angola,Lomaum 2,2035,0.002130683731573501
+Angola,Tumuludo Casador,2035,0.4379684839274723
+Angola,Vuka,2035,121.00001418686632
+Angola,Zenzo 1,2035,0.43806124110395933
+Cameroon,Limbe CCGT,2035,350.0
+Cameroon,Existing_OCGT_Diesel_Cameroon_2050,2025,140.0
+Cameroon,Existing_OCGT_Diesel_Cameroon_2050,2035,140.0
+Cameroon,Existing_OCGT_HFO_Cameroon_2050,2025,186.0
+Cameroon,Existing_OCGT_HFO_Cameroon_2050,2035,186.0
+Cameroon,Kribi,2025,216.0
+Cameroon,Kribi,2035,216.0
+Cameroon,Ngaoundere,2035,10.0
+Cameroon,Candidate_OnshoreWind_Cameroon,2035,574.5071058642322
+Cameroon,Bini A Barak,2035,35.0
+Cameroon,GDS,2035,33.0
+Cameroon,Guider Solar Plant,2025,15.0
+Cameroon,Guider Solar Plant,2035,15.0
+Cameroon,Maroua Solar Plant,2025,15.0
+Cameroon,Maroua Solar Plant,2035,15.0
+Cameroon,Candidate_PV_Cameroon,2035,0.010773326520863201
+Cameroon,Grand Eweng,2035,21.723487215972415
+Cameroon,Kikot,2035,450.00001860866786
+Cameroon,Lagdo,2025,72.0
+Cameroon,Lagdo,2035,72.0
+Cameroon,Lom-Pangar,2025,30.0
+Cameroon,Lom-Pangar,2035,30.0
+Cameroon,Nachtigal Amont,2025,420.0
+Cameroon,Nachtigal Amont,2035,420.0
+Cameroon,Song Loulou,2025,384.0
+Cameroon,Song Loulou,2035,384.0
+Cameroon,Bini A Warak,2035,55.0
+Cameroon,Chollet (Cameroon),2035,0.0014450664256076935
+Cameroon,Edea,2025,265.0
+Cameroon,Edea,2035,265.0
+Cameroon,Mekin,2025,15.0
+Cameroon,Mekin,2035,15.0
+Cameroon,Memve'ele,2025,211.0
+Cameroon,Memve'ele,2035,211.0
+Cameroon,Ndjock,2035,0.01480167330461714
+Cameroon,Candidate_BESS_Cameroon,2035,0.00810795557140321
+CAR,Bangui Enerca,2025,20.0
+CAR,Bangui Enerca,2035,20.0
+CAR,Danzi,2025,25.0
+CAR,Danzi,2035,25.0
+CAR,Sakai,2025,15.0
+CAR,Sakai,2035,15.0
+CAR,Boali 1 Rebuild,2025,9.0
+CAR,Boali 1 Rebuild,2035,9.0
+CAR,Boali 2,2025,20.0
+CAR,Boali 2,2035,20.0
+CAR,PV_CAF_2030,2035,15.0
+CAR,Boali 3,2035,10.0
+CAR,Baidou,2035,4.5
+CAR,Mbecko 1,2035,1.0
+CAR,Candidate_PV_CAF,2035,40.00001267112754
+CAR,Kotto,2035,60.000024354806236
+CAR,Lancremo,2035,0.01126412925638602
+CAR,Danzi 2,2035,25.000013115517444
+CAR,Lobaye,2035,0.019725402977259762
+CAR,Candidate_BESS_CAF,2035,40.000020668121486
+Chad,AM Timan 2,2035,0.004292932842834297
+Chad,Abeche,2025,0.5
+Chad,Abeche,2035,0.0030703788385252717
+Chad,Abeche 2,2035,0.003285586040474139
+Chad,AM Timan,2025,0.5
+Chad,AM Timan,2035,0.003070378803079249
+Chad,Ati,2035,0.003203655353534247
+Chad,Baibokoum,2025,0.54
+Chad,Baibokoum,2035,0.0030751512553610213
+Chad,Bardai,2025,1.0
+Chad,Bardai,2035,0.0031359094030196343
+Chad,Bebedja,2025,0.9
+Chad,Bebedja,2035,0.003125975226579772
+Chad,Biltine,2025,0.58
+Chad,Biltine,2035,0.003082731160091573
+Chad,Denali Ndjamena,2035,32.0
+Chad,Doba,2035,0.002867580853174798
+Chad,Doba Kome Gas,2025,90.0
+Chad,Doba Kome Gas,2035,15.026994595635584
+Chad,Doba Kome HFO,2025,30.0
+Chad,Doba Kome HFO,2035,14.838028248783743
+Chad,Farcha,2025,84.2
+Chad,Farcha,2035,15.014480428284498
+Chad,Fianga,2025,0.54
+Chad,Fianga,2035,0.0030751512553610252
+Chad,Gore La Nya,2025,0.54
+Chad,Gore La Nya,2035,0.0030751512560742303
+Chad,Lere,2025,0.54
+Chad,Lere,2035,0.003075151255361025
+Chad,Mao Kanem,2025,0.5
+Chad,Mao Kanem,2035,0.003070378828623729
+Chad,Mongo,2025,0.5
+Chad,Mongo,2035,0.0030703788400353125
+Chad,Moundou,2035,0.0032703836621534132
+Chad,Ndjamena,2025,24.5
+Chad,Ndjamena,2035,0.0032951953745119548
+Chad,Ndjamena Pumping,2025,0.44
+Chad,Ndjamena Pumping,2035,0.003046763345499516
+Chad,Ndjamena WBG,2025,0.26
+Chad,Ndjamena WBG,2035,0.002948917812166664
+Chad,Oum Hadjer,2025,0.5
+Chad,Oum Hadjer,2035,0.0030703788430613945
+Chad,Sarh,2025,2.75
+Chad,Sarh,2035,0.0032273646622366548
+Chad,Amdjarass,2025,1.1
+Chad,Amdjarass,2035,1.1
+Chad,Candidate_OnshoreWind_Chad,2035,35.000024741211206
+Chad,AM Timan 1,2025,5.0
+Chad,AM Timan 1,2035,5.000018744316255
+Chad,Anda Gassi,2035,50.0
+Chad,Djermaya,2035,36.0
+Chad,Innovent Abeche,2035,15.0
+Chad,Respit,2035,30.0
+Chad,Starsol,2025,10.0
+Chad,Starsol,2035,10.000018497987982
+Chad,Candidate_PV_Chad,2035,0.0044697310320854725
+Chad,Candidate_BESS_Chad,2035,0.009208695518620096
+Chad,NSTT,2035,0.004434565413413608
+Congo,Nkayi Mill,2025,6.0
+Congo,Nkayi Mill,2035,6.000028582384422
+Congo,Ouesso Biomass,2025,2.5
+Congo,Ouesso Biomass,2035,2.5000286291812475
+Congo,Brazzaville Solar,2035,55.0000230343345
+Congo,CTB (Mpila),2025,32.0
+Congo,CTB (Mpila),2035,0.00729769700441307
+Congo,Dolisie,2025,2.0
+Congo,Dolisie,2035,0.006970650645333526
+Congo,Madingou,2025,2.0
+Congo,Madingou,2035,0.006970650460113363
+Congo,Ouesso,2025,6.0
+Congo,Ouesso,2035,0.0071354445150273406
+Congo,Oyo,2025,5.0
+Congo,Oyo,2035,0.007104810829361147
+Congo,Pointe Noire,2025,26.0
+Congo,Pointe Noire,2035,0.007286699033212143
+Congo,Sibiti,2025,2.0
+Congo,Sibiti,2035,0.006970650645324243
+Congo,CEC (Cote Mateve),2025,484.0
+Congo,CEC (Cote Mateve),2035,0.007869870553307488
+Congo,Djeno,2025,50.0
+Congo,Djeno,2035,0.007828929738686537
+Congo,Candidate_BESS_Congo,2035,0.004375337690798389
+Congo,Candidate_PV_Congo,2035,450.0000179908445
+Congo,Imboulou,2025,120.0
+Congo,Imboulou,2035,120.000013737534
+Congo,Liouesso,2025,20.0
+Congo,Liouesso,2035,20.00001729868837
+Congo,Moukouloukou,2025,74.0
+Congo,Moukouloukou,2035,74.0
+Congo,Chollet (Congo),2035,0.002000252725452613
+Congo,Kouembali,2035,150.000007437326
+Congo,Mourala,2035,101.00002276387798
+Congo,Sounda Gorge,2035,0.016097909562332334
+DRC,Muanda,2025,5.0
+DRC,Muanda,2035,5.0
+DRC,Candidate_OnshoreWind_DRC,2035,500.00002217110284
+DRC,Inga 1,2025,227.0
+DRC,Inga 1,2035,227.0
+DRC,Inga 2,2025,835.0
+DRC,Inga 2,2035,835.0
+DRC,Candidate_PV_DRC,2035,1000.0000135423938
+DRC,Kakobola,2035,10.0
+DRC,Katende,2035,64.0
+DRC,Mobayi,2025,10.0
+DRC,Mobayi,2035,10.0
+DRC,Nzongo,2025,75.0
+DRC,Nzongo,2035,75.0
+DRC,Nzongoii,2025,150.0
+DRC,Nzongoii,2035,150.0
+DRC,Sanga,2025,6.0
+DRC,Sanga,2035,6.0
+DRC,Soleniama,2025,25.5
+DRC,Soleniama,2035,25.5
+DRC,Sombwe,2035,160.0000141548261
+DRC,Zongo 1,2025,13.0
+DRC,Zongo 1,2035,13.0
+DRC,Zongo 2,2025,74.0
+DRC,Zongo 2,2035,74.0
+DRC,Candidate_BESS_DRC,2035,128.69434104409905
+EquatorialGuinea,Akoga,2035,0.0021656683345095515
+EquatorialGuinea,Bata,2025,3.0
+EquatorialGuinea,Bata,2035,0.007356752809900694
+EquatorialGuinea,Bata 2,2025,24.0
+EquatorialGuinea,Bata 2,2035,0.007636567836775231
+EquatorialGuinea,Oyala,2025,36.0
+EquatorialGuinea,Oyala,2035,0.007842415433633036
+EquatorialGuinea,Punta Europa,2025,151.0
+EquatorialGuinea,Punta Europa,2035,0.007887940423463026
+EquatorialGuinea,Riaba ICE,2025,4.0
+EquatorialGuinea,Riaba ICE,2035,0.007410990736753013
+EquatorialGuinea,Semu,2025,7.0
+EquatorialGuinea,Semu,2035,0.007508329762666052
+EquatorialGuinea,Sipopo,2025,15.0
+EquatorialGuinea,Sipopo,2035,0.007597544945242681
+EquatorialGuinea,Candidate_PV_EquatorialGuinea,2035,20.056718037296605
+EquatorialGuinea,Djibloho,2025,120.0
+EquatorialGuinea,Djibloho,2035,120.0
+EquatorialGuinea,Sendje,2035,0.00426502447404013
+EquatorialGuinea,Bikomo,2025,3.0
+EquatorialGuinea,Bikomo,2035,3.0
+EquatorialGuinea,Riaba,2025,3.0
+EquatorialGuinea,Riaba,2035,3.0
+EquatorialGuinea,Candidate_BESS_EquatorialGuinea,2035,0.00886316354541579
+Gabon,Akieni,2035,75.54980572991155
+Gabon,Angouma,2035,75.51480556695587
+Gabon,Existing_OCGT_Diesel_Gabon_2029,2025,57.15
+Gabon,Existing_OCGT_Gas_Gabon_2026,2025,152.0
+Gabon,Existing_OCGT_Gas_Gabon_2029,2025,30.83
+Gabon,Existing_OCGT_Gas_Gabon_2032,2025,59.0
+Gabon,Existing_OCGT_Gas_Gabon_2035,2025,29.5
+Gabon,Existing_OCGT_Gas_Gabon_2035,2035,29.5
+Gabon,Booue,2035,75.07453338018945
+Gabon,Boundji,2035,68.91507451677104
+Gabon,PV_Gabon_2025,2025,65.0
+Gabon,PV_Gabon_2025,2035,65.0
+Gabon,Candidate_PV_Gabon,2035,414.10163402892977
+Gabon,Grand Poubara,2025,160.0
+Gabon,Grand Poubara,2035,0.0027174643077997936
+Gabon,Candidate_BESS_Gabon,2035,0.006503843692932237
+Gabon,Poubara 2,2025,18.0
+Gabon,Poubara 2,2035,18.000022287945043
+Gabon,Dibwangui,2035,0.008423900641508929
+Gabon,Tchimbele,2025,68.0
+Gabon,Tchimbele,2035,0.0023574204232619496
+Gabon,Faga,2035,38.75845628222026
+Gabon,Ibola,2035,62.5726526957497
+Gabon,Bongolo,2025,6.0
+Gabon,Bongolo,2035,0.007791028279002988
+Gabon,Igotchi,2035,16.94369835323292
+Gabon,Imperatrice (Mouila),2035,0.015044279172659207
+Gabon,Iroungou,2035,35.30525176964852
+Gabon,FE-2 (Kinguele Aval),2025,34.3
+Gabon,FE-2 (Kinguele Aval),2035,34.3
+Gabon,Kongue,2035,0.003991235985579552
+Gabon,Kouata Mango,2035,0.00405544347327758
+Gabon,Lebombi,2035,74.59174363239664
+Gabon,Liboka,2035,75.06015608824143
+Gabon,Kinguele,2025,57.0
+Gabon,Kinguele,2035,57.00002663699795
+Gabon,Lifouta,2035,139.99993508843747
+Gabon,Lolo,2035,58.97922706112744
+Gabon,Mafoulamatato,2035,75.06011803343442
+Gabon,Mingouli,2035,75.12432308315681
+Gabon,Mitoungou,2035,75.13877506858367
+Gabon,Mpassa,2035,67.51261792552104
+Gabon,Nenguembani,2035,72.18341819931847
+Gabon,Ngoulmendjim,2035,83.00002194644864
+Gabon,Nguene,2035,74.81347032470926
+Gabon,Omvan Amont,2035,51.91795279182897
+Gabon,Omvan Aval,2035,29.86133202544222
+Gabon,Ouyama,2035,11.999983654815383
+Gabon,Poubara 1 Rebuild,2035,18.200022283293176
+Gabon,Poubara 2 Rebuild,2035,18.200022283339187
+Gabon,Sindara,2035,74.81348187738891
+Gabon,Souka,2035,74.81347054807307
+Gabon,Tsengue Leledi,2035,0.0031820472347542203
+DRC_South,Candidate_OnshoreWind_DRCSouth,2035,360.00002410378306
+DRC_South,Candidate_PV_DRCSouth,2035,740.0000184858427
+DRC_South,Bousanga,2025,240.0
+DRC_South,Bousanga,2035,240.0
+DRC_South,Kilubi,2025,8.0
+DRC_South,Kilubi,2035,8.0
+DRC_South,Koni,2025,42.0
+DRC_South,Koni,2035,42.0
+DRC_South,Lubumbashi,2025,100.0
+DRC_South,Lubumbashi,2035,100.0
+DRC_South,Nseke,2025,250.0
+DRC_South,Nseke,2035,250.0
+DRC_South,Nzilo,2025,110.0
+DRC_South,Nzilo,2035,110.0
+DRC_South,Candidate_BESS_DRCSouth,2035,686.5909593400759

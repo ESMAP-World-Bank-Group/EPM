@@ -1,0 +1,503 @@
+g,y,value
+Forzi Akwaya,2025,1.0
+Forzi Akwaya,2035,1.0
+Nkayi Mill,2025,1.0
+Nkayi Mill,2035,1.0
+Ouesso Biomass,2025,1.0
+Ouesso Biomass,2035,1.0
+Soyo,2025,1.0
+Soyo,2035,1.0
+Malembo,2025,1.0
+Malembo,2035,1.0
+Limbe CCGT,2025,1.0
+Limbe CCGT,2035,1.0
+Bikongo,2025,1.0
+Bikongo,2035,1.0
+Candidate_CSP_Cameroon,2025,1.0
+Candidate_CSP_Cameroon,2035,1.0
+Bangui Enerca,2025,1.0
+Bangui Enerca,2035,1.0
+AH Mabubas,2025,1.0
+AH Mabubas,2035,1.0
+Candidate_OCGT_Diesel_Cameroon,2025,1.0
+Candidate_OCGT_Diesel_Cameroon,2035,1.0
+Existing_OCGT_Diesel_Cameroon_2050,2025,1.0
+Existing_OCGT_Diesel_Cameroon_2050,2035,1.0
+Existing_OCGT_HFO_Cameroon_2050,2025,1.0
+Existing_OCGT_HFO_Cameroon_2050,2035,1.0
+Kribi,2025,1.0
+Kribi,2035,1.0
+Ngaoundere,2025,1.0
+Ngaoundere,2035,1.0
+Abeche,2025,1.0
+Abeche,2035,1.0
+Abeche 2,2025,1.0
+Abeche 2,2035,1.0
+AM Timan,2025,1.0
+AM Timan,2035,1.0
+Ati,2025,1.0
+Ati,2035,1.0
+Baibokoum,2025,1.0
+Baibokoum,2035,1.0
+Bardai,2025,1.0
+Bardai,2035,1.0
+Bebedja,2025,1.0
+Bebedja,2035,1.0
+Biltine,2025,1.0
+Biltine,2035,1.0
+Candidate_OCGT_Diesel_Chad,2025,1.0
+Candidate_OCGT_Diesel_Chad,2035,1.0
+Denali Ndjamena,2025,1.0
+Denali Ndjamena,2035,1.0
+Doba,2025,1.0
+Doba,2035,1.0
+Doba Kome Gas,2025,1.0
+Doba Kome Gas,2035,1.0
+Doba Kome HFO,2025,1.0
+Doba Kome HFO,2035,1.0
+Farcha,2025,1.0
+Farcha,2035,1.0
+Fianga,2025,1.0
+Fianga,2035,1.0
+Gore La Nya,2025,1.0
+Gore La Nya,2035,1.0
+Lere,2025,1.0
+Lere,2035,1.0
+Mao Kanem,2025,1.0
+Mao Kanem,2035,1.0
+Mongo,2025,1.0
+Mongo,2035,1.0
+Moundou,2025,1.0
+Moundou,2035,1.0
+Ndjamena,2025,1.0
+Ndjamena,2035,1.0
+Ndjamena Pumping,2025,1.0
+Ndjamena Pumping,2035,1.0
+Ndjamena WBG,2025,1.0
+Ndjamena WBG,2035,1.0
+Oum Hadjer,2025,1.0
+Oum Hadjer,2035,1.0
+Sarh,2025,1.0
+Sarh,2035,1.0
+CTB (Mpila),2025,1.0
+CTB (Mpila),2035,1.0
+Dolisie,2025,1.0
+Dolisie,2035,1.0
+Madingou,2025,1.0
+Madingou,2035,1.0
+Ouesso,2025,1.0
+Ouesso,2035,1.0
+Oyo,2025,1.0
+Oyo,2035,1.0
+Pointe Noire,2025,1.0
+Pointe Noire,2035,1.0
+Sibiti,2025,1.0
+Sibiti,2035,1.0
+CEC (Cote Mateve),2025,1.0
+CEC (Cote Mateve),2035,1.0
+Djeno,2025,1.0
+Djeno,2035,1.0
+Candidate_OCGT_Diesel_DRC,2025,1.0
+Candidate_OCGT_Diesel_DRC,2035,1.0
+Muanda,2025,1.0
+Muanda,2035,1.0
+Akoga,2025,1.0
+Akoga,2035,1.0
+Bata,2025,1.0
+Bata,2035,1.0
+Bata 2,2025,1.0
+Bata 2,2035,1.0
+Candidate_OCGT_Diesel_EquatorialGuinea,2025,1.0
+Candidate_OCGT_Diesel_EquatorialGuinea,2035,1.0
+Oyala,2025,1.0
+Oyala,2035,1.0
+Punta Europa,2025,1.0
+Punta Europa,2035,1.0
+Riaba ICE,2025,1.0
+Riaba ICE,2035,1.0
+Semu,2025,1.0
+Semu,2035,1.0
+Sipopo,2025,1.0
+Sipopo,2035,1.0
+Akieni,2025,1.0
+Akieni,2035,1.0
+Angouma,2025,1.0
+Angouma,2035,1.0
+Existing_OCGT_Diesel_Gabon_2029,2025,1.0
+Existing_OCGT_Diesel_Gabon_2029,2035,1.0
+Existing_OCGT_Gas_Gabon_2026,2025,1.0
+Existing_OCGT_Gas_Gabon_2026,2035,1.0
+Existing_OCGT_Gas_Gabon_2029,2025,1.0
+Existing_OCGT_Gas_Gabon_2029,2035,1.0
+Existing_OCGT_Gas_Gabon_2032,2025,1.0
+Existing_OCGT_Gas_Gabon_2032,2035,1.0
+Existing_OCGT_Gas_Gabon_2035,2025,1.0
+Existing_OCGT_Gas_Gabon_2035,2035,1.0
+Cambambe 1,2025,1.0
+Cambambe 1,2035,1.0
+Cambambe 2,2025,1.0
+Cambambe 2,2035,1.0
+Boali 1 Rebuild,2025,1.0
+Boali 1 Rebuild,2035,1.0
+Candidate_BESS_Congo,2025,1.0
+Candidate_BESS_Congo,2035,1.0
+Booue,2025,1.0
+Booue,2035,1.0
+Capanda,2025,1.0
+Capanda,2035,1.0
+Chicapa/Biopio,2025,1.0
+Chicapa/Biopio,2035,1.0
+Gove,2025,1.0
+Gove,2035,1.0
+Lomaum,2025,1.0
+Lomaum,2035,1.0
+Luachimo,2025,1.0
+Luachimo,2035,1.0
+Matala,2025,1.0
+Matala,2035,1.0
+Lauca,2025,1.0
+Lauca,2035,1.0
+Cabinda Oil,2025,1.0
+Cabinda Oil,2035,1.0
+Luanda Gas,2025,1.0
+Luanda Gas,2035,1.0
+Luanda Oil,2025,1.0
+Luanda Oil,2035,1.0
+Malanje,2025,1.0
+Malanje,2035,1.0
+Belengua Oil,2025,1.0
+Belengua Oil,2035,1.0
+Belengua Gas,2025,1.0
+Belengua Gas,2035,1.0
+Huambo Oil,2025,1.0
+Huambo Oil,2035,1.0
+Huambo Gas,2025,1.0
+Huambo Gas,2035,1.0
+Bie,2025,1.0
+Bie,2035,1.0
+Boali 2,2025,1.0
+Boali 2,2035,1.0
+Boali 3,2025,1.0
+Boali 3,2035,1.0
+Baidou,2025,1.0
+Baidou,2035,1.0
+Mbecko 1,2025,1.0
+Mbecko 1,2035,1.0
+Candidate_OCGT_Diesel_Congo,2025,1.0
+Candidate_OCGT_Diesel_Congo,2035,1.0
+Inga 1,2025,1.0
+Inga 1,2035,1.0
+Inga 2,2025,1.0
+Inga 2,2035,1.0
+Boundji,2025,1.0
+Boundji,2035,1.0
+Huila,2025,1.0
+Huila,2035,1.0
+Cuando,2025,1.0
+Cuando,2035,1.0
+Cunene Oil,2025,1.0
+Cunene Oil,2035,1.0
+Lunda,2025,1.0
+Lunda,2035,1.0
+Moxico,2025,1.0
+Moxico,2035,1.0
+Baynes,2025,1.0
+Baynes,2035,1.0
+Cacula Cabasa,2025,1.0
+Cacula Cabasa,2035,1.0
+Cafula (Keve),2025,1.0
+Cafula (Keve),2035,1.0
+Calengue (Catumbela),2025,1.0
+Calengue (Catumbela),2035,1.0
+Candidate_BESS_Angola,2025,1.0
+Candidate_BESS_Angola,2035,1.0
+Candidate_CCGT_Gas_Angola,2025,1.0
+Candidate_CCGT_Gas_Angola,2035,1.0
+Grand Eweng,2025,1.0
+Grand Eweng,2035,1.0
+Kikot,2025,1.0
+Kikot,2035,1.0
+Lagdo,2025,1.0
+Lagdo,2035,1.0
+Lom-Pangar,2025,1.0
+Lom-Pangar,2035,1.0
+Nachtigal Amont,2025,1.0
+Nachtigal Amont,2035,1.0
+Song Loulou,2025,1.0
+Song Loulou,2035,1.0
+Song Mbengue,2025,1.0
+Song Mbengue,2035,1.0
+Candidate_CSP_CAF,2025,1.0
+Candidate_CSP_CAF,2035,1.0
+Candidate_OCGT_Diesel_CAR,2025,1.0
+Candidate_OCGT_Diesel_CAR,2035,1.0
+Dimoli (Cameroon),2025,1.0
+Dimoli (Cameroon),2035,1.0
+Dimoli (CAR),2025,1.0
+Dimoli (CAR),2035,1.0
+Kotto,2025,1.0
+Kotto,2035,1.0
+Lancremo,2025,1.0
+Lancremo,2035,1.0
+Imboulou,2025,1.0
+Imboulou,2035,1.0
+CEC Rebuild (Cote Mateve),2025,1.0
+CEC Rebuild (Cote Mateve),2035,1.0
+Liouesso,2025,1.0
+Liouesso,2035,1.0
+Moukouloukou,2025,1.0
+Moukouloukou,2035,1.0
+Chollet (Congo),2025,1.0
+Chollet (Congo),2035,1.0
+Djoue Rebuild,2025,1.0
+Djoue Rebuild,2035,1.0
+Gamboma,2025,1.0
+Gamboma,2035,1.0
+Ibabanga,2025,1.0
+Ibabanga,2035,1.0
+Ibenga,2025,1.0
+Ibenga,2035,1.0
+Kakamoeka,2025,1.0
+Kakamoeka,2035,1.0
+Kiniangui,2025,1.0
+Kiniangui,2035,1.0
+Kiteke,2025,1.0
+Kiteke,2035,1.0
+Kouembali,2025,1.0
+Kouembali,2035,1.0
+Linzolo,2025,1.0
+Linzolo,2035,1.0
+Loufoulakari,2025,1.0
+Loufoulakari,2035,1.0
+Mbamba,2025,1.0
+Mbamba,2035,1.0
+Mbandza Ndounga,2025,1.0
+Mbandza Ndounga,2035,1.0
+Moanga Mapita 1,2025,1.0
+Moanga Mapita 1,2035,1.0
+Moanga Mapita 2,2025,1.0
+Moanga Mapita 2,2035,1.0
+Motaba,2025,1.0
+Motaba,2035,1.0
+Moukouloukou 2,2025,1.0
+Moukouloukou 2,2035,1.0
+Mourala,2025,1.0
+Mourala,2035,1.0
+Mpoukou,2025,1.0
+Mpoukou,2035,1.0
+Nkomo dam,2025,1.0
+Nkomo dam,2035,1.0
+Ntoula,2025,1.0
+Ntoula,2035,1.0
+Nyanga,2025,1.0
+Nyanga,2035,1.0
+Inga 3,2025,1.0
+Inga 3,2035,1.0
+Kakobola,2025,1.0
+Kakobola,2035,1.0
+Katende,2025,1.0
+Katende,2035,1.0
+Mobayi,2025,1.0
+Mobayi,2035,1.0
+Nzongo,2025,1.0
+Nzongo,2035,1.0
+Nzongoii,2025,1.0
+Nzongoii,2035,1.0
+Nzoro,2025,1.0
+Nzoro,2035,1.0
+Sanga,2025,1.0
+Sanga,2035,1.0
+Soleniama,2025,1.0
+Soleniama,2035,1.0
+Sombwe,2025,1.0
+Sombwe,2035,1.0
+Ubangui,2025,1.0
+Ubangui,2035,1.0
+Wanie Rukula,2025,1.0
+Wanie Rukula,2035,1.0
+Zongo 1,2025,1.0
+Zongo 1,2035,1.0
+Zongo 2,2025,1.0
+Zongo 2,2035,1.0
+Candidate_BESS_DRC,2025,1.0
+Candidate_BESS_DRC,2035,1.0
+Bousanga,2025,1.0
+Bousanga,2035,1.0
+Kilubi,2025,1.0
+Kilubi,2035,1.0
+Koni,2025,1.0
+Koni,2035,1.0
+Djibloho,2025,1.0
+Djibloho,2035,1.0
+Sendje,2025,1.0
+Sendje,2035,1.0
+Grand Poubara,2025,1.0
+Grand Poubara,2035,1.0
+Candidate_BESS_Gabon,2025,1.0
+Candidate_BESS_Gabon,2035,1.0
+Candidate_OCGT_Diesel_Gabon,2025,1.0
+Candidate_OCGT_Diesel_Gabon,2035,1.0
+Candidate_OCGT_Gas_Gabon,2025,1.0
+Candidate_OCGT_Gas_Gabon,2035,1.0
+Poubara 2,2025,1.0
+Poubara 2,2035,1.0
+Dibwangui,2025,1.0
+Dibwangui,2035,1.0
+Tchimbele,2025,1.0
+Tchimbele,2035,1.0
+Bayomen,2025,1.0
+Bayomen,2035,1.0
+Bini A Warak,2025,1.0
+Bini A Warak,2035,1.0
+Chollet (Cameroon),2025,1.0
+Chollet (Cameroon),2035,1.0
+Chutes de Nki,2025,1.0
+Chutes de Nki,2035,1.0
+Colomines,2025,1.0
+Colomines,2035,1.0
+Edea,2025,1.0
+Edea,2035,1.0
+Edea Amont,2025,1.0
+Edea Amont,2035,1.0
+Kastina,2025,1.0
+Kastina,2035,1.0
+Kikot Aval,2025,1.0
+Kikot Aval,2035,1.0
+Makay,2025,1.0
+Makay,2035,1.0
+Mandourou,2025,1.0
+Mandourou,2035,1.0
+Mbam Amont,2025,1.0
+Mbam Amont,2035,1.0
+Mbinjal,2025,1.0
+Mbinjal,2035,1.0
+Mekin,2025,1.0
+Mekin,2035,1.0
+Memve'ele,2025,1.0
+Memve'ele,2035,1.0
+Menchum Bamenda,2025,1.0
+Menchum Bamenda,2035,1.0
+Mouila Mogue,2025,1.0
+Mouila Mogue,2035,1.0
+Nachtigal Aval,2025,1.0
+Nachtigal Aval,2035,1.0
+Ndjock,2025,1.0
+Ndjock,2035,1.0
+Ngoila,2025,1.0
+Ngoila,2035,1.0
+Nyazom,2025,1.0
+Nyazom,2035,1.0
+Song Mbong,2025,1.0
+Song Mbong,2035,1.0
+Song Ndong,2025,1.0
+Song Ndong,2035,1.0
+Yenga,2025,1.0
+Yenga,2035,1.0
+Zoukomanbalé,2025,1.0
+Zoukomanbalé,2035,1.0
+Zoulabot,2025,1.0
+Zoulabot,2035,1.0
+Lobaye,2025,1.0
+Lobaye,2035,1.0
+Palambo,2025,1.0
+Palambo,2035,1.0
+Boaliiii,2025,1.0
+Boaliiii,2035,1.0
+Toutoubou,2025,1.0
+Toutoubou,2035,1.0
+Bikomo,2025,1.0
+Bikomo,2035,1.0
+Riaba,2025,1.0
+Riaba,2035,1.0
+Faga,2025,1.0
+Faga,2035,1.0
+Ibola,2025,1.0
+Ibola,2035,1.0
+Bongolo,2025,1.0
+Bongolo,2035,1.0
+Igotchi,2025,1.0
+Igotchi,2035,1.0
+Imperatrice (Mouila),2025,1.0
+Imperatrice (Mouila),2035,1.0
+Iroungou,2025,1.0
+Iroungou,2035,1.0
+Kinguele Rebuild,2025,1.0
+Kinguele Rebuild,2035,1.0
+FE-2 (Kinguele Aval),2025,1.0
+FE-2 (Kinguele Aval),2035,1.0
+Kongue,2025,1.0
+Kongue,2035,1.0
+Kouata Mango,2025,1.0
+Kouata Mango,2035,1.0
+Lebombi,2025,1.0
+Lebombi,2035,1.0
+Liboka,2025,1.0
+Liboka,2035,1.0
+Kinguele,2025,1.0
+Kinguele,2035,1.0
+Lifouta,2025,1.0
+Lifouta,2035,1.0
+Lolo,2025,1.0
+Lolo,2035,1.0
+Mafoulamatato,2025,1.0
+Mafoulamatato,2035,1.0
+Mingouli,2025,1.0
+Mingouli,2035,1.0
+Mitoungou,2025,1.0
+Mitoungou,2035,1.0
+Mpassa,2025,1.0
+Mpassa,2035,1.0
+Nenguembani,2025,1.0
+Nenguembani,2035,1.0
+Ngoulmendjim,2025,1.0
+Ngoulmendjim,2035,1.0
+Nguene,2025,1.0
+Nguene,2035,1.0
+Omvan Amont,2025,1.0
+Omvan Amont,2035,1.0
+Omvan Aval,2025,1.0
+Omvan Aval,2035,1.0
+Ouyama,2025,1.0
+Ouyama,2035,1.0
+Poubara 1 Rebuild,2025,1.0
+Poubara 1 Rebuild,2035,1.0
+Poubara 2 Rebuild,2025,1.0
+Poubara 2 Rebuild,2035,1.0
+Sindara,2025,1.0
+Sindara,2035,1.0
+Souka,2025,1.0
+Souka,2035,1.0
+Tsengue Leledi,2025,1.0
+Tsengue Leledi,2035,1.0
+Candidate_BESS_Cameroon,2025,1.0
+Candidate_BESS_Cameroon,2035,1.0
+Candidate_BESS_CAF,2025,1.0
+Candidate_BESS_CAF,2035,1.0
+Candidate_BESS_Chad,2025,1.0
+Candidate_BESS_Chad,2035,1.0
+Sounda Gorge,2025,1.0
+Sounda Gorge,2035,1.0
+Mwadingusha,2025,1.0
+Mwadingusha,2035,1.0
+Candidate_BESS_EquatorialGuinea,2025,1.0
+Candidate_BESS_EquatorialGuinea,2035,1.0
+Jamba Ya Mina,2025,1.0
+Jamba Ya Mina,2035,1.0
+Jamba Ya Oma,2025,1.0
+Jamba Ya Oma,2035,1.0
+Lomaum 2,2025,1.0
+Lomaum 2,2035,1.0
+Quilengue,2025,1.0
+Quilengue,2035,1.0
+Tumuludo Casador,2025,1.0
+Tumuludo Casador,2035,1.0
+Vuka,2025,1.0
+Vuka,2035,1.0
+Zenzo 1,2025,1.0
+Zenzo 1,2035,1.0
+Nseke,2025,1.0
+Nseke,2035,1.0
+Nzilo,2025,1.0
+Nzilo,2035,1.0
+Candidate_BESS_DRCSouth,2025,1.0
+Candidate_BESS_DRCSouth,2035,1.0
