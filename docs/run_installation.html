@@ -1133,6 +1133,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-install-macos-beta">
+   Quick Install (macOS Beta)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#clone-the-repository">
    1. Clone the Repository
   </a>
@@ -1221,6 +1226,27 @@ title="Print to PDF"
 </ol>
 <blockquote>
 <div><p>The installer writes a log file next to the script (<code class="docutils literal notranslate"><span class="pre">setup_log.txt</span></code>). If it stops with an error, or if you are on another operating system, follow the manual steps below instead.</p>
+</div></blockquote>
+</section>
+<section id="quick-install-macos-beta">
+<h2>Quick Install (macOS Beta)<a class="headerlink" href="#quick-install-macos-beta" title="Permalink to this heading">#</a></h2>
+<p>If you are on <strong>macOS</strong> you can use the shell installer:</p>
+<ol class="arabic">
+<li><p><span class="xref myst">Download <code class="docutils literal notranslate"><span class="pre">setup_epm.sh</span></code></span> and place it in an empty folder (e.g., <code class="docutils literal notranslate"><span class="pre">~/EPM_Setup</span></code>).</p></li>
+<li><p>Open <strong>Terminal</strong>, change into that folder (<code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">~/EPM_Setup</span></code>), and make the script executable:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>setup_epm.sh
+</pre></div>
+</div>
+</li>
+<li><p>Run the installer:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>./setup_epm.sh
+</pre></div>
+</div>
+</li>
+<li><p>The script verifies Git, Conda, and GAMS, pulls the latest EPM repository, rebuilds the <code class="docutils literal notranslate"><span class="pre">epm_env</span></code> Conda environment, installs Python dependencies, and runs a quick GAMS/Python smoke test. When it reports success, open the cloned <code class="docutils literal notranslate"><span class="pre">EPM</span></code> folder to continue with the manual steps below.</p></li>
+</ol>
+<blockquote>
+<div><p>The macOS installer also writes <code class="docutils literal notranslate"><span class="pre">setup_log.txt</span></code> alongside the script. If the run fails or you prefer to configure things manually, proceed with the next section.</p>
 </div></blockquote>
 </section>
 <hr class="docutils" />
@@ -1442,6 +1468,11 @@ This command sets the upstream branch for future pushes, so you can use <code cl
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#quick-install-windows-beta">
    Quick Install (Windows Beta)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-install-macos-beta">
+   Quick Install (macOS Beta)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
