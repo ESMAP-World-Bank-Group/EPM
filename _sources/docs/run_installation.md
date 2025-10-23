@@ -21,6 +21,23 @@ If you are on **Windows** you can try the one-click installer first:
 
 > The installer writes a log file next to the script (`setup_log.txt`). If it stops with an error, or if you are on another operating system, follow the manual steps below instead.
 
+## Quick Install (macOS Beta)
+
+If you are on **macOS** you can use the shell installer:
+
+1. [Download `setup_epm.sh`](dwld/setup_epm.sh) and place it in an empty folder (e.g., `~/EPM_Setup`).
+2. Open **Terminal**, change into that folder (`cd ~/EPM_Setup`), and make the script executable:
+   ```sh
+   chmod +x setup_epm.sh
+   ```
+3. Run the installer:
+   ```sh
+   ./setup_epm.sh
+   ```
+4. The script verifies Git, Conda, and GAMS, pulls the latest EPM repository, rebuilds the `epm_env` Conda environment, installs Python dependencies, and runs a quick GAMS/Python smoke test. When it reports success, open the cloned `EPM` folder to continue with the manual steps below.
+
+> The macOS installer also writes `setup_log.txt` alongside the script. If the run fails or you prefer to configure things manually, proceed with the next section.
+
 ---
 
 ## 1. Clone the Repository
