@@ -2,11 +2,24 @@
 
 This guide walks you through installing and setting up the **EPM** model. It covers:
 
-- Cloning the repository (getting the code on your computer)  
-- Creating your own branch (to work independently)  
+- Cloning the repository (getting the code on your computer)
+- Creating your own branch (to work independently)
 - Launching the model (via GAMS or Python)
 
 > You don’t need to be familiar with Git—just follow the steps carefully.
+
+---
+
+## Quick Install (Windows Beta)
+
+If you are on **Windows** you can try the one-click installer first:
+
+1. [Download `setup_epm.bat`](dwld/setup_epm.bat) and place it in an empty folder.
+2. Double-click the file (or right-click → **Run as administrator**) to launch the guided setup.
+3. Wait for the script to finish—it checks for Git, Conda, and GAMS, pulls the latest EPM code, recreates the `epm_env` Conda environment, installs Python dependencies, and runs a quick GAMS/Python smoke test.
+4. When the green success message appears, open the cloned `EPM` folder and continue with the rest of this guide.
+
+> The installer writes a log file next to the script (`setup_log.txt`). If it stops with an error, or if you are on another operating system, follow the manual steps below instead.
 
 ---
 
@@ -23,16 +36,20 @@ To get the project on your computer:
    This tells your computer where to download the files.
 
    Example:
+
    ```sh
    cd path/to/your/Projects
    ```
+
    Or step-by-step:
+
    ```sh
    cd Documents
    cd Projects
    ```
 
 3. Clone the repository:
+
    ```sh
    git clone https://github.com/ESMAP-World-Bank-Group/EPM.git
    ```
@@ -49,6 +66,7 @@ To get the project on your computer:
 A **branch** is your personal workspace, so you can make changes without affecting the main version of the code.
 
 1. Check your current branch:
+
    ```sh
    git branch
    ```
@@ -67,6 +85,7 @@ If you check your current branch again, you should now see the name of your new 
 
 You can check the branches on GitHub to confirm your new branch is there.
 This command sets the upstream branch for future pushes, so you can use `git push` without specifying the branch name next time.
+
 ```sh
 git push
 ```
@@ -91,6 +110,7 @@ The Python API enables advanced automation and custom analyses.
 See the next section: [Running EPM from Python](#) for more details.
 
 ---
+
 Next steps are described with high-level instructions, but you can find detailed steps in the documentation.
 
 ## 4. Run EPM with Your Own Data
@@ -109,9 +129,9 @@ EPM can be run with your data either via **GAMS Studio** or **Python** as previo
 
 The Python API supports advanced features such as:
 
-- Scenario generation  
-- Sensitivity analysis  
-- Monte Carlo simulations  
+- Scenario generation
+- Sensitivity analysis
+- Monte Carlo simulations
 
 Refer to the **Run EPM from Python** section for usage examples and command-line options.
 
@@ -144,10 +164,12 @@ After running the model:
 Once your setup works correctly and has been tested on a small test case, you can run large-scale simulations on the **remote server**.
 
 This is especially useful for:
+
 - Running long or heavy simulations (e.g., full-year, multi-zone, Monte Carlo)
 - Avoiding performance limitations on your local machine
 
 Refer to the **Remote Server Usage** section of the documentation for:
+
 - Connection instructions
 - Best practices
 - How to launch the model using GAMS or Python on the server

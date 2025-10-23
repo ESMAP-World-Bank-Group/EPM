@@ -2,25 +2,27 @@
 
 All input files must be placed inside the `epm/input` folder.
 
-The input structure consists of:
+Each dataset lives in its own subfolder, which is passed to the model with `--folder_input`. Every dataset also provides a `config.csv` that maps model parameters to the corresponding `.csv` files; this file is passed with `--config`.
 
-- A folder containing all necessary input `.csv` files for the model. This folder is specified using the `--folder_input` argument when running the model with Python.
-- A main configuration file (`config.csv`) that defines which input files correspond to each model parameter. This file is specified using the `--config` argument.
+Below is the current baseline structure for the `data_test` dataset.
 
-Below is an example of the structure based on the `data_test_region` folder.
-
-To run the model with Python, use the following command:
+To run the model with Python:
 
 ```bash
-python epm.py --folder_input data_test_region --config input/data_test_region/config.csv
+python epm.py --folder_input data_test --config input/data_test/config.csv
 ```
 
-This folder contains all the input files required to run EPM for the Southern Africa Power Pool (SAPP) region.
-
 ```plaintext
-data_test_region/
+data_test/
 │
 ├── config.csv                          # Main configuration file for baseline run
+├── pHours.csv                          # Time-slice definitions
+├── pSettings.csv                       # Default simulation settings
+├── pSettings_NoTransmissionExpansion.csv
+├── scenarios.csv                       # Scenario definitions (e.g., NoTransmissionExpansion, OptimalExpansion)
+├── sensitivity.csv                     # Optional sensitivity inputs referenced by `sensitivity/`
+├── y.csv                               # Year list (full horizon)
+├── zcmap.csv                           # Zone-country mapping
 │
 ├── constraint/                         # Policy and emissions constraints
 │   ├── pCarbonPrice.csv
@@ -40,69 +42,54 @@ data_test_region/
 │   ├── pDemandForecast.csv
 │   ├── pDemandProfile.csv
 │   ├── pEnergyEfficiencyFactor.csv
-│   └── srelevant.csv
+│   └── sRelevant.csv
 │
 ├── reserve/                            # Reserve requirements
 │   ├── pPlanningReserveMargin.csv
 │   ├── pSpinningReserveReqCountry.csv
 │   └── pSpinningReserveReqSystem.csv
 │
-├── resources/                          # General model inputs
+├── resources/                          # Shared lookup tables and templates
 │   ├── ftfindex.csv
 │   ├── pFuelCarbonContent.csv
+│   ├── pGenDataInputHeader.csv
+│   ├── pH2Header.csv
+│   ├── pSettingsHeader.csv
+│   ├── pStoreDataHeader.csv
 │   └── pTechData.csv
 │
+├── sensitivity/                        # Reduced input files listed in `sensitivity.csv`
+│   └── y_reduced.csv
+│
 ├── supply/                             # Generation and availability data
-│   ├── pAvailability.csv
 │   ├── pAvailabilityCustom.csv
-│   ├── pAvailabilityCustomUpdated.csv
 │   ├── pAvailabilityDefault.csv
-│   ├── pAvailabilityDefaultCCDR.csv
-│   ├── pAvailabilityDefaultEmpty.csv
-│   ├── pCapexTrajectories.csv
+│   ├── pCSPData.csv
 │   ├── pCapexTrajectoriesCustom.csv
 │   ├── pCapexTrajectoriesDefault.csv
-│   ├── pCapexTrajectoriesDefaultCCDR.csv
-│   ├── pCapexTrajectoriesDefaultEmpty.csv
-│   ├── pCSPData.csv
 │   ├── pFuelPrice.csv
-│   ├── pFuelPriceUpdated.csv
 │   ├── pGenDataInput.csv
-│   ├── pGenDataInputCustom.csv
 │   ├── pGenDataInputDefault.csv
-│   ├── pGenDataInputDefaultEmpty.csv
-│   ├── pGenDataInputDefaultRampHydro.csv
 │   ├── pStorDataExcel.csv
+│   ├── pVREProfile.csv
 │   ├── pVREgenProfile.csv
-│   ├── pVREgenProfileFullROR.csv
-│   ├── pVREgenProfileROR.csv
-│   └── pVREProfile.csv
+│   └── sensitivity/
+│       └── pGenDataInput_linear.csv
 │
-├── trade/                              # Cross-border trade and transmission
-│   ├── pExtTransferLimit.csv
-│   ├── pLossFactorInternal.csv
-│   ├── pMaxAnnualExternalTradeShare.csv
-│   ├── pMaxPriceImportShare.csv
-│   ├── pMinImport.csv
-│   ├── pNewTransmission.csv
-│   ├── pTradePrice.csv
-│   ├── pTransferLimit.csv
-│   ├── pTransferLimitCurrent.csv
-│   └── pTransferLimitRetradeUpdate.csv
-│
-├── scenarios_sapp.csv                  # Main scenario definition file
-├── scenarios_sapp_small.csv            # Alternative scenario file (e.g., limited scope)
-├── mapGG.csv                           # Country/zone mapping
-├── pHours.csv                          # Time slice definitions
-├── pSettings.csv                       # Simulation settings
-├── y.csv                               # Year list (basic)
-├── ydetailed.csv                       # Year list (detailed)
-└── zcmap.csv                           # Zone-country mapping
+└── trade/                              # Cross-border trade and transmission
+    ├── pExtTransferLimit.csv
+    ├── pLossFactorInternal.csv
+    ├── pMaxAnnualExternalTradeShare.csv
+    ├── pMaxPriceImportShare.csv
+    ├── pMinImport.csv
+    ├── pNewTransmission.csv
+    ├── pNewTransmission_optimal.csv
+    ├── pTradePrice.csv
+    ├── pTransferLimit.csv
+    └── zext.csv
 ```
 
----
+### Scenario and Sensitivity Files
 
-### Example: Difference Between Scenario Files
-
-- `scenarios_sapp.csv`: Full scenario set with detailed assumptions for demand growth, new capacity, and trade policies.
-- `scenarios_sapp_small.csv`: Minimal variant for fast testing (e.g., fewer years or countries, no new builds).
+- `scenarios.csv`: Lists the core scenario names and the specific files that each scenario should pull from the dataset.
+- `sensitivity.csv`: Points to alternative data sources (e.g., reduced year sets) contained in the `sensitivity/` directories at the dataset root or within specific subfolders such as `supply/sensitivity/`.

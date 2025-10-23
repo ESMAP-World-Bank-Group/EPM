@@ -1128,6 +1128,11 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-install-windows-beta">
+   Quick Install (Windows Beta)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#clone-the-repository">
    1. Clone the Repository
   </a>
@@ -1204,6 +1209,20 @@ title="Print to PDF"
 <blockquote>
 <div><p>You don’t need to be familiar with Git—just follow the steps carefully.</p>
 </div></blockquote>
+<hr class="docutils" />
+<section id="quick-install-windows-beta">
+<h2>Quick Install (Windows Beta)<a class="headerlink" href="#quick-install-windows-beta" title="Permalink to this heading">#</a></h2>
+<p>If you are on <strong>Windows</strong> you can try the one-click installer first:</p>
+<ol class="arabic simple">
+<li><p><a class="reference download internal" download="" href="../_downloads/cde2e83cb105d85055195f6fbbf0a323/setup_epm.bat"><span class="xref download myst">Download <code class="docutils literal notranslate"><span class="pre">setup_epm.bat</span></code></span></a> and place it in an empty folder.</p></li>
+<li><p>Double-click the file (or right-click → <strong>Run as administrator</strong>) to launch the guided setup.</p></li>
+<li><p>Wait for the script to finish—it checks for Git, Conda, and GAMS, pulls the latest EPM code, recreates the <code class="docutils literal notranslate"><span class="pre">epm_env</span></code> Conda environment, installs Python dependencies, and runs a quick GAMS/Python smoke test.</p></li>
+<li><p>When the green success message appears, open the cloned <code class="docutils literal notranslate"><span class="pre">EPM</span></code> folder and continue with the rest of this guide.</p></li>
+</ol>
+<blockquote>
+<div><p>The installer writes a log file next to the script (<code class="docutils literal notranslate"><span class="pre">setup_log.txt</span></code>). If it stops with an error, or if you are on another operating system, follow the manual steps below instead.</p>
+</div></blockquote>
+</section>
 <hr class="docutils" />
 <section id="clone-the-repository">
 <h2>1. Clone the Repository<a class="headerlink" href="#clone-the-repository" title="Permalink to this heading">#</a></h2>
@@ -1420,6 +1439,11 @@ This command sets the upstream branch for future pushes, so you can use <code cl
 </div>
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-install-windows-beta">
+   Quick Install (Windows Beta)
+  </a>
+ </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#clone-the-repository">
    1. Clone the Repository

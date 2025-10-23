@@ -1128,8 +1128,8 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-difference-between-scenario-files">
-   Example: Difference Between Scenario Files
+  <a class="reference internal nav-link" href="#scenario-and-sensitivity-files">
+   Scenario and Sensitivity Files
   </a>
  </li>
 </ul>
@@ -1144,20 +1144,22 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="input-folder-structure">
 <h1>Input Folder Structure<a class="headerlink" href="#input-folder-structure" title="Permalink to this heading">#</a></h1>
 <p>All input files must be placed inside the <code class="docutils literal notranslate"><span class="pre">epm/input</span></code> folder.</p>
-<p>The input structure consists of:</p>
-<ul class="simple">
-<li><p>A folder containing all necessary input <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files for the model. This folder is specified using the <code class="docutils literal notranslate"><span class="pre">--folder_input</span></code> argument when running the model with Python.</p></li>
-<li><p>A main configuration file (<code class="docutils literal notranslate"><span class="pre">config.csv</span></code>) that defines which input files correspond to each model parameter. This file is specified using the <code class="docutils literal notranslate"><span class="pre">--config</span></code> argument.</p></li>
-</ul>
-<p>Below is an example of the structure based on the <code class="docutils literal notranslate"><span class="pre">data_test_region</span></code> folder.</p>
-<p>To run the model with Python, use the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test_region<span class="w"> </span>--config<span class="w"> </span>input/data_test_region/config.csv
+<p>Each dataset lives in its own subfolder, which is passed to the model with <code class="docutils literal notranslate"><span class="pre">--folder_input</span></code>. Every dataset also provides a <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> that maps model parameters to the corresponding <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files; this file is passed with <code class="docutils literal notranslate"><span class="pre">--config</span></code>.</p>
+<p>Below is the current baseline structure for the <code class="docutils literal notranslate"><span class="pre">data_test</span></code> dataset.</p>
+<p>To run the model with Python:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>input/data_test/config.csv
 </pre></div>
 </div>
-<p>This folder contains all the input files required to run EPM for the Southern Africa Power Pool (SAPP) region.</p>
-<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>data_test_region/
+<div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>data_test/
 │
 ├── config.csv                          # Main configuration file for baseline run
+├── pHours.csv                          # Time-slice definitions
+├── pSettings.csv                       # Default simulation settings
+├── pSettings_NoTransmissionExpansion.csv
+├── scenarios.csv                       # Scenario definitions (e.g., NoTransmissionExpansion, OptimalExpansion)
+├── sensitivity.csv                     # Optional sensitivity inputs referenced by `sensitivity/`
+├── y.csv                               # Year list (full horizon)
+├── zcmap.csv                           # Zone-country mapping
 │
 ├── constraint/                         # Policy and emissions constraints
 │   ├── pCarbonPrice.csv
@@ -1177,72 +1179,58 @@ title="Print to PDF"
 │   ├── pDemandForecast.csv
 │   ├── pDemandProfile.csv
 │   ├── pEnergyEfficiencyFactor.csv
-│   └── srelevant.csv
+│   └── sRelevant.csv
 │
 ├── reserve/                            # Reserve requirements
 │   ├── pPlanningReserveMargin.csv
 │   ├── pSpinningReserveReqCountry.csv
 │   └── pSpinningReserveReqSystem.csv
 │
-├── resources/                          # General model inputs
+├── resources/                          # Shared lookup tables and templates
 │   ├── ftfindex.csv
 │   ├── pFuelCarbonContent.csv
+│   ├── pGenDataInputHeader.csv
+│   ├── pH2Header.csv
+│   ├── pSettingsHeader.csv
+│   ├── pStoreDataHeader.csv
 │   └── pTechData.csv
 │
+├── sensitivity/                        # Reduced input files listed in `sensitivity.csv`
+│   └── y_reduced.csv
+│
 ├── supply/                             # Generation and availability data
-│   ├── pAvailability.csv
 │   ├── pAvailabilityCustom.csv
-│   ├── pAvailabilityCustomUpdated.csv
 │   ├── pAvailabilityDefault.csv
-│   ├── pAvailabilityDefaultCCDR.csv
-│   ├── pAvailabilityDefaultEmpty.csv
-│   ├── pCapexTrajectories.csv
+│   ├── pCSPData.csv
 │   ├── pCapexTrajectoriesCustom.csv
 │   ├── pCapexTrajectoriesDefault.csv
-│   ├── pCapexTrajectoriesDefaultCCDR.csv
-│   ├── pCapexTrajectoriesDefaultEmpty.csv
-│   ├── pCSPData.csv
 │   ├── pFuelPrice.csv
-│   ├── pFuelPriceUpdated.csv
 │   ├── pGenDataInput.csv
-│   ├── pGenDataInputCustom.csv
 │   ├── pGenDataInputDefault.csv
-│   ├── pGenDataInputDefaultEmpty.csv
-│   ├── pGenDataInputDefaultRampHydro.csv
 │   ├── pStorDataExcel.csv
+│   ├── pVREProfile.csv
 │   ├── pVREgenProfile.csv
-│   ├── pVREgenProfileFullROR.csv
-│   ├── pVREgenProfileROR.csv
-│   └── pVREProfile.csv
+│   └── sensitivity/
+│       └── pGenDataInput_linear.csv
 │
-├── trade/                              # Cross-border trade and transmission
-│   ├── pExtTransferLimit.csv
-│   ├── pLossFactorInternal.csv
-│   ├── pMaxAnnualExternalTradeShare.csv
-│   ├── pMaxPriceImportShare.csv
-│   ├── pMinImport.csv
-│   ├── pNewTransmission.csv
-│   ├── pTradePrice.csv
-│   ├── pTransferLimit.csv
-│   ├── pTransferLimitCurrent.csv
-│   └── pTransferLimitRetradeUpdate.csv
-│
-├── scenarios_sapp.csv                  # Main scenario definition file
-├── scenarios_sapp_small.csv            # Alternative scenario file (e.g., limited scope)
-├── mapGG.csv                           # Country/zone mapping
-├── pHours.csv                          # Time slice definitions
-├── pSettings.csv                       # Simulation settings
-├── y.csv                               # Year list (basic)
-├── ydetailed.csv                       # Year list (detailed)
-└── zcmap.csv                           # Zone-country mapping
+└── trade/                              # Cross-border trade and transmission
+    ├── pExtTransferLimit.csv
+    ├── pLossFactorInternal.csv
+    ├── pMaxAnnualExternalTradeShare.csv
+    ├── pMaxPriceImportShare.csv
+    ├── pMinImport.csv
+    ├── pNewTransmission.csv
+    ├── pNewTransmission_optimal.csv
+    ├── pTradePrice.csv
+    ├── pTransferLimit.csv
+    └── zext.csv
 </pre></div>
 </div>
-<hr class="docutils" />
-<section id="example-difference-between-scenario-files">
-<h2>Example: Difference Between Scenario Files<a class="headerlink" href="#example-difference-between-scenario-files" title="Permalink to this heading">#</a></h2>
+<section id="scenario-and-sensitivity-files">
+<h2>Scenario and Sensitivity Files<a class="headerlink" href="#scenario-and-sensitivity-files" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">scenarios_sapp.csv</span></code>: Full scenario set with detailed assumptions for demand growth, new capacity, and trade policies.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">scenarios_sapp_small.csv</span></code>: Minimal variant for fast testing (e.g., fewer years or countries, no new builds).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code>: Lists the core scenario names and the specific files that each scenario should pull from the dataset.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sensitivity.csv</span></code>: Points to alternative data sources (e.g., reduced year sets) contained in the <code class="docutils literal notranslate"><span class="pre">sensitivity/</span></code> directories at the dataset root or within specific subfolders such as <code class="docutils literal notranslate"><span class="pre">supply/sensitivity/</span></code>.</p></li>
 </ul>
 </section>
 </section>
@@ -1306,8 +1294,8 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-difference-between-scenario-files">
-   Example: Difference Between Scenario Files
+  <a class="reference internal nav-link" href="#scenario-and-sensitivity-files">
+   Scenario and Sensitivity Files
   </a>
  </li>
 </ul>
