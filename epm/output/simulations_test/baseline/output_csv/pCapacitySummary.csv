@@ -1,0 +1,75 @@
+z,uni,y,value
+Angola,Available capacity: MW,2025,3915.8
+Angola,Available capacity: MW,2035,7561.984457594768
+Angola,Peak demand: MW,2025,2874.0
+Angola,Peak demand: MW,2035,4587.0
+Angola,Peak demand including P to H2: MW,2025,1e-06
+Angola,Peak demand including P to H2: MW,2035,1e-06
+Angola,New capacity: MW,2035,5421.114587308857
+Angola,Retired capacity: MW,2035,1774.9301297140887
+Cameroon,Available capacity: MW,2025,1969.0
+Cameroon,Available capacity: MW,2035,3498.265739710695
+Cameroon,Peak demand: MW,2025,1294.0
+Cameroon,Peak demand: MW,2035,2018.0
+Cameroon,Peak demand including P to H2: MW,2025,1e-06
+Cameroon,Peak demand including P to H2: MW,2035,1e-06
+Cameroon,New capacity: MW,2035,1529.265739710695
+CAR,Available capacity: MW,2025,89.0
+CAR,Available capacity: MW,2035,284.5310603418063
+CAR,Peak demand: MW,2025,68.0
+CAR,Peak demand: MW,2035,187.0
+CAR,Peak demand including P to H2: MW,2025,1e-06
+CAR,Peak demand including P to H2: MW,2035,1e-06
+CAR,New capacity: MW,2035,195.53106034180635
+Chad,Available capacity: MW,2025,255.38999999999996
+Chad,Available capacity: MW,2035,259.06411374309516
+Chad,Peak demand: MW,2025,77.0
+Chad,Peak demand: MW,2035,103.0
+Chad,Peak demand including P to H2: MW,2025,1e-06
+Chad,Peak demand including P to H2: MW,2035,1e-06
+Chad,New capacity: MW,2035,198.0350578719275
+Chad,Retired capacity: MW,2035,194.36094412883236
+Congo,Available capacity: MW,2025,831.5
+Congo,Available capacity: MW,2035,978.5880683775742
+Congo,Peak demand: MW,2025,498.0
+Congo,Peak demand: MW,2035,881.0
+Congo,Peak demand including P to H2: MW,2025,1e-06
+Congo,Peak demand including P to H2: MW,2035,1e-06
+Congo,New capacity: MW,2035,756.0225447263615
+Congo,Retired capacity: MW,2035,608.9344763487871
+Congo,Committed Total TX capacity: MW,2025,80.0
+Congo,Committed Total TX capacity: MW,2035,80.0
+DRC,Available capacity: MW,2025,1420.5
+DRC,Available capacity: MW,2035,3283.194390912422
+DRC,Peak demand: MW,2025,807.0
+DRC,Peak demand: MW,2035,1184.0
+DRC,Peak demand including P to H2: MW,2025,1e-06
+DRC,Peak demand including P to H2: MW,2035,1e-06
+DRC,New capacity: MW,2035,1862.694390912422
+DRC,Committed Total TX capacity: MW,2025,1080.0
+DRC,Committed Total TX capacity: MW,2035,1080.0
+EquatorialGuinea,Available capacity: MW,2025,366.0
+EquatorialGuinea,Available capacity: MW,2035,146.125252435599
+EquatorialGuinea,Peak demand: MW,2025,185.0
+EquatorialGuinea,Peak demand: MW,2035,289.0
+EquatorialGuinea,Peak demand including P to H2: MW,2025,1e-06
+EquatorialGuinea,Peak demand including P to H2: MW,2035,1e-06
+EquatorialGuinea,New capacity: MW,2035,20.072011893650572
+EquatorialGuinea,Retired capacity: MW,2035,239.94675945805156
+Gabon,Available capacity: MW,2025,736.78
+Gabon,Available capacity: MW,2035,2217.8600998273187
+Gabon,Peak demand: MW,2025,547.8937999999999
+Gabon,Peak demand: MW,2035,886.1841
+Gabon,Peak demand including P to H2: MW,2025,1e-06
+Gabon,Peak demand including P to H2: MW,2035,1e-06
+Gabon,New capacity: MW,2035,2014.0471849893668
+Gabon,Retired capacity: MW,2035,532.9670851620468
+DRC_South,Available capacity: MW,2025,750.0
+DRC_South,Available capacity: MW,2035,2536.5910019297016
+DRC_South,Peak demand: MW,2025,1639.0
+DRC_South,Peak demand: MW,2035,2405.0
+DRC_South,Peak demand including P to H2: MW,2025,1e-06
+DRC_South,Peak demand including P to H2: MW,2035,1e-06
+DRC_South,New capacity: MW,2035,1786.5910019297016
+DRC_South,Committed Total TX capacity: MW,2025,1000.0
+DRC_South,Committed Total TX capacity: MW,2035,1000.0
