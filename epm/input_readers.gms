@@ -81,6 +81,7 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %ROOT_INPUT
 
 * TRADE
 $if not set zext $set zext %ROOT_INPUT%/%FOLDER_INPUT%/trade/zext.csv
+$if not set pTransmissionHeader $set pTransmissionHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pTransmissionHeader.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %ROOT_INPUT%/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %ROOT_INPUT%/%FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxPriceImportShare $set pMaxPriceImportShare %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
@@ -417,6 +418,13 @@ $onEmbeddedCode Connect:
     name: zext
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
+    indexColumns: [1]
+    type: set
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pTransmissionHeader%
+    name: pTransmissionHeader
     indexColumns: [1]
     type: set
 
