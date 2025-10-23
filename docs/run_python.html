@@ -1350,14 +1350,14 @@ title="Print to PDF"
 </ul>
 <section id="on-windows">
 <h3>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this heading">#</a></h3>
-<p>On Windows, you first need to install <code class="docutils literal notranslate"><span class="pre">Microsoft</span> <span class="pre">C++</span> <span class="pre">Build</span> <span class="pre">Tools</span></code> to compile some of the packages (specifically, <code class="docutils literal notranslate"><span class="pre">chaospy</span></code>):</p>
+<p>If you plan to run Monte Carlo analysis on <strong>Windows</strong>, first install <code class="docutils literal notranslate"><span class="pre">Microsoft</span> <span class="pre">C++</span> <span class="pre">Build</span> <span class="pre">Tools</span></code> (needed to compile the optional <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package):</p>
 <ol class="arabic simple">
 <li><p>Go to <a class="reference external" href="https://visualstudio.microsoft.com/visual-cpp-build-tools/">VSCode build tools</a></p></li>
 <li><p>Download and install Build Tools for Visual Studio.</p></li>
 <li><p>During installation, check the option: <code class="docutils literal notranslate"><span class="pre">C++</span> <span class="pre">build</span> <span class="pre">tools</span></code></p></li>
 </ol>
 <p>Then you can follow these steps:</p>
-<ol class="arabic" start="5">
+<ol class="arabic">
 <li><p>Open a terminal or command prompt (Anaconda Prompt).</p></li>
 <li><p>Navigate to the folder where you cloned EPM:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>EPM
@@ -1374,8 +1374,13 @@ title="Print to PDF"
 </pre></div>
 </div>
 </li>
-<li><p>Install all required libraries:</p>
+<li><p>Install the required libraries:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements_mac_and_windows.txt
+</pre></div>
+</div>
+</li>
+<li><p><em>(Optional – Monte Carlo only)</em> Install <code class="docutils literal notranslate"><span class="pre">chaospy</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">chaospy</span><span class="o">==</span><span class="m">4</span>.3.18
 </pre></div>
 </div>
 </li>
@@ -1383,7 +1388,7 @@ title="Print to PDF"
 </section>
 <section id="on-mac">
 <h3>On Mac<a class="headerlink" href="#on-mac" title="Permalink to this heading">#</a></h3>
-<p>You can follow the 5 to 9 steps above (the prior installation of <code class="docutils literal notranslate"><span class="pre">Microsoft</span> <span class="pre">C++</span> <span class="pre">Build</span> <span class="pre">Tools</span></code> is not needed).</p>
+<p>Follow the same steps as on Windows (minus the Build Tools prerequisite). Install <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> only if you plan to run Monte Carlo analysis.</p>
 </section>
 <section id="on-linux-remote-server">
 <h3>On Linux (remote server)<a class="headerlink" href="#on-linux-remote-server" title="Permalink to this heading">#</a></h3>
@@ -1407,15 +1412,15 @@ title="Print to PDF"
 </pre></div>
 </div>
 <ol class="arabic simple" start="5">
-<li><p>Install with conda the <code class="docutils literal notranslate"><span class="pre">chaospy</span></code> package, necessary for Monte-Carlo simulations</p></li>
-</ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>chaospy
-</pre></div>
-</div>
-<ol class="arabic simple" start="6">
 <li><p>Install additional packages from the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file specific to Linux</p></li>
 </ol>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p><em>(Optional – Monte Carlo only)</em> Install <code class="docutils literal notranslate"><span class="pre">chaospy</span></code>:</p></li>
+</ol>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">chaospy</span><span class="o">==</span><span class="m">4</span>.3.18
 </pre></div>
 </div>
 </section>
