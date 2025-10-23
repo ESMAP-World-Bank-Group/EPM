@@ -61,8 +61,6 @@ try:
 except ImportError:  # pragma: no cover - handled at runtime when Monte Carlo is requested
     chaospy = None
 
-# TODO: Add all cplex option and other simulation parameters that were in Looping.py
-
 PATH_GAMS = {
     'path_main_file': 'main.gms',
     'path_base_file': 'base.gms',

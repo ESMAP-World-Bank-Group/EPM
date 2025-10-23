@@ -161,7 +161,7 @@ Parameter
 
 * Storage and transmission
    pStorDataInput(g,g2,pStoreDataHeader)                 'Storage unit input data'
-   pNewTransmission(z,z2,pTransmissionHeader<)           'New transmission line specifications'
+   pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
    
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
@@ -241,7 +241,7 @@ $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpi
 $load pPlanningReserveMargin  
 
 * Load trade data
-$load zext
+$load zext, pTransmissionHeader
 $load pExtTransferLimit, pNewTransmission, pMinImport
 $load pTradePrice, pMaxAnnualExternalTradeShare
 
@@ -266,7 +266,7 @@ $onEmbeddedCode Python:
 import sys, os
 
 # get directory of the .gms file
-gms_dir = os.path.dirname(r"%modeldir%")
+gms_dir = os.path.normpath(r"%modeldir%/")
 
 # ensure it's in sys.path
 if gms_dir not in sys.path:
@@ -293,7 +293,7 @@ $onEmbeddedCode Python:
 import sys, os
 
 # get directory of the .gms file
-gms_dir = os.path.dirname(r"%modeldir%")
+gms_dir = os.path.normpath(r"%modeldir%/")
 
 # ensure it's in sys.path
 if gms_dir not in sys.path:

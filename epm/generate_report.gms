@@ -129,7 +129,7 @@ Parameters
   pNewCapacityTechCountry(c,tech,y)          'Newly added capacity [MW] by technology and country'
   
   pAnnualTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
-  pAdditionalTransmissionCapacity(z,z2,y)                'Additional transmission capacity [MW] between internal zones'
+  pAdditionalTransmissionCapacity(z,z2,y)    'Additional transmission capacity [MW] between internal zones'
 
   pCapacitySummary(z,*,y)                    'Summary of capacity indicators [MW] by zone and year'
   pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
