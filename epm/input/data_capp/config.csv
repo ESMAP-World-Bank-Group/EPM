@@ -12,6 +12,7 @@ pSettingsHeader,resources/pSettingsHeader.csv
 pGenDataInputHeader,resources/pGenDataInputHeader.csv
 pStoreDataHeader,resources/pStoreDataHeader.csv
 pH2Header,resources/pH2Header.csv
+pTransmissionHeader,resources/pTransmissionHeader.csv
 LOAD,
 pDemandData,load/pDemandData.csv
 pDemandForecast,load/pDemandForecast.csv
