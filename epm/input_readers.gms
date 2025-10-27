@@ -27,8 +27,7 @@
 * Claire Nicolas, c.nicolas@worldbank.org
 **********************************************************************
 
-$if not set ROOT_INPUT $set ROOT_INPUT "input"
-$log ROOT_INPUT is "%ROOT_INPUT%"
+
 
 $if not set FOLDER_INPUT $set FOLDER_INPUT "data_test"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
@@ -37,73 +36,73 @@ $if not set TRACE $set TRACE 0
 
 * Define by default path
 * SETTINGS
-$if not set pSettings $set pSettings %ROOT_INPUT%/%FOLDER_INPUT%/pSettings.csv
-$if not set zcmap $set zcmap %ROOT_INPUT%/%FOLDER_INPUT%/zcmap.csv
-$if not set y $set y %ROOT_INPUT%/%FOLDER_INPUT%/y.csv
-$if not set pHours $set pHours %ROOT_INPUT%/%FOLDER_INPUT%/pHours.csv
+$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
+$if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
+$if not set y $set y %FOLDER_INPUT%/y.csv
+$if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
 
 * LOAD DATA
-$if not set pDemandForecast $set pDemandForecast %ROOT_INPUT%/%FOLDER_INPUT%/load/pDemandForecast.csv
-$if not set pDemandProfile $set pDemandProfile %ROOT_INPUT%/%FOLDER_INPUT%/load/pDemandProfile.csv
-$if not set pDemandData $set pDemandData %ROOT_INPUT%/%FOLDER_INPUT%/load/pDemandData.csv
-$if not set sRelevant $set sRelevant %ROOT_INPUT%/%FOLDER_INPUT%/load/sRelevant.csv
-$if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %ROOT_INPUT%/%FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
+$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
+$if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile.csv
+$if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData.csv
+$if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv
+$if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
-$if not set pGenDataInput $set pGenDataInput %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInput.csv
-$if not set pGenDataInputDefault $set pGenDataInputDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pGenDataInputDefault.csv
-$if not set pAvailability $set pAvailability %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityCustom.csv
-$if not set pAvailabilityDefault $set pAvailabilityDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pAvailabilityDefault.csv
-$if not set pVREgenProfile $set pVREgenProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREgenProfile.csv
-$if not set pVREProfile $set pVREProfile %ROOT_INPUT%/%FOLDER_INPUT%/supply/pVREProfile.csv
-$if not set pCapexTrajectories $set pCapexTrajectories %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
-$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
-$if not set pFuelPrice $set pFuelPrice %ROOT_INPUT%/%FOLDER_INPUT%/supply/pFuelPrice.csv
+$if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput.csv
+$if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
+$if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
+$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
+$if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile.csv
+$if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile.csv
+$if not set pCapexTrajectories $set pCapexTrajectories %FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
+$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
+$if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 
 * OTHER SUPPLY OPTIONS
-$if not set pCSPData $set pCSPData %ROOT_INPUT%/%FOLDER_INPUT%/supply/pCSPData.csv
-$if not set pStorDataExcel $set pStorDataExcel %ROOT_INPUT%/%FOLDER_INPUT%/supply/pStorDataExcel.csv
+$if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
+$if not set pStorDataExcel $set pStorDataExcel %FOLDER_INPUT%/supply/pStorDataExcel.csv
 
 * RESOURCES
-$if not set pSettingsHeader $set pSettingsHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pSettingsHeader.csv
-$if not set pGenDataInputHeader $set pGenDataInputHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pGenDataInputHeader.csv
-$if not set pStoreDataHeader $set pStoreDataHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pStoreDataHeader.csv
-$if not set pH2Header $set pH2Header %ROOT_INPUT%/%FOLDER_INPUT%/resources/pH2Header.csv
+$if not set pSettingsHeader $set pSettingsHeader %FOLDER_INPUT%/resources/pSettingsHeader.csv
+$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_INPUT%/resources/pGenDataInputHeader.csv
+$if not set pStoreDataHeader $set pStoreDataHeader %FOLDER_INPUT%/resources/pStoreDataHeader.csv
+$if not set pH2Header $set pH2Header %FOLDER_INPUT%/resources/pH2Header.csv
 
-$if not set ftfindex $set ftfindex %ROOT_INPUT%/%FOLDER_INPUT%/resources/ftfindex.csv
-$if not set pFuelCarbonContent $set pFuelCarbonContent %ROOT_INPUT%/%FOLDER_INPUT%/resources/pFuelCarbonContent.csv
-$if not set pTechData $set pTechData %ROOT_INPUT%/%FOLDER_INPUT%/resources/pTechData.csv
+$if not set ftfindex $set ftfindex %FOLDER_INPUT%/resources/ftfindex.csv
+$if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_INPUT%/resources/pFuelCarbonContent.csv
+$if not set pTechData $set pTechData %FOLDER_INPUT%/resources/pTechData.csv
 
 * RESERVE
-$if not set pPlanningReserveMargin $set pPlanningReserveMargin %ROOT_INPUT%/%FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
-$if not set pSpinningReserveReqCountry $set pSpinningReserveReqCountry %ROOT_INPUT%/%FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
-$if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %ROOT_INPUT%/%FOLDER_INPUT%/reserve/pSpinningReserveReqSystem.csv
+$if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
+$if not set pSpinningReserveReqCountry $set pSpinningReserveReqCountry %FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
+$if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %FOLDER_INPUT%/reserve/pSpinningReserveReqSystem.csv
 
 * TRADE
-$if not set zext $set zext %ROOT_INPUT%/%FOLDER_INPUT%/trade/zext.csv
-$if not set pTransmissionHeader $set pTransmissionHeader %ROOT_INPUT%/%FOLDER_INPUT%/resources/pTransmissionHeader.csv
-$if not set pExtTransferLimit $set pExtTransferLimit %ROOT_INPUT%/%FOLDER_INPUT%/trade/pExtTransferLimit.csv
-$if not set pLossFactorInternal $set pLossFactorInternal %ROOT_INPUT%/%FOLDER_INPUT%/trade/pLossFactorInternal.csv
-$if not set pMaxPriceImportShare $set pMaxPriceImportShare %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
-$if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
-$if not set pMinImport $set pMinImport %ROOT_INPUT%/%FOLDER_INPUT%/trade/pMinImport.csv
-$if not set pNewTransmission $set pNewTransmission %ROOT_INPUT%/%FOLDER_INPUT%/trade/pNewTransmission.csv
-$if not set pTradePrice $set pTradePrice %ROOT_INPUT%/%FOLDER_INPUT%/trade/pTradePrice.csv
-$if not set pTransferLimit $set pTransferLimit %ROOT_INPUT%/%FOLDER_INPUT%/trade/pTransferLimit.csv
+$if not set zext $set zext %FOLDER_INPUT%/trade/zext.csv
+$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_INPUT%/resources/pTransmissionHeader.csv
+$if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
+$if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
+$if not set pMaxPriceImportShare $set pMaxPriceImportShare %FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
+$if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
+$if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
+$if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
+$if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
+$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
 
 * CONSTRAINT
-$if not set pCarbonPrice $set pCarbonPrice %ROOT_INPUT%/%FOLDER_INPUT%/constraint/pCarbonPrice.csv
-$if not set pEmissionsCountry $set pEmissionsCountry %ROOT_INPUT%/%FOLDER_INPUT%/constraint/pEmissionsCountry.csv
-$if not set pEmissionsTotal $set pEmissionsTotal %ROOT_INPUT%/%FOLDER_INPUT%/constraint/pEmissionsTotal.csv
-$if not set pMaxFuellimit $set pMaxFuellimit %ROOT_INPUT%/%FOLDER_INPUT%/constraint/pMaxFuellimit.csv
+$if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPrice.csv
+$if not set pEmissionsCountry $set pEmissionsCountry %FOLDER_INPUT%/constraint/pEmissionsCountry.csv
+$if not set pEmissionsTotal $set pEmissionsTotal %FOLDER_INPUT%/constraint/pEmissionsTotal.csv
+$if not set pMaxFuellimit $set pMaxFuellimit %FOLDER_INPUT%/constraint/pMaxFuellimit.csv
 
 * H2 RELATED
-$if not set pH2DataExcel $set pH2DataExcel %ROOT_INPUT%/%FOLDER_INPUT%/h2/pH2DataExcel.csv
-$if not set pAvailabilityH2 $set pAvailabilityH2 %ROOT_INPUT%/%FOLDER_INPUT%/h2/pAvailabilityH2.csv
-$if not set pFuelDataH2 $set pFuelDataH2 %ROOT_INPUT%/%FOLDER_INPUT%/h2/pFuelDataH2.csv
-$if not set pCapexTrajectoryH2 $set pCapexTrajectoryH2 %ROOT_INPUT%/%FOLDER_INPUT%/h2/pCapexTrajectoryH2.csv
-$if not set pH2DataExcel $set pH2DataExcel %ROOT_INPUT%/%FOLDER_INPUT%/h2/pH2DataExcel.csv
-$if not set pExternalH2 $set pExternalH2 %ROOT_INPUT%/%FOLDER_INPUT%/h2/pExternalH2.csv
+$if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
+$if not set pAvailabilityH2 $set pAvailabilityH2 %FOLDER_INPUT%/h2/pAvailabilityH2.csv
+$if not set pFuelDataH2 $set pFuelDataH2 %FOLDER_INPUT%/h2/pFuelDataH2.csv
+$if not set pCapexTrajectoryH2 $set pCapexTrajectoryH2 %FOLDER_INPUT%/h2/pCapexTrajectoryH2.csv
+$if not set pH2DataExcel $set pH2DataExcel %FOLDER_INPUT%/h2/pH2DataExcel.csv
+$if not set pExternalH2 $set pExternalH2 %FOLDER_INPUT%/h2/pExternalH2.csv
 
 
 $log ### reading using Connect and CSV Input with Python
