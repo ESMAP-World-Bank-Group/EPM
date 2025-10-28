@@ -263,8 +263,8 @@
           <named-connection caption='pSpinningReserveByPlantZone' name='textscan.1b1yc7q1arqess18mt2vh1i3ld5g (copie)'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pSpinningReserveByPlantZone.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pZonalAverageCost' name='textscan.1q2cftk1mdl0r610wc3uq127wltg (copie)'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pZonalAverageCost.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pCostsZonePerMWh' name='textscan.1q2cftk1mdl0r610wc3uq127wltg (copie)'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostsZonePerMWh.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
         </named-connections>
         <_.fcp.ObjectModelEncapsulateLegacy.false...relation all='true' connection='textscan.1bvrd1e1gnreoj11sgpx50jodjcu (copie)' include-siblings='true' is-recursive='true' name='Union9' path='' type='batch-union'>
@@ -1134,7 +1134,7 @@
         </calculation>
       </column>
       <column caption='Value lineplot' datatype='real' hidden='true' name='[Calculation_451204451705303040]' role='measure' type='quantitative'>
-        <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
+        <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
       </column>
       <column caption='Reset Filters' datatype='string' name='[Calculation_563512919851646976]' role='dimension' type='nominal'>
         <calculation class='tableau' formula='&apos;Reset Filters&apos;' />
@@ -1201,7 +1201,7 @@
         <calculation class='tableau' formula='CASE [uni]&#13;&#10;WHEN &apos;Demand&apos; THEN NULL&#13;&#10;ELSE [value (Union1)]&#13;&#10;END' />
       </column>
       <column caption='Value lineplot dup' datatype='real' hidden='true' name='[Value emissions (copie)_451204451709149187]' role='measure' type='quantitative'>
-        <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
+        <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
       </column>
       <column caption='Value imports' datatype='real' hidden='true' name='[Value exports (copie)_1817202515042066433]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='{ FIXED [z (Union5)],[Path (Union6) - Scission 1],[uni],[d],[q],[t],[y] : &#13;&#10;    MAX(IF [uni] = &quot;Imports&quot; THEN [value (Union1)] END) &#13;&#10;}' />
@@ -2163,8 +2163,8 @@
           <named-connection caption='pFuelDispatch' name='textscan.0d3j0ed1rjtfcc12oh21y0x2ifpr'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pFuelDispatch.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
-          <named-connection caption='pZonalAverageCost' name='textscan.1q2cftk1mdl0r610wc3uq127wltg'>
-            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pZonalAverageCost.csv' password='' server='' workgroup-auth-mode='as-is' />
+          <named-connection caption='pCostsZonePerMWh' name='textscan.1q2cftk1mdl0r610wc3uq127wltg'>
+            <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostsZonePerMWh.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='pCostSummaryFull' name='textscan.0v2vs2s194b49b146t5cf1eu3ebv'>
             <connection class='textscan' directory='scenarios/baseline' filename='output_csv/pCostSummaryFull.csv' password='' server='' workgroup-auth-mode='as-is' />
@@ -2469,10 +2469,10 @@
               <column datatype='string' name='Path' />
             </columns>
           </relation>
-          <relation all='true' connection='textscan.1q2cftk1mdl0r610wc3uq127wltg' include-siblings='true' is-recursive='true' name='pZonalAverageCost.csv+' path='' type='batch-union'>
+          <relation all='true' connection='textscan.1q2cftk1mdl0r610wc3uq127wltg' include-siblings='true' is-recursive='true' name='pCostsZonePerMWh.csv+' path='' type='batch-union'>
             <database-filter>
               <expression op='='>
-                <expression op='pZonalAverageCost.csv' />
+                <expression op='pCostsZonePerMWh.csv' />
               </expression>
             </database-filter>
             <table-filter />
@@ -2554,7 +2554,7 @@
           <map key='[Path (Union9)]' value='[Union9].[Path]' />
           <map key='[Path (pPrice.csv+)]' value='[pPrice.csv+].[Path]' />
           <map key='[Path (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv+].[Path]' />
-          <map key='[Path (pZonalAverageCost.csv+)]' value='[pZonalAverageCost.csv+].[Path]' />
+          <map key='[Path (pCostsZonePerMWh.csv+)]' value='[pCostsZonePerMWh.csv+].[Path]' />
           <map key='[Path]' value='[Union].[Path]' />
           <map key='[c (linestring_countries.geojson)]' value='[linestring_countries.geojson].[c]' />
           <map key='[c2 (linestring_countries.geojson)]' value='[linestring_countries.geojson].[c2]' />
@@ -2600,7 +2600,7 @@
           <map key='[value (Union9)]' value='[Union9].[value]' />
           <map key='[value (pPrice.csv+)]' value='[pPrice.csv+].[value]' />
           <map key='[value (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv+].[value]' />
-          <map key='[value (pZonalAverageCost.csv+)]' value='[pZonalAverageCost.csv+].[value]' />
+          <map key='[value (pCostsZonePerMWh.csv+)]' value='[pCostsZonePerMWh.csv+].[value]' />
           <map key='[value]' value='[Union].[value]' />
           <map key='[y (Union1)]' value='[Union1].[y]' />
           <map key='[y (Union10)]' value='[Union10].[y]' />
@@ -2621,7 +2621,7 @@
           <map key='[y (Union9)]' value='[Union9].[y]' />
           <map key='[y (pPrice.csv+)]' value='[pPrice.csv+].[y]' />
           <map key='[y (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv+].[y]' />
-          <map key='[y (pZonalAverageCost.csv+)]' value='[pZonalAverageCost.csv+].[y]' />
+          <map key='[y (pCostsZonePerMWh.csv+)]' value='[pCostsZonePerMWh.csv+].[y]' />
           <map key='[y]' value='[Union].[y]' />
           <map key='[z (Union)]' value='[Union].[z]' />
           <map key='[z (Union10)]' value='[Union10].[z]' />
@@ -2643,7 +2643,7 @@
           <map key='[z (linestring_countries.geojson)]' value='[linestring_countries.geojson].[z]' />
           <map key='[z (pPrice.csv+)]' value='[pPrice.csv+].[z]' />
           <map key='[z (pSpinningReserveByPlantZone.csv+)]' value='[pSpinningReserveByPlantZone.csv+].[z]' />
-          <map key='[z (pZonalAverageCost.csv+)]' value='[pZonalAverageCost.csv+].[z]' />
+          <map key='[z (pCostsZonePerMWh.csv+)]' value='[pCostsZonePerMWh.csv+].[z]' />
           <map key='[z2 (Union)]' value='[Union].[z2]' />
           <map key='[z2 (Union16)]' value='[Union16].[z2]' />
           <map key='[z2 (Union17)]' value='[Union17].[z2]' />
@@ -2794,7 +2794,7 @@
           <metadata-record class='capability'>
             <remote-name />
             <remote-type>0</remote-type>
-            <parent-name>[pZonalAverageCost.csv+]</parent-name>
+            <parent-name>[pCostsZonePerMWh.csv+]</parent-name>
             <remote-alias />
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
@@ -4139,52 +4139,52 @@
           <metadata-record class='column'>
             <remote-name>z</remote-name>
             <remote-type>129</remote-type>
-            <local-name>[z (pZonalAverageCost.csv+)]</local-name>
-            <parent-name>[pZonalAverageCost.csv+]</parent-name>
+            <local-name>[z (pCostsZonePerMWh.csv+)]</local-name>
+            <parent-name>[pCostsZonePerMWh.csv+]</parent-name>
             <remote-alias>z</remote-alias>
             <ordinal>104</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
             <collation flag='0' name='LFR_RFR' />
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>y</remote-name>
             <remote-type>20</remote-type>
-            <local-name>[y (pZonalAverageCost.csv+)]</local-name>
-            <parent-name>[pZonalAverageCost.csv+]</parent-name>
+            <local-name>[y (pCostsZonePerMWh.csv+)]</local-name>
+            <parent-name>[pCostsZonePerMWh.csv+]</parent-name>
             <remote-alias>y</remote-alias>
             <ordinal>105</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>value</remote-name>
             <remote-type>5</remote-type>
-            <local-name>[value (pZonalAverageCost.csv+)]</local-name>
-            <parent-name>[pZonalAverageCost.csv+]</parent-name>
+            <local-name>[value (pCostsZonePerMWh.csv+)]</local-name>
+            <parent-name>[pCostsZonePerMWh.csv+]</parent-name>
             <remote-alias>value</remote-alias>
             <ordinal>106</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>Path</remote-name>
             <remote-type>129</remote-type>
-            <local-name>[Path (pZonalAverageCost.csv+)]</local-name>
-            <parent-name>[pZonalAverageCost.csv+]</parent-name>
+            <local-name>[Path (pCostsZonePerMWh.csv+)]</local-name>
+            <parent-name>[pCostsZonePerMWh.csv+]</parent-name>
             <remote-alias>Path</remote-alias>
             <ordinal>107</ordinal>
             <local-type>string</local-type>
             <aggregation>Count</aggregation>
             <contains-null>true</contains-null>
             <collation flag='0' name='LFR_RFR' />
-            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>z</remote-name>
@@ -4583,7 +4583,7 @@
         <calculation class='tableau' formula='CASE [y (Union16)]=[y (Union6)]&#13;&#10;WHEN TRUE then  [value (Union16)]&#13;&#10;END' />
       </column>
       <column caption='Value lineplot' datatype='real' name='[Calculation_451204451705303040]' role='measure' type='quantitative'>
-        <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
+        <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
       </column>
       <column caption='Calcul 1' datatype='string' name='[Calculation_920141767534370819]' role='dimension' type='nominal'>
         <calculation class='tableau' formula='[uni] + &apos; &apos; + [f (Union14)]' />
@@ -4650,7 +4650,7 @@
         <calculation class='tableau' formula='CASE [uni]&#13;&#10;WHEN &apos;Demand&apos; THEN NULL&#13;&#10;ELSE [value (Union1)]&#13;&#10;END' />
       </column>
       <column caption='Value lineplot dup' datatype='real' name='[Value emissions (copie)_451204451709149187]' role='measure' type='quantitative'>
-        <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
+        <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
       </column>
       <column caption='Value imports' datatype='real' name='[Value exports (copie)_1817202515042066433]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='{ FIXED [z],[Path (Union6) - Scission 1],[uni],[d],[q],[t],[y (Union6)] : &#13;&#10;    MAX(IF [uni] = &quot;Imports&quot; THEN [value (Union1)] END) &#13;&#10;}' />
@@ -4682,7 +4682,7 @@
       <_.fcp.ObjectModelTableType.true...column caption='linestring_countries.geojson' datatype='table' name='[__tableau_internal_object_id__].[linestring_countries.geojson_3A4099F7C92C48C79DA68CFA95BE288B]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pPrice.csv' datatype='table' name='[__tableau_internal_object_id__].[pPrice.csv_C538EE848AC9415A8B9AF9FE8046BCBD]' role='measure' type='quantitative' />
       <_.fcp.ObjectModelTableType.true...column caption='pSpinningReserveByFuelZone' datatype='table' name='[__tableau_internal_object_id__].[pSpinningReserveByPlantZone.csv_FE68F1546BC44CD994EBDE5F259C1021]' role='measure' type='quantitative' />
-      <_.fcp.ObjectModelTableType.true...column caption='pZonalAverageCost.csv' datatype='table' name='[__tableau_internal_object_id__].[pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='pCostsZonePerMWh.csv' datatype='table' name='[__tableau_internal_object_id__].[pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA]' role='measure' type='quantitative' />
       <column datatype='string' name='[c (linestring_countries.geojson)]' role='dimension' type='nominal' />
       <column aggregation='Avg' caption='Country Ini Lat' datatype='real' name='[country_ini_lat]' role='measure' semantic-role='[Geographical].[Latitude]' type='quantitative' />
       <column aggregation='Avg' caption='Country Ini Lon' datatype='real' name='[country_ini_lon]' role='measure' semantic-role='[Geographical].[Longitude]' type='quantitative' />
@@ -5716,12 +5716,12 @@
               </relation>
             </properties>
           </object>
-          <object caption='pZonalAverageCost.csv' id='pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA'>
+          <object caption='pCostsZonePerMWh.csv' id='pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA'>
             <properties context=''>
-              <relation all='true' connection='textscan.1q2cftk1mdl0r610wc3uq127wltg' include-siblings='true' is-recursive='true' name='pZonalAverageCost.csv+' path='' type='batch-union'>
+              <relation all='true' connection='textscan.1q2cftk1mdl0r610wc3uq127wltg' include-siblings='true' is-recursive='true' name='pCostsZonePerMWh.csv+' path='' type='batch-union'>
                 <database-filter>
                   <expression op='='>
-                    <expression op='pZonalAverageCost.csv' />
+                    <expression op='pCostsZonePerMWh.csv' />
                   </expression>
                 </database-filter>
                 <table-filter />
@@ -6142,19 +6142,19 @@
             <expression op='AND'>
               <expression op='='>
                 <expression op='[z]' />
-                <expression op='[z (pZonalAverageCost.csv+)]' />
+                <expression op='[z (pCostsZonePerMWh.csv+)]' />
               </expression>
               <expression op='='>
                 <expression op='[y (Union1)]' />
-                <expression op='[y (pZonalAverageCost.csv+)]' />
+                <expression op='[y (pCostsZonePerMWh.csv+)]' />
               </expression>
               <expression op='='>
                 <expression _.fcp.RelationshipCalculations.false...op='[TRIM( SPLIT( Path (Union1), &quot;/&quot;, 1 ) )]' _.fcp.RelationshipCalculations.true...op='TRIM( SPLIT( [Path (Union1)], &quot;/&quot;, 1 ) )' />
-                <expression _.fcp.RelationshipCalculations.false...op='[TRIM( SPLIT( Path (pZonalAverageCost.csv+), &quot;/&quot;, 1 ) )]' _.fcp.RelationshipCalculations.true...op='TRIM( SPLIT( [Path (pZonalAverageCost.csv+)], &quot;/&quot;, 1 ) )' />
+                <expression _.fcp.RelationshipCalculations.false...op='[TRIM( SPLIT( Path (pCostsZonePerMWh.csv+), &quot;/&quot;, 1 ) )]' _.fcp.RelationshipCalculations.true...op='TRIM( SPLIT( [Path (pCostsZonePerMWh.csv+)], &quot;/&quot;, 1 ) )' />
               </expression>
             </expression>
             <first-end-point object-id='_9AA97880241B48BABDECF5319623B520' />
-            <second-end-point object-id='pZonalAverageCost.csv_D65B41C0761A4A58AFBF2D238188E7AA' />
+            <second-end-point object-id='pCostsZonePerMWh.csv_D65B41C0761A4A58AFBF2D238188E7AA' />
           </relationship>
         </relationships>
       </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
@@ -10572,7 +10572,7 @@
               </aliases>
             </column>
             <column caption='Value lineplot' datatype='real' name='[Calculation_451204451705303040]' role='measure' type='quantitative'>
-              <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
+              <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
             </column>
             <column caption='Scenario' datatype='string' name='[Path (Union6) - Scission 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1mx1g0w07es1k417syvyv0o92oi3].[Path]'>
               <calculation class='tableau' formula='TRIM( SPLIT( [Path (Union6)], &quot;/&quot;, 1 ) )' />
@@ -10625,7 +10625,7 @@
             <column datatype='real' name='[value (Union8)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (Union9)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (pSpinningReserveByPlantZone.csv+)]' role='measure' type='quantitative' />
-            <column datatype='real' name='[value (pZonalAverageCost.csv+)]' role='measure' type='quantitative' />
+            <column datatype='real' name='[value (pCostsZonePerMWh.csv+)]' role='measure' type='quantitative' />
             <column aggregation='Sum' datatype='integer' name='[y (Union1)]' role='dimension' type='ordinal' />
             <column datatype='string' name='[z]' role='dimension' type='nominal' />
           </datasource-dependencies>
@@ -10936,7 +10936,7 @@
               <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
             </column>
             <column caption='Value lineplot dup' datatype='real' name='[Value emissions (copie)_451204451709149187]' role='measure' type='quantitative'>
-              <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
+              <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
             </column>
             <column caption='Value indicator advanced 2' datatype='real' name='[Value indicator advanced 1 (copie)_451204451707744258]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [Parameters].[Indicator Advanced 1 (copie)_451204451707670529]&#13;&#10;WHEN &quot;Capacity&quot; THEN SUM([value (Union6)])&#13;&#10;WHEN &quot;Energy&quot; THEN SUM([value (Union5)])&#13;&#10;when &quot;New capacity&quot; THEN SUM([value (Union8)])&#13;&#10;WHEN &quot;Fuel cost&quot; THEN SUM([value (Union9)])&#13;&#10;WHEN &quot;Costs&quot; THEN SUM([Calculation_127508171045437440])&#13;&#10;WHEN &quot;Reserve&quot; THEN SUM([value (pSpinningReserveByPlantZone.csv+)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1551771556731363331])&#13;&#10;&#13;&#10;END' />
@@ -10964,7 +10964,7 @@
             <column datatype='real' name='[value (Union8)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (Union9)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (pSpinningReserveByPlantZone.csv+)]' role='measure' type='quantitative' />
-            <column datatype='real' name='[value (pZonalAverageCost.csv+)]' role='measure' type='quantitative' />
+            <column datatype='real' name='[value (pCostsZonePerMWh.csv+)]' role='measure' type='quantitative' />
             <column aggregation='Sum' datatype='integer' name='[y (Union1)]' role='dimension' type='ordinal' />
             <column datatype='string' name='[z]' role='dimension' type='nominal' />
           </datasource-dependencies>
@@ -11675,7 +11675,7 @@
               </aliases>
             </column>
             <column caption='Value lineplot' datatype='real' name='[Calculation_451204451705303040]' role='measure' type='quantitative'>
-              <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
+              <calculation class='tableau' formula='case [Parameters].[Paramètre 3]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;END' />
             </column>
             <column caption='Scenario' datatype='string' name='[Path (Union6) - Scission 1]' role='dimension' type='nominal' user:SplitFieldIndex='1' user:SplitFieldOrigin='[federated.1mx1g0w07es1k417syvyv0o92oi3].[Path]'>
               <calculation class='tableau' formula='TRIM( SPLIT( [Path (Union6)], &quot;/&quot;, 1 ) )' />
@@ -11728,7 +11728,7 @@
             <column datatype='real' name='[value (Union8)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (Union9)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (pSpinningReserveByPlantZone.csv+)]' role='measure' type='quantitative' />
-            <column datatype='real' name='[value (pZonalAverageCost.csv+)]' role='measure' type='quantitative' />
+            <column datatype='real' name='[value (pCostsZonePerMWh.csv+)]' role='measure' type='quantitative' />
             <column aggregation='Sum' datatype='integer' name='[y (Union1)]' role='dimension' type='ordinal' />
             <column datatype='string' name='[z]' role='dimension' type='nominal' />
           </datasource-dependencies>
@@ -12704,7 +12704,7 @@
               <calculation class='tableau' formula='CASE [uni (Union15)]&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade: $m&quot; THEN [value (Union15)]&#13;&#10;END' />
             </column>
             <column caption='Value lineplot dup' datatype='real' name='[Value emissions (copie)_451204451709149187]' role='measure' type='quantitative'>
-              <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pZonalAverageCost.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
+              <calculation class='tableau' formula='case [Parameters].[Emission type (copie)_451204451709202436]&#13;&#10;WHEN &quot;Emission&quot; then SUM([value (Union11)])&#13;&#10;WHEN &quot;Emission Intensity&quot; THEN SUM([value (Union12)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1333347028967063557])&#13;&#10;WHEN &quot;Average Cost&quot; THEN SUM([value (pCostsZonePerMWh.csv+)])&#13;&#10;WHEN &quot;Net interchange Ratio&quot; THEN SUM([Value Demand (copie)_1997065025123033088])&#13;&#10;WHEN &quot;Net Interchange (GWh)&quot; THEN SUM([Value Net interchange Ratio (copie)_1551771556728311810])&#13;&#10;WHEN &quot;Share Imports&quot; THEN [Calculation_1997065025128837124]&#13;&#10;WHEN &quot;Share Exports&quot; THEN [Value Share Imports (copie)_1997065025130549256]&#13;&#10;WHEN &quot;Total Annual Cost by Zone&quot; THEN SUM([Calculation_1551771556724764672])&#13;&#10;WHEN &quot;Total Annual Cost by Zone with trade&quot; THEN SUM([Value Total Annual Cost by Zone (copie)_1551771556725612545])&#13;&#10;&#13;&#10;END' />
             </column>
             <column caption='Value indicator advanced 2' datatype='real' name='[Value indicator advanced 1 (copie)_451204451707744258]' role='measure' type='quantitative'>
               <calculation class='tableau' formula='CASE [Parameters].[Indicator Advanced 1 (copie)_451204451707670529]&#13;&#10;WHEN &quot;Capacity&quot; THEN SUM([value (Union6)])&#13;&#10;WHEN &quot;Energy&quot; THEN SUM([value (Union5)])&#13;&#10;when &quot;New capacity&quot; THEN SUM([value (Union8)])&#13;&#10;WHEN &quot;Fuel cost&quot; THEN SUM([value (Union9)])&#13;&#10;WHEN &quot;Costs&quot; THEN SUM([Calculation_127508171045437440])&#13;&#10;WHEN &quot;Reserve&quot; THEN SUM([value (pSpinningReserveByPlantZone.csv+)])&#13;&#10;WHEN &quot;Demand&quot; THEN sum([Calculation_1551771556731363331])&#13;&#10;&#13;&#10;END' />
@@ -12732,7 +12732,7 @@
             <column datatype='real' name='[value (Union8)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (Union9)]' role='measure' type='quantitative' />
             <column datatype='real' name='[value (pSpinningReserveByPlantZone.csv+)]' role='measure' type='quantitative' />
-            <column datatype='real' name='[value (pZonalAverageCost.csv+)]' role='measure' type='quantitative' />
+            <column datatype='real' name='[value (pCostsZonePerMWh.csv+)]' role='measure' type='quantitative' />
             <column aggregation='Sum' datatype='integer' name='[y (Union1)]' role='dimension' type='ordinal' />
             <column datatype='string' name='[z]' role='dimension' type='nominal' />
           </datasource-dependencies>

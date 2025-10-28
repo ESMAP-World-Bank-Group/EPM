@@ -78,10 +78,10 @@ KEYS_RESULTS = {
     'pYearlyPriceHub',
     # 10. Metrics
     'pPlantAnnualLCOE',
-    'pZonalAverageCost',
-    'pZonalAverageGenCost',
-    'pCountryAverageCost',
-    'pCountryAverageGenCost', 
+    'pCostsZonePerMWh',
+    'pCostsGenZonePerMWh',
+    'pCostsCountryPerMWh',
+    'pCostsGenCountryPerMWh', 
     'pYearlySystemAverageCost',
     # 11. Other
     'pSolverParameters'

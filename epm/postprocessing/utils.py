@@ -580,35 +580,35 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         print('No pCostsSystem in epm_results')
 
-    if 'pZonalAverageCost' in epm_results.keys():
-        t = epm_results['pZonalAverageCost'].copy()
+    if 'pCostsZonePerMWh' in epm_results.keys():
+        t = epm_results['pCostsZonePerMWh'].copy()
         t['attribute'] = 'Average Cost: $/MWh'
-        summary.update({'pZonalAverageCost': t})
+        summary.update({'pCostsZonePerMWh': t})
     else:
-            print('No pZonalAverageCost in epm_results')
+            print('No pCostsZonePerMWh in epm_results')
 
-    if 'pCountryAverageCost' in epm_results.keys():
-        t = epm_results['pCountryAverageCost'].copy()
+    if 'pCostsCountryPerMWh' in epm_results.keys():
+        t = epm_results['pCostsCountryPerMWh'].copy()
         t['attribute'] = 'Average Cost: $/MWh'
-        summary.update({'pCountryAverageCost': t})
+        summary.update({'pCostsCountryPerMWh': t})
     else:
-        print('No pCountryAverageCost in epm_results')
+        print('No pCostsCountryPerMWh in epm_results')
 
 
-    if 'pZonalAverageGenCost' in epm_results.keys():
-        t = epm_results['pZonalAverageGenCost'].copy()
+    if 'pCostsGenZonePerMWh' in epm_results.keys():
+        t = epm_results['pCostsGenZonePerMWh'].copy()
         t['attribute'] = 'Average Generation Cost: $/MWh'
-        summary.update({'pZonalAverageGenCost': t})
+        summary.update({'pCostsGenZonePerMWh': t})
     else:
-        print('No pZonalAverageGenCost in epm_results')
+        print('No pCostsGenZonePerMWh in epm_results')
 
 
-    if 'pCountryAverageGenCost' in epm_results.keys():
-        t = epm_results['pCountryAverageGenCost'].copy()
+    if 'pCostsGenCountryPerMWh' in epm_results.keys():
+        t = epm_results['pCostsGenCountryPerMWh'].copy()
         t['attribute'] = 'Average Generation Cost: $/MWh'
-        summary.update({'pCountryAverageGenCost': t})
+        summary.update({'pCostsGenCountryPerMWh': t})
     else:
-        print('No pCountryAverageGenCost in epm_results')
+        print('No pCostsGenCountryPerMWh in epm_results')
 
 
     if 'pYearlyCostsCountry' in epm_results.keys():
