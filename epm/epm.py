@@ -330,7 +330,7 @@ def launch_epm_multi_scenarios(config='config.csv',
         path_gams = {k: os.path.join(working_directory, i) for k, i in PATH_GAMS.items()}
         
     # Create the full path folder input
-    folder_input = os.path.join(os.getcwd(), 'input', folder_input) if folder_input else os.path.join(os.getcwd(), 'input')
+    folder_input = os.path.join(os.getcwd(), folder_input)
 
     # Read configuration file
     config_path = os.path.join(folder_input, 'config.csv')
@@ -1387,6 +1387,7 @@ def main(test_args=None):
     # Custom logic
     if args.simple == []:
         args.simple = ['DiscreteCap', 'y']
+        
 
     print(f"Config file: {args.config}")
     print(f"Folder input: {args.folder_input}")
@@ -1400,9 +1401,11 @@ def main(test_args=None):
     print(f"Reduced definition csv: {args.reduce_definition_csv}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
+    
+    folder_input = os.path.join("input", args.folder_input)
 
     if args.sensitivity:
-        sensitivity = os.path.join('input', args.folder_input, 'sensitivity.csv')
+        sensitivity = os.path.join(folder_input, 'sensitivity.csv')
         if not os.path.exists(sensitivity):
             print(f"Warning: sensitivity file {os.path.abspath(sensitivity)} does not exist. No sensitivity analysis will be performed.")
         sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
@@ -1414,7 +1417,7 @@ def main(test_args=None):
     # If none do not run EPM
     if args.postprocess is None:
         folder, result = launch_epm_multi_scenarios(config=args.config,
-                                                    folder_input=args.folder_input,
+                                                    folder_input=folder_input,
                                                     scenarios_specification=args.scenarios,
                                                     sensitivity=sensitivity,
                                                     montecarlo=args.montecarlo,
