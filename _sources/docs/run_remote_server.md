@@ -171,7 +171,7 @@ Ctrl + B, then D
 
 This detaches the session and sends it to the background, allowing your job to continue running.
 
-If the keyboard shortcut does not work (e.g., due to terminal configuration), you can also run the following from another terminal:
+**If the keyboard shortcut does not work (e.g., due to terminal configuration), you can also run the following from another terminal:**
 ```sh 
 tmux detach-client
 ```

@@ -18,8 +18,4 @@ Key Features:
   - Fixed and annualized capital costs
   - Variable generation and fuel costs
 - Supports planning under various policy, demand, and technology scenarios
-## Other Tools
 
-The library now includes the following tools:
-
-- **Representative Days**: A tool to determine representative days for a given year. The tool is based on previously developed GAMS code for the Poncelet algorithm. The objective has been to automate the process and make it more user-friendly.
