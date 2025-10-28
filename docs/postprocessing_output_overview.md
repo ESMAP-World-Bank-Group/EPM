@@ -99,7 +99,7 @@ These symbols are always included in the GDX dump and are also written to CSV by
 | Variable | Description | epmresults.gdx | CSV export |
 | --- | --- | --- | --- |
 | `pPlantAnnualLCOE` | Levelized cost of electricity for each plant ($/MWh). | Yes | Yes (default) |
-| `pZonalAverageCost` | Average total system cost per zone ($/MWh). | Yes | Yes (default) |
+| `pCostsZonePerMWh` | Average total system cost per zone ($/MWh). | Yes | Yes (default) |
 
 ### Reference Tables
 
@@ -124,7 +124,7 @@ The following symbols are written to `epmresults.gdx` when detailed reporting is
 - **Emissions detail** (`pEmissionsCountrySummary`, `pEmissionsIntensityCountry`, `pEmissionMarginalCosts`, `pEmissionMarginalCostsCountry`) - Country summaries and marginal emission costs. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Price detail** (`pYearlyPrice`, `pYearlyPriceExport`, `pYearlyPriceImport`, `pYearlyPriceHub`, `pYearlyPriceCountry`, `pYearlyPriceExportCountry`, `pYearlyPriceImportCountry`) - Annual price blocks by hub, import, export, and country aggregation. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Technology specific balances** (`pCSPBalance`, `pCSPComponents`, `pPVwSTOBalance`, `pPVwSTOComponents`, `pStorageBalance`, `pStorageComponents`, `pSolarPower`, `pSolarEnergyZone`, `pSolarValueZone`, `pSolarCost`) - Detailed tracking for CSP, PV with storage, and storage technologies. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
-- **System metrics** (`pCountryAverageCost`, `pCountryAverageGenCost`, `pZonalAverageGenCost`, `pYearlySystemAverageCost`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pSolverParameters`) - Additional summary indicators and solver diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
+- **System metrics** (`pCostsCountryPerMWh`, `pCostsGenCountryPerMWh`, `pCostsGenZonePerMWh`, `pYearlySystemAverageCost`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pSolverParameters`) - Additional summary indicators and solver diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 
 ## Tips
 
