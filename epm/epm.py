@@ -275,6 +275,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                project_assessment=None,
                                interco_assessment=None,
                                simple=None,
+                               simulation_label=None,
                                solver='MIP'):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
@@ -291,6 +292,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         List of scenarios to run
     folder_input: str, optional, default None
         Folder where data input files are stored
+    simulation_label: str, optional, default None
+        Custom name for the simulation output folder that overrides the timestamp-based name.
     """
 
     working_directory = os.getcwd()
@@ -421,11 +424,16 @@ def launch_epm_multi_scenarios(config='config.csv',
         pre = 'sensitivity_run'
     if project_assessment is not None:
         pre = 'project_assessment_run'
-    folder = '{}_{}'.format(pre, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
-    folder = os.path.join('output', folder)
-    if not os.path.exists(folder):
-        os.mkdir(folder)
-        print('Folder created:', folder)
+    if simulation_label:
+        folder_name = simulation_label
+    else:
+        folder_name = '{}_{}'.format(pre, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
+    folder = os.path.join('output', folder_name)
+    if os.path.exists(folder):
+        print('Folder exists, recreating:', folder)
+        shutil.rmtree(folder)
+    os.mkdir(folder)
+    print('Folder ready:', folder)
     os.chdir(folder)
 
     # Export scenario.csv file
@@ -465,6 +473,11 @@ def launch_epm_multi_scenarios(config='config.csv',
     return folder, result
 
 def main(test_args=None):
+    """Parse command-line arguments and orchestrate an EPM simulation run.
+
+    Args:
+        test_args (list[str] | None): Optional list of arguments passed in tests.
+    """
     parser = argparse.ArgumentParser(description="Process some configurations.")
 
     parser.add_argument(
@@ -603,7 +616,6 @@ def main(test_args=None):
         action="store_false",
         help="Disable dispatch plots (default: True)"
     )
-    
     parser.set_defaults(plot_dispatch=True)
 
     parser.add_argument(
@@ -611,6 +623,13 @@ def main(test_args=None):
         type=str,
         default='img',
         help="Graphs folder to store postprocessing results (default: img)"
+    )
+
+    parser.add_argument(
+        "--simulation_label",
+        type=str,
+        default=None,
+        help="Optional label for the simulation results folder (default: timestamp-based name)"
     )
 
 
@@ -637,6 +656,7 @@ def main(test_args=None):
     print(f"Reduced definition csv: {args.reduce_definition_csv}")
     print(f"Selected scenarios: {args.selected_scenarios}")
     print(f"Simple: {args.simple}")
+    print(f"Simulation label: {args.simulation_label}")
     
     folder_input = os.path.join("input", args.folder_input)
 
@@ -664,6 +684,7 @@ def main(test_args=None):
                                                     project_assessment=args.project_assessment,
                                                     interco_assessment=args.interco_assessment,
                                                     simple=args.simple,
+                                                    simulation_label=args.simulation_label,
                                                     solver=args.solver)
     else:
         print(f"Project folder: {args.postprocess}")
