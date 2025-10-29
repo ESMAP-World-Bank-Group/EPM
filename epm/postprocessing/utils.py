@@ -582,33 +582,15 @@ def generate_summary(epm_results, folder, epm_input):
 
     if 'pCostsZonePerMWh' in epm_results.keys():
         t = epm_results['pCostsZonePerMWh'].copy()
-        t['attribute'] = 'Average Cost: $/MWh'
         summary.update({'pCostsZonePerMWh': t})
     else:
-            print('No pCostsZonePerMWh in epm_results')
+        print('No pCostsZonePerMWh in epm_results')
 
     if 'pCostsCountryPerMWh' in epm_results.keys():
         t = epm_results['pCostsCountryPerMWh'].copy()
-        t['attribute'] = 'Average Cost: $/MWh'
         summary.update({'pCostsCountryPerMWh': t})
     else:
         print('No pCostsCountryPerMWh in epm_results')
-
-
-    if 'pCostsGenZonePerMWh' in epm_results.keys():
-        t = epm_results['pCostsGenZonePerMWh'].copy()
-        t['attribute'] = 'Average Generation Cost: $/MWh'
-        summary.update({'pCostsGenZonePerMWh': t})
-    else:
-        print('No pCostsGenZonePerMWh in epm_results')
-
-
-    if 'pCostsGenCountryPerMWh' in epm_results.keys():
-        t = epm_results['pCostsGenCountryPerMWh'].copy()
-        t['attribute'] = 'Average Generation Cost: $/MWh'
-        summary.update({'pCostsGenCountryPerMWh': t})
-    else:
-        print('No pCostsGenCountryPerMWh in epm_results')
 
 
     if 'pYearlyCostsCountry' in epm_results.keys():
