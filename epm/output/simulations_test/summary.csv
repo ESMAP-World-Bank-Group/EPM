@@ -1,13 +1,13 @@
 country,zone,attribute,resolution,year,baseline
-,,Annualized capex: $m,,,19941.4
+,,Annualized capex: $m,,,19941.6
 ,,Average Cost: $/MWh,,2025.0,59.0
 ,,Average Cost: $/MWh,,2035.0,48.6
-,,Export revenues with internal zones: $m,,,-9927.7
-,,Fixed O&M: $m,,,5951.9
-,,Fuel costs: $m,,,3774.5
+,,Export revenues with internal zones: $m,,,-9927.5
+,,Fixed O&M: $m,,,5952.1
+,,Fuel costs: $m,,,3774.4
 ,,Import costs with external zones: $m,,,634.2
-,,Import costs with internal zones: $m,,,12679.6
-,,NPV of system cost: $m,,,31704.8
+,,Import costs with internal zones: $m,,,12679.5
+,,NPV of system cost: $m,,,31704.9
 ,,Trade shared benefits: $m,,,-2751.9
 ,,Transmission costs: $m,,,1002.8
 ,,Unmet country planning reserve costs: $m,,,44.9
@@ -21,7 +21,7 @@ Angola,Angola,Annual Energy Exchanges: GWh,DRC,2035.0,127.5
 Angola,Angola,Annual Transmission Capacity: MW,Congo,2035.0,0.0
 Angola,Angola,Annual Transmission Capacity: MW,DRC,2035.0,500.0
 Angola,Angola,Annualized capex: $m,,2025.0,365.6
-Angola,Angola,Annualized capex: $m,,2035.0,941.3
+Angola,Angola,Annualized capex: $m,,2035.0,941.4
 Angola,Angola,Average Cost: $/MWh,,2025.0,75.2
 Angola,Angola,Average Cost: $/MWh,,2035.0,63.9
 Angola,Angola,Average Generation Cost: $/MWh,,2025.0,75.2
@@ -29,7 +29,7 @@ Angola,Angola,Average Generation Cost: $/MWh,,2035.0,61.5
 Angola,Angola,Capacity: MW,Gas,2025.0,1425.0
 Angola,Angola,Capacity: MW,Gas,2035.0,959.2
 Angola,Angola,Capacity: MW,Hydro,2025.0,1579.8
-Angola,Angola,Capacity: MW,Hydro,2035.0,3931.1
+Angola,Angola,Capacity: MW,Hydro,2035.0,3931.2
 Angola,Angola,Capacity: MW,Oil,2025.0,600.0
 Angola,Angola,Capacity: MW,Solar,2025.0,311.0
 Angola,Angola,Capacity: MW,Solar,2035.0,2567.0
@@ -41,9 +41,9 @@ Angola,Angola,Emissions: MtCO2,,2035.0,1.9
 Angola,Angola,Emissions: tCO2/GWh,,2025.0,0.0
 Angola,Angola,Emissions: tCO2/GWh,,2035.0,0.0
 Angola,Angola,Energy: GWh,Gas,2025.0,10146.8
-Angola,Angola,Energy: GWh,Gas,2035.0,4913.6
+Angola,Angola,Energy: GWh,Gas,2035.0,4913.3
 Angola,Angola,Energy: GWh,Hydro,2025.0,5839.9
-Angola,Angola,Energy: GWh,Hydro,2035.0,14916.4
+Angola,Angola,Energy: GWh,Hydro,2035.0,14916.6
 Angola,Angola,Energy: GWh,Oil,2025.0,454.0
 Angola,Angola,Energy: GWh,Solar,2025.0,639.4
 Angola,Angola,Energy: GWh,Solar,2035.0,5277.3
@@ -54,17 +54,17 @@ Angola,Angola,Fixed O&M: $m,,2035.0,268.0
 Angola,Angola,Fuel costs: $m,,2025.0,753.5
 Angola,Angola,Fuel costs: $m,,2035.0,339.8
 Angola,Angola,Generation: GWh,,2025.0,17080.0
-Angola,Angola,Generation: GWh,,2035.0,25462.3
+Angola,Angola,Generation: GWh,,2035.0,25462.2
 Angola,Angola,Import costs with internal zones: $m,,2035.0,191.6
-Angola,Angola,Imports exchange: GWh,,2035.0,2031.8
+Angola,Angola,Imports exchange: GWh,,2035.0,2031.9
 Angola,Angola,Net interchange Ratio: GWh,,2035.0,0.1
-Angola,Angola,Net interchange: GWh,,2035.0,1904.3
+Angola,Angola,Net interchange: GWh,,2035.0,1904.4
 Angola,Angola,New Capacity: MW,Gas,2035.0,209.2
-Angola,Angola,New Capacity: MW,Hydro,2035.0,2851.3
+Angola,Angola,New Capacity: MW,Hydro,2035.0,2851.4
 Angola,Angola,New Capacity: MW,Solar,2035.0,2256.0
 Angola,Angola,New Capacity: MW,Wind,2035.0,104.0
-Angola,Angola,Spinning Reserve: GWh,,2025.0,1983.0
-Angola,Angola,Spinning Reserve: GWh,,2035.0,6192.7
+Angola,Angola,Spinning Reserve: GWh,,2025.0,1982.4
+Angola,Angola,Spinning Reserve: GWh,,2035.0,6200.4
 Angola,Angola,Total Demand: GWh,,2025.0,17080.0
 Angola,Angola,Total Demand: GWh,,2035.0,27265.0
 Angola,Angola,Transmission costs: $m,,2035.0,12.4
@@ -73,7 +73,7 @@ Angola,Angola,Variable O&M: $m,,2035.0,17.3
 CAR,CAR,Additional Transmission Capacity: MW,Cameroon,2035.0,7.3
 CAR,CAR,Additional Transmission Capacity: MW,Congo,2035.0,21.8
 CAR,CAR,Annual Energy Exchanges: GWh,Cameroon,2035.0,5.3
-CAR,CAR,Annual Energy Exchanges: GWh,Congo,2035.0,80.4
+CAR,CAR,Annual Energy Exchanges: GWh,Congo,2035.0,80.3
 CAR,CAR,Annual Transmission Capacity: MW,Cameroon,2035.0,7.3
 CAR,CAR,Annual Transmission Capacity: MW,Congo,2035.0,21.8
 CAR,CAR,Annualized capex: $m,,2025.0,7.2
@@ -107,10 +107,10 @@ CAR,CAR,Fixed O&M: $m,,2025.0,2.4
 CAR,CAR,Fixed O&M: $m,,2035.0,9.0
 CAR,CAR,Fuel costs: $m,,2025.0,3.4
 CAR,CAR,Fuel costs: $m,,2035.0,0.5
-CAR,CAR,Generation: GWh,,2025.0,190.0
+CAR,CAR,Generation: GWh,,2025.0,190.1
 CAR,CAR,Generation: GWh,,2035.0,792.5
 CAR,CAR,Import costs with internal zones: $m,,2035.0,8.1
-CAR,CAR,Imports exchange: GWh,,2035.0,110.3
+CAR,CAR,Imports exchange: GWh,,2035.0,110.2
 CAR,CAR,Net interchange Ratio: GWh,,2035.0,0.0
 CAR,CAR,Net interchange: GWh,,2035.0,24.6
 CAR,CAR,New Capacity: MW,Battery Storage,2035.0,40.0
@@ -118,7 +118,7 @@ CAR,CAR,New Capacity: MW,Hydro,2035.0,75.5
 CAR,CAR,New Capacity: MW,Solar,2035.0,80.0
 CAR,CAR,Spinning Reserve: GWh,,2025.0,33.3
 CAR,CAR,Spinning Reserve: GWh,,2035.0,76.9
-CAR,CAR,Surplus generation: GWh,,2025.0,3.7
+CAR,CAR,Surplus generation: GWh,,2025.0,3.8
 CAR,CAR,Total Demand: GWh,,2025.0,191.0
 CAR,CAR,Total Demand: GWh,,2035.0,775.0
 CAR,CAR,Transmission costs: $m,,2035.0,4.2
@@ -132,9 +132,9 @@ Cameroon,Cameroon,Additional Transmission Capacity: MW,CAR,2035.0,7.3
 Cameroon,Cameroon,Additional Transmission Capacity: MW,Chad,2035.0,200.0
 Cameroon,Cameroon,Additional Transmission Capacity: MW,EquatorialGuinea,2035.0,210.0
 Cameroon,Cameroon,Additional Transmission Capacity: MW,Gabon,2035.0,210.0
-Cameroon,Cameroon,Annual Energy Exchanges: GWh,CAR,2035.0,56.4
+Cameroon,Cameroon,Annual Energy Exchanges: GWh,CAR,2035.0,56.3
 Cameroon,Cameroon,Annual Energy Exchanges: GWh,Chad,2035.0,186.0
-Cameroon,Cameroon,Annual Energy Exchanges: GWh,EquatorialGuinea,2035.0,1211.0
+Cameroon,Cameroon,Annual Energy Exchanges: GWh,EquatorialGuinea,2035.0,1211.9
 Cameroon,Cameroon,Annual Energy Exchanges: GWh,Gabon,2035.0,912.0
 Cameroon,Cameroon,Annual Transmission Capacity: MW,CAR,2035.0,7.3
 Cameroon,Cameroon,Annual Transmission Capacity: MW,Chad,2035.0,200.0
@@ -149,12 +149,12 @@ Cameroon,Cameroon,Average Generation Cost: $/MWh,,2035.0,38.7
 Cameroon,Cameroon,Capacity: MW,Gas,2025.0,216.0
 Cameroon,Cameroon,Capacity: MW,Gas,2035.0,566.0
 Cameroon,Cameroon,Capacity: MW,Hydro,2025.0,1397.0
-Cameroon,Cameroon,Capacity: MW,Hydro,2035.0,1923.9
+Cameroon,Cameroon,Capacity: MW,Hydro,2035.0,1923.7
 Cameroon,Cameroon,Capacity: MW,Oil,2025.0,326.0
 Cameroon,Cameroon,Capacity: MW,Oil,2035.0,336.0
 Cameroon,Cameroon,Capacity: MW,Solar,2025.0,30.0
 Cameroon,Cameroon,Capacity: MW,Solar,2035.0,98.0
-Cameroon,Cameroon,Capacity: MW,Wind,2035.0,574.0
+Cameroon,Cameroon,Capacity: MW,Wind,2035.0,574.5
 Cameroon,Cameroon,Demand: GWh,,2025.0,7978.0
 Cameroon,Cameroon,Demand: GWh,,2035.0,12436.0
 Cameroon,Cameroon,Emissions: MtCO2,,2025.0,0.0
@@ -163,28 +163,28 @@ Cameroon,Cameroon,Emissions: tCO2/GWh,,2025.0,0.0
 Cameroon,Cameroon,Emissions: tCO2/GWh,,2035.0,0.0
 Cameroon,Cameroon,Energy: GWh,Gas,2025.0,5.3
 Cameroon,Cameroon,Energy: GWh,Gas,2035.0,148.2
-Cameroon,Cameroon,Energy: GWh,Hydro,2025.0,7921.8
-Cameroon,Cameroon,Energy: GWh,Hydro,2035.0,12553.3
+Cameroon,Cameroon,Energy: GWh,Hydro,2025.0,7921.9
+Cameroon,Cameroon,Energy: GWh,Hydro,2035.0,12552.7
 Cameroon,Cameroon,Energy: GWh,Solar,2025.0,51.1
 Cameroon,Cameroon,Energy: GWh,Solar,2035.0,167.0
-Cameroon,Cameroon,Energy: GWh,Wind,2035.0,1795.9
-Cameroon,Cameroon,Exports exchange: GWh,,2035.0,2365.4
+Cameroon,Cameroon,Energy: GWh,Wind,2035.0,1797.5
+Cameroon,Cameroon,Exports exchange: GWh,,2035.0,2366.2
 Cameroon,Cameroon,Fixed O&M: $m,,2025.0,76.2
 Cameroon,Cameroon,Fixed O&M: $m,,2035.0,136.7
 Cameroon,Cameroon,Fuel costs: $m,,2025.0,0.4
-Cameroon,Cameroon,Fuel costs: $m,,2035.0,10.3
-Cameroon,Cameroon,Generation: GWh,,2025.0,7978.2
-Cameroon,Cameroon,Generation: GWh,,2035.0,14664.4
+Cameroon,Cameroon,Fuel costs: $m,,2035.0,10.2
+Cameroon,Cameroon,Generation: GWh,,2025.0,7978.3
+Cameroon,Cameroon,Generation: GWh,,2035.0,14665.3
 Cameroon,Cameroon,Import costs with internal zones: $m,,2035.0,4.4
 Cameroon,Cameroon,Imports exchange: GWh,,2035.0,144.2
 Cameroon,Cameroon,New Capacity: MW,Gas,2035.0,350.0
-Cameroon,Cameroon,New Capacity: MW,Hydro,2035.0,526.9
+Cameroon,Cameroon,New Capacity: MW,Hydro,2035.0,526.7
 Cameroon,Cameroon,New Capacity: MW,Oil,2035.0,10.0
 Cameroon,Cameroon,New Capacity: MW,Solar,2035.0,68.0
-Cameroon,Cameroon,New Capacity: MW,Wind,2035.0,574.0
+Cameroon,Cameroon,New Capacity: MW,Wind,2035.0,574.5
 Cameroon,Cameroon,Spinning Reserve: GWh,,2025.0,278.9
-Cameroon,Cameroon,Spinning Reserve: GWh,,2035.0,1666.1
-Cameroon,Cameroon,Surplus generation: GWh,,2025.0,0.2
+Cameroon,Cameroon,Spinning Reserve: GWh,,2035.0,1665.6
+Cameroon,Cameroon,Surplus generation: GWh,,2025.0,0.3
 Cameroon,Cameroon,Total Demand: GWh,,2025.0,7978.0
 Cameroon,Cameroon,Total Demand: GWh,,2035.0,12436.0
 Cameroon,Cameroon,Transmission costs: $m,,2035.0,33.0
@@ -243,7 +243,7 @@ Congo,Congo,Additional Transmission Capacity: MW,CAR,2035.0,21.8
 Congo,Congo,Additional Transmission Capacity: MW,DRC,2035.0,235.0
 Congo,Congo,Additional Transmission Capacity: MW,Gabon,2035.0,500.0
 Congo,Congo,Annual Energy Exchanges: GWh,Angola,2035.0,0.0
-Congo,Congo,Annual Energy Exchanges: GWh,CAR,2035.0,53.8
+Congo,Congo,Annual Energy Exchanges: GWh,CAR,2035.0,53.9
 Congo,Congo,Annual Energy Exchanges: GWh,DRC,2025.0,409.7
 Congo,Congo,Annual Energy Exchanges: GWh,DRC,2035.0,1990.3
 Congo,Congo,Annual Energy Exchanges: GWh,Gabon,2035.0,0.0
@@ -280,7 +280,7 @@ Congo,Congo,Energy: GWh,Hydro,2035.0,2029.3
 Congo,Congo,Energy: GWh,Oil,2025.0,0.0
 Congo,Congo,Energy: GWh,Solar,2035.0,750.9
 Congo,Congo,Exports exchange: GWh,,2025.0,409.7
-Congo,Congo,Exports exchange: GWh,,2035.0,2044.1
+Congo,Congo,Exports exchange: GWh,,2035.0,2044.2
 Congo,Congo,Fixed O&M: $m,,2025.0,23.7
 Congo,Congo,Fixed O&M: $m,,2035.0,31.7
 Congo,Congo,Fuel costs: $m,,2025.0,151.8
@@ -289,7 +289,7 @@ Congo,Congo,Generation: GWh,,2035.0,2843.5
 Congo,Congo,Import costs with internal zones: $m,,2025.0,23.2
 Congo,Congo,Import costs with internal zones: $m,,2035.0,327.7
 Congo,Congo,Imports exchange: GWh,,2025.0,279.7
-Congo,Congo,Imports exchange: GWh,,2035.0,4340.6
+Congo,Congo,Imports exchange: GWh,,2035.0,4340.8
 Congo,Congo,Net interchange Ratio: GWh,,2035.0,0.5
 Congo,Congo,Net interchange: GWh,,2035.0,2296.5
 Congo,Congo,New Capacity: MW,Hydro,2035.0,251.0
@@ -318,7 +318,7 @@ DRC,DRC,Average Cost: $/MWh,,2025.0,-13.5
 DRC,DRC,Average Cost: $/MWh,,2035.0,-8.3
 DRC,DRC,Average Generation Cost: $/MWh,,2025.0,34.8
 DRC,DRC,Average Generation Cost: $/MWh,,2035.0,37.0
-DRC,DRC,Capacity: MW,Battery Storage,2035.0,129.5
+DRC,DRC,Capacity: MW,Battery Storage,2035.0,129.6
 DRC,DRC,Capacity: MW,Hydro,2025.0,1415.5
 DRC,DRC,Capacity: MW,Hydro,2035.0,1649.5
 DRC,DRC,Capacity: MW,Oil,2025.0,5.0
@@ -337,7 +337,7 @@ DRC,DRC,Energy: GWh,Hydro,2035.0,11582.5
 DRC,DRC,Energy: GWh,Solar,2035.0,1687.6
 DRC,DRC,Energy: GWh,Wind,2035.0,1716.3
 DRC,DRC,Exports exchange: GWh,,2025.0,6143.3
-DRC,DRC,Exports exchange: GWh,,2035.0,9735.5
+DRC,DRC,Exports exchange: GWh,,2035.0,9735.6
 DRC,DRC,Fixed O&M: $m,,2025.0,70.9
 DRC,DRC,Fixed O&M: $m,,2035.0,122.8
 DRC,DRC,Generation: GWh,,2025.0,10702.1
@@ -346,12 +346,12 @@ DRC,DRC,Import costs with internal zones: $m,,2025.0,38.9
 DRC,DRC,Import costs with internal zones: $m,,2035.0,165.0
 DRC,DRC,Imports exchange: GWh,,2025.0,409.7
 DRC,DRC,Imports exchange: GWh,,2035.0,2117.8
-DRC,DRC,New Capacity: MW,Battery Storage,2035.0,129.5
+DRC,DRC,New Capacity: MW,Battery Storage,2035.0,129.6
 DRC,DRC,New Capacity: MW,Hydro,2035.0,234.0
 DRC,DRC,New Capacity: MW,Solar,2035.0,1000.0
 DRC,DRC,New Capacity: MW,Wind,2035.0,500.0
 DRC,DRC,Spinning Reserve: GWh,,2025.0,419.4
-DRC,DRC,Spinning Reserve: GWh,,2035.0,973.3
+DRC,DRC,Spinning Reserve: GWh,,2035.0,972.7
 DRC,DRC,Total Demand: GWh,,2025.0,4948.0
 DRC,DRC,Total Demand: GWh,,2035.0,7262.0
 DRC,DRC,Transmission costs: $m,,2035.0,15.1
@@ -392,7 +392,7 @@ DRC,DRC_South,Generation: GWh,,2025.0,4151.8
 DRC,DRC_South,Generation: GWh,,2035.0,6724.7
 DRC,DRC_South,Import costs with external zones: $m,,2025.0,32.8
 DRC,DRC_South,Import costs with external zones: $m,,2035.0,80.5
-DRC,DRC_South,Import costs with internal zones: $m,,2025.0,550.2
+DRC,DRC_South,Import costs with internal zones: $m,,2025.0,550.1
 DRC,DRC_South,Import costs with internal zones: $m,,2035.0,776.4
 DRC,DRC_South,Imports exchange: GWh,,2025.0,6191.4
 DRC,DRC_South,Imports exchange: GWh,,2035.0,8508.6
@@ -403,8 +403,8 @@ DRC,DRC_South,Net interchange: GWh,,2035.0,8508.6
 DRC,DRC_South,New Capacity: MW,Battery Storage,2035.0,686.4
 DRC,DRC_South,New Capacity: MW,Solar,2035.0,740.0
 DRC,DRC_South,New Capacity: MW,Wind,2035.0,360.0
-DRC,DRC_South,Spinning Reserve: GWh,,2025.0,386.7
-DRC,DRC_South,Spinning Reserve: GWh,,2035.0,565.9
+DRC,DRC_South,Spinning Reserve: GWh,,2025.0,386.6
+DRC,DRC_South,Spinning Reserve: GWh,,2035.0,566.1
 DRC,DRC_South,Total Demand: GWh,,2025.0,10050.0
 DRC,DRC_South,Total Demand: GWh,,2035.0,14750.0
 DRC,DRC_South,Unmet country planning reserve costs: $m,,2025.0,21.7
@@ -414,7 +414,7 @@ DRC,DRC_South,Variable O&M: $m,,2035.0,2.0
 EquatorialGuinea,EquatorialGuinea,Additional Transmission Capacity: MW,Cameroon,2035.0,210.0
 EquatorialGuinea,EquatorialGuinea,Additional Transmission Capacity: MW,Gabon,2035.0,88.6
 EquatorialGuinea,EquatorialGuinea,Annual Energy Exchanges: GWh,Cameroon,2035.0,0.0
-EquatorialGuinea,EquatorialGuinea,Annual Energy Exchanges: GWh,Gabon,2035.0,258.7
+EquatorialGuinea,EquatorialGuinea,Annual Energy Exchanges: GWh,Gabon,2035.0,258.3
 EquatorialGuinea,EquatorialGuinea,Annual Transmission Capacity: MW,Cameroon,2035.0,210.0
 EquatorialGuinea,EquatorialGuinea,Annual Transmission Capacity: MW,Gabon,2035.0,88.6
 EquatorialGuinea,EquatorialGuinea,Annualized capex: $m,,2025.0,26.2
@@ -422,12 +422,13 @@ EquatorialGuinea,EquatorialGuinea,Annualized capex: $m,,2035.0,27.1
 EquatorialGuinea,EquatorialGuinea,Average Cost: $/MWh,,2025.0,78.3
 EquatorialGuinea,EquatorialGuinea,Average Cost: $/MWh,,2035.0,41.7
 EquatorialGuinea,EquatorialGuinea,Average Generation Cost: $/MWh,,2025.0,78.3
-EquatorialGuinea,EquatorialGuinea,Average Generation Cost: $/MWh,,2035.0,63.6
+EquatorialGuinea,EquatorialGuinea,Average Generation Cost: $/MWh,,2035.0,63.7
 EquatorialGuinea,EquatorialGuinea,Capacity: MW,Gas,2025.0,187.0
 EquatorialGuinea,EquatorialGuinea,Capacity: MW,Hydro,2025.0,126.0
 EquatorialGuinea,EquatorialGuinea,Capacity: MW,Hydro,2035.0,126.0
 EquatorialGuinea,EquatorialGuinea,Capacity: MW,Oil,2025.0,53.0
-EquatorialGuinea,EquatorialGuinea,Capacity: MW,Solar,2035.0,20.7
+EquatorialGuinea,EquatorialGuinea,Capacity: MW,Oil,2035.0,0.0
+EquatorialGuinea,EquatorialGuinea,Capacity: MW,Solar,2035.0,19.9
 EquatorialGuinea,EquatorialGuinea,Demand: GWh,,2025.0,921.0
 EquatorialGuinea,EquatorialGuinea,Demand: GWh,,2035.0,1443.0
 EquatorialGuinea,EquatorialGuinea,Emissions: MtCO2,,2025.0,0.2
@@ -436,20 +437,20 @@ EquatorialGuinea,EquatorialGuinea,Emissions: tCO2/GWh,,2025.0,0.0
 EquatorialGuinea,EquatorialGuinea,Emissions: tCO2/GWh,,2035.0,0.0
 EquatorialGuinea,EquatorialGuinea,Energy: GWh,Gas,2025.0,417.5
 EquatorialGuinea,EquatorialGuinea,Energy: GWh,Hydro,2025.0,503.5
-EquatorialGuinea,EquatorialGuinea,Energy: GWh,Hydro,2035.0,503.5
+EquatorialGuinea,EquatorialGuinea,Energy: GWh,Hydro,2035.0,503.3
 EquatorialGuinea,EquatorialGuinea,Energy: GWh,Oil,2025.0,0.0
-EquatorialGuinea,EquatorialGuinea,Energy: GWh,Solar,2035.0,29.1
-EquatorialGuinea,EquatorialGuinea,Exports exchange: GWh,,2035.0,258.7
+EquatorialGuinea,EquatorialGuinea,Energy: GWh,Solar,2035.0,28.1
+EquatorialGuinea,EquatorialGuinea,Exports exchange: GWh,,2035.0,258.3
 EquatorialGuinea,EquatorialGuinea,Fixed O&M: $m,,2025.0,11.0
-EquatorialGuinea,EquatorialGuinea,Fixed O&M: $m,,2035.0,6.6
+EquatorialGuinea,EquatorialGuinea,Fixed O&M: $m,,2035.0,6.5
 EquatorialGuinea,EquatorialGuinea,Fuel costs: $m,,2025.0,33.0
 EquatorialGuinea,EquatorialGuinea,Generation: GWh,,2025.0,921.0
-EquatorialGuinea,EquatorialGuinea,Generation: GWh,,2035.0,532.7
+EquatorialGuinea,EquatorialGuinea,Generation: GWh,,2035.0,531.4
 EquatorialGuinea,EquatorialGuinea,Import costs with internal zones: $m,,2035.0,57.1
-EquatorialGuinea,EquatorialGuinea,Imports exchange: GWh,,2035.0,1230.6
+EquatorialGuinea,EquatorialGuinea,Imports exchange: GWh,,2035.0,1231.5
 EquatorialGuinea,EquatorialGuinea,Net interchange Ratio: GWh,,2035.0,0.7
-EquatorialGuinea,EquatorialGuinea,Net interchange: GWh,,2035.0,971.9
-EquatorialGuinea,EquatorialGuinea,New Capacity: MW,Solar,2035.0,20.7
+EquatorialGuinea,EquatorialGuinea,Net interchange: GWh,,2035.0,973.2
+EquatorialGuinea,EquatorialGuinea,New Capacity: MW,Solar,2035.0,19.9
 EquatorialGuinea,EquatorialGuinea,Spinning Reserve: GWh,,2035.0,122.8
 EquatorialGuinea,EquatorialGuinea,Total Demand: GWh,,2025.0,921.0
 EquatorialGuinea,EquatorialGuinea,Total Demand: GWh,,2035.0,1443.0
@@ -460,13 +461,13 @@ Gabon,Gabon,Additional Transmission Capacity: MW,Cameroon,2035.0,210.0
 Gabon,Gabon,Additional Transmission Capacity: MW,Congo,2035.0,500.0
 Gabon,Gabon,Additional Transmission Capacity: MW,EquatorialGuinea,2035.0,88.6
 Gabon,Gabon,Annual Energy Exchanges: GWh,Cameroon,2035.0,1.3
-Gabon,Gabon,Annual Energy Exchanges: GWh,Congo,2035.0,4260.3
+Gabon,Gabon,Annual Energy Exchanges: GWh,Congo,2035.0,4260.4
 Gabon,Gabon,Annual Energy Exchanges: GWh,EquatorialGuinea,2035.0,19.6
 Gabon,Gabon,Annual Transmission Capacity: MW,Cameroon,2035.0,210.0
 Gabon,Gabon,Annual Transmission Capacity: MW,Congo,2035.0,500.0
 Gabon,Gabon,Annual Transmission Capacity: MW,EquatorialGuinea,2035.0,88.6
 Gabon,Gabon,Annualized capex: $m,,2025.0,72.1
-Gabon,Gabon,Annualized capex: $m,,2035.0,330.9
+Gabon,Gabon,Annualized capex: $m,,2035.0,331.0
 Gabon,Gabon,Average Cost: $/MWh,,2025.0,77.8
 Gabon,Gabon,Average Cost: $/MWh,,2035.0,22.1
 Gabon,Gabon,Average Generation Cost: $/MWh,,2025.0,77.8
@@ -477,7 +478,7 @@ Gabon,Gabon,Capacity: MW,Hydro,2025.0,343.3
 Gabon,Gabon,Capacity: MW,Hydro,2035.0,1709.2
 Gabon,Gabon,Capacity: MW,Oil,2025.0,57.2
 Gabon,Gabon,Capacity: MW,Solar,2025.0,65.0
-Gabon,Gabon,Capacity: MW,Solar,2035.0,478.4
+Gabon,Gabon,Capacity: MW,Solar,2035.0,479.2
 Gabon,Gabon,Demand: GWh,,2025.0,3788.0
 Gabon,Gabon,Demand: GWh,,2035.0,6128.0
 Gabon,Gabon,Emissions: MtCO2,,2025.0,1.2
@@ -486,22 +487,22 @@ Gabon,Gabon,Emissions: tCO2/GWh,,2025.0,0.0
 Gabon,Gabon,Emissions: tCO2/GWh,,2035.0,0.0
 Gabon,Gabon,Energy: GWh,Gas,2025.0,2020.3
 Gabon,Gabon,Energy: GWh,Hydro,2025.0,1509.4
-Gabon,Gabon,Energy: GWh,Hydro,2035.0,8637.5
+Gabon,Gabon,Energy: GWh,Hydro,2035.0,8636.8
 Gabon,Gabon,Energy: GWh,Oil,2025.0,168.7
 Gabon,Gabon,Energy: GWh,Solar,2025.0,89.6
-Gabon,Gabon,Energy: GWh,Solar,2035.0,659.5
-Gabon,Gabon,Exports exchange: GWh,,2035.0,4281.2
+Gabon,Gabon,Energy: GWh,Solar,2035.0,660.6
+Gabon,Gabon,Exports exchange: GWh,,2035.0,4281.3
 Gabon,Gabon,Fixed O&M: $m,,2025.0,23.7
 Gabon,Gabon,Fixed O&M: $m,,2035.0,79.0
 Gabon,Gabon,Fuel costs: $m,,2025.0,189.1
 Gabon,Gabon,Generation: GWh,,2025.0,3788.0
-Gabon,Gabon,Generation: GWh,,2035.0,9297.0
-Gabon,Gabon,Import costs with internal zones: $m,,2035.0,75.3
-Gabon,Gabon,Imports exchange: GWh,,2035.0,1170.7
+Gabon,Gabon,Generation: GWh,,2035.0,9297.5
+Gabon,Gabon,Import costs with internal zones: $m,,2035.0,75.2
+Gabon,Gabon,Imports exchange: GWh,,2035.0,1170.3
 Gabon,Gabon,New Capacity: MW,Hydro,2035.0,1599.9
-Gabon,Gabon,New Capacity: MW,Solar,2035.0,413.4
+Gabon,Gabon,New Capacity: MW,Solar,2035.0,414.2
 Gabon,Gabon,Spinning Reserve: GWh,,2025.0,37.6
-Gabon,Gabon,Spinning Reserve: GWh,,2035.0,600.9
+Gabon,Gabon,Spinning Reserve: GWh,,2035.0,599.8
 Gabon,Gabon,Total Demand: GWh,,2025.0,3788.0
 Gabon,Gabon,Total Demand: GWh,,2035.0,6128.0
 Gabon,Gabon,Transmission costs: $m,,2035.0,18.2
@@ -535,7 +536,7 @@ CAR,,Unmet demand costs: $m,,2035.0,0.0
 CAR,,Unmet system planning reserve costs: $m,,2035.0,0.0
 Cameroon,,Export revenues with internal zones: $m,,2035.0,-86.5
 Cameroon,,Firm Capacity: MW,,2025.0,1939.0
-Cameroon,,Firm Capacity: MW,,2035.0,2825.9
+Cameroon,,Firm Capacity: MW,,2035.0,2825.7
 Cameroon,,Peak demand: MW,,2025.0,1294.0
 Cameroon,,Peak demand: MW,,2035.0,2018.0
 Cameroon,,Planning Reserve: MW,,2025.0,1.5
@@ -569,7 +570,7 @@ Congo,,Peak demand: MW,,2035.0,881.0
 Congo,,Planning Reserve: MW,,2025.0,1.7
 Congo,,Planning Reserve: MW,,2035.0,0.5
 Congo,,Trade shared benefits: $m,,2025.0,-3.0
-Congo,,Trade shared benefits: $m,,2035.0,-65.2
+Congo,,Trade shared benefits: $m,,2035.0,-65.1
 Congo,,Unmet country planning reserve costs: $m,,2035.0,0.0
 Congo,,Unmet country spinning reserve costs: $m,,2035.0,0.0
 Congo,,Unmet demand costs: $m,,2025.0,0.0
@@ -589,7 +590,7 @@ DRC,,Capacity: MW,Oil,2035.0,5.0
 DRC,,Capacity: MW,Solar,2025.0,100.0
 DRC,,Capacity: MW,Solar,2035.0,1840.0
 DRC,,Capacity: MW,Wind,2035.0,860.0
-DRC,,Energy: GWh,Battery Storage,2035.0,94.9
+DRC,,Energy: GWh,Battery Storage,2035.0,94.8
 DRC,,Energy: GWh,Hydro,2025.0,14685.2
 DRC,,Energy: GWh,Hydro,2035.0,15565.6
 DRC,,Energy: GWh,Solar,2025.0,168.8
@@ -627,7 +628,7 @@ DRC,,Unmet demand costs: $m,,2035.0,0.0
 DRC,,Unmet system planning reserve costs: $m,,2035.0,0.0
 DRC,,Variable O&M: $m,,2025.0,7.3
 DRC,,Variable O&M: $m,,2035.0,7.8
-EquatorialGuinea,,Export revenues with internal zones: $m,,2035.0,-14.7
+EquatorialGuinea,,Export revenues with internal zones: $m,,2035.0,-14.6
 EquatorialGuinea,,Firm Capacity: MW,,2025.0,366.0
 EquatorialGuinea,,Firm Capacity: MW,,2035.0,126.0
 EquatorialGuinea,,Fuel costs: $m,,2035.0,0.0
