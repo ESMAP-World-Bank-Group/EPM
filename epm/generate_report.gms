@@ -275,10 +275,10 @@ Parameters
 * ============================================================
 
   pPlantAnnualLCOE(z,g,y)          'Plant-level LCOE [USD/MWh] by year'
-  pZonalAverageCost(z,y)           'Zone average total cost [USD/MWh] by year'
-  pZonalAverageGenCost(z,y)        'Zone average generation cost [USD/MWh] by year'
-  pCountryAverageCost(c,y)         'Country average total cost [USD/MWh] by year'
-  pCountryAverageGenCost(c,y)      'Country average generation cost [USD/MWh] by year'
+  pCostsZonePerMWh(z,y)           'Zone average total cost [USD/MWh] by year'
+  pCostsGenZonePerMWh(z,y)        'Zone average generation cost [USD/MWh] by year'
+  pCostsCountryPerMWh(c,y)         'Country average total cost [USD/MWh] by year'
+  pCostsGenCountryPerMWh(c,y)      'Country average generation cost [USD/MWh] by year'
   pYearlyAverageCostZone(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
   pYearlyAverageCostCountry(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
   pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
@@ -1335,19 +1335,19 @@ pCostsSystemPerMWh(sumhdr)$pDiscountedSystemCostEnergyBasis =
 * ---------------------------------------------------------
 
 * Zone-level average total system cost ($/MWh)
-pZonalAverageCost(z,y)$pZoneEnergyMWh(z,y) =
+pCostsZonePerMWh(z,y)$pZoneEnergyMWh(z,y) =
     pZoneTotalCost(z,y) / pZoneCostEnergyBasis(z,y);
 
 * Zone-level average generation cost only ($/MWh)
-pZonalAverageGenCost(z,y)$pZoneEnergyMWh(z,y) =
+pCostsGenZonePerMWh(z,y)$pZoneEnergyMWh(z,y) =
     pZoneGenCost(z,y) / pZoneEnergyMWh(z,y);
 
 * Country-level average total system cost ($/MWh)
-pCountryAverageCost(c,y)$pCountryEnergyMWh(c,y) =
+pCostsCountryPerMWh(c,y)$pCountryEnergyMWh(c,y) =
     sum(zcmap(z,c), pZoneTotalCost(z,y)) / pCountryCostEnergyBasis(c,y);
 
 * Country-level average generation cost only ($/MWh)
-pCountryAverageGenCost(c,y)$pCountryEnergyMWh(c,y) =
+pCostsGenCountryPerMWh(c,y)$pCountryEnergyMWh(c,y) =
     sum(zcmap(z,c), pZoneGenCost(z,y)) / pCountryEnergyMWh(c,y);
 
 * Component-level averages ($/MWh)
@@ -1481,10 +1481,10 @@ embeddedCode Connect:
         "pDispatch",
         
         "pPlantAnnualLCOE",
-        "pZonalAverageCost",
-        "pZonalAverageGenCost",
-        "pCountryAverageCost",
-        "pCountryAverageGenCost",
+        "pCostsZonePerMWh",
+        "pCostsGenZonePerMWh",
+        "pCostsCountryPerMWh",
+        "pCostsGenCountryPerMWh",
         "pYearlyAverageCostZone",
         "pYearlyAverageCostCountry",
         "zcmap",
@@ -1546,7 +1546,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 9. METRICS
-      pPlantAnnualLCOE, pZonalAverageCost, pZonalAverageGenCost, pCountryAverageCost, pCountryAverageGenCost,
+      pPlantAnnualLCOE, pCostsZonePerMWh, pCostsGenZonePerMWh, pCostsCountryPerMWh, pCostsGenCountryPerMWh,
       pYearlyAverageCostZone, pYearlyAverageCostCountry, pYearlySystemAverageCost,
 * 10. SOLVER PARAMETERS
       pSolverParameters,
