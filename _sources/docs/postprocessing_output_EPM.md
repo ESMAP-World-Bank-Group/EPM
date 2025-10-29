@@ -161,10 +161,11 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | Variable | Description | epmresults.gdx | CSV export |
 | --- | --- | --- | --- |
 | pPlantAnnualLCOE | Plant-level LCOE \[USD/MWh\] by year | Yes | Yes |
-| pCostsZonePerMWh | Zone average total cost \[USD/MWh\] by year | Yes | Yes |
-| pCostsGenZonePerMWh | Zone average generation cost \[USD/MWh\] by year | Yes | No |
-| pCostsCountryPerMWh | Country average total cost \[USD/MWh\] by year | Yes | No |
-| pCostsGenCountryPerMWh | Country average generation cost \[USD/MWh\] by year | Yes | No |
+| pCostsZonePerMWh | Zone discounted average cost by component \[USD/MWh\] | Yes | Yes |
+| pCostsCountryPerMWh | Country discounted average cost by component \[USD/MWh\] | Yes | No |
+| pDiscountedDemandZoneMWh | Discounted electricity demand denominator \[MWh\] by zone | Yes | No |
+| pDiscountedDemandCountryMWh | Discounted electricity demand denominator \[MWh\] by country | Yes | No |
+| pDiscountedDemandSystemMWh | Discounted electricity demand denominator \[MWh\] for the system | Yes | No |
 | pYearlySystemAverageCost | System average cost \[USD/MWh\] by year | Yes | No |
 
 ## 11. SOLVER PARAMETERS
