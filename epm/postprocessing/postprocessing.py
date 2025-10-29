@@ -59,6 +59,7 @@ KEYS_RESULTS = {
     'pCostsPlant',  
     'pYearlyCostsZone', 'pYearlyCostsCountry',
     'pCostsZone', 'pCostsSystem', 'pCostsSystemPerMWh',
+    'pCostsZonePerMWh', 'pCostsCountryPerMWh',
     'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption', 'pFuelConsumptionCountry',
     # 3. Energy balance
     'pEnergyPlant', 'pEnergyFuel', 'pEnergyFuelCountry',
@@ -100,8 +101,8 @@ FIGURES_ACTIVATED = {
     'NewCapacityInstalledTimeline': True,
     
     # 2. Cost figures
-    'CostSystemScenarios': True,
-    'CostSystemScenariosRelative': True,
+    'NPVCostSystemScenarios': True,
+    'NPVCostSystemScenariosRelative': True,
     'NPVCostZoneScenarios': True, 
     'NPVCostZoneScenariosRelative': True,
     'NPVCostMWhZoneScenarios': True, 
@@ -944,7 +945,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 
                 
-                figure_name = 'CostSystemScenarios'
+                figure_name = 'NPVCostSystemScenarios'
                 if FIGURES_ACTIVATED.get(figure_name, False):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                 
@@ -959,7 +960,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 
                 # System cost comparison between scenarios compare to the reference scenarios
                 if scenario_reference in selected_scenarios and len(selected_scenarios) > 1:
-                    figure_name = 'CostSystemScenariosRelative'
+                    figure_name = 'NPVCostSystemScenariosRelative'
                     if FIGURES_ACTIVATED.get(figure_name, False):
                         filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
 
@@ -1041,7 +1042,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_subplot='zone',
                                             column_xaxis='scenario',
                                             column_value='value',
-                                            format_y=make_auto_yaxis_formatter("$"), 
+                                            format_y=make_auto_yaxis_formatter("$/MWh"), 
                                             rotation=45,
                                             annotate=False,
                                             title='Discounted Cost per Scenario (USD/MWh)', show_total=True) 
@@ -1058,7 +1059,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_subplot='zone',
                                                     column_xaxis='scenario',
                                                     column_value='value',
-                                                    format_y=make_auto_yaxis_formatter("$"), 
+                                                    format_y=make_auto_yaxis_formatter("$/MWh"), 
                                                     rotation=45,
                                                     annotate=False,
                                                     title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
