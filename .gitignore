@@ -8,6 +8,9 @@
 
 .vscode
 
+
+epm/output/simulations_test/*.pdf
+
 xlsxReport.cmd
 
 /training
