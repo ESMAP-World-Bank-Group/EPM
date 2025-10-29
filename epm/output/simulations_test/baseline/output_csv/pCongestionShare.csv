@@ -4,9 +4,8 @@ Angola,DRC,2025,1.0
 Cameroon,CAR,2025,1.0
 Cameroon,Chad,2025,1.0
 Cameroon,EquatorialGuinea,2025,1.0
-Cameroon,EquatorialGuinea,2035,0.027968036529680364
 Cameroon,Gabon,2025,1.0
-Cameroon,Gabon,2035,0.03995433789954338
+Cameroon,Gabon,2035,0.011986301369863013
 CAR,Cameroon,2025,1.0
 CAR,Congo,2025,1.0
 Chad,Cameroon,2025,1.0
@@ -18,5 +17,4 @@ EquatorialGuinea,Cameroon,2025,1.0
 EquatorialGuinea,Gabon,2025,1.0
 Gabon,Cameroon,2025,1.0
 Gabon,Congo,2025,1.0
-Gabon,Congo,2035,0.44646118721461187
 Gabon,EquatorialGuinea,2025,1.0
