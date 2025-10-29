@@ -6,11 +6,11 @@ The Python interface supports advanced features via command-line options.
 
 To run additional scenarios beyond the baseline, use the `--scenarios` argument with a `scenarios.csv file`:
 
-1. Create a `scenarios.csv` file in your `input` folder.
+1. Create a `scenarios.csv` file in your `folder_input`.
 2. Run EPM using:
 
 ```sh
-python epm.py --folder_input my_data --scenarios input/scenarios.csv
+python epm.py --folder_input my_data --scenarios scenarios.csv
 ```
 
 Each row overrides specific input files defined in config.csv.
@@ -21,7 +21,7 @@ Each row overrides specific input files defined in config.csv.
 You can limit execution to a selection of scenarios using the `--selected_scenarios` argument. For example:
 
 ```sh
-python epm.py --folder_input my_data --scenarios input/my_scenarios.csv  --selected_scenarios baseline Retrade
+python epm.py --folder_input my_data --scenarios my_scenarios.csv  --selected_scenarios baseline Retrade
 ```
 
 This will only run the baseline and Retrade scenarios, even if more are defined in scenarios.csv.
