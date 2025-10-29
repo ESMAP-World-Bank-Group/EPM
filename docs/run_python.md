@@ -40,7 +40,7 @@ Then you can follow these steps:
    ```
 5. Install the required libraries:
    ```sh
-   pip install -r requirements_mac_and_windows.txt
+   pip install -r requirements.txt
    ```
 6. *(Optional – Monte Carlo only)* Install `chaospy`:
    ```sh
@@ -70,7 +70,7 @@ conda activate epm_env
 export TMPDIR=~/pip_tmp
 ```
 
-5. Install additional packages from the `requirements.txt` file specific to Linux
+5. Install additional packages from the shared `requirements.txt` file:
 ```sh 
 pip install -r requirements.txt
 ```

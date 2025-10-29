@@ -8,7 +8,7 @@ set REPO_DIR=%~dp0EPM
 set CONDA_ENV=epm_env
 set GAMS_MAIN=%REPO_DIR%\main.gms
 set PYTHON_SCRIPT=%REPO_DIR%\epm\epm.py
-set REQ_FILE=%REPO_DIR%\requirements_mac_and_windows.txt
+set REQ_FILE=%REPO_DIR%\requirements.txt
 set LOG_FILE=%~dp0setup_log.txt
 
 echo ----------------------------------------
@@ -85,7 +85,7 @@ echo [+] Environment created successfully.
 
 :: ---------- Step 7: Install dependencies ----------
 call conda activate %CONDA_ENV%
-echo [*] Installing dependencies from requirements_mac_and_windows.txt ...
+echo [*] Installing dependencies from requirements.txt ...
 pip install --upgrade pip >> "%LOG_FILE%" 2>&1
 pip install -r "%REQ_FILE%" >> "%LOG_FILE%" 2>&1
 if %errorlevel% neq 0 (
