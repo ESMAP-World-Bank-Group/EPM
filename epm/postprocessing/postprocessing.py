@@ -79,9 +79,10 @@ KEYS_RESULTS = {
     # 10. Metrics
     'pPlantAnnualLCOE',
     'pCostsZonePerMWh',
-    'pCostsGenZonePerMWh',
     'pCostsCountryPerMWh',
-    'pCostsGenCountryPerMWh', 
+    'pDiscountedDemandZoneMWh',
+    'pDiscountedDemandCountryMWh',
+    'pDiscountedDemandSystemMWh',
     'pYearlySystemAverageCost',
     # 11. Other
     'pSolverParameters'
@@ -101,6 +102,10 @@ FIGURES_ACTIVATED = {
     # 2. Cost figures
     'CostSystemScenarios': True,
     'CostSystemScenariosRelative': True,
+    'NPVCostZoneScenarios': True, 
+    'NPVCostZoneScenariosRelative': True,
+    'NPVCostMWhZoneScenarios': True, 
+    'NPVCostMWhZoneScenariosRelative': True,
     'CostSystemEvolutionScenarios': True,
     'CostSystemEvolutionScenariosRelative': True,
     'CostZoneEvolution': True,
@@ -687,8 +692,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             df = epm_results['pCapacityFuel'].copy()
             selected_years = df['year'][(df['year'] % 5 == 0) | (df['year'] == df['year'].min())].tolist()
 
-            
-            
             def calculate_diff(df, scenario_ref=scenario_reference):
                 """
                 Calculate the difference in 'value' between each scenario and the reference scenario.
@@ -705,7 +708,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 df_diff = df_diff.stack().reset_index()
                 df_diff.rename(columns={0: 'value'}, inplace=True)
                 return df_diff
-
 
             # ------------------------------------------------------------------------------------
             # 1. Capacity figures
@@ -972,7 +974,97 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 annotate=False,
                                                 title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                 show_total=True)
-            
+
+                
+                df = epm_results['pCostsZone'].copy()
+                # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
+                df = df.loc[df.attribute != 'NPV of system cost: $m']
+                # Group reserve cost attributes into one unique attribute and sum the value
+                df = simplify_attributes(df, "Unmet reserve costs: $m", RESERVE_ATTRS)
+                # Group trade components into one unique attribute and sum the value
+                df = simplify_attributes(df, "Trade costs: $m", TRADE_ATTRS)
+                # Remove ": $m" from attribute names
+                df['attribute'] = df['attribute'].str.replace(': $m', '', regex=False)
+                # Keep only selected scenarios
+                df = df.loc[df.scenario.isin(selected_scenarios)]
+                
+                
+                figure_name = 'NPVCostZoneScenarios'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+                
+                    make_stacked_barplot(df, filename, dict_specs['colors'], column_stacked='attribute',
+                                            column_subplot='zone',
+                                            column_xaxis='scenario',
+                                            column_value='value',
+                                            format_y=make_auto_yaxis_formatter("m$"), 
+                                            rotation=45,
+                                            annotate=False,
+                                            title=f'Net Present System Cost by Scenario (million USD)', show_total=True) 
+                    
+                    # System cost comparison between scenarios compare to the reference scenarios
+                    if scenario_reference in selected_scenarios and len(selected_scenarios) > 1:
+                        figure_name = 'NPVCostZoneScenariosRelative'
+                        if FIGURES_ACTIVATED.get(figure_name, False):
+                            filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+
+                            df_diff = calculate_diff(df, scenario_reference)
+                            
+                            make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
+                                                    column_subplot='zone',
+                                                    column_xaxis='scenario',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("m$"), 
+                                                    rotation=45,
+                                                    annotate=False,
+                                                    title='Additional System Cost vs. Baseline (NPV, million USD)', 
+                                                    show_total=True)  
+                
+                df = epm_results['pCostsZonePerMWh'].copy()
+                # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
+                df = df.loc[df.attribute != 'NPV of system cost: $m']
+                # Group reserve cost attributes into one unique attribute and sum the value
+                df = simplify_attributes(df, "Unmet reserve costs: $m", RESERVE_ATTRS)
+                # Group trade components into one unique attribute and sum the value
+                df = simplify_attributes(df, "Trade costs: $m", TRADE_ATTRS)
+                # Remove ": $m" from attribute names
+                df['attribute'] = df['attribute'].str.replace(': $m', '', regex=False)
+                # Keep only selected scenarios
+                df = df.loc[df.scenario.isin(selected_scenarios)]
+                
+                
+                figure_name = 'NPVCostMWhZoneScenarios'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+                
+                    make_stacked_barplot(df, filename, dict_specs['colors'], column_stacked='attribute',
+                                            column_subplot='zone',
+                                            column_xaxis='scenario',
+                                            column_value='value',
+                                            format_y=make_auto_yaxis_formatter("$"), 
+                                            rotation=45,
+                                            annotate=False,
+                                            title='Discounted Cost per Scenario (USD/MWh)', show_total=True) 
+                    
+                    # System cost comparison between scenarios compare to the reference scenarios
+                    if scenario_reference in selected_scenarios and len(selected_scenarios) > 1:
+                        figure_name = 'NPVCostMWhZoneScenariosRelative'
+                        if FIGURES_ACTIVATED.get(figure_name, False):
+                            filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+
+                            df_diff = calculate_diff(df, scenario_reference)
+                            
+                            make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
+                                                    column_subplot='zone',
+                                                    column_xaxis='scenario',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("$"), 
+                                                    rotation=45,
+                                                    annotate=False,
+                                                    title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
+                                                    show_total=True)
+                            
+                
             df_costzone = epm_results['pYearlyCostsZone'].copy()
             # Group reserve cost attributes into one unique attribute and sum the value
             df_costzone = simplify_attributes(df_costzone, "Unmet reserve costs: $m", RESERVE_ATTRS)
@@ -1072,7 +1164,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     ) 
                 
             # 2.3 Cost components per zone
-            figure_name = 'CostZoneScenarios'
+            figure_name = 'CostZoneScenariosYear'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{year}.pdf')
         

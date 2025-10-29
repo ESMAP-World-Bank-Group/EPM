@@ -161,7 +161,9 @@ Parameters
   pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
   pCostsSystemPerMWh(*)                          'System-level cost summary [$ / MWh], weighted and discounted'
   pYearlySystemCostEnergyBasis(y)                'System cost energy denominator [MWh] by year'
-  pDiscountedSystemCostEnergyBasis               'Discounted system cost energy denominator [MWh]'
+  pDiscountedDemandZoneMWh(z)                    'Discounted electricity demand basis [MWh] by zone'
+  pDiscountedDemandCountryMWh(c)                 'Discounted electricity demand basis [MWh] by country'
+  pDiscountedDemandSystemMWh                     'Discounted electricity demand basis [MWh] for the system'
 
   pFuelCosts(z, f, y)                           'Annual fuel costs [million USD] by fuel, zone, and year'
   pFuelCostsCountry(c, f, y)                    'Annual fuel costs [million USD] by fuel, country, and year'
@@ -275,10 +277,8 @@ Parameters
 * ============================================================
 
   pPlantAnnualLCOE(z,g,y)          'Plant-level LCOE [USD/MWh] by year'
-  pCostsZonePerMWh(z,y)           'Zone average total cost [USD/MWh] by year'
-  pCostsGenZonePerMWh(z,y)        'Zone average generation cost [USD/MWh] by year'
-  pCostsCountryPerMWh(c,y)         'Country average total cost [USD/MWh] by year'
-  pCostsGenCountryPerMWh(c,y)      'Country average generation cost [USD/MWh] by year'
+  pCostsZonePerMWh(z,sumhdr)       'Zone cost per discounted demand [USD/MWh]'
+  pCostsCountryPerMWh(c,sumhdr)    'Country cost per discounted demand [USD/MWh]'
   pYearlyAverageCostZone(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
   pYearlyAverageCostCountry(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
   pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
@@ -1289,7 +1289,9 @@ pCountryEnergyMWh(c,y) = sum(zcmap(z,c), pZoneEnergyMWh(z,y));
 Parameter
     pZoneCostEnergyBasis
     pCountryCostEnergyBasis
-;
+    pDiscountedDemandZoneMWh(z)
+    pDiscountedDemandCountryMWh(c)
+    pDiscountedDemandSystemMWh;
     
 
 pZoneCostEnergyBasis(z,y) =
@@ -1312,43 +1314,42 @@ pCountryCostEnergyBasis(c,y) =
 pYearlySystemCostEnergyBasis(y) =
     sum(z, pZoneCostEnergyBasis(z,y));
 
-pDiscountedSystemCostEnergyBasis =
-    sum(y, pYearlySystemCostEnergyBasis(y) * pRR(y) * pWeightYear(y));
+pDiscountedDemandZoneMWh(z) =
+    sum(y, pDemandZone(z,y) * 1e3 * pRR(y) * pWeightYear(y));
+
+pDiscountedDemandCountryMWh(c) =
+    sum(zcmap(z,c), pDiscountedDemandZoneMWh(z));
+
+pDiscountedDemandSystemMWh =
+    sum(z, pDiscountedDemandZoneMWh(z));
     
-pCostsSystemPerMWh(sumhdr)$pDiscountedSystemCostEnergyBasis =
-    (pCostsSystem(sumhdr) * 1e6) / pDiscountedSystemCostEnergyBasis;
+pCostsSystemPerMWh(sumhdr)$pDiscountedDemandSystemMWh =
+    (pCostsSystem(sumhdr) * 1e6) / pDiscountedDemandSystemMWh;
 
 
 * ---------------------------------------------------------
-* Average costs [$/MWh]
+* Average costs [$/MWh] on discounted demand basis
 * ---------------------------------------------------------
 * Each average cost is defined as:
-*   (Total annual cost in $) / (Energy basis in MWh)
+*   (Discounted net-present cost component in $) /
+*   (Discounted electricity demand in MWh)
 *
 * Zonal averages:
-*   - Total average cost: includes generation, O&M, trade, transmission
-*   - Generation-only average cost: includes only generation + O&M
+*   - Reported by cost component (sumhdr)
+*   - Discounting follows pRR and pWeightYear weights
 *
 * Country averages:
-*   - Aggregated from zones belonging to the country
-*   - Same distinction: total vs. generation-only
+*   - Aggregated from the constituent zones
+*   - Same discounted demand denominator as zones
 * ---------------------------------------------------------
 
-* Zone-level average total system cost ($/MWh)
-pCostsZonePerMWh(z,y)$pZoneEnergyMWh(z,y) =
-    pZoneTotalCost(z,y) / pZoneCostEnergyBasis(z,y);
+* Zone-level discounted average costs by component ($/MWh)
+pCostsZonePerMWh(z,sumhdr)$pDiscountedDemandZoneMWh(z) =
+    pCostsZone(z,sumhdr) * 1e6 / pDiscountedDemandZoneMWh(z);
 
-* Zone-level average generation cost only ($/MWh)
-pCostsGenZonePerMWh(z,y)$pZoneEnergyMWh(z,y) =
-    pZoneGenCost(z,y) / pZoneEnergyMWh(z,y);
-
-* Country-level average total system cost ($/MWh)
-pCostsCountryPerMWh(c,y)$pCountryEnergyMWh(c,y) =
-    sum(zcmap(z,c), pZoneTotalCost(z,y)) / pCountryCostEnergyBasis(c,y);
-
-* Country-level average generation cost only ($/MWh)
-pCostsGenCountryPerMWh(c,y)$pCountryEnergyMWh(c,y) =
-    sum(zcmap(z,c), pZoneGenCost(z,y)) / pCountryEnergyMWh(c,y);
+* Country-level discounted average costs by component ($/MWh)
+pCostsCountryPerMWh(c,sumhdr)$pDiscountedDemandCountryMWh(c) =
+    1e6 * sum(zcmap(z,c), pCostsZone(z,sumhdr)) / pDiscountedDemandCountryMWh(c);
 
 * Component-level averages ($/MWh)
 pYearlyAverageCostZone(z,sumhdr,y)$pZoneCostEnergyBasis(z,y) =
@@ -1482,11 +1483,12 @@ embeddedCode Connect:
         
         "pPlantAnnualLCOE",
         "pCostsZonePerMWh",
-        "pCostsGenZonePerMWh",
         "pCostsCountryPerMWh",
-        "pCostsGenCountryPerMWh",
         "pYearlyAverageCostZone",
         "pYearlyAverageCostCountry",
+        "pDiscountedDemandZoneMWh",
+        "pDiscountedDemandCountryMWh",
+        "pDiscountedDemandSystemMWh",
         "zcmap",
         "pSettings"
         ]
@@ -1546,8 +1548,9 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 9. METRICS
-      pPlantAnnualLCOE, pCostsZonePerMWh, pCostsGenZonePerMWh, pCostsCountryPerMWh, pCostsGenCountryPerMWh,
+      pPlantAnnualLCOE, pCostsZonePerMWh, pCostsCountryPerMWh,
       pYearlyAverageCostZone, pYearlyAverageCostCountry, pYearlySystemAverageCost,
+      pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
 * 10. SOLVER PARAMETERS
       pSolverParameters,
 * 11. ADDITIONAL OUTPUTS

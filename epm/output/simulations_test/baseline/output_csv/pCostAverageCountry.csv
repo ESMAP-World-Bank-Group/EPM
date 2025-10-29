@@ -1,96 +1,96 @@
 c,uni,value
-Angola,Annualized capex: $m,889.0186585552791
-Angola,Fixed O&M: $m,255.60313309733556
-Angola,Variable O&M: $m,18.835066598190004
-Angola,Fuel costs: $m,377.39881829193473
-Angola,Transmission costs: $m,11.250329077416637
-Angola,Unmet demand costs: $m,3.740344973150505e-05
-Angola,Unmet country spinning reserve costs: $m,2.6779408905758116e-05
-Angola,Unmet country planning reserve costs: $m,1.5721399371563894e-07
-Angola,Unmet system planning reserve costs: $m,6.405410114317024e-08
-Angola,Import costs with internal zones: $m,174.1622094168373
-Angola,Export revenues with internal zones: $m,-8.349692230210266
-Angola,Trade shared benefits: $m,-4.581997731059066
-Cameroon,Annualized capex: $m,401.3674507115625
-Cameroon,Fixed O&M: $m,131.21924309253941
-Cameroon,Variable O&M: $m,6.337204800406533
-Cameroon,Fuel costs: $m,9.355013656781162
-Cameroon,Transmission costs: $m,29.971649755087135
-Cameroon,Unmet demand costs: $m,3.415824206628352e-05
-Cameroon,Unmet country spinning reserve costs: $m,1.2083707041756907e-05
-Cameroon,Unmet system planning reserve costs: $m,2.921609395989234e-08
-Cameroon,Import costs with internal zones: $m,3.9835360723653803
-Cameroon,Export revenues with internal zones: $m,-78.62699524432234
-Cameroon,Trade shared benefits: $m,-17.967869073151984
-CAR,Annualized capex: $m,25.992406315059362
-CAR,Fixed O&M: $m,8.377725972368838
-CAR,Variable O&M: $m,0.28852943397220465
-CAR,Fuel costs: $m,0.7391816881634293
-CAR,Transmission costs: $m,3.791274643909396
-CAR,Unmet demand costs: $m,0.4281166760241236
-CAR,Unmet country spinning reserve costs: $m,0.00012076383432361403
-CAR,Unmet country planning reserve costs: $m,0.7966603895157486
-CAR,Unmet system planning reserve costs: $m,1.8207199114600022e-09
-CAR,Import costs with internal zones: $m,7.358343920634604
-CAR,Export revenues with internal zones: $m,-2.8292072652918514
-CAR,Trade shared benefits: $m,-3.2953297342000427
-Chad,Annualized capex: $m,9.288153000692855
-Chad,Fixed O&M: $m,5.162037541729943
-Chad,Variable O&M: $m,0.11053589442835533
-Chad,Fuel costs: $m,2.182513350136703
+Angola,Annualized capex: $m,889.19628643666
+Angola,Fixed O&M: $m,255.6443750278784
+Angola,Variable O&M: $m,18.830175093639124
+Angola,Fuel costs: $m,377.1762775653604
+Angola,Transmission costs: $m,11.250770319356239
+Angola,Unmet demand costs: $m,0.00015282103284146962
+Angola,Unmet country spinning reserve costs: $m,0.00010930718449209105
+Angola,Unmet country planning reserve costs: $m,7.356047894656565e-07
+Angola,Unmet system planning reserve costs: $m,3.0382546710703554e-07
+Angola,Import costs with internal zones: $m,174.1507456842424
+Angola,Export revenues with internal zones: $m,-8.323617467816824
+Angola,Trade shared benefits: $m,-4.581475985705317
+Cameroon,Annualized capex: $m,401.36406786546064
+Cameroon,Fixed O&M: $m,131.2186781322163
+Cameroon,Variable O&M: $m,6.3371407473077985
+Cameroon,Fuel costs: $m,9.357612125200534
+Cameroon,Transmission costs: $m,29.96970610573536
+Cameroon,Unmet demand costs: $m,0.0001395991981895085
+Cameroon,Unmet country spinning reserve costs: $m,4.9342560740861814e-05
+Cameroon,Unmet system planning reserve costs: $m,1.385796262220096e-07
+Cameroon,Import costs with internal zones: $m,3.9886658400515644
+Cameroon,Export revenues with internal zones: $m,-78.62325910887462
+Cameroon,Trade shared benefits: $m,-17.96654044879656
+CAR,Annualized capex: $m,26.00031255983982
+CAR,Fixed O&M: $m,8.378976647308487
+CAR,Variable O&M: $m,0.28862216545883257
+CAR,Fuel costs: $m,0.739234700984323
+CAR,Transmission costs: $m,3.7879599907177237
+CAR,Unmet demand costs: $m,0.42822592408218346
+CAR,Unmet country spinning reserve costs: $m,0.00016934806286274343
+CAR,Unmet country planning reserve costs: $m,0.7967354898987249
+CAR,Unmet system planning reserve costs: $m,8.636153933906203e-09
+CAR,Import costs with internal zones: $m,7.350526524717783
+CAR,Export revenues with internal zones: $m,-2.828794468046978
+CAR,Trade shared benefits: $m,-3.2923028961899035
+Chad,Annualized capex: $m,9.292177863205746
+Chad,Fixed O&M: $m,5.16284604666797
+Chad,Variable O&M: $m,0.11057871801370488
+Chad,Fuel costs: $m,2.1848434279282314
 Chad,Transmission costs: $m,24.568540976634143
-Chad,Unmet demand costs: $m,3.540568522606792e-05
-Chad,Unmet country spinning reserve costs: $m,0.2260181439807522
-Chad,Unmet system planning reserve costs: $m,1.1441168992013172e-09
-Chad,Import costs with internal zones: $m,8.536658989031572
-Chad,Export revenues with internal zones: $m,-3.401232550270698
-Chad,Trade shared benefits: $m,-0.3029007849935533
-Congo,Annualized capex: $m,112.69044619749027
-Congo,Fixed O&M: $m,30.953412103232182
-Congo,Variable O&M: $m,1.8224711120817985
-Congo,Fuel costs: $m,13.796019236741625
-Congo,Transmission costs: $m,16.45675800914637
-Congo,Unmet demand costs: $m,3.6303491560257106e-05
-Congo,Unmet country spinning reserve costs: $m,9.946907282124918e-06
-Congo,Unmet country planning reserve costs: $m,1.5817065984937338e-07
-Congo,Unmet system planning reserve costs: $m,1.1565682740796881e-08
-Congo,Import costs with internal zones: $m,300.0409256140783
-Congo,Export revenues with internal zones: $m,-140.123606630763
-Congo,Trade shared benefits: $m,-59.50411148713346
-DRC,Annualized capex: $m,615.6772478959232
-DRC,Fixed O&M: $m,200.18473805742534
-DRC,Variable O&M: $m,7.7427646458051145
-DRC,Fuel costs: $m,8.590440796001813e-05
-DRC,Transmission costs: $m,13.763691864876868
-DRC,Unmet demand costs: $m,7.351209438849071e-05
-DRC,Unmet country spinning reserve costs: $m,2.72522803024546e-05
-DRC,Unmet country planning reserve costs: $m,3.621195724898791
-DRC,Unmet system planning reserve costs: $m,5.171314411749363e-08
-DRC,Import costs with external zones: $m,76.14959637411165
-DRC,Import costs with internal zones: $m,909.3246120615108
-DRC,Export revenues with internal zones: $m,-756.8413149429521
-DRC,Trade shared benefits: $m,-174.95024307176794
-EquatorialGuinea,Annualized capex: $m,26.98389481490964
-EquatorialGuinea,Fixed O&M: $m,6.948613155317477
-EquatorialGuinea,Variable O&M: $m,0.40349766159189837
-EquatorialGuinea,Fuel costs: $m,2.9970779327359076
-EquatorialGuinea,Transmission costs: $m,5.686214726280874
-EquatorialGuinea,Unmet demand costs: $m,3.5601413940451964e-05
-EquatorialGuinea,Unmet country spinning reserve costs: $m,1.0726576918899931e-05
-EquatorialGuinea,Unmet country planning reserve costs: $m,1.1854322233067828e-07
-EquatorialGuinea,Unmet system planning reserve costs: $m,3.3900630093377875e-09
-EquatorialGuinea,Import costs with internal zones: $m,51.91806221963325
-EquatorialGuinea,Export revenues with internal zones: $m,-13.312291281733769
-EquatorialGuinea,Trade shared benefits: $m,-8.16445942843388
-Gabon,Annualized capex: $m,307.42949797689306
-Gabon,Fixed O&M: $m,74.01414258577049
-Gabon,Variable O&M: $m,4.796573036724365
-Gabon,Fuel costs: $m,17.192952276372925
-Gabon,Transmission costs: $m,16.51018221819427
-Gabon,Unmet demand costs: $m,3.759312584831855e-05
-Gabon,Unmet country spinning reserve costs: $m,8.035089940663805e-06
-Gabon,Unmet country planning reserve costs: $m,1.570896224553055e-07
-Gabon,Unmet system planning reserve costs: $m,1.439660853861534e-08
-Gabon,Import costs with internal zones: $m,68.39210849591794
-Gabon,Export revenues with internal zones: $m,-186.47565329036095
-Gabon,Trade shared benefits: $m,-64.98955204336434
+Chad,Unmet demand costs: $m,0.00014464593143116903
+Chad,Unmet country spinning reserve costs: $m,0.2260693362669375
+Chad,Unmet system planning reserve costs: $m,5.426847697822348e-09
+Chad,Import costs with internal zones: $m,8.536383993886743
+Chad,Export revenues with internal zones: $m,-3.4019339291720017
+Chad,Trade shared benefits: $m,-0.3028799518684457
+Congo,Annualized capex: $m,112.69394081477247
+Congo,Fixed O&M: $m,30.95547957918779
+Congo,Variable O&M: $m,1.8225221311261364
+Congo,Fuel costs: $m,13.79712801698884
+Congo,Transmission costs: $m,16.45606611580289
+Congo,Unmet demand costs: $m,0.00014831848228872638
+Congo,Unmet country spinning reserve costs: $m,4.063511277178632e-05
+Congo,Unmet country planning reserve costs: $m,7.404298875434114e-07
+Congo,Unmet system planning reserve costs: $m,5.4859078473058326e-08
+Congo,Import costs with internal zones: $m,300.0415759218868
+Congo,Export revenues with internal zones: $m,-140.12850464971052
+Congo,Trade shared benefits: $m,-59.50341960446755
+DRC,Annualized capex: $m,615.6582438678332
+DRC,Fixed O&M: $m,200.1483434484441
+DRC,Variable O&M: $m,7.742773529695207
+DRC,Fuel costs: $m,0.00034138848915674726
+DRC,Transmission costs: $m,13.763884566386697
+DRC,Unmet demand costs: $m,0.0003003904328328139
+DRC,Unmet country spinning reserve costs: $m,0.00011131127566339563
+DRC,Unmet country planning reserve costs: $m,3.675525594704691
+DRC,Unmet system planning reserve costs: $m,2.452890585717978e-07
+DRC,Import costs with external zones: $m,76.15810941402442
+DRC,Import costs with internal zones: $m,909.2921657933431
+DRC,Export revenues with internal zones: $m,-756.8157426657643
+DRC,Trade shared benefits: $m,-174.9508944921774
+EquatorialGuinea,Annualized capex: $m,26.992327848961224
+EquatorialGuinea,Fixed O&M: $m,6.95253214617307
+EquatorialGuinea,Variable O&M: $m,0.4036222109455042
+EquatorialGuinea,Fuel costs: $m,2.998004929028563
+EquatorialGuinea,Transmission costs: $m,5.686410872245805
+EquatorialGuinea,Unmet demand costs: $m,0.00014545920718378872
+EquatorialGuinea,Unmet country spinning reserve costs: $m,4.345569227936561e-05
+EquatorialGuinea,Unmet country planning reserve costs: $m,5.31093020507449e-07
+EquatorialGuinea,Unmet system planning reserve costs: $m,1.607996145371182e-08
+EquatorialGuinea,Import costs with internal zones: $m,51.90894770111476
+EquatorialGuinea,Export revenues with internal zones: $m,-13.319907208510996
+EquatorialGuinea,Trade shared benefits: $m,-8.164681525744246
+Gabon,Annualized capex: $m,307.4265512582763
+Gabon,Fixed O&M: $m,74.0127634235021
+Gabon,Variable O&M: $m,4.796602053793992
+Gabon,Fuel costs: $m,17.19318462730429
+Gabon,Transmission costs: $m,16.51052135342653
+Gabon,Unmet demand costs: $m,0.00015365474070861687
+Gabon,Unmet country spinning reserve costs: $m,3.282146990061352e-05
+Gabon,Unmet country planning reserve costs: $m,7.349335691665211e-07
+Gabon,Unmet system planning reserve costs: $m,6.828690491222864e-08
+Gabon,Import costs with internal zones: $m,68.40677869443165
+Gabon,Export revenues with internal zones: $m,-186.48134233340093
+Gabon,Trade shared benefits: $m,-64.99049341742791

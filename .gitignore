@@ -8,13 +8,11 @@
 
 .vscode
 
-# Ignore everything in epm/output except 'tableau' folder
-epm/output/*                  
+# Ignore everything in epm/output except selected folders
+epm/output/*
 !epm/output/tableau/
-!epm/output/simulations_test/
+!epm/output/simulations_test/**
 epm/output/simulations_test/**/*.pdf
-!epm/output/simulations_test/
-!epm/output/simulations_test/**/
 
 
 xlsxReport.cmd
