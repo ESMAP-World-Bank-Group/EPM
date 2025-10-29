@@ -822,6 +822,9 @@ $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 $if not set MODELTYPE $set MODELTYPE MIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
+$if not set USE_PA_LOADPOINT $set USE_PA_LOADPOINT 0
+$log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"
+
 $ifThenI.solvemode %SOLVEMODE% == 2
 *  Solve model as usual
    Solve PA using %MODELTYPE% minimizing vNPVcost;
@@ -838,8 +841,10 @@ $elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1; 
    Solve PA using %MODELTYPE% minimizing vNPVcost;
-*  Use savepoint file to load state of the solve from savepoint file
-*  execute_loadpoint "PA_p.gdx";
+  Use savepoint file to load state of the solve from savepoint file
+$ifThenI.pa_load %USE_PA_LOADPOINT% == 1
+  execute_loadpoint "PA_p.gdx";
+$endIf.pa_load
 $endIf.solvemode
 * ####################################
 
