@@ -1,15 +1,15 @@
 uni,value
-Annualized capex: $m,32.58520359127398
-Fixed O&M: $m,9.725323619560738
-Variable O&M: $m,0.5692818639393775
-Fuel costs: $m,6.164127723586383
-Transmission costs: $m,1.6384427417646577
-Unmet demand costs: $m,0.007714419946371251
-Unmet country spinning reserve costs: $m,0.0030448856593696125
-Unmet country planning reserve costs: $m,0.07408650712900906
-Unmet system planning reserve costs: $m,1.1294852462916966e-08
-Import costs with external zones: $m,1.0363829388062562
-Import costs with internal zones: $m,20.716620656606256
-Export revenues with internal zones: $m,-16.220267401760548
-Trade shared benefits: $m,-4.496353254845708
-NPV of system cost: $m,51.803608302960996
+Annualized capex: $m,32.58479207336696
+Fixed O&M: $m,9.725282045172394
+Variable O&M: $m,0.5692922587800221
+Fuel costs: $m,6.164634105183564
+Transmission costs: $m,1.638425931651095
+Unmet demand costs: $m,0.007710849860281091
+Unmet country spinning reserve costs: $m,0.003043792825430336
+Unmet country planning reserve costs: $m,0.0739910894365704
+Unmet system planning reserve costs: $m,4.7923577328498384e-09
+Import costs with external zones: $m,1.0363662920410168
+Import costs with internal zones: $m,20.71672569522964
+Export revenues with internal zones: $m,-16.22044709146514
+Trade shared benefits: $m,-4.496278603764494
+NPV of system cost: $m,51.803538443109694
