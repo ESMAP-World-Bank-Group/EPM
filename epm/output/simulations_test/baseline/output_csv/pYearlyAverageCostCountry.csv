@@ -1,0 +1,150 @@
+c,sumhdr,y,value
+Angola,Annualized capex: $m,2025,21.406788987787763
+Angola,Annualized capex: $m,2035,34.24609152509014
+Angola,Fixed O&M: $m,2025,7.708134852308399
+Angola,Fixed O&M: $m,2035,9.749249168407735
+Angola,Variable O&M: $m,2025,2.0102809970765994
+Angola,Variable O&M: $m,2035,0.6284933144873172
+Angola,Fuel costs: $m,2025,44.11468371359398
+Angola,Fuel costs: $m,2035,12.349938744521298
+Angola,Transmission costs: $m,2035,0.45013329509617733
+Angola,Unmet demand costs: $m,2025,4.33490283812977e-05
+Angola,Unmet demand costs: $m,2035,3.4212503287863756e-06
+Angola,Unmet country spinning reserve costs: $m,2025,2.024804216701694e-05
+Angola,Unmet country spinning reserve costs: $m,2035,3.11540863454768e-06
+Angola,Unmet country planning reserve costs: $m,2035,2.9430892140872735e-08
+Angola,Unmet system planning reserve costs: $m,2035,1.2155786204944104e-08
+Angola,Import costs with internal zones: $m,2035,6.9676161518858475
+Angola,Export revenues with internal zones: $m,2035,-0.333020517845117
+Angola,Trade shared benefits: $m,2035,-0.183300771708185
+Cameroon,Annualized capex: $m,2025,34.05451025914855
+Cameroon,Annualized capex: $m,2035,27.97767641597168
+Cameroon,Fixed O&M: $m,2025,9.55378052914211
+Cameroon,Fixed O&M: $m,2035,9.231905668241026
+Cameroon,Variable O&M: $m,2025,0.49911707799738486
+Cameroon,Variable O&M: $m,2035,0.4438178736079179
+Cameroon,Fuel costs: $m,2025,0.05239424411687597
+Cameroon,Fuel costs: $m,2035,0.6922411154270559
+Cameroon,Transmission costs: $m,2035,2.226087716362474
+Cameroon,Unmet demand costs: $m,2025,8.060994000239016e-05
+Cameroon,Unmet demand costs: $m,2035,6.025974073345549e-06
+Cameroon,Unmet country spinning reserve costs: $m,2035,3.6650632465855667e-06
+Cameroon,Unmet system planning reserve costs: $m,2035,1.0293407702516046e-08
+Cameroon,Import costs with internal zones: $m,2035,0.29626983994728534
+Cameroon,Export revenues with internal zones: $m,2035,-5.839972894801108
+Cameroon,Trade shared benefits: $m,2035,-1.3345174242780315
+CAR,Annualized capex: $m,2025,37.96067963900148
+CAR,Annualized capex: $m,2035,30.87283153890663
+CAR,Fixed O&M: $m,2025,12.856463223840896
+CAR,Fixed O&M: $m,2035,9.936066408089472
+CAR,Variable O&M: $m,2025,0.7504067601005814
+CAR,Variable O&M: $m,2035,0.33576690038603035
+CAR,Fuel costs: $m,2025,17.627226221942557
+CAR,Fuel costs: $m,2035,0.5285324094731099
+CAR,Transmission costs: $m,2035,4.614550179921367
+CAR,Unmet demand costs: $m,2025,24.71365110401237
+CAR,Unmet demand costs: $m,2035,0.00010107854767371195
+CAR,Unmet country spinning reserve costs: $m,2025,0.007888715265194364
+CAR,Unmet country spinning reserve costs: $m,2035,3.98146710566982e-05
+CAR,Unmet country planning reserve costs: $m,2025,8.123185743063559
+CAR,Unmet country planning reserve costs: $m,2035,0.7991591368431651
+CAR,Unmet system planning reserve costs: $m,2035,1.0520693404151964e-08
+CAR,Import costs with internal zones: $m,2035,8.95452264022629
+CAR,Export revenues with internal zones: $m,2035,-3.4460802261571444
+CAR,Trade shared benefits: $m,2035,-4.010733207108177
+Chad,Annualized capex: $m,2025,6.069478357059543
+Chad,Annualized capex: $m,2035,15.8018171618544
+Chad,Fixed O&M: $m,2025,15.043638098664427
+Chad,Fixed O&M: $m,2035,8.161062520318218
+Chad,Variable O&M: $m,2025,3.6184978145041096
+Chad,Variable O&M: $m,2035,8.163748718200484e-05
+Chad,Fuel costs: $m,2025,71.45662041628313
+Chad,Fuel costs: $m,2035,0.0036595796485300192
+Chad,Transmission costs: $m,2035,42.630620755334625
+Chad,Unmet demand costs: $m,2025,0.0020788492920731133
+Chad,Unmet demand costs: $m,2035,0.0001408001177675272
+Chad,Unmet country spinning reserve costs: $m,2025,0.0019373001721445073
+Chad,Unmet country spinning reserve costs: $m,2035,0.3921662821516223
+Chad,Unmet system planning reserve costs: $m,2035,9.416508954392128e-09
+Chad,Import costs with internal zones: $m,2035,14.8120862777888
+Chad,Export revenues with internal zones: $m,2035,-5.902937228025228
+Chad,Trade shared benefits: $m,2035,-0.5255485205563326
+Congo,Annualized capex: $m,2025,13.959065877671165
+Congo,Annualized capex: $m,2035,16.630956044298532
+Congo,Fixed O&M: $m,2025,7.393224006950422
+Congo,Fixed O&M: $m,2035,4.409299458066609
+Congo,Variable O&M: $m,2025,2.591472178836353
+Congo,Variable O&M: $m,2035,0.16326985164311972
+Congo,Fuel costs: $m,2025,47.27887427901009
+Congo,Fuel costs: $m,2035,0.0002450356767920535
+Congo,Transmission costs: $m,2035,2.519591715533942
+Congo,Unmet demand costs: $m,2025,0.0002177583858753893
+Congo,Unmet demand costs: $m,2035,1.2980476505565958e-05
+Congo,Unmet country spinning reserve costs: $m,2035,6.2216505924985445e-06
+Congo,Unmet country planning reserve costs: $m,2035,1.1336737452680594e-07
+Congo,Unmet system planning reserve costs: $m,2035,8.399484947973563e-09
+Congo,Import costs with internal zones: $m,2025,7.231713474014071
+Congo,Import costs with internal zones: $m,2035,45.61634345939618
+Congo,Export revenues with internal zones: $m,2025,-10.589483613719553
+Congo,Export revenues with internal zones: $m,2035,-20.982007658125926
+Congo,Trade shared benefits: $m,2025,-0.9495624519491416
+Congo,Trade shared benefits: $m,2035,-9.068158232310987
+DRC,Annualized capex: $m,2025,27.736045302371515
+DRC,Annualized capex: $m,2035,25.729462165764343
+DRC,Fixed O&M: $m,2025,6.726433545223309
+DRC,Fixed O&M: $m,2035,8.50949044167319
+DRC,Variable O&M: $m,2025,0.4709401208557707
+DRC,Variable O&M: $m,2035,0.3158570561941274
+DRC,Fuel costs: $m,2025,0.00012586537124243235
+DRC,Fuel costs: $m,2035,7.276101049587996e-06
+DRC,Transmission costs: $m,2035,0.6144537598718124
+DRC,Unmet demand costs: $m,2025,9.038704725106089e-05
+DRC,Unmet demand costs: $m,2035,7.690791717830709e-06
+DRC,Unmet country spinning reserve costs: $m,2025,2.2741056276188802e-05
+DRC,Unmet country spinning reserve costs: $m,2035,3.5302349245891027e-06
+DRC,Unmet country planning reserve costs: $m,2025,2.078443913864188
+DRC,Unmet country planning reserve costs: $m,2035,0.03256782214548122
+DRC,Unmet system planning reserve costs: $m,2035,1.0950308655082332e-08
+DRC,Import costs with external zones: $m,2025,2.1027463487302
+DRC,Import costs with external zones: $m,2035,3.2668313906728295
+DRC,Import costs with internal zones: $m,2025,37.78049835166708
+DRC,Import costs with internal zones: $m,2035,38.202426699011426
+DRC,Export revenues with internal zones: $m,2025,-34.93410315647739
+DRC,Export revenues with internal zones: $m,2035,-31.575613036159897
+DRC,Trade shared benefits: $m,2025,-1.9596779346133197
+DRC,Trade shared benefits: $m,2035,-7.686237891171791
+EquatorialGuinea,Annualized capex: $m,2025,28.43602282109008
+EquatorialGuinea,Annualized capex: $m,2035,15.35565030010046
+EquatorialGuinea,Fixed O&M: $m,2025,11.986867978443307
+EquatorialGuinea,Fixed O&M: $m,2035,3.7116550329448508
+EquatorialGuinea,Variable O&M: $m,2025,2.086551720097322
+EquatorialGuinea,Variable O&M: $m,2035,0.14282817894083674
+EquatorialGuinea,Fuel costs: $m,2025,35.795620154951884
+EquatorialGuinea,Fuel costs: $m,2035,0.00056751972088795
+EquatorialGuinea,Transmission costs: $m,2035,3.547884566295683
+EquatorialGuinea,Unmet demand costs: $m,2025,0.0007585627598575698
+EquatorialGuinea,Unmet demand costs: $m,2035,5.112819315263011e-05
+EquatorialGuinea,Unmet country spinning reserve costs: $m,2035,2.7113021450517374e-05
+EquatorialGuinea,Unmet country planning reserve costs: $m,2035,3.3136134075755987e-07
+EquatorialGuinea,Unmet system planning reserve costs: $m,2035,1.003266354647396e-08
+EquatorialGuinea,Import costs with internal zones: $m,2035,32.38720495916249
+EquatorialGuinea,Export revenues with internal zones: $m,2035,-8.310601233586695
+EquatorialGuinea,Trade shared benefits: $m,2035,-5.094135514422836
+Gabon,Annualized capex: $m,2025,19.036502550075507
+Gabon,Annualized capex: $m,2035,31.61637554790683
+Gabon,Fixed O&M: $m,2025,6.266255828752791
+Gabon,Fixed O&M: $m,2035,7.5507134726413305
+Gabon,Variable O&M: $m,2025,2.52853646092619
+Gabon,Variable O&M: $m,2035,0.41254092783402124
+Gabon,Fuel costs: $m,2025,49.92678041623769
+Gabon,Fuel costs: $m,2035,2.1055362073668005e-05
+Gabon,Transmission costs: $m,2035,1.734971897051289
+Gabon,Unmet demand costs: $m,2025,0.0002067506794549675
+Gabon,Unmet demand costs: $m,2035,8.664839776066008e-06
+Gabon,Unmet country spinning reserve costs: $m,2025,2.838868520814677e-06
+Gabon,Unmet country spinning reserve costs: $m,2035,3.346242749978833e-06
+Gabon,Unmet country planning reserve costs: $m,2035,7.722888099102255e-08
+Gabon,Unmet system planning reserve costs: $m,2035,7.175779517994585e-09
+Gabon,Import costs with internal zones: $m,2035,7.1883761912833
+Gabon,Export revenues with internal zones: $m,2035,-19.595982546347955
+Gabon,Trade shared benefits: $m,2035,-6.829383351442935

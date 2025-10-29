@@ -8,6 +8,13 @@
 
 .vscode
 
+# Ignore everything in epm/output except selected folders
+epm/output/*
+!epm/output/tableau/
+!epm/output/simulations_test/**
+epm/output/simulations_test/**/*.pdf
+
+
 xlsxReport.cmd
 
 /training
@@ -36,10 +43,7 @@ pre-analysis/**/output/*
 /epm/postprocessing/Results
 /epm/postprocessing/main_postprocessing.py
 
-# Ignore everything in epm/output except 'tableau' folder
-epm/output/*
-!epm/output/tableau/
-!epm/output/simulations_test/
+
 
 # Ignore all input files for sensitivity analysis
 **/sensitivity/
