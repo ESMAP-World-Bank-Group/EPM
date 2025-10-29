@@ -38,12 +38,32 @@ Contact:
 **********************************************************************
 """
 
+import os
 import gams.transfer as gt
 import numpy as np
 import pandas as pd
 from types import SimpleNamespace
 
+YEARLY_OUTPUT = [
+    'pDemandForecast',
+    'pCapexTrajectories',
+    'pTradePrice',
+    'pTransferLimit'
+]
+
 def run_input_treatment(gams):
+
+    def _write_back(db: gt.Container, param_name: str):
+        """Copy updates back to whatever database the caller provided.
+
+        A full model run hands in a real gams.GamsDatabase, while our debug path
+        only supplies a gt.Container. We support both without needing the GAMS runtime.
+        """
+        target_db = gams.db
+        if isinstance(target_db, gt.Container):
+            target_db.data[param_name].setRecords(db[param_name].records)
+        else:
+            db.write(target_db, [param_name])
 
     def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: str, header: str):
         """
@@ -63,17 +83,16 @@ def run_input_treatment(gams):
         param_df = db[param_name].records
         default_df = db[default_param_name].records
         
+        
         if default_df is None:
             gams.printLog('{} empty so no effect'.format(default_param_name))
             db.data[param_name].setRecords(param_df)
-            db.write(gams.db, [param_name])
+            _write_back(db, param_name)
 
             return None
         
         gams.printLog("Modifying {} with {}".format(param_name, default_param_name))
         
-        # Identify key columns (all except "value")
-        columns = param_df.columns
         
         # Unstack data on 'header' for correct alignment
         param_df = param_df.set_index([i for i in param_df.columns if i not in ['value']]).squeeze().unstack(header)
@@ -96,7 +115,7 @@ def run_input_treatment(gams):
         param_df.rename(columns={0: 'value'}, inplace=True)
 
         db.data[param_name].setRecords(param_df)
-        db.write(gams.db, [param_name])
+        _write_back(db, param_name)
 
 
     def prepare_generatorbased_parameter(db: gt.Container, param_name: str,
@@ -159,6 +178,7 @@ def run_input_treatment(gams):
         
         # Keep only the generator column and common columns in ref_df
         ref_df = ref_df.loc[:, [column_generator] + columns]
+            
 
         # Remove duplicate rows in the reference DataFrame
         ref_df = ref_df.drop_duplicates()
@@ -226,7 +246,7 @@ def run_input_treatment(gams):
                 
         # Update the parameter in the GAMS database with the modified DataFrame
         db.data[param_name].setRecords(param_df)
-        db.write(gams.db, [param_name])
+        _write_back(db, param_name)
         
 
     def prepare_lossfactor(db: gt.Container, 
@@ -286,19 +306,86 @@ def run_input_treatment(gams):
                     loss_factor_df = loss_factor_df.drop(columns=[column_loss]).stack().reset_index().rename(columns={'level_2': 'y', 0: 'value'})
 
                     db.data[param_loss].setRecords(loss_factor_df)
-                    db.write(gams.db, [param_loss])
+                    _write_back(db, param_loss)
                     
                 # check that there are no NaN values. Otherwise, skip this step, and check that db[LossFactor ].records exists. If it is not the case, raise an error. If this exists, do nothing. 
             else:  # Loss factor is not specified
                 if db[param_loss].records is None:
                     raise ValueError(f"Error: Loss factor is not specified through pLossFactorInternal.csv. There is missing data for the model")
 
+
+    def interpolate_time_series_parameters(db: gt.Container,
+                                           param_names,
+                                           year_param: str = "y",
+                                           year_column: str = "y"):
+        """Linearly interpolate parameters across all model years; assume data is mostly clean."""
+        if year_param not in db:
+            return
+
+        year_records = db[year_param].records
+        if year_records is None or year_column not in year_records:
+            return
+
+        target_years = pd.to_numeric(year_records[year_column], errors='coerce')
+        target_years = np.sort(target_years.dropna().unique())
+        if target_years.size == 0:
+            return
+
+        for param_name in param_names:
+            if param_name not in db:
+                continue
+
+            records = db[param_name].records
+            if records is None or records.empty or year_column not in records:
+                continue
+
+            data = records.copy()
+            data[year_column] = pd.to_numeric(data[year_column], errors='coerce')
+            data = data.dropna(subset=[year_column, "value"])
+            if data.empty:
+                continue
+
+            group_cols = [c for c in data.columns if c not in (year_column, "value")]
+            if group_cols:
+                grouped = data.groupby(group_cols, dropna=False, sort=False, observed=False)
+            else:
+                grouped = [(None, data)]
+
+            result_frames = []
+            for key, group in grouped:
+                group = group.sort_values(year_column)
+                years = group[year_column].to_numpy()
+                values = group["value"].to_numpy()
+                if years.size < 2:
+                    continue
+
+                interpolated = np.interp(target_years, years, values)
+                frame = pd.DataFrame({year_column: target_years, "value": interpolated})
+
+                if group_cols:
+                    if not isinstance(key, tuple):
+                        key = (key,)
+                    for col_name, col_value in zip(group_cols, key):
+                        frame[col_name] = col_value
+                    frame = frame[group_cols + [year_column, "value"]]
+                else:
+                    frame = frame[[year_column, "value"]]
+
+                result_frames.append(frame)
+
+            if not result_frames:
+                continue
+
+            final = pd.concat(result_frames, ignore_index=True)
+            db.data[param_name].setRecords(final)
+            _write_back(db, param_name)
+
         
-
-
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
 
+    interpolate_time_series_parameters(db, YEARLY_OUTPUT)
+    
     # Complete Generator Data
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
 
@@ -321,85 +408,46 @@ def run_input_treatment(gams):
     # prepare_lossfactor(db, "pNewTransmission", "pLossFactorInternal", "y", "value")
 
 
-def run_input_treatment_from_gdx(gdx_path, *, verbose=True, log_func=None):
-    """
-    Execute the full input-treatment routine using a standalone GDX file.
-
-    Parameters
-    ----------
-    gdx_path : str or pathlib.Path
-        Path to the GDX file providing the inputs.
-    verbose : bool, optional
-        When True (default) log messages are echoed to stdout.
-    log_func : callable, optional
-        Custom logging callback receiving each message.
-
-    Returns
-    -------
-    tuple[gt.Container, list[str]]
-        The mutated GT container and the ordered log messages.
-    """
-    container = gt.Container()
-    container.read(gdx_path)
-
-    logs = []
-
-    def _log(message):
-        logs.append(message)
-        if log_func is not None:
-            log_func(message)
-        elif verbose:
-            print(message)
-
-    dummy_gams = SimpleNamespace(db=container, printLog=_log)
-    run_input_treatment(dummy_gams)
-    return container, logs
-
 
 if __name__ == "__main__":
+    
     import argparse
     import sys
 
-    DEFAULT_GDX = "test/input.gdx"
+    DEFAULT_GDX = os.path.join("test", "input.gdx")
+    output_gdx = os.path.join("test", "input_treated.gdx")
 
-    usage_note = (
-        "Run the treatment step directly from Python:\n"
-        f"  python -m epm.input_treatment [GDX_PATH] [-o OUTPUT]\n\n"
-        "Defaults:\n"
-        "  GDX_PATH = ep/test/input.gdx\n"
-        "  OUTPUT   = (in-place update; specify -o to write a new GDX)\n"
-        "Use --quiet to suppress log echoing."
-    )
+    container = gt.Container()
+    container.read(DEFAULT_GDX)
+    
+    # SimpleNamespace fakes the small slice of the GAMS API we need for debugging.
+    # It is just enough for tests and does not behave like a full GAMS runtime.
+    dummy_gams = SimpleNamespace(db=container, printLog=lambda msg: print(str(msg)))
+    
+    # Replace columns names to be consistent with gams code
+    columns_replace = {
+        'pGenDataInput': {'uni': 'pGenDataInputHeader', 'gen': 'g'},
+        'pGenDataInputDefault': {'uni': 'pGenDataInputHeader', 'gen': 'g'},
+        'pAvailability': {'uni': 'q', 'gen': 'g'},
+        'pAvailabilityDefault': {'uni': 'q'},
+        'pCapexTrajectoriesDefault': {'uni': 'y'},
+        'pDemandForecast': {'uni': 'y'}
+    }
 
-    parser = argparse.ArgumentParser(
-        description="Run the EPM input treatment on a standalone GDX file.",
-        epilog=usage_note,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument(
-        "gdx_path",
-        nargs="?",
-        default=DEFAULT_GDX,
-        help="Path to the input GDX file (default: %(default)s)."
-    )
-    parser.add_argument(
-        "-o", "--output",
-        help="Optional path to save the treated data as a new GDX file."
-    )
-    parser.add_argument(
-        "--quiet",
-        action="store_true",
-        help="Suppress log echoing; messages remain available in the return value."
-    )
-    args = parser.parse_args()
-
-    try:
-        container, logs = run_input_treatment_from_gdx(args.gdx_path, verbose=not args.quiet)
-    except Exception as exc:  # noqa: BLE001
-        print(f"Input treatment failed: {exc}", file=sys.stderr)
-        sys.exit(1)
-
-    if args.output:
-        container.write(args.output)
-    elif args.quiet:
-        print("\n".join(logs))
+    for param_name, rename_map in columns_replace.items():
+        symbol = dummy_gams.db.data.get(param_name)
+        if symbol is None:
+            continue
+        records = symbol.records
+        if records is None:
+            continue
+        applicable = {old: new for old, new in rename_map.items() if old in records.columns and old != new}
+        if not applicable:
+            continue
+        symbol.setRecords(records.rename(columns=applicable))
+    
+    
+    run_input_treatment(dummy_gams)
+    
+    if True:         
+        container.write(output_gdx)
