@@ -1187,10 +1187,10 @@ title="Print to PDF"
 <h2>A. Run Multiple Scenarios<a class="headerlink" href="#a-run-multiple-scenarios" title="Permalink to this heading">#</a></h2>
 <p>To run additional scenarios beyond the baseline, use the <code class="docutils literal notranslate"><span class="pre">--scenarios</span></code> argument with a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span> <span class="pre">file</span></code>:</p>
 <ol class="arabic simple">
-<li><p>Create a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file in your <code class="docutils literal notranslate"><span class="pre">input</span></code> folder.</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code> file in your <code class="docutils literal notranslate"><span class="pre">folder_input</span></code>.</p></li>
 <li><p>Run EPM using:</p></li>
 </ol>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/scenarios.csv
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>scenarios.csv
 </pre></div>
 </div>
 <p>Each row overrides specific input files defined in config.csv.</p>
@@ -1199,7 +1199,7 @@ title="Print to PDF"
 <li><p>This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.</p></li>
 </ul>
 <p>You can limit execution to a selection of scenarios using the <code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span></code> argument. For example:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>input/my_scenarios.csv<span class="w">  </span>--selected_scenarios<span class="w"> </span>baseline<span class="w"> </span>Retrade
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>my_data<span class="w"> </span>--scenarios<span class="w"> </span>my_scenarios.csv<span class="w">  </span>--selected_scenarios<span class="w"> </span>baseline<span class="w"> </span>Retrade
 </pre></div>
 </div>
 <p>This will only run the baseline and Retrade scenarios, even if more are defined in scenarios.csv.</p>
