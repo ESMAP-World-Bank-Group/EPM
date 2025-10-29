@@ -94,7 +94,7 @@ UNIT = {
 
 RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
-                  'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't'}
+                  'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't', 'sumhdr': 'attribute'}
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
 
 
@@ -582,12 +582,14 @@ def generate_summary(epm_results, folder, epm_input):
 
     if 'pCostsZonePerMWh' in epm_results.keys():
         t = epm_results['pCostsZonePerMWh'].copy()
+        t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         summary.update({'pCostsZonePerMWh': t})
     else:
         print('No pCostsZonePerMWh in epm_results')
 
     if 'pCostsCountryPerMWh' in epm_results.keys():
         t = epm_results['pCostsCountryPerMWh'].copy()
+        t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         summary.update({'pCostsCountryPerMWh': t})
     else:
         print('No pCostsCountryPerMWh in epm_results')
