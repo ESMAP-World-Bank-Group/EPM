@@ -9,6 +9,7 @@ pTechData,input/data_test/resources/pTechData.csv
 pSettingsHeader,input/data_test/resources/pSettingsHeader.csv
 pGenDataInputHeader,input/data_test/resources/pGenDataInputHeader.csv
 pStoreDataHeader,input/data_test/resources/pStoreDataHeader.csv
+pTransmissionHeader,input/data_test/resources/pTransmissionHeader.csv
 pH2Header,input/data_test/resources/pH2Header.csv
 pDemandData,input/data_test/load/pDemandData.csv
 pDemandForecast,input/data_test/load/pDemandForecast.csv

@@ -1,50 +1,50 @@
 z,g,uni,y,value
-Angola,Cafunfo,Generation,2035,22400014.695129607
-Angola,Cambulo,Generation,2035,20720014.71396393
-Angola,Candidate_PV_Angola,Generation,2035,1120000001.2468905
+Angola,Cafunfo,Generation,2035,22400001.23766438
+Angola,Cambulo,Generation,2035,20720001.239505906
+Angola,Candidate_PV_Angola,Generation,2035,1120000000.0349314
 Angola,Bailundo,Generation,2035,4480000.0
 Angola,Kuito,Generation,2035,8400000.0
 Angola,Lucapa,Generation,2035,3919999.9999999995
 Angola,Luena,Generation,2035,15119999.999999998
-Angola,Candidate_BESS_Angola,StorageEnergy,2035,1272.109606433622
-Angola,Candidate_CCGT_Gas_Angola,Generation,2035,169332436.60655984
-Angola,Caraculo,Generation,2035,14000014.789719943
-Angola,Catete,Generation,2035,4480014.907264428
-Angola,Cuango,Generation,2035,6160014.883427482
-Angola,Cunene,Generation,2035,4480014.907264428
-Angola,Kiwaba,Generation,2035,98696025.23803242
-Angola,Lubango,Generation,2035,19600014.726533487
-Angola,Quilemba,Generation,2035,19600014.726533487
+Angola,Candidate_BESS_Angola,StorageEnergy,2035,303.72928457566263
+Angola,Candidate_CCGT_Gas_Angola,Generation,2035,169432311.26970363
+Angola,Caraculo,Generation,2035,14000001.246958843
+Angola,Catete,Generation,2035,4480001.258635698
+Angola,Cuango,Generation,2035,6160001.25627166
+Angola,Cunene,Generation,2035,4480001.258635698
+Angola,Kiwaba,Generation,2035,98696002.27180515
+Angola,Lubango,Generation,2035,19600001.240737062
+Angola,Quilemba,Generation,2035,19600001.240737062
 Cameroon,Limbe CCGT,Generation,2035,267750000.0
-Cameroon,Candidate_OnshoreWind_Cameroon,Generation,2035,545207243.4651564
+Cameroon,Candidate_OnshoreWind_Cameroon,Generation,2035,544745698.5827003
 Cameroon,Bini A Barak,Generation,2035,19600000.0
 Cameroon,GDS,Generation,2035,18480000.0
-Cameroon,Candidate_PV_Cameroon,Generation,2035,6033.062851683393
-Cameroon,Candidate_BESS_Cameroon,StorageEnergy,2035,3538.177387287491
+Cameroon,Candidate_PV_Cameroon,Generation,2035,1476.2723787154382
+Cameroon,Candidate_BESS_Cameroon,StorageEnergy,2035,851.3949438884521
 CAR,PV_CAF_2030,Generation,2035,8400000.0
-CAR,Candidate_PV_CAF,Generation,2035,22400007.095831424
-CAR,Danzi 2,Generation,2035,14000007.34468977
-CAR,Candidate_BESS_CAF,StorageEnergy,2035,11143743.939548183
-Chad,AM Timan 2,Generation,2035,2404.0423919872064
-Chad,Candidate_OnshoreWind_Chad,Generation,2035,33215023.479409434
+CAR,Candidate_PV_CAF,Generation,2035,22399999.483797804
+CAR,Danzi 2,Generation,2035,13999999.505344117
+CAR,Candidate_BESS_CAF,StorageEnergy,2035,11143817.171828412
+Chad,AM Timan 2,Generation,2035,589.8915674559578
+Chad,Candidate_OnshoreWind_Chad,Generation,2035,33215001.75575588
 Chad,Anda Gassi,Generation,2035,28000000.0
 Chad,Djermaya,Generation,2035,20160000.0
 Chad,Innovent Abeche,Generation,2035,8400000.0
 Chad,Respit,Generation,2035,16800000.0
-Chad,Candidate_PV_Chad,Generation,2035,2503.0493779678645
-Chad,Candidate_BESS_Chad,StorageEnergy,2035,4191.872018733672
-Chad,NSTT,Generation,2035,2483.35663151162
-Congo,Brazzaville Solar,Generation,2035,30800012.899227317
-Congo,Candidate_BESS_Congo,StorageEnergy,2035,1332.1873689729573
-Congo,Candidate_PV_Congo,Generation,2035,252000010.07487294
-DRC,Candidate_OnshoreWind_DRC,Generation,2035,474500021.0403766
-DRC,Candidate_PV_DRC,Generation,2035,560000007.5837406
-DRC,Candidate_BESS_DRC,StorageEnergy,2035,11563880.020300677
-EquatorialGuinea,Akoga,Generation,2035,1559.2812008468775
-EquatorialGuinea,Candidate_PV_EquatorialGuinea,Generation,2035,11231762.100886099
-EquatorialGuinea,Candidate_BESS_EquatorialGuinea,StorageEnergy,2035,3343.84886092858
-Gabon,Candidate_PV_Gabon,Generation,2035,231896915.05620065
-Gabon,Candidate_BESS_Gabon,StorageEnergy,2035,2099.9982503315364
-DRC_South,Candidate_OnshoreWind_DRCSouth,Generation,2035,341640022.87449014
-DRC_South,Candidate_PV_DRCSouth,Generation,2035,414400010.35207194
-DRC_South,Candidate_BESS_DRCSouth,StorageEnergy,2035,61693868.23148924
+Chad,Candidate_PV_Chad,Generation,2035,600.0845747447561
+Chad,Candidate_BESS_Chad,StorageEnergy,2035,1010.3254966735367
+Chad,NSTT,Generation,2035,598.9430039888277
+Congo,Brazzaville Solar,Generation,2035,30800000.836644724
+Congo,Candidate_BESS_Congo,StorageEnergy,2035,317.74805379420457
+Congo,Candidate_PV_Congo,Generation,2035,252000000.58988026
+DRC,Candidate_OnshoreWind_DRC,Generation,2035,474500001.86109227
+DRC,Candidate_PV_DRC,Generation,2035,560000000.4785491
+DRC,Candidate_BESS_DRC,StorageEnergy,2035,11639513.645604488
+EquatorialGuinea,Akoga,Generation,2035,380.98594501595556
+EquatorialGuinea,Candidate_PV_EquatorialGuinea,Generation,2035,11590653.713165404
+EquatorialGuinea,Candidate_BESS_EquatorialGuinea,StorageEnergy,2035,818.5439011597963
+Gabon,Candidate_PV_Gabon,Generation,2035,231528480.93305475
+Gabon,Candidate_BESS_Gabon,StorageEnergy,2035,503.42658031998377
+DRC_South,Candidate_OnshoreWind_DRCSouth,Generation,2035,341640002.08453
+DRC_South,Candidate_PV_DRCSouth,Generation,2035,414400000.8160919
+DRC_South,Candidate_BESS_DRCSouth,StorageEnergy,2035,61679190.24737985
