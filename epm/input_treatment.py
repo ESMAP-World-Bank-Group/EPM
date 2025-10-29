@@ -65,6 +65,7 @@ def run_input_treatment(gams):
         else:
             db.write(target_db, [param_name])
 
+
     def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: str, header: str):
         """
         Overwrites NaN values in a GAMS parameter with values from a default parameter.
@@ -378,6 +379,10 @@ def run_input_treatment(gams):
 
             final = pd.concat(result_frames, ignore_index=True)
             db.data[param_name].setRecords(final)
+            target_range = f"{int(target_years[0])}-{int(target_years[-1])}"
+            gams.printLog(
+                f"Linear interpolation performed on {param_name} to match model years {target_range}."
+            )
             _write_back(db, param_name)
 
         
