@@ -182,6 +182,11 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 - **Default:** `img`  
 - **Purpose:** Directory where postprocessing graphs and plots will be saved.
 
+### `--simulation_label`
+- **Type:** string  
+- **Default:** timestamp generated name  
+- **Purpose:** Replaces the automatic timestamp with a custom name for the results folder.
+
 ---
 
 ### `--scenarios`
