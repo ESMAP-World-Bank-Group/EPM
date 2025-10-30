@@ -1583,9 +1583,9 @@ This CSV file defines which input files correspond to which parameters in the mo
 <h3><code class="docutils literal notranslate"><span class="pre">--scenarios</span></code><a class="headerlink" href="#scenarios" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Type:</strong> string</p></li>
-<li><p><strong>Default:</strong> None</p></li>
+<li><p><strong>Default:</strong> None (flag omitted)</p></li>
 <li><p><strong>Purpose:</strong> Path to a scenario definition file specifying multiple scenarios and their overridden inputs.</p></li>
-<li><p><strong>Notes:</strong> If omitted, only the baseline scenario will run.</p></li>
+<li><p><strong>Notes:</strong> Use <code class="docutils literal notranslate"><span class="pre">--scenarios</span></code> with no value to load the default <code class="docutils literal notranslate"><span class="pre">scenarios.csv</span></code>. Provide a custom path (for example <code class="docutils literal notranslate"><span class="pre">--scenarios</span> <span class="pre">alternative.csv</span></code>) to select a different file. If the flag is omitted entirely, only the baseline scenario runs.</p></li>
 </ul>
 </section>
 <section id="selected-scenarios">
@@ -1594,7 +1594,8 @@ This CSV file defines which input files correspond to which parameters in the mo
 <li><p><strong>Type:</strong> list of strings</p></li>
 <li><p><strong>Default:</strong> None</p></li>
 <li><p><strong>Purpose:</strong> Specifies a subset of scenarios from the scenarios file to run.</p></li>
-<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--selected_scenarios</span> <span class="pre">baseline</span> <span class="pre">ScenarioA</span></code></p></li>
+<li><p><strong>Alias:</strong> <code class="docutils literal notranslate"><span class="pre">-S</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">-S</span> <span class="pre">baseline</span> <span class="pre">ScenarioA</span></code></p></li>
 </ul>
 </section>
 <section id="sensitivity">
@@ -1967,7 +1968,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Oct 29, 2025.<br>
+Last updated on Oct 30, 2025.<br>
 </p>
   </div>
   
