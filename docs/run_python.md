@@ -191,9 +191,9 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 
 ### `--scenarios`
 - **Type:** string  
-- **Default:** None  
+- **Default:** None (flag omitted)  
 - **Purpose:** Path to a scenario definition file specifying multiple scenarios and their overridden inputs.  
-- **Notes:** If omitted, only the baseline scenario will run.
+- **Notes:** Use `--scenarios` with no value to load the default `scenarios.csv`. Provide a custom path (for example `--scenarios alternative.csv`) to select a different file. If the flag is omitted entirely, only the baseline scenario runs.
 
 ### `--selected_scenarios`
 - **Type:** list of strings  
