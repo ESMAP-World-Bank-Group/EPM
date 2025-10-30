@@ -1,0 +1,22 @@
+﻿Technology,Hourly Variation,RE Technology
+OCGT,0,0
+CCGT,0,0
+COAL,0,0
+ReservoirHydro,0,0
+OnshoreWind,1,1
+PV,1,1
+BIOGAS,0,1
+ImportTransmission,0,0
+CHP,0,0
+ICE,0,0
+BiomassPlant,0,1
+ROR,1,1
+ST,0,0
+CSPPlant,0,0
+PVwSTO,0,1
+STOPV,0,0
+Storage,0,0
+COALCCS,0,0
+GASCCS,0,0
+CCGTH2,0,0
+OffshoreWind,1,1

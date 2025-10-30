@@ -677,7 +677,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if FIGURES_ACTIVATED.get(figure_name, False):
                     
                     filename = os.path.join(RESULTS_FOLDER, f'{figure_name}.pdf')
-                    make_heatmap_plot(epm_results, filename=filename, reference=scenario_reference)
+                    if 'pAnnualTransmissionCapacity' in epm_results:
+                        make_heatmap_plot(epm_results, filename=filename, reference=scenario_reference)
+                    else:
+                        print("Skipping heatmap: 'pAnnualTransmissionCapacity' not found in epm_results")
+
             # ------------------------------------------------------------------------------------
             print('Creating folders for figures...')
             
@@ -1186,29 +1190,88 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             show_total=True,
                                             title=f'Cost Composition by Zone in {year} (million USD)')
             
+            # ------------------------------------------------------------------------------------
             # 2.4 Capex investment
             figure_name = 'CapexZoneEvolution'
             if FIGURES_ACTIVATED.get(figure_name, False):
-                for scenario in selected_scenarios:
+                if 'pCapexInvestmentComponent' in epm_results:
+                    # Preferred: component-level CAPEX available
+                    for scenario in selected_scenarios:
                         df = epm_results['pCapexInvestmentComponent'].copy()
-                        df = df[df['scenario'] == scenario]
-                        df = df.drop(columns=['scenario'])
-                        df['value'] = df['value'] / 1e6
-                        
+                        df = df[df['scenario'] == scenario].drop(columns=['scenario'])
+                        df['value'] = df['value'] / 1e6  # to million USD
+            
                         filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
+                        make_stacked_barplot(
+                            df,
+                            filename,
+                            dict_specs['colors'],
+                            column_stacked='attribute',
+                            column_subplot='zone',
+                            column_xaxis='year',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("m$"),
+                            rotation=45,
+                            annotate=False,
+                            title=f'Annual Capex by Zone – {scenario} (million USD)'
+                        )
+            
+                elif 'pCapexInvestmentPlant' in epm_results:
+                    # Fallback: only plant-level CAPEX; plot totals as a single "Capex" attribute
+                    for scenario in selected_scenarios:
+                        df = epm_results['pCapexInvestmentPlant'].copy()
+                        df = df[df['scenario'] == scenario].drop(columns=['scenario'])
+                        if 'attribute' not in df.columns:
+                            df['attribute'] = 'Capex'
+                        df['value'] = df['value'] / 1e6  # to million USD
+            
+                        filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
+                        make_stacked_barplot(
+                            df,
+                            filename,
+                            dict_specs['colors'],
+                            column_stacked='attribute',
+                            column_subplot='zone',
+                            column_xaxis='year',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("m$"),
+                            rotation=45,
+                            annotate=False,
+                            title=f'Annual Capex by Zone – {scenario} (million USD)'
+                        )
+                else:
+                    print("Skipping CapexZoneEvolution: no CAPEX table found "
+                          "(expected 'pCapexInvestmentComponent' or 'pCapexInvestmentPlant').")
+# ------------------------------------------------------------------------------------
+
+            
+            
+            
+            
+            
+            # # 2.4 Capex investment
+            # figure_name = 'CapexZoneEvolution'
+            # if FIGURES_ACTIVATED.get(figure_name, False):
+            #     for scenario in selected_scenarios:
+            #             df = epm_results['pCapexInvestmentComponent'].copy()
+            #             df = df[df['scenario'] == scenario]
+            #             df = df.drop(columns=['scenario'])
+            #             df['value'] = df['value'] / 1e6
                         
-                        make_stacked_barplot(df, 
-                                                    filename, 
-                                                    dict_specs['colors'], 
-                                                    column_stacked='attribute',
-                                                    column_subplot='zone',
-                                                    column_xaxis='year',
-                                                    column_value='value',
-                                                    format_y=make_auto_yaxis_formatter("m$"), 
-                                                    rotation=45,
-                                                    annotate=False,
-                                                    title=f'Annual Capex by Zone – {scenario} (million USD)'
-                                                    )   
+            #             filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
+                        
+            #             make_stacked_barplot(df, 
+            #                                         filename, 
+            #                                         dict_specs['colors'], 
+            #                                         column_stacked='attribute',
+            #                                         column_subplot='zone',
+            #                                         column_xaxis='year',
+            #                                         column_value='value',
+            #                                         format_y=make_auto_yaxis_formatter("m$"), 
+            #                                         rotation=45,
+            #                                         annotate=False,
+            #                                         title=f'Annual Capex by Zone – {scenario} (million USD)'
+            #                                         )   
                                 
             
             # ------------------------------------------------------------------------------------
