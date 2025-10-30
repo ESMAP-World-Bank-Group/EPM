@@ -1,139 +1,139 @@
 z,uni,y,value
 Angola,Demand: GWh,2025,17079.99999999999
 Angola,Demand: GWh,2035,27265.0
-Angola,Total production: GWh,2025,17080.00505952394
-Angola,Total production: GWh,2035,25462.130387424968
-Angola,Unmet demand: GWh,2025,0.0006120554080767223
-Angola,Unmet demand: GWh,2035,7.75950608343316e-05
-Angola,Surplus generation: GWh,2025,0.004660993928924198
-Angola,Surplus generation: GWh,2035,0.0008556876589910321
-Angola,Imports exchange: GWh,2035,2031.6972782575763
-Angola,Exports exchange: GWh,2035,127.23173313971421
-Angola,Net interchange: GWh,2035,1904.4655451178621
-Angola,Net interchange Ratio: GWh,2035,0.0698501942093476
+Angola,Total production: GWh,2025,17080.0075352268
+Angola,Total production: GWh,2035,25462.033626744465
+Angola,Unmet demand: GWh,2025,0.0006416711298754195
+Angola,Unmet demand: GWh,2035,8.164772097180316e-05
+Angola,Surplus generation: GWh,2025,0.004862017598321179
+Angola,Surplus generation: GWh,2035,0.0008989298308462366
+Angola,Imports exchange: GWh,2035,2031.835148670698
+Angola,Exports exchange: GWh,2035,127.26162859456625
+Angola,Net interchange: GWh,2035,1904.5735200761317
+Angola,Net interchange Ratio: GWh,2035,0.06985415441320857
 Angola,Total Demand: GWh,2025,17079.99999999999
 Angola,Total Demand: GWh,2035,27265.0
 Cameroon,Demand: GWh,2025,7978.000000000001
 Cameroon,Demand: GWh,2035,12435.99999999999
-Cameroon,Total production: GWh,2025,7978.916703687964
-Cameroon,Total production: GWh,2035,14664.93026039654
-Cameroon,Unmet demand: GWh,2025,0.0005314025823428693
-Cameroon,Unmet demand: GWh,2035,7.356646500266644e-05
-Cameroon,Surplus generation: GWh,2025,0.9169278267667996
-Cameroon,Surplus generation: GWh,2035,0.0022702264896504562
-Cameroon,Imports exchange: GWh,2035,144.2647088414654
-Cameroon,Exports exchange: GWh,2035,2365.9545528265417
-Cameroon,Net interchange: GWh,2035,-2221.689843985076
-Cameroon,Net interchange Ratio: GWh,2035,-0.1786498748781825
+Cameroon,Total production: GWh,2025,7978.921075695738
+Cameroon,Total production: GWh,2035,14665.019587775076
+Cameroon,Unmet demand: GWh,2025,0.00055742426805998
+Cameroon,Unmet demand: GWh,2035,7.74883434358594e-05
+Cameroon,Surplus generation: GWh,2025,0.9206252046384572
+Cameroon,Surplus generation: GWh,2035,0.002368074349440639
+Cameroon,Imports exchange: GWh,2035,144.275097934705
+Cameroon,Exports exchange: GWh,2035,2366.0512701525795
+Cameroon,Net interchange: GWh,2035,-2221.7761722178743
+Cameroon,Net interchange Ratio: GWh,2035,-0.17865681667882566
 Cameroon,Total Demand: GWh,2025,7978.000000000001
 Cameroon,Total Demand: GWh,2035,12435.99999999999
 CAR,Demand: GWh,2025,191.00000000000077
 CAR,Demand: GWh,2035,775.0000000000003
-CAR,Total production: GWh,2025,190.54468416493944
-CAR,Total production: GWh,2035,792.7419773140709
-CAR,Unmet demand: GWh,2025,4.709457066716573
-CAR,Unmet demand: GWh,2035,7.526303044767803e-05
-CAR,Surplus generation: GWh,2025,4.254001954628274
-CAR,Surplus generation: GWh,2035,0.0016152071387657522
-CAR,Imports exchange: GWh,2035,110.1134549127029
-CAR,Exports exchange: GWh,2035,85.61815741303538
-CAR,Net interchange: GWh,2035,24.49529749966753
-CAR,Net interchange Ratio: GWh,2035,0.03160683548344196
+CAR,Total production: GWh,2025,190.5235890058333
+CAR,Total production: GWh,2035,792.7275242940477
+CAR,Unmet demand: GWh,2025,4.7094751471181855
+CAR,Unmet demand: GWh,2035,7.924579382014427e-05
+CAR,Surplus generation: GWh,2025,4.2326073352027445
+CAR,Surplus generation: GWh,2035,0.0016925573245405018
+CAR,Imports exchange: GWh,2035,110.12828068230591
+CAR,Exports exchange: GWh,2035,85.61641105369809
+CAR,Net interchange: GWh,2035,24.511869628607826
+CAR,Net interchange Ratio: GWh,2035,0.03162821887562299
 CAR,Total Demand: GWh,2025,191.00000000000077
 CAR,Total Demand: GWh,2035,775.0000000000003
 Chad,Demand: GWh,2025,335.99999999999983
 Chad,Demand: GWh,2035,487.00000000000006
-Chad,Total production: GWh,2025,336.00667078791383
-Chad,Total production: GWh,2035,447.9465509360523
-Chad,Unmet demand: GWh,2025,0.0005777193293745826
-Chad,Unmet demand: GWh,2035,7.3621090650825e-05
-Chad,Surplus generation: GWh,2025,0.006410922089425786
-Chad,Surplus generation: GWh,2035,0.0022477408865326843
-Chad,Imports exchange: GWh,2035,185.98332708815897
-Chad,Exports exchange: GWh,2035,137.59847518970858
-Chad,Net interchange: GWh,2035,48.38485189845039
-Chad,Net interchange Ratio: GWh,2035,0.0993528786415819
+Chad,Total production: GWh,2025,336.00887295042685
+Chad,Total production: GWh,2035,447.94902060131153
+Chad,Unmet demand: GWh,2025,0.0006053771681887746
+Chad,Unmet demand: GWh,2035,7.747634234193262e-05
+Chad,Surplus generation: GWh,2025,0.006731124870855589
+Chad,Surplus generation: GWh,2035,0.002345132578365771
+Chad,Imports exchange: GWh,2035,185.98523858487422
+Chad,Exports exchange: GWh,2035,137.59895153569042
+Chad,Net interchange: GWh,2035,48.38628704918381
+Chad,Net interchange Ratio: GWh,2035,0.09935582556300575
 Chad,Total Demand: GWh,2025,335.99999999999983
 Chad,Total Demand: GWh,2035,487.00000000000006
 Congo,Demand: GWh,2025,2786.000000000002
 Congo,Demand: GWh,2035,4922.999999999998
-Congo,Total production: GWh,2025,2929.9152512434
-Congo,Total production: GWh,2035,2843.471753475033
-Congo,Unmet demand: GWh,2025,0.0005778779688342608
-Congo,Unmet demand: GWh,2035,7.692196977652455e-05
-Congo,Surplus generation: GWh,2025,0.006384261627249529
-Congo,Surplus generation: GWh,2035,0.0009422164733030444
-Congo,Imports exchange: GWh,2025,279.78045069624335
-Congo,Imports exchange: GWh,2035,4340.717722539688
-Congo,Exports exchange: GWh,2025,409.7002978988659
-Congo,Exports exchange: GWh,2035,2044.1422872374267
-Congo,Net interchange: GWh,2025,-129.91984720262258
-Congo,Net interchange: GWh,2035,2296.575435302261
-Congo,Net interchange Ratio: GWh,2025,-0.04663311098443018
-Congo,Net interchange Ratio: GWh,2035,0.46649917434537114
+Congo,Total production: GWh,2025,2929.915971698464
+Congo,Total production: GWh,2035,2843.581296627279
+Congo,Unmet demand: GWh,2025,0.0006056589003195054
+Congo,Unmet demand: GWh,2035,8.096037133168678e-05
+Congo,Surplus generation: GWh,2025,0.006663221468726709
+Congo,Surplus generation: GWh,2035,0.0009898450882424063
+Congo,Imports exchange: GWh,2025,279.779980044877
+Congo,Imports exchange: GWh,2035,4340.80992396272
+Congo,Exports exchange: GWh,2025,409.699008791219
+Congo,Exports exchange: GWh,2035,2044.3371731779998
+Congo,Net interchange: GWh,2025,-129.919028746342
+Congo,Net interchange: GWh,2035,2296.47275078472
+Congo,Net interchange Ratio: GWh,2025,-0.04663281720974226
+Congo,Net interchange Ratio: GWh,2035,0.4664783162268375
 Congo,Total Demand: GWh,2025,2786.000000000002
 Congo,Total Demand: GWh,2035,4922.999999999998
 DRC,Demand: GWh,2025,4947.999999999997
 DRC,Demand: GWh,2035,7262.000000000007
-DRC,Total production: GWh,2025,10702.091124632749
-DRC,Total production: GWh,2035,14993.19937202951
-DRC,Unmet demand: GWh,2025,0.0005803411774044752
-DRC,Unmet demand: GWh,2035,7.729895530423447e-05
-DRC,Surplus generation: GWh,2025,0.006212604591669821
-DRC,Surplus generation: GWh,2035,0.0008915250646878347
-DRC,Imports exchange: GWh,2025,409.7604669857972
-DRC,Imports exchange: GWh,2035,2117.389019774606
-DRC,Exports exchange: GWh,2025,6143.357538441765
-DRC,Exports exchange: GWh,2035,9735.266326534751
-DRC,Net interchange: GWh,2025,-5733.597071455968
-DRC,Net interchange: GWh,2035,-7617.877306760145
-DRC,Net interchange Ratio: GWh,2025,-1.158770628831037
-DRC,Net interchange Ratio: GWh,2035,-1.0490054126631971
+DRC,Total production: GWh,2025,10702.091970403835
+DRC,Total production: GWh,2035,14993.078613704052
+DRC,Unmet demand: GWh,2025,0.0006087181776337742
+DRC,Unmet demand: GWh,2035,8.140329103702119e-05
+DRC,Surplus generation: GWh,2025,0.006587906915377293
+DRC,Surplus generation: GWh,2035,0.0009357341287181382
+DRC,Imports exchange: GWh,2025,409.76227862753274
+DRC,Imports exchange: GWh,2035,2117.6240863789035
+DRC,Exports exchange: GWh,2025,6143.358851865225
+DRC,Exports exchange: GWh,2035,9735.392688531221
+DRC,Net interchange: GWh,2025,-5733.596573237693
+DRC,Net interchange: GWh,2035,-7617.768602152318
+DRC,Net interchange Ratio: GWh,2025,-1.1587705281401972
+DRC,Net interchange Ratio: GWh,2035,-1.0489904437004007
 DRC,Total Demand: GWh,2025,4947.999999999997
 DRC,Total Demand: GWh,2035,7262.000000000007
 EquatorialGuinea,Demand: GWh,2025,920.9999999999999
 EquatorialGuinea,Demand: GWh,2035,1443.000000000002
-EquatorialGuinea,Total production: GWh,2025,921.0061632711802
-EquatorialGuinea,Total production: GWh,2035,531.885953304332
-EquatorialGuinea,Unmet demand: GWh,2025,0.0005777364030088809
-EquatorialGuinea,Unmet demand: GWh,2035,7.432277331719851e-05
-EquatorialGuinea,Surplus generation: GWh,2025,0.006408776746191015
-EquatorialGuinea,Surplus generation: GWh,2035,0.0018566241806576029
-EquatorialGuinea,Imports exchange: GWh,2035,1231.1212738270756
-EquatorialGuinea,Exports exchange: GWh,2035,258.42500466271173
-EquatorialGuinea,Net interchange: GWh,2035,972.6962691643639
-EquatorialGuinea,Net interchange Ratio: GWh,2035,0.6740791886100919
+EquatorialGuinea,Total production: GWh,2025,921.0072042573
+EquatorialGuinea,Total production: GWh,2035,531.8391058257281
+EquatorialGuinea,Unmet demand: GWh,2025,0.0006055001366290952
+EquatorialGuinea,Unmet demand: GWh,2035,7.826197943735044e-05
+EquatorialGuinea,Surplus generation: GWh,2025,0.006720058728418288
+EquatorialGuinea,Surplus generation: GWh,2035,0.0019355382582186503
+EquatorialGuinea,Imports exchange: GWh,2035,1231.1762168250234
+EquatorialGuinea,Exports exchange: GWh,2035,258.42852008599067
+EquatorialGuinea,Net interchange: GWh,2035,972.7476967390328
+EquatorialGuinea,Net interchange Ratio: GWh,2035,0.6741148279549767
 EquatorialGuinea,Total Demand: GWh,2025,920.9999999999999
 EquatorialGuinea,Total Demand: GWh,2035,1443.000000000002
 Gabon,Demand: GWh,2025,3787.999999999999
 Gabon,Demand: GWh,2035,6128.0
-Gabon,Total production: GWh,2025,3788.0026609040942
-Gabon,Total production: GWh,2035,9297.25561275785
-Gabon,Unmet demand: GWh,2025,0.0006464700777967329
-Gabon,Unmet demand: GWh,2035,7.476488101275889e-05
-Gabon,Surplus generation: GWh,2025,0.002942970107790215
-Gabon,Surplus generation: GWh,2035,0.0016992882780182256
-Gabon,Imports exchange: GWh,2035,1170.6023734910364
-Gabon,Exports exchange: GWh,2035,4281.306587020205
-Gabon,Net interchange: GWh,2035,-3110.704213529169
-Gabon,Net interchange Ratio: GWh,2035,-0.5076214447665093
+Gabon,Total production: GWh,2025,3788.0035847928384
+Gabon,Total production: GWh,2035,9297.355285521275
+Gabon,Unmet demand: GWh,2025,0.0006790047352703817
+Gabon,Unmet demand: GWh,2035,7.876079668412194e-05
+Gabon,Surplus generation: GWh,2025,0.003068531713115161
+Gabon,Surplus generation: GWh,2035,0.0017716386166766866
+Gabon,Imports exchange: GWh,2035,1170.609110795066
+Gabon,Exports exchange: GWh,2035,4281.408246600178
+Gabon,Net interchange: GWh,2035,-3110.799135805112
+Gabon,Net interchange Ratio: GWh,2035,-0.5076369346940457
 Gabon,Total Demand: GWh,2025,3787.999999999999
 Gabon,Total Demand: GWh,2035,6128.0
 DRC_South,Demand: GWh,2025,10050.000000000011
 DRC_South,Demand: GWh,2035,14749.999999999996
-DRC_South,Total production: GWh,2025,4151.83166335622
-DRC_South,Total production: GWh,2035,6724.721778733981
-DRC_South,Unmet demand: GWh,2025,0.0005835313925857188
-DRC_South,Unmet demand: GWh,2035,7.893756388016926e-05
-DRC_South,Surplus generation: GWh,2025,0.005899555957978677
-DRC_South,Surplus generation: GWh,2035,0.0007053398857773418
-DRC_South,Imports exchange: GWh,2025,6191.412913065514
-DRC_South,Imports exchange: GWh,2035,8508.600996911706
-DRC_South,Exports exchange: GWh,2025,0.06016908693124712
-DRC_South,Exports exchange: GWh,2035,0.0045955535164241765
-DRC_South,Net interchange: GWh,2025,6191.352743978582
-DRC_South,Net interchange: GWh,2035,8508.596401358189
-DRC_South,Net interchange Ratio: GWh,2025,0.6160549994008533
-DRC_South,Net interchange Ratio: GWh,2035,0.5768539933124197
+DRC_South,Total production: GWh,2025,4151.832034864123
+DRC_South,Total production: GWh,2035,6724.716004997403
+DRC_South,Unmet demand: GWh,2025,0.0006137085153441067
+DRC_South,Unmet demand: GWh,2035,8.31289271761698e-05
+DRC_South,Surplus generation: GWh,2025,0.006250916564900437
+DRC_South,Surplus generation: GWh,2035,0.000739201813184421
+DRC_South,Imports exchange: GWh,2025,6191.416593007797
+DRC_South,Imports exchange: GWh,2035,8508.600202382288
+DRC_South,Exports exchange: GWh,2025,0.06326983631362303
+DRC_South,Exports exchange: GWh,2035,0.00478859788056732
+DRC_South,Net interchange: GWh,2025,6191.353323171484
+DRC_South,Net interchange: GWh,2035,8508.595413784407
+DRC_South,Net interchange Ratio: GWh,2025,0.6160550570319877
+DRC_South,Net interchange Ratio: GWh,2035,0.576853926358265
 DRC_South,Total Demand: GWh,2025,10050.000000000011
 DRC_South,Total Demand: GWh,2035,14749.999999999996

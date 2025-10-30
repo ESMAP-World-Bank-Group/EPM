@@ -505,8 +505,10 @@ def main(test_args=None):
     parser.add_argument(
         "--scenarios",
         type=str,
+        nargs="?",
+        const="scenarios.csv",
         default=None,
-        help="Scenario file name (default: no filename)"
+        help="Scenario file name (default when flag used without value: scenarios.csv)"
     )
 
     parser.add_argument(
