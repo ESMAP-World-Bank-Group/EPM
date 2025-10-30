@@ -75,6 +75,7 @@ COLORS = os.path.join('static', 'colors.csv')
 GEOJSON = os.path.join('static', 'countries.geojson')
 GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
 
+TOLERANCE = 1e-2
 
 NAME_COLUMNS = {
     'pDispatchFuel': 'fuel',
@@ -457,10 +458,18 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     for k in keys:
         if k not in epm_results.keys():
             print(f'{k} not in epm_results.keys().')
-    
+        
     # Rename columns
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_results.items() if
                 k in keys and k in epm_results.keys()}
+    
+    # Zero out near-zero values across processed outputs to avoid spurious noise.
+    for df in epm_dict.values():
+        if 'value' in df.columns:
+            mask = df['value'].abs() < TOLERANCE
+            if mask.any():
+                df.loc[mask, 'value'] = 0.0
+
 
     # Rename variables if needed (could be used to convert legacy names)
     if rename_keys is not None:

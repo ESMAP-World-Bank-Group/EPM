@@ -46,6 +46,7 @@ from .utils import *
 from .plots import *
 from .maps import make_automatic_map
 
+TOLERANCE_ENERGY = 1
 
 KEYS_RESULTS = {
     # 1. Capacity expansion
@@ -649,6 +650,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 
             # Define dataframes for capacity, energy, exchange
             df_energyplant = epm_results['pEnergyPlant'].copy()
+            df_energyplant = df_energyplant[df_energyplant['value'] > TOLERANCE_ENERGY]
+            
 
             # Group reserve cost attributes into one unique attribute and sum the value
             def simplify_attributes(df, new_label, attributes_list=[]):
