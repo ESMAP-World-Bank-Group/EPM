@@ -505,8 +505,10 @@ def main(test_args=None):
     parser.add_argument(
         "--scenarios",
         type=str,
+        nargs="?",
+        const="scenarios.csv",
         default=None,
-        help="Scenario file name (default: no filename)"
+        help="Scenario file name (default when flag used without value: scenarios.csv)"
     )
 
     parser.add_argument(
@@ -548,11 +550,12 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--selected_scenarios",
+        "--selected_scenarios", "--selected-scenarios", "-S",
+        dest="selected_scenarios",
         nargs="+",  # Accepts one or more values
         type=str,
         default=None,
-        help="List of selected scenarios (default: None). Example usage: --selected_scenarios baseline HighDemand"
+        help="List of selected scenarios (default: None). Example usage: -S baseline HighDemand"
     )
 
     parser.add_argument(
