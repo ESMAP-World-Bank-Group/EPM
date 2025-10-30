@@ -38,7 +38,6 @@ Contact:
 **********************************************************************
 """
 
-
 import os
 import subprocess
 import pandas as pd
@@ -58,7 +57,6 @@ from preprocessing import *
 
 from postprocessing.utils import path_to_extract_results
 from postprocessing.postprocessing import postprocess_output
-
 
 PATH_GAMS = {
     'path_main_file': 'main.gms',

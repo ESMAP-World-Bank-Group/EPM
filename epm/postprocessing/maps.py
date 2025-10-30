@@ -1678,10 +1678,14 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     figure_name = 'InteractiveMap'
                     if FIGURES_ACTIVATED.get(figure_name, False):
                         filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.html')
-                    
-                        transmission_data = capa_transmission.rename(columns={'value': 'capacity'}).merge(
-                            utilization_transmission.rename
-                            (columns={'value': 'utilization'}), on=['scenario', 'zone', 'z2', 'year'])
+
+                        # Add utilization rate
+                        capa_transmission = capa_transmission.rename(columns={'value': 'capacity'})
+                        utilization_transmission = utilization_transmission.rename(columns={'value': 'utilization'})
+                        transmission_data = capa_transmission.merge(utilization_transmission, 
+                                                                    on=['scenario', 'zone', 'z2', 'year'],
+                                                                    how='left').fillna({'utilization': 0})
+                        
                         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
