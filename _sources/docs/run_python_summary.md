@@ -44,7 +44,7 @@ Other command-line options allow for further customization of the simulation run
 | Argument              | Type       | Default | Description                                                       | Example Usage                              |
 |-----------------------|------------|---------|-------------------------------------------------------------------|--------------------------------------------|
 | `--scenarios`         | string     | None    | CSV file defining multiple scenarios                              | `--scenarios input/scenarios.csv`          |
-| `--selected_scenarios`| list[str]  | None    | List of scenario names to run                                     | `--selected_scenarios baseline HighDemand` |
+| `--selected_scenarios` (`-S`)| list[str]  | None    | List of scenario names to run                                     | `-S baseline HighDemand` |
 | `--sensitivity`       | flag       | False   | Enable sensitivity analysis                                       | `--sensitivity`                            |
 | `--project_assessment`| list[str]  | None    | Project(s) to exclude in counterfactual analysis                  | `--project_assessment SolarProject`        |
 
