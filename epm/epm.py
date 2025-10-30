@@ -306,7 +306,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     folder_input = os.path.join(os.getcwd(), folder_input)
 
     # Read configuration file
-    config_path = os.path.join(folder_input, 'config.csv')
+    config_path = os.path.join(folder_input, config)
     if not os.path.exists(config_path):
         raise FileNotFoundError(f'Configuration file {os.path.abspath(config_path)} not found.')
 
