@@ -2,21 +2,13 @@
 
 The World Bank's remote server is designed for **running computationally heavy EPM simulations**.
 
-## Server Specifications
-- **vCPU**: 64  
-- **Total RAM**: 64 GB  
-- **Typical Free RAM**: ~6 GB  
-- Use `free -h` and `top` to monitor real-time usage.
-
----
-
 ## 1. Prerequisites
 
 You need:
 - A **World Bank computer** or access via **VDI (Virtual Desktop Infrastructure)**
 - A **YubiKey** (only for VDI login)
 
-⚠️ If you're not using a WB-issued device, you **must** use the VDI and your YubiKey.
+If you're not using a WB-issued device, you **must** use the VDI and your YubiKey.
 
 ---
 
@@ -43,7 +35,7 @@ Hence, once on the server, navigate to the `/Data` folder to clone the repositor
 ```sh 
 cd /Data
 ```
-Then you can create your working directory and change your location in:
+Then you can create your working directory (e.g. `CAPP`) and change your location in:
 ```sh
 mkdir yourdirectory
 ```
@@ -96,7 +88,9 @@ Once your code is ready, you can run EPM on the server using the **same steps as
 
 ### A. Python (Recommended)
 
-First time only: You need to add the shared Miniconda installation to your terminal environment. Run the following **once**:
+#### First time only
+
+You need to add the shared Miniconda installation to your terminal environment. Run the following **once**:
 
 To use `conda` from anywhere on this server, you need to add its location to your system `PATH`.
 > This only needs to be done once. Just copy and paste the line below into your terminal.
@@ -126,19 +120,19 @@ cd yourdirectory/EPM/epm
 Each time you run:
 ```sh
 conda activate epm_env
-python epm.py
+python epm.py --output_zip
 ```
 
 You can also specify arguments:
 ```sh
-python epm.py --folder_input data_test --config input/data_test/config.csv --scenarios input/data_test/scenarios.csv --selected_scenario baseline
+python epm.py --folder_input data_test --config config.csv --scenarios scenarios.csv --selected_scenario baseline --output_zip
 ```
 
 > **Important**: The AWS cluster currently only allows downloading files instead of directories. To ensure easier extraction of results, we recommend using the zip option to extract results folder.
 
 To do so, use argument `--output_zip` when running the code. For instance:
 ```sh 
-python epm.py --folder_input data_test --config input/data_test/config.csv --output_zip
+python epm.py --folder_input data_test --output_zip
 ```
 
 ### B. GAMS (to test if bug does not appear in Python)

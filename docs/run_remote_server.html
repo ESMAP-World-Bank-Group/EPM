@@ -1128,11 +1128,6 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#server-specifications">
-   Server Specifications
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#prerequisites">
    1. Prerequisites
   </a>
@@ -1161,6 +1156,13 @@ title="Print to PDF"
     <a class="reference internal nav-link" href="#a-python-recommended">
      A. Python (Recommended)
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#first-time-only">
+       First time only
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#b-gams-to-test-if-bug-does-not-appear-in-python">
@@ -1208,16 +1210,6 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="run-epm-on-the-remote-server">
 <h1>Run EPM on the Remote Server<a class="headerlink" href="#run-epm-on-the-remote-server" title="Permalink to this heading">#</a></h1>
 <p>The World Bank’s remote server is designed for <strong>running computationally heavy EPM simulations</strong>.</p>
-<section id="server-specifications">
-<h2>Server Specifications<a class="headerlink" href="#server-specifications" title="Permalink to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>vCPU</strong>: 64</p></li>
-<li><p><strong>Total RAM</strong>: 64 GB</p></li>
-<li><p><strong>Typical Free RAM</strong>: ~6 GB</p></li>
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">free</span> <span class="pre">-h</span></code> and <code class="docutils literal notranslate"><span class="pre">top</span></code> to monitor real-time usage.</p></li>
-</ul>
-</section>
-<hr class="docutils" />
 <section id="prerequisites">
 <h2>1. Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
 <p>You need:</p>
@@ -1225,7 +1217,7 @@ title="Print to PDF"
 <li><p>A <strong>World Bank computer</strong> or access via <strong>VDI (Virtual Desktop Infrastructure)</strong></p></li>
 <li><p>A <strong>YubiKey</strong> (only for VDI login)</p></li>
 </ul>
-<p>⚠️ If you’re not using a WB-issued device, you <strong>must</strong> use the VDI and your YubiKey.</p>
+<p>If you’re not using a WB-issued device, you <strong>must</strong> use the VDI and your YubiKey.</p>
 </section>
 <hr class="docutils" />
 <section id="connect-to-the-server">
@@ -1253,7 +1245,7 @@ title="Print to PDF"
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/Data
 </pre></div>
 </div>
-<p>Then you can create your working directory and change your location in:</p>
+<p>Then you can create your working directory (e.g. <code class="docutils literal notranslate"><span class="pre">CAPP</span></code>) and change your location in:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>yourdirectory
 </pre></div>
 </div>
@@ -1304,7 +1296,9 @@ When multiple users run jobs simultaneously or a single user launches parallel s
 <p>Once your code is ready, you can run EPM on the server using the <strong>same steps as on your computer</strong>.</p>
 <section id="a-python-recommended">
 <h3>A. Python (Recommended)<a class="headerlink" href="#a-python-recommended" title="Permalink to this heading">#</a></h3>
-<p>First time only: You need to add the shared Miniconda installation to your terminal environment. Run the following <strong>once</strong>:</p>
+<section id="first-time-only">
+<h4>First time only<a class="headerlink" href="#first-time-only" title="Permalink to this heading">#</a></h4>
+<p>You need to add the shared Miniconda installation to your terminal environment. Run the following <strong>once</strong>:</p>
 <p>To use <code class="docutils literal notranslate"><span class="pre">conda</span></code> from anywhere on this server, you need to add its location to your system <code class="docutils literal notranslate"><span class="pre">PATH</span></code>.</p>
 <blockquote>
 <div><p>This only needs to be done once. Just copy and paste the line below into your terminal.</p>
@@ -1329,20 +1323,21 @@ To do so, you should change working directory after connecting to the server:</p
 </div>
 <p>Each time you run:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>epm_env
-python<span class="w"> </span>epm.py
+python<span class="w"> </span>epm.py<span class="w"> </span>--output_zip
 </pre></div>
 </div>
 <p>You can also specify arguments:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>input/data_test/config.csv<span class="w"> </span>--scenarios<span class="w"> </span>input/data_test/scenarios.csv<span class="w"> </span>--selected_scenario<span class="w"> </span>baseline
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>config.csv<span class="w"> </span>--scenarios<span class="w"> </span>scenarios.csv<span class="w"> </span>--selected_scenario<span class="w"> </span>baseline<span class="w"> </span>--output_zip
 </pre></div>
 </div>
 <blockquote>
 <div><p><strong>Important</strong>: The AWS cluster currently only allows downloading files instead of directories. To ensure easier extraction of results, we recommend using the zip option to extract results folder.</p>
 </div></blockquote>
 <p>To do so, use argument <code class="docutils literal notranslate"><span class="pre">--output_zip</span></code> when running the code. For instance:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>input/data_test/config.csv<span class="w"> </span>--output_zip
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--output_zip
 </pre></div>
 </div>
+</section>
 </section>
 <section id="b-gams-to-test-if-bug-does-not-appear-in-python">
 <h3>B. GAMS (to test if bug does not appear in Python)<a class="headerlink" href="#b-gams-to-test-if-bug-does-not-appear-in-python" title="Permalink to this heading">#</a></h3>
@@ -1556,11 +1551,6 @@ free<span class="w"> </span>-h<span class="w">    </span><span class="c1"># memo
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#server-specifications">
-   Server Specifications
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#prerequisites">
    1. Prerequisites
   </a>
@@ -1589,6 +1579,13 @@ free<span class="w"> </span>-h<span class="w">    </span><span class="c1"># memo
     <a class="reference internal nav-link" href="#a-python-recommended">
      A. Python (Recommended)
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#first-time-only">
+       First time only
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#b-gams-to-test-if-bug-does-not-appear-in-python">
