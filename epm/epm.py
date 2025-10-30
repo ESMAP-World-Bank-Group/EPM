@@ -491,7 +491,7 @@ def main(test_args=None):
     parser.add_argument(
         "--folder_input",
         type=str,
-        default="data_test",
+        default="data_capp",
         help="Input folder name (default: data_test)"
     )
     
