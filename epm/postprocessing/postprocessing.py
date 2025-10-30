@@ -1,6 +1,6 @@
 """
 **********************************************************************
-* ELECTRICITY PLANNING MODEL (EPM)
+* ELECTRICITY PLANNING MODEL (EPM).
 * Developed at the World Bank
 **********************************************************************
 Description:

@@ -299,7 +299,7 @@ def format_dispatch_ax(ax, pd_index):
 def select_time_period(df, select_time):
     """Select a specific time period in a dataframe.
 
-    Parameters
+    Parameters.
     ----------
     df: pd.DataFrame
         Columns contain season and day
