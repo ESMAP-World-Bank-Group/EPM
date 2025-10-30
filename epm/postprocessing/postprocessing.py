@@ -99,6 +99,7 @@ FIGURES_ACTIVATED = {
     'CapacityMixSystemEvolutionScenariosRelative': True,
     'CapacityMixEvolutionZone': True,
     'CapacityMixZoneScenarios': True,
+    'CapacityMixZoneScenariosRelative': True,
     'NewCapacityInstalledTimeline': True,
     
     # 2. Cost figures
@@ -845,7 +846,28 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 annotate=False,
                                                 title=f'Installed Capacity Mix by Fuel - {year} (GW)')
             
-            
+                if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
+                    
+                    figure_name = 'CapacityMixZoneScenariosRelative'
+                    if FIGURES_ACTIVATED.get(figure_name, False):
+                        
+                        # Capacity comparison between scenarios compare to the reference scenario
+                        df_diff = calculate_diff(df, scenario_reference)
+                        df_diff['value'] = df_diff['value'] * 1e3
+                        
+                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')        
+                        
+                        make_stacked_barplot(df_diff, filename, dict_specs['colors'], 
+                        column_stacked='fuel',
+                            column_subplot='zone',
+                            column_xaxis='scenario',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("GW"), 
+                            rotation=45,
+                            annotate=False,
+                            title=f'Installed Capacity Mix vs Baseline - {year} (GW)')
+                                            
+                    
             figure_name = 'NewCapacityInstalledTimeline'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 # 1.4 New capacity installed per zone
