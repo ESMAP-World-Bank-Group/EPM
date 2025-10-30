@@ -21,10 +21,10 @@ Each row overrides specific input files defined in config.csv.
 - Files not listed in scenarios.csv default to those in config.csv.
 - This works in combination with Monte Carlo simulations, sensitivity analyses, or policy scenarios.
 
-You can limit execution to a selection of scenarios using the `--selected_scenarios` argument. For example:
+You can limit execution to a selection of scenarios using the `--selected_scenarios` (short form `-S`) argument. For example:
 
 ```sh
-python epm.py --folder_input my_data --scenarios my_scenarios.csv  --selected_scenarios baseline Retrade
+python epm.py --folder_input my_data --scenarios my_scenarios.csv -S baseline Retrade
 ```
 
 This will only run the baseline and Retrade scenarios, even if more are defined in scenarios.csv.
