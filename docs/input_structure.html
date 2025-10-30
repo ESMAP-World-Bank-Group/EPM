@@ -276,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="set_definition.html">
+                      <a class="nav-link nav-internal" href="input_set_definition.html">
                         Set definition
                       </a>
                     </li>
@@ -654,7 +654,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="set_definition.html">
+                      <a class="nav-link nav-internal" href="input_set_definition.html">
                         Set definition
                       </a>
                     </li>
@@ -917,7 +917,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Input Folder Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
-<li class="toctree-l1"><a class="reference internal" href="set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_set_definition.html">Set definition</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="input_representative_days.html">Representative Days</a></li>
@@ -1144,10 +1144,11 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="input-folder-structure">
 <h1>Input Folder Structure<a class="headerlink" href="#input-folder-structure" title="Permalink to this heading">#</a></h1>
 <p>All input files must be placed inside the <code class="docutils literal notranslate"><span class="pre">epm/input</span></code> folder.</p>
-<p>Each dataset lives in its own subfolder, which is passed to the model with <code class="docutils literal notranslate"><span class="pre">--folder_input</span></code>. Every dataset also provides a <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> that maps model parameters to the corresponding <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files; this file is passed with <code class="docutils literal notranslate"><span class="pre">--config</span></code>.</p>
+<p>Each dataset lives in its own subfolder, which is passed to the model with <code class="docutils literal notranslate"><span class="pre">--folder_input</span></code>.</p>
+<p>Optional, you can also provide a <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> that maps model parameters to the corresponding <code class="docutils literal notranslate"><span class="pre">.csv</span></code> files; the path of this file is passed with <code class="docutils literal notranslate"><span class="pre">--config</span></code> from <code class="docutils literal notranslate"><span class="pre">--folder_input</span></code>.</p>
 <p>Below is the current baseline structure for the <code class="docutils literal notranslate"><span class="pre">data_test</span></code> dataset.</p>
 <p>To run the model with Python:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>input/data_test/config.csv
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>config.csv
 </pre></div>
 </div>
 <div class="highlight-plaintext notranslate"><div class="highlight"><pre><span></span>data_test/
