@@ -46,8 +46,6 @@ from .utils import *
 from .plots import *
 from .maps import make_automatic_map
 
-TOLERANCE_ENERGY = 1
-
 KEYS_RESULTS = {
     # 1. Capacity expansion
     'pCapacityPlant', 
@@ -590,6 +588,43 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     df_filtered.to_csv(file_path, index=False)
 
 
+    def simplify_attributes(df, new_label, attributes_list=[]):
+        """
+        Group attributes into one unique attribute and sum the value
+        """
+    
+        df_reserve = df[df['attribute'].isin(attributes_list)].copy()
+        if not df_reserve.empty:
+            df_reserve = df_reserve.groupby(
+                [col for col in df_reserve.columns if col not in ['attribute', 'value']],
+                as_index=False
+            )['value'].sum()
+            df_reserve['attribute'] = new_label
+        df = pd.concat([
+            df[~df['attribute'].isin(attributes_list)],
+            df_reserve
+        ], ignore_index=True)
+        return df
+
+            
+    def calculate_diff(df, scenario_ref=scenario_reference):
+        """
+        Calculate the difference in 'value' between each scenario and the reference scenario.
+        Parameters:
+        - df (pd.DataFrame): DataFrame containing 'scenario', 'attribute', and '
+        - scenario_ref (str): The reference scenario to compare against.
+        Returns:
+        - pd.DataFrame: DataFrame with differences in 'value' for each scenario compared to
+        the reference scenario.
+        """
+        df_diff = df.pivot_table(index=[i for i in df.columns if i not in ['scenario', 'value']], columns='scenario', values='value', fill_value=0)
+        df_diff = (df_diff.T - df_diff[scenario_reference]).T
+        df_diff = df_diff.drop(scenario_ref, axis=1)
+        df_diff = df_diff.stack().reset_index()
+        df_diff.rename(columns={0: 'value'}, inplace=True)
+        return df_diff
+
+        
     # Output csv are reduced in size to improve Tableau performance
     if reduce_definition_csv:  
         if 'output' not in FOLDER:
@@ -639,41 +674,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
         if not reduced_output:
             
             scenarios_threshold = 10
+            
+            # ------------------------------------------------------------------------------------
 
             # Generate a detailed summary by Power Plant
             print('Generating detailed summary by Power Plant...')
             generate_plants_summary(epm_results, RESULTS_FOLDER)
             
-            
             # ------------------------------------------------------------------------------------
-            # Prepare dataframes for postprocessing
-            print('Preparing dataframes for postprocessing...')
-                
-            # Define dataframes for capacity, energy, exchange
-            df_energyplant = epm_results['pEnergyPlant'].copy()
-            df_energyplant = df_energyplant[df_energyplant['value'] > TOLERANCE_ENERGY]
-            
 
-            # Group reserve cost attributes into one unique attribute and sum the value
-            def simplify_attributes(df, new_label, attributes_list=[]):
-            
-                df_reserve = df[df['attribute'].isin(attributes_list)].copy()
-                if not df_reserve.empty:
-                    df_reserve = df_reserve.groupby(
-                        [col for col in df_reserve.columns if col not in ['attribute', 'value']],
-                        as_index=False
-                    )['value'].sum()
-                    df_reserve['attribute'] = new_label
-                df = pd.concat([
-                    df[~df['attribute'].isin(attributes_list)],
-                    df_reserve
-                ], ignore_index=True)
-                return df
-            
-            
-            
-            # ------------------------------------------------------------------------------------
-            
             # Generate a heatmap summary 
             print('Generating heatmap summary...')
             if len(selected_scenarios) < scenarios_threshold:
@@ -682,6 +691,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     
                     filename = os.path.join(RESULTS_FOLDER, f'{figure_name}.pdf')
                     make_heatmap_plot(epm_results, filename=filename, reference=scenario_reference)
+            
             # ------------------------------------------------------------------------------------
             print('Creating folders for figures...')
             
@@ -693,27 +703,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     os.mkdir(subfolders[subfolder])
             
             
+            # ------------------------------------------------------------------------------------
+
             # Select main years for x-axis in some plots to simplify the reading
             df = epm_results['pCapacityFuel'].copy()
+            
             selected_years = df['year'][(df['year'] % 5 == 0) | (df['year'] == df['year'].min())].tolist()
-
-            def calculate_diff(df, scenario_ref=scenario_reference):
-                """
-                Calculate the difference in 'value' between each scenario and the reference scenario.
-                Parameters:
-                - df (pd.DataFrame): DataFrame containing 'scenario', 'attribute', and '
-                - scenario_ref (str): The reference scenario to compare against.
-                Returns:
-                - pd.DataFrame: DataFrame with differences in 'value' for each scenario compared to
-                the reference scenario.
-                """
-                df_diff = df.pivot_table(index=[i for i in df.columns if i not in ['scenario', 'value']], columns='scenario', values='value', fill_value=0)
-                df_diff = (df_diff.T - df_diff[scenario_reference]).T
-                df_diff = df_diff.drop(scenario_ref, axis=1)
-                df_diff = df_diff.stack().reset_index()
-                df_diff.rename(columns={0: 'value'}, inplace=True)
-                return df_diff
-
+            
+            nbr_zones = len(epm_results['pCapacityFuel']['zone'].unique())
+            
             # ------------------------------------------------------------------------------------
             # 1. Capacity figures
             # ------------------------------------------------------------------------------------
@@ -767,107 +765,108 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 title='Incremental Capacity Mix vs Baseline (MW)', 
                                                 show_total=True)
                         
-
             # 1.2 Evolution of capacity mix per zone
             # Capacity mix in percentage by fuel by zone
             figure_name = 'CapacityMixEvolutionZone'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                for scenario in selected_scenarios:
-                    df = epm_results['pCapacityFuel'].copy()
-                    # MW to GW
-                    df['value'] /= 1e3
-                    
-                    df = df[df['scenario'] == scenario]
-                    df = df.drop(columns=['scenario'])
-                    
-                    filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}.pdf')
-                    
-                    df_line = epm_input['pDemandForecast'].copy()
-                    df_line = df_line[df_line['scenario'] == scenario]
-                    df_line = df_line.drop(columns=['scenario'])
-                    df_line = df_line[df_line['type'] == 'peak']
-                    df_line['value'] /= 1e3
-                    
-                    
-                    make_stacked_barplot(df, 
-                                                filename, 
-                                                dict_specs['colors'],
-                                                overlay_df=df_line,
-                                                legend_label='Peak demand',
-                                                column_stacked='fuel',
-                                                column_subplot='zone',
-                                                column_xaxis='year',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("GW"), 
-                                                rotation=45,
-                                                annotate=False,
-                                                title=f'Installed Capacity Mix by Fuel - {scenario} (GW)'
-                                                )                     
-                    
-                    
-                    df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
-                    df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
-                    df_percentage = df_percentage.reset_index()
-                    
-                    filename = os.path.join(subfolders['1_capacity'], f'{figure_name}Percentage-{scenario}.pdf')
-                    
-                    make_stacked_barplot(df_percentage, 
-                                                filename, 
-                                                dict_specs['colors'], 
-                                                column_stacked='fuel',
-                                                column_subplot='zone',
-                                                column_xaxis='year',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("%"), rotation=45,
-                                                annotate=False,
-                                                title=f'Capacity Mix Shares by Zone - {scenario} (%)'
-                                                ) 
-            
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    for scenario in selected_scenarios:
+                        df = epm_results['pCapacityFuel'].copy()
+                        # MW to GW
+                        df['value'] /= 1e3
+                        
+                        df = df[df['scenario'] == scenario]
+                        df = df.drop(columns=['scenario'])
+                        
+                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}.pdf')
+                        
+                        df_line = epm_input['pDemandForecast'].copy()
+                        df_line = df_line[df_line['scenario'] == scenario]
+                        df_line = df_line.drop(columns=['scenario'])
+                        df_line = df_line[df_line['type'] == 'peak']
+                        df_line['value'] /= 1e3
+                        
+                        
+                        make_stacked_barplot(df, 
+                                                    filename, 
+                                                    dict_specs['colors'],
+                                                    overlay_df=df_line,
+                                                    legend_label='Peak demand',
+                                                    column_stacked='fuel',
+                                                    column_subplot='zone',
+                                                    column_xaxis='year',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("GW"), 
+                                                    rotation=45,
+                                                    annotate=False,
+                                                    title=f'Installed Capacity Mix by Fuel - {scenario} (GW)'
+                                                    )                     
+                        
+                        
+                        df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
+                        df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
+                        df_percentage = df_percentage.reset_index()
+                        
+                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name}Percentage-{scenario}.pdf')
+                        
+                        make_stacked_barplot(df_percentage, 
+                                                    filename, 
+                                                    dict_specs['colors'], 
+                                                    column_stacked='fuel',
+                                                    column_subplot='zone',
+                                                    column_xaxis='year',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("%"), rotation=45,
+                                                    annotate=False,
+                                                    title=f'Capacity Mix Shares by Zone - {scenario} (%)'
+                                                    ) 
+                
             # 1.3 Capacity mix per zone for the first and last years available
             figure_name = 'CapacityMixZoneScenarios'
-            for year in [min(epm_results['pCapacityFuel']['year']), max(epm_results['pCapacityFuel']['year'])]:
-                df = epm_results['pCapacityFuel'].copy()
-                # MW to GW
-                df['value'] = df['value'] / 1e3
-                df = df[df['year'] == year]                
-                df = df.drop(columns=['year'])
+            if nbr_zones > 1:
+                for year in [min(epm_results['pCapacityFuel']['year']), max(epm_results['pCapacityFuel']['year'])]:
+                    df = epm_results['pCapacityFuel'].copy()
+                    # MW to GW
+                    df['value'] = df['value'] / 1e3
+                    df = df[df['year'] == year]                
+                    df = df.drop(columns=['year'])
 
-                # TODO: percentage ?
-                if FIGURES_ACTIVATED.get(figure_name, False):
-                    filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')        
-                
-                    make_stacked_barplot(df, filename, dict_specs['colors'], 
-                                            column_stacked='fuel',
-                                                column_subplot='zone',
-                                                column_xaxis='scenario',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("GW"), 
-                                                rotation=45,
-                                                annotate=False,
-                                                title=f'Installed Capacity Mix by Fuel - {year} (GW)')
-            
-                if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
-                    
-                    figure_name = 'CapacityMixZoneScenariosRelative'
+                    # TODO: percentage ?
                     if FIGURES_ACTIVATED.get(figure_name, False):
-                        
-                        # Capacity comparison between scenarios compare to the reference scenario
-                        df_diff = calculate_diff(df, scenario_reference)
-                        df_diff['value'] = df_diff['value'] * 1e3
-                        
                         filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')        
-                        
-                        make_stacked_barplot(df_diff, filename, dict_specs['colors'], 
-                        column_stacked='fuel',
-                            column_subplot='zone',
-                            column_xaxis='scenario',
-                            column_value='value',
-                            format_y=make_auto_yaxis_formatter("GW"), 
-                            rotation=45,
-                            annotate=False,
-                            title=f'Installed Capacity Mix vs Baseline - {year} (GW)')
-                                            
                     
+                        make_stacked_barplot(df, filename, dict_specs['colors'], 
+                                                column_stacked='fuel',
+                                                    column_subplot='zone',
+                                                    column_xaxis='scenario',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("GW"), 
+                                                    rotation=45,
+                                                    annotate=False,
+                                                    title=f'Installed Capacity Mix by Fuel - {year} (GW)')
+                
+                    if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
+                        
+                        figure_name = 'CapacityMixZoneScenariosRelative'
+                        if FIGURES_ACTIVATED.get(figure_name, False):
+                            
+                            # Capacity comparison between scenarios compare to the reference scenario
+                            df_diff = calculate_diff(df, scenario_reference)
+                            df_diff['value'] = df_diff['value'] * 1e3
+                            
+                            filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')        
+                            
+                            make_stacked_barplot(df_diff, filename, dict_specs['colors'], 
+                            column_stacked='fuel',
+                                column_subplot='zone',
+                                column_xaxis='scenario',
+                                column_value='value',
+                                format_y=make_auto_yaxis_formatter("GW"), 
+                                rotation=45,
+                                annotate=False,
+                                title=f'Installed Capacity Mix vs Baseline - {year} (GW)')
+                                                
+            # 1.4 New capacity timeline      
             figure_name = 'NewCapacityInstalledTimeline'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 # 1.4 New capacity installed per zone
@@ -947,7 +946,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                             title=f'Installed Capacity {zone} - {scenario} [MW]'
                         )
                 
-            # 1.5 Capex investment figures
             
             # ------------------------------------------------------------------------------------
             # 2. Cost figures
@@ -1090,7 +1088,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
                                                     show_total=True)
                             
-                
             df_costzone = epm_results['pYearlyCostsZone'].copy()
             # Group reserve cost attributes into one unique attribute and sum the value
             df_costzone = simplify_attributes(df_costzone, "Unmet reserve costs: $m", RESERVE_ATTRS)
@@ -1145,76 +1142,79 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 2.2 Evolution of capacity mix per zone
             # Capacity mix in percentage by fuel by zone
             figure_name = 'CostZoneEvolution'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                for scenario in selected_scenarios:
-                    df = df_costzone.copy()
-                    df = df[df['scenario'] == scenario]
-                    df = df.drop(columns=['scenario'])
-                    
-                    filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
-                    
-                    make_stacked_barplot(df, 
-                                                filename, 
-                                                dict_specs['colors'], 
-                                                column_stacked='attribute',
-                                                column_subplot='zone',
-                                                column_xaxis='year',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("m$"), 
-                                                rotation=45,
-                                                annotate=False,
-                                                show_total=True,
-                                                title=f'Annual Cost Breakdown by Zone – {scenario} (million USD)'
-                                                )                     
-                    
-                    figure_name = f'{figure_name}Percentage-{scenario}'
-                    if FIGURES_ACTIVATED.get(figure_name, False):
-                        filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
-
-                        df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
-                        df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
-                        df_percentage = df_percentage.reset_index()
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    for scenario in selected_scenarios:
+                        df = df_costzone.copy()
+                        df = df[df['scenario'] == scenario]
+                        df = df.drop(columns=['scenario'])
                         
-                    
-                        make_stacked_barplot(df_percentage, 
+                        filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
+                        
+                        make_stacked_barplot(df, 
                                                     filename, 
                                                     dict_specs['colors'], 
                                                     column_stacked='attribute',
                                                     column_subplot='zone',
                                                     column_xaxis='year',
                                                     column_value='value',
-                                                    format_y=make_auto_yaxis_formatter("%"), 
+                                                    format_y=make_auto_yaxis_formatter("m$"), 
                                                     rotation=45,
                                                     annotate=False,
-                                                    title=f'Cost Structure Shares by Zone – {scenario} (%)'
-                                                    ) 
-                
+                                                    show_total=True,
+                                                    title=f'Annual Cost Breakdown by Zone – {scenario} (million USD)'
+                                                    )                     
+                        
+                        figure_name = f'{figure_name}Percentage-{scenario}'
+                        if FIGURES_ACTIVATED.get(figure_name, False):
+                            filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+
+                            df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
+                            df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
+                            df_percentage = df_percentage.reset_index()
+                            
+                        
+                            make_stacked_barplot(df_percentage, 
+                                                        filename, 
+                                                        dict_specs['colors'], 
+                                                        column_stacked='attribute',
+                                                        column_subplot='zone',
+                                                        column_xaxis='year',
+                                                        column_value='value',
+                                                        format_y=make_auto_yaxis_formatter("%"), 
+                                                        rotation=45,
+                                                        annotate=False,
+                                                        title=f'Cost Structure Shares by Zone – {scenario} (%)'
+                                                        ) 
+                    
             # 2.3 Cost components per zone
             figure_name = 'CostZoneScenariosYear'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{year}.pdf')
-        
-                df = df_costzone.copy()
-                
-                df = df.loc[df.scenario.isin(selected_scenarios)]
-                df = df.loc[(df.year == max(df['year'].unique()))]
-
-                make_stacked_barplot(df, 
-                                          filename, dict_specs['colors'], 
-                                          column_stacked='attribute',
-                                            column_subplot='zone',
-                                            column_xaxis='scenario',
-                                            column_value='value',
-                                            format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45,
-                                            annotate=False,
-                                            show_total=True,
-                                            title=f'Cost Composition by Zone in {year} (million USD)')
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{year}.pdf')
             
-            # 2.4 Capex investment
+                    df = df_costzone.copy()
+                    
+                    df = df.loc[df.scenario.isin(selected_scenarios)]
+                    df = df.loc[(df.year == max(df['year'].unique()))]
+
+                    make_stacked_barplot(df, 
+                                            filename, dict_specs['colors'], 
+                                            column_stacked='attribute',
+                                                column_subplot='zone',
+                                                column_xaxis='scenario',
+                                                column_value='value',
+                                                format_y=make_auto_yaxis_formatter("m$"), 
+                                                rotation=45,
+                                                annotate=False,
+                                                show_total=True,
+                                                title=f'Cost Composition by Zone in {year} (million USD)')
+                
+            # 2.4 Capex investment per zone
             figure_name = 'CapexZoneEvolution'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                for scenario in selected_scenarios:
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    for scenario in selected_scenarios:
                         df = epm_results['pCapexInvestmentComponent'].copy()
                         df = df[df['scenario'] == scenario]
                         df = df.drop(columns=['scenario'])
@@ -1234,7 +1234,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     annotate=False,
                                                     title=f'Annual Capex by Zone – {scenario} (million USD)'
                                                     )   
-                                
+                                    
             
             # ------------------------------------------------------------------------------------
             # 3. Energy figures
@@ -1257,7 +1257,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # Define energyfuelfull to include exchange
             df_energyfuelfull = pd.concat([df_energyfuel, df_exchange], ignore_index=True)         
             
-            # 3.1 Evolution of capacity mix for the system (all zones aggregated)
+            # 3.1 Evolution of energy mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
                 df = df_energyfuelfull.copy()
                 df = df[~df['fuel'].isin(['Imports', 'Exports'])]
@@ -1299,73 +1299,76 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             
             # 3.2 Evolution of capacity mix per zone
             figure_name = 'EnergyMixZoneEvolution'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                for scenario in selected_scenarios:
-                    df = df_energyfuelfull.copy()
-                    df = df[df['scenario'] == scenario]
-                    df = df.drop(columns=['scenario'])
-                    
-                    filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{scenario}.pdf')
-                    
-                    make_stacked_barplot(df, 
-                                                filename, 
-                                                dict_specs['colors'], 
-                                                column_stacked='fuel',
-                                                column_subplot='zone',
-                                                column_xaxis='year',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
-                                                annotate=False,
-                                                title=f'Energy Mix by Fuel - {scenario} (GWh)'
-                                                )                     
-                    
-                    
-                    # Energy mix in percentage by fuel by zone
-                    df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
-                    df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
-                    df_percentage = df_percentage.reset_index()
-                    
-                    # Keeping for interconnection figures
-                    df_exchange_percentage = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
-                    
-                    filename = os.path.join(subfolders['3_energy'], f'{figure_name}Percentage-{scenario}.pdf')
-                    
-                    make_stacked_barplot(df_percentage, 
-                                                filename, 
-                                                dict_specs['colors'], 
-                                                column_stacked='fuel',
-                                                column_subplot='zone',
-                                                column_xaxis='year',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("%"), rotation=45,
-                                                annotate=False,
-                                                title=f'Energy Mix Shares by Zone - {scenario} (%)'
-                                                ) 
-            
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    for scenario in selected_scenarios:
+                        df = df_energyfuelfull.copy()
+                        df = df[df['scenario'] == scenario]
+                        df = df.drop(columns=['scenario'])
+                        
+                        filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{scenario}.pdf')
+                        
+                        make_stacked_barplot(df, 
+                                                    filename, 
+                                                    dict_specs['colors'], 
+                                                    column_stacked='fuel',
+                                                    column_subplot='zone',
+                                                    column_xaxis='year',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
+                                                    annotate=False,
+                                                    title=f'Energy Mix by Fuel - {scenario} (GWh)'
+                                                    )                     
+                        
+                        
+                        # Energy mix in percentage by fuel by zone
+                        df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
+                        df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
+                        df_percentage = df_percentage.reset_index()
+                        
+                        # Keeping for interconnection figures
+                        df_exchange_percentage = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
+                        
+                        filename = os.path.join(subfolders['3_energy'], f'{figure_name}Percentage-{scenario}.pdf')
+                        
+                        make_stacked_barplot(df_percentage, 
+                                                    filename, 
+                                                    dict_specs['colors'], 
+                                                    column_stacked='fuel',
+                                                    column_subplot='zone',
+                                                    column_xaxis='year',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("%"), rotation=45,
+                                                    annotate=False,
+                                                    title=f'Energy Mix Shares by Zone - {scenario} (%)'
+                                                    ) 
+                
             # 3.3 Energy mix per zone for the first and last years available
             figure_name = 'EnergyMixZoneScenarios'
-            for year in [min(df_energyfuelfull['year']), max(df_energyfuelfull['year'])]:
-                df = df_energyfuelfull.copy()
-                df = df[df['year'] == year]                
-                df = df.drop(columns=['year'])
+            if nbr_zones > 1:
+                for year in [min(df_energyfuelfull['year']), max(df_energyfuelfull['year'])]:
+                    df = df_energyfuelfull.copy()
+                    df = df[df['year'] == year]                
+                    df = df.drop(columns=['year'])
 
-                # TODO: percentage ?
-                if FIGURES_ACTIVATED.get(figure_name, False):
-                    filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{year}.pdf')        
-                
-                    make_stacked_barplot(df, filename, dict_specs['colors'], 
-                                            column_stacked='fuel',
-                                                column_subplot='zone',
-                                                column_xaxis='scenario',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("GWh"), 
-                                                rotation=45,
-                                                annotate=False,
-                                                title=f'Energy Mix by Fuel - {year} (GWh)')
+                    # TODO: percentage ?
+                    if FIGURES_ACTIVATED.get(figure_name, False):
+                        filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{year}.pdf')        
+                    
+                        make_stacked_barplot(df, filename, dict_specs['colors'], 
+                                                column_stacked='fuel',
+                                                    column_subplot='zone',
+                                                    column_xaxis='scenario',
+                                                    column_value='value',
+                                                    format_y=make_auto_yaxis_formatter("GWh"), 
+                                                    rotation=45,
+                                                    annotate=False,
+                                                    title=f'Energy Mix by Fuel - {year} (GWh)')
 
             # 3.4 Energy generation by plant (Top generators by country)
             figure_name = 'EnergyPlantZoneTop10'
             if FIGURES_ACTIVATED.get(figure_name, False):
+                df_energyplant = epm_results['pEnergyPlant'].copy()
                 df_top = df_energyplant[df_energyplant['scenario'].isin(selected_scenarios)].copy()
                 if 'zone' not in df_top.columns:
                     raise ValueError("Column 'zone' is required to build EnergyPlantsTop10 figures by zone.")
@@ -1403,7 +1406,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             figure_name = 'EnergyPlants'
             if FIGURES_ACTIVATED.get(figure_name, False):
                 filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{scenario_reference}.pdf')
-                if len(df_energyplant.zone.unique()) == 1 and len(epm_results['pEnergyPlant']['generator'].unique()) < 20:
+                df_energyplant = epm_results['pEnergyPlant'].copy()
+                if nbr_zones == 1 and len(epm_results['pEnergyPlant']['generator'].unique()) < 20:
                     print('Generating energy figures for single zone by generators... (not tested yet)')
                     temp = df_energyplant[df_energyplant['scenario'] == scenario_reference]
                     make_stacked_areaplot(
@@ -1436,152 +1440,153 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # ------------------------------------------------------------------------------------
             # 5. Interconnection Heamap
             # ------------------------------------------------------------------------------------
-                  
-            print('Generating interconnection figures...')
             
-            # 4.1 Net exchange heatmap [GWh and %] evolution
-            
-            figure_name = 'NetImportsZoneEvolution'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
-            
-                net_exchange = df_exchange[df_exchange['scenario'] == scenario_reference]
-                net_exchange = net_exchange.drop(columns=['scenario'])
+            if nbr_zones > 1:
                 
-                net_exchange = net_exchange.loc[net_exchange['fuel'].isin(['Exports', 'Imports']), :]
-                net_exchange = net_exchange.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
-                net_exchange.columns.name = None
-                # If there are no exports or imports, we set them to 0 to avoid errors
-                net_exchange['Imports'] = net_exchange.get('Imports', 0)
-                net_exchange['Exports'] = net_exchange.get('Exports', 0)
-                net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
-                net_exchange = net_exchange.reset_index()
-                net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
-                net_exchange['fuel'] = 'Net Exchange'
-                heatmap_plot(
-                    net_exchange,
-                    filename=filename,
-                    unit="GWh",
-                    title=f"Net Imports by Zone over Time - {scenario_reference} [GWh]",
-                    x_column='zone',
-                    y_column='year',
-                    value_column='value'
-                )
+                print('Generating interconnection figures...')
                 
-            figure_name = 'NetImportsZoneEvolutionZoneEvolutionShare'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
+                # 4.1 Net exchange heatmap [GWh and %] evolution
                 
-                net_exchange = df_exchange_percentage.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
-                net_exchange.columns.name = None
-                net_exchange['Exports'] = net_exchange.get('Exports', 0)
-                net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
-                net_exchange = net_exchange.reset_index()
-                net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
-                net_exchange['fuel'] = 'Net Exchange'
+                figure_name = 'NetImportsZoneEvolution'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
                 
-                heatmap_plot(
-                    net_exchange,
-                    filename=filename,
-                    unit="%",
-                    title=f"Net Imports by Zone over Time - {scenario_reference} [% of energy demand]",
-                    x_column='zone',
-                    y_column='year',
-                    value_column='value'
-                )
+                    net_exchange = df_exchange[df_exchange['scenario'] == scenario_reference]
+                    net_exchange = net_exchange.drop(columns=['scenario'])
+                    
+                    net_exchange = net_exchange.loc[net_exchange['fuel'].isin(['Exports', 'Imports']), :]
+                    net_exchange = net_exchange.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
+                    net_exchange.columns.name = None
+                    # If there are no exports or imports, we set them to 0 to avoid errors
+                    net_exchange['Imports'] = net_exchange.get('Imports', 0)
+                    net_exchange['Exports'] = net_exchange.get('Exports', 0)
+                    net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
+                    net_exchange = net_exchange.reset_index()
+                    net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
+                    net_exchange['fuel'] = 'Net Exchange'
+                    heatmap_plot(
+                        net_exchange,
+                        filename=filename,
+                        unit="GWh",
+                        title=f"Net Imports by Zone over Time - {scenario_reference} [GWh]",
+                        x_column='zone',
+                        y_column='year',
+                        value_column='value'
+                    )
+                    
+                figure_name = 'NetImportsZoneEvolutionZoneEvolutionShare'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
+                    
+                    net_exchange = df_exchange_percentage.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
+                    net_exchange.columns.name = None
+                    net_exchange['Exports'] = net_exchange.get('Exports', 0)
+                    net_exchange['value'] = net_exchange['Imports'] + net_exchange['Exports']
+                    net_exchange = net_exchange.reset_index()
+                    net_exchange = net_exchange.drop(columns=['Imports', 'Exports'])
+                    net_exchange['fuel'] = 'Net Exchange'
+                    
+                    heatmap_plot(
+                        net_exchange,
+                        filename=filename,
+                        unit="%",
+                        title=f"Net Imports by Zone over Time - {scenario_reference} [% of energy demand]",
+                        x_column='zone',
+                        y_column='year',
+                        value_column='value'
+                    )
 
 
-            # 4.2 Exchange between zones (energy)
-            figure_name = 'InterconnectionExchangeHeatmap'
-            if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterchange' in epm_results:
-                df_interchange = epm_results['pInterchange'].copy()
-                df_interchange = df_interchange[df_interchange['scenario'].isin(selected_scenarios)]
+                # 4.2 Exchange between zones (energy)
+                figure_name = 'InterconnectionExchangeHeatmap'
+                if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterchange' in epm_results:
+                    df_interchange = epm_results['pInterchange'].copy()
+                    df_interchange = df_interchange[df_interchange['scenario'].isin(selected_scenarios)]
 
-                required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
-                missing_cols = required_cols.difference(df_interchange.columns)
-                if missing_cols:
-                    print(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}")
-                else:
-                    if scenario_reference not in df_interchange['scenario'].unique():
-                        print(f"Skipping {figure_name}: scenario '{scenario_reference}' not available")
+                    required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
+                    missing_cols = required_cols.difference(df_interchange.columns)
+                    if missing_cols:
+                        print(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}")
                     else:
-                        df_interchange = df_interchange[df_interchange['scenario'] == scenario_reference]
-                        df_interchange = df_interchange[df_interchange['zone'] != df_interchange['z2']]
-                        if df_interchange.empty:
-                            print(f"Skipping {figure_name}: no interchange data for scenario '{scenario_reference}'")
+                        if scenario_reference not in df_interchange['scenario'].unique():
+                            print(f"Skipping {figure_name}: scenario '{scenario_reference}' not available")
                         else:
-                            df_interchange = df_interchange.copy()
-                            df_interchange['value'] = df_interchange['value'].abs()
-                            for year in sorted(df_interchange['year'].unique()):
-                                df_plot = df_interchange[df_interchange['year'] == year]
-                                if df_plot.empty:
-                                    continue
-                                filename = os.path.join(
-                                    subfolders['4_interconnection'],
-                                    f'{figure_name}-{scenario_reference}-{year}.pdf'
-                                )
-                                title = f'Interconnection Energy Exchange - {scenario_reference} - {year} (GWh)'
-                                heatmap_plot(
-                                    df_plot,
-                                    filename=filename,
-                                    unit="GWh",
-                                    title=title,
-                                    x_column='zone',
-                                    y_column='z2',
-                                    value_column='value'
-                                )
-                                
-            figure_name = 'InterconnectionUtilizationHeatmap'
-            if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterconUtilization' in epm_results:
-                df_utilization = epm_results['pInterconUtilization'].copy()
-                df_utilization = df_utilization[df_utilization['scenario'].isin(selected_scenarios)]
+                            df_interchange = df_interchange[df_interchange['scenario'] == scenario_reference]
+                            df_interchange = df_interchange[df_interchange['zone'] != df_interchange['z2']]
+                            if df_interchange.empty:
+                                print(f"Skipping {figure_name}: no interchange data for scenario '{scenario_reference}'")
+                            else:
+                                df_interchange = df_interchange.copy()
+                                df_interchange['value'] = df_interchange['value'].abs()
+                                for year in sorted(df_interchange['year'].unique()):
+                                    df_plot = df_interchange[df_interchange['year'] == year]
+                                    if df_plot.empty:
+                                        continue
+                                    filename = os.path.join(
+                                        subfolders['4_interconnection'],
+                                        f'{figure_name}-{scenario_reference}-{year}.pdf'
+                                    )
+                                    title = f'Interconnection Energy Exchange - {scenario_reference} - {year} (GWh)'
+                                    heatmap_plot(
+                                        df_plot,
+                                        filename=filename,
+                                        unit="GWh",
+                                        title=title,
+                                        x_column='zone',
+                                        y_column='z2',
+                                        value_column='value'
+                                    )
+                                    
+                figure_name = 'InterconnectionUtilizationHeatmap'
+                if FIGURES_ACTIVATED.get(figure_name, False) and 'pInterconUtilization' in epm_results:
+                    df_utilization = epm_results['pInterconUtilization'].copy()
+                    df_utilization = df_utilization[df_utilization['scenario'].isin(selected_scenarios)]
 
-                required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
-                missing_cols = required_cols.difference(df_utilization.columns)
-                if missing_cols:
-                    print(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}")
-                else:
-                    if scenario_reference not in df_utilization['scenario'].unique():
-                        print(f"Skipping {figure_name}: scenario '{scenario_reference}' not available")
+                    required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
+                    missing_cols = required_cols.difference(df_utilization.columns)
+                    if missing_cols:
+                        print(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}")
                     else:
-                        df_utilization = df_utilization[df_utilization['scenario'] == scenario_reference]
-
-                        if df_utilization.empty:
-                            print(f"Skipping {figure_name}: no utilization data for scenario '{scenario_reference}'")
+                        if scenario_reference not in df_utilization['scenario'].unique():
+                            print(f"Skipping {figure_name}: scenario '{scenario_reference}' not available")
                         else:
-                            for year in df_utilization['year'].unique():
-                                
-                                df_plot = df_utilization[df_utilization['year'] == year]
-                                filename = os.path.join(
-                                    subfolders['4_interconnection'],
-                                    f'{figure_name}-{scenario_reference}-{year}.pdf'
-                                )
+                            df_utilization = df_utilization[df_utilization['scenario'] == scenario_reference]
 
-                                title = f'Interconnection Utilization - {scenario_reference} - {year} (%)'
-                                heatmap_plot(
-                                    df_plot,
-                                    filename=filename,
-                                    unit="%",
-                                    title=title,
-                                    x_column='zone',
-                                    y_column='z2',
-                                    value_column='value'
-                                )
-            
+                            if df_utilization.empty:
+                                print(f"Skipping {figure_name}: no utilization data for scenario '{scenario_reference}'")
+                            else:
+                                for year in df_utilization['year'].unique():
+                                    
+                                    df_plot = df_utilization[df_utilization['year'] == year]
+                                    filename = os.path.join(
+                                        subfolders['4_interconnection'],
+                                        f'{figure_name}-{scenario_reference}-{year}.pdf'
+                                    )
+
+                                    title = f'Interconnection Utilization - {scenario_reference} - {year} (%)'
+                                    heatmap_plot(
+                                        df_plot,
+                                        filename=filename,
+                                        unit="%",
+                                        title=title,
+                                        x_column='zone',
+                                        y_column='z2',
+                                        value_column='value'
+                                    )
+                
 
             # ------------------------------------------------------------------------------------
             # 6. Interconnection Maps
             # ------------------------------------------------------------------------------------
-            
-            if (
-                'pAnnualTransmissionCapacity' in epm_results
-                and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
-            ):
+            if nbr_zones > 1:
+                if (
+                    'pAnnualTransmissionCapacity' in epm_results
+                    and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
+                ):
 
-                    print('Generating interactive map figures...')
-                    make_automatic_map(epm_results, dict_specs, subfolders['6_maps'],
-                                       FIGURES_ACTIVATED)
-
+                        print('Generating interactive map figures...')
+                        make_automatic_map(epm_results, dict_specs, subfolders['6_maps'],
+                                        FIGURES_ACTIVATED)
 
             
             if False:
