@@ -699,8 +699,15 @@ def main(test_args=None):
         else:
             print(f"Find folder {os.path.abspath(folder)} for postprocessing.")
 
-
-    postprocess_output(folder, reduced_output=args.reduced_output,
+    # Define scenario reference
+    scenarios = [i for i in os.listdir(folder) if os.path.isdir(os.path.join(folder, i)) and 'epmresults.gdx' in os.listdir(os.path.join(folder, i))]
+    scenario_reference = 'baseline'
+    if scenario_reference not in scenarios:
+        scenario_reference = scenarios[0]
+        
+        
+    # Launch postprocess
+    postprocess_output(folder, reduced_output=args.reduced_output, scenario_reference=scenario_reference,
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                        graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
                        reduce_definition_csv=args.reduce_definition_csv)
