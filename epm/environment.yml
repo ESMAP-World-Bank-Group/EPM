@@ -1,0 +1,15 @@
+name: EPMFrwk
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11.13
+  - pip
+  - numpy
+  - pandas
+  - scipy
+  - ipykernel        # optional, for Jupyter/Spyder integration
+  - pip:
+      # GAMS Python API including transfer module
+      - "gamsapi[transfer]"
+      # If your postprocessing module is local, install it editable:
+      # - "-e ./postprocessing"

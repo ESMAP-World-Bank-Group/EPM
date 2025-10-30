@@ -1,4 +1,4 @@
-﻿parameter,sensitivity
+parameter,sensitivity
 pSettings,
 y,
 pDemandForecast,
@@ -9,5 +9,5 @@ pFuelPrice,
 ResLimShare,
 BuildLimitperYear,
 pVREProfile,
-interco,TRUE
+interco,
 RemoveGenericTechnologies,

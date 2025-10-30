@@ -1,14 +1,5 @@
-﻿gen,Linked plant,CapacityMWh,CapexMWh,VOMMWh,FixedOMMWh,Efficiency
-Candidate_BESS_Angola,,10000000,180,0,0,0.9
-Candidate_BESS_Burundi,,10000000,180,0,0,0.9
-Candidate_BESS_CAF,,10000000,180,0,0,0.9
-Candidate_BESS_Cameroon,,10000000,180,0,0,0.9
-Candidate_BESS_Chad,,10000000,180,0,0,0.9
-Candidate_BESS_Congo,,10000000,180,0,0,0.9
-Candidate_BESS_DRC,,10000000,180,0,0,0.9
-Candidate_BESS_DRCSouth,,10000000,180,0,0,0.9
-Candidate_BESS_DRCEast,,10000000,180,0,0,0.9
-Candidate_BESS_EquatorialGuinea,,10000000,180,0,0,0.9
-Candidate_BESS_Gabon,,10000000,180,0,0,0.9
-Candidate_BESS_Rwanda,,10000000,180,0,0,0.9
-PumpedStorage Rwanda,,3000,150,0,0,0.8
+﻿gen,Linked Plant,CapacityMWh,CapexMWh,VOMMWh,FixedOMMWh,Efficiency,Life
+BESS_4h,,800,,0,0,0.87,20
+BESS_8h,,1600,,0,0,0.87,20
+BESS_2h,,400,,0,0,0.87,20
+BESS_3h,,600,,0,0,0.87,20

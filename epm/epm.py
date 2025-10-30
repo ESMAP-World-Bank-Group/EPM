@@ -169,7 +169,7 @@ def launch_epm(scenario,
                path_hydrogen_file='hydrogen_module.gms',
                path_cplex_file='cplex.opt',
                solver='MIP',
-               folder_input=None,
+               folder_input='data_test',
                dict_montecarlo=None,
                prefix=''  # 'simulation_'
                ):
