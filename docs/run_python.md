@@ -199,7 +199,8 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 - **Type:** list of strings  
 - **Default:** None  
 - **Purpose:** Specifies a subset of scenarios from the scenarios file to run.  
-- **Example:** `--selected_scenarios baseline ScenarioA`
+- **Alias:** `-S`  
+- **Example:** `-S baseline ScenarioA`
 
 ### `--sensitivity`
 - **Type:** flag (boolean)  
