@@ -2,14 +2,16 @@
 
 All input files must be placed inside the `epm/input` folder.
 
-Each dataset lives in its own subfolder, which is passed to the model with `--folder_input`. Every dataset also provides a `config.csv` that maps model parameters to the corresponding `.csv` files; this file is passed with `--config`.
+Each dataset lives in its own subfolder, which is passed to the model with `--folder_input`. 
+
+Optional, you can also provide a `config.csv` that maps model parameters to the corresponding `.csv` files; the path of this file is passed with `--config` from `--folder_input`.
 
 Below is the current baseline structure for the `data_test` dataset.
 
 To run the model with Python:
 
 ```bash
-python epm.py --folder_input data_test --config input/data_test/config.csv
+python epm.py --folder_input data_test --config config.csv
 ```
 
 ```plaintext
