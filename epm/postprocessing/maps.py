@@ -1690,3 +1690,4 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
                                             dict_specs, epm_results['pCapacityFuel'], epm_results['pEnergyFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
+
