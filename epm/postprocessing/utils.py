@@ -46,27 +46,28 @@ Contact:
 # The docstring should also provide examples of how to use the function.
 
 # Importing necessary libraries
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
-import numpy as np
-import os
-import gams.transfer as gt
-import seaborn as sns
-from pathlib import Path
-import geopandas as gpd
-from matplotlib.ticker import MaxNLocator, FixedLocator
-import colorsys
-import matplotlib.colors as mcolors
-from PIL import Image
-import base64
-from io import BytesIO
-import io
-from shapely.geometry import Point, Polygon
-from matplotlib.patches import FancyArrowPatch
-from shapely.geometry import LineString, Point, LinearRing
 import argparse
+import base64
+import io
+import os
+import re
 import shutil
+from io import BytesIO
+from pathlib import Path
+from typing import Dict, Optional
+import colorsys
+
+import gams.transfer as gt
+import geopandas as gpd
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from matplotlib.patches import FancyArrowPatch, Patch
+from matplotlib.ticker import FixedLocator, MaxNLocator
+from PIL import Image
+from shapely.geometry import LineString, Point, Polygon
 
 
 _DEFAULT_LOGGER = None
@@ -130,6 +131,96 @@ RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', '
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
                   'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't', 'sumhdr': 'attribute'}
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
+
+
+_FLOAT_PATTERN = r"[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?"
+_OBJECTIVE_REGEX = re.compile(rf"(?:Objective|Final\s+Solve):\s*({_FLOAT_PATTERN})")
+_ELAPSED_REGEX = re.compile(r"elapsed\s+(\d+):(\d+):(\d+(?:\.\d+)?)", re.IGNORECASE)
+_MEMORY_REGEX = re.compile(rf"({_FLOAT_PATTERN})\s*M[Bb]\b")
+
+
+def parse_gams_solver_log(log_text: str) -> Dict[str, Optional[float]]:
+    """Extract objective, elapsed time, and peak memory metrics from a GAMS log.
+
+    Parameters
+    ----------
+    log_text : str
+        Full text content of a GAMS solver log.
+
+    Returns
+    -------
+    dict
+        Dictionary with keys ``objective_billion_usd``, ``elapsed_time_seconds``
+        and ``peak_memory_mb`` populated when the corresponding metric is
+        present in the log; otherwise the values are ``None``.
+    """
+
+    objective_value = _extract_objective_value(log_text)
+    elapsed_seconds = _extract_elapsed_time_seconds(log_text)
+    peak_memory_mb = _extract_peak_memory_mb(log_text)
+
+    objective_billion_usd = None
+    if objective_value is not None:
+        objective_billion_usd = objective_value / 1e9
+
+    return {
+        "objective_billion_usd": objective_billion_usd,
+        "elapsed_time_seconds": elapsed_seconds,
+        "peak_memory_mb": peak_memory_mb,
+    }
+
+
+def parse_gams_solver_log_file(log_path: Path) -> Dict[str, Optional[float]]:
+    """Read a GAMS log file and parse key metrics.
+
+    Parameters
+    ----------
+    log_path : pathlib.Path
+        Path to the log file.
+
+    Returns
+    -------
+    dict
+        Parsed metrics as returned by :func:`parse_gams_solver_log`.
+    """
+
+    with open(log_path, "r", encoding="utf-8", errors="ignore") as log_file:
+        content = log_file.read()
+    return parse_gams_solver_log(content)
+
+
+def _extract_objective_value(log_text: str) -> Optional[float]:
+    matches = _OBJECTIVE_REGEX.findall(log_text)
+    if not matches:
+        return None
+    try:
+        return float(matches[-1])
+    except ValueError:
+        return None
+
+
+def _extract_elapsed_time_seconds(log_text: str) -> Optional[float]:
+    matches = _ELAPSED_REGEX.findall(log_text)
+    if not matches:
+        return None
+    hours, minutes, seconds = matches[-1]
+    try:
+        total_seconds = (int(hours) * 3600) + (int(minutes) * 60) + float(seconds)
+    except ValueError:
+        return None
+    return total_seconds
+
+
+def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
+    peak_value: Optional[float] = None
+    for match in _MEMORY_REGEX.findall(log_text):
+        try:
+            value = float(match)
+        except ValueError:
+            continue
+        if peak_value is None or value > peak_value:
+            peak_value = value
+    return peak_value
 
 
 def read_plot_specs(folder='postprocessing'):

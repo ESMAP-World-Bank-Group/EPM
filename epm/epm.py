@@ -53,10 +53,15 @@ import re
 from pathlib import Path
 import sys
 import numpy as np
+from typing import Dict, List, Optional
 
 from preprocessing import *
 
-from postprocessing.utils import path_to_extract_results
+from postprocessing.utils import (
+    parse_gams_solver_log_file,
+    path_to_extract_results,
+    set_utils_logger,
+)
 from postprocessing.postprocessing import postprocess_output
 
 PATH_GAMS = {
@@ -107,6 +112,7 @@ def _configure_logger():
 
 
 logger = _configure_logger()
+set_utils_logger(logger)
 
 
 def copy_log_to_directory(target_directory, log_file_path=LOG_FILE_PATH):
@@ -116,6 +122,114 @@ def copy_log_to_directory(target_directory, log_file_path=LOG_FILE_PATH):
         shutil.copy2(log_file_path, destination)
     except (FileNotFoundError, PermissionError):
         logger.warning("Unable to copy log file to %s", destination)
+
+
+def _log_solver_metrics_for_scenario(
+    log_path: Path, scenario_name: str
+) -> Optional[Dict[str, Optional[float]]]:
+    """Parse a solver log file and append the summary to the main logger."""
+    try:
+        metrics = parse_gams_solver_log_file(log_path)
+    except FileNotFoundError:
+        logger.warning("Solver log missing for scenario %s: %s", scenario_name, log_path)
+        return
+    except OSError as exc:
+        logger.warning(
+            "Unable to read solver log for scenario %s at %s: %s",
+            scenario_name,
+            log_path,
+            exc,
+        )
+        return
+    except Exception as exc:  # pragma: no cover - defensive safeguard
+        logger.warning(
+            "Solver log parsing failed for scenario %s at %s: %s",
+            scenario_name,
+            log_path,
+            exc,
+        )
+        return
+
+    parts = []
+    objective = metrics.get("objective_billion_usd")
+    if objective is not None:
+        parts.append(f"objective {objective:.3f} B$")
+
+    elapsed = metrics.get("elapsed_time_seconds")
+    if elapsed is not None:
+        parts.append(f"elapsed {elapsed:.3f} s")
+
+    peak_memory = metrics.get("peak_memory_mb")
+    if peak_memory is not None:
+        parts.append(f"peak memory {peak_memory:.1f} MB")
+
+    summary = {
+        "objective_billion_usd": objective,
+        "elapsed_time_seconds": elapsed,
+        "peak_memory_mb": peak_memory,
+    }
+
+    if parts:
+        logger.info(
+            "Scenario %s solver summary (%s): %s",
+            scenario_name,
+            log_path.name,
+            ", ".join(parts),
+        )
+    else:
+        logger.info(
+            "Scenario %s solver summary (%s): metrics unavailable",
+            scenario_name,
+            log_path.name,
+        )
+
+    return summary
+
+
+def _write_solver_metrics_table(
+    output_folder: str, metrics_results: List[Optional[Dict[str, Optional[float]]]]
+) -> None:
+    """Persist solver metrics to a CSV file within the simulation folder."""
+    rows = []
+    for item in metrics_results or []:
+        if not isinstance(item, dict):
+            continue
+        scenario = item.get("scenario")
+        if scenario is None:
+            continue
+        rows.append(
+            {
+                "scenario": scenario,
+                "objective_billion_usd": item.get("objective_billion_usd"),
+                "elapsed_time_seconds": item.get("elapsed_time_seconds"),
+                "peak_memory_mb": item.get("peak_memory_mb"),
+            }
+        )
+
+    if not rows:
+        logger.info("No solver metrics captured for %s", output_folder)
+        return
+
+    df_metrics = pd.DataFrame(rows)
+    df_metrics = df_metrics[
+        [
+            "scenario",
+            "objective_billion_usd",
+            "elapsed_time_seconds",
+            "peak_memory_mb",
+        ]
+    ]
+
+    metrics_path = Path(output_folder) / "solver_metrics.csv"
+    metrics_path.parent.mkdir(parents=True, exist_ok=True)
+
+    try:
+        df_metrics.to_csv(metrics_path, index=False)
+    except OSError as exc:
+        logger.warning("Unable to write solver metrics table to %s: %s", metrics_path, exc)
+    else:
+        logger.info("Solver metrics table saved to %s", metrics_path)
+
 
 def normalize_path(df):
     """
@@ -133,6 +247,7 @@ def normalize_path(df):
     else:
         assert isinstance(df, str), 'Type of df is not correct.'
         return str(Path(df).as_posix()) if isinstance(df, (Path, str)) else df
+
 
 def launch_epm_checkpoint(scenario,
                scenario_name='',
@@ -203,6 +318,7 @@ def launch_epm_checkpoint(scenario,
 
     return result
 
+
 def launch_epm(scenario,
                scenario_name='',
                path_main_file='main.gms',
@@ -237,8 +353,11 @@ def launch_epm(scenario,
 
     Returns
     -------
-    None
-        Output files are written to the scenario-specific folder.
+    dict
+        Dictionary containing the scenario name, log filename, and solver metrics
+        (objective in billions of dollars, elapsed time in seconds, and peak
+        memory in megabytes). Output files are written to the
+        scenario-specific folder.
     """
 
     # If no scenario name is provided, use the current date and time
@@ -277,7 +396,6 @@ def launch_epm(scenario,
                                                     "--FOLDER_INPUT {}".format(folder_input)
                                                     ] + path_args
 
-    # Log the command
     logger.info("Command to execute: %s", command)
 
     if sys.platform.startswith("win"):  # If running on Windows
@@ -288,12 +406,22 @@ def launch_epm(scenario,
     if rslt.returncode != 0:
         raise RuntimeError('GAMS Error: check GAMS logs file ')
 
-    return None
+    metrics = _log_solver_metrics_for_scenario(Path(cwd) / logfile, scenario_name) or {}
+
+    return {
+        "scenario": scenario_name,
+        "logfile": logfile,
+        "objective_billion_usd": metrics.get("objective_billion_usd"),
+        "elapsed_time_seconds": metrics.get("elapsed_time_seconds"),
+        "peak_memory_mb": metrics.get("peak_memory_mb"),
+    }
+
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None,
                             modeltype='MIP', dict_montecarlo=None):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
                       dict_montecarlo=dict_montecarlo, **path_gams, modeltype=modeltype)
+
 
 def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios.csv',
@@ -326,6 +454,13 @@ def launch_epm_multi_scenarios(config='config.csv',
         Folder where data input files are stored
     simulation_label: str, optional, default None
         Custom name for the simulation output folder that overrides the timestamp-based name.
+
+    Returns
+    -------
+    tuple
+        A tuple ``(folder, metrics)`` where ``folder`` is the path to the
+        simulation output directory and ``metrics`` is a list of dictionaries
+        with solver metrics per scenario.
     """
 
     working_directory = os.getcwd()
@@ -498,26 +633,46 @@ def launch_epm_multi_scenarios(config='config.csv',
         samples_mc.to_csv('samples_montecarlo.csv')
 
     # Run EPM in multiprocess
+    metrics_results: List[Optional[Dict[str, Optional[float]]]] = []
+
     if not montecarlo:
         with Pool(cpu) as pool:
-            result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()])
+            metrics_results.extend(
+                pool.starmap(
+                    launch_epm_multiprocess,
+                    [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()],
+                )
+            )
     else:
         # First, run initial scenarios
         # Ensure config file has extended setting to save output
         with Pool(cpu) as pool:
             for k in s.keys():
                 assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
-            result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()])
+            metrics_results.extend(
+                pool.starmap(
+                    launch_epm_multiprocess,
+                    [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()],
+                )
+            )
         # Modify config file to ensure limited output saved
         with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
-            result = pool.starmap(launch_epm_multiprocess,
-                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo) for k in scenarios_montecarlo.keys()])
+            metrics_results.extend(
+                pool.starmap(
+                    launch_epm_multiprocess,
+                    [
+                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo)
+                        for k in scenarios_montecarlo.keys()
+                    ],
+                )
+            )
 
     os.chdir(working_directory)
 
-    return folder, result
+    _write_solver_metrics_table(folder, metrics_results)
+
+    return folder, metrics_results
+
 
 def main(test_args=None):
     """Parse command-line arguments and orchestrate an EPM simulation run.
@@ -776,6 +931,7 @@ def main(test_args=None):
         logger.info("Folder %s zipped as %s", folder, zip_path)
 
     logger.info("EPM workflow completed")
+
 
 if __name__ == '__main__':
     main()
