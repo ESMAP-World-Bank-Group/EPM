@@ -468,8 +468,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         if 'value' in df.columns:
             mask = df['value'].abs() < TOLERANCE
             if mask.any():
-                df.loc[mask, 'value'] = 0.0
-
+                df.drop(df.index[mask], inplace=True)
 
     # Rename variables if needed (could be used to convert legacy names)
     if rename_keys is not None:
