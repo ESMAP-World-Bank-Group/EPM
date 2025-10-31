@@ -1,0 +1,15 @@
+threads=8
+lpmethod=4
+startalg=4
+predual=-1
+baralg=1
+barcrossalg=1
+barcolnz=500
+memoryemphasis=1
+bardisplay=2
+mipdisplay=5
+scaind=1
+names=yes
+barepcomp=1E-5
+iis=1
+
