@@ -14,6 +14,7 @@ Other command-line options allow for further customization of the simulation run
 | Argument         | Type   | Default             | Description                                                   | Example Usage                     |
 |------------------|--------|---------------------|---------------------------------------------------------------|-----------------------------------|
 | `--config`       | string | `input/config.csv`  | Path to the global configuration CSV file                     | `--config input/my_config.csv`    |
+| `--modeltype`    | string | `None` (uses config) | Override the solver formulation (`MIP`, `RMIP`, etc.)          | `--modeltype RMIP`                |
 | `--folder_input` | string | `data_test`         | Folder containing input data files                            | `--folder_input data_test_region` |
 
 ---

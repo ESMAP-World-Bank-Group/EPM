@@ -29,13 +29,13 @@ simulations_run_<timestamp>/
 │   └── 6_maps/                      # Spatial visualizations (if applicable)
 │
 ├── baseline/                        # Scenario-specific GAMS outputs and logs
-│   ├── main.lst                     # GAMS listing file (solver logs and diagnostics)
+│   ├── main.lst                     # GAMS listing file (modeltype logs and diagnostics)
 │
 ├── epmresults.gdx                   # GDX file with model results
 ├── input_gdx/                       # Pre-processed input files used by GAMS
 ├── output_csv/                      # All results exported as CSV (for postprocessing or dashboards)
 │
-├── cplex.opt                        # Solver configuration used for the run
+├── cplex.opt                        # modeltype configuration used for the run
 ├── summary.csv                      # High-level summary of model results
 ├── summary_detailed.csv             # Extended summary with breakdowns by tech, fuel, zone, etc.
 ├── simulations_scenarios.csv        # Metadata and status for all scenarios run
