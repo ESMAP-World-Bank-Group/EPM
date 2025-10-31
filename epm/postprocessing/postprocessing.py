@@ -40,11 +40,33 @@ Contact:
 
 import os
 from pathlib import Path
+from functools import wraps
 import pandas as pd
 # Relave imports as it's a submodule
 from .utils import *
 from .plots import *
 from .maps import make_automatic_map
+
+
+def _wrap_plot_function(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as err:
+            filename = kwargs.get('filename')
+            label = filename or getattr(func, '__name__', 'figure')
+            print(f'Warning: failed to generate {label}: {err}')
+    return wrapper
+
+
+make_stacked_barplot = _wrap_plot_function(make_stacked_barplot)
+make_stacked_areaplot = _wrap_plot_function(make_stacked_areaplot)
+make_fuel_dispatchplot = _wrap_plot_function(make_fuel_dispatchplot)
+make_heatmap_plot = _wrap_plot_function(make_heatmap_plot)
+heatmap_plot = _wrap_plot_function(heatmap_plot)
+make_automatic_map = _wrap_plot_function(make_automatic_map)
+
 
 KEYS_RESULTS = {
     # 1. Capacity expansion
@@ -1431,8 +1453,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             if plot_dispatch:
                 print('Generating energy dispatch figures...')
                 # Perform automatic Energy DispatchFigures
-                make_automatic_dispatch(epm_results, dict_specs, subfolders['5_dispatch'],
-                                        ['baseline'], FIGURES_ACTIVATED)
+                try:
+                    make_automatic_dispatch(
+                        epm_results,
+                        dict_specs,
+                        subfolders['5_dispatch'],
+                        ['baseline'],
+                        FIGURES_ACTIVATED
+                    )
+                except Exception as err:
+                    print(f'Warning: failed to generate dispatch figures: {err}')
             
             # ------------------------------------------------------------------------------------
             # 5. Interconnection Heamap
