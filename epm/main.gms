@@ -43,8 +43,14 @@ $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 * Useful for Python import
 $setglobal modeldir %system.fp%
 
+
+*-------------------------------------------------------------------------------------
+
+$if not set MODELTYPE $set MODELTYPE MIP
+$log LOG: Solving with MODELTYPE = "%MODELTYPE%"
+
 * Use the relevant cplex file
-$if not set CPLEXFILE $set CPLEXFILE cplex/cplex_baseline.opt
+$if not set CPLEXFILE $ifThenI %MODELTYPE%==RMIP $set CPLEXFILE cplex/cplex_rmip_fast.opt $else $set CPLEXFILE cplex/cplex_mip_fast.opt $endIf
 $log CPLEXFILE is "%CPLEXFILE%"
 $call rm -f cplex.opt
 $call cp "%CPLEXFILE%" cplex.opt
@@ -825,8 +831,6 @@ $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
 
-$if not set MODELTYPE $set MODELTYPE MIP
-$log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
 $if not set USE_PA_LOADPOINT $set USE_PA_LOADPOINT 0
 $log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"

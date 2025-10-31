@@ -1,9 +1,0 @@
-barcrossalg=1
-solutiontype=2
-lpmethod=4
-threads=8
-names=yes
-barepcomp=1E-5
-barcolnz=50
-iis=1
-mipdisplay=5
