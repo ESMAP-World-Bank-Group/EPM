@@ -241,13 +241,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="options_solver.html">
-                        Solver Options for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
@@ -619,13 +612,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="options_solver.html">
-                        Solver Options for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
@@ -909,7 +895,6 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="options_solver.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
@@ -1173,6 +1158,15 @@ title="Print to PDF"
      <code class="docutils literal notranslate">
       <span class="pre">
        --config
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#modeltype">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --modeltype
       </span>
      </code>
     </a>
@@ -1476,7 +1470,7 @@ This folder contains all the necessary <code class="docutils literal notranslate
 </ul>
 <ol class="arabic simple" start="2">
 <li><p><strong>Configuration File (<code class="docutils literal notranslate"><span class="pre">config.csv</span></code>)</strong><br />
-This CSV file defines which input files correspond to which parameters in the model for the <strong>baseline scenario</strong>. It includes the parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> and the relative <code class="docutils literal notranslate"><span class="pre">file</span></code> path inside the input folder. An example of a configuration file is available here:  <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv">Example <code class="docutils literal notranslate"><span class="pre">config.csv</span></code></a></p></li>
+This CSV file defines which input files correspond to which parameters in the model for the <strong>baseline scenario</strong>. It includes the parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> and the relative <code class="docutils literal notranslate"><span class="pre">file</span></code> path inside the input folder. An example of a configuration file is available here: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/features/epm/input/data_test_region/config.csv">Example <code class="docutils literal notranslate"><span class="pre">config.csv</span></code></a></p></li>
 </ol>
 </section>
 <section id="config">
@@ -1486,6 +1480,15 @@ This CSV file defines which input files correspond to which parameters in the mo
 <li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">input/config.csv</span></code></p></li>
 <li><p><strong>Purpose:</strong> Specifies the configuration file that defines baseline input CSV files and parameters.</p></li>
 <li><p><strong>Notes:</strong> The config file is required for proper data loading and scenario configuration.</p></li>
+</ul>
+</section>
+<section id="modeltype">
+<h3><code class="docutils literal notranslate"><span class="pre">--modeltype</span></code><a class="headerlink" href="#modeltype" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Type:</strong> string</p></li>
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code> (falls back to the value defined in <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>)</p></li>
+<li><p><strong>Purpose:</strong> Overrides the model type used by GAMS; accepts values such as <code class="docutils literal notranslate"><span class="pre">MIP</span></code> or <code class="docutils literal notranslate"><span class="pre">RMIP</span></code>.</p></li>
+<li><p><strong>Notes:</strong> Use this flag to test relaxed problems (<code class="docutils literal notranslate"><span class="pre">RMIP</span></code>) or enforce a specific formulation without editing <code class="docutils literal notranslate"><span class="pre">config.csv</span></code>.</p></li>
 </ul>
 <p>Important Configuration Options in config.csv</p>
 <table class="table">
@@ -1505,7 +1508,10 @@ This CSV file defines which input files correspond to which parameters in the mo
 <td><p>Report size:<br> <code class="docutils literal notranslate"><span class="pre">0</span></code> = full report (default)<br> <code class="docutils literal notranslate"><span class="pre">1</span></code> = compact report for multiple runs (e.g., Monte Carlo)</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">modeltype</span></code></p></td>
-<td><p>Solver type:<br> <code class="docutils literal notranslate"><span class="pre">MIP</span></code> = default<br> <code class="docutils literal notranslate"><span class="pre">RMIP</span></code> = force LP relaxation</p></td>
+<td><p>Solver formulation:<br> <code class="docutils literal notranslate"><span class="pre">MIP</span></code> = default mixed-integer run<br> <code class="docutils literal notranslate"><span class="pre">RMIP</span></code> = relax integrality for debugging or bounds</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cplexfile</span></code></p></td>
+<td><p>Relative path to the CPLEX options file (for example <code class="docutils literal notranslate"><span class="pre">cplex/cplex_baseline.opt</span></code>) that controls low-level solver parameters</p></td>
 </tr>
 </tbody>
 </table>
@@ -1778,6 +1784,15 @@ This CSV file defines which input files correspond to which parameters in the mo
      <code class="docutils literal notranslate">
       <span class="pre">
        --config
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#modeltype">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       --modeltype
       </span>
      </code>
     </a>

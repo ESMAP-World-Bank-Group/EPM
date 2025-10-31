@@ -241,13 +241,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="options_solver.html">
-                        Solver Options for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
@@ -619,13 +612,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="options_solver.html">
-                        Solver Options for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
@@ -909,7 +895,6 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="options_solver.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
@@ -1155,8 +1140,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solver-configuration">
-   4. Solver configuration
+  <a class="reference internal nav-link" href="#modeltype-configuration">
+   4. modeltype configuration
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -1190,7 +1175,7 @@ title="Print to PDF"
        ├── config.csv                  # Configuration settings for input processing
 │   ├── data_test_region/           # Input data specific to the SAPP region
        ├── config.csv                  # Configuration settings for input processing
-│   
+│
 │
 ├── postprocessing/                 # Scripts and tools for processing and analyzing model outputs
 │   ├── static/                     # Static resources used in post-processing
@@ -1198,7 +1183,7 @@ title="Print to PDF"
 │
 ├── engine_base.gms                 # Defines engine run
 ├── base.gms                        # Specifies base configurations and parameters
-├── cplex.opt                       # Options for the CPLEX solver
+├── cplex.opt                       # Options for the CPLEX modeltype
 ├── credentials_engine.json         # Stores credentials for engine access
 ├── generate_demand.gms             # Script for generating demand data
 ├── generate_report.gms             # Generates reports from model outputs
@@ -1276,10 +1261,10 @@ title="Print to PDF"
 </ul>
 <hr class="docutils" />
 </section>
-<section id="solver-configuration">
-<h2>4. Solver configuration<a class="headerlink" href="#solver-configuration" title="Permalink to this heading">#</a></h2>
+<section id="modeltype-configuration">
+<h2>4. modeltype configuration<a class="headerlink" href="#modeltype-configuration" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code></strong>: Defines solver settings for CPLEX.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code></strong>: Defines modeltype settings for CPLEX.</p></li>
 </ul>
 <hr class="docutils" />
 </section>
@@ -1382,8 +1367,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solver-configuration">
-   4. Solver configuration
+  <a class="reference internal nav-link" href="#modeltype-configuration">
+   4. modeltype configuration
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">

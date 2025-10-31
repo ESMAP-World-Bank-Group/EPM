@@ -65,7 +65,7 @@ echo "[+] Repository ready at $REPO_DIR."
 echo "[*] Testing GAMS installation with MODELTYPE=RMIP ..."
 (cd "$REPO_DIR" && gams "$GAMS_MAIN" lo=2 --MODELTYPE=RMIP >> "$LOG_FILE" 2>&1)
 if [ $? -ne 0 ]; then
-    echo "[!] GAMS test failed — check installation, license, or RMIP solver."
+    echo "[!] GAMS test failed — check installation, license, or RMIP modeltype."
     echo "See log for details: $LOG_FILE"
     exit 1
 else
@@ -89,7 +89,7 @@ echo "[+] All Python dependencies installed successfully."
 
 # ---------- Step 8: Run EPM Python test ----------
 echo "[*] Running EPM Python test ..."
-(cd "$REPO_DIR" && python "$PYTHON_SCRIPT" --solver RMIP --simple >> "$LOG_FILE" 2>&1)
+(cd "$REPO_DIR" && python "$PYTHON_SCRIPT" --modeltype RMIP --simple >> "$LOG_FILE" 2>&1)
 if [ $? -ne 0 ]; then
     echo "[!] Python EPM test failed — see $LOG_FILE for details."
     exit 1

@@ -241,13 +241,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="options_solver.html">
-                        Solver Options for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
@@ -619,13 +612,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="options_solver.html">
-                        Solver Options for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
@@ -909,7 +895,6 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="options_solver.html">Solver Options for EPM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
@@ -1167,13 +1152,13 @@ title="Print to PDF"
 │   └── 6_maps/                      # Spatial visualizations (if applicable)
 │
 ├── baseline/                        # Scenario-specific GAMS outputs and logs
-│   ├── main.lst                     # GAMS listing file (solver logs and diagnostics)
+│   ├── main.lst                     # GAMS listing file (modeltype logs and diagnostics)
 │
 ├── epmresults.gdx                   # GDX file with model results
 ├── input_gdx/                       # Pre-processed input files used by GAMS
 ├── output_csv/                      # All results exported as CSV (for postprocessing or dashboards)
 │
-├── cplex.opt                        # Solver configuration used for the run
+├── cplex.opt                        # modeltype configuration used for the run
 ├── summary.csv                      # High-level summary of model results
 ├── summary_detailed.csv             # Extended summary with breakdowns by tech, fuel, zone, etc.
 ├── simulations_scenarios.csv        # Metadata and status for all scenarios run

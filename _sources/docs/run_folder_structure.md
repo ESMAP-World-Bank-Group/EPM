@@ -1,6 +1,7 @@
 # EPM Folder structure
 
 The following structure outlines the key components of the EPM repository:
+
 ```plaintext
 EPM/
 │
@@ -11,7 +12,7 @@ EPM/
        ├── config.csv                  # Configuration settings for input processing
 │   ├── data_test_region/           # Input data specific to the SAPP region
        ├── config.csv                  # Configuration settings for input processing
-│   
+│
 │
 ├── postprocessing/                 # Scripts and tools for processing and analyzing model outputs
 │   ├── static/                     # Static resources used in post-processing
@@ -19,7 +20,7 @@ EPM/
 │
 ├── engine_base.gms                 # Defines engine run
 ├── base.gms                        # Specifies base configurations and parameters
-├── cplex.opt                       # Options for the CPLEX solver
+├── cplex.opt                       # Options for the CPLEX modeltype
 ├── credentials_engine.json         # Stores credentials for engine access
 ├── generate_demand.gms             # Script for generating demand data
 ├── generate_report.gms             # Generates reports from model outputs
@@ -32,13 +33,16 @@ EPM/
 ```
 
 ##### 1. Input folder
+
 The `input/` directory contains all the necessary data and configuration files required to run the model. It is structured into:
 
 ###### General configuration files
+
 - **`config.csv`**: Defines global configuration parameters for the model.
 - **`scenarios.csv`**: Specifies different scenario configurations that can be run.
 
 ###### Data folders
+
 The model input data is organized into `data/` folders. For example, `data_eapp/` contains input data for the Eastern Africa Power Pool and `data_gambia/` contains input data specific to Gambia.
 
 Each of these folders contains CSV files grouped by data type, including:
@@ -63,6 +67,7 @@ A more detailed description of these parameters and their contents is provided i
 ---
 
 ##### 2. Post-processing folder
+
 The `postprocessing/` directory contains scripts and data files used to process and visualize the model outputs.
 
 - **`utils.py`**: The core Python package for post-processing results. It includes functions for generating various graphs and visualizations. The functions available in this package are detailed in the **Post-Processing** section.
@@ -70,12 +75,13 @@ The `postprocessing/` directory contains scripts and data files used to process 
   - **Color schemes**
   - **Fuel names and mappings**
   - **Other parameters for customizing plots**
-  
+
 For more details on the available functions and configuration options, refer to the **Postprocessing** section.
 
 ---
 
 ##### 3. GAMS model files
+
 These files define and execute the core GAMS model:
 
 - **`main.gms`**: The main file that runs the model.
@@ -90,15 +96,18 @@ These files define and execute the core GAMS model:
 
 ---
 
-##### 4. Solver configuration
-- **`cplex.opt`**: Defines solver settings for CPLEX.
+##### 4. modeltype configuration
+
+- **`cplex.opt`**: Defines modeltype settings for CPLEX.
 
 ---
 
 ##### 5. Execution scripts
+
 - **`run_epm.py`**: Python script to launch EPM from a command line or an external script.
 
 ---
 
 ##### 6. Output folder
+
 The `output/` directory is not present initially but is generated automatically when simulations are run. Results are stored in subdirectories following this pattern: `output/scenario_name/simulations_run_date_hour`
