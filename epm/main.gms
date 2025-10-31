@@ -43,10 +43,11 @@ $if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 * Useful for Python import
 $setglobal modeldir %system.fp%
 
+* Use the relevant cplex file
 $if not set CPLEXFILE $set CPLEXFILE cplex/cplex_baseline.opt
 $log CPLEXFILE is "%CPLEXFILE%"
 $call rm -f cplex.opt
-$call cp %CPLEXFILE% cplex.opt
+$call cp "%CPLEXFILE%" cplex.opt
 
 *-------------------------------------------------------------------------------------
 

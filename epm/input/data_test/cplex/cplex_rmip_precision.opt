@@ -1,0 +1,18 @@
+* ------------------------------------------------------------
+* CPLEX RMIP Precision Configuration
+* Purpose: continuous relaxation with high numerical precision
+* ------------------------------------------------------------
+threads=8
+lpmethod=4
+baralg=1
+barcrossalg=1
+barcolnz=500
+barepcomp=1e-5
+parallelmode=1
+memoryemphasis=1
+scaind=1
+names=yes
+bardisplay=2
+solutiontype=2
+iis=1
+

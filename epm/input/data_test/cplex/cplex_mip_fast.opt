@@ -1,0 +1,16 @@
+* ------------------------------------------------------------
+* CPLEX MIP Fast Configuration
+* Purpose: prioritize speed over precision (exploratory runs)
+* ------------------------------------------------------------
+threads=8
+parallelmode=0
+lpmethod=2
+mipemphasis=1
+optcr=0.05
+mipdisplay=3
+cuts=1
+heuristics=0.05
+predual=-1
+barepcomp=1e-4
+names=no
+solutiontype=2

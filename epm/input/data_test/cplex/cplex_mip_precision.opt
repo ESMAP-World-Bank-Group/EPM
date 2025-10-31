@@ -1,0 +1,18 @@
+* ------------------------------------------------------------
+* CPLEX MIP Precision Configuration
+* Purpose: tight tolerances and stable deterministic behavior
+* ------------------------------------------------------------
+threads=8
+parallelmode=1
+lpmethod=4
+startalg=4
+baralg=1
+barcrossalg=1
+barcolnz=500
+memoryemphasis=1
+barepcomp=1e-6
+optcr=0.01
+mipdisplay=5
+scaind=1
+names=yes
+iis=1
