@@ -1,4 +1,5 @@
 paramNames,baseline
+modeltype,RMIP
 cplexfile,input/data_test/cplex/cplex_baseline.opt
 pSettings,input/data_test/pSettings.csv
 y,input/data_test/sensitivity/y_reduced.csv

@@ -87,26 +87,26 @@ $log HYDROGEN_FILE is "%HYDROGEN_FILE%"
 
 *-------------------------------------------------------------------------------------
 
-* Define solver-related options
+* Define modeltype-related options
 Scalar
-   solverThreads 'Number of threads available to the solvers' /1/
-   solverOptCR   'Relative gap for MIP Solver'                /0.05/
-   solverResLim  'Solver time limit'                          /300000/
+   modeltypeThreads 'Number of threads available to the modeltypes' /1/
+   modeltypeOptCR   'Relative gap for MIP modeltype'                /0.05/
+   modeltypeResLim  'modeltype time limit'                          /300000/
 ;   
 Singleton Set
-   NLPSolver 'Selected NLP Solver' / '' 'conopt4' /
-   MIPSolver 'Selected MIP Solver' / '' 'cplex' /
+   NLPmodeltype 'Selected NLP modeltype' / '' 'conopt4' /
+   MIPmodeltype 'Selected MIP modeltype' / '' 'cplex' /
 ;
 
 
-* Evaluate and assign solver settings as macros
-$eval     SOLVERTHREADS solverThreads
-$eval     SOLVEROPTCR   solverOptCR
-$eval     SOLVERRESLIM  solverResLim
-$eval.set NLPSOLVER     NLPSolver.te
-$eval.set MIPSOLVER     MIPSolver.te
-* Apply solver settings to GAMS execution
-option NLP=%NLPSOLVER%, MIP=%MIPSOLVER%, threads=%SOLVERTHREADS%, optCR=%SOLVEROPTCR%, resLim=%SOLVERRESLIM%;
+* Evaluate and assign modeltype settings as macros
+$eval     modeltypeTHREADS modeltypeThreads
+$eval     modeltypeOPTCR   modeltypeOptCR
+$eval     modeltypeRESLIM  modeltypeResLim
+$eval.set NLPmodeltype     NLPmodeltype.te
+$eval.set MIPmodeltype     MIPmodeltype.te
+* Apply modeltype settings to GAMS execution
+option NLP=%NLPmodeltype%, MIP=%MIPmodeltype%, threads=%modeltypeTHREADS%, optCR=%modeltypeOPTCR%, resLim=%modeltypeRESLIM%;
 
 *-------------------------------------------------------------------------------------
 
@@ -798,9 +798,9 @@ pNewTransmission(z,z2,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
 * Ensure that variables fixed (`.fx`) at specific values remain unchanged during the solve process  
 PA.HoldFixed=1;
 
-* Declare a file object `fmipopt` and set its name dynamically based on the solver
-file fmipopt / %MIPSOLVER%.opt /;
-* Check if the set `mipopt` contains any elements (i.e., if solver options exist)
+* Declare a file object `fmipopt` and set its name dynamically based on the modeltype
+file fmipopt / %MIPmodeltype%.opt /;
+* Check if the set `mipopt` contains any elements (i.e., if modeltype options exist)
 if (card(mipopt),
  put fmipopt;
 * Loop over each entry in `mipopt` and write its text content to the file
@@ -808,7 +808,7 @@ if (card(mipopt),
  putclose;
 ); 
 
-* Enable the solver to read an external solver option file
+* Enable the modeltype to read an external modeltype option file
 PA.optfile = 1;
 
 
@@ -820,7 +820,7 @@ PA.optfile = 1;
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
-* SOLVER TYPE
+* modeltype TYPE
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
 

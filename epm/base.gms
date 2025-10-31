@@ -76,13 +76,13 @@ Sets
 
 
 * -------------------------------------------------------------
-* Status and solver-control sets
+* Status and modeltype-control sets
 * -------------------------------------------------------------
 Sets
    gstatus  'Generator status lookup'           / Existing, Candidate, Committed /
    tstatus  'Transmission project status'      / Candidate, Committed /
-   mipline  'Solver option line identifiers'
-   mipopt(mipline<) 'MIP solver option key-value pairs' / system.empty /
+   mipline  'modeltype option line identifiers'
+   mipopt(mipline<) 'MIP modeltype option key-value pairs' / system.empty /
 ;
 
 

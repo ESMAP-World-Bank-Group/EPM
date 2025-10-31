@@ -284,9 +284,9 @@ Parameters
   pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
 
 * ============================================================
-* 11. SOLVER PARAMETERS
+* 11. modeltype PARAMETERS
 * ============================================================
-   pSolverParameters(*)                      'Solver parameters'                                                                                 
+   pmodeltypeParameters(*)                      'modeltype parameters'                                                                                 
 ;
 
 
@@ -1402,13 +1402,13 @@ pYearlySystemAverageCost(y)$sum(z, pZoneEnergyMWh(z,y)) =
     );
 
 * ============================================================
-* 11. SOLVER PARAMETERS
+* 11. modeltype PARAMETERS
 * ============================================================
 
-pSolverParameters("Solver Status")               = PA.modelstat + EPS;
-pSolverParameters("Solver Time: ms")             = PA.etSolve + EPS;
-pSolverParameters("Absolute gap")                = PA.objVal-PA.objEst + EPS;
-pSolverParameters("Relative gap")$(PA.objVal >0) = pSolverParameters("Absolute gap")/PA.objVal + EPS;
+pmodeltypeParameters("modeltype Status")               = PA.modelstat + EPS;
+pmodeltypeParameters("modeltype Time: ms")             = PA.etSolve + EPS;
+pmodeltypeParameters("Absolute gap")                = PA.objVal-PA.objEst + EPS;
+pmodeltypeParameters("Relative gap")$(PA.objVal >0) = pmodeltypeParameters("Absolute gap")/PA.objVal + EPS;
 
 *--- END RESULTS
 
@@ -1551,8 +1551,8 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pPlantAnnualLCOE, pCostsZonePerMWh, pCostsCountryPerMWh,
       pYearlyAverageCostZone, pYearlyAverageCostCountry, pYearlySystemAverageCost,
       pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
-* 10. SOLVER PARAMETERS
-      pSolverParameters,
+* 10. modeltype PARAMETERS
+      pmodeltypeParameters,
 * 11. ADDITIONAL OUTPUTS
       pVarCost, pCapacityCredit
 ;
