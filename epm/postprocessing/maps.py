@@ -1521,6 +1521,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     energy_map.fit_bounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]])
 
     # Save the map
+    _log_info(f"Saving interactive energy map to {filename}")
     energy_map.save(filename)
 
 
@@ -1555,7 +1556,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
 
     # One figure per scenario
     for selected_scenario in selected_scenarios:
-        print(f'Generating map for scenario {selected_scenario}')
+        _log_info(f'Generating map for scenario {selected_scenario}')
         # Select first and last years
         #years = [min(years), max(years)]
         years = [y for y in [2025, 2030, 2035, 2040] if y in years]
@@ -1565,7 +1566,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
             zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
         except Exception as e:
-            print(
+            _log_error(
                 'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
             raise  # Re-raise the exception for debuggings
 
@@ -1593,6 +1594,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
             make_interconnection_map_faceted(zone_map, df, centers, title=title, column='capacity',
                                     label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                     min_display_value=50, filename=filename, subplotcolumn='year', col_wrap=3)
+            _log_info(f'Saved transmission capacity map: {filename}')
         
         figure_name = 'TransmissionUtilizationMapEvolution'
         if FIGURES_ACTIVATED.get(figure_name, False):
@@ -1610,6 +1612,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                                     min_display_value=10, filename=filename, subplotcolumn='year', col_wrap=3,
                                     format_y=lambda y, _: '{:.0f} %'.format(y), show_arrows=True, arrow_offset_ratio=0.4,
                                     arrow_size=25)
+            _log_info(f'Saved transmission utilization map: {filename}')
         
         
         
@@ -1631,6 +1634,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     make_interconnection_map(zone_map, df, centers, title=title, column='capacity',
                                             label_yoffset=0.01, label_xoffset=-0.05, label_fontsize=10, show_labels=False,
                                             min_display_value=50, filename=filename)
+                    _log_info(f'Saved transmission capacity map: {filename}')
 
                 figure_name = 'TransmissionUtilizationMap'
                 if FIGURES_ACTIVATED.get(figure_name, False):
@@ -1643,6 +1647,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                                             format_y=lambda y, _: '{:.0f} %'.format(y), filename=filename,
                                             title=title, show_arrows=True, arrow_offset_ratio=0.4,
                                             arrow_size=25, plot_colored_countries=True)
+                    _log_info(f'Saved transmission utilization map: {filename}')
              
                 figure_name = 'NetExportsMap'
                 if FIGURES_ACTIVATED.get(figure_name, False):
@@ -1672,6 +1677,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                                             format_y=lambda y, _: '{:.0f}'.format(y), offset=-1.5,
                                             min_line_width=0.7, max_line_width=1.5, arrow_linewidth=0.1, mutation_scale=20,
                                             color_col='congestion')
+                    _log_info(f'Saved net exports map: {filename}')
 
             if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
                     
@@ -1690,4 +1696,4 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
                                             dict_specs, epm_results['pCapacityFuel'], epm_results['pEnergyFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
-
+                        _log_info(f'Saved interactive map: {filename}')

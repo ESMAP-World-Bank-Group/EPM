@@ -21,5 +21,6 @@ scaind=1
 
 * --- Supporting parameters ---
 mipdisplay=5
+bardisplay=2
 names=yes
 iis=1

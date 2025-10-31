@@ -42,6 +42,7 @@ import os
 import subprocess
 import pandas as pd
 import datetime
+import logging
 from multiprocessing import Pool
 import shutil
 from gams import GamsWorkspace
@@ -68,6 +69,53 @@ PATH_GAMS = {
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+LOG_FILE_PATH = Path(BASE_DIR) / "epm.log"
+LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
+_ENV_FLAG = "EPM_LOG_INITIALIZED"
+
+
+def _configure_logger():
+    """Configure and return module logger with stream and file handlers."""
+    LOG_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    logger = logging.getLogger("epm")
+    if not os.environ.get(_ENV_FLAG):
+        try:
+            LOG_FILE_PATH.unlink()
+        except FileNotFoundError:
+            pass
+        os.environ[_ENV_FLAG] = "1"
+
+    if logger.handlers:
+        return logger
+
+    formatter = logging.Formatter(LOG_FORMAT)
+
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.INFO)
+    stream_handler.setFormatter(formatter)
+
+    file_handler = logging.FileHandler(LOG_FILE_PATH, mode='a')
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(formatter)
+
+    logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+
+    return logger
+
+
+logger = _configure_logger()
+
+
+def copy_log_to_directory(target_directory, log_file_path=LOG_FILE_PATH):
+    """Copy the log file into the target directory."""
+    destination = Path(target_directory) / log_file_path.name
+    try:
+        shutil.copy2(log_file_path, destination)
+    except (FileNotFoundError, PermissionError):
+        logger.warning("Unable to copy log file to %s", destination)
 
 def normalize_path(df):
     """
@@ -210,7 +258,6 @@ def launch_epm(scenario,
     path_args = ['--{} {}'.format(k, i) for k, i in scenario.items()]
 
     # Define the logfile name
-    #logfile = os.path.join(cwd, 'main.log')
     logfile = f'{scenario_name}_main.log'
 
     options = [
@@ -230,8 +277,8 @@ def launch_epm(scenario,
                                                     "--FOLDER_INPUT {}".format(folder_input)
                                                     ] + path_args
 
-    # Print the command
-    print("Command to execute:", command)
+    # Log the command
+    logger.info("Command to execute: %s", command)
 
     if sys.platform.startswith("win"):  # If running on Windows
         rslt = subprocess.run(' '.join(command), cwd=cwd, shell=True)
@@ -304,7 +351,11 @@ def launch_epm_multi_scenarios(config='config.csv',
         if 'Usecols do not match columns' in str(err):
             header_columns = pd.read_csv(config_path, nrows=0).columns
             missing_columns = [col for col in required_columns if col not in header_columns]
-            print(f"Error: Missing required columns {missing_columns} in {os.path.abspath(config_path)}.")
+            logger.error(
+                "Missing required columns %s in %s.",
+                missing_columns,
+                os.path.abspath(config_path)
+            )
             raise ValueError(f"Missing required columns {missing_columns} in {os.path.abspath(config_path)}.") from None
         raise
     config = config.set_index('paramNames')['file']
@@ -363,6 +414,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         distribution, samples, zone_mapping = define_samples(df_uncertainties, nb_samples=montecarlo_nb_samples)
         s, scenarios_montecarlo = create_scenarios_montecarlo(samples, s, zone_mapping)
         dict_montecarlo = {key: key.split('_')[0] for key in scenarios_montecarlo.keys()}  # getting the correspondence between montecarlo scenario and initial scenario
+        mc_names = list(scenarios_montecarlo.keys())
+        logger.info("Prepared %d Monte Carlo scenario(s): %s", len(mc_names), ", ".join(mc_names))
 
     # Reduce complexity if activated
     if simple is not None:
@@ -406,6 +459,9 @@ def launch_epm_multi_scenarios(config='config.csv',
                 # Put in the scenario dir
                 s[k]['pGenDataInput'] = path_file
 
+    scenario_names = list(s.keys())
+    logger.info("Prepared %d scenario(s): %s", len(scenario_names), ", ".join(scenario_names))
+
     # Create dir for simulation and change current working directory
     if 'output' not in os.listdir():
         os.mkdir('output')
@@ -421,10 +477,10 @@ def launch_epm_multi_scenarios(config='config.csv',
         folder_name = '{}_{}'.format(pre, datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
     folder = os.path.join('output', folder_name)
     if os.path.exists(folder):
-        print('Folder exists, recreating:', folder)
+        logger.info('Folder exists, recreating: %s', folder)
         shutil.rmtree(folder)
     os.mkdir(folder)
-    print('Folder ready:', folder)
+    logger.info('Folder ready: %s', folder)
     os.chdir(folder)
 
     # Export scenario.csv file
@@ -469,6 +525,7 @@ def main(test_args=None):
     Args:
         test_args (list[str] | None): Optional list of arguments passed in tests.
     """
+    logger.info("Starting EPM workflow")
     parser = argparse.ArgumentParser(description="Process some configurations.")
 
     parser.add_argument(
@@ -638,28 +695,31 @@ def main(test_args=None):
         args.simple = ['DiscreteCap', 'y']
         
 
-    print(f"Config file: {args.config}")
-    print(f"Folder input: {args.folder_input}")
-    print(f"modeltype: {args.modeltype}")
-    print(f"Scenarios file: {args.scenarios}")
-    print(f"Sensitivity: {args.sensitivity}")
-    print(f"MonteCarlo: {args.montecarlo}")
-    print(f"MonteCarlo samples: {args.montecarlo_samples}")
-    print(f"Monte Carlo uncertainties file: {args.uncertainties}")
-    print(f"Reduced output: {args.reduced_output}")
-    print(f"Reduced definition csv: {args.reduce_definition_csv}")
-    print(f"Selected scenarios: {args.selected_scenarios}")
-    print(f"Simple: {args.simple}")
-    print(f"Simulation label: {args.simulation_label}")
+    logger.info("Config file: %s", args.config)
+    logger.info("Folder input: %s", args.folder_input)
+    logger.info("modeltype: %s", args.modeltype)
+    logger.info("Scenarios file: %s", args.scenarios)
+    logger.info("Sensitivity: %s", args.sensitivity)
+    logger.info("MonteCarlo: %s", args.montecarlo)
+    logger.info("MonteCarlo samples: %s", args.montecarlo_samples)
+    logger.info("Monte Carlo uncertainties file: %s", args.uncertainties)
+    logger.info("Reduced output: %s", args.reduced_output)
+    logger.info("Reduced definition csv: %s", args.reduce_definition_csv)
+    logger.info("Selected scenarios: %s", args.selected_scenarios)
+    logger.info("Simple: %s", args.simple)
+    logger.info("Simulation label: %s", args.simulation_label)
     
     folder_input = os.path.join("input", args.folder_input)
 
     if args.sensitivity:
         sensitivity = os.path.join(folder_input, 'sensitivity.csv')
         if not os.path.exists(sensitivity):
-            print(f"Warning: sensitivity file {os.path.abspath(sensitivity)} does not exist. No sensitivity analysis will be performed.")
+            logger.warning(
+                "Sensitivity file %s does not exist. No sensitivity analysis will be performed.",
+                os.path.abspath(sensitivity)
+            )
         sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
-        print(f"Sensitivity analysis: {sensitivity}")
+        logger.info("Sensitivity analysis: %s", sensitivity)
 
     else:
         sensitivity = None
@@ -681,13 +741,13 @@ def main(test_args=None):
                                                     simulation_label=args.simulation_label,
                                                     modeltype=args.modeltype)
     else:
-        print(f"Project folder: {args.postprocess}")
-        print("EPM does not run again but use the existing simulation within the folder" )
+        logger.info("Project folder: %s", args.postprocess)
+        logger.info("EPM does not run again but use the existing simulation within the folder")
         folder = args.postprocess
         if not os.path.exists(folder):
             raise FileNotFoundError(f"Folder {os.path.abspath(folder)} does not exist. Please provide a valid folder with EPM results.")
         else:
-            print(f"Find folder {os.path.abspath(folder)} for postprocessing.")
+            logger.info("Find folder %s for postprocessing.", os.path.abspath(folder))
 
     # Define scenario reference
     scenarios = [i for i in os.listdir(folder) if os.path.isdir(os.path.join(folder, i)) and 'epmresults.gdx' in os.listdir(os.path.join(folder, i))]
@@ -696,19 +756,26 @@ def main(test_args=None):
         scenario_reference = scenarios[0]
              
     # Launch postprocess
+    logger.info("Starting postprocessing for folder: %s", folder)
     postprocess_output(folder, reduced_output=args.reduced_output, scenario_reference=scenario_reference,
                        selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
                        graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
-                       reduce_definition_csv=args.reduce_definition_csv)
+                       reduce_definition_csv=args.reduce_definition_csv, logger=logger)
+    logger.info("Postprocessing completed for folder: %s", folder)
 
     # Zip the folder if it exists
     folder = path_to_extract_results(folder)
+    if folder and os.path.exists(folder):
+        copy_log_to_directory(folder)
+
     if args.output_zip and folder and os.path.exists(folder):
-        print(f"Compressing results folder {folder}")
+        logger.info("Compressing results folder %s", folder)
         zip_path = folder + '.zip'
         shutil.make_archive(folder, 'zip', folder)
         shutil.rmtree(folder)  # Remove the original folder
-        print(f"Folder {folder} zipped as {zip_path}")
+        logger.info("Folder %s zipped as %s", folder, zip_path)
+
+    logger.info("EPM workflow completed")
 
 if __name__ == '__main__':
     main()
