@@ -23,7 +23,7 @@ modeltype settings are defined in a `cplex.opt` file.
 > - **Presolve / root node**: Early simplification and the first LP solve before branching. Performance issues here slow down the entire run.
 > - **Helper threads**: Auxiliary workers CPLEX uses at the root; disabling them (`auxrootthreads = 0`) can unblock stagnating presolve phases.
 
-## Recommended modeltype Parameters
+## Recommended Solver Parameters
 
 When tuning, focus first on **`optcr`**, **`mipemphasis`**, **`lpmethod`**, and **`threads`**—they have the biggest impact on both runtime and result quality. The remaining parameters help you fine-tune stability and diagnostics once the core settings are in a good place.
 
