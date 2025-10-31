@@ -1423,9 +1423,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         figsize=(10, 6),
                         stack_sort_by='fuel'
                     )
-            
-            
-            
+                       
             # ------------------------------------------------------------------------------------
             # 4. Dispatch
             # ------------------------------------------------------------------------------------                  
@@ -1436,17 +1434,14 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 make_automatic_dispatch(epm_results, dict_specs, subfolders['5_dispatch'],
                                         ['baseline'], FIGURES_ACTIVATED)
             
-            
             # ------------------------------------------------------------------------------------
             # 5. Interconnection Heamap
             # ------------------------------------------------------------------------------------
             
             if nbr_zones > 1:
-                
                 print('Generating interconnection figures...')
                 
                 # 4.1 Net exchange heatmap [GWh and %] evolution
-                
                 figure_name = 'NetImportsZoneEvolution'
                 if FIGURES_ACTIVATED.get(figure_name, False):
                     filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
@@ -1495,7 +1490,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         y_column='year',
                         value_column='value'
                     )
-
 
                 # 4.2 Exchange between zones (energy)
                 figure_name = 'InterconnectionExchangeHeatmap'
@@ -1574,7 +1568,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                         value_column='value'
                                     )
                 
-
             # ------------------------------------------------------------------------------------
             # 6. Interconnection Maps
             # ------------------------------------------------------------------------------------

@@ -1099,6 +1099,7 @@ def _plot_interconnection_map_on_axis(
                     color='black'
                 )
 
+
 def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit_value, title, select_time=None):
  
     img = BytesIO()
@@ -1116,7 +1117,6 @@ def make_dispatch_value_plot_interactive(df_dispatch, zone, year, scenario, unit
     img.seek(0)
     encoded_str = base64.b64encode(img.getvalue()).decode()
     return f'<img src="data:image/png;base64,{encoded_str}" width="400">'
-
 
 
 def make_interconnection_map(zone_map, df, centers, column='value', color_col=None, filename=None,
