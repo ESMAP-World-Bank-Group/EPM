@@ -21,6 +21,7 @@ scaind=1
 
 * --- Supporting parameters ---
 cuts=1
-mipdisplay=3
+mipdisplay=5
+bardisplay=2
 names=no
 
