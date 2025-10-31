@@ -67,7 +67,6 @@ make_heatmap_plot = _wrap_plot_function(make_heatmap_plot)
 heatmap_plot = _wrap_plot_function(heatmap_plot)
 make_automatic_map = _wrap_plot_function(make_automatic_map)
 
-
 KEYS_RESULTS = {
     # 1. Capacity expansion
     'pCapacityPlant', 
@@ -181,7 +180,6 @@ RESERVE_ATTRS = [
     "Unmet system planning reserve costs: $m",
     "Unmet system spinning reserve costs: $m"
 ]
-
 
 def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios, FIGURES_ACTIVATED):
     """
