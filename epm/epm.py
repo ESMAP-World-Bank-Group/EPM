@@ -163,7 +163,7 @@ def launch_epm(scenario,
                path_reader_file='input_readers.gms',
                path_demand_file='generate_demand.gms',
                path_hydrogen_file='hydrogen_module.gms',
-               solver='MIP',
+               modeltype='MIP',
                folder_input=None,
                dict_montecarlo=None,
                prefix=''  # 'simulation_'
@@ -227,8 +227,7 @@ def launch_epm(scenario,
                                                     "--READER_FILE {}".format(path_reader_file),
                                                     "--DEMAND_FILE {}".format(path_demand_file),
                                                     "--HYDROGEN_FILE {}".format(path_hydrogen_file),
-                                                    "--FOLDER_INPUT {}".format(folder_input),
-                                                    "--MODELTYPE {}".format(solver)
+                                                    "--FOLDER_INPUT {}".format(folder_input)
                                                     ] + path_args
 
     # Print the command
@@ -245,9 +244,9 @@ def launch_epm(scenario,
     return None
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None,
-                            solver='MIP', dict_montecarlo=None):
+                            modeltype='MIP', dict_montecarlo=None):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      dict_montecarlo=dict_montecarlo, **path_gams, solver=solver)
+                      dict_montecarlo=dict_montecarlo, **path_gams, modeltype=modeltype)
 
 def launch_epm_multi_scenarios(config='config.csv',
                                scenarios_specification='scenarios.csv',
@@ -262,7 +261,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                interco_assessment=None,
                                simple=None,
                                simulation_label=None,
-                               solver='MIP'):
+                               modeltype='MIP'):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -312,6 +311,9 @@ def launch_epm_multi_scenarios(config='config.csv',
     config = config.dropna()
     # Normalize path
     config = normalize_path(config)
+    
+    if modeltype is not None:
+        config.at['modeltype'] = modeltype
 
     # Add the baseline scenario
     s = {'baseline': config}
@@ -345,11 +347,11 @@ def launch_epm_multi_scenarios(config='config.csv',
     if sensitivity is not None:
         s = perform_sensitivity(sensitivity, s)
 
-    # Set-up project assessment scenarios if activated
+    # Set up project assessment scenarios if activated
     if project_assessment is not None:
         s = perform_assessment(project_assessment, s)
         
-    # Set-up interconnection assessment scenarios if activated
+    # Set up interconnection assessment scenarios if activated
     if interco_assessment is not None:
         s = perform_interco_assessment(interco_assessment, s)
 
@@ -443,7 +445,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     if not montecarlo:
         with Pool(cpu) as pool:
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, solver) for k in s.keys()])
+                                  [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()])
     else:
         # First, run initial scenarios
         # Ensure config file has extended setting to save output
@@ -451,11 +453,11 @@ def launch_epm_multi_scenarios(config='config.csv',
             for k in s.keys():
                 assert s[k]['solvemode'] == '1', 'Parameter solvemode should be set to 1 in the configuration to obtain extended output for the baseline scenarios in the Monte-Carlo analysis.'
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(s[k], k, path_gams, folder_input, solver) for k in s.keys()])
+                                  [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()])
         # Modify config file to ensure limited output saved
         with Pool(cpu) as pool:  # running montecarlo scenarios in multiprocessing
             result = pool.starmap(launch_epm_multiprocess,
-                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, solver, dict_montecarlo) for k in scenarios_montecarlo.keys()])
+                                  [(scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo) for k in scenarios_montecarlo.keys()])
 
     os.chdir(working_directory)
 
@@ -484,9 +486,9 @@ def main(test_args=None):
     )
     
     parser.add_argument(
-        "--solver",
+        "--modeltype",
         type=str,
-        default="MIP",
+        default=None,
         help="Sover to use in GAMS (default: MIP)."
     )
 
@@ -638,7 +640,7 @@ def main(test_args=None):
 
     print(f"Config file: {args.config}")
     print(f"Folder input: {args.folder_input}")
-    print(f"Solver: {args.solver}")
+    print(f"modeltype: {args.modeltype}")
     print(f"Scenarios file: {args.scenarios}")
     print(f"Sensitivity: {args.sensitivity}")
     print(f"MonteCarlo: {args.montecarlo}")
@@ -677,7 +679,7 @@ def main(test_args=None):
                                                     interco_assessment=args.interco_assessment,
                                                     simple=args.simple,
                                                     simulation_label=args.simulation_label,
-                                                    solver=args.solver)
+                                                    modeltype=args.modeltype)
     else:
         print(f"Project folder: {args.postprocess}")
         print("EPM does not run again but use the existing simulation within the folder" )

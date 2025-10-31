@@ -85,7 +85,7 @@ KEYS_RESULTS = {
     'pDiscountedDemandSystemMWh',
     'pYearlySystemAverageCost',
     # 11. Other
-    'pSolverParameters'
+    'pmodeltypeParameters'
 }
 
 FIGURES_ACTIVATED = {
@@ -1386,7 +1386,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                     zone_slug = str(zone).replace(' ', '_')
                     filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{zone_slug}.pdf')
-
+                    
                     make_stacked_barplot(
                         df_zone,
                         filename,
