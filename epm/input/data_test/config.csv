@@ -1,4 +1,5 @@
 metadata,paramNames,file
+Solver,cplexfile,cplex/cplex_baseline.opt
 ,SETTINGS,
 Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
 Planning horizon years (Unit: year),y,y.csv

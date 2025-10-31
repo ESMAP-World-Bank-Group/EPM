@@ -64,8 +64,7 @@ PATH_GAMS = {
     'path_report_file': 'generate_report.gms',
     'path_reader_file': 'input_readers.gms',
     'path_demand_file': 'generate_demand.gms',
-    'path_hydrogen_file': 'hydrogen_module.gms',
-    'path_cplex_file': 'cplex.opt'
+    'path_hydrogen_file': 'hydrogen_module.gms'
 }
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -95,7 +94,6 @@ def launch_epm_checkpoint(scenario,
                path_reader_file='input_readers.gms',
                path_demand_file='generate_demand.gms',
                path_hydrogen_file='hydrogen_module.gms',
-               path_cplex_file='cplex.opt',
                folder_input=None,
                prefix='' #'simulation_'
                ):
@@ -165,7 +163,6 @@ def launch_epm(scenario,
                path_reader_file='input_readers.gms',
                path_demand_file='generate_demand.gms',
                path_hydrogen_file='hydrogen_module.gms',
-               path_cplex_file='cplex.opt',
                solver='MIP',
                folder_input=None,
                dict_montecarlo=None,
@@ -186,8 +183,6 @@ def launch_epm(scenario,
         The path to the GAMS base file
     path_report_file: str
         The path to the GAMS report file
-    path_cplex_file: str
-        The path to the CPLEX file
     folder_input: str, optional, default None
     dict_montecarlo: dict, optional, default None
         Correspondence for solution when running montecarlo scenarios
@@ -207,13 +202,6 @@ def launch_epm(scenario,
     if not os.path.exists(folder):
         os.mkdir(folder)
     cwd = os.path.join(os.getcwd(), folder)
-
-    # Copy and paste cplex file to the simulation folder
-    if '_' in path_cplex_file.split('/')[-1]:
-        new_file_path = os.path.join(cwd, 'cplex.opt')
-        shutil.copy(path_cplex_file, new_file_path)
-    else:
-        shutil.copy(path_cplex_file, cwd)
 
     # Arguments for GAMS
     if dict_montecarlo is not None:  # running in Monte-Carlo setting
@@ -349,7 +337,9 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     # Add full path to the files
     for k in s.keys():
-        s[k] = s[k].apply(lambda i: os.path.join(folder_input, i) if '.csv' in i else i)
+        s[k] = s[k].apply(
+            lambda i: os.path.join(folder_input, i) if any(ext in i for ext in ['.csv', '.opt']) else i
+        )
 
     # Run sensitivity analysis if activated
     if sensitivity is not None:

@@ -37,6 +37,9 @@ Contact:
     Claire Nicolas — c.nicolas@worldbank.org
 **********************************************************************
 """
+import math
+import pandas as pd
+import os
 
 try:
     import chaospy  # optional dependency for Monte Carlo analysis
