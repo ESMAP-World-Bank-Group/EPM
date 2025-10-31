@@ -22,7 +22,7 @@ parts:
       - file: docs/run_summary.md
   - caption: Run Options
     chapters:
-      - file: docs/options_modeltype.md
+      - file: docs/options_solver.md
       - file: docs/options_thread.md
   - caption: Input
     chapters:
