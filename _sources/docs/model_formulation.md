@@ -305,7 +305,7 @@ These are activated through the corresponding Boolean flags in the configuration
 
 ## Integer Decisions
 
-Discrete transmission builds (`vBuildTransmission`) and generator builds/retirements (`vBuiltCapVar`, `vRetireCapVar`) are defined as integer variables. Their bounding equations ensure consistency between the integer choice and the continuous capacity variables.
+Discrete transmission builds (`vBuildTransmissionLine`) and generator builds/retirements (`vBuiltCapVar`, `vRetireCapVar`) are defined as integer variables. Their bounding equations ensure consistency between the integer choice and the continuous capacity variables.
 
 ---
 

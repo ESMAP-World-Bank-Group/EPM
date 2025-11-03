@@ -23,7 +23,7 @@ These symbols are always included in the GDX dump and are also written to CSV by
 | `pCapacitySummary`                | Summary capacity balance by zone and year (existing, new, retirements). | Yes            | Yes (default) |
 | `pCapacitySummaryCountry`         | Summary capacity balance aggregated to the country level.               | Yes            | Yes (default) |
 | `pAnnualTransmissionCapacity`     | Total available annual transfer capacity between zones (MW).            | Yes            | Yes (default) |
-| `pAdditionalTransmissionCapacity` | Incremental transfer capacity required on each interconnector (MW).     | Yes            | Yes (default) |
+| `pNewTransmissionCapacity` | Incremental transfer capacity required on each interconnector (MW).     | Yes            | Yes (default) |
 
 ### Costs and Investment
 
