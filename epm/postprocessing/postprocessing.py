@@ -471,7 +471,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
     df_cost_summary.index.names = ['scenario', 'zone', 'year', 'error']
     df_cost_summary.reset_index(inplace=True)
 
-    costs_notrade = ["Annualized capex: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission costs: $m",
+    costs_notrade = ["Generation costs: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission costs: $m",
                         "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
                         # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
