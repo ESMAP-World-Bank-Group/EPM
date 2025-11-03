@@ -164,9 +164,9 @@ def parse_gams_solver_log(log_text: str) -> Dict[str, Optional[float]]:
         objective_billion_usd = objective_value / 1e9
 
     return {
-        "objective_billion_usd": objective_billion_usd,
-        "elapsed_time_seconds": elapsed_seconds,
-        "peak_memory_mb": peak_memory_mb,
+        "Objective (Billion USD)": objective_billion_usd,
+        "Time (s)": elapsed_seconds,
+        "Peak Memory (Mb)": peak_memory_mb,
     }
 
 
