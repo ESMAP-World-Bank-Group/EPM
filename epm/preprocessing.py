@@ -34,7 +34,7 @@ Notes:
       which will be organized by this script.
 
 Contact:
-    Claire Nicolas — c.nicolas@worldbank.org
+    Claire Nicolas — cnicolas@worldbank.org
 **********************************************************************
 """
 import math
