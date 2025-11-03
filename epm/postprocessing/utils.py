@@ -46,27 +46,61 @@ Contact:
 # The docstring should also provide examples of how to use the function.
 
 # Importing necessary libraries
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
-import numpy as np
-import os
-import gams.transfer as gt
-import seaborn as sns
-from pathlib import Path
-import geopandas as gpd
-from matplotlib.ticker import MaxNLocator, FixedLocator
-import colorsys
-import matplotlib.colors as mcolors
-from PIL import Image
-import base64
-from io import BytesIO
-import io
-from shapely.geometry import Point, Polygon
-from matplotlib.patches import FancyArrowPatch
-from shapely.geometry import LineString, Point, LinearRing
 import argparse
+import base64
+import io
+import os
+import re
 import shutil
+from io import BytesIO
+from pathlib import Path
+from typing import Dict, Optional
+import colorsys
+
+import gams.transfer as gt
+import geopandas as gpd
+import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from matplotlib.patches import FancyArrowPatch, Patch
+from matplotlib.ticker import FixedLocator, MaxNLocator
+from PIL import Image
+from shapely.geometry import LineString, Point, Polygon
+
+
+_DEFAULT_LOGGER = None
+
+
+def set_utils_logger(logger):
+    """Set default logger for utils module."""
+    global _DEFAULT_LOGGER
+    _DEFAULT_LOGGER = logger
+
+
+def _get_logger(logger=None):
+    return logger or _DEFAULT_LOGGER
+
+
+def _log(level, message, logger=None):
+    log = _get_logger(logger)
+    if log:
+        getattr(log, level)(message)
+    else:
+        print(message)
+
+
+def _log_info(message, logger=None):
+    _log('info', message, logger=logger)
+
+
+def _log_warning(message, logger=None):
+    _log('warning', message, logger=logger)
+
+
+def _log_error(message, logger=None):
+    _log('error', message, logger=logger)
 
 
 FUELS = os.path.join('static', 'fuels.csv')
@@ -97,6 +131,96 @@ RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', '
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
                   'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't', 'sumhdr': 'attribute'}
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
+
+
+_FLOAT_PATTERN = r"[+-]?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?"
+_OBJECTIVE_REGEX = re.compile(rf"(?:Objective|Final\s+Solve):\s*({_FLOAT_PATTERN})")
+_ELAPSED_REGEX = re.compile(r"elapsed\s+(\d+):(\d+):(\d+(?:\.\d+)?)", re.IGNORECASE)
+_MEMORY_REGEX = re.compile(rf"({_FLOAT_PATTERN})\s*M[Bb]\b")
+
+
+def parse_gams_solver_log(log_text: str) -> Dict[str, Optional[float]]:
+    """Extract objective, elapsed time, and peak memory metrics from a GAMS log.
+
+    Parameters
+    ----------
+    log_text : str
+        Full text content of a GAMS solver log.
+
+    Returns
+    -------
+    dict
+        Dictionary with keys ``objective_billion_usd``, ``elapsed_time_seconds``
+        and ``peak_memory_mb`` populated when the corresponding metric is
+        present in the log; otherwise the values are ``None``.
+    """
+
+    objective_value = _extract_objective_value(log_text)
+    elapsed_seconds = _extract_elapsed_time_seconds(log_text)
+    peak_memory_mb = _extract_peak_memory_mb(log_text)
+
+    objective_billion_usd = None
+    if objective_value is not None:
+        objective_billion_usd = objective_value / 1e9
+
+    return {
+        "Objective (Billion USD)": objective_billion_usd,
+        "Time (s)": elapsed_seconds,
+        "Peak Memory (Mb)": peak_memory_mb,
+    }
+
+
+def parse_gams_solver_log_file(log_path: Path) -> Dict[str, Optional[float]]:
+    """Read a GAMS log file and parse key metrics.
+
+    Parameters
+    ----------
+    log_path : pathlib.Path
+        Path to the log file.
+
+    Returns
+    -------
+    dict
+        Parsed metrics as returned by :func:`parse_gams_solver_log`.
+    """
+
+    with open(log_path, "r", encoding="utf-8", errors="ignore") as log_file:
+        content = log_file.read()
+    return parse_gams_solver_log(content)
+
+
+def _extract_objective_value(log_text: str) -> Optional[float]:
+    matches = _OBJECTIVE_REGEX.findall(log_text)
+    if not matches:
+        return None
+    try:
+        return float(matches[-1])
+    except ValueError:
+        return None
+
+
+def _extract_elapsed_time_seconds(log_text: str) -> Optional[float]:
+    matches = _ELAPSED_REGEX.findall(log_text)
+    if not matches:
+        return None
+    hours, minutes, seconds = matches[-1]
+    try:
+        total_seconds = (int(hours) * 3600) + (int(minutes) * 60) + float(seconds)
+    except ValueError:
+        return None
+    return total_seconds
+
+
+def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
+    peak_value: Optional[float] = None
+    for match in _MEMORY_REGEX.findall(log_text):
+        try:
+            value = float(match)
+        except ValueError:
+            continue
+        if peak_value is None or value > peak_value:
+            peak_value = value
+    return peak_value
 
 
 def read_plot_specs(folder='postprocessing'):
@@ -236,7 +360,7 @@ def gdx_to_csv(gdx_file, output_csv_folder):
     try:
         container = gt.Container(gdx_file)
     except Exception as e:
-        print(f"Error while loading gdx file : {e}")
+        _log_error(f"Error while loading gdx file : {e}")
         exit()
 
     parameters = [p.name for p in container.getParameters()]
@@ -250,13 +374,13 @@ def gdx_to_csv(gdx_file, output_csv_folder):
             if df is not None:
                 output_csv = os.path.join(output_csv_folder, f"{param}.csv")
                 df.to_csv(output_csv, index=False)  # Sauvegarder en CSV
-                print(f"Folder downloaded : {output_csv}")
+                _log_info(f"Folder downloaded : {output_csv}")
             else:
-                print(f"No data for param : {param}")
+                _log_warning(f"No data for param : {param}")
         except Exception as e:
-            print(f"Error with param {param}: {e}")
+            _log_error(f"Error with param {param}: {e}")
 
-    print("Conversion over! All files saved to folder 'data/'.")
+    _log_info("Conversion over! All files saved to folder 'data/'.")
 
 
 def standardize_names(dict_df, key, mapping, column='fuel'):
@@ -289,7 +413,7 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
 
         dict_df[key] = temp.copy()
     else:
-        print(f'{key} not found in epm_dict')
+        _log_warning(f'{key} not found in epm_dict')
 
 
 def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
@@ -335,13 +459,13 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     # Test if all new fuel values are in dict_specs['fuel_mapping'].values
     for k in df['fuel'].unique():
         if k not in dict_specs['fuel_mapping'].values():
-            print(f'{k} not defined as accepted fuels. Please add it to `postprocessing/static/fuels.csv`.')
+            _log_warning(f'{k} not defined as accepted fuels. Please add it to `postprocessing/static/fuels.csv`.')
 
     df['tech'] = df['tech'].replace(dict_specs['tech_mapping'])
     # Test if all new fuel values are in dict_specs['fuel_mapping'].values
     for k in df['tech'].unique():
         if k not in dict_specs['tech_mapping'].values():
-            print(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
+            _log_warning(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
 
     epm_dict['pGenDataInput'] = df.reset_index()
 
@@ -457,7 +581,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     # Check if all keys are in epm_results
     for k in keys:
         if k not in epm_results.keys():
-            print(f'{k} not in epm_results.keys().')
+            _log_warning(f'{k} not in epm_results.keys().')
         
     # Rename columns
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_results.items() if
@@ -468,8 +592,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         if 'value' in df.columns:
             mask = df['value'].abs() < TOLERANCE
             if mask.any():
-                df.loc[mask, 'value'] = 0.0
-
+                df.drop(df.index[mask], inplace=True)
 
     # Rename variables if needed (could be used to convert legacy names)
     if rename_keys is not None:
@@ -581,41 +704,41 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Average Cost: $/MWh'
         summary.update({'SystemAverageCost': t})
     else:
-        print('No pYearlySystemAverageCost in epm_results')
+        _log_warning('No pYearlySystemAverageCost in epm_results')
         
     if 'pCostsSystem' in epm_results.keys():
         t = epm_results['pCostsSystem'].copy()
         summary.update({'pCostsSystem': t})
     else:
-        print('No pCostsSystem in epm_results')
+        _log_warning('No pCostsSystem in epm_results')
 
     if 'pCostsZonePerMWh' in epm_results.keys():
         t = epm_results['pCostsZonePerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         summary.update({'pCostsZonePerMWh': t})
     else:
-        print('No pCostsZonePerMWh in epm_results')
+        _log_warning('No pCostsZonePerMWh in epm_results')
 
     if 'pCostsCountryPerMWh' in epm_results.keys():
         t = epm_results['pCostsCountryPerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         summary.update({'pCostsCountryPerMWh': t})
     else:
-        print('No pCostsCountryPerMWh in epm_results')
+        _log_warning('No pCostsCountryPerMWh in epm_results')
 
 
     if 'pYearlyCostsCountry' in epm_results.keys():
         t = epm_results['pYearlyCostsCountry'].copy()
         summary.update({'pYearlyCostsCountry': t})
     else:
-        print('No pYearlyCostsCountry in epm_results')
+        _log_warning('No pYearlyCostsCountry in epm_results')
 
     if 'pYearlyCostsZone' in epm_results.keys():
         t = epm_results['pYearlyCostsZone'].copy()
         t = t[t['value'] > 1e-2]
         summary.update({'pYearlyCostsZone': t})
     else:
-        print('No pYearlyCostsZone in epm_results')
+        _log_warning('No pYearlyCostsZone in epm_results')
 
     # 2. Capacity
     
@@ -626,7 +749,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pCapacityFuel': t})
     else:
-        print('No pCapacityFuel in epm_results')
+        _log_warning('No pCapacityFuel in epm_results')
 
     if 'pCapacityFuelCountry' in epm_results.keys():
         t = epm_results['pCapacityFuelCountry'].copy()
@@ -635,7 +758,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pCapacityFuelCountry': t})
     else:
-        print('No pCapacityFuelCountry in epm_results')
+        _log_warning('No pCapacityFuelCountry in epm_results')
 
     if 'pNewCapacityFuel' in epm_results.keys():
         t = epm_results['pNewCapacityFuel'].copy()
@@ -644,7 +767,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pNewCapacityFuel': t})
     else:
-        print('No pNewCapacityFuel in epm_results')
+        _log_warning('No pNewCapacityFuel in epm_results')
 
     if 'pNewCapacityFuelCountry' in epm_results.keys():
         t = epm_results['pNewCapacityFuelCountry'].copy()
@@ -653,7 +776,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pNewCapacityFuelCountry': t})
     else:
-        print('No pNewCapacityFuelCountry in epm_results')
+        _log_warning('No pNewCapacityFuelCountry in epm_results')
 
     if 'pAnnualTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -661,7 +784,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         summary.update({'pAnnualTransmissionCapacity': t})
     else:
-        print('No pAnnualTransmissionCapacity in epm_results')
+        _log_warning('No pAnnualTransmissionCapacity in epm_results')
         
     if 'pAdditionalTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAdditionalTransmissionCapacity'].copy()
@@ -670,7 +793,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pAdditionalTransmissionCapacity': t})
     else:
-        print('No pAdditionalTransmissionCapacity in epm_results')
+        _log_warning('No pAdditionalTransmissionCapacity in epm_results')
 
     # 3. Energy balance
 
@@ -680,7 +803,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
         summary.update({'pEnergyBalance': t})
     else:
-        print('No pEnergyBalance in epm_results')
+        _log_warning('No pEnergyBalance in epm_results')
 
     if 'pEnergyFuel' in epm_results.keys():
         t = epm_results['pEnergyFuel'].copy()
@@ -689,7 +812,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pEnergyFuel': t})
     else:
-        print('No pEnergyFuel in epm_results')
+        _log_warning('No pEnergyFuel in epm_results')
     
     if 'pEnergyFuelCountry' in epm_results.keys():
         t = epm_results['pEnergyFuelCountry'].copy()
@@ -698,7 +821,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pEnergyFuelCountry': t})
     else:
-        print('No pEnergyFuelCountry in epm_results')
+        _log_warning('No pEnergyFuelCountry in epm_results')
        
     # 5. Reserves
     
@@ -708,14 +831,14 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Spinning Reserve: GWh'
         summary.update({'pReserveSpinningPlantZone': t})
     else:
-        print('No pReserveSpinningPlantZone in epm_results')
+        _log_warning('No pReserveSpinningPlantZone in epm_results')
 
     if 'pReserveMarginCountry' in epm_results.keys():
         t = epm_results['pReserveMarginCountry'].copy()
         t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
         summary.update({'pReserveMarginResCountry': t})
     else:
-        print('No pReserveMarginCountry in epm_results')
+        _log_warning('No pReserveMarginCountry in epm_results')
 
     # 6. Interconnections
     
@@ -725,7 +848,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         summary.update({'pInterchange': t})
     else:
-        print('No pInterchange in epm_results')
+        _log_warning('No pInterchange in epm_results')
             
     if 'pInterchangeExternalExports' in epm_results.keys():
         t = epm_results['pInterchangeExternalExports'].copy()
@@ -733,7 +856,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'zext': 'resolution'}, inplace=True)
         summary.update({'pInterchangeExternalExports': t})
     else:
-        print('No pInterchangeExternalExports in epm_results')
+        _log_warning('No pInterchangeExternalExports in epm_results')
         
     if 'pInterchangeExternalImports' in epm_results.keys():
         t = epm_results['pInterchangeExternalImports'].copy()
@@ -741,7 +864,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'zext': 'resolution'}, inplace=True)
         summary.update({'pInterchangeExternalImports': t})
     else:
-        print('No pInterchangeExternalImports in epm_results')
+        _log_warning('No pInterchangeExternalImports in epm_results')
 
     # 7. Emissions
 
@@ -750,14 +873,14 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Emissions: MtCO2'
         summary.update({'pEmissionsZone': t})
     else:
-        print('No pEmissionsZone in epm_results')
+        _log_warning('No pEmissionsZone in epm_results')
 
     if 'pEmissionsIntensityZone' in epm_results.keys():
         t = epm_results['pEmissionsIntensityZone'].copy()
         t['attribute'] = 'Emissions: tCO2/GWh'
         summary.update({'pEmissionsIntensityZone': t})
     else:
-        print('No pEmissionsIntensityZone in epm_results')
+        _log_warning('No pEmissionsIntensityZone in epm_results')
 
     # 8. Prices
     
@@ -766,7 +889,7 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Price: $/MWh'
         summary.update({'pYearlyPriceHub': t})
     else:
-        print('No pYearlyPriceHub in epm_results')
+        _log_warning('No pYearlyPriceHub in epm_results')
 
 
     # Concatenate all dataframes in the summary dictionary
@@ -776,7 +899,7 @@ def generate_summary(epm_results, folder, epm_input):
     # Define the order that will appear in the summary.csv file
     if False:
         order = ['NPV of system cost: $m',
-                "Annualized capex: $m",
+                "Generation costs: $m",
                 "Fixed O&M: $m",
                 "Variable O&M: $m",
                 "Fuel costs: $m",
@@ -868,7 +991,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Capacity: MW': temp.copy()})
     else:
-        print('No pCapacityPlan in epm_results')
+        _log_warning('No pCapacityPlan in epm_results')
 
     if 'pUtilizationPlant' in epm_results.keys():
         temp = epm_results['pUtilizationPlant'].copy()
@@ -876,7 +999,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Utilization: percent': temp.copy()})
     else:
-        print('No pUtilizationPlant in epm_results')
+        _log_warning('No pUtilizationPlant in epm_results')
 
     if 'pEnergyPlant' in epm_results.keys():
         temp = epm_results['pEnergyPlant'].copy()
@@ -884,7 +1007,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Energy: GWh': temp.copy()})
     else:
-        print('No pEnergyPlant in epm_results')
+        _log_warning('No pEnergyPlant in epm_results')
 
     if 'pReserveSpinningPlantZone' in epm_results.keys():
         temp = epm_results['pReserveSpinningPlantZone'].copy()
@@ -892,7 +1015,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
     else:
-        print('No pReserveSpinningPlantZone in epm_results')
+        _log_warning('No pReserveSpinningPlantZone in epm_results')
 
     if 'pCostsPlant' in epm_results.keys():
         temp = epm_results['pCostsPlant'].copy()
@@ -903,7 +1026,7 @@ def generate_plants_summary(epm_results, folder):
         grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
         summary_detailed.update(grouped_dfs)
     else:
-        print('No pCostsPlant in epm_results')
+        _log_warning('No pCostsPlant in epm_results')
 
     if 'pPlantAnnualLCOE' in epm_results.keys():
         temp = epm_results['pPlantAnnualLCOE'].copy()
@@ -911,7 +1034,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'LCOE: $/MWH': temp.copy()})
     else:
-        print('No pPlantAnnualLCOE in epm_results')
+        _log_warning('No pPlantAnnualLCOE in epm_results')
 
     summary_detailed = pd.concat(summary_detailed).round(2)
     summary_detailed.index.names = ['Variable', '']
@@ -987,6 +1110,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
         return mcolors.to_hex(new_rgb)
 
     RESULTS_FOLDER = path_to_extract_results(FOLDER)
+    _log_info(f"Processing simulation results from {RESULTS_FOLDER}")
 
     # Read the plot specifications
     dict_specs = read_plot_specs()
@@ -1002,6 +1126,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
     epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
                                         mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
                                         keys=keys_results)
+    _log_info(f"Loaded {len(epm_results)} processed result tables")
 
     # Update color dict with plant colors
     if True:
@@ -1050,6 +1175,6 @@ def generate_summary_excel(results_folder, template_file="epm_results_summary_di
                 df_temp = df_temp[col_order]
                 df_temp.to_excel(writer, sheet_name=tab, index=False)
             else:
-                print(f"No data for '{tab}' — ignored")
+                _log_warning(f"No data for '{tab}' — ignored")
 
-    print(f"Excel generated : {output_file}")
+    _log_info(f"Excel generated : {output_file}")

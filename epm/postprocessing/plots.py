@@ -2256,6 +2256,8 @@ def heatmap_difference_plot(
         diff_annotations = diff_percentage.applymap(_fmt_pct)
     else:
         diff_annotations = diff_absolute.map(lambda x: f" ({x:+,.0f})")
+    # Drop difference annotation for the reference column since the delta is always zero
+    diff_annotations[reference] = ""
     combined_annotations = annotations + diff_annotations  # Combine both
 
     # Normalize the color scale by column
@@ -2509,30 +2511,32 @@ def make_heatmap_plot(
     frames.append(capacity_summary)
 
     # 4. Transmission capacity (no double counting) in final year
-    transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
-    transmission_year = _resolve_year(transmission_all)
-    transmission = transmission_all.copy()
-    if zone_list is not None and {'zone', 'z2'}.issubset(transmission.columns):
-        transmission = transmission[
-            transmission['zone'].isin(zone_list) | transmission['z2'].isin(zone_list)
-        ]
-    transmission_year_df = transmission[transmission['year'] == transmission_year].copy()
-    if not transmission_year_df.empty:
-        transmission_year_df['pair'] = transmission_year_df.apply(
-            lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
-        )
-        transmission_summary = (
-            transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
-            .max()
-            .groupby('scenario')
-            .sum()
-            .to_frame(f'Transmission capacity {transmission_year} (MW)')
-        )
-    else:
-        transmission_summary = pd.DataFrame(
-            columns=[f'Transmission capacity {transmission_year} (MW)']
-        ).astype(float)
-    frames.append(transmission_summary)
+    # optional argument for 1-zone model
+    if 'pAnnualTransmissionCapacity' in epm_results.keys():
+        transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
+        transmission_year = _resolve_year(transmission_all)
+        transmission = transmission_all.copy()
+        if zone_list is not None and {'zone', 'z2'}.issubset(transmission.columns):
+            transmission = transmission[
+                transmission['zone'].isin(zone_list) | transmission['z2'].isin(zone_list)
+            ]
+        transmission_year_df = transmission[transmission['year'] == transmission_year].copy()
+        if not transmission_year_df.empty:
+            transmission_year_df['pair'] = transmission_year_df.apply(
+                lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
+            )
+            transmission_summary = (
+                transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
+                .max()
+                .groupby('scenario')
+                .sum()
+                .to_frame(f'Transmission capacity {transmission_year} (MW)')
+            )
+        else:
+            transmission_summary = pd.DataFrame(
+                columns=[f'Transmission capacity {transmission_year} (MW)']
+            ).astype(float)
+        frames.append(transmission_summary)
 
     # 5. Cumulative CAPEX by component up to final year
     capex_component_all = _get_dataframe('pCapexInvestmentComponent')

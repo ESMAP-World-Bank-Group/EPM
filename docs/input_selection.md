@@ -29,7 +29,8 @@ Only a few additional options are specified directly in `config.csv`:
 | `solvemode`   | How the model is solved:<br> `2` = normal (default)<br> `1` = write savepoint `PA_pd.gdx`<br> `0` = generate model only (no solve) |
 | `trace`       | Logging verbosity:<br> `0` = minimal (default)<br> `1` = detailed debugging output                                                 |
 | `reportshort` | Report size:<br> `0` = full report (default)<br> `1` = compact report for multiple runs (e.g., Monte Carlo)                        |
-| `modeltype`   | Solver type:<br> `MIP` = default<br> `RMIP` = force LP relaxation                                                                  |
+| `modeltype`   | Solver formulation:<br> `MIP` = default mixed-integer run<br> `RMIP` = relax integrality for debugging or bounds                   |
+| `cplexfile`   | Relative path to the CPLEX options file (for example `cplex/cplex_baseline.opt`) that sets detailed solver controls               |
 
 ---
 
