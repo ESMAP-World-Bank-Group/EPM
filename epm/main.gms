@@ -657,8 +657,8 @@ vNewTransmissionLine.fx(commtransmission(z,z2),y)$((symmax(pNewTransmission,z,z2
 vNewTransmissionLine.fx(commtransmission(z,z2),y)$(not sAdditionalTransfer(z,z2,y) and fAllowTransferExpansion) = 0;
 
 * Compute bounds 
-vBuildTransmission.lo(sTopology(z,z2),y) = max(0,vNewTransmissionLine.lo(z,z2,y) - vNewTransmissionLine.up(z,z2,y-1));
-vBuildTransmission.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z2,y) - vNewTransmissionLine.lo(z,z2,y-1));
+vBuildTransmissionLine.lo(sTopology(z,z2),y) = max(0,vNewTransmissionLine.lo(z,z2,y) - vNewTransmissionLine.up(z,z2,y-1));
+vBuildTransmissionLine.up(sTopology(z,z2),y) = max(0,vNewTransmissionLine.up(z,z2,y) - vNewTransmissionLine.lo(z,z2,y-1));
 
 * Fix the storage build variable to zero if the project started before the model start year and storage is included
 vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) = 0;

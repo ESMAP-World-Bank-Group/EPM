@@ -31,7 +31,7 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | pNewCapacityFuelCountry         | Newly added capacity \[MW\] by fuel and country                     | Yes            | Yes        |
 | pNewCapacityTechCountry         | Newly added capacity \[MW\] by technology and country               | Yes            | No         |
 | pAnnualTransmissionCapacity     | Total available transmission capacity \[MW\] between internal zones | Yes            | Yes        |
-| pAdditionalTransmissionCapacity | Additional transmission capacity \[MW\] between internal zones      | Yes            | Yes        |
+| pNewTransmissionCapacity | Additional transmission capacity \[MW\] between internal zones      | Yes            | Yes        |
 | pCapacitySummary                | Summary of capacity indicators \[MW\] by zone and year              | Yes            | Yes        |
 | pCapacitySummaryCountry         | Summary of capacity indicators \[MW\] by country and year           | Yes            | Yes        |
 
