@@ -2256,6 +2256,8 @@ def heatmap_difference_plot(
         diff_annotations = diff_percentage.applymap(_fmt_pct)
     else:
         diff_annotations = diff_absolute.map(lambda x: f" ({x:+,.0f})")
+    # Drop difference annotation for the reference column since the delta is always zero
+    diff_annotations[reference] = ""
     combined_annotations = annotations + diff_annotations  # Combine both
 
     # Normalize the color scale by column

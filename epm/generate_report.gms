@@ -32,7 +32,7 @@ $onMulti
 * Report
 
 set sumhdr /
-  "Annualized capex: $m",
+  "Generation costs: $m",
   "Fixed O&M: $m",
   "Variable O&M: $m",
   "Fuel costs: $m",
@@ -422,7 +422,7 @@ pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
 
 * Reporting costs by plant
 * Plant-level cost reporting (prettier formatting)
-pCostsPlant(z, g, "Annualized capex: $m", y) =
+pCostsPlant(z, g, "Generation costs: $m", y) =
   vAnnGenCapex.l(g, y) / 1e6;
 
 pCostsPlant(z, g, "Fixed O&M: $m", y) =
@@ -446,7 +446,7 @@ pCostsPlant(z, g, "Spinning Reserve Cost: $m", y) =
 * ---------------------------------------------------------
 * Plant-level CAPEX investment breakdown [USD]
 * ---------------------------------------------------------
-* Stores the non-annualized CAPEX flows for each plant and
+* Stores the non-Generation costs flows for each plant and
 * component so that we can add dedicated transmission and
 * hydrogen entries later on.
 * ---------------------------------------------------------
@@ -589,7 +589,7 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 * at the zonal level in million $.
 *
 * Categories included:
-*   - Annualized CAPEX
+*   - Generation costs
 *   - Fixed O&M
 *   - Variable O&M
 *   - Fuel costs
@@ -605,7 +605,7 @@ pDemand(y) = sum(z, pDemandZone(z,y));
 * ---------------------------------------------------------
 
 * Investment-related costs
-pYearlyCostsZone(z, "Annualized capex: $m", y) =
+pYearlyCostsZone(z, "Generation costs: $m", y) =
   vAnnCapex.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Transmission costs: $m", y) =
@@ -1169,7 +1169,7 @@ pStorageComponents(stg,"Storage Hours"         ,y) = vCapStor.l(stg,y)/max(vCap.
 *   - pSolarPower: hourly solar generation
 *   - pSolarEnergyZone: total annual solar energy (MWh)
 *   - pSolarValueZone: average market value of solar ($/MWh)
-*   - pSolarCost: levelized cost of solar based on annualized CAPEX ($/MWh)
+*   - pSolarCost: levelized cost of solar based on Generation costs ($/MWh)
 * ---------------------------------------------------------
 
 set PVtech(tech) / PV, PVwSTO /;
@@ -1198,7 +1198,7 @@ pPlantEnergyMWh(z,g,y)$pEnergyPlant(z,g,y) = pEnergyPlant(z,g,y)*1e3;
 
 * LCOE for new capacity plants (without direct spinning reserve cost)
 pPlantAnnualLCOE(z,g,y)$pPlantEnergyMWh(z,g,y) =
-    ( pCostsPlant(z, g, "Annualized capex: $m", y)
+    ( pCostsPlant(z, g, "Generation costs: $m", y)
     + pCostsPlant(z, g, "Variable Cost: $m", y) 
     + pCostsPlant(z, g, "Variable Cost: $m", y) ) / pPlantEnergyMWh(z,g,y);
 
@@ -1245,7 +1245,7 @@ pZoneTradeCost(z,y) =
 
 * Generation-only cost
 pZoneGenCost(z,y) =
-      1e6 * (pYearlyCostsZone(z,"Annualized capex: $m",y)
+      1e6 * (pYearlyCostsZone(z,"Generation costs: $m",y)
     + pYearlyCostsZone(z,"Fixed O&M: $m",y)
     + pYearlyCostsZone(z,"Variable O&M: $m",y)
     + pYearlyCostsZone(z,"Fuel costs: $m",y)
@@ -1363,7 +1363,7 @@ pYearlyAverageCostCountry(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
 * System average cost [$ / MWh]
 * ---------------------------------------------------------
 * For each year y:
-*   Numerator = trade costs + annualized CAPEX + O&M costs
+*   Numerator = trade costs + Generation costs + O&M costs
 *   Denominator = system-wide net imports + total energy produced
 *
 * Result = system average cost of supplying electricity
