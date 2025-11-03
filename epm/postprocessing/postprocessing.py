@@ -106,7 +106,7 @@ KEYS_RESULTS = {
     'pCapacityPlant', 
     'pCapacityFuel', 'pCapacityFuelCountry',
     'pNewCapacityFuel', 'pNewCapacityFuelCountry',
-    'pAnnualTransmissionCapacity', 'pAdditionalTransmissionCapacity',
+    'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
     'pPrice',
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',

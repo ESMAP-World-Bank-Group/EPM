@@ -24,7 +24,7 @@
 * - The model requires input data in .GDX or Excel format.
 *
 * Contact:
-* Claire Nicolas, c.nicolas@worldbank.org
+* Claire Nicolas, cnicolas@worldbank.org
 **********************************************************************
 
 
@@ -113,6 +113,7 @@ Parameters
 * ============================================================
 
   pCapacityPlant(z,g,y)                      'Installed capacity [MW] by plant, zone, and year'
+  pNewCapacityPlant(z,g,y)                   'Newly added capacity [MW] by plant, zone, and year'
   pCapacityTechFuel(z,tech,f,y)              'Installed capacity [MW] by technology, fuel, and zone'
   pCapacityFuel(z,f,y)                       'Installed capacity [MW] by fuel and zone'
   pCapacityTechFuelCountry(c,tech,f,y)       'Installed capacity [MW] by technology, fuel, and country'
@@ -128,8 +129,9 @@ Parameters
   pNewCapacityFuelCountry(c,f,y)             'Newly added capacity [MW] by fuel and country'
   pNewCapacityTechCountry(c,tech,y)          'Newly added capacity [MW] by technology and country'
   
+  pAdditionalTransmissionCapacity(z, z2, y)
   pAnnualTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
-  pAdditionalTransmissionCapacity(z,z2,y)    'Additional transmission capacity [MW] between internal zones'
+  pNewTransmissionCapacity(z,z2,y)           'New transmission capacity built [MW] between internal zones'
 
   pCapacitySummary(z,*,y)                    'Summary of capacity indicators [MW] by zone and year'
   pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
@@ -309,6 +311,8 @@ Parameters
 
 pCapacityPlant(zgmap(z,g),y)                 = vCap.l(g,y);
 
+pNewCapacityPlant(zgmap(z,g),y)              = vBuild.l(g,y);
+
 pRetirementsPlant(zgmap(z,g),y)                  = vRetire.l(g,y);
 
 * ---------------------------------------------------------
@@ -346,14 +350,19 @@ pRetirementsFuel(z, f, y) =
 * ---------------------------------------------------------
 * Transmission capacity expansion and annual limits
 * ---------------------------------------------------------
-* pAdditionalTransmissionCapacity:
-*   - New transmission capacity added between zones
-*   - Based on build decision, per-line capacity, and allowed factor
+* pNewTransmissionCapacity:
+*   - Incremental transmission capacity built in year y
+*   - Based on yearly build decisions and per-line capacity
 *
 * pAnnualTransmissionCapacity:
 *   - Total available transfer capacity in a year
 *   - Equals existing maximum transfer limit plus any new additions
 * ---------------------------------------------------------
+
+pNewTransmissionCapacity(sTopology(z,z2),y) =
+  vBuildTransmissionLine.l(z,z2,y)
+  * symmax(pNewTransmission,z,z2,"CapacityPerLine")
+  * fAllowTransferExpansion;
 
 pAdditionalTransmissionCapacity(sTopology(z,z2),y) = vNewTransmissionLine.l(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;                                                                                                        
 pAnnualTransmissionCapacity(sTopology(z,z2),y) = pAdditionalTransmissionCapacity(z,z2,y) + smax(q, pTransferLimit(z,z2,q,y)) ; 
@@ -476,13 +485,13 @@ pCapexInvestmentComponent(z, "Hydrogen", y)$pfEnableH2Production =
 * Transmission CAPEX additions
 pCapexInvestmentComponent(z, "Transmission", y)$(fAllowTransferExpansion and sum(sTopology(z, z2), 1)) =
   0.5 * sum(sTopology(z, z2),
-    vBuildTransmission.l(z, z2, y)
+    vBuildTransmissionLine.l(z, z2, y)
     * symmax(pNewTransmission, z, z2, "CostPerLine")
     * 1e6
   );
 
 pCapexInvestmentTransmission(sTopology(z, z2), y)$fAllowTransferExpansion =
-  0.5 * vBuildTransmission.l(z, z2, y)
+  0.5 * vBuildTransmissionLine.l(z, z2, y)
   * symmax(pNewTransmission, z, z2, "CostPerLine")
   * 1e6;
 
@@ -1432,9 +1441,10 @@ embeddedCode Connect:
       symbols = [
       
         "pCapacityPlant",
+        "pNewCapacityPlant",
         "pCapacityFuel",
         "pCapacityFuelCountry",
-        "pAdditionalTransmissionCapacity",
+        "pNewTransmissionCapacity",
         "pNewCapacityFuel",
         "pNewCapacityFuelCountry",
         "pAnnualTransmissionCapacity",
@@ -1513,10 +1523,10 @@ $ifThenI.reportshort %REPORTSHORT% == 0
     execute_unload 'epmresults',
       pSettings,
 * 1. CAPACITY
-      pCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
+      pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
       pNewCapacityFuel, pNewCapacityTech, pNewCapacityFuelCountry, pNewCapacityTechCountry,
-      pAnnualTransmissionCapacity, pAdditionalTransmissionCapacity,
+      pAnnualTransmissionCapacity, pNewTransmissionCapacity,
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
       pCostsPlant, 

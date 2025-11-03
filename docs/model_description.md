@@ -26,14 +26,14 @@ Key variables include:
 
 - `vPwrOut(g,f,q,d,t,y)`: dispatched power by generator, fuel, and time slice.
 - `vCap(g,y)`, `vBuild(g,y)`, `vRetire(g,y)`: installed capacity and annual build/retirement decisions.
-- `vFlow(z,z2,q,d,t,y)`: internal transmission flows; `vNewTransmissionLine(z,z2,y)` and `vBuildTransmission(z,z2,y)` capture expansion choices.
+- `vFlow(z,z2,q,d,t,y)`: internal transmission flows; `vNewTransmissionLine(z,z2,y)` and `vBuildTransmissionLine(z,z2,y)` capture expansion choices.
 - `vYearlyImportExternal`/`vYearlyExportExternal`: exchanges with external zones.
 - `vStorage`, `vStorInj`, `vStorOut`, `vCapStor`: state variables for batteries and CSP storage.
 - `vSpinningReserve`, `vUnmetSpinningReserve*`, `vUnmetPlanningReserve*`: reserve provision and slack variables.
 - `vUSE`, `vSurplus`: unmet demand and surplus energy.
 - Cost-reporting variables such as `vYearlyTotalCost`, `vYearlyFuelCost`, `vYearlyCarbonCost`, etc., which feed directly into the objective.
 
-Integer variables (`vBuiltCapVar`, `vRetireCapVar`, `vBuildTransmission`) enforce discrete investments when specified in the data.
+Integer variables (`vBuiltCapVar`, `vRetireCapVar`, `vBuildTransmissionLine`) enforce discrete investments when specified in the data.
 
 ## Objective Function
 
