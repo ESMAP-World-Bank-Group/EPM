@@ -1,5 +1,6 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
-Uganda,Tanzania,2030,1,1000,500,40,2
-Ethiopia,Somaliland,2031,1,250,220,40,2
-Ethiopia,SouthSudan,2032,1,150,150,40,2
-Uganda,Drc_E,2033,1,150,150,40,2
+Uganda,Tanzania,2030,1,1000,591,40,2
+Ethiopia,Somaliland,2031,1,250,709,40,2
+Burundi,Tanzania,2034,1,150,250,40,2
+Uganda,Drc_E,2033,1,150,205,40,2
+Ethiopia,Mogadishu,2031,1,250,500,40,2
