@@ -151,22 +151,22 @@ def _log_solver_metrics_for_scenario(
         return
 
     parts = []
-    objective = metrics.get("objective_billion_usd")
+    objective = metrics.get("Objective (Billion USD)")
     if objective is not None:
         parts.append(f"objective {objective:.3f} B$")
 
-    elapsed = metrics.get("elapsed_time_seconds")
+    elapsed = metrics.get("Time (s)")
     if elapsed is not None:
         parts.append(f"elapsed {elapsed:.3f} s")
 
-    peak_memory = metrics.get("peak_memory_mb")
+    peak_memory = metrics.get("Peak Memory (Mb)")
     if peak_memory is not None:
         parts.append(f"peak memory {peak_memory:.1f} MB")
 
     summary = {
-        "objective_billion_usd": objective,
-        "elapsed_time_seconds": elapsed,
-        "peak_memory_mb": peak_memory,
+        "Objective (Billion USD)": objective,
+        "Time (s)": elapsed,
+        "Peak Memory (Mb)": peak_memory,
     }
 
     if parts:
@@ -200,9 +200,9 @@ def _write_solver_metrics_table(
         rows.append(
             {
                 "scenario": scenario,
-                "objective_billion_usd": item.get("objective_billion_usd"),
-                "elapsed_time_seconds": item.get("elapsed_time_seconds"),
-                "peak_memory_mb": item.get("peak_memory_mb"),
+                "Objective (Billion USD)": item.get("Objective (Billion USD)"),
+                "Time (s)": item.get("Time (s)"),
+                "Peak Memory (Mb)": item.get("Peak Memory (Mb)"),
             }
         )
 
@@ -214,9 +214,9 @@ def _write_solver_metrics_table(
     df_metrics = df_metrics[
         [
             "scenario",
-            "objective_billion_usd",
-            "elapsed_time_seconds",
-            "peak_memory_mb",
+            "Objective (Billion USD)",
+            "Time (s)",
+            "Peak Memory (Mb)",
         ]
     ]
 
@@ -411,9 +411,9 @@ def launch_epm(scenario,
     return {
         "scenario": scenario_name,
         "logfile": logfile,
-        "objective_billion_usd": metrics.get("objective_billion_usd"),
-        "elapsed_time_seconds": metrics.get("elapsed_time_seconds"),
-        "peak_memory_mb": metrics.get("peak_memory_mb"),
+        "Objective (Billion USD)": metrics.get("Objective (Billion USD)"),
+        "Time (s)": metrics.get("Time (s)"),
+        "Peak Memory (Mb)": metrics.get("Peak Memory (Mb)"),
     }
 
 
