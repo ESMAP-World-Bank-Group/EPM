@@ -153,7 +153,8 @@ FIGURES_ACTIVATED = {
     'CapacityMixEvolutionZone': True,
     'CapacityMixZoneScenarios': True,
     'CapacityMixZoneScenariosRelative': True,
-    'NewCapacityInstalledTimeline': True,
+    'NewCapacityZoneInstalledTimeline': True,
+    'NewCapacitySystemInstalledTimeline': True,
     
     # 2. Cost figures
     'NPVCostSystemScenarios': True,
@@ -928,19 +929,19 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                 title=f'Installed Capacity Mix vs Baseline - {year} (GW)')
                                                 
             # 1.4 New capacity timeline      
-            figure_name = 'NewCapacityInstalledTimeline'
-            if FIGURES_ACTIVATED.get(figure_name, False):
-                # 1.4 New capacity installed per zone
-                for scenario in [scenario_reference]:
-                                    
-                    # System-level
+            figure_name_zone = 'NewCapacityZoneInstalledTimeline'
+            if FIGURES_ACTIVATED.get(figure_name_zone, False):
+                df_capacity = epm_results['pCapacityPlant'].copy()
+                unique_zones = df_capacity.zone.unique()
 
-                    for zone in epm_results['pCapacityPlant'].zone.unique():
-                        df_generation = epm_results['pCapacityPlant'].copy()
-                        df_generation = df_generation[
-                            (df_generation['scenario'] == scenario) & (df_generation['zone'] == zone)
-                        ]
-                        df_generation = df_generation.copy()
+                for scenario in [scenario_reference]:
+                    for zone in unique_zones:
+                        df_generation = df_capacity[
+                            (df_capacity['scenario'] == scenario) & (df_capacity['zone'] == zone)
+                        ].copy()
+                        if df_generation.empty:
+                            continue
+
                         df_generation['annotation_label'] = df_generation['generator'].astype(str).apply(
                             lambda name: ('Generation', name)
                         )
@@ -992,8 +993,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                         if df_zone.empty:
                             continue
-                    
-                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}-{zone}.pdf')
+
+                        filename = os.path.join(subfolders['1_capacity'], f'{figure_name_zone}-{scenario}-{zone}.pdf')
                         make_stacked_areaplot(
                             df_zone,
                             filename,
@@ -1006,6 +1007,86 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                             annotation_template="{category}: {value:.0f} MW",
                             title=f'Installed Capacity {zone} - {scenario} [MW]'
                         )
+
+            figure_name_system_base = 'NewCapacitySystemInstalledTimeline'
+            for scenario in selected_scenarios:
+                figure_name_system = f'{figure_name_system_base}-{scenario}'
+                if not (
+                    FIGURES_ACTIVATED.get(figure_name_system, False)
+                    or FIGURES_ACTIVATED.get(figure_name_system_base, False)
+                ):
+                    continue
+
+                df_generation_system = epm_results['pCapacityPlant'].copy()
+                df_generation_system = df_generation_system[
+                    df_generation_system['scenario'] == scenario
+                ].copy()
+                if df_generation_system.empty and 'pAnnualTransmissionCapacity' not in epm_results:
+                    continue
+
+                if not df_generation_system.empty:
+                    df_generation_system['zone'] = 'System'
+                    df_generation_system['annotation_label'] = df_generation_system['generator'].astype(str).apply(
+                        lambda name: ('Generation', name)
+                    )
+
+                df_transmission_system = pd.DataFrame()
+                if 'pAnnualTransmissionCapacity' in epm_results:
+                    df_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                    if 'scenario' in df_transmission.columns:
+                        df_transmission = df_transmission[df_transmission['scenario'] == scenario]
+                    else:
+                        df_transmission = df_transmission.assign(scenario=scenario)
+
+                    if not df_transmission.empty:
+                        line_names = (
+                            df_transmission[['zone', 'z2']]
+                            .astype(str)
+                            .apply(lambda row: '-'.join(sorted(row)), axis=1)
+                        )
+                        df_transmission = df_transmission.assign(
+                            generator=line_names,
+                            fuel='Transmission',
+                            zone='System',
+                            annotation_label=line_names.apply(lambda name: ('Transmission', name))
+                        )
+                        df_transmission_system = (
+                            df_transmission[
+                                ['scenario', 'year', 'fuel', 'generator', 'annotation_label', 'value', 'zone']
+                            ]
+                            .groupby(
+                                ['scenario', 'year', 'fuel', 'generator', 'annotation_label', 'zone'],
+                                observed=False
+                            )['value']
+                            .max()
+                            .reset_index()
+                        )
+
+                df_system = pd.concat(
+                    [
+                        df_generation_system,
+                        df_transmission_system
+                    ],
+                    ignore_index=True,
+                    sort=False
+                )
+
+                if df_system.empty:
+                    continue
+
+                filename = os.path.join(subfolders['1_capacity'], f'{figure_name_system}.pdf')
+                make_stacked_areaplot(
+                    df_system,
+                    filename,
+                    colors=dict_specs['colors'],
+                    column_xaxis='year',
+                    column_value='value',
+                    format_y=make_auto_yaxis_formatter("MW"),
+                    column_stacked='fuel',
+                    annotation_source='annotation_label',
+                    annotation_template="{category}: {value:.0f} MW",
+                    title=f'Installed Capacity System - {scenario} [MW]'
+                )
                 
             
             # ------------------------------------------------------------------------------------
