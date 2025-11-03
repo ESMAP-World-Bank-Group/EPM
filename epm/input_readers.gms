@@ -28,10 +28,6 @@
 **********************************************************************
 
 
-
-$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_test"
-$log FOLDER_INPUT is "%FOLDER_INPUT%"
-
 $if not set TRACE $set TRACE 0
 
 * Define by default path

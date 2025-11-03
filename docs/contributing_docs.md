@@ -8,7 +8,6 @@ All markdown files for the documentation are in the `docs/` folder. To contribut
 
 ## How to update and improve the documentation
 
-
 When contributing to the EPM documentation, please follow these steps to keep your changes compatible with the latest version of the project.
 
 ### 1 Recommended setup

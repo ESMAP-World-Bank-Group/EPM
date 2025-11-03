@@ -36,28 +36,56 @@ $if not set DEBUG $set debug 0
 $if not set EPMVERSION    $set EPMVERSION    9.0
 
 * Turn on/off additional information to the listing file
-Option limRow=0, limCol=0, sysOut=off, solPrint=off;
+option limRow=0, limCol=0, sysOut=off, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
-$if %DEBUG%==1 Option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
+$if %DEBUG%==1 option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
+
+*-------------------------------------------------------------------------------------
 
 * Useful for Python import
 $setglobal modeldir %system.fp%
 
+*-------------------------------------------------------------------------------------
+
+* Folder input
+$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_test"
+$log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 *-------------------------------------------------------------------------------------
 
+* By default modeltype is MIP
 $if not set MODELTYPE $set MODELTYPE MIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
-
-* Use the relevant cplex file
 $if not set MODELTYPE   $set MODELTYPE MIP
 
-$if not set CPLEXFILE   $set CPLEXFILE cplex/cplex_mip_fast.opt
-$ifi %MODELTYPE% == RMIP $set CPLEXFILE cplex/cplex_rmip_fast.opt
+* Use the relevant cplex file
+$if not set CPLEXFILE   $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_mip_fast.opt
+$ifi %MODELTYPE% == RMIP $set CPLEXFILE %FOLDER_INPUT%/cplex/cplex_rmip_fast.opt
 
 $log CPLEXFILE is "%CPLEXFILE%"
 $call rm -f cplex.opt
 $call cp "%CPLEXFILE%" cplex.opt
+
+* Define modeltype-related options
+Scalar
+   modeltypeThreads 'Number of threads available to the modeltypes' /1/
+   modeltypeOptCR   'Relative gap for MIP modeltype'                /0.05/
+   modeltypeResLim  'modeltype time limit'                          /300000/
+;   
+Singleton Set
+   NLPmodeltype 'Selected NLP modeltype' / '' 'conopt4' /
+   MIPmodeltype 'Selected MIP modeltype' / '' 'cplex' /
+;
+
+* Evaluate and assign modeltype settings as macros
+$eval     modeltypeTHREADS modeltypeThreads
+$eval     modeltypeOPTCR   modeltypeOptCR
+$eval     modeltypeRESLIM  modeltypeResLim
+$eval.set NLPmodeltype     NLPmodeltype.te
+$eval.set MIPmodeltype     MIPmodeltype.te
+
+* Apply modeltype settings to GAMS execution
+option NLP=%NLPmodeltype%, MIP=%MIPmodeltype%, threads=%modeltypeTHREADS%, optCR=%modeltypeOPTCR%, resLim=%modeltypeRESLIM%;
 
 *-------------------------------------------------------------------------------------
 
@@ -95,29 +123,6 @@ $set HYDROGEN_FILE "hydrogen_module.gms"
 $endIf
 $if set ROOT_FOLDER $set HYDROGEN_FILE %ROOT_FOLDER%/%HYDROGEN_FILE%
 $log HYDROGEN_FILE is "%HYDROGEN_FILE%"
-
-*-------------------------------------------------------------------------------------
-
-* Define modeltype-related options
-Scalar
-   modeltypeThreads 'Number of threads available to the modeltypes' /1/
-   modeltypeOptCR   'Relative gap for MIP modeltype'                /0.05/
-   modeltypeResLim  'modeltype time limit'                          /300000/
-;   
-Singleton Set
-   NLPmodeltype 'Selected NLP modeltype' / '' 'conopt4' /
-   MIPmodeltype 'Selected MIP modeltype' / '' 'cplex' /
-;
-
-
-* Evaluate and assign modeltype settings as macros
-$eval     modeltypeTHREADS modeltypeThreads
-$eval     modeltypeOPTCR   modeltypeOptCR
-$eval     modeltypeRESLIM  modeltypeResLim
-$eval.set NLPmodeltype     NLPmodeltype.te
-$eval.set MIPmodeltype     MIPmodeltype.te
-* Apply modeltype settings to GAMS execution
-option NLP=%NLPmodeltype%, MIP=%MIPmodeltype%, threads=%modeltypeTHREADS%, optCR=%modeltypeOPTCR%, resLim=%modeltypeRESLIM%;
 
 *-------------------------------------------------------------------------------------
 
@@ -294,7 +299,6 @@ $offEmbeddedCode
 
 
 $if not errorfree $abort PythonError in input_verification.py
-
 
 *-------------------------------------------------------------------------------------
 * Make input treatment
@@ -831,10 +835,8 @@ PA.optfile = 1;
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
-* modeltype TYPE
 * MODELTYPE == MIP solves as a MIP
 * MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
-
 
 $if not set USE_PA_LOADPOINT $set USE_PA_LOADPOINT 0
 $log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"
