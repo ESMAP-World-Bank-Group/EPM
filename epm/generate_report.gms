@@ -113,6 +113,7 @@ Parameters
 * ============================================================
 
   pCapacityPlant(z,g,y)                      'Installed capacity [MW] by plant, zone, and year'
+  pNewCapacityPlant(z,g,y)                   'Newly added capacity [MW] by plant, zone, and year'
   pCapacityTechFuel(z,tech,f,y)              'Installed capacity [MW] by technology, fuel, and zone'
   pCapacityFuel(z,f,y)                       'Installed capacity [MW] by fuel and zone'
   pCapacityTechFuelCountry(c,tech,f,y)       'Installed capacity [MW] by technology, fuel, and country'
@@ -308,6 +309,8 @@ Parameters
 * ---------------------------------------------------------
 
 pCapacityPlant(zgmap(z,g),y)                 = vCap.l(g,y);
+
+pNewCapacityPlant(zgmap(z,g),y)              = vBuild.l(g,y);
 
 pRetirementsPlant(zgmap(z,g),y)                  = vRetire.l(g,y);
 
@@ -1432,6 +1435,7 @@ embeddedCode Connect:
       symbols = [
       
         "pCapacityPlant",
+        "pNewCapacityPlant",
         "pCapacityFuel",
         "pCapacityFuelCountry",
         "pAdditionalTransmissionCapacity",
@@ -1513,7 +1517,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
     execute_unload 'epmresults',
       pSettings,
 * 1. CAPACITY
-      pCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
+      pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
       pNewCapacityFuel, pNewCapacityTech, pNewCapacityFuelCountry, pNewCapacityTechCountry,
       pAnnualTransmissionCapacity, pAdditionalTransmissionCapacity,
