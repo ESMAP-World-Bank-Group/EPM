@@ -50,7 +50,11 @@ $if not set MODELTYPE $set MODELTYPE MIP
 $log LOG: Solving with MODELTYPE = "%MODELTYPE%"
 
 * Use the relevant cplex file
-$if not set CPLEXFILE $ifThenI %MODELTYPE%==RMIP $set CPLEXFILE cplex/cplex_rmip_fast.opt $else $set CPLEXFILE cplex/cplex_mip_fast.opt $endIf
+$if not set MODELTYPE   $set MODELTYPE MIP
+
+$if not set CPLEXFILE   $set CPLEXFILE cplex/cplex_mip_fast.opt
+$ifi %MODELTYPE% == RMIP $set CPLEXFILE cplex/cplex_rmip_fast.opt
+
 $log CPLEXFILE is "%CPLEXFILE%"
 $call rm -f cplex.opt
 $call cp "%CPLEXFILE%" cplex.opt
