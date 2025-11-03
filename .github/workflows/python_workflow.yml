@@ -1,4 +1,4 @@
-name: Run Python Tests
+name: Run Python API
 
 on:
   push:
@@ -21,6 +21,7 @@ jobs:
           GAMS_LICENSE: ${{ secrets.GAMS_LICENSE }}
         run: |
           echo "$GAMS_LICENSE" > /gams/gamslice.txt
+
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
@@ -28,4 +29,4 @@ jobs:
 
       - name: Run Python script (depends on GAMS)
         run: |
-          python epm/epm.py --simple --solver RMIP --folder_input data_test --config config.csv
+          python epm/epm.py --simple --modeltype RMIP --folder_input data_test

@@ -1224,7 +1224,7 @@ def run_smoothing_reservoir(config):
             - res.x: Optimal values of the decision variables (inflow, outflow, storage, dispatch, abs_diff, D_j, U_j).
             - res.fun: Value of the objective function at the optimum (total smoothing cost).
             - res.success: Boolean indicating whether optimization succeeded.
-            - res.message: Solver status message.
+            - res.message: modeltype status message.
     """
 
     # Parameters

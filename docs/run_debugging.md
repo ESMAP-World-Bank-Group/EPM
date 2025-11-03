@@ -10,17 +10,18 @@ The `PA.gdx` file (often auto-generated) contains **post-solve values** for vari
 
 Each variable includes:
 
-| Field      | Meaning                                                                 |
-|------------|-------------------------------------------------------------------------|
-| **Level**  | The actual solution value (e.g. power output, demand served, etc.)      |
-| **Marginal** | Dual value — often shadow price or reduced cost                      |
-| **Lower**  | Lower bound on the variable                                             |
-| **Upper**  | Upper bound on the variable                                             |
-| **Scale**  | Scaling factor applied (typically 1 unless specified otherwise)         |
+| Field        | Meaning                                                            |
+| ------------ | ------------------------------------------------------------------ |
+| **Level**    | The actual solution value (e.g. power output, demand served, etc.) |
+| **Marginal** | Dual value — often shadow price or reduced cost                    |
+| **Lower**    | Lower bound on the variable                                        |
+| **Upper**    | Upper bound on the variable                                        |
+| **Scale**    | Scaling factor applied (typically 1 unless specified otherwise)    |
 
 ### What to Look for
 
 - **Zero levels**: If all levels are zero, check if:
+
   - The variable was properly connected in constraints.
   - It had a feasible range (`Lower`, `Upper`) that allowed movement.
   - There's a cost or penalty preventing it from being selected.
@@ -46,8 +47,8 @@ Contains runtime logs and time stamps:
 
 - File inclusions
 - Model generation times
-- Solver startup and memory use
-- Useful for checking if the solver started, crashed, or timed out
+- modeltype startup and memory use
+- Useful for checking if the modeltype started, crashed, or timed out
 
 ---
 
@@ -76,9 +77,10 @@ Automatically generated. Includes:
 - Compilation diagnostics
 - Code listing
 - Full equation listings (left-hand side, right-hand side, status)
-- Solver messages and summaries
+- modeltype messages and summaries
 
 **Tips**:
+
 - Set `option limcol = 0; option limrow = 0;` to limit variable/equation listings.
 - Use the **"Variable Listing"** and **"Equation Listing"** sections to examine values in context.
 

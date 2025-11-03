@@ -1,4 +1,6 @@
 paramNames,NoTransmissionExpansion,OptimalExpansion
+modeltype,,
+cplexfile,,
 SETTINGS,,
 pSettings,pSettings_NoTransmissionExpansion.csv,
 y,,

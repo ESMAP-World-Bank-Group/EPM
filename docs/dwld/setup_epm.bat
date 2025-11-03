@@ -63,7 +63,7 @@ echo [*] Testing GAMS installation with MODELTYPE=RMIP ...
 cd "%REPO_DIR%"
 gams "%GAMS_MAIN%" lo=2 --MODELTYPE=RMIP >> "%LOG_FILE%" 2>&1
 if %errorlevel% neq 0 (
-    echo [!] GAMS test failed — please check installation, license, or RMIP solver. See %LOG_FILE% for details.
+    echo [!] GAMS test failed — please check installation, license, or RMIP modeltype. See %LOG_FILE% for details.
     pause
     exit /b
 ) else (
@@ -98,7 +98,7 @@ echo [+] All Python dependencies installed successfully.
 :: ---------- Step 8: Run EPM Python test ----------
 echo [*] Running EPM Python test ...
 cd "%REPO_DIR%"
-python "%PYTHON_SCRIPT%" --solver RMIP --simple >> "%LOG_FILE%" 2>&1
+python "%PYTHON_SCRIPT%" --modeltype RMIP --simple >> "%LOG_FILE%" 2>&1
 if %errorlevel% neq 0 (
     echo [!] Python EPM test failed — please check logs or Python/GAMS integration.
     pause
