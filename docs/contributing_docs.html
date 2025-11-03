@@ -1131,6 +1131,39 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#how-to-update-and-improve-the-documentation">
    How to update and improve the documentation
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recommended-setup">
+     1 Recommended setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#update-your-local-main-branch">
+     2 Update your local
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       main
+      </span>
+     </code>
+     branch
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#make-your-documentation-changes">
+     3 Make your documentation changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#commit-your-changes">
+     4 Commit your changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-a-pull-request-pr">
+     5 Create a Pull Request (PR)
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1154,13 +1187,73 @@ title="Print to PDF"
 </ul>
 <section id="how-to-update-and-improve-the-documentation">
 <h2>How to update and improve the documentation<a class="headerlink" href="#how-to-update-and-improve-the-documentation" title="Permalink to this heading">#</a></h2>
+<p>When contributing to the EPM documentation, please follow these steps to keep your changes compatible with the latest version of the project.</p>
+<section id="recommended-setup">
+<h3>1 Recommended setup<a class="headerlink" href="#recommended-setup" title="Permalink to this heading">#</a></h3>
+<p>It’s best to have <strong>two local EPM folders</strong>:</p>
+<ul class="simple">
+<li><p>One folder tracking the <strong><code class="docutils literal notranslate"><span class="pre">main</span></code></strong> branch (the official version).</p></li>
+<li><p>Another folder for your <strong>custom developments or models</strong>.</p></li>
+</ul>
+<p>This setup helps you avoid merge conflicts when you want to contribute only documentation updates.</p>
+</section>
+<section id="update-your-local-main-branch">
+<h3>2 Update your local <code class="docutils literal notranslate"><span class="pre">main</span></code> branch<a class="headerlink" href="#update-your-local-main-branch" title="Permalink to this heading">#</a></h3>
+<p>Before making any changes to the documentation, make sure you are on the main branch and that it’s up to date:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Go to your EPM directory that tracks the main branch</span>
+<span class="nb">cd</span><span class="w"> </span>path/to/EPM
+
+<span class="c1"># Switch to the main branch</span>
+git<span class="w"> </span>checkout<span class="w"> </span>main
+
+<span class="c1"># Pull the latest changes from the remote repository</span>
+git<span class="w"> </span>pull
+</pre></div>
+</div>
+</section>
+<section id="make-your-documentation-changes">
+<h3>3 Make your documentation changes<a class="headerlink" href="#make-your-documentation-changes" title="Permalink to this heading">#</a></h3>
+<p>Modify the documentation files directly in the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch (e.g., under <code class="docutils literal notranslate"><span class="pre">docs/</span></code>, <code class="docutils literal notranslate"><span class="pre">README.md</span></code>, etc.).</p>
 <ol class="arabic simple">
 <li><p>Go to the <code class="docutils literal notranslate"><span class="pre">docs/</span></code> folder.</p></li>
 <li><p>Edit an existing markdown file or create a new one.</p></li>
 <li><p>If you add a new file, update <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code> to include it in the navigation.</p></li>
 <li><p>Add your changes to git and push them to the <code class="docutils literal notranslate"><span class="pre">main</span></code> branch.</p></li>
 </ol>
-<p>Thank you for helping improve this project.</p>
+<p>If you already made documentation changes in another branch (your custom branch),
+it’s usually best to <strong>manually copy or reapply</strong> those changes onto the updated <code class="docutils literal notranslate"><span class="pre">main</span></code> branch,
+rather than merging that branch — this avoids bringing in unrelated code.</p>
+</section>
+<section id="commit-your-changes">
+<h3>4 Commit your changes<a class="headerlink" href="#commit-your-changes" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>path/to/modified/files
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Update documentation on ...&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="create-a-pull-request-pr">
+<h3>5 Create a Pull Request (PR)<a class="headerlink" href="#create-a-pull-request-pr" title="Permalink to this heading">#</a></h3>
+<p>Push your changes and open a PR to merge them into <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
+</pre></div>
+</div>
+<p>Then:</p>
+<ol class="arabic simple">
+<li><p>Open the repository on <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/pulls">GitHub</a>.</p></li>
+<li><p>Click <strong>“Compare &amp; pull request”</strong>.</p></li>
+<li><p>Add a clear title and a short explanation of what you changed or improved.</p></li>
+<li><p>Submit your PR for review.</p></li>
+</ol>
+<hr class="docutils" />
+<p><strong>Summary</strong></p>
+<ul class="simple">
+<li><p>Keep a separate EPM folder for <code class="docutils literal notranslate"><span class="pre">main</span></code> and another for your personal development.</p></li>
+<li><p>Always <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> before editing documentation.</p></li>
+<li><p>Apply edits directly to the updated <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p>Create a Pull Request when ready.</p></li>
+</ul>
+<p>Thank you for helping improve this project !</p>
+</section>
 </section>
 </section>
 
@@ -1226,6 +1319,39 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#how-to-update-and-improve-the-documentation">
    How to update and improve the documentation
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#recommended-setup">
+     1 Recommended setup
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#update-your-local-main-branch">
+     2 Update your local
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       main
+      </span>
+     </code>
+     branch
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#make-your-documentation-changes">
+     3 Make your documentation changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#commit-your-changes">
+     4 Commit your changes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#create-a-pull-request-pr">
+     5 Create a Pull Request (PR)
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
