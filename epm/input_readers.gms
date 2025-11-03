@@ -24,13 +24,9 @@
 * - The model requires input data in .GDX.
 *
 * Contact:
-* Claire Nicolas, c.nicolas@worldbank.org
+* Claire Nicolas, cnicolas@worldbank.org
 **********************************************************************
 
-
-
-$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_test"
-$log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 $if not set TRACE $set TRACE 0
 
