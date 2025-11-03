@@ -301,7 +301,7 @@ Free Variable
 * Integer decision variables
 * -------------------------------------------------------------
 Integer variable
-   vBuildTransmission(z,z2,y) 'Integer builds for transmission'
+   vBuildTransmissionLine(z,z2,y) 'Integer builds for transmission'
    vBuiltCapVar(g,y)          'Integer build decision (unit commitment for discrete capacity)'
    vRetireCapVar(g,y)         'Integer retirement decision'
 ;
@@ -771,11 +771,11 @@ eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
 
 * Cumulative build-out of new transfer capacity over time
 eCumulativeTransferExpansion(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmission(z,z2,y);
+   vNewTransmissionLine(z,z2,y) =e=  vNewTransmissionLine(z,z2,y-1) + vBuildTransmissionLine(z,z2,y);
 
 * Ensures symmetry in bidirectional transmission investment
 eSymmetricTransferBuild(sTopology(z,z2),y)$fAllowTransferExpansion..
-   vBuildTransmission(z,z2,y)  =e=  vBuildTransmission(z2,z,y);
+   vBuildTransmissionLine(z,z2,y)  =e=  vBuildTransmissionLine(z2,z,y);
 
 * External trade
 
