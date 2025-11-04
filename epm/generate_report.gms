@@ -537,6 +537,7 @@ pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y
 * ---------------------------------------------------------
 
 pImportCostsInternal(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+
 pExportRevenuesInternal(z,y) = - sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 
 * ---------------------------------------------------------
@@ -1387,19 +1388,19 @@ pYearlyCostsSystemPerMWh(y)$sum(z, pZoneEnergyMWh(z,y)) =
            - vYearlyExportExternal.l(z,zext,q,d,t,y))
           * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))
 
-      + sum(ndc,
+      + sum(ndc$ng(ndc),
             pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
 
-      + sum(ndc$(not cs(ndc)),
+      + sum(ndc$(ng(ndc) and not cs(ndc)),
             pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
 
-      + sum(ndc$(not st(ndc)),
+      + sum(ndc$(ng(ndc) and not st(ndc)),
             pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
 
-      + sum(ndc,
+      + sum(ndc$ng(ndc),
             pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
 
-      + sum(dc, vAnnCapexGenTraj.l(dc,y))
+      + sum(dc$ng(dc), vAnnCapexGenTraj.l(dc,y))
 
       + sum(z, vYearlyFOMCost.l(z,y) + vYearlyVOMCost.l(z,y)
                + vYearlyFuelCost.l(z,y) + vYearlySpinningReserveCost.l(z,y))
