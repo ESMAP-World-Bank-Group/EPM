@@ -51,7 +51,6 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | pTradeSharedBenefits         | Congestion rents shared equally between zones \[USD\]                | Yes            | No         |
 | pYearlyCostsZone             | Annual cost summary \[million USD\] by zone and year                 | Yes            | Yes        |
 | pYearlyCostsCountry          | Annual cost summary \[million USD\] by country and year              | Yes            | Yes        |
-| pCostAverageCountry          | Average annual cost \[million USD\] by country (undiscounted)        | Yes            | Yes        |
 | pCostsZone                   | Total cost \[million USD\] by zone and cost category                 | Yes            | No         |
 | pCostsSystem                 | System-level cost summary \[million USD\], weighted and discounted   | Yes            | Yes        |
 | pCostsSystemPerMWh           | System-level cost summary \[USD/MWh\], weighted and discounted       | Yes            | Yes        |
@@ -172,9 +171,9 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 
 | Variable             | Description                                 | epmresults.gdx | CSV export |
 | -------------------- | ------------------------------------------- | -------------- | ---------- |
-| pmodeltypeParameters | modeltype status, time, and gap diagnostics | Yes            | No         |
+| pSolverParameters | modeltype status, time, and gap diagnostics | Yes            | No         |
 
-`pmodeltypeParameters` includes entries such as `modeltype Status`, `modeltype Time: ms`, `Absolute gap`, and `Relative gap`.
+`pSolverParameters` includes entries such as `modeltype Status`, `modeltype Time: ms`, `Absolute gap`, and `Relative gap`.
 
 ## OTHER OUTPUTS & AUXILIARY VARIABLES
 
@@ -185,21 +184,3 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | pVarCost        | Variable cost inputs by generator/fuel | Yes            | No         |
 | pCapacityCredit | Capacity credit factors by generator   | Yes            | Yes        |
 
-## Model-Only (Not Exported by Default)
-
-These symbols are defined in `generate_report.gms` but are not written to `epmresults.gdx` or the default CSV set. Use them only if you plan to add custom export instructions.
-
-| Variable                | Description                                             | epmresults.gdx | CSV export |
-| ----------------------- | ------------------------------------------------------- | -------------- | ---------- |
-| pCountryCostEnergyBasis | Energy basis for cost normalization by country \[MWh\]  | No             | No         |
-| pCountryEnergyMWh       | Annual energy output by country \[MWh\]                 | No             | No         |
-| pCountryExportFlowMWh   | Annual exported energy \[MWh\] from country             | No             | No         |
-| pCountryImportFlowMWh   | Annual imported energy \[MWh\] into country             | No             | No         |
-| pFlowMWSum              | Sum of hourly MW flows over the year (flow weights)     | No             | No         |
-| pFlowMWh                | Annual energy flow \[MWh\] between zones                | No             | No         |
-| pPlantEnergyMWh         | Annual energy production by plant \[MWh\]               | No             | No         |
-| pZoneCostEnergyBasis    | Energy basis for cost normalization by zone \[MWh\]     | No             | No         |
-| pZoneEnergyMWh          | Annual energy output by zone \[MWh\]                    | No             | No         |
-| pZoneGenCost            | Generation-only cost by zone and year                   | No             | No         |
-| pZoneTotalCost          | Total system cost by zone and year                      | No             | No         |
-| pZoneTradeCost          | Combined internal/external trade costs by zone and year | No             | No         |
