@@ -714,19 +714,19 @@ def generate_summary(epm_results, folder, epm_input):
     summary = {}
     
     # 1. Costs
-
-    if 'pYearlyCostsSystemPerMWh' in epm_results.keys():
-        t = epm_results['pYearlyCostsSystemPerMWh'].copy()
-        t['attribute'] = 'Average Cost: $/MWh'
-        summary.update({'SystemAverageCost': t})
-    else:
-        log_warning('No pYearlyCostsSystemPerMWh in epm_results')
         
     if 'pCostsSystem' in epm_results.keys():
         t = epm_results['pCostsSystem'].copy()
         summary.update({'pCostsSystem': t})
     else:
         log_warning('No pCostsSystem in epm_results')
+        
+    if 'pCostsSystemPerMWh' in epm_results.keys():
+        t = epm_results['pCostsSystemPerMWh'].copy()
+        t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
+        summary.update({'pCostsSystemPerMWh': t})
+    else:
+        log_warning('No pCostsZonePerMWh in epm_results')
 
     if 'pCostsZonePerMWh' in epm_results.keys():
         t = epm_results['pCostsZonePerMWh'].copy()
@@ -741,7 +741,6 @@ def generate_summary(epm_results, folder, epm_input):
         summary.update({'pCostsCountryPerMWh': t})
     else:
         log_warning('No pCostsCountryPerMWh in epm_results')
-
 
     if 'pYearlyCostsCountry' in epm_results.keys():
         t = epm_results['pYearlyCostsCountry'].copy()
@@ -900,12 +899,12 @@ def generate_summary(epm_results, folder, epm_input):
 
     # 8. Prices
     
-    if 'pYearlyPriceHub' in epm_results.keys():
-        t = epm_results['pYearlyPriceHub'].copy()
+    if 'pYearlyPrice' in epm_results.keys():
+        t = epm_results['pYearlyPrice'].copy()
         t['attribute'] = 'Price: $/MWh'
-        summary.update({'pYearlyPriceHub': t})
+        summary.update({'pYearlyPrice': t})
     else:
-        log_warning('No pYearlyPriceHub in epm_results')
+        log_warning('No pYearlyPrice in epm_results')
 
 
     # Concatenate all dataframes in the summary dictionary
