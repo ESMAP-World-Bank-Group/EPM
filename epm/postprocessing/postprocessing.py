@@ -48,39 +48,6 @@ from .utils import *
 from .plots import *
 from .maps import make_automatic_map
 
-_DEFAULT_LOGGER = None
-
-
-def set_default_logger(logger):
-    """Set module-level logger used when individual calls do not provide one."""
-    global _DEFAULT_LOGGER
-    _DEFAULT_LOGGER = logger
-
-
-def _get_logger(logger=None):
-    return logger or _DEFAULT_LOGGER
-
-
-def _log(level, message, logger=None):
-    """Emit log message or fall back to print if no logger is configured."""
-    log = _get_logger(logger)
-    if log:
-        getattr(log, level)(message)
-    else:
-        print(message)
-
-
-def _log_info(message, logger=None):
-    _log('info', message, logger=logger)
-
-
-def _log_warning(message, logger=None):
-    _log('warning', message, logger=logger)
-
-
-def _log_error(message, logger=None):
-    _log('error', message, logger=logger)
-
 
 def _wrap_plot_function(func):
     @wraps(func)
@@ -89,7 +56,7 @@ def _wrap_plot_function(func):
             return func(*args, **kwargs)
         except Exception as err:
             filename = kwargs.get('filename')
-            _log_warning(f'Failed to generate {filename}: {err}')
+            log_warning(f'Failed to generate {filename}: {err}')
     return wrapper
 
 
@@ -99,7 +66,7 @@ make_fuel_dispatchplot = _wrap_plot_function(make_fuel_dispatchplot)
 make_heatmap_plot = _wrap_plot_function(make_heatmap_plot)
 heatmap_plot = _wrap_plot_function(heatmap_plot)
 make_line_plot = _wrap_plot_function(make_line_plot)
-make_automatic_map = _wrap_plot_function(make_automatic_map)
+#make_automatic_map = _wrap_plot_function(make_automatic_map)
 
 KEYS_RESULTS = {
     # 1. Capacity expansion
@@ -207,7 +174,7 @@ FIGURES_ACTIVATED = {
     'TransmissionUtilizationMapEvolution': False,
     # 'NetExportsMap': True, 
     
-    'InteractiveMap': False
+    'InteractiveMap': True
 }
 
 TRADE_ATTRS = [
@@ -624,11 +591,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                        montecarlo=False, reduce_definition_csv=False, logger=None):
     
     active_logger = logger or logging.getLogger("epm.postprocess")
-    previous_logger = _get_logger()
+    previous_logger = get_default_logger()
     set_default_logger(active_logger)
     set_utils_logger(active_logger)
 
-    _log_info(f"Postprocessing started for {FOLDER}", logger=active_logger)
+    log_info(f"Postprocessing started for {FOLDER}", logger=active_logger)
 
     def reduce_year_definition(folder_csv):
         """
@@ -646,7 +613,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                 if not df.empty:
                     if 'y' not in df.columns:
-                        _log_warning(f"Skipping {filename}: 'year' column not found.", logger=active_logger)
+                        log_warning(f"Skipping {filename}: 'year' column not found.", logger=active_logger)
                         continue
 
                     # Pick first, middle, and last years
@@ -720,7 +687,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
     GRAPHS_FOLDER = os.path.join(FOLDER, graphs_folder)
     if not os.path.exists(GRAPHS_FOLDER):
         os.makedirs(GRAPHS_FOLDER)
-        _log_info(f'Created folder {GRAPHS_FOLDER}', logger=active_logger)
+        log_info(f'Created folder {GRAPHS_FOLDER}', logger=active_logger)
 
     # Specific postprocessing for Monte Carlo simulations
     if montecarlo:
@@ -739,7 +706,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             selected_scenarios = selected_scenario
 
         # Generate summary
-        _log_info('Generating summary...', logger=active_logger)
+        log_info('Generating summary...', logger=active_logger)
         generate_summary(epm_results, RESULTS_FOLDER, epm_input)
 
         # Generate detailed by plant to debug
@@ -750,16 +717,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # ------------------------------------------------------------------------------------
 
             # Generate a detailed summary by Power Plant
-            _log_info('Generating detailed summary by Power Plant...', logger=active_logger)
+            log_info('Generating detailed summary by Power Plant...', logger=active_logger)
             try:
                 generate_plants_summary(epm_results, RESULTS_FOLDER)
             except Exception as err:
-                _log_error(f'Failed to generate detailed summary by Power Plant: {err}', logger=active_logger)
+                log_error(f'Failed to generate detailed summary by Power Plant: {err}', logger=active_logger)
             
             # ------------------------------------------------------------------------------------
 
             # Generate a heatmap summary 
-            _log_info('Generating heatmap summary...', logger=active_logger)
+            log_info('Generating heatmap summary...', logger=active_logger)
             if len(selected_scenarios) < scenarios_threshold:
                 figure_name = 'SummaryHeatmap'
                 if FIGURES_ACTIVATED.get(figure_name, False):
@@ -768,7 +735,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     make_heatmap_plot(epm_results, filename=filename, reference=scenario_reference)
             
             # ------------------------------------------------------------------------------------
-            _log_info('Creating folders for figures...', logger=active_logger)
+            log_info('Creating folders for figures...', logger=active_logger)
             
             # Create subfolders directly under GRAPHS_FOLDER
             subfolders = {}
@@ -791,7 +758,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 1. Capacity figures
             # ------------------------------------------------------------------------------------
 
-            _log_info('Generating capacity figures...', logger=active_logger)
+            log_info('Generating capacity figures...', logger=active_logger)
                         
             # 1.1 Evolution of capacity mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
@@ -1106,7 +1073,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 2. Cost figures
             # ------------------------------------------------------------------------------------
 
-            _log_info('Generating cost figures...', logger=active_logger)
+            log_info('Generating cost figures...', logger=active_logger)
              
             figure_name = 'PriceBaselineByZone'
             if FIGURES_ACTIVATED.get(figure_name, False):
@@ -1555,7 +1522,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 3. Energy figures
             # ------------------------------------------------------------------------------------
 
-            _log_info('Generating energy figures...', logger=active_logger)
+            log_info('Generating energy figures...', logger=active_logger)
             
             # Prepare dataframes for energy
             df_energyfuel = epm_results['pEnergyFuel'].copy()
@@ -1723,7 +1690,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{scenario_reference}.pdf')
                 df_energyplant = epm_results['pEnergyPlant'].copy()
                 if nbr_zones == 1 and len(epm_results['pEnergyPlant']['generator'].unique()) < 20:
-                    _log_info('Generating energy figures for single zone by generators... (not tested yet)', logger=active_logger)
+                    log_info('Generating energy figures for single zone by generators... (not tested yet)', logger=active_logger)
                     temp = df_energyplant[df_energyplant['scenario'] == scenario_reference]
                     make_stacked_areaplot(
                         temp,
@@ -1744,7 +1711,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # ------------------------------------------------------------------------------------                  
                         
             if plot_dispatch:
-                _log_info('Generating energy dispatch figures...', logger=active_logger)
+                log_info('Generating energy dispatch figures...', logger=active_logger)
                 # Perform automatic Energy DispatchFigures
                 try:
                     make_automatic_dispatch(
@@ -1755,14 +1722,14 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         FIGURES_ACTIVATED
                     )
                 except Exception as err:
-                    _log_warning(f'Failed to generate dispatch figures: {err}', logger=active_logger)
+                    log_warning(f'Failed to generate dispatch figures: {err}', logger=active_logger)
             
             # ------------------------------------------------------------------------------------
             # 5. Interconnection Heamap
             # ------------------------------------------------------------------------------------
             
             if nbr_zones > 1:
-                _log_info('Generating interconnection figures...', logger=active_logger)
+                log_info('Generating interconnection figures...', logger=active_logger)
                 
                 # 4.1 Net exchange heatmap [GWh and %] evolution
                 figure_name = 'NetImportsZoneEvolution'
@@ -1823,15 +1790,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
                     missing_cols = required_cols.difference(df_interchange.columns)
                     if missing_cols:
-                        _log_warning(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}", logger=active_logger)
+                        log_warning(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}", logger=active_logger)
                     else:
                         if scenario_reference not in df_interchange['scenario'].unique():
-                            _log_warning(f"Skipping {figure_name}: scenario '{scenario_reference}' not available", logger=active_logger)
+                            log_warning(f"Skipping {figure_name}: scenario '{scenario_reference}' not available", logger=active_logger)
                         else:
                             df_interchange = df_interchange[df_interchange['scenario'] == scenario_reference]
                             df_interchange = df_interchange[df_interchange['zone'] != df_interchange['z2']]
                             if df_interchange.empty:
-                                _log_warning(f"Skipping {figure_name}: no interchange data for scenario '{scenario_reference}'", logger=active_logger)
+                                log_warning(f"Skipping {figure_name}: no interchange data for scenario '{scenario_reference}'", logger=active_logger)
                             else:
                                 df_interchange = df_interchange.copy()
                                 df_interchange['value'] = df_interchange['value'].abs()
@@ -1862,15 +1829,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     required_cols = {'zone', 'z2', 'year', 'scenario', 'value'}
                     missing_cols = required_cols.difference(df_utilization.columns)
                     if missing_cols:
-                        _log_warning(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}", logger=active_logger)
+                        log_warning(f"Skipping {figure_name}: missing columns {sorted(missing_cols)}", logger=active_logger)
                     else:
                         if scenario_reference not in df_utilization['scenario'].unique():
-                            _log_warning(f"Skipping {figure_name}: scenario '{scenario_reference}' not available", logger=active_logger)
+                            log_warning(f"Skipping {figure_name}: scenario '{scenario_reference}' not available", logger=active_logger)
                         else:
                             df_utilization = df_utilization[df_utilization['scenario'] == scenario_reference]
 
                             if df_utilization.empty:
-                                _log_warning(f"Skipping {figure_name}: no utilization data for scenario '{scenario_reference}'", logger=active_logger)
+                                log_warning(f"Skipping {figure_name}: no utilization data for scenario '{scenario_reference}'", logger=active_logger)
                             else:
                                 for year in df_utilization['year'].unique():
                                     
@@ -1900,7 +1867,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
                 ):
 
-                        _log_info('Generating interactive map figures...', logger=active_logger)
+                        log_info('Generating interactive map figures...', logger=active_logger)
                         make_automatic_map(epm_results, dict_specs, subfolders['6_maps'],
                                         FIGURES_ACTIVATED)
 
@@ -1908,7 +1875,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             if False:
                 #----------------------- Project Economic Assessment -----------------------
                 # Difference between scenarios with and without a project
-                _log_info('Generating project economic assessment figures...', logger=active_logger)
+                log_info('Generating project economic assessment figures...', logger=active_logger)
                 
                 # TODO: Create folder_assessment
                 
@@ -1939,7 +1906,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             format_y=lambda y, _: '{:,.0f}'.format(y), rotation=45,
                                             annotate=False,
                                             title='Project Cost Impact by Component (million USD)', show_total=True)
-                    _log_info(f'System cost assessment figures generated successfully: {filename}', logger=active_logger)
+                    log_info(f'System cost assessment figures generated successfully: {filename}', logger=active_logger)
 
                 # Energy assessment figures
                 df = df_energyfuel.copy()
@@ -1974,7 +1941,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             format_y=lambda y, _: '{:,.0f}'.format(y), rotation=45,
                                             annotate=False,
                                             title=f'Additional Energy with the Project {year}', show_total=True)
-                    _log_info(f'Energy assessment figures generated successfully: {filename}', logger=active_logger)
+                    log_info(f'Energy assessment figures generated successfully: {filename}', logger=active_logger)
                 
                 # Capacity assessment figures
                 df = df_capacityfuel.copy()
@@ -2009,8 +1976,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             format_y=lambda y, _: '{:,.0f}'.format(y), rotation=45,
                                             annotate=False,
                                             title=f'Additional Capacity with the Project {year}', show_total=True)
-                    _log_info(f'Capacity assessment figures generated successfully: {filename}', logger=active_logger)
+                    log_info(f'Capacity assessment figures generated successfully: {filename}', logger=active_logger)
 
-    _log_info(f"Postprocessing finished for {FOLDER}", logger=active_logger)
+    log_info(f"Postprocessing finished for {FOLDER}", logger=active_logger)
     set_default_logger(previous_logger)
     set_utils_logger(previous_logger)
