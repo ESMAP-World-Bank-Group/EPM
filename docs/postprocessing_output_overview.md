@@ -36,7 +36,6 @@ These symbols are always included in the GDX dump and are also written to CSV by
 | `pCostsPlant`                  | Operating costs per plant including fixed, variable, and fuel costs (M$). | Yes            | Yes (default) |
 | `pCostsSystem`                 | Total discounted system cost components (M$).                             | Yes            | Yes (default) |
 | `pCostsSystemPerMWh`           | System cost normalized by energy basis ($/MWh).                           | Yes            | Yes (default) |
-| `pCostAverageCountry`          | Average total system cost by country ($/MWh).                             | Yes            | Yes (default) |
 | `pYearlyCostsZone`             | Annual cost breakdown by zone and cost attribute (M$).                    | Yes            | Yes (default) |
 | `pYearlyCostsCountry`          | Annual cost breakdown aggregated to the country level (M$).               | Yes            | Yes (default) |
 | `pPrice`                       | Marginal price signal by zone and period ($/MWh).                         | Yes            | Yes (default) |
