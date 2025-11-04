@@ -1279,16 +1279,16 @@ pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + 1e6 * pYearlyCos
 * ---------------------------------------------------------
 
 Parameter
-    pZoneEnergyMWh(z,y)              'Annual energy output by zone [MWh]'
-    pCountryEnergyMWh(c,y)           'Annual energy output by country [MWh]'
+    pYearlyEnergyGenZone(z,y)              'Annual energy output by zone [MWh]'
+    pYearlyEnergyGenCountry(c,y)           'Annual energy output by country [MWh]'
 ;
 
 * Zone-level energy denominator
-pZoneEnergyMWh(z,y)$pEnergyBalance(z,"Total production: GWh",y) =
+pYearlyEnergyGenZone(z,y)$pEnergyBalance(z,"Total production: GWh",y) =
     pEnergyBalance(z,"Total production: GWh",y)*1e3;
 
 * Country-level energy denominator (aggregation)
-pCountryEnergyMWh(c,y) = sum(zcmap(z,c), pZoneEnergyMWh(z,y));
+pYearlyEnergyGenCountry(c,y) = sum(zcmap(z,c), pYearlyEnergyGenZone(z,y));
 
 * ---------------------------------------------------------
 * Energy basis (MWh) used to normalize system costs
@@ -1313,7 +1313,7 @@ pZoneCostEnergyBasis(z,y) =
          - vYearlyExportExternal.l(z,zext,q,d,t,y)) * pHours(q,d,t))
     + sum((sTopology(Zd,z),q,d,t),
           vFlow.l(Zd,z,q,d,t,y) * pHours(q,d,t))
-    + pZoneEnergyMWh(z,y);
+    + pYearlyEnergyGenZone(z,y);
 
 pCountryCostEnergyBasis(c,y) =
       sum((zcmap(z,c),zext,q,d,t),
@@ -1321,7 +1321,7 @@ pCountryCostEnergyBasis(c,y) =
          - vYearlyExportExternal.l(z,zext,q,d,t,y)) * pHours(q,d,t))
     + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t),
           vFlow.l(Zd,z,q,d,t,y) * pHours(q,d,t))
-    + pCountryEnergyMWh(c,y);
+    + pYearlyEnergyGenCountry(c,y);
 
 
 pYearlySystemCostEnergyBasis(y) =
@@ -1382,7 +1382,7 @@ pYearlyCostsCountryPerMWh(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
 * Result = system average cost of supplying electricity
 * ---------------------------------------------------------
 
-pYearlyCostsSystemPerMWh(y)$sum(z, pZoneEnergyMWh(z,y)) =
+pYearlyCostsSystemPerMWh(y)$sum(z, pYearlyEnergyGenZone(z,y)) =
     (   sum((z,zext,q,d,t),
             (vYearlyImportExternal.l(z,zext,q,d,t,y)
            - vYearlyExportExternal.l(z,zext,q,d,t,y))
@@ -1411,7 +1411,7 @@ pYearlyCostsSystemPerMWh(y)$sum(z, pZoneEnergyMWh(z,y)) =
                 (vYearlyImportExternal.l(z,zext,q,d,t,y)
                - vYearlyExportExternal.l(z,zext,q,d,t,y))
               * pHours(q,d,t))
-          + pZoneEnergyMWh(z,y))
+          + pYearlyEnergyGenZone(z,y))
     );
 
 * ============================================================
