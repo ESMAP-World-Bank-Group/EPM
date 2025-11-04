@@ -281,9 +281,9 @@ Parameters
   pPlantAnnualLCOE(z,g,y)          'Plant-level LCOE [USD/MWh] by year'
   pCostsZonePerMWh(z,sumhdr)       'Zone cost per discounted demand [USD/MWh]'
   pCostsCountryPerMWh(c,sumhdr)    'Country cost per discounted demand [USD/MWh]'
-  pYearlyAverageCostZone(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
-  pYearlyAverageCostCountry(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
-  pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
+  pYearlyCostsZonePerMWh(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
+  pYearlyCostsCountryPerMWh(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
+  pYearlyCostsSystemPerMWh(y)            'System average cost [USD/MWh] by year'
 
 * ============================================================
 * 11. modeltype PARAMETERS
@@ -1361,10 +1361,10 @@ pCostsCountryPerMWh(c,sumhdr)$pDiscountedDemandCountryMWh(c) =
     1e6 * sum(zcmap(z,c), pCostsZone(z,sumhdr)) / pDiscountedDemandCountryMWh(c);
 
 * Component-level averages ($/MWh)
-pYearlyAverageCostZone(z,sumhdr,y)$pZoneCostEnergyBasis(z,y) =
+pYearlyCostsZonePerMWh(z,sumhdr,y)$pZoneCostEnergyBasis(z,y) =
     pYearlyCostsZone(z,sumhdr,y)*1e6 / pZoneCostEnergyBasis(z,y);
 
-pYearlyAverageCostCountry(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
+pYearlyCostsCountryPerMWh(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
     1e6 * sum(zcmap(z,c), pYearlyCostsZone(z,sumhdr,y)) / pCountryCostEnergyBasis(c,y);
 
 
@@ -1378,7 +1378,7 @@ pYearlyAverageCostCountry(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
 * Result = system average cost of supplying electricity
 * ---------------------------------------------------------
 
-pYearlySystemAverageCost(y)$sum(z, pZoneEnergyMWh(z,y)) =
+pYearlyCostsSystemPerMWh(y)$sum(z, pZoneEnergyMWh(z,y)) =
     (   sum((z,zext,q,d,t),
             (vYearlyImportExternal.l(z,zext,q,d,t,y)
            - vYearlyExportExternal.l(z,zext,q,d,t,y))
@@ -1494,8 +1494,8 @@ embeddedCode Connect:
         "pPlantAnnualLCOE",
         "pCostsZonePerMWh",
         "pCostsCountryPerMWh",
-        "pYearlyAverageCostZone",
-        "pYearlyAverageCostCountry",
+        "pYearlyCostsZonePerMWh",
+        "pYearlyCostsCountryPerMWh",
         "pDiscountedDemandZoneMWh",
         "pDiscountedDemandCountryMWh",
         "pDiscountedDemandSystemMWh",
@@ -1559,7 +1559,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 9. METRICS
       pPlantAnnualLCOE, pCostsZonePerMWh, pCostsCountryPerMWh,
-      pYearlyAverageCostZone, pYearlyAverageCostCountry, pYearlySystemAverageCost,
+      pYearlyCostsZonePerMWh, pYearlyCostsCountryPerMWh, pYearlyCostsSystemPerMWh,
       pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
 * 10. modeltype PARAMETERS
       pmodeltypeParameters,

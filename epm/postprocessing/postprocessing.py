@@ -139,6 +139,9 @@ KEYS_RESULTS = {
     'pDiscountedDemandCountryMWh',
     'pDiscountedDemandSystemMWh',
     'pYearlySystemAverageCost',
+    'pYearlyCostsZonePerMWh',
+    'pYearlyCostsCountryPerMWh',
+    'pYearlyCostsSystemPerMWh',
     # 11. Other
     'pmodeltypeParameters'
 }
@@ -168,6 +171,12 @@ FIGURES_ACTIVATED = {
     'CostZoneEvolution': True,
     'CostZoneEvolutionPercentage': True,
     'CostZoneScenarios': True,
+    'CostMWhSystemEvolutionScenarios': True,
+    'CostMWhSystemEvolutionScenariosRelative': True,
+    'CostMWhZoneEvolution': True,
+    'CostMWhZoneEvolutionPercentage': True,
+    'CostMWhZoneScenariosYear': True,
+    'CostMWhZoneIni': True,
     'CapexZoneEvolution': True,
                     
     # 3. Energy figures
@@ -1334,24 +1343,164 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             if nbr_zones > 1:
                 if FIGURES_ACTIVATED.get(figure_name, False):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{year}.pdf')
-            
+
                     df = df_costzone.copy()
-                    
+
                     df = df.loc[df.scenario.isin(selected_scenarios)]
                     df = df.loc[(df.year == max(df['year'].unique()))]
 
-                    make_stacked_barplot(df, 
-                                            filename, dict_specs['colors'], 
-                                            column_stacked='attribute',
-                                                column_subplot='zone',
-                                                column_xaxis='scenario',
-                                                column_value='value',
-                                                format_y=make_auto_yaxis_formatter("m$"), 
-                                                rotation=45,
-                                                annotate=False,
-                                                show_total=True,
-                                                title=f'Cost Composition by Zone in {year} (million USD)')
-                
+                    make_stacked_barplot(
+                        df,
+                        filename,
+                        dict_specs['colors'],
+                        column_stacked='attribute',
+                        column_subplot='zone',
+                        column_xaxis='scenario',
+                        column_value='value',
+                        format_y=make_auto_yaxis_formatter("m$"),
+                        rotation=45,
+                        annotate=False,
+                        show_total=True,
+                        title=f'Cost Composition by Zone in {year} (million USD)'
+                    )
+ 
+            # Equivalent cost figures expressed in USD/MWh
+            df_costzone_mwh = epm_results['pYearlyCostsZonePerMWh'].copy()
+            df_costzone_mwh = simplify_attributes(df_costzone_mwh, "Unmet reserve costs: $m", RESERVE_ATTRS)
+            df_costzone_mwh = simplify_attributes(df_costzone_mwh, "Trade costs: $m", TRADE_ATTRS)
+            df_costzone_mwh['attribute'] = df_costzone_mwh['attribute'].str.replace(': $m', '', regex=False)
+            df_costzone_mwh['attribute'] = df_costzone_mwh['attribute'].str.replace(': $/MWh', '', regex=False)
+
+            if len(selected_scenarios) < scenarios_threshold:
+                df = df_costzone_mwh.copy()
+                df = df.loc[df.scenario.isin(selected_scenarios)]
+
+                figure_name = 'CostMWhSystemEvolutionScenarios'
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+
+                    make_stacked_barplot(
+                        df,
+                        filename,
+                        dict_specs['colors'],
+                        column_stacked='attribute',
+                        column_subplot='year',
+                        column_value='value',
+                        column_xaxis='scenario',
+                        select_subplot=selected_years,
+                        format_y=make_auto_yaxis_formatter("$/MWh"),
+                        rotation=45,
+                        annotate=False,
+                        format_label="{:.0f}",
+                        show_total=True,
+                        title='System Cost Breakdown by Scenario (USD/MWh)'
+                    )
+
+                if len(selected_scenarios) > 1 and scenario_reference in selected_scenarios:
+                    df_diff = calculate_diff(df, scenario_reference)
+
+                    figure_name_relative = 'CostMWhSystemEvolutionScenariosRelative'
+                    if FIGURES_ACTIVATED.get(figure_name_relative, False):
+                        filename = os.path.join(subfolders['2_cost'], f'{figure_name_relative}.pdf')
+
+                        make_stacked_barplot(
+                            df_diff,
+                            filename,
+                            dict_specs['colors'],
+                            column_stacked='attribute',
+                            column_subplot='year',
+                            column_xaxis='scenario',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("$/MWh"),
+                            format_label="{:.0f}",
+                            rotation=45,
+                            annotate=True,
+                            title='Incremental System Cost vs. Baseline (USD/MWh)',
+                            show_total=True
+                        )
+
+            figure_name = 'CostMWhZoneEvolution'
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    for scenario in selected_scenarios:
+                        df = df_costzone_mwh.copy()
+                        df = df[df['scenario'] == scenario]
+                        df = df.drop(columns=['scenario'])
+
+                        filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{scenario}.pdf')
+
+                        make_stacked_barplot(
+                            df,
+                            filename,
+                            dict_specs['colors'],
+                            column_stacked='attribute',
+                            column_subplot='zone',
+                            column_xaxis='year',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("$/MWh"),
+                            rotation=45,
+                            annotate=False,
+                            show_total=True,
+                            title=f'Annual Cost Breakdown by Zone – {scenario} (USD/MWh)'
+                        )
+
+
+            figure_name = 'CostMWhZoneScenariosYear'
+            if nbr_zones > 1:
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    filename = os.path.join(subfolders['2_cost'], f'{figure_name}-{year}.pdf')
+
+                    df = df_costzone_mwh.copy()
+                    df = df.loc[df.scenario.isin(selected_scenarios)]
+                    df = df.loc[(df.year == max(df['year'].unique()))]
+
+                    make_stacked_barplot(
+                        df,
+                        filename,
+                        dict_specs['colors'],
+                        column_stacked='attribute',
+                        column_subplot='zone',
+                        column_xaxis='scenario',
+                        column_value='value',
+                        format_y=make_auto_yaxis_formatter("$/MWh"),
+                        rotation=45,
+                        annotate=False,
+                        show_total=True,
+                        title=f'Cost Composition by Zone in {year} (USD/MWh)'
+                    )
+
+            figure_name = 'CostMWhZoneIni'
+            if nbr_zones > 1 and scenario_reference in df_costzone_mwh['scenario'].unique():
+                if FIGURES_ACTIVATED.get(figure_name, False):
+                    year_ini = df_costzone_mwh['year'].min()
+                    df_ini = df_costzone_mwh[
+                        (df_costzone_mwh['scenario'] == scenario_reference) &
+                        (df_costzone_mwh['year'] == year_ini)
+                    ].copy()
+                    
+                    filename = os.path.join(
+                            subfolders['2_cost'],
+                            f'{figure_name}-{scenario_reference}.pdf'
+                        )
+
+                    make_stacked_barplot(
+                        df_ini,
+                        filename,
+                        dict_specs['colors'],
+                        column_stacked='attribute',
+                        column_subplot='zone',
+                        column_xaxis='scenario',
+                        column_value='value',
+                        format_y=make_auto_yaxis_formatter('$/MWh'),
+                        rotation=45,
+                        annotate=False,
+                        show_total=True,
+                        title=f'Cost Composition by Zone in {year_ini} – {scenario_reference} (USD/MWh)'
+                    )
+
+
+
+
             # 2.4 Capex investment per zone
             figure_name = 'CapexZoneEvolution'
             if nbr_zones > 1:
