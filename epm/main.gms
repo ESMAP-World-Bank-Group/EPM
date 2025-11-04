@@ -846,7 +846,6 @@ $ifThenI.solvemode %SOLVEMODE% == 2
    Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Abort if model was not solved successfully
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
-   execute_unload 'PA.gdx';
 $elseIfI.solvemode %SOLVEMODE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;
@@ -862,6 +861,9 @@ $ifThenI.pa_load %USE_PA_LOADPOINT% == 1
   execute_loadpoint "PA_p.gdx";
 $endIf.pa_load
 $endIf.solvemode
+
+*  Export model data only when debugging is enabled
+$if %DEBUG%==1 execute_unload 'PA.gdx';
 * ####################################
 
 * Include the external report file specified by `%REPORT_FILE%`
