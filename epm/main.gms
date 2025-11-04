@@ -488,7 +488,7 @@ loop(gsmap(g2,g), pStorData(g,pStoreDataHeader) = pStorDataInput(g,g2,pStoreData
 gsmap(g,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
-ng(g)  = gstatusmap(g,'candidate');
+ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');
 
 * Define existing generators (`eg(g)`) as those that are not candidates, include comitted
 eg(g)  = not ng(g);
