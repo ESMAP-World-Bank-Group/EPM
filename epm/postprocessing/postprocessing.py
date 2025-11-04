@@ -89,8 +89,7 @@ def _wrap_plot_function(func):
             return func(*args, **kwargs)
         except Exception as err:
             filename = kwargs.get('filename')
-            label = filename or getattr(func, '__name__', 'figure')
-            _log_warning(f'Failed to generate {label}: {err}')
+            _log_warning(f'Failed to generate {filename}: {err}')
     return wrapper
 
 
@@ -752,7 +751,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
             # Generate a detailed summary by Power Plant
             _log_info('Generating detailed summary by Power Plant...', logger=active_logger)
-            generate_plants_summary(epm_results, RESULTS_FOLDER)
+            try:
+                generate_plants_summary(epm_results, RESULTS_FOLDER)
+            except Exception as err:
+                _log_error(f'Failed to generate detailed summary by Power Plant: {err}', logger=active_logger)
             
             # ------------------------------------------------------------------------------------
 

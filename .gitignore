@@ -27,6 +27,7 @@
 /.idea/
 
 # Project-specific outputs
+/epm/cplex.opt
 epm/output/*
 !epm/output/tableau/
 !epm/output/simulations_test/**
