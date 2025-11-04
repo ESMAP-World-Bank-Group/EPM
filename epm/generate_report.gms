@@ -431,10 +431,10 @@ pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
 
 * Reporting costs by plant
 * Plant-level cost reporting (prettier formatting)
-pCostsPlant(z, g, "Generation costs: $m", y) =
+pCostsPlant(z, g, "Generation costs: $m", y)$gzmap(g, z) =
   vAnnGenCapex.l(g, y) / 1e6;
 
-pCostsPlant(z, g, "Fixed O&M: $m", y) =
+pCostsPlant(z, g, "Fixed O&M: $m", y)$gzmap(g, z) =
   (
     vCap.l(g, y)      * pGenData(g, "FOMperMW")
     + vCapStor.l(g, y)  * pStorData(g, "FixedOMMWh")
@@ -442,12 +442,12 @@ pCostsPlant(z, g, "Fixed O&M: $m", y) =
     + vCapTherm.l(g, y) * pCSPData(g, "Thermal field", "FixedOMMWh")
   ) / 1e6;
 
-pCostsPlant(z, g, "Variable Cost: $m", y) =
+pCostsPlant(z, g, "Variable Cost: $m", y)$gzmap(g, z) =
   sum((gfmap(g, f), q, d, t),
     pVarCost(g, f, y) * vPwrOut.l(g, f, q, d, t, y) * pHours(q, d, t)
   ) / 1e6;
 
-pCostsPlant(z, g, "Spinning Reserve Cost: $m", y) =
+pCostsPlant(z, g, "Spinning Reserve Cost: $m", y)$gzmap(g, z) =
   sum((q, d, t),
     vSpinningReserve.l(g, q, d, t, y) * pGenData(g, "ReserveCost") * pHours(q, d, t)
   ) / 1e6;
