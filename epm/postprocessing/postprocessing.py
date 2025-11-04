@@ -96,8 +96,6 @@ KEYS_RESULTS = {
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
     # 7. Emissions
     'pEmissionsZone', 'pEmissionsIntensityZone',
-    # 8. Prices
-    'pYearlyPriceHub',
     # 10. Metrics
     'pPlantAnnualLCOE',
     'pCostsZonePerMWh',
@@ -105,12 +103,11 @@ KEYS_RESULTS = {
     'pDiscountedDemandZoneMWh',
     'pDiscountedDemandCountryMWh',
     'pDiscountedDemandSystemMWh',
-    'pYearlySystemAverageCost',
     'pYearlyCostsZonePerMWh',
     'pYearlyCostsCountryPerMWh',
     'pYearlyCostsSystemPerMWh',
     # 11. Other
-    'pmodeltypeParameters'
+    'pSolverParameters'
 }
 
 FIGURES_ACTIVATED = {
