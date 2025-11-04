@@ -488,7 +488,7 @@ loop(gsmap(g2,g), pStorData(g,pStoreDataHeader) = pStorDataInput(g,g2,pStoreData
 gsmap(g,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
-ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');
+ng(g)  = gstatusmap(g,'candidate');
 
 * Define existing generators (`eg(g)`) as those that are not candidates, include comitted
 eg(g)  = not ng(g);
@@ -781,6 +781,7 @@ vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;
 
 *******************************************************************************************************************
 
+
 sPwrOut(gfmap(g,f),q,d,t,y) = yes;
 sPwrOut(gfmap(st,f),q,d,t,y)$(not fEnableStorage) = yes;
 
@@ -834,12 +835,18 @@ PA.optfile = 1;
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
+* MODELTYPE == MIP solves as a MIP
+* MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
+
+$if not set USE_PA_LOADPOINT $set USE_PA_LOADPOINT 0
+$log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"
 
 $ifThenI.solvemode %SOLVEMODE% == 2
 *  Solve model as usual
    Solve PA using %MODELTYPE% minimizing vNPVcost;
 *  Abort if model was not solved successfully
    abort$(not (PA.modelstat=1 or PA.modelstat=8)) 'ABORT: no feasible solution found.', PA.modelstat;
+*   execute_unload 'PA.gdx';
 $elseIfI.solvemode %SOLVEMODE% == 1
 *  Save model state at the end of execution (useful for debugging or re-running from a checkpoint)
    PA.savepoint = 1;
@@ -850,13 +857,11 @@ $elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1; 
    Solve PA using %MODELTYPE% minimizing vNPVcost;
-* Use savepoint file to load state of the solve from savepoint file
-   $log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"
-   execute_loadpoint "PA_p.gdx";
+  Use savepoint file to load state of the solve from savepoint file
+$ifThenI.pa_load %USE_PA_LOADPOINT% == 1
+  execute_loadpoint "PA_p.gdx";
+$endIf.pa_load
 $endIf.solvemode
-
-*  Export model data only when debugging is enabled
-$if %DEBUG%==1 execute_unload 'PA.gdx';
 * ####################################
 
 * Include the external report file specified by `%REPORT_FILE%`
