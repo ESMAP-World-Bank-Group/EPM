@@ -781,7 +781,6 @@ vREPwr2Grid.fx(nRE,f,q,d,t,y)=0;
 
 *******************************************************************************************************************
 
-
 sPwrOut(gfmap(g,f),q,d,t,y) = yes;
 sPwrOut(gfmap(st,f),q,d,t,y)$(not fEnableStorage) = yes;
 
@@ -835,11 +834,6 @@ PA.optfile = 1;
 $if not set SOLVEMODE $set SOLVEMODE 2 
 $log LOG: Solving in SOLVEMODE = "%SOLVEMODE%"
 
-* MODELTYPE == MIP solves as a MIP
-* MODELTYPE == RMIP forces to solve as an LP, even if there are integer variables
-
-$if not set USE_PA_LOADPOINT $set USE_PA_LOADPOINT 0
-$log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"
 
 $ifThenI.solvemode %SOLVEMODE% == 2
 *  Solve model as usual
@@ -856,10 +850,9 @@ $elseIfI.solvemode %SOLVEMODE% == 0
 *  Only generate the model (no solve) 
    PA.JustScrDir = 1; 
    Solve PA using %MODELTYPE% minimizing vNPVcost;
-  Use savepoint file to load state of the solve from savepoint file
-$ifThenI.pa_load %USE_PA_LOADPOINT% == 1
-  execute_loadpoint "PA_p.gdx";
-$endIf.pa_load
+* Use savepoint file to load state of the solve from savepoint file
+   $log LOG: USE_PA_LOADPOINT = "%USE_PA_LOADPOINT%"
+   execute_loadpoint "PA_p.gdx";
 $endIf.solvemode
 
 *  Export model data only when debugging is enabled
