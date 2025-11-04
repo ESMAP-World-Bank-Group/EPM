@@ -561,12 +561,12 @@ eAnnualizedCapexUpdate(dc,y)$(not sStartYear(y))..
                                                                           
 * Initial annualized CAPEX in the start year for generators with capex trajectory
 eAnnualizedCapexInit(dc,sStartYear(y))..
-   vAnnCapexGenTraj(dc,y) =e= vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
-                     + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
-                     + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
+   vAnnCapexGenTraj(dc,y) =e=
+       vCap(dc,y)     *pGenData(dc,"Capex")        *pCapexTrajectories(dc,y)*pCRF(dc)   *1e6
+     + vCapStor(dc,y) *pStorData(dc,"CapexMWh")    *pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+     + vCapStor(dc,y) *pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
+     + vCapTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
                      
-
 * FOM costs including fixed O&M costs for generators, storage, and CSP thermal field
 eYearlyFOMCost(z,y)..
    vYearlyFOMCost(z,y) =e= sum(gzmap(g,z),  vCap(g,y)*pGenData(g,"FOMperMW"))

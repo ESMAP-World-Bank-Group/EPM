@@ -1206,7 +1206,7 @@ Parameter
 pPlantEnergyMWh(z,g,y)$pEnergyPlant(z,g,y) = pEnergyPlant(z,g,y)*1e3;
 
 * LCOE for new capacity plants (without direct spinning reserve cost)
-pPlantAnnualLCOE(z,g,y)$((pPlantEnergyMWh(z,g,y)) and (pPlantEnergyMWh(z,g,y) >= 1)) =
+pPlantAnnualLCOE(z,g,y)$((pPlantEnergyMWh(z,g,y)) and (pPlantEnergyMWh(z,g,y) >= 1e3)) =
     1e6 * (
         pCostsPlant(z, g, "Generation costs: $m", y)
       + pCostsPlant(z, g, "Fixed O&M: $m", y)
