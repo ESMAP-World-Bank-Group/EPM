@@ -36,7 +36,6 @@ These symbols are always included in the GDX dump and are also written to CSV by
 | `pCostsPlant`                  | Operating costs per plant including fixed, variable, and fuel costs (M$). | Yes            | Yes (default) |
 | `pCostsSystem`                 | Total discounted system cost components (M$).                             | Yes            | Yes (default) |
 | `pCostsSystemPerMWh`           | System cost normalized by energy basis ($/MWh).                           | Yes            | Yes (default) |
-| `pCostAverageCountry`          | Average total system cost by country ($/MWh).                             | Yes            | Yes (default) |
 | `pYearlyCostsZone`             | Annual cost breakdown by zone and cost attribute (M$).                    | Yes            | Yes (default) |
 | `pYearlyCostsCountry`          | Annual cost breakdown aggregated to the country level (M$).               | Yes            | Yes (default) |
 | `pPrice`                       | Marginal price signal by zone and period ($/MWh).                         | Yes            | Yes (default) |
@@ -124,7 +123,7 @@ The following symbols are written to `epmresults.gdx` when detailed reporting is
 - **Emissions detail** (`pEmissionsCountrySummary`, `pEmissionsIntensityCountry`, `pEmissionMarginalCosts`, `pEmissionMarginalCostsCountry`) - Country summaries and marginal emission costs. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Price detail** (`pYearlyPrice`, `pYearlyPriceExport`, `pYearlyPriceImport`, `pYearlyPriceHub`, `pYearlyPriceCountry`, `pYearlyPriceExportCountry`, `pYearlyPriceImportCountry`) - Annual price blocks by hub, import, export, and country aggregation. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Technology specific balances** (`pCSPBalance`, `pCSPComponents`, `pPVwSTOBalance`, `pPVwSTOComponents`, `pStorageBalance`, `pStorageComponents`, `pSolarPower`, `pSolarEnergyZone`, `pSolarValueZone`, `pSolarCost`) - Detailed tracking for CSP, PV with storage, and storage technologies. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
-- **System metrics** (`pCostsCountryPerMWh`, `pCostsZonePerMWh`, `pDiscountedDemandCountryMWh`, `pDiscountedDemandZoneMWh`, `pYearlyCostsSystemPerMWh`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pmodeltypeParameters`) - Additional summary indicators and modeltype diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
+- **System metrics** (`pCostsCountryPerMWh`, `pCostsZonePerMWh`, `pDiscountedDemandCountryMWh`, `pDiscountedDemandZoneMWh`, `pYearlyCostsSystemPerMWh`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pSolverParameters`) - Additional summary indicators and modeltype diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 
 ## Tips
 

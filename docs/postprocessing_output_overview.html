@@ -1340,22 +1340,17 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pCostAverageCountry</span></code></p></td>
-<td><p>Average total system cost by country ($/MWh).</p></td>
-<td><p>Yes</p></td>
-<td><p>Yes (default)</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pYearlyCostsZone</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pYearlyCostsZone</span></code></p></td>
 <td><p>Annual cost breakdown by zone and cost attribute (M$).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pYearlyCostsCountry</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pYearlyCostsCountry</span></code></p></td>
 <td><p>Annual cost breakdown aggregated to the country level (M$).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pPrice</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pPrice</span></code></p></td>
 <td><p>Marginal price signal by zone and period ($/MWh).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
@@ -1627,7 +1622,7 @@ title="Print to PDF"
 <li><p><strong>Emissions detail</strong> (<code class="docutils literal notranslate"><span class="pre">pEmissionsCountrySummary</span></code>, <code class="docutils literal notranslate"><span class="pre">pEmissionsIntensityCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pEmissionMarginalCosts</span></code>, <code class="docutils literal notranslate"><span class="pre">pEmissionMarginalCostsCountry</span></code>) - Country summaries and marginal emission costs. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 <li><p><strong>Price detail</strong> (<code class="docutils literal notranslate"><span class="pre">pYearlyPrice</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceExport</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceImport</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceHub</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceExportCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceImportCountry</span></code>) - Annual price blocks by hub, import, export, and country aggregation. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 <li><p><strong>Technology specific balances</strong> (<code class="docutils literal notranslate"><span class="pre">pCSPBalance</span></code>, <code class="docutils literal notranslate"><span class="pre">pCSPComponents</span></code>, <code class="docutils literal notranslate"><span class="pre">pPVwSTOBalance</span></code>, <code class="docutils literal notranslate"><span class="pre">pPVwSTOComponents</span></code>, <code class="docutils literal notranslate"><span class="pre">pStorageBalance</span></code>, <code class="docutils literal notranslate"><span class="pre">pStorageComponents</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarPower</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarEnergyZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarValueZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarCost</span></code>) - Detailed tracking for CSP, PV with storage, and storage technologies. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
-<li><p><strong>System metrics</strong> (<code class="docutils literal notranslate"><span class="pre">pCostsCountryPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsZonePerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandCountryMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandZoneMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsSystemPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsSystem</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pVarCost</span></code>, <code class="docutils literal notranslate"><span class="pre">pmodeltypeParameters</span></code>) - Additional summary indicators and modeltype diagnostics. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
+<li><p><strong>System metrics</strong> (<code class="docutils literal notranslate"><span class="pre">pCostsCountryPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsZonePerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandCountryMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandZoneMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsSystemPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsSystem</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pVarCost</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolverParameters</span></code>) - Additional summary indicators and modeltype diagnostics. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 </ul>
 </section>
 <section id="tips">

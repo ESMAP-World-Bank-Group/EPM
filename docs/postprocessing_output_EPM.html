@@ -1207,11 +1207,6 @@ title="Print to PDF"
    OTHER OUTPUTS &amp; AUXILIARY VARIABLES
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-only-not-exported-by-default">
-   Model-Only (Not Exported by Default)
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -1411,47 +1406,42 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostAverageCountry</p></td>
-<td><p>Average annual cost [million USD] by country (undiscounted)</p></td>
-<td><p>Yes</p></td>
-<td><p>Yes</p></td>
-</tr>
-<tr class="row-odd"><td><p>pCostsZone</p></td>
+<tr class="row-even"><td><p>pCostsZone</p></td>
 <td><p>Total cost [million USD] by zone and cost category</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostsSystem</p></td>
+<tr class="row-odd"><td><p>pCostsSystem</p></td>
 <td><p>System-level cost summary [million USD], weighted and discounted</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pCostsSystemPerMWh</p></td>
+<tr class="row-even"><td><p>pCostsSystemPerMWh</p></td>
 <td><p>System-level cost summary [USD/MWh], weighted and discounted</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyCostsSystem</p></td>
+<tr class="row-odd"><td><p>pYearlyCostsSystem</p></td>
 <td><p>Annual system cost summary [million USD] by cost category and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pFuelCosts</p></td>
+<tr class="row-even"><td><p>pFuelCosts</p></td>
 <td><p>Annual fuel costs [million USD] by fuel, zone, and year</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pFuelCostsCountry</p></td>
+<tr class="row-odd"><td><p>pFuelCostsCountry</p></td>
 <td><p>Annual fuel costs [million USD] by fuel, country, and year</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pFuelConsumption</p></td>
+<tr class="row-even"><td><p>pFuelConsumption</p></td>
 <td><p>Annual fuel consumption [MMBtu] by fuel, zone, and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pFuelConsumptionCountry</p></td>
+<tr class="row-odd"><td><p>pFuelConsumptionCountry</p></td>
 <td><p>Annual fuel consumption [MMBtu] by fuel, country, and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
@@ -1917,14 +1907,14 @@ title="Print to PDF"
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>pmodeltypeParameters</p></td>
+<tr class="row-even"><td><p>pSolverParameters</p></td>
 <td><p>modeltype status, time, and gap diagnostics</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
 </tbody>
 </table>
-<p><code class="docutils literal notranslate"><span class="pre">pmodeltypeParameters</span></code> includes entries such as <code class="docutils literal notranslate"><span class="pre">modeltype</span> <span class="pre">Status</span></code>, <code class="docutils literal notranslate"><span class="pre">modeltype</span> <span class="pre">Time:</span> <span class="pre">ms</span></code>, <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">gap</span></code>, and <code class="docutils literal notranslate"><span class="pre">Relative</span> <span class="pre">gap</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pSolverParameters</span></code> includes entries such as <code class="docutils literal notranslate"><span class="pre">modeltype</span> <span class="pre">Status</span></code>, <code class="docutils literal notranslate"><span class="pre">modeltype</span> <span class="pre">Time:</span> <span class="pre">ms</span></code>, <code class="docutils literal notranslate"><span class="pre">Absolute</span> <span class="pre">gap</span></code>, and <code class="docutils literal notranslate"><span class="pre">Relative</span> <span class="pre">gap</span></code>.</p>
 </section>
 <section id="other-outputs-auxiliary-variables">
 <h2>OTHER OUTPUTS &amp; AUXILIARY VARIABLES<a class="headerlink" href="#other-outputs-auxiliary-variables" title="Permalink to this heading">#</a></h2>
@@ -1956,81 +1946,6 @@ title="Print to PDF"
 <td><p>Capacity credit factors by generator</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="model-only-not-exported-by-default">
-<h2>Model-Only (Not Exported by Default)<a class="headerlink" href="#model-only-not-exported-by-default" title="Permalink to this heading">#</a></h2>
-<p>These symbols are defined in <code class="docutils literal notranslate"><span class="pre">generate_report.gms</span></code> but are not written to <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> or the default CSV set. Use them only if you plan to add custom export instructions.</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Variable</p></th>
-<th class="head"><p>Description</p></th>
-<th class="head"><p>epmresults.gdx</p></th>
-<th class="head"><p>CSV export</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>pCountryCostEnergyBasis</p></td>
-<td><p>Energy basis for cost normalization by country [MWh]</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-odd"><td><p>pCountryEnergyMWh</p></td>
-<td><p>Annual energy output by country [MWh]</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-even"><td><p>pCountryExportFlowMWh</p></td>
-<td><p>Annual exported energy [MWh] from country</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-odd"><td><p>pCountryImportFlowMWh</p></td>
-<td><p>Annual imported energy [MWh] into country</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-even"><td><p>pFlowMWSum</p></td>
-<td><p>Sum of hourly MW flows over the year (flow weights)</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-odd"><td><p>pFlowMWh</p></td>
-<td><p>Annual energy flow [MWh] between zones</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-even"><td><p>pPlantEnergyMWh</p></td>
-<td><p>Annual energy production by plant [MWh]</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-odd"><td><p>pZoneCostEnergyBasis</p></td>
-<td><p>Energy basis for cost normalization by zone [MWh]</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-even"><td><p>pZoneEnergyMWh</p></td>
-<td><p>Annual energy output by zone [MWh]</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-odd"><td><p>pZoneGenCost</p></td>
-<td><p>Generation-only cost by zone and year</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-even"><td><p>pZoneTotalCost</p></td>
-<td><p>Total system cost by zone and year</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
-</tr>
-<tr class="row-odd"><td><p>pZoneTradeCost</p></td>
-<td><p>Combined internal/external trade costs by zone and year</p></td>
-<td><p>No</p></td>
-<td><p>No</p></td>
 </tr>
 </tbody>
 </table>
@@ -2158,11 +2073,6 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#other-outputs-auxiliary-variables">
    OTHER OUTPUTS &amp; AUXILIARY VARIABLES
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-only-not-exported-by-default">
-   Model-Only (Not Exported by Default)
   </a>
  </li>
 </ul>
