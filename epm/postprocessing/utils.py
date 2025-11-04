@@ -699,12 +699,12 @@ def generate_summary(epm_results, folder, epm_input):
     
     # 1. Costs
 
-    if 'pYearlySystemAverageCost' in epm_results.keys():
-        t = epm_results['pYearlySystemAverageCost'].copy()
+    if 'pYearlyCostsSystemPerMWh' in epm_results.keys():
+        t = epm_results['pYearlyCostsSystemPerMWh'].copy()
         t['attribute'] = 'Average Cost: $/MWh'
         summary.update({'SystemAverageCost': t})
     else:
-        _log_warning('No pYearlySystemAverageCost in epm_results')
+        _log_warning('No pYearlyCostsSystemPerMWh in epm_results')
         
     if 'pCostsSystem' in epm_results.keys():
         t = epm_results['pCostsSystem'].copy()

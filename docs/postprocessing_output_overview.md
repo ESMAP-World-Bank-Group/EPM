@@ -13,17 +13,17 @@ These symbols are always included in the GDX dump and are also written to CSV by
 
 ### Capacity and Transmission
 
-| Variable                          | Description                                                             | epmresults.gdx | CSV export    |
-| --------------------------------- | ----------------------------------------------------------------------- | -------------- | ------------- |
-| `pCapacityPlant`                  | Installed capacity by generator, fuel, and year (MW).                   | Yes            | Yes (default) |
-| `pCapacityFuel`                   | Installed capacity aggregated by fuel and zone (MW).                    | Yes            | Yes (default) |
-| `pCapacityFuelCountry`            | Installed capacity aggregated by fuel and country (MW).                 | Yes            | Yes (default) |
-| `pNewCapacityFuel`                | New capacity builds by fuel and zone (MW).                              | Yes            | Yes (default) |
-| `pNewCapacityFuelCountry`         | New capacity builds by fuel and country (MW).                           | Yes            | Yes (default) |
-| `pCapacitySummary`                | Summary capacity balance by zone and year (existing, new, retirements). | Yes            | Yes (default) |
-| `pCapacitySummaryCountry`         | Summary capacity balance aggregated to the country level.               | Yes            | Yes (default) |
-| `pAnnualTransmissionCapacity`     | Total available annual transfer capacity between zones (MW).            | Yes            | Yes (default) |
-| `pNewTransmissionCapacity` | Incremental transfer capacity required on each interconnector (MW).     | Yes            | Yes (default) |
+| Variable                      | Description                                                             | epmresults.gdx | CSV export    |
+| ----------------------------- | ----------------------------------------------------------------------- | -------------- | ------------- |
+| `pCapacityPlant`              | Installed capacity by generator, fuel, and year (MW).                   | Yes            | Yes (default) |
+| `pCapacityFuel`               | Installed capacity aggregated by fuel and zone (MW).                    | Yes            | Yes (default) |
+| `pCapacityFuelCountry`        | Installed capacity aggregated by fuel and country (MW).                 | Yes            | Yes (default) |
+| `pNewCapacityFuel`            | New capacity builds by fuel and zone (MW).                              | Yes            | Yes (default) |
+| `pNewCapacityFuelCountry`     | New capacity builds by fuel and country (MW).                           | Yes            | Yes (default) |
+| `pCapacitySummary`            | Summary capacity balance by zone and year (existing, new, retirements). | Yes            | Yes (default) |
+| `pCapacitySummaryCountry`     | Summary capacity balance aggregated to the country level.               | Yes            | Yes (default) |
+| `pAnnualTransmissionCapacity` | Total available annual transfer capacity between zones (MW).            | Yes            | Yes (default) |
+| `pNewTransmissionCapacity`    | Incremental transfer capacity required on each interconnector (MW).     | Yes            | Yes (default) |
 
 ### Costs and Investment
 
@@ -124,7 +124,7 @@ The following symbols are written to `epmresults.gdx` when detailed reporting is
 - **Emissions detail** (`pEmissionsCountrySummary`, `pEmissionsIntensityCountry`, `pEmissionMarginalCosts`, `pEmissionMarginalCostsCountry`) - Country summaries and marginal emission costs. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Price detail** (`pYearlyPrice`, `pYearlyPriceExport`, `pYearlyPriceImport`, `pYearlyPriceHub`, `pYearlyPriceCountry`, `pYearlyPriceExportCountry`, `pYearlyPriceImportCountry`) - Annual price blocks by hub, import, export, and country aggregation. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Technology specific balances** (`pCSPBalance`, `pCSPComponents`, `pPVwSTOBalance`, `pPVwSTOComponents`, `pStorageBalance`, `pStorageComponents`, `pSolarPower`, `pSolarEnergyZone`, `pSolarValueZone`, `pSolarCost`) - Detailed tracking for CSP, PV with storage, and storage technologies. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
-- **System metrics** (`pCostsCountryPerMWh`, `pCostsZonePerMWh`, `pDiscountedDemandCountryMWh`, `pDiscountedDemandZoneMWh`, `pYearlySystemAverageCost`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pmodeltypeParameters`) - Additional summary indicators and modeltype diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
+- **System metrics** (`pCostsCountryPerMWh`, `pCostsZonePerMWh`, `pDiscountedDemandCountryMWh`, `pDiscountedDemandZoneMWh`, `pYearlyCostsSystemPerMWh`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pmodeltypeParameters`) - Additional summary indicators and modeltype diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 
 ## Tips
 
