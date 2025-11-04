@@ -17,6 +17,7 @@ parts:
       - file: docs/run_python_summary
       - file: docs/run_remote_server.md
       - file: docs/run_git_process.md
+      - file: docs/run_epm_setup.md
       - file: docs/run_debugging.md
       - file: docs/run_troubleshooting.md
       - file: docs/run_summary.md
