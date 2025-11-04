@@ -14,26 +14,26 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 
 ## 1. CAPACITY
 
-| Variable                        | Description                                                         | epmresults.gdx | CSV export |
-| ------------------------------- | ------------------------------------------------------------------- | -------------- | ---------- |
-| pCapacityPlant                  | Installed capacity \[MW\] by plant, zone, and year                  | Yes            | Yes        |
-| pCapacityTechFuel               | Installed capacity \[MW\] by technology, fuel, and zone             | Yes            | No         |
-| pCapacityFuel                   | Installed capacity \[MW\] by fuel and zone                          | Yes            | Yes        |
-| pCapacityTechFuelCountry        | Installed capacity \[MW\] by technology, fuel, and country          | Yes            | No         |
-| pCapacityFuelCountry            | Installed capacity \[MW\] by fuel and country                       | Yes            | Yes        |
-| pCapacityPlantH2                | Installed electrolyzer capacity \[MW\] by zone and year             | Yes            | No         |
-| pRetirementsPlant               | Retired capacity \[MW\] by plant, zone, and year                    | Yes            | No         |
-| pRetirementsFuel                | Retired capacity \[MW\] by fuel and zone                            | Yes            | No         |
-| pRetirementsCountry             | Total retired capacity \[MW\] by country and year                   | Yes            | No         |
-| pRetirementsFuelCountry         | Retired capacity \[MW\] by fuel and country                         | Yes            | No         |
-| pNewCapacityFuel                | Newly added capacity \[MW\] by fuel and zone                        | Yes            | Yes        |
-| pNewCapacityTech                | Newly added capacity \[MW\] by technology and zone                  | Yes            | No         |
-| pNewCapacityFuelCountry         | Newly added capacity \[MW\] by fuel and country                     | Yes            | Yes        |
-| pNewCapacityTechCountry         | Newly added capacity \[MW\] by technology and country               | Yes            | No         |
-| pAnnualTransmissionCapacity     | Total available transmission capacity \[MW\] between internal zones | Yes            | Yes        |
-| pNewTransmissionCapacity | Additional transmission capacity \[MW\] between internal zones      | Yes            | Yes        |
-| pCapacitySummary                | Summary of capacity indicators \[MW\] by zone and year              | Yes            | Yes        |
-| pCapacitySummaryCountry         | Summary of capacity indicators \[MW\] by country and year           | Yes            | Yes        |
+| Variable                    | Description                                                         | epmresults.gdx | CSV export |
+| --------------------------- | ------------------------------------------------------------------- | -------------- | ---------- |
+| pCapacityPlant              | Installed capacity \[MW\] by plant, zone, and year                  | Yes            | Yes        |
+| pCapacityTechFuel           | Installed capacity \[MW\] by technology, fuel, and zone             | Yes            | No         |
+| pCapacityFuel               | Installed capacity \[MW\] by fuel and zone                          | Yes            | Yes        |
+| pCapacityTechFuelCountry    | Installed capacity \[MW\] by technology, fuel, and country          | Yes            | No         |
+| pCapacityFuelCountry        | Installed capacity \[MW\] by fuel and country                       | Yes            | Yes        |
+| pCapacityPlantH2            | Installed electrolyzer capacity \[MW\] by zone and year             | Yes            | No         |
+| pRetirementsPlant           | Retired capacity \[MW\] by plant, zone, and year                    | Yes            | No         |
+| pRetirementsFuel            | Retired capacity \[MW\] by fuel and zone                            | Yes            | No         |
+| pRetirementsCountry         | Total retired capacity \[MW\] by country and year                   | Yes            | No         |
+| pRetirementsFuelCountry     | Retired capacity \[MW\] by fuel and country                         | Yes            | No         |
+| pNewCapacityFuel            | Newly added capacity \[MW\] by fuel and zone                        | Yes            | Yes        |
+| pNewCapacityTech            | Newly added capacity \[MW\] by technology and zone                  | Yes            | No         |
+| pNewCapacityFuelCountry     | Newly added capacity \[MW\] by fuel and country                     | Yes            | Yes        |
+| pNewCapacityTechCountry     | Newly added capacity \[MW\] by technology and country               | Yes            | No         |
+| pAnnualTransmissionCapacity | Total available transmission capacity \[MW\] between internal zones | Yes            | Yes        |
+| pNewTransmissionCapacity    | Additional transmission capacity \[MW\] between internal zones      | Yes            | Yes        |
+| pCapacitySummary            | Summary of capacity indicators \[MW\] by zone and year              | Yes            | Yes        |
+| pCapacitySummaryCountry     | Summary of capacity indicators \[MW\] by country and year           | Yes            | Yes        |
 
 ## 2. COSTS
 
@@ -166,7 +166,7 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | pDiscountedDemandZoneMWh    | Discounted electricity demand denominator \[MWh\] by zone        | Yes            | No         |
 | pDiscountedDemandCountryMWh | Discounted electricity demand denominator \[MWh\] by country     | Yes            | No         |
 | pDiscountedDemandSystemMWh  | Discounted electricity demand denominator \[MWh\] for the system | Yes            | No         |
-| pYearlySystemAverageCost    | System average cost \[USD/MWh\] by year                          | Yes            | No         |
+| pYearlyCostsSystemPerMWh     | System average cost \[USD/MWh\] by year                          | Yes            | No         |
 
 ## 11. modeltype PARAMETERS
 
