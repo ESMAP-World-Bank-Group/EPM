@@ -99,6 +99,7 @@ make_stacked_areaplot = _wrap_plot_function(make_stacked_areaplot)
 make_fuel_dispatchplot = _wrap_plot_function(make_fuel_dispatchplot)
 make_heatmap_plot = _wrap_plot_function(make_heatmap_plot)
 heatmap_plot = _wrap_plot_function(heatmap_plot)
+make_line_plot = _wrap_plot_function(make_line_plot)
 make_automatic_map = _wrap_plot_function(make_automatic_map)
 
 KEYS_RESULTS = {
@@ -108,7 +109,7 @@ KEYS_RESULTS = {
     'pNewCapacityFuel', 'pNewCapacityFuelCountry',
     'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
-    'pPrice',
+    'pPrice', 'pYearlyPrice',
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
     'pCostsPlant',  
     'pYearlyCostsZone', 'pYearlyCostsCountry',
@@ -178,6 +179,7 @@ FIGURES_ACTIVATED = {
     'CostMWhZoneScenariosYear': True,
     'CostMWhZoneIni': True,
     'CapexZoneEvolution': True,
+    'PriceBaselineByZone': True,
                     
     # 3. Energy figures
     'EnergyMixSystemEvolutionScenarios': True,
@@ -1104,6 +1106,26 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
             _log_info('Generating cost figures...', logger=active_logger)
              
+            figure_name = 'PriceBaselineByZone'
+            if FIGURES_ACTIVATED.get(figure_name, False):
+                df_price = epm_results['pYearlyPrice'].copy()    
+                df_price = df_price[df_price['scenario'] == scenario_reference]
+                df_price = (
+                    df_price[['year', 'zone', 'value']]
+                    .dropna(subset=['year', 'value'])
+                    .sort_values(['year', 'zone'])
+                )
+                filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+                make_line_plot(
+                    df=df_price,
+                    filename=filename,
+                    column_xaxis='year',
+                    y_column='value',
+                    series_column='zone',
+                    format_y=make_auto_yaxis_formatter('$/MWh'),
+                    title=f'Electricity Price by Zone – {scenario_reference} (USD/MWh)'
+                )
+            
             # 2.0 Total system cost
             if len(selected_scenarios) < scenarios_threshold:
                 df = epm_results['pCostsSystem'].copy()
