@@ -111,7 +111,8 @@ KEYS_RESULTS = {
     'pYearlyCostsCountryPerMWh',
     'pYearlyCostsSystemPerMWh',
     # 11. Other
-    'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry'
+    'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry',
+    'pDemandEnergyZone', 'pDemandPeakZone'
 }
 
 FIGURES_ACTIVATED = {
@@ -179,10 +180,10 @@ FIGURES_ACTIVATED = {
 }
 
 FIGURE_CATEGORY_ENABLED = {
-    'summary': False,
-    'capacity': False,
-    'costs': False,
-    'energy': False,
+    'summary': True,
+    'capacity': True,
+    'costs': True,
+    'energy': True,
     'dispatch': True,
     'interconnection': False,
     'maps': False,
@@ -751,7 +752,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
         keys_results = {'pCostsSystem', 'pYearlyCostsZone', 'pYearlyCostsZoneFull', 'pEnergyBalance'}
 
     # Process results
-    RESULTS_FOLDER, dict_specs, epm_input, epm_results = process_simulation_results(
+    RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
         FOLDER, keys_results=keys_results)
 
     set_default_fuel_order(dict_specs.get('fuel_order'))
@@ -780,7 +781,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
         # Generate summary
         log_info('Generating summary...', logger=active_logger)
-        generate_summary(epm_results, RESULTS_FOLDER, epm_input)
+        generate_summary(epm_results, RESULTS_FOLDER)
 
         # Generate detailed by plant to debug
         if not reduced_output:
@@ -895,13 +896,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         
                         filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{scenario}.pdf')
                         
-                        df_line = epm_input['pDemandForecast'].copy()
+                        df_line = epm_results['pDemandPeakZone'].copy()
                         df_line = df_line[df_line['scenario'] == scenario]
                         df_line = df_line.drop(columns=['scenario'])
-                        df_line = df_line[df_line['type'] == 'peak']
                         df_line['value'] /= 1e3
-                        
-                        
+                                              
                         make_stacked_barplot(df, 
                                                     filename, 
                                                     dict_specs['colors'],
@@ -916,8 +915,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     annotate=False,
                                                     title=f'Installed Capacity Mix by Fuel - {scenario} (GW)'
                                                     )                     
-                        
-                        
+                                               
                         df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
                         df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
                         df_percentage = df_percentage.reset_index()
