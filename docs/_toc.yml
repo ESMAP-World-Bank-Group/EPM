@@ -33,6 +33,7 @@ parts:
       - file: docs/input_set_definition.md
       - file: docs/input_from_excel_to_csv.md
       - file: docs/input_technology_brief.md
+      - file: docs/input_fuel_brief.md
       - file: docs/input_representative_days.md
   - caption: Output & Postprocessing
     chapters:
