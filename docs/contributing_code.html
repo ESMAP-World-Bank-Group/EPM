@@ -1147,6 +1147,11 @@ title="Print to PDF"
    Guidelines for submitting pull requests
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adding-a-new-technology">
+   Adding a new technology
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -1187,6 +1192,48 @@ title="Print to PDF"
 <li><p>Contain only one type of change (avoid mixing bug fixes with new features).</p></li>
 <li><p>Be tested before being submitted.</p></li>
 </ul>
+</section>
+<section id="adding-a-new-technology">
+<h2>Adding a new technology<a class="headerlink" href="#adding-a-new-technology" title="Permalink to this heading">#</a></h2>
+<p>To add a new technology to the model, you must update several input files.</p>
+<ol class="arabic simple">
+<li><p><strong>Supply defaults</strong></p>
+<ul class="simple">
+<li><p>Add the technology to:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">AvailabilityDefault</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PageNDataInputDefault</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PayCapExTrajectoriesDefault</span></code></p></li>
+</ul>
+</li>
+<li><p>These are all under <em>supply</em>.</p></li>
+<li><p>Do this in the <strong>main branch</strong>, so everyone can use it, unless the technology is strictly specific to your own case.</p></li>
+</ul>
+</li>
+<li><p><strong>Zonal definition</strong></p>
+<ul class="simple">
+<li><p>Default technologies are defined <strong>by zone</strong>.</p></li>
+<li><p>If you have no better information, define the <strong>same technology</strong> for <strong>all zones</strong> in the input files.</p></li>
+</ul>
+</li>
+<li><p><strong>Resources and attributes</strong></p>
+<ul class="simple">
+<li><p>Add the technology to the <strong>resources</strong> and <strong>take data</strong> files.</p></li>
+<li><p>Define all required <strong>attributes</strong> (e.g., efficiency, fuel, lifetime, cost parameters).</p></li>
+</ul>
+</li>
+<li><p><strong>Post-processing and coding</strong></p>
+<ul class="simple">
+<li><p>Add the technology to:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">PostProcessingStaticTechnologies.csv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Coders.csv</span></code></p></li>
+</ul>
+</li>
+<li><p>This ensures that figures are generated correctly and avoids exceptions during post-processing.</p></li>
+</ul>
+</li>
+</ol>
 </section>
 </section>
 
@@ -1251,6 +1298,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#guidelines-for-submitting-pull-requests">
    Guidelines for submitting pull requests
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adding-a-new-technology">
+   Adding a new technology
   </a>
  </li>
 </ul>
