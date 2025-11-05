@@ -607,16 +607,21 @@ pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)
 *   - Aggregation of zonal demand by mapping zones to countries
 * ---------------------------------------------------------
 Parameter
-  pDemandZone(z,y)                         'Total demand in GWh per zone'
-  pDemandCountry(c,y)                      'Total demand in GWh per country'
-  pDemand(y)
+  pDemandEnergyZone(z,y)         'Total energy demand [GWh] by zone and year'
+  pDemandEnergyCountry(c,y)      'Total energy demand [GWh] by country and year'
+  pDemandEnergySystem(y)         'Total system energy demand [GWh] by year'
+  pDemandPeakZone(z,y)           'Peak demand [MW] by zone and year'
+  pDemandPeakCountry(c,y)        'Peak demand [MW] by country and year'
+  pDemandPeakSystem(y)           'Peak demand [MW] by year'
 ;
 
-pDemandZone(z,y) = sum((q,d,t), 
-    pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)
-) / 1e3;
-pDemandCountry(c,y) = sum(z$(zcmap(z,c)), pDemandZone(z,y));
-pDemand(y) = sum(z, pDemandZone(z,y));
+pDemandEnergyZone(z,y) = sum((q,d,t), pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)) / 1e3;
+pDemandEnergyCountry(c,y) = sum(zcmap(z,c), pDemandEnergyZone(z,y));
+pDemandEnergySystem(y) = sum(z, pDemandEnergyZone(z,y));
+
+pDemandPeakZone(z,y) = smax((q,d,t), pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y));
+pDemandPeakCountry(c,y) = smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y)));
+pDemandPeakSystem(y) = smax((q,d,t), sum(z, pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y)));
 
 * ---------------------------------------------------------
 * Zone-level cost components [$m]
@@ -672,32 +677,32 @@ pYearlyCostsZone(z, "Spinning reserve costs: $m", y) =
   vYearlySpinningReserveCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Unmet country spinning reserve costs: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyUnmetSpinningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  sum(c$(zcmap(z, c) and pDemandEnergyCountry(c, y) > 0),
+    vYearlyUnmetSpinningReserveCostCountry.l(c, y) * (pDemandEnergyZone(z, y) / pDemandEnergyCountry(c, y))
   ) / 1e6;
 
 pYearlyCostsZone(z, "Unmet country planning reserve costs: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  sum(c$(zcmap(z, c) and pDemandEnergyCountry(c, y) > 0),
+    vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandEnergyZone(z, y) / pDemandEnergyCountry(c, y))
   ) / 1e6;
 
 pYearlyCostsZone(z, "Unmet system planning reserve costs: $m", y) =
-  vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+  vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandEnergyZone(z, y) / pDemandEnergySystem(y)) / 1e6;
 
 pYearlyCostsZone(z, "Unmet system spinning reserve costs: $m", y) =
-  vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+  vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandEnergyZone(z, y) / pDemandEnergySystem(y)) / 1e6;
 
 * Carbon-related costs
 pYearlyCostsZone(z, "Carbon costs: $m", y) =
   vYearlyCarbonCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Unmet country CO2 backstop cost: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  sum(c$(zcmap(z, c) and pDemandEnergyCountry(c, y) > 0),
+    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandEnergyZone(z, y) / pDemandEnergyCountry(c, y))
   ) / 1e6;
 
 pYearlyCostsZone(z, "Unmet system CO2 backstop cost: $m", y) =
-  vYearlyCO2BackstopCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+  vYearlyCO2BackstopCostSystem.l(y) * (pDemandEnergyZone(z, y) / pDemandEnergySystem(y)) / 1e6;
 
 * Trade-related costs
 pYearlyCostsZone(z, "Import costs with internal zones: $m", y) =
@@ -751,18 +756,18 @@ pCostsSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
 * Annual average cost benchmarks ($/MWh) without discounting:
 * divide yearly costs by the matching energy basis.
 pYearlyCostsZonePerMWh(z,sumhdr,y) =
-    pYearlyCostsZone(z,sumhdr,y)*1e6 / (pDemandZone(z,y) * 1e3);
+    pYearlyCostsZone(z,sumhdr,y)*1e6 / (pDemandEnergyZone(z,y) * 1e3);
 
 pYearlyCostsCountryPerMWh(c,sumhdr,y) =
-    1e6 * pYearlyCostsCountry(c,sumhdr,y) / (pDemandCountry(c,y) * 1e3);
+    1e6 * pYearlyCostsCountry(c,sumhdr,y) / (pDemandEnergyCountry(c,y) * 1e3);
 
 pYearlyCostsSystemPerMWh(sumhdr,y) = 
-    1e6 * pYearlyCostsSystem(sumhdr, y) / (pDemand(y) * 1e3);
+    1e6 * pYearlyCostsSystem(sumhdr, y) / (pDemandEnergySystem(y) * 1e3);
 
 * Discount zonal demand over the horizon; convert GWh -> MWh via 1e3
 * and apply both the discount rate (pRR) and scenario weight (pWeightYear).
 pDiscountedDemandZoneMWh(z) =
-    sum(y, pDemandZone(z,y) * 1e3 * pRR(y) * pWeightYear(y));
+    sum(y, pDemandEnergyZone(z,y) * 1e3 * pRR(y) * pWeightYear(y));
 
 pDiscountedDemandCountryMWh(c) =
     sum(zcmap(z,c), pDiscountedDemandZoneMWh(z));
@@ -1319,6 +1324,12 @@ embeddedCode Connect:
       symbols = [
         "pGeneratorTechFuel",
         "pZoneCountry",
+        "pDemandEnergyZone",
+        "pDemandEnergyCountry",
+        "pDemandEnergySystem",
+        "pDemandPeakZone",
+        "pDemandPeakCountry",
+        "pDemandPeakSystem",
         "pCapacityPlant",
         "pNewCapacityPlant",
         "pCapacityTechFuel",
@@ -1408,6 +1419,8 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
     execute_unload 'epmresults',
       pSettings, pGeneratorTechFuel, pZoneCountry,
+      pDemandEnergyZone, pDemandEnergyCountry, pDemandEnergySystem,
+      pDemandPeakZone, pDemandPeakCountry, pDemandPeakSystem,
 * 1. CAPACITY
       pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,

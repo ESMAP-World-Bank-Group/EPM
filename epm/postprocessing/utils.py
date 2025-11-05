@@ -558,8 +558,7 @@ def filter_dataframe_by_index(df, conditions):
     return df
 
 
-def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=None, mapping_gen_fuel=None,
-                        mapping_zone_country=None):
+def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=None):
     """
     Processing EPM results to use in plots.
     
@@ -670,6 +669,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         'pNewCapacityTechFuelCountry',
         'pUtilizationTechFuel',
         'pDispatchTechFuel',
+        'pGeneratorTechFuel'
         
     ]
     # Transform tech-fuel in one column
@@ -694,19 +694,19 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         standardize_names(epm_dict, key, dict_specs['fuel_mapping'])
 
     # Add fuel type to Plant-based results
-    if mapping_gen_fuel is not None:
-        # Plant-based results
-        plant_result = ['pReserveSpinningPlantZone', 'pPlantAnnualLCOE', 'pEnergyPlant', 'pCapacityPlant',
-                        'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
-        for key in [k for k in plant_result if k in epm_dict.keys()]:
-            epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
+    mapping_gen_fuel = epm_dict['pGeneratorTechFuel'].loc[:, ['scenario', 'generator', 'fuel']]
+    # Plant-based results
+    plant_result = ['pReserveSpinningPlantZone', 'pPlantAnnualLCOE', 'pEnergyPlant', 'pCapacityPlant',
+                    'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
+    for key in [k for k in plant_result if k in epm_dict.keys()]:
+        epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
     # Add country to some Zone-based results
-    if mapping_zone_country is not None:
-        # Add country to the results
-        zone_result = ['pEnergyPlant', 'pCapacityPlant', 'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
-        for key in [k for k in zone_result if k in epm_dict.keys()]:
-            epm_dict[key] = epm_dict[key].merge(mapping_zone_country, on=['scenario', 'zone'], how='left')
+    mapping_zone_country = epm_dict['pZoneCountry'].loc[:, ['scenario', 'country', 'zone']]
+    # Add country to the results
+    zone_result = ['pEnergyPlant', 'pCapacityPlant', 'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
+    for key in [k for k in zone_result if k in epm_dict.keys()]:
+        epm_dict[key] = epm_dict[key].merge(mapping_zone_country, on=['scenario', 'zone'], how='left')
 
     return epm_dict
 
@@ -723,7 +723,7 @@ def path_to_extract_results(folder):
     return RESULTS_FOLDER
 
 
-def generate_summary(epm_results, folder, epm_input):
+def generate_summary(epm_results, folder):
     """
     Generate a summary of the EPM results.
     
@@ -733,8 +733,6 @@ def generate_summary(epm_results, folder, epm_input):
         Dictionary containing the EPM results
     folder: str
         Path to the folder where the summary will be saved
-    epm_input: dict
-        Dictionary containing the EPM input data
         
     Returns
     -------
@@ -990,7 +988,7 @@ def generate_summary(epm_results, folder, epm_input):
         order_dict = {attr: index for index, attr in enumerate(order)}
         summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
 
-    zone_to_country = epm_input['zcmap'].set_index('zone')['country'].to_dict()
+    zone_to_country = epm_results['pZoneCountry'].set_index('zone')['country'].to_dict()    
     summary['country'] = summary['country'].fillna(summary['zone'].map(zone_to_country))
     # Remove duplicates
     
@@ -1167,16 +1165,13 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
         pass
 
     # Extract and process EPM inputs
-    epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
-    epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
-    mapping_gen_fuel = epm_input['pGenDataInput'].loc[:, ['scenario', 'generator', 'fuel']]
-    mapping_zone_country = epm_input['zcmap'].loc[:, ['scenario', 'zone', 'country']]
+    if False:
+        epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
+        epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
 
     # Extract and process EPM results
     epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
-    epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
-                                        mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
-                                        keys=keys_results)
+    epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME, keys=keys_results)
     log_info(f"Loaded {len(epm_results)} processed result tables")
 
     # Update color dict with plant colors
@@ -1199,33 +1194,5 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
             # Update dict_specs with the new colors
             dict_specs['colors'].update(plant_to_color)
 
-    return RESULTS_FOLDER, dict_specs, epm_input, epm_results
+    return RESULTS_FOLDER, dict_specs, epm_results
 
-
-
-def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
-
-    # Get the data
-
-    results_folder, graphs_folder, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
-    results_folder, folder='')
-
-    tabs_to_update=['pEnergyBalance','pCapacityTechFuel','pEnergyTechFuel','pYearlyCostsZone','pYearlyCostsZoneCountry','pEmissions','pInterchange']
-
-    output_file = f"{results_folder}_results_summary_dis.xlsx"
-
-    # Create the file from the template
-    shutil.copyfile(template_file, output_file)
-
-    # Charge data
-    with pd.ExcelWriter(output_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
-        for tab in tabs_to_update:
-            if tab in epm_results.keys():
-                df_temp = epm_results[tab].copy()
-                col_order = [col for col in df_temp.columns if col != "scenario"] + ["scenario"]
-                df_temp = df_temp[col_order]
-                df_temp.to_excel(writer, sheet_name=tab, index=False)
-            else:
-                log_warning(f"No data for '{tab}' — ignored")
-
-    log_info(f"Excel generated : {output_file}")
