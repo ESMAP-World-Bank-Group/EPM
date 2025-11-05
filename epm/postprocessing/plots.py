@@ -64,6 +64,14 @@ from collections import defaultdict, OrderedDict
 
 from .utils import NAME_COLUMNS, RENAME_COLUMNS
 
+DEFAULT_FUEL_ORDER = None
+
+
+def set_default_fuel_order(order):
+    """Store the default stacking order for fuel plots."""
+    global DEFAULT_FUEL_ORDER
+    DEFAULT_FUEL_ORDER = list(order) if order else None
+
 def format_ax(ax, linewidth=True):
     """
     Format the axis of a plot.
@@ -1214,7 +1222,9 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
     format_y : function, optional
         Function for formatting y-axis labels.
     order_stacked : list, optional
-        Reordering the variables that will be stacked.
+        Reordering the variables that will be stacked. When ``column_stacked`` is
+        ``'fuel'`` and this argument is omitted, the ordering declared in the fuel
+        mapping file is applied automatically.
     cap : int, optional
         Under this cap, no annotation will be displayed.
     annotate : bool, optional
@@ -1344,6 +1354,9 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
         stacked = True
         if column_stacked is None:
             stacked = False
+
+        if order_stacked is None and column_stacked == 'fuel' and DEFAULT_FUEL_ORDER:
+            order_stacked = DEFAULT_FUEL_ORDER
 
         handles, labels = None, None
         overlay_label_used = False

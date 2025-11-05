@@ -58,7 +58,7 @@ def _wrap_plot_function(func):
             label = kwargs.get('filename')
             if label is None:
                 label = kwargs.get('title')
-            log_warning(f'Failed to generate {label}: {err}')
+            log_warning(f'Failed to generate {label}: {err.args[0]}')
     return wrapper
 
 
@@ -179,10 +179,10 @@ FIGURES_ACTIVATED = {
 }
 
 FIGURE_CATEGORY_ENABLED = {
-    'summary': False,
-    'capacity': False,
+    'summary': True,
+    'capacity': True,
     'costs': False,
-    'energy': False,
+    'energy': True,
     'dispatch': True,
     'interconnection': False,
     'maps': False,
@@ -753,6 +753,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
     # Process results
     RESULTS_FOLDER, dict_specs, epm_input, epm_results = process_simulation_results(
         FOLDER, keys_results=keys_results)
+
+    set_default_fuel_order(dict_specs.get('fuel_order'))
 
 
     GRAPHS_FOLDER = os.path.join(FOLDER, graphs_folder)
