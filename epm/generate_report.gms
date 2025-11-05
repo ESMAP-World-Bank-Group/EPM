@@ -145,6 +145,8 @@ Parameters
   pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
   
   pCapacityPlantH2(z,hh,y)                   'Capacity plan of electrolyzers [MW] by zone'
+  pGeneratorTechFuel(g,tech,f)               'Mapping of generator to technology and fuel'
+  pZoneCountry(z,c)                          'Mapping of zone to country'
 
 * ============================================================
 * 2. COSTS
@@ -302,8 +304,13 @@ Parameters
    pSolverParameters(*)                      'modeltype parameters'                                                                                 
 ;
 
+* Mapping
 
+pGeneratorTechFuel(g, tech, f) = sum(z, gmap(g, z, tech, f));
+pGeneratorTechFuel(g, tech, f)$pGeneratorTechFuel(g, tech, f) = 1;
 
+pZoneCountry(z, c) = zcmap(z, c);
+pZoneCountry(z, c)$pZoneCountry(z, c) = 1;
 
 
 * ============================================================
@@ -325,6 +332,7 @@ pCapacityPlant(zgmap(z,g),y)                 = vCap.l(g,y);
 pNewCapacityPlant(zgmap(z,g),y)              = vBuild.l(g,y);
 
 pRetirementsPlant(zgmap(z,g),y)                  = vRetire.l(g,y);
+
 
 * ---------------------------------------------------------
 * Capacity, new builds, retirements, and utilization by fuel and technology
@@ -1309,7 +1317,8 @@ embeddedCode Connect:
 - PythonCode:
     code: |
       symbols = [
-      
+        "pGeneratorTechFuel",
+        "pZoneCountry",
         "pCapacityPlant",
         "pNewCapacityPlant",
         "pCapacityTechFuel",
@@ -1398,7 +1407,7 @@ endEmbeddedCode
 $ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
     execute_unload 'epmresults',
-      pSettings,
+      pSettings, pGeneratorTechFuel, pZoneCountry,
 * 1. CAPACITY
       pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,

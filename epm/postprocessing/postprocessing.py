@@ -111,7 +111,7 @@ KEYS_RESULTS = {
     'pYearlyCostsCountryPerMWh',
     'pYearlyCostsSystemPerMWh',
     # 11. Other
-    'pSolverParameters'
+    'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry'
 }
 
 FIGURES_ACTIVATED = {
@@ -1616,6 +1616,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             df_energyfuel = epm_results['pEnergyTechFuel'].copy()
             
             # Additionnal energy information not in pEnergyTechFuel
+            # TODO: check zext for this one
             df_exchange = epm_results['pEnergyBalance'].copy()
             df_exchange = df_exchange.loc[df_exchange['attribute'].isin(['Unmet demand: GWh', 'Exports exchange: GWh', 'Imports exchange: GWh'])]
             df_exchange = df_exchange.replace({'Unmet demand: GWh': 'Unmet demand',
