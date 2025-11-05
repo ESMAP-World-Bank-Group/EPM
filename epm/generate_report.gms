@@ -132,8 +132,10 @@ Parameters
   
   pNewCapacityFuel(z,f,y)                    'Newly added capacity [MW] by fuel and zone'
   pNewCapacityTech(z,tech,y)                 'Newly added capacity [MW] by technology and zone'
+  pNewCapacityTechFuel(z,tech,f,y)           'Newly added capacity [MW] by technology, fuel, and zone'
   pNewCapacityFuelCountry(c,f,y)             'Newly added capacity [MW] by fuel and country'
   pNewCapacityTechCountry(c,tech,y)          'Newly added capacity [MW] by technology and country'
+  pNewCapacityTechFuelCountry(c,tech,f,y)    'Newly added capacity [MW] by technology, fuel, and country'
   
   pAdditionalTransmissionCapacity(z, z2, y)
   pAnnualTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
@@ -206,6 +208,7 @@ Parameters
 
   pDispatchPlant(z, y, q, d, g, t, *)      'Plant-level hourly dispatch and reserve [MW]'
   pDispatchFuel(z, y, q, d, f, t)          'Fuel-level hourly dispatch [MW]'
+  pDispatchTechFuel(z, y, q, d, tech, f, t) 'Technology-fuel level hourly dispatch [MW]'
   pDispatch(z, y, q, d, *, t)              'Zone-level hourly dispatch and flows [MW]'
 
 * ============================================================
@@ -214,7 +217,9 @@ Parameters
 
   pReserveSpinningPlantZone(z,g,y)        'Spinning reserve provided by plant [MWh] per zone and year'
   pReserveSpinningFuelZone(z,f,y)         'Spinning reserve provided by fuel [MWh] per zone and year'
+  pReserveSpinningTechFuelZone(z,tech,f,y) 'Spinning reserve provided by technology-fuel [GWh] per zone and year'
   pReserveSpinningPlantCountry(c,g,y)     'Spinning reserve provided by plant [MWh] per country and year'
+  pReserveSpinningTechFuelCountry(c,tech,f,y) 'Spinning reserve provided by technology-fuel [GWh] per country and year'
   
   pReserveMargin(z,*,y)                   'Reserve margin indicators by zone and year'
   pReserveMarginCountry(c,*,y)            'Reserve margin indicators by country and year'
@@ -349,6 +354,10 @@ pNewCapacityFuel(z, f, y) =
 pNewCapacityTech(z, tech, y) =
   sum((gzmap(g, z), gtechmap(g, tech), gprimf(g, f)), vBuild.l(g, y));
 
+* New capacity by technology and fuel [MW]
+pNewCapacityTechFuel(z, tech, f, y) =
+  sum((gzmap(g, z), gtechmap(g, tech), gprimf(g, f)), vBuild.l(g, y));
+
 * Retirements by fuel [MW]
 pRetirementsFuel(z, f, y) =
   sum((gzmap(g, z), gprimf(g, f)), vRetire.l(g, y));
@@ -396,6 +405,9 @@ pNewCapacityFuelCountry(c, f, y) =
 
 pNewCapacityTechCountry(c, tech, y) =
   sum(zcmap(z, c), pNewCapacityTech(z, tech, y));
+
+pNewCapacityTechFuelCountry(c, tech, f, y) =
+  sum(zcmap(z, c), pNewCapacityTechFuel(z, tech, f, y));
 
 pRetirementsFuelCountry(c, f, y) =
   sum(zcmap(z, c), pRetirementsFuel(z, f, y));
@@ -927,6 +939,8 @@ pDispatchPlant(z, y, q, d, g, t, "Generation")$zgmap(z, g) = sum(gfmap(g, f), vP
 pDispatchPlant(z, y, q, d, g, t, "Reserve")$zgmap(z, g) = vSpinningReserve.l(g, q, d, t, y);
 
 pDispatchFuel(z, y, q, d, f, t) = sum((gzmap(g, z), gfmap(g, f)), vPwrOut.l(g, f, q, d, t, y));
+pDispatchTechFuel(z, y, q, d, tech, f, t) =
+  sum((gzmap(g, z), gtechmap(g, tech), gfmap(g, f)), vPwrOut.l(g, f, q, d, t, y));
 
 pDispatch(z, y, q, d, "Imports", t) = sum(sTopology(z, z2), vFlow.l(z2, z, q, d, t, y)) + sum(zext, vYearlyImportExternal.l(z, zext, q, d, t, y));
 pDispatch(z, y, q, d, "Exports", t) = -sum(sTopology(z, z2), vFlow.l(z, z2, q, d, t, y)) - sum(zext, vYearlyExportExternal.l(z, zext, q, d, t, y));
@@ -949,7 +963,11 @@ pDispatch(z, y, q, d, "Demand", t) = pDemandData(z, q, d, y, t) * pEnergyEfficie
 
 pReserveSpinningPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
 pReserveSpinningFuelZone(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
+pReserveSpinningTechFuelZone(z,tech,f,y) =
+  sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
 pReserveSpinningPlantCountry(c,g,y)=  sum((zcmap(z,c),zgmap(z,g)), pReserveSpinningPlantZone(z,g,y));
+pReserveSpinningTechFuelCountry(c,tech,f,y) =
+  sum(zcmap(z,c), pReserveSpinningTechFuelZone(z,tech,f,y));
 
 pReserveMargin(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
 pReserveMargin(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
@@ -1294,11 +1312,15 @@ embeddedCode Connect:
       
         "pCapacityPlant",
         "pNewCapacityPlant",
+        "pCapacityTechFuel",
         "pCapacityFuel",
+        "pCapacityTechFuelCountry",
         "pCapacityFuelCountry",
         "pNewTransmissionCapacity",
         "pNewCapacityFuel",
+        "pNewCapacityTechFuel",
         "pNewCapacityFuelCountry",
+        "pNewCapacityTechFuelCountry",
         "pAnnualTransmissionCapacity",
         "pCapacitySummary",
         "pCapacitySummaryCountry",
@@ -1334,12 +1356,15 @@ embeddedCode Connect:
         "pReserveSpinningPlantZone",
         "pReserveSpinningPlantCountry",
         "pReserveSpinningFuelZone",
+        "pReserveSpinningTechFuelZone",
+        "pReserveSpinningTechFuelCountry",
         "pCapacityCredit",
         
         "pEmissionsZone",
         "pEmissionsIntensityZone",
-        
+
         "pDispatchFuel",
+        "pDispatchTechFuel",
         "pDispatch",
         
         "pPlantAnnualLCOE",
@@ -1377,7 +1402,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 1. CAPACITY
       pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
-      pNewCapacityFuel, pNewCapacityTech, pNewCapacityFuelCountry, pNewCapacityTechCountry,
+      pNewCapacityFuel, pNewCapacityTech, pNewCapacityTechFuel, pNewCapacityFuelCountry, pNewCapacityTechCountry, pNewCapacityTechFuelCountry,
       pAnnualTransmissionCapacity, pNewTransmissionCapacity,
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
@@ -1391,9 +1416,9 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pUtilizationPlant, pUtilizationTech, pUtilizationFuel, pUtilizationTechFuel, pUtilizationFuelCountry, pUtilizationTechFuelCountry,
       pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
 * 4. ENERGY DISPATCH
-      pDispatchPlant, pDispatchFuel, pDispatch,
+      pDispatchPlant, pDispatchFuel, pDispatchTechFuel, pDispatch,
 * 5. RESERVES
-      pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningPlantCountry,
+      pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningTechFuelZone, pReserveSpinningPlantCountry, pReserveSpinningTechFuelCountry,
       pReserveMargin, pReserveMarginCountry,
 * 5. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pLossesTransmission, pInterchangeCountry, pLossesTransmissionCountry,
