@@ -43,8 +43,8 @@ LFO (or light heating oil) is a refined petroleum product lighter and cleaner th
 ### Diesel
 Diesel (automotive-grade distillate fuel) is used in small power plants or backup generators.  
 - **Energy content:** ~43 MJ/kg  
-- **Characteristics:** High-quality, clean-burning liquid fuel; very flexible but expensive.  
-- **Difference vs. HFO/LFO:** Lowest sulfur, higher cost, often used for peaking or isolated systems.  
+- **Characteristics:** High-quality, clean-burning liquid fuel with a high cetane rating that enables rapid, reliable starts; very flexible but expensive.  
+- **Difference vs. HFO/LFO:** Refined to tighter specifications, so it ignites instantly, runs cleaner, and requires less preheating, which is why backup generators favor it despite the higher cost.  
 
 ---
 
@@ -69,12 +69,10 @@ The projection of fuel prices in EPM considers **international market prices** f
    - Use reliable sources such as [TradingEconomics](https://tradingeconomics.com/), [World Bank Pink Sheet](https://www.worldbank.org/en/research/commodity-markets), or [IEA](https://www.iea.org/).
 2. **Add transport and delivery costs:**
    - +1–3 USD/MMBtu for LNG shipping, regasification, or long-distance pipelines.  
-   - +0.5–2 USD/MMBtu for local distribution.  
+   - +1–2 USD/MMBtu for local distribution.  
 3. **Include taxes, duties, or subsidies if applicable.**
 4. **Convert to USD/MMBtu (EPM unit)** and optionally to **USD/MWh** for comparison:
-   $begin:math:display$
-   1\\ \\text{MMBtu} = 293.071\\ \\text{kWh} \\Rightarrow 1\\ \\text{USD/MMBtu} = 3.41\\ \\text{USD/MWh}
-   $end:math:display$
+   `1 MMBtu ≈ 293 kWh`, therefore `1 USD/MMBtu ≈ 3 USD/MWh`.
 
 ---
 
@@ -82,13 +80,13 @@ The projection of fuel prices in EPM considers **international market prices** f
 
 | Fuel | Typical Source | Example Reference | Price (USD/MMBtu) | Equivalent (USD/MWh) | Notes |
 |------|----------------|------------------:|------------------:|---------------------:|-------|
-| **Coal** | World Bank – Pink Sheet (Thermal Coal Australia) | 3.0–4.0 | 10–14 | Add shipping costs for imports |
-| **Natural Gas** | TradingEconomics – Henry Hub / TTF / JKM | 6.0–10.0 | 20–34 | Add +2–4 USD/MMBtu for transport & regasification |
-| **LNG** | IEA or JKM LNG Index | 9.0–12.0 | 31–41 | Delivered LNG including liquefaction, shipping, and regasification |
-| **HFO** | IEA or national petroleum regulator | 12.0–16.0 | 41–55 | Used mainly in large coastal power plants |
-| **LFO** | IEA or national market | 14.0–18.0 | 48–61 | Cleaner but costlier than HFO |
-| **Diesel** | IEA, TradingEconomics, or local fuel prices | 18.0–22.0 | 61–75 | Often used in isolated or backup generation |
-| **Biomass** | IRENA, FAO, or local sources | 3.0–5.0 | 10–17 | Strongly dependent on moisture content and transport distance |
+| **Coal** | World Bank – Pink Sheet (Thermal Coal Australia) | 3–4 | 10–14 | Add shipping costs for imports |
+| **Natural Gas** | TradingEconomics – Henry Hub / TTF / JKM | 6–10 | 20–34 | Add +2–4 USD/MMBtu for transport & regasification |
+| **LNG** | IEA or JKM LNG Index | 9–12 | 31–41 | Delivered LNG including liquefaction, shipping, and regasification |
+| **HFO** | IEA or national petroleum regulator | 12–16 | 41–55 | Used mainly in large coastal power plants |
+| **LFO** | IEA or national market | 14–18 | 48–61 | Cleaner but costlier than HFO |
+| **Diesel** | IEA, TradingEconomics, or local fuel prices | 18–22 | 61–75 | Often used in isolated or backup generation |
+| **Biomass** | IRENA, FAO, or local sources | 3–5 | 10–17 | Strongly dependent on moisture content and transport distance |
 
 > These prices are indicative mid-range 2025 values and should be adjusted for inflation and local conditions.  
 > For long-term projections, EPM uses escalation factors based on IEA or World Bank forecasts.
