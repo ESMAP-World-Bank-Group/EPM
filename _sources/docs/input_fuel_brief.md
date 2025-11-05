@@ -6,6 +6,7 @@
 Coal is a solid fossil fuel formed from compressed plant matter over millions of years. It is mainly composed of carbon and used for electricity generation through combustion in steam turbines.  
 - **Energy content:** 20–28 MJ/kg (~18–25 USD/MWh equivalent)  
 - **Characteristics:** Abundant but carbon-intensive; local or imported depending on the country.  
+- **Reference price:** [TradingEconomics – Coal](https://tradingeconomics.com/commodity/coal)  
 
 ---
 
@@ -13,6 +14,7 @@ Coal is a solid fossil fuel formed from compressed plant matter over millions of
 Natural gas is a gaseous fossil fuel composed mainly of methane (CH₄). It is used in gas turbines, combined-cycle power plants, and sometimes in CHP systems.  
 - **Energy content:** ~38–42 MJ/m³ (~1 MMBtu ≈ 293 kWh)  
 - **Characteristics:** Cleaner than coal or oil; requires pipeline or LNG infrastructure.  
+- **Reference price:** [TradingEconomics – Natural Gas](https://tradingeconomics.com/commodity/natural-gas)  
 
 ---
 
@@ -78,15 +80,15 @@ The projection of fuel prices in EPM considers **international market prices** f
 
 ## 3. Reference Prices and Sources
 
-| Fuel | Typical Source | Example Reference | Price (USD/MMBtu) | Equivalent (USD/MWh) | Notes |
-|------|----------------|------------------:|------------------:|---------------------:|-------|
-| **Coal** | World Bank – Pink Sheet (Thermal Coal Australia) | 3–4 | 10–14 | Add shipping costs for imports |
-| **Natural Gas** | TradingEconomics – Henry Hub / TTF / JKM | 6–10 | 20–34 | Add +2–4 USD/MMBtu for transport & regasification |
-| **LNG** | IEA or JKM LNG Index | 9–12 | 31–41 | Delivered LNG including liquefaction, shipping, and regasification |
-| **HFO** | IEA or national petroleum regulator | 12–16 | 41–55 | Used mainly in large coastal power plants |
-| **LFO** | IEA or national market | 14–18 | 48–61 | Cleaner but costlier than HFO |
-| **Diesel** | IEA, TradingEconomics, or local fuel prices | 18–22 | 61–75 | Often used in isolated or backup generation |
-| **Biomass** | IRENA, FAO, or local sources | 3–5 | 10–17 | Strongly dependent on moisture content and transport distance |
+| Fuel | Typical Source | Example Reference | Price (USD/MMBtu) | Equivalent (USD/MWh) |
+|------|----------------|------------------:|------------------:|---------------------:|
+| **Coal** | World Bank – Pink Sheet (Thermal Coal Australia) | [TradingEconomics – Coal](https://tradingeconomics.com/commodity/coal) | 3–4 | 10–14 |
+| **Natural Gas** | TradingEconomics – Henry Hub / TTF / JKM | [TradingEconomics – Natural Gas](https://tradingeconomics.com/commodity/natural-gas) | 6–10 | 20–34 |
+| **LNG** | IEA or JKM LNG Index | [IEA LNG Outlook](https://www.iea.org/reports/world-energy-outlook-2023) | 9–12 | 31–41 |
+| **HFO** | IEA or national petroleum regulator | [IEA Oil Market Report](https://www.iea.org/reports/oil-market-report) | 12–16 | 41–55 |
+| **LFO** | IEA or national market | [IEA Oil Market Report](https://www.iea.org/reports/oil-market-report) | 14–18 | 48–61 |
+| **Diesel** | IEA, TradingEconomics, or local fuel prices | [TradingEconomics – Diesel](https://tradingeconomics.com/commodity/diesel) | 18–22 | 61–75 |
+| **Biomass** | IRENA, FAO, or local sources | [IRENA – Bioenergy](https://www.irena.org/bioenergy) | 3–5 | 10–17 |
 
 > These prices are indicative mid-range 2025 values and should be adjusted for inflation and local conditions.  
 > For long-term projections, EPM uses escalation factors based on IEA or World Bank forecasts.
