@@ -122,18 +122,19 @@ _log_error = log_error
 FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
 COLORS = os.path.join('static', 'colors.csv')
-GEOJSON = os.path.join('static', 'countries.geojson')
+GEOJSON = os.path.join('static', 'zones.geojson')
 GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
 
 TOLERANCE = 1e-2
 
+# TODO: fix that because only used in dispatch
 NAME_COLUMNS = {
-    'pDispatchFuel': 'fuel',
+    'pDispatchTechFuel': 'fuel',
     'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
     'pYearlyCostsZone': 'attribute',
-    'pCapacityFuel': 'fuel',
-    'pEnergyFuel': 'fuel',
+    'pCapacityTechFuel': 'fuel',
+    'pEnergyTechFuel': 'fuel',
     'pDispatchReserve':'attribute',
     'pNetExchange':'attribute'
 }
@@ -249,17 +250,17 @@ def read_plot_specs(folder='postprocessing'):
         Dictionary containing the specifications for the plots
     """
 
-    colors = pd.read_csv(os.path.join(folder, COLORS))
+    colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=1)
     fuel_mapping = pd.read_csv(os.path.join(folder, FUELS))
     tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
-    countries = gpd.read_file(os.path.join(folder, GEOJSON))
+    zones = gpd.read_file(os.path.join(folder, GEOJSON))
     geojson_to_epm = pd.read_csv(os.path.join(folder, GEOJSON_TO_EPM))
 
     dict_specs = {
-        'colors': colors.set_index('Processing')['Color'].to_dict(),
+        'colors': colors.set_index('Processing')['Color'].dropna().to_dict(),
         'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
         'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
-        'map_countries': countries,
+        'map_zones': zones,
         'geojson_to_epm': geojson_to_epm
     }
     return dict_specs
@@ -645,21 +646,36 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
     # Align naming across every fuel-based output now shipped with EPM
+    tech_fuel_outputs = [
+        'pEnergyTechFuel',
+        'pEnergyTechFuelCountry',
+        'pCapacityTechFuel',
+        'pCapacityTechFuelCountry',
+        'pNewCapacityTechFuel',
+        'pNewCapacityTechFuelCountry',
+        'pUtilizationTechFuel',
+        'pDispatchTechFuel',
+        
+    ]
+    # Transform tech-fuel in one column
+    for key in tech_fuel_outputs:
+        if key not in epm_dict:
+            continue
+        df = epm_dict[key]
+        if 'tech' not in df.columns or 'fuel' not in df.columns:
+            continue
+        
+        df['f'] = df['tech'].astype(str) + '-' + df['fuel'].astype(str)
+        df.drop(columns=['tech', 'fuel'], inplace=True)
+        df.rename({'f': 'fuel'}, inplace=True, axis=1)
+
     fuel_outputs = [
-        'pEnergyFuel',
-        'pEnergyFuelCountry',
-        'pCapacityFuel',
-        'pCapacityFuelCountry',
-        'pNewCapacityFuel',
-        'pNewCapacityFuelCountry',
-        'pUtilizationFuel',
-        'pDispatchFuel',
         'pFuelCosts',
         'pFuelCostsCountry',
         'pFuelConsumption',
         'pFuelConsumptionCountry'
     ]
-    for key in fuel_outputs:
+    for key in fuel_outputs + tech_fuel_outputs:
         standardize_names(epm_dict, key, dict_specs['fuel_mapping'])
 
     # Add fuel type to Plant-based results
@@ -757,41 +773,41 @@ def generate_summary(epm_results, folder, epm_input):
 
     # 2. Capacity
     
-    if 'pCapacityFuel' in epm_results.keys():
-        t = epm_results['pCapacityFuel'].copy()
+    if 'pCapacityTechFuel' in epm_results.keys():
+        t = epm_results['pCapacityTechFuel'].copy()
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pCapacityFuel': t})
+        summary.update({'pCapacityTechFuel': t})
     else:
-        log_warning('No pCapacityFuel in epm_results')
+        log_warning('No pCapacityTechFuel in epm_results')
 
-    if 'pCapacityFuelCountry' in epm_results.keys():
-        t = epm_results['pCapacityFuelCountry'].copy()
+    if 'pCapacityTechFuelCountry' in epm_results.keys():
+        t = epm_results['pCapacityTechFuelCountry'].copy()
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pCapacityFuelCountry': t})
+        summary.update({'pCapacityTechFuelCountry': t})
     else:
-        log_warning('No pCapacityFuelCountry in epm_results')
+        log_warning('No pCapacityTechFuelCountry in epm_results')
 
-    if 'pNewCapacityFuel' in epm_results.keys():
-        t = epm_results['pNewCapacityFuel'].copy()
+    if 'pNewCapacityTechFuel' in epm_results.keys():
+        t = epm_results['pNewCapacityTechFuel'].copy()
         t['attribute'] = 'New Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pNewCapacityFuel': t})
+        summary.update({'pNewCapacityTechFuel': t})
     else:
-        log_warning('No pNewCapacityFuel in epm_results')
+        log_warning('No pNewCapacityTechFuel in epm_results')
 
-    if 'pNewCapacityFuelCountry' in epm_results.keys():
-        t = epm_results['pNewCapacityFuelCountry'].copy()
+    if 'pNewCapacityTechFuelCountry' in epm_results.keys():
+        t = epm_results['pNewCapacityTechFuelCountry'].copy()
         t['attribute'] = 'New Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pNewCapacityFuelCountry': t})
+        summary.update({'pNewCapacityTechFuelCountry': t})
     else:
-        log_warning('No pNewCapacityFuelCountry in epm_results')
+        log_warning('No pNewCapacityTechFuelCountry in epm_results')
 
     if 'pAnnualTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -820,23 +836,23 @@ def generate_summary(epm_results, folder, epm_input):
     else:
         log_warning('No pEnergyBalance in epm_results')
 
-    if 'pEnergyFuel' in epm_results.keys():
-        t = epm_results['pEnergyFuel'].copy()
+    if 'pEnergyTechFuel' in epm_results.keys():
+        t = epm_results['pEnergyTechFuel'].copy()
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pEnergyFuel': t})
+        summary.update({'pEnergyTechFuel': t})
     else:
-        log_warning('No pEnergyFuel in epm_results')
+        log_warning('No pEnergyTechFuel in epm_results')
     
-    if 'pEnergyFuelCountry' in epm_results.keys():
-        t = epm_results['pEnergyFuelCountry'].copy()
+    if 'pEnergyTechFuelCountry' in epm_results.keys():
+        t = epm_results['pEnergyTechFuelCountry'].copy()
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pEnergyFuelCountry': t})
+        summary.update({'pEnergyTechFuelCountry': t})
     else:
-        log_warning('No pEnergyFuelCountry in epm_results')
+        log_warning('No pEnergyTechFuelCountry in epm_results')
        
     # 5. Reserves
     
@@ -1174,7 +1190,7 @@ def generate_summary_excel(results_folder, template_file="epm_results_summary_di
     results_folder, graphs_folder, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
     results_folder, folder='')
 
-    tabs_to_update=['pEnergyBalance','pCapacityFuel','pEnergyFuel','pYearlyCostsZone','pYearlyCostsZoneCountry','pEmissions','pInterchange']
+    tabs_to_update=['pEnergyBalance','pCapacityTechFuel','pEnergyTechFuel','pYearlyCostsZone','pYearlyCostsZoneCountry','pEmissions','pInterchange']
 
     output_file = f"{results_folder}_results_summary_dis.xlsx"
 
