@@ -251,7 +251,7 @@ def read_plot_specs(folder='postprocessing'):
     """
 
     colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=1)
-    fuel_mapping = pd.read_csv(os.path.join(folder, FUELS))
+    fuel_mapping = pd.read_csv(os.path.join(folder, FUELS), skiprows=1)
     tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
     zones = gpd.read_file(os.path.join(folder, GEOJSON))
     geojson_to_epm = pd.read_csv(os.path.join(folder, GEOJSON_TO_EPM))

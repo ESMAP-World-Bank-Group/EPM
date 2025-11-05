@@ -1525,7 +1525,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     energy_map.save(filename)
 
 
-def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selected_scenarios=None):
+def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selected_scenarios=None, figure_is_active=None):
     # TODO: ongoing work
     def keep_max_direction(df):
         # Make sure zone names are consistent strings
@@ -1554,6 +1554,11 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
 
     years = epm_results['pAnnualTransmissionCapacity']['year'].unique()
 
+    def _is_enabled(name):
+        if figure_is_active is not None:
+            return figure_is_active(name)
+        return figures_activated.get(name, False)
+
     # One figure per scenario
     for selected_scenario in selected_scenarios:
         log_info(f'Generating map for scenario {selected_scenario}')
@@ -1581,7 +1586,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
         figure_name = 'TransmissionCapacityMapEvolution'
-        if FIGURES_ACTIVATED.get(figure_name, False):
+        if _is_enabled(figure_name):
             title = f'Evolution Transmission Capacity [MW] - {selected_scenario}'
             filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
             
@@ -1597,7 +1602,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
             log_info(f'Saved transmission capacity map: {filename}')
         
         figure_name = 'TransmissionUtilizationMapEvolution'
-        if FIGURES_ACTIVATED.get(figure_name, False):
+        if _is_enabled(figure_name):
             title = f'Evolution Transmission Utilization [%] - {selected_scenario}'
             filename = os.path.join(folder, f'{figure_name}_{selected_scenario}.pdf')
             
@@ -1627,7 +1632,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     ]
    
                 figure_name = 'TransmissionCapacityMap'
-                if FIGURES_ACTIVATED.get(figure_name, False):
+                if _is_enabled(figure_name):
                     
                     title = f'Transmission capacity [MW] - {selected_scenario} - {year}'
                     filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
@@ -1637,7 +1642,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     log_info(f'Saved transmission capacity map: {filename}')
 
                 figure_name = 'TransmissionUtilizationMap'
-                if FIGURES_ACTIVATED.get(figure_name, False):
+                if _is_enabled(figure_name):
                     title = f'Transmission utilization [%] - {selected_scenario} - {year}'
                     filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
                     make_interconnection_map(zone_map, df, centers,
@@ -1650,7 +1655,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                     log_info(f'Saved transmission utilization map: {filename}')
              
                 figure_name = 'NetExportsMap'
-                if FIGURES_ACTIVATED.get(figure_name, False):
+                if _is_enabled(figure_name):
                     title = f'Net Exports [GWh] - {selected_scenario} - {year}'
                     filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.pdf')
 
@@ -1682,7 +1687,7 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
             if len(epm_results['pEnergyBalance'].loc[(epm_results['pEnergyBalance'].scenario == selected_scenario)].zone.unique()) > 1:  # only plotting on interactive map when more than one zone
                     
                     figure_name = 'InteractiveMap'
-                    if FIGURES_ACTIVATED.get(figure_name, False):
+                    if _is_enabled(figure_name):
                         filename = os.path.join(folder, f'{figure_name}_{selected_scenario}_{year}.html')
 
                         # Add utilization rate
