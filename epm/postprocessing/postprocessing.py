@@ -179,10 +179,10 @@ FIGURES_ACTIVATED = {
 }
 
 FIGURE_CATEGORY_ENABLED = {
-    'summary': True,
-    'capacity': True,
+    'summary': False,
+    'capacity': False,
     'costs': False,
-    'energy': True,
+    'energy': False,
     'dispatch': True,
     'interconnection': False,
     'maps': False,

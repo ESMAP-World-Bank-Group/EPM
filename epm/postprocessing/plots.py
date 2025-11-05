@@ -916,7 +916,7 @@ def make_stacked_areaplot(
 # Disptach plots
 
 def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom',
-                  bottom=0, ylabel=None, title=None):
+                  bottom=0, ylabel=None, title=None, order_stacked=None):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -935,8 +935,8 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
         Size of the figure in inches.
     legend_loc : str, default 'bottom'
         Location of the legend. Options are 'bottom' or 'right'.
-    ymin : int or float, default 0
-        Minimum value for the y-axis.
+    order_stacked : list, optional
+        Preferred stacking order for area series. Remaining columns follow afterwards.
     Raises
     ------
     ValueError
@@ -953,6 +953,12 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     fig, ax = plt.subplots(figsize=figsize)
 
     if df_area is not None and not df_area.empty:
+        stack_order = order_stacked or DEFAULT_FUEL_ORDER
+        if stack_order:
+            ordered_cols = [c for c in stack_order if c in df_area.columns]
+            ordered_cols += [c for c in df_area.columns if c not in ordered_cols]
+            df_area = df_area.loc[:, ordered_cols]
+
         df_area.plot.area(ax=ax, stacked=True, color=dict_colors, linewidth=0)
         pd_index = df_area.index
     if df_line is not None:
