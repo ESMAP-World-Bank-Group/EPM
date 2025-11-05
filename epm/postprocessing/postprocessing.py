@@ -55,8 +55,10 @@ def _wrap_plot_function(func):
         try:
             return func(*args, **kwargs)
         except Exception as err:
-            filename = kwargs.get('filename')
-            log_warning(f'Failed to generate {filename}: {err}')
+            label = kwargs.get('filename')
+            if label is None:
+                label = kwargs.get('title')
+            log_warning(f'Failed to generate {label}: {err}')
     return wrapper
 
 
@@ -68,11 +70,12 @@ heatmap_plot = _wrap_plot_function(heatmap_plot)
 make_line_plot = _wrap_plot_function(make_line_plot)
 #make_automatic_map = _wrap_plot_function(make_automatic_map)
 
+# Used to not load all the parameters in epm_results.gdx for memory purpose
 KEYS_RESULTS = {
     # 1. Capacity expansion
     'pCapacityPlant', 
-    'pCapacityFuel', 'pCapacityFuelCountry',
-    'pNewCapacityFuel', 'pNewCapacityFuelCountry',
+    'pCapacityTechFuel', 'pCapacityTechFuelCountry',
+    'pNewCapacityTechFuel', 'pNewCapacityTechFuelCountry',
     'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
     'pPrice', 'pYearlyPrice',
@@ -84,11 +87,11 @@ KEYS_RESULTS = {
     'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption', 'pFuelConsumptionCountry',
     'pYearlyGenCostZonePerMWh',
     # 3. Energy balance
-    'pEnergyPlant', 'pEnergyFuel', 'pEnergyFuelCountry',
+    'pEnergyPlant', 'pEnergyTechFuel', 'pEnergyTechFuelCountry',
     'pEnergyBalance',
-    'pUtilizationPlant', 'pUtilizationFuel',
+    'pUtilizationPlant', 'pUtilizationTechFuel',
     # 4. Energy dispatch
-    'pDispatchPlant', 'pDispatch', 'pDispatchFuel',
+    'pDispatchPlant', 'pDispatch', 'pDispatchTechFuel',
     # 5. Reserves
     'pReserveSpinningPlantZone', 'pReserveSpinningPlantCountry',
     'pReserveMarginCountry',
@@ -696,10 +699,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
         if isinstance(selected_scenario, str):
             if selected_scenario == 'all':
-                selected_scenarios = list(epm_results['pEnergyFuel'].scenario.unique())  # we choose all scenarios
+                selected_scenarios = list(epm_results['pEnergyTechFuel'].scenario.unique())  # we choose all scenarios
             else:
                 selected_scenarios = [selected_scenario]
-                assert selected_scenario in list(epm_results['pEnergyFuel'].scenario.unique()), "Selected scenario does not belong to the set of scenarios."
+                assert selected_scenario in list(epm_results['pEnergyTechFuel'].scenario.unique()), "Selected scenario does not belong to the set of scenarios."
         else:
             selected_scenarios = selected_scenario
 
@@ -746,11 +749,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # ------------------------------------------------------------------------------------
 
             # Select main years for x-axis in some plots to simplify the reading
-            df = epm_results['pCapacityFuel'].copy()
+            df = epm_results['pCapacityTechFuel'].copy()
             
             selected_years = df['year'][(df['year'] % 5 == 0) | (df['year'] == df['year'].min())].tolist()
             
-            nbr_zones = len(epm_results['pCapacityFuel']['zone'].unique())
+            nbr_zones = len(epm_results['pCapacityTechFuel']['zone'].unique())
             
             # ------------------------------------------------------------------------------------
             # 1. Capacity figures
@@ -760,7 +763,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         
             # 1.1 Evolution of capacity mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
-                df = epm_results['pCapacityFuel'].copy()
+                df = epm_results['pCapacityTechFuel'].copy()
                 df = df.loc[df.scenario.isin(selected_scenarios)]
                 # MW to GW
                 df['value'] = df['value'] / 1e3
@@ -811,7 +814,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             if nbr_zones > 1:
                 if FIGURES_ACTIVATED.get(figure_name, False):
                     for scenario in selected_scenarios:
-                        df = epm_results['pCapacityFuel'].copy()
+                        df = epm_results['pCapacityTechFuel'].copy()
                         # MW to GW
                         df['value'] /= 1e3
                         
@@ -864,8 +867,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 1.3 Capacity mix per zone for the first and last years available
             figure_name = 'CapacityMixZoneScenarios'
             if nbr_zones > 1:
-                for year in [min(epm_results['pCapacityFuel']['year']), max(epm_results['pCapacityFuel']['year'])]:
-                    df = epm_results['pCapacityFuel'].copy()
+                for year in [min(epm_results['pCapacityTechFuel']['year']), max(epm_results['pCapacityTechFuel']['year'])]:
+                    df = epm_results['pCapacityTechFuel'].copy()
                     # MW to GW
                     df['value'] = df['value'] / 1e3
                     df = df[df['year'] == year]                
@@ -1538,9 +1541,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             log_info('Generating energy figures...', logger=active_logger)
             
             # Prepare dataframes for energy
-            df_energyfuel = epm_results['pEnergyFuel'].copy()
+            df_energyfuel = epm_results['pEnergyTechFuel'].copy()
             
-            # Additionnal energy information not in pEnergyFuel
+            # Additionnal energy information not in pEnergyTechFuel
             df_exchange = epm_results['pEnergyBalance'].copy()
             df_exchange = df_exchange.loc[df_exchange['attribute'].isin(['Unmet demand: GWh', 'Exports exchange: GWh', 'Imports exchange: GWh'])]
             df_exchange = df_exchange.replace({'Unmet demand: GWh': 'Unmet demand',

@@ -1035,7 +1035,7 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
     -------
     Generate and save a fuel dispatch plot:
     dfs_to_plot_area = {
-        'pDispatchFuel': epm_dict['pDispatchFuel'],
+        'pDispatchTechFuel': epm_dict['pDispatchTechFuel'],
         'pDispatch': subset_dispatch
     }
     subset_demand = epm_dict['pDispatch'].loc[epm_dict['pDispatch'].attribute.isin(['Demand'])]
@@ -1244,7 +1244,7 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
         'DemandHigh': 'High Demand',
         'LowImport_LowThermal': 'LowImport_LowThermal'
     }
-    make_stacked_barplot(epm_dict['pCapacityFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
+    make_stacked_barplot(epm_dict['pCapacityTechFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
                               select_subplot=[2025, 2028, 2030], stacked_grouping=fuel_grouping, dict_scenarios=scenario_names,
                               order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                               format_y=lambda y, _: '{:.0f} MW'.format(y))
@@ -2491,7 +2491,7 @@ def make_heatmap_plot(
         return int(max(available_years))
 
     # 3. System capacity by fuel in the final year
-    capacity_fuel_all = _get_dataframe('pCapacityFuel')
+    capacity_fuel_all = _get_dataframe('pCapacityTechFuel')
     capacity_year = _resolve_year(capacity_fuel_all)
     capacity_fuel = _filter_zone(capacity_fuel_all)
     capacity_summary = (

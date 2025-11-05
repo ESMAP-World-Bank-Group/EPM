@@ -94,7 +94,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     dict_specs : dict
         Dictionary with mapping specifications, including:
         - `geojson_to_epm`: Mapping from GeoJSON names to EPM zone names.
-        - `map_countries`: GeoDataFrame of all countries.
+        - `map_zones`: GeoDataFrame of all countries.
 
     Returns
     -------
@@ -130,7 +130,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     ]
 
     if zone_map is None:
-        zone_map = dict_specs['map_countries']  # getting json data on all countries
+        zone_map = dict_specs['map_zones']  # getting json data on all countries
     else:
         zone_map = gpd.read_file(zone_map)
 
@@ -143,7 +143,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     divided_parts = []
     for (country, division), subset in geojson_to_divide.groupby(['country', 'division']):
         # Apply division function
-        divided_parts.append(divide(dict_specs['map_countries'], country, division))
+        divided_parts.append(divide(dict_specs['map_zones'], country, division))
 
     if divided_parts:
         zone_map_divide = pd.concat(divided_parts)
@@ -382,7 +382,7 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
     return 0
 
 
-def make_capacity_mix_map(zone_map, pCapacityFuel, dict_colors, centers, year, region, scenario, filename,
+def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, year, region, scenario, filename,
                           map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), percent_cap=25,
                           bbox_to_anchor=(0.5, -0.1), loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
     """
@@ -424,15 +424,15 @@ def make_capacity_mix_map(zone_map, pCapacityFuel, dict_colors, centers, year, r
         """Calculate pie chart size based on region area."""
         # area = region_sizes.loc[region_sizes['Name'] == zone, 'area'].values[0]
         # normalized_area = (area - region_sizes['area'].min()) / (region_sizes['area'].max() - region_sizes['area'].min())
-        area = pCapacityFuel[(pCapacityFuel['zone'] == zone) & (pCapacityFuel['year'] == year)].value.sum()
+        area = pCapacityTechFuel[(pCapacityTechFuel['zone'] == zone) & (pCapacityTechFuel['year'] == year)].value.sum()
         normalized_area = (area - CapacityByFuel.groupby('zone').value.sum().min()) / (CapacityByFuel.groupby('zone').value.sum().max() - CapacityByFuel.groupby('zone').value.sum().min())
         return min_size + normalized_area * (max_size - min_size)
 
     handles, labels = [], []
     # Plot pie charts for each zone
-    for zone in pCapacityFuel['zone'].unique():
+    for zone in pCapacityTechFuel['zone'].unique():
         # Extract capacity mix for the given zone and year
-        CapacityMix_plot = (pCapacityFuel[(pCapacityFuel['zone'] == zone) & (pCapacityFuel['year'] == year)  & (pCapacityFuel['scenario'] == scenario)]
+        CapacityMix_plot = (pCapacityTechFuel[(pCapacityTechFuel['zone'] == zone) & (pCapacityTechFuel['year'] == year)  & (pCapacityTechFuel['scenario'] == scenario)]
                             .set_index(index)['value']
                             .fillna(0)).reset_index()
 
@@ -448,9 +448,9 @@ def make_capacity_mix_map(zone_map, pCapacityFuel, dict_colors, centers, year, r
         size = [0.03, 0.07]
         if pie_sizing:
             if list_reduced_size is not None:
-                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityFuel)
+                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityTechFuel)
             else:
-                pie_size = calculate_pie_size(zone, pCapacityFuel)
+                pie_size = calculate_pie_size(zone, pCapacityTechFuel)
         else:
             pie_size = None
 
@@ -584,12 +584,12 @@ def make_complete_value_dispatch_plot(df_dispatch, zone, year, scenario, unit_va
         plt.show()
 
 
-def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
+def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, scale_factor=0.8):
     """Generate capacity mix and dispatch plots for a given zone and return them as base64 strings."""
     # Generate capacity mix pie chart using existing function
-    df1 = pCapacityFuel.copy()
+    df1 = pCapacityTechFuel.copy()
     df1['attribute'] = 'Capacity'
-    df2 = pEnergyFuel.copy()
+    df2 = pEnergyTechFuel.copy()
     df2['attribute'] = 'Energy'
     df = pd.concat([df1, df2])
     capacity_plot = make_pie_chart_interactive(
@@ -725,7 +725,7 @@ def combine_and_resize_images(image_list, scale_factor=0.6):
     return f'<img src="data:image/png;base64,{encoded_str}" width="{new_width}">'
 
 
-def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_colors, zone, year, scenario,
+def make_complete_dispatch_plot_for_interactive(pDispatchTechFuel, pDispatch, dict_colors, zone, year, scenario,
                                 filename=None, BESS_included=True, Hydro_stor_included=True,title='Dispatch',
                                 select_time=None, legend_loc='bottom', bottom=0, figsize=(20,6), fontsize=12):
     """
@@ -733,7 +733,7 @@ def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_c
 
     Parameters
     ----------
-    pDispatchFuel : DataFrame
+    pDispatchTechFuel : DataFrame
         Dataframe containing dispatch data by fuel type.
     pDispatch : DataFrame
         Dataframe containing total demand and other key dispatch attributes.
@@ -768,23 +768,23 @@ def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_c
     """
 
        # Extracting unique seasons and representative days
-    dispatch_seasons = list(pDispatchFuel['season'].unique())
-    n_rep_days = len(list(pDispatchFuel['day'].unique()))
+    dispatch_seasons = list(pDispatchTechFuel['season'].unique())
+    n_rep_days = len(list(pDispatchTechFuel['day'].unique()))
 
     # Filtrer les données de production
-    pDispatchFuel_zone = pDispatchFuel.loc[
-        (pDispatchFuel['zone'] == zone) & (pDispatchFuel['year'] == year) & (pDispatchFuel['scenario'] == scenario)
+    pDispatchTechFuel_zone = pDispatchTechFuel.loc[
+        (pDispatchTechFuel['zone'] == zone) & (pDispatchTechFuel['year'] == year) & (pDispatchTechFuel['scenario'] == scenario)
     ]
 
     # Exclure les stockages si nécessaire
     if not BESS_included:
-        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Battery Storage']
+        pDispatchTechFuel_zone = pDispatchTechFuel_zone[pDispatchTechFuel_zone['fuel'] != 'Battery Storage']
     if not Hydro_stor_included:
-        pDispatchFuel_zone = pDispatchFuel_zone[pDispatchFuel_zone['fuel'] != 'Pumped-Hydro']
-    y_max_dispatch = float(pDispatchFuel_zone['value'].max())
+        pDispatchTechFuel_zone = pDispatchTechFuel_zone[pDispatchTechFuel_zone['fuel'] != 'Pumped-Hydro']
+    y_max_dispatch = float(pDispatchTechFuel_zone['value'].max())
 
     # Mise en forme pour le stacked area plot
-    pDispatchFuel_pivot = pDispatchFuel_zone.pivot_table(index=['season', 'day', 't'],
+    pDispatchTechFuel_pivot = pDispatchTechFuel_zone.pivot_table(index=['season', 'day', 't'],
                                                           columns='fuel', values='value', aggfunc='sum')
 
     # Récupérer la demande
@@ -796,15 +796,15 @@ def make_complete_dispatch_plot_for_interactive(pDispatchFuel, pDispatch, dict_c
     pDemand_pivot = pDemand_zone.pivot_table(index=['season', 'day', 't'], values='value')
 
     # Extraire les saisons et jours représentatifs
-    dispatch_seasons = list(pDispatchFuel['season'].unique())
-    n_rep_days = len(list(pDispatchFuel['day'].unique()))
+    dispatch_seasons = list(pDispatchTechFuel['season'].unique())
+    n_rep_days = len(list(pDispatchTechFuel['day'].unique()))
 
     # Créer le graphique
     fig, ax = plt.subplots(figsize=figsize, sharex=True, sharey=True)
 
     # Tracer la production en stacked area
-    if not pDispatchFuel_pivot.empty:
-        pDispatchFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchFuel_pivot.columns])
+    if not pDispatchTechFuel_pivot.empty:
+        pDispatchTechFuel_pivot.plot.area(ax=ax, stacked=True, linewidth=0, color=[dict_colors.get(fuel, 'gray') for fuel in pDispatchTechFuel_pivot.columns])
 
     # Tracer la demande
     if not pDemand_pivot.empty:
@@ -1430,7 +1430,7 @@ def get_extended_pastel_palette(n):
 
 
 def create_interactive_map(zone_map, centers, transmission_data, energy_data, year, scenario, filename,
-                           dict_specs, pCapacityFuel, pEnergyFuel, pDispatch, pDispatchPlant, pPrice, label_size=14):
+                           dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch, pDispatchPlant, pPrice, label_size=14):
     """
     Create an interactive HTML map displaying energy capacity, dispatch, and interconnections.
 
@@ -1444,7 +1444,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
     - scenario (str): Scenario name
     - filename (str): Output HTML file name
     - dict_specs (dict): Specifications for plotting
-    - pCapacityFuel (DataFrame): Capacity mix data
+    - pCapacityTechFuel (DataFrame): Capacity mix data
     - pDispatch (DataFrame): Dispatch data
     """
     # Focus the map on the bounding box of the region
@@ -1508,7 +1508,7 @@ def create_interactive_map(zone_map, centers, transmission_data, energy_data, ye
             """
 
             # Generate and embed capacity mix and dispatch plots
-            popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityFuel, pEnergyFuel, pDispatch,
+            popup_content += generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEnergyTechFuel, pDispatch,
                                                 pDispatchPlant, pPrice, scale_factor=0.8)
 
             folium.Marker(
@@ -1695,5 +1695,5 @@ def make_automatic_map(epm_results, dict_specs, folder, FIGURES_ACTIVATED, selec
                         transmission_data = transmission_data.rename(columns={'zone': 'zone_from', 'z2': 'zone_to'})
 
                         create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
-                                            dict_specs, epm_results['pCapacityFuel'], epm_results['pEnergyFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
+                                            dict_specs, epm_results['pCapacityTechFuel'], epm_results['pEnergyTechFuel'], epm_results['pDispatch'], epm_results['pDispatchPlant'], epm_results['pPrice'])
                         log_info(f'Saved interactive map: {filename}')
