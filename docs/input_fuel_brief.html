@@ -58,8 +58,6 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/input_fuel_brief';</script>
     <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/input_fuel_brief.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -1284,8 +1282,8 @@ title="Print to PDF"
 <p>Diesel (automotive-grade distillate fuel) is used in small power plants or backup generators.</p>
 <ul class="simple">
 <li><p><strong>Energy content:</strong> ~43 MJ/kg</p></li>
-<li><p><strong>Characteristics:</strong> High-quality, clean-burning liquid fuel; very flexible but expensive.</p></li>
-<li><p><strong>Difference vs. HFO/LFO:</strong> Lowest sulfur, higher cost, often used for peaking or isolated systems.</p></li>
+<li><p><strong>Characteristics:</strong> High-quality, clean-burning liquid fuel with a high cetane rating that enables rapid, reliable starts; very flexible but expensive.</p></li>
+<li><p><strong>Difference vs. HFO/LFO:</strong> Refined to tighter specifications, so it ignites instantly, runs cleaner, and requires less preheating, which is why backup generators favor it despite the higher cost.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -1318,14 +1316,12 @@ title="Print to PDF"
 <li><p><strong>Add transport and delivery costs:</strong></p>
 <ul class="simple">
 <li><p>+1–3 USD/MMBtu for LNG shipping, regasification, or long-distance pipelines.</p></li>
-<li><p>+0.5–2 USD/MMBtu for local distribution.</p></li>
+<li><p>+1–2 USD/MMBtu for local distribution.</p></li>
 </ul>
 </li>
 <li><p><strong>Include taxes, duties, or subsidies if applicable.</strong></p></li>
 <li><p><strong>Convert to USD/MMBtu (EPM unit)</strong> and optionally to <strong>USD/MWh</strong> for comparison:
-<span class="math notranslate nohighlight">\(begin:math:display\)</span>
-1\ \text{MMBtu} = 293.071\ \text{kWh} \Rightarrow 1\ \text{USD/MMBtu} = 3.41\ \text{USD/MWh}
-<span class="math notranslate nohighlight">\(end:math:display\)</span></p></li>
+<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">MMBtu</span> <span class="pre">≈</span> <span class="pre">293</span> <span class="pre">kWh</span></code>, therefore <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">USD/MMBtu</span> <span class="pre">≈</span> <span class="pre">3</span> <span class="pre">USD/MWh</span></code>.</p></li>
 </ol>
 </section>
 </section>
@@ -1345,49 +1341,49 @@ title="Print to PDF"
 <tbody>
 <tr class="row-even"><td><p><strong>Coal</strong></p></td>
 <td><p>World Bank – Pink Sheet (Thermal Coal Australia)</p></td>
-<td class="text-right"><p>3.0–4.0</p></td>
+<td class="text-right"><p>3–4</p></td>
 <td class="text-right"><p>10–14</p></td>
 <td class="text-right"><p>Add shipping costs for imports</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>Natural Gas</strong></p></td>
 <td><p>TradingEconomics – Henry Hub / TTF / JKM</p></td>
-<td class="text-right"><p>6.0–10.0</p></td>
+<td class="text-right"><p>6–10</p></td>
 <td class="text-right"><p>20–34</p></td>
 <td class="text-right"><p>Add +2–4 USD/MMBtu for transport &amp; regasification</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><strong>LNG</strong></p></td>
 <td><p>IEA or JKM LNG Index</p></td>
-<td class="text-right"><p>9.0–12.0</p></td>
+<td class="text-right"><p>9–12</p></td>
 <td class="text-right"><p>31–41</p></td>
 <td class="text-right"><p>Delivered LNG including liquefaction, shipping, and regasification</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>HFO</strong></p></td>
 <td><p>IEA or national petroleum regulator</p></td>
-<td class="text-right"><p>12.0–16.0</p></td>
+<td class="text-right"><p>12–16</p></td>
 <td class="text-right"><p>41–55</p></td>
 <td class="text-right"><p>Used mainly in large coastal power plants</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><strong>LFO</strong></p></td>
 <td><p>IEA or national market</p></td>
-<td class="text-right"><p>14.0–18.0</p></td>
+<td class="text-right"><p>14–18</p></td>
 <td class="text-right"><p>48–61</p></td>
 <td class="text-right"><p>Cleaner but costlier than HFO</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>Diesel</strong></p></td>
 <td><p>IEA, TradingEconomics, or local fuel prices</p></td>
-<td class="text-right"><p>18.0–22.0</p></td>
+<td class="text-right"><p>18–22</p></td>
 <td class="text-right"><p>61–75</p></td>
 <td class="text-right"><p>Often used in isolated or backup generation</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><strong>Biomass</strong></p></td>
 <td><p>IRENA, FAO, or local sources</p></td>
-<td class="text-right"><p>3.0–5.0</p></td>
+<td class="text-right"><p>3–5</p></td>
 <td class="text-right"><p>10–17</p></td>
 <td class="text-right"><p>Strongly dependent on moisture content and transport distance</p></td>
 <td><p></p></td>
