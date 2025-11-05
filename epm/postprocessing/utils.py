@@ -251,14 +251,29 @@ def read_plot_specs(folder='postprocessing'):
     """
 
     colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=1)
-    fuel_mapping = pd.read_csv(os.path.join(folder, FUELS), skiprows=1)
+    colors = colors.dropna(subset=['Processing'])
+    colors['Processing'] = colors['Processing'].astype(str).str.strip()
+    colors = colors[~colors['Processing'].str.startswith('#')]
+    colors = colors.dropna(subset=['Color'])
+    colors['Color'] = colors['Color'].astype(str).str.strip()
+    colors = colors[colors['Color'] != '']
+    
+    fuel_df = pd.read_csv(os.path.join(folder, FUELS), skiprows=1)
     tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
     zones = gpd.read_file(os.path.join(folder, GEOJSON))
     geojson_to_epm = pd.read_csv(os.path.join(folder, GEOJSON_TO_EPM))
 
+    fuel_df = fuel_df.dropna(subset=['Processing'])
+    fuel_df['Processing'] = fuel_df['Processing'].astype(str).str.strip()
+    fuel_df = fuel_df[fuel_df['Processing'] != '']
+    fuel_df['EPM_Fuel'] = fuel_df['EPM_Fuel'].astype(str).str.strip()
+    fuel_order = list(dict.fromkeys(fuel_df['Processing']))
+    fuel_mapping = fuel_df.set_index('EPM_Fuel')['Processing'].to_dict()
+
     dict_specs = {
         'colors': colors.set_index('Processing')['Color'].dropna().to_dict(),
-        'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
+        'fuel_mapping': fuel_mapping,
+        'fuel_order': fuel_order,
         'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
         'map_zones': zones,
         'geojson_to_epm': geojson_to_epm
@@ -1145,6 +1160,11 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
 
     # Read the plot specifications
     dict_specs = read_plot_specs()
+    try:
+        from .plots import set_default_fuel_order  # Lazy import to avoid circular dependency
+        set_default_fuel_order(dict_specs.get('fuel_order'))
+    except (ImportError, AttributeError):
+        pass
 
     # Extract and process EPM inputs
     epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
