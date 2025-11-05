@@ -134,6 +134,19 @@ CCGTs offer a balance between efficiency and moderate flexibility. Their heat ra
 
 ---
 
+### ICE (Internal Combustion Engine)
+
+**Description:** Stationary reciprocating engines coupled to generators, typically medium- or high-speed units installed as modular blocks. Commonly used for decentralized peaking, backup power, and flexible grid support.
+
+**Compatible Fuels:** Diesel, HFO, natural gas, LNG (regasified), biogas.
+
+**Fuel differences:** Liquid fuels (diesel, HFO) enable rapid start but increase emissions and maintenance; HFO requires heating and cleaning systems. Gaseous fuels allow cleaner combustion, dual-fuel operation, and lower O&M, though gas supply pressure and quality must be carefully managed.
+
+**Technical characteristics:**  
+ICE plants deliver excellent flexibility, featuring very low minimum load per unit (often below 30%) and the ability to start within minutes. Ramp rates are steep and units can be cycled frequently with limited efficiency penalties, making them well suited for reserve provision and islanded operation. Heat rates vary with fuel (around 8–9 MMBtu/MWh on natural gas and higher on liquids). Capital costs are moderate and scale with the number of engines, while O&M costs can be higher for heavy fuels due to additional filtration and lubricant needs. Typical lifetimes range from 20–30 years depending on duty cycle and maintenance practices.
+
+---
+
 ### Reservoir Hydro
 
 **Description:** Hydropower plants with an upstream reservoir allowing some control of water flow. This enables dispatchable and flexible electricity production.
