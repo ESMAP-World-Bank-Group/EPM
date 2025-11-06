@@ -31,3 +31,29 @@ We recommend that pull requests:
 - Include a short description of what was changed and why.
 - Contain only one type of change (avoid mixing bug fixes with new features).
 - Be tested before being submitted.
+
+## Adding a new technology
+
+To add a new technology to the model, you must update several input files.
+
+1. **Supply defaults**
+   - Add the technology to:
+     - `AvailabilityDefault`
+     - `PageNDataInputDefault`
+     - `PayCapExTrajectoriesDefault`
+   - These are all under *supply*.
+   - Do this in the **main branch**, so everyone can use it, unless the technology is strictly specific to your own case.
+
+2. **Zonal definition**
+   - Default technologies are defined **by zone**.
+   - If you have no better information, define the **same technology** for **all zones** in the input files.
+
+3. **Resources and attributes**
+   - Add the technology to the **resources** and **take data** files.
+   - Define all required **attributes** (e.g., efficiency, fuel, lifetime, cost parameters).
+
+4. **Post-processing and coding**
+   - Add the technology to:
+     - `PostProcessingStaticTechnologies.csv`
+     - `Coders.csv`
+   - This ensures that figures are generated correctly and avoids exceptions during post-processing.
