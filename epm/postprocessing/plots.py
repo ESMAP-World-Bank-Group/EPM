@@ -2335,8 +2335,10 @@ def heatmap_difference_plot(
     bold_markers = (
         'NPV of system cost',
         'Capacity - Total',
-        'CAPEX - Total',
-        'Transmission capacity'
+        'New capacity - Total',
+        'Transmission capacity',
+        'New transmission capacity',
+        'Cumulative CAPEX - Total'
     )
     for label in ax.get_yticklabels():
         text = label.get_text()
@@ -2371,10 +2373,12 @@ def make_heatmap_plot(
 
     The summary includes, in order:
         1. Discounted system costs (``pCostsSystem``), with the NPV column shown first.
-        2. System costs converted to $/MWh (``pCostsSystemPerMWh``).
-        3. System-wide installed capacity by fuel in the final model year.
+        2. Total installed capacity in the final model year.
+        3. New capacity additions by fuel in the final model year.
         4. Total available transmission capacity in the final year (no double counting).
-        5. Cumulative CAPEX by component up to the final year.
+        5. New transmission capacity added in the final model year.
+        6. Cumulative CAPEX by component up to the final year.
+        7. Yearly generation costs per zone ($/MWh) for the final model year.
 
     Parameters
     ----------
@@ -2483,21 +2487,6 @@ def make_heatmap_plot(
     costs_pivot = _format_cost_columns(costs_pivot, 'M$')
     frames.append(costs_pivot)
 
-    # 2. System costs per MWh (pCostsSystemPerMWh)
-    costs_per_mwh = _get_dataframe('pCostsSystemPerMWh')
-    costs_per_mwh = _merge_attribute_group(costs_per_mwh, TRADE_ATTRS, "Trade costs")
-    costs_per_mwh = _merge_attribute_group(costs_per_mwh, RESERVE_ATTRS, "Reserve costs")
-    costs_per_mwh_pivot_raw = costs_per_mwh.pivot_table(
-        index='scenario', columns='attribute', values='value', aggfunc='sum'
-    )
-    ordered_per_mwh_columns = [col for col in ordered_cost_columns if col in costs_per_mwh_pivot_raw.columns]
-    ordered_per_mwh_columns += [
-        col for col in costs_per_mwh_pivot_raw.columns if col not in ordered_per_mwh_columns
-    ]
-    costs_per_mwh_pivot = costs_per_mwh_pivot_raw.reindex(columns=ordered_per_mwh_columns)
-    costs_per_mwh_pivot = _format_cost_columns(costs_per_mwh_pivot, '$/MWh')
-    frames.append(costs_per_mwh_pivot)
-
     # Determine final year helper
     def _resolve_year(df: pd.DataFrame) -> int:
         if 'year' not in df.columns:
@@ -2509,7 +2498,7 @@ def make_heatmap_plot(
             return int(year)
         return int(max(available_years))
 
-    # 3. System capacity by fuel in the final year
+    # 2. Total system capacity in the final year
     capacity_fuel_all = _get_dataframe('pCapacityTechFuel')
     capacity_year = _resolve_year(capacity_fuel_all)
     capacity_fuel = _filter_zone(capacity_fuel_all)
@@ -2517,17 +2506,32 @@ def make_heatmap_plot(
         capacity_fuel[capacity_fuel['year'] == capacity_year]
         .groupby(['scenario', 'fuel'], observed=False)['value']
         .sum()
+        .groupby(level='scenario')
+        .sum()
+    )
+    capacity_total_col = f'Capacity - Total {capacity_year} (MW)'
+    capacity_summary = capacity_summary.to_frame(capacity_total_col)
+    frames.append(capacity_summary)
+
+    # 3. New capacity additions by fuel (aggregated across zones) in the final year
+    new_capacity_all = _get_dataframe('pNewCapacityTechFuel')
+    new_capacity_year = _resolve_year(new_capacity_all)
+    new_capacity = _filter_zone(new_capacity_all)
+    new_capacity_summary = (
+        new_capacity[new_capacity['year'] == new_capacity_year]
+        .groupby(['scenario', 'fuel'], observed=False)['value']
+        .sum()
         .unstack('fuel')
         .fillna(0)
     )
-    fuel_columns = list(capacity_summary.columns)
-    renamed_capacity = {col: f'Capacity - {col} (MW)' for col in fuel_columns}
-    capacity_summary = capacity_summary.rename(columns=renamed_capacity)
-    capacity_total_col = f'Capacity - Total {capacity_year} (MW)'
-    capacity_summary[capacity_total_col] = capacity_summary.sum(axis=1)
-    ordered_capacity_cols = [capacity_total_col] + [renamed_capacity[col] for col in fuel_columns]
-    capacity_summary = capacity_summary[ordered_capacity_cols]
-    frames.append(capacity_summary)
+    new_fuel_columns = list(new_capacity_summary.columns)
+    renamed_new_capacity = {col: f'New capacity - {col} (MW)' for col in new_fuel_columns}
+    new_capacity_summary = new_capacity_summary.rename(columns=renamed_new_capacity)
+    new_capacity_total_col = f'New capacity - Total {new_capacity_year} (MW)'
+    new_capacity_summary[new_capacity_total_col] = new_capacity_summary.sum(axis=1)
+    ordered_new_capacity_cols = [new_capacity_total_col] + [renamed_new_capacity[col] for col in new_fuel_columns]
+    new_capacity_summary = new_capacity_summary[ordered_new_capacity_cols]
+    frames.append(new_capacity_summary)
 
     # 4. Transmission capacity (no double counting) in final year
     # optional argument for 1-zone model
@@ -2557,7 +2561,40 @@ def make_heatmap_plot(
             ).astype(float)
         frames.append(transmission_summary)
 
-    # 5. Cumulative CAPEX by component up to final year
+    if 'pNewTransmissionCapacity' in epm_results.keys():
+        new_transmission_all = _get_dataframe('pNewTransmissionCapacity')
+        new_transmission_year = _resolve_year(new_transmission_all)
+        new_transmission = new_transmission_all.copy()
+        if zone_list is not None and {'zone', 'z2'}.issubset(new_transmission.columns):
+            new_transmission = new_transmission[
+                new_transmission['zone'].isin(zone_list) | new_transmission['z2'].isin(zone_list)
+            ]
+        new_transmission_year_df = new_transmission[new_transmission['year'] == new_transmission_year].copy()
+        if not new_transmission_year_df.empty:
+            if {'zone', 'z2'}.issubset(new_transmission_year_df.columns):
+                new_transmission_year_df['pair'] = new_transmission_year_df.apply(
+                    lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
+                )
+                new_transmission_summary = (
+                    new_transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
+                    .max()
+                    .groupby('scenario')
+                    .sum()
+                    .to_frame(f'New transmission capacity {new_transmission_year} (MW)')
+                )
+            else:
+                new_transmission_summary = (
+                    new_transmission_year_df.groupby('scenario', observed=False)['value']
+                    .sum()
+                    .to_frame(f'New transmission capacity {new_transmission_year} (MW)')
+                )
+        else:
+            new_transmission_summary = pd.DataFrame(
+                columns=[f'New transmission capacity {new_transmission_year} (MW)']
+            ).astype(float)
+        frames.append(new_transmission_summary)
+
+    # 6. Cumulative CAPEX by component up to final year
     capex_component_all = _get_dataframe('pCapexInvestmentComponent')
     capex_year = _resolve_year(capex_component_all)
     capex_component = _filter_zone(capex_component_all)
@@ -2571,10 +2608,36 @@ def make_heatmap_plot(
     )
     capex_columns = list(capex_cumulative.columns)
     capex_cumulative.columns = [f'CAPEX - {col} (M$)' for col in capex_columns]
-    capex_total_col = f'CAPEX - {capex_year} (M$)'
+    capex_total_col = f'Cumulative CAPEX - Total {capex_year} (M$)'
     capex_cumulative[capex_total_col] = capex_cumulative.sum(axis=1)
     capex_cumulative = capex_cumulative[[capex_total_col] + [col for col in capex_cumulative.columns if col != capex_total_col]]
     frames.append(capex_cumulative)
+
+    # 7. Yearly generation cost per zone (last year, $/MWh)
+    if 'pYearlyGenCostZone' in epm_results.keys():
+        yearly_cost_all = _get_dataframe('pYearlyGenCostZone')
+        yearly_cost_year = _resolve_year(yearly_cost_all)
+        yearly_cost = yearly_cost_all.copy()
+        if zone_list is not None and 'zone' in yearly_cost.columns:
+            yearly_cost = yearly_cost[yearly_cost['zone'].isin(zone_list)]
+        yearly_cost = yearly_cost[yearly_cost['year'] == yearly_cost_year]
+        if 'attribute' in yearly_cost.columns:
+            # Target rows that already carry $/MWh information; otherwise keep everything.
+            per_mwh_mask = yearly_cost['attribute'].str.contains('/MWh', case=False, na=False)
+            if per_mwh_mask.any():
+                yearly_cost = yearly_cost[per_mwh_mask]
+        if not yearly_cost.empty:
+            yearly_cost_summary = (
+                yearly_cost.groupby(['scenario', 'zone'], observed=False)['value']
+                .sum()
+                .unstack('zone')
+                .fillna(0)
+            )
+            yearly_cost_summary.columns = [
+                f'Generation cost - {zone} ({yearly_cost_year}) $/MWh'
+                for zone in yearly_cost_summary.columns
+            ]
+            frames.append(yearly_cost_summary)
 
     # Align scenario index across all frames
     scenario_index = frames[0].index
