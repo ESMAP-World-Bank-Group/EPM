@@ -2614,8 +2614,8 @@ def make_heatmap_plot(
     frames.append(capex_cumulative)
 
     # 7. Yearly generation cost per zone (last year, $/MWh)
-    if 'pYearlyGenCostZone' in epm_results.keys():
-        yearly_cost_all = _get_dataframe('pYearlyGenCostZone')
+    if 'pYearlyGenCostZonePerMWh' in epm_results.keys():
+        yearly_cost_all = _get_dataframe('pYearlyGenCostZonePerMWh')
         yearly_cost_year = _resolve_year(yearly_cost_all)
         yearly_cost = yearly_cost_all.copy()
         if zone_list is not None and 'zone' in yearly_cost.columns:
