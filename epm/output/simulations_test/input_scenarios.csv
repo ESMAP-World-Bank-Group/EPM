@@ -1,6 +1,6 @@
 paramNames,baseline
 modeltype,RMIP
-cplexfile,input/data_test/cplex/cplex_rmip_fast.opt
+cplexfile,input/data_test/cplex/cplex_baseline.opt
 pSettings,input/data_test/pSettings.csv
 y,input/data_test/sensitivity/y_reduced.csv
 zcmap,input/data_test/zcmap.csv

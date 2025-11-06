@@ -219,6 +219,29 @@ def _write_solver_metrics_table(
             "Peak Memory (Mb)",
         ]
     ]
+    df_metrics["Objective (Billion USD)"] = df_metrics["Objective (Billion USD)"].round(2)
+
+    def _format_time(seconds: Optional[float]) -> Optional[str]:
+        if seconds is None or pd.isna(seconds):
+            return None
+        if seconds < 60:
+            return f"{seconds:.2f} s"
+        minutes = seconds / 60
+        if minutes < 60:
+            return f"{minutes:.2f} min"
+        days = seconds / 86400
+        return f"{days:.2f} j"
+
+    df_metrics["Time"] = df_metrics["Time (s)"].apply(_format_time)
+    df_metrics = df_metrics.drop(columns=["Time (s)"])
+    df_metrics = df_metrics[
+        [
+            "scenario",
+            "Objective (Billion USD)",
+            "Time",
+            "Peak Memory (Mb)",
+        ]
+    ]
 
     metrics_path = Path(output_folder) / "solver_metrics.csv"
     metrics_path.parent.mkdir(parents=True, exist_ok=True)

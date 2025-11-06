@@ -73,14 +73,24 @@ from shapely.geometry import LineString, Point, Polygon
 _DEFAULT_LOGGER = None
 
 
-def set_utils_logger(logger):
-    """Set default logger for utils module."""
+def set_default_logger(logger):
+    """Set shared post-processing logger for all helper modules."""
     global _DEFAULT_LOGGER
     _DEFAULT_LOGGER = logger
 
 
+def get_default_logger():
+    """Return the current shared logger instance."""
+    return _DEFAULT_LOGGER
+
+
+def set_utils_logger(logger):
+    """Backwards compatible logger setter used by legacy code."""
+    set_default_logger(logger)
+
+
 def _get_logger(logger=None):
-    return logger or _DEFAULT_LOGGER
+    return logger or get_default_logger()
 
 
 def _log(level, message, logger=None):
@@ -91,33 +101,40 @@ def _log(level, message, logger=None):
         print(message)
 
 
-def _log_info(message, logger=None):
+def log_info(message, logger=None):
     _log('info', message, logger=logger)
 
 
-def _log_warning(message, logger=None):
+def log_warning(message, logger=None):
     _log('warning', message, logger=logger)
 
 
-def _log_error(message, logger=None):
+def log_error(message, logger=None):
     _log('error', message, logger=logger)
+
+
+# Backwards compatibility for older imports relying on underscored helpers
+_log_info = log_info
+_log_warning = log_warning
+_log_error = log_error
 
 
 FUELS = os.path.join('static', 'fuels.csv')
 TECHS = os.path.join('static', 'technologies.csv')
 COLORS = os.path.join('static', 'colors.csv')
-GEOJSON = os.path.join('static', 'countries.geojson')
+GEOJSON = os.path.join('static', 'zones.geojson')
 GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
 
 TOLERANCE = 1e-2
 
+# TODO: fix that because only used in dispatch
 NAME_COLUMNS = {
-    'pDispatchFuel': 'fuel',
+    'pDispatchTechFuel': 'fuel',
     'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
     'pYearlyCostsZone': 'attribute',
-    'pCapacityFuel': 'fuel',
-    'pEnergyFuel': 'fuel',
+    'pCapacityTechFuel': 'fuel',
+    'pEnergyTechFuel': 'fuel',
     'pDispatchReserve':'attribute',
     'pNetExchange':'attribute'
 }
@@ -129,7 +146,7 @@ UNIT = {
 
 RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                   'z': 'zone', 'g': 'generator', 'gen': 'generator',
-                  'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't', 'sumhdr': 'attribute'}
+                  'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't', 'sumhdr': 'attribute', 'genCostCmp': 'attribute'}
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
 
 
@@ -233,17 +250,32 @@ def read_plot_specs(folder='postprocessing'):
         Dictionary containing the specifications for the plots
     """
 
-    colors = pd.read_csv(os.path.join(folder, COLORS))
-    fuel_mapping = pd.read_csv(os.path.join(folder, FUELS))
+    colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=1)
+    colors = colors.dropna(subset=['Processing'])
+    colors['Processing'] = colors['Processing'].astype(str).str.strip()
+    colors = colors[~colors['Processing'].str.startswith('#')]
+    colors = colors.dropna(subset=['Color'])
+    colors['Color'] = colors['Color'].astype(str).str.strip()
+    colors = colors[colors['Color'] != '']
+    
+    fuel_df = pd.read_csv(os.path.join(folder, FUELS), skiprows=1)
     tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
-    countries = gpd.read_file(os.path.join(folder, GEOJSON))
+    zones = gpd.read_file(os.path.join(folder, GEOJSON))
     geojson_to_epm = pd.read_csv(os.path.join(folder, GEOJSON_TO_EPM))
 
+    fuel_df = fuel_df.dropna(subset=['Processing'])
+    fuel_df['Processing'] = fuel_df['Processing'].astype(str).str.strip()
+    fuel_df = fuel_df[fuel_df['Processing'] != '']
+    fuel_df['EPM_Fuel'] = fuel_df['EPM_Fuel'].astype(str).str.strip()
+    fuel_order = list(dict.fromkeys(fuel_df['Processing']))
+    fuel_mapping = fuel_df.set_index('EPM_Fuel')['Processing'].to_dict()
+
     dict_specs = {
-        'colors': colors.set_index('Processing')['Color'].to_dict(),
-        'fuel_mapping': fuel_mapping.set_index('EPM_Fuel')['Processing'].to_dict(),
+        'colors': colors.set_index('Processing')['Color'].dropna().to_dict(),
+        'fuel_mapping': fuel_mapping,
+        'fuel_order': fuel_order,
         'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
-        'map_countries': countries,
+        'map_zones': zones,
         'geojson_to_epm': geojson_to_epm
     }
     return dict_specs
@@ -360,7 +392,7 @@ def gdx_to_csv(gdx_file, output_csv_folder):
     try:
         container = gt.Container(gdx_file)
     except Exception as e:
-        _log_error(f"Error while loading gdx file : {e}")
+        log_error(f"Error while loading gdx file : {e}")
         exit()
 
     parameters = [p.name for p in container.getParameters()]
@@ -374,13 +406,13 @@ def gdx_to_csv(gdx_file, output_csv_folder):
             if df is not None:
                 output_csv = os.path.join(output_csv_folder, f"{param}.csv")
                 df.to_csv(output_csv, index=False)  # Sauvegarder en CSV
-                _log_info(f"Folder downloaded : {output_csv}")
+                log_info(f"Folder downloaded : {output_csv}")
             else:
-                _log_warning(f"No data for param : {param}")
+                log_warning(f"No data for param : {param}")
         except Exception as e:
-            _log_error(f"Error with param {param}: {e}")
+            log_error(f"Error with param {param}: {e}")
 
-    _log_info("Conversion over! All files saved to folder 'data/'.")
+    log_info("Conversion over! All files saved to folder 'data/'.")
 
 
 def standardize_names(dict_df, key, mapping, column='fuel'):
@@ -413,7 +445,7 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
 
         dict_df[key] = temp.copy()
     else:
-        _log_warning(f'{key} not found in epm_dict')
+        log_warning(f'{key} not found in epm_dict')
 
 
 def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
@@ -459,13 +491,13 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
     # Test if all new fuel values are in dict_specs['fuel_mapping'].values
     for k in df['fuel'].unique():
         if k not in dict_specs['fuel_mapping'].values():
-            _log_warning(f'{k} not defined as accepted fuels. Please add it to `postprocessing/static/fuels.csv`.')
+            log_warning(f'{k} not defined as accepted fuels. Please add it to `postprocessing/static/fuels.csv`.')
 
     df['tech'] = df['tech'].replace(dict_specs['tech_mapping'])
     # Test if all new fuel values are in dict_specs['fuel_mapping'].values
     for k in df['tech'].unique():
         if k not in dict_specs['tech_mapping'].values():
-            _log_warning(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
+            log_warning(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
 
     epm_dict['pGenDataInput'] = df.reset_index()
 
@@ -526,8 +558,7 @@ def filter_dataframe_by_index(df, conditions):
     return df
 
 
-def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=None, mapping_gen_fuel=None,
-                        mapping_zone_country=None):
+def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=None):
     """
     Processing EPM results to use in plots.
     
@@ -581,7 +612,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     # Check if all keys are in epm_results
     for k in keys:
         if k not in epm_results.keys():
-            _log_warning(f'{k} not in epm_results.keys().')
+            log_warning(f'{k} not in epm_results.keys().')
         
     # Rename columns
     epm_dict = {k: i.rename(columns=RENAME_COLUMNS) for k, i in epm_results.items() if
@@ -629,37 +660,53 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
             epm_dict[k] = epm_dict[k].astype({'attribute': 'str'})
 
     # Align naming across every fuel-based output now shipped with EPM
+    tech_fuel_outputs = [
+        'pEnergyTechFuel',
+        'pEnergyTechFuelCountry',
+        'pCapacityTechFuel',
+        'pCapacityTechFuelCountry',
+        'pNewCapacityTechFuel',
+        'pNewCapacityTechFuelCountry',
+        'pUtilizationTechFuel',
+        'pDispatchTechFuel',
+        'pGeneratorTechFuel'
+        
+    ]
+    # Transform tech-fuel in one column
+    for key in tech_fuel_outputs:
+        if key not in epm_dict:
+            continue
+        df = epm_dict[key]
+        if 'tech' not in df.columns or 'fuel' not in df.columns:
+            continue
+        
+        df['f'] = df['tech'].astype(str) + '-' + df['fuel'].astype(str)
+        df.drop(columns=['tech', 'fuel'], inplace=True)
+        df.rename({'f': 'fuel'}, inplace=True, axis=1)
+
     fuel_outputs = [
-        'pEnergyFuel',
-        'pEnergyFuelCountry',
-        'pCapacityFuel',
-        'pCapacityFuelCountry',
-        'pNewCapacityFuel',
-        'pNewCapacityFuelCountry',
-        'pUtilizationFuel',
-        'pDispatchFuel',
         'pFuelCosts',
         'pFuelCostsCountry',
         'pFuelConsumption',
         'pFuelConsumptionCountry'
     ]
-    for key in fuel_outputs:
+    for key in fuel_outputs + tech_fuel_outputs:
         standardize_names(epm_dict, key, dict_specs['fuel_mapping'])
 
     # Add fuel type to Plant-based results
-    if mapping_gen_fuel is not None:
-        # Plant-based results
-        plant_result = ['pReserveSpinningPlantZone', 'pPlantAnnualLCOE', 'pEnergyPlant', 'pCapacityPlant',
-                        'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
-        for key in [k for k in plant_result if k in epm_dict.keys()]:
-            epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
+    mapping_gen_fuel = epm_dict['pGeneratorTechFuel'].loc[:, ['scenario', 'generator', 'fuel']]
+    # Plant-based results
+    plant_result = ['pReserveSpinningPlantZone', 'pPlantAnnualLCOE', 'pEnergyPlant', 'pCapacityPlant',
+                    'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
+    for key in [k for k in plant_result if k in epm_dict.keys()]:
+        epm_dict[key] = epm_dict[key].merge(mapping_gen_fuel, on=['scenario', 'generator'], how='left')
 
     # Add country to some Zone-based results
-    if mapping_zone_country is not None:
-        # Add country to the results
-        zone_result = ['pEnergyPlant', 'pCapacityPlant', 'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
-        for key in [k for k in zone_result if k in epm_dict.keys()]:
-            epm_dict[key] = epm_dict[key].merge(mapping_zone_country, on=['scenario', 'zone'], how='left')
+    mapping_zone_country = epm_dict['pZoneCountry'].loc[:, ['scenario', 'country', 'zone']]
+    # Add country to the results
+    zone_result = ['pEnergyPlant', 'pCapacityPlant', 'pDispatchPlant', 'pCostsPlant', 'pUtilizationPlant']
+    for key in [k for k in zone_result if k in epm_dict.keys()]:
+        epm_dict[key] = epm_dict[key].merge(mapping_zone_country, on=['scenario', 'zone'], how='left')
 
     return epm_dict
 
@@ -676,7 +723,7 @@ def path_to_extract_results(folder):
     return RESULTS_FOLDER
 
 
-def generate_summary(epm_results, folder, epm_input):
+def generate_summary(epm_results, folder):
     """
     Generate a summary of the EPM results.
     
@@ -686,8 +733,6 @@ def generate_summary(epm_results, folder, epm_input):
         Dictionary containing the EPM results
     folder: str
         Path to the folder where the summary will be saved
-    epm_input: dict
-        Dictionary containing the EPM input data
         
     Returns
     -------
@@ -698,85 +743,84 @@ def generate_summary(epm_results, folder, epm_input):
     summary = {}
     
     # 1. Costs
-
-    if 'pYearlySystemAverageCost' in epm_results.keys():
-        t = epm_results['pYearlySystemAverageCost'].copy()
-        t['attribute'] = 'Average Cost: $/MWh'
-        summary.update({'SystemAverageCost': t})
-    else:
-        _log_warning('No pYearlySystemAverageCost in epm_results')
         
     if 'pCostsSystem' in epm_results.keys():
         t = epm_results['pCostsSystem'].copy()
         summary.update({'pCostsSystem': t})
     else:
-        _log_warning('No pCostsSystem in epm_results')
+        log_warning('No pCostsSystem in epm_results')
+        
+    if 'pCostsSystemPerMWh' in epm_results.keys():
+        t = epm_results['pCostsSystemPerMWh'].copy()
+        t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
+        summary.update({'pCostsSystemPerMWh': t})
+    else:
+        log_warning('No pCostsZonePerMWh in epm_results')
 
     if 'pCostsZonePerMWh' in epm_results.keys():
         t = epm_results['pCostsZonePerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         summary.update({'pCostsZonePerMWh': t})
     else:
-        _log_warning('No pCostsZonePerMWh in epm_results')
+        log_warning('No pCostsZonePerMWh in epm_results')
 
     if 'pCostsCountryPerMWh' in epm_results.keys():
         t = epm_results['pCostsCountryPerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         summary.update({'pCostsCountryPerMWh': t})
     else:
-        _log_warning('No pCostsCountryPerMWh in epm_results')
-
+        log_warning('No pCostsCountryPerMWh in epm_results')
 
     if 'pYearlyCostsCountry' in epm_results.keys():
         t = epm_results['pYearlyCostsCountry'].copy()
         summary.update({'pYearlyCostsCountry': t})
     else:
-        _log_warning('No pYearlyCostsCountry in epm_results')
+        log_warning('No pYearlyCostsCountry in epm_results')
 
     if 'pYearlyCostsZone' in epm_results.keys():
         t = epm_results['pYearlyCostsZone'].copy()
         t = t[t['value'] > 1e-2]
         summary.update({'pYearlyCostsZone': t})
     else:
-        _log_warning('No pYearlyCostsZone in epm_results')
+        log_warning('No pYearlyCostsZone in epm_results')
 
     # 2. Capacity
     
-    if 'pCapacityFuel' in epm_results.keys():
-        t = epm_results['pCapacityFuel'].copy()
+    if 'pCapacityTechFuel' in epm_results.keys():
+        t = epm_results['pCapacityTechFuel'].copy()
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pCapacityFuel': t})
+        summary.update({'pCapacityTechFuel': t})
     else:
-        _log_warning('No pCapacityFuel in epm_results')
+        log_warning('No pCapacityTechFuel in epm_results')
 
-    if 'pCapacityFuelCountry' in epm_results.keys():
-        t = epm_results['pCapacityFuelCountry'].copy()
+    if 'pCapacityTechFuelCountry' in epm_results.keys():
+        t = epm_results['pCapacityTechFuelCountry'].copy()
         t['attribute'] = 'Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pCapacityFuelCountry': t})
+        summary.update({'pCapacityTechFuelCountry': t})
     else:
-        _log_warning('No pCapacityFuelCountry in epm_results')
+        log_warning('No pCapacityTechFuelCountry in epm_results')
 
-    if 'pNewCapacityFuel' in epm_results.keys():
-        t = epm_results['pNewCapacityFuel'].copy()
+    if 'pNewCapacityTechFuel' in epm_results.keys():
+        t = epm_results['pNewCapacityTechFuel'].copy()
         t['attribute'] = 'New Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pNewCapacityFuel': t})
+        summary.update({'pNewCapacityTechFuel': t})
     else:
-        _log_warning('No pNewCapacityFuel in epm_results')
+        log_warning('No pNewCapacityTechFuel in epm_results')
 
-    if 'pNewCapacityFuelCountry' in epm_results.keys():
-        t = epm_results['pNewCapacityFuelCountry'].copy()
+    if 'pNewCapacityTechFuelCountry' in epm_results.keys():
+        t = epm_results['pNewCapacityTechFuelCountry'].copy()
         t['attribute'] = 'New Capacity: MW'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pNewCapacityFuelCountry': t})
+        summary.update({'pNewCapacityTechFuelCountry': t})
     else:
-        _log_warning('No pNewCapacityFuelCountry in epm_results')
+        log_warning('No pNewCapacityTechFuelCountry in epm_results')
 
     if 'pAnnualTransmissionCapacity' in epm_results.keys():
         t = epm_results['pAnnualTransmissionCapacity'].copy()
@@ -784,7 +828,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         summary.update({'pAnnualTransmissionCapacity': t})
     else:
-        _log_warning('No pAnnualTransmissionCapacity in epm_results')
+        log_warning('No pAnnualTransmissionCapacity in epm_results')
         
     if 'pNewTransmissionCapacity' in epm_results.keys():
         t = epm_results['pNewTransmissionCapacity'].copy()
@@ -793,7 +837,7 @@ def generate_summary(epm_results, folder, epm_input):
         t = t[t['value'] > 1e-2]
         summary.update({'pNewTransmissionCapacity': t})
     else:
-        _log_warning('No pNewTransmissionCapacity in epm_results')
+        log_warning('No pNewTransmissionCapacity in epm_results')
 
     # 3. Energy balance
 
@@ -803,25 +847,25 @@ def generate_summary(epm_results, folder, epm_input):
         t.replace({'Total production: GWh': 'Generation: GWh'}, inplace=True)
         summary.update({'pEnergyBalance': t})
     else:
-        _log_warning('No pEnergyBalance in epm_results')
+        log_warning('No pEnergyBalance in epm_results')
 
-    if 'pEnergyFuel' in epm_results.keys():
-        t = epm_results['pEnergyFuel'].copy()
+    if 'pEnergyTechFuel' in epm_results.keys():
+        t = epm_results['pEnergyTechFuel'].copy()
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pEnergyFuel': t})
+        summary.update({'pEnergyTechFuel': t})
     else:
-        _log_warning('No pEnergyFuel in epm_results')
+        log_warning('No pEnergyTechFuel in epm_results')
     
-    if 'pEnergyFuelCountry' in epm_results.keys():
-        t = epm_results['pEnergyFuelCountry'].copy()
+    if 'pEnergyTechFuelCountry' in epm_results.keys():
+        t = epm_results['pEnergyTechFuelCountry'].copy()
         t['attribute'] = 'Energy: GWh'
         t.rename(columns={'fuel': 'resolution'}, inplace=True)
         t = t[t['value'] > 1e-2]
-        summary.update({'pEnergyFuelCountry': t})
+        summary.update({'pEnergyTechFuelCountry': t})
     else:
-        _log_warning('No pEnergyFuelCountry in epm_results')
+        log_warning('No pEnergyTechFuelCountry in epm_results')
        
     # 5. Reserves
     
@@ -831,14 +875,14 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Spinning Reserve: GWh'
         summary.update({'pReserveSpinningPlantZone': t})
     else:
-        _log_warning('No pReserveSpinningPlantZone in epm_results')
+        log_warning('No pReserveSpinningPlantZone in epm_results')
 
     if 'pReserveMarginCountry' in epm_results.keys():
         t = epm_results['pReserveMarginCountry'].copy()
         t.replace({'TotalFirmCapacity': 'Firm Capacity: MW', 'ReserveMargin': 'Planning Reserve: MW'}, inplace=True)
         summary.update({'pReserveMarginResCountry': t})
     else:
-        _log_warning('No pReserveMarginCountry in epm_results')
+        log_warning('No pReserveMarginCountry in epm_results')
 
     # 6. Interconnections
     
@@ -848,7 +892,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         summary.update({'pInterchange': t})
     else:
-        _log_warning('No pInterchange in epm_results')
+        log_warning('No pInterchange in epm_results')
             
     if 'pInterchangeExternalExports' in epm_results.keys():
         t = epm_results['pInterchangeExternalExports'].copy()
@@ -856,7 +900,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'zext': 'resolution'}, inplace=True)
         summary.update({'pInterchangeExternalExports': t})
     else:
-        _log_warning('No pInterchangeExternalExports in epm_results')
+        log_warning('No pInterchangeExternalExports in epm_results')
         
     if 'pInterchangeExternalImports' in epm_results.keys():
         t = epm_results['pInterchangeExternalImports'].copy()
@@ -864,7 +908,7 @@ def generate_summary(epm_results, folder, epm_input):
         t.rename(columns={'zext': 'resolution'}, inplace=True)
         summary.update({'pInterchangeExternalImports': t})
     else:
-        _log_warning('No pInterchangeExternalImports in epm_results')
+        log_warning('No pInterchangeExternalImports in epm_results')
 
     # 7. Emissions
 
@@ -873,23 +917,23 @@ def generate_summary(epm_results, folder, epm_input):
         t['attribute'] = 'Emissions: MtCO2'
         summary.update({'pEmissionsZone': t})
     else:
-        _log_warning('No pEmissionsZone in epm_results')
+        log_warning('No pEmissionsZone in epm_results')
 
     if 'pEmissionsIntensityZone' in epm_results.keys():
         t = epm_results['pEmissionsIntensityZone'].copy()
         t['attribute'] = 'Emissions: tCO2/GWh'
         summary.update({'pEmissionsIntensityZone': t})
     else:
-        _log_warning('No pEmissionsIntensityZone in epm_results')
+        log_warning('No pEmissionsIntensityZone in epm_results')
 
     # 8. Prices
     
-    if 'pYearlyPriceHub' in epm_results.keys():
-        t = epm_results['pYearlyPriceHub'].copy()
+    if 'pYearlyPrice' in epm_results.keys():
+        t = epm_results['pYearlyPrice'].copy()
         t['attribute'] = 'Price: $/MWh'
-        summary.update({'pYearlyPriceHub': t})
+        summary.update({'pYearlyPrice': t})
     else:
-        _log_warning('No pYearlyPriceHub in epm_results')
+        log_warning('No pYearlyPrice in epm_results')
 
 
     # Concatenate all dataframes in the summary dictionary
@@ -944,7 +988,7 @@ def generate_summary(epm_results, folder, epm_input):
         order_dict = {attr: index for index, attr in enumerate(order)}
         summary = summary.sort_values(by="attribute", key=lambda x: x.map(order_dict))
 
-    zone_to_country = epm_input['zcmap'].set_index('zone')['country'].to_dict()
+    zone_to_country = epm_results['pZoneCountry'].set_index('zone')['country'].to_dict()    
     summary['country'] = summary['country'].fillna(summary['zone'].map(zone_to_country))
     # Remove duplicates
     
@@ -991,7 +1035,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Capacity: MW': temp.copy()})
     else:
-        _log_warning('No pCapacityPlan in epm_results')
+        log_warning('No pCapacityPlan in epm_results')
 
     if 'pUtilizationPlant' in epm_results.keys():
         temp = epm_results['pUtilizationPlant'].copy()
@@ -999,7 +1043,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Utilization: percent': temp.copy()})
     else:
-        _log_warning('No pUtilizationPlant in epm_results')
+        log_warning('No pUtilizationPlant in epm_results')
 
     if 'pEnergyPlant' in epm_results.keys():
         temp = epm_results['pEnergyPlant'].copy()
@@ -1007,7 +1051,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Energy: GWh': temp.copy()})
     else:
-        _log_warning('No pEnergyPlant in epm_results')
+        log_warning('No pEnergyPlant in epm_results')
 
     if 'pReserveSpinningPlantZone' in epm_results.keys():
         temp = epm_results['pReserveSpinningPlantZone'].copy()
@@ -1015,7 +1059,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'Spinning Reserve: GWh': temp.copy()})
     else:
-        _log_warning('No pReserveSpinningPlantZone in epm_results')
+        log_warning('No pReserveSpinningPlantZone in epm_results')
 
     if 'pCostsPlant' in epm_results.keys():
         temp = epm_results['pCostsPlant'].copy()
@@ -1026,7 +1070,7 @@ def generate_plants_summary(epm_results, folder):
         grouped_dfs = {key: group.drop(columns=['attribute']) for key, group in temp.groupby('attribute')}
         summary_detailed.update(grouped_dfs)
     else:
-        _log_warning('No pCostsPlant in epm_results')
+        log_warning('No pCostsPlant in epm_results')
 
     if 'pPlantAnnualLCOE' in epm_results.keys():
         temp = epm_results['pPlantAnnualLCOE'].copy()
@@ -1034,7 +1078,7 @@ def generate_plants_summary(epm_results, folder):
         temp.reset_index(inplace=True)
         summary_detailed.update({'LCOE: $/MWH': temp.copy()})
     else:
-        _log_warning('No pPlantAnnualLCOE in epm_results')
+        log_warning('No pPlantAnnualLCOE in epm_results')
 
     summary_detailed = pd.concat(summary_detailed).round(2)
     summary_detailed.index.names = ['Variable', '']
@@ -1110,23 +1154,25 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
         return mcolors.to_hex(new_rgb)
 
     RESULTS_FOLDER = path_to_extract_results(FOLDER)
-    _log_info(f"Processing simulation results from {RESULTS_FOLDER}")
+    log_info(f"Processing simulation results from {RESULTS_FOLDER}")
 
     # Read the plot specifications
     dict_specs = read_plot_specs()
+    try:
+        from .plots import set_default_fuel_order  # Lazy import to avoid circular dependency
+        set_default_fuel_order(dict_specs.get('fuel_order'))
+    except (ImportError, AttributeError):
+        pass
 
     # Extract and process EPM inputs
-    epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
-    epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
-    mapping_gen_fuel = epm_input['pGenDataInput'].loc[:, ['scenario', 'generator', 'fuel']]
-    mapping_zone_country = epm_input['zcmap'].loc[:, ['scenario', 'zone', 'country']]
+    if False:
+        epm_input = extract_epm_folder(RESULTS_FOLDER, file='input.gdx')
+        epm_input = process_epm_inputs(epm_input, dict_specs, scenarios_rename=SCENARIOS_RENAME)
 
     # Extract and process EPM results
     epm_results = extract_epm_folder(RESULTS_FOLDER, file='epmresults.gdx')
-    epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME,
-                                        mapping_gen_fuel=mapping_gen_fuel, mapping_zone_country=mapping_zone_country,
-                                        keys=keys_results)
-    _log_info(f"Loaded {len(epm_results)} processed result tables")
+    epm_results = process_epm_results(epm_results, dict_specs, scenarios_rename=SCENARIOS_RENAME, keys=keys_results)
+    log_info(f"Loaded {len(epm_results)} processed result tables")
 
     # Update color dict with plant colors
     if True:
@@ -1148,33 +1194,5 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
             # Update dict_specs with the new colors
             dict_specs['colors'].update(plant_to_color)
 
-    return RESULTS_FOLDER, dict_specs, epm_input, epm_results
+    return RESULTS_FOLDER, dict_specs, epm_results
 
-
-
-def generate_summary_excel(results_folder, template_file="epm_results_summary_dis_template.xlsx"):
-
-    # Get the data
-
-    results_folder, graphs_folder, dict_specs, epm_input, epm_results, mapping_gen_fuel = process_simulation_results(
-    results_folder, folder='')
-
-    tabs_to_update=['pEnergyBalance','pCapacityFuel','pEnergyFuel','pYearlyCostsZone','pYearlyCostsZoneCountry','pEmissions','pInterchange']
-
-    output_file = f"{results_folder}_results_summary_dis.xlsx"
-
-    # Create the file from the template
-    shutil.copyfile(template_file, output_file)
-
-    # Charge data
-    with pd.ExcelWriter(output_file, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
-        for tab in tabs_to_update:
-            if tab in epm_results.keys():
-                df_temp = epm_results[tab].copy()
-                col_order = [col for col in df_temp.columns if col != "scenario"] + ["scenario"]
-                df_temp = df_temp[col_order]
-                df_temp.to_excel(writer, sheet_name=tab, index=False)
-            else:
-                _log_warning(f"No data for '{tab}' — ignored")
-
-    _log_info(f"Excel generated : {output_file}")

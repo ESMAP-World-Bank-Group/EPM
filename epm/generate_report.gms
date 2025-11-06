@@ -98,6 +98,12 @@ set capexComponentPlant(capexComponent) /
   CSPStorage
 /;
 
+set genCostCmp /
+  "Generation costs: $m",
+  "Fixed O&M: $m",
+  "Variable Cost: $m"
+/;
+
 set fEnergyBalance /
   #f,
   UnmetDemand,
@@ -126,8 +132,10 @@ Parameters
   
   pNewCapacityFuel(z,f,y)                    'Newly added capacity [MW] by fuel and zone'
   pNewCapacityTech(z,tech,y)                 'Newly added capacity [MW] by technology and zone'
+  pNewCapacityTechFuel(z,tech,f,y)           'Newly added capacity [MW] by technology, fuel, and zone'
   pNewCapacityFuelCountry(c,f,y)             'Newly added capacity [MW] by fuel and country'
   pNewCapacityTechCountry(c,tech,y)          'Newly added capacity [MW] by technology and country'
+  pNewCapacityTechFuelCountry(c,tech,f,y)    'Newly added capacity [MW] by technology, fuel, and country'
   
   pAdditionalTransmissionCapacity(z, z2, y)
   pAnnualTransmissionCapacity(z,z2,y)        'Total available transmission capacity [MW] between internal zones'
@@ -137,6 +145,8 @@ Parameters
   pCapacitySummaryCountry(c,*,y)             'Summary of capacity indicators [MW] by country and year'
   
   pCapacityPlantH2(z,hh,y)                   'Capacity plan of electrolyzers [MW] by zone'
+  pGeneratorTechFuel(g,tech,f)               'Mapping of generator to technology and fuel'
+  pZoneCountry(z,c)                          'Mapping of zone to country'
 
 * ============================================================
 * 2. COSTS
@@ -158,7 +168,6 @@ Parameters
   pYearlyCostsZone(z, *, y)                      'Annual cost summary [million USD] by zone and year'
   pCostsZone(z, *)                               'Total cost [million USD] by zone and cost category'
   pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
-  pCostAverageCountry(c, *)                      'Average annual cost [million USD] by country (undiscounted)'
   pYearlyCostsSystem
   pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
   pCostsSystemPerMWh(*)                          'System-level cost summary [$ / MWh], weighted and discounted'
@@ -201,6 +210,7 @@ Parameters
 
   pDispatchPlant(z, y, q, d, g, t, *)      'Plant-level hourly dispatch and reserve [MW]'
   pDispatchFuel(z, y, q, d, f, t)          'Fuel-level hourly dispatch [MW]'
+  pDispatchTechFuel(z, y, q, d, tech, f, t) 'Technology-fuel level hourly dispatch [MW]'
   pDispatch(z, y, q, d, *, t)              'Zone-level hourly dispatch and flows [MW]'
 
 * ============================================================
@@ -209,7 +219,9 @@ Parameters
 
   pReserveSpinningPlantZone(z,g,y)        'Spinning reserve provided by plant [MWh] per zone and year'
   pReserveSpinningFuelZone(z,f,y)         'Spinning reserve provided by fuel [MWh] per zone and year'
+  pReserveSpinningTechFuelZone(z,tech,f,y) 'Spinning reserve provided by technology-fuel [GWh] per zone and year'
   pReserveSpinningPlantCountry(c,g,y)     'Spinning reserve provided by plant [MWh] per country and year'
+  pReserveSpinningTechFuelCountry(c,tech,f,y) 'Spinning reserve provided by technology-fuel [GWh] per country and year'
   
   pReserveMargin(z,*,y)                   'Reserve margin indicators by zone and year'
   pReserveMarginCountry(c,*,y)            'Reserve margin indicators by country and year'
@@ -279,20 +291,26 @@ Parameters
 * ============================================================
 
   pPlantAnnualLCOE(z,g,y)          'Plant-level LCOE [USD/MWh] by year'
+  pYearlyGenCostZonePerMWh(z,genCostCmp,y) 'Zone generation cost by component [USD/MWh]'
   pCostsZonePerMWh(z,sumhdr)       'Zone cost per discounted demand [USD/MWh]'
   pCostsCountryPerMWh(c,sumhdr)    'Country cost per discounted demand [USD/MWh]'
-  pYearlyAverageCostZone(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
-  pYearlyAverageCostCountry(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
-  pYearlySystemAverageCost(y)            'System average cost [USD/MWh] by year'
+  pYearlyCostsZonePerMWh(z,sumhdr,y)    'Zone average cost by component [USD/MWh]'
+  pYearlyCostsCountryPerMWh(c,sumhdr,y) 'Country average cost by component [USD/MWh]'
+  pYearlyCostsSystemPerMWh(sumhdr, y)            'System average cost [USD/MWh] by year'
 
 * ============================================================
 * 11. modeltype PARAMETERS
 * ============================================================
-   pmodeltypeParameters(*)                      'modeltype parameters'                                                                                 
+   pSolverParameters(*)                      'modeltype parameters'                                                                                 
 ;
 
+* Mapping
 
+pGeneratorTechFuel(g, tech, f) = sum(z, gmap(g, z, tech, f));
+pGeneratorTechFuel(g, tech, f)$pGeneratorTechFuel(g, tech, f) = 1;
 
+pZoneCountry(z, c) = zcmap(z, c);
+pZoneCountry(z, c)$pZoneCountry(z, c) = 1;
 
 
 * ============================================================
@@ -314,6 +332,7 @@ pCapacityPlant(zgmap(z,g),y)                 = vCap.l(g,y);
 pNewCapacityPlant(zgmap(z,g),y)              = vBuild.l(g,y);
 
 pRetirementsPlant(zgmap(z,g),y)                  = vRetire.l(g,y);
+
 
 * ---------------------------------------------------------
 * Capacity, new builds, retirements, and utilization by fuel and technology
@@ -341,6 +360,10 @@ pNewCapacityFuel(z, f, y) =
 
 * New capacity by technology [MW]
 pNewCapacityTech(z, tech, y) =
+  sum((gzmap(g, z), gtechmap(g, tech), gprimf(g, f)), vBuild.l(g, y));
+
+* New capacity by technology and fuel [MW]
+pNewCapacityTechFuel(z, tech, f, y) =
   sum((gzmap(g, z), gtechmap(g, tech), gprimf(g, f)), vBuild.l(g, y));
 
 * Retirements by fuel [MW]
@@ -391,6 +414,9 @@ pNewCapacityFuelCountry(c, f, y) =
 pNewCapacityTechCountry(c, tech, y) =
   sum(zcmap(z, c), pNewCapacityTech(z, tech, y));
 
+pNewCapacityTechFuelCountry(c, tech, f, y) =
+  sum(zcmap(z, c), pNewCapacityTechFuel(z, tech, f, y));
+
 pRetirementsFuelCountry(c, f, y) =
   sum(zcmap(z, c), pRetirementsFuel(z, f, y));
 
@@ -431,10 +457,10 @@ pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
 
 * Reporting costs by plant
 * Plant-level cost reporting (prettier formatting)
-pCostsPlant(z, g, "Generation costs: $m", y) =
+pCostsPlant(z, g, "Generation costs: $m", y)$gzmap(g, z) =
   vAnnGenCapex.l(g, y) / 1e6;
 
-pCostsPlant(z, g, "Fixed O&M: $m", y) =
+pCostsPlant(z, g, "Fixed O&M: $m", y)$gzmap(g, z) =
   (
     vCap.l(g, y)      * pGenData(g, "FOMperMW")
     + vCapStor.l(g, y)  * pStorData(g, "FixedOMMWh")
@@ -442,12 +468,12 @@ pCostsPlant(z, g, "Fixed O&M: $m", y) =
     + vCapTherm.l(g, y) * pCSPData(g, "Thermal field", "FixedOMMWh")
   ) / 1e6;
 
-pCostsPlant(z, g, "Variable Cost: $m", y) =
+pCostsPlant(z, g, "Variable Cost: $m", y)$gzmap(g, z) =
   sum((gfmap(g, f), q, d, t),
     pVarCost(g, f, y) * vPwrOut.l(g, f, q, d, t, y) * pHours(q, d, t)
   ) / 1e6;
 
-pCostsPlant(z, g, "Spinning Reserve Cost: $m", y) =
+pCostsPlant(z, g, "Spinning Reserve Cost: $m", y)$gzmap(g, z) =
   sum((q, d, t),
     vSpinningReserve.l(g, q, d, t, y) * pGenData(g, "ReserveCost") * pHours(q, d, t)
   ) / 1e6;
@@ -537,6 +563,7 @@ pPrice(z,q,d,t,y)$(pHours(q,d,t)) = -eDemSupply.m(z,q,d,t,y)/pHours(q,d,t)/pRR(y
 * ---------------------------------------------------------
 
 pImportCostsInternal(z,y) = sum((sTopology(Zd,z),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t));
+
 pExportRevenuesInternal(z,y) = - sum((sTopology(z,Zd),q,d,t), pPrice(z,q,d,t,y)*vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t));
 
 * ---------------------------------------------------------
@@ -580,16 +607,21 @@ pTradeSharedBenefits(z,y) = 0.5*sum(sTopology(Zd,z), pCongestionRevenues(Zd,z,y)
 *   - Aggregation of zonal demand by mapping zones to countries
 * ---------------------------------------------------------
 Parameter
-  pDemandZone(z,y)                         'Total demand in GWh per zone'
-  pDemandCountry(c,y)                      'Total demand in GWh per country'
-  pDemand(y)
+  pDemandEnergyZone(z,y)         'Total energy demand [GWh] by zone and year'
+  pDemandEnergyCountry(c,y)      'Total energy demand [GWh] by country and year'
+  pDemandEnergySystem(y)         'Total system energy demand [GWh] by year'
+  pDemandPeakZone(z,y)           'Peak demand [MW] by zone and year'
+  pDemandPeakCountry(c,y)        'Peak demand [MW] by country and year'
+  pDemandPeakSystem(y)           'Peak demand [MW] by year'
 ;
 
-pDemandZone(z,y) = sum((q,d,t), 
-    pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)
-) / 1e3;
-pDemandCountry(c,y) = sum(z$(zcmap(z,c)), pDemandZone(z,y));
-pDemand(y) = sum(z, pDemandZone(z,y));
+pDemandEnergyZone(z,y) = sum((q,d,t), pDemandData(z,q,d,y,t) * pHours(q,d,t) * pEnergyEfficiencyFactor(z,y)) / 1e3;
+pDemandEnergyCountry(c,y) = sum(zcmap(z,c), pDemandEnergyZone(z,y));
+pDemandEnergySystem(y) = sum(z, pDemandEnergyZone(z,y));
+
+pDemandPeakZone(z,y) = smax((q,d,t), pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y));
+pDemandPeakCountry(c,y) = smax((q,d,t), sum(zcmap(z,c), pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y)));
+pDemandPeakSystem(y) = smax((q,d,t), sum(z, pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y)));
 
 * ---------------------------------------------------------
 * Zone-level cost components [$m]
@@ -645,32 +677,32 @@ pYearlyCostsZone(z, "Spinning reserve costs: $m", y) =
   vYearlySpinningReserveCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Unmet country spinning reserve costs: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyUnmetSpinningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  sum(c$(zcmap(z, c) and pDemandEnergyCountry(c, y) > 0),
+    vYearlyUnmetSpinningReserveCostCountry.l(c, y) * (pDemandEnergyZone(z, y) / pDemandEnergyCountry(c, y))
   ) / 1e6;
 
 pYearlyCostsZone(z, "Unmet country planning reserve costs: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  sum(c$(zcmap(z, c) and pDemandEnergyCountry(c, y) > 0),
+    vYearlyUnmetPlanningReserveCostCountry.l(c, y) * (pDemandEnergyZone(z, y) / pDemandEnergyCountry(c, y))
   ) / 1e6;
 
 pYearlyCostsZone(z, "Unmet system planning reserve costs: $m", y) =
-  vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+  vYearlyUnmetPlanningReserveCostSystem.l(y) * (pDemandEnergyZone(z, y) / pDemandEnergySystem(y)) / 1e6;
 
 pYearlyCostsZone(z, "Unmet system spinning reserve costs: $m", y) =
-  vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+  vYearlyUnmetSpinningReserveCostSystem.l(y) * (pDemandEnergyZone(z, y) / pDemandEnergySystem(y)) / 1e6;
 
 * Carbon-related costs
 pYearlyCostsZone(z, "Carbon costs: $m", y) =
   vYearlyCarbonCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Unmet country CO2 backstop cost: $m", y) =
-  sum(c$(zcmap(z, c) and pDemandCountry(c, y) > 0),
-    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandZone(z, y) / pDemandCountry(c, y))
+  sum(c$(zcmap(z, c) and pDemandEnergyCountry(c, y) > 0),
+    vYearlyCO2BackstopCostCountry.l(c, y) * (pDemandEnergyZone(z, y) / pDemandEnergyCountry(c, y))
   ) / 1e6;
 
 pYearlyCostsZone(z, "Unmet system CO2 backstop cost: $m", y) =
-  vYearlyCO2BackstopCostSystem.l(y) * (pDemandZone(z, y) / pDemand(y)) / 1e6;
+  vYearlyCO2BackstopCostSystem.l(y) * (pDemandEnergyZone(z, y) / pDemandEnergySystem(y)) / 1e6;
 
 * Trade-related costs
 pYearlyCostsZone(z, "Import costs with internal zones: $m", y) =
@@ -697,9 +729,6 @@ pCostsZone(z, sumhdr) =
 * Cost by country and year 
 pYearlyCostsCountry(c,sumhdr,y) = sum(z$(zcmap(z,c)), pYearlyCostsZone(z,sumhdr,y));                                        
 
-* Cost average by country over the time horizon
-pCostAverageCountry(c,sumhdr) = sum(y, pWeightYear(y) * pYearlyCostsCountry(c,sumhdr,y))/TimeHorizon;
-
 * ---------------------------------------------------------
 * System-level cost summary
 * ---------------------------------------------------------
@@ -722,7 +751,44 @@ pCostsSystem(sumhdr) = sum(z, pCostsZone(z,sumhdr));
 
 pCostsSystem("NPV of system cost: $m") = vNPVCost.l/1e6;
 
+* ---------------------------------------------------------
 
+* Annual average cost benchmarks ($/MWh) without discounting:
+* divide yearly costs by the matching energy basis.
+pYearlyCostsZonePerMWh(z,sumhdr,y) =
+    pYearlyCostsZone(z,sumhdr,y)*1e6 / (pDemandEnergyZone(z,y) * 1e3);
+
+pYearlyCostsCountryPerMWh(c,sumhdr,y) =
+    1e6 * pYearlyCostsCountry(c,sumhdr,y) / (pDemandEnergyCountry(c,y) * 1e3);
+
+pYearlyCostsSystemPerMWh(sumhdr,y) = 
+    1e6 * pYearlyCostsSystem(sumhdr, y) / (pDemandEnergySystem(y) * 1e3);
+
+* Discount zonal demand over the horizon; convert GWh -> MWh via 1e3
+* and apply both the discount rate (pRR) and scenario weight (pWeightYear).
+pDiscountedDemandZoneMWh(z) =
+    sum(y, pDemandEnergyZone(z,y) * 1e3 * pRR(y) * pWeightYear(y));
+
+pDiscountedDemandCountryMWh(c) =
+    sum(zcmap(z,c), pDiscountedDemandZoneMWh(z));
+
+pDiscountedDemandSystemMWh =
+    sum(z, pDiscountedDemandZoneMWh(z));
+    
+* Divide the discounted cost ledger by discounted demand to express
+* each zonal cost component as an average $/MWh metric.
+pCostsZonePerMWh(z,sumhdr)$pDiscountedDemandZoneMWh(z) =
+    pCostsZone(z,sumhdr) * 1e6 / pDiscountedDemandZoneMWh(z);
+
+* Country totals reuse the zonal discounted costs and demands,
+* aggregating before taking the ratio so shared demand weights apply.
+pCostsCountryPerMWh(c,sumhdr)$pDiscountedDemandCountryMWh(c) =
+    1e6 * sum(zcmap(z,c), pCostsZone(z,sumhdr)) / pDiscountedDemandCountryMWh(c);
+
+* System-wide average cost: sum of discounted zonal costs divided by
+* the discounted system demand (sum of zonal denominators).
+pCostsSystemPerMWh(sumhdr)$pDiscountedDemandSystemMWh =
+    (pCostsSystem(sumhdr) * 1e6) / pDiscountedDemandSystemMWh;
 
 * ---------------------------------------------------------
 * Fuel costs and consumption [$m, PJ] by zone and country
@@ -886,6 +952,8 @@ pDispatchPlant(z, y, q, d, g, t, "Generation")$zgmap(z, g) = sum(gfmap(g, f), vP
 pDispatchPlant(z, y, q, d, g, t, "Reserve")$zgmap(z, g) = vSpinningReserve.l(g, q, d, t, y);
 
 pDispatchFuel(z, y, q, d, f, t) = sum((gzmap(g, z), gfmap(g, f)), vPwrOut.l(g, f, q, d, t, y));
+pDispatchTechFuel(z, y, q, d, tech, f, t) =
+  sum((gzmap(g, z), gtechmap(g, tech), gfmap(g, f)), vPwrOut.l(g, f, q, d, t, y));
 
 pDispatch(z, y, q, d, "Imports", t) = sum(sTopology(z, z2), vFlow.l(z2, z, q, d, t, y)) + sum(zext, vYearlyImportExternal.l(z, zext, q, d, t, y));
 pDispatch(z, y, q, d, "Exports", t) = -sum(sTopology(z, z2), vFlow.l(z, z2, q, d, t, y)) - sum(zext, vYearlyExportExternal.l(z, zext, q, d, t, y));
@@ -908,7 +976,11 @@ pDispatch(z, y, q, d, "Demand", t) = pDemandData(z, q, d, y, t) * pEnergyEfficie
 
 pReserveSpinningPlantZone(zgmap(z,g),y) = sum((q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
 pReserveSpinningFuelZone(z,f,y) = sum((gzmap(g,z),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
+pReserveSpinningTechFuelZone(z,tech,f,y) =
+  sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vSpinningReserve.l(g,q,d,t,y)*pHours(q,d,t))/1e3 ;
 pReserveSpinningPlantCountry(c,g,y)=  sum((zcmap(z,c),zgmap(z,g)), pReserveSpinningPlantZone(z,g,y));
+pReserveSpinningTechFuelCountry(c,tech,f,y) =
+  sum(zcmap(z,c), pReserveSpinningTechFuelZone(z,tech,f,y));
 
 pReserveMargin(z,"Peak demand: MW",y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
 pReserveMargin(z,"TotalFirmCapacity",y) = sum(zgmap(z,g), pCapacityCredit(g,y)* vCap.l(g,y));                  
@@ -1206,218 +1278,29 @@ Parameter
 pPlantEnergyMWh(z,g,y)$pEnergyPlant(z,g,y) = pEnergyPlant(z,g,y)*1e3;
 
 * LCOE for new capacity plants (without direct spinning reserve cost)
-pPlantAnnualLCOE(z,g,y)$pPlantEnergyMWh(z,g,y) =
-    ( pCostsPlant(z, g, "Generation costs: $m", y)
-    + pCostsPlant(z, g, "Variable Cost: $m", y) 
-    + pCostsPlant(z, g, "Variable Cost: $m", y) ) / pPlantEnergyMWh(z,g,y);
-
-* ---------------------------------------------------------
-* Cost components by zone [$/year]
-* ---------------------------------------------------------
-* Each cost component represents one part of the total
-* annual system cost in a given zone z and year y.
-*
-* Trade cost:
-*   - External imports minus exports
-*   - Valued at external trade price × operating hours
-*
-* Transmission cost:
-*   - Interzonal flows
-*   - Valued at zonal market price × operating hours
-*
-* Investment CAPEX:
-*   - Annualized cost of generation, storage, CSP storage,
-*     and CSP thermal field capacity
-*   - Uses CRFs (capital recovery factors) to annualize
-*   - Scaled to $ from MW or MWh basis
-*
-* Operating costs (O&M):
-*   - Fixed O&M (FOM)
-*   - Variable O&M (VOM)
-*   - Fuel expenditures
-*   - Spinning reserve provision
-* ---------------------------------------------------------
-
-Parameter
-    pZoneTradeCost
-    pZoneGenCost
-    pZoneTotalCost
-;
-
-* Trade 
-pZoneTradeCost(z,y) =
-      1e6 * (pYearlyCostsZone(z,"Import costs with external zones: $m",y)
-    + pYearlyCostsZone(z,"Export revenues with external zones: $m",y)
-    + pYearlyCostsZone(z,"Import costs with internal zones: $m",y)
-    + pYearlyCostsZone(z,"Export revenues with internal zones: $m",y)
-    + pYearlyCostsZone(z,"Trade shared benefits: $m",y));
-
-* Generation-only cost
-pZoneGenCost(z,y) =
-      1e6 * (pYearlyCostsZone(z,"Generation costs: $m",y)
-    + pYearlyCostsZone(z,"Fixed O&M: $m",y)
-    + pYearlyCostsZone(z,"Variable O&M: $m",y)
-    + pYearlyCostsZone(z,"Fuel costs: $m",y)
-    + pYearlyCostsZone(z,"Spinning Reserve costs: $m",y));
-
-* Total system cost at zone level (gen + trade + transmission)
-pZoneTotalCost(z,y) = pZoneGenCost(z,y) + pZoneTradeCost(z,y) + 1e6 * pYearlyCostsZone(z,"Transmission costs: $m",y);
+pPlantAnnualLCOE(z,g,y)$((pPlantEnergyMWh(z,g,y)) and (pPlantEnergyMWh(z,g,y) >= 1e3)) =
+    1e6 * (
+        pCostsPlant(z, g, "Generation costs: $m", y)
+      + pCostsPlant(z, g, "Fixed O&M: $m", y)
+      + pCostsPlant(z, g, "Variable Cost: $m", y)
+*      + pCostsPlant(z, g, "Spinning Reserve Cost: $m", y)
+    ) / pPlantEnergyMWh(z,g,y);
 
 
-* ---------------------------------------------------------
-* Energy denominators for normalization [MWh]
-* ---------------------------------------------------------
-* Zone energy basis:
-*   - Derived from the zone-level energy balance
-*   - Converts GWh → MWh
-* Country energy basis:
-*   - Aggregates the zonal energy bases into countries
-* ---------------------------------------------------------
+* Zone-level generation cost intensity by component [$/MWh]
+pYearlyGenCostZonePerMWh(z,genCostCmp,y)$sum(gzmap(g,z), pEnergyPlant(z,g,y)) =
+    1e6 * sum(gzmap(g,z), pCostsPlant(z, g, genCostCmp, y))
+    / (sum(gzmap(g,z), pEnergyPlant(z,g,y)) * 1e3);
 
-Parameter
-    pZoneEnergyMWh(z,y)              'Annual energy output by zone [MWh]'
-    pCountryEnergyMWh(c,y)           'Annual energy output by country [MWh]'
-;
-
-* Zone-level energy denominator
-pZoneEnergyMWh(z,y)$pEnergyBalance(z,"Total production: GWh",y) =
-    pEnergyBalance(z,"Total production: GWh",y)*1e3;
-
-* Country-level energy denominator (aggregation)
-pCountryEnergyMWh(c,y) = sum(zcmap(z,c), pZoneEnergyMWh(z,y));
-
-* ---------------------------------------------------------
-* Energy basis (MWh) used to normalize system costs
-* ---------------------------------------------------------
-* For zones: includes local production + net imports/exports 
-*            + interzonal flows.
-* For countries: aggregates the zonal bases and accounts 
-*                for cross-border flows between countries.
-* ---------------------------------------------------------
-
-Parameter
-    pZoneCostEnergyBasis
-    pCountryCostEnergyBasis
-    pDiscountedDemandZoneMWh(z)
-    pDiscountedDemandCountryMWh(c)
-    pDiscountedDemandSystemMWh;
-    
-
-pZoneCostEnergyBasis(z,y) =
-      sum((zext,q,d,t),
-          (vYearlyImportExternal.l(z,zext,q,d,t,y)
-         - vYearlyExportExternal.l(z,zext,q,d,t,y)) * pHours(q,d,t))
-    + sum((sTopology(Zd,z),q,d,t),
-          vFlow.l(Zd,z,q,d,t,y) * pHours(q,d,t))
-    + pZoneEnergyMWh(z,y);
-
-pCountryCostEnergyBasis(c,y) =
-      sum((zcmap(z,c),zext,q,d,t),
-          (vYearlyImportExternal.l(z,zext,q,d,t,y)
-         - vYearlyExportExternal.l(z,zext,q,d,t,y)) * pHours(q,d,t))
-    + sum((zcmap(z,c),sMapConnectedZonesDiffCountries(Zd,z),q,d,t),
-          vFlow.l(Zd,z,q,d,t,y) * pHours(q,d,t))
-    + pCountryEnergyMWh(c,y);
-
-
-pYearlySystemCostEnergyBasis(y) =
-    sum(z, pZoneCostEnergyBasis(z,y));
-
-pDiscountedDemandZoneMWh(z) =
-    sum(y, pDemandZone(z,y) * 1e3 * pRR(y) * pWeightYear(y));
-
-pDiscountedDemandCountryMWh(c) =
-    sum(zcmap(z,c), pDiscountedDemandZoneMWh(z));
-
-pDiscountedDemandSystemMWh =
-    sum(z, pDiscountedDemandZoneMWh(z));
-    
-pCostsSystemPerMWh(sumhdr)$pDiscountedDemandSystemMWh =
-    (pCostsSystem(sumhdr) * 1e6) / pDiscountedDemandSystemMWh;
-
-
-* ---------------------------------------------------------
-* Average costs [$/MWh] on discounted demand basis
-* ---------------------------------------------------------
-* Each average cost is defined as:
-*   (Discounted net-present cost component in $) /
-*   (Discounted electricity demand in MWh)
-*
-* Zonal averages:
-*   - Reported by cost component (sumhdr)
-*   - Discounting follows pRR and pWeightYear weights
-*
-* Country averages:
-*   - Aggregated from the constituent zones
-*   - Same discounted demand denominator as zones
-* ---------------------------------------------------------
-
-* Zone-level discounted average costs by component ($/MWh)
-pCostsZonePerMWh(z,sumhdr)$pDiscountedDemandZoneMWh(z) =
-    pCostsZone(z,sumhdr) * 1e6 / pDiscountedDemandZoneMWh(z);
-
-* Country-level discounted average costs by component ($/MWh)
-pCostsCountryPerMWh(c,sumhdr)$pDiscountedDemandCountryMWh(c) =
-    1e6 * sum(zcmap(z,c), pCostsZone(z,sumhdr)) / pDiscountedDemandCountryMWh(c);
-
-* Component-level averages ($/MWh)
-pYearlyAverageCostZone(z,sumhdr,y)$pZoneCostEnergyBasis(z,y) =
-    pYearlyCostsZone(z,sumhdr,y)*1e6 / pZoneCostEnergyBasis(z,y);
-
-pYearlyAverageCostCountry(c,sumhdr,y)$pCountryCostEnergyBasis(c,y) =
-    1e6 * sum(zcmap(z,c), pYearlyCostsZone(z,sumhdr,y)) / pCountryCostEnergyBasis(c,y);
-
-
-* ---------------------------------------------------------
-* System average cost [$ / MWh]
-* ---------------------------------------------------------
-* For each year y:
-*   Numerator = trade costs + Generation costs + O&M costs
-*   Denominator = system-wide net imports + total energy produced
-*
-* Result = system average cost of supplying electricity
-* ---------------------------------------------------------
-
-pYearlySystemAverageCost(y)$sum(z, pZoneEnergyMWh(z,y)) =
-    (   sum((z,zext,q,d,t),
-            (vYearlyImportExternal.l(z,zext,q,d,t,y)
-           - vYearlyExportExternal.l(z,zext,q,d,t,y))
-          * pTradePrice(zext,q,d,y,t) * pHours(q,d,t))
-
-      + sum(ndc,
-            pCRF(ndc)*vCap.l(ndc,y)*pGenData(ndc,"Capex"))*1e6
-
-      + sum(ndc$(not cs(ndc)),
-            pCRFsst(ndc)*vCapStor.l(ndc,y)*pStorData(ndc,"CapexMWh"))*1e3
-
-      + sum(ndc$(not st(ndc)),
-            pCRFcst(ndc)*vCapStor.l(ndc,y)*pCSPData(ndc,"Storage","CapexMWh"))*1e3
-
-      + sum(ndc,
-            pCRFcth(ndc)*vCapTherm.l(ndc,y)*pCSPData(ndc,"Thermal Field","CapexMWh"))*1e6
-
-      + sum(dc, vAnnCapexGenTraj.l(dc,y))
-
-      + sum(z, vYearlyFOMCost.l(z,y) + vYearlyVOMCost.l(z,y)
-               + vYearlyFuelCost.l(z,y) + vYearlySpinningReserveCost.l(z,y))
-    )
-    /
-    (   sum(z,
-            sum((zext,q,d,t),
-                (vYearlyImportExternal.l(z,zext,q,d,t,y)
-               - vYearlyExportExternal.l(z,zext,q,d,t,y))
-              * pHours(q,d,t))
-          + pZoneEnergyMWh(z,y))
-    );
 
 * ============================================================
 * 11. modeltype PARAMETERS
 * ============================================================
 
-pmodeltypeParameters("modeltype Status")               = PA.modelstat + EPS;
-pmodeltypeParameters("modeltype Time: ms")             = PA.etSolve + EPS;
-pmodeltypeParameters("Absolute gap")                = PA.objVal-PA.objEst + EPS;
-pmodeltypeParameters("Relative gap")$(PA.objVal >0) = pmodeltypeParameters("Absolute gap")/PA.objVal + EPS;
+pSolverParameters("modeltype Status")               = PA.modelstat + EPS;
+pSolverParameters("modeltype Time: ms")             = PA.etSolve + EPS;
+pSolverParameters("Absolute gap")                = PA.objVal-PA.objEst + EPS;
+pSolverParameters("Relative gap")$(PA.objVal >0) = pSolverParameters("Absolute gap")/PA.objVal + EPS;
 
 *--- END RESULTS
 
@@ -1439,14 +1322,25 @@ embeddedCode Connect:
 - PythonCode:
     code: |
       symbols = [
-      
+        "pGeneratorTechFuel",
+        "pZoneCountry",
+        "pDemandEnergyZone",
+        "pDemandEnergyCountry",
+        "pDemandEnergySystem",
+        "pDemandPeakZone",
+        "pDemandPeakCountry",
+        "pDemandPeakSystem",
         "pCapacityPlant",
         "pNewCapacityPlant",
+        "pCapacityTechFuel",
         "pCapacityFuel",
+        "pCapacityTechFuelCountry",
         "pCapacityFuelCountry",
         "pNewTransmissionCapacity",
         "pNewCapacityFuel",
+        "pNewCapacityTechFuel",
         "pNewCapacityFuelCountry",
+        "pNewCapacityTechFuelCountry",
         "pAnnualTransmissionCapacity",
         "pCapacitySummary",
         "pCapacitySummaryCountry",
@@ -1459,7 +1353,6 @@ embeddedCode Connect:
         "pPrice",
         "pYearlyCostsZone",
         "pYearlyCostsCountry",
-        "pCostAverageCountry",
         "pCostsSystem",
         "pCostsSystemPerMWh",
         "pFuelCosts",
@@ -1483,19 +1376,23 @@ embeddedCode Connect:
         "pReserveSpinningPlantZone",
         "pReserveSpinningPlantCountry",
         "pReserveSpinningFuelZone",
+        "pReserveSpinningTechFuelZone",
+        "pReserveSpinningTechFuelCountry",
         "pCapacityCredit",
         
         "pEmissionsZone",
         "pEmissionsIntensityZone",
-        
+
         "pDispatchFuel",
+        "pDispatchTechFuel",
         "pDispatch",
         
         "pPlantAnnualLCOE",
+        "pYearlyGenCostZonePerMWh",
         "pCostsZonePerMWh",
         "pCostsCountryPerMWh",
-        "pYearlyAverageCostZone",
-        "pYearlyAverageCostCountry",
+        "pYearlyCostsZonePerMWh",
+        "pYearlyCostsCountryPerMWh",
         "pDiscountedDemandZoneMWh",
         "pDiscountedDemandCountryMWh",
         "pDiscountedDemandSystemMWh",
@@ -1521,27 +1418,29 @@ endEmbeddedCode
 $ifThenI.reportshort %REPORTSHORT% == 0
 * Extensive reporting is used
     execute_unload 'epmresults',
-      pSettings,
+      pSettings, pGeneratorTechFuel, pZoneCountry,
+      pDemandEnergyZone, pDemandEnergyCountry, pDemandEnergySystem,
+      pDemandPeakZone, pDemandPeakCountry, pDemandPeakSystem,
 * 1. CAPACITY
       pCapacityPlant, pNewCapacityPlant, pCapacityTechFuel, pCapacityFuel, pCapacityTechFuelCountry, pCapacityFuelCountry, pCapacityPlantH2,
       pRetirementsPlant, pRetirementsFuel, pRetirementsCountry, pRetirementsFuelCountry,
-      pNewCapacityFuel, pNewCapacityTech, pNewCapacityFuelCountry, pNewCapacityTechCountry,
+      pNewCapacityFuel, pNewCapacityTech, pNewCapacityTechFuel, pNewCapacityFuelCountry, pNewCapacityTechCountry, pNewCapacityTechFuelCountry,
       pAnnualTransmissionCapacity, pNewTransmissionCapacity,
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
       pCostsPlant, 
       pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentComponent,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
-      pYearlyCostsZone, pYearlyCostsCountry, pCostAverageCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
+      pYearlyCostsZone, pYearlyCostsCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
       pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyFuelComplete, pEnergyTechFuelCountry, pEnergyFuelCountry,
       pUtilizationPlant, pUtilizationTech, pUtilizationFuel, pUtilizationTechFuel, pUtilizationFuelCountry, pUtilizationTechFuelCountry,
       pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
 * 4. ENERGY DISPATCH
-      pDispatchPlant, pDispatchFuel, pDispatch,
+      pDispatchPlant, pDispatchFuel, pDispatchTechFuel, pDispatch,
 * 5. RESERVES
-      pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningPlantCountry,
+      pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningTechFuelZone, pReserveSpinningPlantCountry, pReserveSpinningTechFuelCountry,
       pReserveMargin, pReserveMarginCountry,
 * 5. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pLossesTransmission, pInterchangeCountry, pLossesTransmissionCountry,
@@ -1559,10 +1458,11 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 9. METRICS
       pPlantAnnualLCOE, pCostsZonePerMWh, pCostsCountryPerMWh,
-      pYearlyAverageCostZone, pYearlyAverageCostCountry, pYearlySystemAverageCost,
+      pYearlyGenCostZonePerMWh,
+      pYearlyCostsZonePerMWh, pYearlyCostsCountryPerMWh, pYearlyCostsSystemPerMWh,
       pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
 * 10. modeltype PARAMETERS
-      pmodeltypeParameters,
+      pSolverParameters,
 * 11. ADDITIONAL OUTPUTS
       pVarCost, pCapacityCredit
 ;

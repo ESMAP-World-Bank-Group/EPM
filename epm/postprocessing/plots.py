@@ -64,6 +64,14 @@ from collections import defaultdict, OrderedDict
 
 from .utils import NAME_COLUMNS, RENAME_COLUMNS
 
+DEFAULT_FUEL_ORDER = None
+
+
+def set_default_fuel_order(order):
+    """Store the default stacking order for fuel plots."""
+    global DEFAULT_FUEL_ORDER
+    DEFAULT_FUEL_ORDER = list(order) if order else None
+
 def format_ax(ax, linewidth=True):
     """
     Format the axis of a plot.
@@ -908,7 +916,7 @@ def make_stacked_areaplot(
 # Disptach plots
 
 def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, figsize=(10, 6), legend_loc='bottom',
-                  bottom=0, ylabel=None, title=None):
+                  bottom=0, ylabel=None, title=None, order_stacked=None):
     """
     Generate and display or save a dispatch plot with area and line plots.
     
@@ -927,8 +935,8 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
         Size of the figure in inches.
     legend_loc : str, default 'bottom'
         Location of the legend. Options are 'bottom' or 'right'.
-    ymin : int or float, default 0
-        Minimum value for the y-axis.
+    order_stacked : list, optional
+        Preferred stacking order for area series. Remaining columns follow afterwards.
     Raises
     ------
     ValueError
@@ -945,6 +953,12 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
     fig, ax = plt.subplots(figsize=figsize)
 
     if df_area is not None and not df_area.empty:
+        stack_order = order_stacked or DEFAULT_FUEL_ORDER
+        if stack_order:
+            ordered_cols = [c for c in stack_order if c in df_area.columns]
+            ordered_cols += [c for c in df_area.columns if c not in ordered_cols]
+            df_area = df_area.loc[:, ordered_cols]
+
         df_area.plot.area(ax=ax, stacked=True, color=dict_colors, linewidth=0)
         pd_index = df_area.index
     if df_line is not None:
@@ -1035,7 +1049,7 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
     -------
     Generate and save a fuel dispatch plot:
     dfs_to_plot_area = {
-        'pDispatchFuel': epm_dict['pDispatchFuel'],
+        'pDispatchTechFuel': epm_dict['pDispatchTechFuel'],
         'pDispatch': subset_dispatch
     }
     subset_demand = epm_dict['pDispatch'].loc[epm_dict['pDispatch'].attribute.isin(['Demand'])]
@@ -1214,7 +1228,9 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
     format_y : function, optional
         Function for formatting y-axis labels.
     order_stacked : list, optional
-        Reordering the variables that will be stacked.
+        Reordering the variables that will be stacked. When ``column_stacked`` is
+        ``'fuel'`` and this argument is omitted, the ordering declared in the fuel
+        mapping file is applied automatically.
     cap : int, optional
         Under this cap, no annotation will be displayed.
     annotate : bool, optional
@@ -1244,7 +1260,7 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
         'DemandHigh': 'High Demand',
         'LowImport_LowThermal': 'LowImport_LowThermal'
     }
-    make_stacked_barplot(epm_dict['pCapacityFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
+    make_stacked_barplot(epm_dict['pCapacityTechFuel'], filename, dict_specs['colors'], selected_zone='Liberia',
                               select_subplot=[2025, 2028, 2030], stacked_grouping=fuel_grouping, dict_scenarios=scenario_names,
                               order_scenarios=['Baseline', 'High Hydro', 'High Demand', 'LowImport_LowThermal'],
                               format_y=lambda y, _: '{:.0f} MW'.format(y))
@@ -1344,6 +1360,9 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
         stacked = True
         if column_stacked is None:
             stacked = False
+
+        if order_stacked is None and column_stacked == 'fuel' and DEFAULT_FUEL_ORDER:
+            order_stacked = DEFAULT_FUEL_ORDER
 
         handles, labels = None, None
         overlay_label_used = False
@@ -2491,7 +2510,7 @@ def make_heatmap_plot(
         return int(max(available_years))
 
     # 3. System capacity by fuel in the final year
-    capacity_fuel_all = _get_dataframe('pCapacityFuel')
+    capacity_fuel_all = _get_dataframe('pCapacityTechFuel')
     capacity_year = _resolve_year(capacity_fuel_all)
     capacity_fuel = _filter_zone(capacity_fuel_all)
     capacity_summary = (

@@ -4,7 +4,7 @@ The main generation and storage technologies modeled in EPM are presented in the
 
 > In addition, we provide a [template](dwld/pGenDataInputDefault_CCDR.csv) to help you create your own technology data file. This template includes the required columns and example values for each technology. You can use it as a starting point to input your own data.
 
-For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](dwld/CCDR_Note.docx).
+For more detailed guidelines on technology-specific assumptions, you can refer to the [CCDR EEX Methodology Note](dwld/CCDR_Methodology_Note.pdf).
 
 ---
 
@@ -131,6 +131,19 @@ OCGTs are valued for their good operational flexibility and ability to provide r
 
 **Technical characteristics:**  
 CCGTs offer a balance between efficiency and moderate flexibility. Their heat rates are lower than OCGTs (typically around 6.4 MMBtu/MWh), making them one of the most efficient fossil-based technologies. Minimum generation levels are lower than steam-only plants, especially in modern flexible configurations, and ramp rates can be relatively fast (up to 100%/h) depending on plant design. While they are less responsive than OCGTs, CCGTs can still contribute to secondary reserve services. Capital costs are higher due to the additional steam cycle, but O&M costs remain moderate. Plant lifetimes are typically 30–40 years.
+
+---
+
+### ICE (Internal Combustion Engine)
+
+**Description:** Stationary reciprocating engines coupled to generators, typically medium- or high-speed units installed as modular blocks. Commonly used for decentralized peaking, backup power, and flexible grid support.
+
+**Compatible Fuels:** Diesel, HFO, natural gas, LNG (regasified), biogas.
+
+**Fuel differences:** Liquid fuels (diesel, HFO) enable rapid start but increase emissions and maintenance; HFO requires heating and cleaning systems. Gaseous fuels allow cleaner combustion, dual-fuel operation, and lower O&M, though gas supply pressure and quality must be carefully managed.
+
+**Technical characteristics:**  
+ICE plants deliver excellent flexibility, featuring very low minimum load per unit (often below 30%) and the ability to start within minutes. Ramp rates are steep and units can be cycled frequently with limited efficiency penalties, making them well suited for reserve provision and islanded operation. Heat rates vary with fuel (around 8–9 MMBtu/MWh on natural gas and higher on liquids). Capital costs are moderate and scale with the number of engines, while O&M costs can be higher for heavy fuels due to additional filtration and lubricant needs. Typical lifetimes range from 20–30 years depending on duty cycle and maintenance practices.
 
 ---
 
