@@ -51,7 +51,9 @@ YEARLY_OUTPUT = [
     'pTransferLimit'
 ]
 
-def run_input_treatment(gams):
+def run_input_treatment(gams,
+                        fill_missing_hydro_availability: bool = False,
+                        fill_missing_hydro_capex: bool = False):
 
     def _write_back(db: gt.Container, param_name: str):
         """Copy updates back to whatever database the caller provided.
@@ -64,6 +66,331 @@ def run_input_treatment(gams):
             target_db.data[param_name].setRecords(db[param_name].records)
         else:
             db.write(target_db, [param_name])
+
+
+    def _detect_header_and_value_columns(df: pd.DataFrame):
+        header_col = None
+        for candidate in ("pGenDataInputHeader", "uni"):
+            if candidate in df.columns:
+                header_col = candidate
+                break
+        value_col = "value" if "value" in df.columns else None
+        return header_col, value_col
+
+
+    def _log_zone_summary(gams,
+                          title: str,
+                          df: pd.DataFrame,
+                          zone_column: str,
+                          zone_label: str,
+                          all_zones=None):
+        """Print generator names grouped by zone, padding zones with empty lists."""
+        if df is None:
+            return
+
+        gams.printLog(title)
+        if zone_column and zone_column in df.columns:
+            summary = (
+                df.groupby(zone_column, observed=False)["g"]
+                .apply(lambda s: sorted(s.tolist()))
+                .to_dict()
+            )
+            zone_keys = sorted(set(all_zones)) if all_zones is not None else sorted(summary)
+        else:
+            summary = {"unknown": sorted(df["g"].tolist())}
+            zone_keys = sorted(summary)
+
+        for zone in zone_keys:
+            gams.printLog(f"    {zone_label} {zone}: {summary.get(zone, [])}")
+
+
+    def remove_generators_with_invalid_status(db: gt.Container):
+        """Drop generators whose status is missing or outside 1-3."""
+        if "pGenDataInput" not in db:
+            return
+
+        records = db["pGenDataInput"].records
+        if records is None or records.empty or "g" not in records.columns:
+            return
+
+        records = records.copy()
+        header_col, value_col = _detect_header_and_value_columns(records)
+        if header_col is None or value_col is None:
+            return
+
+        zone_column = None
+        for candidate in ("z", "zone"):
+            if candidate in records.columns:
+                zone_column = candidate
+                break
+
+        all_gens = set(records["g"].unique())
+        status_rows = records.loc[records[header_col] == "Status"].copy()
+        status_rows["numeric_status"] = pd.to_numeric(status_rows[value_col], errors="coerce")
+        valid_mask = status_rows["numeric_status"].isin([1, 2, 3])
+        valid_gens = set(status_rows.loc[valid_mask, "g"].unique())
+        invalid_gens = all_gens - valid_gens
+        if not invalid_gens:
+            return
+
+        zone_label = zone_column or "zone"
+        zone_map = {}
+        if zone_column and zone_column in records.columns:
+            zone_frame = records.loc[records["g"].isin(invalid_gens), ["g", zone_column]].drop_duplicates(subset=["g"])
+            zone_map = dict(zip(zone_frame["g"], zone_frame[zone_column]))
+
+        gams.printLog(
+            f"Removing {len(invalid_gens)} generator(s) due to invalid or missing Status (allowed values: 1, 2, 3)."
+        )
+        zone_listing = {}
+        for gen in invalid_gens:
+            zone_val = zone_map.get(gen, "unknown")
+            zone_listing.setdefault(zone_val, []).append(gen)
+        for zone_val, gens in zone_listing.items():
+            gens_sorted = ", ".join(sorted(gens))
+            gams.printLog(f"  - {zone_label}: {zone_val} -> {gens_sorted}")
+
+        filtered_records = records.loc[~records["g"].isin(invalid_gens)]
+        db.data["pGenDataInput"].setRecords(filtered_records)
+        _write_back(db, "pGenDataInput")
+
+
+    def monitor_hydro_availability(db: gt.Container, auto_fill: bool):
+        """Log missing hydro availability rows and optionally back-fill them."""
+        required_params = {"pGenDataInput", "pAvailability"}
+        if any(name not in db for name in required_params):
+            return
+
+        gen_records = db["pGenDataInput"].records
+        avail_records = db["pAvailability"].records
+        if gen_records is None or gen_records.empty:
+            return
+
+        gen_records = gen_records.copy()
+        avail_records = avail_records.copy() if avail_records is not None else pd.DataFrame(columns=["g", "q", "value"])
+
+        if "g" not in gen_records.columns or "tech" not in gen_records.columns:
+            return
+
+        zone_column = None
+        for candidate in ("z", "zone"):
+            if candidate in gen_records.columns:
+                zone_column = candidate
+                break
+
+        target_techs = {"ROR", "ReservoirHydro"}
+        hydro_meta_cols = ["g", "tech"] + ([zone_column] if zone_column else [])
+        hydro_meta = (
+            gen_records.loc[gen_records["tech"].isin(target_techs), hydro_meta_cols]
+            .drop_duplicates(subset=["g"])
+        )
+        if hydro_meta.empty:
+            return
+
+        if "g" not in avail_records.columns:
+            return
+
+        provided_gens = set(avail_records["g"].unique())
+        missing_meta = hydro_meta.loc[~hydro_meta["g"].isin(provided_gens)]
+        if missing_meta.empty:
+            return
+
+        gams.printLog(
+            f"Hydropower factor warning: {len(missing_meta)} generator(s) with tech in {sorted(target_techs)} "
+            "lack availability entries in pAvailability."
+        )
+        zone_label = zone_column or "zone"
+        all_zone_values = None
+        if zone_column:
+            all_zone_values = (
+                hydro_meta.loc[:, zone_column]
+                .dropna()
+                .unique()
+                .tolist()
+            )
+        _log_zone_summary(
+            gams,
+            "  Missing hydropower factors by zone:",
+            missing_meta.loc[:, ["g"] + ([zone_column] if zone_column else [])],
+            zone_column,
+            zone_label,
+            all_zone_values,
+        )
+
+        if not auto_fill:
+            return
+
+        if avail_records.empty:
+            gams.printLog("Auto-fill skipped: pAvailability has no existing data to copy from.")
+            return
+
+        if zone_column is None:
+            gams.printLog("Auto-fill skipped: cannot identify zone column in pGenDataInput.")
+            return
+
+        gen_zone_meta = gen_records.loc[:, ["g", "tech", zone_column]].drop_duplicates(subset=["g"])
+        donor_frame = avail_records.merge(gen_zone_meta, on="g", how="left")
+        donor_frame = donor_frame.dropna(subset=[zone_column, "tech"])
+        if donor_frame.empty:
+            gams.printLog("Auto-fill skipped: no donor generators have both zone and tech information.")
+            return
+
+        donor_profiles = {}
+        for (zone_val, tech_val), frame in donor_frame.groupby([zone_column, "tech"]):
+            first_gen = frame["g"].iloc[0]
+            profile = frame.loc[frame["g"] == first_gen, ["q", "value"]].copy()
+            donor_profiles[(zone_val, tech_val)] = {"profile": profile, "source": first_gen}
+
+        new_entries = []
+        for row in missing_meta.itertuples():
+            key = (getattr(row, zone_column), row.tech)
+            donor_info = donor_profiles.get(key)
+            if donor_info is None:
+                gams.printLog(f"  -> No donor found to auto-fill {row.g} ({row.tech}, {zone_label}: {key[0]}).")
+                continue
+            addition = donor_info["profile"].copy()
+            addition["g"] = row.g
+            new_entries.append(addition.loc[:, ["g", "q", "value"]])
+            gams.printLog(
+                f"  -> Auto-filled availability for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
+                f"using {donor_info['source']}."
+            )
+
+        if not new_entries:
+            gams.printLog("Auto-fill finished: no records were added.")
+            return
+
+        updated_availability = pd.concat([avail_records] + new_entries, ignore_index=True)
+        db.data["pAvailability"].setRecords(updated_availability)
+        _write_back(db, "pAvailability")
+
+
+    def monitor_hydro_capex(db: gt.Container, auto_fill: bool):
+        """Ensure hydro capex is specified for committed/candidate plants."""
+        if "pGenDataInput" not in db:
+            return
+
+        records = db["pGenDataInput"].records
+        if records is None or records.empty:
+            return
+        records = records.copy()
+
+        header_col, value_col = _detect_header_and_value_columns(records)
+        if header_col is None or value_col is None:
+            return
+        if "g" not in records.columns or "tech" not in records.columns:
+            return
+
+        zone_column = None
+        for candidate in ("z", "zone"):
+            if candidate in records.columns:
+                zone_column = candidate
+                break
+
+        target_headers = {"Status", "Capex"}
+        subset = records.loc[records[header_col].isin(target_headers)]
+        if subset.empty:
+            return
+
+        index_cols = ["g"]
+        if zone_column:
+            index_cols.append(zone_column)
+        index_cols.append("tech")
+
+        pivot = subset.pivot_table(index=index_cols,
+                                   columns=header_col,
+                                   values=value_col,
+                                   aggfunc="first",
+                                   observed=False)
+        pivot = pivot.reset_index()
+        pivot.columns.name = None
+        if "Capex" not in pivot.columns:
+            pivot["Capex"] = np.nan
+        if "Status" not in pivot.columns:
+            pivot["Status"] = np.nan
+
+        pivot["Status"] = pd.to_numeric(pivot["Status"], errors="coerce")
+        pivot["Capex"] = pd.to_numeric(pivot["Capex"], errors="coerce")
+
+        target_status = pivot["Status"].isin([2, 3])
+        target_techs = {"ROR", "ReservoirHydro"}
+        tech_mask = pivot["tech"].isin(target_techs)
+        missing_capex = pivot[target_status & tech_mask & pivot["Capex"].isna()]
+        if missing_capex.empty:
+            return
+
+        gams.printLog(
+            f"Hydro capex warning: {len(missing_capex)} generator(s) in {sorted(target_techs)} "
+            "with status 2 or 3 have no Capex defined."
+        )
+        zone_label = zone_column or "zone"
+        all_zone_values = None
+        if zone_column:
+            all_zone_values = (
+                pivot.loc[target_status & tech_mask, zone_column]
+                .dropna()
+                .unique()
+                .tolist()
+            )
+        _log_zone_summary(
+            gams,
+            "  Missing hydro capex entries by zone:",
+            missing_capex.loc[:, ["g"] + ([zone_column] if zone_column else [])],
+            zone_column,
+            zone_label,
+            all_zone_values,
+        )
+
+        if not auto_fill:
+            return
+
+        if zone_column is None:
+            gams.printLog("Capex auto-fill skipped: cannot identify zone column in pGenDataInput.")
+            return
+
+        donors = pivot[target_status & tech_mask & pivot["Capex"].notna()]
+        if donors.empty:
+            gams.printLog("Capex auto-fill skipped: no donor hydro plants with Capex defined.")
+            return
+
+        donor_lookup = {}
+        for donor in donors.itertuples():
+            key = (getattr(donor, zone_column), donor.tech)
+            if key not in donor_lookup:
+                donor_lookup[key] = (donor.g, donor.Capex)
+
+        updated = False
+        new_rows = []
+        for row in missing_capex.itertuples():
+            key = (getattr(row, zone_column), row.tech)
+            donor_info = donor_lookup.get(key)
+            if donor_info is None:
+                gams.printLog(f"  -> No donor Capex found for {row.g} ({row.tech}, {zone_label}: {key[0]}).")
+                continue
+            donor_gen, donor_capex = donor_info
+            row_mask = (records["g"] == row.g) & (records[header_col] == "Capex")
+            if row_mask.any():
+                records.loc[row_mask, value_col] = donor_capex
+            else:
+                template = records.loc[records["g"] == row.g]
+                if template.empty:
+                    gams.printLog(f"  -> Capex auto-fill skipped for {row.g}; generator rows not found.")
+                    continue
+                new_row = template.iloc[0].copy()
+                new_row[header_col] = "Capex"
+                new_row[value_col] = donor_capex
+                new_rows.append(new_row)
+            updated = True
+            gams.printLog(
+                f"  -> Auto-filled Capex for {row.g} ({row.tech}, {zone_label}: {key[0]}) using {donor_gen}."
+            )
+
+        if new_rows:
+            records = pd.concat([records, pd.DataFrame(new_rows)], ignore_index=True)
+
+        if updated:
+            db.data["pGenDataInput"].setRecords(records)
+            _write_back(db, "pGenDataInput")
 
 
     def overwrite_nan_values(db: gt.Container, param_name: str, default_param_name: str, header: str):
@@ -389,7 +716,25 @@ def run_input_treatment(gams):
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
 
+    env_flag = str(os.environ.get("EPM_FILL_HYDRO_AVAILABILITY", "")).strip().lower()
+    env_auto_fill = env_flag in {"1", "true", "yes", "on"}
+    auto_fill_missing_hydro = fill_missing_hydro_availability or env_auto_fill
+    if env_auto_fill and not fill_missing_hydro_availability:
+        gams.printLog("Hydro availability auto-fill enabled via EPM_FILL_HYDRO_AVAILABILITY environment variable.")
+
+    capex_flag = str(os.environ.get("EPM_FILL_HYDRO_CAPEX", "")).strip().lower()
+    env_capex_fill = capex_flag in {"1", "true", "yes", "on"}
+    auto_fill_missing_capex = fill_missing_hydro_capex or env_capex_fill
+    if env_capex_fill and not fill_missing_hydro_capex:
+        gams.printLog("Hydro capex auto-fill enabled via EPM_FILL_HYDRO_CAPEX environment variable.")
+
+    remove_generators_with_invalid_status(db)
+    
     interpolate_time_series_parameters(db, YEARLY_OUTPUT)
+    
+    monitor_hydro_availability(db, auto_fill_missing_hydro)
+    
+    monitor_hydro_capex(db, auto_fill_missing_capex)
     
     # Complete Generator Data
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
