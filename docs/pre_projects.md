@@ -1,182 +1,100 @@
 # Data Preparation Workflow Documentation
 
-This document details the data preparation workflow for energy modeling using various Jupyter notebooks. It covers climatic data analysis, renewable energy profiles, generation datasets, load profiles, representative days, and hydropower data integration.
+Use this guide to run the **pre-analysis** notebooks in the right order and generate EPM-ready inputs. The primary workflows now live inside `pre-analysis/prepare-data/`, while `pre-analysis/open-data/` remains available whenever you need to refresh the underlying renewable or hydro datasets.
 
 ---
 
 ## Summary Table
 
-| Step | Notebook | Key Inputs | Key Outputs |
-|------|----------|------------|-------------|
-| 1 | `zcmap.csv` | List of countries/zones | Perimeter definition |
-| 2 | `pre-analysis/climatic/climatic_overview.ipynb` | `zcmap.csv` | Climate overview plots |
-| 3 | `climatic/get_renewables_irena_data.ipynb` | List of countries (SPLAT names) | Renewable profiles (solar, wind) |
-| 3 | `climatic/get_renewables_ninja_data.ipynb` | Coordinates from `generation/get_renewables_coordinates.ipynb` | Renewable profiles (solar, wind) |
-| 3 | `generation/get_renewables_coordinates.ipynb` | Country names or zones | Coordinates for Renewable Ninja |
-| 4 | `global_database_overview.ipynb` | None | Generation project map, aggregated data |
-| 5 | `load/treat_load_profile.ipynb` | Existing load data | Smoothed load profiles |
-| 5 | `load/generate_load_profile.ipynb` | Hourly load shapes, monthly means | Synthetic load profiles |
-| 6 | `representative_days.ipynb` | Climate and load profiles | `pHours.csv`, `load/pDemandProfile.csv`, `supply/pVREProfile.csv` |
-| 7 | `hydro_capacity_factor.ipynb` | IRENA hydropower atlas, `supply/pGenDatExcel.csv` | Monthly hydro capacity factors |
-| 7 | `hydro_basins_map.ipynb` | Basin shapefiles | Hydro basin maps |
-| 7 | `hydro_inflow_analysis.ipynb` | GRDC inflow data | Inflow analysis |
-| 7 | `hydro_atlas_comparison.ipynb` | Utility data, IRENA atlas | Atlas comparison plots |
+| Step | Notebook(s) | Key inputs | Outputs / Notes |
+|------|-------------|------------|-----------------|
+| 1 | `zcmap.csv` | Country/zone perimeter | Defines the modeling scope consumed by every notebook. |
+| 2 | `pre-analysis/prepare-data/climatic_overview.ipynb` | `zcmap.csv`, ERA5-Land data | Season definitions, precipitation/temperature plots, CSV summaries. |
+| 3 | `pre-analysis/open-data/get_renewables_irena_data.ipynb` or `get_renewable_ninja_data.ipynb` | SPLAT names or coordinates, API keys | Fresh wind/solar capacity factors when you need to refresh raw inputs before re-running prepare-data notebooks. |
+| 4 | `pre-analysis/prepare-data/load_profile_treatment.ipynb` → `load_profile.ipynb` | Historical load measurements, monthly means | Cleaned load history plus synthetic/forecast hourly load profiles. |
+| 4b | `pre-analysis/prepare-data/load_plot.ipynb` | Outputs from step 4 | Shareable demand plots for QA/stakeholder review. |
+| 5 | `pre-analysis/prepare-data/representative_days/representative_days.ipynb` | Climate outputs (step 2), load profiles (step 4), renewables | `pHours.csv`, `load/pDemandProfile.csv`, `supply/pVREProfile.csv`. |
+| 6 | `pre-analysis/prepare-data/hydro_availability.ipynb` (+ `hydro_representative_years.ipynb` if sampling years) | Hydropower profiles/Atlas tables, `pHours.csv`, `pGenDataInput_clean.csv` | `pAvailabilityCustom.csv`, ROR `pVREgenProfile.csv`, optional scenario variants. |
+| 7 | `pre-analysis/prepare-data/supply_demand_balance.ipynb` | Demand, renewables, hydro availability, generation fleet | Balance dashboards ensuring supply meets demand before launching GAMS runs. |
+
+> **Tip:** open-data notebooks such as `hydro_inflow.ipynb`, `hydro_basins.ipynb`, and `get_generation_maps.ipynb` are your toolkit for refreshing the raw datasets that feed the prepare-data workflows above.
 
 ---
 
 ## 1. Define Perimeter Countries/Zones
 
-- Define the perimeter of countries or zones to study.
-- Fill the file: `zcmap.csv`
-- This file should include the names of countries/zones used throughout the analysis.
+- Populate `zcmap.csv` in the repo root with the countries or zones that match your study.
+- Use consistent SPLAT/EPM names because these IDs drive joins in both `prepare-data` and `open-data`.
 
 ---
 
-## 2. Run Climatic Overview
+## 2. Run the Climatic Overview (`pre-analysis/prepare-data/climatic_overview.ipynb`)
 
-Notebook: `pre-analysis/climatic/climatic_overview.ipynb``
-- Objective: Understand precipitation and temperature patterns to determine representative seasons.
-- Input: List of countries/zones from `zcmap.csv`.
-- Output: Climate overview plots.
-
+- Objective: quantify precipitation and temperature regimes so you can justify representative seasons or years.
+- Inputs: zone list from `zcmap.csv`, ERA5-Land downloads placed in `pre-analysis/prepare-data/input/`.
+- Outputs: plots (available under `pre-analysis/prepare-data/output/`) and summary CSVs that downstream notebooks read.
 
 ![Temperature & Precipitation](dwld/pre-analysis/scatter_annual_spatial_means_t2m_tp.png)
 ![Monthly Precipitation](dwld/pre-analysis/monthly_precipitation_heatmap.png)
 
 ---
 
-## 3. Get Solar and Wind Information
+## 3. Refresh Renewable Resource Data (open-data stage)
 
-### Option 1 — IRENA Data
+When base-year renewable profiles are outdated, switch to `pre-analysis/open-data/`:
 
-Notebook: `climatic/get_renewables_irena_data.ipynb`
-- Recommended for obtaining solar and wind profiles.
-- Input: List of countries using SPLAT model names.
-- Output:
-  - Hourly renewable profiles by zone and season.
-  - Files structured with columns:
-    ```
-    zone, season, day, hour, <climatic_year>
-    ```
+- **IRENA route** — `get_renewables_irena_data.ipynb`
+  - Inputs: list of SPLAT zones plus the IRENA workbook.
+  - Output format: `zone, season, day, hour, <climatic_year>` hourly capacity factors.
+- **Renewable Ninja route** — `get_renewable_ninja_data.ipynb`
+  - Requires coordinates from `get_renewables_coordinate.ipynb`.
+  - Useful for scenario-specific solar/wind traces.
 
-Example outputs (images stored in `dwld` folder):
-
-| LCOE Solar | Wind Heatmap |
-|------------|--------------|
-| ![LCOE Solar](dwld/pre-analysis/lcoe_solar.png) | ![Heatmap](dwld/pre-analysis/heatmap_solar.png) |
-
----
-### Option 2 — Renewable Ninja Data
-
-Notebook: `climatic/get_renewables_ninja_data.ipynb``
-- Alternative source for solar and wind profiles.
-- Requires geographical coordinates from:
-
-Notebook: `generation/get_renewables_coordinates.ipynb``
-- Outputs follow the same format:
-  ```
-  zone, season, day, hour, <climatic_year>
-  ```
----
-
-## 4. Make Generation List
-
-Notebook: `generation/global_database_overview.ipynb`
-- Purpose: Compare aggregated results by technology or fuel.
-- Goal: Create the EPM input file: `supply/pGenDatExcel.csv``
-
-- Generates:
-- Aggregated data summaries.
-- Map of generation projects.
-
-Example map output:
-
-[Open Power Map](dwld/pre-analysis/power_map.html)
+Save the resulting CSVs under `pre-analysis/prepare-data/input/` before moving on. You can also use `get_generation_maps.ipynb` for quick QA plots of the generation fleet.
 
 ---
 
-## 5. Generate Load Profile
+## 4. Build Demand Profiles (`load_profile_treatment.ipynb`, `load_profile.ipynb`, `load_plot.ipynb`)
 
-Two approaches:
+1. **Treat historical data** — run `load_profile_treatment.ipynb` to clean utility load logs (remove spikes, fill gaps).  
+2. **Generate the hourly profile** — run `load_profile.ipynb` to blend treated history with monthly targets or growth assumptions.  
+3. **Plot for QA** — use `load_plot.ipynb` to export PNG/HTML charts for stakeholder review.
 
-### 5.1 Smooth Existing Load Data
-
-Notebook: `load/treat_load_profile.ipynb`
-- Input: Actual load data.
-- Output: Smoothed load profiles.
-
-
-### 5.2 Generate Synthetic Load Profile
-
-Notebook: `load/generate_load_profile.ipynb`
-- Input:
-  - Hourly load profile shapes.
-  - Monthly mean values.
-- Output: Synthetic hourly load profiles.
+Deliverables: smoothed historical load, modeled hourly demand, and plots placed in `pre-analysis/prepare-data/output/`.
 
 ---
 
-## 6. Generate Representative Days
+## 5. Generate Representative Days (`pre-analysis/prepare-data/representative_days/representative_days.ipynb`)
 
-Notebook: `representative_days/epresentative_days.ipynb`
-
-- Uses:
-  - Season definitions.
-  - Data created in steps 2 and 4.
-- Output:
-  - `pHours.csv`
-  - `load/pDemandProfile.csv`
-  - `supply/pVREProfile.csv`
-
-These files are in EPM format and ready for model integration.
+- Inputs: load profiles from step 4, renewable capacity-factor tables (step 3), climate summaries (step 2).
+- Process: cluster the full-year time series into a manageable subset of days while preserving seasonal statistics.
+- Outputs ready for EPM:
+  - `epm/input/data_capp/pHours.csv`
+  - `epm/input/data_capp/load/pDemandProfile.csv`
+  - `epm/input/data_capp/supply/pVREProfile.csv`
 
 ---
 
-## 7. Hydro Data Preparation
+## 6. Hydropower Preparation (`hydro_availability.ipynb` + helpers)
 
-### 7.1 Monthly Capacity Factor
-
-Notebook: `hydro_capacity_factor.ipynb`
-
-- Input:
-  - IRENA African Hydropower Atlas:
-    ```
-    IRENA African_Hydropower_Atlas.xlsx
-    ```
-  - Matching plant names from:
-    ```
-    supply/pGenDatExcel.csv
-    ```
-- Output:
-  - Monthly hydro capacity factors.
+- `hydro_availability.ipynb` ingests monthly hydro profiles or Atlas curves and exports:
+  - `pAvailabilityCustom.csv` for reservoirs.
+  - Run-of-river `pVREgenProfile.csv`.
+- `hydro_representative_years.ipynb` (optional) samples wet/baseline/dry years before feeding them into `hydro_availability.ipynb`.
+- Need new inflow data or basin checks? Use the open-data notebooks (`hydro_inflow.ipynb`, `hydro_basins.ipynb`, `hydro_atlas_comparison.ipynb`) to regenerate the raw profiles, then drop the outputs back into `prepare-data/input/`.
 
 ---
 
-### 7.2 Hydro Basin Mapping
+## 7. Supply vs Demand Balance (`pre-analysis/prepare-data/supply_demand_balance.ipynb`)
 
-Notebook: `hydro_basins_map.ipynb`
-
-- Output: Map visualizations of hydro basins.
-
----
-
-### 7.3 Advanced Hydro Analyses
-
-#### Hydro Inflow Analysis
-
-Notebook: `hydro_inflow_analysis.ipynb`
-- Analyzes GRDC inflow data for climate change studies.
-
----
-
-#### Hydro Atlas Comparison
-
-Notebook:`hydro_atlas_comparison.ipynb`
-- Compares utility data with IRENA hydropower atlas.
+- Objective: confirm that the cleaned generation fleet, renewable additions, and hydro schedules cover the demand from step 4.
+- Inputs: `pGenDataInput_clean.csv`, demand/renewable outputs, hydro availability, `pHours`.
+- Outputs: deficit tables, stacked supply-demand plots, and sanity checks prior to running `epm/main.gms`.
 
 ---
 
 ## Notes
 
-- Always ensure consistency in naming conventions for zones/countries across all files.
-- All renewable output formats are standardized to facilitate integration into the SPLAT or EPM models.
+- Keep naming conventions consistent across demand, renewable, and hydro files (zone, technology, scenario).
+- Store raw downloads in `pre-analysis/open-data/input/` or `pre-analysis/prepare-data/input/` and only copy vetted CSVs into `epm/input`.
+- Whenever you introduce a new data vintage, rerun the balance notebook (step 7) before executing the GAMS model.

@@ -1,5 +1,24 @@
 
 
+# Hydro Notebook Guide
+
+## Notebook catalog
+
+| Notebook | Focus & what you get | Key inputs (relative to `pre-analysis/hydro`) | Outputs |
+|----------|----------------------|-----------------------------------------------|---------|
+| `generate_hydro_capacity_inputs.ipynb` | Turns Hydropower Atlas profiles into GAMS-ready seasonal inputs. Builds reservoir `pAvailability` and ROR `pVREgenProfile` tables across baseline/dry/wet scenarios. | `input/African_Hydropower_Atlas_v2-0.xlsx`; `../../epm/input/data_capp/supply/pGenDataInput_clean.csv`; `../../epm/input/data_capp/pHours.csv`. | Scenario-specific `output/pAvailability_<scenario>.csv` and `output/pVREgenProfile_<scenario>.csv`. |
+| `hydro_atlas_comparison.ipynb` | Compares utility-reported capacity factors against the African Hydropower Atlas to validate magnitude and seasonality before adopting Atlas curves. Generates per-plant plots for QA/QC. | Utility CSVs placed under `input/utility/` plus `input/African_Hydropower_Atlas_v2-0.xlsx`. | PNG/inline plots plus cleaned comparison tables in memory (save manually as needed). |
+| `hydro_availability.ipynb` | Converts monthly hydro profiles into the `pAvailabilityCustom.csv` and hourly ROR `pVREgenProfile.csv` templates expected by the EPM model. Handles validation against `pHours.csv`. | `input/hydro_profile_*.csv` (default `hydro_profile_dry.csv`) with `gen/zone/tech/month` columns; `../../epm/input/data_capp/pHours.csv`. | `output/pAvailabilityCustom.csv`; `output/pVREgenProfile.csv`. |
+| `hydro_basins_maps.ipynb` | Visualizes GRDC catchment polygons (`stationbasins.geojson`) and inspects metadata such as areas, pour points, and quality flags. Helpful for tracing basins tied to plants. | Sub-folders under `data_grdc_hydro_capp/input/**/stationbasins.geojson`. | Map layers rendered in-notebook; aggregated GeoDataFrames for further export. |
+| `hydro_capacity (in progress).ipynb` | Work-in-progress pipeline to merge the African Hydropower Atlas with the Global Hydropower Tracker for a consolidated hydropower capacity catalog. | `input/African_Hydropower_Atlas_v2-0.xlsx`; `input/Global-Hydropower-Tracker-*.xlsx`. | Draft merged tables (WIP—inspect notebook before relying on outputs). |
+| `hydro_inflow_analysis.ipynb` | End-to-end GRDC workflow: load NetCDF station data, intersect with HydroRIVERS and the Global Hydropower Tracker, and export cleaned inflow/runoff datasets plus exploratory maps. | `input/grdc_input/**/GRDC-Monthly.nc`; `input/river_input/HydroRIVERS_v10_af_shp`; `input/Global-Hydropower-Tracker-April-2025.xlsx`. | Processed CSVs/GeoPackages in `output/`, interactive Folium maps, diagnostic plots. |
+| `in_progress/representative_years_hydro.ipynb` | Prototype to pick representative hydropower years (with reservoir management rules) and export EPM-ready `pAvailability` CSVs. | Same cleaned hydro generation profiles used above plus installed-capacity metadata. | CSVs written to `output/` once logic is finalized (currently experimental). |
+
+## Directory tips
+- `input/` holds raw data dropped manually (GRDC NetCDF, HydroRIVERS shapefiles, Atlas workbooks, utility CSVs, etc.).
+- `output/` is git-ignored so you can iterate freely before copying vetted tables into `epm/input`.
+- `in_progress/` notebooks are exploratory; document assumptions in this README before promoting them.
+
 # Data Summary
 
 ## Global Runoff Data Centre (GRDC)
