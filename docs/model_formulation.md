@@ -25,11 +25,11 @@ Unless otherwise noted, all summations are over the valid combinations defined b
 The system-wide net present value minimization is written as
 
 ```math
-vNPVCost = \sum_{y} pRR_y \cdot pWeightYear_y \cdot \Big(
+vNPVCost = \sum_{y} pRR_{y} \cdot pWeightYear_{y} \cdot \Big(
   \sum_{c} vYearlyTotalCost_{c,y}
-  + vYearlyUnmetPlanningReserveCostSystem_y
-  + vYearlyUnmetSpinningReserveCostSystem_y
-  + vYearlyCO2BackstopCostSystem_y
+  + vYearlyUnmetPlanningReserveCostSystem_{y}
+  + vYearlyUnmetSpinningReserveCostSystem_{y}
+  + vYearlyCO2BackstopCostSystem_{y}
 \Big).
 ```
 
@@ -79,10 +79,10 @@ pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y} = vSupply_{z,q,d,t,y
 vSupply_{z,q,d,t,y} ={}&
   \sum_{g,f} vPwrOut_{g,f,q,d,t,y}
   - \sum_{z_2} vFlow_{z,z_2,q,d,t,y} \\
-&+ \sum_{z_2} (1 - pLossFactorInternal_{z,z_2,y}) \cdot vFlow_{z_2,z,q,d,t,y} \\
-&- \sum_{st} vStorInj_{st,q,d,t,y} \cdot \mathbb{1}_{fEnableStorage} \\
-&+ \sum_{z_\text{ext}} vYearlyImportExternal_{z,z_\text{ext},q,d,t,y} \\
-&- \sum_{z_\text{ext}} vYearlyExportExternal_{z,z_\text{ext},q,d,t,y} \\
+&+ \sum_{z_2} \bigl(1 - pLossFactorInternal_{z,z_2,y}\bigr) \cdot vFlow_{z_2,z,q,d,t,y} \\
+&- \sum_{st} vStorInj_{st,q,d,t,y} \cdot \mathbb{1}_{\text{fEnableStorage}} \\
+&+ \sum_{z_{\text{ext}}} vYearlyImportExternal_{z,z_{\text{ext}},q,d,t,y} \\
+&- \sum_{z_{\text{ext}}} vYearlyExportExternal_{z,z_{\text{ext}},q,d,t,y} \\
 &+ vUSE_{z,q,d,t,y} - vSurplus_{z,q,d,t,y}.
 \end{aligned}
 ```
@@ -201,14 +201,14 @@ Spinning reserve requirements are applied at the country and system level:
 \sum_{z \in c} \sum_{g \in z} vSpinningReserve_{g,q,d,t,y}
   + vUnmetSpinningReserveCountry_{c,q,d,t,y}
   = pSpinningReserveReqCountry_{c,y}
-    + \sum_{g \in \text{VRE\_noROR}} vPwrOut_{g,\cdot,q,d,t,y} \cdot psVREForecastErrorPct,
+    + \sum_{g \in \text{VRE\_noROR}} \sum_{f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct,
 ```
 
 ```math
 \sum_{g} vSpinningReserve_{g,q,d,t,y}
   + vUnmetSpinningReserveSystem_{q,d,t,y}
-  = pSpinningReserveReqSystem_y
-    + \sum_{g \in \text{VRE\_noROR}} vPwrOut_{g,\cdot,q,d,t,y} \cdot psVREForecastErrorPct.
+  = pSpinningReserveReqSystem_{y}
+    + \sum_{g \in \text{VRE\_noROR}} \sum_{f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct.
 ```
 
 Planning reserve margins relate capacity credits to peak demand:
@@ -216,14 +216,14 @@ Planning reserve margins relate capacity credits to peak demand:
 ```math
 \sum_{z \in c} \sum_{g \in z} vCap_{g,y} \cdot pCapacityCredit_{g,y}
   + vUnmetPlanningReserveCountry_{c,y}
-  \ge (1 + pPlanningReserveMargin_c) \cdot \max_{q,d,t}
+  \ge \bigl(1 + pPlanningReserveMargin_{c}\bigr) \cdot \max_{q,d,t}
       \sum_{z \in c} pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y},
 ```
 
 ```math
 \sum_{g} vCap_{g,y} \cdot pCapacityCredit_{g,y}
-  + vUnmetPlanningReserveSystem_y
-  \ge (1 + sReserveMarginPct) \cdot \max_{q,d,t}
+  + vUnmetPlanningReserveSystem_{y}
+  \ge \bigl(1 + sReserveMarginPct\bigr) \cdot \max_{q,d,t}
       \sum_z pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y}.
 ```
 
@@ -310,4 +310,3 @@ Discrete transmission builds (`vBuildTransmissionLine`) and generator builds/ret
 ---
 
 Each equation name referenced above matches the label in `base.gms`, enabling cross-navigation between documentation, configuration, and the implementation.
-

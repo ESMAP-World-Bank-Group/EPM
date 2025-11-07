@@ -291,7 +291,7 @@ $$
 $$
 
 $$
-\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
+\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{CarbonTax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
 \sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
 \text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
 $$
@@ -325,7 +325,7 @@ $$
 $$
 \sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
 \sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
-\text{storage\_out}_{z,q,d,t,y} - \text{storage\_inj}_{z,q,d,t,y} +
+\text{storageOut}_{z,q,d,t,y} - \text{storageInj}_{z,q,d,t,y} +
 \text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
 \text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
 \text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
@@ -414,12 +414,12 @@ $$
 ### Concentrated Solar Power (CSP) Generation
 
 $$
-\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSP\_storage} \quad \forall \text{map}(g,\text{CSP})
+\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSPStorage} \quad \forall \text{map}(g,\text{CSP})
 $$
 
 $$
 \text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
-\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiencyCSP} \cdot \text{FieldEfficiencyCSP}}
 $$
 
 $$
@@ -427,8 +427,8 @@ $$
 $$
 
 $$
-\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency\_CSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
-\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency\_CSP}} \quad \forall g,z,q,d,t,y
+\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiencyCSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
+\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiencyCSP}} \quad \forall g,z,q,d,t,y
 $$
 
 $$
@@ -442,15 +442,15 @@ $$
 $$
 
 $$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} > \text{Commission\_year}_g)
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} > \text{CommissionYear}_g)
 $$
 
 $$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{Commission\_year}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{Commission\_year}_g \wedge \text{ord}(y) < \text{Retirement\_year}_{\text{EG}})
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{CommissionYear}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{CommissionYear}_g \wedge \text{ord}(y) < \text{RetirementYear}_{\text{EG}})
 $$
 
 $$
-\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}})
+\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{RetirementYear}_{\text{EG}})
 $$
 
 $$
@@ -466,52 +466,52 @@ $$
 $$
 
 $$
-\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) < \text{Commission\_year}_g)
+\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) < \text{CommissionYear}_g)
 $$
 
 ### Storage constraints
 
 $$
-\text{storage}_{\text{st},z,q,d,t=1,y} = \text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
+\text{storage}_{\text{st},z,q,d,t=1,y} = \text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
 $$
 
 $$
 \text{storage}_{\text{st},z,q,d,t>1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
-\text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t>1
+\text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t>1
 $$
 
 $$
-\text{storage\_inj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
+\text{storageInj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
 $$
 
 $$
-\text{storage\_inj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
+\text{storageInj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
 $$
 
 $$
-\text{storage}_{\text{st},q,d,t,y} \leq \text{Storage\_Capacity}_{\text{st},y}
+\text{storage}_{\text{st},q,d,t,y} \leq \text{StorageCapacity}_{\text{st},y}
 $$
 
 $$
-\text{storage\_inj}_{\text{st},q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t>1
+\text{storageInj}_{\text{st},q,d,t,y} - \text{storageInj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t>1
 $$
 
 $$
-\text{storage\_inj}_{\text{st},q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t>1
+\text{storageInj}_{\text{st},q,d,t-1,y} - \text{storageInj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t>1
 $$
 
 $$
-\text{Storage\_Capacity}_{\text{EG},y} = \text{Storage\_Capacity}_{\text{EG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{EG},y-1} - \text{Retire}_{\text{Storage\_Capacity}_{\text{EG},y-1}} \quad \forall y>1
+\text{StorageCapacity}_{\text{EG},y} = \text{StorageCapacity}_{\text{EG},y-1} +
+\text{BuildStorageCapacity}_{\text{EG},y-1} - \text{Retire}_{\text{StorageCapacity}_{\text{EG},y-1}} \quad \forall y>1
 $$
 
 $$
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Storage\_Capacity}_{\text{NG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y>1
+\text{StorageCapacity}_{\text{NG},y} = \text{StorageCapacity}_{\text{NG},y-1} +
+\text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y>1
 $$
 
 $$
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y=1
+\text{StorageCapacity}_{\text{NG},y} = \text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y=1
 $$
 
 $$
@@ -519,11 +519,11 @@ $$
 $$
 
 $$
-\text{StorageCapacity}_{\text{st},y} \leq \text{Maximum\_Storage\_Energy}_{\text{st},y} + \text{Maximum\_Storage\_Energy}_{\text{CSP},y}
+\text{StorageCapacity}_{\text{st},y} \leq \text{MaximumStorageEnergy}_{\text{st},y} + \text{MaximumStorageEnergy}_{\text{CSP},y}
 $$
 
 $$
-\sum_{y} \text{Build\_Storage\_Capacity}_{\text{EG},y} \leq \text{Maximum\_Storage\_Energy}_{\text{EG},y}
+\sum_{y} \text{BuildStorageCapacity}_{\text{EG},y} \leq \text{MaximumStorageEnergy}_{\text{EG},y}
 $$
 
 ### Investment constraints
@@ -537,11 +537,11 @@ $$
 $$
 
 $$
-\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{Commission\_year}_g > \text{StartYear})
+\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{CommissionYear}_g > \text{StartYear})
 $$
 
 $$
-\text{build}_{g \in \text{NG},y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
+\text{build}_{g \in \text{NG},y} \leq \text{AnnualBuiltLimit}_y \cdot \text{WeightYear}_y
 $$
 
 $$
@@ -553,7 +553,7 @@ $$
 $$
 
 $$
-\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{Commission\_year}_g)
+\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{CommissionYear}_g)
 $$
 
 $$
@@ -571,19 +571,19 @@ $$
 ### Environmental policy
 
 $$
-\text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\text{emissionsZo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
 $$
 
 $$
-\text{emissions\_Zo}_{z,y} \leq \text{Zo\_emission\_cap}_{y,z}
+\text{emissionsZo}_{z,y} \leq \text{ZoEmissionCap}_{y,z}
 $$
 
 $$
-\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
 $$
 
 $$
-\text{emissions}_{z,y} \leq \text{Sy\_emission\_cap}_y
+\text{emissions}_{z,y} \leq \text{SyEmissionCap}_y
 $$
 
 ### CCS retrofits

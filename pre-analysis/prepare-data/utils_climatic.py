@@ -15,6 +15,8 @@ import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 import glob
 import time
+import seaborn as sns
+
 
 def get_bbox(ISO_A2):
     """
@@ -170,7 +172,7 @@ def plot_mean_map(ds, var, folder=None):
         plt.show()
 
 
-def plot_monthly_climatology_grid(ds, var, filename=None):
+def plot_monthly_climatology_grid(ds, var, filename=None, display=False):
     """
     Plot the monthly climatology of a variable in a grid format.
     :param ds:
@@ -211,10 +213,12 @@ def plot_monthly_climatology_grid(ds, var, filename=None):
     fig.suptitle(f"Interannual Monthly Mean of {var.upper()}", fontsize=16)
     #plt.tight_layout(rect=[0, 0, 0.9, 0.95])  # Leave space for suptitle and colorbar
     if filename:
-        plt.savefig(filename, dpi=300)
-        plt.close()
-    else:
+        fig.savefig(filename, dpi=300)
+
+    if display:
         plt.show()
+
+    plt.close(fig)
 
 
 def plot_spatial_mean_timeseries_all_vars(ds, lat_name='latitude', lon_name='longitude', folder=None):
@@ -248,14 +252,15 @@ def plot_spatial_mean_timeseries_all_vars(ds, lat_name='latitude', lon_name='lon
     else:
         plt.show()
 
-def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitude', lon_name='longitude', folder=None):
+
+def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitude', lon_name='longitude', folder=None, display=False):
     """
     Scatter plot of annual spatial means for two variables across multiple datasets.
     """
     markers = ['o', 's', '^', 'D', 'v', '<', '>', 'P', '*', 'X']
     colors = plt.cm.tab10.colors  # 10 distinct colors
 
-    plt.figure(figsize=(10, 6))
+    fig = plt.figure(figsize=(10, 6))
 
     for i, (iso, ds) in enumerate(data.items()):
         # Compute spatial mean for each time step
@@ -284,13 +289,15 @@ def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitu
     plt.legend()
     plt.tight_layout()
     if folder:
-        plt.savefig(os.path.join(folder, f'scatter_annual_spatial_means_{var_x}_{var_y}.pdf'), dpi=300)
-        plt.close()
-    else:
+        fig.savefig(os.path.join(folder, f'scatter_annual_spatial_means_{var_x}_{var_y}.pdf'), dpi=300)
+
+    if display:
         plt.show()
 
+    plt.close(fig)
 
-def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=None):
+
+def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=None, display=False):
     """
     Plot the temporal evolution of the spatial mean for a given variable across multiple datasets.
     This function takes a dictionary of datasets, extracts the specified variable, computes the spatial mean,
@@ -309,7 +316,7 @@ def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=Non
 
 
     lat_name, lon_name = 'latitude', 'longitude'
-    plt.figure(figsize=(12, 6))
+    fig = plt.figure(figsize=(12, 6))
 
     for iso, ds in dataset.items():
         da = ds[var]
@@ -340,12 +347,15 @@ def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=Non
     plt.grid(True)
     plt.tight_layout()
     if folder is not None:
-        plt.savefig(os.path.join(folder, f'spatial_mean_{var}_{agg}.pdf'))
-        plt.close()
-    else:
+        fig.savefig(os.path.join(folder, f'spatial_mean_{var}_{agg}.pdf'))
+
+    if display:
         plt.show()
 
-def plot_monthly_mean(dataset, var, lat_name='latitude', lon_name='longitude', folder=None):
+    plt.close(fig)
+
+
+def plot_monthly_mean(dataset, var, lat_name='latitude', lon_name='longitude', folder=None, display=False):
  # Example variable to plot
     n = len(dataset)
     fig, axs = plt.subplots(n, 1, figsize=(12, 4 * n), sharex=True, sharey=True)
@@ -399,10 +409,13 @@ def plot_monthly_mean(dataset, var, lat_name='latitude', lon_name='longitude', f
     axs[-1].set_xlabel("Month")
     plt.tight_layout()
     if folder is not None:
-        plt.savefig(os.path.join(folder, f'monthly_mean_{var}.pdf'))
-        plt.close()
-    else:
+        fig.savefig(os.path.join(folder, f'monthly_mean_{var}.pdf'))
+
+    if display:
         plt.show()
+
+    plt.close(fig)
+
 
 def calculate_resolution_netcdf(dataset, lon_name='X', lat_name='Y'):
     """
@@ -548,6 +561,7 @@ def calculate_spatial_mean_annual(data_climatic, gdf_regions, lat_name='Y', lon_
 
     return df
 
+
 def convert_to_yearly_mm_year(df, var_name="Runoff", unit_init="mm/day"):
     """
     Convert monthly values in mm/day to yearly total in mm/year.
@@ -630,7 +644,6 @@ def map_grdc_stationbasins_and_subregions(folder, file_stationbasins, file_subre
     # Save and display
     m.save(os.path.join(folder, "map_stations_and_subregions.html"))
     print("Map saved to map_stations_and_subregions.html")
-
 
 
 def get_common_dataframes(data_dict):
@@ -736,3 +749,81 @@ def plot_river_discharge_by_year(gdf, year, cmap='viridis_r', figsize=(12, 10), 
         plt.close()
     else:
         plt.show()
+
+
+def plot_monthly_precipitation_heatmap(dataset: dict,
+                                       var: str = 'tp',
+                                       cmap: str = 'cividis',
+                                       lat_name='latitude',
+                                       lon_name='longitude',
+                                       path=None,
+                                       display=False):
+    """
+    Plot a heatmap of total monthly precipitation across countries.
+
+    Parameters:
+    -----------
+    dataset : dict
+        Dictionary where keys are country ISO codes or names, and values are xarray Datasets
+        with a time dimension and a variable representing precipitation.
+
+    var : str
+        Name of the variable to extract (e.g., 'precip').
+
+    cmap : str
+        Colormap for the heatmap. Default is 'cividis' (colorblind-friendly).
+
+    display : bool
+        If True, display the figure inline; otherwise only save/close the plot.
+
+    Returns:
+    --------
+    Displays a heatmap (countries x months) with total precipitation.
+    """
+    data_rows = []
+
+    for iso, ds in dataset.items():
+        if var not in ds:
+            continue
+
+        da = ds[var]
+        spatial_mean = da.mean(dim=[lat_name, lon_name])
+        monthly_total = spatial_mean.groupby('time.month').mean(dim='time')
+        monthly_series = monthly_total.to_series()
+
+        for month in range(1, 13):
+            value = monthly_series.get(month, 0.0)
+            data_rows.append({'country': iso, 'month': month, 'precip': value})
+
+    df = pd.DataFrame(data_rows)
+    heatmap_data = df.pivot(index='country', columns='month', values='precip').fillna(0)
+    heatmap_data = heatmap_data.reindex(columns=range(1, 13))
+
+    fig_height = max(4, 0.5 * len(heatmap_data))
+    fig, ax = plt.subplots(figsize=(12, fig_height))
+    sns.heatmap(
+        heatmap_data,
+        cmap=cmap,
+        annot=True,
+        fmt=".0f",
+        cbar_kws={'label': 'Mean Precipitation (mm/day)'},
+        linewidths=0.5,
+        ax=ax
+    )
+
+    ax.set_title("Monthly Mean Precipitation per Country (mm/day)")
+    ax.set_xlabel("Month")
+    ax.set_ylabel("Country")
+    ax.set_xticks([i + 0.5 for i in range(12)])
+    ax.set_xticklabels([calendar.month_abbr[i + 1] for i in range(12)], rotation=0)
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+
+    fig.tight_layout()
+    if path is not None:
+        fig.savefig(path)
+
+    if display:
+        plt.show()
+
+    plt.close(fig)
+
