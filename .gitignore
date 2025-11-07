@@ -42,6 +42,8 @@ epm/postprocessing/main_postprocessing.py
 /epm/output_csv
 epm/epm.~log
 
+/pre-analysis/not_git_track/
+
 # Tableau retained files
 !epm/output/tableau/*.twb
 !epm/output/tableau/ESMAP_logo.png
