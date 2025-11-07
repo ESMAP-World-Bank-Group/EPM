@@ -62,6 +62,13 @@ parts:
       - file: docs/pre_overview.md
       - file: docs/pre_projects.md
       - file: pre-analysis/prepare-data/climatic_overview.ipynb
+      - file: pre-analysis/prepare-data/get_renewables_coordinate.ipynb
+      - file: pre-analysis/prepare-data/get_renewables_ninja_data.ipynb
+      - file: pre-analysis/prepare-data/load_plot.ipynb
+      - file: pre-analysis/prepare-data/load_plot.ipynb
+      - file: pre-analysis/prepare-data/hydro_availability.ipynb
+      - file: pre-analysis/prepare-data/supply_demand_balance.ipynb
+      - file: pre-analysis/prepare-data/representative_days/representative_days.ipynb
   - caption: Other Resources
     chapters:
       - file: docs/other_overview
