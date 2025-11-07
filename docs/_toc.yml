@@ -61,6 +61,7 @@ parts:
     chapters:
       - file: docs/pre_overview.md
       - file: docs/pre_projects.md
+      - file: pre-analysis/prepare-data/climatic_overview.ipynb
   - caption: Other Resources
     chapters:
       - file: docs/other_overview
