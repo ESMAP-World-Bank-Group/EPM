@@ -1,0 +1,1822 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Get Renewables Coordinates &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pre-analysis/open-data/get_renewables_coordinate';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/pre-analysis/open-data/get_renewables_coordinate.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Demand Forecast Plots" href="../prepare-data/load_plot.html" />
+    <link rel="prev" title="Climatic Overview" href="../prepare-data/climatic_overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/supply_demand_balance.html">
+                        Objective
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_comparison.html">
+                        Electricity Planning Models Comparison
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/supply_demand_balance.html">
+                        Objective
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../prepare-data/representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_comparison.html">
+                        Electricity Planning Models Comparison
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/introduction.html">About EPM</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../docs/introduction_case_studies.html">EPM Recent Case Studies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_epm_setup.html">EPM Code Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_debugging.html">Debugging EPM Models in GAMS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_summary.html">Summary Command line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/options_thread.html">Threading and Parallelism in EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_fuel_brief.html">Fuel Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_representative_days.html">Representative Days</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_output_EPM.html">EPM Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_tableau.html">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_formulation.html">Model Formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing.html">Postprocessing with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributing_code.html">Contributing to the code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributing_docs.html">Contributing to the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributing_postprocess.html">Contributing postprocess</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Pre-processing Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/pre_overview.html">Preanalysis Folder Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/pre_projects.html">Data Preparation Workflow Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare-data/climatic_overview.html">Climatic Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Get Renewables Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare-data/load_plot.html">Demand Forecast Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare-data/hydro_availability.html">Hydro Availability Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare-data/supply_demand_balance.html">Objective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../prepare-data/representative_days/representative_days.html">Representative Days for EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_overview.html">Utility Models Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_comparison.html">Electricity Planning Models Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_open_data.html">Open-Source Data (in progress)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_process.html">Electricity Planning Standard Process</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fpre-analysis/open-data/get_renewables_coordinate.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/pre-analysis/open-data/get_renewables_coordinate.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../../_sources/pre-analysis/open-data/get_renewables_coordinate.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Get Renewables Coordinates</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-import-required-libraries">
+   Step 1 - Import required libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-define-target-countries">
+   Step 2 - Define target countries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-prepare-input-and-output-folders">
+   Step 3 - Prepare input and output folders
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-load-and-filter-the-power-facilities-data">
+   Step 4 - Load and filter the power facilities data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-5-extract-the-most-relevant-projects">
+   Step 5 - Extract the most relevant projects
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-6-display-and-save-results">
+   Step 6 - Display and save results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-7-format-project-coordinates-for-downstream-scripts">
+   Step 7 - Format project coordinates for downstream scripts
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="get-renewables-coordinates">
+<h1>Get Renewables Coordinates<a class="headerlink" href="#get-renewables-coordinates" title="Permalink to this heading">#</a></h1>
+<p><strong>Objective</strong>
+Identify the most representative solar and wind project coordinates per Central African country so other notebooks can reuse consistent lat/long inputs.</p>
+<p><strong>Data Requirements &amp; Methods</strong></p>
+<ul class="simple">
+<li><p>Provide <code class="docutils literal notranslate"><span class="pre">Global-Integrated-Power-April-2025.xlsx</span></code> under <code class="docutils literal notranslate"><span class="pre">pre-analysis/open-data/input/</span></code>.</p></li>
+<li><p>The workflow filters the Global Integrated Power dataset for focus countries and renewable technologies, prioritizes projects by status and capacity, and saves both tabular and dictionary outputs.</p></li>
+</ul>
+<p><strong>Overview of Steps</strong></p>
+<ol class="arabic simple">
+<li><p>Step 1 - Import core libraries.</p></li>
+<li><p>Step 2 - List the target countries.</p></li>
+<li><p>Step 3 - Set up input and output folders.</p></li>
+<li><p>Step 4 - Load and filter facility data.</p></li>
+<li><p>Step 5 - Select the most relevant solar and wind projects.</p></li>
+<li><p>Step 6 - Display and export the summary table.</p></li>
+<li><p>Step 7 - Format coordinates for downstream scripts.</p></li>
+</ol>
+<section id="step-1-import-required-libraries">
+<h2>Step 1 - Import required libraries<a class="headerlink" href="#step-1-import-required-libraries" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-define-target-countries">
+<h2>Step 2 - Define target countries<a class="headerlink" href="#step-2-define-target-countries" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Angola&#39;</span><span class="p">,</span> <span class="s1">&#39;Burundi&#39;</span><span class="p">,</span> <span class="s1">&#39;Cameroon&#39;</span><span class="p">,</span> <span class="s1">&#39;Central African Republic&#39;</span><span class="p">,</span> <span class="s1">&#39;Chad&#39;</span><span class="p">,</span> <span class="s1">&#39;Republic of the Congo&#39;</span><span class="p">,</span> <span class="s1">&#39;DR Congo&#39;</span><span class="p">,</span> <span class="s1">&#39;Equatorial Guinea&#39;</span><span class="p">,</span> <span class="s1">&#39;Gabon&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-prepare-input-and-output-folders">
+<h2>Step 3 - Prepare input and output folders<a class="headerlink" href="#step-3-prepare-input-and-output-folders" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">folder_input</span> <span class="o">=</span> <span class="s1">&#39;input&#39;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder_input</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">folder_input</span><span class="p">)</span>
+<span class="n">folder_output</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder_output</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">folder_output</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-load-and-filter-the-power-facilities-data">
+<h2>Step 4 - Load and filter the power facilities data<a class="headerlink" href="#step-4-load-and-filter-the-power-facilities-data" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_input</span><span class="p">,</span> <span class="s1">&#39;Global-Integrated-Power-April-2025.xlsx&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">. Please ensure the file exists in the specified directory.&quot;</span><span class="p">)</span>
+
+<span class="n">data_power</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span><span class="s1">&#39;Power facilities&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Print if missing countries</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data_power</span><span class="p">[</span><span class="s1">&#39;Country/area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> not found in the dataset.&quot;</span><span class="p">)</span>
+
+<span class="n">data_power</span> <span class="o">=</span> <span class="n">data_power</span><span class="p">[</span><span class="n">data_power</span><span class="p">[</span><span class="s1">&#39;Country/area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">countries</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_power</span><span class="p">[</span><span class="s1">&#39;Country/area&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">data_power</span> <span class="o">=</span> <span class="n">data_power</span><span class="p">[</span><span class="n">data_power</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;solar&#39;</span><span class="p">,</span> <span class="s1">&#39;wind&#39;</span><span class="p">])]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/anaconda3/envs/HydroData/lib/python3.10/site-packages/openpyxl/worksheet/_read_only.py:85: UserWarning: Unknown extension is not supported and will be removed
+  for idx, row in parser.parse():
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-extract-the-most-relevant-projects">
+<h2>Step 5 - Extract the most relevant projects<a class="headerlink" href="#step-5-extract-the-most-relevant-projects" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_most_relevant_projects</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">countries</span><span class="p">,</span> <span class="n">tech_types</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the most relevant energy project for each country and technology.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - df: pandas DataFrame with columns [&#39;Country/area&#39;, &#39;Type&#39;, &#39;Status&#39;, &#39;Capacity (MW)&#39;,</span>
+<span class="sd">                                         &#39;Plant / Project name&#39;, &#39;Latitude&#39;, &#39;Longitude&#39;, &#39;City&#39;]</span>
+<span class="sd">    - countries: list of country names to filter</span>
+<span class="sd">    - tech_types: list of technology types to check (values from &#39;Type&#39; column)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - A DataFrame with the most relevant project per country and technology.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">status_priority</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;operating&#39;</span><span class="p">,</span> <span class="s1">&#39;construction&#39;</span><span class="p">,</span> <span class="s1">&#39;pre-construction&#39;</span><span class="p">,</span> <span class="s1">&#39;announced&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="n">tech_types</span><span class="p">:</span>
+            <span class="n">filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Country/area&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">country</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tech</span><span class="p">)]</span>
+
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">status_priority</span><span class="p">:</span>
+                <span class="n">sub</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">filtered</span><span class="p">[</span><span class="s1">&#39;Status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">status</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">sub</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                    <span class="n">top_project</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;Capacity (MW)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="n">country</span><span class="p">,</span>
+                        <span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="n">tech</span><span class="p">,</span>
+                        <span class="s1">&#39;Plant / Project name&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Plant / Project name&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;Capacity (MW)&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Capacity (MW)&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;Latitude&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;City&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;City&#39;</span><span class="p">]</span>
+                    <span class="p">})</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>  <span class="c1"># stop at the first status with a result</span>
+                    <span class="c1"># Fallback: search all remaining statuses</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
+                <span class="n">remaining_statuses</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">status_priority</span><span class="p">)</span>
+                <span class="n">sub</span> <span class="o">=</span> <span class="n">filtered</span><span class="p">[</span><span class="n">filtered</span><span class="p">[</span><span class="s1">&#39;Status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">remaining_statuses</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">sub</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+                    <span class="n">top_project</span> <span class="o">=</span> <span class="n">sub</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="s1">&#39;Capacity (MW)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()]</span>
+                    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                        <span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="n">country</span><span class="p">,</span>
+                        <span class="s1">&#39;Type&#39;</span><span class="p">:</span> <span class="n">tech</span><span class="p">,</span>
+                        <span class="s1">&#39;Plant / Project name&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Plant / Project name&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;Capacity (MW)&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Capacity (MW)&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;Latitude&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;Longitude&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">],</span>
+                        <span class="s1">&#39;City&#39;</span><span class="p">:</span> <span class="n">top_project</span><span class="p">[</span><span class="s1">&#39;City&#39;</span><span class="p">]</span>
+                    <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+<span class="n">projects</span> <span class="o">=</span> <span class="n">get_most_relevant_projects</span><span class="p">(</span><span class="n">data_power</span><span class="p">,</span> <span class="n">countries</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;solar&#39;</span><span class="p">,</span> <span class="s1">&#39;wind&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-display-and-save-results">
+<h2>Step 6 - Display and save results<a class="headerlink" href="#step-6-display-and-save-results" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">projects</span><span class="p">)</span>
+<span class="n">projects</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;most_relevant_projects_solar_wind.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+<span class="c1"># Print missing countries and technologies</span>
+<span class="k">for</span> <span class="n">tech</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;solar&#39;</span><span class="p">,</span> <span class="s1">&#39;wind&#39;</span><span class="p">]:</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">projects</span><span class="p">[</span><span class="n">projects</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">tech</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: No projects found for </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">tech</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Country</th>
+      <th>Type</th>
+      <th>Plant / Project name</th>
+      <th>Capacity (MW)</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Angola</td>
+      <td>solar</td>
+      <td>Biópio solar farm</td>
+      <td>189.0</td>
+      <td>-12.4667</td>
+      <td>15.7442</td>
+      <td>Biópio</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Angola</td>
+      <td>wind</td>
+      <td>Morro do Ouro wind farm</td>
+      <td>50.0</td>
+      <td>-15.2198</td>
+      <td>12.7258</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Burundi</td>
+      <td>solar</td>
+      <td>Bubanza SB solar project</td>
+      <td>8.0</td>
+      <td>-3.1479</td>
+      <td>29.3625</td>
+      <td>Bubanza</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Cameroon</td>
+      <td>solar</td>
+      <td>Garoua solar farm</td>
+      <td>30.0</td>
+      <td>9.3271</td>
+      <td>13.3621</td>
+      <td>Garoua</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Cameroon</td>
+      <td>wind</td>
+      <td>Cameroon wind farm</td>
+      <td>100.0</td>
+      <td>4.8918</td>
+      <td>12.3598</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Central African Republic</td>
+      <td>solar</td>
+      <td>Enerca Danzi solar farm</td>
+      <td>25.0</td>
+      <td>4.5167</td>
+      <td>18.4667</td>
+      <td>Danzi</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Chad</td>
+      <td>solar</td>
+      <td>N'Djamena (Qair) solar farm</td>
+      <td>21.5</td>
+      <td>12.0905</td>
+      <td>15.1331</td>
+      <td>Gassi District</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Chad</td>
+      <td>wind</td>
+      <td>Centrales d’Energie Renouvelable de N’Djamena ...</td>
+      <td>100.0</td>
+      <td>12.1232</td>
+      <td>15.0712</td>
+      <td>N'Djamena</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Republic of the Congo</td>
+      <td>solar</td>
+      <td>District De Kabo solar project</td>
+      <td>2.0</td>
+      <td>1.3863</td>
+      <td>16.3364</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>DR Congo</td>
+      <td>solar</td>
+      <td>Goma Nyiragongo solar project</td>
+      <td>1.5</td>
+      <td>-1.6414</td>
+      <td>29.1938</td>
+      <td>Goma</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>Gabon</td>
+      <td>solar</td>
+      <td>Ayémé Plaine solar farm</td>
+      <td>60.0</td>
+      <td>0.2293</td>
+      <td>9.5315</td>
+      <td>Ayémé Plaine</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning: No projects found for Equatorial Guinea for solar.
+Warning: No projects found for Burundi for wind.
+Warning: No projects found for Central African Republic for wind.
+Warning: No projects found for Republic of the Congo for wind.
+Warning: No projects found for DR Congo for wind.
+Warning: No projects found for Equatorial Guinea for wind.
+Warning: No projects found for Gabon for wind.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-7-format-project-coordinates-for-downstream-scripts">
+<h2>Step 7 - Format project coordinates for downstream scripts<a class="headerlink" href="#step-7-format-project-coordinates-for-downstream-scripts" title="Permalink to this heading">#</a></h2>
+<p>Transform the summary table into the dictionary structure expected by other notebooks (e.g., <code class="docutils literal notranslate"><span class="pre">get_renewable_ninja_data.ipynb</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython2 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">format_project_locations</span><span class="p">(</span><span class="n">df_relevant</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert the most relevant projects DataFrame into a dictionary formatted like the original &#39;locations&#39; dict.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict with structure: {tech: {country_key: (lat, lon)}}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_relevant</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">tech</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>  <span class="c1"># e.g., &#39;solar&#39;, &#39;wind&#39;</span>
+        <span class="c1">#country_key = row[&#39;Country&#39;].lower().replace(&#39; &#39;, &#39;&#39;).replace(&#39;-&#39;, &#39;&#39;)  # match the original format</span>
+        <span class="k">if</span> <span class="n">tech</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="n">tech</span><span class="p">][</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Country&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="c1"># Format the projects into the desired structure</span>
+<span class="n">formatted_projects</span> <span class="o">=</span> <span class="n">format_project_locations</span><span class="p">(</span><span class="n">projects</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">formatted_projects</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;solar&#39;: {&#39;Angola&#39;: (-12.4667, 15.7442),
+  &#39;Burundi&#39;: (-3.1479, 29.3625),
+  &#39;Cameroon&#39;: (9.3271, 13.3621),
+  &#39;Central African Republic&#39;: (4.5167, 18.4667),
+  &#39;Chad&#39;: (12.0905, 15.1331),
+  &#39;Republic of the Congo&#39;: (1.3863, 16.3364),
+  &#39;DR Congo&#39;: (-1.6414, 29.1938),
+  &#39;Gabon&#39;: (0.2293, 9.5315)},
+ &#39;wind&#39;: {&#39;Angola&#39;: (-15.2198, 12.7258),
+  &#39;Cameroon&#39;: (4.8918, 12.3598),
+  &#39;Chad&#39;: (12.1232, 15.0712)}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "climatic_env"
+        },
+        kernelOptions: {
+            name: "climatic_env",
+            path: "./pre-analysis/open-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'climatic_env'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../prepare-data/climatic_overview.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Climatic Overview</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../prepare-data/load_plot.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Demand Forecast Plots</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-import-required-libraries">
+   Step 1 - Import required libraries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-define-target-countries">
+   Step 2 - Define target countries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-prepare-input-and-output-folders">
+   Step 3 - Prepare input and output folders
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-load-and-filter-the-power-facilities-data">
+   Step 4 - Load and filter the power facilities data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-5-extract-the-most-relevant-projects">
+   Step 5 - Extract the most relevant projects
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-6-display-and-save-results">
+   Step 6 - Display and save results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-7-format-project-coordinates-for-downstream-scripts">
+   Step 7 - Format project coordinates for downstream scripts
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By ESMAP
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Nov 07, 2025.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>
