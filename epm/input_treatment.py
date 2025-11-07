@@ -178,91 +178,171 @@ def run_input_treatment(gams,
                 zone_column = candidate
                 break
 
-        target_techs = {"ROR", "ReservoirHydro"}
-        hydro_meta_cols = ["g", "tech"] + ([zone_column] if zone_column else [])
-        hydro_meta = (
-            gen_records.loc[gen_records["tech"].isin(target_techs), hydro_meta_cols]
-            .drop_duplicates(subset=["g"])
-        )
-        if hydro_meta.empty:
+        notebook_hint = "pre-analysis/prepare-data/hydro_availability.ipynb"
+        allowed_zones = None
+        if zone_column and "zcmap" in db:
+            zcmap_records = db["zcmap"].records
+            if zcmap_records is not None and not zcmap_records.empty:
+                zone_candidates = [col for col in ("z", "zone") if col in zcmap_records.columns]
+                if zone_candidates:
+                    zone_key = zone_candidates[0]
+                    allowed_zones = (
+                        zcmap_records[zone_key]
+                        .dropna()
+                        .astype(str)
+                        .unique()
+                        .tolist()
+                    )
+
+        def _extract_hydro_meta(target_techs):
+            hydro_meta_cols = ["g", "tech"] + ([zone_column] if zone_column else [])
+            mask = gen_records["tech"].isin(target_techs)
+            if not mask.any():
+                return pd.DataFrame(columns=hydro_meta_cols)
+            df = (
+                gen_records.loc[mask, hydro_meta_cols]
+                .drop_duplicates(subset=["g"])
+            )
+            if allowed_zones and zone_column in df.columns:
+                df = df[df[zone_column].isin(allowed_zones)]
+            return df
+
+        # --- ReservoirHydro: check pAvailability ---------------------------------
+        reservoir_meta = _extract_hydro_meta({"ReservoirHydro"})
+        if not reservoir_meta.empty and "g" in avail_records.columns:
+            provided_gens = set(avail_records["g"].unique())
+            missing_meta = reservoir_meta.loc[~reservoir_meta["g"].isin(provided_gens)]
+            if missing_meta.empty:
+                gams.printLog(
+                    f"Reservoir hydro availability check: all {len(reservoir_meta)} generator(s) "
+                    "defined in pGenDataInput have entries in pAvailability."
+                )
+            else:
+                zone_label = zone_column or "zone"
+                all_zone_values = None
+                if zone_column:
+                    if allowed_zones is not None:
+                        all_zone_values = allowed_zones
+                    else:
+                        all_zone_values = (
+                            reservoir_meta.loc[:, zone_column]
+                            .dropna()
+                            .unique()
+                            .tolist()
+                        )
+                gams.printLog(
+                    f"Reservoir hydro warning: {len(missing_meta)} generator(s) lack entries in pAvailability. "
+                    f"Rebuild the profiles via `{notebook_hint}`."
+                )
+                _log_zone_summary(
+                    gams,
+                    "  Missing reservoir capacity-factor rows by zone:",
+                    missing_meta.loc[:, ["g"] + ([zone_column] if zone_column else [])],
+                    zone_column,
+                    zone_label,
+                    all_zone_values,
+                )
+
+                if auto_fill:
+                    if avail_records.empty:
+                        gams.printLog("Auto-fill skipped: pAvailability has no existing data to copy from.")
+                    elif zone_column is None:
+                        gams.printLog("Auto-fill skipped: cannot identify zone column in pGenDataInput.")
+                    else:
+                        gen_zone_meta = gen_records.loc[:, ["g", "tech", zone_column]].drop_duplicates(subset=["g"])
+                        donor_frame = avail_records.merge(gen_zone_meta, on="g", how="left")
+                        donor_frame = donor_frame.dropna(subset=[zone_column, "tech"])
+                        if donor_frame.empty:
+                            gams.printLog("Auto-fill skipped: no donor generators have both zone and tech information.")
+                        else:
+                            donor_profiles = {}
+                            for (zone_val, tech_val), frame in donor_frame.groupby([zone_column, "tech"]):
+                                first_gen = frame["g"].iloc[0]
+                                profile = frame.loc[frame["g"] == first_gen, ["q", "value"]].copy()
+                                donor_profiles[(zone_val, tech_val)] = {"profile": profile, "source": first_gen}
+
+                            new_entries = []
+                            for row in missing_meta.itertuples():
+                                key = (getattr(row, zone_column), row.tech)
+                                donor_info = donor_profiles.get(key)
+                                if donor_info is None:
+                                    gams.printLog(
+                                        f"  -> No donor found to auto-fill {row.g} ({row.tech}, {zone_label}: {key[0]})."
+                                    )
+                                    continue
+                                addition = donor_info["profile"].copy()
+                                addition["g"] = row.g
+                                new_entries.append(addition.loc[:, ["g", "q", "value"]])
+                                gams.printLog(
+                                    f"  -> Auto-filled availability for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
+                                    f"using {donor_info['source']}."
+                                )
+
+                            if new_entries:
+                                updated_availability = pd.concat([avail_records] + new_entries, ignore_index=True)
+                                db.data["pAvailability"].setRecords(updated_availability)
+                                _write_back(db, "pAvailability")
+                            else:
+                                gams.printLog("Auto-fill finished: no records were added.")
+
+        # --- ROR: check pVREgenProfile -------------------------------------------
+        ror_meta = _extract_hydro_meta({"ROR"})
+        if ror_meta.empty:
             return
 
-        if "g" not in avail_records.columns:
+        if "pVREgenProfile" not in db:
+            gams.printLog(
+                "ROR availability warning: pVREgenProfile parameter is missing. "
+                f"Rebuild the inputs via `{notebook_hint}`."
+            )
             return
 
-        provided_gens = set(avail_records["g"].unique())
-        missing_meta = hydro_meta.loc[~hydro_meta["g"].isin(provided_gens)]
-        if missing_meta.empty:
+        ror_records = db["pVREgenProfile"].records
+        if ror_records is None or ror_records.empty:
+            provided_ror = set()
+        elif "g" in ror_records.columns:
+            provided_ror = set(ror_records["g"].unique())
+        elif "gen" in ror_records.columns:
+            provided_ror = set(ror_records["gen"].unique())
+        else:
+            gams.printLog(
+                "ROR availability warning: cannot identify generator column in pVREgenProfile."
+            )
             return
 
-        gams.printLog(
-            f"Hydropower factor warning: {len(missing_meta)} generator(s) with tech in {sorted(target_techs)} "
-            "lack availability entries in pAvailability."
-        )
+        missing_ror = ror_meta.loc[~ror_meta["g"].isin(provided_ror)]
+        if missing_ror.empty:
+            gams.printLog(
+                f"ROR availability check: all {len(ror_meta)} generator(s) defined in pGenDataInput "
+                "have hourly profiles in pVREgenProfile."
+            )
+            return
+
         zone_label = zone_column or "zone"
         all_zone_values = None
         if zone_column:
-            all_zone_values = (
-                hydro_meta.loc[:, zone_column]
-                .dropna()
-                .unique()
-                .tolist()
-            )
+            if allowed_zones is not None:
+                all_zone_values = allowed_zones
+            else:
+                all_zone_values = (
+                    ror_meta.loc[:, zone_column]
+                    .dropna()
+                    .unique()
+                    .tolist()
+                )
+
+        gams.printLog(
+            f"ROR availability warning: {len(missing_ror)} generator(s) lack hourly profiles in pVREgenProfile. "
+            f"Update the hydro notebook at `{notebook_hint}`."
+        )
         _log_zone_summary(
             gams,
-            "  Missing hydropower factors by zone:",
-            missing_meta.loc[:, ["g"] + ([zone_column] if zone_column else [])],
+            "  Missing ROR hourly profiles by zone:",
+            missing_ror.loc[:, ["g"] + ([zone_column] if zone_column else [])],
             zone_column,
             zone_label,
             all_zone_values,
         )
-
-        if not auto_fill:
-            return
-
-        if avail_records.empty:
-            gams.printLog("Auto-fill skipped: pAvailability has no existing data to copy from.")
-            return
-
-        if zone_column is None:
-            gams.printLog("Auto-fill skipped: cannot identify zone column in pGenDataInput.")
-            return
-
-        gen_zone_meta = gen_records.loc[:, ["g", "tech", zone_column]].drop_duplicates(subset=["g"])
-        donor_frame = avail_records.merge(gen_zone_meta, on="g", how="left")
-        donor_frame = donor_frame.dropna(subset=[zone_column, "tech"])
-        if donor_frame.empty:
-            gams.printLog("Auto-fill skipped: no donor generators have both zone and tech information.")
-            return
-
-        donor_profiles = {}
-        for (zone_val, tech_val), frame in donor_frame.groupby([zone_column, "tech"]):
-            first_gen = frame["g"].iloc[0]
-            profile = frame.loc[frame["g"] == first_gen, ["q", "value"]].copy()
-            donor_profiles[(zone_val, tech_val)] = {"profile": profile, "source": first_gen}
-
-        new_entries = []
-        for row in missing_meta.itertuples():
-            key = (getattr(row, zone_column), row.tech)
-            donor_info = donor_profiles.get(key)
-            if donor_info is None:
-                gams.printLog(f"  -> No donor found to auto-fill {row.g} ({row.tech}, {zone_label}: {key[0]}).")
-                continue
-            addition = donor_info["profile"].copy()
-            addition["g"] = row.g
-            new_entries.append(addition.loc[:, ["g", "q", "value"]])
-            gams.printLog(
-                f"  -> Auto-filled availability for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
-                f"using {donor_info['source']}."
-            )
-
-        if not new_entries:
-            gams.printLog("Auto-fill finished: no records were added.")
-            return
-
-        updated_availability = pd.concat([avail_records] + new_entries, ignore_index=True)
-        db.data["pAvailability"].setRecords(updated_availability)
-        _write_back(db, "pAvailability")
 
 
     def monitor_hydro_capex(db: gt.Container, auto_fill: bool):
@@ -353,11 +433,12 @@ def run_input_treatment(gams,
             gams.printLog("Capex auto-fill skipped: no donor hydro plants with Capex defined.")
             return
 
-        donor_lookup = {}
-        for donor in donors.itertuples():
-            key = (getattr(donor, zone_column), donor.tech)
-            if key not in donor_lookup:
-                donor_lookup[key] = (donor.g, donor.Capex)
+        donor_lookup = (
+            donors.groupby([zone_column, "tech"], observed=False)["Capex"]
+            .mean()
+            .dropna()
+            .to_dict()
+        )
 
         updated = False
         new_rows = []
@@ -365,9 +446,12 @@ def run_input_treatment(gams,
             key = (getattr(row, zone_column), row.tech)
             donor_info = donor_lookup.get(key)
             if donor_info is None:
-                gams.printLog(f"  -> No donor Capex found for {row.g} ({row.tech}, {zone_label}: {key[0]}).")
+                gams.printLog(
+                    f"  -> No donor Capex found for {row.g} ({row.tech}, {zone_label}: {key[0]}). "
+                    "Provide values in the hydro capex input or extend `pGenDataInput`."
+                )
                 continue
-            donor_gen, donor_capex = donor_info
+            donor_capex = donor_info
             row_mask = (records["g"] == row.g) & (records[header_col] == "Capex")
             if row_mask.any():
                 records.loc[row_mask, value_col] = donor_capex
@@ -382,7 +466,8 @@ def run_input_treatment(gams,
                 new_rows.append(new_row)
             updated = True
             gams.printLog(
-                f"  -> Auto-filled Capex for {row.g} ({row.tech}, {zone_label}: {key[0]}) using {donor_gen}."
+                f"  -> Auto-filled Capex for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
+                f"using the mean value {donor_capex:.3f} from existing generators in the same zone and technology."
             )
 
         if new_rows:
