@@ -62,8 +62,8 @@ parts:
       - file: docs/pre_overview.md
       - file: docs/pre_projects.md
       - file: pre-analysis/prepare-data/climatic_overview.ipynb
-      - file: pre-analysis/prepare-data/get_renewables_coordinate.ipynb
-      - file: pre-analysis/prepare-data/get_renewables_ninja_data.ipynb
+      - file: pre-analysis/open-data/get_renewables_coordinate.ipynb
+      - file: pre-analysis/open-data/get_renewables_ninja_data.ipynb
       - file: pre-analysis/prepare-data/load_plot.ipynb
       - file: pre-analysis/prepare-data/load_plot.ipynb
       - file: pre-analysis/prepare-data/hydro_availability.ipynb
