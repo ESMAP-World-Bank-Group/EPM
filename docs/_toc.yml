@@ -65,7 +65,6 @@ parts:
       - file: pre-analysis/open-data/get_renewables_coordinate.ipynb
       - file: pre-analysis/open-data/get_renewables_ninja_data.ipynb
       - file: pre-analysis/prepare-data/load_plot.ipynb
-      - file: pre-analysis/prepare-data/load_plot.ipynb
       - file: pre-analysis/prepare-data/hydro_availability.ipynb
       - file: pre-analysis/prepare-data/supply_demand_balance.ipynb
       - file: pre-analysis/prepare-data/representative_days/representative_days.ipynb
