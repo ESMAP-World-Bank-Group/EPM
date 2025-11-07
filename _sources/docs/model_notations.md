@@ -15,9 +15,9 @@
 | $sc \in S$             | where $S$ is the set of flags and penalties used to include/exclude certain features of the model                                                                                                                                                                                                                                          |
 | **Subsets considered** |                                                                                                                                                                                                                                                                                                                                            |
 | $EN, NG \in G$         | where $EG$ and $NG$ is a partition of set $G$ and the former (EG) contains generators existing at the starting year of the planning horizon and the latter contains candidate generators<sup><sup>[\[1\]](#footnote-2)</sup></sup>                                                                                                         |
-| $DC, NDC \in G$        | where $DC$ and $NDC$ are partitions of set $G$ separating generators with a CAPEX cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.     |
+| $DC, NDC \in G$        | where $DC$ and $NDC$ are partitions of set $G$ separating generators with a CAPE\text{RetirementYear} cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.     |
 | $EH, NH \in H$         | where $EH$ and $NH$ is a partition of $H$ set and the former ($HG$) contains electrolyzers existing at the starting year of the planning horizon and the latter contains candidate electrolyzers<sup><sup>[\[2\]](#footnote-3)</sup></sup>                                                                                                 |
-| $DH, NDH \in H$        | where $DH$ and $NDH$ are partitions of set H separating electrolyzers with a CAPEX cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances. |
+| $DH, NDH \in H$        | where $DH$ and $NDH$ are partitions of set H separating electrolyzers with a CAPE\text{RetirementYear} cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances. |
 | $so \in G$             | PV unit linked to a storage unit as a partition of set $G$ (this is the PV part of PV linked with storage)                                                                                                                                                                                                                                 |
 | $stp \in st$           | Storage unit linked to a PV plant as a partition of set $G$ (this is the storage part of PV linked with storage)                                                                                                                                                                                                                           |
 | $MD \in D$             | where $MD$ is a subset of days the planner expects the minimum load levels to be binding                                                                                                                                                                                                                                                   |
@@ -143,7 +143,7 @@ $$
 Carbon-related costs including emissions tax and backstop measures:
 
 $$
-\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
+\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{CarbonTax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
 \sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
 \text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
 $$
@@ -163,7 +163,7 @@ $$
 $$
 
 $$
-\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPEX}_{z1,z2})
+\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPE\text{RetirementYear}}_{z1,z2})
 $$
 
 $$
@@ -181,7 +181,7 @@ Power balance constraint for each zone:
 $$
 \sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
 \sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
-\text{storage\_out}_{z,q,d,t,y} - \text{storage\_inj}_{z,q,d,t,y} +
+\text{storageOut}_{z,q,d,t,y} - \text{storageInj}_{z,q,d,t,y} +
 \text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
 \text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
 \text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
@@ -290,14 +290,14 @@ $$
 The following equations govern the operation of CSP plants, including their thermal storage capabilities and generation limits.
 
 $$
-\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSP\_storage} \quad \forall \text{map}(g,\text{CSP})
+\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSPStorage} \quad \forall \text{map}(g,\text{CSP})
 $$
 
 Storage level cannot exceed storage capacity.
 
 $$
 \text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
-\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiencyCSP} \cdot \text{FieldEfficiencyCSP}}
 $$
 
 CSP generation is determined by solar resource profile and plant characteristics.
@@ -309,8 +309,8 @@ $$
 Total CSP generation cannot exceed capacity.
 
 $$
-\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency\_CSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
-\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency\_CSP}} \quad \forall g,z,q,d,t,y
+\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiencyCSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
+\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiencyCSP}} \quad \forall g,z,q,d,t,y
 $$
 
 Energy balance equation for CSP operation.
@@ -332,19 +332,19 @@ $$
 Capacity evolution for existing generators.
 
 $$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} > \text{Commission\_year}_g)
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} > \text{CommissionYear}_g)
 $$
 
 Initial capacity for existing generators.
 
 $$
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{Commission\_year}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{Commission\_year}_g \wedge \text{ord}(y) < \text{Retirement\_year}_{\text{EG}})
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{CommissionYear}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{CommissionYear}_g \wedge \text{ord}(y) < \text{RetirementYear}_{\text{EG}})
 $$
 
 Capacity during operational period.
 
 $$
-\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}})
+\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{RetirementYear}_{\text{EG}})
 $$
 
 Zero capacity after retirement.
@@ -368,7 +368,7 @@ $$
 Maximum capacity constraint.
 
 $$
-\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) < \text{Commission\_year}_g)
+\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) < \text{CommissionYear}_g)
 $$
 
 Zero capacity before commissioning.
@@ -378,64 +378,64 @@ Zero capacity before commissioning.
 The following equations govern the operation of storage systems.
 
 $$
-\text{storage}_{\text{st},z,q,d,t=1,y} = \text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
+\text{storage}_{\text{st},z,q,d,t=1,y} = \text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
 $$
 
 Initial storage level.
 
 $$
 \text{storage}_{\text{st},z,q,d,t>1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
-\text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t>1
+\text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t>1
 $$
 
 Storage level evolution.
 
 $$
-\text{storage\_inj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
+\text{storageInj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
 $$
 
 Storage injection for PV storage.
 
 $$
-\text{storage\_inj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
+\text{storageInj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
 $$
 
 Maximum injection rate.
 
 $$
-\text{storage}_{\text{st},q,d,t,y} \leq \text{Storage\_Capacity}_{\text{st},y}
+\text{storage}_{\text{st},q,d,t,y} \leq \text{StorageCapacity}_{\text{st},y}
 $$
 
 Maximum storage level.
 
 $$
-\text{storage\_inj}_{\text{st},q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t>1
+\text{storageInj}_{\text{st},q,d,t,y} - \text{storageInj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t>1
 $$
 
 Ramping down constraint.
 
 $$
-\text{storage\_inj}_{\text{st},q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t>1
+\text{storageInj}_{\text{st},q,d,t-1,y} - \text{storageInj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t>1
 $$
 
 Ramping up constraint.
 
 $$
-\text{Storage\_Capacity}_{\text{EG},y} = \text{Storage\_Capacity}_{\text{EG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{EG},y-1} - \text{Retire}_{\text{Storage\_Capacity}_{\text{EG},y-1}} \quad \forall y>1
+\text{StorageCapacity}_{\text{EG},y} = \text{StorageCapacity}_{\text{EG},y-1} +
+\text{BuildStorageCapacity}_{\text{EG},y-1} - \text{Retire}_{\text{StorageCapacity}_{\text{EG},y-1}} \quad \forall y>1
 $$
 
 Storage capacity evolution for existing storage.
 
 $$
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Storage\_Capacity}_{\text{NG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y>1
+\text{StorageCapacity}_{\text{NG},y} = \text{StorageCapacity}_{\text{NG},y-1} +
+\text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y>1
 $$
 
 Storage capacity evolution for new storage.
 
 $$
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y=1
+\text{StorageCapacity}_{\text{NG},y} = \text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y=1
 $$
 
 Initial storage capacity for new storage.
@@ -447,13 +447,13 @@ $$
 Minimum storage capacity requirement.
 
 $$
-\text{StorageCapacity}_{\text{st},y} \leq \text{Maximum\_Storage\_Energy}_{\text{st},y} + \text{Maximum\_Storage\_Energy}_{\text{CSP},y}
+\text{StorageCapacity}_{\text{st},y} \leq \text{MaximumStorageEnergy}_{\text{st},y} + \text{MaximumStorageEnergy}_{\text{CSP},y}
 $$
 
 Maximum storage capacity limit.
 
 $$
-\sum_{y} \text{Build\_Storage\_Capacity}_{\text{EG},y} \leq \text{Maximum\_Storage\_Energy}_{\text{EG},y}
+\sum_{y} \text{BuildStorageCapacity}_{\text{EG},y} \leq \text{MaximumStorageEnergy}_{\text{EG},y}
 $$
 
 Total storage capacity build limit.
@@ -475,13 +475,13 @@ $$
 Minimum total new capacity.
 
 $$
-\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{Commission\_year}_g > \text{StartYear})
+\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{CommissionYear}_g > \text{StartYear})
 $$
 
 Maximum build limit for existing generators.
 
 $$
-\text{build}_{g \in \text{NG},y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
+\text{build}_{g \in \text{NG},y} \leq \text{AnnualBuiltLimit}_y \cdot \text{WeightYear}_y
 $$
 
 Annual build limit.
@@ -499,7 +499,7 @@ $$
 Discrete capacity retirements.
 
 $$
-\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{Commission\_year}_g)
+\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{CommissionYear}_g)
 $$
 
 No builds before commission year.
@@ -527,25 +527,25 @@ Capital investment constraint.
 These equations enforce environmental constraints.
 
 $$
-\text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\text{emissionsZo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
 $$
 
 Zone emissions calculation.
 
 $$
-\text{emissions\_Zo}_{z,y} \leq \text{Zo\_emission\_cap}_{y,z}
+\text{emissionsZo}_{z,y} \leq \text{ZoEmissionCap}_{y,z}
 $$
 
 Zone emissions cap.
 
 $$
-\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
 $$
 
 System emissions calculation.
 
 $$
-\text{emissions}_{z,y} \leq \text{Sy\_emission\_cap}_y
+\text{emissions}_{z,y} \leq \text{SyEmissionCap}_y
 $$
 
 System emissions cap.

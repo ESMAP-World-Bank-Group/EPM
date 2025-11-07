@@ -1,86 +1,70 @@
 # Preanalysis Folder Overview
 
-This **preanalysis** folder contains all scripts, notebooks, and utilities used to **prepare input data** for the EPM (Electricity Planning Model).  
-
-The structure is organized into thematic subfolders for different areas of pre-processing:
-- climatic data
-- generation data
-- hydro data
-- load data
-- representative days
-
-Each thematic folder contains:
-- Jupyter notebooks for data analysis or processing
-- Python utility modules for reusable functions
-- `input/` folders for raw or intermediate data inputs
-- `output/` folders for storing processed results
+The `pre-analysis/` workspace separates exploratory data ingestion from model-ready processing. 
+- Use **`prepare-data/`** to turn those datasets into Electricity Planning Model (EPM) inputs such as `pAvailability`, `pVREgenProfile`, and demand profiles.
+- Use **`open-data/`** to download, QA, and harmonize external datasets. 
 
 ---
 
 ## Objective
 
-The **preanalysis** step’s main objective is to produce **clean, consistent input datasets** compatible with the EPM model. Each data area prepares specific inputs:
-- **climatic** → time series of renewables and climate conditions
-- **generation** → installed capacities and plant data
-- **hydro** → inflow, capacity, and basin-level data
-- **load** → demand profiles
-- **representative days** → reduced time slices for model efficiency
-
-By organizing preanalysis this way, the workflow ensures efficient updates and traceability when new data or regions are introduced into EPM.
+Produce clean, versioned inputs for EPM by:
+- reshaping and validating those datasets against the current perimeter (prepare-data stage)
+- exporting consistent CSVs that match the structure in `epm/input/data_capp`
+- curating third-party climate, hydro, renewable, and generation data (open-data stage)
 
 ---
 
-## Folder Structure Overview
+## Workspace Layout
 
-| **Folder / File** | **Description** |
-|-------------------|-----------------|
-| `climatic/` | Prepares climate and renewable resource data, including retrieval from Renewable Ninja. |
-| &nbsp;&nbsp;&nbsp; ├─ `climatic_overview.ipynb` | Overview of climatic datasets and statistics. |
-| &nbsp;&nbsp;&nbsp; ├─ `get_renewable_ninja_data.ipynb` | Downloads and processes data from Renewable Ninja API. |
-| &nbsp;&nbsp;&nbsp; ├─ `utils_climatic.py` | Python functions for climate data manipulation. |
-| &nbsp;&nbsp;&nbsp; ├─ `utils_ninja.py` | Utilities for accessing Renewable Ninja API. |
-| &nbsp;&nbsp;&nbsp; ├─ `input/` | Folder for raw climate-related input data. |
-| &nbsp;&nbsp;&nbsp; └─ `output/` | Folder for processed climatic outputs. |
-| `generation/` | Handles generation capacity, coordinates, and global datasets for power plants. |
-| &nbsp;&nbsp;&nbsp; ├─ `clean_generation_epm.ipynb` | Cleans generation data for EPM input format. |
-| &nbsp;&nbsp;&nbsp; ├─ `get_renewables_coordinate.ipynb` | Retrieves geocoordinates for renewable plants. |
-| &nbsp;&nbsp;&nbsp; ├─ `global_database_overview.ipynb` | Summarizes global generation databases. |
-| &nbsp;&nbsp;&nbsp; ├─ `input/` | Folder for generation-related raw inputs. |
-| &nbsp;&nbsp;&nbsp; └─ `output/` | Folder for generation data outputs. |
-| `hydro/` | Focused on hydropower capacity, inflows, and atlas comparisons. |
-| &nbsp;&nbsp;&nbsp; ├─ `hydro_atlas_comparison.ipynb` | Compares hydropower datasets (e.g. Hydro Atlas). |
-| &nbsp;&nbsp;&nbsp; ├─ `hydro_basins_maps.ipynb` | Maps hydro basins and resources. |
-| &nbsp;&nbsp;&nbsp; ├─ `hydro_capacity (in progress).ipynb` | Under development; processes hydro capacity data. |
-| &nbsp;&nbsp;&nbsp; ├─ `hydro_capacity_factor.ipynb` | Computes hydro capacity factors for EPM. |
-| &nbsp;&nbsp;&nbsp; ├─ `hydro_inflow_analysis.ipynb` | Analyses historical inflows for hydro modeling. |
-| &nbsp;&nbsp;&nbsp; ├─ `input/` | Folder for hydro raw inputs. |
-| &nbsp;&nbsp;&nbsp; └─ `output/` | Folder for processed hydro outputs. |
-| `load/` | Placeholder for load-related preanalysis scripts and data. |
-| `representative_days/` | Manages clustering and creation of representative days for EPM simulations. |
-| &nbsp;&nbsp;&nbsp; ├─ `representative_days.ipynb` | Notebook to compute representative days from time series data. |
-| &nbsp;&nbsp;&nbsp; ├─ `utils_reprdays.py` | Python utilities for clustering and representative days calculations. |
-| &nbsp;&nbsp;&nbsp; ├─ `gams/` | GAMS-specific resources related to representative days. |
-| &nbsp;&nbsp;&nbsp; ├─ `input/` | Folder for raw data used for clustering. |
-| &nbsp;&nbsp;&nbsp; └─ `output/` | Folder for outputs like cluster assignments or representative days timeseries. |
+| Path | Role | Highlights |
+|------|------|------------|
+| `pre-analysis/open-data/` | Exploratory notebooks that ingest APIs, shapefiles, and atlas workbooks, plus QA tools (plots, Folium maps). | Renewable Ninja & IRENA harvesters, GRDC inflow prep, hydro basin QA, hydro atlas comparisons. |
+| `pre-analysis/prepare-data/` | Deterministic workflows that reshape curated datasets into EPM-ready CSVs and diagnostics. | Climatic overview, load profile builders, representative days, hydro availability, supply-demand balance checks. |
 
 ---
 
-## Rationale: Input / Output Folders
+## prepare-data workflows
 
-Each thematic subfolder follows a consistent pattern:
+| Notebook / Module | Purpose | Key outputs |
+|-------------------|---------|-------------|
+| `climatic_overview.ipynb` | Profiles ERA5-Land temperature/precipitation to define seasons, wet/dry periods, and candidate representative years for each zone. | Climate diagnostics in `output/` plus summary CSVs used downstream. |
+| `load_profile.ipynb` | Builds hourly demand profiles by fusing monthly means with hourly shapes and sanity checks. | Hourly `load_profile.csv` saved under `output/` for direct use in EPM. |
+| `load_profile_treatment.ipynb` | Cleans historical load measurements (outlier removal, missing-data infill) before feeding the builder. | Treated historical series in `output/load_profile_treated.csv`. |
+| `load_plot.ipynb` | Generates forecast and QA plots for stakeholder review (peak vs average, growth trends). | PNG/HTML dashboards in `output/plots/`. |
+| `representative_days/representative_days.ipynb` | Clusters climate and load time series to produce reduced time slices. | `pHours.csv`, `load/pDemandProfile.csv`, `supply/pVREProfile.csv`. |
+| `supply_demand_balance.ipynb` | Checks that the supply fleet plus renewables meet the treated demand under each scenario; flags deficits before GAMS runs. | Balance tables/plots in `output/` plus optional CSV deltas. |
+| `hydro_availability.ipynb` | Converts monthly hydro shapes into reservoir `pAvailabilityCustom.csv` and ROR `pVREgenProfile.csv`, validating against `pHours`. | Final hydro CSVs under `output/`. |
+| `hydro_representative_years.ipynb` | Experimental picker for representative hydropower years; use to sample dry/baseline/wet seasons before exporting availability tables. | Candidate `pAvailability_*.csv` files (review manually). |
+| `utils_climatic.py` | Shared helpers for ERA5 extraction, aggregation, and plotting. | Imported across notebooks; no standalone output. |
+| `legacy_to_new_format/` | Migration scripts that convert historic SPLAT/EPM spreadsheets into the current column naming. | Intermediate CSVs stored locally before copying to `epm/input`. |
 
-- **`input/`** — stores:
-  - raw external datasets
-  - intermediate cleaned datasets
-  - files downloaded from APIs or third-party tools
-- **`output/`** — stores:
-  - processed data ready to feed into the EPM model
-  - summary statistics
-  - visualizations and derived indicators
+**Inputs & outputs**: Every subfolder follows the same rule—drop raw/intermediate assets into `input/`, and keep notebook-produced artifacts inside `output/` until you promote them into `epm/input`.
 
-This separation ensures:
-- reproducibility of data pipelines
-- clarity in tracking data provenance
-- easy integration of updates from new input data sources
+---
+
+## open-data notebooks
+
+| Notebook | Focus & what you get | Typical outputs |
+|----------|----------------------|-----------------|
+| `get_renewables_irena_data.ipynb` | Downloads IRENA wind/solar profiles using SPLAT naming, producing hourly capacity-factor tables per zone-season. | CSV grids plus QA plots under `output/`. |
+| `get_renewable_ninja_data.ipynb` | Calls the Renewable Ninja API using coordinates from the generation catalog; writes harmonized solar/wind profiles. | Hourly CF CSVs (`zone,season,day,hour,<year>`). |
+| `get_renewables_coordinate.ipynb` | Builds the coordinate list (lat/lon) from generation assets so Renewable Ninja pulls the right plants. | Coordinate CSV consumed by the Ninja notebook. |
+| `get_generation_maps.ipynb` | Visualizes generation databases on interactive maps to verify coverage and technology tagging. | HTML/PNG maps in `output/maps/`. |
+| `hydro_atlas_comparison.ipynb` | Compares utility capacity factors with the African Hydropower Atlas before adopting Atlas curves. | QA plots plus comparison tables (save manually as needed). |
+| `hydro_basins.ipynb` | Inspects GRDC catchments and HydroRIVERS shapefiles to link plants with upstream basins. | GeoDataFrames/maps stored under `output/`. |
+| `hydro_capacity_factors.ipynb` | (WIP) Merges African Hydropower Atlas profiles with Global Hydropower Tracker metadata for a consolidated catalog. | Draft merged tables in `output/`. |
+| `hydro_inflow.ipynb` | Processes GRDC NetCDF station data, intersects HydroRIVERS, and exports inflow/runoff diagnostics. | Cleaned CSVs/GeoPackages plus Folium maps. |
+
+Use these notebooks when you need to refresh the underlying open datasets. Once the exploratory outputs look correct, feed them into the deterministic routines inside `prepare-data/`.
+
+---
+
+## Shared input/output conventions
+
+- **`input/`**: raw downloads, API responses, shapefiles, and any intermediate CSVs that need to be versioned.
+- **`output/`**: notebook artifacts (plots, QA tables, temporary CSVs). Copy only the vetted deliverables into `epm/input/data_capp` or `epm/input/data_<region>` to keep git noise low.
+
+Maintaining this separation preserves reproducibility, makes it clear which datasets entered the model, and accelerates updates when new countries or data vintages are added.
 
 ---

@@ -1292,13 +1292,13 @@ title="Print to PDF"
 <td><p>where <span class="math notranslate nohighlight">\(EG\)</span> and <span class="math notranslate nohighlight">\(NG\)</span> is a partition of set <span class="math notranslate nohighlight">\(G\)</span> and the former (EG) contains generators existing at the starting year of the planning horizon and the latter contains candidate generators<sup><sup><span class="xref myst">[1]</span></sup></sup></p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(DC, NDC \in G\)</span></p></td>
-<td><p>where <span class="math notranslate nohighlight">\(DC\)</span> and <span class="math notranslate nohighlight">\(NDC\)</span> are partitions of set <span class="math notranslate nohighlight">\(G\)</span> separating generators with a CAPEX cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</p></td>
+<td><p>where <span class="math notranslate nohighlight">\(DC\)</span> and <span class="math notranslate nohighlight">\(NDC\)</span> are partitions of set <span class="math notranslate nohighlight">\(G\)</span> separating generators with a CAPE\text{RetirementYear} cost constant over the modeling horizon and those generators that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</p></td>
 </tr>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(EH, NH \in H\)</span></p></td>
 <td><p>where <span class="math notranslate nohighlight">\(EH\)</span> and <span class="math notranslate nohighlight">\(NH\)</span> is a partition of <span class="math notranslate nohighlight">\(H\)</span> set and the former (<span class="math notranslate nohighlight">\(HG\)</span>) contains electrolyzers existing at the starting year of the planning horizon and the latter contains candidate electrolyzers<sup><sup><span class="xref myst">[2]</span></sup></sup></p></td>
 </tr>
 <tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(DH, NDH \in H\)</span></p></td>
-<td><p>where <span class="math notranslate nohighlight">\(DH\)</span> and <span class="math notranslate nohighlight">\(NDH\)</span> are partitions of set H separating electrolyzers with a CAPEX cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</p></td>
+<td><p>where <span class="math notranslate nohighlight">\(DH\)</span> and <span class="math notranslate nohighlight">\(NDH\)</span> are partitions of set H separating electrolyzers with a CAPE\text{RetirementYear} cost constant over the modeling horizon and those electrolyzers that have costs varying over time. This feature is mainly developed to account for technologies that show cost reductions due to technological improvements and manufacturing advances.</p></td>
 </tr>
 <tr class="row-even"><td><p><span class="math notranslate nohighlight">\(so \in G\)</span></p></td>
 <td><p>PV unit linked to a storage unit as a partition of set <span class="math notranslate nohighlight">\(G\)</span> (this is the PV part of PV linked with storage)</p></td>
@@ -1530,7 +1530,7 @@ title="Print to PDF"
 <p>Carbon-related costs including emissions tax and backstop measures:</p>
 <div class="math notranslate nohighlight">
 \[
-\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{carbon\_tax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
+\text{carboncost}_{z,y} = \sum_{g \in \text{Z},f,q,d,t} (\text{Duration}_{q,d,t,y} \cdot \text{CarbonTax}_y \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{gen}_{g,f,q,d,t,y}) +
 \sum_{z \in \text{c}} (\text{CO2backstop}_{z,y} \cdot \text{CostOfCO2backstop}) +
 \text{SysCO2backstop}_y \cdot \text{CostOfCO2backstop}
 \]</div>
@@ -1549,7 +1549,7 @@ title="Print to PDF"
 \]</div>
 <div class="math notranslate nohighlight">
 \[
-\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPEX}_{z1,z2})
+\text{CostTransmissionAdditions}_{z1,z2,y} = \sum_z (\text{AdditionalTransfer}_{z,z2,y} \cdot \text{CRF}_{\text{NL}} \cdot \text{LineCAPE\text{RetirementYear}}_{z1,z2})
 \]</div>
 <div class="math notranslate nohighlight">
 \[
@@ -1567,7 +1567,7 @@ title="Print to PDF"
 \[
 \sum_{g \in Z,f} \text{gen}_{g,f,q,d,t,y} - \sum_{z2} \text{trans}_{z,z2,q,d,t,y} +
 \sum_{z2} \left( (1 - \text{LossFactor}_{z,z2,y}) \cdot \text{trans}_{z2,z,q,d,t,y} \right) +
-\text{storage\_out}_{z,q,d,t,y} - \text{storage\_inj}_{z,q,d,t,y} +
+\text{storageOut}_{z,q,d,t,y} - \text{storageInj}_{z,q,d,t,y} +
 \text{unmetDem}_{z,q,d,t,y} - \text{surplus}_{z,q,d,t,y} +
 \text{importPrice}_{z,q,d,t,y} - \text{exportPrice}_{z,q,d,t,y} - \sum_{h \in \text{map}(h,z)} \text{H2PwrIn}_{h,q,d,t,y} =
 \text{Demand}_{z,q,d,t,y} \cdot \text{EEfactor}_{z,y}
@@ -1670,13 +1670,13 @@ title="Print to PDF"
 <p>The following equations govern the operation of CSP plants, including their thermal storage capabilities and generation limits.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSP\_storage} \quad \forall \text{map}(g,\text{CSP})
+\text{storageCSP}_{g,z,q,d,t,y} \leq \text{cap}_{g,y} \cdot \text{CSPStorage} \quad \forall \text{map}(g,\text{CSP})
 \]</div>
 <p>Storage level cannot exceed storage capacity.</p>
 <div class="math notranslate nohighlight">
 \[
 \text{genCSP}_{g,z,q,d,t,y} = \text{RPprofile}_{z,\text{RE} \in \text{CSP},q,d,t} \cdot \text{cap}_{g,y} \cdot
-\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiency\_CSP} \cdot \text{FieldEfficiency\_CSP}}
+\frac{\text{SolarMultipleCSP}}{\text{TurbineEfficiencyCSP} \cdot \text{FieldEfficiencyCSP}}
 \]</div>
 <p>CSP generation is determined by solar resource profile and plant characteristics.</p>
 <div class="math notranslate nohighlight">
@@ -1686,8 +1686,8 @@ title="Print to PDF"
 <p>Total CSP generation cannot exceed capacity.</p>
 <div class="math notranslate nohighlight">
 \[
-\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiency\_CSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
-\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiency\_CSP}} \quad \forall g,z,q,d,t,y
+\sum_{f \in \text{CSP}} \left( \text{genCSP}_{g,z,q,d,t,y} \cdot \text{FieldEfficiencyCSP} - \text{storageCSPinj}_{g,z,q,d,t,y} + \text{storageCSPout}_{g,z,q,d,t,y} \right) =
+\frac{\text{gen}_{g,f,q,d,t,y}}{\text{TurbineEfficiencyCSP}} \quad \forall g,z,q,d,t,y
 \]</div>
 <p>Energy balance equation for CSP operation.</p>
 <div class="math notranslate nohighlight">
@@ -1706,17 +1706,17 @@ title="Print to PDF"
 <p>Capacity evolution for existing generators.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} &gt; \text{Commission\_year}_g)
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{ord}(y) = 1 \wedge \text{StartYear} &gt; \text{CommissionYear}_g)
 \]</div>
 <p>Initial capacity for existing generators.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{Commission\_year}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{Commission\_year}_g \wedge \text{ord}(y) &lt; \text{Retirement\_year}_{\text{EG}})
+\text{cap}_{g \in \text{EG},y} = \text{GenCap}_g \quad \forall (y, g \in \text{EG}): (\text{CommissionYear}_g \geq \text{StartYear} \wedge \text{ord}(y) \geq \text{CommissionYear}_g \wedge \text{ord}(y) &lt; \text{RetirementYear}_{\text{EG}})
 \]</div>
 <p>Capacity during operational period.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{Retirement\_year}_{\text{EG}})
+\text{cap}_{g \in \text{EG},y} = 0 \quad \forall (y, g \in \text{EG}): (\text{ord}(y) \geq \text{RetirementYear}_{\text{EG}})
 \]</div>
 <p>Zero capacity after retirement.</p>
 <div class="math notranslate nohighlight">
@@ -1736,7 +1736,7 @@ title="Print to PDF"
 <p>Maximum capacity constraint.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) &lt; \text{Commission\_year}_g)
+\text{cap}_{g,y} = 0 \quad \forall (y, g): (\text{ord}(y) &lt; \text{CommissionYear}_g)
 \]</div>
 <p>Zero capacity before commissioning.</p>
 </section>
@@ -1745,55 +1745,55 @@ title="Print to PDF"
 <p>The following equations govern the operation of storage systems.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storage}_{\text{st},z,q,d,t=1,y} = \text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
+\text{storage}_{\text{st},z,q,d,t=1,y} = \text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{g,z,q,d,t=1,y} - \text{gen}_{\text{st},z,q,d,t=1,y} \quad \forall t=1
 \]</div>
 <p>Initial storage level.</p>
 <div class="math notranslate nohighlight">
 \[
 \text{storage}_{\text{st},z,q,d,t&gt;1,y} = \text{storage}_{\text{st},z,q,d,t-1,y} +
-\text{Storage\_efficiency}_{\text{st}} \cdot \text{storage\_inj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t&gt;1
+\text{StorageEfficiency}_{\text{st}} \cdot \text{storageInj}_{\text{st},z,q,d,t-1,y} - \text{gen}_{\text{st},z,q,d,t-1,y} \quad \forall t&gt;1
 \]</div>
 <p>Storage level evolution.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storage\_inj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
+\text{storageInj}_{\text{stp},q,d,t,y} = \text{Cap}_{\text{so},y} \cdot \text{pStoragePVProfile}_{\text{so},q,d,t,y}
 \]</div>
 <p>Storage injection for PV storage.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storage\_inj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
+\text{storageInj}_{\text{st},q,d,t,y} \leq \text{Cap}_{\text{st},y}
 \]</div>
 <p>Maximum injection rate.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storage}_{\text{st},q,d,t,y} \leq \text{Storage\_Capacity}_{\text{st},y}
+\text{storage}_{\text{st},q,d,t,y} \leq \text{StorageCapacity}_{\text{st},y}
 \]</div>
 <p>Maximum storage level.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storage\_inj}_{\text{st},q,d,t,y} - \text{storage\_inj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t&gt;1
+\text{storageInj}_{\text{st},q,d,t,y} - \text{storageInj}_{z,q,d,t-1,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampDn}_{\text{st}} \quad \forall t&gt;1
 \]</div>
 <p>Ramping down constraint.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{storage\_inj}_{\text{st},q,d,t-1,y} - \text{storage\_inj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t&gt;1
+\text{storageInj}_{\text{st},q,d,t-1,y} - \text{storageInj}_{z,q,d,t,y} \leq \text{Cap}_{\text{st},y} \cdot \text{RampUp}_{\text{st}} \quad \forall t&gt;1
 \]</div>
 <p>Ramping up constraint.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{Storage\_Capacity}_{\text{EG},y} = \text{Storage\_Capacity}_{\text{EG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{EG},y-1} - \text{Retire}_{\text{Storage\_Capacity}_{\text{EG},y-1}} \quad \forall y&gt;1
+\text{StorageCapacity}_{\text{EG},y} = \text{StorageCapacity}_{\text{EG},y-1} +
+\text{BuildStorageCapacity}_{\text{EG},y-1} - \text{Retire}_{\text{StorageCapacity}_{\text{EG},y-1}} \quad \forall y&gt;1
 \]</div>
 <p>Storage capacity evolution for existing storage.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Storage\_Capacity}_{\text{NG},y-1} +
-\text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y&gt;1
+\text{StorageCapacity}_{\text{NG},y} = \text{StorageCapacity}_{\text{NG},y-1} +
+\text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y&gt;1
 \]</div>
 <p>Storage capacity evolution for new storage.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{Storage\_Capacity}_{\text{NG},y} = \text{Build\_Storage\_Capacity}_{\text{NG},y-1} \quad \forall y=1
+\text{StorageCapacity}_{\text{NG},y} = \text{BuildStorageCapacity}_{\text{NG},y-1} \quad \forall y=1
 \]</div>
 <p>Initial storage capacity for new storage.</p>
 <div class="math notranslate nohighlight">
@@ -1803,12 +1803,12 @@ title="Print to PDF"
 <p>Minimum storage capacity requirement.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{StorageCapacity}_{\text{st},y} \leq \text{Maximum\_Storage\_Energy}_{\text{st},y} + \text{Maximum\_Storage\_Energy}_{\text{CSP},y}
+\text{StorageCapacity}_{\text{st},y} \leq \text{MaximumStorageEnergy}_{\text{st},y} + \text{MaximumStorageEnergy}_{\text{CSP},y}
 \]</div>
 <p>Maximum storage capacity limit.</p>
 <div class="math notranslate nohighlight">
 \[
-\sum_{y} \text{Build\_Storage\_Capacity}_{\text{EG},y} \leq \text{Maximum\_Storage\_Energy}_{\text{EG},y}
+\sum_{y} \text{BuildStorageCapacity}_{\text{EG},y} \leq \text{MaximumStorageEnergy}_{\text{EG},y}
 \]</div>
 <p>Total storage capacity build limit.</p>
 </section>
@@ -1827,12 +1827,12 @@ title="Print to PDF"
 <p>Minimum total new capacity.</p>
 <div class="math notranslate nohighlight">
 \[
-\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{Commission\_year}_g &gt; \text{StartYear})
+\sum_y \text{build}_{g \in \text{EG},y} \leq \text{GenCap}_{g \in \text{EG}} \quad \forall g: (\text{CommissionYear}_g &gt; \text{StartYear})
 \]</div>
 <p>Maximum build limit for existing generators.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{build}_{g \in \text{NG},y} \leq \text{Annual\_built\_limit}_y \cdot \text{WeightYear}_y
+\text{build}_{g \in \text{NG},y} \leq \text{AnnualBuiltLimit}_y \cdot \text{WeightYear}_y
 \]</div>
 <p>Annual build limit.</p>
 <div class="math notranslate nohighlight">
@@ -1847,7 +1847,7 @@ title="Print to PDF"
 <p>Discrete capacity retirements.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{Commission\_year}_g)
+\text{build}_{g,y} = 0 \quad \forall y: (\text{ord}(y) \leq \text{CommissionYear}_g)
 \]</div>
 <p>No builds before commission year.</p>
 <div class="math notranslate nohighlight">
@@ -1871,22 +1871,22 @@ title="Print to PDF"
 <p>These equations enforce environmental constraints.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{emissions\_Zo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\text{emissionsZo}_{z,y} = \sum_{g \in Z,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
 \]</div>
 <p>Zone emissions calculation.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{emissions\_Zo}_{z,y} \leq \text{Zo\_emission\_cap}_{y,z}
+\text{emissionsZo}_{z,y} \leq \text{ZoEmissionCap}_{y,z}
 \]</div>
 <p>Zone emissions cap.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{carbon\_emission}_f \cdot \text{Duration}_{q,d,t,y} \right)
+\text{emissions}_{z,y} = \sum_{g,q,d,t} \left( \text{gen}_{g,f,q,d,t,y} \cdot \text{HeatRate}_{g,f} \cdot \text{CarbonEmission}_f \cdot \text{Duration}_{q,d,t,y} \right)
 \]</div>
 <p>System emissions calculation.</p>
 <div class="math notranslate nohighlight">
 \[
-\text{emissions}_{z,y} \leq \text{Sy\_emission\_cap}_y
+\text{emissions}_{z,y} \leq \text{SyEmissionCap}_y
 \]</div>
 <p>System emissions cap.</p>
 </section>
@@ -2155,7 +2155,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Nov 06, 2025.<br>
+Last updated on Nov 07, 2025.<br>
 </p>
   </div>
   
