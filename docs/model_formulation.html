@@ -58,6 +58,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/model_formulation';</script>
     <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/model_formulation.html" />
     <link rel="index" title="Index" href="../genindex.html" />
@@ -1312,16 +1314,19 @@ title="Print to PDF"
 <section id="objective-function-and-cost-components">
 <h2>Objective Function and Cost Components<a class="headerlink" href="#objective-function-and-cost-components" title="Permalink to this heading">#</a></h2>
 <p>The system-wide net present value minimization is written as</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vNPVCost = \sum_{y} pRR_{y} \cdot pWeightYear_{y} \cdot \Big(
+<div class="math notranslate nohighlight">
+\[
+vNPVCost = \sum_{y} pRR_{y} \cdot pWeightYear_{y} \cdot \Big(
   \sum_{c} vYearlyTotalCost_{c,y}
   + vYearlyUnmetPlanningReserveCostSystem_{y}
   + vYearlyUnmetSpinningReserveCostSystem_{y}
   + vYearlyCO2BackstopCostSystem_{y}
 \Big).
-</pre></div>
-</div>
+\]</div>
 <p>The yearly country cost balance expands to</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\begin{aligned}
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
 vYearlyTotalCost_{c,y} ={}&amp; vYearlyUnmetReserveCostCountry_{c,y}
                          + vYearlyCO2BackstopCostCountry_{c,y} \\
 &amp;+ \sum_{z \in c} \Big(
@@ -1332,8 +1337,7 @@ vYearlyTotalCost_{c,y} ={}&amp; vYearlyUnmetReserveCostCountry_{c,y}
 &amp;\qquad\qquad\quad + vYearlyCurtailmentCost_{z,y} + vYearlySurplus_{z,y}
   \Big).
 \end{aligned}
-</pre></div>
-</div>
+\end{split}\]</div>
 <p>Annual cost components are defined as follows:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vYearlyFOMCost</span></code>: fixed O&amp;M costs for generators, storage, and CSP thermal fields.</p></li>
@@ -1352,11 +1356,14 @@ vYearlyTotalCost_{c,y} ={}&amp; vYearlyUnmetReserveCostCountry_{c,y}
 <section id="demand-and-supply-balance">
 <h2>Demand and Supply Balance<a class="headerlink" href="#demand-and-supply-balance" title="Permalink to this heading">#</a></h2>
 <p>The demand balance (<code class="docutils literal notranslate"><span class="pre">eDemSupply</span></code>) equates demand to the composite supply variable:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y} = vSupply_{z,q,d,t,y}.
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y} = vSupply_{z,q,d,t,y}.
+\]</div>
 <p><code class="docutils literal notranslate"><span class="pre">vSupply</span></code> is defined in <code class="docutils literal notranslate"><span class="pre">eDefineSupply</span></code>:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\begin{aligned}
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
 vSupply_{z,q,d,t,y} ={}&amp;
   \sum_{g,f} vPwrOut_{g,f,q,d,t,y}
   - \sum_{z_2} vFlow_{z,z_2,q,d,t,y} \\
@@ -1366,31 +1373,35 @@ vSupply_{z,q,d,t,y} ={}&amp;
 &amp;- \sum_{z_{\text{ext}}} vYearlyExportExternal_{z,z_{\text{ext}},q,d,t,y} \\
 &amp;+ vUSE_{z,q,d,t,y} - vSurplus_{z,q,d,t,y}.
 \end{aligned}
-</pre></div>
-</div>
+\end{split}\]</div>
 <p>See <span class="xref myst">Demand and Supply Balance</span> for a detailed discussion.</p>
 </section>
 <section id="capacity-evolution">
 <h2>Capacity Evolution<a class="headerlink" href="#capacity-evolution" title="Permalink to this heading">#</a></h2>
 <p>Capacity trajectories for each generator are tracked through:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vCap_{g,y_0} = pGenData_{g,\text{Capacity}} + vBuild_{g,y_0} - vRetire_{g,y_0}
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+vCap_{g,y_0} = pGenData_{g,\text{Capacity}} + vBuild_{g,y_0} - vRetire_{g,y_0}
+\]</div>
 <p>for the first modelled year <code class="docutils literal notranslate"><span class="pre">y₀</span></code>, when the unit exists and starts before the study horizon.</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vCap_{eg,y} = vCap_{eg,y-1} + vBuild_{eg,y} - vRetire_{eg,y}
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+vCap_{eg,y} = vCap_{eg,y-1} + vBuild_{eg,y} - vRetire_{eg,y}
+\]</div>
 <p>for existing assets (<code class="docutils literal notranslate"><span class="pre">eCapacityEvolutionExist</span></code>), and</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vCap_{ng,y} = vCap_{ng,y-1} + vBuild_{ng,y}
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+vCap_{ng,y} = vCap_{ng,y-1} + vBuild_{ng,y}
+\]</div>
 <p>for new entrants without retirement (<code class="docutils literal notranslate"><span class="pre">eCapacityEvolutionNew</span></code>). Discrete build/retirement decisions are enforced through</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vBuild_{ng,y} = pGenData_{ng,\text{UnitSize}} \cdot vBuiltCapVar_{ng,y},
-</pre></div>
-</div>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vRetire_{eg,y} = pGenData_{eg,\text{UnitSize}} \cdot vRetireCapVar_{eg,y},
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+vBuild_{ng,y} = pGenData_{ng,\text{UnitSize}} \cdot vBuiltCapVar_{ng,y},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+vRetire_{eg,y} = pGenData_{eg,\text{UnitSize}} \cdot vRetireCapVar_{eg,y},
+\]</div>
 <p>with additional bounds on cumulative builds and commissioning years (<code class="docutils literal notranslate"><span class="pre">eInitialBuildLimit</span></code>, <code class="docutils literal notranslate"><span class="pre">eBuiltCap</span></code>, <code class="docutils literal notranslate"><span class="pre">eRetireCap</span></code>). Storage and CSP thermal capacity follow analogous recursions (<code class="docutils literal notranslate"><span class="pre">eCapStor*</span></code>, <code class="docutils literal notranslate"><span class="pre">eCapTherm*</span></code>).</p>
 </section>
 <section id="generator-operating-limits">
@@ -1398,53 +1409,60 @@ vSupply_{z,q,d,t,y} ={}&amp;
 <section id="dispatch-and-reserve-envelope">
 <h3>Dispatch and Reserve Envelope<a class="headerlink" href="#dispatch-and-reserve-envelope" title="Permalink to this heading">#</a></h3>
 <p>The joint dispatch and reserve constraint (<code class="docutils literal notranslate"><span class="pre">eJointResCap</span></code>) caps the combined output and spinning reserve at the installed capacity with optional overloading:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_f vPwrOut_{g,f,q,d,t,y} + vSpinningReserve_{g,q,d,t,y}
+<div class="math notranslate nohighlight">
+\[
+\sum_f vPwrOut_{g,f,q,d,t,y} + vSpinningReserve_{g,q,d,t,y}
   \le (1 + pGenData_{g,\text{Overloadfactor}}) \cdot vCap_{g,y}.
-</pre></div>
-</div>
+\]</div>
 </section>
 <section id="availability-and-minimum-output">
 <h3>Availability and Minimum Output<a class="headerlink" href="#availability-and-minimum-output" title="Permalink to this heading">#</a></h3>
 <p>Seasonal availability (<code class="docutils literal notranslate"><span class="pre">eMaxCF</span></code>) limits the energy produced within each quarter:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_{f,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t}
+<div class="math notranslate nohighlight">
+\[
+\sum_{f,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t}
  \le pAvailability_{g,q} \cdot vCap_{g,y} \cdot \sum_{d,t} pHours_{q,d,t}.
-</pre></div>
-</div>
+\]</div>
 <p>Optional minimum loading requirements (<code class="docutils literal notranslate"><span class="pre">eMinGen</span></code>) enforce:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_f vPwrOut_{g,f,q,d,t,y} \ge pGenData_{g,\text{MinLimitShare}} \cdot vCap_{g,y},
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f vPwrOut_{g,f,q,d,t,y} \ge pGenData_{g,\text{MinLimitShare}} \cdot vCap_{g,y},
+\]</div>
 <p>whenever the flag <code class="docutils literal notranslate"><span class="pre">fApplyMinGenerationConstraint</span></code> is active.</p>
 </section>
 <section id="renewable-generation-with-curtailment">
 <h3>Renewable Generation with Curtailment<a class="headerlink" href="#renewable-generation-with-curtailment" title="Permalink to this heading">#</a></h3>
 <p>Variable renewable energy (VRE) generators follow exogenous profiles (<code class="docutils literal notranslate"><span class="pre">eVREProfile</span></code>):</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vPwrOut_{g,f,q,d,t,y} + vCurtailedVRE_{z,g,q,d,t,y}
+<div class="math notranslate nohighlight">
+\[
+vPwrOut_{g,f,q,d,t,y} + vCurtailedVRE_{z,g,q,d,t,y}
   = pVREgenProfile_{g,q,d,t} \cdot vCap_{g,y}.
-</pre></div>
-</div>
+\]</div>
 <p>Curtailment is tracked explicitly and priced through <code class="docutils literal notranslate"><span class="pre">vYearlyCurtailmentCost</span></code>.</p>
 </section>
 <section id="fuel-consumption">
 <h3>Fuel Consumption<a class="headerlink" href="#fuel-consumption" title="Permalink to this heading">#</a></h3>
 <p>Fuel use is accounted for via <code class="docutils literal notranslate"><span class="pre">eFuel</span></code>:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vFuel_{z,f,y} = \sum_{g,q,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t} \cdot pHeatRate_{g,f}.
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[
+vFuel_{z,f,y} = \sum_{g,q,d,t} vPwrOut_{g,f,q,d,t,y} \cdot pHours_{q,d,t} \cdot pHeatRate_{g,f}.
+\]</div>
 <p>Optional limits (<code class="docutils literal notranslate"><span class="pre">eFuelLimit</span></code>) apply upper bounds by country and fuel.</p>
 </section>
 </section>
 <section id="ramp-rate-constraints">
 <h2>Ramp Rate Constraints<a class="headerlink" href="#ramp-rate-constraints" title="Permalink to this heading">#</a></h2>
 <p>When the ramp flag is enabled, inter-hour changes must satisfy:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_f vPwrOut_{g,f,q,d,t,y} - \sum_f vPwrOut_{g,f,q,d,t-1,y}
+<div class="math notranslate nohighlight">
+\[
+\sum_f vPwrOut_{g,f,q,d,t,y} - \sum_f vPwrOut_{g,f,q,d,t-1,y}
   \le vCap_{g,y} \cdot pGenData_{g,\text{RampUpRate}},
-</pre></div>
-</div>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_f vPwrOut_{g,f,q,d,t-1,y} - \sum_f vPwrOut_{g,f,q,d,t,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_f vPwrOut_{g,f,q,d,t-1,y} - \sum_f vPwrOut_{g,f,q,d,t,y}
   \le vCap_{g,y} \cdot pGenData_{g,\text{RampDnRate}},
-</pre></div>
-</div>
+\]</div>
 <p>(<code class="docutils literal notranslate"><span class="pre">eRampUpLimit</span></code>, <code class="docutils literal notranslate"><span class="pre">eRampDnLimit</span></code>), with analogous bounds for storage charging (<code class="docutils literal notranslate"><span class="pre">eChargeRampUpLimit</span></code>, <code class="docutils literal notranslate"><span class="pre">eChargeRampDownLimit</span></code>).</p>
 </section>
 <section id="reserve-requirements">
@@ -1452,53 +1470,59 @@ vSupply_{z,q,d,t,y} ={}&amp;
 <section id="generator-level-reserve-limits">
 <h3>Generator-Level Reserve Limits<a class="headerlink" href="#generator-level-reserve-limits" title="Permalink to this heading">#</a></h3>
 <p>Maximum reserve provision is enforced through:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vSpinningReserve_{g,q,d,t,y}
+<div class="math notranslate nohighlight">
+\[
+vSpinningReserve_{g,q,d,t,y}
   \le vCap_{g,y} \cdot pGenData_{g,\text{ResLimShare}},
-</pre></div>
-</div>
+\]</div>
 <p>(<code class="docutils literal notranslate"><span class="pre">eSpinningReserveLim</span></code>), with an additional VRE-specific scaling (<code class="docutils literal notranslate"><span class="pre">eSpinningReserveLimVRE</span></code>) that multiplies by the hourly profile.</p>
 </section>
 <section id="country-and-system-requirements">
 <h3>Country and System Requirements<a class="headerlink" href="#country-and-system-requirements" title="Permalink to this heading">#</a></h3>
 <p>Spinning reserve requirements are applied at the country and system level:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_{z \in c} \sum_{g \in z} vSpinningReserve_{g,q,d,t,y}
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c} \sum_{g \in z} vSpinningReserve_{g,q,d,t,y}
   + vUnmetSpinningReserveCountry_{c,q,d,t,y}
   = pSpinningReserveReqCountry_{c,y}
-    + \sum_{g \in \text{VRE\_noROR}} \sum_{f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct,
-</pre></div>
-</div>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_{g} vSpinningReserve_{g,q,d,t,y}
+    + \sum_{g \in \text{VRENoROR}} \sum_{f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct,
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g} vSpinningReserve_{g,q,d,t,y}
   + vUnmetSpinningReserveSystem_{q,d,t,y}
   = pSpinningReserveReqSystem_{y}
-    + \sum_{g \in \text{VRE\_noROR}} \sum_{f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct.
-</pre></div>
-</div>
+    + \sum_{g \in \text{VRENoROR}} \sum_{f} vPwrOut_{g,f,q,d,t,y} \cdot psVREForecastErrorPct.
+\]</div>
 <p>Planning reserve margins relate capacity credits to peak demand:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_{z \in c} \sum_{g \in z} vCap_{g,y} \cdot pCapacityCredit_{g,y}
+<div class="math notranslate nohighlight">
+\[
+\sum_{z \in c} \sum_{g \in z} vCap_{g,y} \cdot pCapacityCredit_{g,y}
   + vUnmetPlanningReserveCountry_{c,y}
   \ge \bigl(1 + pPlanningReserveMargin_{c}\bigr) \cdot \max_{q,d,t}
       \sum_{z \in c} pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y},
-</pre></div>
-</div>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\sum_{g} vCap_{g,y} \cdot pCapacityCredit_{g,y}
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+\sum_{g} vCap_{g,y} \cdot pCapacityCredit_{g,y}
   + vUnmetPlanningReserveSystem_{y}
   \ge \bigl(1 + sReserveMarginPct\bigr) \cdot \max_{q,d,t}
       \sum_z pDemandData_{z,q,d,y,t} \cdot pEnergyEfficiencyFactor_{z,y}.
-</pre></div>
-</div>
+\]</div>
 <p>Interconnection capacity can contribute to these margins when the relevant flags are enabled.</p>
 </section>
 </section>
 <section id="transmission-and-trade-constraints">
 <h2>Transmission and Trade Constraints<a class="headerlink" href="#transmission-and-trade-constraints" title="Permalink to this heading">#</a></h2>
 <p>Internal transfers are bounded by existing and expandable capacities:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vFlow_{z,z_2,q,d,t,y}
+<div class="math notranslate nohighlight">
+\[
+vFlow_{z,z_2,q,d,t,y}
   \le pTransferLimit_{z,z_2,q,y}
      + vNewTransmissionLine_{z,z_2,y}
        \cdot pNewTransmission_{z,z_2,\text{CapacityPerLine}}
        \cdot fAllowTransferExpansion.
-</pre></div>
-</div>
+\]</div>
 <p>Symmetry and cumulative build constraints (<code class="docutils literal notranslate"><span class="pre">eCumulativeTransferExpansion</span></code>, <code class="docutils literal notranslate"><span class="pre">eSymmetricTransferBuild</span></code>) keep both directions consistent.</p>
 <p>External exchange limits include:</p>
 <ul class="simple">
@@ -1511,37 +1535,32 @@ vSupply_{z,q,d,t,y} ={}&amp;
 <section id="storage-operations">
 <h2>Storage Operations<a class="headerlink" href="#storage-operations" title="Permalink to this heading">#</a></h2>
 <p>Storage devices (<code class="docutils literal notranslate"><span class="pre">st</span></code>) follow these relations:</p>
-<ul>
-<li><p><strong>State-of-charge bound</strong> (<code class="docutils literal notranslate"><span class="pre">eSOCUpperBound</span></code>):</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vStorage_{st,q,d,t,y} \le vCapStor_{st,y}.
-</pre></div>
-</div>
-</li>
-<li><p><strong>Power and energy limits</strong> (<code class="docutils literal notranslate"><span class="pre">eChargeCapacityLimit</span></code>, <code class="docutils literal notranslate"><span class="pre">eStorageCapMinConstraint</span></code>):</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vStorInj_{st,q,d,t,y} \le vCap_{st,y}, \qquad
+<ul class="simple">
+<li><p><strong>State-of-charge bound</strong> (<code class="docutils literal notranslate"><span class="pre">eSOCUpperBound</span></code>):
+$<span class="math notranslate nohighlight">\(
+vStorage_{st,q,d,t,y} \le vCapStor_{st,y}.
+\)</span>$</p></li>
+<li><p><strong>Power and energy limits</strong> (<code class="docutils literal notranslate"><span class="pre">eChargeCapacityLimit</span></code>, <code class="docutils literal notranslate"><span class="pre">eStorageCapMinConstraint</span></code>):
+$<span class="math notranslate nohighlight">\(
+vStorInj_{st,q,d,t,y} \le vCap_{st,y}, \qquad
 vCapStor_{st,y} \ge vCap_{st,y}.
-</pre></div>
-</div>
-</li>
-<li><p><strong>Net charge definition</strong> (<code class="docutils literal notranslate"><span class="pre">eNetChargeBalance</span></code>):</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vStorNet_{st,q,d,t,y} = \sum_f vPwrOut_{st,f,q,d,t,y} - vStorInj_{st,q,d,t,y}.
-</pre></div>
-</div>
-</li>
-<li><p><strong>Inter-hour SOC dynamics</strong> (<code class="docutils literal notranslate"><span class="pre">eStateOfChargeUpdate</span></code>, <code class="docutils literal notranslate"><span class="pre">eStateOfChargeInit</span></code>):</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vStorage_{st,q,d,t,y}
+\)</span>$</p></li>
+<li><p><strong>Net charge definition</strong> (<code class="docutils literal notranslate"><span class="pre">eNetChargeBalance</span></code>):
+$<span class="math notranslate nohighlight">\(
+vStorNet_{st,q,d,t,y} = \sum_f vPwrOut_{st,f,q,d,t,y} - vStorInj_{st,q,d,t,y}.
+\)</span>$</p></li>
+<li><p><strong>Inter-hour SOC dynamics</strong> (<code class="docutils literal notranslate"><span class="pre">eStateOfChargeUpdate</span></code>, <code class="docutils literal notranslate"><span class="pre">eStateOfChargeInit</span></code>):
+$<span class="math notranslate nohighlight">\(
+vStorage_{st,q,d,t,y}
   = pStorData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
     - \sum_f vPwrOut_{st,f,q,d,t,y}
     + vStorage_{st,q,d,t-1,y},
-</pre></div>
-</div>
-<p>with an initialization equation for the first hour of each day.</p>
-</li>
-<li><p><strong>Reserve contribution</strong> (<code class="docutils literal notranslate"><span class="pre">eSOCSupportsReserve</span></code>):</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>vSpinningReserve_{st,q,d,t,y} \le vStorage_{st,q,d,t,y}.
-</pre></div>
-</div>
-</li>
+\)</span>$
+with an initialization equation for the first hour of each day.</p></li>
+<li><p><strong>Reserve contribution</strong> (<code class="docutils literal notranslate"><span class="pre">eSOCSupportsReserve</span></code>):
+$<span class="math notranslate nohighlight">\(
+vSpinningReserve_{st,q,d,t,y} \le vStorage_{st,q,d,t,y}.
+\)</span>$</p></li>
 </ul>
 <p>PV-coupled batteries (<code class="docutils literal notranslate"><span class="pre">stp</span></code>) are additionally capped by the paired PV capacity profile (<code class="docutils literal notranslate"><span class="pre">eChargeLimitWithPVProfile</span></code>).</p>
 </section>
