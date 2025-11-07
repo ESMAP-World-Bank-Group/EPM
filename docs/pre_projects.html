@@ -1168,87 +1168,76 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-climatic-overview">
-   2. Run Climatic Overview
+  <a class="reference internal nav-link" href="#run-the-climatic-overview-pre-analysis-prepare-data-climatic-overview-ipynb">
+   2. Run the Climatic Overview (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pre-analysis/prepare-data/climatic_overview.ipynb
+    </span>
+   </code>
+   )
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-solar-and-wind-information">
-   3. Get Solar and Wind Information
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-1-irena-data">
-     Option 1 — IRENA Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-2-renewable-ninja-data">
-     Option 2 — Renewable Ninja Data
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#make-generation-list">
-   4. Make Generation List
+  <a class="reference internal nav-link" href="#refresh-renewable-resource-data-open-data-stage">
+   3. Refresh Renewable Resource Data (open-data stage)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generate-load-profile">
-   5. Generate Load Profile
+  <a class="reference internal nav-link" href="#build-demand-profiles-load-profile-treatment-ipynb-load-profile-ipynb-load-plot-ipynb">
+   4. Build Demand Profiles (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     load_profile_treatment.ipynb
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     load_profile.ipynb
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     load_plot.ipynb
+    </span>
+   </code>
+   )
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#smooth-existing-load-data">
-     5.1 Smooth Existing Load Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generate-synthetic-load-profile">
-     5.2 Generate Synthetic Load Profile
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generate-representative-days">
-   6. Generate Representative Days
+  <a class="reference internal nav-link" href="#generate-representative-days-pre-analysis-prepare-data-representative-days-representative-days-ipynb">
+   5. Generate Representative Days (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pre-analysis/prepare-data/representative_days/representative_days.ipynb
+    </span>
+   </code>
+   )
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hydro-data-preparation">
-   7. Hydro Data Preparation
+  <a class="reference internal nav-link" href="#hydropower-preparation-hydro-availability-ipynb-helpers">
+   6. Hydropower Preparation (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hydro_availability.ipynb
+    </span>
+   </code>
+   + helpers)
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#monthly-capacity-factor">
-     7.1 Monthly Capacity Factor
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hydro-basin-mapping">
-     7.2 Hydro Basin Mapping
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-hydro-analyses">
-     7.3 Advanced Hydro Analyses
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#hydro-inflow-analysis">
-       Hydro Inflow Analysis
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#hydro-atlas-comparison">
-       Hydro Atlas Comparison
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supply-vs-demand-balance-pre-analysis-prepare-data-supply-demand-balance-ipynb">
+   7. Supply vs Demand Balance (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pre-analysis/prepare-data/supply_demand_balance.ipynb
+    </span>
+   </code>
+   )
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#notes">
@@ -1266,283 +1255,159 @@ title="Print to PDF"
               
   <section class="tex2jax_ignore mathjax_ignore" id="data-preparation-workflow-documentation">
 <h1>Data Preparation Workflow Documentation<a class="headerlink" href="#data-preparation-workflow-documentation" title="Permalink to this heading">#</a></h1>
-<p>This document details the data preparation workflow for energy modeling using various Jupyter notebooks. It covers climatic data analysis, renewable energy profiles, generation datasets, load profiles, representative days, and hydropower data integration.</p>
+<p>Use this guide to run the <strong>pre-analysis</strong> notebooks in the right order and generate EPM-ready inputs. The primary workflows now live inside <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/</span></code>, while <code class="docutils literal notranslate"><span class="pre">pre-analysis/open-data/</span></code> remains available whenever you need to refresh the underlying renewable or hydro datasets.</p>
 <hr class="docutils" />
 <section id="summary-table">
 <h2>Summary Table<a class="headerlink" href="#summary-table" title="Permalink to this heading">#</a></h2>
 <table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Step</p></th>
-<th class="head"><p>Notebook</p></th>
-<th class="head"><p>Key Inputs</p></th>
-<th class="head"><p>Key Outputs</p></th>
+<th class="head"><p>Notebook(s)</p></th>
+<th class="head"><p>Key inputs</p></th>
+<th class="head"><p>Outputs / Notes</p></th>
 </tr>
 </thead>
 <tbody>
 <tr class="row-even"><td><p>1</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></p></td>
-<td><p>List of countries/zones</p></td>
-<td><p>Perimeter definition</p></td>
+<td><p>Country/zone perimeter</p></td>
+<td><p>Defines the modeling scope consumed by every notebook.</p></td>
 </tr>
 <tr class="row-odd"><td><p>2</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/climatic/climatic_overview.ipynb</span></code></p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></p></td>
-<td><p>Climate overview plots</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/climatic_overview.ipynb</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>, ERA5-Land data</p></td>
+<td><p>Season definitions, precipitation/temperature plots, CSV summaries.</p></td>
 </tr>
 <tr class="row-even"><td><p>3</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">climatic/get_renewables_irena_data.ipynb</span></code></p></td>
-<td><p>List of countries (SPLAT names)</p></td>
-<td><p>Renewable profiles (solar, wind)</p></td>
-</tr>
-<tr class="row-odd"><td><p>3</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">climatic/get_renewables_ninja_data.ipynb</span></code></p></td>
-<td><p>Coordinates from <code class="docutils literal notranslate"><span class="pre">generation/get_renewables_coordinates.ipynb</span></code></p></td>
-<td><p>Renewable profiles (solar, wind)</p></td>
-</tr>
-<tr class="row-even"><td><p>3</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">generation/get_renewables_coordinates.ipynb</span></code></p></td>
-<td><p>Country names or zones</p></td>
-<td><p>Coordinates for Renewable Ninja</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/open-data/get_renewables_irena_data.ipynb</span></code> or <code class="docutils literal notranslate"><span class="pre">get_renewable_ninja_data.ipynb</span></code></p></td>
+<td><p>SPLAT names or coordinates, API keys</p></td>
+<td><p>Fresh wind/solar capacity factors when you need to refresh raw inputs before re-running prepare-data notebooks.</p></td>
 </tr>
 <tr class="row-odd"><td><p>4</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">global_database_overview.ipynb</span></code></p></td>
-<td><p>None</p></td>
-<td><p>Generation project map, aggregated data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/load_profile_treatment.ipynb</span></code> → <code class="docutils literal notranslate"><span class="pre">load_profile.ipynb</span></code></p></td>
+<td><p>Historical load measurements, monthly means</p></td>
+<td><p>Cleaned load history plus synthetic/forecast hourly load profiles.</p></td>
 </tr>
-<tr class="row-even"><td><p>5</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">load/treat_load_profile.ipynb</span></code></p></td>
-<td><p>Existing load data</p></td>
-<td><p>Smoothed load profiles</p></td>
+<tr class="row-even"><td><p>4b</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/load_plot.ipynb</span></code></p></td>
+<td><p>Outputs from step 4</p></td>
+<td><p>Shareable demand plots for QA/stakeholder review.</p></td>
 </tr>
 <tr class="row-odd"><td><p>5</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">load/generate_load_profile.ipynb</span></code></p></td>
-<td><p>Hourly load shapes, monthly means</p></td>
-<td><p>Synthetic load profiles</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/representative_days/representative_days.ipynb</span></code></p></td>
+<td><p>Climate outputs (step 2), load profiles (step 4), renewables</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pHours.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">load/pDemandProfile.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">supply/pVREProfile.csv</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p>6</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">representative_days.ipynb</span></code></p></td>
-<td><p>Climate and load profiles</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">pHours.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">load/pDemandProfile.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">supply/pVREProfile.csv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/hydro_availability.ipynb</span></code> (+ <code class="docutils literal notranslate"><span class="pre">hydro_representative_years.ipynb</span></code> if sampling years)</p></td>
+<td><p>Hydropower profiles/Atlas tables, <code class="docutils literal notranslate"><span class="pre">pHours.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">pGenDataInput_clean.csv</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pAvailabilityCustom.csv</span></code>, ROR <code class="docutils literal notranslate"><span class="pre">pVREgenProfile.csv</span></code>, optional scenario variants.</p></td>
 </tr>
 <tr class="row-odd"><td><p>7</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">hydro_capacity_factor.ipynb</span></code></p></td>
-<td><p>IRENA hydropower atlas, <code class="docutils literal notranslate"><span class="pre">supply/pGenDatExcel.csv</span></code></p></td>
-<td><p>Monthly hydro capacity factors</p></td>
-</tr>
-<tr class="row-even"><td><p>7</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">hydro_basins_map.ipynb</span></code></p></td>
-<td><p>Basin shapefiles</p></td>
-<td><p>Hydro basin maps</p></td>
-</tr>
-<tr class="row-odd"><td><p>7</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">hydro_inflow_analysis.ipynb</span></code></p></td>
-<td><p>GRDC inflow data</p></td>
-<td><p>Inflow analysis</p></td>
-</tr>
-<tr class="row-even"><td><p>7</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">hydro_atlas_comparison.ipynb</span></code></p></td>
-<td><p>Utility data, IRENA atlas</p></td>
-<td><p>Atlas comparison plots</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/supply_demand_balance.ipynb</span></code></p></td>
+<td><p>Demand, renewables, hydro availability, generation fleet</p></td>
+<td><p>Balance dashboards ensuring supply meets demand before launching GAMS runs.</p></td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<div><p><strong>Tip:</strong> open-data notebooks such as <code class="docutils literal notranslate"><span class="pre">hydro_inflow.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">hydro_basins.ipynb</span></code>, and <code class="docutils literal notranslate"><span class="pre">get_generation_maps.ipynb</span></code> are your toolkit for refreshing the raw datasets that feed the prepare-data workflows above.</p>
+</div></blockquote>
 </section>
 <hr class="docutils" />
 <section id="define-perimeter-countries-zones">
 <h2>1. Define Perimeter Countries/Zones<a class="headerlink" href="#define-perimeter-countries-zones" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Define the perimeter of countries or zones to study.</p></li>
-<li><p>Fill the file: <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></p></li>
-<li><p>This file should include the names of countries/zones used throughout the analysis.</p></li>
+<li><p>Populate <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code> in the repo root with the countries or zones that match your study.</p></li>
+<li><p>Use consistent SPLAT/EPM names because these IDs drive joins in both <code class="docutils literal notranslate"><span class="pre">prepare-data</span></code> and <code class="docutils literal notranslate"><span class="pre">open-data</span></code>.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="run-climatic-overview">
-<h2>2. Run Climatic Overview<a class="headerlink" href="#run-climatic-overview" title="Permalink to this heading">#</a></h2>
-<p>Notebook: `pre-analysis/climatic/climatic_overview.ipynb``</p>
+<section id="run-the-climatic-overview-pre-analysis-prepare-data-climatic-overview-ipynb">
+<h2>2. Run the Climatic Overview (<code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/climatic_overview.ipynb</span></code>)<a class="headerlink" href="#run-the-climatic-overview-pre-analysis-prepare-data-climatic-overview-ipynb" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Objective: Understand precipitation and temperature patterns to determine representative seasons.</p></li>
-<li><p>Input: List of countries/zones from <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p></li>
-<li><p>Output: Climate overview plots.</p></li>
+<li><p>Objective: quantify precipitation and temperature regimes so you can justify representative seasons or years.</p></li>
+<li><p>Inputs: zone list from <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>, ERA5-Land downloads placed in <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/input/</span></code>.</p></li>
+<li><p>Outputs: plots (available under <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/output/</span></code>) and summary CSVs that downstream notebooks read.</p></li>
 </ul>
 <p><img alt="Temperature &amp; Precipitation" src="../_images/scatter_annual_spatial_means_t2m_tp.png" />
 <img alt="Monthly Precipitation" src="../_images/monthly_precipitation_heatmap.png" /></p>
 </section>
 <hr class="docutils" />
-<section id="get-solar-and-wind-information">
-<h2>3. Get Solar and Wind Information<a class="headerlink" href="#get-solar-and-wind-information" title="Permalink to this heading">#</a></h2>
-<section id="option-1-irena-data">
-<h3>Option 1 — IRENA Data<a class="headerlink" href="#option-1-irena-data" title="Permalink to this heading">#</a></h3>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">climatic/get_renewables_irena_data.ipynb</span></code></p>
+<section id="refresh-renewable-resource-data-open-data-stage">
+<h2>3. Refresh Renewable Resource Data (open-data stage)<a class="headerlink" href="#refresh-renewable-resource-data-open-data-stage" title="Permalink to this heading">#</a></h2>
+<p>When base-year renewable profiles are outdated, switch to <code class="docutils literal notranslate"><span class="pre">pre-analysis/open-data/</span></code>:</p>
+<ul class="simple">
+<li><p><strong>IRENA route</strong> — <code class="docutils literal notranslate"><span class="pre">get_renewables_irena_data.ipynb</span></code></p>
 <ul>
-<li><p>Recommended for obtaining solar and wind profiles.</p></li>
-<li><p>Input: List of countries using SPLAT model names.</p></li>
-<li><p>Output:</p>
-<ul>
-<li><p>Hourly renewable profiles by zone and season.</p></li>
-<li><p>Files structured with columns:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">climatic_year</span><span class="o">&gt;</span>
-</pre></div>
-</div>
+<li><p>Inputs: list of SPLAT zones plus the IRENA workbook.</p></li>
+<li><p>Output format: <code class="docutils literal notranslate"><span class="pre">zone,</span> <span class="pre">season,</span> <span class="pre">day,</span> <span class="pre">hour,</span> <span class="pre">&lt;climatic_year&gt;</span></code> hourly capacity factors.</p></li>
+</ul>
 </li>
+<li><p><strong>Renewable Ninja route</strong> — <code class="docutils literal notranslate"><span class="pre">get_renewable_ninja_data.ipynb</span></code></p>
+<ul>
+<li><p>Requires coordinates from <code class="docutils literal notranslate"><span class="pre">get_renewables_coordinate.ipynb</span></code>.</p></li>
+<li><p>Useful for scenario-specific solar/wind traces.</p></li>
 </ul>
 </li>
 </ul>
-<p>Example outputs (images stored in <code class="docutils literal notranslate"><span class="pre">dwld</span></code> folder):</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>LCOE Solar</p></th>
-<th class="head"><p>Wind Heatmap</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><img alt="LCOE Solar" src="../_images/lcoe_solar.png" /></p></td>
-<td><p><img alt="Heatmap" src="../_images/heatmap_solar.png" /></p></td>
-</tr>
-</tbody>
-</table>
+<p>Save the resulting CSVs under <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/input/</span></code> before moving on. You can also use <code class="docutils literal notranslate"><span class="pre">get_generation_maps.ipynb</span></code> for quick QA plots of the generation fleet.</p>
 </section>
 <hr class="docutils" />
-<section id="option-2-renewable-ninja-data">
-<h3>Option 2 — Renewable Ninja Data<a class="headerlink" href="#option-2-renewable-ninja-data" title="Permalink to this heading">#</a></h3>
-<p>Notebook: `climatic/get_renewables_ninja_data.ipynb``</p>
-<ul class="simple">
-<li><p>Alternative source for solar and wind profiles.</p></li>
-<li><p>Requires geographical coordinates from:</p></li>
-</ul>
-<p>Notebook: `generation/get_renewables_coordinates.ipynb``</p>
-<ul>
-<li><p>Outputs follow the same format:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">zone</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">hour</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">climatic_year</span><span class="o">&gt;</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</section>
+<section id="build-demand-profiles-load-profile-treatment-ipynb-load-profile-ipynb-load-plot-ipynb">
+<h2>4. Build Demand Profiles (<code class="docutils literal notranslate"><span class="pre">load_profile_treatment.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">load_profile.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">load_plot.ipynb</span></code>)<a class="headerlink" href="#build-demand-profiles-load-profile-treatment-ipynb-load-profile-ipynb-load-plot-ipynb" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Treat historical data</strong> — run <code class="docutils literal notranslate"><span class="pre">load_profile_treatment.ipynb</span></code> to clean utility load logs (remove spikes, fill gaps).</p></li>
+<li><p><strong>Generate the hourly profile</strong> — run <code class="docutils literal notranslate"><span class="pre">load_profile.ipynb</span></code> to blend treated history with monthly targets or growth assumptions.</p></li>
+<li><p><strong>Plot for QA</strong> — use <code class="docutils literal notranslate"><span class="pre">load_plot.ipynb</span></code> to export PNG/HTML charts for stakeholder review.</p></li>
+</ol>
+<p>Deliverables: smoothed historical load, modeled hourly demand, and plots placed in <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/output/</span></code>.</p>
 </section>
 <hr class="docutils" />
-<section id="make-generation-list">
-<h2>4. Make Generation List<a class="headerlink" href="#make-generation-list" title="Permalink to this heading">#</a></h2>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">generation/global_database_overview.ipynb</span></code></p>
+<section id="generate-representative-days-pre-analysis-prepare-data-representative-days-representative-days-ipynb">
+<h2>5. Generate Representative Days (<code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/representative_days/representative_days.ipynb</span></code>)<a class="headerlink" href="#generate-representative-days-pre-analysis-prepare-data-representative-days-representative-days-ipynb" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Purpose: Compare aggregated results by technology or fuel.</p></li>
-<li><p>Goal: Create the EPM input file: `supply/pGenDatExcel.csv``</p></li>
-<li><p>Generates:</p></li>
-<li><p>Aggregated data summaries.</p></li>
-<li><p>Map of generation projects.</p></li>
-</ul>
-<p>Example map output:</p>
-<p><a class="reference download internal" download="" href="../_downloads/b9116c1e6a61ae0ffcff96b8ea894985/power_map.html"><span class="xref download myst">Open Power Map</span></a></p>
-</section>
-<hr class="docutils" />
-<section id="generate-load-profile">
-<h2>5. Generate Load Profile<a class="headerlink" href="#generate-load-profile" title="Permalink to this heading">#</a></h2>
-<p>Two approaches:</p>
-<section id="smooth-existing-load-data">
-<h3>5.1 Smooth Existing Load Data<a class="headerlink" href="#smooth-existing-load-data" title="Permalink to this heading">#</a></h3>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">load/treat_load_profile.ipynb</span></code></p>
-<ul class="simple">
-<li><p>Input: Actual load data.</p></li>
-<li><p>Output: Smoothed load profiles.</p></li>
-</ul>
-</section>
-<section id="generate-synthetic-load-profile">
-<h3>5.2 Generate Synthetic Load Profile<a class="headerlink" href="#generate-synthetic-load-profile" title="Permalink to this heading">#</a></h3>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">load/generate_load_profile.ipynb</span></code></p>
-<ul class="simple">
-<li><p>Input:</p>
+<li><p>Inputs: load profiles from step 4, renewable capacity-factor tables (step 3), climate summaries (step 2).</p></li>
+<li><p>Process: cluster the full-year time series into a manageable subset of days while preserving seasonal statistics.</p></li>
+<li><p>Outputs ready for EPM:</p>
 <ul>
-<li><p>Hourly load profile shapes.</p></li>
-<li><p>Monthly mean values.</p></li>
-</ul>
-</li>
-<li><p>Output: Synthetic hourly load profiles.</p></li>
-</ul>
-</section>
-</section>
-<hr class="docutils" />
-<section id="generate-representative-days">
-<h2>6. Generate Representative Days<a class="headerlink" href="#generate-representative-days" title="Permalink to this heading">#</a></h2>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">representative_days/epresentative_days.ipynb</span></code></p>
-<ul class="simple">
-<li><p>Uses:</p>
-<ul>
-<li><p>Season definitions.</p></li>
-<li><p>Data created in steps 2 and 4.</p></li>
-</ul>
-</li>
-<li><p>Output:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">pHours.csv</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">load/pDemandProfile.csv</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">supply/pVREProfile.csv</span></code></p></li>
-</ul>
-</li>
-</ul>
-<p>These files are in EPM format and ready for model integration.</p>
-</section>
-<hr class="docutils" />
-<section id="hydro-data-preparation">
-<h2>7. Hydro Data Preparation<a class="headerlink" href="#hydro-data-preparation" title="Permalink to this heading">#</a></h2>
-<section id="monthly-capacity-factor">
-<h3>7.1 Monthly Capacity Factor<a class="headerlink" href="#monthly-capacity-factor" title="Permalink to this heading">#</a></h3>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">hydro_capacity_factor.ipynb</span></code></p>
-<ul>
-<li><p>Input:</p>
-<ul>
-<li><p>IRENA African Hydropower Atlas:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IRENA</span> <span class="n">African_Hydropower_Atlas</span><span class="o">.</span><span class="n">xlsx</span>
-</pre></div>
-</div>
-</li>
-<li><p>Matching plant names from:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">supply</span><span class="o">/</span><span class="n">pGenDatExcel</span><span class="o">.</span><span class="n">csv</span>
-</pre></div>
-</div>
-</li>
-</ul>
-</li>
-<li><p>Output:</p>
-<ul class="simple">
-<li><p>Monthly hydro capacity factors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epm/input/data_capp/pHours.csv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epm/input/data_capp/load/pDemandProfile.csv</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epm/input/data_capp/supply/pVREProfile.csv</span></code></p></li>
 </ul>
 </li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="hydro-basin-mapping">
-<h3>7.2 Hydro Basin Mapping<a class="headerlink" href="#hydro-basin-mapping" title="Permalink to this heading">#</a></h3>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">hydro_basins_map.ipynb</span></code></p>
+<section id="hydropower-preparation-hydro-availability-ipynb-helpers">
+<h2>6. Hydropower Preparation (<code class="docutils literal notranslate"><span class="pre">hydro_availability.ipynb</span></code> + helpers)<a class="headerlink" href="#hydropower-preparation-hydro-availability-ipynb-helpers" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Output: Map visualizations of hydro basins.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hydro_availability.ipynb</span></code> ingests monthly hydro profiles or Atlas curves and exports:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">pAvailabilityCustom.csv</span></code> for reservoirs.</p></li>
+<li><p>Run-of-river <code class="docutils literal notranslate"><span class="pre">pVREgenProfile.csv</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hydro_representative_years.ipynb</span></code> (optional) samples wet/baseline/dry years before feeding them into <code class="docutils literal notranslate"><span class="pre">hydro_availability.ipynb</span></code>.</p></li>
+<li><p>Need new inflow data or basin checks? Use the open-data notebooks (<code class="docutils literal notranslate"><span class="pre">hydro_inflow.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">hydro_basins.ipynb</span></code>, <code class="docutils literal notranslate"><span class="pre">hydro_atlas_comparison.ipynb</span></code>) to regenerate the raw profiles, then drop the outputs back into <code class="docutils literal notranslate"><span class="pre">prepare-data/input/</span></code>.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="advanced-hydro-analyses">
-<h3>7.3 Advanced Hydro Analyses<a class="headerlink" href="#advanced-hydro-analyses" title="Permalink to this heading">#</a></h3>
-<section id="hydro-inflow-analysis">
-<h4>Hydro Inflow Analysis<a class="headerlink" href="#hydro-inflow-analysis" title="Permalink to this heading">#</a></h4>
-<p>Notebook: <code class="docutils literal notranslate"><span class="pre">hydro_inflow_analysis.ipynb</span></code></p>
+<section id="supply-vs-demand-balance-pre-analysis-prepare-data-supply-demand-balance-ipynb">
+<h2>7. Supply vs Demand Balance (<code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/supply_demand_balance.ipynb</span></code>)<a class="headerlink" href="#supply-vs-demand-balance-pre-analysis-prepare-data-supply-demand-balance-ipynb" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Analyzes GRDC inflow data for climate change studies.</p></li>
+<li><p>Objective: confirm that the cleaned generation fleet, renewable additions, and hydro schedules cover the demand from step 4.</p></li>
+<li><p>Inputs: <code class="docutils literal notranslate"><span class="pre">pGenDataInput_clean.csv</span></code>, demand/renewable outputs, hydro availability, <code class="docutils literal notranslate"><span class="pre">pHours</span></code>.</p></li>
+<li><p>Outputs: deficit tables, stacked supply-demand plots, and sanity checks prior to running <code class="docutils literal notranslate"><span class="pre">epm/main.gms</span></code>.</p></li>
 </ul>
-</section>
-<hr class="docutils" />
-<section id="hydro-atlas-comparison">
-<h4>Hydro Atlas Comparison<a class="headerlink" href="#hydro-atlas-comparison" title="Permalink to this heading">#</a></h4>
-<p>Notebook:<code class="docutils literal notranslate"><span class="pre">hydro_atlas_comparison.ipynb</span></code></p>
-<ul class="simple">
-<li><p>Compares utility data with IRENA hydropower atlas.</p></li>
-</ul>
-</section>
-</section>
 </section>
 <hr class="docutils" />
 <section id="notes">
 <h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Always ensure consistency in naming conventions for zones/countries across all files.</p></li>
-<li><p>All renewable output formats are standardized to facilitate integration into the SPLAT or EPM models.</p></li>
+<li><p>Keep naming conventions consistent across demand, renewable, and hydro files (zone, technology, scenario).</p></li>
+<li><p>Store raw downloads in <code class="docutils literal notranslate"><span class="pre">pre-analysis/open-data/input/</span></code> or <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/input/</span></code> and only copy vetted CSVs into <code class="docutils literal notranslate"><span class="pre">epm/input</span></code>.</p></li>
+<li><p>Whenever you introduce a new data vintage, rerun the balance notebook (step 7) before executing the GAMS model.</p></li>
 </ul>
 </section>
 </section>
@@ -1616,87 +1481,76 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-climatic-overview">
-   2. Run Climatic Overview
+  <a class="reference internal nav-link" href="#run-the-climatic-overview-pre-analysis-prepare-data-climatic-overview-ipynb">
+   2. Run the Climatic Overview (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pre-analysis/prepare-data/climatic_overview.ipynb
+    </span>
+   </code>
+   )
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#get-solar-and-wind-information">
-   3. Get Solar and Wind Information
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-1-irena-data">
-     Option 1 — IRENA Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#option-2-renewable-ninja-data">
-     Option 2 — Renewable Ninja Data
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#make-generation-list">
-   4. Make Generation List
+  <a class="reference internal nav-link" href="#refresh-renewable-resource-data-open-data-stage">
+   3. Refresh Renewable Resource Data (open-data stage)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generate-load-profile">
-   5. Generate Load Profile
+  <a class="reference internal nav-link" href="#build-demand-profiles-load-profile-treatment-ipynb-load-profile-ipynb-load-plot-ipynb">
+   4. Build Demand Profiles (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     load_profile_treatment.ipynb
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     load_profile.ipynb
+    </span>
+   </code>
+   ,
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     load_plot.ipynb
+    </span>
+   </code>
+   )
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#smooth-existing-load-data">
-     5.1 Smooth Existing Load Data
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generate-synthetic-load-profile">
-     5.2 Generate Synthetic Load Profile
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#generate-representative-days">
-   6. Generate Representative Days
+  <a class="reference internal nav-link" href="#generate-representative-days-pre-analysis-prepare-data-representative-days-representative-days-ipynb">
+   5. Generate Representative Days (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pre-analysis/prepare-data/representative_days/representative_days.ipynb
+    </span>
+   </code>
+   )
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#hydro-data-preparation">
-   7. Hydro Data Preparation
+  <a class="reference internal nav-link" href="#hydropower-preparation-hydro-availability-ipynb-helpers">
+   6. Hydropower Preparation (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     hydro_availability.ipynb
+    </span>
+   </code>
+   + helpers)
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#monthly-capacity-factor">
-     7.1 Monthly Capacity Factor
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#hydro-basin-mapping">
-     7.2 Hydro Basin Mapping
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#advanced-hydro-analyses">
-     7.3 Advanced Hydro Analyses
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#hydro-inflow-analysis">
-       Hydro Inflow Analysis
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#hydro-atlas-comparison">
-       Hydro Atlas Comparison
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supply-vs-demand-balance-pre-analysis-prepare-data-supply-demand-balance-ipynb">
+   7. Supply vs Demand Balance (
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pre-analysis/prepare-data/supply_demand_balance.ipynb
+    </span>
+   </code>
+   )
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#notes">
@@ -1731,7 +1585,7 @@ By ESMAP
   
   <div class="footer-item">
     <p class="last-updated">
-Last updated on Nov 06, 2025.<br>
+Last updated on Nov 07, 2025.<br>
 </p>
   </div>
   
