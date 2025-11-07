@@ -1,0 +1,2125 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Representative Days for EPM &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pre-analysis/prepare-data/representative_days/representative_days';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/pre-analysis/prepare-data/representative_days/representative_days.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Utility Models Overview" href="../../../docs/other_overview.html" />
+    <link rel="prev" title="Objective" href="../supply_demand_balance.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../supply_demand_balance.html">
+                        Objective
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_comparison.html">
+                        Electricity Planning Models Comparison
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../supply_demand_balance.html">
+                        Objective
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_comparison.html">
+                        Electricity Planning Models Comparison
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../docs/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/introduction.html">About EPM</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/introduction_case_studies.html">EPM Recent Case Studies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_epm_setup.html">EPM Code Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_debugging.html">Debugging EPM Models in GAMS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/run_summary.html">Summary Command line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/options_thread.html">Threading and Parallelism in EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_fuel_brief.html">Fuel Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/input_representative_days.html">Representative Days</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/postprocessing_output_EPM.html">EPM Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/postprocessing_tableau.html">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/model_formulation.html">Model Formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/postprocessing.html">Postprocessing with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/contributing_code.html">Contributing to the code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/contributing_docs.html">Contributing to the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/contributing_postprocess.html">Contributing postprocess</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Pre-processing Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/pre_overview.html">Preanalysis Folder Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/pre_projects.html">Data Preparation Workflow Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../climatic_overview.html">Climatic Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../load_plot.html">Demand Forecast Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hydro_availability.html">Hydro Availability Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supply_demand_balance.html">Objective</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Representative Days for EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/other_overview.html">Utility Models Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/other_comparison.html">Electricity Planning Models Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/other_open_data.html">Open-Source Data (in progress)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../docs/other_process.html">Electricity Planning Standard Process</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fpre-analysis/prepare-data/representative_days/representative_days.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/pre-analysis/prepare-data/representative_days/representative_days.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../../../_sources/pre-analysis/prepare-data/representative_days/representative_days.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Representative Days for EPM</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-configure-user-parameters-and-season-definitions">
+   Step 1 - Configure user parameters and season definitions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-create-folder-structure-and-validate-inputs">
+   Step 2 - Create folder structure and validate inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-process-data-and-group-by-season">
+   Step 3 - Process data and group by season
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-format-data-for-the-poncelet-algorithm">
+   Step 4 - Format data for the Poncelet algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-5-generate-representative-and-special-days">
+   Step 5 - Generate representative and special days
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-6-plot-results-and-export-diagnostics">
+   Step 6 - Plot results and export diagnostics
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="representative-days-for-epm">
+<h1>Representative Days for EPM<a class="headerlink" href="#representative-days-for-epm" title="Permalink to this heading">#</a></h1>
+<p><strong>Objective</strong><br />
+Automate the selection of representative and special days for the EPM model by clustering multi-year load and VRE profiles and formatting the outputs for the Poncelet algorithm.</p>
+<p><strong>Data requirements (user-provided) and method</strong></p>
+<ul class="simple">
+<li><p>Data requirements: An <code class="docutils literal notranslate"><span class="pre">input/</span></code> folder containing <code class="docutils literal notranslate"><span class="pre">irena/data_capp_solar.csv</span></code>, <code class="docutils literal notranslate"><span class="pre">irena/data_capp_wind.csv</span></code>, and <code class="docutils literal notranslate"><span class="pre">load_full_year.csv</span></code>, plus helper utilities (<code class="docutils literal notranslate"><span class="pre">utils_reprdays.py</span></code>) and a user-defined season mapping.</p></li>
+<li><p>Method: Configure season definitions and exclusions, group the historical data by season, format it for the Poncelet algorithm, run the clustering/selection routine (including special days), and export the resulting <code class="docutils literal notranslate"><span class="pre">pHours</span></code> and <code class="docutils literal notranslate"><span class="pre">pVREgen</span></code> CSVs alongside diagnostics.</p></li>
+</ul>
+<p><strong>Overview of steps</strong></p>
+<ol class="arabic simple">
+<li><p>Step 1 - Configure seasons, file names, and optional filters.</p></li>
+<li><p>Step 2 - Create the input/output folders and verify the source files.</p></li>
+<li><p>Step 3 - Process and group the data by season.</p></li>
+<li><p>Step 4 - Format the datasets required by the Poncelet algorithm.</p></li>
+<li><p>Step 5 - Generate representative and special days plus EPM-formatted outputs.</p></li>
+<li><p>Step 6 - Plot and export diagnostics for validation.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">utils_reprdays</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="step-1-configure-user-parameters-and-season-definitions">
+<h2>Step 1 - Configure user parameters and season definitions<a class="headerlink" href="#step-1-configure-user-parameters-and-season-definitions" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">seasons_dict</span></code>: This dictionary defines the mapping of months to seasons. The keys are month numbers (1-12), and the values are season numbers (1-4). Fore example seasons ca, be defined as follows:</p></li>
+</ol>
+<ul class="simple">
+<li><p>Season 1: May, June, July, August, September</p></li>
+<li><p>Season 2: January, February, March, April, October, November, December</p></li>
+</ul>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">filenames_input</span></code>: This dictionary contains the filenames of the input data files. The keys are technology types (e.g., ‘PV’, ‘Wind’, ‘Load’), and the values are the corresponding filenames path from the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder. The files should be placed in the <code class="docutils literal notranslate"><span class="pre">input</span></code> folder. <strong>Users are responsible for ensuring that the data is formatted correctly.</strong> Reference examples are available in the data_test folder. The required columns are <code class="docutils literal notranslate"><span class="pre">zone</span></code>, <code class="docutils literal notranslate"><span class="pre">month</span></code> (or <code class="docutils literal notranslate"><span class="pre">season</span></code>), <code class="docutils literal notranslate"><span class="pre">day</span></code>, <code class="docutils literal notranslate"><span class="pre">hour</span></code>.</p></li>
+</ol>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The definition of seasons is based on the month number.</span>
+<span class="n">seasons_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="mi">12</span><span class="p">:</span> <span class="mi">2</span>
+<span class="p">}</span>
+
+<span class="c1"># The name of the file that must be in the input folder</span>
+<span class="n">filenames_input</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;PV&#39;</span><span class="p">:</span> <span class="s1">&#39;input/data_capp_solar.csv&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;Wind&#39;</span><span class="p">:</span> <span class="s1">&#39;input/data_capp_wind.csv&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;Load&#39;</span><span class="p">:</span> <span class="s1">&#39;load_full_year.csv&#39;</span>
+                   <span class="p">}</span>
+
+<span class="c1">#</span>
+<span class="n">zones_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;STP&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-create-folder-structure-and-validate-inputs">
+<h2>Step 2 - Create folder structure and validate inputs<a class="headerlink" href="#step-2-create-folder-structure-and-validate-inputs" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">folder_input</span> <span class="o">=</span> <span class="s1">&#39;input&#39;</span>
+<span class="c1"># Make folder</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder_input</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder_input</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Input folder: </span><span class="si">{</span><span class="n">folder_input</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">folder_output</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+<span class="c1"># Make folder</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder_output</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder_output</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Output folder: </span><span class="si">{</span><span class="n">folder_output</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-process-data-and-group-by-season">
+<h2>Step 3 - Process data and group by season<a class="headerlink" href="#step-3-process-data-and-group-by-season" title="Permalink to this heading">#</a></h2>
+<p>Renewable ninja ata is processed to group months into season, to be used as input to EPM. This step may be skipped if one wishes to keep the seasonal definition at the monthly scale, or updated based on the seasonal grouping that makes the most sense for the case study at hand.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">month_to_season</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">seasons_dict</span><span class="p">,</span> <span class="n">other_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert month number to season number.&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;season&#39;</span><span class="p">:</span> <span class="s1">&#39;month&#39;</span><span class="p">})</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">seasons_dict</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="p">((</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">29</span><span class="p">))]</span>
+    <span class="c1"># Renumber days sequentially within each season</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;season_day&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">other_columns</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">cumcount</span><span class="p">()</span> <span class="o">//</span> <span class="mi">24</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;day&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;season_day&#39;</span><span class="p">:</span> <span class="s1">&#39;day&#39;</span><span class="p">})</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">other_columns</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">])</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">other_columns</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="n">filenames</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_input</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames_input</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+<span class="n">display</span><span class="p">(</span><span class="s1">&#39;WARNING: Ensure that the zones in the data are consistent across all input files.&#39;</span><span class="p">)</span>
+
+<span class="c1"># Process each file and save the results</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Processing </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> data from </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;File </span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="si">}</span><span class="s1"> not found. Please check the input folder.&#39;</span><span class="p">)</span>
+    <span class="c1"># Load the data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># Check if the required columns are present</span>
+    <span class="n">required_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">required_columns</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Missing required columns in </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">. Required columns missing: </span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">col</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">required_columns</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">])</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Display zones in the data</span>
+    <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of zones in </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;zone&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Zones in </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;zone&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Load data hours should start with 0, not 1</span>
+    <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="c1"># Rename value by 2018</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="mi">2018</span><span class="p">})</span>
+
+    <span class="c1"># Remove zones that are not needed</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">zones_to_remove</span><span class="p">)]</span>
+
+    <span class="c1"># Convert month to season</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">month_to_season</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">seasons_dict</span><span class="p">,</span> <span class="n">other_columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Save the data</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_season</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Data saved to </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;WARNING: Ensure that the zones in the data are consistent across all input files.&#39;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Processing PV data from input/irena/data_capp_solar.csv
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Number of zones in PV: 10&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Zones in PV: [&#39;Angola&#39; &#39;Burundi&#39; &#39;Cameroon&#39; &#39;CAR&#39; &#39;Chad&#39; &#39;Congo&#39; &#39;DRC&#39;\n &#39;EquatorialGuinea&#39; &#39;Gabon&#39; &#39;Rwanda&#39;]&quot;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data saved to input/irena/data_capp_solar_season.csv
+Processing Wind data from input/irena/data_capp_wind.csv
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Number of zones in Wind: 6&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Zones in Wind: [&#39;Angola&#39; &#39;Cameroon&#39; &#39;CAR&#39; &#39;Chad&#39; &#39;Congo&#39; &#39;DRC&#39;]&quot;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data saved to input/irena/data_capp_wind_season.csv
+Processing Load data from input/load_full_year.csv
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Number of zones in Load: 11&#39;
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&quot;Zones in Load: [&#39;Angola&#39; &#39;Burundi&#39; &#39;Cameroon&#39; &#39;CAR&#39; &#39;Congo&#39; &#39;Gabon&#39; &#39;EquatorialGuinea&#39;\n &#39;DRC&#39; &#39;Rwanda&#39; &#39;STP&#39; &#39;Chad&#39;]&quot;
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data saved to input/load_full_year_season.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-format-data-for-the-poncelet-algorithm">
+<h2>Step 4 - Format data for the Poncelet algorithm<a class="headerlink" href="#step-4-format-data-for-the-poncelet-algorithm" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">filenames</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">tech</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames_input</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">name</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_season</span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_input</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;File </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> does not exist. Please check the input folder.&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;File </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> not found.&#39;</span><span class="p">)</span>
+
+    <span class="n">filenames</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">tech</span><span class="p">:</span> <span class="n">filename</span><span class="p">})</span>
+
+<span class="c1"># The name of the data, used to save the results</span>
+<span class="n">df_energy</span> <span class="o">=</span> <span class="n">format_data_energy</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
+
+<span class="c1"># Drop columns with all NaN values</span>
+<span class="n">df_energy</span> <span class="o">=</span> <span class="n">df_energy</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+<span class="c1"># Display df_energy</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_energy</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">8760</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning: The data does not contain a full year of data. Please check the input files.&#39;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The data contains a full year of data.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Representative year 2018
+Warning: NaN values in the DataFrame
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Annual capacity factor (%):&#39;
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>tech</th>
+      <th>zone</th>
+      <th>PV</th>
+      <th>Wind</th>
+      <th>Load</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Angola</td>
+      <td>0.224599</td>
+      <td>0.397303</td>
+      <td>0.775620</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Burundi</td>
+      <td>0.198113</td>
+      <td>NaN</td>
+      <td>0.742856</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>CAR</td>
+      <td>0.202921</td>
+      <td>0.390992</td>
+      <td>0.803250</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Cameroon</td>
+      <td>0.207991</td>
+      <td>0.415764</td>
+      <td>0.740909</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Chad</td>
+      <td>0.208414</td>
+      <td>0.642518</td>
+      <td>0.685850</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Congo</td>
+      <td>0.183137</td>
+      <td>0.377975</td>
+      <td>0.720891</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>DRC</td>
+      <td>0.193951</td>
+      <td>0.439868</td>
+      <td>0.880314</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>EquatorialGuinea</td>
+      <td>0.173794</td>
+      <td>NaN</td>
+      <td>0.805217</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>Gabon</td>
+      <td>0.173166</td>
+      <td>NaN</td>
+      <td>0.783922</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>Rwanda</td>
+      <td>0.192586</td>
+      <td>NaN</td>
+      <td>0.757781</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>season</th>
+      <th>day</th>
+      <th>hour</th>
+      <th>Load_Angola</th>
+      <th>Load_Burundi</th>
+      <th>Load_CAR</th>
+      <th>Load_Cameroon</th>
+      <th>Load_Chad</th>
+      <th>Load_Congo</th>
+      <th>Load_DRC</th>
+      <th>...</th>
+      <th>PV_DRC</th>
+      <th>PV_EquatorialGuinea</th>
+      <th>PV_Gabon</th>
+      <th>PV_Rwanda</th>
+      <th>Wind_Angola</th>
+      <th>Wind_CAR</th>
+      <th>Wind_Cameroon</th>
+      <th>Wind_Chad</th>
+      <th>Wind_Congo</th>
+      <th>Wind_DRC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0.7989</td>
+      <td>0.602</td>
+      <td>0.7552</td>
+      <td>0.6838</td>
+      <td>0.6875</td>
+      <td>0.7073</td>
+      <td>0.8866</td>
+      <td>...</td>
+      <td>0.0000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0.4575</td>
+      <td>0.6473</td>
+      <td>0.6783</td>
+      <td>0.2343</td>
+      <td>0.000</td>
+      <td>0.7204</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>0.7687</td>
+      <td>0.569</td>
+      <td>0.7433</td>
+      <td>0.6589</td>
+      <td>0.6625</td>
+      <td>0.6663</td>
+      <td>0.8704</td>
+      <td>...</td>
+      <td>0.0000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0.4164</td>
+      <td>0.8103</td>
+      <td>0.8117</td>
+      <td>0.2442</td>
+      <td>0.000</td>
+      <td>0.7449</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>1</td>
+      <td>2</td>
+      <td>0.7579</td>
+      <td>0.569</td>
+      <td>0.7415</td>
+      <td>0.6388</td>
+      <td>0.6422</td>
+      <td>0.6432</td>
+      <td>0.8606</td>
+      <td>...</td>
+      <td>0.0000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0.4093</td>
+      <td>0.8637</td>
+      <td>0.8557</td>
+      <td>0.2553</td>
+      <td>0.005</td>
+      <td>0.7827</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1</td>
+      <td>1</td>
+      <td>3</td>
+      <td>0.7365</td>
+      <td>0.571</td>
+      <td>0.7314</td>
+      <td>0.6272</td>
+      <td>0.6306</td>
+      <td>0.6389</td>
+      <td>0.8520</td>
+      <td>...</td>
+      <td>0.0000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0000</td>
+      <td>0.4160</td>
+      <td>0.8929</td>
+      <td>0.8690</td>
+      <td>0.2407</td>
+      <td>0.043</td>
+      <td>0.7954</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>1</td>
+      <td>4</td>
+      <td>0.7297</td>
+      <td>0.580</td>
+      <td>0.7360</td>
+      <td>0.6359</td>
+      <td>0.6393</td>
+      <td>0.6338</td>
+      <td>0.8509</td>
+      <td>...</td>
+      <td>0.0121</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0001</td>
+      <td>0.4371</td>
+      <td>0.8781</td>
+      <td>0.8862</td>
+      <td>0.2157</td>
+      <td>0.068</td>
+      <td>0.7979</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The data contains a full year of data.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-generate-representative-and-special-days">
+<h2>Step 5 - Generate representative and special days<a class="headerlink" href="#step-5-generate-representative-and-special-days" title="Permalink to this heading">#</a></h2>
+<p><strong>User-defined parameters</strong></p>
+<p>User needs to change the following parameters in the following cell:</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">nbr_days</span></code>: Defines the number of representative days used in the Poncelet algorithm.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>: Specifies the number of clusters (i.e., representative days) to generate, which will then be used to extract special days representing extreme clusters. More clusters lead to more extreme conditions being captured, but also increase computational complexity.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nbr_bins</span></code> file: A higher number of zones or time series increases numerical complexity. Start with <code class="docutils literal notranslate"><span class="pre">nbr_bins=10</span></code> (fewer bins) for easier computation. Increase the number of bins progressively if the problem remains easy to solve.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_features_selection</span></code> (optional): Enables <strong>automatic feature selection</strong> to reduce the number of time series used in the Poncelet algorithm.
+This is useful when:</p>
+<ul class="simple">
+<li><p>Modeling many zones or countries.</p></li>
+<li><p>The number of pairwise correlations becomes large, increasing computational time.</p></li>
+</ul>
+<p>Use this parameter if the Poncelet algorithm takes more than a few minutes to run.</p>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Defines the number of representative days used in the Poncelet algorithm.</span>
+<span class="n">n_rep_days</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># Clustering the data to extract clusters corresponding to extreme conditions</span>
+<span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">20</span>
+
+<span class="n">nbr_bins</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Feature selection is optional but recommended if you are working with a large number of zones or time series. This reduces the number of pairwise correlations and helps avoid high computational complexity in the optimization step.</span>
+<span class="n">n_features_selection</span> <span class="o">=</span> <span class="mi">30</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_energy_cluster</span><span class="p">,</span> <span class="n">df_closest_days</span><span class="p">,</span> <span class="n">centroids_df</span> <span class="o">=</span> <span class="n">cluster_data_new</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">)</span>
+
+<span class="c1"># Extracting special days as centroids of the extreme clusters</span>
+<span class="n">special_days</span><span class="p">,</span> <span class="n">df_energy_no_special</span> <span class="o">=</span> <span class="n">get_special_days_clustering</span><span class="p">(</span><span class="n">df_closest_days</span><span class="p">,</span>
+                                                                 <span class="n">df_energy_cluster</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of hours in the year:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removed days:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_energy</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">))</span> <span class="o">/</span> <span class="mi">24</span><span class="p">)</span>
+
+<span class="c1"># Format the data (including correlation calculation) and save it in a .csv file</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">path_data_file</span> <span class="o">=</span> <span class="n">format_optim_repr_days</span><span class="p">(</span><span class="n">df_energy_no_special</span><span class="p">,</span> <span class="n">folder_output</span><span class="p">)</span>
+
+
+<span class="n">selected_series</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">path_data_file_selection</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">select_representative_series_hierarchical</span><span class="p">(</span><span class="n">path_data_file</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_features_selection</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scale_method</span><span class="o">=</span><span class="s1">&#39;standard&#39;</span><span class="p">))</span>
+
+<span class="c1"># Launch the optimization to find the representative days</span>
+<span class="n">path_data</span> <span class="o">=</span> <span class="n">path_data_file</span>  <span class="c1"># you want to include all the features to identify representative days</span>
+<span class="n">path_data</span> <span class="o">=</span> <span class="n">path_data_file_selection</span>  <span class="c1"># you only want to work with the reduced number of features to identify representative days</span>
+
+<span class="n">launch_optim_repr_days</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">folder_output</span><span class="p">,</span> <span class="n">nbr_days</span><span class="o">=</span><span class="n">n_rep_days</span><span class="p">,</span>
+                       <span class="n">main_file</span><span class="o">=</span><span class="s1">&#39;OptimizationModelZone.gms&#39;</span><span class="p">,</span>
+                       <span class="n">nbr_bins</span><span class="o">=</span><span class="n">nbr_bins</span><span class="p">)</span>
+
+<span class="c1"># Get the results</span>
+<span class="n">repr_days</span> <span class="o">=</span> <span class="n">parse_repr_days</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="n">special_days</span><span class="p">)</span>
+
+<span class="c1"># Format the data to be used in EPM</span>
+<span class="n">format_epm_phours</span><span class="p">(</span><span class="n">repr_days</span><span class="p">,</span> <span class="n">folder_output</span><span class="p">)</span>
+<span class="n">format_epm_pvreprofile</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">repr_days</span><span class="p">,</span> <span class="n">folder_output</span><span class="p">)</span>
+<span class="c1"># only activate when load data is provided</span>
+<span class="n">format_epm_demandprofile</span><span class="p">(</span><span class="n">df_energy</span><span class="p">,</span> <span class="n">repr_days</span><span class="p">,</span> <span class="n">folder_output</span><span class="p">)</span>
+
+<span class="c1"># Export in .csv format</span>
+<span class="n">repr_days</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;repr_days.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_energy</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;df_energy.csv&#39;</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of hours in the year: 7728
+Removed days: 43.0
+File saved at: output/data_formatted_optim.csv
+File saved at /Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/output/data_formatted_optim_selection.csv
+File saved to: gams/bins_settings_10.csv
+Launch GAMS code
+End GAMS code
+Number of days: 10
+Total weight: 365
+season
+Q1    153.0
+Q2    212.0
+Name: weight, dtype: float64
+pHours file saved at: output/pHours.csv
+Number of hours: 365
+VRE Profile file saved at: output/pVREProfile.csv
+pDemandProfile file saved at: output/pDemandProfile.csv
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/utils_reprdays.py:728: FutureWarning: The previous implementation of stack is deprecated and will be removed in a future version of pandas. See the What&#39;s New notes for pandas 2.1.0 for details. Specify future_stack=True to adopt the new implementation and silence this warning.
+  pVREProfile = pVREProfile.stack(level=[&#39;fuel&#39;, &#39;zone&#39;])
+/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/utils_reprdays.py:773: FutureWarning: The previous implementation of stack is deprecated and will be removed in a future version of pandas. See the What&#39;s New notes for pandas 2.1.0 for details. Specify future_stack=True to adopt the new implementation and silence this warning.
+  pDemandProfile = pDemandProfile.stack(&#39;zone&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-6-plot-results-and-export-diagnostics">
+<h2>Step 6 - Plot results and export diagnostics<a class="headerlink" href="#step-6-plot-results-and-export-diagnostics" title="Permalink to this heading">#</a></h2>
+<p>Optional cell to plot the results. It will plot the load, wind and solar data for the representative year.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get data </span>
+<span class="n">input_file</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;data_formatted_optim.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">input_file</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]</span>
+
+<span class="n">VREProfile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;pVREProfile.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="n">pHours</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;pHours.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checking the representative days</span>
+
+<span class="c1"># === SETTINGS ===</span>
+
+<span class="n">season_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Q1&#39;</span><span class="p">:</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q2&#39;</span><span class="p">:</span> <span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q3&#39;</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q4&#39;</span><span class="p">:</span> <span class="s1">&#39;seagreen&#39;</span><span class="p">}</span>
+
+
+<span class="c1"># Total renewable production over all zones</span>
+<span class="n">plot_vre_repdays</span><span class="p">(</span><span class="n">input_file</span><span class="o">=</span><span class="n">input_file</span><span class="p">,</span> <span class="n">vre_profile</span><span class="o">=</span><span class="n">VREProfile</span><span class="p">,</span> <span class="n">pHours</span><span class="o">=</span><span class="n">pHours</span><span class="p">,</span>
+          <span class="n">season_colors</span><span class="o">=</span><span class="n">season_colors</span><span class="p">,</span> <span class="n">min_alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;plot_vre_repdays.png&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/utils_reprdays.py:1189: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax.legend(loc=&#39;upper right&#39;, fontsize=fontsize_legend, frameon=False)
+/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/utils_reprdays.py:1189: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax.legend(loc=&#39;upper right&#39;, fontsize=fontsize_legend, frameon=False)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checking the representative days</span>
+
+<span class="c1"># === SETTINGS ===</span>
+<span class="n">season_colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Q1&#39;</span><span class="p">:</span> <span class="s1">&#39;darkred&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q2&#39;</span><span class="p">:</span> <span class="s1">&#39;dimgrey&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q3&#39;</span><span class="p">:</span> <span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Q4&#39;</span><span class="p">:</span> <span class="s1">&#39;seagreen&#39;</span><span class="p">}</span>
+
+<span class="c1"># Representative days per country</span>
+<span class="n">country</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Angola&#39;</span><span class="p">]</span>
+<span class="n">plot_vre_repdays</span><span class="p">(</span><span class="n">input_file</span><span class="o">=</span><span class="n">input_file</span><span class="p">,</span> <span class="n">vre_profile</span><span class="o">=</span><span class="n">VREProfile</span><span class="p">,</span> <span class="n">pHours</span><span class="o">=</span><span class="n">pHours</span><span class="p">,</span>
+          <span class="n">season_colors</span><span class="o">=</span><span class="n">season_colors</span><span class="p">,</span> <span class="n">countries</span><span class="o">=</span><span class="n">country</span><span class="p">,</span> <span class="n">min_alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">max_alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;plot_vre_repdays_angola.png&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/utils_reprdays.py:1189: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax.legend(loc=&#39;upper right&#39;, fontsize=fontsize_legend, frameon=False)
+/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_CAPP/pre-analysis/representative_days/utils_reprdays.py:1189: UserWarning: No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+  ax.legend(loc=&#39;upper right&#39;, fontsize=fontsize_legend, frameon=False)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pre-analysis/prepare-data/representative_days"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="../supply_demand_balance.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Objective</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../../../docs/other_overview.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Utility Models Overview</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-configure-user-parameters-and-season-definitions">
+   Step 1 - Configure user parameters and season definitions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-create-folder-structure-and-validate-inputs">
+   Step 2 - Create folder structure and validate inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-process-data-and-group-by-season">
+   Step 3 - Process data and group by season
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-format-data-for-the-poncelet-algorithm">
+   Step 4 - Format data for the Poncelet algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-5-generate-representative-and-special-days">
+   Step 5 - Generate representative and special days
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-6-plot-results-and-export-diagnostics">
+   Step 6 - Plot results and export diagnostics
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By ESMAP
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Nov 07, 2025.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>

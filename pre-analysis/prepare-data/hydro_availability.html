@@ -1,0 +1,2558 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Hydro Availability Builder &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pre-analysis/prepare-data/hydro_availability';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/pre-analysis/prepare-data/hydro_availability.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Objective" href="supply_demand_balance.html" />
+    <link rel="prev" title="Demand Forecast Plots" href="load_plot.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="supply_demand_balance.html">
+                        Objective
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_comparison.html">
+                        Electricity Planning Models Comparison
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="supply_demand_balance.html">
+                        Objective
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_overview.html">
+                        Utility Models Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_comparison.html">
+                        Electricity Planning Models Comparison
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../docs/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/introduction.html">About EPM</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../docs/introduction_case_studies.html">EPM Recent Case Studies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_epm_setup.html">EPM Code Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_debugging.html">Debugging EPM Models in GAMS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/run_summary.html">Summary Command line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/options_thread.html">Threading and Parallelism in EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_fuel_brief.html">Fuel Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/input_representative_days.html">Representative Days</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_output_EPM.html">EPM Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_tableau.html">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/model_formulation.html">Model Formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/postprocessing.html">Postprocessing with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributing_code.html">Contributing to the code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributing_docs.html">Contributing to the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/contributing_postprocess.html">Contributing postprocess</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Pre-processing Analysis</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/pre_overview.html">Preanalysis Folder Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/pre_projects.html">Data Preparation Workflow Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="climatic_overview.html">Climatic Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load_plot.html">Demand Forecast Plots</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Hydro Availability Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supply_demand_balance.html">Objective</a></li>
+<li class="toctree-l1"><a class="reference internal" href="representative_days/representative_days.html">Representative Days for EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_overview.html">Utility Models Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_comparison.html">Electricity Planning Models Comparison</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_open_data.html">Open-Source Data (in progress)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../docs/other_process.html">Electricity Planning Standard Process</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+  </ul>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fpre-analysis/prepare-data/hydro_availability.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/pre-analysis/prepare-data/hydro_availability.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../../_sources/pre-analysis/prepare-data/hydro_availability.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Hydro Availability Builder</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#user-inputs">
+   1. User Inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-imports-folders-and-helpers">
+   2. Setup: imports, folders, and helpers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-hydro-profiles-and-the-phours-template">
+   3. Load hydro profiles and the pHours template
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validate-generators-against-pgendatainput">
+   4. Validate generators against
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pGenDataInput
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process-hydro-availability">
+   5 - Process hydro availability
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-build-seasonal-reservoir-availability">
+     5a - Build seasonal reservoir availability
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#b-format-run-of-river-hourly-availability">
+     5b - Format run-of-river hourly availability
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="hydro-availability-builder">
+<h1>Hydro Availability Builder<a class="headerlink" href="#hydro-availability-builder" title="Permalink to this heading">#</a></h1>
+<p><strong>Objective</strong></p>
+<ul class="simple">
+<li><p>Transform monthly reservoir and run-of-river (ROR) hydro profiles into the seasonal and hourly availability CSVs (<code class="docutils literal notranslate"><span class="pre">pAvailabilityCustom.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">pVREgenProfile.csv</span></code>) required by EPM.</p></li>
+<li><p>Ensure consistency with pGenDataInput and complete if necessary.</p></li>
+</ul>
+<p><strong>Data requirements (user-provided) and method</strong></p>
+<ul class="simple">
+<li><p>Data requirements: Monthly capacity-factor CSVs per plant/zone (default <code class="docutils literal notranslate"><span class="pre">input/hydro_profile_dry.csv</span></code>), plant metadata fields (<code class="docutils literal notranslate"><span class="pre">gen</span></code>, <code class="docutils literal notranslate"><span class="pre">zone</span></code>, <code class="docutils literal notranslate"><span class="pre">tech</span></code>), and the official <code class="docutils literal notranslate"><span class="pre">pHours.csv</span></code> template from <code class="docutils literal notranslate"><span class="pre">epm/input/</span></code> to align the season-daytype-hour structure.</p></li>
+<li><p>Method: Validate inputs, align them with the <code class="docutils literal notranslate"><span class="pre">pHours</span></code> calendar, aggregate reservoir series to seasonal capacity factors, reshape ROR series into the long hourly format, and export review-ready CSVs.</p></li>
+</ul>
+<p><strong>Overview of steps</strong></p>
+<ol class="arabic simple">
+<li><p>Step 1 - Capture the user inputs describing folders, scenario tags, and technology filters.</p></li>
+<li><p>Step 2 - Create the working/output folders and load the template layout.</p></li>
+<li><p>Step 3 - Load the hydro profiles plus the <code class="docutils literal notranslate"><span class="pre">pHours</span></code> calendar.</p></li>
+<li><p>Step 4 - Cross-check hydro coverage against <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> to flag missing capacity-factor rows.</p></li>
+<li><p>Step 5 - Process reservoir and ROR data into the <code class="docutils literal notranslate"><span class="pre">pAvailabilityCustom</span></code> and <code class="docutils literal notranslate"><span class="pre">pVREgenProfile</span></code> tables, then save them for QA.</p></li>
+</ol>
+<section id="user-inputs">
+<h2>1. User Inputs<a class="headerlink" href="#user-inputs" title="Permalink to this heading">#</a></h2>
+<p>Fill these once and rerun if you need to change the source data or template. Files are resolved relative to <code class="docutils literal notranslate"><span class="pre">pre-analysis/prepare-data/</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Path to the monthly hydro profile CSV stored under `input/`</span>
+<span class="n">input_profile_filename</span> <span class="o">=</span> <span class="s1">&#39;hydro_profile_baseline.csv&#39;</span>
+
+<span class="c1"># Folder under `epm/input/` containing the scenario-specific inputs</span>
+<span class="n">folder_epm_input</span> <span class="o">=</span> <span class="s1">&#39;data_test&#39;</span>
+
+<span class="c1"># Filenames relative to `epm/input/&lt;folder_epm_input&gt;/`</span>
+<span class="n">hours_template_filename</span> <span class="o">=</span> <span class="s1">&#39;pHours.csv&#39;</span>
+<span class="n">pGenDataInput_filename</span> <span class="o">=</span> <span class="s1">&#39;pGenDataInput.csv&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="setup-imports-folders-and-helpers">
+<h2>2. Setup: imports, folders, and helpers<a class="headerlink" href="#setup-imports-folders-and-helpers" title="Permalink to this heading">#</a></h2>
+<p>Run once to load libraries and create the working folders referenced later in the notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">folder_input</span> <span class="o">=</span> <span class="s1">&#39;input&#39;</span>
+<span class="n">folder_output</span> <span class="o">=</span> <span class="s1">&#39;output&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Input folder: </span><span class="si">{</span><span class="n">folder_input</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Output folder: </span><span class="si">{</span><span class="n">folder_output</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input folder: input
+Output folder: output
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-hydro-profiles-and-the-phours-template">
+<h2>3. Load hydro profiles and the pHours template<a class="headerlink" href="#load-hydro-profiles-and-the-phours-template" title="Permalink to this heading">#</a></h2>
+<p>Validates the user inputs, loads the monthly hydro profiles, and reads the pHours layout that drives the seasonal/daytype structure.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder_input</span><span class="p">)</span> <span class="o">/</span> <span class="n">input_profile_filename</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">input_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cannot find </span><span class="si">{</span><span class="n">input_path</span><span class="si">}</span><span class="s1">. Double-check `input_profile_filename`.&#39;</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;tech&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loaded hydro profile: </span><span class="si">{</span><span class="n">input_path</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s1"> rows&#39;</span><span class="p">)</span>
+
+<span class="n">epm_input_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;../../epm/input&#39;</span><span class="p">)</span>
+<span class="n">hours_template_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">epm_input_root</span><span class="p">),</span> <span class="n">folder_epm_input</span><span class="p">,</span> <span class="n">hours_template_filename</span><span class="p">))</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">hours_template_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cannot find </span><span class="si">{</span><span class="n">hours_template_file</span><span class="si">}</span><span class="s1">. Update `hours_template_filename` or `folder_epm_input`.&#39;</span><span class="p">)</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">hours_template_file</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loaded pHours template from </span><span class="si">{</span><span class="n">hours_template_file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">pgen_candidates</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">epm_input_root</span><span class="p">),</span> <span class="n">folder_epm_input</span><span class="p">,</span> <span class="n">pGenDataInput_filename</span><span class="p">)),</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">epm_input_root</span><span class="p">),</span> <span class="n">folder_epm_input</span><span class="p">,</span> <span class="s1">&#39;supply&#39;</span><span class="p">,</span> <span class="n">pGenDataInput_filename</span><span class="p">)),</span>
+<span class="p">]</span>
+<span class="n">pGenDataInput_file</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">candidate</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">pgen_candidates</span> <span class="k">if</span> <span class="n">candidate</span><span class="o">.</span><span class="n">exists</span><span class="p">()),</span> <span class="kc">None</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">pGenDataInput_file</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s1">&#39;Cannot find pGenDataInput in the scenario folder (checked root and `supply/`).&#39;</span><span class="p">)</span>
+
+<span class="n">pgen_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">pGenDataInput_file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;tech&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">pgen_data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">pgen_data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pgen_data</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Loaded pGenDataInput from </span><span class="si">{</span><span class="n">pGenDataInput_file</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">MONTH_TO_SEASON</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;Q1&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;Q1&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;Q1&#39;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s1">&#39;Q2&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;Q2&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;Q2&#39;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;Q3&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;Q3&#39;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span> <span class="s1">&#39;Q3&#39;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s1">&#39;Q4&#39;</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span> <span class="s1">&#39;Q4&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="s1">&#39;Q4&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loaded hydro profile: hydro_profile_baseline.csv with 218 rows
+Loaded pHours template from ../../epm/input/data_test/pHours.csv
+Loaded pGenDataInput from ../../epm/input/data_test/supply/pGenDataInput.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="validate-generators-against-pgendatainput">
+<h2>4. Validate generators against <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code><a class="headerlink" href="#validate-generators-against-pgendatainput" title="Permalink to this heading">#</a></h2>
+<p>Compare the hydro units included in the monthly capacity-factor file with those defined in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> so any gaps can be filled before exporting the availability tables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">value_columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;tech&#39;</span><span class="p">)]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">value_columns</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The hydro profile file does not contain any monthly capacity-factor columns.&#39;</span><span class="p">)</span>
+
+<span class="n">numeric_matrix</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;gen&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">value_columns</span><span class="p">:</span>
+    <span class="n">numeric_matrix</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+
+<span class="n">zone_cf_template</span> <span class="o">=</span> <span class="n">numeric_matrix</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">)[</span><span class="n">value_columns</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">zone_avg_cf</span> <span class="o">=</span> <span class="n">zone_cf_template</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+<span class="n">profile_gens</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">profile_gen_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">profile_gens</span><span class="p">)</span>
+<span class="n">profile_zone_lookup</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">gen</span><span class="o">=</span><span class="n">profile_gens</span><span class="p">,</span> <span class="n">zone</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gen&#39;</span><span class="p">)[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+<span class="n">hydro_mask</span> <span class="o">=</span> <span class="n">pgen_data</span><span class="p">[</span><span class="s1">&#39;tech&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;hydro&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pgen_hydro</span> <span class="o">=</span> <span class="n">pgen_data</span><span class="p">[</span><span class="n">hydro_mask</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">pgen_hydro</span><span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pgen_hydro</span><span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">pgen_hydro</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pgen_hydro</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">pgen_gen_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">pgen_hydro</span><span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">])</span>
+<span class="n">zone_lookup</span> <span class="o">=</span> <span class="n">pgen_hydro</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gen&#39;</span><span class="p">)[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+<span class="n">missing_profiles</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pgen_gen_set</span> <span class="o">-</span> <span class="n">profile_gen_set</span><span class="p">)</span>
+<span class="n">missing_in_pgen</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">profile_gen_set</span> <span class="o">-</span> <span class="n">pgen_gen_set</span><span class="p">)</span>
+
+<span class="n">zone_peer_map</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">gen</span><span class="o">=</span><span class="n">profile_gens</span><span class="p">,</span> <span class="n">zone</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">)[</span><span class="s1">&#39;gen&#39;</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+        <span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="k">if</span> <span class="n">missing_profiles</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_profiles</span><span class="p">)</span><span class="si">}</span><span class="s2"> hydro generators are defined in pGenDataInput but missing capacity-factor profiles:&quot;</span><span class="p">)</span>
+    <span class="n">impacted_zones</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">gen</span> <span class="ow">in</span> <span class="n">missing_profiles</span><span class="p">:</span>
+        <span class="n">zone</span> <span class="o">=</span> <span class="n">zone_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">gen</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span>
+        <span class="n">impacted_zones</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">zone</span><span class="p">)</span>
+        <span class="n">peers</span> <span class="o">=</span> <span class="p">[</span><span class="n">peer</span> <span class="k">for</span> <span class="n">peer</span> <span class="ow">in</span> <span class="n">zone_peer_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span> <span class="p">[])</span> <span class="k">if</span> <span class="n">peer</span> <span class="o">!=</span> <span class="n">gen</span><span class="p">]</span>
+        <span class="n">avg_cf</span> <span class="o">=</span> <span class="n">zone_avg_cf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">zone</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">peers</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">avg_cf</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">gen</span><span class="si">}</span><span class="s2"> (zone </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s2">): add values by averaging existing hydro in zone (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">peers</span><span class="p">)</span><span class="si">}</span><span class="s2">) → suggested mean CF </span><span class="si">{</span><span class="n">avg_cf</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">gen</span><span class="si">}</span><span class="s2"> (zone </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s2">): no peer hydro available; please enter CFs manually.&quot;</span><span class="p">)</span>
+    <span class="n">available_zones</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">zone</span> <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">impacted_zones</span> <span class="k">if</span> <span class="n">zone</span> <span class="ow">in</span> <span class="n">zone_cf_template</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">available_zones</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Zone-average monthly profiles for the impacted zones:&#39;</span><span class="p">)</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">zone_cf_template</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">available_zones</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;All hydro generators in pGenDataInput have matching capacity-factor profiles.&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">missing_in_pgen</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_in_pgen</span><span class="p">)</span><span class="si">}</span><span class="s2"> generators have capacity-factor rows here but are missing from pGenDataInput:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">gen</span> <span class="ow">in</span> <span class="n">missing_in_pgen</span><span class="p">:</span>
+        <span class="n">zone</span> <span class="o">=</span> <span class="n">profile_zone_lookup</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">gen</span><span class="p">,</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - </span><span class="si">{</span><span class="n">gen</span><span class="si">}</span><span class="s2"> (zone </span><span class="si">{</span><span class="n">zone</span><span class="si">}</span><span class="s2">): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">No extra hydro capacity-factor rows beyond what pGenDataInput expects.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6 hydro generators are defined in pGenDataInput but missing capacity-factor profiles:
+  - Cambambe (zone Angola): add values by averaging existing hydro in zone (AH Mabubas, Baynes, Cacula Cabasa, Cafula (Keve), Calengue (Catumbela), Cambambe 1, Cambambe 2, Capanda, Chicapa/Biopio, Gove, Jamba Ya Mina, Jamba Ya Oma, Lauca, Lomaum, Lomaum 2, Luachimo, Matala, Quilengue, Tumuludo Casador, Vuka, Zenzo 1) → suggested mean CF 0.373.
+  - Chute de Tsamba (zone Gabon): add values by averaging existing hydro in zone (Akieni, Angouma, Bongolo, Booue, Boundji, Dibwangui, FE-2 (Kinguele Aval), Faga, Grand Poubara, Ibola, Igotchi, Imperatrice (Mouila), Iroungou, Kinguele, Kinguele Rebuild, Kongue, Kouata Mango, Lebombi, Liboka, Lifouta, Lolo, Mafoulamatato, Mingouli, Mitoungou, Mpassa, Nenguembani, Ngoulmendjim, Nguene, Omvan Amont, Omvan Aval, Ouyama, Poubara 1 Rebuild, Poubara 2, Poubara 2 Rebuild, Sindara, Souka, Tchimbele, Tsengue Leledi) → suggested mean CF 0.559.
+  - Dimoli (CAR) (zone CAR): add values by averaging existing hydro in zone (Baidou, Boali, Boali 1 Rebuild, Boali 2, Boali 3, Dimoli, Kotto, Lancremo, Lobaye, Mbecko 1, Palambo, Toutoubou) → suggested mean CF 0.660.
+  - Dimoli (Cameroon) (zone Cameroon): add values by averaging existing hydro in zone (Bayomen, Bini A Warak, Chollet (Cameroon), Chutes de Nki, Colomines, Edea, Edea Amont, Grand Eweng, Kastina, Kikot, Kikot Aval, Lagdo, Lom-Pangar, Makay, Mandourou, Mbam Amont, Mbinjal, Mekin, Memve&#39;ele, Menchum Bamenda, Mouila Mogue, Nachtigal Amont, Nachtigal Aval, Ndjock, Ngoila, Nyazom, Song Loulou, Song Mbengue, Song Mbong, Song Ndong, Yenga, Zoukomanbalé, Zoulabot) → suggested mean CF 0.653.
+  - Minkouma (zone Cameroon): add values by averaging existing hydro in zone (Bayomen, Bini A Warak, Chollet (Cameroon), Chutes de Nki, Colomines, Edea, Edea Amont, Grand Eweng, Kastina, Kikot, Kikot Aval, Lagdo, Lom-Pangar, Makay, Mandourou, Mbam Amont, Mbinjal, Mekin, Memve&#39;ele, Menchum Bamenda, Mouila Mogue, Nachtigal Amont, Nachtigal Aval, Ndjock, Ngoila, Nyazom, Song Loulou, Song Mbengue, Song Mbong, Song Ndong, Yenga, Zoukomanbalé, Zoulabot) → suggested mean CF 0.653.
+  - Poubara (zone Gabon): add values by averaging existing hydro in zone (Akieni, Angouma, Bongolo, Booue, Boundji, Dibwangui, FE-2 (Kinguele Aval), Faga, Grand Poubara, Ibola, Igotchi, Imperatrice (Mouila), Iroungou, Kinguele, Kinguele Rebuild, Kongue, Kouata Mango, Lebombi, Liboka, Lifouta, Lolo, Mafoulamatato, Mingouli, Mitoungou, Mpassa, Nenguembani, Ngoulmendjim, Nguene, Omvan Amont, Omvan Aval, Ouyama, Poubara 1 Rebuild, Poubara 2, Poubara 2 Rebuild, Sindara, Souka, Tchimbele, Tsengue Leledi) → suggested mean CF 0.559.
+
+Zone-average monthly profiles for the impacted zones:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>zone</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Angola</th>
+      <td>0.576</td>
+      <td>0.641</td>
+      <td>0.864</td>
+      <td>0.771</td>
+      <td>0.480</td>
+      <td>0.174</td>
+      <td>0.094</td>
+      <td>0.072</td>
+      <td>0.072</td>
+      <td>0.101</td>
+      <td>0.260</td>
+      <td>0.369</td>
+    </tr>
+    <tr>
+      <th>CAR</th>
+      <td>0.598</td>
+      <td>0.531</td>
+      <td>0.459</td>
+      <td>0.438</td>
+      <td>0.409</td>
+      <td>0.522</td>
+      <td>0.691</td>
+      <td>0.878</td>
+      <td>0.971</td>
+      <td>0.978</td>
+      <td>0.780</td>
+      <td>0.662</td>
+    </tr>
+    <tr>
+      <th>Cameroon</th>
+      <td>0.559</td>
+      <td>0.476</td>
+      <td>0.457</td>
+      <td>0.478</td>
+      <td>0.604</td>
+      <td>0.669</td>
+      <td>0.743</td>
+      <td>0.739</td>
+      <td>0.768</td>
+      <td>0.846</td>
+      <td>0.824</td>
+      <td>0.675</td>
+    </tr>
+    <tr>
+      <th>Gabon</th>
+      <td>0.588</td>
+      <td>0.511</td>
+      <td>0.527</td>
+      <td>0.615</td>
+      <td>0.625</td>
+      <td>0.529</td>
+      <td>0.373</td>
+      <td>0.276</td>
+      <td>0.475</td>
+      <td>0.648</td>
+      <td>0.799</td>
+      <td>0.746</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>114 generators have capacity-factor rows here but are missing from pGenDataInput:
+  - AH Mabubas (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Akieni (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Angouma (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Baidou (zone CAR): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Bayomen (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Bihongore (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Bikomo (zone EquatorialGuinea): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Bini A Warak (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Boali (zone CAR): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Boundji (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Cacula Cabasa (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Cafula (Keve) (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Calengue (Catumbela) (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Cambambe 1 (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Cambambe 2 (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Chicapa/Biopio (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Chollet (Cameroon) (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Chutes de Nki (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Colomines (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Dama (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Dibwangui (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Dimoli (zone CAR): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Edea (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Edea Amont (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - FE-2 (Kinguele Aval) (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Faga (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Gakenke 1 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Gakenke 2 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Gaseke (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Giciye 1 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Giciye 2 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ibola (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Igotchi (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Imperatrice (Mouila) (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Iroungou (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Jamba Ya Mina (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Jamba Ya Oma (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Jiji (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kabavu (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kabu (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kabu 2 (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kagunizi (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kastina (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kayenzi (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Keya (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kikot Aval (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kilimbi (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kinguele Rebuild (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Kirasakaronge (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Lauca (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Lebombi (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Liboka (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Lolo (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Lomaum (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Lomaum 2 (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Luachimo (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mafoulamatato (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Makay (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mandourou (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Matala (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mbam Amont (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mbecko 1 (zone CAR): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mbinjal (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mekin (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Memve&#39;ele (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Menchum Bamenda (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mingouli (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mouila Mogue (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mpassa (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mugere (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mukungwa 2 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mule (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mulembwe (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Mushara (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nachtigal Aval (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ndjock (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nenguembani (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ngoila (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ngororero (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nguene (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ntaruka 2 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nyabarongo 1 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nyazom (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nyemanga (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nyirantaruko (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Nyundo (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Omvan Amont (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Omvan Aval (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Poubara 2 (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Quilengue (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Riaba (zone EquatorialGuinea): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rubagabaga (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rucanzogera (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rugezi (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rukarara 2 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rukarara 5 (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rukarara 5 Mushishito (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rukarara 6 (IPP) (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Rusumo (zone Rwanda): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ruvubu (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ruzizi 1 (Burundi) (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Ruzizi 4 (DRC) (zone DRC): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Siguvyaye (zone Burundi): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Sindara (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Song Mbong (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Song Ndong (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Souka (zone Gabon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Toutoubou (zone CAR): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Tumuludo Casador (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Vuka (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Yenga (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Zenzo 1 (zone Angola): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Zoukomanbalé (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+  - Zoulabot (zone Cameroon): either remove it from the hydro profile or add the unit to pGenDataInput so EPM can use it.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="process-hydro-availability">
+<h2>5 - Process hydro availability<a class="headerlink" href="#process-hydro-availability" title="Permalink to this heading">#</a></h2>
+<section id="a-build-seasonal-reservoir-availability">
+<h3>5a - Build seasonal reservoir availability<a class="headerlink" href="#a-build-seasonal-reservoir-availability" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Keep only Reservoir Hydro units and the monthly columns.</span>
+<span class="n">data_reservoir</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tech&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ReservoirHydro&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">data_reservoir</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;gen&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_reservoir</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;tech&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_reservoir</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data_reservoir</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data_reservoir</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Convert months to seasons using MONTH_TO_SEASON and compute the mean for each season.</span>
+<span class="n">data_reservoir</span> <span class="o">=</span> <span class="n">data_reservoir</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">MONTH_TO_SEASON</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+
+<span class="c1"># Rename the season columns with the expected Q prefix and persist the output.</span>
+<span class="n">data_reservoir</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Q</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data_reservoir</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">data_reservoir</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data_reservoir</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="n">output_path_reservoir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;pAvailabilityCustom.csv&#39;</span><span class="p">)</span>
+<span class="n">data_reservoir</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path_reservoir</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reservoir data processed and saved to </span><span class="si">{</span><span class="n">output_path_reservoir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>gen</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>AH Mabubas</th>
+      <td>0.570000</td>
+      <td>0.480000</td>
+      <td>0.410000</td>
+      <td>0.460000</td>
+      <td>0.550000</td>
+      <td>0.610000</td>
+      <td>0.780000</td>
+      <td>0.920000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.950000</td>
+      <td>0.530000</td>
+    </tr>
+    <tr>
+      <th>Baynes</th>
+      <td>0.448571</td>
+      <td>0.401429</td>
+      <td>0.382857</td>
+      <td>0.408571</td>
+      <td>0.468571</td>
+      <td>0.542857</td>
+      <td>0.632857</td>
+      <td>0.672857</td>
+      <td>0.712857</td>
+      <td>0.738571</td>
+      <td>0.641429</td>
+      <td>0.478571</td>
+    </tr>
+    <tr>
+      <th>Bikongo</th>
+      <td>0.484167</td>
+      <td>0.502500</td>
+      <td>0.500000</td>
+      <td>0.504167</td>
+      <td>0.458333</td>
+      <td>0.310000</td>
+      <td>0.247500</td>
+      <td>0.225000</td>
+      <td>0.279167</td>
+      <td>0.334167</td>
+      <td>0.520000</td>
+      <td>0.559167</td>
+    </tr>
+    <tr>
+      <th>Boali 1 Rebuild</th>
+      <td>0.540000</td>
+      <td>0.550000</td>
+      <td>0.510000</td>
+      <td>0.490000</td>
+      <td>0.400000</td>
+      <td>0.240000</td>
+      <td>0.170000</td>
+      <td>0.140000</td>
+      <td>0.130000</td>
+      <td>0.180000</td>
+      <td>0.490000</td>
+      <td>0.620000</td>
+    </tr>
+    <tr>
+      <th>Boali 2</th>
+      <td>0.540000</td>
+      <td>0.550000</td>
+      <td>0.510000</td>
+      <td>0.490000</td>
+      <td>0.400000</td>
+      <td>0.240000</td>
+      <td>0.170000</td>
+      <td>0.140000</td>
+      <td>0.130000</td>
+      <td>0.180000</td>
+      <td>0.490000</td>
+      <td>0.620000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>season</th>
+      <th>Q1</th>
+      <th>Q2</th>
+    </tr>
+    <tr>
+      <th>gen</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>AH Mabubas</th>
+      <td>0.772</td>
+      <td>0.628571</td>
+    </tr>
+    <tr>
+      <th>Baynes</th>
+      <td>0.606</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>Bikongo</th>
+      <td>0.304</td>
+      <td>0.486310</td>
+    </tr>
+    <tr>
+      <th>Boali 1 Rebuild</th>
+      <td>0.216</td>
+      <td>0.482857</td>
+    </tr>
+    <tr>
+      <th>Boali 2</th>
+      <td>0.216</td>
+      <td>0.482857</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reservoir data processed and saved to output/pAvailabilityCustom.csv
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="b-format-run-of-river-hourly-availability">
+<h3>5b - Format run-of-river hourly availability<a class="headerlink" href="#b-format-run-of-river-hourly-availability" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_ror_generation_profile</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">template</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build the long-run hourly ROR profile expected by pVREgenProfile.csv.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    result : pandas.DataFrame</span>
+<span class="sd">        Seasonal data for ROR plants with `gen` as index and seasons as columns.</span>
+<span class="sd">    template : pandas.DataFrame</span>
+<span class="sd">        Template that provides the `season`, `daytype`, and hourly column structure.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        MultiIndex DataFrame compatible with the EPM pVREgenProfile format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Reshape seasonal data to long format and merge with season/daytype combinations.</span>
+    <span class="n">result_reset</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">result_long</span> <span class="o">=</span> <span class="n">result_reset</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="n">value_name</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="n">daytypes</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()[[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;daytype&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">result_long</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">daytypes</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Broadcast the seasonal value across all hourly columns required by the template.</span>
+    <span class="n">hour_cols</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">([</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;daytype&#39;</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">hour_cols</span><span class="p">:</span>
+        <span class="n">merged</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+
+    <span class="n">merged_final</span> <span class="o">=</span> <span class="n">merged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+    <span class="n">merged_final</span> <span class="o">=</span> <span class="n">merged_final</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;daytype&#39;</span><span class="p">])</span>
+    <span class="n">merged_final</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">merged_final</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter to Run-of-River units and retain monthly columns only.</span>
+<span class="n">data_ror</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;tech&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;ROR&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">data_ror</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;gen&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_ror</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;zone&#39;</span><span class="p">,</span> <span class="s1">&#39;tech&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">data_ror</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">data_ror</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data_ror</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="c1"># Convert months to seasons and label them with the Q prefix.</span>
+<span class="n">data_ror</span> <span class="o">=</span> <span class="n">data_ror</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">MONTH_TO_SEASON</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data_ror</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">data_ror</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Q</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data_ror</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">data_ror</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">]</span>
+
+<span class="c1"># Align with the template structure so downstream scripts can ingest the file directly.</span>
+<span class="n">data_ror</span> <span class="o">=</span> <span class="n">build_ror_generation_profile</span><span class="p">(</span><span class="n">data_ror</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+<span class="n">data_ror</span> <span class="o">=</span> <span class="n">data_ror</span><span class="p">[</span><span class="n">template</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">data_ror</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="n">output_path_ror</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder_output</span><span class="p">,</span> <span class="s1">&#39;pVREgenProfile.csv&#39;</span><span class="p">)</span>
+<span class="n">data_ror</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path_ror</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROR data processed and saved to </span><span class="si">{</span><span class="n">output_path_ror</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>10</th>
+      <th>11</th>
+      <th>12</th>
+    </tr>
+    <tr>
+      <th>gen</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Akieni</th>
+      <td>0.570000</td>
+      <td>0.480000</td>
+      <td>0.410000</td>
+      <td>0.460000</td>
+      <td>0.550000</td>
+      <td>0.610000</td>
+      <td>0.780000</td>
+      <td>0.920000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>0.950000</td>
+      <td>0.530000</td>
+    </tr>
+    <tr>
+      <th>Angouma</th>
+      <td>0.448571</td>
+      <td>0.401429</td>
+      <td>0.382857</td>
+      <td>0.408571</td>
+      <td>0.468571</td>
+      <td>0.542857</td>
+      <td>0.632857</td>
+      <td>0.672857</td>
+      <td>0.712857</td>
+      <td>0.738571</td>
+      <td>0.641429</td>
+      <td>0.478571</td>
+    </tr>
+    <tr>
+      <th>Baidou</th>
+      <td>0.464444</td>
+      <td>0.357778</td>
+      <td>0.387778</td>
+      <td>0.536667</td>
+      <td>0.558889</td>
+      <td>0.455556</td>
+      <td>0.237778</td>
+      <td>0.175556</td>
+      <td>0.314444</td>
+      <td>0.564444</td>
+      <td>0.716667</td>
+      <td>0.678889</td>
+    </tr>
+    <tr>
+      <th>Bayomen</th>
+      <td>0.364000</td>
+      <td>0.401000</td>
+      <td>0.439000</td>
+      <td>0.495000</td>
+      <td>0.443000</td>
+      <td>0.261000</td>
+      <td>0.226000</td>
+      <td>0.222000</td>
+      <td>0.244000</td>
+      <td>0.271000</td>
+      <td>0.352000</td>
+      <td>0.342000</td>
+    </tr>
+    <tr>
+      <th>Bihongore</th>
+      <td>0.464444</td>
+      <td>0.357778</td>
+      <td>0.387778</td>
+      <td>0.536667</td>
+      <td>0.558889</td>
+      <td>0.455556</td>
+      <td>0.237778</td>
+      <td>0.175556</td>
+      <td>0.314444</td>
+      <td>0.564444</td>
+      <td>0.716667</td>
+      <td>0.678889</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+    <tr>
+      <th>gen</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Akieni</th>
+      <td>0.772000</td>
+      <td>0.628571</td>
+    </tr>
+    <tr>
+      <th>Angouma</th>
+      <td>0.606000</td>
+      <td>0.500000</td>
+    </tr>
+    <tr>
+      <th>Baidou</th>
+      <td>0.348444</td>
+      <td>0.529524</td>
+    </tr>
+    <tr>
+      <th>Bayomen</th>
+      <td>0.279200</td>
+      <td>0.380571</td>
+    </tr>
+    <tr>
+      <th>Bihongore</th>
+      <td>0.348444</td>
+      <td>0.529524</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>t1</th>
+      <th>t2</th>
+      <th>t3</th>
+      <th>t4</th>
+      <th>t5</th>
+      <th>t6</th>
+      <th>t7</th>
+      <th>t8</th>
+      <th>t9</th>
+      <th>t10</th>
+      <th>...</th>
+      <th>t15</th>
+      <th>t16</th>
+      <th>t17</th>
+      <th>t18</th>
+      <th>t19</th>
+      <th>t20</th>
+      <th>t21</th>
+      <th>t22</th>
+      <th>t23</th>
+      <th>t24</th>
+    </tr>
+    <tr>
+      <th>gen</th>
+      <th>q</th>
+      <th>d</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">Akieni</th>
+      <th rowspan="5" valign="top">Q1</th>
+      <th>d1</th>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>...</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+    </tr>
+    <tr>
+      <th>d2</th>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>...</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+    </tr>
+    <tr>
+      <th>d3</th>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>...</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+    </tr>
+    <tr>
+      <th>d4</th>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>...</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+    </tr>
+    <tr>
+      <th>d5</th>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>...</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+      <td>0.772</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 24 columns</p>
+</div></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./pre-analysis/prepare-data"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="load_plot.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Demand Forecast Plots</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="supply_demand_balance.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Objective</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#user-inputs">
+   1. User Inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-imports-folders-and-helpers">
+   2. Setup: imports, folders, and helpers
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-hydro-profiles-and-the-phours-template">
+   3. Load hydro profiles and the pHours template
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#validate-generators-against-pgendatainput">
+   4. Validate generators against
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pGenDataInput
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#process-hydro-availability">
+   5 - Process hydro availability
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-build-seasonal-reservoir-availability">
+     5a - Build seasonal reservoir availability
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#b-format-run-of-river-hourly-availability">
+     5b - Format run-of-river hourly availability
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By ESMAP
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Nov 07, 2025.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>
