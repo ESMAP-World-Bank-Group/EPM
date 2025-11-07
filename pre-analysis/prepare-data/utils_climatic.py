@@ -16,6 +16,36 @@ import cartopy.feature as cfeature
 import glob
 import time
 import seaborn as sns
+import calendar
+
+
+VARIABLE_DISPLAY_NAMES = {
+    "t2m": "2m Temperature",
+    "2m_temperature": "2m Temperature",
+    "tp": "Total Precipitation",
+    "total_precipitation": "Total Precipitation",
+}
+
+
+def _get_var_display_name(var_name, custom=None):
+    if custom:
+        return custom
+    return VARIABLE_DISPLAY_NAMES.get(var_name, var_name.replace("_", " ").title())
+
+
+def _get_var_units(dataset_collection, var):
+    """
+    Retrieve units metadata for a variable from a dataset or dict of datasets.
+    """
+    if isinstance(dataset_collection, dict):
+        datasets = dataset_collection.values()
+    else:
+        datasets = [dataset_collection]
+
+    for ds in datasets:
+        if isinstance(ds, xr.Dataset) and var in ds:
+            return ds[var].attrs.get("units", "")
+    return ""
 
 
 def get_bbox(ISO_A2):
@@ -172,13 +202,15 @@ def plot_mean_map(ds, var, folder=None):
         plt.show()
 
 
-def plot_monthly_climatology_grid(ds, var, filename=None, display=False):
+def plot_monthly_climatology_grid(ds, var, filename=None, display=False, var_display_name=None):
     """
     Plot the monthly climatology of a variable in a grid format.
     :param ds:
     :param var:
     :return:
     """
+    var_label = _get_var_display_name(var, var_display_name)
+
     # Group by month and average over years
     monthly_clim = ds[var].groupby('time.month').mean(dim='time')
 
@@ -206,11 +238,12 @@ def plot_monthly_climatology_grid(ds, var, filename=None, display=False):
 
     # Add a single shared colorbar for all axes
     cbar = fig.colorbar(im, ax=axes, orientation='vertical', shrink=0.9)
-    cbar.set_label(ds[var].attrs.get('units', var))
+    units = ds[var].attrs.get('units', '')
+    cbar.set_label(f"{var_label} ({units})" if units else var_label)
 
 
 
-    fig.suptitle(f"Interannual Monthly Mean of {var.upper()}", fontsize=16)
+    fig.suptitle(f"Interannual Monthly Mean of {var_label}", fontsize=16)
     #plt.tight_layout(rect=[0, 0, 0.9, 0.95])  # Leave space for suptitle and colorbar
     if filename:
         fig.savefig(filename, dpi=300)
@@ -253,13 +286,14 @@ def plot_spatial_mean_timeseries_all_vars(ds, lat_name='latitude', lon_name='lon
         plt.show()
 
 
-def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitude', lon_name='longitude', folder=None, display=False):
+def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitude', lon_name='longitude',
+                                 folder=None, display=False, label_map=None, var_x_display=None, var_y_display=None):
     """
     Scatter plot of annual spatial means for two variables across multiple datasets.
     """
     markers = ['o', 's', '^', 'D', 'v', '<', '>', 'P', '*', 'X']
     colors = plt.cm.tab10.colors  # 10 distinct colors
-
+    label_map = label_map or {}
     fig = plt.figure(figsize=(10, 6))
 
     for i, (iso, ds) in enumerate(data.items()):
@@ -275,16 +309,20 @@ def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitu
         plt.scatter(
             x_annual.values,
             y_annual.values,
-            label=iso,
+            label=label_map.get(iso, iso),
             marker=markers[i % len(markers)],
             color=colors[i % len(colors)],
             edgecolor='black'
         )
 
     # Axis labels
-    plt.xlabel(f"{var_x.upper()} ({ds[var_x].attrs.get('units', '')})")
-    plt.ylabel(f"{var_y.upper()} ({ds[var_y].attrs.get('units', '')})")
-    plt.title(f"Annual Spatial Mean: {var_x.upper()} vs {var_y.upper()}")
+    x_label = _get_var_display_name(var_x, var_x_display)
+    y_label = _get_var_display_name(var_y, var_y_display)
+    x_units = _get_var_units(data, var_x)
+    y_units = _get_var_units(data, var_y)
+    plt.xlabel(f"{x_label} ({x_units})" if x_units else x_label)
+    plt.ylabel(f"{y_label} ({y_units})" if y_units else y_label)
+    plt.title(f"Annual Spatial Mean: {x_label} vs {y_label}")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
@@ -297,7 +335,8 @@ def scatter_annual_spatial_means(data, var_x='t2m', var_y='tp', lat_name='latitu
     plt.close(fig)
 
 
-def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=None, display=False):
+def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=None, display=False,
+                                         label_map=None, var_display_name=None):
     """
     Plot the temporal evolution of the spatial mean for a given variable across multiple datasets.
     This function takes a dictionary of datasets, extracts the specified variable, computes the spatial mean,
@@ -316,6 +355,9 @@ def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=Non
 
 
     lat_name, lon_name = 'latitude', 'longitude'
+    label_map = label_map or {}
+    var_label = _get_var_display_name(var, var_display_name)
+    units = _get_var_units(dataset, var)
     fig = plt.figure(figsize=(12, 6))
 
     for iso, ds in dataset.items():
@@ -338,11 +380,11 @@ def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=Non
             time_axis = ds['time'].values
 
         # Plot
-        plt.plot(time_axis, spatial_mean, label=f"{iso} - mean")
+        plt.plot(time_axis, spatial_mean, label=f"{label_map.get(iso, iso)} - mean")
 
-    plt.title(f"Temporal Evolution of Spatial Mean of {var.upper()}")
+    plt.title(f"Temporal Evolution of Spatial Mean of {var_label}")
     plt.xlabel("Time")
-    plt.ylabel(ds[var].attrs.get("units", var))
+    plt.ylabel(f"{var_label} ({units})" if units else var_label)
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.grid(True)
     plt.tight_layout()
@@ -355,9 +397,12 @@ def plot_spatial_mean_timeseries_all_iso(dataset, var='tp', agg=None, folder=Non
     plt.close(fig)
 
 
-def plot_monthly_mean(dataset, var, lat_name='latitude', lon_name='longitude', folder=None, display=False):
+def plot_monthly_mean(dataset, var, lat_name='latitude', lon_name='longitude', folder=None, display=False,
+                      label_map=None, var_display_name=None):
  # Example variable to plot
     n = len(dataset)
+    label_map = label_map or {}
+    var_label = _get_var_display_name(var, var_display_name)
     fig, axs = plt.subplots(n, 1, figsize=(12, 4 * n), sharex=True, sharey=True)
 
     if n == 1:
@@ -401,8 +446,10 @@ def plot_monthly_mean(dataset, var, lat_name='latitude', lon_name='longitude', f
         ax.plot([pd.Timestamp(f'2025-{m:02d}-01').strftime('%b') for m in min_year_monthly['month'].values],
                 min_year_monthly, label=f'Min Year ({min_year})', linestyle=':', marker='v')
 
-        ax.set_title(f"{iso} - Monthly Average of {var.upper()}")
-        ax.set_ylabel(ds[var].attrs.get('units', var))
+        country_label = label_map.get(iso, iso)
+        units = ds[var].attrs.get('units', '')
+        ax.set_title(f"{country_label} - Monthly Average of {var_label}")
+        ax.set_ylabel(f"{var_label} ({units})" if units else var_label)
         ax.grid(True)
         ax.legend()
 
@@ -757,7 +804,9 @@ def plot_monthly_precipitation_heatmap(dataset: dict,
                                        lat_name='latitude',
                                        lon_name='longitude',
                                        path=None,
-                                       display=False):
+                                       display=False,
+                                       label_map=None,
+                                       var_display_name=None):
     """
     Plot a heatmap of total monthly precipitation across countries.
 
@@ -781,6 +830,10 @@ def plot_monthly_precipitation_heatmap(dataset: dict,
     Displays a heatmap (countries x months) with total precipitation.
     """
     data_rows = []
+    label_map = label_map or {}
+    var_label = _get_var_display_name(var, var_display_name)
+    units = _get_var_units(dataset, var)
+    units_label = f" ({units})" if units else ""
 
     for iso, ds in dataset.items():
         if var not in ds:
@@ -790,14 +843,18 @@ def plot_monthly_precipitation_heatmap(dataset: dict,
         spatial_mean = da.mean(dim=[lat_name, lon_name])
         monthly_total = spatial_mean.groupby('time.month').mean(dim='time')
         monthly_series = monthly_total.to_series()
+        country_label = label_map.get(iso, iso)
 
         for month in range(1, 13):
             value = monthly_series.get(month, 0.0)
-            data_rows.append({'country': iso, 'month': month, 'precip': value})
+            data_rows.append({'country': country_label, 'month': month, 'precip': value})
 
     df = pd.DataFrame(data_rows)
     heatmap_data = df.pivot(index='country', columns='month', values='precip').fillna(0)
     heatmap_data = heatmap_data.reindex(columns=range(1, 13))
+    desired_order = [label_map.get(iso, iso) for iso in dataset.keys()]
+    desired_order = [country for country in desired_order if country in heatmap_data.index]
+    heatmap_data = heatmap_data.reindex(desired_order)
 
     fig_height = max(4, 0.5 * len(heatmap_data))
     fig, ax = plt.subplots(figsize=(12, fig_height))
@@ -806,12 +863,12 @@ def plot_monthly_precipitation_heatmap(dataset: dict,
         cmap=cmap,
         annot=True,
         fmt=".0f",
-        cbar_kws={'label': 'Mean Precipitation (mm/day)'},
+        cbar_kws={'label': f"Mean {var_label}{units_label}"},
         linewidths=0.5,
         ax=ax
     )
 
-    ax.set_title("Monthly Mean Precipitation per Country (mm/day)")
+    ax.set_title(f"Monthly Mean {var_label} per Country{units_label}")
     ax.set_xlabel("Month")
     ax.set_ylabel("Country")
     ax.set_xticks([i + 0.5 for i in range(12)])
@@ -826,4 +883,3 @@ def plot_monthly_precipitation_heatmap(dataset: dict,
         plt.show()
 
     plt.close(fig)
-
