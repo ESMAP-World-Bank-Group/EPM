@@ -186,6 +186,7 @@ def run_input_treatment(gams,
         symbol = target_db[param_name]
         symbol.clear()
         db.write(target_db, [param_name])
+        
         live_snapshot = gt.Container(target_db)
         current = live_snapshot[param_name].records
         current_count = 0 if current is None else len(current)
@@ -1032,7 +1033,7 @@ def run_input_treatment(gams,
                                                                                                 
     fill_default_value(db, "pCapexTrajectories", default_df)
 
-
+    
     # LossFactor must be defined through a specific csv
     # prepare_lossfactor(db, "pNewTransmission", "pLossFactorInternal", "y", "value")
 

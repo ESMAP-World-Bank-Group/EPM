@@ -327,7 +327,7 @@ $if not errorfree $abort PythonError in input_treatment.py
 
 $offMulti
 
-$if %DEBUG%==1 execute_unload 'input_treated.gdx';
+execute_unload 'input_treated.gdx' pNewTransmission pGenDataInput;
 
 *-------------------------------------------------------------------------------------
 

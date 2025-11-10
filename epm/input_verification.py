@@ -86,6 +86,7 @@ def run_input_verification(gams):
     _check_external_transfer_settings(gams, db)
     _check_storage_data(gams, db)
     _check_generation_defaults(gams, db)
+    _warn_missing_generation_default_combinations(gams, db)
 
 
 def _run_input_verification_on_container(container: gt.Container, *, verbose=True, log_func=None):
@@ -865,6 +866,46 @@ def _check_generation_defaults(gams, db):
         raise
     except Exception:
         gams.printLog('Unexpected error in pGenDataInputDefault coverage')
+        raise
+
+
+def _warn_missing_generation_default_combinations(gams, db):
+    """Warn when a (zone, tech, fuel) tuple in pGenDataInput is absent in defaults."""
+    try:
+        default_records = db["pGenDataInputDefault"].records
+        gen_records = db["pGenDataInput"].records
+        if (
+            default_records is None
+            or default_records.empty
+            or gen_records is None
+            or gen_records.empty
+        ):
+            return
+        required = (
+            gen_records[['z', 'tech', 'f']]
+            .dropna(subset=['z', 'tech', 'f'])
+            .drop_duplicates()
+        )
+        available = (
+            default_records[['z', 'tech', 'f']]
+            .dropna(subset=['z', 'tech', 'f'])
+            .drop_duplicates()
+        )
+        required_set = set(map(tuple, required.to_records(index=False)))
+        available_set = set(map(tuple, available.to_records(index=False)))
+        missing = required_set - available_set
+        if missing:
+            missing_list = sorted(missing)
+            preview = missing_list[:10]
+            more = ""
+            if len(missing_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(missing_list)})"
+            gams.printLog(
+                "Warning: pGenDataInputDefault lacks entries for the following (zone, tech, fuel) combinations "
+                f"present in pGenDataInput{more}: {preview}. No errors will be raised, but this may create unexpected results."
+            )
+    except Exception:
+        gams.printLog('Unexpected error when checking pGenDataInputDefault combinations')
         raise
 
 
