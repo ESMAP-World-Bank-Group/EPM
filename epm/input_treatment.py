@@ -319,6 +319,96 @@ def run_input_treatment(gams,
         _write_back(db, param_name)
         
 
+    def zero_capacity_for_invalid_generator_status(db: gt.Container):
+        """Set Capacity=0 for generators with missing/invalid Status."""
+        param_name = "pGenDataInput"
+        if param_name not in db:
+            return
+        records = db[param_name].records
+        if records is None or records.empty:
+            return
+        if "g" not in records.columns or "pGenDataInputHeader" not in records.columns:
+            return
+
+        records = records.copy()
+        status_rows = records.loc[records["pGenDataInputHeader"] == "Status"].copy()
+        all_gens = set(records["g"].dropna().unique())
+        if status_rows.empty:
+            invalid_gens = all_gens
+        else:
+            status_rows["numeric_status"] = pd.to_numeric(status_rows["value"], errors="coerce")
+            valid_gens = set(
+                status_rows.loc[status_rows["numeric_status"].isin([1, 2, 3]), "g"].dropna().unique()
+            )
+            invalid_gens = all_gens - valid_gens
+        if not invalid_gens:
+            return
+
+        mask = (
+            (records["pGenDataInputHeader"] == "Capacity")
+            & records["g"].isin(invalid_gens)
+        )
+        if not mask.any():
+            return
+
+        records.loc[mask, "value"] = 0
+        db.data[param_name].setRecords(records)
+        _write_back(db, param_name)
+        gams.printLog(
+            f"Setting Capacity=0 for {mask.sum()} generator row(s) with invalid/missing Status (allowed values: 1, 2, 3)."
+        )
+
+
+    def zero_capacity_for_invalid_transmission_status(db: gt.Container):
+        """Set Capacity=0 for transmission corridors with Status missing or 0."""
+        param_name = "pNewTransmission"
+        if param_name not in db:
+            return
+        records = db[param_name].records
+        if records is None or records.empty:
+            return
+        if any(col not in records.columns for col in ("z", "z2", "pTransmissionHeader")):
+            return
+
+        wide = (
+            records
+            .pivot_table(
+                index=["z", "z2"],
+                columns="pTransmissionHeader",
+                values="value",
+                aggfunc="first",
+                observed=False,
+            )
+        )
+        if wide.empty:
+            return
+        if "Status" not in wide.columns:
+            wide["Status"] = np.nan
+        status_numeric = pd.to_numeric(wide["Status"], errors="coerce")
+        valid_mask = status_numeric.notna() & (status_numeric != 0)
+        invalid_pairs = wide.index[~valid_mask].tolist()
+        if not invalid_pairs:
+            return
+
+        invalid_set = set(invalid_pairs)
+        pair_flags = pd.Series(
+            ((z, z2) in invalid_set for z, z2 in zip(records["z"], records["z2"])),
+            index=records.index,
+        )
+        mask = (records["pTransmissionHeader"] == "CapacityPerLine") & pair_flags
+        if not mask.any():
+            return
+
+        records = records.copy()
+        records.loc[mask, "value"] = 0
+        db.data[param_name].setRecords(records)
+        _write_back(db, param_name)
+
+        gams.printLog(
+            f"Setting CapacityPerLine=0 for {mask.sum()} transmission row(s) due to Status missing or equal to 0."
+        )
+        
+
     def monitor_hydro_availability(db: gt.Container, auto_fill: bool):
         """Log missing hydro availability rows and optionally back-fill them."""
         required_params = {"pGenDataInput", "pAvailability"}
@@ -981,7 +1071,6 @@ def run_input_treatment(gams,
                 f"Linear interpolation performed on {param_name} to match model years {target_range}."
             )
             _write_back(db, param_name)
-
         
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
@@ -1004,9 +1093,9 @@ def run_input_treatment(gams,
         write_back=lambda name: _write_back(db, name),
     )
 
-    remove_generators_with_invalid_status(db)
+    zero_capacity_for_invalid_generator_status(db)
     
-    remove_transmissions_with_invalid_status(db)
+    zero_capacity_for_invalid_transmission_status(db)
     
     interpolate_time_series_parameters(db, YEARLY_OUTPUT)
     
@@ -1033,7 +1122,7 @@ def run_input_treatment(gams,
                                                                                                 
     fill_default_value(db, "pCapexTrajectories", default_df)
 
-    
+
     # LossFactor must be defined through a specific csv
     # prepare_lossfactor(db, "pNewTransmission", "pLossFactorInternal", "y", "value")
 
