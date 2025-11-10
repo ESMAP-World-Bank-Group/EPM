@@ -159,9 +159,9 @@ FIGURES_ACTIVATED = {
     
     # 4. Dispatch figures
     'DispatchZoneMaxLoadDay': True,
-    'DispatchZoneMaxLoadSeason': True,
+    'DispatchZoneMaxLoadSeason': False,
     'DispatchSystemMaxLoadDay': True,
-    'DispatchSystemMaxLoadSeason': True,
+    'DispatchSystemMaxLoadSeason': False,
     
     # 5. Interconnection figures
     'NetImportsZoneEvolution': True,
