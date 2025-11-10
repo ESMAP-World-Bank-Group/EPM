@@ -67,9 +67,7 @@ pre-analysis/**/output/*
 **/sensitivity/
 
 # Input data
-input/*
-!input/scenario_baseline.csv
-!input/scenarios_specification.csv
+epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
 
