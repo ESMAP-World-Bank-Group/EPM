@@ -274,7 +274,6 @@ $gdxIn
 
 $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
-
 *-------------------------------------------------------------------------------------
 
 * Make input verification
