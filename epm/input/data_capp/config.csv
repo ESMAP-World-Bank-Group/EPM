@@ -49,7 +49,7 @@ Internal network loss factors by corridor (Unit: per-unit loss share),pLossFacto
 Share of demand allowed to be served by high-price imports (Unit: per-unit share),pMaxPriceImportShare,trade/pMaxPriceImportShare.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
-"Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
+"Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission_limited.csv
 Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv
 Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit.csv
 ,H2,

@@ -286,15 +286,15 @@ $log ##########################
 $onEmbeddedCode Python:
 import sys, os
 
-# get directory of the .gms file
+# Work from the original GDX on disk so zone/set pruning inside GAMS
+# does not hide issues. "%cd%" points to the run directory where
+# "input.gdx" already exists.
 gms_dir = os.path.normpath(r"%modeldir%/")
-
-# ensure it's in sys.path
 if gms_dir not in sys.path:
     sys.path.insert(0, gms_dir)
 
-from input_verification import run_input_verification
-run_input_verification(gams)
+from input_verification import run_input_verification_from_gdx
+run_input_verification_from_gdx("input.gdx")
 $offEmbeddedCode 
 
 
@@ -326,6 +326,8 @@ $offEmbeddedCode
 $if not errorfree $abort PythonError in input_treatment.py
 
 $offMulti
+
+$if %DEBUG%==1 execute_unload 'input_treated.gdx';
 
 *-------------------------------------------------------------------------------------
 

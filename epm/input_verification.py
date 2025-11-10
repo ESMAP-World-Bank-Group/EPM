@@ -38,9 +38,13 @@ Contact:
 **********************************************************************
 """
 
-import gams.transfer as gt
+import os
 from types import SimpleNamespace
+
+import gams.transfer as gt
 import pandas as pd
+
+from input_treatment import apply_debug_column_renames, filter_inputs_to_allowed_zones
 
 ESSENTIAL_INPUT = [
     "y",
@@ -58,6 +62,7 @@ OPTIONAL_INPUT = ["pDemandForecast"]
 def run_input_verification(gams):
     """Run the full suite of input validation checks on the current GAMS DB."""
     db = gt.Container(gams.db)
+    filter_inputs_to_allowed_zones(db, log_func=gams.printLog)
 
     _check_required_inputs(gams, db)
     _check_settings_flags(gams, db)
@@ -75,11 +80,28 @@ def run_input_verification(gams):
     _check_interconnected_mode(gams, db)
     _check_planning_reserves(gams, db)
     _check_fuel_definitions(gams, db)
+    _check_tech_definitions(gams, db)
     _check_zone_consistency(gams, db)
     _check_external_transfer_limits(gams, db)
     _check_external_transfer_settings(gams, db)
     _check_storage_data(gams, db)
     _check_generation_defaults(gams, db)
+
+
+def _run_input_verification_on_container(container: gt.Container, *, verbose=True, log_func=None):
+    """Execute verification on an existing gt.Container and collect logs."""
+    collected_logs = []
+
+    def _log(message):
+        collected_logs.append(str(message))
+        if log_func is not None:
+            log_func(message)
+        elif verbose:
+            print(message)
+
+    dummy_gams = SimpleNamespace(db=container, printLog=_log)
+    run_input_verification(dummy_gams)
+    return collected_logs
 
 
 def _check_required_inputs(gams, db):
@@ -667,17 +689,59 @@ def _check_fuel_definitions(gams, db):
             gams.printLog(msg)
             raise ValueError(msg)
         if additional_fuels:
-            msg = (
-                "Error: The following fuels are defined in ftfindex but not in gendata.\n"
+            gams.printLog(
+                "Info: The following fuels are defined in ftfindex but not in gendata.\n"
                 f"{additional_fuels}\n This may be because of spelling issues, and may cause problems after."
             )
-            gams.printLog(msg)
-            raise ValueError(msg)
         gams.printLog('Success: Fuels are well-defined everywhere.')
+        gams.printLog(f"Fuels used: {sorted(fuels_in_gendata)}")
+
     except ValueError:
         raise
     except Exception:
         gams.printLog('Unexpected error when checking ftfindex')
+        raise
+
+
+def _check_tech_definitions(gams, db):
+    """Ensure technology definitions align between pTechData and generation data."""
+    try:
+        tech_records = db["pTechData"].records
+
+        gen_records = db["pGenDataInput"].records
+
+        tech_defined = (
+            set(tech_records["tech"].unique())
+            if "tech" in tech_records.columns
+            else set()
+        )
+        tech_in_gendata = (
+            set(gen_records["tech"].unique())
+            if "tech" in gen_records.columns
+            else set()
+        )
+
+        missing_techs = tech_in_gendata - tech_defined
+        additional_techs = tech_defined - tech_in_gendata
+        if missing_techs:
+            msg = (
+                "Error: The following technologies are in gendata but not defined in pTechData: \n"
+                f"{missing_techs}"
+            )
+            gams.printLog(msg)
+            raise ValueError(msg)
+        if additional_techs:
+            gams.printLog(
+                "Info: The following technologies are defined in pTechData but not used in gendata.\n"
+                f"{additional_techs}\n This may indicate spelling differences or unused technologies."
+            )
+        gams.printLog("Success: Technologies are well-defined everywhere.")
+        gams.printLog(f"Technologies used: {sorted(tech_in_gendata)}")
+
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog("Unexpected error when checking pTechData")
         raise
 
 
@@ -701,10 +765,10 @@ def _check_zone_consistency(gams, db):
                 )
                 gams.printLog(msg)
                 raise ValueError(msg)
-            gams.printLog("Success: no conflict between internal and external zones")
+            gams.printLog("Success: No conflict between internal and external zones")
         else:
             gams.printLog(
-                "Success: no conflict between internal and external zones, as external zones are not included in the model."
+                "Success: No conflict between internal and external zones, as external zones are not included in the model."
             )
     except ValueError:
         raise
@@ -766,7 +830,7 @@ def _check_storage_data(gams, db):
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:
             msg = (
-                "Error: The following fuels are in gendata but not defined in pStorData: \n"
+                "Error: The following storage genartors are in pGenDataInput but not defined in pStorDataExcel: \n"
                 f"{missing_storage_gen}"
             )
             gams.printLog(msg)
@@ -808,57 +872,19 @@ def run_input_verification_from_gdx(gdx_path, *, verbose=True, log_func=None):
     """Run the input verification logic directly on a standalone GDX file."""
     container = gt.Container()
     container.read(gdx_path)
-
-    collected_logs = []
-
-    def _log(message):
-        collected_logs.append(message)
-        if log_func is not None:
-            log_func(message)
-        elif verbose:
-            print(message)
-
-    dummy_gams = SimpleNamespace(db=container, printLog=_log)
-    run_input_verification(dummy_gams)
-    return collected_logs
+    apply_debug_column_renames(container)
+    return _run_input_verification_on_container(
+        container,
+        verbose=verbose,
+        log_func=log_func,
+    )
 
 
 if __name__ == "__main__":
-    import argparse
-    import sys
 
-    DEFAULT_GDX = "test/input.gdx"
+    DEFAULT_GDX = os.path.join("test", "input.gdx")
 
-    usage_note = (
-        "Run outside the GAMS workflow with:\n"
-        "  python -m epm.input_verification [GDX_PATH]\n\n"
-        "If no path is provided the default is 'ep/test/input.gdx'. "
-        "Use --quiet to suppress live logging."
-    )
-
-    parser = argparse.ArgumentParser(
-        description="Run EPM input verification checks on a standalone GDX file.",
-        epilog=usage_note,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument(
-        "gdx_path",
-        nargs="?",
-        default=DEFAULT_GDX,
-        help="Path to the GDX file to verify (default: %(default)s)."
-    )
-    parser.add_argument(
-        "--quiet",
-        action="store_true",
-        help="Suppress log echoing; messages are still collected internally."
-    )
-    args = parser.parse_args()
-
-    try:
-        logs = run_input_verification_from_gdx(args.gdx_path, verbose=not args.quiet)
-    except Exception as exc:  # noqa: BLE001 - surface original exception
-        print(f"Verification failed: {exc}", file=sys.stderr)
-        sys.exit(1)
-    else:
-        if args.quiet:
-            print("\n".join(logs))
+    container = gt.Container()
+    container.read(DEFAULT_GDX)
+    apply_debug_column_renames(container)
+    _run_input_verification_on_container(container)

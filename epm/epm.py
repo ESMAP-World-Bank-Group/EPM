@@ -40,6 +40,7 @@ Contact:
 
 import os
 import subprocess
+import shlex
 import pandas as pd
 import datetime
 import logging
@@ -353,7 +354,8 @@ def launch_epm(scenario,
                modeltype='MIP',
                folder_input=None,
                dict_montecarlo=None,
-               prefix=''  # 'simulation_'
+               prefix='',  # 'simulation_'
+               debug=False
                ):
     """
     Launch the EPM model with the given scenario
@@ -419,7 +421,11 @@ def launch_epm(scenario,
                                                     "--FOLDER_INPUT {}".format(folder_input)
                                                     ] + path_args
 
-    logger.info("Command to execute: %s", command)
+    if debug:
+        command.append("--DEBUG 1")
+
+    command_str = " ".join(shlex.quote(part) for part in command)
+    logger.info("Command to execute: %s", command_str)
 
     if sys.platform.startswith("win"):  # If running on Windows
         rslt = subprocess.run(' '.join(command), cwd=cwd, shell=True)
@@ -441,9 +447,9 @@ def launch_epm(scenario,
 
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None,
-                            modeltype='MIP', dict_montecarlo=None):
+                            modeltype='MIP', dict_montecarlo=None, debug=False):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      dict_montecarlo=dict_montecarlo, **path_gams, modeltype=modeltype)
+                      dict_montecarlo=dict_montecarlo, debug=debug, **path_gams, modeltype=modeltype)
 
 
 def launch_epm_multi_scenarios(config='config.csv',
@@ -459,7 +465,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                interco_assessment=None,
                                simple=None,
                                simulation_label=None,
-                               modeltype='MIP'):
+                               modeltype='MIP',
+                               debug=False):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -475,6 +482,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         List of scenarios to run
     folder_input: str, optional, default None
         Folder where data input files are stored
+    debug: bool, optional, default False
+        When True, passes ``--DEBUG 1`` to the GAMS command line.
     simulation_label: str, optional, default None
         Custom name for the simulation output folder that overrides the timestamp-based name.
 
@@ -663,7 +672,7 @@ def launch_epm_multi_scenarios(config='config.csv',
             metrics_results.extend(
                 pool.starmap(
                     launch_epm_multiprocess,
-                    [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()],
+                    [(s[k], k, path_gams, folder_input, modeltype, None, debug) for k in s.keys()],
                 )
             )
     else:
@@ -675,7 +684,7 @@ def launch_epm_multi_scenarios(config='config.csv',
             metrics_results.extend(
                 pool.starmap(
                     launch_epm_multiprocess,
-                    [(s[k], k, path_gams, folder_input, modeltype) for k in s.keys()],
+                    [(s[k], k, path_gams, folder_input, modeltype, None, debug) for k in s.keys()],
                 )
             )
         # Modify config file to ensure limited output saved
@@ -684,7 +693,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                 pool.starmap(
                     launch_epm_multiprocess,
                     [
-                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo)
+                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo, debug)
                         for k in scenarios_montecarlo.keys()
                     ],
                 )
@@ -861,6 +870,12 @@ def main(test_args=None):
         help="Optional label for the simulation results folder (default: timestamp-based name)"
     )
 
+    parser.add_argument(
+        "--debug",
+        action="store_true",
+        default=False,
+        help="Enable verbose DEBUG mode for GAMS (passes --DEBUG 1 to the solver)"
+    )
 
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
@@ -873,85 +888,105 @@ def main(test_args=None):
         args.simple = ['DiscreteCap', 'y']
         
 
-    logger.info("Config file: %s", args.config)
-    logger.info("Folder input: %s", args.folder_input)
-    logger.info("modeltype: %s", args.modeltype)
-    logger.info("Scenarios file: %s", args.scenarios)
-    logger.info("Sensitivity: %s", args.sensitivity)
-    logger.info("MonteCarlo: %s", args.montecarlo)
-    logger.info("MonteCarlo samples: %s", args.montecarlo_samples)
-    logger.info("Monte Carlo uncertainties file: %s", args.uncertainties)
-    logger.info("Reduced output: %s", args.reduced_output)
-    logger.info("Reduced definition csv: %s", args.reduce_definition_csv)
-    logger.info("Selected scenarios: %s", args.selected_scenarios)
-    logger.info("Simple: %s", args.simple)
-    logger.info("Simulation label: %s", args.simulation_label)
-    
     folder_input = os.path.join("input", args.folder_input)
+    folder = None
+    results_folder = None
 
-    if args.sensitivity:
-        sensitivity = os.path.join(folder_input, 'sensitivity.csv')
-        if not os.path.exists(sensitivity):
-            logger.warning(
-                "Sensitivity file %s does not exist. No sensitivity analysis will be performed.",
-                os.path.abspath(sensitivity)
-            )
-        sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
-        logger.info("Sensitivity analysis: %s", sensitivity)
+    try:
+        logger.info("Config file: %s", args.config)
+        logger.info("Folder input: %s", args.folder_input)
+        logger.info("modeltype: %s", args.modeltype)
+        logger.info("Scenarios file: %s", args.scenarios)
+        logger.info("Sensitivity: %s", args.sensitivity)
+        logger.info("MonteCarlo: %s", args.montecarlo)
+        logger.info("MonteCarlo samples: %s", args.montecarlo_samples)
+        logger.info("Monte Carlo uncertainties file: %s", args.uncertainties)
+        logger.info("Reduced output: %s", args.reduced_output)
+        logger.info("Reduced definition csv: %s", args.reduce_definition_csv)
+        logger.info("Selected scenarios: %s", args.selected_scenarios)
+        logger.info("Simple: %s", args.simple)
+        logger.info("Simulation label: %s", args.simulation_label)
+        logger.info("Debug flag: %s", args.debug)
+        
+        if args.sensitivity:
+            sensitivity = os.path.join(folder_input, 'sensitivity.csv')
+            if not os.path.exists(sensitivity):
+                logger.warning(
+                    "Sensitivity file %s does not exist. No sensitivity analysis will be performed.",
+                    os.path.abspath(sensitivity)
+                )
+            sensitivity = pd.read_csv(sensitivity, index_col=0).to_dict()['sensitivity']
+            logger.info("Sensitivity analysis: %s", sensitivity)
 
-    else:
-        sensitivity = None
-
-    # If none do not run EPM
-    if args.postprocess is None:
-        folder, result = launch_epm_multi_scenarios(config=args.config,
-                                                    folder_input=folder_input,
-                                                    scenarios_specification=args.scenarios,
-                                                    sensitivity=sensitivity,
-                                                    montecarlo=args.montecarlo,
-                                                    montecarlo_nb_samples=args.montecarlo_samples,
-                                                    uncertainties=args.uncertainties,
-                                                    selected_scenarios=args.selected_scenarios,
-                                                    cpu=args.cpu,
-                                                    project_assessment=args.project_assessment,
-                                                    interco_assessment=args.interco_assessment,
-                                                    simple=args.simple,
-                                                    simulation_label=args.simulation_label,
-                                                    modeltype=args.modeltype)
-    else:
-        logger.info("Project folder: %s", args.postprocess)
-        logger.info("EPM does not run again but use the existing simulation within the folder")
-        folder = args.postprocess
-        if not os.path.exists(folder):
-            raise FileNotFoundError(f"Folder {os.path.abspath(folder)} does not exist. Please provide a valid folder with EPM results.")
         else:
-            logger.info("Find folder %s for postprocessing.", os.path.abspath(folder))
+            sensitivity = None
 
-    # Define scenario reference
-    scenarios = [i for i in os.listdir(folder) if os.path.isdir(os.path.join(folder, i)) and 'epmresults.gdx' in os.listdir(os.path.join(folder, i))]
-    scenario_reference = 'baseline'
-    if scenario_reference not in scenarios:
-        scenario_reference = scenarios[0]
-             
-    # Launch postprocess
-    logger.info("Starting postprocessing for folder: %s", folder)
-    postprocess_output(folder, reduced_output=args.reduced_output, scenario_reference=scenario_reference,
-                       selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                       graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
-                       reduce_definition_csv=args.reduce_definition_csv, logger=logger)
-    logger.info("Postprocessing completed for folder: %s", folder)
+        # If none do not run EPM
+        if args.postprocess is None:
+            folder, result = launch_epm_multi_scenarios(config=args.config,
+                                                        folder_input=folder_input,
+                                                        scenarios_specification=args.scenarios,
+                                                        sensitivity=sensitivity,
+                                                        montecarlo=args.montecarlo,
+                                                        montecarlo_nb_samples=args.montecarlo_samples,
+                                                        uncertainties=args.uncertainties,
+                                                        selected_scenarios=args.selected_scenarios,
+                                                        cpu=args.cpu,
+                                                        project_assessment=args.project_assessment,
+                                                        interco_assessment=args.interco_assessment,
+                                                        simple=args.simple,
+                                                        simulation_label=args.simulation_label,
+                                                        modeltype=args.modeltype,
+                                                        debug=args.debug)
+        else:
+            logger.info("Project folder: %s", args.postprocess)
+            logger.info("EPM does not run again but use the existing simulation within the folder")
+            folder = args.postprocess
+            if not os.path.exists(folder):
+                raise FileNotFoundError(f"Folder {os.path.abspath(folder)} does not exist. Please provide a valid folder with EPM results.")
+            else:
+                logger.info("Find folder %s for postprocessing.", os.path.abspath(folder))
 
-    # Zip the folder if it exists
-    folder = path_to_extract_results(folder)
-    if folder and os.path.exists(folder):
-        copy_log_to_directory(folder)
+        # Define scenario reference
+        scenarios = [
+            i
+            for i in os.listdir(folder)
+            if os.path.isdir(os.path.join(folder, i))
+            and 'epmresults.gdx' in os.listdir(os.path.join(folder, i))
+        ]
+        if not scenarios:
+            raise RuntimeError(
+                "No scenario folder contains epmresults.gdx; GAMS optimization appears to have failed for all launches."
+            )
+        scenario_reference = 'baseline'
+        if scenario_reference not in scenarios:
+            scenario_reference = scenarios[0]
+                 
+        # Launch postprocess
+        logger.info("Starting postprocessing for folder: %s", folder)
+        postprocess_output(folder, reduced_output=args.reduced_output, scenario_reference=scenario_reference,
+                           selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
+                           graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
+                           reduce_definition_csv=args.reduce_definition_csv, logger=logger)
+        logger.info("Postprocessing completed for folder: %s", folder)
 
-    if args.output_zip and folder and os.path.exists(folder):
-        logger.info("Compressing results folder %s", folder)
-        zip_path = folder + '.zip'
-        shutil.make_archive(folder, 'zip', folder)
-        shutil.rmtree(folder)  # Remove the original folder
-        logger.info("Folder %s zipped as %s", folder, zip_path)
+        # Zip the folder if it exists
+        results_folder = path_to_extract_results(folder)
+        if results_folder and os.path.exists(results_folder):
+            copy_log_to_directory(results_folder)
+
+        if args.output_zip and results_folder and os.path.exists(results_folder):
+            logger.info("Compressing results folder %s", results_folder)
+            zip_path = results_folder + '.zip'
+            shutil.make_archive(results_folder, 'zip', results_folder)
+            shutil.rmtree(results_folder)  # Remove the original folder
+            logger.info("Folder %s zipped as %s", results_folder, zip_path)
+    except Exception:
+        logger.exception("EPM workflow failed")
+        target = results_folder or folder
+        if target and os.path.exists(target):
+            copy_log_to_directory(target)
+        raise
 
     logger.info("EPM workflow completed")
 
