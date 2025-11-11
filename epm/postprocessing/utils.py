@@ -619,11 +619,14 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
                 k in keys and k in epm_results.keys()}
     
     # Zero out near-zero values across processed outputs to avoid spurious noise.
-    for df in epm_dict.values():
-        if 'value' in df.columns:
-            mask = df['value'].abs() < TOLERANCE
-            if mask.any():
-                df.drop(df.index[mask], inplace=True)
+    for key, df in epm_dict.items():
+        if 'value' not in df.columns:
+            continue
+        numeric_values = pd.to_numeric(df['value'], errors='coerce')
+        mask = numeric_values.abs() < TOLERANCE
+        if mask.any():
+            # rebuild dataframe instead of dropping inplace to avoid index alignment issues
+            epm_dict[key] = df.loc[~mask].copy()
 
     # Rename variables if needed (could be used to convert legacy names)
     if rename_keys is not None:
