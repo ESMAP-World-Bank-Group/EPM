@@ -70,7 +70,7 @@ parts:
       - file: pre-analysis/prepare-data/representative_days/representative_days.ipynb
   - caption: Other Resources
     chapters:
-      - file: docs/other_overview
-      - file: docs/other_comparison
+      #     - file: docs/other_overview
+      #     - file: docs/other_comparison
       - file: docs/other_open_data
       - file: docs/other_process
