@@ -188,8 +188,9 @@ Parameters
   pEnergyPlant(z,g,y)                     'Annual energy generation by plant [GWh]'
   pEnergyFuel(z,f,y)                      'Annual energy generation by fuel and zone [GWh]'
   pEnergyFuelCountry(c,f,y)               'Annual energy generation by fuel and country [GWh]'
-  pEnergyFuelComplete(z,*,y) 'Energy balance by fuel and slack components [GWh]'
+  pEnergyFuelComplete(z,*,y)              'Energy balance by fuel and slack components [GWh]'
   pEnergyTechFuel(z,tech,f,y)             'Annual energy generation by technology, fuel, and zone [GWh]'
+  pEnergyTechFuelComplete(z,*,*,y)        'Energy balance by technology, fuel, and slack components [GWh]'
   pEnergyTechFuelCountry(c,tech,f,y)      'Annual energy generation by technology, fuel, and country [GWh]'
   
   pEnergyBalance(z,*,y)                   'Annual supply-demand balance by zone [GWh]'
@@ -815,6 +816,7 @@ pFuelConsumptionCountry(c,f,y) = sum(zcmap(z,c), pFuelConsumption(z,f,y));
 * outputs at different aggregation levels:
 *   - pEnergyPlant: plant-level generation
 *   - pEnergyTechFuel / pEnergyTechFuelCountry: by technology and fuel, zonal and country
+*   - pEnergyTechFuelComplete: tech-fuel generation plus balance components
 *   - pEnergyFuel / pEnergyFuelCountry: by fuel, zonal and country
 * ---------------------------------------------------------
 
@@ -829,9 +831,11 @@ pEnergyFuelComplete(z,"Surplus",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q
 pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))/1e3;
 
-* TODO: Optional
 pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyTechFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyTechFuel(z,tech,f,y));
+* Copy slack components under synthetic technology "EnergyBalance"
+pEnergyTechFuelComplete(z,tech,f,y) = pEnergyTechFuel(z,tech,f,y);
+pEnergyTechFuelComplete(z,"EnergyBalance",fEnergyBalance,y) = pEnergyFuelComplete(z,fEnergyBalance,y);
 
 
 * ---------------------------------------------------------
@@ -1325,65 +1329,38 @@ embeddedCode Connect:
         "pGeneratorTechFuel",
         "pZoneCountry",
         "pDemandEnergyZone",
-        "pDemandEnergyCountry",
-        "pDemandEnergySystem",
         "pDemandPeakZone",
-        "pDemandPeakCountry",
-        "pDemandPeakSystem",
         "pCapacityPlant",
         "pNewCapacityPlant",
-        "pCapacityTechFuel",
-        "pCapacityFuel",
-        "pCapacityTechFuelCountry",
-        "pCapacityFuelCountry",
-        "pNewTransmissionCapacity",
-        "pNewCapacityFuel",
         "pNewCapacityTechFuel",
-        "pNewCapacityFuelCountry",
-        "pNewCapacityTechFuelCountry",
+        "pCapacityTechFuel",
+        "pNewTransmissionCapacity",
         "pAnnualTransmissionCapacity",
-        "pCapacitySummary",
-        "pCapacitySummaryCountry",
 
         "pCostsPlant",
-        "pCapexInvestmentPlant",
-        "pCapexInvestmentTransmission",
         "pCapexInvestmentComponent",
-        "pCapexInvestment",
+
         "pPrice",
         "pYearlyCostsZone",
-        "pYearlyCostsCountry",
         "pCostsSystem",
         "pCostsSystemPerMWh",
         "pFuelCosts",
-        "pFuelCostsCountry",
         
         "pEnergyPlant",
-        "pEnergyFuel",
-        "pEnergyFuelCountry",
+        "pEnergyTechFuel",
+        "pEnergyTechFuelComplete",
         "pEnergyBalance",
+
         "pUtilizationPlant",
-        "pUtilizationFuel",
         "pUtilizationTechFuel",
-        "pUtilizationFuelCountry",
-        "pUtilizationTechFuelCountry",
         
         "pInterchange",
         "pInterconUtilization",
-        "pInterchangeCountry",
         "pCongestionShare",
-
-        "pReserveSpinningPlantZone",
-        "pReserveSpinningPlantCountry",
-        "pReserveSpinningFuelZone",
-        "pReserveSpinningTechFuelZone",
-        "pReserveSpinningTechFuelCountry",
-        "pCapacityCredit",
         
         "pEmissionsZone",
         "pEmissionsIntensityZone",
 
-        "pDispatchFuel",
         "pDispatchTechFuel",
         "pDispatch",
         
@@ -1393,10 +1370,6 @@ embeddedCode Connect:
         "pCostsCountryPerMWh",
         "pYearlyCostsZonePerMWh",
         "pYearlyCostsCountryPerMWh",
-        "pDiscountedDemandZoneMWh",
-        "pDiscountedDemandCountryMWh",
-        "pDiscountedDemandSystemMWh",
-        "zcmap",
         "pSettings"
         ]
       instructions.append(
@@ -1434,7 +1407,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pYearlyCostsZone, pYearlyCostsCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
-      pEnergyPlant, pEnergyTechFuel, pEnergyFuel, pEnergyFuelComplete, pEnergyTechFuelCountry, pEnergyFuelCountry,
+      pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelComplete, pEnergyFuel, pEnergyFuelComplete, pEnergyTechFuelCountry, pEnergyFuelCountry,
       pUtilizationPlant, pUtilizationTech, pUtilizationFuel, pUtilizationTechFuel, pUtilizationFuelCountry, pUtilizationTechFuelCountry,
       pEnergyBalance, pEnergyBalanceCountry, pEnergyBalanceH2, pEnergyBalanceCountryH2,
 * 4. ENERGY DISPATCH
