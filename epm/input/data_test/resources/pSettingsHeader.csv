@@ -18,6 +18,7 @@ fEnableCarbonPrice
 fEnableEnergyEfficiency
 fEnableCSP
 fEnableStorage
+fEnableCapacityExpansion
 fEnableEconomicRetirement
 fUseSimplifiedDemand
 fCountIntercoForReserves
