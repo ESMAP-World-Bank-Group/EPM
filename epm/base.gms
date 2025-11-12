@@ -119,8 +119,8 @@ Parameter
    fAllowTransferExpansion      'Permit expansion of internal transmission (set elsewhere too; redundant flag)'
    pDR                          'Discount rate applied in objective'
    fEnableCapexTrajectoryH2     'Toggle CAPEX trajectory for hydrogen assets'
-   pfEnableEnergyEfficiency     'Enable demand-side efficiency adjustments'
-   pfApplySystemCo2Constraint   'Apply system-wide CO₂ constraint'
+   fEnableEnergyEfficiency     'Enable demand-side efficiency adjustments'
+   fApplySystemCo2Constraint   'Apply system-wide CO₂ constraint'
    pExtTransferLimitIn(z,zext,q,y)  'Exogenous import limit from external zones'
    pExtTransferLimitOut(z,zext,q,y) 'Exogenous export limit to external zones'
    psVREForecastErrorPct        'Forecast error percentage for VRE (used in reserves)'
@@ -189,6 +189,8 @@ Parameters
    pVOMCost(g,f,y)                'Variable O&M component'
 
 * Control toggles
+   fEnableCapacityExpansion
+   fDispatchMode
    fApplyRampConstraint           'Enable ramping constraints'
    fApplyFuelConstraint           'Enable fuel availability limits'
    fApplyCapitalConstraint        'Enable total capital constraint'
@@ -200,9 +202,9 @@ Parameters
    pMinRE                         'Minimum RE share target'
    pMinsRenewableTargetYear       'Year from which RE target applies'
    fApplyCountryCo2Constraint     'Country-level CO₂ constraint toggle'
-   pfApplySystemCo2Constraint     'System-level CO₂ constraint toggle (duplicate flag name earlier)'
+   fApplySystemCo2Constraint     'System-level CO₂ constraint toggle (duplicate flag name earlier)'
    fApplyCountrySpinReserveConstraint 'Enable country spinning reserve constraint'
-   pfApplySystemSpinReserveConstraint 'Enable system spinning reserve constraint'
+   fApplySystemSpinReserveConstraint 'Enable system spinning reserve constraint'
    fApplyPlanningReserveConstraint 'Enable planning reserve constraint'
    sIntercoReserveContributionPct 'Share of interconnection capacity counted toward reserves'
    fCountIntercoForReserves       'Include interconnections in planning reserve assessment'
@@ -723,11 +725,11 @@ eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
 * Enforces spinning and planning reserve requirements.
 * ------------------------------
 * Spinning reserve limit as a share of capacity
-eSpinningReserveLim(g,q,d,t,y)$(fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint)..
+eSpinningReserveLim(g,q,d,t,y)$(fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
    
 * Spinning reserve limit for VRE as a share of capacity adjusted for production profile
-eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint)..
+eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)..
     vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
 * This constraint increases solving time x3
@@ -741,7 +743,7 @@ eSpinningReserveReqCountry(c,q,d,t,y)$fApplyCountrySpinReserveConstraint..
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
    
 * System spinning reserve requirement
-eSpinningReserveReqSystem(q,d,t,y)$pfApplySystemSpinReserveConstraint..
+eSpinningReserveReqSystem(q,d,t,y)$fApplySystemSpinReserveConstraint..
    sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
 
 * Planning reserve requirement at the country level
@@ -967,7 +969,7 @@ eEmissionsCountry(c,y)$fApplyCountryCo2Constraint..
 eTotalEmissions(y)..
     sum(z, vZonalEmissions(z,y))=e= vTotalEmissions(y);
     
-eTotalEmissionsConstraint(y)$pfApplySystemCo2Constraint..
+eTotalEmissionsConstraint(y)$fApplySystemCo2Constraint..
     vTotalEmissions(y)-vYearlySysCO2backstop(y) =l= pEmissionsTotal(y);
    
 

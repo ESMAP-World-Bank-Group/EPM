@@ -36,6 +36,8 @@ $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
+$if not set pDays $set pDays %FOLDER_INPUT%/static/dispatch_month_days.csv
+$if not set mapTS $set mapTS %FOLDER_INPUT%/static/dispatch_map_ts.csv
 
 * LOAD DATA
 $if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
@@ -124,6 +126,16 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
+    file: %pDays%
+    name: pDays
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: EPS}
+    indexColumns: [1]
+    valueColumns: [2]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
     file: %pGenDataInputHeader%
     name: pGenDataInputHeader
     indexColumns: [1]
@@ -151,6 +163,14 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
+    type: set
+
+- CSVReader:
+    trace: %TRACE%
+    file: %mapTS%
+    name: mapTS
+    indexSubstitutions: {.nan: ""}
+    indexColumns: [1, 2, 3, 4]
     type: set
 
 - CSVReader:
