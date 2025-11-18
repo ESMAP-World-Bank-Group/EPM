@@ -160,6 +160,7 @@ FIGURES_ACTIVATED = {
     # 4. Dispatch figures
     'DispatchZoneMaxLoadDay': True,
     'DispatchZoneMaxLoadSeason': False,
+    'DispatchZoneFullSeason': True,
     'DispatchSystemMaxLoadDay': True,
     'DispatchSystemMaxLoadSeason': False,
     
@@ -225,6 +226,7 @@ FIGURE_CATEGORY_MAP = {
     'EnergyPlantZoneTop10': 'energy',
     'DispatchZoneMaxLoadDay': 'dispatch',
     'DispatchZoneMaxLoadSeason': 'dispatch',
+    'DispatchZoneFullSeason': 'dispatch',
     'DispatchSystemMaxLoadDay': 'dispatch',
     'DispatchSystemMaxLoadSeason': 'dispatch',
     'NetImportsZoneEvolution': 'interconnection',
@@ -289,10 +291,11 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
 
     zone_max_load_day_active = is_figure_active('DispatchZoneMaxLoadDay')
     zone_max_load_season_active = is_figure_active('DispatchZoneMaxLoadSeason')
+    zone_full_season_active = is_figure_active('DispatchZoneFullSeason')
     system_max_load_day_active = is_figure_active('DispatchSystemMaxLoadDay')
     system_max_load_season_active = is_figure_active('DispatchSystemMaxLoadSeason')
 
-    generate_zone_figures = zone_max_load_day_active or zone_max_load_season_active
+    generate_zone_figures = zone_max_load_day_active or zone_max_load_season_active or zone_full_season_active
     generate_system_figures = system_max_load_day_active or system_max_load_season_active
 
     if not (generate_zone_figures or generate_system_figures):
@@ -393,6 +396,23 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
 
                     if zone_max_load_season_active:
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_max_load_season.pdf')
+                        select_time = {'season': [max_load_season]}
+                        make_fuel_dispatchplot(
+                            dfs_to_plot_area_zone,
+                            dfs_to_plot_line_zone,
+                            dict_specs['colors'],
+                            zone=zone,
+                            year=year,
+                            scenario=selected_scenario,
+                            fuel_grouping=None,
+                            select_time=select_time,
+                            filename=filename,
+                            bottom=None,
+                            legend_loc='bottom'
+                        )
+
+                    if zone_full_season_active and year == years_available[0]:
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
                         select_time = {'season': [max_load_season]}
                         make_fuel_dispatchplot(
                             dfs_to_plot_area_zone,
