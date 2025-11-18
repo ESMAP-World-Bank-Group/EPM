@@ -1353,6 +1353,7 @@ embeddedCode Connect:
 
         "pUtilizationPlant",
         "pUtilizationTechFuel",
+        "pReserveSpinningPlantZone",
         
         "pInterchange",
         "pInterconUtilization",
