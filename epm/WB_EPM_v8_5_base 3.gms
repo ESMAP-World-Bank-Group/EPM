@@ -687,7 +687,6 @@ eYearlyCostDemandShed(z,y)$(pIncludeDR)..
 *****************Dispatch**************
 
 eStUpCosts(g,q,d,t,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) and FD(q,d,t)$pRunDispatch)..
-
 vStUpCost(g,q,d,t,y)=e=sum(AT$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y))*pGenData(g,"StUpCost");
        
 
@@ -1104,14 +1103,22 @@ eSimultComDecom(eg,ng,y)$( pIncludeDecomCom and mapGG(eg,ng))..          vBuild(
 
 
 
-eMinGenPoint(g,q,d,t,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) and FD(q,d,t) )..  sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y))            =g= pGenData(g,"MinGenPoint")*pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y));
-eMaxGenPoint(g,q,d,t,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) and FD(q,d,t) )..  sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y))            =l= pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y));
+eMinGenPoint(g,q,d,t,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) and FD(q,d,t) )..  
+   sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y))            =g= pGenData(g,"MinGenPoint")*pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y));
+   
+eMaxGenPoint(g,q,d,t,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) and FD(q,d,t) )..  
+   sum(gfmap(g,f),vPwrOut(g,f,q,d,t,y))            =l= pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y));
 
 
 
-eStUp1(g,AT,y)$(ord(AT)>1 and pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) )..                    sum((q,d,t)$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y)-vShDn(g,q,d,t,AT,y))   =e= sum((q,d,t)$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y) )- sum((q,d,t)$mapTS(q,d,t,AT-1),vOn(g,q,d,t,AT-1,y));
-eStUp2(g,AT,y)$(ord(AT)=1 and pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) )..                    sum((q,d,t)$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y)-vShDn(g,q,d,t,AT,y))   =e= sum((q,d,t)$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y)) -pGenData(g,"InitialOn");
-eStUp3(g,AT,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) )..                                   sum((q,d,t)$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y)+vShDn(g,q,d,t,AT,y))   =l= 1;
+eStUp1(g,AT,y)$(ord(AT)>1 and pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) )..                    
+   sum((q,d,t)$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y)-vShDn(g,q,d,t,AT,y))   =e= sum((q,d,t)$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y) )- sum((q,d,t)$mapTS(q,d,t,AT-1),vOn(g,q,d,t,AT-1,y));
+
+eStUp2(g,AT,y)$(ord(AT)=1 and pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) )..                    
+   sum((q,d,t)$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y)-vShDn(g,q,d,t,AT,y))   =e= sum((q,d,t)$mapTS(q,d,t,AT),vOn(g,q,d,t,AT,y)) -pGenData(g,"InitialOn");
+
+eStUp3(g,AT,y)$(pRunDispatch and pIncludeMinGenCon and MinGenPoint(g) )..                                   
+   sum((q,d,t)$mapTS(q,d,t,AT),vStUp(g,q,d,t,AT,y)+vShDn(g,q,d,t,AT,y))   =l= 1;
 
 
 

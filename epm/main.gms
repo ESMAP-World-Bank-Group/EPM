@@ -357,7 +357,6 @@ parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
 
              
-
 * Aggregate `gmap(g,z,tech,f)` over `tech` and `f` to get `gzmap(g,z)`,
 * which represents the mapping of generator `g` to zone `z`.
 gzmap(g,z) = sum((tech,f), gmap(g,z,tech,f));
