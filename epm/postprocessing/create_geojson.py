@@ -40,11 +40,22 @@ Contact:
 
 import argparse
 import os
+import sys
+from pathlib import Path
+
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import LineString
-# Importing utility functions for data processing
-from interactive_map import get_json_data, create_zonemap
+
+# If this script runs directly from `epm/postprocessing`, make sure the
+# repository root is on `sys.path` so package imports succeed.
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPO_ROOT = SCRIPT_DIR.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+# Importing utility functions for data processing using the package path
+from epm.postprocessing.maps import get_json_data, create_zonemap
 
 
 def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='tableau',
@@ -154,11 +165,11 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     zcmap = os.path.join('..', 'output', folder, zcmap)
     zcmap = pd.read_csv(zcmap)
 
-    zcmap = zcmap.set_index('Zone')
+    zcmap = zcmap.set_index('zone')
     result_df = result_df.set_index('z')
-    result_df['c'] = zcmap['Country']
+    result_df['c'] = zcmap['country']
     result_df = result_df.reset_index().set_index('z_other')
-    result_df['c2'] = zcmap['Country']
+    result_df['c2'] = zcmap['country']
 
     result_df.to_file(os.path.join('..', 'output', folder, 'linestring_countries.geojson'), driver='GeoJSON')
     return result_df
@@ -189,4 +200,3 @@ if __name__ == '__main__':
     )
 
     print("GeoJSON created with", len(linestring), "lines.")
-

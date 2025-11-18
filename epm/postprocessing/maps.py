@@ -38,11 +38,49 @@ Contact:
 **********************************************************************
 """
 
+import io
 import os 
+import re
 import folium
 import geopandas as gpd
 from .utils import *
 from .plots import subplot_pie, make_fuel_dispatchplot
+
+
+_GEOJSON_HEADER = "Geojson,EPM,region,country,division"
+
+
+def _read_geojson_mapping(path):
+    """
+    Read a GeoJSON-to-EPM mapping CSV while normalizing repeated header rows.
+
+    Some exported CSVs append the header again without a newline, causing pandas
+    to fail when parsing. This helper inserts the missing newline and removes
+    duplicate header rows so that `pd.read_csv` can succeed.
+    """
+    with open(path, encoding='utf-8-sig') as fp:
+        raw_text = fp.read()
+
+    if _GEOJSON_HEADER not in raw_text:
+        return pd.read_csv(path)
+
+    pattern = r'(?<=.)(?<![\r\n])' + re.escape(_GEOJSON_HEADER)
+    normalized_text = re.sub(pattern, '\n' + _GEOJSON_HEADER, raw_text)
+
+    clean_lines = []
+    header_seen = False
+    for line in normalized_text.splitlines():
+        if line.strip() == _GEOJSON_HEADER:
+            if header_seen:
+                continue
+            header_seen = True
+        clean_lines.append(line)
+
+    clean_text = "\n".join(clean_lines)
+    if not clean_text.endswith("\n"):
+        clean_text += "\n"
+
+    return pd.read_csv(io.StringIO(clean_text))
 
 def create_zonemap(zone_map, map_geojson_to_epm):
     """
@@ -114,7 +152,7 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
     else:
         if not os.path.exists(geojson_to_epm):
             raise FileNotFoundError(f"GeoJSON to EPM mapping file not found: {os.path.abspath(geojson_to_epm)}")
-        geojson_to_epm = pd.read_csv(geojson_to_epm)
+        geojson_to_epm = _read_geojson_mapping(geojson_to_epm)
     epm_to_geojson = {v: k for k, v in
                       geojson_to_epm.set_index('Geojson')['EPM'].to_dict().items()}  # Reverse dictionary
     geojson_to_divide = geojson_to_epm.loc[geojson_to_epm.region.notna()]
