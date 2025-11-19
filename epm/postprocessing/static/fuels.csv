@@ -1,6 +1,7 @@
 ﻿Order of Processing is the one is stacked plots,
 EPM_Fuel,Processing
 ST-Coal,ST-Coal
+CHP-Coal,CHP-Coal
 CCGT-Gas,CCGT-Gas
 ReservoirHydro-Water,Reservoir
 OCGT-Gas,OCGT-Gas
