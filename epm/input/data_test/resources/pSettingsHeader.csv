@@ -20,6 +20,7 @@ fEnableCarbonPrice
 fEnableEnergyEfficiency
 fEnableCSP
 fEnableStorage
+InitialSOCforBattery
 fEnableEconomicRetirement
 fUseSimplifiedDemand
 fCountIntercoForReserves
@@ -38,6 +39,9 @@ sRenewableTargetYear
 fApplyFuelConstraint
 fApplyCapitalConstraint
 sMaxCapitalInvestment
-fApplyMinGenerationConstraint
+fApplyMinGenShareAllHours
+fApplyMinGenCommitment
+fApplyStartupCost
 fApplyRampConstraint
+fApplyMUDT
 sPeakLoadProximityThreshold

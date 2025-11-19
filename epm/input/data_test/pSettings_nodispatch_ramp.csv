@@ -1,7 +1,7 @@
 ﻿Parameter,Abbreviation,Value
 ,,
 Enable capacity expansion decisions,fEnableCapacityExpansion,0
-Activate 8760-hour dispatch chronology,fDispatchMode,1
+Activate 8760-hour dispatch chronology,fDispatchMode,0
 ,,
 PARAMETERS,,
 "Weighted Average Cost of Capital (WACC), %",WACC,0.06
@@ -60,7 +60,7 @@ Apply max capital constraint,fApplyCapitalConstraint,0
 ,,
 PLANTS,,
 Apply min generation for all hours,fApplyMinGenShareAllHours,0
-Apply ramp constraints,fApplyRampConstraint,0
-Apply min generation constraint (only dispatch),fApplyMinGenCommitment,1
+Apply ramp constraints,fApplyRampConstraint,1
+Apply min generation constraint (only dispatch),fApplyMinGenCommitment,0
 Include minimum up/down time constraints (only dispatch),fApplyMUDT,0
 Apply startup cost (only dispatch),fApplyStartupCost,0

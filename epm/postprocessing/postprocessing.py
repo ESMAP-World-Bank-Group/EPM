@@ -40,6 +40,7 @@ Contact:
 
 import os
 import logging
+import re
 from pathlib import Path
 from functools import wraps
 import pandas as pd
@@ -266,6 +267,24 @@ RESERVE_ATTRS = [
     "Unmet system spinning reserve costs: $m"
 ]
 
+MAX_FULL_SEASON_DAYS = 15
+
+
+def _day_sort_key(day):
+    if pd.isna(day):
+        return float('inf')
+    try:
+        return float(day)
+    except (TypeError, ValueError):
+        digits = re.sub(r'[^\d.]', '', str(day))
+        if digits:
+            try:
+                return float(digits)
+            except ValueError:
+                pass
+        return str(day)
+
+
 def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios, FIGURES_ACTIVATED):
     """
     Generate dispatch plots that highlight peak demand conditions for each scenario.
@@ -413,7 +432,15 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
 
                     if zone_full_season_active and year == years_available[0]:
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
+                        full_season_filter = zone_demand_year[
+                            (zone_demand_year['season'] == max_load_season)
+                        ]
+                        unique_days = pd.Index(full_season_filter['day']).dropna().unique()
+                        sorted_days = sorted(unique_days, key=_day_sort_key)
+                        days_to_plot = sorted_days[:MAX_FULL_SEASON_DAYS]
                         select_time = {'season': [max_load_season]}
+                        if len(sorted_days) > 0:
+                            select_time['day'] = days_to_plot
                         make_fuel_dispatchplot(
                             dfs_to_plot_area_zone,
                             dfs_to_plot_line_zone,

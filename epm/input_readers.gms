@@ -35,24 +35,24 @@ $if not set TRACE $set TRACE 0
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
-$if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
+$if not set pHours $set pHours %FOLDER_INPUT%/pHours_dispatch.csv
 $if not set pDays $set pDays %FOLDER_INPUT%/static/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_INPUT%/static/dispatch_map_ts.csv
 
 * LOAD DATA
 $if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
-$if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile.csv
-$if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData.csv
+$if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile_dispatch.csv
+$if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData_dispatch.csv
 $if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv
 $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/load/pEnergyEfficiencyFactor.csv
 
 * SUPPLY DATA
 $if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
-$if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
-$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
-$if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile.csv
-$if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile.csv
+$if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom_dispatch.csv
+$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault_dispatch.csv
+$if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile_dispatch.csv
+$if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile_dispatch.csv
 $if not set pCapexTrajectories $set pCapexTrajectories %FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
 $if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
 $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
@@ -85,8 +85,8 @@ $if not set pMaxPriceImportShare $set pMaxPriceImportShare %FOLDER_INPUT%/trade/
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
-$if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv
-$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit.csv
+$if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice_dispatch.csv
+$if not set pTransferLimit $set pTransferLimit %FOLDER_INPUT%/trade/pTransferLimit_dispatch.csv
 
 * CONSTRAINT
 $if not set pCarbonPrice $set pCarbonPrice %FOLDER_INPUT%/constraint/pCarbonPrice.csv
