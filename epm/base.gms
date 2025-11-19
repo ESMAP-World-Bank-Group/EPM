@@ -39,6 +39,8 @@ $eolCom //
 alias (y,y2);
 alias (f,f2);
 alias (c,c2);
+alias (t,tprev);
+alias (AT,AT2);
 
 
 
@@ -96,6 +98,7 @@ Sets
    sAdditionalTransfer(z,z2,y)  'Transmission build decision domain'
    sFlow(z,z2,q,d,t,y)         'Feasible flow pairs'
    sSpinningReserve(g,q,d,t,y) 'Generators able to provide spinning reserve'
+   FD(q,d,t)                  'Feasible q,d,t tuples for dispatch mode'
 ;
 
 Singleton sets
@@ -103,8 +106,12 @@ Singleton sets
    sFirstHour(t)
    sLastHour(t)
    sFirstDay(d)
+   sLastDay(d)
 ;
 
+Set
+   sFirstHourAT(AT)          'First chronological hour in the AT sequence (used for ramp gating)'
+;
 
 * Additional parameters for results and reporting
 * -------------------------------------------------------------
@@ -136,6 +143,7 @@ Set
    Zt(z)                  'Zone type classification (often redundant with Zd)'
    stg(g)                 'Storage generators (grid-scale)'
    ror(g)                 'Run-of-river assets (subset of renewables)'
+   MinGenPoint(g)         'Generators with minimum generation constraints (used for startup cost accumulation)'
 ;
 
 
@@ -148,6 +156,7 @@ Parameters
    pGenData(g,pGenDataInputHeader) 'Generator characteristics (capex, heat rate, etc.)'
    pAvailability(g,q)             'Seasonal availability factors'
    pCapexTrajectories(g,y)        'CAPEX trajectory multipliers'
+   pInitialOnStart(g)             'Initial commitment state (1=on) for the first chronological slot (default or from data)'
 
 * External exchange data
    fEnableExternalExchange          'Permit external exchange'
@@ -190,14 +199,12 @@ Parameters
 
 * Control toggles
    fEnableCapacityExpansion
-   fDispatchMode
    fApplyRampConstraint           'Enable ramping constraints'
    fApplyFuelConstraint           'Enable fuel availability limits'
    fApplyCapitalConstraint        'Enable total capital constraint'
-   fApplyMinGenerationConstraint  'Minimum generation constraint toggle'
    fEnableCSP                     'Enable CSP features'
    fEnableStorage                 'Enable storage operations'
-   pIncludeCarbon                 'Apply carbon cost'
+   fEnableCarbonPrice                 'Apply carbon cost'
    pSurplusPenalty                'Penalty on surplus energy'
    pMinRE                         'Minimum RE share target'
    pMinsRenewableTargetYear       'Year from which RE target applies'
@@ -210,7 +217,17 @@ Parameters
    fCountIntercoForReserves       'Include interconnections in planning reserve assessment'
    sReserveMarginPct              'Planning reserve margin target'
    pHeatrate(g,f)                 'Generator heat rate'
+
+   fApplyMinGenShareAllHours
+
+   fDispatchMode                 'Activate full-year dispatch inputs'
+   fApplyMinGenCommitment        'Minimum generation constraint toggle'
+   fApplyMUDT                    'Enable minimum up/down-time constraints (dispatch mode only)'
+   fApplyStartupCost             'Include startup cost in the variable-cost stack'
 ;
+
+Scalar
+   pStorageInitShare           'Default share of capacity for initial/final SOC anchors'
 
 * -------------------------------------------------------------
 * Positive decision variables (continuous)
@@ -218,6 +235,7 @@ Parameters
 Positive Variables
 * Dispatch and demand balance
    vPwrOut(g,f,q,d,t,y)      'Generation output (MW)'
+   vPwrOutDispatch(g,q,d,t,AT,y) 'Chronologically aggregated dispatch per slot (MW)'
    vUSE(z,q,d,t,y)           'Unserved demand (MW)'
    vSurplus(z,q,d,t,y)       'Surplus generation (MW)'
    vYearlySurplus(z,y)       'Annual surplus energy (aggregated)'
@@ -254,6 +272,7 @@ Positive Variables
 
 * Reserve shortfalls
    vSpinningReserve(g,q,d,t,y)           'Spinning reserve provision (MW)'
+   vStartupCost(g,q,d,t,y)                 'Startup cost accumulated within each representative slot (USD)'
    vUnmetPlanningReserveCountry(c,y)     'Country planning reserve shortfall'
    vUnmetPlanningReserveSystem(y)        'System planning reserve shortfall'
    vUnmetSpinningReserveCountry(c,q,d,t,y) 'Country spinning reserve shortfall'
@@ -270,6 +289,17 @@ Positive Variables
    vAnnualizedTransmissionCapex(z,y) 'Annualized transmission CAPEX (USD)'
    vYearlyCurtailmentCost(z,y)  'Annual curtailment penalty (USD)'
    vCurtailedVRE(z,g,q,d,t,y)   'Curtailment of VRE (MW)'
+;
+
+* ------------------------------
+* Unit-commitment binaries
+* Tracks each generator's ON/OFF state per dispatch slot and records every startup/shutdown transition for constraint logic.
+* The chronological mapping `mapTS` ensures these binaries only represent valid hours.
+* ------------------------------
+Binary Variable
+   isOn(g,q,d,t,AT,y)         '1 when generator g is online during the chronological slot represented by (q,d,t,AT)'
+   isStartup(g,q,d,t,AT,y)    '1 when the generator transitions from offline to online during the mapped slot'
+   isShutdown(g,q,d,t,AT,y)   '1 when the generator transitions from online to offline during the mapped slot'
 ;
 
 * -------------------------------------------------------------
@@ -291,6 +321,7 @@ Free Variable
    vYearlyCO2BackstopCostSystem(y) 'System CO₂ backstop cost'
    vYearlyUnmetPlanningReserveCostCountry(c,y) 'Country planning reserve cost'
    vYearlyUnmetSpinningReserveCostCountry(c,y) 'Country spinning reserve cost'
+   vYearlyStartupCost(z,y)        'Annual startup cost for dispatch slots'
    vYearlyFOMCost(z,y)            'Zone fixed O&M cost'
    vYearlyFuelCost(z,y)           'Zone fuel cost'
    vYearlyVOMCost(z,y)            'Zone variable O&M cost'
@@ -328,7 +359,9 @@ Equations
    eYearlyCarbonCost(z,y)          'Carbon-price cost for zone emissions'
    eYearlyFOMCost(z,y)                'Total yearly FOM cost'
    eYearlyCO2BackstopCostCountry(c,y) 'Cost of CO₂ backstop'
-   eYearlyVariableCost(z,y)        'Sum of fuel and VOM costs'
+   eYearlyVariableCost(z,y)        'Sum of fuel, VOM, and startup costs'
+   eYearlyStartupCost(z,y)          'Startup cost report when enabled'
+   eYearlyStartupCostOff(z,y)       'Zero startup cost when disabled'
    eYearlyFuelCost(z,y)            'Fuel expenditure by zone'
    eYearlyImportExternalCost(z,y)  'Cost of imports from external zones'
    eYearlyExportExternalCost(z,y)  'Revenue from power exported externally'
@@ -374,6 +407,8 @@ Equations
    eMinGenRE(c,y)                 'Country minimum renewable generation'
    eMaxCF(g,q,y)                  'Capacity factor ceiling'
    eMinGen(g,q,d,t,y)             'Minimum dispatch requirement'
+   eDispatchMinGenPoint(g,q,d,t,y) 'Dispatch minimum generation tied to commitment'
+   eDispatchMaxGenPoint(g,q,d,t,y) 'Dispatch maximum output tied to commitment'
 
 * ------------------------------
 * Fuel and resource limits
@@ -388,6 +423,9 @@ Equations
 * ------------------------------
    eRampUpLimit(g,q,d,t,y)        'Ramp-up constraint'
    eRampDnLimit(g,q,d,t,y)        'Ramp-down constraint'
+   eRampContinuity(g,q,d,t,AT,y)   'Tie hourly dispatch to chronological slots'
+   eDispatchRampUpLimit(g,AT,y)    'Dispatch ramp-up limit across chronological slots'
+   eDispatchRampDownLimit(g,AT,y)  'Dispatch ramp-down limit across chronological slots'
    eSpinningReserveLim(g,q,d,t,y) 'Reserve capability vs capacity'
    eSpinningReserveLimVRE(g,f,q,d,t,y) 'Reserve limit adjusted for VRE profile'
    eJointResCap(g,q,d,t,y)        'Joint dispatch-reserve envelope'
@@ -429,8 +467,6 @@ Equations
    eChargeRampDownLimit(g,q,d,t,y) 'Limit decrease in storage charging'
    eChargeRampUpLimit(g,q,d,t,y)   'Limit increase in storage charging'
    eYearlyCurtailmentCost(z,y)     'Curtailment penalty (zone)'
-   eStateOfChargeUpdate(g,q,d,t,y) 'Storage SOC recurrence'
-   eStateOfChargeInit(g,q,d,t,y)   'SOC initial condition per representative day'
 *  eSOCCycleClosure(g,q,d,t,y)
 *  eDailyStorageEnergyBalance(g,q,d,y)
    eSOCSupportsReserve(g,q,d,t,y)  'Ensure SOC can cover reserve commitment'
@@ -439,6 +475,10 @@ Equations
    eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
+   eStorageHourTransition
+   eStorageDayWrap
+   eStorageSOCInit
+   eStorageSOCFinal
 
 * ------------------------------
 * CSP-specific and storage capacity evolution
@@ -462,6 +502,19 @@ Equations
    eCapThermBalance2(g,y)          'Thermal capacity recursion (new)'
    eCapThermBalance3(g,y)          'Initial thermal capacity for new units'
    eBuildThermNew(g)               'Limit CSP thermal builds for entrants'
+
+
+* ------------------------------
+* Unit-commitment transition equations
+* ------------------------------
+   eCommitmentConsistency 'Keeps each hour’s on/off change consistent with the recorded startup/shutdown activity'
+   eCommitmentInitialization 'Applies the same accounting for the first chronological slot using the initial status'
+   eCommitmentSingleTransition 'Prevents multiple start/shutdown actions within a single chronological slot'
+   eStartupCostConstraint(g,q,d,t,y) 'Aggregate startup cost per representative timeslice'
+   eMinUpInitial(g,y) 'Initial minimum up-time accounting'
+   eMinUpRolling(g,AT2,y) 'Rolling minimum up-time enforcement for startups'
+   eMinDownInitial(g,y) 'Initial minimum down-time accounting'
+   eMinDownRolling(g,AT2,y) 'Rolling minimum down-time enforcement for shutdowns'
 ;
 
 
@@ -578,7 +631,17 @@ eYearlyFOMCost(z,y)..
 
 * Variable costs equals fuel cost plus VOM cost
 eYearlyVariableCost(z,y)..
-   vYearlyVariableCost(z,y) =e= vYearlyFuelCost(z,y) + vYearlyVOMCost(z,y);
+   vYearlyVariableCost(z,y) =e= vYearlyFuelCost(z,y) + vYearlyVOMCost(z,y) + vYearlyStartupCost(z,y);
+
+* Annualized startup cost pulled from dispatch slots (links to time-sliced variable).
+eYearlyStartupCost(z,y)$((fDispatchMode and fApplyStartupCost))..
+   vYearlyStartupCost(z,y) =e= sum((gzmap(g,z),q,d,t)$MinGenPoint(g),
+         vStartupCost(g,q,d,t,y)*pHours(q,d,t));
+
+* If startup costs are disabled, force the reporting variable to zero.
+eYearlyStartupCostOff(z,y)$(fDispatchMode=0 or fApplyStartupCost=0)..
+   vYearlyStartupCost(z,y) =e= 0;
+*  Startup cost flows through the same time-slice weighting as the rest of the variable cost stack.
 
 * Fuel costs
 eYearlyFuelCost(z,y)..
@@ -618,7 +681,7 @@ eYearlyExportExternalCost(z,y)..
 
 * Yearly CO2 emissions cost for each zone
 eYearlyCarbonCost(z,y)..
-   vYearlyCarbonCost(z,y) =e= pIncludeCarbon*pCarbonPrice(y)
+   vYearlyCarbonCost(z,y) =e= fEnableCarbonPrice*pCarbonPrice(y)
                             * Sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHeatRate(g,f)*pFuelCarbonContent(f)*pHours(q,d,t));
 
 
@@ -641,10 +704,10 @@ eAnnualizedTransmissionCapex(z,y)$(fAllowTransferExpansion and sum(sTopology(z,z
 * Demand and supply balance
 * Ensures zonal demand matches supply components.
 * ------------------------------
-eDemSupply(z,q,d,t,y)..
+eDemSupply(z,q,d,t,y)$FD(q,d,t)..
    pDemandData(z,q,d,y,t) * pEnergyEfficiencyFactor(z,y) =e= vSupply(z,q,d,t,y);
 
-eDefineSupply(z,q,d,t,y)..
+eDefineSupply(z,q,d,t,y)$FD(q,d,t)..
    vSupply(z,q,d,t,y) =e=
      sum((gzmap(g,z),gfmap(g,f)), vPwrOut(g,f,q,d,t,y))
    - sum(sTopology(z,z2), vFlow(z,z2,q,d,t,y))
@@ -692,11 +755,19 @@ eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")
 * Production equations
 * Constrains generator dispatch, ramping, and minimum output.
 * ------------------------------
-eJointResCap(g,q,d,t,y)..
-   sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) + vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*(1+pGenData(g,"Overloadfactor"));
+* Enforces dispatch/reserve only when the generator is committed for the chronological slot.
+eJointResCap(g,q,d,t,y)$FD(q,d,t)..
+   sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) + vSpinningReserve(g,q,d,t,y)
+      =l= vCap(g,y)*(1+pGenData(g,"Overloadfactor"));
 
 eMaxCF(g,q,y)..
    sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailability(g,q)*vCap(g,y)*sum((d,t), pHours(q,d,t));
+
+* Note that we are effectively assuming grid-connected RE generation to be dispatchable. Generally speaking, most RE will be
+* dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for
+* RE generation to be rejected as well
+eVREProfile(gfmap(VRE,f),z,q,d,t,y)$(gzmap(VRE,z) and FD(q,d,t))..
+   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,q,d,t)*vCap(VRE,y);
 
 eFuel(zfmap(z,f),y)..
    vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,f));
@@ -704,37 +775,126 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
-eMinGen(g,q,d,t,y)$(fApplyMinGenerationConstraint and pGenData(g,"MinLimitShare") > 0)..
-    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinLimitShare") ; 
+* Applies the minimum output requirement per capacity share.
+eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..
+    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinGenShareAllHours");
 
-eRampDnLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint)..
+* ------------------------------
+* Unit-commitment transition equations
+* Ensures the recorded on/off state matches startups/shutdowns and forbids more than one transition per slot.
+* Since the state alone cannot capture how many switches occurred, we introduce startup/shutdown binaries alongside `isOn`.
+* ------------------------------
+
+* Dispatch-mode minimum generation only when the generator is recorded as online.
+eDispatchMinGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g) and FD(q,d,t)))..
+   sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y))
+      =g= pGenData(g,"MinGenCommitment")*pGenData(g,"Capacity")
+          * sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+
+* Prevents exceeding capacity while the generator reports being online in dispatch slots.
+eDispatchMaxGenPoint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g) and FD(q,d,t)))..
+   sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y))
+      =l= pGenData(g,"Capacity")*sum(AT$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y));
+
+* Keeps each hour’s on/off change consistent with the recorded startup/shutdown activity.
+eCommitmentConsistency(g,AT,y)$(ord(AT) > 1 and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g))..
+   sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
+      =e= sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y))
+         - sum((q,d,t)$mapTS(q,d,t,AT-1), isOn(g,q,d,t,AT-1,y));
+
+* Applies the same accounting for the first chronological slot using the initial status.
+eCommitmentInitialization(g,AT,y)$(ord(AT) = 1 and fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g))..
+   sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) - isShutdown(g,q,d,t,AT,y))
+      =e= sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y)) - pInitialOnStart(g);
+
+* Prevents multiple start/shutdown actions within a single chronological slot.
+eCommitmentSingleTransition(g,AT,y)$(fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g))..
+   sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y) + isShutdown(g,q,d,t,AT,y)) =l= 1;
+
+* ------------------------------
+* Minimum up/down-time constraints
+* ------------------------------
+* `minUT`/`minDT` capture the consecutive hours a generator must remain online/offline after a transition.
+* The initial constraints enforce the residual commitment/outage carried into the horizon via `HoursOn`/`HoursOff`,
+* while the rolling constraints force every new startup/shutdown to be followed by the required persistence window.
+* The rolling equations link the sum of `isOn` (or `1 - isOn`) across the future window to each startup/shutdown event,
+* ensuring the model respects the full `minUT`/`minDT` counts.
+
+eMinUpInitial(g,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"HoursOn")
+      and pGenData(g,"HoursOff") = 0 and pGenData(g,"minUT") > 0.999)..
+   sum(AT$(ord(AT) < (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)),
+       sum((q,d,t)$mapTS(q,d,t,AT), 1 - isOn(g,q,d,t,AT,y))) =e= 0;
+
+eMinUpRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"minUT") > 0.999
+      and ord(AT2) > (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)$pGenData(g,"HoursOn")
+      and ord(AT2) < (card(AT2) - pGenData(g,"minUT") + 1))..
+   sum(AT$((ord(AT) >= ord(AT2)) and (ord(AT) < ord(AT2) + pGenData(g,"minUT"))),
+       sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y)))
+      =g= pGenData(g,"minUT") * sum((q,d,t)$mapTS(q,d,t,AT2), isStartup(g,q,d,t,AT2,y));
+
+eMinDownInitial(g,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"HoursOn") = 0
+      and pGenData(g,"HoursOff") and pGenData(g,"minDT") > 0.999)..
+   sum(AT$(ord(AT) < (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)),
+       sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y))) =e= 0;
+
+eMinDownRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"minDT") > 0.999
+      and ord(AT2) > (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)$pGenData(g,"HoursOff")
+      and ord(AT2) < (card(AT2) - pGenData(g,"minDT") + 1))..
+   sum(AT$((ord(AT) >= ord(AT2)) and (ord(AT) < ord(AT2) + pGenData(g,"minDT"))),
+       sum((q,d,t)$mapTS(q,d,t,AT), 1 - isOn(g,q,d,t,AT,y)))
+      =g= pGenData(g,"minDT") * sum((q,d,t)$mapTS(q,d,t,AT2), isShutdown(g,q,d,t,AT2,y));
+
+* ------------------------------
+* Startup-cost translation
+* ------------------------------
+* Aggregate startup events per representative bucket by summing every chronological `AT` slot that belongs to (q,d,t).
+* The resulting cost is tied to the time slice so the variable-cost stack can weight it just like fuel and VOM.
+eStartupCostConstraint(g,q,d,t,y)$((fDispatchMode and fApplyMinGenCommitment and MinGenPoint(g) and fApplyStartupCost and FD(q,d,t)))..
+   vStartupCost(g,q,d,t,y) =e= sum(AT$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y)) * pGenData(g,"StUpCost");
+
+* ------------------------------
+* Dispatch-level ramping continuity
+* ------------------------------
+
+eRampDnLimit(g,q,d,t,y)$((Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint and fDispatchMode=0) and FD(q,d,t))..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t-1,y)) - sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =l= vCap(g,y)*pGenData(g,"RampDnRate");
 
-eRampUpLimit(g,q,d,t,y)$(Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint)..
+eRampUpLimit(g,q,d,t,y)$((Ramprate(g) and not sFirstHour(t) and fApplyRampConstraint and fDispatchMode=0) and FD(q,d,t))..
    sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) - sum(gfmap(g,f), vPwrOut(g,f,q,d,t-1,y)) =l= vCap(g,y)*pGenData(g,"RampUpRate");
 
-* Note that we are effectively assuming grid-connected RE generation to be dispatchable. Generally speaking, most RE will be
-* dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for
-* RE generation to be rejected as well
-eVREProfile(gfmap(VRE,f),z,q,d,t,y)$gzmap(VRE,z)..
-   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,q,d,t)*vCap(VRE,y);
+* Tie the chronological slot totals to the underlying hourly dispatch so that ramp limits can aggregate across AT.
+eRampContinuity(g,q,d,t,AT,y)$((Ramprate(g) and fApplyRampConstraint and fDispatchMode) and mapTS(q,d,t,AT))..
+   sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =e= vPwrOutDispatch(g,q,d,t,AT,y);
 
+* Ensure ramp-up across consecutive AT slots respects the ramp rate plus any additional headroom from startups when min-gen constraints are active.
+eDispatchRampUpLimit(g,AT,y)$((not sFirstHourAT(AT) and Ramprate(g) and fApplyRampConstraint and fDispatchMode))..
+   sum((q,d,t)$mapTS(q,d,t,AT), vPwrOutDispatch(g,q,d,t,AT,y))
+   - sum((q,d,t)$mapTS(q,d,t,AT-1), vPwrOutDispatch(g,q,d,t,AT-1,y))
+          =l= sum((q,d,t)$mapTS(q,d,t,AT), isStartup(g,q,d,t,AT,y))*pGenData(g,"Capacity")$(fApplyMinGenCommitment and MinGenPoint(g))
+          + vCap(g,y)*pGenData(g,"RampUpRate");
+
+* Ensure ramp-down across slots respects ramp-down rates while allowing shutdowns to absorb faster decreases.
+eDispatchRampDownLimit(g,AT,y)$((not sFirstHourAT(AT) and Ramprate(g) and fApplyRampConstraint and fDispatchMode))..
+   sum((q,d,t)$mapTS(q,d,t,AT-1), vPwrOutDispatch(g,q,d,t,AT-1,y))
+   - sum((q,d,t)$mapTS(q,d,t,AT), vPwrOutDispatch(g,q,d,t,AT,y))
+          =l= sum((q,d,t)$mapTS(q,d,t,AT), isShutdown(g,q,d,t,AT,y))*pGenData(g,"Capacity")$(fApplyMinGenCommitment and MinGenPoint(g))
+          + vCap(g,y)*pGenData(g,"RampDnRate");
 
 * ------------------------------
 * Reserve equations
 * Enforces spinning and planning reserve requirements.
 * ------------------------------
 * Spinning reserve limit as a share of capacity
-eSpinningReserveLim(g,q,d,t,y)$(fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)..
+eSpinningReserveLim(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint) and FD(q,d,t))..
    vSpinningReserve(g,q,d,t,y) =l= vCap(g,y)*pGenData(g,"ResLimShare");
    
 * Spinning reserve limit for VRE as a share of capacity adjusted for production profile
-eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$(fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint)..
+eSpinningReserveLimVRE(gfmap(VRE,f),q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint) and FD(q,d,t))..
     vSpinningReserve(VRE,q,d,t,y) =l= vCap(VRE,y)*pGenData(VRE,"ResLimShare")* pVREgenProfile(VRE,q,d,t);
 
 * This constraint increases solving time x3
 * Reserve constraints include interconnections as reserves too
-eSpinningReserveReqCountry(c,q,d,t,y)$fApplyCountrySpinReserveConstraint..
+eSpinningReserveReqCountry(c,q,d,t,y)$((fApplyCountrySpinReserveConstraint) and FD(q,d,t))..
    sum((zcmap(z,c),gzmap(g,z)),vSpinningReserve(g,q,d,t,y))
  + vUnmetSpinningReserveCountry(c,q,d,t,y)
 * + sIntercoReserveContributionPct * sum((zcmap(z,c),sMapConnectedZonesDiffCountries(z2,z)), pTransferLimit(z2,z,q,y)
@@ -743,7 +903,7 @@ eSpinningReserveReqCountry(c,q,d,t,y)$fApplyCountrySpinReserveConstraint..
    =g= pSpinningReserveReqCountry(c,y) + sum((zcmap(z,c),gzmap(VRE_noROR,z),gfmap(VRE_noROR,f)), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
    
 * System spinning reserve requirement
-eSpinningReserveReqSystem(q,d,t,y)$fApplySystemSpinReserveConstraint..
+eSpinningReserveReqSystem(q,d,t,y)$((fApplySystemSpinReserveConstraint) and FD(q,d,t))..
    sum(g, vSpinningReserve(g,q,d,t,y)) + vUnmetSpinningReserveSystem(q,d,t,y) =g= pSpinningReserveReqSystem(y) + sum(gfmap(VRE_noROR,f), vPwrOut(VRE_noROR,f,q,d,t,y))*psVREForecastErrorPct;
 
 * Planning reserve requirement at the country level
@@ -764,11 +924,11 @@ ePlanningReserveReqSystem(y)$(fApplyPlanningReserveConstraint and sReserveMargin
 * Limits internal flows and applies trade caps.
 * ------------------------------
 * Limits flow between zones to existing + expandable transmission capacity
-eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)..
+eTransferCapacityLimit(sTopology(z,z2),q,d,t,y)$FD(q,d,t)..
    vFlow(z,z2,q,d,t,y) =l= pTransferLimit(z,z2,q,y) + vNewTransmissionLine(z,z2,y)*symmax(pNewTransmission,z,z2,"CapacityPerLine")*fAllowTransferExpansion;
 
 * Enforces minimum import flow into a zone when specified
-eMinImportRequirement(sTopology(z,z2),q,d,t,y)$pMinImport(z2,z,y)..
+eMinImportRequirement(sTopology(z,z2),q,d,t,y)$(pMinImport(z2,z,y) and FD(q,d,t))..
    vFlow(z2,z,q,d,t,y) =g= pMinImport(z2,z,y);   
 
 * Cumulative build-out of new transfer capacity over time
@@ -792,19 +952,19 @@ eMaxAnnualExportShareEnergy(c,y)$fEnableExternalExchange..
    sum((zcmap(z,c),q,d,t), pDemandData(z,q,d,y,t)*pHours(q,d,t)*pEnergyEfficiencyFactor(z,y))*pMaxAnnualExternalTradeShare(y,c);
 
 * Limits hourly import energy as a share of hourly demand
-eMaxHourlyImportShareEnergy(c,q,d,t,y)$(sMaxHourlyImportExternalShare<1 and fEnableExternalExchange)..
+eMaxHourlyImportShareEnergy(c,q,d,t,y)$((sMaxHourlyImportExternalShare<1 and fEnableExternalExchange) and FD(q,d,t))..
    sum((zcmap(z,c), zext), vYearlyImportExternal(z,zext,q,d,t,y))  =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxHourlyImportExternalShare * pEnergyEfficiencyFactor(z,y));
 
 * Limits hourly export energy as a share of hourly demand
-eMaxHourlyExportShareEnergy(c,q,d,t,y)$(sMaxHourlyExportExternalShare<1 and fEnableExternalExchange)..
+eMaxHourlyExportShareEnergy(c,q,d,t,y)$((sMaxHourlyExportExternalShare<1 and fEnableExternalExchange) and FD(q,d,t))..
    sum((zcmap(z,c), zext),vYearlyExportExternal(z,zext,q,d,t,y)) =l= sum(zcmap(z,c), pDemandData(z,q,d,y,t)*sMaxHourlyExportExternalShare * pEnergyEfficiencyFactor(z,y));
 
 * Caps import volume from an external zone to internal zone
-eExternalImportLimit(z,zext,q,d,t,y)$fEnableExternalExchange..
+eExternalImportLimit(z,zext,q,d,t,y)$((fEnableExternalExchange) and FD(q,d,t))..
    vYearlyImportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitIn(z,zext,q,y);
 
 * Caps export volume from internal zone to an external zone
-eExternalExportLimit(z,zext,q,d,t,y)$fEnableExternalExchange..
+eExternalExportLimit(z,zext,q,d,t,y)$((fEnableExternalExchange) and FD(q,d,t))..
    vYearlyExportExternal(z,zext,q,d,t,y)=l= pExtTransferLimitOut(z,zext,q,y);
 
 * ------------------------------
@@ -812,49 +972,59 @@ eExternalExportLimit(z,zext,q,d,t,y)$fEnableExternalExchange..
 * Controls storage SOC, charging, and reserve support.
 * ------------------------------
 * Limits state of charge (SOC) by capacit
-eSOCUpperBound(st,q,d,t,y)$fEnableStorage..
+eSOCUpperBound(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorage(st,q,d,t,y) =l= vCapStor(st,y);
 
 * Prevents storage being used to meet reserves only
-eStorageCapMinConstraint(st,q,d,t,y)$fEnableStorage..
+eStorageCapMinConstraint(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vCapStor(st,y) =g= vCap(st,y);
 
 * Charging power ≤ power capacity
-eChargeCapacityLimit(st,q,d,t,y)$fEnableStorage..
+eChargeCapacityLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorInj(st,q,d,t,y) =l= vCap(st,y);
 
 * Charge cap from PV-following storage logic
-eChargeLimitWithPVProfile(stp,q,d,t,y)$fEnableStorage..
+eChargeLimitWithPVProfile(stp,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorInj(stp,q,d,t,y) =l= sum(gsmap(so,stp), vCap(so,y)*pStoPVProfile(so,q,d,t));
 
 * Max rate of charge decrease (ramp-down)
-eChargeRampDownLimit(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage and fApplyRampConstraint)..
+eChargeRampDownLimit(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage and fApplyRampConstraint) and FD(q,d,t))..
    vStorInj(st,q,d,t-1,y) - vStorInj(st,q,d,t,y) =l= pGenData(st,'RampDnRate')*vCap(st,y);
 
 * Max rate of charge increase (ramp-up)
-eChargeRampUpLimit(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage and fApplyRampConstraint)..
+eChargeRampUpLimit(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage and fApplyRampConstraint) and FD(q,d,t))..
    vStorInj(st,q,d,t,y) - vStorInj(st,q,d,t-1,y) =l= pGenData(st,'RampUpRate')*vCap(st,y);
 
 * Defines net charge as output - input
-eNetChargeBalance(st,q,d,t,y)$fEnableStorage..
+eNetChargeBalance(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
-* SOC dynamics between time steps
-eStateOfChargeUpdate(st,q,d,t,y)$(not sFirstHour(t) and fEnableStorage)..
-   vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) + vStorage(st,q,d,t-1,y);
+* eStorageHourTransition rolls storage state forward using the previous chronological hour (t-1), assuming storage is enabled.
+eStorageHourTransition(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-1,y)
+      + pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y)
+      - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
-* SOC at first hour (no past state)
-eStateOfChargeInit(st,q,d,sFirstHour(t),y)$fEnableStorage..
-   vStorage(st,q,d,t,y) =e= pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
+* Anchors the first hour of the representative-day cycle to the configured capacity share.
+eStorageSOCInit(st,g,q,d,t,y)$((sFirstHour(t) and sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+
+* Forces the last hour of the cycle to return to the same capacity share, ensuring the wrap-around matches the initial value.
+eStorageSOCFinal(st,q,d,t,y)$((sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+
+* eStorageDayWrap connects the first hour of each day (except day 1) to the previous day’s final hour.
+eStorageDayWrap(st,q,d,t,y)$((sFirstHour(t) and not sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= sum(tprev$sLastHour(tprev), vStorage(st,q,d-1,tprev,y))
+      + pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y)
+      - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
 * Ensures SOC level can cover spinning reserve
-eSOCSupportsReserve(st,q,d,t,y)$fEnableStorage..
+eSOCSupportsReserve(st,q,d,t,y)$((fEnableStorage) and FD(q,d,t))..
    vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
-* Ensures that the state of charge at the end of the representative day equals the initial state
-* This avoids artificial energy gains/losses over the daily cycle
-* eSOCCycleClosure(st,q,d,sLastHour(t),y)$(fEnableStorage)..
-*   vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-23,y) - (pStorData(st,"efficiency") * vStorInj(st,q,d,t-23,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t-23,y)));
+* The day-wrap constraint ensures the first hour of each representative day continues from the previous day’s last hour,
+* preventing artificial energy gains or losses without hard-coded offsets like t-23.
 
 * Ensures energy conservation over the full representative day: total input × efficiency = total output
 * eDailyStorageEnergyBalance(st,q,d,y)$(fEnableStorage)..
@@ -866,38 +1036,34 @@ eSOCSupportsReserve(st,q,d,t,y)$fEnableStorage..
 * ------------------------------
 
 * Limits CSP storage level to installed storage capacity.
-eCSPStorageCapacityLimit(cs,q,d,t,y)$fEnableCSP..
+eCSPStorageCapacityLimit(cs,q,d,t,y)$(fEnableCSP and FD(q,d,t))..
    vStorage(cs,q,d,t,y) =l= vCapStor(cs,y);
 
 * Limits CSP storage injection to thermal energy output * efficiency. Prevents unrealistic injection behavior.
-eCSPStorageInjectionLimit(cs,q,d,t,y)$fEnableCSP..
+eCSPStorageInjectionLimit(cs,q,d,t,y)$(fEnableCSP and FD(q,d,t))..
    vStorInj(cs,q,d,t,y) =l= vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency");
 
 * Prevents CSP storage injection exceeding installed capacity.
-eCSPStorageInjectionCap(cs,q,d,t,y)$fEnableCSP..
+eCSPStorageInjectionCap(cs,q,d,t,y)$(fEnableCSP and FD(q,d,t))..
    vStorInj(cs,q,d,t,y) =l= vCapStor(cs,y);
 
 *Limits thermal energy output to installed thermal field capacity * hourly solar profile.
-eCSPThermalOutputLimit(cs,q,d,t,y)$fEnableCSP..
+eCSPThermalOutputLimit(cs,q,d,t,y)$(fEnableCSP and FD(q,d,t))..
    vThermalOut(cs,q,d,t,y) =l= vCapTherm(cs,y)*pCSPProfile(cs,q,d,t);
 
 * Balances CSP thermal output, storage in/out, and generator dispatch.
-eCSPPowerBalance(cs,q,d,t,y)$fEnableCSP..
+eCSPPowerBalance(cs,q,d,t,y)$(fEnableCSP and FD(q,d,t))..
    vThermalOut(cs,q,d,t,y)*pCSPData(cs,"Thermal Field","Efficiency")
  - vStorInj(cs,q,d,t,y) + vStorOut(cs,q,d,t,y)*pCSPData(cs,"Storage","Efficiency")
    =e= sum(gfmap(cs,f), vPwrOut(cs,f,q,d,t,y));
 
 * Tracks CSP storage state of charge across time (except for first hour).
-eCSPStorageEnergyBalance(cs,q,d,t,y)$(not sFirstHour(t) and fEnableCSP)..
+eCSPStorageEnergyBalance(cs,q,d,t,y)$((not sFirstHour(t) and fEnableCSP) and FD(q,d,t))..
    vStorage(cs,q,d,t,y) =e= vStorage(cs,q,d,t-1,y) + vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
 
 * Initializes CSP storage balance for the first hour of the day.
-eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$fEnableCSP..
+eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$((fEnableCSP) and FD(q,d,t))..
    vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y);
-
-*Equation needed in dispatch mode but not for capacity expansion with representative days
-*eCSPStorageDayLink(cs,q,d,sFirstHour(t),y)$(not sFirstDay(d) and fEnableCSP)..
-*   vStorage(cs,q,d,t,y) =e= vStorInj(cs,q,d,t,y) - vStorOut(cs,q,d,t,y) + vStorage(cs,q,d-1,sLastHour,y);
 
 * ------------------------------
 * Storage capacity evolution
@@ -985,6 +1151,8 @@ Model PA /
    eTotalAnnualizedCapex
    eYearlyFOMCost
    eYearlyVariableCost
+   eYearlyStartupCost
+   eYearlyStartupCostOff
    eYearlyFuelCost
    eYearlyVOMCost
    eYearlySpinningReserveCost
@@ -1009,10 +1177,24 @@ Model PA /
    eMinGenRE
    eMaxCF
    eMinGen
+   eDispatchMinGenPoint
+   eDispatchMaxGenPoint
    
    eFuel
    eRampUpLimit
    eRampDnLimit
+   eRampContinuity
+   eDispatchRampUpLimit
+   eDispatchRampDownLimit
+   eCommitmentConsistency
+   eCommitmentInitialization
+   eCommitmentSingleTransition
+   eMinUpInitial
+   eMinUpRolling
+   eMinDownInitial
+   eMinDownRolling
+   eStartupCostConstraint
+   
    eSpinningReserveLim
    eSpinningReserveLimVRE
    eJointResCap
@@ -1053,12 +1235,14 @@ Model PA /
    eChargeRampDownLimit
    eChargeRampUpLimit
    eNetChargeBalance
-   eStateOfChargeUpdate
-   eStateOfChargeInit
+   eStorageHourTransition
+   eStorageDayWrap
+   eStorageSOCInit
+   eStorageSOCFinal
 
-  
+
    eSOCSupportsReserve
-   
+
    eCSPStorageCapacityLimit
    eCSPStorageInjectionLimit
    eCSPStorageInjectionCap

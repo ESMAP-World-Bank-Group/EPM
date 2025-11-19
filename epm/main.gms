@@ -38,7 +38,7 @@ $if not set EPMVERSION    $set EPMVERSION    9.0
 * Turn on/off additional information to the listing file
 option limRow=0, limCol=0, sysOut=off, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
-$if %DEBUG%==1 option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
+$if %DEBUG%==1 option limRow=2000, limCol=2000, solPrint=on, sysOut=off;
 
 *-------------------------------------------------------------------------------------
 
@@ -232,8 +232,6 @@ Parameter
    ftfindex(f)                                           'Fuel-to-fuel index mapping'
 ;   
 
-Scalar fDispatchMode 'Activate full-year dispatch inputs';
-
 
 * Add to pGenDataInputHeader the headers that are optional for users but necessary for the model
 
@@ -408,11 +406,16 @@ $include %DEMAND_FILE%
 
 *--- Part2: Start of initialisation of other parameters
 
-
 * Read main parameters from pSettings
 
 fEnableStorage                     = pSettings("fEnableStorage");
 fDispatchMode                      = pSettings("fDispatchMode");
+
+* --- Settings: Dispatch constraint switches
+fApplyMinGenCommitment      = pSettings("fApplyMinGenCommitment");
+fApplyStartupCost                  = pSettings("fApplyStartupCost");
+fApplyRampConstraint               = pSettings("fApplyRampConstraint");
+fApplyMUDT                       = pSettings("fApplyMUDT");
 
 * --- Settings: Economic parameters and penalties
 pDR                          = pSettings("DR");
@@ -436,17 +439,16 @@ sIntercoReserveContributionPct     = pSettings("sIntercoReserveContributionPct")
 fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 
 * --- Settings: Policy and operational switches
-fApplyRampConstraint               = pSettings("fApplyRampConstraint");
+fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
-fApplyMinGenerationConstraint      = pSettings("fApplyMinGenerationConstraint");
 fEnableCSP                         = pSettings("fEnableCSP");
 fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");
 pMinRE                             = pSettings("sMinRenewableSharePct");
 pMinsRenewableTargetYear           = pSettings("sRenewableTargetYear");
 fApplyCountryCo2Constraint         = pSettings("fApplyCountryCo2Constraint");
 fApplySystemCo2Constraint         = pSettings("fApplySystemCo2Constraint");
-pIncludeCarbon                     = pSettings("fEnableCarbonPrice");
+fEnableCarbonPrice                     = pSettings("fEnableCarbonPrice");
 fEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
 
 
@@ -464,6 +466,7 @@ sMaxHourlyExportExternalShare                 = pSettings("sMaxHourlyExportExter
 fEnableCapexTrajectoryH2           = pSettings("fEnableCapexTrajectoryH2");
 fEnableH2Production               = pSettings("fEnableH2Production");
 
+* ----------------------------
 singleton set sFinalYear(y);
 scalar TimeHorizon;
 
@@ -473,6 +476,35 @@ TimeHorizon = sFinalYear.val - sStartYear.val + 1;
 sFirstHour(t) = t.first;
 sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
+
+sFirstHourAT(AT) = AT.first;
+
+sLastDay(d) = yes$(ord(d) = card(d));
+
+* ------------------------------
+* Commitment initialization defaults
+* Consolidates initial ON/OFF values so a single section shows which units start online.
+* ------------------------------
+pInitialOnStart(g) = 0;
+pInitialOnStart(g)$pGenData(g,"InitialOn") = pGenData(g,"InitialOn");
+
+
+pStorageInitShare = pSettings("InitialSOCforBattery");
+if (pStorageInitShare <= 0,
+   pStorageInitShare = 0.5;
+);
+
+FD(q,d,t) = yes;
+if (fDispatchMode,
+   FD(q,d,t)$(ord(q) eq 2 and ord(d) > 28) = no;
+   FD(q,d,t)$((ord(q) eq 4 or ord(q) eq 6 or ord(q) eq 9 or ord(q) eq 11) and ord(d) > 30) = no;
+);
+
+* Identify which generators carry minimum-generation commitments so that startup cost logic can focus on them.
+MinGenPoint(g) = yes$(pGenData(g,"MinGenCommitment") > 0);
+
+* ------------------------------
+
 
 * Set external transfer limits to zero if exports are not allowed
 pExtTransferLimit(z,zext,q,"Import",y)$(not fEnableExternalExchange)  = 0 ;

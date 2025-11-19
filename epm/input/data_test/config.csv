@@ -1,7 +1,7 @@
 metadata,paramNames,file
 modeltype type (MIP or RMIP),modeltype,RMIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
-,SETTINGS,
+,GENERAL,
 Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
 Planning horizon years (Unit: year),y,y.csv
 Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv

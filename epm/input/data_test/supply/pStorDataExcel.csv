@@ -12,3 +12,4 @@ Generic_BESS_EquatorialGuinea,,10000000,180,0,0,0.9
 Generic_BESS_Gabon,,10000000,180,0,0,0.9
 Generic_BESS_Rwanda,,10000000,180,0,0,0.9
 PumpedStorage Rwanda,,3000,150,0,0,0.8
+Test_BESS,,80,0,0,0,0.9

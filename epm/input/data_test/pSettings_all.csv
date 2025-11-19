@@ -60,7 +60,7 @@ Apply max capital constraint,fApplyCapitalConstraint,0
 ,,
 PLANTS,,
 Apply min generation for all hours,fApplyMinGenShareAllHours,0
-Apply ramp constraints,fApplyRampConstraint,0
+Apply ramp constraints,fApplyRampConstraint,1
 Apply min generation constraint (only dispatch),fApplyMinGenCommitment,1
-Include minimum up/down time constraints (only dispatch),fApplyMUDT,0
-Apply startup cost (only dispatch),fApplyStartupCost,0
+Include minimum up/down time constraints (only dispatch),fApplyMUDT,1
+Apply startup cost (only dispatch),fApplyStartupCost,1

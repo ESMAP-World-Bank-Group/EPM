@@ -35,6 +35,7 @@ set sumhdr /
   "Generation costs: $m",
   "Fixed O&M: $m",
   "Variable O&M: $m",
+  "Startup costs: $m",
   "Fuel costs: $m",
   "Transmission costs: $m",
   "Spinning reserve costs: $m",
@@ -659,6 +660,9 @@ pYearlyCostsZone(z, "Fixed O&M: $m", y) =
 
 pYearlyCostsZone(z, "Variable O&M: $m", y) =
   vYearlyVOMCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Startup costs: $m", y) =
+  vYearlyStartupCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Fuel costs: $m", y) =
   vYearlyFuelCost.l(z, y) / 1e6;
