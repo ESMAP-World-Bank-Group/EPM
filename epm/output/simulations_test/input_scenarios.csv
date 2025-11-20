@@ -46,7 +46,7 @@ pMaxAnnualExternalTradeShare,input/data_test/trade/pMaxAnnualExternalTradeShare.
 pMinImport,input/data_test/trade/pMinImport.csv
 pNewTransmission,input/data_test/trade/pNewTransmission.csv
 pTradePrice,input/data_test/trade/pTradePrice.csv
-pTransferLimit,input/data_test/trade/pTransferLimit.csv
+pTransferLimit,input/data_test/trade/pTransferLimit_dispatch.csv
 pH2DataExcel,input/data_test/h2/pH2DataExcel.csv
 pAvailabilityH2,input/data_test/h2/pAvailabilityH2.csv
 pCapexTrajectoryH2,input/data_test/h2/pCapexTrajectoryH2.csv

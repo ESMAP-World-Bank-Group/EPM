@@ -182,7 +182,7 @@ FIGURES_ACTIVATED = {
 }
 
 FIGURE_CATEGORY_ENABLED = {
-    'summary': False,
+    'summary': True,
     'capacity': False,
     'costs': False,
     'energy': False,
