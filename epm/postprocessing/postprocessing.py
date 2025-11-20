@@ -159,10 +159,10 @@ FIGURES_ACTIVATED = {
     'EnergyPlantZoneTop10': True,
     
     # 4. Dispatch figures
-    'DispatchZoneMaxLoadDay': True,
+    'DispatchZoneMaxLoadDay': False,
     'DispatchZoneMaxLoadSeason': False,
     'DispatchZoneFullSeason': True,
-    'DispatchSystemMaxLoadDay': True,
+    'DispatchSystemMaxLoadDay': False,
     'DispatchSystemMaxLoadSeason': False,
     
     # 5. Interconnection figures
@@ -1852,7 +1852,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         epm_results,
                         dict_specs,
                         subfolders['5_dispatch'],
-                        ['baseline'],
+                        selected_scenarios,
                         FIGURES_ACTIVATED
                     )
                 except Exception as err:

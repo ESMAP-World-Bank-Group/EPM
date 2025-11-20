@@ -1,5 +1,5 @@
 metadata,paramNames,file
-modeltype type (MIP or RMIP),modeltype,RMIP
+modeltype type (MIP or RMIP),modeltype,MIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
 ,SETTINGS,
 Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv

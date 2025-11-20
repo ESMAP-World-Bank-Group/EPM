@@ -32,7 +32,7 @@ $if not set TRACE $set TRACE 0
 
 * Define by default path
 * SETTINGS
-$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
+$if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings_startupcost.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours_dispatch.csv
