@@ -476,7 +476,7 @@ Equations
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
    eStorageHourTransition
-   eStorageDayWrap
+   eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
    eStorageSOCInit
    eStorageSOCFinal
 
@@ -750,7 +750,6 @@ eBuiltCap(ng,y)$pGenData(ng,"DescreteCap")..
 eRetireCap(eg,y)$(pGenData(eg,"DescreteCap") and (y.val <= pGenData(eg,"RetrYr")))..
    vRetire(eg,y) =e= pGenData(eg,"UnitSize")*vRetireCapVar(eg,y);
 
-
 * ------------------------------
 * Production equations
 * Constrains generator dispatch, ramping, and minimum output.
@@ -814,17 +813,13 @@ eCommitmentSingleTransition(g,AT,y)$(fDispatchMode and fApplyMinGenCommitment an
 * ------------------------------
 * Minimum up/down-time constraints
 * ------------------------------
-* `minUT`/`minDT` capture the consecutive hours a generator must remain online/offline after a transition.
-* The initial constraints enforce the residual commitment/outage carried into the horizon via `HoursOn`/`HoursOff`,
-* while the rolling constraints force every new startup/shutdown to be followed by the required persistence window.
-* The rolling equations link the sum of `isOn` (or `1 - isOn`) across the future window to each startup/shutdown event,
-* ensuring the model respects the full `minUT`/`minDT` counts.
-
+* Initial minimum up-time: if HoursOn > 0, force the remaining required online hours.
 eMinUpInitial(g,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"HoursOn")
       and pGenData(g,"HoursOff") = 0 and pGenData(g,"minUT") > 0.999)..
    sum(AT$(ord(AT) < (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)),
        sum((q,d,t)$mapTS(q,d,t,AT), 1 - isOn(g,q,d,t,AT,y))) =e= 0;
 
+* Rolling minimum up-time: every startup must be followed by minUT consecutive on hours.
 eMinUpRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"minUT") > 0.999
       and ord(AT2) > (pGenData(g,"minUT") - pGenData(g,"HoursOn") + 1)$pGenData(g,"HoursOn")
       and ord(AT2) < (card(AT2) - pGenData(g,"minUT") + 1))..
@@ -832,11 +827,13 @@ eMinUpRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment 
        sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y)))
       =g= pGenData(g,"minUT") * sum((q,d,t)$mapTS(q,d,t,AT2), isStartup(g,q,d,t,AT2,y));
 
+* Initial minimum down-time: if HoursOff > 0, force the remaining offline hours.
 eMinDownInitial(g,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"HoursOn") = 0
       and pGenData(g,"HoursOff") and pGenData(g,"minDT") > 0.999)..
    sum(AT$(ord(AT) < (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)),
        sum((q,d,t)$mapTS(q,d,t,AT), isOn(g,q,d,t,AT,y))) =e= 0;
 
+* Rolling minimum down-time: every shutdown must be followed by minDT consecutive off hours.
 eMinDownRolling(g,AT2,y)$(fDispatchMode and fApplyMUDT and fApplyMinGenCommitment and MinGenPoint(g) and pGenData(g,"minDT") > 0.999
       and ord(AT2) > (pGenData(g,"minDT") - pGenData(g,"HoursOff") + 1)$pGenData(g,"HoursOff")
       and ord(AT2) < (card(AT2) - pGenData(g,"minDT") + 1))..
@@ -1013,9 +1010,9 @@ eStorageSOCInit(st,g,q,d,t,y)$((sFirstHour(t) and sFirstDay(d) and fEnableStorag
 eStorageSOCFinal(st,q,d,t,y)$((sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
 
-* eStorageDayWrap connects the first hour of each day (except day 1) to the previous day’s final hour.
-eStorageDayWrap(st,q,d,t,y)$((sFirstHour(t) and not sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= sum(tprev$sLastHour(tprev), vStorage(st,q,d-1,tprev,y))
+* Dispatch mode: wrap the first hour of each day to the previous chronological hour (AT-1); no wrap in representative-day mode.
+eStorageDayWrap(st,q,d,t,AT,y)$((fDispatchMode and fEnableStorage and sFirstHour(t) and mapTS(q,d,t,AT) and ord(AT) > 1) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= sum((q2,d2,t2)$mapTS(q2,d2,t2,AT-1), vStorage(st,q2,d2,t2,y))
       + pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y)
       - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
@@ -1023,8 +1020,8 @@ eStorageDayWrap(st,q,d,t,y)$((sFirstHour(t) and not sFirstDay(d) and fEnableStor
 eSOCSupportsReserve(st,q,d,t,y)$((fEnableStorage) and FD(q,d,t))..
    vSpinningReserve(st,q,d,t,y) =l= vStorage(st,q,d,t,y);
 
-* The day-wrap constraint ensures the first hour of each representative day continues from the previous day’s last hour,
-* preventing artificial energy gains or losses without hard-coded offsets like t-23.
+* In dispatch mode, the day-wrap constraint ties each day’s first hour to AT-1, preventing artificial SOC jumps.
+* In representative-day mode the wrap is skipped, avoiding cross-day links that do not exist in that chronology.
 
 * Ensures energy conservation over the full representative day: total input × efficiency = total output
 * eDailyStorageEnergyBalance(st,q,d,y)$(fEnableStorage)..
