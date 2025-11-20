@@ -39,7 +39,9 @@ $eolCom //
 alias (y,y2);
 alias (f,f2);
 alias (c,c2);
-alias (t,tprev);
+alias (q,q2);
+alias (d,d2);
+alias (t,tprev,t2);
 alias (AT,AT2);
 
 
