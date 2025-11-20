@@ -296,7 +296,7 @@ if gms_dir not in sys.path:
     sys.path.insert(0, gms_dir)
 
 from input_verification import run_input_verification_from_gdx
-run_input_verification_from_gdx("input.gdx")
+run_input_verification_from_gdx("input.gdx", verbose=False, log_func=gams.printLog)
 $offEmbeddedCode 
 
 
