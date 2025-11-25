@@ -1,0 +1,151 @@
+---
+geometry: margin=0.85in
+
+# Open-Data Report for {{ report_scope }} Energy System Modelling
+Generated on: {{ date }}
+
+
+## Table of contents
+- [Quick guide for utilities and modelers](#quick-guide-for-utilities-and-modelers)
+  - [Data lineage and sources](#data-lineage-and-sources)
+- [1. Prepare Data](#1-prepare-data)
+  - [1.1 Climate Overview](#11-climate-overview)
+  - [1.2 Load Profiles](#12-load-profiles)
+  - [1.3 Generation Assets Map](#13-generation-assets-map)
+  - [1.4 Variable Renewable Energy (VRE) Profiles](#14-variable-renewable-energy-vre-profiles)
+  - [1.5 Key Workflow Parameters](#15-key-workflow-parameters)
+- [2. Representative Days](#2-representative-days)
+- [Appendix](#appendix)
+{% if appendix_sections %}{% for section in appendix_sections %}
+  - [{{ section.title }}](#{{ section.title | lower | replace(' ', '-') | replace(':', '') }})
+{% endfor %}{% endif %}
+
+---
+
+## Quick guide for utilities and modelers
+- Built with the **EPM Open-Data Workflow** to give you a transparent starting point before customising scenarios (fuel prices, retirements, new builds, demand forecasts).
+- Keep this report alongside the config and output files below so results remain reproducible and auditable.
+- Figures are meant to sanity-check profiles quickly; tables list the authoritative numbers for ingestion into optimisation models.
+- Reproducibility checklist moved to Appendix for quick access.
+
+### Data lineage and sources
+
+{{ data_overview | default("_Data overview not available yet._", true) }}
+
+### Countries covered
+{{ countries_text | default("_Countries not specified._", true) }}
+
+---
+
+# 1. Prepare Data
+
+We work exclusively with open-data sources to ensure reproducibility and transparency.
+
+## 1.1 Climate Overview
+
+ERA5-Land monthly indicators ({{ climate_period | default("period not set", true) }}) for {{ climate_countries | default("the selected countries", true) }}.
+
+{{ climate_summary | default("_Climate summary not found. Run the climate workflow to generate it._", true) }}
+
+Figures:
+- Spatial means:
+{{ climate_spatial_fig | default("_Spatial-mean plots not available yet._", true) | indent(2, true) }}
+- Monthly averages by country:
+{{ climate_monthly_fig | default("_Monthly climate plots not available yet._", true) | indent(2, true) }}
+- Temperature vs precipitation:
+{{ climate_scatter_fig | default("_Scatter plot not available yet._", true) | indent(2, true) }}
+- Precipitation heatmap:
+{{ climate_heatmap | default("_Precipitation heatmap not available yet._", true) | indent(2, true) }}
+
+## 1.2 Load Profiles
+
+Load profiles for all modelled countries are derived from the dataset published in:  
+*“Open data for electricity modelling,”* Energy, 2019.  
+Available at: [Energy (2019)](https://www.sciencedirect.com/science/article/abs/pii/S0142061518336196?via%3Dihub)
+
+Load profile summary:
+
+{{ load_profile_summary | default("_Load-profile summary not found. Run the workflow to generate it._", true) }}
+
+Figures:
+- Normalised diagnostics: heatmaps and boxplots are expressed per unit of each country's peak load for easy comparison.
+- Hourly profiles:
+{{ load_profile_fig | default("_Load-profile figures not found. Run the workflow to generate them._", true) | indent(2, true) }}
+- Average load per month:
+{{ load_month_fig | default("_Monthly averages not found._", true) | indent(2, true) }}
+- Average load per day:
+{{ load_day_fig | default("_Daily averages not found._", true) | indent(2, true) }}
+- Heatmap (daily averages):
+{{ load_heatmap_fig | default("_Load heatmap not found._", true) | indent(2, true) }}
+- Load distribution (boxplots):
+{{ load_boxplot_fig | default("_Load boxplots not found._", true) | indent(2, true) }}
+
+## 1.3 Generation Assets Map
+
+Interactive map of existing and planned generation sites (toggle layers for status and technology):
+
+{{ generation_map_text | default("_Generation map not available yet._", true) }}
+{% if generation_map_static %}
+- Static exports:
+{{ generation_map_static | indent(2, true) }}
+{% endif %}
+
+_Generation asset summary tables are provided in the Appendix._
+
+## 1.4 Variable Renewable Energy (VRE) Profiles
+
+### GIP-selected project locations
+To identify representative renewable resource locations, we use the **Global Integrated Power (GIP) 2025 database**. Here are the sites selected as representative and used to determine the VRE profiles:
+
+{{ vre_location_map | default("_GIP site selections not available yet._", true) }}
+
+{{ vre_location_appendix_note | default("", true) }}
+
+### RE-Ninja Profiles
+Hourly capacity-factor profiles (covering {{ rn_countries_inline | default("all selected countries", true) }}) are obtained from **Renewables Ninja (RN)** for the period **{{ rn_period_label | default("Jan–Dec", true) }}**.
+
+We extract both **wind** and **solar PV** datasets.  
+The figures below display the heatmaps of hourly VRE availability:
+
+- **Solar PV heatmap:**
+{{ solar_heatmap | default("_Solar heatmap not available yet._", true) | indent(2, true) }}
+
+- **Wind heatmap:**
+{{ wind_heatmap | default("_Wind heatmap not available yet._", true) | indent(2, true) }}
+
+- **Capacity-factor distributions (boxplots):**
+{{ rn_boxplots | default("_Boxplots not available yet._", true) | indent(2, true) }}
+
+These views allow quick comparison of temporal variability and complementarity across the year.
+
+## 1.5 Key Workflow Parameters
+{{ key_parameters | default("_Key parameters not available yet._", true) }}
+{% if season_mapping %}- Season grouping: {{ season_mapping }}{% endif %}
+
+---
+
+# 2. Representative Days
+
+To reduce model complexity while preserving temporal variability, we apply a representative-days algorithm based on clustering of hourly load and VRE profiles.
+
+The selected representative days are shown below:
+
+{{ rep_days_fig | default("_Representative-days workflow not run; enable it in the config to generate figures._", true) }}
+
+This reduction supports fast capacity-expansion optimisation while maintaining key seasonal and intraday dynamics.
+
+---
+
+# Appendix
+
+If needed, additional tables or figures are added automatically. This section also contains the full generation-asset tables (one per country) and detailed GIP summaries.
+
+{% if appendix_sections %}
+{% for section in appendix_sections %}
+## {{ section.title }}
+{{ section.body | default("_No content available._", true) }}
+
+{% endfor %}
+{% else %}
+_Appendix content not available yet._
+{% endif %}
