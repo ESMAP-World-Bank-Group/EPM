@@ -1,8 +1,12 @@
 import os
+import shutil
 import sys
 import warnings
 import subprocess
+import traceback
 from collections.abc import Iterable
+from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 # Force PuLP to stay on CBC so it does not probe an expired Gurobi license.
@@ -61,6 +65,16 @@ OUTPUT_ROOT = _resolve_relative(BASE_DIR, config.get("output_workflow_dir", "out
 INPUT_ROOT.mkdir(parents=True, exist_ok=True)
 OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 
+OUTPUT_CATEGORIES = {
+    "supply": OUTPUT_ROOT / "supply",
+    "vre": OUTPUT_ROOT / "vre",
+    "load": OUTPUT_ROOT / "load",
+    "epm_export": OUTPUT_ROOT / "epm_export",
+    "report": OUTPUT_ROOT / "report",
+}
+for _path in OUTPUT_CATEGORIES.values():
+    _path.mkdir(parents=True, exist_ok=True)
+
 
 def resolve_input(path):
     """Prefer the new input_workflow root, fall back to the open-data folder."""
@@ -74,10 +88,18 @@ def resolve_input(path):
     return candidates[0]
 
 
-def resolve_output(path):
-    """Write outputs under output_workflow (or a custom root)."""
+def resolve_output(path, *, category=None):
+    """Write outputs under the workflow root or an optional category subfolder."""
     p = Path(path)
-    return p if p.is_absolute() else (OUTPUT_ROOT / p)
+    if p.is_absolute():
+        return p
+    if category is None:
+        base = OUTPUT_ROOT
+    else:
+        base = OUTPUT_CATEGORIES.get(category)
+        if base is None:
+            raise ValueError(f"Unknown output category: {category}")
+    return base / p
 
 
 ################################################################################
@@ -110,31 +132,163 @@ def _flatten_outputs(out):
     return [p for p in paths if p]
 
 
-def best_effort(label, outputs, fn):
-    """Run a rule body; on failure, log and create placeholder outputs."""
+def _write_placeholder(path, message):
+    """Write a small failure notice to preserve rule outputs on error."""
+    target = Path(path)
     try:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(message, encoding="utf-8")
+    except Exception as exc:
         if VERBOSE_LOGS:
-            print(f"[{label}] starting")
+            print(f"[placeholder] Failed to write placeholder {target}: {exc}")
+
+
+def _ensure_list(value):
+    """Normalize a value into a list of scalar items."""
+    if value is None:
+        return []
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, Iterable):
+        return list(value)
+    return [value]
+
+
+@lru_cache(maxsize=None)
+def _natural_earth_country_lookup():
+    try:
+        from cartopy.io import shapereader
+    except Exception:
+        return {}
+    try:
+        reader = shapereader.Reader(
+            shapereader.natural_earth(
+                resolution="10m", category="cultural", name="admin_0_countries"
+            )
+        )
+    except Exception:
+        return {}
+
+    mapping = {}
+    for record in reader.records():
+        iso = record.attributes.get("ISO_A2")
+        if not iso:
+            continue
+        iso = iso.upper()
+        for key in ("NAME_LONG", "ADMIN", "NAME"):
+            name = record.attributes.get(key)
+            if isinstance(name, str):
+                normalized = name.strip().lower()
+                if normalized and normalized not in mapping:
+                    mapping[normalized] = iso
+    return mapping
+
+
+def _resolve_country_iso_codes(countries):
+    if not countries:
+        return [], {}
+    lookup = _natural_earth_country_lookup()
+    if not lookup:
+        raise RuntimeError(
+            "Unable to map climate countries to ISO codes; ensure cartopy and Natural Earth data are available."
+        )
+
+    iso_codes = []
+    label_map = {}
+    missing = []
+    seen = set()
+    for country in countries:
+        if country is None:
+            continue
+        normalized = str(country).strip().lower()
+        if not normalized:
+            continue
+        iso = lookup.get(normalized)
+        if not iso:
+            missing.append(country)
+            continue
+        if iso not in seen:
+            iso_codes.append(iso)
+            seen.add(iso)
+        label_map[iso] = str(country)
+
+    if missing:
+        raise ValueError(
+            "Could not derive ISO A2 codes for: "
+            + ", ".join(str(item) for item in missing)
+        )
+
+    return iso_codes, label_map
+
+
+def _context_countries():
+    """Gather a deduplicated list of countries referenced by the workflow."""
+    seen = set()
+
+    def _add_items(value):
+        for item in _ensure_list(value):
+            seen.add(str(item))
+
+    global_vars = globals()
+    if "GAP_CFG" in global_vars:
+        _add_items(global_vars["GAP_CFG"].get("countries"))
+    if "LOAD" in global_vars:
+        _add_items(global_vars["LOAD"].get("countries"))
+        _add_items(global_vars["LOAD"].get("slug_map", {}).values())
+    if "CLIMATE_ISO_CODES" in global_vars:
+        _add_items(global_vars["CLIMATE_ISO_CODES"])
+    if "CLIMATE_COUNTRIES" in global_vars:
+        _add_items(global_vars["CLIMATE_COUNTRIES"])
+    if "GENMAP_COUNTRIES" in global_vars:
+        _add_items(global_vars["GENMAP_COUNTRIES"])
+    if "IRENA_CFG" in global_vars:
+        _add_items(global_vars["IRENA_CFG"].get("countries"))
+
+    return sorted(seen)
+
+
+def best_effort(label, outputs, fn):
+    """Run a rule body; log timestamps, countries, and tracebacks on failure."""
+    start_time = datetime.utcnow()
+    countries = _context_countries()
+    context_note = f"countries={','.join(countries)}" if countries else "countries=unspecified"
+    if VERBOSE_LOGS:
+        print(f"[{label}] {start_time.isoformat()} starting ({context_note})")
+    try:
         result = fn()
         if VERBOSE_LOGS:
-            print(f"[{label}] completed")
+            end_time = datetime.utcnow()
+            duration = (end_time - start_time).total_seconds()
+            print(f"[{label}] {end_time.isoformat()} completed (duration {duration:.1f}s)")
         return result
     except Exception as exc:
-        print(f"[{label}] WARNING: {exc}")
-        for path in _flatten_outputs(outputs):
+        error_time = datetime.utcnow()
+        print(f"[{label}] {error_time.isoformat()} ERROR: {exc} ({context_note})")
+        traceback.print_exc()
+        output_paths = _flatten_outputs(outputs)
+        for path in output_paths:
+            if not path:
+                continue
             p = Path(path)
-            p.parent.mkdir(parents=True, exist_ok=True)
             try:
-                p.write_text(f"{label} failed: {exc}")
-            except Exception:
-                p.touch()
+                if p.is_dir():
+                    shutil.rmtree(p)
+                elif p.exists():
+                    p.unlink()
+            except Exception as cleanup_exc:
+                if VERBOSE_LOGS:
+                    print(f"[{label}] cleanup warning for {p}: {cleanup_exc}")
+        placeholder = f"Output {label} could not be generated due to: {exc}\n"
+        for path in output_paths:
+            if not path:
+                continue
+            _write_placeholder(path, placeholder)
         return None
 
 
 ################################################################################
 # Convenience variables from config
 ################################################################################
-NAME_DATA  = config["name_data"]
 GAP_CFG    = config["gap"]
 CLIMATE_CFG = config.get("climate_overview", {})
 RNI_CFG    = config["rninja"]
@@ -166,7 +320,7 @@ def _load_settings():
         [countries_cfg] if isinstance(countries_cfg, str) else list(countries_cfg)
     ) if countries_cfg is not None else [LOAD_CFG["country"]]
     slug_map = {_slug(country): country for country in countries}
-    outdir = resolve_output(LOAD_CFG.get("output_dir", ""))
+    outdir = resolve_output(LOAD_CFG.get("output_dir", ""), category="load")
     csv_pattern = str(outdir / "load_profile_{slug}.csv")
     plot_pattern = str(outdir / "load_profile_{slug}.pdf")
     generate_heatmap_boxplot = LOAD_CFG.get("generate_heatmap_boxplot", True)
@@ -204,10 +358,18 @@ def _climate_settings():
             "api_dir": None,
             "extract_dir": None,
             "iso_codes": [],
+            "countries": [],
             "variables": [],
         }
 
-    iso_codes = CLIMATE_CFG.get("iso_a2", [])
+    countries_cfg = CLIMATE_CFG.get("countries")
+    countries = _ensure_list(countries_cfg)
+    iso_codes = _ensure_list(CLIMATE_CFG.get("iso_a2"))
+    custom_label_map = dict(CLIMATE_CFG.get("label_map") or {})
+    derived_label_map = {}
+    if countries:
+        iso_codes, derived_label_map = _resolve_country_iso_codes(countries)
+
     outdir = resolve_output(CLIMATE_CFG.get("output_dir", "climate"))
     api_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("api_dir", BASE_DIR / "prepare-data" / "input" / "era5_api")).resolve()
     extract_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("extract_dir", BASE_DIR / "prepare-data" / "input" / "era5_extract")).resolve()
@@ -226,11 +388,12 @@ def _climate_settings():
         "api_dir": api_dir,
         "extract_dir": extract_dir,
         "iso_codes": iso_codes,
+        "countries": countries,
         "variables": variables,
         "dataset": CLIMATE_CFG.get("dataset", "reanalysis-era5-land-monthly-means"),
         "download": CLIMATE_CFG.get("download", False),
         "generate_plots": CLIMATE_CFG.get("generate_plots", True),
-        "label_map": CLIMATE_CFG.get("label_map", {}),
+        "label_map": {**derived_label_map, **custom_label_map},
         "save_netcdf": CLIMATE_CFG.get("save_netcdf", True),
         "start_year": CLIMATE_CFG.get("start_year", 1980),
         "end_year": CLIMATE_CFG.get("end_year", 2024),
@@ -258,7 +421,7 @@ def _genmap_settings():
     if not GENMAP_CFG.get("enabled", False):
         return {"targets": [], "countries": None, "excel": None, "outdir": None, "pgen": None}
 
-    outdir = resolve_output(GENMAP_CFG.get("output_dir", ""))
+    outdir = resolve_output(GENMAP_CFG.get("output_dir", ""), category="supply")
     pgen = GENMAP_CFG.get("pgen_filename")
     pgen = str(outdir / pgen) if pgen else None
     targets = [
@@ -280,20 +443,19 @@ def _genmap_settings():
 TECH_SLUG = "_".join(GAP_CFG["tech_types"])
 
 GAP_EXCEL  = resolve_input(GAP_CFG["excel"])
-GAP_OUTDIR = resolve_output(GAP_CFG.get("output_dir", ""))
+GAP_OUTDIR = resolve_output(GAP_CFG.get("output_dir", ""), category="supply")
 GAP_OUTPUT = str(GAP_OUTDIR / f"most_relevant_projects_{TECH_SLUG}.csv")
 
-RNI_OUTDIR = resolve_output(RNI_CFG.get("output_dir", ""))
+RNI_OUTDIR = resolve_output(RNI_CFG.get("output_dir", ""), category="vre")
 NINJA_OUTPUTS = [
-    str(RNI_OUTDIR / rninja_output_filename(NAME_DATA, tech))
+    str(RNI_OUTDIR / rninja_output_filename(None, tech))
     for tech in GAP_CFG["tech_types"]
 ]
 
-IRENA_NAME = f"{NAME_DATA}_irena"
 IRENA_INPUT_DIR = resolve_input(IRENA_CFG["input_dir"])
-IRENA_OUTDIR = resolve_output(IRENA_CFG.get("output_dir", ""))
+IRENA_OUTDIR = resolve_output(IRENA_CFG.get("output_dir", ""), category="vre")
 IRENA_OUTPUTS = [
-    str(IRENA_OUTDIR / irena_output_filename(IRENA_NAME, tech))
+    str(IRENA_OUTDIR / irena_output_filename(None, tech))
     for tech in ["solar", "wind"]
 ]
 
@@ -314,6 +476,7 @@ CLIMATE_OUTDIR = CLIMATE["outdir"]
 CLIMATE_API_DIR = CLIMATE["api_dir"]
 CLIMATE_EXTRACT_DIR = CLIMATE["extract_dir"]
 CLIMATE_ISO_CODES = CLIMATE["iso_codes"]
+CLIMATE_COUNTRIES = CLIMATE["countries"]
 CLIMATE_VARS = CLIMATE["variables"]
 CLIMATE_LABELS = CLIMATE["label_map"]
 CLIMATE_DATASET = CLIMATE["dataset"]
@@ -338,16 +501,19 @@ GENMAP_MAP = GENMAP_TARGETS[0] if GENMAP_TARGETS else None
 GENMAP_DATA = GENMAP_TARGETS[1] if len(GENMAP_TARGETS) > 1 else None
 GENMAP_SUMMARY = GENMAP_TARGETS[2] if len(GENMAP_TARGETS) > 2 else None
 
-FULL_OUTDIR = RNI_OUTDIR
+FULL_OUTDIR = resolve_output("", category="epm_export")
 PVRE_FULL = str(FULL_OUTDIR / "pVREProfile_full.csv")
 PHOURS_FULL = str(FULL_OUTDIR / "pHours_full.csv")
-PDEMAND_FULL = str(FULL_OUTDIR / f"pDemandProfile_full_{NAME_DATA}.csv") if LOAD_CSV_TARGETS else None
+PDEMAND_FULL = str(FULL_OUTDIR / "pDemandProfile_full.csv") if LOAD_CSV_TARGETS else None
 FULL_LOAD_INPUT = LOAD_CSV_TARGETS[0] if LOAD_CSV_TARGETS else None
+PGEN_GAP_EPMPATH = (
+    str(FULL_OUTDIR / Path(GENMAP_PGEN).name) if GENMAP_PGEN else None
+)
 
 REPORT_TEMPLATE = str(BASE_DIR / "report.md.j2")
-REPORT_OUTPUT = str(OUTPUT_ROOT / "report.md")
-REPORT_PDF = str(OUTPUT_ROOT / "report.pdf")
-REPORT_DOCX = str(OUTPUT_ROOT / "report.docx")
+REPORT_OUTPUT = str(resolve_output("report.md", category="report"))
+REPORT_PDF = str(resolve_output("report.pdf", category="report"))
+REPORT_DOCX = str(resolve_output("report.docx", category="report"))
 
 CORE_TARGETS = [
     *CLIMATE_TARGETS,
@@ -359,6 +525,7 @@ CORE_TARGETS = [
     PVRE_FULL,
     PHOURS_FULL,
     *( [PDEMAND_FULL] if PDEMAND_FULL else [] ),
+    *( [PGEN_GAP_EPMPATH] if PGEN_GAP_EPMPATH else [] ),
 ]
 
 ################################################################################
@@ -431,7 +598,7 @@ rule gap_and_ninja:
 
             # 3. Actual RNinja pulls (one file per tech)
             run_renewables_ninja_workflow(
-                dataset_label   = NAME_DATA,
+                dataset_label   = None,
                 locations       = rninja_locations,
                 start_year      = RNI_CFG["start_year"],
                 end_year        = RNI_CFG["end_year"],
@@ -467,13 +634,14 @@ rule epm_full_exports:
     run:
         def _task():
             vre_inputs = {
-                tech: str(RNI_OUTDIR / rninja_output_filename(NAME_DATA, tech))
+                tech: str(RNI_OUTDIR / rninja_output_filename(None, tech))
                 for tech in GAP_CFG["tech_types"]
             }
             load_input = input.load if PDEMAND_FULL else None
             load_zone = None
             if load_input and isinstance(load_input, str):
-                load_zone = Path(load_input).stem.replace("load_profile_", "")
+                load_slug = Path(load_input).stem.replace("load_profile_", "")
+                load_zone = LOAD["slug_map"].get(load_slug, load_slug)
                 if len(LOAD_CSV_TARGETS) > 1:
                     print(f"[full-export] Multiple load profiles detected ({len(LOAD_CSV_TARGETS)}); using {load_input}")
 
@@ -535,6 +703,21 @@ if GENMAP_TARGETS:
 
             best_effort("generation_map", output, _task)
 
+if PGEN_GAP_EPMPATH:
+    rule copy_pgen_to_epm_export:
+        """Mirror the GAP pGenDataInput file inside epm_export for downstream runs."""
+        input:
+            pgen=GENMAP_PGEN
+        output:
+            epm=PGEN_GAP_EPMPATH
+        run:
+            def _task():
+                dest = Path(output.epm)
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(input.pgen, dest)
+
+            best_effort("copy_pgen_to_epm_export", output, _task)
+
 ################################################################################
 # IRENA workflow
 ################################################################################
@@ -545,7 +728,7 @@ rule irena_workflow:
     run:
         def _task():
             result = run_irena_workflow(
-                dataset_label   = IRENA_NAME,
+                dataset_label   = None,
                 countries       = IRENA_CFG["countries"],
                 input_dir       = IRENA_INPUT_DIR,
                 output_dir      = IRENA_OUTDIR,
@@ -559,7 +742,7 @@ rule irena_workflow:
 
             # Sanity check expected outputs
             for tech in ["solar", "wind"]:
-                expected = Path(IRENA_OUTDIR) / irena_output_filename(IRENA_NAME, tech)
+                expected = Path(IRENA_OUTDIR) / irena_output_filename(None, tech)
                 assert result["paths"][tech] == expected, \
                     f"Expected {expected}, got {result['paths'][tech]}"
 

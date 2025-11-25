@@ -41,6 +41,27 @@ def _resolve_relative(base: Path, maybe_path: Path | str) -> Path:
     return path if path.is_absolute() else (base / path)
 
 
+CATEGORY_OUTPUT_SUBDIRS = {
+    "load": "load",
+    "vre": "vre",
+    "supply": "supply",
+}
+
+
+def _resolve_category_output_dir(output_root: Path, relative: Optional[str], category: str) -> Path:
+    """Resolve a category-specific output directory much like the workflow does."""
+    subdir = CATEGORY_OUTPUT_SUBDIRS.get(category)
+    if subdir is None:
+        raise ValueError(f"Unknown output category: {category}")
+    base = output_root / subdir
+    if not relative:
+        return base
+    rel_path = Path(relative)
+    if rel_path.is_absolute():
+        return rel_path
+    return base / rel_path
+
+
 def _relpath_for_display(path: Path) -> str:
     """Return a BASE_DIR-relative path string when possible for concise display."""
     try:
@@ -83,6 +104,16 @@ def _resolution_with_date(resolution: str, paths: Sequence[Path]) -> str:
     return f"{resolution} (extracted {ts.date().isoformat()})"
 
 
+def _ensure_sequence(value) -> Sequence[str]:
+    if value is None:
+        return []
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, Iterable):
+        return list(value)
+    return [value]
+
+
 def load_config(config_path: Path) -> Dict:
     if not config_path.exists():
         return {}
@@ -118,13 +149,13 @@ def readable_country(slug: str, slug_map: Dict[str, str]) -> str:
     return slug_map.get(slug, slug.replace("_", " ").title())
 
 
-def collect_load_profiles(output_dir: Path, slug_map: Dict[str, str]) -> Tuple[List[Dict], List[Path], List[Path], List[Path]]:
+def collect_load_profiles(load_dir: Path, slug_map: Dict[str, str]) -> Tuple[List[Dict], List[Path], List[Path], List[Path]]:
     stats: List[Dict] = []
     figures: List[Path] = []
     heatmaps: List[Path] = []
     boxplots: List[Path] = []
 
-    for csv_path in sorted(output_dir.glob("load_profile_*.csv")):
+    for csv_path in sorted(load_dir.glob("load_profile_*.csv")):
         df = pd.read_csv(csv_path)
         country_slug = csv_path.stem.replace("load_profile_", "")
         country_name = readable_country(country_slug, slug_map)
@@ -144,22 +175,40 @@ def collect_load_profiles(output_dir: Path, slug_map: Dict[str, str]) -> Tuple[L
         if pdf_path.exists():
             figures.append(pdf_path)
 
-        for heatmap_path in sorted(output_dir.glob(f"heatmap_load_{country_slug}.*")):
+        for heatmap_path in sorted(load_dir.glob(f"heatmap_load_{country_slug}.*")):
             heatmaps.append(heatmap_path)
 
-        for boxplot_path in sorted(output_dir.glob(f"boxplot_load_{country_slug}.*")):
+        for boxplot_path in sorted(load_dir.glob(f"boxplot_load_{country_slug}.*")):
             boxplots.append(boxplot_path)
 
     return stats, figures, heatmaps, boxplots
 
 
-def collect_rninja_profiles(output_dir: Path) -> Tuple[List[Dict], Dict[str, List[Path]], List[Path]]:
-    """Summarise Renewables Ninja capacity factors and gather figures."""
+def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[Dict[str, Optional[Path]]]], List[Path]]:
+    """Summarise Renewables Ninja capacity factors and gather per-zone figures."""
     summaries: List[Dict] = []
-    figures: Dict[str, List[Path]] = {"solar": [], "wind": []}
+    zone_order: Dict[str, List[str]] = {"solar": [], "wind": []}
+    zone_slug_map: Dict[str, Dict[str, str]] = {"solar": {}, "wind": {}}
     boxplots: List[Path] = []
 
-    for csv_path in sorted(output_dir.glob("rninja_data_*.csv")):
+    def _tech_key_from_label(label: str) -> Optional[str]:
+        lower = label.lower()
+        if "pv" in lower or "solar" in lower:
+            return "solar"
+        if "wind" in lower:
+            return "wind"
+        return None
+
+    def _register_zone(tech_key: str, zone_label: str) -> None:
+        slug = _slug(str(zone_label))
+        if not slug:
+            return
+        mapping = zone_slug_map.setdefault(tech_key, {})
+        if slug not in mapping:
+            mapping[slug] = zone_label
+            zone_order.setdefault(tech_key, []).append(slug)
+
+    for csv_path in sorted(vre_dir.glob("rninja_data_*.csv")):
         tech = "solar" if "solar" in csv_path.stem.lower() or "_pv_" in csv_path.stem.lower() else "wind"
         df = pd.read_csv(csv_path)
         value_cols = [c for c in df.columns if c not in {"zone", "season", "day", "hour"}]
@@ -173,15 +222,95 @@ def collect_rninja_profiles(output_dir: Path) -> Tuple[List[Dict], Dict[str, Lis
                         "mean_capacity_factor": float(group[col].mean()),
                     }
                 )
+            if isinstance(zone, str) and zone.strip():
+                _register_zone(tech, zone)
 
-    for fig in sorted(output_dir.glob("heatmap_*_rninja.*")):
-        tech = "solar" if "pv" in fig.stem.lower() or "solar" in fig.stem.lower() else "wind"
-        figures.setdefault(tech, []).append(fig)
+    per_zone_paths: Dict[str, Dict[str, Dict[str, Optional[Path]]]] = {"solar": {}, "wind": {}}
 
-    for fig in sorted(output_dir.glob("boxplot_*_rninja.*")):
-        boxplots.append(fig)
+    def _match_zone_slug(part: str, candidates: Sequence[str]) -> Optional[str]:
+        best: Optional[str] = None
+        for slug in candidates:
+            if part == slug or part.startswith(f"{slug}_"):
+                if best is None or len(slug) > len(best):
+                    best = slug
+        return best
 
-    return summaries, figures, boxplots
+    def _parse_filename(
+        stem: str, prefix: str, suffix: str
+    ) -> Tuple[Optional[str], Optional[str]]:
+        if not stem.startswith(prefix) or not stem.endswith(suffix):
+            return None, None
+        body = stem[len(prefix) : -len(suffix)]
+        tech_label, _, zone_part = body.partition("_")
+        if not tech_label or not zone_part:
+            return None, None
+        return tech_label, zone_part
+
+    for heatmap in sorted(vre_dir.glob("heatmap_*_rninja.*")):
+        tech_label, slug_part = _parse_filename(heatmap.stem, "heatmap_", "_rninja")
+        if not tech_label or not slug_part:
+            continue
+        tech_key = _tech_key_from_label(tech_label)
+        if tech_key is None:
+            continue
+        slug_candidates = list(zone_slug_map.get(tech_key, {}).keys())
+        zone_slug = _match_zone_slug(slug_part, slug_candidates)
+        if not zone_slug:
+            continue
+        per_zone_paths.setdefault(tech_key, {}).setdefault(zone_slug, {"heatmap": None, "boxplot": None})[
+            "heatmap"
+        ] = heatmap
+
+    for boxplot in sorted(vre_dir.glob("boxplot_*_rninja.*")):
+        tech_label, slug_part = _parse_filename(boxplot.stem, "boxplot_", "_rninja")
+        if not tech_label or not slug_part:
+            continue
+        tech_key = _tech_key_from_label(tech_label)
+        if tech_key is None:
+            continue
+        slug_candidates = list(zone_slug_map.get(tech_key, {}).keys())
+        zone_slug = _match_zone_slug(slug_part, slug_candidates)
+        if not zone_slug:
+            continue
+        per_zone_paths.setdefault(tech_key, {}).setdefault(zone_slug, {"heatmap": None, "boxplot": None})[
+            "boxplot"
+        ] = boxplot
+        boxplots.append(boxplot)
+
+    structured: Dict[str, List[Dict[str, Optional[Path]]]] = {}
+    for tech_key in ("solar", "wind"):
+        entries: List[Dict[str, Optional[Path]]] = []
+        seen: set[str] = set()
+        order = zone_order.get(tech_key, [])
+        candidate_map = zone_slug_map.get(tech_key, {})
+        for slug in order:
+            data = per_zone_paths.get(tech_key, {}).get(slug)
+            if not data or (data.get("heatmap") is None and data.get("boxplot") is None):
+                continue
+            entries.append(
+                {
+                    "country": candidate_map.get(slug, slug.replace("_", " ").title()),
+                    "heatmap": data.get("heatmap"),
+                    "boxplot": data.get("boxplot"),
+                }
+            )
+            seen.add(slug)
+        for slug, data in per_zone_paths.get(tech_key, {}).items():
+            if slug in seen:
+                continue
+            if data.get("heatmap") is None and data.get("boxplot") is None:
+                continue
+            entries.append(
+                {
+                    "country": candidate_map.get(slug, slug.replace("_", " ").title()),
+                    "heatmap": data.get("heatmap"),
+                    "boxplot": data.get("boxplot"),
+                }
+            )
+        if entries:
+            structured[tech_key] = entries
+
+    return summaries, structured, boxplots
 
 
 def plot_gap_project_locations(df: pd.DataFrame, output_dir: Path) -> Optional[Path]:
@@ -246,9 +375,9 @@ def plot_gap_project_locations(df: pd.DataFrame, output_dir: Path) -> Optional[P
 
 
 def collect_gap_projects(
-    output_dir: Path, slug_map: Dict[str, str]
+    supply_dir: Path, slug_map: Dict[str, str]
 ) -> Tuple[Optional[str], Optional[Path], Optional[Path]]:
-    gap_files = sorted(output_dir.glob("most_relevant_projects_*.csv"))
+    gap_files = sorted(supply_dir.glob("most_relevant_projects_*.csv"))
     if not gap_files:
         return None, None, None
 
@@ -285,42 +414,56 @@ def collect_gap_projects(
     summary = pd.DataFrame(summary_rows).sort_values(["Country", "Technology"])
     summary_md = summary.to_markdown(index=False, floatfmt=".0f")
 
-    plot_path = plot_gap_project_locations(df, output_dir)
+    plot_path = plot_gap_project_locations(df, supply_dir)
 
     return summary_md, gap_path, plot_path
 
 
 def collect_generation_map(
-    output_dir: Path, config: Dict
-) -> Tuple[Optional[Path], Optional[pd.DataFrame], Optional[pd.DataFrame]]:
+    supply_dir: Path, config: Dict
+) -> Tuple[Optional[Path], Optional[Path], Optional[pd.DataFrame], Optional[pd.DataFrame]]:
     gen_cfg = config.get("generation_map", {})
     map_candidates = []
     if gen_cfg.get("map_filename"):
-        map_candidates.append(output_dir / gen_cfg["map_filename"])
-    map_candidates.append(output_dir / "generation_map.html")
-    map_candidates.extend(sorted(output_dir.glob("generation_map*.html")))
+        map_candidates.append(supply_dir / gen_cfg["map_filename"])
+    map_candidates.append(supply_dir / "generation_map.html")
+    map_candidates.extend(sorted(supply_dir.glob("generation_map*.html")))
 
-    map_path = next((p for p in map_candidates if p.exists()), None)
+    map_path = None
+    map_all_path = None
+    for candidate in map_candidates:
+        if not candidate.exists():
+            continue
+        stem = candidate.stem.lower()
+        is_all = stem.endswith("_all")
+        if is_all and map_all_path is None:
+            map_all_path = candidate
+        if not is_all and map_path is None:
+            map_path = candidate
+        if map_path and map_all_path:
+            break
+    if map_path is None:
+        map_path = map_all_path
 
     summary_path = None
     data_path = None
     if gen_cfg.get("summary_filename"):
-        candidate = output_dir / gen_cfg["summary_filename"]
+        candidate = supply_dir / gen_cfg["summary_filename"]
         if candidate.exists():
             summary_path = candidate
     if summary_path is None:
-        fallback = output_dir / "generation_sites_summary.csv"
+        fallback = supply_dir / "generation_sites_summary.csv"
         if fallback.exists():
             summary_path = fallback
 
     summary_df = None
     data_df = None
     if gen_cfg.get("data_filename"):
-        candidate = output_dir / gen_cfg["data_filename"]
+        candidate = supply_dir / gen_cfg["data_filename"]
         if candidate.exists():
             data_path = candidate
     if data_path is None:
-        fallback = output_dir / "generation_sites.csv"
+        fallback = supply_dir / "generation_sites.csv"
         if fallback.exists():
             data_path = fallback
 
@@ -340,7 +483,7 @@ def collect_generation_map(
         except Exception as exc:  # pragma: no cover - defensive logging only
             print(f"Warning: could not read generation site data {data_path}: {exc}", file=sys.stderr)
 
-    return map_path, summary_df, data_df
+    return map_path, map_all_path, summary_df, data_df
 
 
 def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, object]:
@@ -374,8 +517,12 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
     else:
         period = str(start_year or end_year or "")
 
-    labels = cfg.get("label_map") or {}
-    countries = [labels.get(iso, iso) for iso in cfg.get("iso_a2", [])]
+    countries_cfg = cfg.get("countries")
+    if countries_cfg:
+        countries = _ensure_sequence(countries_cfg)
+    else:
+        labels = cfg.get("label_map") or {}
+        countries = [labels.get(iso, iso) for iso in _ensure_sequence(cfg.get("iso_a2"))]
     countries_inline = _human_join([c for c in countries if c])
 
     return {
@@ -398,21 +545,30 @@ def find_rep_day_figures(base_dir: Path) -> List[Path]:
     return figs
 
 
+def _is_valid_figure(path: Path) -> bool:
+    """Return True when a figure file exists and has content to avoid empty placeholders."""
+    try:
+        return path.exists() and path.is_file() and path.stat().st_size > 0
+    except OSError:
+        return False
+
+
 def format_figures(fig_paths: Sequence[Path], label: str, add_link: bool = True) -> str:
-    if not fig_paths:
+    valid_paths = [path for path in fig_paths if _is_valid_figure(path)]
+    if not valid_paths:
         return ""
 
+    supported_suffixes = {".png", ".jpg", ".jpeg", ".svg", ".pdf"}
     lines = []
-    for path in fig_paths:
-        rel = path.relative_to(BASE_DIR)
+    for path in valid_paths:
         suffix = path.suffix.lower()
-        if suffix in {".png", ".jpg", ".jpeg", ".svg"}:
-            lines.append(f"![{label}]({rel.as_posix()})")
-        elif suffix == ".pdf":
-            # Use Markdown image syntax so pandoc keeps the figure when building PDF outputs.
-            lines.append(f"![{label}]({rel.as_posix()})")
-        else:
-            lines.append(f"- {label}: [{rel.name}]({rel.as_posix()})")
+        if suffix not in supported_suffixes:
+            continue
+        rel = path.relative_to(BASE_DIR)
+        lines.append(f"![{label}]({rel.as_posix()})")
+
+    if not lines:
+        return ""
     return "\n\n".join(lines)
 
 
@@ -433,7 +589,7 @@ def _extract_datetime_index(df: pd.DataFrame) -> pd.DatetimeIndex:
     return pd.date_range("2015-01-01", periods=len(df), freq="h")
 
 
-def build_load_aggregate_plots(output_dir: Path, slug_map: Dict[str, str]) -> Dict[str, Path]:
+def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict[str, Path]:
     """Create monthly and daily average load plots across countries."""
     try:
         import matplotlib
@@ -446,8 +602,8 @@ def build_load_aggregate_plots(output_dir: Path, slug_map: Dict[str, str]) -> Di
         return {}
 
     figures: Dict[str, Path] = {}
-    output_dir.mkdir(parents=True, exist_ok=True)
-    csv_paths = sorted(output_dir.glob("load_profile_*.csv"))
+    load_dir.mkdir(parents=True, exist_ok=True)
+    csv_paths = sorted(load_dir.glob("load_profile_*.csv"))
     if not csv_paths:
         return figures
 
@@ -474,7 +630,7 @@ def build_load_aggregate_plots(output_dir: Path, slug_map: Dict[str, str]) -> Di
         ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
         ax.legend(fontsize=8)
         fig.tight_layout()
-        path = output_dir / "load_avg_month.png"
+        path = load_dir / "load_avg_month.png"
         fig.savefig(path, dpi=200)
         plt.close(fig)
         figures["avg_month"] = path
@@ -489,7 +645,7 @@ def build_load_aggregate_plots(output_dir: Path, slug_map: Dict[str, str]) -> Di
         ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
         ax.legend(fontsize=8, ncol=2)
         fig.tight_layout()
-        path = output_dir / "load_avg_day.png"
+        path = load_dir / "load_avg_day.png"
         fig.savefig(path, dpi=200)
         plt.close(fig)
         figures["avg_day"] = path
@@ -684,6 +840,10 @@ def build_appendix_sections(
     gen_summary_by_country: str,
     boxplots: List[Path],
     gap_plot: Optional[Path] = None,
+    generation_map_all_path: Optional[Path] = None,
+    generation_map_all_static_figs: str = "",
+    workflow_parameters: str = "",
+    season_mapping: str = "",
 ) -> List[Dict[str, str]]:
     """Assemble appendix sections with headings and content."""
     sections: List[Dict[str, str]] = []
@@ -694,6 +854,12 @@ def build_appendix_sections(
         title = f"Appendix {chr(letter)}: {suffix}"
         letter += 1
         return title
+
+    if workflow_parameters:
+        body = workflow_parameters
+        if season_mapping:
+            body = f"{body}\n\n- Season grouping: {season_mapping}"
+        sections.append({"title": _title("Key workflow parameters"), "body": body})
 
     if repro_checklist:
         sections.append({"title": _title("Reproducibility and audit trail"), "body": repro_checklist})
@@ -720,6 +886,21 @@ def build_appendix_sections(
             {"title": _title("Additional figures"), "body": format_figures(boxplots, "Capacity-factor distribution", add_link=False)}
         )
 
+    map_all_lines: List[str] = []
+    if generation_map_all_path:
+        rel = generation_map_all_path.relative_to(BASE_DIR).as_posix()
+        map_all_lines.append(
+            f"- Interactive generation map (all statuses): [{generation_map_all_path.name}]({rel})"
+        )
+    if generation_map_all_static_figs:
+        map_all_lines.append(
+            "- Static exports (all statuses):\n" + generation_map_all_static_figs
+        )
+    if map_all_lines:
+        sections.append(
+            {"title": _title("Generation map (all statuses)"), "body": "\n\n".join(map_all_lines)}
+        )
+
     return sections
 
 
@@ -733,16 +914,66 @@ def render_report(
     slug_map = {_slug(name): name for name in config.get("gap", {}).get("countries", [])}
 
     output_dir = find_output_dir(config, output_dir_override)
+    load_cfg = config.get("load_profile", {})
+    rninja_cfg = config.get("rninja", {})
+    genmap_cfg = config.get("generation_map", {})
+    load_dir = _resolve_category_output_dir(output_dir, load_cfg.get("output_dir"), "load")
+    vre_dir = _resolve_category_output_dir(output_dir, rninja_cfg.get("output_dir"), "vre")
+    supply_dir = _resolve_category_output_dir(output_dir, genmap_cfg.get("output_dir"), "supply")
     climate = collect_climate_overview(output_dir, config)
-    load_stats, load_figs, load_heatmaps, load_boxplots = collect_load_profiles(output_dir, slug_map)
-    load_agg_figs = build_load_aggregate_plots(output_dir, slug_map)
-    rninja_summary, rninja_figs, boxplots = collect_rninja_profiles(output_dir)
-    gap_summary, gap_path, gap_plot = collect_gap_projects(output_dir, slug_map)
-    gen_map_path, gen_summary_df, gen_sites_df = collect_generation_map(output_dir, config)
-    static_pngs = sorted(output_dir.glob("generation_map_static_*.png"))
-    static_pdfs = sorted(output_dir.glob("generation_map_static_*.pdf"))
-    static_map_files = static_pngs + static_pdfs
-    static_map_text = "\n".join(f"- [{path.name}]({_relpath_for_display(path)})" for path in static_map_files)
+    load_stats, load_figs, load_heatmaps, load_boxplots = collect_load_profiles(load_dir, slug_map)
+    load_agg_figs = build_load_aggregate_plots(load_dir, slug_map)
+    rninja_summary, rninja_zone_figures, boxplots = collect_rninja_profiles(vre_dir)
+    rninja_tech_display = {"solar": "Solar PV", "wind": "Wind"}
+    rninja_zone_sections: List[Dict[str, object]] = []
+    for tech_key in ("solar", "wind"):
+        entries = rninja_zone_figures.get(tech_key, [])
+        if not entries:
+            continue
+        label = rninja_tech_display.get(tech_key, tech_key.title())
+        zone_rows: List[Dict[str, str]] = []
+        for entry in entries:
+            heatmap_md = (
+                format_figures(
+                    [entry["heatmap"]],
+                    f"{label} heatmap ({entry['country']})",
+                    add_link=False,
+                )
+                if entry.get("heatmap")
+                else ""
+            )
+            boxplot_md = (
+                format_figures(
+                    [entry["boxplot"]],
+                    f"{label} boxplot ({entry['country']})",
+                    add_link=False,
+                )
+                if entry.get("boxplot")
+                else ""
+            )
+            if not heatmap_md and not boxplot_md:
+                continue
+            zone_rows.append(
+                {
+                    "country": entry["country"],
+                    "heatmap": heatmap_md,
+                    "boxplot": boxplot_md,
+                }
+            )
+        if zone_rows:
+            rninja_zone_sections.append({"tech": tech_key, "label": label, "zones": zone_rows})
+    gap_summary, gap_path, gap_plot = collect_gap_projects(supply_dir, slug_map)
+    gen_map_path, gen_map_all_path, gen_summary_df, gen_sites_df = collect_generation_map(supply_dir, config)
+    static_pdfs = sorted(supply_dir.glob("generation_map_static_*.pdf"))
+    static_all_files = [path for path in static_pdfs if path.stem.lower().endswith("_all")]
+    static_main_files = [path for path in static_pdfs if path not in static_all_files]
+    static_map_files = [*static_main_files, *static_all_files]
+    static_map_figs = format_figures(static_main_files, "Generation map static export", add_link=False)
+    static_map_all_figs = format_figures(
+        static_all_files,
+        "Generation map static export (all statuses)",
+        add_link=False,
+    )
     rep_figs = find_rep_day_figures(BASE_DIR)
 
     period_candidates = [entry["period"] for entry in rninja_summary if "period" in entry]
@@ -780,11 +1011,16 @@ def render_report(
     gen_sites_by_status = format_generation_sites_by_status(gen_sites_df)
     gen_appendix_tables = gen_sites_by_status or gen_summary_country
 
-    load_csvs = sorted(output_dir.glob("load_profile_*.csv"))
-    rninja_csvs = sorted(output_dir.glob("rninja_data_*.csv"))
+    load_csvs = sorted(load_dir.glob("load_profile_*.csv"))
+    rninja_csvs = sorted(vre_dir.glob("rninja_data_*.csv"))
+    if not rninja_csvs:
+        rninja_csvs = sorted(vre_dir.glob("vre_rninja_*.csv"))
+    if not rninja_csvs:
+        rninja_csvs = sorted(output_dir.glob("rninja_data_*.csv"))
     if not rninja_csvs:
         rninja_csvs = sorted(output_dir.glob("vre_rninja_*.csv"))
-    gen_files = [gen_map_path, output_dir / "generation_sites_summary.csv", output_dir / "generation_sites.csv"]
+    gen_files = [p for p in (gen_map_path, gen_map_all_path) if p]
+    gen_files.extend([supply_dir / "generation_sites_summary.csv", supply_dir / "generation_sites.csv"])
     gen_files.extend(static_map_files)
 
     rn_period_label = ""
@@ -832,7 +1068,17 @@ def render_report(
     ]
     data_overview_table = pd.DataFrame(data_overview_rows).to_markdown(index=False)
 
-    appendix_sections = build_appendix_sections(repro_checklist_md, rninja_summary, gen_appendix_tables, boxplots, gap_plot)
+    appendix_sections = build_appendix_sections(
+        repro_checklist_md,
+        rninja_summary,
+        gen_appendix_tables,
+        boxplots,
+        gap_plot,
+        generation_map_all_path=gen_map_all_path,
+        generation_map_all_static_figs=static_map_all_figs,
+        workflow_parameters=parameter_summary,
+        season_mapping=season_map_desc,
+    )
 
     report_scope = countries_inline or "Energy System Modelling"
 
@@ -865,18 +1111,14 @@ def render_report(
             if gen_map_path
             else ""
         ),
-        "generation_map_static": static_map_text,
+        "generation_map_static_figs": static_map_figs,
         "generation_map_summary": format_generation_summary(gen_summary_df),
         "generation_map_summary_appendix": gen_appendix_tables,
         "rn_period_start": rn_start or "",
         "rn_period_end": rn_end or "",
         "rn_period_months": "Jan–Dec",
         "rn_period_label": rn_period_label,
-        "solar_heatmap": format_figures(rninja_figs.get("solar", []), "Solar (RN)"),
-        "wind_heatmap": format_figures(rninja_figs.get("wind", []), "Wind (RN)"),
-        "rn_boxplots": format_figures(boxplots, "Capacity-factor distribution"),
-        "key_parameters": parameter_summary,
-        "season_mapping": season_map_desc,
+        "rninja_zone_sections": rninja_zone_sections,
         "rep_days_fig": format_figures(rep_figs, "Representative days"),
         "appendix_sections": appendix_sections,
         "data_overview": data_overview_table,

@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 
 
-def make_heatmap(df, tech, path=None, kind="daily"):
+def make_heatmap(df, tech, path=None, kind="daily", vmin=None, vmax=None):
     """
     Plot a capacity-factor heatmap.
 
@@ -18,6 +18,7 @@ def make_heatmap(df, tech, path=None, kind="daily"):
     - tech: str label used in plot titles.
     - path: optional output filepath; if None the figure is shown.
     - kind: "daily" for season/day heatmap, "annual" for average CF by country.
+    - vmin/vmax: optional colormap limits for the daily heatmap (shared across load/VRE plots).
     """
     if kind not in {"daily", "annual"}:
         raise ValueError('kind must be "daily" or "annual"')
@@ -46,7 +47,12 @@ def make_heatmap(df, tech, path=None, kind="daily"):
         x_labels = [season_labels[0]] + x_labels
 
         plt.figure(figsize=(12, 6))
-        sns.heatmap(heatmap_data.T, cmap='YlGnBu', xticklabels=False)
+        heatmap_kwargs = {'cmap': 'YlGnBu', 'xticklabels': False}
+        if vmin is not None:
+            heatmap_kwargs['vmin'] = vmin
+        if vmax is not None:
+            heatmap_kwargs['vmax'] = vmax
+        sns.heatmap(heatmap_data.T, **heatmap_kwargs)
         plt.xticks(ticks=x_positions, labels=x_labels, rotation=0)
         plt.xlabel("Season")
         plt.ylabel("")

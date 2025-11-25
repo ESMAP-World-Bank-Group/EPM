@@ -3,10 +3,11 @@ from __future__ import annotations
 import argparse
 import itertools
 import json
+import re
 from pathlib import Path
 import unicodedata
 import warnings
-from typing import Dict, Iterable, Optional
+from typing import Dict, Iterable, List, Optional, Tuple
 
 import folium
 import matplotlib
@@ -44,16 +45,6 @@ COLUMN_ALIASES: Dict[str, str] = {
 }
 
 # Default styles used on the interactive map.
-DEFAULT_STATUS_COLORS: Dict[str, str] = {
-    "Operating": "green",
-    "Under Construction": "orange",
-    "Planned": "blue",
-    "Announced": "purple",
-    "Mothballed": "gray",
-    "Cancelled": "red",
-    "Retired": "black",
-}
-
 DEFAULT_TECH_ICONS: Dict[str, str] = {
     "Hydro": "tint",
     "Solar": "sun",
@@ -68,6 +59,57 @@ DEFAULT_TECH_ICONS: Dict[str, str] = {
 }
 
 DEFAULT_TECH_MARKERS = ["o", "s", "^", "D", "P", "X", "*", "v", "<", ">", "h", "8"]
+
+DEFAULT_STATUS_CATEGORY_COLORS: Dict[str, str] = {
+    "Operating": "#2e7d32",
+    "Construction": "#ff8f00",
+    "Pre-Construction": "#1f77b4",
+    "Announced": "#8e44ad",
+    "Other": "#7f8c8d",
+}
+
+STATUS_CATEGORY_KEYWORDS: List[Tuple[str, Tuple[str, ...]]] = [
+    ("Pre-Construction", ("pre-construction", "pre construction", "planned")),
+    ("Announced", ("announced",)),
+    ("Construction", ("under construction", "construction", "committed")),
+    ("Operating", ("operating", "existing", "online")),
+]
+
+STATUS_CATEGORY_ORDER: Tuple[str, ...] = (
+    "Operating",
+    "Construction",
+    "Pre-Construction",
+    "Announced",
+    "Other",
+)
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+DATASET_DIR = SCRIPT_DIR / "dataset"
+DEFAULT_WORLD_MAP_SHAPEFILE = (
+    DATASET_DIR / "maps" / "ne_110m_admin_0_countries" / "ne_110m_admin_0_countries.shp"
+)
+
+DEFAULT_ACTIVE_STATUS_CATEGORIES = {"Operating", "Construction"}
+
+GENERIC_SITE_LABEL_WORDS: Tuple[str, ...] = (
+    "hydroelectric plant",
+    "power plant",
+    "power station",
+    "station",
+    "plant",
+)
+GENERIC_SITE_LABEL_PATTERN = re.compile(
+    r"\b(" + "|".join(map(re.escape, GENERIC_SITE_LABEL_WORDS)) + r")\b", flags=re.IGNORECASE
+)
+
+
+def _clean_site_label(label: str) -> str:
+    """Remove generic words from facility labels and trim whitespace."""
+    if not label:
+        return "Unknown"
+    cleaned = GENERIC_SITE_LABEL_PATTERN.sub("", label)
+    cleaned = " ".join(cleaned.split())
+    return cleaned or label
 
 
 def _collapse_duplicate_columns(df: pd.DataFrame, column_names: Iterable[str]) -> pd.DataFrame:
@@ -115,6 +157,16 @@ def _match_key(value: str, options: Iterable[str]) -> Optional[str]:
         if candidate.lower() in value_lower:
             return candidate
     return None
+
+
+def _status_category(value: Optional[str]) -> str:
+    """Return a normalized status category based on known keywords."""
+    normalized = (value or "").lower()
+    for category, keywords in STATUS_CATEGORY_KEYWORDS:
+        for keyword in keywords:
+            if keyword in normalized:
+                return category
+    return "Other"
 
 
 def load_generation_sites(
@@ -245,7 +297,6 @@ def create_generation_map(
     verbose: bool = False,
 ) -> None:
     """Notebook-style map: capacity-scaled DivIcons plus custom cluster bubbles."""
-    status_colors = status_colors or DEFAULT_STATUS_COLORS
     tech_icons = tech_icons or DEFAULT_TECH_ICONS
     df = df.copy()
 
@@ -283,24 +334,30 @@ def create_generation_map(
     center_lon = df["longitude"].mean()
     power_map = folium.Map(location=[center_lat, center_lon], zoom_start=4, tiles=tiles)
 
-    all_layer = folium.FeatureGroup(name="All Power Plants")
-    status_layers = {status: folium.FeatureGroup(name=f"Status: {status}") for status in status_colors}
+    status_colors = {**DEFAULT_STATUS_CATEGORY_COLORS, **(status_colors or {})}
+    status_categories = [cat for cat in STATUS_CATEGORY_ORDER if cat in status_colors]
+    status_categories.extend(cat for cat in status_colors if cat not in status_categories)
+
+    active_layer = folium.FeatureGroup(name="Active power plants (operating/construction)", show=True)
+    status_layers = {
+        category: folium.FeatureGroup(
+            name=f"Status: {category}",
+            show=category in DEFAULT_ACTIVE_STATUS_CATEGORIES,
+        )
+        for category in status_categories
+    }
     tech_layers = {tech: folium.FeatureGroup(name=f"Technology: {tech}") for tech in tech_icons}
 
     cluster_js = _legacy_cluster_js(tech_icons)
-    main_cluster = MarkerCluster(icon_create_function=cluster_js).add_to(all_layer)
+    active_cluster = MarkerCluster(icon_create_function=cluster_js).add_to(active_layer)
     status_clusters = {status: MarkerCluster(icon_create_function=cluster_js).add_to(layer) for status, layer in status_layers.items()}
     tech_clusters = {tech: MarkerCluster(icon_create_function=cluster_js).add_to(layer) for tech, layer in tech_layers.items()}
 
-    all_layer.add_to(power_map)
+    active_layer.add_to(power_map)
     for layer in status_layers.values():
         layer.add_to(power_map)
     for layer in tech_layers.values():
         layer.add_to(power_map)
-
-    def _status_color(value: str) -> str:
-        key = _match_key(value, status_colors.keys())
-        return status_colors.get(key, "cadetblue")
 
     def _tech_icon(value: str) -> str:
         key = _match_key(value, tech_icons.keys())
@@ -333,9 +390,11 @@ def create_generation_map(
         popup_html = "<br>".join(f"<b>{label}:</b> {val}" for label, val in popup_lines if val not in ("", None))
 
         icon_size = _scale_capacity(capacity)
+        category = _status_category(status)
+        color = status_colors.get(category, status_colors.get("Other", "cadetblue"))
         icon_html = f"""
         <div style="
-            background-color: {_status_color(status)};
+            background-color: {color};
             color: white;
             border-radius: 50%;
             text-align: center;
@@ -360,10 +419,10 @@ def create_generation_map(
         )
         marker.options["capacity"] = float(capacity) if pd.notna(capacity) else 0
         marker.options["technology"] = str(technology)
-        marker.add_to(main_cluster)
+        if category in DEFAULT_ACTIVE_STATUS_CATEGORIES:
+            marker.add_to(active_cluster)
 
-        status_key = _match_key(status, status_layers.keys())
-        if status_key and status_key in status_clusters:
+        if category in status_clusters:
             marker_copy = folium.Marker(
                 location=[lat, lon],
                 icon=folium.DivIcon(
@@ -374,7 +433,7 @@ def create_generation_map(
                 popup=folium.Popup(popup_html, max_width=320),
                 tooltip=f"{row.get('name', 'Unknown')} - {technology} - {capacity or 'N/A'} MW",
             )
-            marker_copy.add_to(status_clusters[status_key])
+            marker_copy.add_to(status_clusters[category])
 
         tech_key = _match_key(technology, tech_layers.keys())
         if tech_key and tech_key in tech_clusters:
@@ -402,7 +461,8 @@ def create_generation_map(
         'border-radius: 6px;">',
         '<p style="margin-top: 0; margin-bottom: 5px;"><b>Status</b></p>',
     ]
-    for status, color in status_colors.items():
+    for status in status_categories:
+        color = status_colors.get(status, "#6c6c6c")
         legend_html.append(
             f'<div style="display: flex; align-items: center; margin-bottom: 3px;">'
             f'<div style="background-color:{color}; width:15px; height:15px; margin-right:5px; border-radius:50%;"></div>'
@@ -422,11 +482,10 @@ def create_generation_map(
     power_map.save(map_path)
     if verbose:
         print(f"[generation-map] Saved legacy-style map to {map_path}")
-        all_counts = len(getattr(main_cluster, "_children", {}))
-        print(f"[generation-map] Marker counts – all: {all_counts}, "
+        active_counts = len(getattr(active_cluster, "_children", {}))
+        print(f"[generation-map] Marker counts – active: {active_counts}, "
               f"status: { {k: len(getattr(v, '_children', {})) for k, v in status_clusters.items()} }, "
               f"tech: { {k: len(getattr(v, '_children', {})) for k, v in tech_clusters.items()} }")
-
 
 
 def create_static_generation_map(
@@ -438,9 +497,9 @@ def create_static_generation_map(
     figsize=(11, 7),
     dpi: int = 200,
     verbose: bool = False,
-) -> Dict[str, Path]:
-    """Render a matplotlib version of the generation map for PNG/PDF export."""
-    status_colors = status_colors or DEFAULT_STATUS_COLORS
+) -> Dict[str, Dict[str, Path]]:
+    """Render matplotlib variants of the generation map (active-only + full)."""
+    status_colors = {**DEFAULT_STATUS_CATEGORY_COLORS, **(status_colors or {})}
     markers = list(tech_markers or DEFAULT_TECH_MARKERS) or DEFAULT_TECH_MARKERS
 
     df_plot = df.copy()
@@ -452,102 +511,156 @@ def create_static_generation_map(
     for coord in ("latitude", "longitude"):
         df_plot[coord] = pd.to_numeric(df_plot.get(coord), errors="coerce")
     df_plot = df_plot.dropna(subset=("latitude", "longitude"))
+    df_plot["status_category"] = df_plot["status"].apply(_status_category)
 
-    if df_plot.empty:
+    tech_order: List[str] = []
+    tech_iter = itertools.cycle(markers)
+    tech_marker_map: Dict[str, str] = {}
+    for tech in df_plot["technology"]:
+        if tech not in tech_marker_map:
+            tech_marker_map[tech] = next(tech_iter)
+            tech_order.append(tech)
+
+    capacities = pd.to_numeric(df_plot["capacity_mw"], errors="coerce").fillna(0)
+    df_plot["marker_size"] = 30 + np.sqrt(np.maximum(capacities, 0)) * 6
+
+    status_categories = [cat for cat in STATUS_CATEGORY_ORDER if cat in status_colors]
+    status_categories.extend(cat for cat in status_colors if cat not in status_categories)
+
+    def _render_variant(df_variant: pd.DataFrame, variant_basename: str, title_suffix: str) -> Dict[str, Path]:
         fig, ax = plt.subplots(figsize=figsize)
-        ax.text(0.5, 0.5, "No generation sites to plot.", ha="center", va="center", fontsize=12)
-        ax.set_axis_off()
-    else:
-        fig, ax = plt.subplots(figsize=figsize)
-        if gpd is not None:
-            try:
-                world = gpd.read_file("dataset/maps/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp")
-                world.plot(ax=ax, color="#f5f5f0", edgecolor="#cacaca", linewidth=0.4)
-            except Exception as exc:  # pragma: no cover - geopandas failures should not break exports.
-                if verbose:
-                    print(f"[generation-map] Could not render world background: {exc}")
+        if df_variant.empty:
+            ax.text(0.5, 0.5, "No generation sites to plot.", ha="center", va="center", fontsize=12)
+            ax.set_axis_off()
+        else:
+            if gpd is not None:
+                try:
+                    world = gpd.read_file(DEFAULT_WORLD_MAP_SHAPEFILE)
+                    world.plot(ax=ax, color="#f5f5f0", edgecolor="#cacaca", linewidth=0.4)
+                except Exception as exc:  # pragma: no cover - geopandas failures should not break exports.
+                    if verbose:
+                        print(f"[generation-map] Could not render world background: {exc}")
 
-        status_order = list(dict.fromkeys(df_plot["status"]))
-        tech_order = []
-        tech_iter = itertools.cycle(markers)
-        tech_marker_map: Dict[str, str] = {}
-        for tech in df_plot["technology"]:
-            if tech not in tech_marker_map:
-                tech_marker_map[tech] = next(tech_iter)
-                tech_order.append(tech)
+            for category in status_categories:
+                group_status = df_variant[df_variant["status_category"] == category]
+                if group_status.empty:
+                    continue
+                color = status_colors.get(category, "#6c6c6c")
+                for tech in group_status["technology"].unique():
+                    subset = group_status[group_status["technology"] == tech]
+                    marker = tech_marker_map.get(tech, markers[0])
+                    ax.scatter(
+                        subset["longitude"],
+                        subset["latitude"],
+                        s=subset["marker_size"],
+                        marker=marker,
+                        color=color,
+                        edgecolors="black",
+                        linewidths=0.6,
+                        alpha=0.8,
+                    )
 
-        def _status_color_static(value: str) -> str:
-            key = _match_key(value, status_colors.keys())
-            return status_colors.get(key, "#6c6c6c")
+            lon_min = float(df_variant["longitude"].min())
+            lon_max = float(df_variant["longitude"].max())
+            lat_min = float(df_variant["latitude"].min())
+            lat_max = float(df_variant["latitude"].max())
+            lon_range = lon_max - lon_min
+            lat_range = lat_max - lat_min
+            lon_padding = max(abs(lon_range) * 0.2, 0.5)
+            lat_padding = max(abs(lat_range) * 0.2, 0.5)
+            ax.set_xlim(lon_min - lon_padding, lon_max + lon_padding)
+            ax.set_ylim(lat_min - lat_padding, lat_max + lat_padding)
+            ax.set_aspect("equal", adjustable="box")
+            ax.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+            ax.set_title(f"Generation sites – {title_suffix}")
 
-        capacities = pd.to_numeric(df_plot["capacity_mw"], errors="coerce").fillna(0)
-        df_plot["marker_size"] = 30 + np.sqrt(np.maximum(capacities, 0)) * 6
+            present_statuses = [cat for cat in status_categories if cat in df_variant["status_category"].values]
+            status_handles = [
+                Patch(
+                    facecolor=status_colors.get(status, "#6c6c6c"),
+                    edgecolor="black",
+                    label=status,
+                    alpha=0.7,
+                )
+                for status in present_statuses
+            ]
 
-        for status in status_order:
-            group_status = df_plot[df_plot["status"] == status]
-            color = _status_color_static(status)
-            for tech in group_status["technology"].unique():
-                subset = group_status[group_status["technology"] == tech]
-                marker = tech_marker_map.get(tech, markers[0])
-                ax.scatter(
-                    subset["longitude"],
-                    subset["latitude"],
-                    s=subset["marker_size"],
-                    marker=marker,
-                    color=color,
-                    edgecolors="black",
-                    linewidths=0.6,
-                    alpha=0.8,
+            present_techs = [tech for tech in tech_order if tech in df_variant["technology"].values]
+            tech_handles = [
+                Line2D(
+                    [0],
+                    [0],
+                    marker=tech_marker_map[tech],
+                    color="#444444",
+                    linestyle="",
+                    markerfacecolor="#777777",
+                    markeredgecolor="black",
+                    markersize=8,
+                    label=tech,
+                )
+                for tech in present_techs
+            ]
+
+            legend_x = 1.02
+            if status_handles:
+                status_legend = ax.legend(
+                    handles=status_handles,
+                    title="Status",
+                    loc="upper left",
+                    frameon=True,
+                    bbox_to_anchor=(legend_x, 1),
+                    borderaxespad=0,
+                )
+                ax.add_artist(status_legend)
+            if tech_handles:
+                ax.legend(
+                    handles=tech_handles,
+                    title="Technology",
+                    loc="upper left",
+                    frameon=True,
+                    bbox_to_anchor=(legend_x, 0.6),
+                    ncol=min(2, max(1, len(tech_handles))),
+                    borderaxespad=0,
                 )
 
-        ax.set_xlabel("Longitude")
-        ax.set_ylabel("Latitude")
-        ax.set_title("Generation sites – status (color) & technology (marker)")
-        ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
+            top_sites = df_variant.nlargest(3, "capacity_mw").reset_index(drop=True)
+            if not top_sites.empty:
+                for row in top_sites.itertuples(index=False):
+                    lat = getattr(row, "latitude", None)
+                    lon = getattr(row, "longitude", None)
+                    name = getattr(row, "name", "Unknown")
+                    capacity = getattr(row, "capacity_mw", None)
+                    if pd.notna(capacity):
+                        cap_label = f"{int(round(capacity)):,} MW"
+                    else:
+                        cap_label = "capacity unknown"
+                    if pd.isna(lat) or pd.isna(lon):
+                        continue
+                    clean_name = _clean_site_label(name)
+                    label = f"{clean_name} ({cap_label})"
+                    ax.annotate(
+                        label,
+                        xy=(lon, lat),
+                        xytext=(5, 5),
+                        textcoords="offset points",
+                        fontsize=8,
+                        weight="bold",
+                    )
 
-        status_handles = [
-            Patch(facecolor=_status_color_static(status), edgecolor="black", label=status, alpha=0.7)
-            for status in status_order
-        ]
-        tech_handles = [
-            Line2D(
-                [0],
-                [0],
-                marker=tech_marker_map[tech],
-                color="#444444",
-                linestyle="",
-                markerfacecolor="#777777",
-                markeredgecolor="black",
-                markersize=8,
-                label=tech,
-            )
-            for tech in tech_order
-        ]
+        fig.tight_layout()
+        pdf_path = output_dir / f"{variant_basename}.pdf"
+        fig.savefig(pdf_path, dpi=dpi)
+        plt.close(fig)
+        if verbose:
+            print(f"[generation-map] Saved static map ({title_suffix}) to {pdf_path}")
+        return {"pdf": pdf_path}
 
-        if status_handles:
-            status_legend = ax.legend(handles=status_handles, title="Status", loc="lower left", frameon=True)
-            ax.add_artist(status_legend)
-        if tech_handles:
-            ax.legend(
-                handles=tech_handles,
-                title="Technology",
-                loc="lower right",
-                frameon=True,
-                ncol=min(3, max(1, len(tech_handles))),
-            )
-
-    fig.tight_layout()
     output_dir.mkdir(parents=True, exist_ok=True)
-    png_path = output_dir / f"{basename}.png"
-    pdf_path = output_dir / f"{basename}.pdf"
-    fig.savefig(png_path, dpi=dpi)
-    fig.savefig(pdf_path, dpi=dpi)
-    plt.close(fig)
+    active_df = df_plot[df_plot["status_category"].isin(DEFAULT_ACTIVE_STATUS_CATEGORIES)].copy()
+    active_paths = _render_variant(active_df, basename, "Operating & Under Construction")
+    all_paths = _render_variant(df_plot, f"{basename}_all", "All statuses")
 
-    if verbose:
-        print(f"[generation-map] Saved static map to {png_path} and {pdf_path}")
-
-    return {"png": png_path, "pdf": pdf_path}
+    return {"active": active_paths, "all": all_paths}
 
 
 DEFAULT_STATUS_TO_CODE: Dict[str, int] = {
@@ -740,8 +853,8 @@ def build_generation_map(
         "map": map_path,
         "data": data_path,
         "summary": summary_path,
-        "static_png": static_paths["png"],
-        "static_pdf": static_paths["pdf"],
+        "static_pdf": static_paths["active"]["pdf"],
+        "static_pdf_all": static_paths["all"]["pdf"],
     }
     if pgen_path:
         export_pgen_data_input(df_sites, pgen_path)
