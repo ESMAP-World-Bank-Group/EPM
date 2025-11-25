@@ -55,6 +55,7 @@ epm/epm.~log
 /epm/preprocessing
 
 # Pre-analysis generated data
+pre-analysis/output_workflow
 pre-analysis/.snakemake/
 pre-analysis/open-data/.snakemake/
 pre-analysis/open-data/old/

@@ -1611,3 +1611,67 @@ def run_smoothing_reservoir(config):
     # Output result status
     print(res.success, res.fun)
     return res, A_eq, b_eq
+
+
+if __name__ == "__main__":
+    sample_base = Path(__file__).resolve().parent
+    sample_input_dir = sample_base / "example_inputs"
+    sample_output_dir = sample_base / "example_output"
+    sample_input_dir.mkdir(parents=True, exist_ok=True)
+    sample_output_dir.mkdir(parents=True, exist_ok=True)
+
+    def _write_sample_csv(name, offset):
+        rows = []
+        for month, day in [(1, 1), (1, 2), (2, 1), (2, 2)]:
+            for hour in range(4):
+                rows.append({
+                    "zone": "SampleZone",
+                    "month": month,
+                    "day": day,
+                    "hour": hour + 1,
+                    "value": offset + hour * 0.1,
+                })
+        path = sample_input_dir / name
+        pd.DataFrame(rows).to_csv(path, index=False)
+        return path
+
+    sample_files = {
+        "PV": _write_sample_csv("data_capp_solar.csv", 0.1),
+        "Wind": _write_sample_csv("data_capp_wind.csv", 0.2),
+        "Load": _write_sample_csv("data_load.csv", 0.3),
+    }
+    seasons_map = {
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 1,
+        5: 2,
+        6: 2,
+        7: 2,
+        8: 2,
+        9: 1,
+        10: 1,
+        11: 1,
+        12: 2,
+    }
+    gams_model = sample_base / "gams" / "OptimizationModelZone.gms"
+    print(f"[repr-days example] Using sample inputs in {sample_input_dir} and output {sample_output_dir}")
+    if not gams_model.exists():
+        print(f"[repr-days example] GAMS model not found at {gams_model}; update the script with your local GAMS path.")
+    else:
+        try:
+            result = run_representative_days_pipeline(
+                seasons_map=seasons_map,
+                input_files=sample_files,
+                output_dir=sample_output_dir,
+                gams_main_file=str(gams_model),
+                n_representative_days=1,
+                n_clusters=4,
+                n_bins=4,
+                special_day_threshold=0.2,
+            )
+            print("[repr-days example] Pipeline completed; outputs:")
+            for key, value in result["paths"].items():
+                print(f"  {key}: {value}")
+        except Exception as exc:  # pragma: no cover
+            print(f"[repr-days example] Pipeline failed: {exc}")

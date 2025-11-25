@@ -47,15 +47,26 @@ ERA5-Land monthly indicators ({{ climate_period | default("period not set", true
 
 {{ climate_summary | default("_Climate summary not found. Run the climate workflow to generate it._", true) }}
 
+{% set climate_figures = climate_spatial_fig or climate_monthly_fig or climate_scatter_fig or climate_heatmap %}
+{% if climate_figures %}
 Figures:
+{% if climate_spatial_fig %}
 - Spatial means:
-{{ climate_spatial_fig | default("_Spatial-mean plots not available yet._", true) | indent(2, true) }}
+{{ climate_spatial_fig | indent(2, true) }}
+{% endif %}
+{% if climate_monthly_fig %}
 - Monthly averages by country:
-{{ climate_monthly_fig | default("_Monthly climate plots not available yet._", true) | indent(2, true) }}
+{{ climate_monthly_fig | indent(2, true) }}
+{% endif %}
+{% if climate_scatter_fig %}
 - Temperature vs precipitation:
-{{ climate_scatter_fig | default("_Scatter plot not available yet._", true) | indent(2, true) }}
+{{ climate_scatter_fig | indent(2, true) }}
+{% endif %}
+{% if climate_heatmap %}
 - Precipitation heatmap:
-{{ climate_heatmap | default("_Precipitation heatmap not available yet._", true) | indent(2, true) }}
+{{ climate_heatmap | indent(2, true) }}
+{% endif %}
+{% endif %}
 
 ## 1.2 Load Profiles
 
@@ -67,27 +78,40 @@ Load profile summary:
 
 {{ load_profile_summary | default("_Load-profile summary not found. Run the workflow to generate it._", true) }}
 
+{% set load_figures = load_profile_fig or load_month_fig or load_day_fig or load_heatmap_fig or load_boxplot_fig %}
+{% if load_figures %}
 Figures:
 - Normalised diagnostics: heatmaps and boxplots are expressed per unit of each country's peak load for easy comparison.
+{% if load_profile_fig %}
 - Hourly profiles:
-{{ load_profile_fig | default("_Load-profile figures not found. Run the workflow to generate them._", true) | indent(2, true) }}
+{{ load_profile_fig | indent(2, true) }}
+{% endif %}
+{% if load_month_fig %}
 - Average load per month:
-{{ load_month_fig | default("_Monthly averages not found._", true) | indent(2, true) }}
+{{ load_month_fig | indent(2, true) }}
+{% endif %}
+{% if load_day_fig %}
 - Average load per day:
-{{ load_day_fig | default("_Daily averages not found._", true) | indent(2, true) }}
+{{ load_day_fig | indent(2, true) }}
+{% endif %}
+{% if load_heatmap_fig %}
 - Heatmap (daily averages):
-{{ load_heatmap_fig | default("_Load heatmap not found._", true) | indent(2, true) }}
+{{ load_heatmap_fig | indent(2, true) }}
+{% endif %}
+{% if load_boxplot_fig %}
 - Load distribution (boxplots):
-{{ load_boxplot_fig | default("_Load boxplots not found._", true) | indent(2, true) }}
+{{ load_boxplot_fig | indent(2, true) }}
+{% endif %}
+{% endif %}
 
 ## 1.3 Generation Assets Map
 
 Interactive map of existing and planned generation sites (toggle layers for status and technology):
 
 {{ generation_map_text | default("_Generation map not available yet._", true) }}
-{% if generation_map_static %}
+{% if generation_map_static_figs %}
 - Static exports:
-{{ generation_map_static | indent(2, true) }}
+{{ generation_map_static_figs | indent(2, true) }}
 {% endif %}
 
 _Generation asset summary tables are provided in the Appendix._
@@ -105,22 +129,26 @@ To identify representative renewable resource locations, we use the **Global Int
 Hourly capacity-factor profiles (covering {{ rn_countries_inline | default("all selected countries", true) }}) are obtained from **Renewables Ninja (RN)** for the period **{{ rn_period_label | default("Jan–Dec", true) }}**.
 
 We extract both **wind** and **solar PV** datasets.  
-The figures below display the heatmaps of hourly VRE availability:
+The figures below show the per-country diagnostics grouped by technology:
 
-- **Solar PV heatmap:**
-{{ solar_heatmap | default("_Solar heatmap not available yet._", true) | indent(2, true) }}
-
-- **Wind heatmap:**
-{{ wind_heatmap | default("_Wind heatmap not available yet._", true) | indent(2, true) }}
-
-- **Capacity-factor distributions (boxplots):**
-{{ rn_boxplots | default("_Boxplots not available yet._", true) | indent(2, true) }}
+{% if rninja_zone_sections %}
+{% for tech in rninja_zone_sections %}
+#### {{ tech.label }}
+{% for zone in tech.zones %}
+##### {{ zone.country }}
+{% if zone.heatmap %}
+{{ zone.heatmap | indent(2, true) }}
+{% endif %}
+{% if zone.boxplot %}
+{{ zone.boxplot | indent(2, true) }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% else %}
+_No Renewables Ninja diagnostics are available yet._
+{% endif %}
 
 These views allow quick comparison of temporal variability and complementarity across the year.
-
-## 1.5 Key Workflow Parameters
-{{ key_parameters | default("_Key parameters not available yet._", true) }}
-{% if season_mapping %}- Season grouping: {{ season_mapping }}{% endif %}
 
 ---
 
@@ -130,7 +158,9 @@ To reduce model complexity while preserving temporal variability, we apply a rep
 
 The selected representative days are shown below:
 
-{{ rep_days_fig | default("_Representative-days workflow not run; enable it in the config to generate figures._", true) }}
+{% if rep_days_fig %}
+{{ rep_days_fig }}
+{% endif %}
 
 This reduction supports fast capacity-expansion optimisation while maintaining key seasonal and intraday dynamics.
 

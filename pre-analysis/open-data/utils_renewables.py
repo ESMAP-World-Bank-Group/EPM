@@ -170,7 +170,13 @@ tuple
             }
         )
 
-        make_heatmap(df_plot.copy(), tech=f"Load - {country}", path=heatmap_path)
+        make_heatmap(
+            df_plot.copy(),
+            tech=f"Load - {country}",
+            path=heatmap_path,
+            vmin=0,
+            vmax=1,
+        )
         make_boxplot(
             df_plot,
             tech=f"Load - {country}",
@@ -257,7 +263,13 @@ def _plot_capacity_factor_by_zone(df: pd.DataFrame, tech_label: str, output_path
 
         heatmap_path = output_path / f"heatmap_{tech_label}_{zone_slug}{plot_label}_{source_suffix}.pdf"
         boxplot_path = output_path / f"boxplot_{tech_label}_{zone_slug}{plot_label}_{source_suffix}.pdf"
-        make_heatmap(plot_df, tech=f"{tech_label} - {zone_label}", path=heatmap_path)
+        make_heatmap(
+            plot_df,
+            tech=f"{tech_label} - {zone_label}",
+            path=heatmap_path,
+            vmin=0,
+            vmax=1,
+        )
         make_boxplot(plot_df, tech=f"{tech_label} - {zone_label}", path=boxplot_path)
         paths[zone_label] = {"heatmap": heatmap_path, "boxplot": boxplot_path}
 
@@ -707,8 +719,6 @@ def run_renewables_ninja_workflow(
         loaded[tech_label] = df
 
         if generate_plots:
-            make_heatmap(df, tech=tech_label, path=output_path / f"heatmap_{tech_label}{plot_label}_rninja.pdf")
-            make_boxplot(df, tech=tech_label, path=output_path / f"boxplot_{tech_label}{plot_label}_rninja.pdf")
             _plot_capacity_factor_by_zone(df, tech_label, output_path, plot_label, source_suffix="rninja")
 
     return loaded
@@ -878,8 +888,16 @@ def get_renewables_irena_data(
         df_final = _flatten_year_columns(df_final)
         df_final.index = df_final.index.set_names(['zone', 'season', 'day', 'hour'])
         df_out = df_final.reset_index()
-
-        df_out.to_csv(file_out, index=False)
+        if df_out.empty:
+            warning = (
+                f"No hourly rows generated for the requested IRENA {tech} profiles ({countries}); "
+                "writing a warning file and skipping CSV export."
+            )
+            print(f"[WARNING] {warning}")
+            Path(file_out).parent.mkdir(parents=True, exist_ok=True)
+            Path(file_out).write_text(warning, encoding="utf-8")
+        else:
+            df_out.to_csv(file_out, index=False)
 
         profiles[tech] = df_final
         paths[tech] = file_out
@@ -966,12 +984,8 @@ def run_irena_workflow(
         for tech, df in result['profiles'].items():
             tech_label = tech_labels.get(tech, tech.title())
             df_plot = df.reset_index()
-            heatmap_path = output_path / f"heatmap_{tech_label}{plot_label}_irena.pdf"
-            boxplot_path = output_path / f"boxplot_{tech_label}{plot_label}_irena.pdf"
-            make_heatmap(df_plot, tech=tech_label, path=heatmap_path)
-            make_boxplot(df_plot, tech=tech_label, path=boxplot_path)
-            per_zone_paths = _plot_capacity_factor_by_zone(df_plot, tech_label, output_path, plot_label, source_suffix="irena")
-            plot_paths[tech] = {'heatmap': heatmap_path, 'boxplot': boxplot_path, 'per_zone': per_zone_paths}
+        per_zone_paths = _plot_capacity_factor_by_zone(df_plot, tech_label, output_path, plot_label, source_suffix="irena")
+        plot_paths[tech] = {'per_zone': per_zone_paths}
 
     result['plots'] = plot_paths
     return result
