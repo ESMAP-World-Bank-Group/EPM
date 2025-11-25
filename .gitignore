@@ -55,6 +55,11 @@ epm/epm.~log
 /epm/preprocessing
 
 # Pre-analysis generated data
+pre-analysis/.snakemake/
+pre-analysis/open-data/.snakemake/
+pre-analysis/open-data/old/
+pre-analysis/open-data/dataset/
+!pre-analysis/open-data/dataset/.gitkeep
 pre-analysis/**/input/*
 pre-analysis/**/output/*
 !pre-analysis/**/input/.gitkeep
@@ -65,6 +70,8 @@ pre-analysis/**/output/*
 
 # Sensitivity analysis artifacts
 **/sensitivity/
+
+
 
 # Input data
 epm/input/*
@@ -164,6 +171,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+/config/api_tokens.ini
 /.python-version
 
 # PEP 582

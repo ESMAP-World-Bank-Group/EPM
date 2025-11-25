@@ -1,0 +1,25 @@
+name: epm-open-data
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pandas
+  - numpy
+  - requests
+  - matplotlib
+  - seaborn
+  - pytz
+  - timezonefinder
+  - geopy
+  - openpyxl
+  - ipykernel
+  - jupyterlab
+
+  # Pip packages (Snakemake + compatible PuLP)
+  - pip
+  - coin-or-cbc
+  - pip:
+      - "snakemake"
+      - "pulp<2.7"

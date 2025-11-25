@@ -2,7 +2,7 @@
 # The API requires an API token, which you can get by signing up at https://www.renewables.ninja/.
 # The API allows you to fetch hourly solar or wind power data for a given location, time period, and power system configuration.
 # The data is returned in JSON format, which can be easily converted to a Pandas DataFrame.
-# The function get_renewable_data() fetches the data for multiple locations and returns a dictionary of results for each location.
+# The function get_rninja_data() fetches the data for multiple locations and returns a dictionary of results for each location.
 # The function also handles rate limiting by waiting for a minute if the rate limit is hit.
 # The data is then saved to a CSV file for further analysis.
 # Author: Lucas Vivier: lvivier@worldbank.org
@@ -14,6 +14,7 @@ import os
 import numpy as np
 import gams.transfer as gt
 import subprocess
+import shutil
 from functools import reduce
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
@@ -23,6 +24,7 @@ import calendar
 import warnings
 import logging
 import sys
+from pathlib import Path
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import pdist, squareform
 import seaborn as sns
@@ -38,6 +40,121 @@ logging.basicConfig(level=logging.WARNING)  # Configure logging level
 logger = logging.getLogger(__name__)
 
 nb_days = pd.Series([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], index=range(1, 13))
+
+def month_to_season(data: pd.DataFrame, seasons_map: dict, other_columns=None) -> pd.DataFrame:
+    """Convert month numbers to season identifiers and renumber days inside each season.
+
+    Parameters
+    ----------
+    data : pd.DataFrame
+        Input time-series with columns ``month``, ``day``, ``hour`` and any ``other_columns`` (e.g., ``zone``).
+    seasons_map : dict
+        Mapping month -> season. Every month in the data must exist as a key in this dict.
+    other_columns : list, optional
+        Additional columns to preserve as identifiers (e.g., ``['zone']``). Defaults to ``[]``.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with ``season`` and renumbered ``day`` per season, sorted by identifiers, season, day, hour.
+    """
+    other_columns = other_columns or []
+    df = data.copy()
+    df = df.rename(columns={'season': 'month'})  # allow using "season" as a proxy for month
+
+    required_cols = set(['month', 'day', 'hour']).union(set(other_columns))
+    missing = required_cols.difference(df.columns)
+    if missing:
+        raise ValueError(f'Missing required columns: {missing}')
+
+    df['season'] = df['month'].map(seasons_map)
+    if df['season'].isna().any():
+        missing_months = df.loc[df['season'].isna(), 'month'].unique()
+        raise ValueError(f'Months {missing_months} do not exist in seasons_map')
+
+    # Remove Feb 29th if present
+    df = df[~((df['month'] == 2) & (df['day'] == 29))]
+
+    # Renumber days sequentially within each season (1,2,3...) based on 24-hour blocks
+    df['season_day'] = df.groupby(other_columns + ['season']).cumcount() // 24 + 1
+    df = df.drop(columns=['day']).rename(columns={'season_day': 'day'})
+    df = df.set_index(other_columns + ['season', 'day', 'hour']).reset_index().drop(columns=['month'])
+    df = df.sort_values(by=other_columns + ['season', 'day', 'hour'])
+    return df
+
+
+def prepare_input_timeseries(
+    input_path: Union[str, Path],
+    seasons_map: dict,
+    output_dir: Union[str, Path],
+    zones_to_exclude=None,
+    value_column: str = 'value',
+    year_label: Union[int, str] = 2018,
+) -> Tuple[Path, pd.DataFrame]:
+    """Clean and season-aggregate a raw time-series CSV, mirroring the notebook pre-processing.
+
+    Parameters
+    ----------
+    input_path : str or Path
+        Path to the raw CSV with columns ``zone``, ``month`` (or ``season``), ``day``, ``hour`` and a value column.
+    seasons_map : dict
+        Mapping month -> season used to regroup months into broader seasons.
+    output_dir : str or Path
+        Directory where the season-aggregated CSV will be written.
+    zones_to_exclude : list, optional
+        Zones to drop from the dataset.
+    value_column : str, default 'value'
+        Name of the column holding the time-series values. If not present, the first non-index column is used.
+    year_label : int or str, default 2018
+        Column name to use for the value series (e.g., rename ``value`` to ``2018`` to match historical year convention).
+
+    Returns
+    -------
+    Tuple[Path, pd.DataFrame]
+        - Path to the cleaned CSV (named ``<original>_season.csv`` inside ``output_dir``).
+        - Cleaned DataFrame used to create that file.
+    """
+    zones_to_exclude = zones_to_exclude or []
+    input_path = Path(input_path)
+    output_dir = Path(output_dir)
+
+    if not input_path.exists():
+        raise FileNotFoundError(f'Input file not found: {input_path}')
+
+    df = pd.read_csv(input_path)
+
+    if 'month' not in df.columns and 'season' in df.columns:
+        df = df.rename(columns={'season': 'month'})
+
+    required_columns = {'zone', 'month', 'day', 'hour'}
+    missing = required_columns.difference(df.columns)
+    if missing:
+        raise ValueError(f'Missing required columns in {input_path}: {missing}')
+
+    candidate_value_cols = [c for c in df.columns if c not in required_columns]
+    if value_column in df.columns:
+        value_col = value_column
+    elif len(candidate_value_cols) == 1:
+        value_col = candidate_value_cols[0]
+    else:
+        raise ValueError(
+            f'Could not infer value column for {input_path}. Provide it via value_column or leave a single non-index column.'
+        )
+
+    df = df.rename(columns={value_col: year_label})
+    df = df[~df['zone'].isin(zones_to_exclude)]
+
+    if df['hour'].min() == 1 and df['hour'].max() <= 24:
+        df['hour'] = df['hour'] - 1
+
+    df = month_to_season(df, seasons_map, other_columns=['zone'])
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_path = output_dir / f'{input_path.stem}_season{input_path.suffix}'
+    df.to_csv(output_path, float_format='%.4f', index=False)
+    logger.info('Processed %s -> %s', input_path, output_path)
+    return output_path, df
+
 
 def find_representative_year(df, method='average_profile'):
     """Find the representative year.
@@ -521,8 +638,8 @@ def format_optim_repr_days(df_energy, folder_process_data):
 
 
 def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=3,
-                           main_file='OptimizationModel.gms', nbr_bins=10):
-    """Launch the representative dyas optimization.
+                           main_file='OptimizationModelZone.gms', nbr_bins=10):
+    """Launch the representative days optimization through GAMS.
 
     Parameters
     ----------
@@ -530,6 +647,12 @@ def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=3,
         Path to the data file.
     folder_process_data: str
         Path to save the .gms file.
+    nbr_days: int
+        Number of representative days to target.
+    main_file: str
+        Name (or absolute path) of the GAMS model to run.
+    nbr_bins: int
+        Number of bins to use in the GAMS settings helper.
     """
 
     def generate_bins_file(n_bins, save_dir="gams"):
@@ -564,37 +687,41 @@ def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=3,
         print(f"File saved to: {file_path}")
         return filename
 
+    if shutil.which("gams") is None:
+        raise FileNotFoundError("GAMS executable not found in PATH. Please install GAMS or update PATH.")
+
     # Generate bins settings file
-    path_main_file = os.path.join(os.getcwd(), 'gams', main_file)
+    path_main_file = Path(main_file)
+    if not path_main_file.is_absolute():
+        path_main_file = Path(os.getcwd()) / 'gams' / main_file
 
     setting_filename = generate_bins_file(n_bins=nbr_bins)
-    path_setting_file = os.path.join(os.getcwd(), 'gams', setting_filename)
+    path_setting_file = Path(os.getcwd()) / 'gams' / setting_filename
 
-    path_data_file = os.path.join(os.getcwd(), path_data_file)
-    #print(path_main_file, path_data_file, path_data_file)
+    path_data_file = Path(path_data_file)
+    if not path_data_file.is_absolute():
+        path_data_file = Path(os.getcwd()) / path_data_file
 
-    if not os.path.exists(path_main_file):
-        print(f'Gams file: {path_main_file} not found.')
-        raise ValueError('Gams file not found')
-    elif not os.path.exists(path_setting_file):
-        print(f'Settings file: {path_setting_file} not found.')
-        raise ValueError('Settings file not found')
-    elif not os.path.exists(path_data_file):
-        print(f'Data file: {path_data_file} not found.')
-        raise ValueError('Data file not found')
+    if not path_main_file.exists():
+        raise ValueError(f'Gams file: {path_main_file} not found.')
+    elif not path_setting_file.exists():
+        raise ValueError(f'Settings file: {path_setting_file} not found.')
+    elif not path_data_file.exists():
+        raise ValueError(f'Data file: {path_data_file} not found.')
     else:
-        command = ["gams", path_main_file] + ["--data {}".format(path_data_file),
-                                              "--settings {}".format(path_setting_file),
-                                              "--N {}".format(nbr_days)]
+        command = ["gams", str(path_main_file),
+                   f"--data {path_data_file}",
+                   f"--settings {path_setting_file}",
+                   f"--N {nbr_days}"]
 
     # Print the command
-    cwd = os.path.join(os.getcwd(), folder_process_data)
+    cwd = Path(os.getcwd()) / folder_process_data
     print('Launch GAMS code')
     if sys.platform.startswith("win"):  # If running on Windows
         print("Command to execute:", ' '.join(command))
-        subprocess.run(' '.join(command), cwd=cwd, shell=True, stdout=subprocess.DEVNULL)
+        subprocess.run(' '.join(command), cwd=str(cwd), shell=True, stdout=subprocess.DEVNULL)
     else:  # For Linux or macOS
-        subprocess.run(command, cwd=cwd, stdout=subprocess.DEVNULL)
+        subprocess.run(command, cwd=str(cwd), stdout=subprocess.DEVNULL)
     print('End GAMS code')
 
     # TODO: Check if the results exist
@@ -782,6 +909,165 @@ def format_epm_demandprofile(df_energy, repr_days, folder, name_data=''):
 
     pDemandProfile.to_csv(os.path.join(folder, 'pDemandProfile.csv'))
     print('pDemandProfile file saved at:', os.path.join(folder, 'pDemandProfile.csv'))
+
+
+def run_representative_days_pipeline(
+    seasons_map: dict,
+    input_files: dict,
+    output_dir: Union[str, Path],
+    zones_to_exclude=None,
+    value_column: str = 'value',
+    year_label: Union[int, str] = 2018,
+    n_representative_days: int = 2,
+    n_clusters: int = 20,
+    n_bins: int = 10,
+    feature_selection_count: int = None,
+    feature_selection_method: str = 'ward',
+    feature_selection_metric: str = 'euclidean',
+    feature_selection_scale: bool = True,
+    special_day_threshold: float = 0.1,
+    gams_main_file: str = 'OptimizationModelZone.gms',
+) -> dict:
+    """Run the full representative day pipeline (matches the notebook flow) end-to-end.
+
+    Parameters
+    ----------
+    seasons_map : dict
+        Mapping month -> season (e.g., {1: 2, 2: 2, 5: 1, ...}).
+    input_files : dict
+        Keys are technology names (e.g., {'PV': 'input/data_capp_solar.csv', 'Wind': ...}).
+        Values are paths to raw CSV inputs with columns ``zone``, ``month`` (or ``season``), ``day``, ``hour``
+        and one value column (named by ``value_column`` or the only non-index column).
+    output_dir : str or Path
+        Directory to store all outputs (seasonal CSVs, optimization inputs, and EPM-formatted files).
+    zones_to_exclude : list, optional
+        Zones to drop before processing.
+    value_column : str, default 'value'
+        Name of the value column in raw inputs. If absent and exactly one non-index column exists, it is used.
+    year_label : int or str, default 2018
+        Column name to assign to the value series (used to pick the representative year).
+    n_representative_days : int, default 2
+        Number of representative days to compute via the Poncelet optimization.
+    n_clusters : int, default 20
+        Number of clusters used to identify extreme/special days before optimization.
+    n_bins : int, default 10
+        Number of bins to pass to the GAMS model.
+    feature_selection_count : int, optional
+        If provided, runs hierarchical feature selection to keep only ``n`` series before optimization.
+    feature_selection_method : str, default 'ward'
+        Linkage method for feature selection clustering.
+    feature_selection_metric : str, default 'euclidean'
+        Distance metric for feature selection clustering.
+    feature_selection_scale : bool, default True
+        Whether to scale features before feature selection.
+    special_day_threshold : float, default 0.1
+        Probability cutoff when extracting special days from clusters.
+    gams_main_file : str, default 'OptimizationModelZone.gms'
+        Name (or absolute path) of the GAMS model to execute.
+
+    Returns
+    -------
+    dict
+        Dictionary with DataFrames and key output paths:
+        {
+            'df_energy': formatted full-year data,
+            'df_energy_no_special': data after removing special days,
+            'special_days': special days DataFrame,
+            'repr_days': representative days with weights,
+            'paths': {
+                'seasonal_inputs': {tech: <path>},
+                'data_formatted': <path>,
+                'data_feature_selection': <path or None>,
+                'pHours': <path>,
+                'pVREProfile': <path>,
+                'pDemandProfile': <path or None>,
+                'repr_days': <path>,
+                'df_energy': <path>,
+            }
+        }
+    """
+    zones_to_exclude = zones_to_exclude or []
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Step 1 - Prepare raw inputs (month -> season, drop zones, rename value column)
+    seasonal_inputs = {}
+    for tech, path in input_files.items():
+        seasonal_path, _ = prepare_input_timeseries(
+            input_path=path,
+            seasons_map=seasons_map,
+            output_dir=output_dir,
+            zones_to_exclude=zones_to_exclude,
+            value_column=value_column,
+            year_label=year_label,
+        )
+        seasonal_inputs[tech] = str(seasonal_path)
+
+    # Step 2 - Combine tech profiles and pick representative year
+    df_energy = format_data_energy(seasonal_inputs)
+    df_energy = df_energy.dropna(axis=1, how='all')
+
+    # Step 3 - Cluster and extract special days
+    df_energy_cluster, df_closest_days, centroids_df = cluster_data_new(df_energy, n_clusters=n_clusters)
+    special_days, df_energy_no_special = get_special_days_clustering(
+        df_closest_days, df_energy_cluster, threshold=special_day_threshold
+    )
+
+    # Step 4 - Build optimization input (compute correlations)
+    _, path_data_file = format_optim_repr_days(df_energy_no_special, output_dir)
+
+    # Optional feature selection to shrink the feature set
+    path_data_file_for_optim = path_data_file
+    selection_path = None
+    if feature_selection_count:
+        _, _, selection_path = select_representative_series_hierarchical(
+            path_data_file,
+            n=feature_selection_count,
+            method=feature_selection_method,
+            metric=feature_selection_metric,
+            scale=feature_selection_scale,
+        )
+        path_data_file_for_optim = selection_path
+
+    # Step 5 - Run optimization and parse representative days
+    launch_optim_repr_days(
+        path_data_file_for_optim,
+        folder_process_data=str(output_dir),
+        nbr_days=n_representative_days,
+        main_file=gams_main_file,
+        nbr_bins=n_bins,
+    )
+    repr_days = parse_repr_days(str(output_dir), special_days)
+
+    # Step 6 - Format outputs for EPM
+    format_epm_phours(repr_days, str(output_dir))
+    format_epm_pvreprofile(df_energy, repr_days, str(output_dir))
+    demand_profile_path = None
+    if any('Load' in c for c in df_energy.columns):
+        format_epm_demandprofile(df_energy, repr_days, str(output_dir))
+        demand_profile_path = output_dir / 'pDemandProfile.csv'
+
+    repr_days_path = output_dir / 'repr_days.csv'
+    df_energy_path = output_dir / 'df_energy.csv'
+    repr_days.to_csv(repr_days_path, index=False)
+    df_energy.to_csv(df_energy_path, index=False)
+
+    return {
+        'df_energy': df_energy,
+        'df_energy_no_special': df_energy_no_special,
+        'special_days': special_days,
+        'repr_days': repr_days,
+        'paths': {
+            'seasonal_inputs': seasonal_inputs,
+            'data_formatted': path_data_file,
+            'data_feature_selection': selection_path,
+            'pHours': str(output_dir / 'pHours.csv'),
+            'pVREProfile': str(output_dir / 'pVREProfile.csv'),
+            'pDemandProfile': str(demand_profile_path) if demand_profile_path else None,
+            'repr_days': str(repr_days_path),
+            'df_energy': str(df_energy_path),
+        },
+    }
 
 
 def cluster_data(data: pd.DataFrame, n_clusters: int) -> Tuple[np.ndarray, pd.DataFrame]:
@@ -1325,4 +1611,3 @@ def run_smoothing_reservoir(config):
     # Output result status
     print(res.success, res.fun)
     return res, A_eq, b_eq
-

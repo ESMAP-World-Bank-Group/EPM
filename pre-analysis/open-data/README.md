@@ -2,6 +2,15 @@
 
 This folder contains the exploratory and ingestion notebooks that pull hydrologic and renewable datasets into a common structure before they feed the EPM model. Use the catalog below to pick the workflow that matches the question you are trying to answer.
 
+## Running the Snakemake workflow
+- Prep inputs/config: place `dataset/Global-Integrated-Power-April-2025.xlsx` (and IRENA CSVs under `irena.input_dir`) in the expected folders; copy `config/api_tokens.example.ini` → `config/api_tokens.ini` and add a `renewables_ninja` token (or export `API_TOKEN_RENEWABLES_NINJA`); tweak countries/years in `config/open_data_config.yaml` as needed.
+- Fix the conda env path so Snakemake can find it: the Snakefile points to `envs/renewables.yaml` but the file is `renewables.yml`. Either create the expected path (`mkdir -p envs && ln -s ../renewables.yml envs/renewables.yaml`) or edit the Snakefile to reference `renewables.yml`.
+- Create the env once (or let Snakemake do it after the path fix): `conda env create -f renewables.yml -n epm-open-data`.
+- CBC solver is included in the env (`coin-or-cbc`) so PuLP never falls back to Gurobi; make sure `cbc` is on your PATH (the conda env activation does this) to avoid license warnings.
+- Run from `pre-analysis/open-data`: `snakemake --snakefile Snakefile --cores 1 --use-conda --conda-frontend mamba` (drop `--use-conda` only if you already activated `epm-open-data`).
+- Outputs land in `output/`: GAP filtered CSV + Renewables Ninja CSVs + IRENA CSVs. VRE outputs now follow the unified naming/shape `vre_<source>_<label?>_<tech>.csv` with columns `zone,season,day,hour,<year columns>`.
+- Optional: to compute representative days via the prepare-data pipeline, fill `representative_days` in `config/open_data_config.yaml` (set `enabled: true`, point `input_files` to your hourly CSVs, adjust seasons/map and counts). Snakemake will then emit `repr_days.csv`, `pHours.csv`, and `pVREProfile.csv` under the configured `output_dir` (plus `pDemandProfile.csv` when a load series is provided).
+
 ## Notebook catalog
 
 | Notebook | Focus & what you get | Key inputs (relative to `pre-analysis/open-data`) | Outputs |
@@ -15,6 +24,12 @@ This folder contains the exploratory and ingestion notebooks that pull hydrologi
 - `input/` holds the raw GRDC NetCDF, HydroRIVERS shapefiles, Atlas workbooks, and any utility CSVs you manually download.
 - `output/` is git-ignored so you can iterate freely before copying vetted tables onward.
 - `in_progress/` notebooks should document any assumptions here before promoting them into the main workflow.
+
+## API tokens
+- Copy `config/api_tokens.example.ini` to `config/api_tokens.ini` and fill in your keys under the `[api_tokens]` section (git-ignored).
+- Renewables Ninja looks for `renewables_ninja`; you can add other APIs (e.g., `enstoe`) as new keys.
+- You can also set environment variables instead of a file: `API_TOKEN_RENEWABLES_NINJA=<token>`. To point to a non-default config file, set `API_TOKENS_PATH=/path/to/api_tokens.ini`.
+- Token config is stored at the project root under `config/api_tokens.ini` so all open-data utilities can share it.
 
 ## Key datasets referenced by these notebooks
 

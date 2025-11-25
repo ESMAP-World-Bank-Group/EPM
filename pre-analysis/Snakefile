@@ -1,0 +1,722 @@
+import os
+import sys
+import warnings
+import subprocess
+from collections.abc import Iterable
+from pathlib import Path
+
+# Force PuLP to stay on CBC so it does not probe an expired Gurobi license.
+# This must happen before any potential import of pulp via downstream code.
+os.environ.setdefault("PULP_FORCE_CBC", "1")
+# If CBC is installed in your PATH, this helps pulp find it explicitly.
+os.environ.setdefault("PULP_CBC_CMD", "cbc")
+# Silence noisy Gurobi license warnings; workflow is pinned to CBC.
+# Use a broad match because the warning includes newlines.
+warnings.filterwarnings("ignore", message=r"(?s)GUROBI error: .*", module=r"pulp\.apis\.gurobi_api")
+
+################################################################################
+# Paths and config
+################################################################################
+BASE_DIR = Path(getattr(workflow, "basedir", Path(__file__).resolve().parent)).resolve()
+OPEN_DATA_DIR = BASE_DIR / "open-data"
+PREPARE_DIR = BASE_DIR / "prepare-data"
+REP_DAYS_DIR = BASE_DIR / "prepare-data" / "representative_days"
+CONFIG_PATH = (BASE_DIR / "config" / "open_data_config.yaml").resolve()
+
+configfile: str(CONFIG_PATH)
+
+# Make sure we can import utilities that live alongside the config + repr-days.
+for _path in (OPEN_DATA_DIR, PREPARE_DIR, REP_DAYS_DIR):
+    if str(_path) not in sys.path:
+        sys.path.append(str(_path))
+
+from utils_renewables import (
+    gap_rninja_coordinates,
+    run_renewables_ninja_workflow,
+    run_irena_workflow,
+    require_file,
+    rninja_output_filename,
+    irena_output_filename,
+    load_country_load_profile,
+    export_epm_full_timeseries,
+    DEFAULT_TOKTAROVA_PATH,
+)
+from utils_reprdays import run_representative_days_pipeline
+
+
+def _slug(text):
+    return "".join(ch if ch.isalnum() else "_" for ch in text).strip("_").lower()
+
+
+def _resolve_relative(base, maybe_path):
+    """Resolve a path relative to a base when not already absolute."""
+    p = Path(maybe_path)
+    return p if p.is_absolute() else (base / p)
+
+
+# Allow users to override workflow roots in the config; default to new dirs at the
+# pre-analysis root. Inputs fallback to the legacy open-data structure if needed.
+INPUT_ROOT = _resolve_relative(BASE_DIR, config.get("input_workflow_dir", "input_workflow")).resolve()
+OUTPUT_ROOT = _resolve_relative(BASE_DIR, config.get("output_workflow_dir", "output_workflow")).resolve()
+INPUT_ROOT.mkdir(parents=True, exist_ok=True)
+OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
+
+
+def resolve_input(path):
+    """Prefer the new input_workflow root, fall back to the open-data folder."""
+    p = Path(path)
+    if p.is_absolute():
+        return p
+    candidates = [(INPUT_ROOT / p), (OPEN_DATA_DIR / p)]
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[0]
+
+
+def resolve_output(path):
+    """Write outputs under output_workflow (or a custom root)."""
+    p = Path(path)
+    return p if p.is_absolute() else (OUTPUT_ROOT / p)
+
+
+################################################################################
+# Logging + best-effort helpers
+################################################################################
+VERBOSE_LOGS = True
+
+
+def _flatten_outputs(out):
+    """Flatten snakemake output structures to plain path strings."""
+    paths = []
+
+    def _walk(obj):
+        if obj is None:
+            return
+        if isinstance(obj, (str, os.PathLike)):
+            paths.append(str(obj))
+            return
+        if isinstance(obj, Iterable):
+            for item in obj:
+                _walk(item)
+            return
+        try:
+            for item in list(obj):
+                _walk(item)
+        except TypeError:
+            pass
+
+    _walk(out)
+    return [p for p in paths if p]
+
+
+def best_effort(label, outputs, fn):
+    """Run a rule body; on failure, log and create placeholder outputs."""
+    try:
+        if VERBOSE_LOGS:
+            print(f"[{label}] starting")
+        result = fn()
+        if VERBOSE_LOGS:
+            print(f"[{label}] completed")
+        return result
+    except Exception as exc:
+        print(f"[{label}] WARNING: {exc}")
+        for path in _flatten_outputs(outputs):
+            p = Path(path)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                p.write_text(f"{label} failed: {exc}")
+            except Exception:
+                p.touch()
+        return None
+
+
+################################################################################
+# Convenience variables from config
+################################################################################
+NAME_DATA  = config["name_data"]
+GAP_CFG    = config["gap"]
+CLIMATE_CFG = config.get("climate_overview", {})
+RNI_CFG    = config["rninja"]
+IRENA_CFG  = config["irena"]
+LOAD_CFG   = config.get("load_profile")
+REP_CFG    = config.get("representative_days")
+GENMAP_CFG = config.get("generation_map", {})
+
+
+def _load_settings():
+    if not LOAD_CFG:
+        return {
+            "targets": [],
+            "csv_targets": [],
+            "plot_targets": [],
+            "heatmap_targets": [],
+            "boxplot_targets": [],
+            "slug_map": {},
+            "outdir": None,
+            "dataset": None,
+            "year": None,
+            "generate_heatmap_boxplot": False,
+            "heatmap_pattern": None,
+            "boxplot_pattern": None,
+        }
+
+    countries_cfg = LOAD_CFG.get("countries")
+    countries = (
+        [countries_cfg] if isinstance(countries_cfg, str) else list(countries_cfg)
+    ) if countries_cfg is not None else [LOAD_CFG["country"]]
+    slug_map = {_slug(country): country for country in countries}
+    outdir = resolve_output(LOAD_CFG.get("output_dir", ""))
+    csv_pattern = str(outdir / "load_profile_{slug}.csv")
+    plot_pattern = str(outdir / "load_profile_{slug}.pdf")
+    generate_heatmap_boxplot = LOAD_CFG.get("generate_heatmap_boxplot", True)
+    heatmap_pattern = str(outdir / "heatmap_load_{slug}.pdf") if generate_heatmap_boxplot else None
+    boxplot_pattern = str(outdir / "boxplot_load_{slug}.pdf") if generate_heatmap_boxplot else None
+    csv_targets = list(expand(csv_pattern, slug=slug_map))
+    plot_targets = list(expand(plot_pattern, slug=slug_map))
+    heatmap_targets = list(expand(heatmap_pattern, slug=slug_map)) if heatmap_pattern else []
+    boxplot_targets = list(expand(boxplot_pattern, slug=slug_map)) if boxplot_pattern else []
+
+    return {
+        "targets": [*csv_targets, *plot_targets, *heatmap_targets, *boxplot_targets],
+        "csv_targets": csv_targets,
+        "plot_targets": plot_targets,
+        "heatmap_targets": heatmap_targets,
+        "boxplot_targets": boxplot_targets,
+        "slug_map": slug_map,
+        "outdir": outdir,
+        "dataset": resolve_input(LOAD_CFG.get("dataset", DEFAULT_TOKTAROVA_PATH)),
+        "year": LOAD_CFG.get("year", 2020),
+        "countries": countries,
+        "csv_pattern": csv_pattern,
+        "plot_pattern": plot_pattern,
+        "heatmap_pattern": heatmap_pattern,
+        "boxplot_pattern": boxplot_pattern,
+        "generate_heatmap_boxplot": generate_heatmap_boxplot,
+    }
+
+
+def _climate_settings():
+    if not CLIMATE_CFG.get("enabled", False):
+        return {
+            "targets": [],
+            "outdir": None,
+            "api_dir": None,
+            "extract_dir": None,
+            "iso_codes": [],
+            "variables": [],
+        }
+
+    iso_codes = CLIMATE_CFG.get("iso_a2", [])
+    outdir = resolve_output(CLIMATE_CFG.get("output_dir", "climate"))
+    api_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("api_dir", BASE_DIR / "prepare-data" / "input" / "era5_api")).resolve()
+    extract_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("extract_dir", BASE_DIR / "prepare-data" / "input" / "era5_extract")).resolve()
+    variables = CLIMATE_CFG.get("variables", ["2m_temperature", "total_precipitation"])
+
+    try:
+        from climate_overview import default_output_paths
+
+        targets = [str(p) for p in default_output_paths(outdir, variables)]
+    except Exception:
+        targets = [str(outdir / "climate_summary.csv")]
+
+    return {
+        "targets": targets,
+        "outdir": outdir,
+        "api_dir": api_dir,
+        "extract_dir": extract_dir,
+        "iso_codes": iso_codes,
+        "variables": variables,
+        "dataset": CLIMATE_CFG.get("dataset", "reanalysis-era5-land-monthly-means"),
+        "download": CLIMATE_CFG.get("download", False),
+        "generate_plots": CLIMATE_CFG.get("generate_plots", True),
+        "label_map": CLIMATE_CFG.get("label_map", {}),
+        "save_netcdf": CLIMATE_CFG.get("save_netcdf", True),
+        "start_year": CLIMATE_CFG.get("start_year", 1980),
+        "end_year": CLIMATE_CFG.get("end_year", 2024),
+    }
+
+
+def _rep_settings():
+    if not (REP_CFG and REP_CFG.get("enabled", False)):
+        return {"targets": [], "outdir": None, "input_files": {}}
+
+    outdir = resolve_output(REP_CFG.get("output_dir", REP_DAYS_DIR / "output"))
+    input_files = {k: str(resolve_input(v)) for k, v in (REP_CFG.get("input_files") or {}).items()}
+    targets = [
+        str(outdir / "repr_days.csv"),
+        str(outdir / "pHours.csv"),
+        str(outdir / "pVREProfile.csv"),
+    ]
+    if any("load" in k.lower() for k in input_files):
+        targets.append(str(outdir / "pDemandProfile.csv"))
+
+    return {"targets": targets, "outdir": outdir, "input_files": input_files}
+
+
+def _genmap_settings():
+    if not GENMAP_CFG.get("enabled", False):
+        return {"targets": [], "countries": None, "excel": None, "outdir": None, "pgen": None}
+
+    outdir = resolve_output(GENMAP_CFG.get("output_dir", ""))
+    pgen = GENMAP_CFG.get("pgen_filename")
+    pgen = str(outdir / pgen) if pgen else None
+    targets = [
+        str(outdir / GENMAP_CFG.get("map_filename", "generation_map.html")),
+        str(outdir / GENMAP_CFG.get("data_filename", "generation_sites.csv")),
+        str(outdir / GENMAP_CFG.get("summary_filename", "generation_sites_summary.csv")),
+        *( [pgen] if pgen else [] ),
+    ]
+
+    return {
+        "targets": targets,
+        "countries": GENMAP_CFG.get("countries", GAP_CFG["countries"]),
+        "excel": resolve_input(GENMAP_CFG.get("excel", GAP_CFG["excel"])),
+        "outdir": outdir,
+        "pgen": pgen,
+    }
+
+
+TECH_SLUG = "_".join(GAP_CFG["tech_types"])
+
+GAP_EXCEL  = resolve_input(GAP_CFG["excel"])
+GAP_OUTDIR = resolve_output(GAP_CFG.get("output_dir", ""))
+GAP_OUTPUT = str(GAP_OUTDIR / f"most_relevant_projects_{TECH_SLUG}.csv")
+
+RNI_OUTDIR = resolve_output(RNI_CFG.get("output_dir", ""))
+NINJA_OUTPUTS = [
+    str(RNI_OUTDIR / rninja_output_filename(NAME_DATA, tech))
+    for tech in GAP_CFG["tech_types"]
+]
+
+IRENA_NAME = f"{NAME_DATA}_irena"
+IRENA_INPUT_DIR = resolve_input(IRENA_CFG["input_dir"])
+IRENA_OUTDIR = resolve_output(IRENA_CFG.get("output_dir", ""))
+IRENA_OUTPUTS = [
+    str(IRENA_OUTDIR / irena_output_filename(IRENA_NAME, tech))
+    for tech in ["solar", "wind"]
+]
+
+LOAD = _load_settings()
+LOAD_TARGETS = LOAD["targets"]
+LOAD_CSV_TARGETS = LOAD["csv_targets"]
+LOAD_OUTPUTS = {
+    "csv": LOAD["csv_pattern"],
+    "plot": LOAD["plot_pattern"],
+}
+if LOAD["generate_heatmap_boxplot"]:
+    LOAD_OUTPUTS["heatmap"] = LOAD["heatmap_pattern"]
+    LOAD_OUTPUTS["boxplot"] = LOAD["boxplot_pattern"]
+
+CLIMATE = _climate_settings()
+CLIMATE_TARGETS = CLIMATE["targets"]
+CLIMATE_OUTDIR = CLIMATE["outdir"]
+CLIMATE_API_DIR = CLIMATE["api_dir"]
+CLIMATE_EXTRACT_DIR = CLIMATE["extract_dir"]
+CLIMATE_ISO_CODES = CLIMATE["iso_codes"]
+CLIMATE_VARS = CLIMATE["variables"]
+CLIMATE_LABELS = CLIMATE["label_map"]
+CLIMATE_DATASET = CLIMATE["dataset"]
+CLIMATE_DOWNLOAD = CLIMATE["download"]
+CLIMATE_GENERATE_PLOTS = CLIMATE["generate_plots"]
+CLIMATE_SAVE_NETCDF = CLIMATE["save_netcdf"]
+CLIMATE_START = CLIMATE["start_year"]
+CLIMATE_END = CLIMATE["end_year"]
+
+REP = _rep_settings()
+REP_TARGETS = REP["targets"]
+REP_OUTDIR = REP["outdir"]
+REP_INPUT_FILES = REP["input_files"]
+
+GENMAP = _genmap_settings()
+GENMAP_TARGETS = GENMAP["targets"]
+GENMAP_OUTDIR = GENMAP["outdir"]
+GENMAP_EXCEL = GENMAP["excel"]
+GENMAP_COUNTRIES = GENMAP["countries"]
+GENMAP_PGEN = GENMAP["pgen"]
+GENMAP_MAP = GENMAP_TARGETS[0] if GENMAP_TARGETS else None
+GENMAP_DATA = GENMAP_TARGETS[1] if len(GENMAP_TARGETS) > 1 else None
+GENMAP_SUMMARY = GENMAP_TARGETS[2] if len(GENMAP_TARGETS) > 2 else None
+
+FULL_OUTDIR = RNI_OUTDIR
+PVRE_FULL = str(FULL_OUTDIR / "pVREProfile_full.csv")
+PHOURS_FULL = str(FULL_OUTDIR / "pHours_full.csv")
+PDEMAND_FULL = str(FULL_OUTDIR / f"pDemandProfile_full_{NAME_DATA}.csv") if LOAD_CSV_TARGETS else None
+FULL_LOAD_INPUT = LOAD_CSV_TARGETS[0] if LOAD_CSV_TARGETS else None
+
+REPORT_TEMPLATE = str(BASE_DIR / "report.md.j2")
+REPORT_OUTPUT = str(OUTPUT_ROOT / "report.md")
+REPORT_PDF = str(OUTPUT_ROOT / "report.pdf")
+REPORT_DOCX = str(OUTPUT_ROOT / "report.docx")
+
+CORE_TARGETS = [
+    *CLIMATE_TARGETS,
+    GAP_OUTPUT,
+    *NINJA_OUTPUTS,
+    *IRENA_OUTPUTS,
+    *LOAD_TARGETS,
+    *GENMAP_TARGETS,
+    PVRE_FULL,
+    PHOURS_FULL,
+    *( [PDEMAND_FULL] if PDEMAND_FULL else [] ),
+]
+
+################################################################################
+# Rule all
+################################################################################
+rule all:
+    """Final targets for the workflow."""
+    input:
+        *CORE_TARGETS,
+        *REP_TARGETS,
+        REPORT_OUTPUT,
+        REPORT_PDF,
+        REPORT_DOCX
+
+################################################################################
+# Climate overview (ERA5-Land monthly)
+################################################################################
+if CLIMATE_TARGETS:
+    rule climate_overview:
+        """Download/prepare ERA5-Land monthly climate datasets and figures."""
+        output:
+            targets=CLIMATE_TARGETS
+        run:
+            def _task():
+                from climate_overview import run_climate_overview
+
+                run_climate_overview(
+                    iso_codes=CLIMATE_ISO_CODES,
+                    start_year=CLIMATE_START,
+                    end_year=CLIMATE_END,
+                    variables=CLIMATE_VARS,
+                    api_dir=CLIMATE_API_DIR,
+                    extract_dir=CLIMATE_EXTRACT_DIR,
+                    output_dir=CLIMATE_OUTDIR,
+                    dataset_name=CLIMATE_DATASET,
+                    download=CLIMATE_DOWNLOAD,
+                    generate_plots=CLIMATE_GENERATE_PLOTS,
+                    save_netcdf=CLIMATE_SAVE_NETCDF,
+                    label_map=CLIMATE_LABELS,
+                )
+
+            best_effort("climate_overview", output.targets, _task)
+
+################################################################################
+# GAP → Coordinates → Renewables Ninja workflow
+################################################################################
+rule gap_and_ninja:
+    """1. Select relevant GAP projects
+       2. Extract RNinja coords
+       3. Query Renewables Ninja hourly profiles"""
+    output:
+        projects=GAP_OUTPUT,
+        ninja_files=NINJA_OUTPUTS
+    run:
+        def _task():
+            # 1. Ensure GAP Excel exists
+            require_file(GAP_EXCEL)
+
+            # 2. Extract GAP projects + RNinja coordinates
+            projects_df, rninja_locations, csv_path = gap_rninja_coordinates(
+                xlsx_path       = GAP_EXCEL,
+                countries       = GAP_CFG["countries"],
+                tech_types      = tuple(GAP_CFG["tech_types"]),
+                sheet_name      = GAP_CFG.get("sheet_name","Power facilities"),
+                output_dir      = GAP_OUTDIR,
+            )
+
+            assert str(csv_path) == output.projects, \
+                f"Expected {output.projects}, got {csv_path}"
+
+            # 3. Actual RNinja pulls (one file per tech)
+            run_renewables_ninja_workflow(
+                dataset_label   = NAME_DATA,
+                locations       = rninja_locations,
+                start_year      = RNI_CFG["start_year"],
+                end_year        = RNI_CFG["end_year"],
+                input_dir       = RNI_OUTDIR,
+                output_dir      = RNI_OUTDIR,
+                local_time      = RNI_CFG.get("local_time", True),
+                generate_plots  = True,
+                dataset         = RNI_CFG.get("dataset", "merra2"),
+                capacity        = RNI_CFG.get("capacity", 1),
+                system_loss     = RNI_CFG.get("system_loss", 0.1),
+                height          = RNI_CFG.get("height", 100),
+                tracking        = RNI_CFG.get("tracking", 0),
+                tilt            = RNI_CFG.get("tilt", 35),
+                azim            = RNI_CFG.get("azim", 180),
+                turbine         = RNI_CFG.get("turbine", "Gamesa+G114+2000"),
+                api_token       = RNI_CFG.get("api_token"),
+            )
+
+        best_effort("gap_and_ninja", output, _task)
+
+################################################################################
+# Full-hour EPM exports (pHours=1, VRE + optional load)
+################################################################################
+rule epm_full_exports:
+    """Export full-hour pHours/pVREProfile (+ demand when load is configured)."""
+    input:
+        vre=NINJA_OUTPUTS,
+        load=(FULL_LOAD_INPUT if PDEMAND_FULL else temp(FULL_OUTDIR / ".no_load_full_input"))
+    output:
+        pvre=PVRE_FULL,
+        phours=PHOURS_FULL,
+        pdemand=(PDEMAND_FULL if PDEMAND_FULL else temp(FULL_OUTDIR / ".no_load_full")),
+    run:
+        def _task():
+            vre_inputs = {
+                tech: str(RNI_OUTDIR / rninja_output_filename(NAME_DATA, tech))
+                for tech in GAP_CFG["tech_types"]
+            }
+            load_input = input.load if PDEMAND_FULL else None
+            load_zone = None
+            if load_input and isinstance(load_input, str):
+                load_zone = Path(load_input).stem.replace("load_profile_", "")
+                if len(LOAD_CSV_TARGETS) > 1:
+                    print(f"[full-export] Multiple load profiles detected ({len(LOAD_CSV_TARGETS)}); using {load_input}")
+
+            export_epm_full_timeseries(
+                vre_profiles=vre_inputs,
+                load_profile=load_input if PDEMAND_FULL else None,
+                output_dir=FULL_OUTDIR,
+                load_zone=load_zone,
+                demand_filename=Path(PDEMAND_FULL).name if PDEMAND_FULL else None,
+            )
+            if not PDEMAND_FULL:
+                Path(output.pdemand).touch()
+
+        best_effort("epm_full_exports", output, _task)
+
+################################################################################
+# Generation map workflow (best-effort)
+################################################################################
+if GENMAP_TARGETS:
+    rule generation_map:
+        """Build interactive GAP-based generation map and cleaned CSVs."""
+        output:
+            map=GENMAP_MAP,
+            data=GENMAP_DATA,
+            summary=GENMAP_SUMMARY,
+            pgen=(GENMAP_PGEN if GENMAP_PGEN else temp(GENMAP_OUTDIR / ".no_pgen")),
+        run:
+            def _task():
+                from generation_map import build_generation_map
+
+                try:
+                    build_generation_map(
+                        xlsx_path=GENMAP_EXCEL,
+                        countries=GENMAP_COUNTRIES,
+                        sheet_name=GENMAP_CFG.get("sheet_name", "Power facilities"),
+                        output_dir=GENMAP_OUTDIR,
+                        map_filename=Path(output.map).name,
+                        data_filename=Path(output.data).name,
+                        summary_filename=Path(output.summary).name,
+                        pgen_filename=(Path(output.pgen).name if GENMAP_PGEN else None),
+                        verbose=GENMAP_CFG.get("verbose", False),
+                    )
+                    if not GENMAP_PGEN:
+                        Path(output.pgen).touch()
+                except Exception as exc:
+                    print(f"[generation-map] Failed to build generation map: {exc}")
+                    for path in [output.map, output.data, output.summary]:
+                        Path(path).parent.mkdir(parents=True, exist_ok=True)
+                    Path(output.map).write_text(
+                        f"<html><body><p>Generation map not available: {exc}</p></body></html>",
+                        encoding="utf-8",
+                    )
+                    Path(output.data).write_text("", encoding="utf-8")
+                    Path(output.summary).write_text("", encoding="utf-8")
+                    if GENMAP_PGEN:
+                        Path(output.pgen).write_text("", encoding="utf-8")
+                    else:
+                        Path(output.pgen).touch()
+
+            best_effort("generation_map", output, _task)
+
+################################################################################
+# IRENA workflow
+################################################################################
+rule irena_workflow:
+    """Build hourly solar + wind IRENA profiles to match RNinja format."""
+    output:
+        irena_files=IRENA_OUTPUTS
+    run:
+        def _task():
+            result = run_irena_workflow(
+                dataset_label   = IRENA_NAME,
+                countries       = IRENA_CFG["countries"],
+                input_dir       = IRENA_INPUT_DIR,
+                output_dir      = IRENA_OUTDIR,
+                input_files     = IRENA_CFG.get("input_files"),
+                include_capacity_factors = IRENA_CFG.get("include_capacity_factors", False),
+                profile_year    = IRENA_CFG.get("profile_year", 2023),
+                country_name_map= IRENA_CFG.get("country_name_map", {}),
+                timezone_map    = IRENA_CFG.get("timezone_map"),
+                generate_plots  = True,
+            )
+
+            # Sanity check expected outputs
+            for tech in ["solar", "wind"]:
+                expected = Path(IRENA_OUTDIR) / irena_output_filename(IRENA_NAME, tech)
+                assert result["paths"][tech] == expected, \
+                    f"Expected {expected}, got {result['paths'][tech]}"
+
+        best_effort("irena_workflow", output, _task)
+
+################################################################################
+# Load profile from Toktarova dataset
+################################################################################
+if LOAD_CSV_TARGETS:
+    rule load_profile:
+        """Extract and plot Toktarova et al. hourly load profile for one country."""
+        output:
+            **LOAD_OUTPUTS,
+        params:
+            country=lambda wildcards: LOAD["slug_map"][wildcards.slug],
+        run:
+            def _task():
+                load_country_load_profile(
+                    country=params.country,
+                    dataset_path=LOAD["dataset"],
+                    output_dir=LOAD["outdir"],
+                    year=LOAD["year"],
+                    plot=True,
+                    generate_heatmap_boxplot=LOAD["generate_heatmap_boxplot"],
+                )
+
+            best_effort("load_profile", output, _task)
+
+################################################################################
+# Representative days (prepare-data workflow)
+################################################################################
+if REP_CFG and REP_CFG.get("enabled", False):
+    rule representative_days:
+        """Run the representative-days pipeline to select clustered days + EPM exports."""
+        input:
+            upstream=CORE_TARGETS,
+            **REP_INPUT_FILES
+        output:
+            repr_days=REP_TARGETS[0],
+            phours=REP_TARGETS[1],
+            pvre=REP_TARGETS[2],
+            pdemand=(REP_TARGETS[3] if len(REP_TARGETS) > 3 else temp(REP_OUTDIR / ".no_demand")),
+        run:
+            def _task():
+                try:
+                    paths = run_representative_days_pipeline(
+                        seasons_map=REP_CFG["seasons_map"],
+                        input_files=REP_INPUT_FILES,
+                        output_dir=REP_OUTDIR,
+                        zones_to_exclude=REP_CFG.get("zones_to_exclude"),
+                        value_column=REP_CFG.get("value_column", "value"),
+                        year_label=REP_CFG.get("year_label", 2018),
+                        n_representative_days=REP_CFG.get("n_representative_days", 2),
+                        n_clusters=REP_CFG.get("n_clusters", 20),
+                        n_bins=REP_CFG.get("n_bins", 10),
+                        feature_selection_count=REP_CFG.get("feature_selection_count"),
+                        feature_selection_method=REP_CFG.get("feature_selection_method", "ward"),
+                        feature_selection_metric=REP_CFG.get("feature_selection_metric", "euclidean"),
+                        feature_selection_scale=REP_CFG.get("feature_selection_scale", True),
+                        special_day_threshold=REP_CFG.get("special_day_threshold", 0.1),
+                        gams_main_file=str(
+                            resolve_input(REP_CFG.get("gams_main_file", REP_DAYS_DIR / "gams" / "OptimizationModelZone.gms"))
+                        ),
+                    )
+
+                    # Snakemake trusts declared outputs; ensure optional demand file exists when expected
+                    if len(REP_TARGETS) > 3 and not Path(paths["paths"]["pDemandProfile"]).exists():
+                        raise ValueError("Demand profile expected but not produced by representative-day pipeline.")
+                    if len(REP_TARGETS) == 3:
+                        Path(output.pdemand).touch()
+                except Exception as exc:
+                    print(f"[representative-days] Skipping representative-days outputs: {exc}")
+                    Path(REP_OUTDIR).mkdir(parents=True, exist_ok=True)
+                    for path in REP_TARGETS:
+                        Path(path).write_text(f"Representative-days workflow failed: {exc}")
+                    if len(REP_TARGETS) == 3:
+                        Path(output.pdemand).touch()
+
+            best_effort("representative_days", output, _task)
+
+################################################################################
+# Report rendering
+################################################################################
+rule report:
+    """Render Markdown report from workflow outputs."""
+    input:
+        template=REPORT_TEMPLATE,
+        config=CONFIG_PATH,
+        script=str(BASE_DIR / "generate_report.py"),
+        climate=CLIMATE_TARGETS,
+        gap=GAP_OUTPUT,
+        ninja=NINJA_OUTPUTS,
+        irena=IRENA_OUTPUTS,
+        load=LOAD_TARGETS,
+        rep=REP_TARGETS,
+        genmap=GENMAP_TARGETS,
+    output:
+        report=REPORT_OUTPUT
+    run:
+        def _task():
+            from generate_report import render_report
+
+            render_report(
+                template_path=Path(input.template),
+                output_path=Path(output.report),
+                config_path=Path(input.config),
+                output_dir_override=Path(OUTPUT_ROOT),
+            )
+
+        best_effort("report", output, _task)
+
+################################################################################
+# Report PDF
+################################################################################
+rule report_pdf:
+    """Export the Markdown report to PDF."""
+    input:
+        report=REPORT_OUTPUT
+    output:
+        pdf=REPORT_PDF
+    run:
+        def _task():
+            subprocess.run(
+                [
+                    "pandoc",
+                    "--from=gfm",
+                    "--to=pdf",
+                    "--output",
+                    str(output.pdf),
+                    str(input.report),
+                ],
+                check=True,
+            )
+
+        best_effort("report_pdf", output, _task)
+
+################################################################################
+# Report DOCX
+################################################################################
+rule report_docx:
+    """Export the Markdown report to Word."""
+    input:
+        report=REPORT_OUTPUT
+    output:
+        docx=REPORT_DOCX
+    run:
+        def _task():
+            subprocess.run(
+                [
+                    "pandoc",
+                    "--from=gfm",
+                    "--to=docx",
+                    "--output",
+                    str(output.docx),
+                    str(input.report),
+                ],
+                check=True,
+            )
+
+        best_effort("report_docx", output, _task)

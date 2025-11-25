@@ -1,15 +1,27 @@
 from __future__ import annotations
 
 import argparse
+import itertools
+import json
 from pathlib import Path
 import unicodedata
 import warnings
 from typing import Dict, Iterable, Optional
 
 import folium
+import matplotlib
+matplotlib.use("Agg")  # Headless backend for static map exports.
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+from matplotlib.patches import Patch
 import numpy as np
 import pandas as pd
 from folium.plugins import MarkerCluster
+
+try:
+    import geopandas as gpd
+except ImportError:  # pragma: no cover - geopandas optional for static map background.
+    gpd = None
 
 from utils_renewables import require_file, resolve_country_name
 
@@ -54,6 +66,8 @@ DEFAULT_TECH_ICONS: Dict[str, str] = {
     "Geothermal": "temperature-high",
     "Biomass": "leaf",
 }
+
+DEFAULT_TECH_MARKERS = ["o", "s", "^", "D", "P", "X", "*", "v", "<", ">", "h", "8"]
 
 
 def _collapse_duplicate_columns(df: pd.DataFrame, column_names: Iterable[str]) -> pd.DataFrame:
@@ -173,20 +187,53 @@ def _build_popup(row: pd.Series) -> str:
     return "<br>".join(lines)
 
 
-def _marker_icon(
-    technology: str,
-    status: str,
-    status_colors: Dict[str, str],
-    tech_icons: Dict[str, str],
-) -> folium.Icon:
-    status_key = _match_key(status, status_colors.keys())
-    tech_key = _match_key(technology, tech_icons.keys())
-    color = status_colors.get(status_key) or "blue"
-    icon = tech_icons.get(tech_key) or "info-sign"
-    try:
-        return folium.Icon(color=color, icon=icon, prefix="fa")
-    except Exception:
-        return folium.Icon(color="blue", icon="info-sign", prefix="fa")
+def _legacy_cluster_js(tech_icons: Dict[str, str]) -> str:
+    """Return the JS used by the notebook to style clusters by capacity/tech."""
+    tech_mapping = json.dumps(tech_icons)
+    return f"""
+function(cluster) {{
+    var markers = cluster.getAllChildMarkers();
+    var totalCapacity = 0;
+    var techCounts = {{}};
+    var dominantTech = '';
+    var maxCount = 0;
+
+    markers.forEach(function(marker) {{
+        if (marker.options.capacity) {{
+            totalCapacity += marker.options.capacity;
+        }}
+        if (marker.options.technology) {{
+            var tech = marker.options.technology;
+            if (!techCounts[tech]) {{
+                techCounts[tech] = 0;
+            }}
+            techCounts[tech]++;
+            if (techCounts[tech] > maxCount) {{
+                maxCount = techCounts[tech];
+                dominantTech = tech;
+            }}
+        }}
+    }});
+
+    var size = Math.sqrt(totalCapacity) * 1.5;
+    if (size < 20) size = 20;
+
+    var techIcon = 'bolt';
+    var techMapping = {tech_mapping};
+    for (var tech in techMapping) {{
+        if (dominantTech && dominantTech.toLowerCase().includes(tech.toLowerCase())) {{
+            techIcon = techMapping[tech];
+            break;
+        }}
+    }}
+
+    return L.divIcon({{
+        html: '<div style="background-color: #3388ff; color: white; border-radius: 50%; text-align: center; width: ' + size + 'px; height: ' + size + 'px; line-height: ' + size + 'px; font-size: ' + (size/2) + 'px;"><i class="fa fa-' + techIcon + '"></i></div>',
+        className: 'marker-cluster',
+        iconSize: L.point(size, size)
+    }});
+}}
+"""
 
 
 def create_generation_map(
@@ -197,176 +244,310 @@ def create_generation_map(
     tiles: str = "cartodbpositron",
     verbose: bool = False,
 ) -> None:
-    """Render an interactive folium map for the given sites."""
+    """Notebook-style map: capacity-scaled DivIcons plus custom cluster bubbles."""
     status_colors = status_colors or DEFAULT_STATUS_COLORS
     tech_icons = tech_icons or DEFAULT_TECH_ICONS
     df = df.copy()
 
-    # Normalize key string fields to avoid missing labels downstream.
     for col in ("name", "technology", "status", "country"):
         if col not in df.columns:
             df[col] = "Unknown"
         df[col] = df[col].fillna("Unknown").astype(str)
 
-    for col in ("capacity_mw",):
-        if col not in df.columns:
-            df[col] = np.nan
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+    if "capacity_mw" not in df.columns:
+        df["capacity_mw"] = np.nan
+    df["capacity_mw"] = pd.to_numeric(df["capacity_mw"], errors="coerce")
 
     for col in ("latitude", "longitude"):
         if col not in df.columns:
             df[col] = np.nan
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    # Drop rows that cannot be plotted because coordinates are invalid.
     invalid_coords = df["latitude"].isna() | df["longitude"].isna()
     invalid_coords = invalid_coords | (~np.isfinite(df["latitude"])) | (~np.isfinite(df["longitude"]))
     if invalid_coords.any():
         if verbose:
             print(f"[generation-map] Dropping {invalid_coords.sum()} rows without valid coordinates.")
         df = df[~invalid_coords]
+    if verbose:
+        print(f"[generation-map] Rendering legacy map with {len(df)} sites after cleaning.")
 
     map_path.parent.mkdir(parents=True, exist_ok=True)
     if df.empty:
         if verbose:
-            print("[generation-map] No sites passed to map rendering; writing placeholder HTML.")
+            print("[generation-map] No sites passed to legacy map rendering; writing placeholder HTML.")
         map_path.write_text("<html><body><p>No generation sites available.</p></body></html>", encoding="utf-8")
         return
 
-    if verbose:
-        print(
-            f"[generation-map] Rendering map for {len(df)} sites across {df['country'].nunique()} countries."
-        )
-        print(
-            "[generation-map] Coordinate coverage: "
-            f"lat [{df['latitude'].min():.4f}, {df['latitude'].max():.4f}], "
-            f"lon [{df['longitude'].min():.4f}, {df['longitude'].max():.4f}]"
-        )
-
-    # Center the initial view on the average coordinates of all sites.
     center_lat = df["latitude"].mean()
     center_lon = df["longitude"].mean()
-    fmap = folium.Map(location=[center_lat, center_lon], zoom_start=5, tiles=tiles)
+    power_map = folium.Map(location=[center_lat, center_lon], zoom_start=4, tiles=tiles)
 
-    # Base layer that always contains the full set of sites.
-    all_layer = folium.FeatureGroup(name="All generation sites")
-    all_cluster = MarkerCluster(name="All sites")
-    all_cluster.add_to(all_layer)
-    all_layer.add_to(fmap)
+    all_layer = folium.FeatureGroup(name="All Power Plants")
+    status_layers = {status: folium.FeatureGroup(name=f"Status: {status}") for status in status_colors}
+    tech_layers = {tech: folium.FeatureGroup(name=f"Technology: {tech}") for tech in tech_icons}
 
-    # Build toggle-able sublayers per status.
-    status_layers: Dict[str, MarkerCluster] = {}
-    for status in status_colors:
-        fg = folium.FeatureGroup(name=f"Status: {status}")
-        cluster = MarkerCluster(name=f"Status: {status}")
-        cluster.add_to(fg)
-        fg.add_to(fmap)
-        status_layers[status] = cluster
+    cluster_js = _legacy_cluster_js(tech_icons)
+    main_cluster = MarkerCluster(icon_create_function=cluster_js).add_to(all_layer)
+    status_clusters = {status: MarkerCluster(icon_create_function=cluster_js).add_to(layer) for status, layer in status_layers.items()}
+    tech_clusters = {tech: MarkerCluster(icon_create_function=cluster_js).add_to(layer) for tech, layer in tech_layers.items()}
 
-    # Build toggle-able sublayers per technology.
-    tech_layers: Dict[str, MarkerCluster] = {}
-    for tech in tech_icons:
-        fg = folium.FeatureGroup(name=f"Technology: {tech}")
-        cluster = MarkerCluster(name=f"Technology: {tech}")
-        cluster.add_to(fg)
-        fg.add_to(fmap)
-        tech_layers[tech] = cluster
+    all_layer.add_to(power_map)
+    for layer in status_layers.values():
+        layer.add_to(power_map)
+    for layer in tech_layers.values():
+        layer.add_to(power_map)
 
-    markers_added = 0
-    status_hit: Dict[str, int] = {k: 0 for k in status_colors}
-    tech_hit: Dict[str, int] = {k: 0 for k in tech_icons}
+    def _status_color(value: str) -> str:
+        key = _match_key(value, status_colors.keys())
+        return status_colors.get(key, "cadetblue")
 
-    # Populate all layers with markers, falling back to circles if needed.
+    def _tech_icon(value: str) -> str:
+        key = _match_key(value, tech_icons.keys())
+        return tech_icons.get(key, "bolt")
+
+    def _scale_capacity(capacity) -> float:
+        if pd.isna(capacity) or capacity <= 0:
+            return 5.0
+        return float(np.sqrt(capacity) * 1.5)
+
+    skip_cols = {"name", "technology", "status", "country", "capacity_mw", "latitude", "longitude"}
+
     for _, row in df.iterrows():
         lat, lon = float(row["latitude"]), float(row["longitude"])
+        capacity = row.get("capacity_mw")
+        technology = row.get("technology", "Unknown")
+        status = row.get("status", "Unknown")
 
-        tooltip = f"{row.get('name', 'Unknown')} – {row.get('technology', '')}"
-        if pd.notna(row.get("capacity_mw")):
-            tooltip += f" ({row['capacity_mw']:.1f} MW)"
+        popup_lines = [
+            ("Name", row.get("name", "Unknown")),
+            ("Technology", technology),
+            ("Capacity (MW)", capacity if pd.notna(capacity) else ""),
+            ("Status", status),
+            ("Country", row.get("country", "")),
+        ]
+        for col, val in row.items():
+            if col in skip_cols or pd.isna(val) or val == "":
+                continue
+            popup_lines.append((col, val))
+        popup_html = "<br>".join(f"<b>{label}:</b> {val}" for label, val in popup_lines if val not in ("", None))
 
-        popup = folium.Popup(_build_popup(row), max_width=320)
-        icon = _marker_icon(row.get("technology", ""), row.get("status", ""), status_colors, tech_icons)
+        icon_size = _scale_capacity(capacity)
+        icon_html = f"""
+        <div style="
+            background-color: {_status_color(status)};
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            width: {icon_size*2}px;
+            height: {icon_size*2}px;
+            line-height: {icon_size*2}px;
+            font-size: {max(icon_size, 8)}px;
+        ">
+            <i class="fa fa-{_tech_icon(technology)}"></i>
+        </div>
+        """
 
-        def _add_marker(target_cluster: MarkerCluster):
-            try:
-                marker = folium.Marker(
-                    location=[lat, lon],
-                    icon=icon,
-                    tooltip=tooltip,
-                    popup=popup,
-                )
-                marker.add_to(target_cluster)
-                return True
-            except Exception as exc:
-                if verbose:
-                    print(
-                        f"[generation-map] Marker failed for {row.get('name','?')} ({lat},{lon}): {exc}; "
-                        "falling back to CircleMarker."
-                    )
-                try:
-                    circle = folium.CircleMarker(
-                        location=[lat, lon], radius=5, color="blue", fill=True, tooltip=tooltip, popup=popup
-                    )
-                    circle.add_to(target_cluster)
-                    return True
-                except Exception as exc2:
-                    if verbose:
-                        print(f"[generation-map] CircleMarker also failed for {row.get('name','?')}: {exc2}")
-                    return False
-
-        if _add_marker(all_cluster):
-            markers_added += 1
-
-        status_key = _match_key(row.get("status", ""), status_colors.keys())
-        if status_key and status_key in status_layers:
-            if _add_marker(status_layers[status_key]):
-                status_hit[status_key] = status_hit.get(status_key, 0) + 1
-
-        tech_key = _match_key(row.get("technology", ""), tech_icons.keys())
-        if tech_key and tech_key in tech_layers:
-            if _add_marker(tech_layers[tech_key]):
-                tech_hit[tech_key] = tech_hit.get(tech_key, 0) + 1
-
-    if verbose:
-        active_status = [k for k, v in status_hit.items() if v]
-        active_tech = [k for k, v in tech_hit.items() if v]
-        print(
-            f"[generation-map] Added {markers_added} markers. "
-            f"Status layers populated: {active_status or 'none'}. "
-            f"Tech layers populated: {active_tech or 'none'}."
+        marker = folium.Marker(
+            location=[lat, lon],
+            icon=folium.DivIcon(
+                icon_size=(icon_size * 2, icon_size * 2),
+                icon_anchor=(icon_size, icon_size),
+                html=icon_html,
+            ),
+            popup=folium.Popup(popup_html, max_width=320),
+            tooltip=f"{row.get('name', 'Unknown')} - {technology} - {capacity or 'N/A'} MW",
         )
+        marker.options["capacity"] = float(capacity) if pd.notna(capacity) else 0
+        marker.options["technology"] = str(technology)
+        marker.add_to(main_cluster)
 
-    # Ensure the map view fits all points, even for single-country runs.
+        status_key = _match_key(status, status_layers.keys())
+        if status_key and status_key in status_clusters:
+            marker_copy = folium.Marker(
+                location=[lat, lon],
+                icon=folium.DivIcon(
+                    icon_size=(icon_size * 2, icon_size * 2),
+                    icon_anchor=(icon_size, icon_size),
+                    html=icon_html,
+                ),
+                popup=folium.Popup(popup_html, max_width=320),
+                tooltip=f"{row.get('name', 'Unknown')} - {technology} - {capacity or 'N/A'} MW",
+            )
+            marker_copy.add_to(status_clusters[status_key])
+
+        tech_key = _match_key(technology, tech_layers.keys())
+        if tech_key and tech_key in tech_clusters:
+            marker_copy = folium.Marker(
+                location=[lat, lon],
+                icon=folium.DivIcon(
+                    icon_size=(icon_size * 2, icon_size * 2),
+                    icon_anchor=(icon_size, icon_size),
+                    html=icon_html,
+                ),
+                popup=folium.Popup(popup_html, max_width=320),
+                tooltip=f"{row.get('name', 'Unknown')} - {technology} - {capacity or 'N/A'} MW",
+            )
+            marker_copy.add_to(tech_clusters[tech_key])
+
     bounds = [
         [df["latitude"].min(), df["longitude"].min()],
         [df["latitude"].max(), df["longitude"].max()],
     ]
-    fmap.fit_bounds(bounds, padding=(10, 10))
+    power_map.fit_bounds(bounds, padding=(10, 10))
 
-    # Enable layer toggles and write out the HTML map.
-    folium.LayerControl(collapsed=False).add_to(fmap)
-
+    legend_html = [
+        '<div style="position: fixed; bottom: 50px; left: 50px; width: 200px; height: auto; '
+        'border:2px solid grey; z-index:9999; font-size:14px; background-color:white; padding: 10px; '
+        'border-radius: 6px;">',
+        '<p style="margin-top: 0; margin-bottom: 5px;"><b>Status</b></p>',
+    ]
+    for status, color in status_colors.items():
+        legend_html.append(
+            f'<div style="display: flex; align-items: center; margin-bottom: 3px;">'
+            f'<div style="background-color:{color}; width:15px; height:15px; margin-right:5px; border-radius:50%;"></div>'
+            f'<span>{status}</span></div>'
+        )
+    legend_html.extend(
+        [
+            '<p style="margin-top: 10px; margin-bottom: 5px;"><b>Size</b></p>',
+            "<div>Marker size is proportional to Capacity (MW)</div>",
+            "<div>Icon background color represents Status</div>",
+            "<div>Tooltip shows Name, Technology, and Capacity</div>",
+            "</div>",
+        ]
+    )
+    power_map.get_root().html.add_child(folium.Element("\n".join(legend_html)))
+    folium.LayerControl().add_to(power_map)
+    power_map.save(map_path)
     if verbose:
-        # Introspect folium objects for a quick sanity check on what was rendered.
-        cluster_counts: Dict[str, int] = {}
-        cluster_counts["All sites"] = len(getattr(all_cluster, "_children", {}))
-        for key, cluster in status_layers.items():
-            cluster_counts[f"Status: {key}"] = len(getattr(cluster, "_children", {}))
-        for key, cluster in tech_layers.items():
-            cluster_counts[f"Technology: {key}"] = len(getattr(cluster, "_children", {}))
+        print(f"[generation-map] Saved legacy-style map to {map_path}")
+        all_counts = len(getattr(main_cluster, "_children", {}))
+        print(f"[generation-map] Marker counts – all: {all_counts}, "
+              f"status: { {k: len(getattr(v, '_children', {})) for k, v in status_clusters.items()} }, "
+              f"tech: { {k: len(getattr(v, '_children', {})) for k, v in tech_clusters.items()} }")
 
-        layer_names = [
-            getattr(child, "layer_name", type(child).__name__)
-            for child in fmap._children.values()
-            if hasattr(child, "layer_name")
+
+
+def create_static_generation_map(
+    df: pd.DataFrame,
+    output_dir: Path,
+    basename: str = "generation_map_static",
+    status_colors: Optional[Dict[str, str]] = None,
+    tech_markers: Optional[Iterable[str]] = None,
+    figsize=(11, 7),
+    dpi: int = 200,
+    verbose: bool = False,
+) -> Dict[str, Path]:
+    """Render a matplotlib version of the generation map for PNG/PDF export."""
+    status_colors = status_colors or DEFAULT_STATUS_COLORS
+    markers = list(tech_markers or DEFAULT_TECH_MARKERS) or DEFAULT_TECH_MARKERS
+
+    df_plot = df.copy()
+    for col in ("name", "technology", "status", "country"):
+        if col not in df_plot.columns:
+            df_plot[col] = "Unknown"
+        df_plot[col] = df_plot[col].fillna("Unknown").astype(str)
+
+    for coord in ("latitude", "longitude"):
+        df_plot[coord] = pd.to_numeric(df_plot.get(coord), errors="coerce")
+    df_plot = df_plot.dropna(subset=("latitude", "longitude"))
+
+    if df_plot.empty:
+        fig, ax = plt.subplots(figsize=figsize)
+        ax.text(0.5, 0.5, "No generation sites to plot.", ha="center", va="center", fontsize=12)
+        ax.set_axis_off()
+    else:
+        fig, ax = plt.subplots(figsize=figsize)
+        if gpd is not None:
+            try:
+                world = gpd.read_file("dataset/maps/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp")
+                world.plot(ax=ax, color="#f5f5f0", edgecolor="#cacaca", linewidth=0.4)
+            except Exception as exc:  # pragma: no cover - geopandas failures should not break exports.
+                if verbose:
+                    print(f"[generation-map] Could not render world background: {exc}")
+
+        status_order = list(dict.fromkeys(df_plot["status"]))
+        tech_order = []
+        tech_iter = itertools.cycle(markers)
+        tech_marker_map: Dict[str, str] = {}
+        for tech in df_plot["technology"]:
+            if tech not in tech_marker_map:
+                tech_marker_map[tech] = next(tech_iter)
+                tech_order.append(tech)
+
+        def _status_color_static(value: str) -> str:
+            key = _match_key(value, status_colors.keys())
+            return status_colors.get(key, "#6c6c6c")
+
+        capacities = pd.to_numeric(df_plot["capacity_mw"], errors="coerce").fillna(0)
+        df_plot["marker_size"] = 30 + np.sqrt(np.maximum(capacities, 0)) * 6
+
+        for status in status_order:
+            group_status = df_plot[df_plot["status"] == status]
+            color = _status_color_static(status)
+            for tech in group_status["technology"].unique():
+                subset = group_status[group_status["technology"] == tech]
+                marker = tech_marker_map.get(tech, markers[0])
+                ax.scatter(
+                    subset["longitude"],
+                    subset["latitude"],
+                    s=subset["marker_size"],
+                    marker=marker,
+                    color=color,
+                    edgecolors="black",
+                    linewidths=0.6,
+                    alpha=0.8,
+                )
+
+        ax.set_xlabel("Longitude")
+        ax.set_ylabel("Latitude")
+        ax.set_title("Generation sites – status (color) & technology (marker)")
+        ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
+
+        status_handles = [
+            Patch(facecolor=_status_color_static(status), edgecolor="black", label=status, alpha=0.7)
+            for status in status_order
+        ]
+        tech_handles = [
+            Line2D(
+                [0],
+                [0],
+                marker=tech_marker_map[tech],
+                color="#444444",
+                linestyle="",
+                markerfacecolor="#777777",
+                markeredgecolor="black",
+                markersize=8,
+                label=tech,
+            )
+            for tech in tech_order
         ]
 
-        print(f"[generation-map] Folium layer names: {layer_names}")
-        print(f"[generation-map] Cluster marker counts: {cluster_counts}")
+        if status_handles:
+            status_legend = ax.legend(handles=status_handles, title="Status", loc="lower left", frameon=True)
+            ax.add_artist(status_legend)
+        if tech_handles:
+            ax.legend(
+                handles=tech_handles,
+                title="Technology",
+                loc="lower right",
+                frameon=True,
+                ncol=min(3, max(1, len(tech_handles))),
+            )
 
-    fmap.save(map_path)
+    fig.tight_layout()
+    output_dir.mkdir(parents=True, exist_ok=True)
+    png_path = output_dir / f"{basename}.png"
+    pdf_path = output_dir / f"{basename}.pdf"
+    fig.savefig(png_path, dpi=dpi)
+    fig.savefig(pdf_path, dpi=dpi)
+    plt.close(fig)
+
     if verbose:
-        print(f"[generation-map] Saved interactive map to {map_path}")
+        print(f"[generation-map] Saved static map to {png_path} and {pdf_path}")
+
+    return {"png": png_path, "pdf": pdf_path}
 
 
 DEFAULT_STATUS_TO_CODE: Dict[str, int] = {
@@ -393,6 +574,24 @@ DEFAULT_TECH_FUEL: Dict[str, Dict[str, str]] = {
 }
 
 
+def _slugify(text: str) -> str:
+    normalized = unicodedata.normalize("NFKD", str(text))
+    ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
+    cleaned = "".join(ch if ch.isalnum() else "_" for ch in ascii_text)
+    compact = "_".join(filter(None, cleaned.split("_")))
+    return compact.lower().strip("_")
+
+
+def _countries_slug(countries: Iterable[str]) -> str:
+    slugs = [_slugify(country) for country in countries]
+    slugs = [slug for slug in slugs if slug]
+    if not slugs:
+        return "all-countries"
+    # Preserve the provided order while removing duplicates.
+    unique_slugs = list(dict.fromkeys(slugs))
+    return "-".join(unique_slugs)
+
+
 def export_pgen_data_input(
     df: pd.DataFrame,
     output_path: Path,
@@ -402,13 +601,6 @@ def export_pgen_data_input(
     """Export GAP-style generation rows to a minimal pGenDataInput CSV."""
     status_map = status_map or DEFAULT_STATUS_TO_CODE
     tech_map = tech_map or DEFAULT_TECH_FUEL
-
-    def _slug(text: str) -> str:
-        normalized = unicodedata.normalize("NFKD", str(text))
-        ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
-        cleaned = "".join(ch if ch.isalnum() else "_" for ch in ascii_text)
-        compact = "_".join(filter(None, cleaned.split("_")))
-        return compact.lower().strip("_")
 
     def _status_code(text: str) -> int:
         key = _match_key(text or "", status_map.keys()) or "unknown"
@@ -454,7 +646,7 @@ def export_pgen_data_input(
     for idx, row in df.iterrows():
         zone = str(row.get("country", "")).strip() or "unknown_zone"
         name = str(row.get("name", "")).strip() or f"site_{idx+1}"
-        base_gen = _slug(name) or f"site_{idx+1}"
+        base_gen = _slugify(name) or f"site_{idx+1}"
         gen_counter[base_gen] = gen_counter.get(base_gen, 0) + 1
         gen_name = base_gen if gen_counter[base_gen] == 1 else f"{base_gen}_{gen_counter[base_gen]}"
 
@@ -500,15 +692,22 @@ def build_generation_map(
     countries: Iterable[str],
     sheet_name: str = "Power facilities",
     output_dir="output",
-    map_filename: str = "generation_map.html",
-    data_filename: str = "generation_sites.csv",
-    summary_filename: str = "generation_sites_summary.csv",
+    map_filename: Optional[str] = None,
+    data_filename: Optional[str] = None,
+    summary_filename: Optional[str] = None,
     pgen_filename: Optional[str] = None,
     verbose: bool = False,
 ) -> Dict[str, Path]:
-    """Main entry point: clean GAP data, export CSVs, and render the map."""
+    """Main entry point: clean GAP data, export CSVs, and render the legacy map."""
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    countries = list(countries)
+    country_slug = _countries_slug(countries)
+
+    map_filename = map_filename or f"generation_map_{country_slug}.html"
+    data_filename = data_filename or f"generation_sites_{country_slug}.csv"
+    summary_filename = summary_filename or f"generation_sites_summary_{country_slug}.csv"
 
     df_sites = load_generation_sites(xlsx_path, countries, sheet_name=sheet_name, verbose=verbose)
     summary = summarize_generation_sites(df_sites)
@@ -530,11 +729,23 @@ def build_generation_map(
 
     create_generation_map(df_sites, map_path, verbose=verbose)
 
-    outputs = {"map": map_path, "data": data_path, "summary": summary_path}
+    static_paths = create_static_generation_map(
+        df_sites,
+        output_dir,
+        basename=f"generation_map_static_{country_slug}",
+        verbose=verbose,
+    )
+
+    outputs = {
+        "map": map_path,
+        "data": data_path,
+        "summary": summary_path,
+        "static_png": static_paths["png"],
+        "static_pdf": static_paths["pdf"],
+    }
     if pgen_path:
         export_pgen_data_input(df_sites, pgen_path)
         outputs["pgen"] = pgen_path
-
     return outputs
 
 
