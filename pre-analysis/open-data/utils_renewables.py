@@ -842,19 +842,32 @@ def get_renewables_irena_data(
 
         if not resolved_map:
             missing = ", ".join(sorted(countries))
-            raise ValueError(
+            warning = (
                 f"No IRENA {tech} rows matched any requested countries ({missing}) in {cfg['filename']}. "
-                "Place the MSR CSV in the input directory or adjust the country list."
+                "The profile file will contain a warning summary instead of hourly data."
             )
+            print(f"[WARNING] {warning}")
+            Path(file_out).parent.mkdir(parents=True, exist_ok=True)
+            Path(file_out).write_text(warning, encoding="utf-8")
+            profiles[tech] = pd.DataFrame()
+            paths[tech] = file_out
+            continue
 
         data_msr = data_msr[data_msr['CtryName'].isin(resolved_map.values())].copy()
         data_msr['CtryName'] = data_msr['CtryName'].map(reverse_map).fillna(data_msr['CtryName'])
 
         if data_msr.empty:
-            raise ValueError(
+            warning = (
                 f"No {tech} rows found for the requested countries in {file_path}. "
-                "Ensure the MSR file is present and contains the configured country names."
+                "Ensure the MSR file is present and contains the configured country names; "
+                "writing a warning file instead."
             )
+            print(f"[WARNING] {warning}")
+            Path(file_out).parent.mkdir(parents=True, exist_ok=True)
+            Path(file_out).write_text(warning, encoding="utf-8")
+            profiles[tech] = pd.DataFrame()
+            paths[tech] = file_out
+            continue
 
         if include_capacity_factors:
             cf_stats = (

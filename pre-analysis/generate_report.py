@@ -208,7 +208,20 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
             mapping[slug] = zone_label
             zone_order.setdefault(tech_key, []).append(slug)
 
-    for csv_path in sorted(vre_dir.glob("rninja_data_*.csv")):
+    def _collect_csvs(patterns: Sequence[str]) -> List[Path]:
+        paths: List[Path] = []
+        for pattern in patterns:
+            paths.extend(sorted(vre_dir.glob(pattern)))
+        seen: set[Path] = set()
+        unique_paths: List[Path] = []
+        for path in paths:
+            if path not in seen:
+                seen.add(path)
+                unique_paths.append(path)
+        return unique_paths
+
+    csv_files = _collect_csvs(["rninja_data_*.csv", "vre_rninja_*.csv"])
+    for csv_path in csv_files:
         tech = "solar" if "solar" in csv_path.stem.lower() or "_pv_" in csv_path.stem.lower() else "wind"
         df = pd.read_csv(csv_path)
         value_cols = [c for c in df.columns if c not in {"zone", "season", "day", "hour"}]
@@ -285,7 +298,7 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         candidate_map = zone_slug_map.get(tech_key, {})
         for slug in order:
             data = per_zone_paths.get(tech_key, {}).get(slug)
-            if not data or (data.get("heatmap") is None and data.get("boxplot") is None):
+            if not data or not (data.get("heatmap") or data.get("boxplot")):
                 continue
             entries.append(
                 {
@@ -298,7 +311,7 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
         for slug, data in per_zone_paths.get(tech_key, {}).items():
             if slug in seen:
                 continue
-            if data.get("heatmap") is None and data.get("boxplot") is None:
+            if not (data.get("heatmap") or data.get("boxplot")):
                 continue
             entries.append(
                 {
@@ -545,10 +558,23 @@ def find_rep_day_figures(base_dir: Path) -> List[Path]:
     return figs
 
 
+FIGURE_PLACEHOLDER_SIGNATURE = b"[PLACEHOLDER]"
+
+
 def _is_valid_figure(path: Path) -> bool:
-    """Return True when a figure file exists and has content to avoid empty placeholders."""
+    """Return True when a figure file exists and has content to avoid placeholders."""
     try:
-        return path.exists() and path.is_file() and path.stat().st_size > 0
+        if not path.exists() or not path.is_file():
+            return False
+        stat = path.stat()
+        if stat.st_size == 0:
+            return False
+        if stat.st_size >= len(FIGURE_PLACEHOLDER_SIGNATURE):
+            with path.open("rb") as fh:
+                signature = fh.read(len(FIGURE_PLACEHOLDER_SIGNATURE))
+            if signature == FIGURE_PLACEHOLDER_SIGNATURE:
+                return False
+        return True
     except OSError:
         return False
 

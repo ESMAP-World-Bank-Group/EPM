@@ -20,6 +20,7 @@ gap:
 
 climate_overview:
   enabled: true
+  download: false
   countries: *countries_common
   start_year: 2023
   end_year: 2025
@@ -28,7 +29,6 @@ climate_overview:
   api_dir: ../prepare-data/input/era5_api
   extract_dir: ../prepare-data/input/era5_extract
   output_dir: climate
-  download: false
   generate_plots: true
   save_netcdf: true
 

@@ -1,22 +1,21 @@
 import os
 import shutil
-import sys
-import warnings
 import subprocess
+import sys
 import traceback
 from collections.abc import Iterable
+from contextlib import contextmanager
 from datetime import datetime
 from functools import lru_cache
 from pathlib import Path
 
-# Force PuLP to stay on CBC so it does not probe an expired Gurobi license.
-# This must happen before any potential import of pulp via downstream code.
-os.environ.setdefault("PULP_FORCE_CBC", "1")
-# If CBC is installed in your PATH, this helps pulp find it explicitly.
-os.environ.setdefault("PULP_CBC_CMD", "cbc")
-# Silence noisy Gurobi license warnings; workflow is pinned to CBC.
-# Use a broad match because the warning includes newlines.
-warnings.filterwarnings("ignore", message=r"(?s)GUROBI error: .*", module=r"pulp\.apis\.gurobi_api")
+# This workflow orchestrates climate, generation, and load data prep plus report exports.
+# Major components: data acquisition (climate overview, GAP projects, IRENA, load profiles),
+# modeling helpers (representative days, generation map, Renewables Ninja), and reporting outputs.
+# Key dependencies: config/open_data_config.yaml, utils_renewables, utils_reprdays,
+# climate_overview/generation_map/generate_report helpers, and Pandoc for PDF/DOCX exports.
+# Assumes data can live in open-data or configured input_workflow folders and required
+# Python packages (cartopy, climate_overview) are installed alongside Pandoc on PATH.
 
 ################################################################################
 # Paths and config
@@ -49,6 +48,7 @@ from utils_reprdays import run_representative_days_pipeline
 
 
 def _slug(text):
+    """Normalize text into a slug using alphanumeric characters and underscores."""
     return "".join(ch if ch.isalnum() else "_" for ch in text).strip("_").lower()
 
 
@@ -75,6 +75,12 @@ OUTPUT_CATEGORIES = {
 for _path in OUTPUT_CATEGORIES.values():
     _path.mkdir(parents=True, exist_ok=True)
 
+LOG_DIR = BASE_DIR / "logs"
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+FAILURE_LOG_PATHS = [
+    BASE_DIR / "workflow_failures.log",
+    OUTPUT_ROOT / "workflow_failures.log",
+]
 
 def resolve_input(path):
     """Prefer the new input_workflow root, fall back to the open-data folder."""
@@ -106,6 +112,7 @@ def resolve_output(path, *, category=None):
 # Logging + best-effort helpers
 ################################################################################
 VERBOSE_LOGS = True
+PLACEHOLDER_MARKER = "[PLACEHOLDER]"
 
 
 def _flatten_outputs(out):
@@ -113,6 +120,7 @@ def _flatten_outputs(out):
     paths = []
 
     def _walk(obj):
+        """Recursively collect path strings from heterogeneous output structures."""
         if obj is None:
             return
         if isinstance(obj, (str, os.PathLike)):
@@ -137,10 +145,25 @@ def _write_placeholder(path, message):
     target = Path(path)
     try:
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(message, encoding="utf-8")
+        target.write_text(f"{PLACEHOLDER_MARKER} {message}\n", encoding="utf-8")
     except Exception as exc:
         if VERBOSE_LOGS:
             print(f"[placeholder] Failed to write placeholder {target}: {exc}")
+
+
+def _write_failure_log(label, log_path=None):
+    """Append a failure entry for a rule to the shared workflow failure logs."""
+    timestamp = datetime.utcnow().isoformat()
+    message = f"{timestamp} — Rule {label} failed"
+    if log_path:
+        message += f" (log: {log_path})"
+    for failure_path in FAILURE_LOG_PATHS:
+        try:
+            failure_path.parent.mkdir(parents=True, exist_ok=True)
+            with failure_path.open("a", encoding="utf-8") as failure_log:
+                failure_log.write(message + "\n")
+        except Exception:
+            pass
 
 
 def _ensure_list(value):
@@ -154,8 +177,21 @@ def _ensure_list(value):
     return [value]
 
 
+def _find_missing_outputs(outputs):
+    """Identify any declared output paths that no longer exist on disk."""
+    missing = []
+    for path in _flatten_outputs(outputs):
+        if not path:
+            continue
+        p = Path(path)
+        if not p.exists():
+            missing.append(str(p))
+    return missing
+
+
 @lru_cache(maxsize=None)
 def _natural_earth_country_lookup():
+    """Load Natural Earth country names to ISO code mappings for reuse."""
     try:
         from cartopy.io import shapereader
     except Exception:
@@ -185,6 +221,7 @@ def _natural_earth_country_lookup():
 
 
 def _resolve_country_iso_codes(countries):
+    """Map a list of configured countries to ISO A2 codes using Natural Earth data."""
     if not countries:
         return [], {}
     lookup = _natural_earth_country_lookup()
@@ -226,6 +263,7 @@ def _context_countries():
     seen = set()
 
     def _add_items(value):
+        """Add normalized strings from a config entry into the temporary seen set."""
         for item in _ensure_list(value):
             seen.add(str(item))
 
@@ -247,23 +285,61 @@ def _context_countries():
     return sorted(seen)
 
 
-def best_effort(label, outputs, fn):
-    """Run a rule body; log timestamps, countries, and tracebacks on failure."""
+class _TeeStream:
+    """Write to both the original stream and a log file."""
+
+    def __init__(self, primary, log_file):
+        """Initialize a tee stream that mirrors writes to a log file."""
+        self._primary = primary
+        self._log = log_file
+
+    def write(self, data):
+        """Write data to both the primary stream and the captured log."""
+        self._primary.write(data)
+        self._log.write(data)
+
+    def flush(self):
+        """Flush both underlying streams to keep the log in sync."""
+        self._primary.flush()
+        self._log.flush()
+
+    def __getattr__(self, name):
+        """Proxy attribute access to the underlying primary stream."""
+        return getattr(self._primary, name)
+
+
+def best_effort(label, outputs, fn, log_path=None, write_placeholders=True):
+    """Run fn for the given label/outputs while logging progress and handling failures."""
     start_time = datetime.utcnow()
     countries = _context_countries()
     context_note = f"countries={','.join(countries)}" if countries else "countries=unspecified"
     if VERBOSE_LOGS:
         print(f"[{label}] {start_time.isoformat()} starting ({context_note})")
+    orig_stdout = sys.stdout
+    orig_stderr = sys.stderr
+    log_file = None
+    log_path_str = None
+    if log_path:
+        log_target = Path(log_path)
+        log_target.parent.mkdir(parents=True, exist_ok=True)
+        log_file = log_target.open("w", encoding="utf-8")
+        sys.stdout = _TeeStream(orig_stdout, log_file)
+        sys.stderr = _TeeStream(orig_stderr, log_file)
+        log_path_str = str(log_target)
     try:
         result = fn()
         if VERBOSE_LOGS:
             end_time = datetime.utcnow()
             duration = (end_time - start_time).total_seconds()
             print(f"[{label}] {end_time.isoformat()} completed (duration {duration:.1f}s)")
+        missing_outputs = _find_missing_outputs(outputs)
+        if missing_outputs:
+            raise RuntimeError(f"Missing outputs for {label}: {', '.join(missing_outputs)}")
         return result
     except Exception as exc:
         error_time = datetime.utcnow()
         print(f"[{label}] {error_time.isoformat()} ERROR: {exc} ({context_note})")
+        _write_failure_log(label, log_path=log_path_str)
         traceback.print_exc()
         output_paths = _flatten_outputs(outputs)
         for path in output_paths:
@@ -278,12 +354,33 @@ def best_effort(label, outputs, fn):
             except Exception as cleanup_exc:
                 if VERBOSE_LOGS:
                     print(f"[{label}] cleanup warning for {p}: {cleanup_exc}")
-        placeholder = f"Output {label} could not be generated due to: {exc}\n"
-        for path in output_paths:
-            if not path:
-                continue
-            _write_placeholder(path, placeholder)
-        return None
+        if write_placeholders:
+            placeholder = f"Output {label} could not be generated due to: {exc}\n"
+            for path in output_paths:
+                if not path:
+                    continue
+                _write_placeholder(path, placeholder)
+            return None
+        raise
+    finally:
+        if log_file:
+            try:
+                sys.stdout.flush()
+                sys.stderr.flush()
+            except Exception:
+                pass
+            sys.stdout = orig_stdout
+            sys.stderr = orig_stderr
+            log_file.close()
+
+
+@contextmanager
+def _capture_rule_log(log_target):
+    """Yield a writable log path derived from the provided target for rule output capture."""
+    target = log_target[0] if isinstance(log_target, (list, tuple)) else log_target
+    log_path = Path(str(target))
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    yield log_path
 
 
 ################################################################################
@@ -299,6 +396,7 @@ GENMAP_CFG = config.get("generation_map", {})
 
 
 def _load_settings():
+    """Assemble Toktarova load profile inputs/outputs and slug metadata from the config."""
     if not LOAD_CFG:
         return {
             "targets": [],
@@ -351,6 +449,7 @@ def _load_settings():
 
 
 def _climate_settings():
+    """Collect climate overview targets, directories, and flags from the workflow config."""
     if not CLIMATE_CFG.get("enabled", False):
         return {
             "targets": [],
@@ -378,12 +477,17 @@ def _climate_settings():
     try:
         from climate_overview import default_output_paths
 
-        targets = [str(p) for p in default_output_paths(outdir, variables)]
+        all_targets = [str(p) for p in default_output_paths(outdir, variables)]
     except Exception:
-        targets = [str(outdir / "climate_summary.csv")]
+        all_targets = [str(outdir / "climate_summary.csv")]
+
+    data_targets = all_targets[:1]
+    plot_targets = all_targets[1:]
 
     return {
-        "targets": targets,
+        "targets": all_targets,
+        "data_targets": data_targets,
+        "plot_targets": plot_targets,
         "outdir": outdir,
         "api_dir": api_dir,
         "extract_dir": extract_dir,
@@ -400,7 +504,38 @@ def _climate_settings():
     }
 
 
+def _climate_plan_paths():
+    """Build or fallback a download plan for the configured climate ISO codes."""
+    if not CLIMATE_ISO_CODES:
+        return {}
+    try:
+        from climate_overview import _build_download_plan
+
+        return _build_download_plan(
+            CLIMATE_ISO_CODES,
+            CLIMATE_VARS,
+            CLIMATE_START,
+            CLIMATE_END,
+            CLIMATE_DATASET,
+            CLIMATE_API_DIR,
+        )
+    except Exception:
+        return {}
+
+
+def _climate_iso_codes_for_run():
+    """Decide which ISO codes should be processed based on download settings and local caches."""
+    plan = _climate_plan_paths()
+    if not plan:
+        return []
+    if CLIMATE_DOWNLOAD:
+        return list(plan.keys())
+    return [iso for iso, path in plan.items() if path.exists()]
+
+
+
 def _rep_settings():
+    """Prepare representative-days output targets and resolved input files when enabled."""
     if not (REP_CFG and REP_CFG.get("enabled", False)):
         return {"targets": [], "outdir": None, "input_files": {}}
 
@@ -418,6 +553,7 @@ def _rep_settings():
 
 
 def _genmap_settings():
+    """Determine generation map outputs, Excel inputs, and directories from the config."""
     if not GENMAP_CFG.get("enabled", False):
         return {"targets": [], "countries": None, "excel": None, "outdir": None, "pgen": None}
 
@@ -471,7 +607,14 @@ if LOAD["generate_heatmap_boxplot"]:
     LOAD_OUTPUTS["boxplot"] = LOAD["boxplot_pattern"]
 
 CLIMATE = _climate_settings()
-CLIMATE_TARGETS = CLIMATE["targets"]
+CLIMATE_DATA_TARGETS = CLIMATE["data_targets"]
+CLIMATE_PLOT_TARGETS = CLIMATE["plot_targets"]
+CLIMATE_GENERATE_PLOTS = CLIMATE["generate_plots"]
+CLIMATE_PLOTS_ENABLED = CLIMATE_GENERATE_PLOTS and bool(CLIMATE_PLOT_TARGETS)
+CLIMATE_TARGETS = [
+    *CLIMATE_DATA_TARGETS,
+    *(CLIMATE_PLOT_TARGETS if CLIMATE_PLOTS_ENABLED else []),
+]
 CLIMATE_OUTDIR = CLIMATE["outdir"]
 CLIMATE_API_DIR = CLIMATE["api_dir"]
 CLIMATE_EXTRACT_DIR = CLIMATE["extract_dir"]
@@ -481,11 +624,9 @@ CLIMATE_VARS = CLIMATE["variables"]
 CLIMATE_LABELS = CLIMATE["label_map"]
 CLIMATE_DATASET = CLIMATE["dataset"]
 CLIMATE_DOWNLOAD = CLIMATE["download"]
-CLIMATE_GENERATE_PLOTS = CLIMATE["generate_plots"]
 CLIMATE_SAVE_NETCDF = CLIMATE["save_netcdf"]
 CLIMATE_START = CLIMATE["start_year"]
 CLIMATE_END = CLIMATE["end_year"]
-
 REP = _rep_settings()
 REP_TARGETS = REP["targets"]
 REP_OUTDIR = REP["outdir"]
@@ -516,7 +657,7 @@ REPORT_PDF = str(resolve_output("report.pdf", category="report"))
 REPORT_DOCX = str(resolve_output("report.docx", category="report"))
 
 CORE_TARGETS = [
-    *CLIMATE_TARGETS,
+    *CLIMATE_DATA_TARGETS,
     GAP_OUTPUT,
     *NINJA_OUTPUTS,
     *IRENA_OUTPUTS,
@@ -536,6 +677,7 @@ rule all:
     input:
         *CORE_TARGETS,
         *REP_TARGETS,
+        *(CLIMATE_PLOT_TARGETS if CLIMATE_PLOTS_ENABLED else []),
         REPORT_OUTPUT,
         REPORT_PDF,
         REPORT_DOCX
@@ -543,31 +685,127 @@ rule all:
 ################################################################################
 # Climate overview (ERA5-Land monthly)
 ################################################################################
-if CLIMATE_TARGETS:
-    rule climate_overview:
-        """Download/prepare ERA5-Land monthly climate datasets and figures."""
+def _write_climate_warning_summary(message: str):
+    """Persist a warning message to the climate summary file so downstream rules see it."""
+    summary_path = Path(CLIMATE_DATA_TARGETS[0])
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    summary_path.write_text(f"[WARNING] {message}\n", encoding="utf-8")
+
+if CLIMATE_DATA_TARGETS:
+    rule climate_overview_data:
+        """Download/prepare ERA5-Land climate datasets (no plots)."""
         output:
-            targets=CLIMATE_TARGETS
+            summary=CLIMATE_DATA_TARGETS[0],
+        log:
+            str(LOG_DIR / "climate_overview_data.log")
         run:
             def _task():
+                """Download ERA5 layers and report missing archives before returning ISO codes."""
                 from climate_overview import run_climate_overview
 
-                run_climate_overview(
-                    iso_codes=CLIMATE_ISO_CODES,
-                    start_year=CLIMATE_START,
-                    end_year=CLIMATE_END,
-                    variables=CLIMATE_VARS,
-                    api_dir=CLIMATE_API_DIR,
-                    extract_dir=CLIMATE_EXTRACT_DIR,
-                    output_dir=CLIMATE_OUTDIR,
-                    dataset_name=CLIMATE_DATASET,
-                    download=CLIMATE_DOWNLOAD,
-                    generate_plots=CLIMATE_GENERATE_PLOTS,
-                    save_netcdf=CLIMATE_SAVE_NETCDF,
-                    label_map=CLIMATE_LABELS,
+                available_iso_codes = _climate_iso_codes_for_run()
+                label_map = {
+                    iso: CLIMATE_LABELS.get(iso)
+                    for iso in available_iso_codes
+                    if iso in CLIMATE_LABELS
+                }
+                if not available_iso_codes:
+                    warning = "Missing ERA5 archives for configured countries."
+                    print(f"[WARNING] {warning}")
+                    _write_climate_warning_summary(warning)
+                    return []
+                try:
+                    run_climate_overview(
+                        iso_codes=available_iso_codes,
+                        start_year=CLIMATE_START,
+                        end_year=CLIMATE_END,
+                        variables=CLIMATE_VARS,
+                        api_dir=CLIMATE_API_DIR,
+                        extract_dir=CLIMATE_EXTRACT_DIR,
+                        output_dir=CLIMATE_OUTDIR,
+                        dataset_name=CLIMATE_DATASET,
+                        download=CLIMATE_DOWNLOAD,
+                        generate_plots=False,
+                        save_netcdf=CLIMATE_SAVE_NETCDF,
+                        label_map=label_map or None,
+                    )
+                except FileNotFoundError as exc:
+                    warning = str(exc)
+                    print(f"[WARNING] {warning}")
+                    _write_climate_warning_summary(warning)
+                except Exception as exc:
+                    warning = str(exc)
+                    print(f"[WARNING] {warning}")
+                    _write_climate_warning_summary(warning)
+                return available_iso_codes
+
+            with _capture_rule_log(log) as log_path:
+                best_effort(
+                    "climate_overview_data",
+                    output.summary,
+                    _task,
+                    log_path=str(log_path),
                 )
 
-            best_effort("climate_overview", output.targets, _task)
+if CLIMATE_PLOTS_ENABLED and CLIMATE_PLOT_TARGETS:
+    rule climate_overview_plots:
+        """Generate climate figures after data is available."""
+        input:
+            summary=CLIMATE_DATA_TARGETS[0],
+        output:
+            plots=CLIMATE_PLOT_TARGETS
+        log:
+            str(LOG_DIR / "climate_overview_plots.log")
+        run:
+
+            plot_targets = _ensure_list(output.plots)
+
+            def _write_plot_placeholders(message):
+                """Write placeholder warnings for missing climate plot outputs."""
+                for path in plot_targets:
+                    _write_placeholder(path, message)
+
+            def _task():
+                """Generate climate figures for configured ISO codes using climate_overview."""
+                available_iso_codes = _climate_iso_codes_for_run()
+                if not available_iso_codes:
+                    warning = "Missing ERA5 archives for configured countries."
+                    print(f"[climate_overview_plots] {warning}")
+                    _write_plot_placeholders(warning)
+                    return
+                from climate_overview import run_climate_overview
+
+                label_map = {
+                    iso: CLIMATE_LABELS.get(iso)
+                    for iso in available_iso_codes
+                    if iso in CLIMATE_LABELS
+                }
+                try:
+                    run_climate_overview(
+                        iso_codes=available_iso_codes,
+                        start_year=CLIMATE_START,
+                        end_year=CLIMATE_END,
+                        variables=CLIMATE_VARS,
+                        api_dir=CLIMATE_API_DIR,
+                        extract_dir=CLIMATE_EXTRACT_DIR,
+                        output_dir=CLIMATE_OUTDIR,
+                        dataset_name=CLIMATE_DATASET,
+                        download=CLIMATE_DOWNLOAD,
+                        generate_plots=True,
+                        save_netcdf=False,
+                        label_map=label_map or None,
+                    )
+                except Exception as exc:
+                    print(f"[climate_overview_plots] Warning: {exc}")
+                    raise
+
+            with _capture_rule_log(log) as log_path:
+                best_effort(
+                    "climate_overview_plots",
+                    plot_targets,
+                    _task,
+                    log_path=str(log_path),
+                )
 
 ################################################################################
 # GAP → Coordinates → Renewables Ninja workflow
@@ -579,8 +817,11 @@ rule gap_and_ninja:
     output:
         projects=GAP_OUTPUT,
         ninja_files=NINJA_OUTPUTS
+    log:
+        str(LOG_DIR / "gap_and_ninja.log")
     run:
         def _task():
+            """Extract GAP selections, derive RNinja locations, and run Renewables Ninja pulls."""
             # 1. Ensure GAP Excel exists
             require_file(GAP_EXCEL)
 
@@ -617,7 +858,8 @@ rule gap_and_ninja:
                 api_token       = RNI_CFG.get("api_token"),
             )
 
-        best_effort("gap_and_ninja", output, _task)
+        with _capture_rule_log(log) as log_path:
+            best_effort("gap_and_ninja", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Full-hour EPM exports (pHours=1, VRE + optional load)
@@ -631,8 +873,11 @@ rule epm_full_exports:
         pvre=PVRE_FULL,
         phours=PHOURS_FULL,
         pdemand=(PDEMAND_FULL if PDEMAND_FULL else temp(FULL_OUTDIR / ".no_load_full")),
+    log:
+        str(LOG_DIR / "epm_full_exports.log")
     run:
         def _task():
+            """Export full-hour VRE and demand time series into the EPM export folder."""
             vre_inputs = {
                 tech: str(RNI_OUTDIR / rninja_output_filename(None, tech))
                 for tech in GAP_CFG["tech_types"]
@@ -655,7 +900,8 @@ rule epm_full_exports:
             if not PDEMAND_FULL:
                 Path(output.pdemand).touch()
 
-        best_effort("epm_full_exports", output, _task)
+        with _capture_rule_log(log) as log_path:
+            best_effort("epm_full_exports", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Generation map workflow (best-effort)
@@ -668,8 +914,11 @@ if GENMAP_TARGETS:
             data=GENMAP_DATA,
             summary=GENMAP_SUMMARY,
             pgen=(GENMAP_PGEN if GENMAP_PGEN else temp(GENMAP_OUTDIR / ".no_pgen")),
+        log:
+            str(LOG_DIR / "generation_map.log")
         run:
             def _task():
+                """Build generation map artifacts and fallback placeholders on failure."""
                 from generation_map import build_generation_map
 
                 try:
@@ -701,7 +950,8 @@ if GENMAP_TARGETS:
                     else:
                         Path(output.pgen).touch()
 
-            best_effort("generation_map", output, _task)
+            with _capture_rule_log(log) as log_path:
+                best_effort("generation_map", output, _task, log_path=str(log_path))
 
 if PGEN_GAP_EPMPATH:
     rule copy_pgen_to_epm_export:
@@ -710,13 +960,17 @@ if PGEN_GAP_EPMPATH:
             pgen=GENMAP_PGEN
         output:
             epm=PGEN_GAP_EPMPATH
+        log:
+            str(LOG_DIR / "copy_pgen_to_epm_export.log")
         run:
             def _task():
+                """Copy the GAP pGenDataInput file into the EPM export directory."""
                 dest = Path(output.epm)
                 dest.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(input.pgen, dest)
 
-            best_effort("copy_pgen_to_epm_export", output, _task)
+            with _capture_rule_log(log) as log_path:
+                best_effort("copy_pgen_to_epm_export", output, _task, log_path=str(log_path))
 
 ################################################################################
 # IRENA workflow
@@ -725,8 +979,11 @@ rule irena_workflow:
     """Build hourly solar + wind IRENA profiles to match RNinja format."""
     output:
         irena_files=IRENA_OUTPUTS
+    log:
+        str(LOG_DIR / "irena_workflow.log")
     run:
         def _task():
+            """Execute IRENA workflow to produce hourly solar and wind profiles."""
             result = run_irena_workflow(
                 dataset_label   = None,
                 countries       = IRENA_CFG["countries"],
@@ -746,7 +1003,8 @@ rule irena_workflow:
                 assert result["paths"][tech] == expected, \
                     f"Expected {expected}, got {result['paths'][tech]}"
 
-        best_effort("irena_workflow", output, _task)
+        with _capture_rule_log(log) as log_path:
+            best_effort("irena_workflow", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Load profile from Toktarova dataset
@@ -758,8 +1016,11 @@ if LOAD_CSV_TARGETS:
             **LOAD_OUTPUTS,
         params:
             country=lambda wildcards: LOAD["slug_map"][wildcards.slug],
+        log:
+            str(LOG_DIR / "load_profile_{slug}.log")
         run:
             def _task():
+                """Generate the Toktarova load profile and optional plots for the country slug."""
                 load_country_load_profile(
                     country=params.country,
                     dataset_path=LOAD["dataset"],
@@ -769,7 +1030,8 @@ if LOAD_CSV_TARGETS:
                     generate_heatmap_boxplot=LOAD["generate_heatmap_boxplot"],
                 )
 
-            best_effort("load_profile", output, _task)
+            with _capture_rule_log(log) as log_path:
+                best_effort("load_profile", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Representative days (prepare-data workflow)
@@ -785,8 +1047,11 @@ if REP_CFG and REP_CFG.get("enabled", False):
             phours=REP_TARGETS[1],
             pvre=REP_TARGETS[2],
             pdemand=(REP_TARGETS[3] if len(REP_TARGETS) > 3 else temp(REP_OUTDIR / ".no_demand")),
+        log:
+            str(LOG_DIR / "representative_days.log")
         run:
             def _task():
+                """Run the representative-days pipeline and create placeholders if it fails."""
                 try:
                     paths = run_representative_days_pipeline(
                         seasons_map=REP_CFG["seasons_map"],
@@ -821,7 +1086,8 @@ if REP_CFG and REP_CFG.get("enabled", False):
                     if len(REP_TARGETS) == 3:
                         Path(output.pdemand).touch()
 
-            best_effort("representative_days", output, _task)
+            with _capture_rule_log(log) as log_path:
+                best_effort("representative_days", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Report rendering
@@ -841,8 +1107,11 @@ rule report:
         genmap=GENMAP_TARGETS,
     output:
         report=REPORT_OUTPUT
+    log:
+        str(LOG_DIR / "report.log")
     run:
         def _task():
+            """Render the Markdown report using the configured template and config."""
             from generate_report import render_report
 
             render_report(
@@ -852,7 +1121,8 @@ rule report:
                 output_dir_override=Path(OUTPUT_ROOT),
             )
 
-        best_effort("report", output, _task)
+        with _capture_rule_log(log) as log_path:
+            best_effort("report", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Report PDF
@@ -863,8 +1133,11 @@ rule report_pdf:
         report=REPORT_OUTPUT
     output:
         pdf=REPORT_PDF
+    log:
+        str(LOG_DIR / "report_pdf.log")
     run:
         def _task():
+            """Invoke Pandoc to convert the Markdown report into a PDF file."""
             subprocess.run(
                 [
                     "pandoc",
@@ -877,7 +1150,8 @@ rule report_pdf:
                 check=True,
             )
 
-        best_effort("report_pdf", output, _task)
+        with _capture_rule_log(log) as log_path:
+            best_effort("report_pdf", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Report DOCX
@@ -888,8 +1162,11 @@ rule report_docx:
         report=REPORT_OUTPUT
     output:
         docx=REPORT_DOCX
+    log:
+        str(LOG_DIR / "report_docx.log")
     run:
         def _task():
+            """Invoke Pandoc to convert the Markdown report into a DOCX file."""
             subprocess.run(
                 [
                     "pandoc",
@@ -902,4 +1179,5 @@ rule report_docx:
                 check=True,
             )
 
-        best_effort("report_docx", output, _task)
+        with _capture_rule_log(log) as log_path:
+            best_effort("report_docx", output, _task, log_path=str(log_path))
