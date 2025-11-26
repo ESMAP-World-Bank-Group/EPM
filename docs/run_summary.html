@@ -1361,6 +1361,48 @@ Last updated on Nov 26, 2025.<br>
     <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
 </div>
 
+<!-- Floating AI Assistant -->
+    <style>
+    #ai-btn {
+        position: fixed;
+        bottom: 20px; right: 20px;
+        background: #0057b8; /* WB blue */
+        color: white;
+        border-radius: 50%;
+        width: 55px; height: 55px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-size: 26px;
+        z-index: 9999;
+    }
+    #ai-panel {
+        position: fixed;
+        bottom: 85px; right: 20px;
+        width: 350px; height: 480px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        display: none;
+        z-index: 9999;
+    }
+    #ai-panel iframe { width: 100%; height: 100%; border: none; }
+    </style>
+
+    <div id="ai-btn">💬</div>
+    <div id="ai-panel">
+        <iframe src="https://huggingface.co/spaces/LucasVivier/epm-doc-assistant"></iframe>
+    </div>
+
+    <script>
+    const btn = document.getElementById("ai-btn");
+    const panel = document.getElementById("ai-panel");
+    btn.onclick = () => {
+        panel.style.display = panel.style.display === "none" ? "block" : "none";
+    };
+    </script>
+
 </div>
   </div>
   
