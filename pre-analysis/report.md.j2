@@ -41,6 +41,12 @@ Generated on: {{ date }}
 
 We work exclusively with open-data sources to ensure reproducibility and transparency.
 
+{% macro center_figures(fig_md) -%}
+<div style="text-align:center">
+{{ fig_md | indent(2, true) }}
+</div>
+{%- endmacro %}
+
 ## 1.1 Climate Overview
 
 ERA5-Land monthly indicators ({{ climate_period | default("period not set", true) }}) for {{ climate_countries | default("the selected countries", true) }}.
@@ -52,20 +58,22 @@ ERA5-Land monthly indicators ({{ climate_period | default("period not set", true
 Figures:
 {% if climate_spatial_fig %}
 - Spatial means:
-{{ climate_spatial_fig | indent(2, true) }}
+{{ center_figures(climate_spatial_fig) }}
 {% endif %}
 {% if climate_monthly_fig %}
 - Monthly averages by country:
-{{ climate_monthly_fig | indent(2, true) }}
+{{ center_figures(climate_monthly_fig) }}
 {% endif %}
 {% if climate_scatter_fig %}
 - Temperature vs precipitation:
-{{ climate_scatter_fig | indent(2, true) }}
+{{ center_figures(climate_scatter_fig) }}
 {% endif %}
 {% if climate_heatmap %}
 - Precipitation heatmap:
-{{ climate_heatmap | indent(2, true) }}
+{{ center_figures(climate_heatmap) }}
 {% endif %}
+{% else %}
+_No climate figures were generated because the climate workflow was not run or no data were available._
 {% endif %}
 
 ## 1.2 Load Profiles
@@ -106,11 +114,7 @@ Figures:
 
 ## 1.3 Generation Assets Map
 
-Interactive map of existing and planned generation sites (toggle layers for status and technology):
-
-{{ generation_map_text | default("_Generation map not available yet._", true) }}
 {% if generation_map_static_figs %}
-- Static exports:
 {{ generation_map_static_figs | indent(2, true) }}
 {% endif %}
 
@@ -137,10 +141,10 @@ The figures below show the per-country diagnostics grouped by technology:
 {% for zone in tech.zones %}
 ##### {{ zone.country }}
 {% if zone.heatmap %}
-{{ zone.heatmap | indent(2, true) }}
+{{ center_figures(zone.heatmap) }}
 {% endif %}
 {% if zone.boxplot %}
-{{ zone.boxplot | indent(2, true) }}
+{{ center_figures(zone.boxplot) }}
 {% endif %}
 {% endfor %}
 {% endfor %}
