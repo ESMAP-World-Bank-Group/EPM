@@ -4,7 +4,6 @@
 # Power Excel "Country/area" column. Countries for IRENA must match the SPLAT-
 # style names used in the IRENA MSR CSVs under the "CtryName" column.
 
-input_workflow_dir: input_workflow # relative to pre-analysis/
 output_workflow_dir: output_workflow # relative to pre-analysis/
 
 # Declare countries once and reuse below via YAML anchors
@@ -13,28 +12,30 @@ countries_common: &countries_common
   - Croatia
 
 gap:
-  excel: dataset/Global-Integrated-Power-April-2025.xlsx
+  # Excel is stored directly under pre-analysis/dataset/, so avoid the extra dataset/ prefix
+  excel: Global-Integrated-Power-April-2025.xlsx
   countries: *countries_common
   tech_types: [solar, wind]
   output_dir: ""
 
 climate_overview:
   enabled: true
-  download: false
+  download: true
   countries: *countries_common
   start_year: 2023
   end_year: 2025
   variables: [2m_temperature, total_precipitation]
   dataset: reanalysis-era5-land-monthly-means
   api_dir: ../prepare-data/input/era5_api
-  extract_dir: ../prepare-data/input/era5_extract
-  output_dir: climate
+  extract_dir: intermediate_output/climate_extract
+  output_dir: ../intermediate_output/climate
   generate_plots: true
   save_netcdf: true
 
 generation_map:
   enabled: true
-  excel: dataset/Global-Integrated-Power-April-2025.xlsx
+  # Reuse the same GAP Excel location as above
+  excel: Global-Integrated-Power-April-2025.xlsx
   sheet_name: Power facilities
   countries: *countries_common
   output_dir: ""
@@ -74,7 +75,7 @@ irena:
 # Hourly load profile (Toktarova et al. 2019)
 load_profile:
   countries: *countries_common
-  dataset: dataset/Toktarova2019_paper_LongtermLoadProjectioninHighREsolutionforallCountriesGlobally_ElecPowerEnergySys_supplementary_7_load_all_2020.csv
+  dataset: Toktarova2019_paper_LongtermLoadProjectioninHighREsolutionforallCountriesGlobally_ElecPowerEnergySys_supplementary_7_load_all_2020.csv
   output_dir: ""
   year: 2020
   generate_heatmap_boxplot: true
@@ -82,7 +83,7 @@ load_profile:
 # Representative days (prepare-data pipeline). Set enabled: true to run; point inputs to
 # cleaned hourly CSVs with columns zone, month (or season), day, hour, and a value column.
 representative_days:
-  enabled: false # Flip to true to run the representative-days pipeline.
+  enabled: true # Flip to true to run the representative-days pipeline.
   seasons_map: # Month -> season regrouping used before clustering.
     {
       1: 2,
@@ -99,14 +100,11 @@ representative_days:
       12: 2,
     }
   input_files: {} # Hourly CSVs per tech (keys like PV/Wind/Load)
-  # PV: ../prepare-data/representative_days/input/data_capp_solar.csv
-  # Wind: ../prepare-data/representative_days/input/data_capp_wind.csv
-  # Load: ../prepare-data/representative_days/input/data_load.csv
-  output_dir: ../prepare-data/representative_days/output # Where repr_days/pHours/pVREProfile land.
+  output_dir: representative_days # Resolved under output_workflow/epm_export by default.
   zones_to_exclude: [] # Optional list of zones to drop before processing.
   value_column: value # Override if the value column is not named "value".
   year_label: 2018 # Column name used for representative-year selection.
-  n_representative_days: 2 # Number of representative days selected by the optimizer.
+  n_representative_days: 1 # Number of representative days selected by the optimizer.
   n_clusters: 20 # KMeans clusters used to extract special/extreme days.
   n_bins: 10 # Number of bins passed to the GAMS model.
   feature_selection_count: null # If set (int), keep only N series via hierarchical selection.

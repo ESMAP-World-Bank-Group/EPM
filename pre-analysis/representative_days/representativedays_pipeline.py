@@ -1,11 +1,11 @@
-# This script is used to fetch solar or wind power data for multiple locations using the Renewables Ninja API.
-# The API requires an API token, which you can get by signing up at https://www.renewables.ninja/.
-# The API allows you to fetch hourly solar or wind power data for a given location, time period, and power system configuration.
-# The data is returned in JSON format, which can be easily converted to a Pandas DataFrame.
-# The function get_rninja_data() fetches the data for multiple locations and returns a dictionary of results for each location.
-# The function also handles rate limiting by waiting for a minute if the rate limit is hit.
-# The data is then saved to a CSV file for further analysis.
-# Author: Lucas Vivier: lvivier@worldbank.org
+"""Representative days pipeline helpers (clustering, optimization I/O, EPM formatting).
+
+Key entry points
+----------------
+- `run_representative_days_pipeline`: high-level orchestration from raw inputs to repr-days outputs.
+- `prepare_input_timeseries`: normalize raw inputs (month/day/hour) to season/day/hour CSVs.
+- `cluster_data_new` and `get_special_days_clustering`: identify representative/special days before optimization.
+"""
 
 import requests
 import pandas as pd
@@ -32,7 +32,6 @@ from sklearn.preprocessing import StandardScaler
 from itertools import combinations
 from scipy.optimize import linprog
 from scipy.sparse import lil_matrix
-
 from IPython.display import display
 
 
@@ -40,6 +39,27 @@ logging.basicConfig(level=logging.WARNING)  # Configure logging level
 logger = logging.getLogger(__name__)
 
 nb_days = pd.Series([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], index=range(1, 13))
+
+# --------------------------------------------------------------------------- #
+# Time-series preparation helpers
+# --------------------------------------------------------------------------- #
+
+def _log_nan_time_index(df: pd.DataFrame, time_cols, value_cols, label: str):
+    """Log the time indices of NaN values to help locate data issues."""
+    value_cols = [value_cols] if isinstance(value_cols, str) else list(value_cols)
+    mask = df[value_cols].isna().any(axis=1)
+    if not mask.any():
+        return
+
+    cols_to_show = [col for col in time_cols if col in df.columns]
+    preview_cols = cols_to_show + value_cols
+    preview = df.loc[mask, preview_cols].head(15)
+    logger.warning(
+        "NaN values found in %s (%d rows). First rows:\\n%s",
+        label,
+        mask.sum(),
+        preview.to_string(index=False),
+    )
 
 def month_to_season(data: pd.DataFrame, seasons_map: dict, other_columns=None) -> pd.DataFrame:
     """Convert month numbers to season identifiers and renumber days inside each season.
@@ -83,6 +103,107 @@ def month_to_season(data: pd.DataFrame, seasons_map: dict, other_columns=None) -
     return df
 
 
+def _validate_time_columns(df: pd.DataFrame, time_cols, name: str = '', verbose: bool = True) -> pd.DataFrame:
+    """Ensure time columns are numeric integers and in plausible ranges. Returns a copy with ints."""
+    df_checked = df.copy()
+    label = f'[{name}] ' if name else ''
+    for col in time_cols:
+        if col not in df_checked.columns:
+            raise ValueError(f'{label}Missing required column {col}')
+        numeric = pd.to_numeric(df_checked[col], errors='coerce')
+        non_numeric = df_checked[numeric.isna()]
+        if not non_numeric.empty:
+            raise ValueError(f'{label}Non-numeric values in {col} (showing first 5):\n{non_numeric.head()}')
+        non_int = df_checked[(numeric % 1 != 0)]
+        if not non_int.empty:
+            raise ValueError(f'{label}Non-integer values in {col} (showing first 5):\n{non_int.head()}')
+        df_checked[col] = numeric.astype(int)
+
+    if {'hour', 'day'}.issubset(time_cols):
+        bad_hours = df_checked[(df_checked['hour'] < 0) | (df_checked['hour'] > 23)]
+        if not bad_hours.empty:
+            raise ValueError(f'{label}Hour outside 0-23 (showing first 5):\n{bad_hours.head()}')
+        bad_days = df_checked[df_checked['day'] < 1]
+        if not bad_days.empty:
+            raise ValueError(f'{label}Day must be >=1 (showing first 5):\n{bad_days.head()}')
+
+    if verbose:
+        pass  # keep helper quiet unless needed in future
+    return df_checked
+
+
+def _warn_incomplete_year(df: pd.DataFrame, name: str = '', verbose: bool = True, raise_on_missing: bool = True) -> None:
+    """Warn (or raise) if a zone is missing any month/day/hour combinations over the year."""
+    if not verbose and not raise_on_missing:
+        return
+    required = {'zone', 'month', 'day', 'hour'}
+    if not required.issubset(df.columns):
+        return
+
+    label = f'[{name}] ' if name else ''
+    expected_hours = set(range(24))
+    for zone, g_zone in df.groupby('zone'):
+        missing = []
+        for month in range(1, 13):
+            days_in_month = int(nb_days.get(month, 0))
+            g_month = g_zone[g_zone['month'] == month]
+            if g_month.empty:
+                for day in range(1, days_in_month + 1):
+                    missing.extend((month, day, h) for h in expected_hours)
+                continue
+            for day in range(1, days_in_month + 1):
+                g_day = g_month[g_month['day'] == day]
+                if g_day.empty:
+                    missing.extend((month, day, h) for h in expected_hours)
+                    continue
+                hours = set(g_day['hour'])
+                if hours != expected_hours:
+                    missing.extend((month, day, h) for h in sorted(expected_hours - hours))
+
+        if missing:
+            sample = missing[:6]
+            formatted = '; '.join(f'm{m} d{d} h{h}' for m, d, h in sample)
+            extra = '' if len(missing) <= len(sample) else f' ... (+{len(missing) - len(sample)} more)'
+            message = f'{label}Incomplete year for zone {zone}: missing {len(missing)} entries: {formatted}{extra}'
+            if raise_on_missing:
+                raise ValueError(message + ' Please clean the input data before running the pipeline.')
+            if verbose:
+                print(message)
+
+
+def _drop_feb29(df: pd.DataFrame, name: str = '', verbose: bool = True) -> pd.DataFrame:
+    """Remove Feb 29 entries if present."""
+    if {'month', 'day'}.issubset(df.columns):
+        mask = (df['month'] == 2) & (df['day'] == 29)
+        if mask.any():
+            count = int(mask.sum())
+            zones = df.loc[mask, 'zone'].unique() if 'zone' in df.columns else None
+            if verbose:
+                zone_msg = f" for zones {', '.join(map(str, zones))}" if zones is not None else ''
+                label = f'[{name}] ' if name else ''
+                print(f'{label}Dropping {count} Feb 29 entries{zone_msg}.')
+            df = df.loc[~mask].copy()
+    return df
+
+
+def _ensure_normalized_series(df: pd.DataFrame, value_col: str, name: str = '', verbose: bool = True) -> pd.DataFrame:
+    """Normalize a value column to [0,1] if it is not already; warn when scaling."""
+    df_checked = df.copy()
+    label = f'[{name}] ' if name else ''
+    max_val = df_checked[value_col].max(skipna=True)
+    min_val = df_checked[value_col].min(skipna=True)
+    if pd.isna(max_val) or max_val == 0:
+        if verbose:
+            print(f"{label}Cannot normalize '{value_col}' because max is 0 or NaN.")
+        return df_checked
+    if max_val <= 1 and min_val >= 0:
+        return df_checked
+    if verbose:
+        print(f"{label}Normalizing '{value_col}' to [0,1] (max={max_val:.4g}).")
+    df_checked[value_col] = df_checked[value_col] / max_val
+    return df_checked
+
+
 def prepare_input_timeseries(
     input_path: Union[str, Path],
     seasons_map: dict,
@@ -90,6 +211,7 @@ def prepare_input_timeseries(
     zones_to_exclude=None,
     value_column: str = 'value',
     year_label: Union[int, str] = 2018,
+    verbose: bool = True,
 ) -> Tuple[Path, pd.DataFrame]:
     """Clean and season-aggregate a raw time-series CSV, mirroring the notebook pre-processing.
 
@@ -107,6 +229,8 @@ def prepare_input_timeseries(
         Name of the column holding the time-series values. If not present, the first non-index column is used.
     year_label : int or str, default 2018
         Column name to use for the value series (e.g., rename ``value`` to ``2018`` to match historical year convention).
+    verbose : bool, default True
+        Whether to warn when the year is incomplete at zone/month/day/hour level.
 
     Returns
     -------
@@ -126,11 +250,14 @@ def prepare_input_timeseries(
     if 'month' not in df.columns and 'season' in df.columns:
         df = df.rename(columns={'season': 'month'})
 
+    df = _validate_time_columns(df, time_cols=('month', 'day', 'hour'), name=f'{input_path}', verbose=False)
+
     required_columns = {'zone', 'month', 'day', 'hour'}
     missing = required_columns.difference(df.columns)
     if missing:
         raise ValueError(f'Missing required columns in {input_path}: {missing}')
 
+    # Infering value column
     candidate_value_cols = [c for c in df.columns if c not in required_columns]
     if value_column in df.columns:
         value_col = value_column
@@ -142,12 +269,32 @@ def prepare_input_timeseries(
         )
 
     df = df.rename(columns={value_col: year_label})
+    df = _ensure_normalized_series(df, value_col=year_label, name=str(input_path), verbose=verbose)
     df = df[~df['zone'].isin(zones_to_exclude)]
 
     if df['hour'].min() == 1 and df['hour'].max() <= 24:
         df['hour'] = df['hour'] - 1
 
+    df = _drop_feb29(df, name=str(input_path), verbose=verbose)
+    
+    _warn_incomplete_year(df, name=str(input_path))
+
+    _log_nan_time_index(
+        df,
+        time_cols=('month', 'day', 'hour'),
+        value_cols=[year_label],
+        label=f'{input_path.name} before month_to_season',
+    )
+
+    # Transform monthly to seasonal data
     df = month_to_season(df, seasons_map, other_columns=['zone'])
+
+    _log_nan_time_index(
+        df,
+        time_cols=('season', 'day', 'hour'),
+        value_cols=[year_label],
+        label=f'{input_path.name} after month_to_season',
+    )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f'{input_path.stem}_season{input_path.suffix}'
@@ -155,6 +302,10 @@ def prepare_input_timeseries(
     logger.info('Processed %s -> %s', input_path, output_path)
     return output_path, df
 
+
+# --------------------------------------------------------------------------- #
+# Representative year selection and profile prep
+# --------------------------------------------------------------------------- #
 
 def find_representative_year(df, method='average_profile'):
     """Find the representative year.
@@ -194,57 +345,61 @@ def find_representative_year(df, method='average_profile'):
     return repr_year
 
 
-def format_data_energy(filenames):
-    """Format the data for the energy from .csv files.
+def prepare_energy_profiles(filenames, verbose: bool = True):
+    """Format and validate the energy data read from CSV inputs.
 
     Parameters
     ----------
     filenames: dict
         Dictionary with the filenames.
+    verbose: bool, default True
+        Whether to print informative messages about the representative year and
+        validation checks.
 
     Returns
     -------
-    df_energy: pd.DataFrame
-        DataFrame with the energy data.
+    pd.DataFrame
+        DataFrame with the representative year aggregated per tech.
     """
     # Find the representative year
 
-    df_energy = {}
+    energy_dfs = []
     for tech, filename in filenames.items():
         df = pd.read_csv(filename, header=[0], index_col=[0, 1, 2, 3])
         df = df.reset_index()
         df['tech'] = tech
         df = df.set_index(['zone', 'season', 'day', 'hour', 'tech'])
-        df_energy.update({tech: df})
+        energy_dfs.append(df)
 
-    df_energy = pd.concat(df_energy.values(), ignore_index=False)
+    if not energy_dfs:
+        raise ValueError('No energy files were provided to prepare energy profiles.')
 
-    # TODO: Change that
-    repr_year = find_representative_year(df_energy)
-    print('Representative year {}'.format(repr_year))
-    df_energy = df_energy.loc[:, repr_year].unstack('tech').reset_index()
+    combined_energy = pd.concat(energy_dfs, ignore_index=False)
+    repr_year = find_representative_year(combined_energy)
+    if verbose:
+        print(f'Representative year {repr_year}')
 
-    df_energy = df_energy.sort_values(by=['zone', 'season', 'day', 'hour'], ascending=True)
+    repr_year_data = combined_energy.loc[:, repr_year].unstack('tech').reset_index()
 
-    # If 2/29, remove it
-    if len(df_energy.season.unique()) == 12:  # season expressed as months
-        df_energy = df_energy[~((df_energy['season'] == 2) & (df_energy['day'] == 29))]
-
-    if df_energy.isna().any().any():
-        print('Warning: NaN values in the DataFrame')
+    energy_profiles = repr_year_data.sort_values(by=['zone', 'season', 'day', 'hour'], ascending=True)
 
     keys_to_merge = ['PV', 'Wind', 'Load', 'ROR']
-    keys_to_merge = [i for i in keys_to_merge if i in df_energy.keys()]
+    keys_to_merge = [i for i in keys_to_merge if i in energy_profiles.keys()]
 
-    display('Annual capacity factor (%):', df_energy.groupby('zone')[keys_to_merge].mean().reset_index())
-    if len(df_energy.zone.unique()) > 1:  # handling the case with multiple zones to rename columns
-        df_energy = df_energy.set_index(['zone', 'season', 'day', 'hour']).unstack('zone')
-        df_energy.columns = ['_'.join([idx0, idx1]) for idx0, idx1 in df_energy.columns]
-        df_energy = df_energy.reset_index()
+    if verbose:
+        display('Annual capacity factor (%):', energy_profiles.groupby('zone')[keys_to_merge].mean().reset_index())
+    if len(energy_profiles.zone.unique()) > 1:  # handling the case with multiple zones to rename columns
+        energy_profiles = energy_profiles.set_index(['zone', 'season', 'day', 'hour']).unstack('zone')
+        energy_profiles.columns = ['_'.join([idx0, idx1]) for idx0, idx1 in energy_profiles.columns]
+        energy_profiles = energy_profiles.reset_index()
     else:
-        df_energy = df_energy.drop('zone', axis=1)
-    return df_energy
+        energy_profiles = energy_profiles.drop('zone', axis=1)
+    return energy_profiles
 
+
+# --------------------------------------------------------------------------- #
+# Clustering helpers (k-means and special days)
+# --------------------------------------------------------------------------- #
 
 def cluster_data_new(df_energy, n_clusters=10, columns=None):
     """
@@ -402,7 +557,11 @@ def select_representative_series_hierarchical(path_data_file: str, n: int, metho
     return selected_series, df[selected_series], path_data_file_selection
 
 
-def get_special_days_clustering(df_closest_days, df_tot, threshold=0.07):
+# --------------------------------------------------------------------------- #
+# Special day identification
+# --------------------------------------------------------------------------- #
+
+def get_special_days_clustering(df_closest_days, df_tot, threshold=None):
     """
     Identify special days based on clustering results.
 
@@ -415,7 +574,8 @@ def get_special_days_clustering(df_closest_days, df_tot, threshold=0.07):
         df_tot (pd.DataFrame):
             Original dataset with all time series data.
         threshold (float, optional):
-            Probability threshold for excluding large clusters. Defaults to 0.07.
+            Probability threshold for excluding large clusters. If None, a data-driven threshold is
+            computed per season (75th percentile of cluster probabilities).
 
     Returns:
         tuple:
@@ -426,17 +586,23 @@ def get_special_days_clustering(df_closest_days, df_tot, threshold=0.07):
     special_days = []
     indices_to_remove = set()
     for season, df_season in df_closest_days.groupby('season'):
+        seasonal_threshold = threshold
+        if seasonal_threshold is None:
+            seasonal_threshold = float(df_season['probability'].quantile(0.75))
+            if pd.isna(seasonal_threshold):
+                seasonal_threshold = 1.0
+
         # first special day is based on minimum PV production across all zones
         add_special_days(feature='PV', df=df_season, df_days=df_tot, season=season, special_days=special_days,
-                         indices_to_remove=indices_to_remove, rule='min', threshold=0.07)
+                         indices_to_remove=indices_to_remove, rule='min', threshold=seasonal_threshold)
 
         # second special day is based on minimum Wind production across all zones
         add_special_days(feature='Wind', df=df_season, df_days=df_tot, season=season, special_days=special_days,
-                         indices_to_remove=indices_to_remove, rule='min', threshold=0.07)
+                         indices_to_remove=indices_to_remove, rule='min', threshold=seasonal_threshold)
 
         # third special day is based on maximum peak demand across all zones
         add_special_days(feature='Load', df=df_season, df_days=df_tot, season=season, special_days=special_days,
-                         indices_to_remove=indices_to_remove, rule='max', threshold=0.07)
+                         indices_to_remove=indices_to_remove, rule='max', threshold=seasonal_threshold)
 
 
     # Convert special days to DataFrame
@@ -454,9 +620,15 @@ def add_special_days(feature, df, df_days, season, special_days, indices_to_remo
     of a selected feature (e.g., PV, Load, Wind) across multiple zones.
 
     The function looks for the day within a season that corresponds to the most extreme value
-    (minimum or maximum depending on the `rule`) of the summed feature across all zones, excluding
-    high-probability clusters (based on the `threshold`). If the most extreme day is already present
-    in `special_days`, the function iteratively selects the next most extreme day that hasn’t been used.
+    (minimum or maximum depending on the `rule`) of the summed feature across all zones. It excludes
+    high-probability clusters (based on the `threshold`) because those frequent profiles are already
+    captured by the representative clusters; this step isolates rare-but-important extremes (e.g.,
+    very low PV or very high load) so they are forced into the optimization as special days. If no
+    clusters remain below the threshold, it falls back to using all clusters to ensure a special day
+    is still selected. When an extreme (min/max) occurs in a high-probability cluster, that cluster
+    is added back so the true extreme is not lost due to filtering.
+    If the most extreme day is already present in `special_days`, the function iteratively selects
+    the next most extreme day that hasn’t been used.
 
     Parameters:
         feature (str):
@@ -484,8 +656,20 @@ def add_special_days(feature, df, df_days, season, special_days, indices_to_remo
     df = df.copy()
 
     if len(columns) > 0:
-        df = df[df['probability'] < threshold]
-        df.loc[:, feature] = df.loc[:, columns].sum(axis=1)
+        df_filtered = df[df['probability'] < threshold].copy()
+        target_df = df_filtered if not df_filtered.empty else df.copy()
+        target_df.loc[:, feature] = target_df.loc[:, columns].sum(axis=1)
+
+        # Ensure the global extreme (min/max) is still eligible even if it sits in a high-probability cluster.
+        full_extreme = df.copy()
+        full_extreme.loc[:, feature] = full_extreme.loc[:, columns].sum(axis=1)
+        extreme_val = full_extreme[feature].min() if rule == 'min' else full_extreme[feature].max()
+        extreme_rows = full_extreme[full_extreme[feature] == extreme_val]
+        if not extreme_rows['Cluster'].isin(target_df['Cluster']).any():
+            target_df = pd.concat([target_df, extreme_rows], ignore_index=True)
+            target_df = target_df.drop_duplicates(subset=['Cluster'])
+
+        df = target_df
 
         def find_next_special_day(df, special_days, rule):
             for i in range(len(df)):  # Iterate over all ranked rows
@@ -507,7 +691,8 @@ def add_special_days(feature, df, df_days, season, special_days, indices_to_remo
             cluster_id = cluster['Cluster'].values[0]
             special_day = tuple(cluster[['season', 'day']].values[0])
             cluster_weight = (df_days[(df_days['season'] == season) & (df_days['Cluster'] == cluster_id)].shape[0]) // 24
-            special_days.append({'days': special_day, 'weight': cluster_weight})
+            rule_label = f'{rule}_{feature}'
+            special_days.append({'days': special_day, 'weight': cluster_weight, 'rule': rule_label})
             indices_to_remove.update(df_days[(df_days['season'] == season) & (df_days['Cluster'] == cluster_id)].index)
         else:
             raise ValueError(f"All days are already special days.")
@@ -607,7 +792,7 @@ def calculate_pairwise_correlation(df):
     return df
 
 
-def format_optim_repr_days(df_energy, folder_process_data):
+def format_optim_repr_days(df_energy, folder_process_data, data_dir=None):
     """Format the data for the optimization.
 
     Parameters
@@ -617,7 +802,9 @@ def format_optim_repr_days(df_energy, folder_process_data):
     name_data: str
         Name of the zone.
     folder_process_data: str
-        Path to save the file.
+        Path to save optimization artifacts.
+    data_dir: str, optional
+        Directory to save the formatted optimization CSV. Defaults to ``folder_process_data``.
     """
     df_formatted_optim = df_energy.copy()
     # Add correlation
@@ -630,12 +817,18 @@ def format_optim_repr_days(df_energy, folder_process_data):
     # # Invert the order of levels
     # df_formatted_optim = df_formatted_optim.swaplevel(0, 1, axis=1)
 
-    path_data_file = os.path.join(folder_process_data, 'data_formatted_optim.csv')
+    target_dir = data_dir or folder_process_data
+    os.makedirs(target_dir, exist_ok=True)
+    path_data_file = os.path.join(target_dir, 'data_formatted_optim.csv')
     df_formatted_optim.to_csv(path_data_file, index=True)
     print('File saved at:', path_data_file)
 
     return df_formatted_optim, path_data_file
 
+
+# --------------------------------------------------------------------------- #
+# GAMS optimization launcher and parsing
+# --------------------------------------------------------------------------- #
 
 def launch_optim_repr_days(path_data_file, folder_process_data, nbr_days=3,
                            main_file='OptimizationModelZone.gms', nbr_bins=10):
@@ -774,10 +967,14 @@ def parse_repr_days(folder_process_data, special_days):
     repr_days = pd.concat((
         weight.apply(lambda x: (x['s'], x['d']), axis=1),
         weight['level']), keys=['days', 'weight'], axis=1)
+    repr_days['rule'] = 'representative'
 
     repr_days['weight'] = repr_days['weight'].round().astype(int)
 
     # Add special days
+    if special_days is not None and not special_days.empty:
+        if 'rule' not in special_days.columns:
+            special_days = special_days.assign(rule='special')
     repr_days = pd.concat((special_days, repr_days), axis=0, ignore_index=True)
 
     print('Number of days: {}'.format(repr_days.shape[0]))
@@ -787,7 +984,7 @@ def parse_repr_days(folder_process_data, special_days):
     repr_days['season'] = repr_days['days'].apply(lambda x: x[0])
     repr_days['day'] = repr_days['days'].apply(lambda x: x[1])
     repr_days.drop(columns=['days'], inplace=True)
-    repr_days = repr_days.loc[:, ['season', 'day', 'weight']]
+    repr_days = repr_days.loc[:, ['season', 'day', 'weight', 'rule']]
     repr_days = repr_days.astype({'season': int, 'day': int, 'weight': float})
     repr_days.sort_values(['season'], inplace=True)
     repr_days['daytype'] = repr_days.groupby('season').cumcount() + 1
@@ -800,6 +997,78 @@ def parse_repr_days(folder_process_data, special_days):
     print(repr_days.groupby('season')['weight'].sum())
 
     return repr_days
+
+
+def export_repr_days_summary(df_energy, repr_days, special_days, output_dir):
+    """Export per-day capacity factor summary and benchmarks to CSV.
+
+    The output includes selected days (representative or special) with average capacity factors per tech,
+    plus benchmark rows with min/avg/max capacity factors across the full dataset. Wrapped in try/except
+    to avoid interrupting the pipeline on bad inputs.
+    """
+    try:
+        output_path = Path(output_dir) / 'representative_days_summary.csv'
+        df_energy_local = df_energy.copy()
+        repr_days_local = repr_days.copy()
+
+        # Identify numeric tech columns (exclude time/weight identifiers).
+        numeric_cols = df_energy_local.select_dtypes(include=[np.number]).columns
+        tech_cols = [c for c in numeric_cols if c not in {'season', 'day', 'hour', 'weight'}]
+        if not tech_cols:
+            raise ValueError('No technology columns found to summarize.')
+
+        # Build a lookup for special days using integer season/day tuples.
+        special_set = set()
+        if special_days is not None and not special_days.empty:
+            if 'days' in special_days.columns:
+                special_set = {tuple(map(int, d)) for d in special_days['days']}
+            elif {'season', 'day'}.issubset(special_days.columns):
+                special_set = {tuple(map(int, t)) for t in special_days[['season', 'day']].itertuples(index=False, name=None)}
+
+        # Normalize season for repr_days (stored as Q1/Q2...); keep original label for readability.
+        repr_days_local['season_int'] = repr_days_local['season'].astype(str).str.extract(r'(\d+)').astype(int)
+        total_weight = repr_days_local['weight'].sum()
+
+        rows = []
+        for _, row in repr_days_local.iterrows():
+            season_int = int(row['season_int'])
+            day_val = int(row['day'])
+            if 'rule' in repr_days_local.columns and pd.notna(row.get('rule', None)):
+                category = row['rule']
+            else:
+                category = 'special' if (season_int, day_val) in special_set else 'representative'
+            day_slice = df_energy_local[(df_energy_local['season'] == season_int) & (df_energy_local['day'] == day_val)]
+            if day_slice.empty:
+                continue
+            avg_cf = day_slice[tech_cols].mean()
+            weight_pct = (float(row['weight']) / total_weight) if total_weight else np.nan
+            row_data = {
+                'season': row['season'],
+                'day': day_val,
+                'category': category,
+                'weight_pct': weight_pct,
+            }
+            row_data.update({f'{tech}_avg_cf': avg_cf[tech] for tech in tech_cols})
+            rows.append(row_data)
+
+        # Benchmark rows (min/avg/max across full dataset for each tech).
+        benchmarks = []
+        tech_stats = {
+            'benchmark_min': df_energy_local[tech_cols].min(),
+            'benchmark_avg': df_energy_local[tech_cols].mean(),
+            'benchmark_max': df_energy_local[tech_cols].max(),
+        }
+        for label, series in tech_stats.items():
+            bench_row = {'season': '-', 'day': '-', 'category': label, 'weight_pct': '-'}
+            bench_row.update({f'{tech}_avg_cf': series[tech] for tech in tech_cols})
+            benchmarks.append(bench_row)
+
+        summary_df = pd.DataFrame(rows + benchmarks)
+        summary_df.to_csv(output_path, index=False)
+        return output_path
+    except Exception as exc:  # noqa: BLE001 - intentional catch-all to keep pipeline running
+        print(f'[repr-days] Warning: failed to export representative_days_summary.csv ({exc})')
+        return None
 
 
 def format_epm_phours(repr_days, folder):
@@ -847,12 +1116,13 @@ def format_epm_pvreprofile(df_energy, repr_days, folder, name_data=''):
     pVREProfile.columns.names = ['fuel', 'zone']
 
     t = repr_days.copy()
+    t = t.drop(columns=[c for c in ['rule'] if c in t.columns])
     t = t.set_index(['season', 'day'])
 
     pVREProfile = pVREProfile.unstack('hour')
     # select only the representative days
     pVREProfile = pVREProfile.loc[t.index, :]
-    pVREProfile = pVREProfile.stack(level=['fuel', 'zone'])
+    pVREProfile = pVREProfile.stack(level=['fuel', 'zone'], future_stack=True)
     pVREProfile = pd.merge(pVREProfile.reset_index(), t.reset_index(), on=['season', 'day']).set_index(
         ['zone', 'season', 'daytype', 'fuel'])
     pVREProfile.drop(['day', 'weight'], axis=1, inplace=True)
@@ -893,11 +1163,12 @@ def format_epm_demandprofile(df_energy, repr_days, folder, name_data=''):
 
     # pVREProfile.index.names = ['season', 'day', 'hour']
     t = repr_days.copy()
+    t = t.drop(columns=[c for c in ['rule'] if c in t.columns])
     t = t.set_index(['season', 'day'])
     pDemandProfile = pDemandProfile.unstack('hour')
     # select only the representative days
     pDemandProfile = pDemandProfile.loc[t.index, :]
-    pDemandProfile = pDemandProfile.stack('zone')
+    pDemandProfile = pDemandProfile.stack('zone', future_stack=True)
 
     pDemandProfile = pd.merge(pDemandProfile.reset_index(), t.reset_index(), on=['season', 'day']).set_index(
         ['zone', 'season', 'daytype'])
@@ -915,6 +1186,9 @@ def run_representative_days_pipeline(
     seasons_map: dict,
     input_files: dict,
     output_dir: Union[str, Path],
+    data_dir: Union[str, Path] = None,
+    epm_output_dir: Union[str, Path] = None,
+    summary_dir: Union[str, Path] = None,
     zones_to_exclude=None,
     value_column: str = 'value',
     year_label: Union[int, str] = 2018,
@@ -927,6 +1201,7 @@ def run_representative_days_pipeline(
     feature_selection_scale: bool = True,
     special_day_threshold: float = 0.1,
     gams_main_file: str = 'OptimizationModelZone.gms',
+    verbose: bool = True,
 ) -> dict:
     """Run the full representative day pipeline (matches the notebook flow) end-to-end.
 
@@ -940,6 +1215,12 @@ def run_representative_days_pipeline(
         and one value column (named by ``value_column`` or the only non-index column).
     output_dir : str or Path
         Directory to store all outputs (seasonal CSVs, optimization inputs, and EPM-formatted files).
+    data_dir : str or Path, optional
+        Directory to store intermediate optimization inputs (e.g., data_formatted_optim.csv). Defaults to output_dir.
+    epm_output_dir : str or Path, optional
+        Directory to store EPM-formatted outputs (pHours, pVREProfile, pDemandProfile). Defaults to output_dir.
+    summary_dir : str or Path, optional
+        Directory to store representative_days_summary.csv. Defaults to output_dir.
     zones_to_exclude : list, optional
         Zones to drop before processing.
     value_column : str, default 'value'
@@ -989,8 +1270,16 @@ def run_representative_days_pipeline(
     zones_to_exclude = zones_to_exclude or []
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
+    data_dir = Path(data_dir) if data_dir else output_dir
+    data_dir.mkdir(parents=True, exist_ok=True)
+    epm_output_dir = Path(epm_output_dir) if epm_output_dir else output_dir
+    epm_output_dir.mkdir(parents=True, exist_ok=True)
+    summary_dir = Path(summary_dir) if summary_dir else output_dir
+    summary_dir.mkdir(parents=True, exist_ok=True)
 
     # Step 1 - Prepare raw inputs (month -> season, drop zones, rename value column)
+    if verbose:
+        print('[repr-days] Step 1: preparing raw inputs')
     seasonal_inputs = {}
     for tech, path in input_files.items():
         seasonal_path, _ = prepare_input_timeseries(
@@ -1000,26 +1289,43 @@ def run_representative_days_pipeline(
             zones_to_exclude=zones_to_exclude,
             value_column=value_column,
             year_label=year_label,
+            verbose=verbose,
         )
         seasonal_inputs[tech] = str(seasonal_path)
+        if verbose:
+            print(f'[repr-days]   prepared {tech} -> {seasonal_path}')
 
     # Step 2 - Combine tech profiles and pick representative year
-    df_energy = format_data_energy(seasonal_inputs)
+    if verbose:
+        print('[repr-days] Step 2: combine tech profiles and pick representative year')
+    df_energy = prepare_energy_profiles(seasonal_inputs)
     df_energy = df_energy.dropna(axis=1, how='all')
 
     # Step 3 - Cluster and extract special days
+    if verbose:
+        print(f'[repr-days] Step 3: clustering with n_clusters={n_clusters}')
     df_energy_cluster, df_closest_days, centroids_df = cluster_data_new(df_energy, n_clusters=n_clusters)
     special_days, df_energy_no_special = get_special_days_clustering(
         df_closest_days, df_energy_cluster, threshold=special_day_threshold
     )
+    if verbose:
+        print(f'[repr-days]   special days extracted: {len(special_days)}')
 
     # Step 4 - Build optimization input (compute correlations)
-    _, path_data_file = format_optim_repr_days(df_energy_no_special, output_dir)
+    if verbose:
+        print('[repr-days] Step 4: building optimization input')
+    _, path_data_file = format_optim_repr_days(
+        df_energy_no_special,
+        output_dir,
+        data_dir=str(data_dir),
+    )
 
     # Optional feature selection to shrink the feature set
     path_data_file_for_optim = path_data_file
     selection_path = None
     if feature_selection_count:
+        if verbose:
+            print(f'[repr-days]   feature selection to top {feature_selection_count} series')
         _, _, selection_path = select_representative_series_hierarchical(
             path_data_file,
             n=feature_selection_count,
@@ -1030,6 +1336,8 @@ def run_representative_days_pipeline(
         path_data_file_for_optim = selection_path
 
     # Step 5 - Run optimization and parse representative days
+    if verbose:
+        print(f'[repr-days] Step 5: running optimization for {n_representative_days} representative days')
     launch_optim_repr_days(
         path_data_file_for_optim,
         folder_process_data=str(output_dir),
@@ -1038,17 +1346,22 @@ def run_representative_days_pipeline(
         nbr_bins=n_bins,
     )
     repr_days = parse_repr_days(str(output_dir), special_days)
+    if verbose:
+        print(f'[repr-days]   parsed {len(repr_days)} representative days')
 
     # Step 6 - Format outputs for EPM
-    format_epm_phours(repr_days, str(output_dir))
-    format_epm_pvreprofile(df_energy, repr_days, str(output_dir))
+    if verbose:
+        print('[repr-days] Step 6: formatting outputs for EPM')
+    format_epm_phours(repr_days, str(epm_output_dir))
+    format_epm_pvreprofile(df_energy, repr_days, str(epm_output_dir))
     demand_profile_path = None
     if any('Load' in c for c in df_energy.columns):
-        format_epm_demandprofile(df_energy, repr_days, str(output_dir))
-        demand_profile_path = output_dir / 'pDemandProfile.csv'
+        format_epm_demandprofile(df_energy, repr_days, str(epm_output_dir))
+        demand_profile_path = epm_output_dir / 'pDemandProfile.csv'
 
     repr_days_path = output_dir / 'repr_days.csv'
     df_energy_path = output_dir / 'df_energy.csv'
+    summary_path = export_repr_days_summary(df_energy, repr_days, special_days, summary_dir)
     repr_days.to_csv(repr_days_path, index=False)
     df_energy.to_csv(df_energy_path, index=False)
 
@@ -1061,14 +1374,19 @@ def run_representative_days_pipeline(
             'seasonal_inputs': seasonal_inputs,
             'data_formatted': path_data_file,
             'data_feature_selection': selection_path,
-            'pHours': str(output_dir / 'pHours.csv'),
-            'pVREProfile': str(output_dir / 'pVREProfile.csv'),
+            'pHours': str(epm_output_dir / 'pHours.csv'),
+            'pVREProfile': str(epm_output_dir / 'pVREProfile.csv'),
             'pDemandProfile': str(demand_profile_path) if demand_profile_path else None,
             'repr_days': str(repr_days_path),
             'df_energy': str(df_energy_path),
+            'repr_days_summary': str(summary_path) if summary_path else None,
         },
     }
 
+
+# --------------------------------------------------------------------------- #
+# Reduced scenarios helpers (alternative clustering/selection)
+# --------------------------------------------------------------------------- #
 
 def cluster_data(data: pd.DataFrame, n_clusters: int) -> Tuple[np.ndarray, pd.DataFrame]:
     """
@@ -1087,7 +1405,8 @@ def cluster_data(data: pd.DataFrame, n_clusters: int) -> Tuple[np.ndarray, pd.Da
     return labels, cluster_centers
 
 
-def select_representative_year_real(
+# TODO: consolidate representative-year selection helpers or expose stable API
+def _select_representative_year_real(
         data: pd.DataFrame, labels: np.ndarray, cluster_centers: pd.DataFrame
 ) -> pd.Series:
     """
@@ -1113,7 +1432,7 @@ def select_representative_year_real(
     return pd.Series(representative_years)
 
 
-def select_representative_year_synthetic(cluster_centers: pd.DataFrame) -> pd.DataFrame:
+def _select_representative_year_synthetic(cluster_centers: pd.DataFrame) -> pd.DataFrame:
     """
     Create synthetic years as the cluster centers.
 
@@ -1126,7 +1445,8 @@ def select_representative_year_synthetic(cluster_centers: pd.DataFrame) -> pd.Da
     return cluster_centers.T
 
 
-def assign_probabilities(labels: np.ndarray, n_clusters: int) -> pd.Series:
+# TODO: scope this helper to the reduced-scenario workflow only
+def _assign_probabilities(labels: np.ndarray, n_clusters: int) -> pd.Series:
     """
     Calculate probabilities for each cluster based on the frequency of occurrence.
 
@@ -1156,14 +1476,14 @@ def run_reduced_scenarios(data: pd.DataFrame, n_clusters: int, method: str) -> p
     """
 
     labels, cluster_centers = cluster_data(data, n_clusters)
-    probabilities = assign_probabilities(labels, n_clusters)
+    probabilities = _assign_probabilities(labels, n_clusters)
 
     if method == "real":
-        representatives_years = select_representative_year_real(data, labels, cluster_centers)
+        representatives_years = _select_representative_year_real(data, labels, cluster_centers)
         representatives = data.loc[:, representatives_years]
         representatives.columns = ['{} - {:.2f}'.format(i, probabilities[k]) for k, i in representatives_years.items()]
     elif method == "synthetic":
-        representatives = select_representative_year_synthetic(cluster_centers)
+        representatives = _select_representative_year_synthetic(cluster_centers)
         representatives.columns = ['{} - {:.2f}'.format(i, probabilities[i]) for i in representatives.columns]
     else:
         raise ValueError("Invalid method")
@@ -1231,7 +1551,8 @@ def plot_uncertainty(df, df2=None, title="Uncertainty Range Plot", ylabel="Value
         plt.show()
 
 
-def format_dispatch_ax(ax, pd_index, day='day', season='season', display_day=True):
+# TODO: keep private; dispatch plotting uses only within this module
+def _format_dispatch_ax(ax, pd_index, day='day', season='season', display_day=True):
     # Adding the representative days and seasons
     n_rep_days = len(pd_index.get_level_values(day).unique())
     dispatch_seasons = pd_index.get_level_values(season).unique()
@@ -1289,6 +1610,7 @@ def select_time_period(df, select_time):
     return temp
 
 
+# TODO: evaluate if this helper is still needed outside notebooks
 def create_season_day_index() -> pd.Series:
     """Create a MultiIndex with all combinations of seasons and days.
 
@@ -1325,7 +1647,7 @@ def plot_dispatch(df, day_level='daytype', season_level='season', title=None):
 
     df.plot(ax=ax)
 
-    format_dispatch_ax(ax, df.index)
+    _format_dispatch_ax(ax, df.index)
 
     ax.set_xlabel('Hours')
     ax.set_ylim(bottom=0)
@@ -1410,13 +1732,13 @@ def plot_vre_repdays(input_file, vre_profile, pHours, season_colors, countries=N
 
     df_rep = vre_profile.loc[vre_profile.index.get_level_values('zone').isin(countries), :]
     df_rep.columns = df_rep.columns.astype(str).str.extract(r't(\d+)')[0].astype(int) - 1
-    df_rep = df_rep.stack()
+    df_rep = df_rep.stack(future_stack=True)
     df_rep.index.names = ['zone', 'fuel', 'season', 'day', 'hour']
     df_rep = df_rep.unstack(['zone', 'fuel'])
 
     df_hours = pHours.copy()
     df_hours.columns = df_hours.columns.astype(str).str.extract(r't(\d+)')[0].astype(int) - 1
-    df_hours = df_hours.stack()
+    df_hours = df_hours.stack(future_stack=True)
     df_hours.index.names = ['season', 'day', 'hour']
 
     # Get min/max weights for scaling alpha
@@ -1486,6 +1808,7 @@ def plot_vre_repdays(input_file, vre_profile, pHours, season_colors, countries=N
         plt.show()
 
 
+# TODO: confirm usage and move to a dedicated module if kept
 def run_smoothing_reservoir(config):
     """
     Smooths the energy dispatch of a hydro reservoir by solving a linear optimization problem.
@@ -1615,31 +1938,17 @@ def run_smoothing_reservoir(config):
 
 if __name__ == "__main__":
     sample_base = Path(__file__).resolve().parent
-    sample_input_dir = sample_base / "example_inputs"
-    sample_output_dir = sample_base / "example_output"
+    sample_input_dir = sample_base / "input"
+    sample_output_dir = sample_base / "output"
     sample_input_dir.mkdir(parents=True, exist_ok=True)
     sample_output_dir.mkdir(parents=True, exist_ok=True)
-
-    def _write_sample_csv(name, offset):
-        rows = []
-        for month, day in [(1, 1), (1, 2), (2, 1), (2, 2)]:
-            for hour in range(4):
-                rows.append({
-                    "zone": "SampleZone",
-                    "month": month,
-                    "day": day,
-                    "hour": hour + 1,
-                    "value": offset + hour * 0.1,
-                })
-        path = sample_input_dir / name
-        pd.DataFrame(rows).to_csv(path, index=False)
-        return path
-
+    
     sample_files = {
-        "PV": _write_sample_csv("data_capp_solar.csv", 0.1),
-        "Wind": _write_sample_csv("data_capp_wind.csv", 0.2),
-        "Load": _write_sample_csv("data_load.csv", 0.3),
+        "PV": os.path.join(sample_input_dir, "vre_rninja_solar.csv"),
+        "Wind": os.path.join(sample_input_dir, "vre_rninja_wind.csv"),
+        "Load": os.path.join(sample_input_dir, "load_profiles.csv"),
     }
+
     seasons_map = {
         1: 1,
         2: 1,
@@ -1659,19 +1968,16 @@ if __name__ == "__main__":
     if not gams_model.exists():
         print(f"[repr-days example] GAMS model not found at {gams_model}; update the script with your local GAMS path.")
     else:
-        try:
-            result = run_representative_days_pipeline(
-                seasons_map=seasons_map,
-                input_files=sample_files,
-                output_dir=sample_output_dir,
-                gams_main_file=str(gams_model),
-                n_representative_days=1,
-                n_clusters=4,
-                n_bins=4,
-                special_day_threshold=0.2,
-            )
-            print("[repr-days example] Pipeline completed; outputs:")
-            for key, value in result["paths"].items():
-                print(f"  {key}: {value}")
-        except Exception as exc:  # pragma: no cover
-            print(f"[repr-days example] Pipeline failed: {exc}")
+        result = run_representative_days_pipeline(
+            seasons_map=seasons_map,
+            input_files=sample_files,
+            output_dir=sample_output_dir,
+            gams_main_file=str(gams_model),
+            n_representative_days=1,
+            n_clusters=4,
+            n_bins=4,
+            special_day_threshold=0.2,
+        )
+        print("[repr-days example] Pipeline completed; outputs:")
+        for key, value in result["paths"].items():
+            print(f"  {key}: {value}")

@@ -1,4 +1,7 @@
-"""Lightweight ERA5-Land climate overview utilities extracted from the notebook."""
+"""Climate pipeline for lightweight ERA5-Land overviews and plotting.
+
+Main entry point: `run_climate_overview` downloads/extracts ERA5 (or reuses local files) and formats summary plots/CSV outputs.
+"""
 
 from __future__ import annotations
 
@@ -38,13 +41,25 @@ VARIABLE_DISPLAY_NAMES = {
 }
 
 
+# --------------------------------------------------------------------------- #
+# Logging + label helpers
+# --------------------------------------------------------------------------- #
+
+def _log(message: str, verbose: bool) -> None:
+    """Print a namespaced log message when verbosity is enabled."""
+    if verbose:
+        print(f"[climate_overview] {message}")
+
+
 def _get_var_display_name(var_name: str, custom: Optional[str] = None) -> str:
+    """Return a human-friendly label for a climate variable."""
     if custom:
         return custom
     return VARIABLE_DISPLAY_NAMES.get(var_name, var_name.replace("_", " ").title())
 
 
 def _get_var_units(dataset_collection, var: str) -> str:
+    """Return the units string for a variable in an xarray Dataset or dict of Datasets."""
     if isinstance(dataset_collection, dict):
         datasets = dataset_collection.values()
     else:
@@ -55,7 +70,12 @@ def _get_var_units(dataset_collection, var: str) -> str:
     return ""
 
 
+# --------------------------------------------------------------------------- #
+# Spatial and GRIB helpers
+# --------------------------------------------------------------------------- #
+
 def get_bbox(ISO_A2: str) -> Tuple[float, float, float, float]:
+    """Return (west, south, east, north) bounds for an ISO_A2 country code using Natural Earth."""
     try:
         from cartopy.io import shapereader
     except Exception as exc:  # pragma: no cover
@@ -75,6 +95,7 @@ def get_bbox(ISO_A2: str) -> Tuple[float, float, float, float]:
 
 
 def read_grib_file(grib_path: Path, step_type: Optional[str] = None, max_retries: int = 3) -> xr.Dataset:
+    """Open a GRIB file with cfgrib, optionally merging avgid/avgas step types."""
     def remove_cfgrib_index_files(grib_path: Path) -> None:
         idx_files = glob.glob(f"{grib_path}.*.idx")
         for idx in idx_files:
@@ -163,6 +184,7 @@ def plot_monthly_mean(
     display: bool = False,
     label_map: Optional[Dict[str, str]] = None,
     var_display_name: Optional[str] = None,
+    verbose: bool = False,
 ) -> None:
     n = len(dataset)
     label_map = label_map or {}
@@ -172,10 +194,15 @@ def plot_monthly_mean(
         axs = [axs]
     for ax, (iso, ds) in zip(axs, dataset.items()):
         da = ds[var]
+        country_label = label_map.get(iso, iso)
         spatial_mean = da.mean(dim=[lat_name, lon_name])
         months_per_year = spatial_mean.groupby("time.year").count()
         complete_years = months_per_year.where(months_per_year == 12, drop=True)["year"].values
-        spatial_mean_complete = spatial_mean.where(spatial_mean["time.year"].isin(complete_years), drop=True)
+        if complete_years.size == 0:
+            _log(f"No complete 12-month years for {country_label}; using available months instead", verbose)
+            spatial_mean_complete = spatial_mean
+        else:
+            spatial_mean_complete = spatial_mean.where(spatial_mean["time.year"].isin(complete_years), drop=True)
         by_year = spatial_mean_complete.groupby("time.year")
         annual_totals = by_year.sum()
         max_year = annual_totals["year"].values[annual_totals.argmax().item()]
@@ -216,7 +243,9 @@ def plot_monthly_mean(
     axs[-1].set_xlabel("Month")
     plt.tight_layout()
     if folder is not None:
-        plt.savefig(folder / f"monthly_mean_{var}.pdf")
+        target = folder / f"monthly_mean_{var}.pdf"
+        plt.savefig(target)
+        _log(f"Saved monthly mean plot to {target}", verbose)
     if display:
         plt.show()
     plt.close(fig)
@@ -233,6 +262,7 @@ def scatter_annual_spatial_means(
     label_map: Optional[Dict[str, str]] = None,
     var_x_display: Optional[str] = None,
     var_y_display: Optional[str] = None,
+    verbose: bool = False,
 ) -> None:
     markers = ["o", "s", "^", "D", "v", "<", ">", "P", "*", "X"]
     colors = plt.cm.tab10.colors
@@ -262,7 +292,9 @@ def scatter_annual_spatial_means(
     plt.legend()
     plt.tight_layout()
     if folder:
-        fig.savefig(folder / f"scatter_annual_spatial_means_{var_x}_{var_y}.pdf")
+        target = folder / f"scatter_annual_spatial_means_{var_x}_{var_y}.pdf"
+        fig.savefig(target)
+        _log(f"Saved scatter plot to {target}", verbose)
     if display:
         plt.show()
     plt.close(fig)
@@ -276,38 +308,45 @@ def plot_spatial_mean_timeseries_all_iso(
     display: bool = False,
     label_map: Optional[Dict[str, str]] = None,
     var_display_name: Optional[str] = None,
+    verbose: bool = False,
 ) -> None:
     lat_name, lon_name = "latitude", "longitude"
     label_map = label_map or {}
     var_label = _get_var_display_name(var, var_display_name)
     units = _get_var_units(dataset, var)
     fig = plt.figure(figsize=(12, 6))
+    evolution_label = "Monthly evolution" if agg is None else "Annual evolution"
     for iso, ds in dataset.items():
         da = ds[var]
+        country_label = label_map.get(iso, iso)
         spatial_mean = da.mean(dim=[lat_name, lon_name])
         if agg == "avg":
             spatial_mean = spatial_mean.groupby("time.year").mean()
-            time_axis = spatial_mean["year"].values
+            time_axis = spatial_mean["year"].astype(int).values
         elif agg == "sum":
             spatial_mean = spatial_mean.groupby("time.year").sum()
-            time_axis = spatial_mean["year"].values
+            time_axis = spatial_mean["year"].astype(int).values
         else:
             time_axis = ds["time"].values
-        plt.plot(time_axis, spatial_mean, label=f"{label_map.get(iso, iso)} - mean")
-    plt.title(f"Temporal Evolution of Spatial Mean of {var_label}")
+        plt.plot(time_axis, spatial_mean.values, label=country_label)
+    plt.title(f"{evolution_label} of {var_label} (spatial mean across the country)")
     plt.xlabel("Time")
     plt.ylabel(f"{var_label} ({units})" if units else var_label)
     plt.legend(loc="center left", bbox_to_anchor=(1, 0.5))
     plt.grid(True)
     plt.tight_layout()
     if folder is not None:
-        fig.savefig(folder / f"spatial_mean_{var}_{agg}.pdf")
+        suffix = "None" if agg is None else agg
+        log_label = "monthly" if agg is None else "annual"
+        target = folder / f"spatial_mean_{var}_{suffix}.pdf"
+        fig.savefig(target)
+        _log(f"Saved {log_label} evolution plot to {target}", verbose)
     if display:
         plt.show()
     plt.close(fig)
 
 
-def plot_monthly_precipitation_heatmap(
+def plot_monthly_heatmap(
     dataset: Dict[str, xr.Dataset],
     var: str = "tp",
     cmap: str = "cividis",
@@ -317,6 +356,7 @@ def plot_monthly_precipitation_heatmap(
     display: bool = False,
     label_map: Optional[Dict[str, str]] = None,
     var_display_name: Optional[str] = None,
+    verbose: bool = False,
 ) -> None:
     data_rows = []
     label_map = label_map or {}
@@ -352,14 +392,16 @@ def plot_monthly_precipitation_heatmap(
         ax=ax,
     )
     ax.set_title(f"Monthly Mean {var_label} per Country{units_label}")
-    ax.set_xlabel("Month")
-    ax.set_ylabel("Country")
+    ax.set_xlabel("")
+    ax.set_ylabel("")
     ax.set_xticks([i + 0.5 for i in range(12)])
     ax.set_xticklabels([calendar.month_abbr[i + 1] for i in range(12)], rotation=0)
     ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
     fig.tight_layout()
     if path is not None:
         fig.savefig(path)
+        _log(f"Saved monthly heatmap for {var} to {path}", verbose)
+        _log(f"Saved precipitation heatmap to {path}", verbose)
     if display:
         plt.show()
     plt.close(fig)
@@ -557,12 +599,13 @@ def load_era5_archives(
     plan: Dict[str, Path],
     extract_dir: Path,
     convert_units_flag: bool = True,
+    verbose: bool = False,
 ) -> Dict[str, xr.Dataset]:
     _require_utils()
     datasets: Dict[str, xr.Dataset] = {}
     for iso, zip_path in plan.items():
-        print(f"[climate] Reading {zip_path.name} for {iso}")
-        ds = extract_data(str(zip_path), step_type=True, extract_to=str(extract_dir / iso))
+        _log(f"Reading {zip_path.name} for {iso}", verbose)
+        ds = extract_data(zip_path, step_type=True, extract_to=extract_dir / iso)
         if convert_units_flag:
             ds = convert_dataset_units(ds)
         datasets[iso] = ds
@@ -612,6 +655,7 @@ def default_output_paths(output_dir: Path, variables: Sequence[str]) -> List[Pat
         outputs.append(output_dir / f"monthly_mean_{var_key}.pdf")
     outputs.append(output_dir / "scatter_annual_spatial_means_t2m_tp.pdf")
     outputs.append(output_dir / "monthly_precipitation_heatmap.png")
+    outputs.append(output_dir / "monthly_temperature_heatmap.png")
     return outputs
 
 
@@ -628,6 +672,7 @@ def run_climate_overview(
     generate_plots: bool = True,
     save_netcdf: bool = True,
     label_map: Optional[Dict[str, str]] = None,
+    verbose: bool = False,
 ) -> Dict[str, object]:
     """Main entry point to generate climate datasets + figures."""
     _require_utils()
@@ -636,14 +681,20 @@ def run_climate_overview(
     output_dir = _ensure_dir(Path(output_dir))
 
     plan = _build_download_plan(iso_codes, variables, start_year, end_year, dataset_name, api_dir)
+    _log(
+        f"Plan with {len(plan)} entries for ISO codes {', '.join(iso_codes)} (dataset={dataset_name}, download={download}, plots={generate_plots}, save_netcdf={save_netcdf})",
+        verbose,
+    )
     bboxes = {iso: get_bbox(iso) for iso in iso_codes}
     maybe_download_era5(plan, bboxes, variables, start_year, end_year, dataset_name, download=download)
+    _log("Finished download/check step for ERA5 archives.", verbose)
 
-    datasets = load_era5_archives(plan, extract_dir, convert_units_flag=True)
+    datasets = load_era5_archives(plan, extract_dir, convert_units_flag=True, verbose=verbose)
 
     summary_df = summarize_climate(datasets, variables, label_map=label_map)
     summary_path = output_dir / "climate_summary.csv"
     summary_df.to_csv(summary_path, index=False)
+    _log(f"Wrote summary CSV to {summary_path}", verbose)
 
     outputs = {"summary": summary_path, "figures": []}
     if save_netcdf:
@@ -652,11 +703,13 @@ def run_climate_overview(
             nc_path = output_dir / f"{dataset_name}_{iso}_{start_year}_{end_year}_{suffix}.nc"
             ds.to_netcdf(nc_path)
             outputs["figures"].append(nc_path)
+            _log(f"Wrote NetCDF for {iso} to {nc_path}", verbose)
 
     if not generate_plots:
         return outputs
 
     label_map = label_map or {}
+    _log(f"Generating plots for variables: {variables}", verbose)
     for var in variables:
         var_key = VARIABLE_CODES.get(var, var)
         display_name = DISPLAY_NAMES.get(var_key)
@@ -669,6 +722,7 @@ def run_climate_overview(
                 display=False,
                 label_map=label_map,
                 var_display_name=display_name,
+                verbose=verbose,
             )
         agg = "avg" if var_key == "t2m" else "sum"
         if any(var_key in ds for ds in datasets.values()):
@@ -680,6 +734,7 @@ def run_climate_overview(
                 display=False,
                 label_map=label_map,
                 var_display_name=display_name,
+                verbose=verbose,
             )
             plot_monthly_mean(
                 datasets,
@@ -688,6 +743,7 @@ def run_climate_overview(
                 display=False,
                 label_map=label_map,
                 var_display_name=display_name,
+                verbose=verbose,
             )
 
     if {"t2m", "tp"}.issubset({VARIABLE_CODES.get(v, v) for v in variables}):
@@ -700,58 +756,69 @@ def run_climate_overview(
             label_map=label_map,
             var_x_display=DISPLAY_NAMES.get("t2m"),
             var_y_display=DISPLAY_NAMES.get("tp"),
+            verbose=verbose,
         )
 
     if "total_precipitation" in variables or "tp" in variables:
-        plot_monthly_precipitation_heatmap(
+        plot_monthly_heatmap(
             datasets,
             var="tp",
             path=output_dir / "monthly_precipitation_heatmap.png",
             display=False,
             label_map=label_map,
             var_display_name=DISPLAY_NAMES.get("tp"),
+            verbose=verbose,
+        )
+    if "2m_temperature" in variables or "t2m" in variables:
+        plot_monthly_heatmap(
+            datasets,
+            var="t2m",
+            path=output_dir / "monthly_temperature_heatmap.png",
+            display=False,
+            label_map=label_map,
+            var_display_name=DISPLAY_NAMES.get("t2m"),
+            verbose=verbose,
         )
 
     return outputs
 
 
-# === Simple IDE-friendly defaults ===
-# Tweak these variables before running this script directly from an editor.
-COUNTRIES: List[str] = ["Albania"]
-START_YEAR: int = 1990
-END_YEAR: int = 2000
-VARIABLES: List[str] = ["2m_temperature", "total_precipitation"]
-OUTPUT_ROOT: Path = HERE / "climate_debug"
-API_DIR: Optional[Path] = None
-EXTRACT_DIR: Optional[Path] = None
-OUTPUT_DIR: Optional[Path] = None
-DATASET: str = ERA5_DATASET
-DOWNLOAD: bool = True
-GENERATE_PLOTS: bool = True
-SAVE_NETCDF: bool = True
-
-
 if __name__ == "__main__":
-    iso_codes = _countries_to_iso_codes(COUNTRIES)
-    api_dir = API_DIR or (OUTPUT_ROOT / "api")
-    extract_dir = EXTRACT_DIR or (OUTPUT_ROOT / "extract")
-    output_dir = OUTPUT_DIR or (OUTPUT_ROOT / "output")
+    countries: List[str] = ["Bosnia and Herzegovina", "Croatia"]
+    start_year: int = 1990
+    end_year: int = 2000
+    variables: List[str] = ["2m_temperature", "total_precipitation"]
+    output_root: Path = HERE / "output_debug" / "climate_overview_standalone"
+    api_dir: Optional[Path] = None
+    extract_dir: Optional[Path] = None
+    output_dir_override: Optional[Path] = None
+    dataset: str = ERA5_DATASET
+    download: bool = True
+    generate_plots: bool = True
+    save_netcdf: bool = True
+    verbose: bool = True
+
+    iso_codes = _countries_to_iso_codes(countries)
+    api_dir = api_dir or (output_root / "api")
+    extract_dir = extract_dir or (output_root / "extract")
+    output_dir = output_dir_override or (output_root / "output")
     label_map = _enrich_label_map(iso_codes, None)
 
     print(f"[climate_overview] Preparing {len(iso_codes)} countries: {', '.join(iso_codes)}")
-    print(f"[climate_overview] Output root: {OUTPUT_ROOT}")
+    print(f"[climate_overview] Output root: {output_root}")
 
     run_climate_overview(
         iso_codes=iso_codes,
-        start_year=START_YEAR,
-        end_year=END_YEAR,
-        variables=VARIABLES,
+        start_year=start_year,
+        end_year=end_year,
+        variables=variables,
         api_dir=api_dir,
         extract_dir=extract_dir,
         output_dir=output_dir,
-        dataset_name=DATASET,
-        download=DOWNLOAD,
-        generate_plots=GENERATE_PLOTS,
-        save_netcdf=SAVE_NETCDF,
+        dataset_name=dataset,
+        download=download,
+        generate_plots=generate_plots,
+        save_netcdf=save_netcdf,
         label_map=label_map,
+        verbose=verbose,
     )

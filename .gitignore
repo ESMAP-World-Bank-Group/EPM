@@ -21,6 +21,10 @@
 *.log~3
 *.log~4
 *.log~5
+*.nc
+*.idx
+*.grib
+*.zip
 
 # IDE / Editor configs
 .vscode
@@ -56,11 +60,13 @@ epm/epm.~log
 
 # Pre-analysis generated data
 pre-analysis/output_workflow
+pre-analysis/output_debug
+pre-analysis/intermediate_output
 pre-analysis/.snakemake/
 pre-analysis/open-data/.snakemake/
 pre-analysis/open-data/old/
-pre-analysis/open-data/dataset/
-!pre-analysis/open-data/dataset/.gitkeep
+pre-analysis/dataset/
+!pre-analysis/dataset/.gitkeep
 pre-analysis/**/input/*
 pre-analysis/**/output/*
 !pre-analysis/**/input/.gitkeep
