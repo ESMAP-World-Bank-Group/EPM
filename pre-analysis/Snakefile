@@ -12,18 +12,19 @@ from pathlib import Path
 # This workflow orchestrates climate, generation, and load data prep plus report exports.
 # Major components: data acquisition (climate overview, GAP projects, IRENA, load profiles),
 # modeling helpers (representative days, generation map, Renewables Ninja), and reporting outputs.
-# Key dependencies: config/open_data_config.yaml, utils_renewables, utils_reprdays,
-# climate_overview/generation_map/generate_report helpers, and Pandoc for PDF/DOCX exports.
-# Assumes data can live in open-data or configured input_workflow folders and required
-# Python packages (cartopy, climate_overview) are installed alongside Pandoc on PATH.
+# Key dependencies: config/open_data_config.yaml, load/vre pipelines, repdays_pipeline,
+# climate_pipeline/generators_pipeline/generate_report helpers, and Pandoc for PDF/DOCX exports.
+# Assumes data lives under the open-data folder and required
+# Python packages (cartopy, climate_pipeline) are installed alongside Pandoc on PATH.
 
 ################################################################################
 # Paths and config
 ################################################################################
 BASE_DIR = Path(getattr(workflow, "basedir", Path(__file__).resolve().parent)).resolve()
-OPEN_DATA_DIR = BASE_DIR / "open-data"
+OPEN_DATA_DIR = BASE_DIR / "dataset"
 PREPARE_DIR = BASE_DIR / "prepare-data"
-REP_DAYS_DIR = BASE_DIR / "prepare-data" / "representative_days"
+# Representative-days folder moved to top-level under pre-analysis/representative_days
+REP_DAYS_DIR = BASE_DIR / "representative_days"
 CONFIG_PATH = (BASE_DIR / "config" / "open_data_config.yaml").resolve()
 
 configfile: str(CONFIG_PATH)
@@ -33,18 +34,21 @@ for _path in (OPEN_DATA_DIR, PREPARE_DIR, REP_DAYS_DIR):
     if str(_path) not in sys.path:
         sys.path.append(str(_path))
 
-from utils_renewables import (
+from vre_pipeline import (
     gap_rninja_coordinates,
     run_renewables_ninja_workflow,
     run_irena_workflow,
     require_file,
     rninja_output_filename,
     irena_output_filename,
-    load_country_load_profile,
     export_epm_full_timeseries,
-    DEFAULT_TOKTAROVA_PATH,
 )
-from utils_reprdays import run_representative_days_pipeline
+from load_pipeline import (
+    DEFAULT_TOKTAROVA_PATH,
+    load_country_load_profile,
+    run_load_workflow,
+)
+from representative_days.representativedays_pipeline import run_representative_days_pipeline
 
 
 def _slug(text):
@@ -60,7 +64,7 @@ def _resolve_relative(base, maybe_path):
 
 # Allow users to override workflow roots in the config; default to new dirs at the
 # pre-analysis root. Inputs fallback to the legacy open-data structure if needed.
-INPUT_ROOT = _resolve_relative(BASE_DIR, config.get("input_workflow_dir", "input_workflow")).resolve()
+INPUT_ROOT = OPEN_DATA_DIR
 OUTPUT_ROOT = _resolve_relative(BASE_DIR, config.get("output_workflow_dir", "output_workflow")).resolve()
 INPUT_ROOT.mkdir(parents=True, exist_ok=True)
 OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
@@ -83,15 +87,18 @@ FAILURE_LOG_PATHS = [
 ]
 
 def resolve_input(path):
-    """Prefer the new input_workflow root, fall back to the open-data folder."""
+    """Resolve a path under the open-data folder (pre-analysis/dataset).
+
+    Accepts bare filenames (e.g., 'Global-Integrated-Power-April-2025.xlsx'),
+    paths already prefixed with 'dataset/' (for backward compatibility),
+    or absolute paths.
+    """
     p = Path(path)
     if p.is_absolute():
         return p
-    candidates = [(INPUT_ROOT / p), (OPEN_DATA_DIR / p)]
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
-    return candidates[0]
+    if p.parts and p.parts[0] == "dataset":
+        p = Path(*p.parts[1:])
+    return OPEN_DATA_DIR / p
 
 
 def resolve_output(path, *, category=None):
@@ -475,7 +482,7 @@ def _climate_settings():
     variables = CLIMATE_CFG.get("variables", ["2m_temperature", "total_precipitation"])
 
     try:
-        from climate_overview import default_output_paths
+        from climate_pipeline import default_output_paths
 
         all_targets = [str(p) for p in default_output_paths(outdir, variables)]
     except Exception:
@@ -509,7 +516,7 @@ def _climate_plan_paths():
     if not CLIMATE_ISO_CODES:
         return {}
     try:
-        from climate_overview import _build_download_plan
+        from climate_pipeline import _build_download_plan
 
         return _build_download_plan(
             CLIMATE_ISO_CODES,
@@ -539,17 +546,62 @@ def _rep_settings():
     if not (REP_CFG and REP_CFG.get("enabled", False)):
         return {"targets": [], "outdir": None, "input_files": {}}
 
-    outdir = resolve_output(REP_CFG.get("output_dir", REP_DAYS_DIR / "output"))
+    output_dir_cfg = REP_CFG.get("output_dir") or (REP_DAYS_DIR / "output")
+    output_dir_cfg = Path(output_dir_cfg)
+    if not output_dir_cfg.is_absolute():
+        outdir = (REP_DAYS_DIR / output_dir_cfg).resolve()
+    else:
+        outdir = output_dir_cfg
+
+    epm_outdir_cfg = REP_CFG.get("epm_output_dir") or "representative_days"
+    epm_outdir = resolve_output(epm_outdir_cfg, category="epm_export")
     input_files = {k: str(resolve_input(v)) for k, v in (REP_CFG.get("input_files") or {}).items()}
+
+    # Auto-fill inputs from upstream outputs when not provided in the config.
+    def _first_existing(candidates):
+        for path in candidates:
+            if path and Path(path).exists():
+                return str(path)
+        return None
+
+    def _match_candidates(outputs, keywords):
+        keywords = [kw.lower() for kw in keywords]
+        return [p for p in outputs if any(kw in Path(p).stem.lower() for kw in keywords)]
+
+    pv_candidates = _match_candidates(NINJA_OUTPUTS, ["solar", "pv"]) + _match_candidates(IRENA_OUTPUTS, ["solar", "pv"])
+    wind_candidates = _match_candidates(NINJA_OUTPUTS, ["wind"]) + _match_candidates(IRENA_OUTPUTS, ["wind"])
+    if "PV" not in input_files:
+        pv_path = _first_existing(pv_candidates)
+        if pv_path:
+            input_files["PV"] = pv_path
+    if "Wind" not in input_files:
+        wind_path = _first_existing(wind_candidates)
+        if wind_path:
+            input_files["Wind"] = wind_path
+
+    load_export_target = None
+    has_load_input = any("load" in k.lower() for k in input_files)
+    load_cfg_entries = LOAD_CFG and (LOAD_CFG.get("countries") or LOAD_CFG.get("country"))
+    if not has_load_input and load_cfg_entries:
+        load_export_target = REP_DAYS_DIR / "input" / "load_profiles.csv"
+        input_files["Load"] = str(load_export_target)
     targets = [
         str(outdir / "repr_days.csv"),
-        str(outdir / "pHours.csv"),
-        str(outdir / "pVREProfile.csv"),
+        str(epm_outdir / "pHours.csv"),
+        str(epm_outdir / "pVREProfile.csv"),
+        str(OUTPUT_ROOT / "representative_days_summary.csv"),
     ]
-    if any("load" in k.lower() for k in input_files):
-        targets.append(str(outdir / "pDemandProfile.csv"))
+    has_existing_load_input = any("load" in k.lower() for k in input_files)
+    if has_existing_load_input or load_export_target:
+        targets.append(str(epm_outdir / "pDemandProfile.csv"))
 
-    return {"targets": targets, "outdir": outdir, "input_files": input_files}
+    return {
+        "targets": targets,
+        "outdir": outdir,
+        "epm_outdir": epm_outdir,
+        "input_files": input_files,
+        "load_export_target": load_export_target,
+    }
 
 
 def _genmap_settings():
@@ -630,7 +682,9 @@ CLIMATE_END = CLIMATE["end_year"]
 REP = _rep_settings()
 REP_TARGETS = REP["targets"]
 REP_OUTDIR = REP["outdir"]
+REP_EPM_OUTDIR = REP.get("epm_outdir")
 REP_INPUT_FILES = REP["input_files"]
+REP_LOAD_EXPORT_TARGET = Path(REP["load_export_target"]) if REP.get("load_export_target") else None
 
 GENMAP = _genmap_settings()
 GENMAP_TARGETS = GENMAP["targets"]
@@ -701,7 +755,7 @@ if CLIMATE_DATA_TARGETS:
         run:
             def _task():
                 """Download ERA5 layers and report missing archives before returning ISO codes."""
-                from climate_overview import run_climate_overview
+                from climate_pipeline import run_climate_overview
 
                 available_iso_codes = _climate_iso_codes_for_run()
                 label_map = {
@@ -766,14 +820,14 @@ if CLIMATE_PLOTS_ENABLED and CLIMATE_PLOT_TARGETS:
                     _write_placeholder(path, message)
 
             def _task():
-                """Generate climate figures for configured ISO codes using climate_overview."""
+                """Generate climate figures for configured ISO codes using climate_pipeline."""
                 available_iso_codes = _climate_iso_codes_for_run()
                 if not available_iso_codes:
                     warning = "Missing ERA5 archives for configured countries."
                     print(f"[climate_overview_plots] {warning}")
                     _write_plot_placeholders(warning)
                     return
-                from climate_overview import run_climate_overview
+                from climate_pipeline import run_climate_overview
 
                 label_map = {
                     iso: CLIMATE_LABELS.get(iso)
@@ -919,7 +973,7 @@ if GENMAP_TARGETS:
         run:
             def _task():
                 """Build generation map artifacts and fallback placeholders on failure."""
-                from generation_map import build_generation_map
+                from generators_pipeline import build_generation_map
 
                 try:
                     build_generation_map(
@@ -1010,28 +1064,32 @@ rule irena_workflow:
 # Load profile from Toktarova dataset
 ################################################################################
 if LOAD_CSV_TARGETS:
-    rule load_profile:
-        """Extract and plot Toktarova et al. hourly load profile for one country."""
+    rule load_profile_all:
+        """Extract and plot Toktarova et al. hourly load profiles for all countries in one run."""
         output:
-            **LOAD_OUTPUTS,
-        params:
-            country=lambda wildcards: LOAD["slug_map"][wildcards.slug],
+            csv=LOAD["csv_targets"],
+            plot=LOAD["plot_targets"],
+            heatmap=LOAD.get("heatmap_targets", []),
+            boxplot=LOAD.get("boxplot_targets", []),
         log:
-            str(LOG_DIR / "load_profile_{slug}.log")
+            str(LOG_DIR / "load_profile_all.log")
         run:
             def _task():
-                """Generate the Toktarova load profile and optional plots for the country slug."""
-                load_country_load_profile(
-                    country=params.country,
+                """Generate load profiles, diagnostics, and combined repr-days export in one pass."""
+                run_load_workflow(
+                    countries=LOAD["countries"],
                     dataset_path=LOAD["dataset"],
                     output_dir=LOAD["outdir"],
                     year=LOAD["year"],
                     plot=True,
                     generate_heatmap_boxplot=LOAD["generate_heatmap_boxplot"],
+                    verbose=VERBOSE_LOGS,
+                    export_for_representative_days=str(REP_LOAD_EXPORT_TARGET),
+                    slug_map=LOAD.get("slug_map"),
                 )
 
             with _capture_rule_log(log) as log_path:
-                best_effort("load_profile", output, _task, log_path=str(log_path))
+                best_effort("load_profile_all", output, _task, log_path=str(log_path))
 
 ################################################################################
 # Representative days (prepare-data workflow)
@@ -1046,17 +1104,39 @@ if REP_CFG and REP_CFG.get("enabled", False):
             repr_days=REP_TARGETS[0],
             phours=REP_TARGETS[1],
             pvre=REP_TARGETS[2],
-            pdemand=(REP_TARGETS[3] if len(REP_TARGETS) > 3 else temp(REP_OUTDIR / ".no_demand")),
+            summary=REP_TARGETS[3],
+            pdemand=(REP_TARGETS[4] if len(REP_TARGETS) > 4 else temp(REP_OUTDIR / ".no_demand")),
         log:
             str(LOG_DIR / "representative_days.log")
         run:
             def _task():
                 """Run the representative-days pipeline and create placeholders if it fails."""
                 try:
+                    run_input_files = dict(REP_INPUT_FILES)
+                    run_input_files["Load"] = str(REP_LOAD_EXPORT_TARGET)
+
+                    # Resolve GAMS main file: prefer config, fall back to repo copy under representative_days/gams.
+                    gams_cfg_path = REP_CFG.get("gams_main_file")
+                    default_gams = REP_DAYS_DIR / "gams" / "OptimizationModelZone.gms"
+                    p = Path(gams_cfg_path) if gams_cfg_path else default_gams
+                    if not p.is_absolute():
+                        candidate1 = (BASE_DIR / p).resolve()
+                        candidate2 = (REP_DAYS_DIR / p.name).resolve() if p.name else default_gams
+                        if candidate1.exists():
+                            p = candidate1
+                        elif candidate2.exists():
+                            p = candidate2
+                        else:
+                            p = default_gams
+                    gams_main_file = str(p)
+
                     paths = run_representative_days_pipeline(
                         seasons_map=REP_CFG["seasons_map"],
-                        input_files=REP_INPUT_FILES,
+                        input_files=run_input_files,
                         output_dir=REP_OUTDIR,
+                        epm_output_dir=REP_EPM_OUTDIR,
+                        summary_dir=OUTPUT_ROOT,
+                        data_dir=str(REP_DAYS_DIR / "input"),
                         zones_to_exclude=REP_CFG.get("zones_to_exclude"),
                         value_column=REP_CFG.get("value_column", "value"),
                         year_label=REP_CFG.get("year_label", 2018),
@@ -1068,15 +1148,13 @@ if REP_CFG and REP_CFG.get("enabled", False):
                         feature_selection_metric=REP_CFG.get("feature_selection_metric", "euclidean"),
                         feature_selection_scale=REP_CFG.get("feature_selection_scale", True),
                         special_day_threshold=REP_CFG.get("special_day_threshold", 0.1),
-                        gams_main_file=str(
-                            resolve_input(REP_CFG.get("gams_main_file", REP_DAYS_DIR / "gams" / "OptimizationModelZone.gms"))
-                        ),
+                        gams_main_file=gams_main_file,
                     )
 
                     # Snakemake trusts declared outputs; ensure optional demand file exists when expected
-                    if len(REP_TARGETS) > 3 and not Path(paths["paths"]["pDemandProfile"]).exists():
+                    if len(REP_TARGETS) > 4 and not Path(paths["paths"]["pDemandProfile"]).exists():
                         raise ValueError("Demand profile expected but not produced by representative-day pipeline.")
-                    if len(REP_TARGETS) == 3:
+                    if len(REP_TARGETS) == 4:
                         Path(output.pdemand).touch()
                 except Exception as exc:
                     print(f"[representative-days] Skipping representative-days outputs: {exc}")

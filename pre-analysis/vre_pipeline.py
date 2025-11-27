@@ -1,9 +1,17 @@
+"""Variable renewable energy (VRE) pipeline for GAP -> RNinja/IRENA extraction and exports.
+
+Main entry points:
+- `run_renewables_ninja_workflow`: orchestrate RNinja downloads and plotting.
+- `run_irena_workflow`: fetch IRENA capacity factors and export representative CSVs.
+"""
+
 import os
 import time
 import re
 from difflib import SequenceMatcher
 from configparser import ConfigParser
 from pathlib import Path
+from typing import Sequence, Union
 
 import pytz
 import requests
@@ -15,10 +23,9 @@ from geopy.geocoders import Nominatim
 
 TOKEN_SECTION = "api_tokens"
 TOKEN_PATH_ENV_VAR = "API_TOKENS_PATH"
-DEFAULT_TOKEN_PATH = Path(__file__).resolve().parent.parent.parent / "config" / "api_tokens.ini"
+# Default to the repo's config/api_tokens.ini (two levels up from this file).
+DEFAULT_TOKEN_PATH = Path(__file__).resolve().parent.parent / "config" / "api_tokens.ini"
 nb_days = pd.Series([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], index=range(1, 13))
-DEFAULT_TOKTAROVA_PATH = Path(__file__).resolve().parent / "dataset" / \
-    "Toktarova2019_paper_LongtermLoadProjectioninHighREsolutionforallCountriesGlobally_ElecPowerEnergySys_supplementary_7_load_all_2020.csv"
 
 
 def require_file(path, hint=None):
@@ -76,118 +83,7 @@ def resolve_country_name(input_name, available_names, threshold=0.75, verbose=Tr
     )
 
 
-def load_country_load_profile(
-    country,
-    dataset_path=None,
-    output_dir="output",
-    year=2020,
-    plot=True,
-    generate_heatmap_boxplot=True,
-):
-    """Load Toktarova et al. hourly load profile for a single country, save CSV + optional plots.
-
-    Parameters
-    ----------
-    country : str
-        Exact country name as stored in the Toktarova dataset (row "Countryname").
-    dataset_path : str or Path, optional
-        Path to Toktarova2019 load CSV. Defaults to the repo copy under ``dataset/``.
-    output_dir : str or Path, optional
-        Destination folder for the exported CSV/plot. Created if missing.
-    year : int, optional
-        Calendar year used to build a timestamp index (8760 points assumed).
-    plot : bool, optional
-        Whether to also emit a quick line plot (PNG).
-    generate_heatmap_boxplot : bool, optional
-        When True, also emit daily heatmap and boxplot diagnostics (default: True).
-
-Returns
--------
-tuple
-    (pd.DataFrame, Path, Path | None) -> (hourly_profile, csv_path, plot_path). Heatmap/boxplot
-    files are also written when ``generate_heatmap_boxplot`` is True.
-    """
-    data_path = require_file(
-        dataset_path or DEFAULT_TOKTAROVA_PATH,
-        hint="Place Toktarova2019 load dataset under pre-analysis/open-data/dataset/"
-    )
-
-    raw = pd.read_csv(data_path, sep=';', decimal=',', header=None, low_memory=False)
-    country_row = raw.iloc[2]
-    resolved_name = resolve_country_name(country, country_row.tolist(), verbose=True)
-    col_idx = country_row[country_row == resolved_name].index[0]
-    hourly = raw.iloc[5:, [0, col_idx]].rename(columns={0: 'label', col_idx: 'load_mw'})
-    hourly['hour'] = hourly['label'].astype(str).str.extract(r'(\d+)').astype(int)
-    # Toktarova dataset uses comma as decimal separator; replace before parsing
-    hourly['load_mw'] = pd.to_numeric(
-        hourly['load_mw'].astype(str).str.replace(',', '.', regex=False),
-        errors='coerce'
-    )
-    profile = hourly.dropna(subset=['load_mw']).sort_values('hour').reset_index(drop=True)
-
-    profile['timestamp'] = pd.date_range(start=f"{year}-01-01", periods=len(profile), freq='h')
-    profile = profile[['timestamp', 'hour', 'load_mw']]
-
-    out_dir = Path(output_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    slug = _slugify(country)
-    csv_path = out_dir / f"load_profile_{slug}.csv"
-    profile.to_csv(csv_path, index=False)
-
-    plot_path = out_dir / f"load_profile_{slug}.pdf"
-    heatmap_path = out_dir / f"heatmap_load_{slug}.pdf"
-    boxplot_path = out_dir / f"boxplot_load_{slug}.pdf"
-    if plot:
-        import matplotlib
-        matplotlib.use("Agg", force=True)  # force non-GUI backend for Snakemake threads
-        import matplotlib.pyplot as plt
-
-        plt.figure(figsize=(12, 4))
-        plt.plot(profile['timestamp'], profile['load_mw'], linewidth=0.6, color="#1f78b4")
-        plt.xlabel("Timestamp")
-        plt.ylabel("Load (MW)")
-        plt.title(f"Hourly load profile - {country}")
-        plt.tight_layout()
-        plt.savefig(plot_path, bbox_inches='tight')
-        plt.close()
-    else:
-        plot_path = None
-
-    if generate_heatmap_boxplot:
-        from plots import make_boxplot, make_heatmap  # local import to avoid hard dependency
-
-        peak_load = profile["load_mw"].max()
-        has_peak = pd.notna(peak_load) and peak_load > 0
-        value_col = f"{country} (p.u.)" if has_peak else country
-        normalized_load = profile["load_mw"] / peak_load if has_peak else profile["load_mw"]
-
-        df_plot = pd.DataFrame(
-            {
-                "season": profile["timestamp"].dt.month,
-                "day": profile["timestamp"].dt.day,
-                "hour": profile["timestamp"].dt.hour,
-                value_col: normalized_load.values,
-            }
-        )
-
-        make_heatmap(
-            df_plot.copy(),
-            tech=f"Load - {country}",
-            path=heatmap_path,
-            vmin=0,
-            vmax=1,
-        )
-        make_boxplot(
-            df_plot,
-            tech=f"Load - {country}",
-            path=boxplot_path,
-            value_label="Daily average load (p.u.)" if has_peak else "Daily average load (MW)",
-        )
-
-    return profile, csv_path, plot_path
-
-
-def load_api_token(token_name, env_var=None, config_path=None):
+def load_api_token(token_name, env_var=None, config_path=None): 
     """Resolve an API token from the environment first, then from a config file.
 
     Parameters
@@ -1363,9 +1259,19 @@ def convert_to_utc(row, country_timezones):
     return local_time.astimezone(pytz.utc)
 
 
-
 if __name__ == '__main__':
-    
-    country = 'Croatia'
-    if False:
-        load = load_country_load_profile(country, dataset_path=None, output_dir="output", year=2020, plot=True)
+    script_dir = Path(__file__).resolve().parent
+    sample_output = script_dir / "output_debug" / "vre_standalone"
+    sample_output.mkdir(parents=True, exist_ok=True)
+    sample_excel = script_dir / "dataset" / "Global-Integrated-Power-April-2025.xlsx"
+    print(f"[vre-standalone] Preparing sample GAP extraction to {sample_output}")
+    try:
+        _, locations, csv_path = gap_rninja_coordinates(
+            xlsx_path=sample_excel,
+            countries=["Albania"],
+            output_dir=sample_output,
+        )
+        print(f"[vre-standalone] Exported GAP subset to {csv_path}")
+        print(f"[vre-standalone] Locations for RNinja: {locations}")
+    except FileNotFoundError as exc:
+        print(f"[vre-standalone] Skipped: {exc}")

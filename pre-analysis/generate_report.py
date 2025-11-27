@@ -516,7 +516,8 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
     figures = {
         "spatial": sorted(outdir.glob("spatial_mean_*.pdf")),
         "monthly": sorted(outdir.glob("monthly_mean_*.pdf")),
-        "heatmap": sorted(outdir.glob("monthly_precipitation_heatmap.*")),
+        "heatmap_precipitation": sorted(outdir.glob("monthly_precipitation_heatmap.*")),
+        "heatmap_temperature": sorted(outdir.glob("monthly_temperature_heatmap.*")),
         "scatter": sorted(outdir.glob("scatter_annual_spatial_means_*.pdf")),
     }
     data_files = sorted(outdir.glob("*.nc"))
@@ -556,6 +557,74 @@ def find_rep_day_figures(base_dir: Path) -> List[Path]:
     for ext in ("*.pdf", "*.png"):
         figs.extend(sorted(rep_dir.glob(ext)))
     return figs
+
+
+def _percent_no_decimals(value) -> str:
+    """Format a fractional value as a percentage with no decimal places."""
+    if isinstance(value, str) and value.strip() == "-":
+        return "-"
+    try:
+        if pd.isna(value):
+            return "-"
+        return f"{float(value) * 100:.0f}%"
+    except Exception:
+        return "-"
+
+
+def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[str, str]:
+    """Load and prettify the representative_days_summary.csv table."""
+    rep_cfg = config.get("representative_days", {}) or {}
+    rep_subdir = rep_cfg.get("epm_output_dir") or rep_cfg.get("output_dir") or "representative_days"
+    candidates = [
+        output_dir / "representative_days_summary.csv",
+        output_dir / "epm_export" / rep_subdir / "representative_days_summary.csv",
+        output_dir / rep_subdir / "representative_days_summary.csv",
+        BASE_DIR / "prepare-data" / "representative_days" / "output" / "representative_days_summary.csv",
+    ]
+
+    summary_path: Optional[Path] = None
+    seen: set[Path] = set()
+    for candidate in candidates:
+        try:
+            resolved = candidate.resolve()
+        except OSError:
+            continue
+        if resolved in seen:
+            continue
+        seen.add(resolved)
+        if resolved.exists():
+            summary_path = resolved
+            break
+
+    if not summary_path:
+        return "", ""
+
+    try:
+        df = pd.read_csv(summary_path)
+    except Exception:
+        return "", _relpath_for_display(summary_path)
+    if df.empty:
+        return "", _relpath_for_display(summary_path)
+
+    friendly = df.copy()
+    rename = {"season": "Season", "day": "Day", "category": "Category", "weight_pct": "Weight"}
+    friendly = friendly.rename(columns=rename)
+
+    def _clean_col(col: str) -> str:
+        text = str(col)
+        if text in rename.values():
+            return text
+        if text.endswith("_avg_cf"):
+            base = text[: -len("_avg_cf")]
+            return f"{base.replace('_', ' ')} avg CF"
+        return text.replace("_", " ")
+
+    friendly.columns = [_clean_col(c) for c in friendly.columns]
+    if "Weight" in friendly.columns:
+        friendly["Weight"] = friendly["Weight"].apply(_percent_no_decimals)
+
+    summary_md = _wrap_table(friendly.to_markdown(index=False, floatfmt=".3f"))
+    return summary_md, _relpath_for_display(summary_path)
 
 
 FIGURE_PLACEHOLDER_SIGNATURE = b"[PLACEHOLDER]"
@@ -656,7 +725,7 @@ def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict
         ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
         ax.legend(fontsize=8)
         fig.tight_layout()
-        path = load_dir / "load_avg_month.png"
+        path = load_dir / "load_avg_month.pdf"
         fig.savefig(path, dpi=200)
         plt.close(fig)
         figures["avg_month"] = path
@@ -671,7 +740,7 @@ def build_load_aggregate_plots(load_dir: Path, slug_map: Dict[str, str]) -> Dict
         ax.grid(alpha=0.3, linestyle="--", linewidth=0.5)
         ax.legend(fontsize=8, ncol=2)
         fig.tight_layout()
-        path = load_dir / "load_avg_day.png"
+        path = load_dir / "load_avg_day.pdf"
         fig.savefig(path, dpi=200)
         plt.close(fig)
         figures["avg_day"] = path
@@ -685,18 +754,30 @@ def format_generation_summary(df: Optional[pd.DataFrame]) -> str:
         return ""
 
     friendly = df.copy()
-    friendly = friendly.drop(columns=[c for c in ["site_count", "avg_capacity_mw"] if c in friendly.columns])
+
+    status_col = next((col for col in ("status", "Status", "Category") if col in friendly.columns), None)
+    if status_col:
+        friendly["_status_category"] = friendly[status_col].apply(_categorize_status)
+        friendly = friendly[friendly["_status_category"] == "Operating"]
+        friendly = friendly.drop(columns=["_status_category", status_col], errors="ignore")
+
+    if friendly.empty:
+        return ""
+
+    friendly = friendly.drop(columns=[c for c in ["site_count", "avg_capacity_mw", "status", "Category"] if c in friendly.columns], errors="ignore")
 
     rename = {
         "country": "Country",
         "technology": "Technology",
-        "status": "Status",
         "capacity_mw": "Total capacity (MW)",
         "total_capacity_mw": "Total capacity (MW)",
     }
     friendly = friendly.rename(columns=rename)
 
-    ordered_cols = [c for c in ["Country", "Technology", "Status", "Total capacity (MW)"] if c in friendly.columns]
+    if "Total capacity (MW)" in friendly.columns:
+        friendly["Total capacity (MW)"] = pd.to_numeric(friendly["Total capacity (MW)"], errors="coerce").round(0)
+
+    ordered_cols = [c for c in ["Country", "Technology", "Total capacity (MW)"] if c in friendly.columns]
     tail = [c for c in friendly.columns if c not in ordered_cols]
     friendly = friendly[ordered_cols + tail]
 
@@ -778,6 +859,9 @@ def format_generation_sites_by_status(df: Optional[pd.DataFrame]) -> str:
         working["Status"] = "Unknown"
 
     working["Plant"] = working.apply(_short_name, axis=1)
+    working["name"] = working.get("name", "")
+    working["Generator"] = working["name"].apply(lambda val: " ".join(str(val).split()) if isinstance(val, str) else "")
+    working["Generator"] = working["Generator"].where(working["Generator"] != "", working["Plant"])
     working["Capacity (MW)"] = pd.to_numeric(working.get("capacity_mw"), errors="coerce")
     working["Category"] = working["Status"].apply(_categorize_status)
 
@@ -791,7 +875,7 @@ def format_generation_sites_by_status(df: Optional[pd.DataFrame]) -> str:
             if subset.empty:
                 continue
             subset = subset.sort_values(["Technology", "Capacity (MW)"], ascending=[True, False])
-            table_cols = ["Technology", "Plant", "Status", "Capacity (MW)"]
+            table_cols = ["Technology", "Generator", "Status", "Capacity (MW)"]
             subset_table = subset[table_cols]
             lines.append(f"**{category}**\n" + _wrap_table(subset_table.to_markdown(index=False, floatfmt=".0f")))
 
@@ -800,7 +884,7 @@ def format_generation_sites_by_status(df: Optional[pd.DataFrame]) -> str:
             other = other.sort_values(["Technology", "Capacity (MW)"] , ascending=[True, False])
             lines.append(
                 "**Other**\n"
-                + _wrap_table(other[["Technology", "Plant", "Status", "Capacity (MW)"]].to_markdown(index=False, floatfmt=".0f"))
+                + _wrap_table(other[["Technology", "Generator", "Status", "Capacity (MW)"]].to_markdown(index=False, floatfmt=".0f"))
             )
 
     return "\n\n".join(lines)
@@ -863,13 +947,15 @@ def build_repro_checklist(
 def build_appendix_sections(
     repro_checklist: str,
     rninja_summary: List[Dict],
-    gen_summary_by_country: str,
+    gen_status_tables: str,
     boxplots: List[Path],
     gap_plot: Optional[Path] = None,
     generation_map_all_path: Optional[Path] = None,
     generation_map_all_static_figs: str = "",
     workflow_parameters: str = "",
     season_mapping: str = "",
+    extra_sections: Sequence[Dict[str, str]] = (),
+    rninja_period_label: str = "",
 ) -> List[Dict[str, str]]:
     """Assemble appendix sections with headings and content."""
     sections: List[Dict[str, str]] = []
@@ -896,16 +982,27 @@ def build_appendix_sections(
 
     if rninja_summary:
         df_rn = pd.DataFrame(rninja_summary)
+        rninja_period_text = f"Average capacity factors for {rninja_period_label}" if rninja_period_label else "Average capacity factors"
+        tech_labels = {"solar": "Solar PV", "wind": "Wind"}
+        df_rn_wide = (
+            df_rn.groupby(["zone", "tech"])["mean_capacity_factor"]
+            .mean()
+            .unstack("tech")
+            .rename(columns=tech_labels)
+            .reset_index()
+        )
+        column_order = ["zone"] + [label for label in tech_labels.values() if label in df_rn_wide.columns]
+        df_rn_wide = df_rn_wide[column_order]
         diagnostics.append(
-            "#### Renewables Ninja average capacity factors\n"
-            + _wrap_table(df_rn.sort_values(["tech", "zone", "period"]).to_markdown(index=False, floatfmt=".3f"))
+            f"#### {rninja_period_text}\n"
+            + _wrap_table(df_rn_wide.to_markdown(index=False, floatfmt=".3f"))
         )
 
     if diagnostics:
         sections.append({"title": _title("VRE selections and diagnostics"), "body": "\n\n".join(diagnostics)})
 
-    if gen_summary_by_country:
-        sections.append({"title": _title("Generation assets by country"), "body": gen_summary_by_country})
+    if gen_status_tables:
+        sections.append({"title": _title("Generation assets by status (full list)"), "body": gen_status_tables})
 
     if boxplots:
         sections.append(
@@ -926,6 +1023,9 @@ def build_appendix_sections(
         sections.append(
             {"title": _title("Generation map (all statuses)"), "body": "\n\n".join(map_all_lines)}
         )
+
+    for extra in extra_sections:
+        sections.append({"title": _title(extra["title"]), "body": extra["body"]})
 
     return sections
 
@@ -1001,6 +1101,7 @@ def render_report(
         add_link=False,
     )
     rep_figs = find_rep_day_figures(BASE_DIR)
+    rep_summary_table, rep_summary_path = load_representative_days_summary(output_dir, config)
 
     period_candidates = [entry["period"] for entry in rninja_summary if "period" in entry]
     period_numbers = []
@@ -1023,6 +1124,10 @@ def render_report(
     params = summarize_parameters(config)
     season_map_desc = params.get("seasons", "")
     parameter_summary = params.get("bullets", "")
+    rep_cfg = config.get("representative_days", {}) or {}
+    rep_days_count = rep_cfg.get("n_representative_days") or ""
+    rep_days_clusters = rep_cfg.get("n_clusters") or ""
+    rep_days_bins = rep_cfg.get("n_bins") or ""
 
     countries = config.get("gap", {}).get("countries", [])
     countries_text = "\n".join(f"- {name}" for name in countries) if countries else ""
@@ -1094,6 +1199,31 @@ def render_report(
     ]
     data_overview_table = pd.DataFrame(data_overview_rows).to_markdown(index=False)
 
+    climate_spatial_fig = format_figures(climate.get("figures", {}).get("spatial", []), "Spatial mean climate", add_link=False)
+    climate_monthly_fig = format_figures(climate.get("figures", {}).get("monthly", []), "Monthly climate averages", add_link=False)
+    climate_precip_heatmap = format_figures(
+        climate.get("figures", {}).get("heatmap_precipitation", []),
+        "Monthly precipitation heatmap",
+        add_link=False,
+    )
+    climate_temperature_heatmap = format_figures(
+        climate.get("figures", {}).get("heatmap_temperature", []),
+        "Monthly temperature heatmap",
+        add_link=False,
+    )
+    climate_scatter_fig = format_figures(climate.get("figures", {}).get("scatter", []), "Temperature vs precipitation", add_link=False)
+
+    climate_appendix_sections: List[Dict[str, str]] = []
+    climate_appendix_lines: List[str] = []
+    if climate_spatial_fig:
+        climate_appendix_lines.append("#### Spatial diagnostics\n" + climate_spatial_fig)
+    if climate_scatter_fig:
+        climate_appendix_lines.append("#### Temperature vs precipitation diagnostics\n" + climate_scatter_fig)
+    if climate_appendix_lines:
+        climate_appendix_sections.append(
+            {"title": "Climate diagnostics", "body": "\n\n".join(climate_appendix_lines)}
+        )
+
     appendix_sections = build_appendix_sections(
         repro_checklist_md,
         rninja_summary,
@@ -1104,6 +1234,8 @@ def render_report(
         generation_map_all_static_figs=static_map_all_figs,
         workflow_parameters=parameter_summary,
         season_mapping=season_map_desc,
+        extra_sections=climate_appendix_sections,
+        rninja_period_label=rn_period_label,
     )
 
     report_scope = countries_inline or "Energy System Modelling"
@@ -1114,10 +1246,11 @@ def render_report(
         "countries_text": countries_text,
         "rn_countries_inline": countries_inline,
         "climate_summary": climate.get("summary", ""),
-        "climate_spatial_fig": format_figures(climate.get("figures", {}).get("spatial", []), "Spatial mean climate", add_link=False),
-        "climate_monthly_fig": format_figures(climate.get("figures", {}).get("monthly", []), "Monthly climate averages", add_link=False),
-        "climate_heatmap": format_figures(climate.get("figures", {}).get("heatmap", []), "Monthly precipitation heatmap", add_link=False),
-        "climate_scatter_fig": format_figures(climate.get("figures", {}).get("scatter", []), "Temperature vs precipitation", add_link=False),
+        "climate_spatial_fig": climate_spatial_fig,
+        "climate_monthly_fig": climate_monthly_fig,
+        "climate_precip_heatmap": climate_precip_heatmap,
+        "climate_temperature_heatmap": climate_temperature_heatmap,
+        "climate_scatter_fig": climate_scatter_fig,
         "climate_countries": climate.get("countries", ""),
         "climate_period": climate.get("period", ""),
         "load_profile_fig": format_figures(load_figs, "Load profile", add_link=False),
@@ -1146,6 +1279,12 @@ def render_report(
         "rn_period_label": rn_period_label,
         "rninja_zone_sections": rninja_zone_sections,
         "rep_days_fig": format_figures(rep_figs, "Representative days"),
+        "rep_days_summary_table": rep_summary_table,
+        "rep_days_summary_path": rep_summary_path,
+        "rep_days_count": rep_days_count,
+        "rep_days_clusters": rep_days_clusters,
+        "rep_days_bins": rep_days_bins,
+        "rep_season_map": season_map_desc,
         "appendix_sections": appendix_sections,
         "data_overview": data_overview_table,
         "workflow_path": _relpath_for_display(workflow_path),
@@ -1182,11 +1321,21 @@ def parse_args() -> argparse.Namespace:
 
 
 if __name__ == "__main__":
-    args = parse_args()
-    output_path = args.output or default_report_output(args.config, args.output_dir)
-    render_report(args.template, output_path, args.config, args.output_dir)
-    try:
-        display_path = output_path.resolve().relative_to(BASE_DIR)
-    except ValueError:
-        display_path = output_path
-    print(f"Wrote report to {display_path}")
+    if len(sys.argv) == 1:
+        output_dir = BASE_DIR / "output_debug" / "report_standalone"
+        output_path = output_dir / "report.md"
+        render_report(DEFAULT_TEMPLATE, output_path, DEFAULT_CONFIG, output_dir)
+        try:
+            display_path = output_path.resolve().relative_to(BASE_DIR)
+        except ValueError:
+            display_path = output_path
+        print(f"[report] Standalone report written to {display_path}")
+    else:
+        args = parse_args()
+        output_path = args.output or default_report_output(args.config, args.output_dir)
+        render_report(args.template, output_path, args.config, args.output_dir)
+        try:
+            display_path = output_path.resolve().relative_to(BASE_DIR)
+        except ValueError:
+            display_path = output_path
+        print(f"Wrote report to {display_path}")

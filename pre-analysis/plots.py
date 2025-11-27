@@ -54,7 +54,7 @@ def make_heatmap(df, tech, path=None, kind="daily", vmin=None, vmax=None):
             heatmap_kwargs['vmax'] = vmax
         sns.heatmap(heatmap_data.T, **heatmap_kwargs)
         plt.xticks(ticks=x_positions, labels=x_labels, rotation=0)
-        plt.xlabel("Season")
+        plt.xlabel("")
         plt.ylabel("")
         plt.title(f"Heatmap of Daily {tech} Capacity Factor")
     else:
@@ -102,18 +102,39 @@ def make_boxplot(df, tech, path=None, value_label=None):
         value_name='daily_mean'
     )
 
+    # If season values look like months (1-12), relabel legend/title accordingly
+    season_numeric = pd.to_numeric(melted['season'], errors='coerce')
+    season_order_numeric = sorted(season_numeric.dropna().unique())
+    season_ints = [int(s) for s in season_order_numeric if float(s).is_integer()]
+    month_names = {
+        1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr", 5: "May", 6: "Jun",
+        7: "Jul", 8: "Aug", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dec",
+    }
+    is_month_data = set(season_ints) == set(month_names.keys())
+
+    hue_col = "season"
+    hue_order = None
+    legend_title = "Season"
+    title_dimension = "Season"
+    if is_month_data:
+        melted['season_label'] = season_numeric.map(lambda v: month_names.get(int(v)) if pd.notna(v) else None)
+        hue_col = "season_label"
+        hue_order = [month_names[int(s)] for s in season_order_numeric if int(s) in month_names]
+        legend_title = "Month"
+        title_dimension = "Month"
+
     plt.figure(figsize=(14, 6))
-    sns.boxplot(data=melted, x="zone", y="daily_mean", hue="season")
+    sns.boxplot(data=melted, x="zone", y="daily_mean", hue=hue_col, hue_order=hue_order)
     plt.xticks(rotation=45)
 
     plt.legend(
-        title='Season',
+        title=legend_title,
         bbox_to_anchor=(1.05, 1),
         loc='upper left',
         borderaxespad=0.,
         frameon=False
     )
-    plt.ylabel(value_label or "")
+    plt.ylabel("")
     plt.xlabel("")
 
     # Set ymin to 0
@@ -123,7 +144,7 @@ def make_boxplot(df, tech, path=None, value_label=None):
     xtick_labels = [str(col) for col in melted['zone'].unique()]
     plt.xticks(range(len(xtick_labels)), xtick_labels, rotation=45)
 
-    plt.title(f"Distribution of Daily {tech} Capacity Factor by Season and Zone")
+    plt.title(f"Distribution of Daily {tech} Capacity Factor by {title_dimension} and Zone")
     plt.tight_layout()
     if path is not None:
         plt.savefig(path, bbox_inches='tight')

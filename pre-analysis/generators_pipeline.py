@@ -1,9 +1,17 @@
+"""Generation map pipeline for Global Atlas Power data.
+
+Main entry points:
+- `build_generation_map`: clean GAP Excel and export interactive/static maps + CSVs.
+- CLI/`__main__`: provides a no-arg standalone run targeting `output_debug/generation_map_standalone`.
+"""
+
 from __future__ import annotations
 
 import argparse
 import itertools
 import json
 import re
+import sys
 from pathlib import Path
 import unicodedata
 import warnings
@@ -24,7 +32,11 @@ try:
 except ImportError:  # pragma: no cover - geopandas optional for static map background.
     gpd = None
 
-from utils_renewables import require_file, resolve_country_name
+from load_pipeline import require_file, resolve_country_name
+
+# --------------------------------------------------------------------------- #
+# Constants and default styles
+# --------------------------------------------------------------------------- #
 
 # Column aliases to normalize GAP headers into a compact, consistent schema.
 COLUMN_ALIASES: Dict[str, str] = {
@@ -103,6 +115,10 @@ GENERIC_SITE_LABEL_PATTERN = re.compile(
 )
 
 
+# --------------------------------------------------------------------------- #
+# Normalization helpers
+# --------------------------------------------------------------------------- #
+
 def _clean_site_label(label: str) -> str:
     """Remove generic words from facility labels and trim whitespace."""
     if not label:
@@ -175,7 +191,10 @@ def load_generation_sites(
     sheet_name: str = "Power facilities",
     verbose: bool = False,
 ) -> pd.DataFrame:
-    """Load and standardize generation sites from the Global Atlas Power Excel."""
+    """Load and standardize generation sites from the Global Atlas Power Excel.
+
+    Expected data shape: sheet with columns for name/technology/status/country/latitude/longitude/capacity.
+    """
     path = require_file(
         xlsx_path,
         hint="Place Global-Integrated-Power-April-2025.xlsx under pre-analysis/open-data/dataset/ or point the config to the correct location.",
@@ -210,18 +229,23 @@ def load_generation_sites(
 
 
 def summarize_generation_sites(df: pd.DataFrame) -> pd.DataFrame:
-    """Summarize capacity by country/technology/status (drop raw site counts)."""
+    """Summarize operating capacity by country/technology."""
     if df.empty:
-        return pd.DataFrame(columns=["country", "technology", "status", "total_capacity_mw", "avg_capacity_mw"])
+        return pd.DataFrame(columns=["country", "technology", "total_capacity_mw"])
 
     # Defensive: ensure grouping columns are unique even if upstream inputs carried duplicates.
     df = _collapse_duplicate_columns(df, ["country", "technology", "status", "name", "capacity_mw"])
 
+    df["status_category"] = df["status"].apply(_status_category)
+    operating = df[df["status_category"] == "Operating"].copy()
+    if operating.empty:
+        return pd.DataFrame(columns=["country", "technology", "total_capacity_mw"])
+
     summary = (
-        df.groupby(["country", "technology", "status"], dropna=False)
-        .agg(total_capacity_mw=("capacity_mw", "sum"), avg_capacity_mw=("capacity_mw", "mean"))
+        operating.groupby(["country", "technology"], dropna=False)
+        .agg(total_capacity_mw=("capacity_mw", "sum"))
         .reset_index()
-        .sort_values(["country", "technology", "status"])
+        .sort_values(["country", "technology"])
     )
     return summary
 
@@ -287,6 +311,10 @@ function(cluster) {{
 }}
 """
 
+
+# --------------------------------------------------------------------------- #
+# Map rendering
+# --------------------------------------------------------------------------- #
 
 def create_generation_map(
     df: pd.DataFrame,
@@ -688,6 +716,7 @@ DEFAULT_TECH_FUEL: Dict[str, Dict[str, str]] = {
 
 
 def _slugify(text: str) -> str:
+    """Create a lowercase alphanumeric slug."""
     normalized = unicodedata.normalize("NFKD", str(text))
     ascii_text = normalized.encode("ascii", "ignore").decode("ascii")
     cleaned = "".join(ch if ch.isalnum() else "_" for ch in ascii_text)
@@ -696,6 +725,7 @@ def _slugify(text: str) -> str:
 
 
 def _countries_slug(countries: Iterable[str]) -> str:
+    """Join multiple country names into a single slug for filenames."""
     slugs = [_slugify(country) for country in countries]
     slugs = [slug for slug in slugs if slug]
     if not slugs:
@@ -705,13 +735,20 @@ def _countries_slug(countries: Iterable[str]) -> str:
     return "-".join(unique_slugs)
 
 
+# --------------------------------------------------------------------------- #
+# Exports (pGenDataInput + derived files)
+# --------------------------------------------------------------------------- #
+
 def export_pgen_data_input(
     df: pd.DataFrame,
     output_path: Path,
     status_map: Optional[Dict[str, int]] = None,
     tech_map: Optional[Dict[str, Dict[str, str]]] = None,
 ) -> Path:
-    """Export GAP-style generation rows to a minimal pGenDataInput CSV."""
+    """Export GAP-style generation rows to a minimal pGenDataInput CSV.
+
+    Expected columns: ``name, technology, status, country, capacity_mw`` plus optional lat/lon; extra columns ignored.
+    """
     status_map = status_map or DEFAULT_STATUS_TO_CODE
     tech_map = tech_map or DEFAULT_TECH_FUEL
 
@@ -876,7 +913,12 @@ def _find_gap_excel(source: Path) -> Path:
     return candidates[0]
 
 
+# --------------------------------------------------------------------------- #
+# CLI entrypoints
+# --------------------------------------------------------------------------- #
+
 def main(default_verbose: bool = False) -> None:
+    """CLI entrypoint for generation-map helpers (uses argparse)."""
     script_dir = Path(__file__).resolve().parent
     default_source = script_dir / "dataset"
 
@@ -956,4 +998,28 @@ if __name__ == "__main__":
         category=UserWarning,
         module=r"openpyxl\.worksheet\._read_only",
     )
-    main(default_verbose=True)
+    if len(sys.argv) == 1:
+        script_dir = Path(__file__).resolve().parent
+        sample_output_dir = script_dir / "output_debug" / "generation_map_standalone"
+        sample_output_dir.mkdir(parents=True, exist_ok=True)
+        default_source = script_dir / "dataset"
+
+        print("[generation-map] Running standalone example with default dataset.")
+        try:
+            excel_path = _find_gap_excel(default_source)
+        except FileNotFoundError as exc:
+            print(f"[generation-map] Standalone run skipped: {exc}")
+            sys.exit(0)
+
+        outputs = build_generation_map(
+            excel_path,
+            countries=["Albania"],
+            sheet_name="Power facilities",
+            output_dir=sample_output_dir,
+            verbose=True,
+        )
+        print(f"[generation-map] Standalone outputs written to {sample_output_dir}")
+        for label, path in outputs.items():
+            print(f"  {label}: {path}")
+    else:
+        main(default_verbose=True)
