@@ -2,7 +2,7 @@
 
 Main entry points:
 - `build_generation_map`: clean GAP Excel and export interactive/static maps + CSVs.
-- CLI/`__main__`: provides a no-arg standalone run targeting `output_debug/generation_map_standalone`.
+- CLI/`__main__`: provides a no-arg standalone run targeting `output_standalone/generation_map_standalone`.
 """
 
 from __future__ import annotations
@@ -1000,7 +1000,7 @@ if __name__ == "__main__":
     )
     if len(sys.argv) == 1:
         script_dir = Path(__file__).resolve().parent
-        sample_output_dir = script_dir / "output_debug" / "generation_map_standalone"
+        sample_output_dir = script_dir / "output_standalone" / "generation_map_standalone"
         sample_output_dir.mkdir(parents=True, exist_ok=True)
         default_source = script_dir / "dataset"
 

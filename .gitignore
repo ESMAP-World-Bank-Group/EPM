@@ -60,8 +60,8 @@ epm/epm.~log
 
 # Pre-analysis generated data
 pre-analysis/output_workflow
-pre-analysis/output_debug
-pre-analysis/intermediate_output
+pre-analysis/output_standalone
+pre-analysis/api
 pre-analysis/.snakemake/
 pre-analysis/open-data/.snakemake/
 pre-analysis/open-data/old/

@@ -1,17 +1,23 @@
----
-# Open-Data Report for {{ report_scope }} Energy System Modelling
-Generated on: {{ date }}
+# Open-Data Energy System Modelling Report
+### {{ report_scope }}
 
+Generated on: {{ date }}  
+*This report is automatically generated from open datasets and scripted workflows.  
+Figures and tables should be reviewed with caution and validated before use in planning or policy decisions.*
+
+---
 
 ## Table of contents
-- [Quick guide for utilities and modelers](#quick-guide-for-utilities-and-modelers)
-  - [Data lineage and sources](#data-lineage-and-sources)
+- [Introduction](#introduction)
+  - [Data sources](#data-sources)
 - [1. Prepare Data](#1-prepare-data)
   - [1.1 Climate Overview](#11-climate-overview)
   - [1.2 Load Profiles](#12-load-profiles)
-  - [1.3 Generation Assets Map](#13-generation-assets-map)
-  - [1.4 Variable Renewable Energy (VRE) Profiles](#14-variable-renewable-energy-vre-profiles)
-- [2. Representative Days](#2-representative-days)
+  - [1.3 Generators List](#13-generation-assets-map)
+  - [1.4 Variable Renewable Energy Profiles](#14-variable-renewable-energy-vre-profiles)
+- [2. Representative Chronology](#2-representative-chronology)
+  - [2.1 Representative seasons](#21-representative-seasons)
+  - [2.2 Representative days](#22-representative-days)
 - [Appendix](#appendix)
 {% if appendix_sections %}{% for section in appendix_sections %}
   - [{{ section.title }}](#{{ section.title | lower | replace(' ', '-') | replace(':', '') }})
@@ -19,91 +25,88 @@ Generated on: {{ date }}
 
 ---
 
-## Quick guide for utilities and modelers
-- Built with the **EPM Open-Data Workflow** to give you a transparent starting point before customising scenarios (fuel prices, retirements, new builds, demand forecasts).
-- Keep this report alongside the config and output files below so results remain reproducible and auditable.
-- Figures are meant to sanity-check profiles quickly; tables list the authoritative numbers for ingestion into optimisation models.
-- Reproducibility checklist moved to Appendix for quick access.
+## Introduction
 
-### Data lineage and sources
+This report is generated using the EPM Open-Data Workflow, which provides a transparent and fully reproducible foundation for subsequent capacity-expansion and energy-system modelling. It integrates open datasets, applies standardised preprocessing steps, and produces a consistent set of diagnostic figures and tables. The report should be retained together with its configuration files and workflow outputs to preserve full reproducibility and ensure that all results remain auditable. Figures are included to support rapid validation of processed inputs, while the accompanying tables provide the authoritative numerical values intended for optimisation or simulation models. A detailed reproducibility checklist and audit trail are provided in the Appendix, where all workflow parameters, data sources, and extraction timestamps are documented.
+
+### Data sources
 
 {{ data_overview | default("_Data overview not available yet._", true) }}
 
-### Countries covered
-{{ countries_text | default("_Countries not specified._", true) }}
+Data have been gathered for the following countries: {{ countries_inline | default("_countries not specified_", true) }}.
 
 ---
 
-# 1. Prepare Data
+# 1. Data
 
-We work exclusively with open-data sources to ensure reproducibility and transparency.
+We rely exclusively on open-data sources to ensure transparency, accessibility, and reproducibility. These datasets provide a robust starting point for model development, but should be complemented—and where possible superseded—by country-specific or utility-grade data during detailed planning.
+
 ## 1.1 Climate Overview
 
-ERA5-Land monthly indicators ({{ climate_period | default("period not set", true) }}) for {{ climate_countries | default("the selected countries", true) }}.
+Climate data from ERA5-Land are presented for {{ climate_countries | default("the selected countries", true) }} over {{ climate_period | default("the available period", true) }}.
 
 {{ climate_summary | default("_Climate summary not found. Run the climate workflow to generate it._", true) }}
 
 {% set climate_figures = climate_monthly_fig or climate_precip_heatmap or climate_temperature_heatmap %}
 {% if climate_figures %}
-Figures:
-{% if climate_monthly_fig %}
-- Monthly averages by country:
-{{ climate_monthly_fig }}
-{% endif %}
+
+The heatmaps present the monthly evolution of mean temperature and precipitation for the selected countries, highlighting seasonal variability.
+
+
 {% if climate_precip_heatmap %}
-- Monthly precipitation heatmap:
 {{ climate_precip_heatmap }}
 {% endif %}
 {% if climate_temperature_heatmap %}
-- Monthly temperature heatmap:
 {{ climate_temperature_heatmap }}
 {% endif %}
 {% else %}
 _No climate figures were generated because the climate workflow was not run or no data were available._
 {% endif %}
 
-Additional spatial diagnostics appear in the Appendix for anyone wanting deeper detail.
+Additional spatial figures are provided in the [Appendix](#appendix).
 
 ## 1.2 Load Profiles
 
 Load profiles for all modelled countries are derived from the dataset published in:  
-*“Open data for electricity modelling,”* Energy, 2019.  
-Available at: [Energy (2019)](https://www.sciencedirect.com/science/article/abs/pii/S0142061518336196?via%3Dihub)
-
+*“Open data for electricity modelling,”* [Energy (2019)](https://www.sciencedirect.com/science/article/abs/pii/S0142061518336196?via%3Dihub)
+  
 Load profile summary:
 
 {{ load_profile_summary | default("_Load-profile summary not found. Run the workflow to generate it._", true) }}
 
 {% set load_figures = load_profile_fig or load_month_fig or load_day_fig or load_heatmap_fig or load_boxplot_fig %}
 {% if load_figures %}
-Figures:
-- Normalised diagnostics: heatmaps and boxplots are expressed per unit of each country's peak load for easy comparison.
 {% if load_profile_fig %}
-- Hourly profiles:
-{{ load_profile_fig | indent(2, true) }}
+#### Hourly profiles
+
+{{ load_profile_fig }}
 {% endif %}
 {% if load_month_fig %}
-- Average load per month:
-{{ load_month_fig | indent(2, true) }}
+#### Average load per month
+
+{{ load_month_fig }}
 {% endif %}
 {% if load_day_fig %}
-- Average load per day:
-{{ load_day_fig | indent(2, true) }}
+#### Average load per day
+
+{{ load_day_fig }}
 {% endif %}
 {% if load_heatmap_fig %}
-- Heatmap (daily averages):
-{{ load_heatmap_fig | indent(2, true) }}
+
+{{ load_heatmap_fig }}
 {% endif %}
 {% if load_boxplot_fig %}
-- Load distribution (boxplots):
-{{ load_boxplot_fig | indent(2, true) }}
+
+{{ load_boxplot_fig }}
 {% endif %}
 {% endif %}
 
-## 1.3 Generation Assets Map
+## 1.3 Generators List
+
+Generation sites and capacity come from the **Global Integrated Power (GIP) 2025 database**, filtered to the selected countries and technologies.
 
 {% if generation_map_static_figs %}
-{{ generation_map_static_figs | indent(2, true) }}
+{{ generation_map_static_figs }}
 {% endif %}
 
 {% if generation_map_summary %}
@@ -112,19 +115,21 @@ Operating capacity by country and technology:
 {{ generation_map_summary }}
 {% endif %}
 
-_Detailed generation-asset tables (by status) are provided in the Appendix._
+_Detailed generation-asset tables (by status) are provided in the [Appendix](#appendix)._
 
-## 1.4 Variable Renewable Energy (VRE) Profiles
+## 1.4 Variable Renewable Energy
 
-### GIP-selected project locations
+### Selected project locations
 To identify representative renewable resource locations, we use the **Global Integrated Power (GIP) 2025 database**. Here are the sites selected as representative and used to determine the VRE profiles:
 
 {{ vre_location_map | default("_GIP site selections not available yet._", true) }}
 
-{{ vre_location_appendix_note | default("", true) }}
-
 ### RE-Ninja Profiles
-Hourly capacity-factor profiles (covering {{ rn_countries_inline | default("all selected countries", true) }}) are obtained from **Renewables Ninja (RN)** for the period **{{ rn_period_label | default("Jan–Dec", true) }}**.
+Hourly capacity-factor profiles covering {{ rn_countries_inline | default("all selected countries", true) }} are obtained from **Renewables Ninja (RN)** for the period **{{ rn_period_label | default("Jan–Dec", true) }}**.
+
+{% if rninja_avg_cf_table %}
+{{ rninja_avg_cf_table }}
+{% endif %}
 
 We extract both **wind** and **solar PV** datasets.  
 The figures below show the per-country diagnostics grouped by technology:
@@ -132,8 +137,10 @@ The figures below show the per-country diagnostics grouped by technology:
 {% if rninja_zone_sections %}
 {% for tech in rninja_zone_sections %}
 #### {{ tech.label }}
+
 {% for zone in tech.zones %}
 ##### {{ zone.country }}
+
 {% if zone.heatmap %}
 {{ zone.heatmap }}
 {% endif %}
@@ -146,22 +153,42 @@ The figures below show the per-country diagnostics grouped by technology:
 _No Renewables Ninja diagnostics are available yet._
 {% endif %}
 
-These views allow quick comparison of temporal variability and complementarity across the year.
 
----
+# 2. Representative Chronology
 
-# 2. Representative Days
+## 2.1 Representative seasons
 
-We compress the full hourly chronology by clustering load, solar, and wind profiles, tagging rare extremes as *special days*, and running the Poncelet optimisation to pick {{ rep_days_count | default("N", true) }} weighted representative days from {{ rep_days_clusters | default("n/a", true) }} clusters ({{ rep_days_bins | default("n/a", true) }} optimisation bins). Seasonal grouping follows: {{ rep_season_map | default("not specified", true) }}. This keeps seasonal/intraday diversity while making capacity-expansion studies tractable.
+Months are clustered into a handful of contiguous seasons to retain broad climatic structure before day-level clustering. The resulting month→season mapping is:
 
-{% if rep_days_summary_path %}
-- Summary CSV: [representative_days_summary.csv]({{ rep_days_summary_path }})
+{% if rep_seasons_table %}
+{{ rep_seasons_table }}
+{% elif rep_season_map %}
+{{ rep_season_map }}
+{% else %}
+_Representative seasons not available yet._
 {% endif %}
+
+{% if rep_seasons_fig %}
+Season diagnostics (higher values shown darker):
+
+{{ rep_seasons_fig }}
+{% endif %}
+
+## 2.2 Representative days
+
+Capacity-expansion models become expensive when fed multi-year hourly traces. To keep runtimes manageable while preserving realism, we condense the chronology into a handful of weighted "representative" days plus a few extreme/special days.
+
+When multiple years of data are available, we first identify a representative year by comparing full-year energy totals and temporal shapes, selecting the profile that most closely reflects the multi-year average. This provides a stable baseline for subsequent analysis.
+
+To preserve seasonal diversity, months are then grouped into seasons ({{ rep_season_map | default("not specified", true) }}). Within each season, daily load, solar, and wind profiles are clustered to identify the dominant intraday patterns, while infrequent but important extremes are flagged as special days.
+
+Finally, a Poncelet-style optimisation is applied to select {{ rep_days_count | default("N", true) }} weighted representative days from {{ rep_days_clusters | default("n/a", true) }} initial clusters, using {{ rep_days_bins | default("n/a", true) }} intra-day bins. This procedure identifies the smallest set of day patterns whose weighted combination most faithfully reconstructs the full chronology while retaining essential peak and shape characteristics.
 
 {{ rep_days_summary_table | default("_Representative-days summary not available. Run the representative-days workflow to generate it._", true) }}
 
 {% if rep_days_fig %}
 Selected representative and special days (weights shown as opacity):
+
 {{ rep_days_fig }}
 {% endif %}
 

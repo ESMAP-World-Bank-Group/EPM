@@ -346,6 +346,31 @@ def plot_spatial_mean_timeseries_all_iso(
     plt.close(fig)
 
 
+def build_monthly_table(
+    dataset: Dict[str, xr.Dataset],
+    var: str,
+    label_map: Optional[Dict[str, str]] = None,
+    lat_name: str = "latitude",
+    lon_name: str = "longitude",
+    value_col: str = "value",
+) -> pd.DataFrame:
+    """Return tidy monthly averages per country/zone for the given variable."""
+    label_map = label_map or {}
+    data_rows = []
+    for iso, ds in dataset.items():
+        if var not in ds:
+            continue
+        da = ds[var]
+        spatial_mean = da.mean(dim=[lat_name, lon_name])
+        monthly_total = spatial_mean.groupby("time.month").mean(dim="time")
+        monthly_series = monthly_total.to_series()
+        country_label = label_map.get(iso, iso)
+        for month in range(1, 13):
+            value = monthly_series.get(month, 0.0)
+            data_rows.append({"zone": country_label, "month": month, value_col: float(value)})
+    return pd.DataFrame(data_rows)
+
+
 def plot_monthly_heatmap(
     dataset: Dict[str, xr.Dataset],
     var: str = "tp",
@@ -358,24 +383,19 @@ def plot_monthly_heatmap(
     var_display_name: Optional[str] = None,
     verbose: bool = False,
 ) -> None:
-    data_rows = []
     label_map = label_map or {}
     var_label = _get_var_display_name(var, var_display_name)
     units = _get_var_units(dataset, var)
     units_label = f" ({units})" if units else ""
-    for iso, ds in dataset.items():
-        if var not in ds:
-            continue
-        da = ds[var]
-        spatial_mean = da.mean(dim=[lat_name, lon_name])
-        monthly_total = spatial_mean.groupby("time.month").mean(dim="time")
-        monthly_series = monthly_total.to_series()
-        country_label = label_map.get(iso, iso)
-        for month in range(1, 13):
-            value = monthly_series.get(month, 0.0)
-            data_rows.append({"country": country_label, "month": month, "precip": value})
-    df = pd.DataFrame(data_rows)
-    heatmap_data = df.pivot(index="country", columns="month", values="precip").fillna(0)
+    df = build_monthly_table(
+        dataset,
+        var=var,
+        label_map=label_map,
+        lat_name=lat_name,
+        lon_name=lon_name,
+        value_col="value",
+    )
+    heatmap_data = df.pivot(index="zone", columns="month", values="value").fillna(0)
     heatmap_data = heatmap_data.reindex(columns=range(1, 13))
     desired_order = [label_map.get(iso, iso) for iso in dataset.keys()]
     desired_order = [country for country in desired_order if country in heatmap_data.index]
@@ -654,8 +674,8 @@ def default_output_paths(output_dir: Path, variables: Sequence[str]) -> List[Pat
         outputs.append(output_dir / f"spatial_mean_{var_key}_{agg}.pdf")
         outputs.append(output_dir / f"monthly_mean_{var_key}.pdf")
     outputs.append(output_dir / "scatter_annual_spatial_means_t2m_tp.pdf")
-    outputs.append(output_dir / "monthly_precipitation_heatmap.png")
-    outputs.append(output_dir / "monthly_temperature_heatmap.png")
+    outputs.append(output_dir / "monthly_precipitation_heatmap.pdf")
+    outputs.append(output_dir / "monthly_temperature_heatmap.pdf")
     return outputs
 
 
@@ -696,7 +716,7 @@ def run_climate_overview(
     summary_df.to_csv(summary_path, index=False)
     _log(f"Wrote summary CSV to {summary_path}", verbose)
 
-    outputs = {"summary": summary_path, "figures": []}
+    outputs = {"summary": summary_path, "figures": [], "monthly_tables": {}}
     if save_netcdf:
         for iso, ds in datasets.items():
             suffix = "_".join(VARIABLE_CODES.get(v, v) for v in variables)
@@ -763,22 +783,32 @@ def run_climate_overview(
         plot_monthly_heatmap(
             datasets,
             var="tp",
-            path=output_dir / "monthly_precipitation_heatmap.png",
+            path=output_dir / "monthly_precipitation_heatmap.pdf",
             display=False,
             label_map=label_map,
             var_display_name=DISPLAY_NAMES.get("tp"),
             verbose=verbose,
         )
+        monthly_tp = build_monthly_table(datasets, var="tp", label_map=label_map, value_col="value")
+        tp_path = output_dir / "monthly_precipitation.csv"
+        monthly_tp.to_csv(tp_path, index=False)
+        outputs["monthly_tables"]["tp"] = tp_path
+        _log(f"Wrote monthly precipitation table to {tp_path}", verbose)
     if "2m_temperature" in variables or "t2m" in variables:
         plot_monthly_heatmap(
             datasets,
             var="t2m",
-            path=output_dir / "monthly_temperature_heatmap.png",
+            path=output_dir / "monthly_temperature_heatmap.pdf",
             display=False,
             label_map=label_map,
             var_display_name=DISPLAY_NAMES.get("t2m"),
             verbose=verbose,
         )
+        monthly_t2m = build_monthly_table(datasets, var="t2m", label_map=label_map, value_col="value")
+        t2m_path = output_dir / "monthly_temperature.csv"
+        monthly_t2m.to_csv(t2m_path, index=False)
+        outputs["monthly_tables"]["t2m"] = t2m_path
+        _log(f"Wrote monthly temperature table to {t2m_path}", verbose)
 
     return outputs
 
@@ -788,7 +818,7 @@ if __name__ == "__main__":
     start_year: int = 1990
     end_year: int = 2000
     variables: List[str] = ["2m_temperature", "total_precipitation"]
-    output_root: Path = HERE / "output_debug" / "climate_overview_standalone"
+    output_root: Path = HERE / "output_standalone" / "climate_overview_standalone"
     api_dir: Optional[Path] = None
     extract_dir: Optional[Path] = None
     output_dir_override: Optional[Path] = None

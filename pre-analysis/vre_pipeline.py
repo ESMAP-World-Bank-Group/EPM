@@ -6,26 +6,49 @@ Main entry points:
 """
 
 import os
-import time
 import re
-from difflib import SequenceMatcher
+import time
+import warnings
 from configparser import ConfigParser
+from difflib import SequenceMatcher
 from pathlib import Path
-from typing import Sequence, Union
 
+import numpy as np
+import pandas as pd
 import pytz
 import requests
-import pandas as pd
-import numpy as np
-from time import sleep
-from timezonefinder import TimezoneFinder
 from geopy.geocoders import Nominatim
+from timezonefinder import TimezoneFinder
 
 TOKEN_SECTION = "api_tokens"
 TOKEN_PATH_ENV_VAR = "API_TOKENS_PATH"
 # Default to the repo's config/api_tokens.ini (two levels up from this file).
 DEFAULT_TOKEN_PATH = Path(__file__).resolve().parent.parent / "config" / "api_tokens.ini"
 nb_days = pd.Series([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], index=range(1, 13))
+
+# ---------------------------------------------------------------------------
+# Helper utilities
+# ---------------------------------------------------------------------------
+
+
+def _slugify(text):
+    """Simple slug for filenames."""
+    return re.sub(r"[^A-Za-z0-9]+", "_", text).strip("_").lower()
+
+
+def _flatten_year_columns(df):
+    """Convert MultiIndex columns like (year, tech) -> simple year ints."""
+
+    def _to_year(col):
+        if isinstance(col, tuple):
+            col = col[0]
+        try:
+            return int(col)
+        except (TypeError, ValueError):
+            return col
+
+    df.columns = [_to_year(c) for c in df.columns]
+    return df
 
 
 def require_file(path, hint=None):
@@ -36,11 +59,6 @@ def require_file(path, hint=None):
         extra = f" {hint}" if hint else f" Place the file in the expected directory. All files can be downloaded from WBG SharePoint: {sharepoint}"
         raise FileNotFoundError(f"File not found: {path}.{extra}")
     return path
-
-
-def _slugify(text):
-    """Simple slug for filenames."""
-    return re.sub(r"[^A-Za-z0-9]+", "_", text).strip("_").lower()
 
 
 def resolve_country_name(input_name, available_names, threshold=0.75, verbose=True, allow_missing=False):
@@ -72,8 +90,10 @@ def resolve_country_name(input_name, available_names, threshold=0.75, verbose=Tr
 
     if allow_missing:
         suggestions = ", ".join(available[:5])
-        print(f"[country-resolver] Missing '{input_name}'. Closest='{best}' ({best_score:.2f}). "
-              f"Available examples: {suggestions}. Skipping.")
+        print(
+            f"[country-resolver] Missing '{input_name}'. Closest='{best}' ({best_score:.2f}). "
+            f"Available examples: {suggestions}. Skipping."
+        )
         return None
 
     suggestions = ", ".join(available[:5])
@@ -83,18 +103,8 @@ def resolve_country_name(input_name, available_names, threshold=0.75, verbose=Tr
     )
 
 
-def load_api_token(token_name, env_var=None, config_path=None): 
-    """Resolve an API token from the environment first, then from a config file.
-
-    Parameters
-    ----------
-    token_name: str
-        Name of the token in the config file (under the [api_tokens] section).
-    env_var: str, optional
-        Environment variable name to check first. Defaults to 'API_TOKEN_<TOKEN_NAME>'.
-    config_path: str or Path, optional
-        Custom path to a config file. Defaults to API_TOKENS_PATH env var or config/api_tokens.ini.
-    """
+def load_api_token(token_name, env_var=None, config_path=None):
+    """Resolve an API token from the environment first, then from a config file."""
     env_var_name = env_var or f"API_TOKEN_{token_name.upper()}"
     token = os.getenv(env_var_name)
     if token:
@@ -115,6 +125,12 @@ def load_api_token(token_name, env_var=None, config_path=None):
     )
 
 
+def vre_output_filename(source, label, tech):
+    """Standard output filename: vre_<source>_<label?>_<tech>.csv."""
+    label_part = f"_{label}" if label else ""
+    return f"vre_{source}{label_part}_{tech}.csv"
+
+
 def rninja_output_filename(dataset_label, tech):
     """Build the RNinja CSV filename using the unified VRE naming scheme."""
     return vre_output_filename("rninja", dataset_label, tech)
@@ -132,8 +148,11 @@ def _plot_capacity_factor_by_zone(df: pd.DataFrame, tech_label: str, output_path
     except Exception:
         return {}
 
-    required_cols = {"zone", "season", "day", "hour"}
-    if not required_cols.issubset(df.columns):
+    season_label = "season" if "season" in df.columns else "month" if "month" in df.columns else None
+    required_cols = {"zone", "day", "hour"}
+    if season_label:
+        required_cols.add(season_label)
+    if not season_label or not required_cols.issubset(df.columns):
         return {}
 
     value_cols = [
@@ -148,7 +167,7 @@ def _plot_capacity_factor_by_zone(df: pd.DataFrame, tech_label: str, output_path
     for zone, group in df.groupby("zone"):
         zone_label = str(zone)
         zone_slug = _slugify(zone_label)
-        plot_df = group[["season", "day", "hour"]].reset_index(drop=True).copy()
+        plot_df = group[[season_label, "day", "hour"]].reset_index(drop=True).copy()
         numeric = group[value_cols].apply(pd.to_numeric, errors="coerce")
 
         if numeric.shape[1] == 1:
@@ -163,61 +182,105 @@ def _plot_capacity_factor_by_zone(df: pd.DataFrame, tech_label: str, output_path
             plot_df,
             tech=f"{tech_label} - {zone_label}",
             path=heatmap_path,
+            season_label=season_label,
             vmin=0,
             vmax=1,
         )
-        make_boxplot(plot_df, tech=f"{tech_label} - {zone_label}", path=boxplot_path)
+        make_boxplot(plot_df, tech=f"{tech_label} - {zone_label}", path=boxplot_path, season_label=season_label)
         paths[zone_label] = {"heatmap": heatmap_path, "boxplot": boxplot_path}
 
     return paths
 
 
-def vre_output_filename(source, label, tech):
-    """Standard output filename: vre_<source>_<label?>_<tech>.csv."""
-    label_part = f"_{label}" if label else ""
-    return f"vre_{source}{label_part}_{tech}.csv"
+# ---------------------------------------------------------------------------
+# Timezone helpers
+# ---------------------------------------------------------------------------
 
 
-def _flatten_year_columns(df):
-    """Convert MultiIndex columns like (year, tech) -> simple year ints."""
-    def _to_year(col):
-        if isinstance(col, tuple):
-            col = col[0]
+def extract_time_zone(countries, name_map):
+    """
+    Extracts the time zone (IANA tz database name, e.g., 'Africa/Luanda') for each country in a given list.
+
+    This function takes a list of country names used in SPLAT (which may use non-standard naming conventions)
+    and a mapping (`name_map`) from SPLAT-style names to standard country names (as recognized by geocoding services).
+    It uses the `geopy` package to geocode each standard country name and `timezonefinder` to identify the time zone
+    at the country centroid.
+
+    Parameters:
+    ----------
+    countries : list of str
+        List of SPLAT-style country names (e.g., ['SouthAfrica', 'DemocraticRepublicoftheCongo']).
+
+    name_map : dict
+        Dictionary mapping SPLAT-style names to standard country names
+        (e.g., {'SouthAfrica': 'South Africa'}).
+
+    Returns:
+    -------
+    dict
+        Dictionary mapping original SPLAT-style names to their IANA timezone name
+        (e.g., {'SouthAfrica': 'Africa/Johannesburg'}).
+    """
+    standard_names = [name_map.get(c, c) for c in countries]
+
+    # Initialize timezone and geolocation tools
+    tf = TimezoneFinder()
+    geolocator = Nominatim(user_agent="splat_timezones")
+
+    # Build timezone dictionary
+    country_timezones = {}
+
+    for name, std_name in zip(countries, standard_names):
         try:
-            return int(col)
-        except (TypeError, ValueError):
-            return col
-    df.columns = [_to_year(c) for c in df.columns]
-    return df
+            location = geolocator.geocode(std_name, timeout=10)
+            if location:
+                tz = tf.timezone_at(lat=location.latitude, lng=location.longitude)
+                country_timezones[name] = tz
+            else:
+                print(f"Could not geocode: {std_name}")
+        except Exception as e:
+            print(f"Error with {std_name}: {e}")
+
+        time.sleep(1)  # avoid overloading the API
+    return country_timezones
+
+
+def convert_to_utc(row, country_timezones):
+    """
+    Converts a local timestamp to UTC based on the country's time zone.
+
+    This function is designed to be used within a pandas `.apply()` call
+    to convert a 'timestamp' column (assumed local time) into UTC, using
+    a dictionary that maps each country name to its IANA time zone string.
+
+    Parameters
+    ----------
+    row : pd.Series
+        A row from the DataFrame containing at least 'CtryName' and 'timestamp'.
+    country_timezones : dict
+        Dictionary mapping country names (as in 'CtryName') to their IANA time zone names,
+        e.g., {'SouthAfrica': 'Africa/Johannesburg'}.
+
+    Returns
+    -------
+    datetime
+        The timestamp converted to UTC timezone.
+    """
+    ctry = row['CtryName']
+    local_zone = pytz.timezone(country_timezones[ctry])
+    local_time = local_zone.localize(row['timestamp'], is_dst=None)
+    return local_time.astimezone(pytz.utc)
+
+
+# ---------------------------------------------------------------------------
+# GAP / RNinja workflows
+# ---------------------------------------------------------------------------
 
 
 def gap_rninja_coordinates(xlsx_path, countries, tech_types=('solar', 'wind'), sheet_name='Power facilities',
                            output_dir='output', encoding='utf-8'):
-    """Run the Global Atlas Power -> RNinja workflow: load, filter, pick top projects, export, and return locations.
+    """Run the Global Atlas Power -> RNinja workflow: load, filter, pick top projects, export, and return locations."""
 
-    Parameters
-    ----------
-    xlsx_path : str or Path
-        Path to the Global Atlas Power Excel file (e.g., Global-Integrated-Power-April-2025.xlsx).
-    countries : list[str]
-        Countries of interest; used to filter the dataset and to warn when missing.
-    tech_types : iterable[str], optional
-        Technologies to retain (values from the 'Type' column). Defaults to ('solar', 'wind').
-    sheet_name : str, optional
-        Excel sheet name containing project data. Defaults to 'Power facilities'.
-    output_dir : str or Path, optional
-        Directory where the CSV of selected projects will be saved. Created if absent.
-    encoding : str, optional
-        Encoding used when writing the CSV. Defaults to 'utf-8'.
-
-    Returns
-    -------
-    tuple
-        (projects_df, rninja_locations, csv_path)
-        - projects_df: DataFrame with the top project per country/tech from Global Atlas Power.
-        - rninja_locations: dict mapping {tech: {country: (lat, lon)}} ready for RNinja calls.
-        - csv_path: Path to the exported CSV.
-    """
     def gap_top_projects(df, countries_map, tech_types):
         """Pick the most relevant Global Atlas Power project per country/tech and return RNinja locations mapping."""
         # df columns: ['Country/area', 'Type', 'Status', 'Capacity (MW)', 'Plant / Project name', 'Latitude', 'Longitude', 'City']
@@ -276,12 +339,18 @@ def gap_rninja_coordinates(xlsx_path, countries, tech_types=('solar', 'wind'), s
         projects_df = pd.DataFrame(results)
         rninja_locations = gap_rninja_locations(projects_df)
         return projects_df, rninja_locations
-        
-    
+
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    df = pd.read_excel(xlsx_path, sheet_name=sheet_name, index_col=None, header=0)
+    with warnings.catch_warnings():
+        warnings.filterwarnings(
+            "ignore",
+            message="Unknown extension is not supported and will be removed",
+            category=UserWarning,
+            module="openpyxl",
+        )
+        df = pd.read_excel(xlsx_path, sheet_name=sheet_name, index_col=None, header=0)
 
     available_countries = df['Country/area'].unique()
     resolved_map = {}
@@ -309,100 +378,30 @@ def gap_rninja_coordinates(xlsx_path, countries, tech_types=('solar', 'wind'), s
 
 
 def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01', end_day='12-31',
-               turbine='Gamesa+G114+2000', dataset_label=None, output='data', export_csv=True, local_time=False,
-               api_token=None, dataset="merra2", capacity=1, system_loss=0.1,
-               height=100, tracking=0, tilt=35, azim=180):
-    """Get Renewables Ninja data across multiple years (main entry point).
+                         turbine='Gamesa+G114+2000', dataset_label=None, output='data', export_csv=True, local_time=False,
+                         api_token=None, dataset="merra2", capacity=1, system_loss=0.1,
+                         height=100, tracking=0, tilt=35, azim=180):
+    """Get Renewables Ninja data across multiple years (main entry point)."""
 
-    Parameters
-    ----------
-    locations: list
-        Dict of locations as (latitude, longitude).
-    tech: str
-        'solar' or 'wind'.
-    start_year: int
-        Start year.
-    end_year: int
-        End year.
-    start_day: str, optional, default '01-01'
-        Start day.
-    end_day: str, optional, default '12-31'
-        End day.
-    turbine: str, optional, default 'Gamesa+G114+2000'
-        Turbine type for wind.
-    api_token: str, optional
-        Renewables Ninja API token; forwarded to the API calls. If None, fetched via env/config.
-    dataset: str, optional, default 'merra2'
-        Dataset to use ('merra2' or 'sarah' for solar).
-    capacity: float, optional, default 1
-        Capacity of the power system.
-    system_loss: float, optional, default 0.1
-        System losses (for solar).
-    height: float, optional, default 100
-        Turbine height (for wind).
-    tracking: int, optional, default 0
-        Tracking type for solar (0 for fixed, 1 for single-axis).
-    tilt: float, optional, default 35
-        Tilt angle for solar panels.
-    azim: float, optional, default 180
-        Azimuth angle for solar panels.
-    dataset_label: str, optional
-        Optional dataset label inserted into the filename ``vre_rninja_<dataset_label>_<tech>.csv``.
-        When omitted, files are named ``vre_rninja_<tech>.csv``.
-    export_csv: bool, optional, default True
-        Whether to write the aggregated results to CSV.
-
-    Returns
-    -------
-    results_concat: pd.DataFrame
-        MultiIndex DataFrame indexed by ``zone``/``season``/``day``/``hour`` with one column per year (int).
-        CSVs are written as flat tables with columns ``zone,season,day,hour,<year1>,<year2>,...`` to
-        ``{output}/vre_rninja_<dataset_label>_<tech>.csv`` (or ``vre_rninja_<tech>.csv``).
-    """
     def get_rninja_yearly(tech, locations, start_date, end_date, api_token=None, dataset="merra2", capacity=1,
-                               system_loss=0.1, height=100, tracking=0, tilt=35, azim=180,
-                               turbine='Gamesa+G114+2000', local_time=False):
-        """Fetch solar or wind power data for a single year/date span using the Renewables Ninja API.
-
-        Args:
-        - api_token (str | None): Renewables Ninja API token. If omitted, resolved from env/config.
-        - tech (str): 'solar' or 'wind'.
-        - locations (list of tuples): List of locations as (latitude, longitude).
-        - start_date (str): Start date in 'YYYY-MM-DD' format.
-        - end_date (str): End date in 'YYYY-MM-DD' format.
-        - dataset (str): Dataset to use ('merra2' or 'sarah' for solar). Defaults to 'merra2'.
-        - capacity (float): Capacity of the power system. Defaults to 1.
-        - system_loss (float): System losses (for solar). Defaults to 0.1.
-        - height (float): Turbine height (for wind). Defaults to 100.
-        - tracking (int): Tracking type for solar (0 for fixed, 1 for single-axis). Defaults to 0.
-        - tilt (float): Tilt angle for solar panels. Defaults to 35.
-        - azim (float): Azimuth angle for solar panels. Defaults to 180.
-        - turbine (str): Turbine type for wind. Defaults to 'Vestas+V80+2000'.
-        - local_time (bool): Whether to return data in local time. Defaults to False.
-
-        Returns:
-        - pd.DataFrame: Timeseries per location with RNinja response columns.
-        - int: Number of requests performed.
-        """
+                          system_loss=0.1, height=100, tracking=0, tilt=35, azim=180,
+                          turbine='Gamesa+G114+2000', local_time=False):
+        """Fetch solar or wind power data for a single year/date span using the Renewables Ninja API."""
         base_url = 'https://www.renewables.ninja/api/data/'
         api_token = api_token or load_api_token("renewables_ninja")
 
-        # Set headers for the API request
         headers = {
             'Authorization': f'Token {api_token}'
         }
 
-        # Track requests per minute
         requests_made_minute = 0
         requests_tot = 0
         minute_start_time = time.time()
 
         all_data = []
 
-        # Iterate over locations
         for zone, (lat, lon) in locations.items():
             print(f'Fetching data for: {zone}')
-        # Build the request URL based on the power type (solar or wind)
             if tech == 'solar':
                 url = f"{base_url}pv?lat={lat}&lon={lon}&date_from={start_date}&date_to={end_date}&dataset={dataset}&capacity={capacity}&system_loss={system_loss}&tracking={tracking}&tilt={tilt}&azim={azim}&local_time={local_time}&format=json"
             elif tech == 'wind':
@@ -410,32 +409,26 @@ def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01
             else:
                 raise ValueError("Invalid tech. Choose either 'solar' or 'wind'.")
 
-            # Send the request
             response = requests.get(url, headers=headers, verify=True)
 
-            # Check for successful response
             if response.status_code == 200:
                 data = response.json()
-                # If empty data
                 if not data['data']:
                     print(f"No data available for {zone})")
                     continue
-                # Append the data along with location details
                 for timestamp, values in data['data'].items():
                     row = {
                         'zone': zone,
                         'timestamp_utc': pd.to_datetime(int(timestamp) / 1000, unit='s', utc=True),
-                        **values  # Unpack all the power generation data at that timestamp (includes local_time)
+                        **values
                     }
                     all_data.append(row)
             else:
                 print(f"Error fetching data for location ({lat}, {lon}): {response.status_code}")
 
-            # Track the request
             requests_made_minute += 1
             requests_tot += 1
 
-            # If we hit 6 requests within a minute, we wait for the remaining time of that minute
             if requests_made_minute >= 6:
                 print('Waiting for a minute to not hit the API rate limit...')
                 elapsed_time = time.time() - minute_start_time
@@ -444,15 +437,12 @@ def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01
                     print(f"Hit rate limit. Sleeping for {sleep_time:.2f} seconds.")
                     time.sleep(sleep_time)
 
-                # Reset the counter and timer
                 requests_made_minute = 0
                 minute_start_time = time.time()
 
-        # Convert the collected data into a DataFrame
         df = pd.DataFrame(all_data)
         df.rename(columns={'electricity': tech}, inplace=True)
         return df, requests_tot
-    
 
     results = {}
     hour_start_time = time.time()
@@ -462,7 +452,6 @@ def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01
         start_date = '{}-{}'.format(year, start_day)
         end_date = '{}-{}'.format(year, end_day)
 
-        # Call the function to get data
         data, requests_made = get_rninja_yearly(
             tech,
             locations,
@@ -488,15 +477,14 @@ def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01
             print("Getting data {} for year {}".format(tech, year))
             data.set_index(['zone'], inplace=True)
             data['timestamp_utc'] = pd.to_datetime(data['timestamp_utc'], utc=True)
-            data['season'] = data['timestamp_utc'].dt.month
+            data['month'] = data['timestamp_utc'].dt.month
             data['day'] = data['timestamp_utc'].dt.day
             data['hour'] = data['timestamp_utc'].dt.hour
-            data.set_index(['season', 'day', 'hour'], inplace=True, append=True)
+            data.set_index(['month', 'day', 'hour'], inplace=True, append=True)
             data = data.loc[:, tech]
 
             results.update({year: data})
 
-        # If we hit 50 requests within an hour, we wait for the remaining time of that hour before continuing the requests
         if requests_tot >= 36:
             print('Waiting for an hour to not hit the API rate limit...')
             elapsed_time = time.time() - hour_start_time
@@ -505,7 +493,6 @@ def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01
                 print(f"Hit rate limit. Sleeping for {sleep_time:.2f} seconds.")
                 time.sleep(sleep_time)
 
-            # Reset the counter and timer
             requests_tot = 0
             hour_start_time = time.time()
 
@@ -515,7 +502,7 @@ def get_renewables_ninja(locations, tech, start_year, end_year, start_day='01-01
 
     results_concat = pd.concat(results, axis=1)
     results_concat = _flatten_year_columns(results_concat)
-    results_concat.index = results_concat.index.set_names(['zone', 'season', 'day', 'hour'])
+    results_concat.index = results_concat.index.set_names(['zone', 'month', 'day', 'hour'])
 
     flat_output = results_concat.reset_index()
     if export_csv:
@@ -537,46 +524,7 @@ def run_renewables_ninja_workflow(
     local_time=True,
     **rninja_kwargs,
 ):
-    """Run the Renewables.ninja extraction pipeline and optionally plot the results.
-
-    For each enabled technology, this orchestrator downloads data via ``get_renewables_ninja``,
-    writes the RNinja CSVs to ``input_dir`` (named ``vre_rninja_<dataset_label>_<tech>.csv`` when a label
-    is provided or ``vre_rninja_<tech>.csv`` otherwise), reloads them, and (optionally) exports
-    heatmap/boxplot PDFs to ``output_dir``. ``end_year`` is an exclusive upper bound, matching
-    ``get_years_renewables``.
-
-    Parameters
-    ----------
-    dataset_label : str, optional
-        Optional dataset label inserted in RNinja filenames
-        (``vre_rninja_<dataset_label>_<tech>.csv``). When omitted, files are named
-        ``vre_rninja_<tech>.csv``.
-    locations : dict
-        Mapping ``{tech: {zone: (lat, lon)}}``; keys should be ``'solar'`` and/or ``'wind'``.
-    start_year : int
-        First year to request from RNinja (inclusive).
-    end_year : int
-        Final year boundary (exclusive) forwarded to ``get_years_renewables``.
-    extract_renewables : dict, optional
-        Per-tech toggle ``{tech: bool}``; defaults to enabling every key present in ``locations``.
-    input_dir : str or Path, optional
-        Directory where RNinja CSVs are written/read. Created if missing. Defaults to ``input``.
-    output_dir : str or Path, optional
-        Destination for plots. Created if missing. Defaults to ``output``.
-    generate_plots : bool, optional
-        When True, generate heatmap and boxplot PDFs for each available tech.
-    local_time : bool, optional
-        Forwarded to RNinja requests; return timestamps in local time when True.
-    **rninja_kwargs
-        Additional arguments passed through to ``get_renewables_ninja`` (e.g., ``dataset``, ``tracking``,
-        ``tilt``, ``api_token``).
-
-    Returns
-    -------
-    dict
-        Loaded RNinja DataFrames keyed by human-friendly tech labels (``{'PV': df, 'Wind': df}``) for
-        every CSV found in ``input_dir``.
-    """
+    """Run the Renewables.ninja extraction pipeline and optionally plot the results."""
     if not locations:
         raise ValueError("locations must map technologies to zone coordinate dictionaries.")
 
@@ -599,8 +547,7 @@ def run_renewables_ninja_workflow(
             **rninja_kwargs,
         )
 
-    # local import to avoid hard dependency for consumers
-    from plots import make_boxplot, make_heatmap  
+    from plots import make_boxplot, make_heatmap  # local import to avoid hard dependency for consumers
 
     tech_labels = {"solar": "PV", "wind": "Wind"}
     loaded = {}
@@ -620,6 +567,11 @@ def run_renewables_ninja_workflow(
     return loaded
 
 
+# ---------------------------------------------------------------------------
+# IRENA workflows
+# ---------------------------------------------------------------------------
+
+
 def get_renewables_irena_data(
     countries,
     input_dir="input",
@@ -631,55 +583,7 @@ def get_renewables_irena_data(
     country_name_map=None,
     timezone_map=None,
 ):
-    """Aggregate IRENA MSR solar/wind CSVs into SPLAT-style hourly load profiles.
-
-    The IRENA Model Supply Regions (MSR) CSVs store 8,760 hourly columns (``H1`` … ``H8760``)
-    per supply cluster plus summary capacity factors. This helper:
-    - validates the expected MSR files in ``input_dir`` (``SolarPV_BestMSRsToCover5%CountryArea.csv``
-      and ``Wind_BestMSRsToCover5%CountryArea.csv``)
-    - filters to the requested SPLAT-style ``countries``
-    - computes a capacity-weighted hourly profile per country and converts the local timestamps to UTC
-      using geocoded time zones (``extract_time_zone`` + ``convert_to_utc``)
-    - saves SPLAT-ready CSVs to ``output_dir`` named ``vre_irena_<dataset_label>_<tech>.csv`` (or
-      ``vre_irena_<tech>.csv`` when no label is provided) with columns
-      ``zone, season, day, hour, <profile_year>`` (non-leap year assumed)
-    - optionally returns country-level average capacity factors (weighted by available capacity) when
-      ``include_capacity_factors`` is True
-
-    Parameters
-    ----------
-    countries : list[str]
-        SPLAT country names present in the IRENA MSR files (column ``CtryName``).
-    input_dir : str or Path, optional
-        Folder containing the IRENA MSR CSVs. Defaults to ``input``.
-    output_dir : str or Path, optional
-        Destination folder for the hourly profiles. Created if missing. Defaults to ``output``.
-    dataset_label : str, optional
-        Label inserted in output filenames, e.g., ``vre_irena_<dataset_label>_solar.csv``. Defaults to ``irena``.
-    input_files : dict, optional
-        Optional overrides for the expected IRENA MSR filenames (keys: ``solar``, ``wind``).
-    include_capacity_factors : bool, optional
-        When True, returns a second dictionary with capacity-weighted average capacity factors per country.
-        LCOE statistics are intentionally excluded here.
-    profile_year : int, optional
-        Non-leap year used to rebuild timestamps from the ``H1`` … ``H8760`` columns before converting to UTC.
-    country_name_map : dict, optional
-        Mapping from IRENA ``CtryName`` values to geocoding-friendly names (e.g., ``{'SouthAfrica': 'South Africa'}``).
-        Provide via config (``irena.country_name_map``) so spelling fixes remain explicit.
-    timezone_map : dict, optional
-        Precomputed mapping ``{country: tz_name}``; skips geocoding if provided. If omitted, the mapping is
-        computed via ``extract_time_zone``.
-
-    Returns
-    -------
-    dict
-        {
-            'profiles': {tech: pd.DataFrame},   # hourly load profile per tech indexed by zone/season/day/hour
-            'capacity_factors': {tech: pd.DataFrame} or {},  # only when include_capacity_factors=True
-            'paths': {tech: Path},              # where each profile was saved
-            'timezones': dict                   # timezone map used for the conversion
-        }
-    """
+    """Aggregate IRENA MSR solar/wind CSVs into SPLAT-style hourly load profiles."""
     if not countries:
         raise ValueError("countries must be provided to filter the IRENA MSR data.")
 
@@ -688,7 +592,6 @@ def get_renewables_irena_data(
     output_path.mkdir(parents=True, exist_ok=True)
 
     name_map = country_name_map or {}
-    # country_name_map is supplied via config to make IRENA -> geocoding name translations explicit
     tz_map = timezone_map or extract_time_zone(countries, name_map)
 
     hourly_cols = [f'H{i}' for i in range(1, 8761)]
@@ -783,19 +686,19 @@ def get_renewables_irena_data(
 
         df_long['CtryName'] = df_long['CtryName'].astype(str)
         df_long['timestamp_utc'] = df_long.apply(lambda row: convert_to_utc(row, tz_map), axis=1)
-        df_long['season'] = df_long['timestamp_utc'].dt.month
+        df_long['month'] = df_long['timestamp_utc'].dt.month
         df_long['day'] = df_long['timestamp_utc'].dt.day
         df_long['hour'] = df_long['timestamp_utc'].dt.hour
 
         df_final = (
             df_long.rename(columns={'CtryName': 'zone'})
-            .set_index(['zone', 'season', 'day', 'hour'])['value']
+            .set_index(['zone', 'month', 'day', 'hour'])['value']
             .to_frame()
             .rename(columns={'value': profile_year})
             .sort_index()
         )
         df_final = _flatten_year_columns(df_final)
-        df_final.index = df_final.index.set_names(['zone', 'season', 'day', 'hour'])
+        df_final.index = df_final.index.set_names(['zone', 'month', 'day', 'hour'])
         df_out = df_final.reset_index()
         if df_out.empty:
             warning = (
@@ -831,42 +734,7 @@ def run_irena_workflow(
     timezone_map=None,
     generate_plots=True,
 ):
-    """End-to-end get IRENA data workflow. 
-
-    This pulls together the common steps:
-    - ensure input/output folders exist
-    - load and filter the IRENA MSR CSVs for the requested countries/techs
-    - build hourly profiles and save `vre_irena_<dataset_label>_<tech>.csv` (or `vre_irena_<tech>.csv` when no label)
-    - optionally plot heatmaps/boxplots like the Ninja workflow with `_irena` suffixes for clarity
-
-    Parameters
-    ----------
-    dataset_label : str
-        Label used in output filenames (e.g., `vre_irena_<dataset_label>_solar.csv`).
-    countries : list[str]
-        SPLAT country names to keep.
-    input_dir : str or Path, optional
-        Folder containing the IRENA MSR CSVs. Defaults to `input`.
-    output_dir : str or Path, optional
-        Destination folder for the hourly profiles and plots. Created if missing. Defaults to `output`.
-    input_files : dict, optional
-        Optional overrides for the expected MSR filenames, e.g., {'solar': 'solar.csv', 'wind': 'wind.csv'}.
-    include_capacity_factors : bool, optional
-        When True, capacity-factor stats are returned alongside profiles.
-    profile_year : int, optional
-        Non-leap year used to rebuild timestamps from H1…H8760 columns before converting to UTC.
-    country_name_map : dict, optional
-        Mapping from IRENA ``CtryName`` values to geocoding-friendly names (defined in config).
-    timezone_map : dict, optional
-        Precomputed mapping `{country: tz_name}`; skips geocoding if provided.
-    generate_plots : bool, optional
-        Generate heatmaps and boxplots (same style as Ninja workflow). Defaults to True.
-
-    Returns
-    -------
-    dict
-        Same structure as `get_renewables_irena_data` plus generated plot paths (if applicable).
-    """
+    """End-to-end get IRENA data workflow."""
     input_path = Path(input_dir)
     output_path = Path(output_dir)
     input_path.mkdir(parents=True, exist_ok=True)
@@ -893,35 +761,29 @@ def run_irena_workflow(
         for tech, df in result['profiles'].items():
             tech_label = tech_labels.get(tech, tech.title())
             df_plot = df.reset_index()
-        per_zone_paths = _plot_capacity_factor_by_zone(df_plot, tech_label, output_path, plot_label, source_suffix="irena")
-        plot_paths[tech] = {'per_zone': per_zone_paths}
+            per_zone_paths = _plot_capacity_factor_by_zone(
+                df_plot,
+                tech_label,
+                output_path,
+                plot_label,
+                source_suffix="irena",
+            )
+            plot_paths[tech] = {'per_zone': per_zone_paths}
 
     result['plots'] = plot_paths
     return result
 
 
+# ---------------------------------------------------------------------------
+# Profile helpers and exports
+# ---------------------------------------------------------------------------
+
+
 def find_representative_year(df, method='average_profile'):
-    """Find the representative year.
-
-    Parameters
-    ----------
-    df: pd.DataFrame
-        Wide DataFrame where the index represents the hourly time key (e.g.,
-        zone/season/day/hour MultiIndex) and each column is a year (int) with
-        the production or capacity factor values to compare.
-    method: str, optional, default 'average_profile'
-        Method to find the representative year.
-
-    Returns
-    -------
-    repr_year: int
-        Representative year.
-    """
+    """Find the representative year from a wide hourly profile DataFrame."""
     dict_info, repr_year = {}, None
     if method == 'average_cf':
-        # Find representative year
         temp = df.sum().round(3)
-        # get index closest (not equal) to the median in the temp
         repr_year = (np.abs(temp - temp.median())).idxmin()
         print('Representative year {}'.format(repr_year), 'with production of {:.0%}'.format(temp[repr_year] / 8760))
         print('Standard deviation of {:.3%}'.format(temp.std() / 8760))
@@ -940,80 +802,6 @@ def find_representative_year(df, method='average_profile'):
     return repr_year
 
 
-def format_energy_profiles(filenames, locations=None):
-    """Load tech CSVs (RNinja or standard), pick a representative year, and reshape to hourly profiles.
-
-    Parameters
-    ----------
-    filenames: dict
-        Mapping of technology name to a tuple (filepath, reading_type) where reading_type is either
-        'renewable_ninja' (CSV saved from get_rninja) or 'standard' (already indexed as zone/season/day/hour).
-    locations: unused
-        Kept for backward compatibility with previous signature.
-
-    Returns
-    -------
-    pd.DataFrame
-        Hourly profiles sorted by zone/season/day/hour with one column per tech; multi-zone outputs are
-        flattened with ``<tech>_<zone>`` column names.
-    """
-    index_cols = ['zone', 'season', 'day', 'hour']
-
-    def _to_int_columns(df):
-        rename = {}
-        for col in df.columns:
-            if isinstance(col, str) and col.isdigit():
-                rename[col] = int(col)
-        return df.rename(columns=rename)
-
-    df_energy = {}
-    for tech, (filename, reading) in filenames.items():
-        if reading not in (None, 'renewable_ninja', 'standard', 'vre'):
-            raise ValueError('Unknown reading. Only implemented for: renewable_ninja, standard, vre.')
-
-        df = pd.read_csv(filename, header=0)
-        missing = [c for c in index_cols if c not in df.columns]
-        if missing:
-            raise ValueError(f'Missing required columns {missing} in {filename}; expected {index_cols}.')
-
-        df = _to_int_columns(df)
-        value_cols = [c for c in df.columns if c not in index_cols]
-        if not value_cols:
-            raise ValueError(f'No value columns found in {filename}.')
-
-        df = df.set_index(index_cols)[value_cols]
-        df['tech'] = tech
-        df = df.set_index('tech', append=True)
-        df_energy[tech] = df
-
-    df_energy = pd.concat(df_energy.values(), ignore_index=False)
-
-    repr_year = find_representative_year(df_energy)
-    print('Representative year {}'.format(repr_year))
-    if repr_year not in df_energy.columns and str(repr_year) in df_energy.columns:
-        repr_year = str(repr_year)
-    df_energy = df_energy.loc[:, repr_year].unstack('tech').reset_index()
-    df_energy = df_energy.sort_values(by=['zone', 'season', 'day', 'hour'], ascending=True)
-
-    if len(df_energy.season.unique()) == 12:  # season expressed as months
-        df_energy = df_energy[~((df_energy['season'] == 2) & (df_energy['day'] == 29))]
-
-    if df_energy.isna().any().any():
-        print('Warning: NaN values in the DataFrame')
-
-    keys_to_merge = ['PV', 'Wind', 'Load', 'ROR']
-    keys_to_merge = [i for i in keys_to_merge if i in df_energy.keys()]
-
-    print('Annual capacity factor (%):', df_energy.groupby('zone')[keys_to_merge].mean().reset_index())
-    if len(df_energy.zone.unique()) > 1:  # handling the case with multiple zones to rename columns
-        df_energy = df_energy.set_index(['zone', 'season', 'day', 'hour']).unstack('zone')
-        df_energy.columns = ['_'.join([idx0, idx1]) for idx0, idx1 in df_energy.columns]
-        df_energy = df_energy.reset_index()
-    else:
-        df_energy = df_energy.drop('zone', axis=1)
-    return df_energy
-
-
 def export_epm_full_timeseries(
     vre_profiles,
     load_profile=None,
@@ -1022,44 +810,19 @@ def export_epm_full_timeseries(
     load_zone=None,
     demand_filename="pDemandProfile_full.csv",
 ):
-    """Export full-hour EPM inputs (pHours=1) for VRE and optional load before representative-day reduction.
-
-    Parameters
-    ----------
-    vre_profiles : dict
-        Mapping ``{tech: path_or_df}`` where each CSV/DataFrame has columns ``zone, season, day, hour`` plus
-        one or more value columns (e.g., years). The first non-index column is used unless ``year_column``
-        specifies one (scalar applies to all techs; dict applies per tech).
-    load_profile : str | Path | pd.DataFrame, optional
-        Hourly load profile. Accepts the same columns as ``vre_profiles``; if ``timestamp`` exists, season/day/hour
-        are derived from it. A missing ``zone`` is filled with ``load_zone`` or ``'load'``.
-    output_dir : str or Path, optional
-        Destination folder. Writes ``pHours_full.csv``, ``pVREProfile_full.csv``, and ``pDemandProfile_full.csv``
-        (the last only when load is provided).
-    year_column : str | int | dict, optional
-        Column to use when multiple value columns exist. Provide a dict for per-tech overrides.
-    load_zone : str, optional
-        Zone name to assign when the load profile lacks a ``zone`` column.
-    demand_filename : str or Path, optional
-        Output filename for the demand profile when present. Defaults to ``pDemandProfile_full.csv``.
-
-    Returns
-    -------
-    dict
-        Paths to the exported CSVs.
-    """
+    """Export full-hour EPM inputs (pHours=1) for VRE and optional load before representative-day reduction."""
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    index_cols = {'zone', 'season', 'day', 'hour'}
+    index_cols = {'zone', 'month', 'day', 'hour'}
     hours_cols = [f"t{i}" for i in range(1, 25)]
 
     def _load_df(obj):
         return pd.read_csv(obj) if isinstance(obj, (str, Path)) else obj.copy()
 
-    def _season_label(val):
+    def _month_label(val):
         try:
-            return f"m{int(val)}"
+            return f"m{int(val):02d}"
         except (TypeError, ValueError):
             return str(val)
 
@@ -1077,42 +840,40 @@ def export_epm_full_timeseries(
 
     def _prepare_hourly(df, label, zone_fallback=None):
         df = df.copy()
-        if 'timestamp' in df.columns and {'season', 'day', 'hour'}.difference(df.columns):
+        if 'timestamp' in df.columns and {'month', 'day', 'hour'}.difference(df.columns):
             ts = pd.to_datetime(df['timestamp'])
-            df['season'] = ts.dt.month
+            df['month'] = ts.dt.month
             df['day'] = ts.dt.day
             df['hour'] = ts.dt.hour
         if 'hour' in df.columns and df['hour'].min() >= 1 and df['hour'].max() <= 24:
             df['hour'] = df['hour'] - 1  # normalize 1-24 to 0-23
 
-        missing = {'season', 'day', 'hour'}.difference(df.columns)
+        missing = {'month', 'day', 'hour'}.difference(df.columns)
         if missing:
             raise ValueError(f"Missing required columns {missing} for {label}.")
 
         if 'zone' not in df.columns:
             df['zone'] = zone_fallback or 'zone_1'
 
-        df['season'] = df['season'].astype(int)
+        df['month'] = df['month'].astype(int)
         df['day'] = df['day'].astype(int)
         df['hour'] = df['hour'].astype(int)
         return df
 
-    # Load and normalize VRE data
     vre_long = []
     calendar_parts = []
     for tech, src in vre_profiles.items():
         df_raw = _load_df(src)
         df_norm = _prepare_hourly(df_raw, label=tech)
         value_col = _pick_value_column(df_norm, tech)
-        df_subset = df_norm[['zone', 'season', 'day', 'hour', value_col]].rename(columns={value_col: 'value'})
+        df_subset = df_norm[['zone', 'month', 'day', 'hour', value_col]].rename(columns={value_col: 'value'})
         df_subset['fuel'] = {'solar': 'PV', 'wind': 'Wind'}.get(str(tech).lower(), tech)
         vre_long.append(df_subset)
-        calendar_parts.append(df_subset[['season', 'day']].drop_duplicates())
+        calendar_parts.append(df_subset[['month', 'day']].drop_duplicates())
 
     if not vre_long:
         raise ValueError("At least one VRE profile is required.")
 
-    # Optional load
     load_df = None
     if load_profile is not None:
         load_raw = _load_df(load_profile)
@@ -1123,41 +884,38 @@ def export_epm_full_timeseries(
             raise ValueError("No value column found in load_profile.")
         load_value_col = load_candidates[0]
 
-        load_df = load_norm[['zone', 'season', 'day', 'hour', load_value_col]].rename(columns={load_value_col: 'Load'})
-        calendar_parts.append(load_df[['season', 'day']].drop_duplicates())
+        load_df = load_norm[['zone', 'month', 'day', 'hour', load_value_col]].rename(columns={load_value_col: 'Load'})
+        calendar_parts.append(load_df[['month', 'day']].drop_duplicates())
 
     if not calendar_parts:
         raise ValueError("No profiles provided to export.")
 
-    calendar = pd.concat(calendar_parts, ignore_index=True).drop_duplicates().sort_values(['season', 'day'])
-    calendar['season_label'] = calendar['season'].apply(_season_label)
-    calendar['daytype'] = calendar.groupby('season_label').cumcount() + 1
+    calendar = pd.concat(calendar_parts, ignore_index=True).drop_duplicates().sort_values(['month', 'day'])
+    calendar['month_label'] = calendar['month'].apply(_month_label)
+    calendar['daytype'] = calendar.groupby('month_label').cumcount() + 1
     calendar['daytype'] = calendar['daytype'].apply(lambda x: f'd{x}')
 
-    # pHours with unit weights
-    phours = calendar[['season_label', 'daytype']].drop_duplicates().rename(columns={'season_label': 'season'})
+    phours = calendar[['month_label', 'daytype']].drop_duplicates().rename(columns={'month_label': 'month'})
     for col in hours_cols:
         phours[col] = 1
     phours_path = output_path / "pHours_full.csv"
     phours.to_csv(phours_path, index=False)
 
-    # Build lookup for daytype mapping
-    day_lookup = calendar[['season', 'day', 'season_label', 'daytype']]
+    day_lookup = calendar[['month', 'day', 'month_label', 'daytype']]
 
     def _pivot_profile(df, index_fields, value_column):
-        df = df.merge(day_lookup, on=['season', 'day'], how='left')
+        df = df.merge(day_lookup, on=['month', 'day'], how='left')
         if df['daytype'].isna().any():
-            missing = df[df['daytype'].isna()][['season', 'day']].drop_duplicates()
+            missing = df[df['daytype'].isna()][['month', 'day']].drop_duplicates()
             raise ValueError(f"Missing daytype mapping for rows:\n{missing}")
         wide = (
-            df.pivot_table(index=index_fields + ['season_label', 'daytype'], columns='hour', values=value_column)
+            df.pivot_table(index=index_fields + ['month_label', 'daytype'], columns='hour', values=value_column)
             .reindex(columns=range(24), fill_value=0)
         )
         wide.columns = hours_cols
-        wide = wide.reset_index().rename(columns={'season_label': 'season'})
+        wide = wide.reset_index().rename(columns={'month_label': 'month'})
         return wide
 
-    # pVREProfile_full
     vre_concat = pd.concat(vre_long, ignore_index=True)
     vre_wide = _pivot_profile(vre_concat, ['zone', 'fuel'], value_column='value')
     vre_path = output_path / "pVREProfile_full.csv"
@@ -1184,84 +942,9 @@ def export_epm_full_timeseries(
     }
 
 
-def extract_time_zone(countries, name_map):
-    """
-    Extracts the time zone (IANA tz database name, e.g., 'Africa/Luanda') for each country in a given list.
-
-    This function takes a list of country names used in SPLAT (which may use non-standard naming conventions)
-    and a mapping (`name_map`) from SPLAT-style names to standard country names (as recognized by geocoding services).
-    It uses the `geopy` package to geocode each standard country name and `timezonefinder` to identify the time zone
-    at the country centroid.
-
-    Parameters:
-    ----------
-    countries : list of str
-        List of SPLAT-style country names (e.g., ['SouthAfrica', 'DemocraticRepublicoftheCongo']).
-
-    name_map : dict
-        Dictionary mapping SPLAT-style names to standard country names
-        (e.g., {'SouthAfrica': 'South Africa'}).
-
-    Returns:
-    -------
-    dict
-        Dictionary mapping original SPLAT-style names to their IANA timezone name
-        (e.g., {'SouthAfrica': 'Africa/Johannesburg'}).
-    """
-    standard_names = [name_map.get(c, c) for c in countries]
-
-    # Initialize timezone and geolocation tools
-    tf = TimezoneFinder()
-    geolocator = Nominatim(user_agent="splat_timezones")
-
-    # Build timezone dictionary
-    country_timezones = {}
-
-    for name, std_name in zip(countries, standard_names):
-        try:
-            location = geolocator.geocode(std_name, timeout=10)
-            if location:
-                tz = tf.timezone_at(lat=location.latitude, lng=location.longitude)
-                country_timezones[name] = tz
-            else:
-                print(f"Could not geocode: {std_name}")
-        except Exception as e:
-            print(f"Error with {std_name}: {e}")
-
-        time.sleep(1)  # avoid overloading the API
-    return country_timezones
-
-
-def convert_to_utc(row, country_timezones):
-    """
-    Converts a local timestamp to UTC based on the country's time zone.
-
-    This function is designed to be used within a pandas `.apply()` call
-    to convert a 'timestamp' column (assumed local time) into UTC, using
-    a dictionary that maps each country name to its IANA time zone string.
-
-    Parameters
-    ----------
-    row : pd.Series
-        A row from the DataFrame containing at least 'CtryName' and 'timestamp'.
-    country_timezones : dict
-        Dictionary mapping country names (as in 'CtryName') to their IANA time zone names,
-        e.g., {'SouthAfrica': 'Africa/Johannesburg'}.
-
-    Returns
-    -------
-    datetime
-        The timestamp converted to UTC timezone.
-    """
-    ctry = row['CtryName']
-    local_zone = pytz.timezone(country_timezones[ctry])
-    local_time = local_zone.localize(row['timestamp'], is_dst=None)
-    return local_time.astimezone(pytz.utc)
-
-
 if __name__ == '__main__':
     script_dir = Path(__file__).resolve().parent
-    sample_output = script_dir / "output_debug" / "vre_standalone"
+    sample_output = script_dir / "output_standalone" / "vre_standalone"
     sample_output.mkdir(parents=True, exist_ok=True)
     sample_excel = script_dir / "dataset" / "Global-Integrated-Power-April-2025.xlsx"
     print(f"[vre-standalone] Preparing sample GAP extraction to {sample_output}")
@@ -1273,5 +956,20 @@ if __name__ == '__main__':
         )
         print(f"[vre-standalone] Exported GAP subset to {csv_path}")
         print(f"[vre-standalone] Locations for RNinja: {locations}")
+        rninja_outdir = sample_output / "rninja"
+        print(f"[vre-standalone] Requesting RNinja sample year to {rninja_outdir}")
+        try:
+            run_renewables_ninja_workflow(
+                locations=locations,
+                start_year=2023,
+                end_year=2024,
+                dataset_label="sample",
+                input_dir=rninja_outdir,
+                output_dir=rninja_outdir,
+                generate_plots=True,
+            )
+            print(f"[vre-standalone] RNinja CSVs written under {rninja_outdir}")
+        except RuntimeError as api_err:
+            print(f"[vre-standalone] RNinja skipped: {api_err}")
     except FileNotFoundError as exc:
         print(f"[vre-standalone] Skipped: {exc}")
