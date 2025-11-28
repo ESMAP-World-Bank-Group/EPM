@@ -159,7 +159,7 @@ def load_country_load_profile(
 
         plt.figure(figsize=(12, 4))
         plt.plot(profile["timestamp"], profile["load_mw"], linewidth=0.6, color="#1f78b4")
-        plt.xlabel("Timestamp")
+        plt.xlabel("")
         plt.ylabel("Load (MW)")
         plt.title(f"Hourly load profile - {country}")
         plt.tight_layout()
@@ -178,7 +178,7 @@ def load_country_load_profile(
 
         peak_load = profile["load_mw"].max()
         has_peak = pd.notna(peak_load) and peak_load > 0
-        value_col = f"{country} (p.u.)" if has_peak else country
+        value_col = f"{country}" if has_peak else country
         normalized_load = profile["load_mw"] / peak_load if has_peak else profile["load_mw"]
 
         df_plot = pd.DataFrame(
@@ -195,7 +195,7 @@ def load_country_load_profile(
             df_plot,
             tech=f"Load - {country}",
             path=boxplot_path,
-            value_label="Daily average load (p.u.)" if has_peak else "Daily average load (MW)",
+            value_label="Daily average load" if has_peak else "Daily average load (MW)",
         )
 
     return profile, csv_path, plot_path
@@ -343,7 +343,7 @@ def convert_to_utc(row, country_timezones):
 
 if __name__ == "__main__":
     script_dir = Path(__file__).resolve().parent
-    output_dir = script_dir / "output_debug" / "load_standalone"
+    output_dir = script_dir / "output_standalone" / "load_standalone"
     
     countries_example = ["Bosnia and Herzegovina", "Croatia"]
     

@@ -27,8 +27,8 @@ climate_overview:
   variables: [2m_temperature, total_precipitation]
   dataset: reanalysis-era5-land-monthly-means
   api_dir: ../prepare-data/input/era5_api
-  extract_dir: intermediate_output/climate_extract
-  output_dir: ../intermediate_output/climate
+  extract_dir: api/climate_extract
+  output_dir: climate
   generate_plots: true
   save_netcdf: true
 
@@ -80,6 +80,16 @@ load_profile:
   year: 2020
   generate_heatmap_boxplot: true
 
+# Representative seasons (month -> season clustering). When enabled, auto-derives a season map
+# from monthly inputs (defaults to climate precip/temp outputs when available).
+representative_seasons:
+  enabled: true
+  input_files: {} # Optional overrides for monthly tables (month + value); falls back to climate/load outputs.
+  output_dir: representative_seasons
+  K: 2
+  random_state: 0
+  value_column: value
+
 # Representative days (prepare-data pipeline). Set enabled: true to run; point inputs to
 # cleaned hourly CSVs with columns zone, month (or season), day, hour, and a value column.
 representative_days:
@@ -100,7 +110,7 @@ representative_days:
       12: 2,
     }
   input_files: {} # Hourly CSVs per tech (keys like PV/Wind/Load)
-  output_dir: representative_days # Resolved under output_workflow/epm_export by default.
+  output_dir: output # Stored under pre-analysis/representative_days/output.
   zones_to_exclude: [] # Optional list of zones to drop before processing.
   value_column: value # Override if the value column is not named "value".
   year_label: 2018 # Column name used for representative-year selection.

@@ -49,6 +49,7 @@ from load_pipeline import (
     run_load_workflow,
 )
 from representative_days.representativedays_pipeline import run_representative_days_pipeline
+from representative_days.representativeseasons_pipeline import run_representative_seasons
 
 
 def _slug(text):
@@ -540,6 +541,45 @@ def _climate_iso_codes_for_run():
     return [iso for iso, path in plan.items() if path.exists()]
 
 
+def _rep_seasons_settings():
+    """Configure representative-seasons targets and inputs."""
+    cfg = config.get("representative_seasons") or {}
+    if not cfg.get("enabled", False):
+        return {"targets": [], "input_files": {}, "outdir": None}
+
+    outdir = resolve_output(cfg.get("output_dir", "representative_seasons"))
+    input_files = {k: str(_resolve_relative(BASE_DIR, v)) for k, v in (cfg.get("input_files") or {}).items()}
+
+    def _maybe_add(label, path):
+        if label not in input_files and path and Path(path).exists():
+            input_files[label] = str(Path(path))
+
+    try:
+        _maybe_add("Precipitation", CLIMATE_OUTDIR / "monthly_precipitation.csv")
+        _maybe_add("Temperature", CLIMATE_OUTDIR / "monthly_temperature.csv")
+    except Exception:
+        pass
+    try:
+        _maybe_add("Load", LOAD["outdir"] / "load_profiles.csv")
+    except Exception:
+        pass
+
+    map_path = str(outdir / "seasons_map.csv")
+    feature_heatmap = str(outdir / "monthly_features_heatmap.png")
+    season_heatmap = str(outdir / "season_means_heatmap.png")
+
+    return {
+        "targets": [map_path, feature_heatmap, season_heatmap],
+        "map_path": map_path,
+        "feature_heatmap": feature_heatmap,
+        "season_heatmap": season_heatmap,
+        "input_files": input_files,
+        "outdir": outdir,
+        "K": cfg.get("K", 2),
+        "random_state": cfg.get("random_state", 0),
+        "value_column": cfg.get("value_column", "value"),
+    }
+
 
 def _rep_settings():
     """Prepare representative-days output targets and resolved input files when enabled."""
@@ -583,7 +623,7 @@ def _rep_settings():
     has_load_input = any("load" in k.lower() for k in input_files)
     load_cfg_entries = LOAD_CFG and (LOAD_CFG.get("countries") or LOAD_CFG.get("country"))
     if not has_load_input and load_cfg_entries:
-        load_export_target = REP_DAYS_DIR / "input" / "load_profiles.csv"
+        load_export_target = LOAD["outdir"] / "load_profiles.csv"
         input_files["Load"] = str(load_export_target)
     targets = [
         str(outdir / "repr_days.csv"),
@@ -679,6 +719,12 @@ CLIMATE_DOWNLOAD = CLIMATE["download"]
 CLIMATE_SAVE_NETCDF = CLIMATE["save_netcdf"]
 CLIMATE_START = CLIMATE["start_year"]
 CLIMATE_END = CLIMATE["end_year"]
+REP_SEASONS = _rep_seasons_settings()
+REP_SEASONS_TARGETS = REP_SEASONS["targets"]
+REP_SEASONS_MAP = REP_SEASONS.get("map_path")
+REP_SEASONS_HEATMAP = REP_SEASONS.get("feature_heatmap")
+REP_SEASONS_SEASON_HEATMAP = REP_SEASONS.get("season_heatmap")
+REP_SEASONS_INPUT = {"seasons_map": REP_SEASONS_MAP} if REP_SEASONS_MAP else {}
 REP = _rep_settings()
 REP_TARGETS = REP["targets"]
 REP_OUTDIR = REP["outdir"]
@@ -721,6 +767,7 @@ CORE_TARGETS = [
     PHOURS_FULL,
     *( [PDEMAND_FULL] if PDEMAND_FULL else [] ),
     *( [PGEN_GAP_EPMPATH] if PGEN_GAP_EPMPATH else [] ),
+    *REP_SEASONS_TARGETS,
 ]
 
 ################################################################################
@@ -1071,6 +1118,7 @@ if LOAD_CSV_TARGETS:
             plot=LOAD["plot_targets"],
             heatmap=LOAD.get("heatmap_targets", []),
             boxplot=LOAD.get("boxplot_targets", []),
+            repr_days=(str(REP_LOAD_EXPORT_TARGET) if REP_LOAD_EXPORT_TARGET else temp(REP_DAYS_DIR / ".no_repr_load")),
         log:
             str(LOG_DIR / "load_profile_all.log")
         run:
@@ -1092,6 +1140,41 @@ if LOAD_CSV_TARGETS:
                 best_effort("load_profile_all", output, _task, log_path=str(log_path))
 
 ################################################################################
+# Representative seasons (month→season clustering)
+################################################################################
+if REP_SEASONS_TARGETS:
+    rule representative_seasons:
+        """Cluster monthly features into contiguous seasons and export diagnostics."""
+        input:
+            files=list(REP_SEASONS["input_files"].values())
+        output:
+            map=REP_SEASONS_MAP,
+            feature_heatmap=REP_SEASONS_HEATMAP,
+            season_heatmap=REP_SEASONS_SEASON_HEATMAP,
+        log:
+            str(LOG_DIR / "representative_seasons.log")
+        run:
+            def _task():
+                """Build month→season map and heatmaps."""
+                labels = list(REP_SEASONS["input_files"].keys())
+                input_files = {label: str(path) for label, path in zip(labels, input.files)}
+                if not input_files:
+                    raise ValueError("No input files configured for representative seasons.")
+                run_representative_seasons(
+                    input_files=input_files,
+                    K=REP_SEASONS.get("K", 2),
+                    random_state=REP_SEASONS.get("random_state", 0),
+                    value_column=REP_SEASONS.get("value_column", "value"),
+                    output_path=output.map,
+                    diagnostics_dir=Path(REP_SEASONS["outdir"]),
+                    show_plots=False,
+                    verbose=VERBOSE_LOGS,
+                )
+
+            with _capture_rule_log(log) as log_path:
+                best_effort("representative_seasons", output, _task, log_path=str(log_path))
+
+################################################################################
 # Representative days (prepare-data workflow)
 ################################################################################
 if REP_CFG and REP_CFG.get("enabled", False):
@@ -1099,7 +1182,8 @@ if REP_CFG and REP_CFG.get("enabled", False):
         """Run the representative-days pipeline to select clustered days + EPM exports."""
         input:
             upstream=CORE_TARGETS,
-            **REP_INPUT_FILES
+            **REP_INPUT_FILES,
+            **REP_SEASONS_INPUT
         output:
             repr_days=REP_TARGETS[0],
             phours=REP_TARGETS[1],
@@ -1111,6 +1195,8 @@ if REP_CFG and REP_CFG.get("enabled", False):
         run:
             def _task():
                 """Run the representative-days pipeline and create placeholders if it fails."""
+                import pandas as pd
+
                 try:
                     run_input_files = dict(REP_INPUT_FILES)
                     run_input_files["Load"] = str(REP_LOAD_EXPORT_TARGET)
@@ -1130,13 +1216,30 @@ if REP_CFG and REP_CFG.get("enabled", False):
                             p = default_gams
                     gams_main_file = str(p)
 
+                    seasons_map_cfg = REP_CFG.get("seasons_map") or {}
+                    seasons_map = {}
+                    seasons_map_path = REP_SEASONS_MAP
+                    if seasons_map_path and Path(seasons_map_path).exists():
+                        df_map = pd.read_csv(seasons_map_path)
+                        seasons_map = {
+                            int(row["month"]): int(row["season"])
+                            for _, row in df_map.iterrows()
+                            if not pd.isna(row.get("month")) and not pd.isna(row.get("season"))
+                        }
+                    else:
+                        seasons_map = {int(k): int(v) for k, v in seasons_map_cfg.items()} if seasons_map_cfg else {}
+                    if not seasons_map:
+                        raise ValueError(
+                            "No seasons_map provided. Enable representative_seasons or set representative_days.seasons_map."
+                        )
+
                     paths = run_representative_days_pipeline(
-                        seasons_map=REP_CFG["seasons_map"],
+                        seasons_map=seasons_map,
                         input_files=run_input_files,
                         output_dir=REP_OUTDIR,
                         epm_output_dir=REP_EPM_OUTDIR,
                         summary_dir=OUTPUT_ROOT,
-                        data_dir=str(REP_DAYS_DIR / "input"),
+                        data_dir=str(REP_OUTDIR),
                         zones_to_exclude=REP_CFG.get("zones_to_exclude"),
                         value_column=REP_CFG.get("value_column", "value"),
                         year_label=REP_CFG.get("year_label", 2018),
@@ -1182,6 +1285,7 @@ rule report:
         irena=IRENA_OUTPUTS,
         load=LOAD_TARGETS,
         rep=REP_TARGETS,
+        rep_seasons=REP_SEASONS_TARGETS,
         genmap=GENMAP_TARGETS,
     output:
         report=REPORT_OUTPUT
@@ -1219,10 +1323,11 @@ rule report_pdf:
             subprocess.run(
                 [
                     "pandoc",
-                    "--from=gfm",
+                    "--from=markdown",
                     "--to=pdf",
-                    "--output",
-                    str(output.pdf),
+                    "-V", "geometry:margin=1.5cm",
+                    "-V", "float-placement=H",
+                    "--output", str(output.pdf),
                     str(input.report),
                 ],
                 check=True,
@@ -1250,8 +1355,7 @@ rule report_docx:
                     "pandoc",
                     "--from=gfm",
                     "--to=docx",
-                    "--output",
-                    str(output.docx),
+                    "--output", str(output.docx),
                     str(input.report),
                 ],
                 check=True,
