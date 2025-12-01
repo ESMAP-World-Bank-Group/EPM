@@ -82,10 +82,8 @@ for _path in OUTPUT_CATEGORIES.values():
 
 LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(parents=True, exist_ok=True)
-FAILURE_LOG_PATHS = [
-    BASE_DIR / "workflow_failures.log",
-    OUTPUT_ROOT / "workflow_failures.log",
-]
+# Track failures only under the workflow output root to avoid scattering logs.
+FAILURE_LOG_PATHS = [OUTPUT_ROOT / "workflow_failures.log"]
 
 def resolve_input(path):
     """Resolve a path under the open-data folder (pre-analysis/dataset).
@@ -478,8 +476,10 @@ def _climate_settings():
         iso_codes, derived_label_map = _resolve_country_iso_codes(countries)
 
     outdir = resolve_output(CLIMATE_CFG.get("output_dir", "climate"))
-    api_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("api_dir", BASE_DIR / "prepare-data" / "input" / "era5_api")).resolve()
-    extract_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("extract_dir", BASE_DIR / "prepare-data" / "input" / "era5_extract")).resolve()
+    api_dir_default = BASE_DIR / "api"
+    extract_dir_default = api_dir_default / "climate_extract"
+    api_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("api_dir", api_dir_default)).resolve()
+    extract_dir = _resolve_relative(BASE_DIR, CLIMATE_CFG.get("extract_dir", extract_dir_default)).resolve()
     variables = CLIMATE_CFG.get("variables", ["2m_temperature", "total_precipitation"])
 
     try:
@@ -549,24 +549,77 @@ def _rep_seasons_settings():
 
     outdir = resolve_output(cfg.get("output_dir", "representative_seasons"))
     input_files = {k: str(_resolve_relative(BASE_DIR, v)) for k, v in (cfg.get("input_files") or {}).items()}
+    include_labels = {lbl.lower() for lbl in cfg.get("include_inputs", ["Precipitation", "Temperature", "Load", "PV", "Wind"])}
 
-    def _maybe_add(label, path):
-        if label not in input_files and path and Path(path).exists():
-            input_files[label] = str(Path(path))
+    def _first_available(candidates):
+        """Pick the first truthy candidate path without requiring it to exist yet."""
+        for path in candidates:
+            if path:
+                return Path(path)
+        return None
 
+    def _match_candidates(outputs, keywords):
+        keywords = [kw.lower() for kw in keywords]
+        return [p for p in outputs if any(kw in Path(p).stem.lower() for kw in keywords)]
+
+    def _maybe_add(label, path, require_exists=False):
+        """Attach an input if it comes from an enabled upstream workflow."""
+        if label in input_files or not path:
+            return
+        p = Path(path)
+        if require_exists and not p.exists():
+            return
+        input_files[label] = str(p)
+
+    # Prefer climate/load/VRE outputs only when their workflows are enabled; otherwise
+    # we'll fall back to sample inputs below.
     try:
-        _maybe_add("Precipitation", CLIMATE_OUTDIR / "monthly_precipitation.csv")
-        _maybe_add("Temperature", CLIMATE_OUTDIR / "monthly_temperature.csv")
+        if "precipitation" in include_labels and CLIMATE_CFG.get("enabled", False):
+            _maybe_add("Precipitation", CLIMATE_OUTDIR / "monthly_precipitation.csv", require_exists=True)
+        if "temperature" in include_labels and CLIMATE_CFG.get("enabled", False):
+            _maybe_add("Temperature", CLIMATE_OUTDIR / "monthly_temperature.csv", require_exists=True)
     except Exception:
         pass
     try:
-        _maybe_add("Load", LOAD["outdir"] / "load_profiles.csv")
+        if "load" in include_labels and LOAD_CFG:
+            _maybe_add("Load", LOAD["outdir"] / "load_profiles.csv")
+    except Exception:
+        pass
+    try:
+        if ("pv" in include_labels or "solar" in include_labels) and (RNI_CFG.get("enabled", False) or IRENA_CFG.get("enabled", False)):
+            pv_candidates = _match_candidates(NINJA_OUTPUTS, ["solar", "pv"]) + _match_candidates(
+                IRENA_OUTPUTS, ["solar", "pv"]
+            )
+            _maybe_add("PV", _first_available(pv_candidates))
+        if "wind" in include_labels and (RNI_CFG.get("enabled", False) or IRENA_CFG.get("enabled", False)):
+            wind_candidates = _match_candidates(NINJA_OUTPUTS, ["wind"]) + _match_candidates(IRENA_OUTPUTS, ["wind"])
+            _maybe_add("Wind", _first_available(wind_candidates))
     except Exception:
         pass
 
     map_path = str(outdir / "seasons_map.csv")
     feature_heatmap = str(outdir / "monthly_features_heatmap.png")
     season_heatmap = str(outdir / "season_means_heatmap.png")
+
+    # Final fallback: use bundled sample inputs when nothing is provided.
+    sample_dir = BASE_DIR / "representative_days" / "input"
+    sample_defaults = {
+        "PV": sample_dir / "vre_rninja_solar.csv",
+        "Wind": sample_dir / "vre_rninja_wind.csv",
+        "Load": sample_dir / "load_profiles.csv",
+        "Precipitation": sample_dir / "monthly_precipitation.csv",
+        "Temperature": sample_dir / "monthly_temperature.csv",
+    }
+    if not input_files:
+        # When nothing is provided, fall back only to sample inputs that are requested via include_inputs.
+        input_files = {k: str(v) for k, v in sample_defaults.items() if k.lower() in include_labels}
+    else:
+        # If some requested inputs are missing (e.g., precip) and sample files exist, pad with samples.
+        for label, sample_path in sample_defaults.items():
+            if label.lower() not in include_labels:
+                continue
+            if label not in input_files and sample_path.exists():
+                input_files[label] = str(sample_path)
 
     return {
         "targets": [map_path, feature_heatmap, season_heatmap],
@@ -1160,6 +1213,10 @@ if REP_SEASONS_TARGETS:
                 input_files = {label: str(path) for label, path in zip(labels, input.files)}
                 if not input_files:
                     raise ValueError("No input files configured for representative seasons.")
+                # Log which inputs are being used for transparency/debugging.
+                print("[representative-seasons] Inputs:")
+                for label, path in input_files.items():
+                    print(f"  - {label}: {path}")
                 run_representative_seasons(
                     input_files=input_files,
                     K=REP_SEASONS.get("K", 2),
@@ -1219,15 +1276,25 @@ if REP_CFG and REP_CFG.get("enabled", False):
                     seasons_map_cfg = REP_CFG.get("seasons_map") or {}
                     seasons_map = {}
                     seasons_map_path = REP_SEASONS_MAP
-                    if seasons_map_path and Path(seasons_map_path).exists():
-                        df_map = pd.read_csv(seasons_map_path)
-                        seasons_map = {
-                            int(row["month"]): int(row["season"])
-                            for _, row in df_map.iterrows()
-                            if not pd.isna(row.get("month")) and not pd.isna(row.get("season"))
-                        }
-                    else:
-                        seasons_map = {int(k): int(v) for k, v in seasons_map_cfg.items()} if seasons_map_cfg else {}
+
+                    # If the user provides an explicit seasons_map in the config, use it; otherwise
+                    # consume the generated map from the representative_seasons workflow.
+                    if seasons_map_cfg:
+                        seasons_map = {int(k): int(v) for k, v in seasons_map_cfg.items()}
+                    elif seasons_map_path:
+                        if Path(seasons_map_path).exists():
+                            df_map = pd.read_csv(seasons_map_path)
+                            seasons_map = {
+                                int(row["month"]): int(row["season"])
+                                for _, row in df_map.iterrows()
+                                if not pd.isna(row.get("month")) and not pd.isna(row.get("season"))
+                            }
+                        else:
+                            raise ValueError(
+                                "No seasons_map provided in config; expected generated map at "
+                                f"{seasons_map_path} but it was not produced."
+                            )
+
                     if not seasons_map:
                         raise ValueError(
                             "No seasons_map provided. Enable representative_seasons or set representative_days.seasons_map."
@@ -1319,19 +1386,11 @@ rule report_pdf:
         str(LOG_DIR / "report_pdf.log")
     run:
         def _task():
-            """Invoke Pandoc to convert the Markdown report into a PDF file."""
-            subprocess.run(
-                [
-                    "pandoc",
-                    "--from=markdown",
-                    "--to=pdf",
-                    "-V", "geometry:margin=1.5cm",
-                    "-V", "float-placement=H",
-                    "--output", str(output.pdf),
-                    str(input.report),
-                ],
-                check=True,
-            )
+            """Invoke shared export helper to convert Markdown to PDF."""
+            from pathlib import Path
+            from generate_report import export_report_variants
+
+            export_report_variants(Path(input.report), pdf_path=Path(output.pdf), docx_path=None)
 
         with _capture_rule_log(log) as log_path:
             best_effort("report_pdf", output, _task, log_path=str(log_path))
@@ -1349,17 +1408,11 @@ rule report_docx:
         str(LOG_DIR / "report_docx.log")
     run:
         def _task():
-            """Invoke Pandoc to convert the Markdown report into a DOCX file."""
-            subprocess.run(
-                [
-                    "pandoc",
-                    "--from=gfm",
-                    "--to=docx",
-                    "--output", str(output.docx),
-                    str(input.report),
-                ],
-                check=True,
-            )
+            """Invoke shared export helper to convert Markdown to DOCX."""
+            from pathlib import Path
+            from generate_report import export_report_variants
+
+            export_report_variants(Path(input.report), pdf_path=None, docx_path=Path(output.docx))
 
         with _capture_rule_log(log) as log_path:
             best_effort("report_docx", output, _task, log_path=str(log_path))

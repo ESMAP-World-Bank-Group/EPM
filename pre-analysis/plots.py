@@ -80,7 +80,10 @@ def make_heatmap(df, tech, path=None, kind="daily", vmin=None, vmax=None, season
         x_labels = [_season_label(season_labels[0])] + x_labels
 
         plt.figure(figsize=(12, 6))
-        heatmap_kwargs = {'cmap': 'YlGnBu', 'xticklabels': False}
+        heatmap_kwargs = {
+            'cmap': 'viridis_r',  # Darker shades correspond to higher values to match other heatmaps
+            'xticklabels': False,
+        }
         if vmin is not None:
             heatmap_kwargs['vmin'] = vmin
         if vmax is not None:
