@@ -185,8 +185,8 @@ FIGURE_CATEGORY_ENABLED = {
     'costs': True,
     'energy': True,
     'dispatch': True,
-    'interconnection': False,
-    'maps': False,
+    'interconnection': True,
+    'maps': True,
 }
 
 FIGURE_CATEGORY_MAP = {

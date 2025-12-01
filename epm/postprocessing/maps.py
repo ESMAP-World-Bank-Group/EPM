@@ -294,7 +294,7 @@ def divide(geodf, country, division):
         east_part['region'] = 'east'
         west_part['region'] = 'west'
 
-        return pd.concat([east_part, north_part, south_part])
+        return pd.concat([west_part, east_part, north_part, south_part])
 
     else:
         raise ValueError("Invalid division type. Use 'NS' (North-South) or 'EW' (East-West).")
@@ -657,6 +657,7 @@ def generate_zone_plots(zone, year, scenario, dict_specs, pCapacityTechFuel, pEn
     net_exchange = net_exchange.set_index(['scenario', 'zone', 'attribute', 'year', 'season', 'day', 't']).squeeze().unstack('attribute')
     # Remove col name
     net_exchange.columns.name = None
+    net_exchange = net_exchange.fillna(0)
     net_exchange['value'] = net_exchange['Exports'] + net_exchange['Imports']
     net_exchange = net_exchange.reset_index()
     net_exchange['attribute'] = 'Net exchange'

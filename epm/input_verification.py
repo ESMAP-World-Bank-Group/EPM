@@ -417,7 +417,7 @@ def _check_demand_forecast(gams, db):
             return
         if records.empty:
             return
-
+        print(records)
         df_pivot = records.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
         df_pivot.columns.name = None
         df_pivot.rename(columns={"energy": "energy_value", "peak": "peak_value"}, inplace=True)
