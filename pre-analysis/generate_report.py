@@ -6,7 +6,9 @@ from __future__ import annotations
 import argparse
 import calendar
 import os
+import shutil
 import shlex
+import subprocess
 import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -29,6 +31,20 @@ BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_TEMPLATE = BASE_DIR / "report.md.j2"
 DEFAULT_OUTPUT = BASE_DIR / "output_workflow" / "report.md"
 DEFAULT_CONFIG = BASE_DIR / "config" / "open_data_config.yaml"
+DISABLE_FLOAT_TEX = BASE_DIR / "disable_float.tex"
+
+
+def _vprint(enabled: bool, message: str) -> None:
+    if enabled:
+        print(f"[report][verbose] {message}", file=sys.stderr)
+
+
+def _abspath_for_display(path: Path) -> str:
+    """Return an absolute path string for clearer debugging."""
+    try:
+        return path.resolve().as_posix()
+    except OSError:
+        return path.as_posix()
 
 
 def _slug(text: str) -> str:
@@ -221,7 +237,9 @@ def collect_rninja_profiles(vre_dir: Path) -> Tuple[List[Dict], Dict[str, List[D
     for csv_path in csv_files:
         tech = "solar" if "solar" in csv_path.stem.lower() or "_pv_" in csv_path.stem.lower() else "wind"
         df = pd.read_csv(csv_path)
-        value_cols = [c for c in df.columns if c not in {"zone", "season", "day", "hour"}]
+        # Exclude calendar/index columns so only capacity-factor series (e.g., yearly columns) are averaged
+        meta_cols = {"zone", "season", "month", "day", "hour", "timestamp", "timestamp_utc"}
+        value_cols = [c for c in df.columns if c not in meta_cols]
         for zone, group in df.groupby("zone"):
             for col in value_cols:
                 summaries.append(
@@ -677,14 +695,19 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
         return text.replace("_", " ")
 
     friendly.columns = [_clean_col(c) for c in friendly.columns]
-    # Drop Season/Day for a cleaner summary.
-    for col in ("Season", "Day"):
-        if col in friendly.columns:
-            friendly = friendly.drop(columns=[col])
+
+    # Keep season labels for grouping/separators; drop day for brevity.
+    if "Day" in friendly.columns:
+        friendly = friendly.drop(columns=["Day"])
 
     # Rename category label
     if "Category" in friendly.columns:
-        friendly["Category"] = friendly["Category"].replace({"representative": "Repr. Days"})
+        friendly["Category"] = (
+            friendly["Category"]
+            .apply(lambda v: v if pd.isna(v) else str(v))
+            .str.replace("_", " ", regex=False)
+            .replace({"representative": "Repr. Days"})
+        )
 
     def _pct(value: object, decimals: int = 2) -> str:
         """Format numeric values as percentages; pass through non-numeric placeholders."""
@@ -704,7 +727,7 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
     for col in cf_cols:
         friendly[col] = friendly[col].apply(lambda v: _pct(v, decimals=0))
 
-    # Rename Avg CF columns to use tech-ISO2 when possible
+    # Rename Avg CF columns to use tech-ISO2 headers (drop repeated "Avg CF" text)
     try:
         import pycountry
     except Exception:
@@ -729,13 +752,54 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
         if len(parts) == 2:
             tech, country = parts
             iso = _iso2_from_name(country)
-            rename_cols[col] = f"{tech}-{iso} Avg CF (%)"
+            rename_cols[col] = f"{tech}-{iso}"
     if rename_cols:
         friendly = friendly.rename(columns=rename_cols)
 
-    summary_md = _wrap_table(friendly.to_markdown(index=False))
+    # Insert horizontal separators between seasons and before benchmarks for readability.
+    season_labels = list(friendly["Season"]) if "Season" in friendly.columns else []
+    season_breaks = []
+    for idx in range(1, len(season_labels)):
+        prev, curr = season_labels[idx - 1], season_labels[idx]
+        if pd.isna(prev) or pd.isna(curr):
+            continue
+        if str(prev) == "-" or str(curr) == "-":
+            continue
+        if prev != curr:
+            season_breaks.append(idx)
+
+    benchmark_idx: Optional[int] = None
+    if "Category" in friendly.columns:
+        benchmark_mask = friendly["Category"].astype(str).str.contains("benchmark", case=False, na=False)
+        benchmark_hits = [i for i, flag in enumerate(benchmark_mask) if flag]
+        if benchmark_hits:
+            benchmark_idx = benchmark_hits[0]
+
+    def _insert_row_separators(table_md: str, n_cols: int, break_rows: List[int]) -> str:
+        """Inject markdown rows made of '---' to visually separate row groups."""
+        if not table_md or n_cols <= 0 or not break_rows:
+            return table_md
+        lines = table_md.splitlines()
+        if len(lines) <= 2:
+            return table_md
+        separator = "|" + "|".join([" --- "] * n_cols) + "|"
+        offset = 0
+        for row_idx in sorted(set(break_rows)):
+            insert_at = 2 + row_idx + offset
+            if insert_at <= len(lines):
+                lines.insert(insert_at, separator)
+                offset += 1
+        return "\n".join(lines)
+
+    break_rows: List[int] = season_breaks.copy()
+    if benchmark_idx is not None:
+        break_rows.append(benchmark_idx)
+
+    summary_md = friendly.to_markdown(index=False)
+    summary_md = _insert_row_separators(summary_md, len(friendly.columns), break_rows)
+    summary_md = _wrap_table(summary_md)
     # Add a brief caption explaining benchmarks/averages.
-    caption = "_Average CF values are seasonal/day averages for each tech and zone; benchmarks correspond to full-year averages across the original hourly data._"
+    caption = "_Capacity-factor columns are percent values per tech/ISO2; weights reflect representative-day optimisation._"
     return f"{summary_md}\n\n{caption}", _relpath_for_display(summary_path)
 
 
@@ -773,7 +837,7 @@ def format_figures(fig_paths: Sequence[Path], label: str, add_link: bool = True)
             continue
         rel = path.relative_to(BASE_DIR)
         lines.append(
-            "::: {.noslide .center}\n"
+            "::: {.nonfloat .center}\n"
             f"![{label}]({rel.as_posix()})\n"
             ":::"
         )
@@ -1143,17 +1207,31 @@ def render_report(
     output_path: Path,
     config_path: Path,
     output_dir_override: Optional[Path] = None,
+    verbose: bool = False,
 ) -> None:
+    _vprint(verbose, f"Template: {_abspath_for_display(template_path)}")
+    _vprint(verbose, f"Config: {_abspath_for_display(config_path)}")
+    _vprint(verbose, f"Markdown output: {_abspath_for_display(output_path)}")
+    if output_dir_override:
+        _vprint(verbose, f"Output dir override: {_abspath_for_display(output_dir_override)}")
+
     config = load_config(config_path)
+    _vprint(verbose, f"Loaded config keys: {sorted(config.keys())}" if config else "Config empty or missing.")
     slug_map = {_slug(name): name for name in config.get("gap", {}).get("countries", [])}
 
     output_dir = find_output_dir(config, output_dir_override)
+    _vprint(verbose, f"Resolved workflow output dir: {_abspath_for_display(output_dir)}")
+
     load_cfg = config.get("load_profile", {})
     rninja_cfg = config.get("rninja", {})
     genmap_cfg = config.get("generation_map", {})
     load_dir = _resolve_category_output_dir(output_dir, load_cfg.get("output_dir"), "load")
     vre_dir = _resolve_category_output_dir(output_dir, rninja_cfg.get("output_dir"), "vre")
     supply_dir = _resolve_category_output_dir(output_dir, genmap_cfg.get("output_dir"), "supply")
+    _vprint(verbose, f"Load outputs: {_abspath_for_display(load_dir)}")
+    _vprint(verbose, f"VRE outputs: {_abspath_for_display(vre_dir)}")
+    _vprint(verbose, f"Supply outputs: {_abspath_for_display(supply_dir)}")
+
     climate = collect_climate_overview(output_dir, config)
     load_stats, load_figs, load_heatmaps, load_boxplots = collect_load_profiles(load_dir, slug_map)
     load_agg_figs = build_load_aggregate_plots(load_dir, slug_map)
@@ -1171,7 +1249,7 @@ def render_report(
             heatmap_md = (
                 format_figures(
                     [entry["heatmap"]],
-                    f"{label} heatmap ({entry['country']})",
+                    f"Capacity-factor heatmap — {label} — {entry['country']}",
                     add_link=False,
                 )
                 if entry.get("heatmap")
@@ -1180,7 +1258,7 @@ def render_report(
             boxplot_md = (
                 format_figures(
                     [entry["boxplot"]],
-                    f"{label} boxplot ({entry['country']})",
+                    f"Capacity-factor distribution — {label} — {entry['country']}",
                     add_link=False,
                 )
                 if entry.get("boxplot")
@@ -1385,6 +1463,7 @@ def render_report(
     context = {
         "date": str(date.today()),
         "report_scope": report_scope,
+        "countries_inline": countries_inline,
         "countries_text": countries_text,
         "rn_countries_inline": countries_inline,
         "climate_summary": climate.get("summary", ""),
@@ -1428,7 +1507,11 @@ def render_report(
         "rep_days_clusters": rep_days_clusters,
         "rep_days_bins": rep_days_bins,
         "rep_seasons_table": rep_seasons_table,
-        "rep_seasons_fig": format_figures(rep_seasons_figs, "Representative seasons", add_link=False),
+        "rep_seasons_fig": format_figures(
+            rep_seasons_figs,
+            "Representative seasons diagnostics (inputs normalized to [0,1]; dark = higher)",
+            add_link=False,
+        ),
         "rep_seasons_map_path": rep_seasons_map_path,
         "rep_season_map": season_map_desc,
         "appendix_sections": appendix_sections,
@@ -1463,25 +1546,95 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Override the workflow output directory (defaults to config output_workflow_dir).",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print verbose information about resolved input/output paths.",
+    )
     return parser.parse_args()
 
 
+def export_report_variants(
+    markdown_path: Path,
+    pdf_path: Optional[Path] = None,
+    docx_path: Optional[Path] = None,
+) -> Dict[str, Path]:
+    """Export a rendered Markdown report to PDF and DOCX via Pandoc."""
+
+    def _run_pandoc(target: Path, args: Sequence[str], label: str) -> Optional[Path]:
+        if not shutil.which("pandoc"):
+            print(f"Warning: pandoc not found; skipping {label} export.", file=sys.stderr)
+            return None
+        target.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            # Use BASE_DIR as the working directory so relative figure paths resolve.
+            subprocess.run(args, check=True, cwd=BASE_DIR)
+        except subprocess.CalledProcessError as exc:
+            print(f"Warning: failed to export {label}: {exc}", file=sys.stderr)
+            return None
+        return target.resolve()
+
+    outputs: Dict[str, Path] = {}
+    pdf_target = pdf_path or markdown_path.with_suffix(".pdf")
+    docx_target = docx_path or markdown_path.with_suffix(".docx")
+
+    if pdf_target:
+        pdf_args = [
+            "pandoc",
+            "--from=markdown",
+            "--to=pdf",
+            "-V",
+            "geometry:margin=1.5cm",
+            "-V",
+            "float-placement=H",
+            "-H",
+            str(DISABLE_FLOAT_TEX),
+            "--output",
+            str(pdf_target),
+            str(markdown_path),
+        ]
+        pdf_output = _run_pandoc(pdf_target, pdf_args, "PDF")
+        if pdf_output:
+            outputs["pdf"] = pdf_output
+
+    if docx_target:
+        docx_args = [
+            "pandoc",
+            "--from=gfm",
+            "--to=docx",
+            "--output",
+            str(docx_target),
+            str(markdown_path),
+        ]
+        docx_output = _run_pandoc(docx_target, docx_args, "DOCX")
+        if docx_output:
+            outputs["docx"] = docx_output
+
+    return outputs
+
+
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        output_dir = BASE_DIR / "output_standalone" / "report_standalone"
-        output_path = output_dir / "report.md"
-        render_report(DEFAULT_TEMPLATE, output_path, DEFAULT_CONFIG, output_dir)
-        try:
-            display_path = output_path.resolve().relative_to(BASE_DIR)
-        except ValueError:
-            display_path = output_path
-        print(f"[report] Standalone report written to {display_path}")
-    else:
-        args = parse_args()
-        output_path = args.output or default_report_output(args.config, args.output_dir)
-        render_report(args.template, output_path, args.config, args.output_dir)
-        try:
-            display_path = output_path.resolve().relative_to(BASE_DIR)
-        except ValueError:
-            display_path = output_path
-        print(f"Wrote report to {display_path}")
+    
+    # User-editable defaults for IDE runs (no CLI flags needed)
+    USER_TEMPLATE: Path = DEFAULT_TEMPLATE
+    USER_CONFIG: Path = DEFAULT_CONFIG
+    USER_OUTPUT: Optional[Path] = None  # Set to a path to override report.md
+    USER_OUTPUT_DIR_OVERRIDE: Optional[Path] = None  # Set to override workflow output root
+    USER_VERBOSE: bool = True
+    
+    template_path = USER_TEMPLATE
+    config_path = USER_CONFIG
+    output_dir_override = USER_OUTPUT_DIR_OVERRIDE
+    output_path = USER_OUTPUT or default_report_output(config_path, output_dir_override)
+
+    _vprint(USER_VERBOSE, f"Final Markdown target: {_abspath_for_display(output_path)}")
+    render_report(template_path, output_path, config_path, output_dir_override, verbose=USER_VERBOSE)
+
+    exports = export_report_variants(output_path)
+    display_md = _relpath_for_display(output_path.resolve())
+    messages = [f"Markdown: {display_md}"]
+    if "pdf" in exports:
+        messages.append(f"PDF: {_relpath_for_display(exports['pdf'])}")
+    if "docx" in exports:
+        messages.append(f"DOCX: {_relpath_for_display(exports['docx'])}")
+    print("[report] " + "; ".join(messages))

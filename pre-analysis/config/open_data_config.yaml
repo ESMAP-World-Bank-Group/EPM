@@ -26,7 +26,7 @@ climate_overview:
   end_year: 2025
   variables: [2m_temperature, total_precipitation]
   dataset: reanalysis-era5-land-monthly-means
-  api_dir: ../prepare-data/input/era5_api
+  api_dir: api
   extract_dir: api/climate_extract
   output_dir: climate
   generate_plots: true
@@ -80,11 +80,14 @@ load_profile:
   year: 2020
   generate_heatmap_boxplot: true
 
-# Representative seasons (month -> season clustering). When enabled, auto-derives a season map
-# from monthly inputs (defaults to climate precip/temp outputs when available).
+# Representative seasons (month -> season clustering).
+# - If input_files is left empty, the workflow auto-uses generated upstream outputs in this order:
+#   Climate monthly precipitation/temperature, load profiles, RNinja/IRENA PV & Wind.
+# - Otherwise, provide explicit CSVs with columns: month, value (and optional zone).
 representative_seasons:
   enabled: true
-  input_files: {} # Optional overrides for monthly tables (month + value); falls back to climate/load outputs.
+  input_files: {} # leave empty to auto-pick; override to force specific monthly inputs.
+  include_inputs: [Precipitation, Load, PV, Wind] # subset/extend to control which auto inputs are used.
   output_dir: representative_seasons
   K: 2
   random_state: 0
@@ -94,21 +97,7 @@ representative_seasons:
 # cleaned hourly CSVs with columns zone, month (or season), day, hour, and a value column.
 representative_days:
   enabled: true # Flip to true to run the representative-days pipeline.
-  seasons_map: # Month -> season regrouping used before clustering.
-    {
-      1: 2,
-      2: 2,
-      3: 2,
-      4: 2,
-      5: 1,
-      6: 1,
-      7: 1,
-      8: 1,
-      9: 1,
-      10: 2,
-      11: 2,
-      12: 2,
-    }
+  seasons_map: {} # Leave empty to consume the generated seasons_map from representative_seasons; fill to override.
   input_files: {} # Hourly CSVs per tech (keys like PV/Wind/Load)
   output_dir: output # Stored under pre-analysis/representative_days/output.
   zones_to_exclude: [] # Optional list of zones to drop before processing.
