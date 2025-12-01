@@ -48,11 +48,11 @@ $if not set pEnergyEfficiencyFactor $set pEnergyEfficiencyFactor %FOLDER_INPUT%/
 $if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput.csv
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
-$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
+$if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefaultCCDR.csv
 $if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile.csv
 $if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile.csv
-$if not set pCapexTrajectories $set pCapexTrajectories %FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
-$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
+$if not set pCapexTrajectories $set pCapexTrajectories %FOLDER_INPUT%/supply/pCapexTrajectoriesDefault.csv
+$if not set pCapexTrajectoriesDefault $set pCapexTrajectoriesDefault %FOLDER_INPUT%/supply/pCapexTrajectoriesDefaultCCDR.csv
 $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 
 * OTHER SUPPLY OPTIONS
@@ -80,7 +80,7 @@ $if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_INPUT%/resource
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxPriceImportShare $set pMaxPriceImportShare %FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
-$if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
+$if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxExchangeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
 $if not set pTradePrice $set pTradePrice %FOLDER_INPUT%/trade/pTradePrice.csv

@@ -48,7 +48,7 @@ $setglobal modeldir %system.fp%
 *-------------------------------------------------------------------------------------
 
 * Folder input
-$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_test"
+$if not set FOLDER_INPUT $set FOLDER_INPUT "input/data_sapp"
 $log FOLDER_INPUT is "%FOLDER_INPUT%"
 
 *-------------------------------------------------------------------------------------
@@ -401,6 +401,7 @@ h2zmap(hh,z) = pH2DataExcel(hh,'Zone');
 *-------------------------------------------------------------------------------------
 
 *--- Parameter initialisation for same demand profile for all years
+
 
 $include %DEMAND_FILE%
 

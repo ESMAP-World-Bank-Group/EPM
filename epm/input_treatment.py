@@ -63,24 +63,25 @@ ZONE_RESTRICTED_PARAMS = {
 }
 
 COLUMN_RENAME_MAP = {
-    "pGenDataInput": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
-    "pGenDataInputDefault": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
+    "pGenDataInput": {"uni": "pGenDataInputHeader", "gen": "g", "Zone": "z", 'fuel': 'f'},
+    "pGenDataInputDefault": {"uni": "pGenDataInputHeader", "gen": "g", "Zone": "z", 'fuel': 'f'},
     "pAvailability": {"uni": "q", "gen": "g"},
-    "pAvailabilityDefault": {"uni": "q", "zone": "z"},
-    "pCapexTrajectoriesDefault": {"uni": "y", "zone": "z"},
-    "pDemandForecast": {"uni": "y", "zone": "z"},
+    "pAvailabilityDefault": {"uni": "q", "Zone": "z"},
+    "pCapexTrajectoriesDefault": {"uni": "y", "Zone": "z"},
+    "pDemandForecast": {"uni": "y", "Zone": "z"},
     "pNewTransmission": {"From": "z", "To": "z2", "uni": "pTransmissionHeader"},
-    "zcmap": {"country": "c", "zone": "z"},
+    "zcmap": {"Country": "c", "Zone": "z"},
     "pSettings": {"Abbreviation": "pSettingsHeader"},
-    "pDemandForecast": {'type': 'pe', 'uni': 'y', 'zone': 'z'},
+    "pDemandForecast": {'type': 'pe', 'uni': 'y', 'Zone': 'z'},
     "pTransferLimit": {"From": "z", "To": "z2", "uni": "y"},
     "pHours": {'season': 'q', 'daytype': 'd', 'uni': 't'},
-    "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
+    "pLossFactorInternal": {"Zone1": "z", "Zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
     'ftfindex': {'fuel': 'f'},
     "pStorDataExcel": {'gen_0': 'g', 'uni_2': 'pStoreDataHeader'},
     'pTechData': {'Technology': 'tech'}
 }
+
 
 
 def apply_debug_column_renames(container: gt.Container, rename_map=None):
@@ -922,7 +923,9 @@ def run_input_treatment(gams,
         
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
-        
+        #print(param_df)
+        #print(default_df)
+
         # Concatenate the original parameter data with the default DataFrame
         param_df = pd.concat([param_df, default_df], axis=0)
         
@@ -1115,12 +1118,12 @@ def run_input_treatment(gams,
     fill_default_value(db, "pAvailability", default_df)
 
     # Prepare pCapexTrajectories by filling missing values with default values
-    default_df = prepare_generatorbased_parameter(db, 
+    """ default_df = prepare_generatorbased_parameter(db, 
                                                   "pCapexTrajectoriesDefault",
                                                   cols_tokeep=['y'],
-                                                  param_ref="pGenDataInput")
+                                                  param_ref="pGenDataInput") """
                                                                                                 
-    fill_default_value(db, "pCapexTrajectories", default_df)
+    """ fill_default_value(db, "pCapexTrajectories", default_df) """
 
 
     # LossFactor must be defined through a specific csv
@@ -1129,8 +1132,8 @@ def run_input_treatment(gams,
 
 if __name__ == "__main__":
 
-    DEFAULT_GDX = os.path.join("test", "input.gdx")
-    output_gdx = os.path.join("test", "input_treated.gdx")
+    DEFAULT_GDX = os.path.join("input.gdx")
+    output_gdx = os.path.join("input_treated.gdx")
 
     container = gt.Container()
     container.read(DEFAULT_GDX)
