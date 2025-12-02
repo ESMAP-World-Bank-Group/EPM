@@ -44,6 +44,52 @@ generation_map:
   summary_filename: generation_sites_summary.csv
   pgen_filename: pGenDataInput_gap.csv
 
+socioeconomic_maps:
+  enabled: true
+  countries: *countries_common
+  output_dir: socioeconomic
+  world_map_shapefile: dataset/maps/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
+  cities_shapefile: dataset/maps/ne_110m_populated_places/ne_110m_populated_places.shp
+  use_log_scale: true
+  percentile_clip: [2, 98]
+  dpi: 250
+  datasets:
+    - key: gdp
+      label: GDP (2005 PPP $)
+      raster: GDP2005_1km.tif
+      output_basename: gdp_map_static
+      title_prefix: GDP density (2005, 1 km)
+      cmap: YlGnBu
+    - key: population
+      label: Population density (2020)
+      raster: pop/SSP2/SSP2_2020.tif
+      output_basename: population_map_static
+      title_prefix: Population density (2020, 1 km)
+      cmap: OrRd
+
+owid_energy:
+  enabled: true
+  dataset: owid-energy-data.csv
+  # Exact column names from the OWID CSV (helps users verify expected headers).
+  variables:
+    - electricity_demand
+    - electricity_demand_per_capita
+    - energy_per_capita
+    - population
+    - gdp
+  countries: *countries_common
+  output_dir: owid_energy
+  output_basename: owid_energy
+  start_year: null
+  end_year: null
+
+hydro_reservoirs:
+  enabled: true
+  dataset: GloHydroRes_vs1.csv
+  countries: *countries_common
+  output_dir: hydro_reservoirs
+  zoom_start: 6
+
 rninja:
   start_year: 2015 # inclusive
   end_year: 2016 # exclusive
@@ -100,6 +146,7 @@ representative_days:
   seasons_map: {} # Leave empty to consume the generated seasons_map from representative_seasons; fill to override.
   input_files: {} # Hourly CSVs per tech (keys like PV/Wind/Load)
   output_dir: output # Stored under pre-analysis/representative_days/output.
+  summary_dir: representative_days # Folder under output_workflow/ for summary + heatmap exports.
   zones_to_exclude: [] # Optional list of zones to drop before processing.
   value_column: value # Override if the value column is not named "value".
   year_label: 2018 # Column name used for representative-year selection.

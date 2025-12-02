@@ -10,5 +10,6 @@ timezonefinder
 geopy
 jinja2
 PyYAML
+rasterio
 # Optional (Monte Carlo analysis only):
 # chaospy==4.3.18

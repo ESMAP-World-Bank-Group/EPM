@@ -893,6 +893,76 @@ def export_repr_days_summary(df_energy, repr_days, special_days, output_dir):
         return None
 
 
+def export_repr_days_heatmap(summary_path: Union[str, Path], output_dir: Union[str, Path]) -> Union[Path, None]:
+    """Create a heatmap of representative-day average CFs from the summary table."""
+    try:
+        summary_path = Path(summary_path)
+        if not summary_path.exists():
+            return None
+        df = pd.read_csv(summary_path)
+        if df.empty:
+            return None
+
+        tech_cols = [c for c in df.columns if c.endswith('_avg_cf')]
+        if not tech_cols:
+            return None
+
+        working = df.copy()
+
+        def _label(row) -> str:
+            cat = str(row.get('category', '') or '').replace('_', ' ').title()
+            season = row.get('season', '-')
+            weight = row.get('weight_pct', '-')
+            if str(cat).lower().startswith('benchmark'):
+                return cat
+            try:
+                weight_val = float(weight)
+                weight_txt = f"{weight_val * 100:.0f}%"
+            except (TypeError, ValueError):
+                weight_txt = "-"
+            label_core = f"{season} {cat}".strip()
+            return f"{label_core} w={weight_txt}" if weight_txt != "-" else label_core
+
+        working['label'] = working.apply(_label, axis=1)
+        heatmap_data = working.set_index('label')[tech_cols]
+        heatmap_data = heatmap_data.apply(pd.to_numeric, errors='coerce')
+        heatmap_data = heatmap_data.dropna(how='all')
+        if heatmap_data.empty:
+            return None
+
+        def _fmt_col(col: str) -> str:
+            base = col[:-len('_avg_cf')] if col.endswith('_avg_cf') else col
+            tech, sep, rest = base.partition('_')
+            return f"{tech} {rest}".strip() if sep else base.replace('_', ' ').strip()
+
+        col_labels = [_fmt_col(c) for c in heatmap_data.columns]
+
+        plt.figure(figsize=(1.5 * len(tech_cols) + 2, 0.5 * len(heatmap_data) + 2))
+        ax = sns.heatmap(
+            heatmap_data,
+            annot=False,
+            cmap='viridis_r',
+            vmin=0,
+            vmax=1,
+            cbar_kws={'label': 'Average capacity factor'},
+        )
+        ax.set_xticklabels(col_labels, rotation=45, ha='right', fontweight='semibold')
+        ax.set_xlabel('')
+        ax.set_ylabel('')
+        ax.set_title('Representative days — average capacity factors', pad=10)
+        plt.tight_layout()
+
+        output_dir = Path(output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        heatmap_path = output_dir / 'representative_days_heatmap.pdf'
+        plt.savefig(heatmap_path, dpi=200)
+        plt.close()
+        return heatmap_path
+    except Exception as exc:  # noqa: BLE001 - defensive; keep pipeline running
+        print(f'[repr-days] Warning: failed to export representative_days_heatmap ({exc})')
+        return None
+
+
 def format_epm_phours(repr_days, folder):
     """Format pHours EPM like.
 
@@ -1184,6 +1254,17 @@ def run_representative_days_pipeline(
     repr_days_path = output_dir / 'repr_days.csv'
     df_energy_path = output_dir / 'df_energy.csv'
     summary_path = export_repr_days_summary(df_energy, repr_days, special_days, summary_dir)
+    heatmap_path = export_repr_days_heatmap(summary_path, summary_dir) if summary_path else None
+    if heatmap_path is None:
+        placeholder = Path(summary_dir) / 'representative_days_heatmap.pdf'
+        plt.figure(figsize=(4, 1))
+        plt.text(0.5, 0.5, 'Representative-days heatmap unavailable', ha='center', va='center')
+        plt.axis('off')
+        placeholder.parent.mkdir(parents=True, exist_ok=True)
+        plt.tight_layout()
+        plt.savefig(placeholder, dpi=120)
+        plt.close()
+        heatmap_path = placeholder
     repr_days.to_csv(repr_days_path, index=False)
     df_energy.to_csv(df_energy_path, index=False)
 
@@ -1202,6 +1283,7 @@ def run_representative_days_pipeline(
             'repr_days': str(repr_days_path),
             'df_energy': str(df_energy_path),
             'repr_days_summary': str(summary_path) if summary_path else None,
+            'repr_days_heatmap': str(heatmap_path) if heatmap_path else None,
         },
     }
 

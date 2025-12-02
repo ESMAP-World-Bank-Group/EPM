@@ -61,6 +61,7 @@ CATEGORY_OUTPUT_SUBDIRS = {
     "load": "load",
     "vre": "vre",
     "supply": "supply",
+    "socioeconomic": "socioeconomic",
 }
 
 
@@ -396,7 +397,7 @@ def plot_gap_project_locations(df: pd.DataFrame, output_dir: Path) -> Optional[P
         ax.legend(title="Technology")
 
     fig.tight_layout()
-    plot_path = output_dir / "gap_project_locations.png"
+    plot_path = output_dir / "gap_project_locations.pdf"
     fig.savefig(plot_path, dpi=220)
     plt.close(fig)
     return plot_path
@@ -514,6 +515,134 @@ def collect_generation_map(
     return map_path, map_all_path, summary_df, data_df
 
 
+def collect_hydro_reservoirs(
+    output_root: Path, config: Dict
+) -> Tuple[Optional[Path], Optional[pd.DataFrame], Optional[pd.DataFrame], Optional[Path], Optional[Path]]:
+    """Locate hydropower map + summary tables from the hydro_reservoirs workflow."""
+    hydro_cfg = config.get("hydro_reservoirs", {})
+    if not hydro_cfg.get("enabled", False):
+        return None, None, None
+
+    search_dirs = []
+    # Preferred: supply/hydro_reservoirs (or configured subdir).
+    try:
+        hydro_dir = _resolve_category_output_dir(output_root, hydro_cfg.get("output_dir"), "supply")
+        search_dirs.append(hydro_dir)
+    except Exception:
+        pass
+    # Fallbacks: standalone outputs or directly under pre-analysis.
+    search_dirs.extend(
+        [
+            BASE_DIR / "output_standalone" / "hydro_reservoirs",
+            BASE_DIR / "hydro_reservoirs",
+        ]
+    )
+
+    map_path = None
+    summary_df = None
+    data_df = None
+    summary_path = None
+    data_path = None
+
+    for folder in search_dirs:
+        if not folder.exists():
+            continue
+        candidate_map = folder / "hydro_sites_map.pdf"
+        if map_path is None and not candidate_map.exists():
+            candidate_map = folder / "hydro_sites_map.png"
+        candidate_summary = folder / "hydro_sites_summary.csv"
+        candidate_data = folder / "hydro_sites_cleaned.csv"
+        if map_path is None and candidate_map.exists():
+            map_path = candidate_map
+        if summary_df is None and candidate_summary.exists():
+            try:
+                df = pd.read_csv(candidate_summary)
+                if not df.empty:
+                    summary_df = df
+                    summary_path = candidate_summary
+            except Exception as exc:
+                print(f"Warning: could not read hydro summary {candidate_summary}: {exc}", file=sys.stderr)
+        if data_df is None and candidate_data.exists():
+            try:
+                df = pd.read_csv(candidate_data)
+                if not df.empty:
+                    data_df = df
+                    data_path = candidate_data
+            except Exception as exc:
+                print(f"Warning: could not read hydro data {candidate_data}: {exc}", file=sys.stderr)
+        if map_path and summary_df is not None and data_df is not None:
+            break
+
+    return map_path, summary_df, data_df, summary_path, data_path
+
+
+def _format_owid_latest(latest: pd.DataFrame) -> str:
+    """Prettify the latest-year OWID energy table."""
+    if latest is None or latest.empty:
+        return ""
+    df = latest.copy()
+    rename = {
+        "country": "Country",
+        "year": "Year",
+        "population_millions": "Population (M)",
+        "gdp_billions_usd": "GDP (bn USD)",
+        "electricity_demand_twh": "Electricity demand (TWh)",
+        "electricity_demand_per_capita_kwh": "Demand per capita (kWh)",
+        "energy_per_capita_kwh": "Energy per capita (kWh)",
+    }
+    df = df.rename(columns=rename)
+    numeric_cols = [col for col in rename.values() if col in df.columns and col not in ("Country", "Year")]
+
+    def _fmt(value: object, decimals: int = 1) -> str:
+        try:
+            if pd.isna(value):
+                return "-"
+            return f"{float(value):.{decimals}f}"
+        except Exception:
+            return "-"
+
+    for col in numeric_cols:
+        df[col] = df[col].apply(lambda v: _fmt(v, decimals=1))
+
+    return _wrap_table(df.to_markdown(index=False))
+
+
+def collect_owid_energy(output_root: Path, config: Dict) -> Dict[str, object]:
+    """Gather OWID energy figures + summary tables from workflow outputs."""
+    cfg = config.get("owid_energy", {}) or {}
+    if not cfg.get("enabled", False):
+        return {"figures": {}, "summary": "", "data_files": [], "outdir": None}
+
+    outdir = _resolve_category_output_dir(output_root, cfg.get("output_dir", "owid_energy"), "socioeconomic")
+    basename = cfg.get("output_basename", "owid_energy")
+    figures = {
+        "population": outdir / f"{basename}_population.pdf",
+        "gdp": outdir / f"{basename}_gdp.pdf",
+        "electricity": outdir / f"{basename}_electricity.pdf",
+        "electricity_per_capita": outdir / f"{basename}_electricity_per_capita.pdf",
+    }
+    summary_md = ""
+    data_files: List[Path] = []
+    latest_path = outdir / f"{basename}_latest.csv"
+    summary_path = outdir / f"{basename}_summary.csv"
+
+    table_df: Optional[pd.DataFrame] = None
+    for candidate in (latest_path, summary_path):
+        if candidate.exists():
+            try:
+                df = pd.read_csv(candidate)
+                if not df.empty:
+                    table_df = df
+                    data_files.append(candidate)
+                    break
+            except Exception as exc:  # pragma: no cover - defensive logging
+                print(f"Warning: could not read OWID summary {candidate}: {exc}", file=sys.stderr)
+    if table_df is not None:
+        summary_md = _format_owid_latest(table_df)
+
+    return {"figures": figures, "summary": summary_md, "data_files": data_files, "outdir": outdir}
+
+
 def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, object]:
     cfg = config.get("climate_overview", {})
     if not cfg.get("enabled", False):
@@ -579,13 +708,26 @@ def collect_climate_overview(output_root: Path, config: Dict) -> Dict[str, objec
     }
 
 
-def find_rep_day_figures(base_dir: Path) -> List[Path]:
-    rep_dir = base_dir / "prepare-data" / "representative_days" / "output"
-    if not rep_dir.exists():
-        return []
+def find_rep_day_figures(base_dir: Path, output_dir: Path) -> List[Path]:
+    """Collect representative-day diagnostic figures from common output locations."""
+    candidate_dirs = [
+        base_dir / "prepare-data" / "representative_days" / "output",
+        base_dir / "representative_days" / "output",
+        output_dir / "representative_days",
+        output_dir,
+    ]
     figs: List[Path] = []
-    for ext in ("*.pdf", "*.png"):
-        figs.extend(sorted(rep_dir.glob(ext)))
+    seen: set[Path] = set()
+    for rep_dir in candidate_dirs:
+        try:
+            rep_dir = rep_dir.resolve()
+        except OSError:
+            continue
+        if rep_dir in seen or not rep_dir.exists():
+            continue
+        seen.add(rep_dir)
+        for ext in ("*.pdf", "*.png"):
+            figs.extend(sorted(rep_dir.glob(ext)))
     return figs
 
 
@@ -616,9 +758,14 @@ def load_representative_seasons(output_dir: Path, config: Dict) -> Tuple[str, Op
         candidate_map = resolved / "seasons_map.csv"
         if candidate_map.exists():
             map_path = candidate_map
-        for fname in ("monthly_features_heatmap.png", "season_means_heatmap.png"):
+        for fname in (
+            "monthly_features_heatmap.pdf",
+            "season_means_heatmap.pdf",
+            "monthly_features_heatmap.png",
+            "season_means_heatmap.png",
+        ):
             fpath = resolved / fname
-            if fpath.exists():
+            if fpath.exists() and fpath not in figures:
                 figures.append(fpath)
 
     seasons_map: Dict[int, int] = {}
@@ -650,7 +797,14 @@ def load_representative_days_summary(output_dir: Path, config: Dict) -> Tuple[st
     """Load and prettify the representative_days_summary.csv table."""
     rep_cfg = config.get("representative_days", {}) or {}
     rep_subdir = rep_cfg.get("epm_output_dir") or rep_cfg.get("output_dir") or "representative_days"
+    summary_dir_cfg = rep_cfg.get("summary_dir")
+    summary_dir = (
+        _resolve_relative(output_dir, summary_dir_cfg)
+        if summary_dir_cfg
+        else output_dir / "representative_days"
+    )
     candidates = [
+        summary_dir / "representative_days_summary.csv",
         output_dir / "representative_days_summary.csv",
         output_dir / "epm_export" / rep_subdir / "representative_days_summary.csv",
         output_dir / rep_subdir / "representative_days_summary.csv",
@@ -852,6 +1006,45 @@ def _wrap_table(table_md: str) -> str:
     if not table_md:
         return ""
     return f'<div style="overflow-x: auto;">\n\n{table_md}\n\n</div>'
+
+
+def format_hydro_summary(summary_df: Optional[pd.DataFrame]) -> str:
+    """Render per-country hydro summary markdown."""
+    if summary_df is None or summary_df.empty:
+        return ""
+    df = summary_df.copy()
+    rename = {
+        "country": "Country",
+        "site_count": "Sites",
+        "total_capacity_mw": "Total capacity (MW)",
+        "median_capacity_mw": "Median capacity (MW)",
+        "avg_head_m": "Average head (m)",
+        "avg_dam_height_m": "Average dam height (m)",
+    }
+    df = df.rename(columns=rename)
+    return _wrap_table(df.to_markdown(index=False, floatfmt=".1f"))
+
+
+def format_hydro_appendix(data_df: Optional[pd.DataFrame]) -> str:
+    """Render per-country hydro plant tables for the appendix."""
+    if data_df is None or data_df.empty:
+        return ""
+    parts: List[str] = []
+    cols = ["name", "plant_type", "capacity_mw", "river", "res_vol_km3"]
+    rename = {
+        "name": "Name",
+        "plant_type": "Type",
+        "capacity_mw": "Capacity (MW)",
+        "river": "River",
+        "res_vol_km3": "Reservoir volume (km³)",
+    }
+    for country, group in data_df.groupby("country"):
+        df = group.copy()
+        df = df[cols]
+        df = df.rename(columns=rename)
+        table = _wrap_table(df.to_markdown(index=False, floatfmt=".2f"))
+        parts.append(f"**{country}**\n\n{table}")
+    return "\n\n".join(parts)
 
 
 def _extract_datetime_index(df: pd.DataFrame) -> pd.DatetimeIndex:
@@ -1149,10 +1342,16 @@ def build_appendix_sections(
     gap_plot: Optional[Path] = None,
     generation_map_all_path: Optional[Path] = None,
     generation_map_all_static_figs: str = "",
+    hydro_appendix_body: str = "",
     workflow_parameters: str = "",
     season_mapping: str = "",
     extra_sections: Sequence[Dict[str, str]] = (),
     rninja_period_label: str = "",
+    rep_days_body: str = "",
+    rep_days_fig: str = "",
+    socio_map_fig: str = "",
+    load_heatmaps: Sequence[Path] = (),
+    load_boxplots: Sequence[Path] = (),
 ) -> List[Dict[str, str]]:
     """Assemble appendix sections with headings and content (numbered A, B, C, ...)."""
     sections: List[Dict[str, str]] = []
@@ -1165,12 +1364,26 @@ def build_appendix_sections(
         sections.append({"title": f"Appendix {chr(letter)}: {title}", "body": body})
         letter += 1
 
+    # Order mirrors the main narrative: Climate → Load → VRE → Generation → Hydro → Socio → Rep days → Repro.
     # A. Climate (extras)
     if extra_sections:
         climate_body = "\n\n".join(section.get("body", "") for section in extra_sections if section.get("body"))
         add_section("Climate", climate_body)
 
-    # B. Generation (assets + map)
+    # B. Load diagnostics
+    load_parts: List[str] = []
+    load_heatmap_fig = format_figures(load_heatmaps, "Load heatmap", add_link=False) if load_heatmaps else ""
+    load_boxplot_fig = format_figures(load_boxplots, "Load distribution", add_link=False) if load_boxplots else ""
+    for fig in (load_heatmap_fig, load_boxplot_fig):
+        if fig:
+            load_parts.append(fig)
+    add_section("Load diagnostics", "\n\n".join(load_parts))
+
+    # C. VRE (boxplots or other diagnostics)
+    if boxplots:
+        add_section("VRE diagnostics", format_figures(boxplots, "Capacity-factor distribution", add_link=False))
+
+    # D. Generation (assets + map)
     gen_body_parts: List[str] = []
     if gen_status_tables:
         gen_body_parts.append(gen_status_tables)
@@ -1184,11 +1397,21 @@ def build_appendix_sections(
         gen_body_parts.append("\n\n".join(map_lines))
     add_section("Generation assets and map", "\n\n".join(part for part in gen_body_parts if part))
 
-    # C. VRE (boxplots or other diagnostics)
-    if boxplots:
-        add_section("VRE diagnostics", format_figures(boxplots, "Capacity-factor distribution", add_link=False))
+    # E. Hydropower assets
+    add_section("Hydropower assets", hydro_appendix_body)
 
-    # D. Reproducibility + workflow parameters
+    # F. Socio-economic maps
+    add_section("Socio-economic density maps", socio_map_fig)
+
+    # G. Representative days
+    rep_day_parts: List[str] = []
+    if rep_days_body:
+        rep_day_parts.append(rep_days_body)
+    if rep_days_fig:
+        rep_day_parts.append(rep_days_fig)
+    add_section("Representative days", "\n\n".join(rep_day_parts))
+
+    # H. Reproducibility + workflow parameters
     repro_parts: List[str] = []
     if workflow_parameters:
         body = workflow_parameters
@@ -1225,12 +1448,18 @@ def render_report(
     load_cfg = config.get("load_profile", {})
     rninja_cfg = config.get("rninja", {})
     genmap_cfg = config.get("generation_map", {})
+    socio_cfg = config.get("socioeconomic_maps", {})
+    owid_cfg = config.get("owid_energy", {})
     load_dir = _resolve_category_output_dir(output_dir, load_cfg.get("output_dir"), "load")
     vre_dir = _resolve_category_output_dir(output_dir, rninja_cfg.get("output_dir"), "vre")
     supply_dir = _resolve_category_output_dir(output_dir, genmap_cfg.get("output_dir"), "supply")
+    socio_dir = _resolve_category_output_dir(output_dir, socio_cfg.get("output_dir"), "socioeconomic")
+    owid_dir = _resolve_category_output_dir(output_dir, owid_cfg.get("output_dir"), "socioeconomic")
     _vprint(verbose, f"Load outputs: {_abspath_for_display(load_dir)}")
     _vprint(verbose, f"VRE outputs: {_abspath_for_display(vre_dir)}")
     _vprint(verbose, f"Supply outputs: {_abspath_for_display(supply_dir)}")
+    _vprint(verbose, f"Socio-economic maps: {_abspath_for_display(socio_dir)}")
+    _vprint(verbose, f"OWID energy outputs: {_abspath_for_display(owid_dir)}")
 
     climate = collect_climate_overview(output_dir, config)
     load_stats, load_figs, load_heatmaps, load_boxplots = collect_load_profiles(load_dir, slug_map)
@@ -1277,6 +1506,14 @@ def render_report(
             rninja_zone_sections.append({"tech": tech_key, "label": label, "zones": zone_rows})
     gap_summary, gap_path, gap_plot = collect_gap_projects(supply_dir, slug_map)
     gen_map_path, gen_map_all_path, gen_summary_df, gen_sites_df = collect_generation_map(supply_dir, config)
+    (
+        hydro_map_path,
+        hydro_summary_df,
+        hydro_data_df,
+        hydro_summary_path,
+        hydro_data_path,
+    ) = collect_hydro_reservoirs(output_dir, config)
+    owid_energy = collect_owid_energy(output_dir, config)
     static_pdfs = sorted(supply_dir.glob("generation_map_static_*.pdf"))
     static_all_files = [path for path in static_pdfs if path.stem.lower().endswith("_all")]
     static_main_files = [path for path in static_pdfs if path not in static_all_files]
@@ -1287,11 +1524,77 @@ def render_report(
         "Generation map static export (all statuses)",
         add_link=False,
     )
-    rep_figs = find_rep_day_figures(BASE_DIR)
+    def _load_socio_status(folder: Path) -> Dict[str, str]:
+        status_path = folder / "socioeconomic_status.json"
+        if not status_path.exists():
+            return {}
+        try:
+            entries = json.loads(status_path.read_text(encoding="utf-8"))
+            return {entry.get("basename"): entry.get("message", "") for entry in entries if isinstance(entry, dict)}
+        except Exception as exc:
+            print(f"Warning: could not read socio status {status_path}: {exc}", file=sys.stderr)
+            return {}
+
+    socio_status = _load_socio_status(socio_dir)
+
+    socio_entries: List[Tuple[str, Path, str]] = []
+    socio_warnings: List[str] = []
+    if socio_cfg.get("enabled", False):
+        socio_datasets = socio_cfg.get("datasets") or []
+        default_basename = socio_cfg.get("output_basename")
+        for entry in socio_datasets:
+            if not isinstance(entry, dict):
+                continue
+            label = entry.get("label") or entry.get("title_prefix") or entry.get("key") or entry.get("name") or "Socio-economic map"
+            basename = entry.get("output_basename") or default_basename or f"{_slug(str(entry.get('key') or label))}_map"
+            socio_entries.append((str(label), socio_dir / f"{basename}.pdf", basename))
+            if basename in socio_status and socio_status[basename]:
+                socio_warnings.append(f"- {label}: {socio_status[basename]}")
+    socio_files = [path for _, path, _ in socio_entries]
+    socio_map_fig = "\n\n".join(
+        format_figures([path], label, add_link=False)
+        for label, path, _ in socio_entries
+        if path
+    )
+    if socio_warnings:
+        warning_lines = "\n".join(socio_warnings)
+        notice = f"_Note: socio-economic maps encountered issues:_\n{warning_lines}"
+        socio_map_fig = f"{socio_map_fig}\n\n{notice}" if socio_map_fig else notice
+    owid_population_fig = format_figures(
+        [owid_energy["figures"].get("population")] if owid_energy.get("figures") else [],
+        "Population (OWID)",
+        add_link=False,
+    )
+    owid_gdp_fig = format_figures(
+        [owid_energy["figures"].get("gdp")] if owid_energy.get("figures") else [],
+        "GDP (OWID)",
+        add_link=False,
+    )
+    owid_electricity_fig = format_figures(
+        [owid_energy["figures"].get("electricity")] if owid_energy.get("figures") else [],
+        "Electricity demand (OWID)",
+        add_link=False,
+    )
+    owid_electricity_pc_fig = format_figures(
+        [owid_energy["figures"].get("electricity_per_capita")] if owid_energy.get("figures") else [],
+        "Per-capita electricity demand & total energy (OWID)",
+        add_link=False,
+    )
+    owid_summary_table = owid_energy.get("summary", "")
+    hydro_map_fig = format_figures([hydro_map_path], "Hydropower map", add_link=False) if hydro_map_path else ""
+    hydro_summary_table = format_hydro_summary(hydro_summary_df)
+    hydro_appendix_tables = format_hydro_appendix(hydro_data_df)
+    rep_figs = find_rep_day_figures(BASE_DIR, output_dir)
+    rep_days_fig_md = format_figures(rep_figs, "Representative days")
     rep_summary_table, rep_summary_path = load_representative_days_summary(output_dir, config)
     rep_seasons_table, rep_seasons_map_path, rep_seasons_figs, rep_seasons_map = load_representative_seasons(
         output_dir, config
     )
+    rep_days_appendix_body = ""
+    if rep_summary_table:
+        rep_days_appendix_body = rep_summary_table
+        if rep_summary_path:
+            rep_days_appendix_body = f"{rep_days_appendix_body}\n\n_Source: {rep_summary_path}_"
 
     period_candidates = [entry["period"] for entry in rninja_summary if "period" in entry]
     period_numbers = []
@@ -1349,6 +1652,8 @@ def render_report(
     gen_files = [p for p in (gen_map_path, gen_map_all_path) if p]
     gen_files.extend([supply_dir / "generation_sites_summary.csv", supply_dir / "generation_sites.csv"])
     gen_files.extend(static_map_files)
+    hydro_files = [p for p in (hydro_map_path, hydro_summary_path, hydro_data_path) if p]
+    socio_files = socio_files or []
 
     rn_period_label = ""
     if rn_start and rn_end:
@@ -1395,6 +1700,16 @@ def render_report(
 
     data_overview_rows = [
         {
+            "Dataset": "Socio-economic trends (OWID energy)",
+            "Resolution": _resolution_with_date("Annual", owid_energy.get("data_files", [])),
+            "Source": "[Our World in Data — Energy](https://ourworldindata.org/energy)",
+        },
+        {
+            "Dataset": "Socio-economic density rasters",
+            "Resolution": _resolution_with_date("Gridded (1 km)", socio_files),
+            "Source": "User-provided rasters configured under socioeconomic_maps (e.g., GDP 2005 PPP, population 2020).",
+        },
+        {
             "Dataset": "Climate (ERA5-Land monthly)",
             "Resolution": _resolution_with_date(f"Monthly ({climate['period'] or 'N/A'})", climate["data_files"]),
             "Source": "[ERA5-Land monthly means](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means)",
@@ -1413,6 +1728,11 @@ def render_report(
             "Dataset": "Generation assets",
             "Resolution": _resolution_with_date("Plant-level", gen_files),
             "Source": "[Global Integrated Power (GIP) 2025](https://datasets.wri.org/dataset/globalpowerplantdatabase)",
+        },
+        {
+            "Dataset": "Hydropower reservoirs",
+            "Resolution": _resolution_with_date("Plant-level", hydro_files),
+            "Source": "[Global hydropower infrastructure (Sci Data 2025)](https://www.nature.com/articles/s41597-025-04975-0#Sec5) ([Zenodo](https://zenodo.org/records/14526360))",
         },
     ]
     data_overview_table = pd.DataFrame(data_overview_rows).to_markdown(index=False)
@@ -1452,10 +1772,15 @@ def render_report(
         gap_plot,
         generation_map_all_path=gen_map_all_path,
         generation_map_all_static_figs=static_map_all_figs,
+        hydro_appendix_body=hydro_appendix_tables,
         workflow_parameters=parameter_summary,
         season_mapping=season_map_desc,
         extra_sections=climate_appendix_sections,
         rninja_period_label=rn_period_label,
+        rep_days_body=rep_days_appendix_body,
+        socio_map_fig=socio_map_fig,
+        load_heatmaps=load_heatmaps,
+        load_boxplots=load_boxplots,
     )
 
     report_scope = countries_inline or "Energy System Modelling"
@@ -1474,6 +1799,11 @@ def render_report(
         "climate_scatter_fig": climate_scatter_fig,
         "climate_countries": climate.get("countries", ""),
         "climate_period": climate.get("period", ""),
+        "owid_population_fig": owid_population_fig,
+        "owid_gdp_fig": owid_gdp_fig,
+        "owid_electricity_fig": owid_electricity_fig,
+        "owid_electricity_pc_fig": owid_electricity_pc_fig,
+        "owid_energy_summary": owid_summary_table,
         "load_profile_fig": format_figures(load_figs, "Load profile", add_link=False),
         "load_month_fig": format_figures([load_agg_figs["avg_month"]], "Average load per month", add_link=False) if "avg_month" in load_agg_figs else "",
         "load_day_fig": format_figures([load_agg_figs["avg_day"]], "Average load per day", add_link=False) if "avg_day" in load_agg_figs else "",
@@ -1494,13 +1824,17 @@ def render_report(
         "generation_map_static_figs": static_map_figs,
         "generation_map_summary": gen_summary_country,
         "generation_map_summary_appendix": gen_appendix_tables,
+        "hydro_map_fig": hydro_map_fig,
+        "hydro_summary_table": hydro_summary_table,
+        "hydro_appendix_table": hydro_appendix_tables,
+        "socio_map_fig": socio_map_fig,
         "rn_period_start": rn_start or "",
         "rn_period_end": rn_end or "",
         "rn_period_months": "Jan–Dec",
         "rn_period_label": rn_period_label,
         "rninja_avg_cf_table": rninja_avg_cf_table,
         "rninja_zone_sections": rninja_zone_sections,
-        "rep_days_fig": format_figures(rep_figs, "Representative days"),
+        "rep_days_fig": rep_days_fig_md,
         "rep_days_summary_table": rep_summary_table,
         "rep_days_summary_path": rep_summary_path,
         "rep_days_count": rep_days_count,
@@ -1509,7 +1843,7 @@ def render_report(
         "rep_seasons_table": rep_seasons_table,
         "rep_seasons_fig": format_figures(
             rep_seasons_figs,
-            "Representative seasons diagnostics (inputs normalized to [0,1]; dark = higher)",
+            "Capacity factors by representative seasons",
             add_link=False,
         ),
         "rep_seasons_map_path": rep_seasons_map_path,

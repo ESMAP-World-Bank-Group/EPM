@@ -76,6 +76,7 @@ OUTPUT_CATEGORIES = {
     "load": OUTPUT_ROOT / "load",
     "epm_export": OUTPUT_ROOT / "epm_export",
     "report": OUTPUT_ROOT / "report",
+    "socioeconomic": OUTPUT_ROOT / "socioeconomic",
 }
 for _path in OUTPUT_CATEGORIES.values():
     _path.mkdir(parents=True, exist_ok=True)
@@ -399,6 +400,7 @@ IRENA_CFG  = config["irena"]
 LOAD_CFG   = config.get("load_profile")
 REP_CFG    = config.get("representative_days")
 GENMAP_CFG = config.get("generation_map", {})
+SOCIO_CFG  = config.get("socioeconomic_maps", {})
 
 
 def _load_settings():
@@ -598,8 +600,8 @@ def _rep_seasons_settings():
         pass
 
     map_path = str(outdir / "seasons_map.csv")
-    feature_heatmap = str(outdir / "monthly_features_heatmap.png")
-    season_heatmap = str(outdir / "season_means_heatmap.png")
+    feature_heatmap = str(outdir / "monthly_features_heatmap.pdf")
+    season_heatmap = str(outdir / "season_means_heatmap.pdf")
 
     # Final fallback: use bundled sample inputs when nothing is provided.
     sample_dir = BASE_DIR / "representative_days" / "input"
@@ -637,7 +639,7 @@ def _rep_seasons_settings():
 def _rep_settings():
     """Prepare representative-days output targets and resolved input files when enabled."""
     if not (REP_CFG and REP_CFG.get("enabled", False)):
-        return {"targets": [], "outdir": None, "input_files": {}}
+        return {"targets": [], "outdir": None, "input_files": {}, "summary_dir": None}
 
     output_dir_cfg = REP_CFG.get("output_dir") or (REP_DAYS_DIR / "output")
     output_dir_cfg = Path(output_dir_cfg)
@@ -648,6 +650,8 @@ def _rep_settings():
 
     epm_outdir_cfg = REP_CFG.get("epm_output_dir") or "representative_days"
     epm_outdir = resolve_output(epm_outdir_cfg, category="epm_export")
+    summary_dir_cfg = REP_CFG.get("summary_dir") or "representative_days"
+    summary_dir = resolve_output(summary_dir_cfg)
     input_files = {k: str(resolve_input(v)) for k, v in (REP_CFG.get("input_files") or {}).items()}
 
     # Auto-fill inputs from upstream outputs when not provided in the config.
@@ -682,7 +686,8 @@ def _rep_settings():
         str(outdir / "repr_days.csv"),
         str(epm_outdir / "pHours.csv"),
         str(epm_outdir / "pVREProfile.csv"),
-        str(OUTPUT_ROOT / "representative_days_summary.csv"),
+        str(summary_dir / "representative_days_summary.csv"),
+        str(summary_dir / "representative_days_heatmap.pdf"),
     ]
     has_existing_load_input = any("load" in k.lower() for k in input_files)
     if has_existing_load_input or load_export_target:
@@ -692,6 +697,7 @@ def _rep_settings():
         "targets": targets,
         "outdir": outdir,
         "epm_outdir": epm_outdir,
+        "summary_dir": summary_dir,
         "input_files": input_files,
         "load_export_target": load_export_target,
     }
@@ -718,6 +724,113 @@ def _genmap_settings():
         "excel": resolve_input(GENMAP_CFG.get("excel", GAP_CFG["excel"])),
         "outdir": outdir,
         "pgen": pgen,
+    }
+
+
+def _socioeconomic_map_settings():
+    """Assemble socio-economic map inputs/outputs from the config."""
+    if not SOCIO_CFG.get("enabled", False):
+        return {"targets": [], "maps": []}
+
+    countries = SOCIO_CFG.get("countries", GAP_CFG["countries"])
+    outdir = resolve_output(SOCIO_CFG.get("output_dir", "socioeconomic"), category="socioeconomic")
+    shapefile = resolve_input(
+        SOCIO_CFG.get(
+            "world_map_shapefile",
+            "maps/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp",
+        )
+    )
+    cities = resolve_input(
+        SOCIO_CFG.get(
+            "cities_shapefile",
+            "maps/ne_110m_populated_places/ne_110m_populated_places.shp",
+        )
+    )
+
+    default_percentiles = tuple(SOCIO_CFG.get("percentile_clip", (2, 98)))
+    default_cmap = SOCIO_CFG.get("cmap", "YlGnBu")
+    default_log_scale = SOCIO_CFG.get("use_log_scale", True)
+    default_dpi = SOCIO_CFG.get("dpi", 250)
+    datasets = SOCIO_CFG.get("datasets") or []
+    if not datasets and SOCIO_CFG.get("raster"):
+        datasets = [SOCIO_CFG]
+
+    maps = []
+    targets = []
+    for entry in datasets:
+        if not isinstance(entry, dict):
+            continue
+        raster = entry.get("raster")
+        if not raster:
+            continue
+        key = entry.get("key") or entry.get("name") or entry.get("label")
+        if not key:
+            key = Path(raster).stem
+        basename = entry.get("output_basename") or SOCIO_CFG.get("output_basename") or f"{_slug(key)}_map"
+        label = entry.get("label") or key.replace("_", " ").title()
+        map_outdir = resolve_output(entry.get("output_dir", outdir), category="socioeconomic")
+        target_pdf = str(map_outdir / f"{basename}.pdf")
+        maps.append(
+            {
+                "raster": resolve_input(raster),
+                "countries": entry.get("countries", countries),
+                "outdir": map_outdir,
+                "basename": basename,
+                "shapefile": resolve_input(entry.get("world_map_shapefile", shapefile)),
+                "cities": resolve_input(entry.get("cities_shapefile", cities)),
+                "percentile_clip": tuple(entry.get("percentile_clip", default_percentiles)),
+                "cmap": entry.get("cmap", default_cmap),
+                "use_log_scale": entry.get("use_log_scale", default_log_scale),
+                "dpi": entry.get("dpi", default_dpi),
+                "label": label,
+                "title_prefix": entry.get("title_prefix"),
+                "title": entry.get("title"),
+                "scale_label": entry.get("scale_label"),
+                "verbose": entry.get("verbose", SOCIO_CFG.get("verbose", False)),
+            }
+        )
+        targets.append(target_pdf)
+
+    return {"targets": targets, "maps": maps}
+
+
+def _owid_energy_settings():
+    """Prepare OWID energy plot/table outputs from the config."""
+    cfg = config.get("owid_energy", {}) or {}
+    if not cfg.get("enabled", False):
+        return {
+            "targets": [],
+            "outputs": {},
+            "countries": [],
+            "dataset": None,
+            "outdir": None,
+            "basename": None,
+            "start_year": None,
+            "end_year": None,
+            "variables": None,
+        }
+
+    outdir = resolve_output(cfg.get("output_dir", "socioeconomic/owid_energy"), category="socioeconomic")
+    basename = cfg.get("output_basename", "owid_energy")
+    outputs = {
+        "population": str(outdir / f"{basename}_population.pdf"),
+        "gdp": str(outdir / f"{basename}_gdp.pdf"),
+        "electricity": str(outdir / f"{basename}_electricity.pdf"),
+        "electricity_per_capita": str(outdir / f"{basename}_electricity_per_capita.pdf"),
+        "summary": str(outdir / f"{basename}_summary.csv"),
+        "latest": str(outdir / f"{basename}_latest.csv"),
+    }
+
+    return {
+        "targets": list(outputs.values()),
+        "outputs": outputs,
+        "countries": cfg.get("countries", GAP_CFG["countries"]),
+        "dataset": resolve_input(cfg.get("dataset", "owid-energy-data.csv")),
+        "outdir": outdir,
+        "basename": basename,
+        "start_year": cfg.get("start_year"),
+        "end_year": cfg.get("end_year"),
+        "variables": cfg.get("variables"),
     }
 
 
@@ -782,6 +895,7 @@ REP = _rep_settings()
 REP_TARGETS = REP["targets"]
 REP_OUTDIR = REP["outdir"]
 REP_EPM_OUTDIR = REP.get("epm_outdir")
+REP_SUMMARY_DIR = REP.get("summary_dir") or OUTPUT_ROOT
 REP_INPUT_FILES = REP["input_files"]
 REP_LOAD_EXPORT_TARGET = Path(REP["load_export_target"]) if REP.get("load_export_target") else None
 
@@ -794,6 +908,20 @@ GENMAP_PGEN = GENMAP["pgen"]
 GENMAP_MAP = GENMAP_TARGETS[0] if GENMAP_TARGETS else None
 GENMAP_DATA = GENMAP_TARGETS[1] if len(GENMAP_TARGETS) > 1 else None
 GENMAP_SUMMARY = GENMAP_TARGETS[2] if len(GENMAP_TARGETS) > 2 else None
+
+SOCIO = _socioeconomic_map_settings()
+SOCIO_TARGETS = SOCIO["targets"]
+SOCIO_MAPS = SOCIO["maps"]
+
+OWID = _owid_energy_settings()
+OWID_TARGETS = OWID["targets"]
+OWID_OUTPUTS = OWID["outputs"]
+OWID_COUNTRIES = OWID["countries"]
+OWID_DATASET = OWID["dataset"]
+OWID_OUTDIR = OWID["outdir"]
+OWID_BASENAME = OWID["basename"]
+OWID_START = OWID["start_year"]
+OWID_END = OWID["end_year"]
 
 FULL_OUTDIR = resolve_output("", category="epm_export")
 PVRE_FULL = str(FULL_OUTDIR / "pVREProfile_full.csv")
@@ -816,6 +944,8 @@ CORE_TARGETS = [
     *IRENA_OUTPUTS,
     *LOAD_TARGETS,
     *GENMAP_TARGETS,
+    *SOCIO_TARGETS,
+    *OWID_TARGETS,
     PVRE_FULL,
     PHOURS_FULL,
     *( [PDEMAND_FULL] if PDEMAND_FULL else [] ),
@@ -1060,6 +1190,70 @@ rule epm_full_exports:
 ################################################################################
 # Generation map workflow (best-effort)
 ################################################################################
+if OWID_TARGETS:
+    rule owid_energy:
+        """Generate socio-economic time series plots from the OWID energy dataset."""
+        output:
+            population=OWID_OUTPUTS["population"],
+            gdp=OWID_OUTPUTS["gdp"],
+            electricity=OWID_OUTPUTS["electricity"],
+            electricity_per_capita=OWID_OUTPUTS["electricity_per_capita"],
+            summary=OWID_OUTPUTS["summary"],
+            latest=OWID_OUTPUTS["latest"],
+        log:
+            str(LOG_DIR / "owid_energy.log")
+        run:
+            def _task():
+                """Build OWID figures and summary tables for configured countries."""
+                from owid_energy_pipeline import build_owid_energy_outputs
+
+                build_owid_energy_outputs(
+                    dataset_path=OWID_DATASET,
+                    countries=OWID_COUNTRIES or [],
+                    output_dir=OWID_OUTDIR,
+                    start_year=OWID_START,
+                    end_year=OWID_END,
+                    basename=OWID_BASENAME or "owid_energy",
+                    required_columns=OWID.get("variables"),
+                )
+
+            with _capture_rule_log(log) as log_path:
+                best_effort("owid_energy", output, _task, log_path=str(log_path))
+
+if SOCIO_TARGETS:
+    rule socioeconomic_maps:
+        """Render socio-economic density maps (e.g., GDP, population)."""
+        output:
+            pdfs=SOCIO_TARGETS
+        log:
+            str(LOG_DIR / "socioeconomic_maps.log")
+        run:
+            def _task():
+                """Render configured socio-economic maps and keep going on failure."""
+                from socioeconomic_map_pipeline import render_socioeconomic_map
+
+                for entry in SOCIO_MAPS:
+                    render_socioeconomic_map(
+                        raster_path=entry["raster"],
+                        countries=entry["countries"] or [],
+                        shapefile=entry["shapefile"],
+                        city_shapefile=entry["cities"],
+                        output_dir=entry["outdir"],
+                        output_basename=entry["basename"],
+                        percentile_clip=entry["percentile_clip"],
+                        cmap=entry["cmap"],
+                        use_log_scale=entry["use_log_scale"],
+                        dpi=entry["dpi"],
+                        dataset_label=entry["label"],
+                        title_prefix=entry.get("title_prefix"),
+                        title=entry.get("title"),
+                        scale_label=entry.get("scale_label"),
+                        verbose=entry.get("verbose", False),
+                    )
+
+            with _capture_rule_log(log) as log_path:
+                best_effort("socioeconomic_maps", output.pdfs, _task, log_path=str(log_path))
+
 if GENMAP_TARGETS:
     rule generation_map:
         """Build interactive GAP-based generation map and cleaned CSVs."""
@@ -1161,7 +1355,7 @@ rule irena_workflow:
             best_effort("irena_workflow", output, _task, log_path=str(log_path))
 
 ################################################################################
-# Load profile from Toktarova dataset
+# Load profile from Toktarova et al. dataset
 ################################################################################
 if LOAD_CSV_TARGETS:
     rule load_profile_all:
@@ -1246,7 +1440,8 @@ if REP_CFG and REP_CFG.get("enabled", False):
             phours=REP_TARGETS[1],
             pvre=REP_TARGETS[2],
             summary=REP_TARGETS[3],
-            pdemand=(REP_TARGETS[4] if len(REP_TARGETS) > 4 else temp(REP_OUTDIR / ".no_demand")),
+            heatmap=REP_TARGETS[4],
+            pdemand=(REP_TARGETS[5] if len(REP_TARGETS) > 5 else temp(REP_OUTDIR / ".no_demand")),
         log:
             str(LOG_DIR / "representative_days.log")
         run:
@@ -1305,7 +1500,7 @@ if REP_CFG and REP_CFG.get("enabled", False):
                         input_files=run_input_files,
                         output_dir=REP_OUTDIR,
                         epm_output_dir=REP_EPM_OUTDIR,
-                        summary_dir=OUTPUT_ROOT,
+                        summary_dir=REP_SUMMARY_DIR,
                         data_dir=str(REP_OUTDIR),
                         zones_to_exclude=REP_CFG.get("zones_to_exclude"),
                         value_column=REP_CFG.get("value_column", "value"),
@@ -1322,16 +1517,19 @@ if REP_CFG and REP_CFG.get("enabled", False):
                     )
 
                     # Snakemake trusts declared outputs; ensure optional demand file exists when expected
-                    if len(REP_TARGETS) > 4 and not Path(paths["paths"]["pDemandProfile"]).exists():
+                    if len(REP_TARGETS) > 5 and not Path(paths["paths"]["pDemandProfile"]).exists():
                         raise ValueError("Demand profile expected but not produced by representative-day pipeline.")
-                    if len(REP_TARGETS) == 4:
+                    if len(REP_TARGETS) == 5:
                         Path(output.pdemand).touch()
                 except Exception as exc:
                     print(f"[representative-days] Skipping representative-days outputs: {exc}")
                     Path(REP_OUTDIR).mkdir(parents=True, exist_ok=True)
+                    Path(REP_SUMMARY_DIR).mkdir(parents=True, exist_ok=True)
                     for path in REP_TARGETS:
-                        Path(path).write_text(f"Representative-days workflow failed: {exc}")
-                    if len(REP_TARGETS) == 3:
+                        p = Path(path)
+                        p.parent.mkdir(parents=True, exist_ok=True)
+                        p.write_text(f"Representative-days workflow failed: {exc}")
+                    if len(REP_TARGETS) == 4:
                         Path(output.pdemand).touch()
 
             with _capture_rule_log(log) as log_path:
