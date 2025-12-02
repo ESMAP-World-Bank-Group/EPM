@@ -326,8 +326,6 @@ $if not errorfree $abort PythonError in input_treatment.py
 
 $offMulti
 
-execute_unload 'input_treated.gdx' pNewTransmission pGenDataInput;
-
 *-------------------------------------------------------------------------------------
 
 $if not errorFree $abort Data errors.
