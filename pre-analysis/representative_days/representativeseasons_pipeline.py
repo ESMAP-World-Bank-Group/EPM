@@ -275,11 +275,11 @@ def run_representative_seasons(
             month_features,
             feature_labels,
             seasons_map,
-            diag_dir / "monthly_features_heatmap.png",
+            diag_dir / "monthly_features_heatmap.pdf",
             show_plots,
         )
         _plot_season_means_heatmap(
-            month_features, feature_labels, seasons_map, diag_dir / "season_means_heatmap.png", show_plots
+            month_features, feature_labels, seasons_map, diag_dir / "season_means_heatmap.pdf", show_plots
         )
 
     return seasons_map

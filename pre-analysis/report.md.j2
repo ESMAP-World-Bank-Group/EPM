@@ -11,16 +11,21 @@ Figures and tables should be reviewed with caution and validated before use in p
 {% set load_appendix_figs = load_heatmap_fig or load_boxplot_fig %}
 - [Introduction](#introduction)
   - [Data sources](#data-sources)
-- [1. Data](#1-data)
-  - [1.1 Climate Overview](#11-climate-overview)
-  - [1.2 Load Profiles](#12-load-profiles)
-  - [1.3 Generators List](#13-generators-list)
-  - [1.4 Variable Renewable Energy](#14-variable-renewable-energy)
+- [1. Data](#data)
+  - [1.1 Socio-economic Data](#socio-economic-data)
+    - [1.1.1 Historical socio-economic evolution](#historical-socio-economic-evolution)
+    - [1.1.2 Spatial Distribution](#spatial-distribution)
+  - [1.2 Climate Overview](#climate-overview)
+  - [1.3 Electricity Data for Capacity Expansion Modelling](#electricity-data)
+    - [1.3.1 Load Profiles](#load-profiles)
+    - [1.3.2 Generators List](#generators-list)
+    - [1.3.3 Hydropower List](#hydropower-list)
+  - [1.4 Variable Renewable Energy](#variable-renewable-energy)
       - [Selected project locations](#selected-project-locations)
       - [RE-Ninja Profiles](#re-ninja-profiles)
-- [2. Representative Chronology](#2-representative-chronology)
-  - [2.1 Representative seasons](#21-representative-seasons)
-  - [2.2 Representative days](#22-representative-days)
+- [2. Representative Chronology](#representative-chronology)
+  - [2.1 Representative seasons](#representative-seasons)
+  - [2.2 Representative days](#representative-days)
 - [Appendix](#appendix)
 {% if load_appendix_figs %}
   - [Load heatmap and boxplot](#load-heatmap-and-boxplot)
@@ -45,11 +50,55 @@ Data have been gathered for the following countries: {{ countries_inline | defau
 
 ---
 
-# 1. Data <a id="1-data"></a>
+# 1. Data <a id="data"></a>
 
 We rely exclusively on open-data sources to ensure transparency, accessibility, and reproducibility. These datasets provide a robust starting point for model development, but should be complemented—and where possible superseded—by country-specific or utility-grade data during detailed planning.
 
-## 1.1 Climate Overview <a id="11-climate-overview"></a>
+## 1.1 Socio-economic Data <a id="socio-economic-data"></a>
+
+Global socio-economic context is summarised through temporal OWID snapshots and spatial raster baselines. Together they document both historical evolution and geographic disparities.
+
+### 1.1.1 Historical socio-economic evolution <a id="historical-socio-economic-evolution"></a>
+
+OWID energy metrics provide time-series views for population, GDP, and electricity demand histories, including per-capita variations.
+
+{% set owid_figures = owid_population_fig or owid_gdp_fig or owid_electricity_fig or owid_electricity_pc_fig %}
+{% if owid_figures %}
+{% if owid_population_fig %}
+{{ owid_population_fig }}
+{% endif %}
+{% if owid_gdp_fig %}
+{{ owid_gdp_fig }}
+{% endif %}
+{% if owid_electricity_fig %}
+{{ owid_electricity_fig }}
+{% endif %}
+{% if owid_electricity_pc_fig %}
+{{ owid_electricity_pc_fig }}
+{% endif %}
+{% else %}
+_OWID energy figures were not generated. Run the `owid_energy` workflow to create them._
+{% endif %}
+
+{% if owid_energy_summary %}
+Latest available values:
+
+{{ owid_energy_summary }}
+{% else %}
+_OWID energy summary table not available._
+{% endif %}
+
+### 1.1.2 Spatial Distribution <a id="spatial-distribution"></a>
+
+Socio-economic rasters (e.g., GDP and population density) are rendered as static maps for the selected countries.
+
+{% if socio_map_fig %}
+{{ socio_map_fig }}
+{% else %}
+_Socio-economic maps not available yet. Ensure `socioeconomic_maps` is enabled and rasters are present in the workflow output._
+{% endif %}
+
+## 1.2 Climate Overview <a id="climate-overview"></a>
 
 Climate data from ERA5-Land are presented for {{ climate_countries | default("the selected countries", true) }} over {{ climate_period | default("the available period", true) }}.
 
@@ -73,7 +122,11 @@ _No climate figures were generated because the climate workflow was not run or n
 
 Additional spatial figures are provided in the [Appendix](#appendix).
 
-## 1.2 Load Profiles <a id="12-load-profiles"></a>
+## 1.3 Electricity Data for Capacity Expansion Modelling <a id="electricity-data"></a>
+
+Electricity-sector inputs are grouped to support capacity-expansion scenarios: load profiles, generation asset registries, and hydropower inventories.
+
+### 1.3.1 Load Profiles <a id="load-profiles"></a>
 
 Load profiles for all modelled countries are derived from the dataset published in:  
 *“Open data for electricity modelling,”* [Energy (2019)](https://www.sciencedirect.com/science/article/abs/pii/S0142061518336196?via%3Dihub)
@@ -106,7 +159,7 @@ The figures below group the main diagnostics: an annual load-demand trace at hou
 Additional load diagnostics (heatmap and boxplot) are provided in the [Appendix](#load-heatmap-and-boxplot).
 {% endif %}
 
-## 1.3 Generators List <a id="13-generators-list"></a>
+### 1.3.2 Generators List <a id="generators-list"></a>
 
 Generation sites and capacity come from the **Global Integrated Power (GIP) 2025 database**, filtered to the selected countries and technologies.
 
@@ -122,7 +175,25 @@ Operating capacity by country and technology:
 
 _Detailed generation-asset tables (by status) are provided in the [Appendix](#appendix)._
 
-## 1.4 Variable Renewable Energy <a id="14-variable-renewable-energy"></a>
+### 1.3.3 Hydropower List <a id="hydropower-list"></a>
+
+Hydropower reservoirs are sourced from the **Global hydropower infrastructure** dataset ([Sci Data 2025](https://www.nature.com/articles/s41597-025-04975-0#Sec5); [Zenodo](https://zenodo.org/records/14526360)) and filtered to the selected countries.
+
+{% if hydro_map_fig %}
+{{ hydro_map_fig }}
+{% endif %}
+
+{% if hydro_summary_table %}
+Summary by country:
+
+{{ hydro_summary_table }}
+{% else %}
+_Hydropower summary not available. Run the hydro_reservoirs workflow to generate it._
+{% endif %}
+
+_Detailed hydropower tables are included in the [Appendix](#appendix)._
+
+## 1.4 Variable Renewable Energy <a id="variable-renewable-energy"></a>
 
 ### Selected project locations <a id="selected-project-locations"></a>
 To identify representative renewable resource locations, we use the **Global Integrated Power (GIP) 2025 database**. Here are the sites selected as representative and used to determine the VRE profiles:
@@ -159,9 +230,9 @@ _No Renewables Ninja diagnostics are available yet._
 {% endif %}
 
 
-# 2. Representative Chronology <a id="2-representative-chronology"></a>
+# 2. Representative Chronology <a id="representative-chronology"></a>
 
-## 2.1 Representative seasons <a id="21-representative-seasons"></a>
+## 2.1 Representative seasons <a id="representative-seasons"></a>
 
 Months are clustered into a handful of contiguous seasons to retain broad climatic structure before day-level clustering. 
 
@@ -181,24 +252,26 @@ _Representative seasons not available yet._
 {{ rep_seasons_fig }}
 {% endif %}
 
-## 2.2 Representative days <a id="22-representative-days"></a>
+## 2.2 Representative days <a id="representative-days"></a>
 
 Capacity-expansion models become expensive when fed multi-year hourly traces. To keep runtimes manageable while preserving realism, we condense the chronology into a handful of weighted "representative" days plus a few extreme/special days.
 
 When multiple years of data are available, we first identify a representative year by comparing full-year energy totals and temporal shapes, selecting the profile that most closely reflects the multi-year average. This provides a stable baseline for subsequent analysis.
 
-To preserve seasonal diversity, months are then grouped into seasons ({{ rep_season_map | default("not specified", true) }}). Within each season, daily load, solar, and wind profiles are clustered to identify the dominant intraday patterns, while infrequent but important extremes are flagged as special days.
+To preserve seasonal diversity, months are then grouped into seasons. Within each season, daily load, solar, and wind profiles are clustered to identify the dominant intraday patterns, while infrequent but important extremes are flagged as special days.
 
 When multiple countries or zones are present, all series are used jointly: each load/PV/wind series is normalized by its own annual maximum, clustered together per season, and the optimization weights are computed on the combined multi-country dataset.
 
 Finally, a Poncelet-style optimisation is applied to select {{ rep_days_count | default("N", true) }} weighted representative days from {{ rep_days_clusters | default("n/a", true) }} initial clusters, using {{ rep_days_bins | default("n/a", true) }} intra-day bins. This procedure identifies the smallest set of day patterns whose weighted combination most faithfully reconstructs the full chronology while retaining essential peak and shape characteristics.
 
+{% if rep_days_summary_table %}
+_The representative-days summary table is provided in the [Appendix](#appendix)._
+{% else %}
 {{ rep_days_summary_table | default("_Representative-days summary not available. Run the representative-days workflow to generate it._", true) }}
+{% endif %}
 
 {% if rep_days_fig %}
-Selected representative and special days (weights shown as opacity):
-
-{{ rep_days_fig }}
+_Representative and special-day plots are available in the [Appendix](#appendix)._
 {% endif %}
 
 ---

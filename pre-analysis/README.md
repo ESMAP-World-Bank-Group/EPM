@@ -10,6 +10,7 @@ This folder contains the exploratory and ingestion notebooks that pull hydrologi
 - Run from `pre-analysis/open-data`: `snakemake --snakefile Snakefile --cores 1 --use-conda --conda-frontend mamba` (drop `--use-conda` only if you already activated `epm-open-data`).
 - Outputs land in `output/`: GAP filtered CSV + Renewables Ninja CSVs + IRENA CSVs. VRE outputs now follow the unified naming/shape `vre_<source>_<label?>_<tech>.csv` with columns `zone,season,day,hour,<year columns>`.
 - Optional: to compute representative days via the prepare-data pipeline, fill `representative_days` in `config/open_data_config.yaml` (set `enabled: true`, point `input_files` to your hourly CSVs, adjust seasons/map and counts). Snakemake will then emit `repr_days.csv`, `pHours.csv`, and `pVREProfile.csv` under the configured `output_dir` (plus `pDemandProfile.csv` when a load series is provided).
+- Socio-economic static maps (GDP, population): enable the `socioeconomic_maps` block in `config/open_data_config.yaml` to render PDFs under `output_workflow/socioeconomic/` from the configured rasters using Natural Earth country outlines. For a quick ad-hoc run from the IDE, execute `python socioeconomic_map_pipeline.py` after adjusting the dataset list and `selected_countries` at the bottom of the file.
 
 ## Notebook catalog
 
