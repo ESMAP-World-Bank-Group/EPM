@@ -63,6 +63,11 @@ def run_input_verification(gams):
     """Run the full suite of input validation checks on the current GAMS DB."""
     db = gt.Container(gams.db)
     filter_inputs_to_allowed_zones(db, log_func=gams.printLog)
+    if "zcmap" in db and db["zcmap"].records is not None and not db["zcmap"].records.empty:
+        zones_seen = sorted(db["zcmap"].records["z"].dropna().unique())
+        gams.printLog(f"[input_verification][zones] Zones included in verification: {zones_seen}")
+    else:
+        gams.printLog("[input_verification][zones] No zones available; zone-based checks may be skipped.")
 
     _check_required_inputs(gams, db)
     _check_settings_flags(gams, db)
@@ -87,6 +92,7 @@ def run_input_verification(gams):
     _check_storage_data(gams, db)
     _check_generation_defaults(gams, db)
     _warn_missing_generation_default_combinations(gams, db)
+    _warn_missing_availability_default_combinations(gams, db)
 
 
 def _run_input_verification_on_container(container: gt.Container, *, verbose=True, log_func=None):
@@ -906,6 +912,65 @@ def _warn_missing_generation_default_combinations(gams, db):
             )
     except Exception:
         gams.printLog('Unexpected error when checking pGenDataInputDefault combinations')
+        raise
+
+
+def _warn_missing_availability_default_combinations(gams, db):
+    """Warn when a (zone, tech, fuel) tuple in pGenDataInput is absent in pAvailabilityDefault."""
+    try:
+        avail_defaults = db["pAvailabilityDefault"].records
+        gen_records = db["pGenDataInput"].records
+        if (
+            avail_defaults is None
+            or avail_defaults.empty
+            or gen_records is None
+            or gen_records.empty
+        ):
+            gams.printLog(
+                "[input_verification][availability] Skipping pAvailabilityDefault coverage check: table missing or empty."
+            )
+            return
+
+        zone_col_defaults = "z" if "z" in avail_defaults.columns else ("zone" if "zone" in avail_defaults.columns else None)
+        fuel_col_defaults = "f" if "f" in avail_defaults.columns else ("fuel" if "fuel" in avail_defaults.columns else None)
+        tech_col_defaults = "tech" if "tech" in avail_defaults.columns else None
+
+        if zone_col_defaults is None or fuel_col_defaults is None or tech_col_defaults is None:
+            gams.printLog(
+                "[input_verification][availability] Skipping coverage check: pAvailabilityDefault lacks required columns "
+                f"(have {list(avail_defaults.columns)}; need zone/z, tech, fuel/f)."
+            )
+            return
+
+        required = (
+            gen_records[["z", "tech", "f"]]
+            .dropna(subset=["z", "tech", "f"])
+            .drop_duplicates()
+        )
+        available = (
+            avail_defaults[[zone_col_defaults, tech_col_defaults, fuel_col_defaults]]
+            .dropna(subset=[zone_col_defaults, tech_col_defaults, fuel_col_defaults])
+            .drop_duplicates()
+            .rename(columns={zone_col_defaults: "z", tech_col_defaults: "tech", fuel_col_defaults: "f"})
+        )
+
+        required_set = set(map(tuple, required.to_records(index=False)))
+        available_set = set(map(tuple, available.to_records(index=False)))
+        missing = required_set - available_set
+        if missing:
+            missing_list = sorted(missing)
+            preview = missing_list[:10]
+            more = ""
+            if len(missing_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(missing_list)})"
+            gams.printLog(
+                "Warning: pAvailabilityDefault lacks entries for the following (zone, tech, fuel) combinations "
+                f"present in pGenDataInput{more}: {preview}. No errors will be raised, but this may create unexpected results."
+            )
+        else:
+            gams.printLog("[input_verification][availability] pAvailabilityDefault covers all (zone, tech, fuel) combinations present in pGenDataInput.")
+    except Exception:
+        gams.printLog("Unexpected error when checking pAvailabilityDefault combinations")
         raise
 
 
