@@ -161,14 +161,20 @@ Additional load diagnostics (heatmap and boxplot) are provided in the [Appendix]
 
 ### 1.3.2 Generators List <a id="generators-list"></a>
 
-Generation sites and capacity come from the **Global Integrated Power (GIP) 2025 database**, filtered to the selected countries and technologies.
+Generation sites and capacity come from **{{ generation_source_label }}**, filtered to the selected countries and technologies.
 
 {% if generation_map_static_figs %}
 {{ generation_map_static_figs }}
 {% endif %}
 
+{% if generation_map_text %}
+Interactive maps:
+
+{{ generation_map_text }}
+{% endif %}
+
 {% if generation_map_summary %}
-Operating capacity by country and technology:
+Operating capacity by country and technology (comparison across sources when available):
 
 {{ generation_map_summary }}
 {% endif %}

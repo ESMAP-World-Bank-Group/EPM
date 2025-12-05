@@ -13,7 +13,7 @@ countries_common: &countries_common
 
 gap:
   # Excel is stored directly under pre-analysis/dataset/, so avoid the extra dataset/ prefix
-  excel: Global-Integrated-Power-April-2025.xlsx
+  excel: Global-Integrated-Power-September-2025-II.xlsx
   countries: *countries_common
   tech_types: [solar, wind]
   output_dir: ""
@@ -35,14 +35,31 @@ climate_overview:
 generation_map:
   enabled: true
   # Reuse the same GAP Excel location as above
-  excel: Global-Integrated-Power-April-2025.xlsx
+  excel: Global-Integrated-Power-September-2025-II.xlsx
   sheet_name: Power facilities
   countries: *countries_common
   output_dir: ""
-  map_filename: generation_map.html
-  data_filename: generation_sites.csv
-  summary_filename: generation_sites_summary.csv
+  map_filename: generation_map_gap.html
+  data_filename: generation_sites_gap.csv
+  summary_filename: generation_sites_summary_gap.csv
+  comparison_filename: generation_sites_summary_comparison.csv
   pgen_filename: pGenDataInput_gap.csv
+  sources:
+    - key: gap
+      label: Global Integrated Power
+      path: Global-Integrated-Power-September-2025-II.xlsx
+      sheet_name: Power facilities
+      map_filename: generation_map_gap.html
+      data_filename: generation_sites_gap.csv
+      summary_filename: generation_sites_summary_gap.csv
+      pgen_filename: pGenDataInput_gap.csv
+    - key: gppd
+      label: Global Power Plant Database
+      path: global_power_plant_database.csv
+      map_filename: generation_map_gppd.html
+      data_filename: generation_sites_gppd.csv
+      summary_filename: generation_sites_summary_gppd.csv
+      pgen_filename: pGenDataInput_gppd.csv
 
 socioeconomic_maps:
   enabled: true
@@ -55,12 +72,14 @@ socioeconomic_maps:
   dpi: 250
   datasets:
     - key: gdp
+      enabled: true
       label: GDP (2005 PPP $)
       raster: GDP2005_1km.tif
       output_basename: gdp_map_static
       title_prefix: GDP density (2005, 1 km)
       cmap: YlGnBu
     - key: population
+      enabled: true
       label: Population density (2020)
       raster: pop/SSP2/SSP2_2020.tif
       output_basename: population_map_static
@@ -159,3 +178,10 @@ representative_days:
   feature_selection_scale: true # Scale features before feature selection.
   special_day_threshold: 0.1 # Probability cutoff for extracting special days.
   gams_main_file: ../prepare-data/representative_days/gams/OptimizationModelZone.gms # GAMS model path.
+
+entsoe:
+  enabled: true
+  countries: *countries_common
+  timezone: Europe/Brussels
+  start: 2020-01-01
+  end: 2025-12-31

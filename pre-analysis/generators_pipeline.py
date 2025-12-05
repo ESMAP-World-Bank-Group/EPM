@@ -43,15 +43,19 @@ COLUMN_ALIASES: Dict[str, str] = {
     "Plant / Project name": "name",
     "Plant Name": "name",
     "Name": "name",
+    "gppd_idnr": "name",
     "Technology": "technology",
     "Type": "technology",
     "Fuel": "technology",
+    "primary_fuel": "technology",
     "Capacity (MW)": "capacity_mw",
     "Capacity_MW": "capacity_mw",
     "CapacityMW": "capacity_mw",
     "Status": "status",
     "Country/area": "country",
     "Country": "country",
+    "country_long": "country",
+    "country": "country",
     "Latitude": "latitude",
     "Longitude": "longitude",
 }
@@ -189,20 +193,36 @@ def load_generation_sites(
     xlsx_path,
     countries: Iterable[str],
     sheet_name: str = "Power facilities",
+    source_label: str = "",
     verbose: bool = False,
 ) -> pd.DataFrame:
-    """Load and standardize generation sites from the Global Atlas Power Excel.
+    """Load and standardize generation sites from GAP Excel or CSV sources.
 
-    Expected data shape: sheet with columns for name/technology/status/country/latitude/longitude/capacity.
+    Expected data shape: sheet/CSV with columns for name/technology/status/country/latitude/longitude/capacity.
     """
     path = require_file(
         xlsx_path,
         hint="Place Global-Integrated-Power-April-2025.xlsx under pre-analysis/open-data/dataset/ or point the config to the correct location.",
     )
-    df_raw = pd.read_excel(path, sheet_name=sheet_name, header=0, index_col=None)
-    df = _normalize_columns(df_raw)
-    if verbose:
-        print(f"[generation-map] Loaded {len(df_raw)} raw rows from {path} ({sheet_name}).")
+    suffix = path.suffix.lower()
+    if suffix == ".csv":
+        df_raw = pd.read_csv(path)
+        # Prefer human-readable names over ISO3 for country matching.
+        if "country_long" in df_raw.columns:
+            df_raw["country"] = df_raw["country_long"].fillna(df_raw.get("country"))
+        df = _normalize_columns(df_raw)
+        if verbose:
+            print(f"[generation-map] Loaded {len(df_raw)} raw rows from {path} (CSV source: {source_label or 'unknown'}).")
+        # GPPD lacks status; default to Operating so summaries retain capacity.
+        if "status" in df.columns:
+            df["status"] = df["status"].replace("", np.nan).fillna("Operating")
+        else:
+            df["status"] = "Operating"
+    else:
+        df_raw = pd.read_excel(path, sheet_name=sheet_name, header=0, index_col=None)
+        df = _normalize_columns(df_raw)
+        if verbose:
+            print(f"[generation-map] Loaded {len(df_raw)} raw rows from {path} ({sheet_name}).")
 
     available = df["country"].dropna().unique()
     resolved_map: Dict[str, str] = {}
@@ -735,6 +755,19 @@ def _countries_slug(countries: Iterable[str]) -> str:
     return "-".join(unique_slugs)
 
 
+def _append_label_to_filename(filename: str, label: str) -> str:
+    """Append a source label to a filename if not already present."""
+    if not label:
+        return filename
+    path = Path(filename)
+    slug = _slugify(label)
+    if not slug:
+        return filename
+    if slug in path.stem.lower().split("_"):
+        return filename
+    return f"{path.stem}_{slug}{path.suffix}"
+
+
 # --------------------------------------------------------------------------- #
 # Exports (pGenDataInput + derived files)
 # --------------------------------------------------------------------------- #
@@ -842,10 +875,13 @@ def build_generation_map(
     countries: Iterable[str],
     sheet_name: str = "Power facilities",
     output_dir="output",
+    source_label: str = "gap",
     map_filename: Optional[str] = None,
     data_filename: Optional[str] = None,
     summary_filename: Optional[str] = None,
     pgen_filename: Optional[str] = None,
+    comparison_filename: Optional[str] = None,
+    extra_sources: Optional[Iterable[Dict]] = None,
     verbose: bool = False,
 ) -> Dict[str, Path]:
     """Main entry point: clean GAP data, export CSVs, and render the legacy map."""
@@ -859,43 +895,140 @@ def build_generation_map(
     data_filename = data_filename or f"generation_sites_{country_slug}.csv"
     summary_filename = summary_filename or f"generation_sites_summary_{country_slug}.csv"
 
-    df_sites = load_generation_sites(xlsx_path, countries, sheet_name=sheet_name, verbose=verbose)
-    summary = summarize_generation_sites(df_sites)
+    extra_sources = list(extra_sources or [])
 
-    data_path = output_dir / data_filename
-    summary_path = output_dir / summary_filename
-    map_path = output_dir / map_filename
-    pgen_path = output_dir / pgen_filename if pgen_filename else None
+    def _prepare_source(entry: Dict, default_label: str) -> Dict:
+        label = entry.get("key") or entry.get("label") or default_label
+        display_label = entry.get("label") or label
+        path = entry.get("path") or entry.get("excel") or xlsx_path
+        sheet = entry.get("sheet_name") or sheet_name
+        map_name = entry.get("map_filename") or map_filename
+        data_name = entry.get("data_filename") or data_filename
+        summary_name = entry.get("summary_filename") or summary_filename
+        pgen_name = entry.get("pgen_filename") or pgen_filename
+        append_label = len(extra_sources) > 0 or label not in {None, "", default_label}
 
-    df_sites.to_csv(data_path, index=False)
-    summary.to_csv(summary_path, index=False)
-    if verbose:
-        print(
-            f"[generation-map] Loaded {len(df_sites)} sites "
-            f"(after filtering on countries and dropping missing coordinates)."
-        )
-        print(f"[generation-map] Saving cleaned sites to {data_path}")
-        print(f"[generation-map] Saving summary to {summary_path}")
+        if append_label:
+            map_name = _append_label_to_filename(map_name, label)
+            data_name = _append_label_to_filename(data_name, label)
+            summary_name = _append_label_to_filename(summary_name, label)
+            if pgen_name:
+                pgen_name = _append_label_to_filename(pgen_name, label)
 
-    create_generation_map(df_sites, map_path, verbose=verbose)
+        return {
+            "label": label,
+            "display_label": display_label,
+            "path": path,
+            "sheet": sheet,
+            "map_name": map_name,
+            "data_name": data_name,
+            "summary_name": summary_name,
+            "pgen_name": pgen_name,
+        }
 
-    static_paths = create_static_generation_map(
-        df_sites,
-        output_dir,
-        basename=f"generation_map_static_{country_slug}",
-        verbose=verbose,
+    primary_cfg = _prepare_source(
+        {
+            "path": xlsx_path,
+            "sheet_name": sheet_name,
+            "map_filename": map_filename,
+            "data_filename": data_filename,
+            "summary_filename": summary_filename,
+            "pgen_filename": pgen_filename,
+        },
+        source_label or "gap",
     )
+    source_entries = [primary_cfg]
+    for entry in extra_sources or []:
+        if not isinstance(entry, dict):
+            continue
+        source_entries.append(_prepare_source(entry, entry.get("label") or source_label or "gap"))
 
-    outputs = {
-        "map": map_path,
-        "data": data_path,
-        "summary": summary_path,
-        "static_pdf": static_paths["active"]["pdf"],
-        "static_pdf_all": static_paths["all"]["pdf"],
-    }
-    if pgen_path:
-        export_pgen_data_input(df_sites, pgen_path)
-        outputs["pgen"] = pgen_path
+    outputs: Dict[str, Path] = {}
+    summaries: Dict[str, pd.DataFrame] = {}
+    summary_labels: Dict[str, str] = {}
+    for idx, src in enumerate(source_entries):
+        label = src.get("label") or f"source_{idx+1}"
+        display_label = src.get("display_label") or label
+        df_sites = load_generation_sites(
+            src["path"],
+            countries,
+            sheet_name=src.get("sheet") or sheet_name,
+            source_label=label,
+            verbose=verbose,
+        )
+        summary = summarize_generation_sites(df_sites)
+        summaries[label] = summary
+        summary_labels[label] = display_label
+
+        data_path = output_dir / src["data_name"]
+        summary_path = output_dir / src["summary_name"]
+        map_path = output_dir / src["map_name"]
+        pgen_path = output_dir / src["pgen_name"] if src.get("pgen_name") else None
+
+        df_sites.to_csv(data_path, index=False)
+        summary.to_csv(summary_path, index=False)
+        if verbose:
+            print(
+                f"[generation-map] Loaded {len(df_sites)} sites "
+                f"(after filtering on countries and dropping missing coordinates) for source '{label}'."
+            )
+            print(f"[generation-map] Saving cleaned sites to {data_path}")
+            print(f"[generation-map] Saving summary to {summary_path}")
+
+        create_generation_map(df_sites, map_path, verbose=verbose)
+
+        static_basename = f"generation_map_static_{country_slug}"
+        if label:
+            static_basename = f"{static_basename}_{_slugify(label)}"
+        static_paths = create_static_generation_map(
+            df_sites,
+            output_dir,
+            basename=static_basename,
+            verbose=verbose,
+        )
+
+        outputs.setdefault("sources", {})[label] = {
+            "label": display_label,
+            "map": map_path,
+            "data": data_path,
+            "summary": summary_path,
+            "static_pdf": static_paths["active"]["pdf"],
+            "static_pdf_all": static_paths["all"]["pdf"],
+        }
+        if pgen_path:
+            export_pgen_data_input(df_sites, pgen_path)
+            outputs["sources"][label]["pgen"] = pgen_path
+        # Keep backward compatibility by exposing the first source at top-level keys.
+        if idx == 0:
+            outputs.update(outputs["sources"][label])
+
+    def _combine_summaries(summary_map: Dict[str, pd.DataFrame]) -> pd.DataFrame:
+        merged = None
+        for label, df in summary_map.items():
+            if df is None or df.empty:
+                continue
+            col_label = _slugify(summary_labels.get(label, label)) or label
+            working = df.copy()
+            working = working.rename(columns={"total_capacity_mw": f"{col_label}_capacity_mw"})
+            cols = [col for col in ["country", "technology", f"{col_label}_capacity_mw"] if col in working.columns]
+            working = working[cols]
+            merged = working if merged is None else merged.merge(working, on=["country", "technology"], how="outer")
+        if merged is None:
+            return pd.DataFrame()
+        for col in merged.columns:
+            if col not in {"country", "technology"}:
+                merged[col] = pd.to_numeric(merged[col], errors="coerce")
+        cap_cols = [c for c in merged.columns if c not in {"country", "technology"}]
+        if len(cap_cols) == 2:
+            merged["difference_mw"] = merged[cap_cols[0]] - merged[cap_cols[1]]
+        return merged.sort_values(["country", "technology"])
+
+    if comparison_filename:
+        comparison_df = _combine_summaries(summaries)
+        comparison_path = output_dir / comparison_filename
+        comparison_df.to_csv(comparison_path, index=False)
+        outputs["comparison"] = comparison_path
+
     return outputs
 
 
