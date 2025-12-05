@@ -450,69 +450,73 @@ def collect_gap_projects(
 
 def collect_generation_map(
     supply_dir: Path, config: Dict
-) -> Tuple[Optional[Path], Optional[Path], Optional[pd.DataFrame], Optional[pd.DataFrame]]:
+) -> Tuple[List[Dict[str, object]], Optional[pd.DataFrame]]:
     gen_cfg = config.get("generation_map", {})
-    map_candidates = []
-    if gen_cfg.get("map_filename"):
-        map_candidates.append(supply_dir / gen_cfg["map_filename"])
-    map_candidates.append(supply_dir / "generation_map.html")
-    map_candidates.extend(sorted(supply_dir.glob("generation_map*.html")))
+    sources_cfg = gen_cfg.get("sources") or []
+    entries: List[Dict[str, object]] = []
 
-    map_path = None
-    map_all_path = None
-    for candidate in map_candidates:
-        if not candidate.exists():
-            continue
-        stem = candidate.stem.lower()
-        is_all = stem.endswith("_all")
-        if is_all and map_all_path is None:
-            map_all_path = candidate
-        if not is_all and map_path is None:
-            map_path = candidate
-        if map_path and map_all_path:
-            break
-    if map_path is None:
-        map_path = map_all_path
-
-    summary_path = None
-    data_path = None
-    if gen_cfg.get("summary_filename"):
-        candidate = supply_dir / gen_cfg["summary_filename"]
-        if candidate.exists():
-            summary_path = candidate
-    if summary_path is None:
-        fallback = supply_dir / "generation_sites_summary.csv"
-        if fallback.exists():
-            summary_path = fallback
-
-    summary_df = None
-    data_df = None
-    if gen_cfg.get("data_filename"):
-        candidate = supply_dir / gen_cfg["data_filename"]
-        if candidate.exists():
-            data_path = candidate
-    if data_path is None:
-        fallback = supply_dir / "generation_sites.csv"
-        if fallback.exists():
-            data_path = fallback
-
-    if summary_path and summary_path.exists():
+    def _read_csv(path: Path) -> Optional[pd.DataFrame]:
+        if not path.exists():
+            return None
         try:
-            summary_df = pd.read_csv(summary_path)
-            if summary_df.empty:
-                summary_df = None
+            df = pd.read_csv(path)
+            return None if df.empty else df
         except Exception as exc:  # pragma: no cover - defensive logging only
-            print(f"Warning: could not read generation map summary {summary_path}: {exc}", file=sys.stderr)
+            print(f"Warning: could not read generation data {path}: {exc}", file=sys.stderr)
+            return None
 
-    if data_path and data_path.exists():
-        try:
-            data_df = pd.read_csv(data_path)
-            if data_df.empty:
-                data_df = None
-        except Exception as exc:  # pragma: no cover - defensive logging only
-            print(f"Warning: could not read generation site data {data_path}: {exc}", file=sys.stderr)
+    def _collect_single(entry_cfg: Dict, fallback_label: str = "gap") -> Dict[str, object]:
+        label = entry_cfg.get("label") or entry_cfg.get("key") or fallback_label
+        slug_label = _slug(label)
+        map_name = entry_cfg.get("map_filename") or gen_cfg.get("map_filename") or "generation_map.html"
+        data_name = entry_cfg.get("data_filename") or gen_cfg.get("data_filename") or "generation_sites.csv"
+        summary_name = entry_cfg.get("summary_filename") or gen_cfg.get("summary_filename") or "generation_sites_summary.csv"
 
-    return map_path, map_all_path, summary_df, data_df
+        map_path = supply_dir / map_name
+        if not map_path.exists():
+            # Fallback to any matching map with the label in the stem.
+            candidates = sorted(
+                p for p in supply_dir.glob("generation_map*.html") if (label in p.stem or (slug_label and slug_label in p.stem))
+            )
+            if candidates:
+                map_path = candidates[0]
+            elif map_name != "generation_map.html":
+                fallback = supply_dir / "generation_map.html"
+                map_path = fallback if fallback.exists() else map_path
+        summary_path = supply_dir / summary_name
+        if not summary_path.exists():
+            fallback = supply_dir / "generation_sites_summary.csv"
+            if fallback.exists():
+                summary_path = fallback
+        data_path = supply_dir / data_name
+        if not data_path.exists():
+            fallback = supply_dir / "generation_sites.csv"
+            if fallback.exists():
+                data_path = fallback
+
+        return {
+            "label": label,
+            "slug": slug_label,
+            "map": map_path if map_path.exists() else None,
+            "summary": _read_csv(summary_path),
+            "data": _read_csv(data_path),
+        }
+
+    if sources_cfg:
+        for cfg in sources_cfg:
+            if not isinstance(cfg, dict):
+                continue
+            entries.append(_collect_single(cfg))
+    else:
+        entries.append(_collect_single({}))
+
+    comparison_df = None
+    comparison_name = gen_cfg.get("comparison_filename") or "generation_sites_summary_comparison.csv"
+    comparison_path = supply_dir / comparison_name
+    if comparison_path.exists():
+        comparison_df = _read_csv(comparison_path)
+
+    return entries, comparison_df
 
 
 def collect_hydro_reservoirs(
@@ -1157,6 +1161,66 @@ def format_generation_summary(df: Optional[pd.DataFrame]) -> str:
     return friendly.to_markdown(index=False, floatfmt=".0f")
 
 
+def format_generation_comparison(
+    entries: Sequence[Dict[str, object]], comparison_df: Optional[pd.DataFrame] = None
+) -> str:
+    """Create a comparison table across multiple generation sources."""
+    label_lookup: Dict[str, str] = {}
+    summary_map: Dict[str, pd.DataFrame] = {}
+    for entry in entries:
+        label = entry.get("label") or "Source"
+        slug = entry.get("slug") or _slug(label)
+        slug = slug or str(label)
+        label_lookup[slug] = str(label)
+        summary_df = entry.get("summary")
+        if isinstance(summary_df, pd.DataFrame) and not summary_df.empty:
+            summary_map[slug] = summary_df
+
+    merged: Optional[pd.DataFrame] = None
+    if comparison_df is not None and not comparison_df.empty:
+        merged = comparison_df.copy()
+    else:
+        for slug, df in summary_map.items():
+            working = df.copy()
+            working = working.rename(columns={"total_capacity_mw": f"{slug}_capacity_mw"})
+            cols = [col for col in ["country", "technology", f"{slug}_capacity_mw"] if col in working.columns]
+            working = working[cols]
+            merged = working if merged is None else merged.merge(working, on=["country", "technology"], how="outer")
+
+    if merged is None or merged.empty:
+        return ""
+
+    renamed_cols: Dict[str, str] = {"country": "Country", "technology": "Technology"}
+    cap_cols = [col for col in merged.columns if col not in {"country", "technology"}]
+    for col in cap_cols:
+        base = col.replace("_capacity_mw", "")
+        if col == "difference_mw":
+            renamed_cols[col] = "Difference (MW)"
+            continue
+        label = label_lookup.get(base, base)
+        renamed_cols[col] = f"{label} (MW)"
+    merged = merged.rename(columns=renamed_cols)
+
+    ordered_caps: List[str] = []
+    for entry in entries:
+        slug = entry.get("slug") or _slug(entry.get("label") or "")
+        pretty = label_lookup.get(slug or "", slug or "")
+        col = f"{pretty} (MW)"
+        if col in merged.columns and col not in ordered_caps:
+            ordered_caps.append(col)
+    if "Difference (MW)" in merged.columns:
+        ordered_caps.append("Difference (MW)")
+
+    ordered_cols = [col for col in ["Country", "Technology", *ordered_caps] if col in merged.columns]
+    tail = [col for col in merged.columns if col not in ordered_cols]
+    merged = merged[ordered_cols + tail]
+    for col in merged.columns:
+        if col not in {"Country", "Technology"}:
+            merged[col] = pd.to_numeric(merged[col], errors="coerce").round(0)
+
+    return merged.to_markdown(index=False, floatfmt=".0f")
+
+
 def format_generation_summary_per_country(df: Optional[pd.DataFrame]) -> str:
     """Create per-country capacity tables with totals, plus an overall total table."""
     if df is None or df.empty:
@@ -1505,7 +1569,12 @@ def render_report(
         if zone_rows:
             rninja_zone_sections.append({"tech": tech_key, "label": label, "zones": zone_rows})
     gap_summary, gap_path, gap_plot = collect_gap_projects(supply_dir, slug_map)
-    gen_map_path, gen_map_all_path, gen_summary_df, gen_sites_df = collect_generation_map(supply_dir, config)
+    gen_entries, gen_comparison_df = collect_generation_map(supply_dir, config)
+    primary_entry = gen_entries[0] if gen_entries else {}
+    gen_map_path = primary_entry.get("map")
+    gen_map_all_path = None
+    gen_summary_df = primary_entry.get("summary") if isinstance(primary_entry, dict) else None
+    gen_sites_df = primary_entry.get("data") if isinstance(primary_entry, dict) else None
     (
         hydro_map_path,
         hydro_summary_df,
@@ -1637,9 +1706,22 @@ def render_report(
         df_load = pd.DataFrame(load_stats)
         load_summary_table = df_load.to_markdown(index=False, floatfmt=".0f")
 
-    gen_summary_country = format_generation_summary_per_country(gen_summary_df)
+    gen_summary_comparison = format_generation_comparison(gen_entries, gen_comparison_df)
+    gen_summary_country = gen_summary_comparison or format_generation_summary_per_country(gen_summary_df)
     gen_sites_by_status = format_generation_sites_by_status(gen_sites_df)
     gen_appendix_tables = gen_sites_by_status or gen_summary_country
+    generation_map_text = ""
+    generation_sources_list = [entry.get("label") for entry in gen_entries if isinstance(entry, dict) and entry.get("label")]
+    if gen_entries:
+        map_lines: List[str] = []
+        for entry in gen_entries:
+            path = entry.get("map") if isinstance(entry, dict) else None
+            label = entry.get("label") if isinstance(entry, dict) else ""
+            if path:
+                rel = _relpath_for_display(path)
+                map_lines.append(f"- {label or 'Generation map'}: [{path.name}]({rel})")
+        generation_map_text = "\n".join(map_lines)
+    generation_source_label = ", ".join(generation_sources_list) if generation_sources_list else "Global Integrated Power (GIP) 2025 database"
 
     load_csvs = sorted(load_dir.glob("load_profile_*.csv"))
     rninja_csvs = sorted(vre_dir.glob("rninja_data_*.csv"))
@@ -1649,8 +1731,11 @@ def render_report(
         rninja_csvs = sorted(output_dir.glob("rninja_data_*.csv"))
     if not rninja_csvs:
         rninja_csvs = sorted(output_dir.glob("vre_rninja_*.csv"))
-    gen_files = [p for p in (gen_map_path, gen_map_all_path) if p]
-    gen_files.extend([supply_dir / "generation_sites_summary.csv", supply_dir / "generation_sites.csv"])
+    gen_files = [entry.get("map") for entry in gen_entries if isinstance(entry, dict) and entry.get("map")]
+    gen_files.extend(sorted(supply_dir.glob("generation_sites*.csv")))
+    comparison_name = config.get("generation_map", {}).get("comparison_filename")
+    if comparison_name:
+        gen_files.append(supply_dir / comparison_name)
     gen_files.extend(static_map_files)
     hydro_files = [p for p in (hydro_map_path, hydro_summary_path, hydro_data_path) if p]
     socio_files = socio_files or []
@@ -1817,13 +1902,12 @@ def render_report(
             else ""
         ),
         "generation_map_text": (
-            f"- Interactive generation map: [{gen_map_path.name}]({gen_map_path.relative_to(BASE_DIR).as_posix()})"
-            if gen_map_path
-            else ""
+            generation_map_text
         ),
         "generation_map_static_figs": static_map_figs,
         "generation_map_summary": gen_summary_country,
         "generation_map_summary_appendix": gen_appendix_tables,
+        "generation_source_label": generation_source_label,
         "hydro_map_fig": hydro_map_fig,
         "hydro_summary_table": hydro_summary_table,
         "hydro_appendix_table": hydro_appendix_tables,
