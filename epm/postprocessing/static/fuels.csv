@@ -18,6 +18,7 @@ CSPPlant-CSP,CSP
 OnshoreWind-Wind,Onshore Wind
 OffshoreWind-Wind,Offshore Wind
 PV-Solar,PV
+Storage-Water,PSH
 Storage-Battery,Battery
 Uranium,Uranium
 Coal,Coal
