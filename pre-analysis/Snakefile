@@ -706,24 +706,51 @@ def _rep_settings():
 def _genmap_settings():
     """Determine generation map outputs, Excel inputs, and directories from the config."""
     if not GENMAP_CFG.get("enabled", False):
-        return {"targets": [], "countries": None, "excel": None, "outdir": None, "pgen": None}
+        return {"targets": [], "countries": None, "excel": None, "outdir": None, "pgen": None, "extra_sources": [], "comparison": None}
 
     outdir = resolve_output(GENMAP_CFG.get("output_dir", ""), category="supply")
     pgen = GENMAP_CFG.get("pgen_filename")
     pgen = str(outdir / pgen) if pgen else None
+    sources_cfg = GENMAP_CFG.get("sources") or []
+    extra_sources = []
+    if sources_cfg:
+        for entry in sources_cfg[1:]:
+            if not isinstance(entry, dict):
+                continue
+            resolved = dict(entry)
+            path = entry.get("path") or entry.get("excel")
+            if path:
+                resolved["path"] = resolve_input(path)
+            extra_sources.append(resolved)
+    if sources_cfg and isinstance(sources_cfg[0], dict):
+        primary = sources_cfg[0]
+        excel_path = primary.get("path") or primary.get("excel") or GENMAP_CFG.get("excel", GAP_CFG["excel"])
+        excel = resolve_input(excel_path)
+        sheet = primary.get("sheet_name", GENMAP_CFG.get("sheet_name", "Power facilities"))
+    else:
+        excel = resolve_input(GENMAP_CFG.get("excel", GAP_CFG["excel"]))
+        sheet = GENMAP_CFG.get("sheet_name", "Power facilities")
+
     targets = [
         str(outdir / GENMAP_CFG.get("map_filename", "generation_map.html")),
         str(outdir / GENMAP_CFG.get("data_filename", "generation_sites.csv")),
         str(outdir / GENMAP_CFG.get("summary_filename", "generation_sites_summary.csv")),
         *( [pgen] if pgen else [] ),
     ]
+    comparison_name = GENMAP_CFG.get("comparison_filename")
+    comparison = str(outdir / comparison_name) if comparison_name else None
+    if comparison:
+        targets.append(comparison)
 
     return {
         "targets": targets,
         "countries": GENMAP_CFG.get("countries", GAP_CFG["countries"]),
-        "excel": resolve_input(GENMAP_CFG.get("excel", GAP_CFG["excel"])),
+        "excel": excel,
+        "sheet_name": sheet,
         "outdir": outdir,
         "pgen": pgen,
+        "extra_sources": extra_sources,
+        "comparison": comparison,
     }
 
 
@@ -759,6 +786,8 @@ def _socioeconomic_map_settings():
     targets = []
     for entry in datasets:
         if not isinstance(entry, dict):
+            continue
+        if entry.get("enabled", True) is False:
             continue
         raster = entry.get("raster")
         if not raster:
@@ -903,8 +932,11 @@ GENMAP = _genmap_settings()
 GENMAP_TARGETS = GENMAP["targets"]
 GENMAP_OUTDIR = GENMAP["outdir"]
 GENMAP_EXCEL = GENMAP["excel"]
+GENMAP_SHEET = GENMAP.get("sheet_name", "Power facilities")
 GENMAP_COUNTRIES = GENMAP["countries"]
 GENMAP_PGEN = GENMAP["pgen"]
+GENMAP_EXTRA_SOURCES = GENMAP.get("extra_sources") or []
+GENMAP_COMPARISON = GENMAP.get("comparison")
 GENMAP_MAP = GENMAP_TARGETS[0] if GENMAP_TARGETS else None
 GENMAP_DATA = GENMAP_TARGETS[1] if len(GENMAP_TARGETS) > 1 else None
 GENMAP_SUMMARY = GENMAP_TARGETS[2] if len(GENMAP_TARGETS) > 2 else None
@@ -1261,6 +1293,7 @@ if GENMAP_TARGETS:
             map=GENMAP_MAP,
             data=GENMAP_DATA,
             summary=GENMAP_SUMMARY,
+            comparison=(GENMAP_COMPARISON if GENMAP_COMPARISON else temp(GENMAP_OUTDIR / ".no_comparison")),
             pgen=(GENMAP_PGEN if GENMAP_PGEN else temp(GENMAP_OUTDIR / ".no_pgen")),
         log:
             str(LOG_DIR / "generation_map.log")
@@ -1273,19 +1306,25 @@ if GENMAP_TARGETS:
                     build_generation_map(
                         xlsx_path=GENMAP_EXCEL,
                         countries=GENMAP_COUNTRIES,
-                        sheet_name=GENMAP_CFG.get("sheet_name", "Power facilities"),
+                        sheet_name=GENMAP_SHEET,
                         output_dir=GENMAP_OUTDIR,
                         map_filename=Path(output.map).name,
                         data_filename=Path(output.data).name,
                         summary_filename=Path(output.summary).name,
                         pgen_filename=(Path(output.pgen).name if GENMAP_PGEN else None),
+                        comparison_filename=GENMAP_COMPARISON,
+                        extra_sources=GENMAP_EXTRA_SOURCES,
                         verbose=GENMAP_CFG.get("verbose", False),
                     )
                     if not GENMAP_PGEN:
                         Path(output.pgen).touch()
+                    if GENMAP_COMPARISON:
+                        Path(GENMAP_COMPARISON).touch()
+                    else:
+                        Path(output.comparison).touch()
                 except Exception as exc:
                     print(f"[generation-map] Failed to build generation map: {exc}")
-                    for path in [output.map, output.data, output.summary]:
+                    for path in [output.map, output.data, output.summary, output.comparison]:
                         Path(path).parent.mkdir(parents=True, exist_ok=True)
                     Path(output.map).write_text(
                         f"<html><body><p>Generation map not available: {exc}</p></body></html>",
@@ -1293,6 +1332,7 @@ if GENMAP_TARGETS:
                     )
                     Path(output.data).write_text("", encoding="utf-8")
                     Path(output.summary).write_text("", encoding="utf-8")
+                    Path(output.comparison).write_text("", encoding="utf-8")
                     if GENMAP_PGEN:
                         Path(output.pgen).write_text("", encoding="utf-8")
                     else:

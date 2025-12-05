@@ -30,6 +30,11 @@ Retire plants on economic grounds,fEnableEconomicRetirement,0
 Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
 ,,
+INPUT TREATMENTS,,
+Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,0
+Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,0
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,0
+,,
 PLANNING RESERVES,,
 Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,1
 Apply planning reserve constraint,fApplyPlanningReserveConstraint,1

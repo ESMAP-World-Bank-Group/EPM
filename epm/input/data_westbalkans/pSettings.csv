@@ -1,8 +1,8 @@
 ﻿Parameter,Abbreviation,Value
 ,,
 PARAMETERS,,
-"Weighted Average Cost of Capital (WACC), %",WACC,0.06
-"Discount rate, %",DR,0.06
+"Weighted Average Cost of Capital (WACC), %",WACC,0.05
+"Discount rate, %",DR,0.05
 "Cost of unserved energy per MWh, $",VoLL,1000
 "Cost of reserve shortfall per MW, $",ReserveVoLL,60000
 "Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60
@@ -13,13 +13,13 @@ PARAMETERS,,
 ,,
 INTERCONNECTION,,
 INTERNAL,,
-Activate exchange between internal zone,fEnableInternalExchange,1
+Activate exchange between internal zone,fEnableInternalExchange,0
 Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
-Allow expansion of transfer limits,fAllowTransferExpansion,1
+Allow expansion of transfer limits,fAllowTransferExpansion,0
 EXTERNAL,,
-Activate exchange between external zone,fEnableExternalExchange,1
-"Maximum external import share, %",sMaxHourlyImportExternalShare,1
-"Maximum external export share, %",sMaxHourlyExportExternalShare,1
+Activate exchange between external zone,fEnableExternalExchange,0
+"Maximum external import share, %",sMaxHourlyImportExternalShare,0
+"Maximum external export share, %",sMaxHourlyExportExternalShare,0
 ,,
 OPTIONAL FEATURES,,
 Include carbon price ,fEnableCarbonPrice,0
@@ -29,6 +29,11 @@ Include Storage operation,fEnableStorage,1
 Retire plants on economic grounds,fEnableEconomicRetirement,0
 Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
+,,
+INPUT TREATMENTS,,
+Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,1
+Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,0
 ,,
 PLANNING RESERVES,,
 Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,1
