@@ -79,7 +79,8 @@ COLUMN_RENAME_MAP = {
     'pPlanningReserveMargin': {'uni': 'c'},
     'ftfindex': {'fuel': 'f'},
     "pStorDataExcel": {'gen_0': 'g', 'uni_2': 'pStoreDataHeader'},
-    'pTechData': {'Technology': 'tech'}
+    'pTechData': {'Technology': 'tech'},
+    "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
 
 
@@ -559,7 +560,10 @@ def run_input_treatment(gams,
             return
 
         ror_records = db["pVREgenProfile"].records
-        if ror_records is None or ror_records.empty:
+        if ror_records is None:
+            ror_records = pd.DataFrame()
+            provided_ror = set()
+        elif ror_records.empty:
             provided_ror = set()
         elif "g" in ror_records.columns:
             provided_ror = set(ror_records["g"].unique())
@@ -620,18 +624,18 @@ def run_input_treatment(gams,
                     gams.printLog("ROR availability auto-fill skipped: could not determine hour columns for pVREgenProfile.")
                 else:
                     # Determine daytypes per season from pHours; if absent, use a single placeholder.
-                    if "pHours" in db and db["pHours"].records is not None and {"q", "d"}.issubset(db["pHours"].records.columns):
+                    pHours_df = None
+                    daytype_by_q = {}
+                    if "pHours" in db and db["pHours"].records is not None and {"q", "d", "t"}.issubset(db["pHours"].records.columns):
                         pHours_df = db["pHours"].records
                         daytype_by_q = (
                             pHours_df.loc[:, ["q", "d"]]
                             .dropna()
                             .drop_duplicates()
-                            .groupby("q")["d"]
+                            .groupby("q", observed=False)["d"]
                             .apply(list)
                             .to_dict()
                         )
-                    else:
-                        daytype_by_q = {}
 
                     avail_idx = (
                         avail_df.dropna(subset=["g", "q"])
@@ -639,32 +643,70 @@ def run_input_treatment(gams,
                         .set_index(["g", "q"])["value"]
                     )
                     new_rows = []
-                    for row in missing_ror.itertuples():
-                        # For each missing generator, build one row per daytype for every available season.
-                        for (gen_id, season), avail_value in avail_idx[avail_idx.index.get_level_values(0) == row.g].items():
-                            daytypes = daytype_by_q.get(season)
-                            if not daytypes:
-                                daytypes = ["d1"]
-                            for daytype in daytypes:
-                                record = {"g": gen_id, "q": season, "d": daytype}
-                                for hcol in hour_cols:
-                                    record[hcol] = avail_value
-                                new_rows.append(record)
-                                gams.printLog(
-                                    f"[input_treatment][ror_profile] Auto-filled ROR profile for {gen_id} (q={season}, d={daytype}) "
-                                    f"from pAvailability={avail_value}."
-                                )
+                    filled_gens = set()
+
+                    if pHours_df is None:
+                        gams.printLog(
+                            "[input_treatment][ror_profile] Auto-fill skipped: pHours missing required columns (q,d,t)."
+                        )
+                    else:
+                        for row in missing_ror.itertuples():
+                            # For each missing generator, build one row per (q,d,t) from pHours using its seasonal availability.
+                            for (gen_id, season), avail_value in avail_idx[avail_idx.index.get_level_values(0) == row.g].items():
+                                slice_hours = pHours_df[pHours_df["q"] == season][["q", "d", "t"]]
+                                if slice_hours.empty:
+                                    continue
+                                for _, hrow in slice_hours.iterrows():
+                                    new_rows.append(
+                                        {
+                                            "g": gen_id,
+                                            "q": hrow["q"],
+                                            "d": hrow["d"],
+                                            "t": hrow["t"],
+                                            "value": avail_value,
+                                        }
+                                    )
+                                filled_gens.add(gen_id)
+
+                    def _stack_pvregen(df: pd.DataFrame) -> pd.DataFrame:
+                        """Coerce pVREgenProfile to long form (g,q,d,t,value)."""
+                        if df is None or df.empty:
+                            return pd.DataFrame(columns=["g", "q", "d", "t", "value"])
+                        if {"g", "q", "d", "t", "value"}.issubset(df.columns):
+                            return df
+                        value_cols = [c for c in df.columns if c not in {"g", "q", "d", "value", "t"}]
+                        if value_cols:
+                            df = df.melt(
+                                id_vars=["g", "q", "d"],
+                                value_vars=value_cols,
+                                var_name="t",
+                                value_name="value",
+                            )
+                        return df
 
                     if new_rows:
                         new_df = pd.DataFrame(new_rows)
-                        if ror_records.empty:
-                            updated_profiles = new_df
+                        existing_long = _stack_pvregen(ror_records)
+                        updated_profiles = pd.concat([existing_long, new_df], ignore_index=True)
+                        required_cols = {"g", "q", "d", "t", "value"}
+                        if required_cols.issubset(updated_profiles.columns):
+                            db.data["pVREgenProfile"].setRecords(updated_profiles)
+                            _write_back(db, "pVREgenProfile")
                         else:
-                            updated_profiles = pd.concat([ror_records, new_df], ignore_index=True)
-                        db.data["pVREgenProfile"].setRecords(updated_profiles)
-                        _write_back(db, "pVREgenProfile")
+                            gams.printLog(
+                                "[input_treatment][ror_profile] Skipping write: unable to coerce pVREgenProfile to long form "
+                                f"(columns found: {list(updated_profiles.columns)})."
+                            )
+
+                        # Set pAvailability to 1 for these generators to avoid double scaling.
+                        updated_avail = avail_df.copy()
+                        updated_avail.loc[updated_avail["g"].isin(filled_gens), "value"] = 1
+                        db.data["pAvailability"].setRecords(updated_avail)
+                        _write_back(db, "pAvailability")
+
                         gams.printLog(
-                            f"Added {len(new_rows)} ROR row(s) to pVREgenProfile using pAvailability values."
+                            f"[input_treatment][ror_profile] Auto-filled ROR profiles for {len(filled_gens)} generator(s) in pVREgenProfile "
+                            f"using their pAvailability values (steady production assumed): {', '.join(sorted(filled_gens))}."
                         )
 
 
@@ -1366,8 +1408,8 @@ def run_input_treatment(gams,
 
 if __name__ == "__main__":
 
-    DEFAULT_GDX = os.path.join("test", "input.gdx")
-    output_gdx = os.path.join("test", "input_treated.gdx")
+    DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
+    output_gdx = os.path.join("epm", "test", "input_treated.gdx")
 
     container = gt.Container()
     container.read(DEFAULT_GDX)

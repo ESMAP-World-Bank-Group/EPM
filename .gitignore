@@ -46,6 +46,8 @@ epm/postprocessing/main_postprocessing.py
 /epm/output_csv
 epm/epm.~log
 
+epm/postprocessing/data_inception_report/output
+
 /pre-analysis/not_git_track/
 
 # Tableau retained files

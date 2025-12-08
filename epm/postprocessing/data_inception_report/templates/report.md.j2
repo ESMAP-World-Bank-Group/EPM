@@ -1,0 +1,117 @@
+# Data Inception Report
+
+**This report is automatically generated. Please review and edit narrative sections as needed.**
+
+Generated on **{{ generation_date }}**
+
+## Data sources
+
+
+*Table: Data sources referenced in this report.*
+
+| Data item | Description | Source |
+| --- | --- | --- |
+| Demand forecast | Annual energy/peak demand forecasts |  |
+| Demand profile | Hourly demand profile (per zone) |  |
+| Supply list | Generators list and attributes |  |
+| Supply availability | Availability factors / derates (custom/default) |  |
+| Transfer limits (internal) | Inter-zonal transfer capacities |  |
+| Transfer limits (external) | External transfer capacities |  |
+| VRE profiles | Solar/wind hourly profiles |  |
+| Zone-country map | Zone-to-country mapping |  |
+| Model settings | Planning model settings |  |
+| Fuel prices | Fuel price trajectories |  |
+
+
+{% for case in cases %}
+
+{% set figs = case.figures or {} %}
+
+
+## Demand forecasts
+{% if figs.get("energy_zone") or figs.get("energy_total") or figs.get("peak_zone") or figs.get("peak_total") %}
+{% if figs.get("energy_zone") %}
+![Energy demand forecast by zone]({{ figs.get("energy_zone") }})
+{% endif %}
+{% if figs.get("energy_total") %}
+![Total energy demand forecast]({{ figs.get("energy_total") }})
+{% endif %}
+
+{% if figs.get("peak_zone") %}
+![Peak demand forecast by zone]({{ figs.get("peak_zone") }})
+{% endif %}
+{% if figs.get("peak_total") %}
+![Total peak demand forecast]({{ figs.get("peak_total") }})
+{% endif %}
+{% else %}
+_Demand forecast figures were not generated._
+{% endif %}
+
+
+## Load profile
+{% if figs.get("demand_profile_hourly_avg") %}
+![Average load by hour (zones)]({{ figs.get("demand_profile_hourly_avg") }})
+{% else %}
+_Load profile figure was not generated._
+{% endif %}
+
+## Supply
+{% if figs.get("supply_capacity") or figs.get("supply_capacity_system") or figs.get("supply_energy") or figs.get("supply_energy_system") %}
+{% if figs.get("supply_capacity") %}
+![Capacity mix by zone]({{ figs.get("supply_capacity") }})
+{% endif %}
+{% if figs.get("supply_capacity_system") %}
+![Capacity mix (system)]({{ figs.get("supply_capacity_system") }})
+{% endif %}
+{% if figs.get("supply_energy") %}
+![Potential energy mix by zone]({{ figs.get("supply_energy") }})
+{% endif %}
+{% if figs.get("supply_energy_system") %}
+![Potential energy mix (system)]({{ figs.get("supply_energy_system") }})
+{% endif %}
+{% else %}
+_Supply figures were not generated._
+{% endif %}
+
+
+## Hydropower Availability
+{% if figs.get("availability_custom") %}
+![Custom availability factors by zone and plant]({{ figs.get("availability_custom") }})
+{% else %}
+_Availability figure was not generated._
+{% endif %}
+
+## Trade
+{% if figs.get("transfer_capacity_map") %}
+![Transfer capacity map]({{ figs.get("transfer_capacity_map") }})
+{% else %}
+_Transfer capacity map was not generated._
+{% endif %}
+
+## Fuel prices
+{% if figs.get("price") %}
+![Fuel price trajectories]({{ figs.get("price") }})
+{% else %}
+_Fuel price figure was not generated._
+{% endif %}
+
+{% if figs %}
+{% set handled = ["energy_zone","energy_total","peak_zone","peak_total","supply_capacity","supply_capacity_system","supply_energy","supply_energy_system","price","demand_profile_hourly_avg","availability_custom","transfer_capacity_map"] %}
+{% set ns = namespace(has_extra=False) %}
+{% for label, fig_path in figs.items() if label not in handled %}
+{% if not ns.has_extra %}
+## Additional plots
+{% set ns.has_extra = True %}
+{% endif %}
+![{{ label.replace('_', ' ')|title }}]({{ fig_path }})
+{% endfor %}
+{% endif %}
+
+See appendix for methodology notes.
+
+{% endfor %}
+
+# Appendix
+
+## Methodology
+The pipeline reads `config.csv`, loads load/supply/price datasets, runs lightweight checks, and saves figures and reports under `postprocessing/data_inception_report/output`. This section is kept minimal; adjust as needed.
