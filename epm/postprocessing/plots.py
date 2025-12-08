@@ -985,15 +985,18 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
 
     # Add legend bottom center
     if legend_loc == 'bottom':
+        # Compute legend layout: 1 row up to 5 entries, 2 rows up to 10, else 3 rows.
+        n_items = 0
         if df_area is not None:
-            # ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_area.columns), frameon=False)
-            fig.subplots_adjust(bottom=0.25)  # Adds space for the legend
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=len(df_area.columns), frameon=False)
-
-        else:
-            # ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=len(df_line.columns), frameon=False)
-            fig.subplots_adjust(bottom=0.25)  # Adds space for the legend
-            ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=len(df_line.columns), frameon=False)
+            n_items = len(df_area.columns)
+        elif df_line is not None:
+            n_items = len(df_line.columns)
+        rows = 1 if n_items <= 5 else (2 if n_items <= 10 else 3)
+        ncol = max(1, int(np.ceil(n_items / rows))) if n_items else 1
+        # Add more bottom padding when we need multiple rows.
+        bottom_pad = 0.25 if rows == 1 else (0.32 if rows == 2 else 0.38)
+        fig.subplots_adjust(bottom=bottom_pad)
+        ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=ncol, frameon=False)
 
     # TODO: needs to be fixed (dispatch plot was updated to work with interactive map, so that the legend is now inside the plot. Not working anymore when legend on the right)
     elif legend_loc == 'right':
@@ -2084,7 +2087,7 @@ def heatmap_plot(
         numeric_coerced = pd.to_numeric(pd.Series(values), errors='coerce')
         if not numeric_coerced.isna().any():
             return [v for _, v in sorted(zip(numeric_coerced.tolist(), values))]
-        datetime_coerced = pd.to_datetime(pd.Series(values), errors='coerce')
+        datetime_coerced = pd.to_datetime(pd.Series(values), errors='coerce', format='mixed')
         if not datetime_coerced.isna().any():
             return [v for _, v in sorted(zip(datetime_coerced.tolist(), values))]
         try:
@@ -2682,6 +2685,7 @@ def make_line_plot(
     filename,
     column_xaxis,
     y_column,
+    preserve_x_spacing=False,
     dict_colors=None,
     column_subplot=None,
     series_column=None,
@@ -2750,6 +2754,8 @@ def make_line_plot(
         Text for the shared x-axis label (defaults to ``column_xaxis``).
     ylabel : str, optional
         Text for the shared y-axis label (defaults to ``y_column``).
+    preserve_x_spacing : bool, default False
+        Plot x values at their numeric/datetime positions to preserve spacing; when False, values are treated as categories.
     selected_zone : str, optional
         Convenience filter applied when the DataFrame contains a ``zone`` column.
     selected_year : int, optional
@@ -2870,6 +2876,16 @@ def make_line_plot(
 
         index_values = list(pivot.index)
         x_positions = list(range(len(index_values)))
+        use_numeric_spacing = preserve_x_spacing
+        if use_numeric_spacing:
+            try:
+                numeric_index = pd.to_numeric(pivot.index, errors='coerce')
+                if not np.isnan(numeric_index).any():
+                    x_positions = numeric_index.to_numpy()
+                else:
+                    use_numeric_spacing = False
+            except Exception:
+                use_numeric_spacing = False
 
         for col in pivot.columns:
             series = pivot[col]
@@ -2881,13 +2897,12 @@ def make_line_plot(
             all_handles.append(line)
             all_labels.append(label)
 
-        ax.set_xticks(x_positions)
         if index_values:
             if len(index_values) > max_ticks:
                 positions = np.linspace(0, len(index_values) - 1, max_ticks, dtype=int)
             else:
                 positions = np.arange(len(index_values))
-            ax.set_xticks(positions)
+            ax.set_xticks([x_positions[i] for i in positions])
             ax.set_xticklabels([index_values[i] for i in positions], rotation=rotation)
 
         ax.spines['left'].set_visible(False)

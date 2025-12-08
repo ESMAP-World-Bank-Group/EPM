@@ -33,10 +33,10 @@ Fractional tolerance around system peak load used to identify hours considered â
 INPUT TREATMENTS,,
 Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,1
 Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1
-Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,0
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,1
 ,,
 PLANNING RESERVES,,
-Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,1
+Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,0
 Apply planning reserve constraint,fApplyPlanningReserveConstraint,1
 "System planning reserve margin, %",sReserveMarginPct,0.1
 ,,

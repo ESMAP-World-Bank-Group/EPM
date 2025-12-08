@@ -37,8 +37,8 @@ $if not set EPMVERSION    $set EPMVERSION    9.0
 
 * Turn on/off additional information to the listing file
 option limRow=0, limCol=0, sysOut=off, solPrint=off;
-$if %DEBUG%==1 $onUELlist onUELXRef onListing 
-$if %DEBUG%==1 option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
+* $if %DEBUG%==1 $onUELlist onUELXRef onListing 
+* $if %DEBUG%==1 option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
 
 *-------------------------------------------------------------------------------------
 
