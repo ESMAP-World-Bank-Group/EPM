@@ -2,7 +2,7 @@ paramNames,baseline
 modeltype,RMIP
 cplexfile,input/data_test/cplex/cplex_baseline.opt
 pSettings,input/data_test/pSettings.csv
-y,input/data_test/y.csv
+y,input/data_test/sensitivity/y_reduced.csv
 zcmap,input/data_test/zcmap.csv
 pHours,input/data_test/pHours.csv
 pDays,input/data_test/static/dispatch_month_days.csv
@@ -20,7 +20,7 @@ pDemandData,input/data_test/load/pDemandData.csv
 pDemandForecast,input/data_test/load/pDemandForecast.csv
 sRelevant,input/data_test/load/sRelevant.csv
 pEnergyEfficiencyFactor,input/data_test/load/pEnergyEfficiencyFactor.csv
-pGenDataInput,input/data_test/supply/pGenDataInput.csv
+pGenDataInput,input/data_test/supply/sensitivity/pGenDataInput_linear.csv
 pGenDataInputDefault,input/data_test/supply/pGenDataInputDefault.csv
 pAvailability,input/data_test/supply/pAvailabilityCustom.csv
 pAvailabilityDefault,input/data_test/supply/pAvailabilityDefault.csv
@@ -46,7 +46,7 @@ pMaxAnnualExternalTradeShare,input/data_test/trade/pMaxAnnualExternalTradeShare.
 pMinImport,input/data_test/trade/pMinImport.csv
 pNewTransmission,input/data_test/trade/pNewTransmission.csv
 pTradePrice,input/data_test/trade/pTradePrice.csv
-pTransferLimit,input/data_test/trade/pTransferLimit_dispatch.csv
+pTransferLimit,input/data_test/trade/pTransferLimit.csv
 pH2DataExcel,input/data_test/h2/pH2DataExcel.csv
 pAvailabilityH2,input/data_test/h2/pAvailabilityH2.csv
 pCapexTrajectoryH2,input/data_test/h2/pCapexTrajectoryH2.csv
