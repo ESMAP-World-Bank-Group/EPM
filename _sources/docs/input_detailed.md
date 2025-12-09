@@ -215,7 +215,7 @@ TODO: needs to be updated !!
 
 - 2 columns:
   1. Fuel
-  2. Carbon content in gCO₂/kWh
+  2. Carbon content in gCO₂/MWh
 - Example: [pFuelCarbonContent.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/pFuelCarbonContent.csv)
 
 ---
