@@ -35,6 +35,7 @@ set sumhdr /
   "Generation costs: $m",
   "Fixed O&M: $m",
   "Variable O&M: $m",
+  "Startup costs: $m",
   "Fuel costs: $m",
   "Transmission costs: $m",
   "Spinning reserve costs: $m",
@@ -438,7 +439,7 @@ pRetirementsCountry(c, y) =
 
 pCapacitySummary(z,"Available capacity: MW",y) = sum(gzmap(g,z), vCap.l(g,y));
 pCapacitySummary(z,"Peak demand: MW"       ,y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
-pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$pfEnableH2Production+1e-6;
+pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$fEnableH2Production+1e-6;
 pCapacitySummary(z,"New capacity: MW"      ,y) = sum(gzmap(g,z), vBuild.l(g,y));
 pCapacitySummary(z,"Retired capacity: MW"  ,y) = sum(gzmap(g,z), vRetire.l(g,y));
 pCapacitySummary(z,"Committed Total TX capacity: MW"  ,y) = sum((z2,q), pTransferLimit(z,z2,q,y)/card(q));
@@ -450,7 +451,7 @@ pCapacitySummaryCountry(c,"Retired capacity: MW"  ,y) = sum(zcmap(z,c), pCapacit
 pCapacitySummaryCountry(c,"Committed Total TX capacity: MW",y) = sum(zcmap(z,c), pCapacitySummary(z,"Committed Total TX capacity: MW",y));
 
 * H2 model additions
-pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
+pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$fEnableH2Production+1e-6;
 
 * ============================================================
 * 2. COSTS
@@ -504,7 +505,7 @@ pCapexInvestmentComponent(z, capexComponentPlant, y) =
   sum(zgmap(z, g), pCapexInvestmentPlant(z, g, capexComponentPlant, y));
 
 * Hydrogen CAPEX is tracked separately
-pCapexInvestmentComponent(z, "Hydrogen", y)$pfEnableH2Production =
+pCapexInvestmentComponent(z, "Hydrogen", y)$fEnableH2Production =
   1e6 * sum(zH2map(z, hh),
     vBuildH2.l(hh, y) * pH2Data(hh, "Capex") * pCapexTrajectoriesH2(hh, y)
   );
@@ -659,6 +660,9 @@ pYearlyCostsZone(z, "Fixed O&M: $m", y) =
 
 pYearlyCostsZone(z, "Variable O&M: $m", y) =
   vYearlyVOMCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Startup costs: $m", y) =
+  vYearlyStartupCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Fuel costs: $m", y) =
   vYearlyFuelCost.l(z, y) / 1e6;
@@ -900,7 +904,7 @@ pEnergyBalance(z, "Demand: GWh", y) =
   sum((q, d, t), pDemandData(z, q, d, y, t) * pHours(q, d, t) * pEnergyEfficiencyFactor(z, y)) / 1e3;
 
 pEnergyBalance(z, "Demand H2: GWh", y) =
-  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (pfEnableH2Production + 1e-6);
+  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (fEnableH2Production + 1e-6);
 
 pEnergyBalance(z, "Total Demand: GWh", y) =
   pEnergyBalance(z, "Demand: GWh", y) + pEnergyBalance(z, "Demand H2: GWh", y);
@@ -932,11 +936,11 @@ pEnergyBalanceCountry(c,dshdr,y) = sum(z$(zcmap(z,c)), pEnergyBalance(z,dshdr,y)
 
 
 *--- H2 Demand-Supply Balance
-pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pfEnableH2Production+1e-6; 
-pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pfEnableH2Production+1e-6;
-pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pfEnableH2Production+1e-6;
-pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pfEnableH2Production+1e-6;
-pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$fEnableH2Production+1e-6; 
+pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$fEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$fEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$fEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$fEnableH2Production+1e-6;
 
 pEnergyBalanceCountryH2(c,dsH2hdr,y) = sum(z$(zcmap(z,c)), pEnergyBalanceH2(z,dsH2hdr,y));
 

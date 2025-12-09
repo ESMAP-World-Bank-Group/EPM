@@ -3,7 +3,6 @@ EPM_Fuel,Processing
 ST-Coal,ST-Coal
 CHP-Coal,CHP-Coal
 CCGT-Gas,CCGT-Gas
-ReservoirHydro-Water,Reservoir
 OCGT-Gas,OCGT-Gas
 OCGT-HFO,OCGT-HFO
 OCGT-LFO,OCGT-LFO
@@ -12,6 +11,7 @@ ICE-Gas,ICE-Gas
 ICE-HFO,ICE-HFO
 ICE-LFO,ICE-LFO
 ICE-Diesel,ICE-Diesel
+ReservoirHydro-Water,Reservoir
 ROR-Water,ROR
 BiomassPlant-Biomass,Biomass
 CSPPlant-CSP,CSP
