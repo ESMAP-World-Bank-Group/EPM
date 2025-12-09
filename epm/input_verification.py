@@ -72,6 +72,7 @@ def run_input_verification(gams):
     _check_vre_profile(gams, db)
     _check_availability(gams, db)
     _check_time_resolution(gams, db)
+    _warn_dispatch_chronology_consistency(gams, db)
     _check_demand_forecast(gams, db)
     _check_fuel_price_presence(gams, db)
     _check_transfer_limits(gams, db)
@@ -82,6 +83,7 @@ def run_input_verification(gams):
     _check_fuel_definitions(gams, db)
     _check_tech_definitions(gams, db)
     _check_zone_consistency(gams, db)
+    _check_single_zone_internal_exchange(gams, db)
     _check_external_transfer_limits(gams, db)
     _check_external_transfer_settings(gams, db)
     _check_storage_data(gams, db)
@@ -403,6 +405,57 @@ def _check_time_resolution(gams, db):
         raise
     except Exception:
         gams.printLog('Unexpected error when checking time consistency')
+        raise
+
+
+def _warn_dispatch_chronology_consistency(gams, db):
+    """Warn when dispatch mappings use (q, d, t) tuples not present in pHours."""
+    try:
+        p_hours = db["pHours"].records
+        if (
+            p_hours is None
+            or p_hours.empty
+            or not {"q", "d", "t"}.issubset(p_hours.columns)
+        ):
+            return
+        valid_hours = set(p_hours[["q", "d", "t"]].apply(tuple, axis=1))
+
+        def _warn_if_outside(param):
+            if param not in db:
+                return False, set()
+            records = db[param].records
+            if (
+                records is None
+                or records.empty
+                or not {"q", "d", "t"}.issubset(records.columns)
+            ):
+                return False, set()
+            tuples = set(records[["q", "d", "t"]].apply(tuple, axis=1))
+            outside = tuples - valid_hours
+            if outside:
+                preview = sorted(outside)[:10]
+                more = ""
+                if len(outside) > len(preview):
+                    more = f" (showing {len(preview)} of {len(outside)})"
+                gams.printLog(
+                    f"Warning: {param} contains (q, d, t) tuples not present in pHours; dispatch mode chronology is inconsistent. "
+                    f"Missing tuples: {preview}{more}"
+                )
+            return True, outside
+
+        checked_any = False
+        issues_found = False
+
+        for param in ("mapTS", "pDays"):
+            checked, outside = _warn_if_outside(param)
+            checked_any = checked_any or checked
+            if outside:
+                issues_found = True
+
+        if checked_any and not issues_found:
+            gams.printLog("Success: mapTS and pDays tuples are contained in pHours.")
+    except Exception:
+        gams.printLog("Unexpected error when checking dispatch chronology consistency")
         raise
 
 
@@ -775,6 +828,48 @@ def _check_zone_consistency(gams, db):
         raise
     except Exception:
         gams.printLog('Unexpected error when checking zext')
+        raise
+
+
+def _check_single_zone_internal_exchange(gams, db):
+    """Ensure internal exchange is disabled when only one internal zone exists."""
+    try:
+        zcmap_records = db["zcmap"].records
+        if zcmap_records is None or zcmap_records.empty:
+            return
+        unique_zones = set(zcmap_records["z"].dropna().unique())
+        if len(unique_zones) != 1:
+            return
+
+        settings_records = db["pSettings"].records
+        if settings_records is None or settings_records.empty:
+            return
+        settings_indexed = settings_records.set_index("pSettingsHeader")
+        if "fEnableInternalExchange" not in settings_indexed.index:
+            return
+
+        value = settings_indexed.loc["fEnableInternalExchange", "value"]
+        try:
+            flag = float(value)
+        except (TypeError, ValueError):
+            flag = value
+        if flag in (0.0, 0, "0"):
+            gams.printLog(
+                "Success: Single-zone configuration has internal exchange disabled."
+            )
+            return
+
+        msg = (
+            "Error: fEnableInternalExchange must be 0 when only one internal zone is defined."
+        )
+        gams.printLog(msg)
+        raise ValueError(msg)
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog(
+            "Unexpected error when checking single-zone internal exchange settings"
+        )
         raise
 
 

@@ -19,9 +19,9 @@ Pumped-Hydro,cornflowerblue
 Reservoir,darkblue
 ROR,lightskyblue
 Biomass,green
-Battery,darkgreen
-Battery 4h,darkgreen
-Battery 8h,darkgreen
+Battery,darkkhaki
+Battery 4h,darkkhaki
+Battery 8h,darkkhaki
 Nuclear,purple
 Import,thistle
 Trade,thistle
@@ -37,7 +37,7 @@ HFO,saddlebrown
 LFO,sandyebrown
 Uranium,purple
 CSP,darkorange
-Battery,darkgreen
+Battery,darkkhaki
 Diesel,darksalmon
 Biomass,green
 Geothermal,red
@@ -67,6 +67,7 @@ Trade costs,plum
 Transmission costs,purple
 Import costs with external zones: $m,purple
 Export revenues with external zones: $m,orange
+Startup costs,red
 #Geography,
 Angola,teal
 Botswana,firebrick
