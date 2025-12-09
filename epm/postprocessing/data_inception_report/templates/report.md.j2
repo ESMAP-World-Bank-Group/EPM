@@ -4,6 +4,23 @@
 
 Generated on **{{ generation_date }}**
 
+## Table of Contents
+
+1. [Data sources](#data-sources)
+2. [Demand forecasts](#demand-forecasts)
+3. [Load profile](#load-profile)
+4. [Supply](#supply)
+5. [Hydropower Availability](#hydropower-availability)
+6. [Generator Cost Parameters](#generator-cost-parameters)
+7. [CAPEX trajectories](#capex-trajectories)
+8. [Fuel prices](#fuel-prices)
+9. [Trade](#trade)
+10. [Appendix](#appendix)
+    - [Methodology](#methodology)
+    - [Model Settings](#model-settings)
+
+---
+
 ## Data sources
 
 
@@ -11,21 +28,24 @@ Generated on **{{ generation_date }}**
 
 | Data item | Description | Source |
 | --- | --- | --- |
+| Zone-country map | Zone-to-country mapping |  |
+| Model settings | Planning model settings |  |
 | Demand forecast | Annual energy/peak demand forecasts |  |
 | Demand profile | Hourly demand profile (per zone) |  |
 | Supply list | Generators list and attributes |  |
+| Generator defaults | Default generator cost parameters |  |
 | Supply availability | Availability factors / derates (custom/default) |  |
+| VRE profiles | Solar/wind hourly profiles |  |
+| Fuel prices | Fuel price trajectories |  |
+| CAPEX trajectories | Technology cost reduction curves |  |
 | Transfer limits (internal) | Inter-zonal transfer capacities |  |
 | Transfer limits (external) | External transfer capacities |  |
-| VRE profiles | Solar/wind hourly profiles |  |
-| Zone-country map | Zone-to-country mapping |  |
-| Model settings | Planning model settings |  |
-| Fuel prices | Fuel price trajectories |  |
 
 
 {% for case in cases %}
 
 {% set figs = case.figures or {} %}
+{% set tbls = case.tables or {} %}
 
 
 ## Demand forecasts
@@ -45,6 +65,13 @@ Generated on **{{ generation_date }}**
 {% endif %}
 {% else %}
 _Demand forecast figures were not generated._
+{% endif %}
+
+{% if tbls.get("demand_forecast") %}
+
+*Table: Energy demand forecast by zone (GWh).*
+
+{{ tbls.get("demand_forecast") }}
 {% endif %}
 
 
@@ -73,6 +100,13 @@ _Load profile figure was not generated._
 _Supply figures were not generated._
 {% endif %}
 
+{% if tbls.get("supply") %}
+
+*Table: Installed capacity by zone and fuel (MW).*
+
+{{ tbls.get("supply") }}
+{% endif %}
+
 
 ## Hydropower Availability
 {% if figs.get("availability_custom") %}
@@ -81,11 +115,21 @@ _Supply figures were not generated._
 _Availability figure was not generated._
 {% endif %}
 
-## Trade
-{% if figs.get("transfer_capacity_map") %}
-![Transfer capacity map]({{ figs.get("transfer_capacity_map") }})
+## Generator Cost Parameters
+{% if tbls.get("gen_defaults") %}
+
+*Table: Default generator cost parameters by technology (averaged across zones).*
+
+{{ tbls.get("gen_defaults") }}
 {% else %}
-_Transfer capacity map was not generated._
+_Generator cost parameters table was not generated._
+{% endif %}
+
+## CAPEX trajectories
+{% if figs.get("capex_trajectories") %}
+![CAPEX trajectories by technology]({{ figs.get("capex_trajectories") }})
+{% else %}
+_CAPEX trajectories figure was not generated._
 {% endif %}
 
 ## Fuel prices
@@ -95,8 +139,22 @@ _Transfer capacity map was not generated._
 _Fuel price figure was not generated._
 {% endif %}
 
+{% if tbls.get("price") %}
+
+*Table: Fuel prices by year - USD/MMBtu (USD/MWh).*
+
+{{ tbls.get("price") }}
+{% endif %}
+
+## Trade
+{% if figs.get("transfer_capacity_map") %}
+![Transfer capacity map]({{ figs.get("transfer_capacity_map") }})
+{% else %}
+_Transfer capacity map was not generated._
+{% endif %}
+
 {% if figs %}
-{% set handled = ["energy_zone","energy_total","peak_zone","peak_total","supply_capacity","supply_capacity_system","supply_energy","supply_energy_system","price","demand_profile_hourly_avg","availability_custom","transfer_capacity_map"] %}
+{% set handled = ["energy_zone","energy_total","peak_zone","peak_total","supply_capacity","supply_capacity_system","supply_energy","supply_energy_system","price","demand_profile_hourly_avg","availability_custom","transfer_capacity_map","capex_trajectories"] %}
 {% set ns = namespace(has_extra=False) %}
 {% for label, fig_path in figs.items() if label not in handled %}
 {% if not ns.has_extra %}
@@ -115,3 +173,14 @@ See appendix for methodology notes.
 
 ## Methodology
 The pipeline reads `config.csv`, loads load/supply/price datasets, runs lightweight checks, and saves figures and reports under `postprocessing/data_inception_report/output`. This section is kept minimal; adjust as needed.
+
+{% for case in cases %}
+{% set tbls = case.tables or {} %}
+{% if tbls.get("settings") %}
+## Model Settings
+
+*Table: Model settings (pSettings).*
+
+{{ tbls.get("settings") }}
+{% endif %}
+{% endfor %}
