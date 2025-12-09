@@ -40,6 +40,7 @@ Contact:
 
 import os
 import logging
+import re
 from pathlib import Path
 from functools import wraps
 import pandas as pd
@@ -158,9 +159,10 @@ FIGURES_ACTIVATED = {
     'EnergyPlantZoneTop10': True,
     
     # 4. Dispatch figures
-    'DispatchZoneMaxLoadDay': True,
+    'DispatchZoneMaxLoadDay': False,
     'DispatchZoneMaxLoadSeason': False,
-    'DispatchSystemMaxLoadDay': True,
+    'DispatchZoneFullSeason': True,
+    'DispatchSystemMaxLoadDay': False,
     'DispatchSystemMaxLoadSeason': False,
     
     # 5. Interconnection figures
@@ -181,9 +183,9 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': True,
-    'costs': True,
-    'energy': True,
+    'capacity': False,
+    'costs': False,
+    'energy': False,
     'dispatch': True,
     'interconnection': False,
     'maps': False,
@@ -225,6 +227,7 @@ FIGURE_CATEGORY_MAP = {
     'EnergyPlantZoneTop10': 'energy',
     'DispatchZoneMaxLoadDay': 'dispatch',
     'DispatchZoneMaxLoadSeason': 'dispatch',
+    'DispatchZoneFullSeason': 'dispatch',
     'DispatchSystemMaxLoadDay': 'dispatch',
     'DispatchSystemMaxLoadSeason': 'dispatch',
     'NetImportsZoneEvolution': 'interconnection',
@@ -264,6 +267,24 @@ RESERVE_ATTRS = [
     "Unmet system spinning reserve costs: $m"
 ]
 
+MAX_FULL_SEASON_DAYS = 15
+
+
+def _day_sort_key(day):
+    if pd.isna(day):
+        return float('inf')
+    try:
+        return float(day)
+    except (TypeError, ValueError):
+        digits = re.sub(r'[^\d.]', '', str(day))
+        if digits:
+            try:
+                return float(digits)
+            except ValueError:
+                pass
+        return str(day)
+
+
 def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios, FIGURES_ACTIVATED):
     """
     Generate dispatch plots that highlight peak demand conditions for each scenario.
@@ -289,10 +310,11 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
 
     zone_max_load_day_active = is_figure_active('DispatchZoneMaxLoadDay')
     zone_max_load_season_active = is_figure_active('DispatchZoneMaxLoadSeason')
+    zone_full_season_active = is_figure_active('DispatchZoneFullSeason')
     system_max_load_day_active = is_figure_active('DispatchSystemMaxLoadDay')
     system_max_load_season_active = is_figure_active('DispatchSystemMaxLoadSeason')
 
-    generate_zone_figures = zone_max_load_day_active or zone_max_load_season_active
+    generate_zone_figures = zone_max_load_day_active or zone_max_load_season_active or zone_full_season_active
     generate_system_figures = system_max_load_day_active or system_max_load_season_active
 
     if not (generate_zone_figures or generate_system_figures):
@@ -394,6 +416,31 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                     if zone_max_load_season_active:
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_max_load_season.pdf')
                         select_time = {'season': [max_load_season]}
+                        make_fuel_dispatchplot(
+                            dfs_to_plot_area_zone,
+                            dfs_to_plot_line_zone,
+                            dict_specs['colors'],
+                            zone=zone,
+                            year=year,
+                            scenario=selected_scenario,
+                            fuel_grouping=None,
+                            select_time=select_time,
+                            filename=filename,
+                            bottom=None,
+                            legend_loc='bottom'
+                        )
+
+                    if zone_full_season_active and year == years_available[0]:
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
+                        full_season_filter = zone_demand_year[
+                            (zone_demand_year['season'] == max_load_season)
+                        ]
+                        unique_days = pd.Index(full_season_filter['day']).dropna().unique()
+                        sorted_days = sorted(unique_days, key=_day_sort_key)
+                        days_to_plot = sorted_days[:MAX_FULL_SEASON_DAYS]
+                        select_time = {'season': [max_load_season]}
+                        if len(sorted_days) > 0:
+                            select_time['day'] = days_to_plot
                         make_fuel_dispatchplot(
                             dfs_to_plot_area_zone,
                             dfs_to_plot_line_zone,
@@ -1805,7 +1852,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         epm_results,
                         dict_specs,
                         subfolders['5_dispatch'],
-                        ['baseline'],
+                        selected_scenarios,
                         FIGURES_ACTIVATED
                     )
                 except Exception as err:
