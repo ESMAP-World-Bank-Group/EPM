@@ -32,7 +32,6 @@ REQUIRED_CONFIG_COLUMNS = [
     "demand_profile_path",
     "zcmap_path",
     "pvreprofile_path",
-    "psettings_path",
     "ptransferlimit_path",
     "pexttransferlimit_path",
 ]
@@ -73,11 +72,15 @@ def run_data_inception_report(data_folder: str) -> Dict[str, str]:
             "transfer": datasets["transfer"],
             "availability_custom": datasets["availability_custom"],
             "availability_default": datasets["availability_default"],
+            "capex_trajectories": datasets["capex_trajectories"],
         },
         base_output / "figures",
         base_input,
         years,
     )
+
+    # Generate tables for the report
+    tables = _generate_tables(datasets, years)
 
     cases: List[Dict] = [
         {
@@ -85,6 +88,7 @@ def run_data_inception_report(data_folder: str) -> Dict[str, str]:
             "scenario": "Baseline scenario",
             "country": "",
             "figures": figures,
+            "tables": tables,
             "log": case_log,
         }
     ]
@@ -127,6 +131,8 @@ def _load_case_inputs(
 
     # Core datasets listed in the driver CSV.
     path_lookup = {
+        "capex_trajectories": "pcapextrajectoriesdefault_path",
+        "gen_defaults": "pgendatainputdefault_path",
         "supply": "supply_path",
         "price": "price_path",
         "demand_forecast": "demand_forecast_path",
@@ -143,15 +149,8 @@ def _load_case_inputs(
     for label, column in path_lookup.items():
         df, err = load_dataset(base_input, config_row.get(column))
         datasets[label] = df
-        errors.append(err)
-
-    availability_lookup = {
-        "availability_custom": config_row.get("pavailability_path") or "supply/pAvailabilityCustom.csv",
-        "availability_default": config_row.get("pavailabilitydefault_path") or "supply/pAvailabilityDefault.csv",
-    }
-    for label, path in availability_lookup.items():
-        df, err = load_dataset(base_input, path)
-        datasets[label] = df
+        if err:
+            _log(f"Warning: failed to load {label}: {err}")
         errors.append(err)
 
     # Model years share the same loader; keep error handling consistent.
@@ -168,7 +167,96 @@ def _load_case_inputs(
         _log(f"Model years detected: {years}")
 
     errors.append(years_error)
+
+    # Filter all datasets to zones defined in zcmap
+    zcmap_df = datasets.get("zcmap")
+    if zcmap_df is not None and "zone" in zcmap_df.columns:
+        valid_zones = set(zcmap_df["zone"].dropna().astype(str).str.strip())
+        _log(f"Filtering data to zcmap zones: {sorted(valid_zones)}")
+
+        zone_columns = {"zone", "from", "to"}  # case-insensitive matching
+        for key, df in datasets.items():
+            if df is None or key == "zcmap":
+                continue
+            cols_to_filter = [c for c in df.columns if c.lower() in zone_columns]
+            if cols_to_filter:
+                before = len(df)
+                mask = pd.Series(True, index=df.index)
+                for col in cols_to_filter:
+                    mask &= df[col].astype(str).str.strip().isin(valid_zones)
+                datasets[key] = df[mask]
+                _log(f"  {key}: {before} -> {len(datasets[key])} rows")
+
     return datasets, errors, years
+
+
+def _generate_tables(
+    datasets: Dict[str, Optional[pd.DataFrame]], years: List[int]
+) -> Dict[str, str]:
+    """Generate markdown tables for the report."""
+
+    tables: Dict[str, str] = {}
+
+    # Supply table (unstacked by fuel)
+    supply_summary, _ = analyze_supply(datasets.get("supply"), years)
+    if not supply_summary.empty and "Status" not in supply_summary.columns:
+        tables["supply"] = _df_to_markdown(supply_summary)
+
+    # Price table with both $/MMBtu and ($/MWh)
+    price_summary, _ = analyze_prices(datasets.get("price"), years)
+    if not price_summary.empty and "Status" not in price_summary.columns:
+        price_display = _format_price_table(price_summary)
+        tables["price"] = _df_to_markdown(price_display, round_nums=False)
+
+    # Demand forecast table
+    demand_summary, _ = summarize_demand_forecast(datasets.get("demand_forecast"), years)
+    if not demand_summary.empty and "Status" not in demand_summary.columns:
+        tables["demand_forecast"] = _df_to_markdown(demand_summary)
+
+    # Generator defaults table (average across zones)
+    gen_defaults_summary = analyze_gen_defaults(datasets.get("gen_defaults"))
+    if not gen_defaults_summary.empty and "Status" not in gen_defaults_summary.columns:
+        tables["gen_defaults"] = _df_to_markdown(gen_defaults_summary)
+
+    # Settings table (for appendix)
+    settings_df = datasets.get("settings")
+    if settings_df is not None and not settings_df.empty:
+        settings_table = build_psettings_table(settings_df)
+        if not settings_table.empty:
+            tables["settings"] = _df_to_markdown(settings_table, round_nums=False)
+
+    return tables
+
+
+def _format_price_table(price_df: pd.DataFrame) -> pd.DataFrame:
+    """Format price table with both $/MMBtu and ($/MWh) values."""
+
+    MMBTU_TO_MWH = 3.412  # 1 MWh = 3.412 MMBtu
+    df = price_df.copy()
+    for col in df.columns:
+        if col == "Fuel":
+            continue
+        df[col] = df[col].apply(
+            lambda x: f"{int(round(x))} ({int(round(x * MMBTU_TO_MWH))})" if pd.notna(x) else ""
+        )
+    return df
+
+
+def _df_to_markdown(df: pd.DataFrame, round_nums: bool = True) -> str:
+    """Convert a DataFrame to a markdown table with rounded numeric values."""
+
+    df = df.copy()
+    if round_nums:
+        for col in df.columns:
+            if pd.api.types.is_numeric_dtype(df[col]):
+                df[col] = pd.to_numeric(df[col], errors="coerce").round(0).astype(object)
+    # Replace NaN with empty string without triggering FutureWarning
+    for col in df.columns:
+        df[col] = df[col].apply(lambda x: "" if pd.isna(x) else x)
+    # Convert floats like 123.0 to int strings like "123"
+    for col in df.columns:
+        df[col] = df[col].apply(lambda x: int(x) if isinstance(x, float) and x == x else x)
+    return df.to_markdown(index=False)
 
 
 # === Configuration + data loading ===
@@ -217,29 +305,6 @@ def validate_config(config_df: pd.DataFrame) -> Tuple[pd.DataFrame, List[str]]:
         config_df = config_df.loc[~empty_rows].copy()
 
     return config_df, errors
-
-
-def build_settings_table(config_row: pd.Series, base_input: Path) -> pd.DataFrame:
-    """Create a compact settings table for a single case."""
-
-    pairs = [
-        ("Case ID", config_row.get("case_id", "")),
-        ("Scenario", config_row.get("scenario", "")),
-        ("Country/Market", config_row.get("country", "")),
-        ("Supply data", str(base_input / config_row.get("supply_path", ""))),
-        ("Price data", str(base_input / config_row.get("price_path", ""))),
-        ("zcmap", str(base_input / config_row.get("zcmap_path", ""))),
-        ("pVREProfile", str(base_input / config_row.get("pvreprofile_path", ""))),
-        ("pSettings", str(base_input / config_row.get("psettings_path", ""))),
-        ("pTransferLimit", str(base_input / config_row.get("ptransferlimit_path", ""))),
-        ("pExtTransferLimit", str(base_input / config_row.get("pexttransferlimit_path", ""))),
-    ]
-
-    flag_columns = [c for c in config_row.index if c not in REQUIRED_CONFIG_COLUMNS]
-    for col in flag_columns:
-        pairs.append((col, config_row.get(col, "")))
-
-    return pd.DataFrame(pairs, columns=["Field", "Value"])
 
 
 def build_psettings_table(settings_df: Optional[pd.DataFrame]) -> pd.DataFrame:
@@ -320,7 +385,7 @@ def load_dataset(base_input: Path, path_value: Union[str, Path, None]) -> Tuple[
 
 
 def analyze_supply(df: Optional[pd.DataFrame], years: List[int]) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Summarize capacity in the first planning year by zone/fuel (with total)."""
+    """Summarize capacity in the first planning year by zone/tech-fuel (with total)."""
 
     if df is None or df.empty:
         empty = pd.DataFrame([{"Status": "no supply data"}])
@@ -339,8 +404,25 @@ def analyze_supply(df: Optional[pd.DataFrame], years: List[int]) -> Tuple[pd.Dat
     if "Status" in supply_df.columns:
         supply_df = supply_df[supply_df["Status"].isin([1, 2])]
     _, _, fuel_mapping = _build_fuel_colors()
-    if "fuel" in supply_df.columns and fuel_mapping:
-        supply_df["fuel"] = supply_df["fuel"].map(fuel_mapping).fillna(supply_df["fuel"])
+
+    # Create tech-fuel merged label, then apply fuel mapping
+    if "tech" in supply_df.columns and "fuel" in supply_df.columns:
+        # First create raw tech-fuel label
+        supply_df["tech_fuel"] = supply_df["tech"] + " - " + supply_df["fuel"]
+        # Then apply fuel mapping to rename the merged label
+        if fuel_mapping:
+            tech_fuel_mapping = {
+                t + " - " + f: t + " - " + fuel_mapping.get(f, f)
+                for t in supply_df["tech"].unique()
+                for f in supply_df["fuel"].unique()
+            }
+            supply_df["tech_fuel"] = supply_df["tech_fuel"].map(tech_fuel_mapping).fillna(supply_df["tech_fuel"])
+    elif "fuel" in supply_df.columns:
+        supply_df["tech_fuel"] = supply_df["fuel"]
+        if fuel_mapping:
+            supply_df["tech_fuel"] = supply_df["fuel"].map(fuel_mapping).fillna(supply_df["fuel"])
+    else:
+        supply_df["tech_fuel"] = "Unknown"
 
     supply_df["Capacity"] = pd.to_numeric(supply_df.get("Capacity"), errors="coerce").fillna(0)
 
@@ -368,16 +450,16 @@ def analyze_supply(df: Optional[pd.DataFrame], years: List[int]) -> Tuple[pd.Dat
         return empty, empty
 
     summary = (
-        active.groupby(["zone", "fuel"], observed=False)["Capacity"]
+        active.groupby(["zone", "tech_fuel"], observed=False)["Capacity"]
         .sum()
         .reset_index()
-        .rename(columns={"zone": "Zone", "fuel": "Fuel", "Capacity": "Cap_MW"})
+        .rename(columns={"zone": "Zone", "tech_fuel": "Technology", "Capacity": "Cap_MW"})
     )
 
-    # Wide table with fuels as columns; keep blanks (NaN) when a zone lacks a fuel.
-    summary_wide = summary.pivot(index="Zone", columns="Fuel", values="Cap_MW")
-    fuel_order = sorted(summary_wide.columns)
-    summary_wide = summary_wide.reindex(columns=fuel_order)
+    # Wide table with tech-fuel as columns; keep blanks (NaN) when a zone lacks a technology.
+    summary_wide = summary.pivot(index="Zone", columns="Technology", values="Cap_MW")
+    tech_order = sorted(summary_wide.columns)
+    summary_wide = summary_wide.reindex(columns=tech_order)
     summary_wide["Total"] = summary_wide.sum(axis=1, skipna=True)
 
     totals_row = pd.DataFrame(summary_wide.sum(axis=0, skipna=True)).T
@@ -428,6 +510,97 @@ def analyze_prices(df: Optional[pd.DataFrame], years: Optional[List[int]] = None
     summary_wide.columns = ["Fuel"] + [str(c) for c in summary_wide.columns[1:]]
 
     return summary_wide, price_long
+
+
+def analyze_gen_defaults(df: Optional[pd.DataFrame]) -> pd.DataFrame:
+    """Summarize generator default parameters averaged across zones.
+
+    Returns a table with columns: Technology, CAPEX (USD/kW), FOM (USD/kW-yr), VOM (USD/MWh), Heat Rate (MMBtu/MWh).
+    Values are averaged across all zones for each tech-fuel combination.
+    """
+
+    if df is None or df.empty:
+        return pd.DataFrame([{"Status": "no generator defaults data"}])
+
+    gen_df = df.copy()
+    gen_df.columns = [str(c).strip() for c in gen_df.columns]
+
+    # Identify required columns (case-insensitive)
+    col_map = {}
+    for col in gen_df.columns:
+        col_lower = col.lower()
+        if col_lower == "tech":
+            col_map["tech"] = col
+        elif col_lower == "fuel":
+            col_map["fuel"] = col
+        elif col_lower == "capex":
+            col_map["capex"] = col
+        elif col_lower == "fompermw":
+            col_map["fom"] = col
+        elif col_lower == "vom":
+            col_map["vom"] = col
+        elif col_lower == "heatrate":
+            col_map["heatrate"] = col
+
+    if "tech" not in col_map:
+        return pd.DataFrame([{"Status": "missing tech column in generator defaults"}])
+
+    # Get fuel mapping for renaming
+    _, _, fuel_mapping = _build_fuel_colors()
+
+    # Create tech-fuel label, then apply fuel mapping
+    if "fuel" in col_map:
+        # First create raw tech-fuel label
+        gen_df["technology"] = gen_df[col_map["tech"]].astype(str).str.strip() + " - " + gen_df[col_map["fuel"]].astype(str).str.strip()
+        # Then apply fuel mapping to rename the merged label
+        if fuel_mapping:
+            tech_fuel_mapping = {
+                t + " - " + f: t + " - " + fuel_mapping.get(f, f)
+                for t in gen_df[col_map["tech"]].astype(str).str.strip().unique()
+                for f in gen_df[col_map["fuel"]].astype(str).str.strip().unique()
+            }
+            gen_df["technology"] = gen_df["technology"].map(tech_fuel_mapping).fillna(gen_df["technology"])
+    else:
+        gen_df["technology"] = gen_df[col_map["tech"]].astype(str).str.strip()
+
+    # Convert numeric columns
+    numeric_cols = {}
+    if "capex" in col_map:
+        gen_df["capex_val"] = pd.to_numeric(gen_df[col_map["capex"]], errors="coerce")
+        numeric_cols["capex_val"] = "CAPEX (USD/kW)"
+    if "fom" in col_map:
+        gen_df["fom_val"] = pd.to_numeric(gen_df[col_map["fom"]], errors="coerce")
+        numeric_cols["fom_val"] = "FOM (USD/kW-yr)"
+    if "vom" in col_map:
+        gen_df["vom_val"] = pd.to_numeric(gen_df[col_map["vom"]], errors="coerce")
+        numeric_cols["vom_val"] = "VOM (USD/MWh)"
+    if "heatrate" in col_map:
+        gen_df["heatrate_val"] = pd.to_numeric(gen_df[col_map["heatrate"]], errors="coerce")
+        numeric_cols["heatrate_val"] = "Heat Rate (MMBtu/MWh)"
+
+    if not numeric_cols:
+        return pd.DataFrame([{"Status": "no numeric columns found in generator defaults"}])
+
+    # Average across all zones for each technology
+    agg_cols = list(numeric_cols.keys())
+    averaged = gen_df.groupby("technology", as_index=False)[agg_cols].mean()
+
+    # Rename columns to human-readable names
+    averaged = averaged.rename(columns={"technology": "Technology"})
+    averaged = averaged.rename(columns=numeric_cols)
+
+    # Sort by technology name
+    averaged = averaged.sort_values("Technology").reset_index(drop=True)
+
+    # Filter out rows where all numeric values are zero or NaN
+    value_cols = list(numeric_cols.values())
+    mask = averaged[value_cols].fillna(0).sum(axis=1) > 0
+    averaged = averaged[mask]
+
+    if averaged.empty:
+        return pd.DataFrame([{"Status": "no valid generator default data"}])
+
+    return averaged
 
 
 def summarize_demand_forecast(df: Optional[pd.DataFrame], years: Optional[List[int]] = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -481,33 +654,6 @@ def summarize_demand_forecast(df: Optional[pd.DataFrame], years: Optional[List[i
     return summary_df, detail_df
 
 
-def summarize_pgendatainput(base_input: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Summarize pGenDataInput if available; otherwise return placeholders."""
-
-    path = base_input / "pGenDataInput.csv"
-    if not path.exists():
-        placeholder = pd.DataFrame([{"Status": "pGenDataInput.csv not found"}])
-        return placeholder, placeholder
-
-    try:
-        df = pd.read_csv(path)
-    except Exception as exc:  # pragma: no cover - defensive
-        placeholder = pd.DataFrame([{"Status": f"Could not read pGenDataInput.csv: {exc}"}])
-        return placeholder, placeholder
-
-    numeric = df.select_dtypes(include=["number"])
-    summary_rows = []
-    if not numeric.empty:
-        summary_rows.append({"Metric": "mean_by_column", "Value": numeric.mean().to_json()})
-        summary_rows.append({"Metric": "total_rows", "Value": len(df)})
-    else:
-        summary_rows.append({"Metric": "status", "Value": "no numeric columns"})
-
-    summary_df = pd.DataFrame(summary_rows)
-    detail_df = df
-    return summary_df, detail_df
-
-
 # === Plot generation ===
 
 
@@ -543,6 +689,7 @@ def generate_plots(
     )
     figure_paths.update(_generate_demand_forecast_plot(case_id, datasets.get("demand_forecast"), output_dir))
     figure_paths.update(_generate_transfer_capacity_map(case_id, datasets.get("transfer"), output_dir))
+    figure_paths.update(_generate_capex_trajectories_plot(case_id, datasets.get("capex_trajectories"), output_dir, years))
 
     return figure_paths
 
@@ -648,6 +795,90 @@ def _generate_price_plot(case_id: str, price_df: Optional[pd.DataFrame], output_
         return {}
 
 
+def _generate_capex_trajectories_plot(
+    case_id: str,
+    capex_df: Optional[pd.DataFrame],
+    output_dir: Path,
+    years: List[int],
+) -> Dict[str, str]:
+    """Plot CAPEX trajectories averaged across zones, one line per technology."""
+
+    if capex_df is None or capex_df.empty:
+        _log("Warning: CAPEX trajectories data missing or empty; skipping CAPEX plot.")
+        return {}
+
+    df = capex_df.copy()
+    df.columns = [str(c).strip() for c in df.columns]
+
+    # Identify tech and fuel columns
+    tech_col = _find_column(df, {"tech", "technology"})
+    fuel_col = _find_column(df, {"fuel"})
+
+    if tech_col is None:
+        _log("Warning: CAPEX trajectories missing tech column; skipping CAPEX plot.")
+        return {}
+
+    # Create merged tech-fuel label
+    if fuel_col:
+        df["technology"] = df[tech_col].astype(str).str.strip() + "-" + df[fuel_col].astype(str).str.strip()
+    else:
+        df["technology"] = df[tech_col].astype(str).str.strip()
+
+    # Find year columns
+    year_cols = [c for c in df.columns if c.isdigit()]
+    if not year_cols:
+        _log("Warning: CAPEX trajectories missing year columns; skipping CAPEX plot.")
+        return {}
+
+    # Filter to planning years if provided
+    if years:
+        valid_year_cols = [c for c in year_cols if int(c) in years]
+        if valid_year_cols:
+            year_cols = valid_year_cols
+
+    # Average across all zones for each technology
+    for col in year_cols:
+        df[col] = pd.to_numeric(df[col], errors="coerce")
+
+    averaged = df.groupby("technology", as_index=False)[year_cols].mean()
+
+    # Reshape to long format for plotting
+    capex_long = averaged.melt(
+        id_vars=["technology"],
+        value_vars=year_cols,
+        var_name="year",
+        value_name="multiplier",
+    )
+    capex_long["year"] = capex_long["year"].astype(int)
+    capex_long = capex_long.dropna(subset=["multiplier"])
+    capex_long = capex_long[capex_long["multiplier"] > 0]  # Skip zero trajectories
+
+    if capex_long.empty:
+        _log("Warning: no valid CAPEX trajectory data after processing; skipping CAPEX plot.")
+        return {}
+
+    fig_path = output_dir / f"{case_id}_capex_trajectories.pdf"
+    _log(f"Generating CAPEX trajectories plot for {case_id} at {fig_path}")
+
+    try:
+        plots.make_line_plot(
+            capex_long,
+            filename=str(fig_path),
+            column_xaxis="year",
+            y_column="multiplier",
+            series_column="technology",
+            legend=True,
+            xlabel="Year",
+            ylabel="CAPEX multiplier",
+            title="CAPEX trajectories by technology (average across zones)",
+            format_y=lambda y, _: f"{y:.2f}",
+        )
+        return {"capex_trajectories": str(fig_path)}
+    except Exception as exc:  # pragma: no cover - defensive
+        _log(f"Warning: skipping CAPEX trajectories plot for {case_id}: {exc}")
+        return {}
+
+
 def _generate_supply_plot(
     case_id: str,
     supply_df: Optional[pd.DataFrame],
@@ -672,7 +903,7 @@ def _generate_supply_plot(
     years = sorted({int(y) for y in years})
 
     paths: Dict[str, str] = {}
-    color_lookup, fuel_ordering, fuel_mapping = _build_fuel_colors()
+    color_lookup, _, fuel_mapping = _build_fuel_colors()
     supply_df = supply_df.copy()
 
     # Clean basic columns and drop inactive statuses.
@@ -682,15 +913,22 @@ def _generate_supply_plot(
     if "Status" in supply_df.columns:
         supply_df = supply_df[supply_df["Status"].isin([1, 2])]
 
-    # Apply capacity factors and fuel processing mappings.
+    # Apply capacity factors and create tech-fuel merged label.
     supply_df["capacity_factor"] = _map_capacity_factor(supply_df, availability_custom, availability_default)
-    supply_df["fuel_processed"] = supply_df["fuel"].map(fuel_mapping).fillna(supply_df["fuel"])
+    if "tech" in supply_df.columns and "fuel" in supply_df.columns:
+        # First create raw tech-fuel label
+        supply_df["tech_fuel"] = supply_df["tech"] + "-" + supply_df["fuel"]
+        # Then apply fuel mapping to rename the merged label
+        supply_df["tech_fuel"] = supply_df["tech_fuel"].map(fuel_mapping).fillna(supply_df["tech_fuel"])
+    else:
+        supply_df["tech_fuel"] = supply_df["fuel"].map(fuel_mapping).fillna(supply_df["fuel"])
 
     # Ensure every category has a color to avoid missing legends.
-    missing_categories = set(supply_df["fuel_processed"].unique()).difference(color_lookup)
+    missing_categories = set(supply_df["tech_fuel"].unique()).difference(color_lookup)
     for category in missing_categories:
         color_lookup[category] = "#999999"
-    plots.set_default_fuel_order(fuel_ordering)
+    # Build tech_fuel ordering based on fuel ordering
+    tech_fuel_ordering = sorted(supply_df["tech_fuel"].unique())
 
     # Build demand overlays from the forecast to match the notebook figures.
     peak_demand, energy_demand = _build_demand_overlays(demand_forecast_df, years)
@@ -725,10 +963,10 @@ def _generate_supply_plot(
 
     # Capacity mix
     cap_df = (
-        generation_yearly.groupby(["zone", "fuel_processed", "year"], observed=False)["Capacity"]
+        generation_yearly.groupby(["zone", "tech_fuel", "year"], observed=False)["Capacity"]
         .sum()
         .reset_index()
-        .rename(columns={"fuel_processed": "fuel", "Capacity": "value"})
+        .rename(columns={"tech_fuel": "technology", "Capacity": "value"})
     )
     if valid_zones:
         cap_df = cap_df[cap_df["zone"].isin(valid_zones)]
@@ -740,7 +978,7 @@ def _generate_supply_plot(
         dict_colors=color_lookup,
         overlay_df=peak_demand if not peak_demand.empty else None,
         legend_label="Peak demand trajectory",
-        column_stacked="fuel",
+        column_stacked="technology",
         column_subplot="zone",
         column_xaxis="year",
         column_value="value",
@@ -748,19 +986,19 @@ def _generate_supply_plot(
         show_total=False,
         rotation=45,
         order_scenarios=years,
-        order_stacked=fuel_ordering,
+        order_stacked=tech_fuel_ordering,
         format_y=lambda value, _: f"{value:,.0f} MW",
-        title="Capacity mix by fuel (MW)",
+        title="Capacity mix by technology (MW)",
     )
     paths["supply_capacity"] = str(path_cap)
 
     # Energy mix using capacity factor
     energy_df = (
         generation_yearly.assign(energy_gwh=lambda df: df["Capacity"] * df["capacity_factor"] * MW_TO_GWH)
-        .groupby(["zone", "fuel_processed", "year"], observed=False)["energy_gwh"]
+        .groupby(["zone", "tech_fuel", "year"], observed=False)["energy_gwh"]
         .sum()
         .reset_index()
-        .rename(columns={"fuel_processed": "fuel", "energy_gwh": "value"})
+        .rename(columns={"tech_fuel": "technology", "energy_gwh": "value"})
     )
     if valid_zones:
         energy_df = energy_df[energy_df["zone"].isin(valid_zones)]
@@ -772,7 +1010,7 @@ def _generate_supply_plot(
         dict_colors=color_lookup,
         overlay_df=energy_demand if not energy_demand.empty else None,
         legend_label="Energy demand trajectory",
-        column_stacked="fuel",
+        column_stacked="technology",
         column_subplot="zone",
         column_xaxis="year",
         column_value="value",
@@ -780,15 +1018,15 @@ def _generate_supply_plot(
         show_total=False,
         rotation=45,
         order_scenarios=years,
-        order_stacked=fuel_ordering,
+        order_stacked=tech_fuel_ordering,
         format_y=lambda value, _: f"{value:,.0f} GWh",
-        title="Potential energy mix by fuel (GWh)",
+        title="Potential energy mix by technology (GWh)",
     )
     paths["supply_energy"] = str(path_energy)
 
     # System-level stacks to mirror the notebook.
     system_capacity = (
-        cap_df.groupby(["fuel", "year"], observed=False)["value"].sum().reset_index().assign(zone="System")
+        cap_df.groupby(["technology", "year"], observed=False)["value"].sum().reset_index().assign(zone="System")
     )
     system_peak = (
         peak_demand.groupby(["year"], observed=False)["value"].sum().reset_index().assign(zone="System")
@@ -802,20 +1040,20 @@ def _generate_supply_plot(
         dict_colors=color_lookup,
         overlay_df=system_peak if not system_peak.empty else None,
         legend_label="System peak demand trajectory",
-        column_stacked="fuel",
+        column_stacked="technology",
         column_subplot="zone",
         column_xaxis="year",
         column_value="value",
         annotate=False,
         order_scenarios=years,
-        order_stacked=fuel_ordering,
+        order_stacked=tech_fuel_ordering,
         format_y=lambda value, _: f"{value:,.0f} MW",
-        title="System capacity mix by fuel (MW)",
+        title="System capacity mix by technology (MW)",
     )
     paths["supply_capacity_system"] = str(path_system_cap)
 
     system_energy = (
-        energy_df.groupby(["fuel", "year"], observed=False)["value"].sum().reset_index().assign(zone="System")
+        energy_df.groupby(["technology", "year"], observed=False)["value"].sum().reset_index().assign(zone="System")
     )
     system_energy_demand = (
         energy_demand.groupby(["year"], observed=False)["value"].sum().reset_index().assign(zone="System")
@@ -829,15 +1067,15 @@ def _generate_supply_plot(
         dict_colors=color_lookup,
         overlay_df=system_energy_demand if not system_energy_demand.empty else None,
         legend_label="System energy demand trajectory",
-        column_stacked="fuel",
+        column_stacked="technology",
         column_subplot="zone",
         column_xaxis="year",
         column_value="value",
         annotate=False,
         order_scenarios=years,
-        order_stacked=fuel_ordering,
+        order_stacked=tech_fuel_ordering,
         format_y=lambda value, _: f"{value:,.0f} GWh",
-        title="System potential energy mix by fuel (GWh)",
+        title="System potential energy mix by technology (GWh)",
     )
     paths["supply_energy_system"] = str(path_system_energy)
 
@@ -1075,6 +1313,7 @@ def _prepare_template_context(context: Dict) -> Dict:
                 "scenario": case.get("scenario", ""),
                 "country": case.get("country", ""),
                 "figures": case.get("figures", {}),
+                "tables": case.get("tables", {}),
                 "log": case.get("log", []),
             }
         )
@@ -1249,9 +1488,11 @@ def _derive_case_from_parameter_config(config_df: pd.DataFrame) -> pd.DataFrame:
         "pexttransferlimit_path": lookup.get("pExtTransferLimit", ""),
         "pavailability_path": lookup.get("pAvailability", ""),
         "pavailabilitydefault_path": lookup.get("pAvailabilityDefault", ""),
+        "pcapextrajectoriesdefault_path": lookup.get("pCapexTrajectoriesDefault", ""),
+        "pgendatainputdefault_path": lookup.get("pGenDataInputDefault", ""),
     }
 
-    columns = REQUIRED_CONFIG_COLUMNS + ["pavailability_path", "pavailabilitydefault_path"]
+    columns = REQUIRED_CONFIG_COLUMNS + ["pavailability_path", "pavailabilitydefault_path", "pcapextrajectoriesdefault_path", "pgendatainputdefault_path"]
     return pd.DataFrame([case], columns=columns)
 
 
