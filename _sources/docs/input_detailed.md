@@ -119,7 +119,7 @@ The CSV groups parameters by topical blocks. Each row exposes a human-readable l
 
 | CSV label                     | Abbreviation                | Default value | Units / Notes |
 | ----------------------------- | --------------------------- | ------------- | ------------- |
-| Apply min generation constraint | `fApplyMinGenerationConstraint` | 0         | Toggle        |
+| Apply min generation constraint | `fApplyMinGenCommitment` | 0         | Toggle        |
 | Apply ramp constraints        | `fApplyRampConstraint`      | 0             | Toggle        |
 
 ---

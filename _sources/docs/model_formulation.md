@@ -143,7 +143,7 @@ Optional minimum loading requirements (`eMinGen`) enforce:
 $$
 \sum_f vPwrOut_{g,f,q,d,t,y} \ge pGenData_{g,\text{MinLimitShare}} \cdot vCap_{g,y},
 $$
-whenever the flag `fApplyMinGenerationConstraint` is active.
+whenever the flag `fApplyMinGenCommitment` is active.
 
 ### Renewable Generation with Curtailment
 
