@@ -2,7 +2,7 @@ paramNames,noDispatch,noDispatch+Ramp,MinGen,Ramp,MUDTime,StUpCost,All
 modeltype,MIP,MIP,MIP,MIP,MIP,MIP,MIP
 cplexfile,,,,,,,
 SETTINGS,,,,,,,
-pSettings,pSettings_nodispatch.csv,pSettings_nodispatch_ramp.csv,pSettings_mingen.csv,pSettings_ramp.csv,pSettings_mindutime.csv,pSettings_startupcost.csv,pSettings_all.csv
+pSettings,test_dispatch/pSettings_nodispatch.csv,test_dispatch/pSettings_nodispatch_ramp.csv,test_dispatch/pSettings_mingen.csv,test_dispatch/pSettings_ramp.csv,test_dispatch/pSettings_mindutime.csv,test_dispatch/pSettings_startupcost.csv,test_dispatch/pSettings_all.csv
 y,,,,,,,
 zcmap,,,,,,,
 pHours,,,,,,,
