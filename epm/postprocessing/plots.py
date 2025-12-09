@@ -2695,6 +2695,7 @@ def make_line_plot(
     filename,
     column_xaxis,
     y_column,
+    preserve_x_spacing=False,
     dict_colors=None,
     column_subplot=None,
     series_column=None,
@@ -2763,6 +2764,8 @@ def make_line_plot(
         Text for the shared x-axis label (defaults to ``column_xaxis``).
     ylabel : str, optional
         Text for the shared y-axis label (defaults to ``y_column``).
+    preserve_x_spacing : bool, default False
+        Plot x values at their numeric/datetime positions to preserve spacing; when False, values are treated as categories.
     selected_zone : str, optional
         Convenience filter applied when the DataFrame contains a ``zone`` column.
     selected_year : int, optional
@@ -2883,6 +2886,16 @@ def make_line_plot(
 
         index_values = list(pivot.index)
         x_positions = list(range(len(index_values)))
+        use_numeric_spacing = preserve_x_spacing
+        if use_numeric_spacing:
+            try:
+                numeric_index = pd.to_numeric(pivot.index, errors='coerce')
+                if not np.isnan(numeric_index).any():
+                    x_positions = numeric_index.to_numpy()
+                else:
+                    use_numeric_spacing = False
+            except Exception:
+                use_numeric_spacing = False
 
         for col in pivot.columns:
             series = pivot[col]
@@ -2894,13 +2907,12 @@ def make_line_plot(
             all_handles.append(line)
             all_labels.append(label)
 
-        ax.set_xticks(x_positions)
         if index_values:
             if len(index_values) > max_ticks:
                 positions = np.linspace(0, len(index_values) - 1, max_ticks, dtype=int)
             else:
                 positions = np.arange(len(index_values))
-            ax.set_xticks(positions)
+            ax.set_xticks([x_positions[i] for i in positions])
             ax.set_xticklabels([index_values[i] for i in positions], rotation=rotation)
 
         ax.spines['left'].set_visible(False)
