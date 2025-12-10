@@ -24,6 +24,7 @@ pGenDataInput,input/data_test/supply/sensitivity/pGenDataInput_linear.csv
 pGenDataInputDefault,input/data_test/supply/pGenDataInputDefault.csv
 pAvailability,input/data_test/supply/pAvailabilityCustom.csv
 pAvailabilityDefault,input/data_test/supply/pAvailabilityDefault.csv
+pEvolutionAvailability,input/data_test/supply/pEvolutionAvailability.csv
 pCapexTrajectories,input/data_test/supply/pCapexTrajectoriesCustom.csv
 pCapexTrajectoriesDefault,input/data_test/supply/pCapexTrajectoriesDefault.csv
 pCSPData,input/data_test/supply/pCSPData.csv

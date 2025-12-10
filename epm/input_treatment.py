@@ -68,6 +68,7 @@ COLUMN_RENAME_MAP = {
     "pAvailabilityInput": {"uni": "q", "gen": "g"},
     "pAvailability": {"uni": "q", "gen": "g"},
     "pAvailabilityDefault": {"uni": "q", "zone": "z"},
+    "pEvolutionAvailability": {"uni": "y", "gen": "g"},
     "pCapexTrajectoriesDefault": {"uni": "y", "zone": "z"},
     "pDemandForecast": {"uni": "y", "zone": "z"},
     "pNewTransmission": {"From": "z", "To": "z2", "uni": "pTransmissionHeader"},
@@ -987,6 +988,134 @@ def run_input_treatment(gams,
         return df_expanded
 
 
+    def apply_availability_evolution(db: gt.Container,
+                                     evolution_param: str = "pEvolutionAvailability",
+                                     availability_param: str = "pAvailability",
+                                     year_set: str = "y"):
+        """
+        Apply year-dependent evolution factors to pAvailability.
+
+        This function:
+        1. Reads pEvolutionAvailability(g,y) - sparse, only some generators may have entries
+        2. Performs linear interpolation for missing years
+        3. Applies the formula: pAvailability(g,y,q) = pAvailability(g,y,q) * (1 + pEvolutionAvailability(g,y))
+
+        Parameters:
+        -----------
+        db : gt.Container
+            A GAMS Transfer (GT) container that stores the database.
+        evolution_param : str
+            Name of the evolution parameter (default: "pEvolutionAvailability").
+        availability_param : str
+            Name of the availability parameter to modify (default: "pAvailability").
+        year_set : str
+            Name of the year set (default: "y").
+
+        Notes:
+        ------
+        - If pEvolutionAvailability is empty or not present, no changes are made.
+        - Default evolution factor is 0 (meaning no change: 1 + 0 = 1).
+        - Only generators with entries in pEvolutionAvailability are affected.
+        """
+        # Check if evolution parameter exists and has data
+        if evolution_param not in db:
+            gams.printLog(f"{evolution_param} not found in database. Skipping availability evolution.")
+            return
+
+        evolution_records = db[evolution_param].records
+        if evolution_records is None or evolution_records.empty:
+            gams.printLog(f"{evolution_param} is empty. Skipping availability evolution.")
+            return
+
+        # Check if availability parameter exists
+        if availability_param not in db:
+            gams.printLog(f"{availability_param} not found. Skipping availability evolution.")
+            return
+
+        avail_records = db[availability_param].records
+        if avail_records is None or avail_records.empty:
+            gams.printLog(f"{availability_param} is empty. Skipping availability evolution.")
+            return
+
+        # Get all model years
+        if year_set not in db:
+            gams.printLog(f"Year set '{year_set}' not found. Skipping availability evolution.")
+            return
+
+        year_records = db[year_set].records
+        if year_records is None or year_records.empty:
+            return
+
+        target_years = pd.to_numeric(year_records.iloc[:, 0], errors='coerce')
+        target_years = np.sort(target_years.dropna().unique())
+        if target_years.size == 0:
+            return
+
+        gams.printLog(f"Applying availability evolution from {evolution_param}")
+
+        # Prepare evolution data - interpolate for each generator
+        evolution_data = evolution_records.copy()
+        evolution_data['y'] = pd.to_numeric(evolution_data['y'], errors='coerce')
+        evolution_data = evolution_data.dropna(subset=['y', 'value'])
+
+        if evolution_data.empty:
+            gams.printLog(f"No valid data in {evolution_param} after cleaning. Skipping.")
+            return
+
+        # Get list of generators with evolution factors
+        generators_with_evolution = evolution_data['g'].unique()
+        gams.printLog(f"  Found evolution factors for {len(generators_with_evolution)} generator(s)")
+        gams.printLog(f"  Generators with {evolution_param}: {sorted(generators_with_evolution.tolist())}")
+
+        # Interpolate evolution factors for each generator
+        interpolated_evolution = []
+        for gen in generators_with_evolution:
+            gen_data = evolution_data[evolution_data['g'] == gen].sort_values('y')
+            years = gen_data['y'].to_numpy()
+            values = gen_data['value'].to_numpy()
+
+            if years.size < 1:
+                continue
+
+            if years.size == 1:
+                # Single value: use constant for all years
+                interpolated_values = np.full(target_years.size, values[0])
+            else:
+                # Linear interpolation
+                interpolated_values = np.interp(target_years, years, values)
+
+            for yr, val in zip(target_years, interpolated_values):
+                interpolated_evolution.append({'g': gen, 'y': yr, 'evolution': val})
+
+        if not interpolated_evolution:
+            gams.printLog("No evolution factors to apply after interpolation.")
+            return
+
+        evolution_df = pd.DataFrame(interpolated_evolution)
+        evolution_df['y'] = evolution_df['y'].astype(str)
+
+        # Apply evolution to pAvailability
+        avail_data = avail_records.copy()
+
+        # Merge with evolution factors (left join - only matching g,y pairs get evolution)
+        merged = avail_data.merge(evolution_df, on=['g', 'y'], how='left')
+
+        # Fill NaN evolution with 0 (no change for generators without evolution factors)
+        merged['evolution'] = merged['evolution'].fillna(0)
+
+        # Apply formula: new_value = value * (1 + evolution)
+        merged['value'] = merged['value'] * (1 + merged['evolution'])
+
+        # Keep only original columns
+        result = merged[avail_data.columns]
+
+        # Update the parameter
+        db.data[availability_param].setRecords(result)
+        _write_back(db, availability_param)
+
+        gams.printLog(f"  Applied evolution factors to {availability_param} for {len(generators_with_evolution)} generator(s)")
+
+
     def prepare_lossfactor(db: gt.Container, 
                                         param_ref="pNewTransmission",
                                         param_loss="pLossFactorInternal",
@@ -1185,6 +1314,9 @@ def run_input_treatment(gams,
     default_df = expand_to_years(db, default_df)
 
     fill_default_value(db, "pAvailability", default_df)
+
+    # Apply evolution factors to pAvailability
+    apply_availability_evolution(db)
 
     # Prepare pCapexTrajectories by filling missing values with default values
     default_df = prepare_generatorbased_parameter(db, 

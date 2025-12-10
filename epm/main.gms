@@ -212,6 +212,7 @@ Parameter
    pVREgenProfile(g,q,d,t)                               'VRE generation profiles by plant'
    pAvailabilityInput(g,q)                              'Seasonal availability factors (from CSV, no year)'
    pAvailability(g,y,q)                                  'Seasonal availability factors (expanded to years)'
+   pEvolutionAvailability(g,y)                           'Year-dependent availability evolution factors'
    
 * Reserve requirements
    pSpinningReserveReqCountry(c,y)                       'Country spinning reserve requirements'
@@ -261,7 +262,7 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput
+$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
@@ -331,6 +332,9 @@ $if not errorfree $abort PythonError in input_treatment.py
 $offMulti
 
 *-------------------------------------------------------------------------------------
+
+$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
+$if %DEBUG%==1 execute_unload 'input_treated.gdx';
 
 $if not errorFree $abort Data errors.
 
