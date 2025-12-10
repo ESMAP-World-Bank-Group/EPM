@@ -12,7 +12,7 @@ pFuelCarbonContent,input/data_test/resources/pFuelCarbonContent.csv
 pTechData,input/data_test/resources/pTechData.csv
 pSettingsHeader,input/data_test/resources/pSettingsHeader.csv
 pGenDataInputHeader,input/data_test/resources/pGenDataInputHeader.csv
-pStoreDataHeader,input/data_test/resources/pStoreDataHeader.csv
+pStorageDataHeader,input/data_test/resources/pStorageDataHeader.csv
 pTransmissionHeader,input/data_test/resources/pTransmissionHeader.csv
 pH2Header,input/data_test/resources/pH2Header.csv
 pDemandProfile,input/data_test/load/pDemandProfile.csv
@@ -31,7 +31,7 @@ pCSPData,input/data_test/supply/pCSPData.csv
 pFuelPrice,input/data_test/supply/pFuelPrice.csv
 pVREgenProfile,input/data_test/supply/pVREgenProfile.csv
 pVREProfile,input/data_test/supply/pVREProfile.csv
-pStorDataExcel,input/data_test/supply/pStorDataExcel.csv
+pStorageDataInput,input/data_test/supply/pStorageDataInput.csv
 pPlanningReserveMargin,input/data_test/reserve/pPlanningReserveMargin.csv
 pSpinningReserveReqCountry,input/data_test/reserve/pSpinningReserveReqCountry.csv
 pSpinningReserveReqSystem,input/data_test/reserve/pSpinningReserveReqSystem.csv

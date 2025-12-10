@@ -60,12 +60,12 @@ $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 
 * OTHER SUPPLY OPTIONS
 $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
-$if not set pStorDataExcel $set pStorDataExcel %FOLDER_INPUT%/supply/pStorDataExcel.csv
+$if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
 
 * RESOURCES
 $if not set pSettingsHeader $set pSettingsHeader %FOLDER_INPUT%/resources/pSettingsHeader.csv
 $if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_INPUT%/resources/pGenDataInputHeader.csv
-$if not set pStoreDataHeader $set pStoreDataHeader %FOLDER_INPUT%/resources/pStoreDataHeader.csv
+$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_INPUT%/resources/pStorageDataHeader.csv
 $if not set pH2Header $set pH2Header %FOLDER_INPUT%/resources/pH2Header.csv
 
 $if not set ftfindex $set ftfindex %FOLDER_INPUT%/resources/ftfindex.csv
@@ -144,8 +144,8 @@ $onEmbeddedCode Connect:
     
 - CSVReader:
     trace: %TRACE%
-    file: %pStoreDataHeader%
-    name: pStoreDataHeader
+    file: %pStorageDataHeader%
+    name: pStorageDataHeader
     indexColumns: [1]
     type: set
     
@@ -374,8 +374,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pStorDataExcel%
-    name: pStorDataExcel
+    file: %pStorageDataInput%
+    name: pStorageDataInput
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]

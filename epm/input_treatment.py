@@ -80,7 +80,7 @@ COLUMN_RENAME_MAP = {
     "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
     'ftfindex': {'fuel': 'f'},
-    "pStorDataExcel": {'gen_0': 'g', 'uni_2': 'pStoreDataHeader'},
+    "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
     'pTechData': {'Technology': 'tech'}
 }
 

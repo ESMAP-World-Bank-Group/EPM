@@ -15,7 +15,7 @@ Carbon intensity by fuel for emissions accounting (Unit: tCO2/MMBtu),pFuelCarbon
 Technology classification flags (Unit: unitless),pTechData,resources/pTechData.csv
 Column definitions expected in pSettings.csv (Unit: unitless),pSettingsHeader,resources/pSettingsHeader.csv
 Column definitions for generator inputs (Unit: unitless),pGenDataInputHeader,resources/pGenDataInputHeader.csv
-Column definitions for storage inputs (Unit: unitless),pStoreDataHeader,resources/pStoreDataHeader.csv
+Column definitions for storage inputs (Unit: unitless),pStorageDataHeader,resources/pStorageDataHeader.csv
 Column definitions for tranmission inputs (Unit: unitless),pTransmissionHeader,resources/pTransmissionHeader.csv
 Column definitions for hydrogen inputs (Unit: unitless),pH2Header,resources/pH2Header.csv
 ,LOAD,
@@ -35,7 +35,7 @@ Default CAPEX trajectory multipliers by generator and year (Unit: scalar multipl
 Fuel price trajectories by zone and fuel (Unit: USD/MMBtu),pFuelPrice,supply/pFuelPrice.csv
 Plant-level variable renewable generation profiles (Unit: per-unit output),pVREgenProfile,supply/pVREgenProfile_dispatch.csv
 Zone-level variable renewable availability profiles (Unit: per-unit output),pVREProfile,supply/pVREProfile_dispatch.csv
-"Grid-scale storage parameters (Unit: varies; capacity in MWh, cost in USD/MWh)",pStorDataExcel,supply/pStorDataExcel.csv
+"Grid-scale storage parameters (Unit: varies; capacity in MWh, cost in USD/MWh)",pStorageDataInput,supply/pStorageDataInput.csv
 ,RESERVE,
 Planning reserve margin targets by country (Unit: per-unit share of peak demand),pPlanningReserveMargin,reserve/pPlanningReserveMargin.csv
 Spinning reserve requirements per country (Unit: per-unit share of demand),pSpinningReserveReqCountry,reserve/pSpinningReserveReqCountry.csv

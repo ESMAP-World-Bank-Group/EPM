@@ -176,7 +176,7 @@ Parameters
 * Renewable/storage inputs
    pCSPProfile(g,q,d,t)           'CSP solar profile (pu)'
    pStoPVProfile(g,q,d,t)         'PV-with-storage profile (pu)'
-   pStorData(g,pStoreDataHeader)  'Storage technical data'
+   pStorageData(g,pStorageDataHeader)  'Storage technical data'
 
 * Reserve and policy inputs
    pCapacityCredit(g,y)           'Capacity credit for planning reserves'
@@ -604,7 +604,7 @@ eTotalAnnualizedGenCapex(g,y)..
    vAnnGenCapex(g,y) =e=
        vAnnCapexGenTraj(g,y)$(dc(g) and ng(g))
      + pCRF(g)*vCap(g,y)*pGenData(g,"Capex")*1e6$(ndc(g) and ng(g))
-     + pCRFsst(g)*vCapStor(g,y)*pStorData(g,"CapexMWh")*1e3$(ndc(g) and ng(g) and not cs(g))
+     + pCRFsst(g)*vCapStor(g,y)*pStorageData(g,"CapexMWh")*1e3$(ndc(g) and ng(g) and not cs(g))
      + pCRFcst(g)*vCapStor(g,y)*pCSPData(g,"Storage","CapexMWh")*1e3$(ndc(g) and ng(g) and not st(g))
      + pCRFcth(g)*vCapTherm(g,y)*pCSPData(g,"Thermal Field","CapexMWh")*1e6$(ndc(g) and ng(g));
 
@@ -612,7 +612,7 @@ eTotalAnnualizedGenCapex(g,y)..
 eAnnualizedCapexUpdate(dc,y)$(not sStartYear(y))..
    vAnnCapexGenTraj(dc,y) =e= vAnnCapexGenTraj(dc,y-1)
                      + vBuild(dc,y)*pGenData(dc,"Capex")*pCapexTrajectories(dc,y)*pCRF(dc)*1e6
-                     + vBuildStor(dc,y)*pStorData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+                     + vBuildStor(dc,y)*pStorageData(dc,"CapexMWh")*pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
                      + vBuildStor(dc,y)*pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
                      + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
                                                                           
@@ -620,14 +620,14 @@ eAnnualizedCapexUpdate(dc,y)$(not sStartYear(y))..
 eAnnualizedCapexInit(dc,sStartYear(y))..
    vAnnCapexGenTraj(dc,y) =e=
        vBuild(dc,y)     *pGenData(dc,"Capex")        *pCapexTrajectories(dc,y)*pCRF(dc)   *1e6
-     + vBuildStor(dc,y) *pStorData(dc,"CapexMWh")    *pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
+     + vBuildStor(dc,y) *pStorageData(dc,"CapexMWh")    *pCapexTrajectories(dc,y)*pCRFsst(dc)*1e3
      + vBuildStor(dc,y) *pCSPData(dc,"Storage","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcst(dc)*1e3
      + vBuildTherm(dc,y)*pCSPData(dc,"Thermal Field","CapexMWh")*pCapexTrajectories(dc,y)*pCRFcth(dc)*1e6;
                      
 * FOM costs including fixed O&M costs for generators, storage, and CSP thermal field
 eYearlyFOMCost(z,y)..
    vYearlyFOMCost(z,y) =e= sum(gzmap(g,z),  vCap(g,y)*pGenData(g,"FOMperMW"))
-            + sum(gzmap(st,z), vCapStor(st,y)*pStorData(st,"FixedOMMWh"))
+            + sum(gzmap(st,z), vCapStor(st,y)*pStorageData(st,"FixedOMMWh"))
             + sum(gzmap(cs,z), vCapStor(cs,y)*pCSPData(cs,"Storage","FixedOMMWh"))
             + sum(gzmap(cs,z), vCapTherm(cs,y)*pCSPData(cs,"Thermal field","FixedOMMWh"));
 
@@ -1001,7 +1001,7 @@ eNetChargeBalance(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
 * eStorageHourTransition rolls storage state forward using the previous chronological hour (t-1), assuming storage is enabled.
 eStorageHourTransition(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-1,y)
-      + pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y)
+      + pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y)
       - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
 * Anchors the first hour of the representative-day cycle to the configured capacity share.
@@ -1015,7 +1015,7 @@ eStorageSOCFinal(st,q,d,t,y)$((sLastHour(t) and sLastDay(d) and fEnableStorage) 
 * Dispatch mode: wrap the first hour of each day to the previous chronological hour (AT-1); no wrap in representative-day mode.
 eStorageDayWrap(st,q,d,t,AT,y)$((fDispatchMode and fEnableStorage and sFirstHour(t) and mapTS(q,d,t,AT) and ord(AT) > 1) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= sum((q2,d2,t2)$mapTS(q2,d2,t2,AT-1), vStorage(st,q2,d2,t2,y))
-      + pStorData(st,"Efficiency")*vStorInj(st,q,d,t,y)
+      + pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y)
       - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
 * Ensures SOC level can cover spinning reserve
@@ -1027,7 +1027,7 @@ eSOCSupportsReserve(st,q,d,t,y)$((fEnableStorage) and FD(q,d,t))..
 
 * Ensures energy conservation over the full representative day: total input × efficiency = total output
 * eDailyStorageEnergyBalance(st,q,d,y)$(fEnableStorage)..
-*   pStorData(st,"efficiency") * sum(t, vStorInj(st,q,d,t,y)) =e= sum((gfmap(st,f),t), vPwrOut(st,f,q,d,t,y));
+*   pStorageData(st,"efficiency") * sum(t, vStorInj(st,q,d,t,y)) =e= sum((gfmap(st,f),t), vPwrOut(st,f,q,d,t,y));
 
 * ------------------------------
 * CSP-specific equations
@@ -1069,13 +1069,13 @@ eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$((fEnableCSP) and FD(q,d,t))..
 * Tracks storage energy capacity builds/retirements.
 * ------------------------------
 
-* Limits total installed storage capacity to predefined technical data from pStorData and CSP-related capacity from pCSPData. Only applies if storage is included (fEnableStorage).
+* Limits total installed storage capacity to predefined technical data from pStorageData and CSP-related capacity from pCSPData. Only applies if storage is included (fEnableStorage).
 eCapacityStorLimit(g,y)$fEnableStorage..
-   vCapStor(g,y) =l= pStorData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
+   vCapStor(g,y) =l= pStorageData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
 
 * Sets initial year’s storage capacity equal to existing capacity (if online) plus new builds minus retirements.
 eCapStorBalance(g, sStartYear(y))..
-    vCapStor(g,y) =e= pStorData(g,"CapacityMWh")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val)) + vBuildStor(g,y) - vRetireStor(g,y);
+    vCapStor(g,y) =e= pStorageData(g,"CapacityMWh")$(eg(g) and (pGenData(g,"StYr") <= sStartYear.val)) + vBuildStor(g,y) - vRetireStor(g,y);
 
 * Tracks annual storage capacity changes for existing generators (EGs): previous year’s capacity + builds − retirements.
 eCapStorAnnualUpdateEG(eg,y)$(not sStartYear(y) and fEnableStorage)..
@@ -1090,7 +1090,7 @@ eCapStorInitialNG(ng,sStartYear(y))$fEnableStorage..
    vCapStor(ng,y) =e= vBuildStor(ng,y);
 
 eBuildStorNew(eg)$((pGenData(eg,"StYr") > sStartYear.val) and fEnableStorage)..
-   sum(y, vBuildStor(eg,y)) =l= pStorData(eg,"CapacityMWh");
+   sum(y, vBuildStor(eg,y)) =l= pStorageData(eg,"CapacityMWh");
    
 * ------------------------------
 * CSP thermal capacity limits

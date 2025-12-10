@@ -271,7 +271,7 @@ $$
 - **Inter-hour SOC dynamics** (`eStateOfChargeUpdate`, `eStateOfChargeInit`):
 $$
   vStorage_{st,q,d,t,y}
-    = pStorData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
+    = pStorageData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
       - \sum_f vPwrOut_{st,f,q,d,t,y}
       + vStorage_{st,q,d,t-1,y},
 $$
