@@ -465,7 +465,7 @@ pCostsPlant(z, g, "Generation costs: $m", y)$gzmap(g, z) =
 pCostsPlant(z, g, "Fixed O&M: $m", y)$gzmap(g, z) =
   (
     vCap.l(g, y)      * pGenData(g, "FOMperMW")
-    + vCapStor.l(g, y)  * pStorData(g, "FixedOMMWh")
+    + vCapStor.l(g, y)  * pStorageData(g, "FixedOMMWh")
     + vCapStor.l(g, y)  * pCSPData(g, "Storage", "FixedOMMWh")
     + vCapTherm.l(g, y) * pCSPData(g, "Thermal field", "FixedOMMWh")
   ) / 1e6;
@@ -492,7 +492,7 @@ pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g))) =
   1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
 pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
-  1e3 * vBuildStor.l(g, y) * pStorData(g, "CapexMWh") * pCapexTrajectories(g, y);
+  1e3 * vBuildStor.l(g, y) * pStorageData(g, "CapexMWh") * pCapexTrajectories(g, y);
 
 pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$cs(g) =
   1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3 * pCapexTrajectories(g, y);
@@ -1232,7 +1232,7 @@ pCSPComponents(cs,"Storage Hours: hrs",y) = vCapStor.l(cs,y)/max(vCap.l(cs,y),1)
 pPVwSTOBalance(y,q,d,so, "PV output"     ,t) = sum(gfmap(so,f), vPwrOut.l(so,f,q,d,t,y));
 pPVwSTOBalance(y,q,d,stp,"Storage Input" ,t) = vStorInj.l(stp,q,d,t,y);
 pPVwSTOBalance(y,q,d,stp,"Storage output",t) = sum(gfmap(stp,f), vPwrOut.l(stp,f,q,d,t,y));
-pPVwSTOBalance(y,q,d,stp,"Storage Losses",t) = (1-pStorData(stp,"Efficiency"))*vStorInj.l(stp,q,d,t,y);
+pPVwSTOBalance(y,q,d,stp,"Storage Losses",t) = (1-pStorageData(stp,"Efficiency"))*vStorInj.l(stp,q,d,t,y);
 pPVwSTOBalance(y,q,d,stp,"Storage level" ,t) = vStorage.l(stp,q,d,t,y);
 
 pPVwSTOComponents(so, "PV Plants"           ,y) = vCap.l(so,y);
@@ -1242,7 +1242,7 @@ pPVwSTOComponents(stp,"Storage Hours"       ,y) = vCapStor.l(stp,y)/max(vCap.l(s
 
 pStorageBalance(y,stg,q,d,"Storage Input"     ,t) = vStorInj.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Output"    ,t) = sum(gfmap(stg,f), vPwrOut.l(stg,f,q,d,t,y));
-pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorData(stg,"Efficiency"))*vStorInj.l(stg,q,d,t,y);
+pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorageData(stg,"Efficiency"))*vStorInj.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Net Storage Change",t) = vStorNet.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Level"     ,t) = vStorage.l(stg,q,d,t,y);
 
