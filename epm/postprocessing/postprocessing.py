@@ -183,12 +183,12 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': False,
-    'costs': False,
-    'energy': False,
+    'capacity': True,
+    'costs': True,
+    'energy': True,
     'dispatch': True,
-    'interconnection': False,
-    'maps': False,
+    'interconnection': True,
+    'maps': True,
 }
 
 FIGURE_CATEGORY_MAP = {
@@ -430,8 +430,8 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                             legend_loc='bottom'
                         )
 
-                    if zone_full_season_active and year == years_available[0]:
-                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
+                    if zone_full_season_active and year in (years_available[0], years_available[-1]):
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season_{year}.pdf')
                         full_season_filter = zone_demand_year[
                             (zone_demand_year['season'] == max_load_season)
                         ]
