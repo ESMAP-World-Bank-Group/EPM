@@ -375,7 +375,8 @@ def _check_vre_profile(gams, db):
 def _check_availability(gams, db):
     """Ensure availability factors remain strictly below one."""
     try:
-        records = db["pAvailability"].records
+        # Check pAvailabilityInput (raw CSV data without year dimension)
+        records = db["pAvailabilityInput"].records if "pAvailabilityInput" in db else None
         if records is None:
             gams.printLog('pAvailabilityCustom is None. All values come from pAvailabilityDefault')
             return
@@ -938,9 +939,9 @@ def _check_external_transfer_settings(gams, db):
 
 
 def _check_storage_data(gams, db):
-    """Verify that storage generators have matching entries in pStorDataExcel."""
+    """Verify that storage generators have matching entries in pStorageDataInput."""
     try:
-        stor_records = db["pStorDataExcel"].records
+        stor_records = db["pStorageDataInput"].records
         if stor_records is None or stor_records.empty:
             return
         gen_records = db["pGenDataInput"].records
@@ -951,12 +952,12 @@ def _check_storage_data(gams, db):
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:
             msg = (
-                "Error: The following storage genartors are in pGenDataInput but not defined in pStorDataExcel: \n"
+                "Error: The following storage genartors are in pGenDataInput but not defined in pStorageDataInput: \n"
                 f"{missing_storage_gen}"
             )
             gams.printLog(msg)
             raise ValueError(msg)
-        gams.printLog('Success: All storage generators are are well-defined in pStorDataExcel.')
+        gams.printLog('Success: All storage generators are are well-defined in pStorageDataInput.')
     except ValueError:
         raise
     except Exception:
