@@ -350,7 +350,8 @@ def _check_vre_profile(gams, db):
 def _check_availability(gams, db):
     """Ensure availability factors remain strictly below one."""
     try:
-        records = db["pAvailability"].records
+        # Check pAvailabilityInput (raw CSV data without year dimension)
+        records = db["pAvailabilityInput"].records if "pAvailabilityInput" in db else None
         if records is None:
             gams.printLog('pAvailabilityCustom is None. All values come from pAvailabilityDefault')
             return

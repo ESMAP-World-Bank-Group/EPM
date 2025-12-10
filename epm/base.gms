@@ -156,7 +156,7 @@ Parameters
 
 * Generator data
    pGenData(g,pGenDataInputHeader) 'Generator characteristics (capex, heat rate, etc.)'
-   pAvailability(g,q)             'Seasonal availability factors'
+   pAvailability(g,y,q)           'Seasonal availability factors'
    pCapexTrajectories(g,y)        'CAPEX trajectory multipliers'
    pInitialOnStart(g)             'Initial commitment state (1=on) for the first chronological slot (default or from data)'
 
@@ -762,7 +762,7 @@ eJointResCap(g,q,d,t,y)$FD(q,d,t)..
       =l= vCap(g,y)*(1+pGenData(g,"Overloadfactor"));
 
 eMaxCF(g,q,y)..
-   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailability(g,q)*vCap(g,y)*sum((d,t), pHours(q,d,t));
+   sum((gfmap(g,f),d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)) =l= pAvailability(g,y,q)*vCap(g,y)*sum((d,t), pHours(q,d,t));
 
 * Note that we are effectively assuming grid-connected RE generation to be dispatchable. Generally speaking, most RE will be
 * dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for

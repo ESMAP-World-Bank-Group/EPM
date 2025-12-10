@@ -210,7 +210,8 @@ Parameter
 * VRE and availability
    pVREProfile(z,tech,q,d,t)                             'VRE generation profiles by site'
    pVREgenProfile(g,q,d,t)                               'VRE generation profiles by plant'
-   pAvailability(g,q)                                    'Seasonal availability factors'
+   pAvailabilityInput(g,q)                              'Seasonal availability factors (from CSV, no year)'
+   pAvailability(g,y,q)                                  'Seasonal availability factors (expanded to years)'
    
 * Reserve requirements
    pSpinningReserveReqCountry(c,y)                       'Country spinning reserve requirements'
@@ -260,7 +261,7 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailability
+$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput
 $load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
@@ -625,7 +626,7 @@ pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap
 pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,y,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
 
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
