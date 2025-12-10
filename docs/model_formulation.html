@@ -1627,7 +1627,7 @@ vStorNet_{st,q,d,t,y} = \sum_f vPwrOut_{st,f,q,d,t,y} - vStorInj_{st,q,d,t,y}.
 <li><p><strong>Inter-hour SOC dynamics</strong> (<code class="docutils literal notranslate"><span class="pre">eStateOfChargeUpdate</span></code>, <code class="docutils literal notranslate"><span class="pre">eStateOfChargeInit</span></code>):
 $<span class="math notranslate nohighlight">\(
 vStorage_{st,q,d,t,y}
-  = pStorData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
+  = pStorageData_{st,\text{Efficiency}} \cdot vStorInj_{st,q,d,t,y}
     - \sum_f vPwrOut_{st,f,q,d,t,y}
     + vStorage_{st,q,d,t-1,y},
 \)</span>$

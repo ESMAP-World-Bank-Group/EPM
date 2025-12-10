@@ -99,7 +99,7 @@ All **storage technologies** listed in `pGenDataInputCustom` must also be includ
 
 ```
 Exception from Python (line 455): <class 'ValueError'>:
-Error: The following fuels are in gendata but not defined in pStorData:
+Error: The following fuels are in gendata but not defined in pStorageData:
 {'New_BESS_AGO'}
 ```
 

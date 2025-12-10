@@ -2,7 +2,7 @@
 
 All input files must be placed inside the `epm/input` folder.
 
-Each dataset lives in its own subfolder, which is passed to the model with `--folder_input`. 
+Each dataset lives in its own subfolder, which is passed to the model with `--folder_input`.
 
 Optional, you can also provide a `config.csv` that maps model parameters to the corresponding `.csv` files; the path of this file is passed with `--config` from `--folder_input`.
 
@@ -57,7 +57,7 @@ data_test/
 │   ├── pGenDataInputHeader.csv
 │   ├── pH2Header.csv
 │   ├── pSettingsHeader.csv
-│   ├── pStoreDataHeader.csv
+│   ├── pStorageDataHeader.csv
 │   ├── pTransmissionHeader.csv
 │   └── pTechData.csv
 │
@@ -73,7 +73,7 @@ data_test/
 │   ├── pFuelPrice.csv
 │   ├── pGenDataInput.csv
 │   ├── pGenDataInputDefault.csv
-│   ├── pStorDataExcel.csv
+│   ├── pStorageDataInput.csv
 │   ├── pVREProfile.csv
 │   ├── pVREgenProfile.csv
 │   └── sensitivity/
