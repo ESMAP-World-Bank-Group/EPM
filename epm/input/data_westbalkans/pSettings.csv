@@ -1,5 +1,8 @@
 ﻿Parameter,Abbreviation,Value
 ,,
+Enable capacity expansion decisions,fEnableCapacityExpansion,1
+Activate 8760-hour dispatch chronology,fDispatchMode,0
+,,
 PARAMETERS,,
 "Weighted Average Cost of Capital (WACC), %",WACC,0.05
 "Discount rate, %",DR,0.05
@@ -26,6 +29,7 @@ Include carbon price ,fEnableCarbonPrice,0
 Include energy efficiency,fEnableEnergyEfficiency,0
 Include CSP optimization,fEnableCSP,0
 Include Storage operation,fEnableStorage,1
+Initial state of charge for batteries (%),InitialSOCforBattery,0.5
 Retire plants on economic grounds,fEnableEconomicRetirement,0
 Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
@@ -36,7 +40,7 @@ Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1
 Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,1
 ,,
 PLANNING RESERVES,,
-Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,0
+Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,1
 Apply planning reserve constraint,fApplyPlanningReserveConstraint,1
 "System planning reserve margin, %",sReserveMarginPct,0.1
 ,,
@@ -60,5 +64,8 @@ Apply max capital constraint,fApplyCapitalConstraint,0
 "Total maximum capital investments, $ billion",sMaxCapitalInvestment,
 ,,
 PLANTS,,
-Apply min generation constraint,fApplyMinGenerationConstraint,0
-Apply ramp constraints,fApplyRampConstraint,0
+Apply min generation for all hours,fApplyMinGenShareAllHours,1
+Apply ramp constraints,fApplyRampConstraint,1
+Apply min generation constraint (only dispatch),fApplyMinGenCommitment,1
+Include minimum up/down time constraints (only dispatch),fApplyMUDT,1
+Apply startup cost (only dispatch),fApplyStartupCost,1
