@@ -5,12 +5,12 @@ HPP Dubrovnik,BiH,ReservoirHydro,Water,1,,,120,,,,,,,,,,,,,,,,
 HPP Grabovica,BiH,ROR,Water,1,,,114,,,,,,,,,,,,,,,,
 HPP Jablanica,BiH,ReservoirHydro,Water,1,,,180,,,,,,,,,,,,,,,,
 HPP Jajce 1,BiH,ROR,Water,1,,,60,,,,,,,,,,,,,,,,
-HPP Jajce 2,BiH,ROR,Water,1,,2030,30,,,,,,,,,,,,,,,,
+HPP Jajce 2,BiH,ROR,Water,1,,,30,,,,,,,,,,,,,,,,
 HPP Mostar,BiH,ROR,Water,1,,,72,,,,,,,,,,,,,,,,
 HPP Mostarsko blato,BiH,ROR,Water,1,,,60,,,,,,,,,,,,,,,,
 HPP Pec-Mlini,BiH,ROR,Water,1,,,30.6,,,,,,,,,,,,,,,,
 HPP Rama,BiH,ReservoirHydro,Water,1,,,170,,,,,,,,,,,,,,,,
-HPP Salakovac,BiH,ROR,Water,1,,2030,210,,,,,,,,,,,,,,,,
+HPP Salakovac,BiH,ROR,Water,1,,,210,,,,,,,,,,,,,,,,
 HPP Trebinje 1,BiH,ReservoirHydro,Water,1,,,171,,,,,,,,,,,,,,,,
 HPP Visegrad,BiH,ROR,Water,1,,,315,,,,,,,,,,,,,,,,
 PSPCapljina,BiH,Storage,Water,1,1968,2051,440,,,,,,,,,1,1,0,1,,35872,,0
@@ -48,8 +48,8 @@ Coal_SubNew_BiH,BiH,ST,Coal,3,2030,2051,10000,50,1,,,300,40,0.22,8.749113059,1,1
 Coal_SuperNew_BiH,BiH,ST,Coal,3,2030,2051,10000,50,1,,,300,40,0.22,7.935242076,1,1,0,0.05,2,60000,3,0
 Coal_UltraNew_BiH,BiH,ST,Coal,3,2030,2061,10000,50,1,,,300,40,0.22,7.582564651,1,1,0,0.05,2.2,65000,3,0
 CoalCCS_New_BiH,BiH,ST,Coal,3,2045,2080,10000,50,1,,,300,40,0.22,9.478205814,1,1,0,0.05,5.08,100000,43.8,0
-HPP Jajce 2 Rehab,BiH,ROR,Water,3,2030,,30,30,1,,,30,,,,,,,,1,,,
-HPP Salakovac Rehab,BiH,ROR,Water,3,2030,,210,210,1,,,210,,,,,,,,0.36,,,
+HPP Jajce 2 Rehab,BiH,ROR,Water,,2030,,30,30,1,,,30,,,,,,,,1,,,
+HPP Salakovac Rehab,BiH,ROR,Water,,2030,,210,210,1,,,210,,,,,,,,0.36,,,
 OCGT_New_BiH,BiH,OCGT,Gas,3,2030,2060,10000,50,1,,,100,40,,8.530385232,1,1,0,0.2,0.5,20000,3.5,0
 PV_New_BiH,BiH,PV,Solar,3,2030,2060,10000,,,,,350,25,,,,,,,0.9,10000,,0
 TPP_Kakanj5_Biomass,BiH,BiomassPlant,Biomass,3,2031,2060,70,,,,,70,40,0.22,10.19,1,1,0,0.05,0.428571429,48000,3.8,0
