@@ -65,8 +65,10 @@ ZONE_RESTRICTED_PARAMS = {
 COLUMN_RENAME_MAP = {
     "pGenDataInput": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
     "pGenDataInputDefault": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
+    "pAvailabilityInput": {"uni": "q", "gen": "g"},
     "pAvailability": {"uni": "q", "gen": "g"},
     "pAvailabilityDefault": {"uni": "q", "zone": "z"},
+    "pEvolutionAvailability": {"uni": "y", "gen": "g"},
     "pCapexTrajectoriesDefault": {"uni": "y", "zone": "z"},
     "pDemandForecast": {"uni": "y", "zone": "z"},
     "pNewTransmission": {"From": "z", "To": "z2", "uni": "pTransmissionHeader"},
@@ -78,7 +80,7 @@ COLUMN_RENAME_MAP = {
     "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
     'ftfindex': {'fuel': 'f'},
-    "pStorDataExcel": {'gen_0': 'g', 'uni_2': 'pStoreDataHeader'},
+    "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
     'pTechData': {'Technology': 'tech'},
     "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
@@ -414,12 +416,13 @@ def run_input_treatment(gams,
 
     def monitor_hydro_availability(db: gt.Container, auto_fill: bool):
         """Log missing hydro availability rows and optionally back-fill them."""
-        required_params = {"pGenDataInput", "pAvailability"}
+        # Use pAvailabilityInput (the raw CSV data without year dimension)
+        required_params = {"pGenDataInput", "pAvailabilityInput"}
         if any(name not in db for name in required_params):
             return
 
         gen_records = db["pGenDataInput"].records
-        avail_records = db["pAvailability"].records
+        avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
             return
 
@@ -542,8 +545,8 @@ def run_input_treatment(gams,
 
                             if new_entries:
                                 updated_availability = pd.concat([avail_records] + new_entries, ignore_index=True)
-                                db.data["pAvailability"].setRecords(updated_availability)
-                                _write_back(db, "pAvailability")
+                                db.data["pAvailabilityInput"].setRecords(updated_availability)
+                                _write_back(db, "pAvailabilityInput")
                             else:
                                 gams.printLog("[input_treatment][hydro_avail] Auto-fill finished: no records were added.")
 
@@ -1385,13 +1388,38 @@ def run_input_treatment(gams,
     set_missing_styr_for_existing(db)
 
     # Prepare pAvailability by filling missing values with default values
-    default_df = prepare_generatorbased_parameter(db, 
+    # pAvailability now has year dimension (g,y,q) but input CSV doesn't have 'y'
+    # CSV is read into pAvailabilityInput(g,q), we expand to pAvailability(g,y,q)
+
+    # First, expand pAvailabilityInput records (from CSV without 'y') to all years
+    if "pAvailabilityInput" in db and db["pAvailabilityInput"].records is not None:
+        avail_records = db["pAvailabilityInput"].records
+        gams.printLog("Expanding pAvailabilityInput to pAvailability with year dimension")
+        avail_expanded = expand_to_years(db, avail_records)
+        # Create pAvailability parameter if it doesn't exist, or update it
+        if "pAvailability" not in db:
+            db.addParameter("pAvailability", ["g", "y", "q"], records=avail_expanded)
+        else:
+            db.data["pAvailability"].setRecords(avail_expanded)
+        _write_back(db, "pAvailability")
+    else:
+        # No custom availability provided, create empty pAvailability
+        if "pAvailability" not in db:
+            db.addParameter("pAvailability", ["g", "y", "q"])
+
+    # Prepare default values and expand to all years
+    default_df = prepare_generatorbased_parameter(db,
                                                   "pAvailabilityDefault",
                                                   cols_tokeep=['q'],
                                                   param_ref="pGenDataInput")
-                                                
+    # Expand default values to all years (constant across years)
+    default_df = expand_to_years(db, default_df)
+
     fill_default_value(db, "pAvailability", default_df)
     warn_missing_availability(gams, db)
+
+    # Apply evolution factors to pAvailability
+    apply_availability_evolution(db)
 
     # Prepare pCapexTrajectories by filling missing values with default values
     default_df = prepare_generatorbased_parameter(db, 

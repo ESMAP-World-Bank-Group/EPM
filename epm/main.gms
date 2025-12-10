@@ -141,7 +141,7 @@ Sets
    AT       'Full-year hourly chronology' /AT1*AT8760/
    pGenDataInputHeader 'Generator data input headers'
    pSettingsHeader
-   pStoreDataHeader                                        'Storage data headers'
+   pStorageDataHeader                                        'Storage data headers'
    pCSPDataHeader       'CSP data headers'                 / 'Storage', 'Thermal Field' /
    pTransmissionHeader  'Transmission data headers'
    pH2Header            'Hydrogen data headers'
@@ -172,10 +172,10 @@ Parameter
    pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
-   pStorDataExcel(g,*,pStoreDataHeader)                  'Storage unit specifications'
+   pStorageDataInput(g,*,pStorageDataHeader)                 'Storage unit specifications'
    
 * CSP and technology data
-   pCSPData(g,pCSPDataHeader,pStoreDataHeader)           'Concentrated solar power data'
+   pCSPData(g,pCSPDataHeader,pStorageDataHeader)           'Concentrated solar power data'
    
 * Fuel data
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
@@ -183,7 +183,6 @@ Parameter
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
 * Storage and transmission
-   pStorDataInput(g,g2,pStoreDataHeader)                 'Storage unit input data'
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
    
 * Trade parameters
@@ -210,7 +209,9 @@ Parameter
 * VRE and availability
    pVREProfile(z,tech,q,d,t)                             'VRE generation profiles by site'
    pVREgenProfile(g,q,d,t)                               'VRE generation profiles by plant'
-   pAvailability(g,q)                                    'Seasonal availability factors'
+   pAvailabilityInput(g,q)                              'Seasonal availability factors (from CSV, no year)'
+   pAvailability(g,y,q)                                  'Seasonal availability factors (expanded to years)'
+   pEvolutionAvailability(g,y)                           'Year-dependent availability evolution factors'
    
 * Reserve requirements
    pSpinningReserveReqCountry(c,y)                       'Country spinning reserve requirements'
@@ -248,7 +249,7 @@ $gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
 $load zcmap pSettingsHeader y pHours pDays mapTS
-$load pGenDataInputHeader, pTechData, pStoreDataHeader, 
+$load pGenDataInputHeader, pTechData, pStorageDataHeader, 
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
 $load ftfindex
@@ -260,8 +261,8 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailability
-$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pStorageDataInput pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
 * Load trade data
@@ -331,6 +332,9 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
+$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
+$if %DEBUG%==1 execute_unload 'input_treated.gdx';
+
 $if not errorFree $abort Data errors.
 
 *-------------------------------------------------------------------------------------
@@ -342,10 +346,6 @@ $if "x%gams.restart%" == "x" $include %BASE_FILE%
 $include %HYDROGEN_FILE%
 
 *-------------------------------------------------------------------------------------
-
-pStorDataInput(g,g2,pStoreDataHeader) = pStorDataExcel(g,g2,pStoreDataHeader);
-pStorDataInput(g,g,pStoreDataHeader)$pStorDataExcel(g,'',pStoreDataHeader) = pStorDataExcel(g,'',pStoreDataHeader);
-
 
 * Generate gfmap and others from pGenDataInput
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
@@ -519,10 +519,14 @@ Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 * Define `Zd(z)` as the complement of `Zt(z)`, indicating zones with demand
 Zd(z) = not Zt(z);
 
+* Copy to temp parameter and normalize standalone storage (g,'') to paired format (g,g) for uniform processing
+parameter pStorageDataTemp(g,g2,pStorageDataHeader) 'Temporary storage data for processing';
+pStorageDataTemp(g,g2,pStorageDataHeader) = pStorageDataInput(g,g2,pStorageDataHeader);
+pStorageDataTemp(g,g,pStorageDataHeader)$pStorageDataInput(g,'',pStorageDataHeader) = pStorageDataInput(g,'',pStorageDataHeader);
 
-* Assign storage data from `pStorDataInput` based on the generator-storage mapping
-option gsmap<pStorDataInput;
-loop(gsmap(g2,g), pStorData(g,pStoreDataHeader) = pStorDataInput(g,g2,pStoreDataHeader));
+* Assign storage data from pStorageDataTemp based on the generator-storage mapping
+option gsmap<pStorageDataTemp;
+loop(gsmap(g2,g), pStorageData(g,pStorageDataHeader) = pStorageDataTemp(g,g2,pStorageDataHeader));
 
 * Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
@@ -625,7 +629,7 @@ pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap
 pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,y,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
 
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
@@ -657,7 +661,7 @@ pEnergyEfficiencyFactor(z,y)$(not fEnableEnergyEfficiency) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
 
 pVOMCost(gfmap(g,f),y) = pGenData(g,"VOM")
-                       + pStorData(g, "VOMMWh")
+                       + pStorageData(g, "VOMMWh")
                        + pCSPData(g, "Storage", "VOMMWh")
                        + pCSPData(g, "Thermal Field", "VOMMWh");
 
@@ -775,10 +779,10 @@ vCap.fx(eg,y)$(pGenData(eg,"RetrYr") and (pGenData(eg,"RetrYr") <= y.val)) = 0;
 vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Thermal Field","CapacityMWh");
 
 * Set the initial storage capacity at the model start year, considering both CSP and standalone storage units
-vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorData(eg,"CapacityMWh");
+vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorageData(eg,"CapacityMWh");
 
 * Prevent decommissioning of storage hours from existing storage when economic retirement is disabled
-vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
+vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorageData(eg,"CapacityMWh");
 
 * Fix the retirement variable to zero, meaning no unit is retired by default unless specified otherwise
 vRetire.fx(ng,y) = 0;
