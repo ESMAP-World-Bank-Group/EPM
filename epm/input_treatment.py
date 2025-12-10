@@ -127,7 +127,6 @@ def filter_inputs_to_allowed_zones(
     write_back=None,
 ):
     """Remove rows whose zones fall outside zcmap for key input tables."""
-    # If we cannot infer allowed zones we leave tables untouched.
     allowed_zones = _get_allowed_zones(db)
     if not allowed_zones:
         return
@@ -178,6 +177,11 @@ def run_input_treatment(gams,
             )
             target_db.data[param_name].setRecords(records)
             return
+
+        gams.printLog(
+            f"[input_treatment] write_back({param_name}): "
+            f"clearing + writing {row_count} row(s) into {target_kind}."
+        )
 
         # When writing back to a real GAMS database we must clear the symbol
         # first; db.write() only overwrites tuples that still exist, so stale
@@ -240,7 +244,6 @@ def run_input_treatment(gams,
 
         records = records.copy()
 
-        # Identify the subset of generators with valid Status values.
         all_gens = set(records["g"].unique())
         status_rows = records.loc[records["pGenDataInputHeader"] == "Status"].copy()
         status_rows["numeric_status"] = pd.to_numeric(status_rows["value"], errors="coerce")
@@ -276,7 +279,6 @@ def run_input_treatment(gams,
         param_name = "pNewTransmission"
         
         records = db[param_name].records
-        # Evaluate Status per (z,z2) pair once by pivoting to wide form.
         wide = (
             records
             .pivot_table(index=["z", "z2"],
@@ -332,7 +334,6 @@ def run_input_treatment(gams,
             return
 
         records = records.copy()
-        # Find generators lacking a valid Status and zero only their Capacity rows.
         status_rows = records.loc[records["pGenDataInputHeader"] == "Status"].copy()
         all_gens = set(records["g"].dropna().unique())
         if status_rows.empty:
@@ -356,10 +357,8 @@ def run_input_treatment(gams,
         records.loc[mask, "value"] = 0
         db.data[param_name].setRecords(records)
         _write_back(db, param_name)
-        targeted = ", ".join(sorted(invalid_gens))
         gams.printLog(
-            f"[input_treatment][status] Setting Capacity=0 for {mask.sum()} generator row(s) "
-            f"with invalid/missing Status (allowed values: 1, 2, 3); generators: {targeted}."
+            f"Setting Capacity=0 for {mask.sum()} generator row(s) with invalid/missing Status (allowed values: 1, 2, 3)."
         )
 
 
@@ -412,7 +411,7 @@ def run_input_treatment(gams,
         gams.printLog(
             f"Setting CapacityPerLine=0 for {mask.sum()} transmission row(s) due to Status missing or equal to 0."
         )
-        
+
 
     def monitor_hydro_availability(db: gt.Container, auto_fill: bool):
         """Log missing hydro availability rows and optionally back-fill them."""
@@ -761,7 +760,6 @@ def run_input_treatment(gams,
             index_cols.append(zone_column)
         index_cols.append("tech")
 
-        # Pivot to wide to inspect Status/Capex side by side for each generator.
         pivot = subset.pivot_table(index=index_cols,
                                    columns=header_col,
                                    values=value_col,
@@ -828,7 +826,6 @@ def run_input_treatment(gams,
             gams.printLog("Capex auto-fill skipped: no donor hydro plants with Capex defined.")
             return
 
-        # Use mean Capex by (zone, tech) as donor values.
         donor_lookup = (
             donors.groupby([zone_column, "tech"], observed=False)["Capex"]
             .mean()
@@ -977,7 +974,7 @@ def run_input_treatment(gams,
 
         # If the parameter is empty, print a message and return None
         if param_df is None:
-            gams.printLog('[input_treatment][defaults] {} empty so no effect'.format(param_name))
+            gams.printLog('{} empty so no effect'.format(param_name))
             return None
             
         gams.printLog('Adding generator reference to {}'.format(param_name))
@@ -991,7 +988,7 @@ def run_input_treatment(gams,
         # Remove duplicate rows in the reference DataFrame
         ref_df = ref_df.drop_duplicates()
 
-        # Merge generator IDs into the parameter via shared columns
+        # Merge the reference DataFrame with the parameter DataFrame on common columns
         param_df = pd.merge(ref_df, param_df, how='left', on=columns)
                 
         if param_df['value'].isna().any():
@@ -1038,7 +1035,7 @@ def run_input_treatment(gams,
         - NaN values in the "value" column are filled with `fillna`.
         """
         
-        gams.printLog("[input_treatment][defaults] Modifying {} with default values".format(param_name))
+        gams.printLog("Modifying {} with default values".format(param_name))
         
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
@@ -1056,6 +1053,33 @@ def run_input_treatment(gams,
         db.data[param_name].setRecords(param_df)
         _write_back(db, param_name)
 
+
+    def warn_missing_availability(gams, db: gt.Container):
+        """Warn if generators have no pAvailability rows (implicit availability=0)."""
+        if "pGenDataInput" not in db or "pAvailability" not in db:
+            return
+
+        gen_records = db["pGenDataInput"].records
+        avail_records = db["pAvailability"].records
+        if gen_records is None or gen_records.empty:
+            return
+
+        gens = set(gen_records["g"].dropna().unique())
+        available = set()
+        if avail_records is not None and not avail_records.empty and "g" in avail_records.columns:
+            available = set(avail_records["g"].dropna().unique())
+
+        missing = gens - available
+        if missing:
+            missing_list = sorted(missing)
+            preview = missing_list[:10]
+            more = ""
+            if len(missing_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(missing_list)})"
+            gams.printLog(
+                "[input_treatment][availability] Warning: the following generator(s) have no entries in pAvailability "
+                f"and will have implicit availability of 0 (they will not dispatch){more}: {preview}"
+            )
 
     def warn_missing_availability(gams, db: gt.Container):
         """Warn if generators have no pAvailability rows (implicit availability=0)."""
@@ -1161,7 +1185,183 @@ def run_input_treatment(gams,
                     f"[input_treatment][defaults] Added StYr={default_styr} for {len(added_gens)} existing generator(s) "
                     f"(Status=1): {', '.join(sorted(added_gens))}."
                 )
-        
+                
+
+    def expand_to_years(db: gt.Container, df: pd.DataFrame, year_set_name: str = "y"):
+        """
+        Expands a DataFrame to include all years from a GAMS set.
+
+        This function takes a DataFrame without a year dimension and creates a
+        cross-product with all years in the specified set, effectively broadcasting
+        the values across all years.
+
+        Parameters:
+        -----------
+        db : gt.Container
+            A GAMS Transfer (GT) container that stores the database.
+        df : pd.DataFrame
+            The DataFrame to expand (should not contain 'y' column).
+        year_set_name : str, optional
+            The name of the year set in the database (default is "y").
+
+        Returns:
+        --------
+        pd.DataFrame
+            A new DataFrame with the year column added, containing all original
+            data repeated for each year.
+        """
+        if df is None:
+            return None
+
+        # Get all years from the database
+        year_records = db[year_set_name].records
+        if year_records is None or year_records.empty:
+            gams.printLog(f"Warning: Year set '{year_set_name}' is empty or not found.")
+            return df
+
+        years = year_records.iloc[:, 0].tolist()
+
+        # Create a cross-product of the DataFrame with all years
+        df_expanded = pd.concat([df.assign(y=year) for year in years], ignore_index=True)
+
+        # Reorder columns to have 'y' in the expected position (after 'g')
+        cols = df_expanded.columns.tolist()
+        if 'g' in cols and 'y' in cols:
+            cols.remove('y')
+            g_idx = cols.index('g')
+            cols.insert(g_idx + 1, 'y')
+            df_expanded = df_expanded[cols]
+
+        return df_expanded
+
+
+    def apply_availability_evolution(db: gt.Container,
+                                     evolution_param: str = "pEvolutionAvailability",
+                                     availability_param: str = "pAvailability",
+                                     year_set: str = "y"):
+        """
+        Apply year-dependent evolution factors to pAvailability.
+
+        This function:
+        1. Reads pEvolutionAvailability(g,y) - sparse, only some generators may have entries
+        2. Performs linear interpolation for missing years
+        3. Applies the formula: pAvailability(g,y,q) = pAvailability(g,y,q) * (1 + pEvolutionAvailability(g,y))
+
+        Parameters:
+        -----------
+        db : gt.Container
+            A GAMS Transfer (GT) container that stores the database.
+        evolution_param : str
+            Name of the evolution parameter (default: "pEvolutionAvailability").
+        availability_param : str
+            Name of the availability parameter to modify (default: "pAvailability").
+        year_set : str
+            Name of the year set (default: "y").
+
+        Notes:
+        ------
+        - If pEvolutionAvailability is empty or not present, no changes are made.
+        - Default evolution factor is 0 (meaning no change: 1 + 0 = 1).
+        - Only generators with entries in pEvolutionAvailability are affected.
+        """
+        # Check if evolution parameter exists and has data
+        if evolution_param not in db:
+            gams.printLog(f"{evolution_param} not found in database. Skipping availability evolution.")
+            return
+
+        evolution_records = db[evolution_param].records
+        if evolution_records is None or evolution_records.empty:
+            gams.printLog(f"{evolution_param} is empty. Skipping availability evolution.")
+            return
+
+        # Check if availability parameter exists
+        if availability_param not in db:
+            gams.printLog(f"{availability_param} not found. Skipping availability evolution.")
+            return
+
+        avail_records = db[availability_param].records
+        if avail_records is None or avail_records.empty:
+            gams.printLog(f"{availability_param} is empty. Skipping availability evolution.")
+            return
+
+        # Get all model years
+        if year_set not in db:
+            gams.printLog(f"Year set '{year_set}' not found. Skipping availability evolution.")
+            return
+
+        year_records = db[year_set].records
+        if year_records is None or year_records.empty:
+            return
+
+        target_years = pd.to_numeric(year_records.iloc[:, 0], errors='coerce')
+        target_years = np.sort(target_years.dropna().unique())
+        if target_years.size == 0:
+            return
+
+        gams.printLog(f"Applying availability evolution from {evolution_param}")
+
+        # Prepare evolution data - interpolate for each generator
+        evolution_data = evolution_records.copy()
+        evolution_data['y'] = pd.to_numeric(evolution_data['y'], errors='coerce')
+        evolution_data = evolution_data.dropna(subset=['y', 'value'])
+
+        if evolution_data.empty:
+            gams.printLog(f"No valid data in {evolution_param} after cleaning. Skipping.")
+            return
+
+        # Get list of generators with evolution factors
+        generators_with_evolution = evolution_data['g'].unique()
+        gams.printLog(f"  Found evolution factors for {len(generators_with_evolution)} generator(s)")
+        gams.printLog(f"  Generators with {evolution_param}: {sorted(generators_with_evolution.tolist())}")
+
+        # Interpolate evolution factors for each generator
+        interpolated_evolution = []
+        for gen in generators_with_evolution:
+            gen_data = evolution_data[evolution_data['g'] == gen].sort_values('y')
+            years = gen_data['y'].to_numpy()
+            values = gen_data['value'].to_numpy()
+
+            if years.size < 1:
+                continue
+
+            if years.size == 1:
+                # Single value: use constant for all years
+                interpolated_values = np.full(target_years.size, values[0])
+            else:
+                # Linear interpolation
+                interpolated_values = np.interp(target_years, years, values)
+
+            for yr, val in zip(target_years, interpolated_values):
+                interpolated_evolution.append({'g': gen, 'y': yr, 'evolution': val})
+
+        if not interpolated_evolution:
+            gams.printLog("No evolution factors to apply after interpolation.")
+            return
+
+        evolution_df = pd.DataFrame(interpolated_evolution)
+        evolution_df['y'] = evolution_df['y'].astype(str)
+
+        # Apply evolution to pAvailability
+        avail_data = avail_records.copy()
+
+        # Merge with evolution factors (left join - only matching g,y pairs get evolution)
+        merged = avail_data.merge(evolution_df, on=['g', 'y'], how='left')
+
+        # Fill NaN evolution with 0 (no change for generators without evolution factors)
+        merged['evolution'] = merged['evolution'].fillna(0)
+
+        # Apply formula: new_value = value * (1 + evolution)
+        merged['value'] = merged['value'] * (1 + merged['evolution'])
+
+        # Keep only original columns
+        result = merged[avail_data.columns]
+
+        # Update the parameter
+        db.data[availability_param].setRecords(result)
+        _write_back(db, availability_param)
+
+        gams.printLog(f"  Applied evolution factors to {availability_param} for {len(generators_with_evolution)} generator(s)")
+
 
     def prepare_lossfactor(db: gt.Container, 
                                         param_ref="pNewTransmission",
@@ -1200,7 +1400,6 @@ def run_input_treatment(gams,
         if newtransmission_df is not None:  # we need to specify loss factor
             newtransmission_loss_df = newtransmission_df.loc[newtransmission_df.thdr == 'LossFactor']
             if not newtransmission_loss_df.empty:  # Loss factor is specified
-                # If any NaN values exist, fall back to the dedicated pLossFactorInternal input.
                 if newtransmission_loss_df[column_loss].isna().any():
                     gams.printLog("newtransmission_loss_df")
                     gams.printLog(f"Warning: NaN values found in pNewTransmission, skipping specification of loss factor through pNewTransmission.")
@@ -1262,7 +1461,6 @@ def run_input_treatment(gams,
 
             group_cols = [c for c in data.columns if c not in (year_column, "value")]
             if group_cols:
-                # Interpolate separately for each unique combination of non-year columns.
                 grouped = data.groupby(group_cols, dropna=False, sort=False, observed=False)
             else:
                 grouped = [(None, data)]
@@ -1363,28 +1561,26 @@ def run_input_treatment(gams,
     fill_ror_from_availability = _truthy(
         settings_flags.get("EPM_FILL_ROR_FROM_AVAILABILITY")
     )
-
+    
     filter_inputs_to_allowed_zones(
         db,
         log_func=gams.printLog,
         write_back=lambda name: _write_back(db, name),
     )
 
-    # Sanitize generators and transmission corridors before filling defaults.
     zero_capacity_for_invalid_generator_status(db)
     
     zero_capacity_for_invalid_transmission_status(db)
     
-    # Expand any sparse yearly series to full model years.
     interpolate_time_series_parameters(db, YEARLY_OUTPUT)
     
-    # Hydro-specific data quality checks with optional auto-fill.
     monitor_hydro_availability(db, auto_fill_missing_hydro)
     
     monitor_hydro_capex(db, auto_fill_missing_capex)
     
     # Complete Generator Data
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
+    
     set_missing_styr_for_existing(db)
 
     # Prepare pAvailability by filling missing values with default values
