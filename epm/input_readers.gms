@@ -286,7 +286,7 @@ $onEmbeddedCode Connect:
 - CSVReader:
     trace: %TRACE%
     file: %pAvailability%
-    name: pAvailability
+    name: pAvailabilityInput
     valueSubstitutions: {0: EPS}
     indexColumns: [1]
     header: [1]

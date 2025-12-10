@@ -65,6 +65,7 @@ ZONE_RESTRICTED_PARAMS = {
 COLUMN_RENAME_MAP = {
     "pGenDataInput": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
     "pGenDataInputDefault": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
+    "pAvailabilityInput": {"uni": "q", "gen": "g"},
     "pAvailability": {"uni": "q", "gen": "g"},
     "pAvailabilityDefault": {"uni": "q", "zone": "z"},
     "pCapexTrajectoriesDefault": {"uni": "y", "zone": "z"},
@@ -411,12 +412,13 @@ def run_input_treatment(gams,
 
     def monitor_hydro_availability(db: gt.Container, auto_fill: bool):
         """Log missing hydro availability rows and optionally back-fill them."""
-        required_params = {"pGenDataInput", "pAvailability"}
+        # Use pAvailabilityInput (the raw CSV data without year dimension)
+        required_params = {"pGenDataInput", "pAvailabilityInput"}
         if any(name not in db for name in required_params):
             return
 
         gen_records = db["pGenDataInput"].records
-        avail_records = db["pAvailability"].records
+        avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
             return
 
@@ -495,7 +497,7 @@ def run_input_treatment(gams,
 
                 if auto_fill:
                     if avail_records.empty:
-                        gams.printLog("Auto-fill skipped: pAvailability has no existing data to copy from.")
+                        gams.printLog("Auto-fill skipped: pAvailabilityInput has no existing data to copy from.")
                     elif zone_column is None:
                         gams.printLog("Auto-fill skipped: cannot identify zone column in pGenDataInput.")
                     else:
@@ -530,8 +532,8 @@ def run_input_treatment(gams,
 
                             if new_entries:
                                 updated_availability = pd.concat([avail_records] + new_entries, ignore_index=True)
-                                db.data["pAvailability"].setRecords(updated_availability)
-                                _write_back(db, "pAvailability")
+                                db.data["pAvailabilityInput"].setRecords(updated_availability)
+                                _write_back(db, "pAvailabilityInput")
                             else:
                                 gams.printLog("Auto-fill finished: no records were added.")
 
@@ -935,7 +937,55 @@ def run_input_treatment(gams,
         # Update the parameter in the GAMS database with the modified DataFrame
         db.data[param_name].setRecords(param_df)
         _write_back(db, param_name)
-        
+
+
+    def expand_to_years(db: gt.Container, df: pd.DataFrame, year_set_name: str = "y"):
+        """
+        Expands a DataFrame to include all years from a GAMS set.
+
+        This function takes a DataFrame without a year dimension and creates a
+        cross-product with all years in the specified set, effectively broadcasting
+        the values across all years.
+
+        Parameters:
+        -----------
+        db : gt.Container
+            A GAMS Transfer (GT) container that stores the database.
+        df : pd.DataFrame
+            The DataFrame to expand (should not contain 'y' column).
+        year_set_name : str, optional
+            The name of the year set in the database (default is "y").
+
+        Returns:
+        --------
+        pd.DataFrame
+            A new DataFrame with the year column added, containing all original
+            data repeated for each year.
+        """
+        if df is None:
+            return None
+
+        # Get all years from the database
+        year_records = db[year_set_name].records
+        if year_records is None or year_records.empty:
+            gams.printLog(f"Warning: Year set '{year_set_name}' is empty or not found.")
+            return df
+
+        years = year_records.iloc[:, 0].tolist()
+
+        # Create a cross-product of the DataFrame with all years
+        df_expanded = pd.concat([df.assign(y=year) for year in years], ignore_index=True)
+
+        # Reorder columns to have 'y' in the expected position (after 'g')
+        cols = df_expanded.columns.tolist()
+        if 'g' in cols and 'y' in cols:
+            cols.remove('y')
+            g_idx = cols.index('g')
+            cols.insert(g_idx + 1, 'y')
+            df_expanded = df_expanded[cols]
+
+        return df_expanded
+
 
     def prepare_lossfactor(db: gt.Container, 
                                         param_ref="pNewTransmission",
@@ -1107,11 +1157,33 @@ def run_input_treatment(gams,
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
 
     # Prepare pAvailability by filling missing values with default values
-    default_df = prepare_generatorbased_parameter(db, 
+    # pAvailability now has year dimension (g,y,q) but input CSV doesn't have 'y'
+    # CSV is read into pAvailabilityInput(g,q), we expand to pAvailability(g,y,q)
+
+    # First, expand pAvailabilityInput records (from CSV without 'y') to all years
+    if "pAvailabilityInput" in db and db["pAvailabilityInput"].records is not None:
+        avail_records = db["pAvailabilityInput"].records
+        gams.printLog("Expanding pAvailabilityInput to pAvailability with year dimension")
+        avail_expanded = expand_to_years(db, avail_records)
+        # Create pAvailability parameter if it doesn't exist, or update it
+        if "pAvailability" not in db:
+            db.addParameter("pAvailability", ["g", "y", "q"], records=avail_expanded)
+        else:
+            db.data["pAvailability"].setRecords(avail_expanded)
+        _write_back(db, "pAvailability")
+    else:
+        # No custom availability provided, create empty pAvailability
+        if "pAvailability" not in db:
+            db.addParameter("pAvailability", ["g", "y", "q"])
+
+    # Prepare default values and expand to all years
+    default_df = prepare_generatorbased_parameter(db,
                                                   "pAvailabilityDefault",
                                                   cols_tokeep=['q'],
                                                   param_ref="pGenDataInput")
-                                                
+    # Expand default values to all years (constant across years)
+    default_df = expand_to_years(db, default_df)
+
     fill_default_value(db, "pAvailability", default_df)
 
     # Prepare pCapexTrajectories by filling missing values with default values
