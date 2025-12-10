@@ -51,6 +51,7 @@ $if not set pGenDataInput $set pGenDataInput %FOLDER_INPUT%/supply/pGenDataInput
 $if not set pGenDataInputDefault $set pGenDataInputDefault %FOLDER_INPUT%/supply/pGenDataInputDefault.csv
 $if not set pAvailability $set pAvailability %FOLDER_INPUT%/supply/pAvailabilityCustom.csv
 $if not set pAvailabilityDefault $set pAvailabilityDefault %FOLDER_INPUT%/supply/pAvailabilityDefault.csv
+$if not set pEvolutionAvailability $set pEvolutionAvailability %FOLDER_INPUT%/supply/pEvolutionAvailability.csv
 $if not set pVREgenProfile $set pVREgenProfile %FOLDER_INPUT%/supply/pVREgenProfile.csv
 $if not set pVREProfile $set pVREProfile %FOLDER_INPUT%/supply/pVREProfile.csv
 $if not set pCapexTrajectories $set pCapexTrajectories %FOLDER_INPUT%/supply/pCapexTrajectoriesCustom.csv
@@ -298,6 +299,16 @@ $onEmbeddedCode Connect:
     name: pAvailabilityDefault
     indexColumns: [1, 2, 3]
     valueSubstitutions: {0: EPS}
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pEvolutionAvailability%
+    name: pEvolutionAvailability
+    indexSubstitutions: {.nan: ""}
+    valueSubstitutions: {0: EPS}
+    indexColumns: [1]
     header: [1]
     type: par
 

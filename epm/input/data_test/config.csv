@@ -29,6 +29,7 @@ Demand-side efficiency multipliers by year (Unit: per-unit multiplier),pEnergyEf
 "Default generator dataset by zone and technology (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInputDefault,supply/pGenDataInputDefault.csv
 Custom seasonal availability factors for generators (Unit: per-unit availability),pAvailability,supply/pAvailabilityCustom.csv
 Default seasonal availability factors for generators (Unit: per-unit availability),pAvailabilityDefault,supply/pAvailabilityDefault.csv
+Year-dependent availability evolution factors by generator (Unit: per-unit change),pEvolutionAvailability,supply/pEvolutionAvailability.csv
 Custom CAPEX trajectory multipliers by generator and year (Unit: scalar multiplier),pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
 Default CAPEX trajectory multipliers by generator and year (Unit: scalar multiplier),pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefault.csv
 "CSP-specific plant parameters (Unit: varies; e.g., MW, USD/MWh)",pCSPData,supply/pCSPData.csv
