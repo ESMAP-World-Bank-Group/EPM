@@ -172,6 +172,16 @@ def run_input_treatment(gams,
         target_kind = type(target_db).__name__
 
         if isinstance(target_db, gt.Container):
+            if param_name not in target_db.data:
+                # Mirror the schema from the working container when the target container
+                # doesn't yet have the symbol (avoids KeyError on first write).
+                source_symbol = db[param_name]
+                # Prefer explicit domains; fall back to non-value columns.
+                domains = getattr(source_symbol, "domains", None)
+                if not domains and source_symbol.records is not None:
+                    domains = [c for c in source_symbol.records.columns if c != "value"]
+                target_db.addParameter(param_name, domains or [], records=None)
+
             gams.printLog(
                 f"[input_treatment] {param_name}: wrote {row_count} row(s) into {target_kind} (container path)."
             )
@@ -487,7 +497,6 @@ def run_input_treatment(gams,
                         )
                 gams.printLog(
                     f"[input_treatment][hydro_avail] Reservoir hydro warning: {len(missing_meta)} generator(s) lack entries in pAvailability. "
-                    f"Rebuild the profiles via `{notebook_hint}`."
                 )
                 _log_zone_summary(
                     gams,
@@ -612,11 +621,72 @@ def run_input_treatment(gams,
             all_zone_values,
         )
 
+        # Optionally backfill seasonal availability for missing ROR units using donor ROR availability.
+        if auto_fill_missing_hydro:
+            # Ensure the symbol exists before we try to write to it.
+            if "pAvailabilityInput" not in db:
+                db.addParameter("pAvailabilityInput", ["g", "q"])
+            avail_df = db["pAvailabilityInput"].records
+            if avail_df is None:
+                avail_df = pd.DataFrame(columns=["g", "q", "value"])
+
+            missing_ror_no_avail = missing_ror.loc[~missing_ror["g"].isin(set(avail_df.get("g", [])))]
+            if missing_ror_no_avail.empty:
+                gams.printLog("[input_treatment][ror_profile] Auto-fill skipped: all ROR units missing profiles already have pAvailabilityInput.")
+            else:
+                # Join availability with ROR generator metadata to build donor profiles by zone.
+                gen_zone_meta = gen_records.loc[gen_records["tech"] == "ROR", ["g", zone_column]].drop_duplicates(subset=["g"])
+                donor_frame = avail_df.merge(gen_zone_meta, on="g", how="left").dropna(subset=[zone_column])
+                if donor_frame.empty:
+                    gams.printLog("[input_treatment][ror_profile] Auto-fill skipped: no donor ROR generators with both zone and availability.")
+                else:
+                    # Build zone-level donor profiles and a system-wide fallback (means and donor lists).
+                    zone_profiles = {}
+                    for zone_val, frame in donor_frame.groupby(zone_column, observed=False):
+                        zone_profiles[zone_val] = {
+                            "profile": frame.groupby("q", observed=False)["value"].mean().reset_index(),
+                            "donors": sorted(frame["g"].unique()),
+                        }
+                    global_profile = {
+                        "profile": donor_frame.groupby("q", observed=False)["value"].mean().reset_index(),
+                        "donors": sorted(donor_frame["g"].unique()),
+                    }
+
+                    new_entries = []
+                    filled_avail = []
+                    for row in missing_ror_no_avail.itertuples():
+                        zone_val = getattr(row, zone_column)
+                        donor_info = zone_profiles.get(zone_val, global_profile)
+                        if donor_info["profile"].empty:
+                            gams.printLog(
+                                f"[input_treatment][ror_profile] Auto-fill skipped for {row.g}: no donor availability profiles found."
+                            )
+                            continue
+                        addition = donor_info["profile"].copy()
+                        addition["g"] = row.g
+                        new_entries.append(addition.loc[:, ["g", "q", "value"]])
+                        filled_avail.append(row.g)
+                        donor_names = ", ".join(donor_info["donors"])
+                        gams.printLog(
+                            f"[input_treatment][ror_profile] Auto-filled pAvailabilityInput for {row.g} because no pVREgenProfile and no pAvailabilityInput "
+                            f"using mean of {len(donor_info['donors'])} donor ROR generator(s): {donor_names}."
+                        )
+
+                    if new_entries:
+                        updated_availability = pd.concat([avail_df] + new_entries, ignore_index=True)
+                        db.data["pAvailabilityInput"].setRecords(updated_availability)
+                        _write_back(db, "pAvailabilityInput")
+                        avail_df = updated_availability  # keep in sync for subsequent steps
+
         # Fallback: if a custom pAvailability exists, populate pVREgenProfile with flat
         # profiles derived from that availability (one value copied across all hours).
-        if fill_ror_from_availability and "pAvailability" in db:
-            avail_df = db["pAvailability"].records
+        if fill_ror_from_availability and "pAvailabilityInput" in db:
+            avail_df = db["pAvailabilityInput"].records
             if avail_df is not None and not avail_df.empty and {"g", "q", "value"}.issubset(avail_df.columns):
+                gams.printLog(
+                    "[input_treatment][ror_profile] EPM_FILL_ROR_FROM_AVAILABILITY is enabled; "
+                    "building flat hourly profiles in pVREgenProfile from pAvailabilityInput."
+                )
                 # Use hours columns already present in pVREgenProfile when possible; otherwise
                 # fall back to the hour columns from pHours (t1..t24).
                 hour_cols = [c for c in ror_records.columns if c not in {"g", "q", "d"}] if not ror_records.empty else []
@@ -703,12 +773,12 @@ def run_input_treatment(gams,
                         # Set pAvailability to 1 for these generators to avoid double scaling.
                         updated_avail = avail_df.copy()
                         updated_avail.loc[updated_avail["g"].isin(filled_gens), "value"] = 1
-                        db.data["pAvailability"].setRecords(updated_avail)
-                        _write_back(db, "pAvailability")
+                        db.data["pAvailabilityInput"].setRecords(updated_avail)
+                        _write_back(db, "pAvailabilityInput")
 
                         gams.printLog(
                             f"[input_treatment][ror_profile] Auto-filled ROR profiles for {len(filled_gens)} generator(s) in pVREgenProfile "
-                            f"using their pAvailability values (steady production assumed): {', '.join(sorted(filled_gens))}."
+                            f"using their pAvailabilityInput values (steady production assumed): {', '.join(sorted(filled_gens))}."
                         )
 
 
@@ -1056,11 +1126,11 @@ def run_input_treatment(gams,
 
     def warn_missing_availability(gams, db: gt.Container):
         """Warn if generators have no pAvailability rows (implicit availability=0)."""
-        if "pGenDataInput" not in db or "pAvailability" not in db:
+        if "pGenDataInput" not in db or "pAvailabilityInput" not in db:
             return
 
         gen_records = db["pGenDataInput"].records
-        avail_records = db["pAvailability"].records
+        avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
             return
 
@@ -1083,11 +1153,11 @@ def run_input_treatment(gams,
 
     def warn_missing_availability(gams, db: gt.Container):
         """Warn if generators have no pAvailability rows (implicit availability=0)."""
-        if "pGenDataInput" not in db or "pAvailability" not in db:
+        if "pGenDataInput" not in db or "pAvailabilityInput" not in db:
             return
 
         gen_records = db["pGenDataInput"].records
-        avail_records = db["pAvailability"].records
+        avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
             return
 
@@ -1612,6 +1682,7 @@ def run_input_treatment(gams,
     default_df = expand_to_years(db, default_df)
 
     fill_default_value(db, "pAvailability", default_df)
+    
     warn_missing_availability(gams, db)
 
     # Apply evolution factors to pAvailability
