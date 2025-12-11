@@ -81,7 +81,8 @@ COLUMN_RENAME_MAP = {
     'pPlanningReserveMargin': {'uni': 'c'},
     'ftfindex': {'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
-    'pTechData': {'Technology': 'tech'}
+    'pTechData': {'Technology': 'tech'},
+    "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
 
 
@@ -110,6 +111,7 @@ def apply_debug_column_renames(container: gt.Container, rename_map=None):
 
 
 def _get_allowed_zones(db: gt.Container):
+    """Read allowed zones from zcmap; return None when missing so callers can skip filtering."""
     if "zcmap" not in db:
         return None
     zc_records = db["zcmap"].records
@@ -181,8 +183,7 @@ def run_input_treatment(gams,
                 target_db.addParameter(param_name, domains or [], records=None)
 
             gams.printLog(
-                f"[input_treatment] write_back({param_name}): "
-                f"{row_count} row(s) via Container path ({target_kind})."
+                f"[input_treatment] {param_name}: wrote {row_count} row(s) into {target_kind} (container path)."
             )
             target_db.data[param_name].setRecords(records)
             return
@@ -203,8 +204,8 @@ def run_input_treatment(gams,
         current = live_snapshot[param_name].records
         current_count = 0 if current is None else len(current)
         gams.printLog(
-            f"[input_treatment] write_back({param_name}): completed for {target_kind} "
-            f"(live db now has {current_count} row(s))."
+            f"[input_treatment] {param_name}: wrote {row_count} row(s) into {target_kind}; "
+            f"live db now has {current_count} row(s)."
         )
 
 
@@ -382,6 +383,7 @@ def run_input_treatment(gams,
         if any(col not in records.columns for col in ("z", "z2", "pTransmissionHeader")):
             return
 
+        # Consolidate by corridor to decide which pairs are invalid before zeroing CapacityPerLine.
         wide = (
             records
             .pivot_table(
@@ -419,7 +421,7 @@ def run_input_treatment(gams,
         gams.printLog(
             f"Setting CapacityPerLine=0 for {mask.sum()} transmission row(s) due to Status missing or equal to 0."
         )
-        
+
 
     def monitor_hydro_availability(db: gt.Container, auto_fill: bool):
         """Log missing hydro availability rows and optionally back-fill them."""
@@ -507,21 +509,30 @@ def run_input_treatment(gams,
 
                 if auto_fill:
                     if avail_records.empty:
-                        gams.printLog("Auto-fill skipped: pAvailabilityInput has no existing data to copy from.")
+                        gams.printLog("[input_treatment][hydro_avail] Auto-fill skipped: pAvailability has no existing data to copy from.")
                     elif zone_column is None:
-                        gams.printLog("Auto-fill skipped: cannot identify zone column in pGenDataInput.")
+                        gams.printLog("[input_treatment][hydro_avail] Auto-fill skipped: cannot identify zone column in pGenDataInput.")
                     else:
+                        # Build donor profiles keyed by (zone, tech) from generators that do have data.
                         gen_zone_meta = gen_records.loc[:, ["g", "tech", zone_column]].drop_duplicates(subset=["g"])
                         donor_frame = avail_records.merge(gen_zone_meta, on="g", how="left")
                         donor_frame = donor_frame.dropna(subset=[zone_column, "tech"])
                         if donor_frame.empty:
-                            gams.printLog("Auto-fill skipped: no donor generators have both zone and tech information.")
+                            gams.printLog("[input_treatment][hydro_avail] Auto-fill skipped: no donor generators have both zone and tech information.")
                         else:
                             donor_profiles = {}
-                            for (zone_val, tech_val), frame in donor_frame.groupby([zone_column, "tech"]):
-                                first_gen = frame["g"].iloc[0]
-                                profile = frame.loc[frame["g"] == first_gen, ["q", "value"]].copy()
-                                donor_profiles[(zone_val, tech_val)] = {"profile": profile, "source": first_gen}
+                            for (zone_val, tech_val), frame in donor_frame.groupby([zone_column, "tech"], observed=False):
+                                # Average availability across all donor generators for this (zone, tech).
+                                profile = (
+                                    frame.groupby("q", observed=False)["value"]
+                                    .mean()
+                                    .reset_index()
+                                )
+                                donors = sorted(frame["g"].unique())
+                                donor_profiles[(zone_val, tech_val)] = {
+                                    "profile": profile,
+                                    "source": f"mean of {len(donors)} generators ({', '.join(donors)})",
+                                }
 
                             new_entries = []
                             for row in missing_meta.itertuples():
@@ -529,14 +540,14 @@ def run_input_treatment(gams,
                                 donor_info = donor_profiles.get(key)
                                 if donor_info is None:
                                     gams.printLog(
-                                        f"  -> No donor found to auto-fill {row.g} ({row.tech}, {zone_label}: {key[0]})."
+                                        f"[input_treatment][hydro_avail] No donor found to auto-fill {row.g} ({row.tech}, {zone_label}: {key[0]})."
                                     )
                                     continue
                                 addition = donor_info["profile"].copy()
                                 addition["g"] = row.g
                                 new_entries.append(addition.loc[:, ["g", "q", "value"]])
                                 gams.printLog(
-                                    f"  -> Auto-filled availability for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
+                                    f"[input_treatment][hydro_avail] Auto-filled availability for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
                                     f"using {donor_info['source']}."
                                 )
 
@@ -545,7 +556,7 @@ def run_input_treatment(gams,
                                 db.data["pAvailabilityInput"].setRecords(updated_availability)
                                 _write_back(db, "pAvailabilityInput")
                             else:
-                                gams.printLog("Auto-fill finished: no records were added.")
+                                gams.printLog("[input_treatment][hydro_avail] Auto-fill finished: no records were added.")
 
         # --- ROR: check pVREgenProfile -------------------------------------------
         ror_meta = _extract_hydro_meta({"ROR"})
@@ -554,13 +565,16 @@ def run_input_treatment(gams,
 
         if "pVREgenProfile" not in db:
             gams.printLog(
-                "ROR availability warning: pVREgenProfile parameter is missing. "
+                "[input_treatment][ror_profile] ROR availability warning: pVREgenProfile parameter is missing. "
                 f"Rebuild the inputs via `{notebook_hint}`."
             )
             return
 
         ror_records = db["pVREgenProfile"].records
-        if ror_records is None or ror_records.empty:
+        if ror_records is None:
+            ror_records = pd.DataFrame()
+            provided_ror = set()
+        elif ror_records.empty:
             provided_ror = set()
         elif "g" in ror_records.columns:
             provided_ror = set(ror_records["g"].unique())
@@ -568,14 +582,15 @@ def run_input_treatment(gams,
             provided_ror = set(ror_records["gen"].unique())
         else:
             gams.printLog(
-                "ROR availability warning: cannot identify generator column in pVREgenProfile."
+                "[input_treatment][ror_profile] ROR availability warning: cannot identify generator column in pVREgenProfile."
             )
             return
 
+        # Compare ROR generators in pGenDataInput with those that have hourly profiles.
         missing_ror = ror_meta.loc[~ror_meta["g"].isin(provided_ror)]
         if missing_ror.empty:
             gams.printLog(
-                f"ROR availability check: all {len(ror_meta)} generator(s) defined in pGenDataInput "
+                f"[input_treatment][ror_profile] ROR availability check: all {len(ror_meta)} generator(s) defined in pGenDataInput "
                 "have hourly profiles in pVREgenProfile."
             )
             return
@@ -594,7 +609,7 @@ def run_input_treatment(gams,
                 )
 
         gams.printLog(
-            f"ROR availability warning: {len(missing_ror)} generator(s) lack hourly profiles in pVREgenProfile. "
+            f"[input_treatment][ror_profile] ROR availability warning: {len(missing_ror)} generator(s) lack hourly profiles in pVREgenProfile. "
             f"Update the hydro notebook at `{notebook_hint}`."
         )
         _log_zone_summary(
@@ -946,13 +961,13 @@ def run_input_treatment(gams,
         
         
         if default_df is None:
-            gams.printLog('{} empty so no effect'.format(default_param_name))
+            gams.printLog('[input_treatment][defaults] {} empty so no effect'.format(default_param_name))
             db.data[param_name].setRecords(param_df)
             _write_back(db, param_name)
 
             return None
         
-        gams.printLog("Modifying {} with {}".format(param_name, default_param_name))
+        gams.printLog("[input_treatment][defaults] Modifying {} with {}".format(param_name, default_param_name))
         
         
         # Unstack data on 'header' for correct alignment
@@ -962,7 +977,7 @@ def run_input_treatment(gams,
         
         # Add missing columns that have been dropped by CONNECT CSV WRITER
         missing_columns = [i for i in default_df.columns if i not in param_df.columns]
-        gams.printLog(f'Missing {missing_columns}')
+        gams.printLog(f'[input_treatment][defaults] Missing {missing_columns}')
         for c in missing_columns:
             param_df[c] = float('nan')
 
@@ -1290,6 +1305,22 @@ def run_input_treatment(gams,
         return df_expanded
 
 
+    def prepare_pavailability(db: gt.Container):
+        """Expand pAvailabilityInput(g,q) across years and ensure pAvailability(g,y,q) exists."""
+        if "pAvailabilityInput" in db and db["pAvailabilityInput"].records is not None:
+            avail_records = db["pAvailabilityInput"].records
+            gams.printLog("Expanding pAvailabilityInput to pAvailability with year dimension")
+            avail_expanded = expand_to_years(db, avail_records)
+            if "pAvailability" not in db:
+                db.addParameter("pAvailability", ["g", "y", "q"], records=avail_expanded)
+            else:
+                db.data["pAvailability"].setRecords(avail_expanded)
+            _write_back(db, "pAvailability")
+        else:
+            if "pAvailability" not in db:
+                db.addParameter("pAvailability", ["g", "y", "q"])
+
+
     def apply_availability_evolution(db: gt.Container,
                                      evolution_param: str = "pEvolutionAvailability",
                                      availability_param: str = "pAvailability",
@@ -1549,25 +1580,74 @@ def run_input_treatment(gams,
             db.data[param_name].setRecords(final)
             target_range = f"{int(target_years[0])}-{int(target_years[-1])}"
             gams.printLog(
-                f"Linear interpolation performed on {param_name} to match model years {target_range}."
+                f"[input_treatment][interpolate] Linear interpolation performed on {param_name} to match model years {target_range}."
             )
             _write_back(db, param_name)
         
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
 
+    settings_flags = {}
+    # Pull scalar switches from pSettings so model toggles can be driven by the CSV.
+    try:
+        settings_records = db["pSettings"].records
+    except KeyError:
+        settings_records = None
+    if settings_records is not None and not settings_records.empty:
+        settings_flags = dict(
+            zip(settings_records["pSettingsHeader"], settings_records["value"])
+        )
+
+    def _truthy(value) -> bool:
+        """Interpret pSettings/env values as booleans (non-zero numeric or yes/true/on)."""
+        if value is None or (isinstance(value, float) and pd.isna(value)):
+            return False
+        if isinstance(value, str):
+            value = value.strip()
+            if value == "":
+                return False
+        try:
+            return float(value) != 0
+        except (TypeError, ValueError):
+            return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+    # Auto-fill hydro availability can be enabled via (in priority order):
+    # 1) function arg, 2) env var, 3) pSettings flag.
+    setting_auto_fill_hydro = _truthy(settings_flags.get("EPM_FILL_HYDRO_AVAILABILITY"))
     env_flag = str(os.environ.get("EPM_FILL_HYDRO_AVAILABILITY", "")).strip().lower()
     env_auto_fill = env_flag in {"1", "true", "yes", "on"}
-    auto_fill_missing_hydro = fill_missing_hydro_availability or env_auto_fill
-    if env_auto_fill and not fill_missing_hydro_availability:
-        gams.printLog("Hydro availability auto-fill enabled via EPM_FILL_HYDRO_AVAILABILITY environment variable.")
+    auto_fill_missing_hydro = (
+        fill_missing_hydro_availability or env_auto_fill or setting_auto_fill_hydro
+    )
+    if setting_auto_fill_hydro and not (fill_missing_hydro_availability or env_auto_fill):
+        gams.printLog(
+            "Hydro availability auto-fill enabled via pSettings (EPM_FILL_HYDRO_AVAILABILITY)."
+        )
+    elif env_auto_fill and not fill_missing_hydro_availability:
+        gams.printLog(
+            "Hydro availability auto-fill enabled via EPM_FILL_HYDRO_AVAILABILITY environment variable."
+        )
 
+    # Auto-fill hydro capex uses the same priority order.
+    setting_auto_fill_capex = _truthy(settings_flags.get("EPM_FILL_HYDRO_CAPEX"))
     capex_flag = str(os.environ.get("EPM_FILL_HYDRO_CAPEX", "")).strip().lower()
     env_capex_fill = capex_flag in {"1", "true", "yes", "on"}
-    auto_fill_missing_capex = fill_missing_hydro_capex or env_capex_fill
-    if env_capex_fill and not fill_missing_hydro_capex:
-        gams.printLog("Hydro capex auto-fill enabled via EPM_FILL_HYDRO_CAPEX environment variable.")
+    auto_fill_missing_capex = (
+        fill_missing_hydro_capex or env_capex_fill or setting_auto_fill_capex
+    )
+    if setting_auto_fill_capex and not (fill_missing_hydro_capex or env_capex_fill):
+        gams.printLog(
+            "Hydro capex auto-fill enabled via pSettings (EPM_FILL_HYDRO_CAPEX)."
+        )
+    elif env_capex_fill and not fill_missing_hydro_capex:
+        gams.printLog(
+            "Hydro capex auto-fill enabled via EPM_FILL_HYDRO_CAPEX environment variable."
+        )
 
+    fill_ror_from_availability = _truthy(
+        settings_flags.get("EPM_FILL_ROR_FROM_AVAILABILITY")
+    )
+    
     filter_inputs_to_allowed_zones(
         db,
         log_func=gams.printLog,
@@ -1586,32 +1666,18 @@ def run_input_treatment(gams,
     
     # Complete Generator Data
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
+    
+    set_missing_styr_for_existing(db)
+
+    # CSV is read into pAvailabilityInput(g,q), we expand to pAvailability(g,y,q)
+    prepare_pavailability(db)
 
     # Prepare pAvailability by filling missing values with default values
-    # pAvailability now has year dimension (g,y,q) but input CSV doesn't have 'y'
-    # CSV is read into pAvailabilityInput(g,q), we expand to pAvailability(g,y,q)
-
-    # First, expand pAvailabilityInput records (from CSV without 'y') to all years
-    if "pAvailabilityInput" in db and db["pAvailabilityInput"].records is not None:
-        avail_records = db["pAvailabilityInput"].records
-        gams.printLog("Expanding pAvailabilityInput to pAvailability with year dimension")
-        avail_expanded = expand_to_years(db, avail_records)
-        # Create pAvailability parameter if it doesn't exist, or update it
-        if "pAvailability" not in db:
-            db.addParameter("pAvailability", ["g", "y", "q"], records=avail_expanded)
-        else:
-            db.data["pAvailability"].setRecords(avail_expanded)
-        _write_back(db, "pAvailability")
-    else:
-        # No custom availability provided, create empty pAvailability
-        if "pAvailability" not in db:
-            db.addParameter("pAvailability", ["g", "y", "q"])
-
-    # Prepare default values and expand to all years
     default_df = prepare_generatorbased_parameter(db,
                                                   "pAvailabilityDefault",
                                                   cols_tokeep=['q'],
                                                   param_ref="pGenDataInput")
+    
     # Expand default values to all years (constant across years)
     default_df = expand_to_years(db, default_df)
 
@@ -1637,8 +1703,8 @@ def run_input_treatment(gams,
 
 if __name__ == "__main__":
 
-    DEFAULT_GDX = os.path.join("test", "input.gdx")
-    output_gdx = os.path.join("test", "input_treated.gdx")
+    DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
+    output_gdx = os.path.join("epm", "test", "input_treated.gdx")
 
     container = gt.Container()
     container.read(DEFAULT_GDX)
