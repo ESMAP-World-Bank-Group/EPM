@@ -492,7 +492,8 @@ pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g))) =
   1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
 pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
-  1e3 * vBuildStor.l(g, y) * pStorageData(g, "CapexMWh") * pCapexTrajectories(g, y);
+  1e3 * vBuildStor.l(g, y) * pStorageData(g, "CapexMWh") * pCapexTrajectories(g, y) +
+  1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
 pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$cs(g) =
   1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3 * pCapexTrajectories(g, y);
