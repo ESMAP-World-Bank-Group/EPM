@@ -228,12 +228,12 @@ Check `Run EPM Advanced Features` for additional explanations on advanced featur
 - **Purpose:** Enables sensitivity analysis which automatically modifies select parameters to evaluate model sensitivity.
 - **Usage:** Include `--sensitivity` to enable.
 
-### `--project_assessment`
+### `--generator_assessment`
 
 - **Type:** list of strings
 - **Default:** None
 - **Purpose:** Specifies projects to exclude from the simulation to assess counterfactual scenarios.
-- **Example:** `--project_assessment SolarProject`
+- **Example:** `--generator_assessment SolarProject`
 
 ---
 
