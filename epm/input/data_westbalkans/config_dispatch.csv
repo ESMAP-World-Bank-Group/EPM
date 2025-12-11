@@ -2,8 +2,8 @@ metadata,paramNames,file
 modeltype type (MIP or RMIP),modeltype,MIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
 ,SETTINGS,
-Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
-Planning horizon years (Unit: year),y,y.csv
+Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings_dispatch.csv
+Planning horizon years (Unit: year),y,y_dispatch.csv
 Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours_dispatch.csv
 ,STATIC,
@@ -27,13 +27,13 @@ Demand-side efficiency multipliers by year (Unit: per-unit multiplier),pEnergyEf
 ,SUPPLY,
 "Custom generator entries overriding defaults (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInput,supply/pGenDataInput.csv
 "Default generator dataset by zone and technology (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInputDefault,supply/pGenDataInputDefault.csv
-Custom seasonal availability factors for generators (Unit: per-unit availability),pAvailability,supply/pAvailabilityCustom_dispatch.csv
-Default seasonal availability factors for generators (Unit: per-unit availability),pAvailabilityDefault,supply/pAvailabilityDefault_dispatch.csv
+Custom seasonal availability factors for generators (Unit: per-unit availability),pAvailability,supply/pAvailabilityCustom.csv
+Default seasonal availability factors for generators (Unit: per-unit availability),pAvailabilityDefault,supply/pAvailabilityDefault.csv
 Custom CAPEX trajectory multipliers by generator and year (Unit: scalar multiplier),pCapexTrajectories,supply/pCapexTrajectoriesCustom.csv
 Default CAPEX trajectory multipliers by generator and year (Unit: scalar multiplier),pCapexTrajectoriesDefault,supply/pCapexTrajectoriesDefault.csv
 "CSP-specific plant parameters (Unit: varies; e.g., MW, USD/MWh)",pCSPData,supply/pCSPData.csv
 Fuel price trajectories by zone and fuel (Unit: USD/MMBtu),pFuelPrice,supply/pFuelPrice.csv
-Plant-level variable renewable generation profiles (Unit: per-unit output),pVREgenProfile,supply/pVREgenProfile_dispatch.csv
+Plant-level variable renewable generation profiles (Unit: per-unit output),pVREgenProfile,supply/pVREgenProfile.csv
 Zone-level variable renewable availability profiles (Unit: per-unit output),pVREProfile,supply/pVREProfile_dispatch.csv
 "Grid-scale storage parameters (Unit: varies; capacity in MWh, cost in USD/MWh)",pStorageDataInput,supply/pStorageDataInput.csv
 ,RESERVE,
@@ -53,8 +53,8 @@ Share of demand allowed to be served by high-price imports (Unit: per-unit share
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
-Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice_dispatch.csv
-Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit_dispatch.csv
+Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv
+Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit.csv
 ,H2,
 "Hydrogen asset data (Unit: varies; capacity in MW, cost in USD/MW)",pH2DataExcel,h2/pH2DataExcel.csv
 Hydrogen technology availability factors (Unit: per-unit availability),pAvailabilityH2,h2/pAvailabilityH2.csv

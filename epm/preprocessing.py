@@ -702,7 +702,7 @@ def perform_sensitivity(sensitivity, s):
 
     return s
 
-def perform_assessment(project_assessment, s):
+def perform_assessment(generator_assessment, s):
     try:
 
         # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
@@ -719,11 +719,11 @@ def perform_assessment(project_assessment, s):
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pGenDataInput'])
             
-            # Remove project(s) in project_assessment
-            df = df.loc[~df['gen'].isin(project_assessment)]
+            # Remove project(s) in generator_assessment
+            df = df.loc[~df['gen'].isin(generator_assessment)]
 
             # Write the modified file
-            name = '-'.join(project_assessment).replace(' ', '')
+            name = '-'.join(generator_assessment).replace(' ', '')
             path_file = os.path.basename(s[scenario]['pGenDataInput']).split('.')[0] + '_' + name + '.csv'
             path_file = os.path.join(folder_assessment, path_file)
             df.to_csv(path_file, index=False)
@@ -734,10 +734,48 @@ def perform_assessment(project_assessment, s):
                 
 
     except Exception:
-        raise KeyError('Error in project_assessment features')
+        raise KeyError('Error in generator_assessment features')
 
     s.update(new_s)
 
+    return s
+
+
+def perform_project_assessment(project_assessment, s):
+    """
+    Build assessment scenarios using an existing pGenDataInput variant (suffix or filename).
+    """
+    try:
+        new_s = {}
+        for scenario in list(s.keys()):
+            base_path = s[scenario]['pGenDataInput']
+            base_dir = os.path.dirname(base_path)
+
+            if os.path.isabs(project_assessment):
+                candidate = project_assessment
+            else:
+                if project_assessment.endswith(".csv"):
+                    candidate = os.path.join(base_dir, project_assessment)
+                else:
+                    root, ext = os.path.splitext(os.path.basename(base_path))
+                    suffix = project_assessment
+                    if not suffix.startswith('_'):
+                        suffix = f"_{suffix}"
+                    candidate_name = f"{root}{suffix}.csv" if ext == ".csv" else f"{root}{suffix}{ext}"
+                    candidate = os.path.join(base_dir, candidate_name)
+
+            if not os.path.exists(candidate):
+                raise FileNotFoundError(f"Project assessment file {os.path.abspath(candidate)} not found.")
+
+            label = os.path.splitext(os.path.basename(candidate))[0].replace('pGenDataInput', '').strip('_') or "project"
+            scenario_name = f"{scenario}_{label}"
+            new_s[scenario_name] = s[scenario].copy()
+            new_s[scenario_name]['pGenDataInput'] = candidate
+
+    except Exception:
+        raise KeyError('Error in project_assessment features')
+
+    s.update(new_s)
     return s
 
 def perform_interco_assessment(interco_assessment, s, delay=5):

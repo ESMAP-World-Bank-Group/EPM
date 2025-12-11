@@ -1,4 +1,6 @@
-paramNames,NoBESS
+paramNames,MIP
+modeltype,MIP
+cplexfile,
 SETTINGS,
 pSettings,
 y,
@@ -15,7 +17,7 @@ pDemandProfile,
 sRelevant,
 pEnergyEfficiencyFactor,
 SUPPLY,
-pGenDataInput,supply/pGenDataInput_nobess.csv
+pGenDataInput,
 pGenDataInputDefault,
 pAvailability,
 pAvailabilityDefault,
