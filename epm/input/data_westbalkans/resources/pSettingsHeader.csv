@@ -20,7 +20,7 @@ fEnableCarbonPrice
 fEnableEnergyEfficiency
 fEnableCSP
 fEnableStorage
-InitialSOCforBattery
+InitialSOCforStorage
 fEnableEconomicRetirement
 fUseSimplifiedDemand
 fCountIntercoForReserves
