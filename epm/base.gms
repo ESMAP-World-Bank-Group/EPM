@@ -481,8 +481,7 @@ Equations
    eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
    eStorageSOCInitDispatch
    eStorageSOCFinalDispatch
-   eStorageSOCInitRep
-   eStorageSOCFinalRep
+   eStateOfChargeInitRep
 
 * ------------------------------
 * CSP-specific and storage capacity evolution
@@ -1008,13 +1007,9 @@ eStorageSOCInitDispatch(st,g,q,d,t,y)$((fDispatchMode and sFirstHour(t) and sFir
 eStorageSOCFinalDispatch(st,q,d,t,y)$((fDispatchMode and sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
 
-* Anchors the first hour of each representative day to the configured capacity share (rep-day mode).
-eStorageSOCInitRep(st,g,q,d,t,y)$((not fDispatchMode and sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
-
-* Forces the last hour of each representative day to return to the same capacity share, keeping daily wrap consistent (rep-day mode).
-eStorageSOCFinalRep(st,q,d,t,y)$((not fDispatchMode and sLastHour(t) and fEnableStorage) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+* Representative-day mode: enforce SOC recursion on the first hour without cross-day anchoring.
+eStateOfChargeInitRep(st,q,d,t,y)$((not fDispatchMode) and fEnableStorage and sFirstHour(t) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y) - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
 
 * eStorageHourTransition rolls storage state forward using the previous chronological hour (t-1), assuming storage is enabled.
 eStorageHourTransition(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
@@ -1248,8 +1243,7 @@ Model PA /
    eStorageDayWrap
    eStorageSOCInitDispatch
    eStorageSOCFinalDispatch
-   eStorageSOCInitRep
-   eStorageSOCFinalRep
+   eStateOfChargeInitRep
 
 
    eSOCSupportsReserve
