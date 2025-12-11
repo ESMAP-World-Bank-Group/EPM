@@ -479,8 +479,10 @@ Equations
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
    eStorageHourTransition
    eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
-   eStorageSOCInit
-   eStorageSOCFinal
+   eStorageSOCInitDispatch
+   eStorageSOCFinalDispatch
+   eStorageSOCInitRep
+   eStorageSOCFinalRep
 
 * ------------------------------
 * CSP-specific and storage capacity evolution
@@ -970,7 +972,7 @@ eExternalExportLimit(z,zext,q,d,t,y)$((fEnableExternalExchange) and FD(q,d,t))..
 * Storage operations
 * Controls storage SOC, charging, and reserve support.
 * ------------------------------
-* Limits state of charge (SOC) by capacit
+* Limits state of charge (SOC) by capacity
 eSOCUpperBound(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorage(st,q,d,t,y) =l= vCapStor(st,y);
 
@@ -998,19 +1000,27 @@ eChargeRampUpLimit(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage and fApply
 eNetChargeBalance(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorNet(st,q,d,t,y) =e= sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y)) - vStorInj(st,q,d,t,y);
 
+* Anchors the first hour of the representative-day cycle to the configured capacity share (dispatch mode only).
+eStorageSOCInitDispatch(st,g,q,d,t,y)$((fDispatchMode and sFirstHour(t) and sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+
+* Forces the last hour of the cycle to return to the same capacity share, ensuring the wrap-around matches the initial value (dispatch mode only).
+eStorageSOCFinalDispatch(st,q,d,t,y)$((fDispatchMode and sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+
+* Anchors the first hour of each representative day to the configured capacity share (rep-day mode).
+eStorageSOCInitRep(st,g,q,d,t,y)$((not fDispatchMode and sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+
+* Forces the last hour of each representative day to return to the same capacity share, keeping daily wrap consistent (rep-day mode).
+eStorageSOCFinalRep(st,q,d,t,y)$((not fDispatchMode and sLastHour(t) and fEnableStorage) and FD(q,d,t))..
+   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
+
 * eStorageHourTransition rolls storage state forward using the previous chronological hour (t-1), assuming storage is enabled.
 eStorageHourTransition(st,q,d,t,y)$((not sFirstHour(t) and fEnableStorage) and FD(q,d,t))..
    vStorage(st,q,d,t,y) =e= vStorage(st,q,d,t-1,y)
       + pStorageData(st,"Efficiency")*vStorInj(st,q,d,t,y)
       - sum(gfmap(st,f), vPwrOut(st,f,q,d,t,y));
-
-* Anchors the first hour of the representative-day cycle to the configured capacity share.
-eStorageSOCInit(st,g,q,d,t,y)$((sFirstHour(t) and sFirstDay(d) and fEnableStorage) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
-
-* Forces the last hour of the cycle to return to the same capacity share, ensuring the wrap-around matches the initial value.
-eStorageSOCFinal(st,q,d,t,y)$((sLastHour(t) and sLastDay(d) and fEnableStorage) and FD(q,d,t))..
-   vStorage(st,q,d,t,y) =e= vCapStor(st,y)*pStorageInitShare;
 
 * Dispatch mode: wrap the first hour of each day to the previous chronological hour (AT-1); no wrap in representative-day mode.
 eStorageDayWrap(st,q,d,t,AT,y)$((fDispatchMode and fEnableStorage and sFirstHour(t) and mapTS(q,d,t,AT) and ord(AT) > 1) and FD(q,d,t))..
@@ -1236,8 +1246,10 @@ Model PA /
    eNetChargeBalance
    eStorageHourTransition
    eStorageDayWrap
-   eStorageSOCInit
-   eStorageSOCFinal
+   eStorageSOCInitDispatch
+   eStorageSOCFinalDispatch
+   eStorageSOCInitRep
+   eStorageSOCFinalRep
 
 
    eSOCSupportsReserve

@@ -496,7 +496,7 @@ pInitialOnStart(g)$pGenData(g,"InitialOn") = pGenData(g,"InitialOn");
 
 
 pStorageInitShare = pSettings("InitialSOCforBattery");
-if (pStorageInitShare <= 0,
+if (pStorageInitShare < 0,
    pStorageInitShare = 0.5;
 );
 
