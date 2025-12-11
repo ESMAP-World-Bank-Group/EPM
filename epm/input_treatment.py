@@ -1305,6 +1305,22 @@ def run_input_treatment(gams,
         return df_expanded
 
 
+    def prepare_pavailability(db: gt.Container):
+        """Expand pAvailabilityInput(g,q) across years and ensure pAvailability(g,y,q) exists."""
+        if "pAvailabilityInput" in db and db["pAvailabilityInput"].records is not None:
+            avail_records = db["pAvailabilityInput"].records
+            gams.printLog("Expanding pAvailabilityInput to pAvailability with year dimension")
+            avail_expanded = expand_to_years(db, avail_records)
+            if "pAvailability" not in db:
+                db.addParameter("pAvailability", ["g", "y", "q"], records=avail_expanded)
+            else:
+                db.data["pAvailability"].setRecords(avail_expanded)
+            _write_back(db, "pAvailability")
+        else:
+            if "pAvailability" not in db:
+                db.addParameter("pAvailability", ["g", "y", "q"])
+
+
     def apply_availability_evolution(db: gt.Container,
                                      evolution_param: str = "pEvolutionAvailability",
                                      availability_param: str = "pAvailability",
@@ -1653,31 +1669,15 @@ def run_input_treatment(gams,
     
     set_missing_styr_for_existing(db)
 
-    # Prepare pAvailability by filling missing values with default values
-    # pAvailability now has year dimension (g,y,q) but input CSV doesn't have 'y'
     # CSV is read into pAvailabilityInput(g,q), we expand to pAvailability(g,y,q)
+    prepare_pavailability(db)
 
-    # First, expand pAvailabilityInput records (from CSV without 'y') to all years
-    if "pAvailabilityInput" in db and db["pAvailabilityInput"].records is not None:
-        avail_records = db["pAvailabilityInput"].records
-        gams.printLog("Expanding pAvailabilityInput to pAvailability with year dimension")
-        avail_expanded = expand_to_years(db, avail_records)
-        # Create pAvailability parameter if it doesn't exist, or update it
-        if "pAvailability" not in db:
-            db.addParameter("pAvailability", ["g", "y", "q"], records=avail_expanded)
-        else:
-            db.data["pAvailability"].setRecords(avail_expanded)
-        _write_back(db, "pAvailability")
-    else:
-        # No custom availability provided, create empty pAvailability
-        if "pAvailability" not in db:
-            db.addParameter("pAvailability", ["g", "y", "q"])
-
-    # Prepare default values and expand to all years
+    # Prepare pAvailability by filling missing values with default values
     default_df = prepare_generatorbased_parameter(db,
                                                   "pAvailabilityDefault",
                                                   cols_tokeep=['q'],
                                                   param_ref="pGenDataInput")
+    
     # Expand default values to all years (constant across years)
     default_df = expand_to_years(db, default_df)
 
