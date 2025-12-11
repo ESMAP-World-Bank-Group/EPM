@@ -184,7 +184,8 @@ Parameter
 
 * Storage and transmission
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
-   
+   pStorageDataTemp(g,g2,pStorageDataHeader)             'Temporary storage data for processing'
+
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
    pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
@@ -346,6 +347,11 @@ $if "x%gams.restart%" == "x" $include %BASE_FILE%
 $include %HYDROGEN_FILE%
 
 *-------------------------------------------------------------------------------------
+
+* Copy to temp parameter and normalize standalone storage (g,'') to paired format (g,g) for uniform processing
+pStorageDataTemp(g,g2,pStorageDataHeader) = pStorageDataInput(g,g2,pStorageDataHeader);
+pStorageDataTemp(g,g,pStorageDataHeader)$pStorageDataInput(g,'',pStorageDataHeader) = pStorageDataInput(g,'',pStorageDataHeader);
+
 
 * Generate gfmap and others from pGenDataInput
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
@@ -519,10 +525,6 @@ Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 * Define `Zd(z)` as the complement of `Zt(z)`, indicating zones with demand
 Zd(z) = not Zt(z);
 
-* Copy to temp parameter and normalize standalone storage (g,'') to paired format (g,g) for uniform processing
-parameter pStorageDataTemp(g,g2,pStorageDataHeader) 'Temporary storage data for processing';
-pStorageDataTemp(g,g2,pStorageDataHeader) = pStorageDataInput(g,g2,pStorageDataHeader);
-pStorageDataTemp(g,g,pStorageDataHeader)$pStorageDataInput(g,'',pStorageDataHeader) = pStorageDataInput(g,'',pStorageDataHeader);
 
 * Assign storage data from pStorageDataTemp based on the generator-storage mapping
 option gsmap<pStorageDataTemp;
