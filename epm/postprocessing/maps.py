@@ -210,7 +210,8 @@ def get_value(df, zone, year, scenario, attribute, column_to_select='attribute')
 
 def divide(geodf, country, division):
     """
-    Divide a country's geometry into two subzones using North-South (NS) or East-West (EW) division.
+    Divide a country's geometry into two or more subzones using North-South (NS), East-West (EW), or
+    three-way splits.
 
     This function overlays the country geometry with a dividing polygon and extracts
     the two subregions.
@@ -226,6 +227,7 @@ def divide(geodf, country, division):
         - 'NS' (North-South) splits along the latitude midpoint.
         - 'EW' (East-West) splits along the longitude midpoint.
         - 'NSE' (North-South-East) splits into three quadrants.
+        - 'NCS' (North-Center-South) splits into three horizontal bands.
 
     Returns
     -------
@@ -272,7 +274,30 @@ def divide(geodf, country, division):
         east_part['region'] = 'east'
         
         return pd.concat([west_part, east_part])
-        
+
+    elif division == 'NCS':
+        third_latitude = (maxy - miny) / 3
+        south_limit = miny + third_latitude
+        north_limit = maxy - third_latitude
+
+        south_polygon = Polygon([(minx, miny), (minx, south_limit), (maxx, south_limit), (maxx, miny)])
+        center_polygon = Polygon([(minx, south_limit), (minx, north_limit), (maxx, north_limit), (maxx, south_limit)])
+        north_polygon = Polygon([(minx, north_limit), (minx, maxy), (maxx, maxy), (maxx, north_limit)])
+
+        south_gdf = gpd.GeoDataFrame(geometry=[south_polygon], crs=crs)
+        center_gdf = gpd.GeoDataFrame(geometry=[center_polygon], crs=crs)
+        north_gdf = gpd.GeoDataFrame(geometry=[north_polygon], crs=crs)
+
+        south_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], south_gdf, how='intersection')
+        center_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], center_gdf, how='intersection')
+        north_part = gpd.overlay(geodf.loc[geodf['ADMIN'] == country], north_gdf, how='intersection')
+
+        south_part['region'] = 'south'
+        center_part['region'] = 'center'
+        north_part['region'] = 'north'
+
+        return pd.concat([north_part, center_part, south_part])
+
     elif division == 'NSE':
         median_latitude = (miny + maxy) / 2
         median_longitude = (minx + maxx) / 2
@@ -297,7 +322,7 @@ def divide(geodf, country, division):
         return pd.concat([west_part, east_part, north_part, south_part])
 
     else:
-        raise ValueError("Invalid division type. Use 'NS' (North-South) or 'EW' (East-West).")
+        raise ValueError("Invalid division type. Use 'NS', 'EW', 'NSE', or 'NCS'.")
 
 
 def plot_zone_map_on_ax(ax, zone_map):

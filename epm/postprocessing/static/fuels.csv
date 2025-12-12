@@ -1,6 +1,27 @@
-﻿Order of Processing is the one is stacked plots,
+﻿# Order of Processing is the one is stacked plots,
 EPM_Fuel,Processing
+<<<<<<< HEAD
 ST-Uranium,Uranium
+=======
+ST-Coal,ST-Coal
+CCGT-Gas,CCGT-Gas
+OCGT-Gas,OCGT-Gas
+OCGT-HFO,OCGT-HFO
+OCGT-LFO,OCGT-LFO
+OCGT-Diesel,OCGT-Diesel
+ICE-Gas,ICE-Gas
+ICE-HFO,ICE-HFO
+ICE-LFO,ICE-LFO
+ICE-Diesel,ICE-Diesel
+ReservoirHydro-Water,Reservoir
+ROR-Water,ROR
+BiomassPlant-Biomass,Biomass
+CSPPlant-CSP,CSP
+OnshoreWind-Wind,Onshore Wind
+OffshoreWind-Wind,Offshore Wind
+PV-Solar,PV
+Storage-Battery,Battery
+>>>>>>> origin/main
 Uranium,Uranium
 ST-Coal,ST-Coal
 Coal,Coal

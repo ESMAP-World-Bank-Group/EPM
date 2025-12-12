@@ -44,6 +44,8 @@ epm/epm.~log
 
 /pre-analysis/not_git_track/
 
+epm/postprocessing/data_inception_report/output
+
 # Tableau retained files
 !epm/output/tableau/*.twb
 !epm/output/tableau/ESMAP_logo.png

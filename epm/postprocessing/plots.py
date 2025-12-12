@@ -2428,13 +2428,15 @@ def make_heatmap_plot(
         "Unmet system spinning reserve costs: $/MWh"
     ]
 
-    def _get_dataframe(key: str) -> pd.DataFrame:
+    def _get_dataframe(key: str):
         if key not in epm_results:
-            raise KeyError(f"'{key}' is required in epm_results to build the heatmap.")
-        df = epm_results[key].copy()
+            print(f"Warning: '{key}' is missing in epm_results; skipping its heatmap section.")
+            return None
+        df = epm_results[key]
         if not isinstance(df, pd.DataFrame):
-            raise TypeError(f"Expected '{key}' to be a pandas DataFrame, got {type(df)}.")
-        return df
+            print(f"Warning: Expected '{key}' to be a pandas DataFrame, got {type(df)}; skipping.")
+            return None
+        return df.copy()
 
     def _merge_attribute_group(df: pd.DataFrame, attributes: list, group_name: str) -> pd.DataFrame:
         if 'attribute' not in df.columns:
@@ -2476,16 +2478,17 @@ def make_heatmap_plot(
 
     # 1. Discounted system costs (pCostsSystem)
     costs_system = _get_dataframe('pCostsSystem')
-    costs_system = _merge_attribute_group(costs_system, TRADE_ATTRS, "Trade costs")
-    costs_system = _merge_attribute_group(costs_system, RESERVE_ATTRS, "Reserve costs")
-    costs_pivot_raw = costs_system.pivot_table(index='scenario', columns='attribute', values='value', aggfunc='sum')
-    ordered_cost_columns = list(costs_pivot_raw.columns)
-    npv_label = 'NPV of system cost: $m'
-    if npv_label in ordered_cost_columns:
-        ordered_cost_columns = [npv_label] + [col for col in ordered_cost_columns if col != npv_label]
-    costs_pivot = costs_pivot_raw.reindex(columns=ordered_cost_columns)
-    costs_pivot = _format_cost_columns(costs_pivot, 'M$')
-    frames.append(costs_pivot)
+    if costs_system is not None:
+        costs_system = _merge_attribute_group(costs_system, TRADE_ATTRS, "Trade costs")
+        costs_system = _merge_attribute_group(costs_system, RESERVE_ATTRS, "Reserve costs")
+        costs_pivot_raw = costs_system.pivot_table(index='scenario', columns='attribute', values='value', aggfunc='sum')
+        ordered_cost_columns = list(costs_pivot_raw.columns)
+        npv_label = 'NPV of system cost: $m'
+        if npv_label in ordered_cost_columns:
+            ordered_cost_columns = [npv_label] + [col for col in ordered_cost_columns if col != npv_label]
+        costs_pivot = costs_pivot_raw.reindex(columns=ordered_cost_columns)
+        costs_pivot = _format_cost_columns(costs_pivot, 'M$')
+        frames.append(costs_pivot)
 
     # Determine final year helper
     def _resolve_year(df: pd.DataFrame) -> int:
@@ -2500,144 +2503,154 @@ def make_heatmap_plot(
 
     # 2. Total system capacity in the final year
     capacity_fuel_all = _get_dataframe('pCapacityTechFuel')
-    capacity_year = _resolve_year(capacity_fuel_all)
-    capacity_fuel = _filter_zone(capacity_fuel_all)
-    capacity_summary = (
-        capacity_fuel[capacity_fuel['year'] == capacity_year]
-        .groupby(['scenario', 'fuel'], observed=False)['value']
-        .sum()
-        .groupby(level='scenario')
-        .sum()
-    )
-    capacity_total_col = f'Capacity - Total {capacity_year} (MW)'
-    capacity_summary = capacity_summary.to_frame(capacity_total_col)
-    frames.append(capacity_summary)
+    if capacity_fuel_all is not None:
+        capacity_year = _resolve_year(capacity_fuel_all)
+        capacity_fuel = _filter_zone(capacity_fuel_all)
+        capacity_summary = (
+            capacity_fuel[capacity_fuel['year'] == capacity_year]
+            .groupby(['scenario', 'fuel'], observed=False)['value']
+            .sum()
+            .groupby(level='scenario')
+            .sum()
+        )
+        capacity_total_col = f'Capacity - Total {capacity_year} (MW)'
+        capacity_summary = capacity_summary.to_frame(capacity_total_col)
+        frames.append(capacity_summary)
 
     # 3. New capacity additions by fuel (aggregated across zones) in the final year
     new_capacity_all = _get_dataframe('pNewCapacityTechFuel')
-    new_capacity_year = _resolve_year(new_capacity_all)
-    new_capacity = _filter_zone(new_capacity_all)
-    new_capacity_summary = (
-        new_capacity[new_capacity['year'] == new_capacity_year]
-        .groupby(['scenario', 'fuel'], observed=False)['value']
-        .sum()
-        .unstack('fuel')
-        .fillna(0)
-    )
-    new_fuel_columns = list(new_capacity_summary.columns)
-    renamed_new_capacity = {col: f'New capacity - {col} (MW)' for col in new_fuel_columns}
-    new_capacity_summary = new_capacity_summary.rename(columns=renamed_new_capacity)
-    new_capacity_total_col = f'New capacity - Total {new_capacity_year} (MW)'
-    new_capacity_summary[new_capacity_total_col] = new_capacity_summary.sum(axis=1)
-    ordered_new_capacity_cols = [new_capacity_total_col] + [renamed_new_capacity[col] for col in new_fuel_columns]
-    new_capacity_summary = new_capacity_summary[ordered_new_capacity_cols]
-    frames.append(new_capacity_summary)
+    if new_capacity_all is not None:
+        new_capacity_year = _resolve_year(new_capacity_all)
+        new_capacity = _filter_zone(new_capacity_all)
+        new_capacity_summary = (
+            new_capacity[new_capacity['year'] == new_capacity_year]
+            .groupby(['scenario', 'fuel'], observed=False)['value']
+            .sum()
+            .unstack('fuel')
+            .fillna(0)
+        )
+        new_fuel_columns = list(new_capacity_summary.columns)
+        renamed_new_capacity = {col: f'New capacity - {col} (MW)' for col in new_fuel_columns}
+        new_capacity_summary = new_capacity_summary.rename(columns=renamed_new_capacity)
+        new_capacity_total_col = f'New capacity - Total {new_capacity_year} (MW)'
+        new_capacity_summary[new_capacity_total_col] = new_capacity_summary.sum(axis=1)
+        ordered_new_capacity_cols = [new_capacity_total_col] + [renamed_new_capacity[col] for col in new_fuel_columns]
+        new_capacity_summary = new_capacity_summary[ordered_new_capacity_cols]
+        frames.append(new_capacity_summary)
 
     # 4. Transmission capacity (no double counting) in final year
     # optional argument for 1-zone model
     if 'pAnnualTransmissionCapacity' in epm_results.keys():
         transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
-        transmission_year = _resolve_year(transmission_all)
-        transmission = transmission_all.copy()
-        if zone_list is not None and {'zone', 'z2'}.issubset(transmission.columns):
-            transmission = transmission[
-                transmission['zone'].isin(zone_list) | transmission['z2'].isin(zone_list)
-            ]
-        transmission_year_df = transmission[transmission['year'] == transmission_year].copy()
-        if not transmission_year_df.empty:
-            transmission_year_df['pair'] = transmission_year_df.apply(
-                lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
-            )
-            transmission_summary = (
-                transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
-                .max()
-                .groupby('scenario')
-                .sum()
-                .to_frame(f'Transmission capacity {transmission_year} (MW)')
-            )
-        else:
-            transmission_summary = pd.DataFrame(
-                columns=[f'Transmission capacity {transmission_year} (MW)']
-            ).astype(float)
-        frames.append(transmission_summary)
-
-    if 'pNewTransmissionCapacity' in epm_results.keys():
-        new_transmission_all = _get_dataframe('pNewTransmissionCapacity')
-        new_transmission_year = _resolve_year(new_transmission_all)
-        new_transmission = new_transmission_all.copy()
-        if zone_list is not None and {'zone', 'z2'}.issubset(new_transmission.columns):
-            new_transmission = new_transmission[
-                new_transmission['zone'].isin(zone_list) | new_transmission['z2'].isin(zone_list)
-            ]
-        new_transmission_year_df = new_transmission[new_transmission['year'] == new_transmission_year].copy()
-        if not new_transmission_year_df.empty:
-            if {'zone', 'z2'}.issubset(new_transmission_year_df.columns):
-                new_transmission_year_df['pair'] = new_transmission_year_df.apply(
+        if transmission_all is not None:
+            transmission_year = _resolve_year(transmission_all)
+            transmission = transmission_all.copy()
+            if zone_list is not None and {'zone', 'z2'}.issubset(transmission.columns):
+                transmission = transmission[
+                    transmission['zone'].isin(zone_list) | transmission['z2'].isin(zone_list)
+                ]
+            transmission_year_df = transmission[transmission['year'] == transmission_year].copy()
+            if not transmission_year_df.empty:
+                transmission_year_df['pair'] = transmission_year_df.apply(
                     lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
                 )
-                new_transmission_summary = (
-                    new_transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
+                transmission_summary = (
+                    transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
                     .max()
                     .groupby('scenario')
                     .sum()
-                    .to_frame(f'New transmission capacity {new_transmission_year} (MW)')
+                    .to_frame(f'Transmission capacity {transmission_year} (MW)')
                 )
             else:
-                new_transmission_summary = (
-                    new_transmission_year_df.groupby('scenario', observed=False)['value']
-                    .sum()
-                    .to_frame(f'New transmission capacity {new_transmission_year} (MW)')
-                )
-        else:
-            new_transmission_summary = pd.DataFrame(
-                columns=[f'New transmission capacity {new_transmission_year} (MW)']
-            ).astype(float)
-        frames.append(new_transmission_summary)
+                transmission_summary = pd.DataFrame(
+                    columns=[f'Transmission capacity {transmission_year} (MW)']
+                ).astype(float)
+            frames.append(transmission_summary)
+
+    if 'pNewTransmissionCapacity' in epm_results.keys():
+        new_transmission_all = _get_dataframe('pNewTransmissionCapacity')
+        if new_transmission_all is not None:
+            new_transmission_year = _resolve_year(new_transmission_all)
+            new_transmission = new_transmission_all.copy()
+            if zone_list is not None and {'zone', 'z2'}.issubset(new_transmission.columns):
+                new_transmission = new_transmission[
+                    new_transmission['zone'].isin(zone_list) | new_transmission['z2'].isin(zone_list)
+                ]
+            new_transmission_year_df = new_transmission[new_transmission['year'] == new_transmission_year].copy()
+            if not new_transmission_year_df.empty:
+                if {'zone', 'z2'}.issubset(new_transmission_year_df.columns):
+                    new_transmission_year_df['pair'] = new_transmission_year_df.apply(
+                        lambda row: tuple(sorted((row['zone'], row['z2']))), axis=1
+                    )
+                    new_transmission_summary = (
+                        new_transmission_year_df.groupby(['scenario', 'pair'], observed=False)['value']
+                        .max()
+                        .groupby('scenario')
+                        .sum()
+                        .to_frame(f'New transmission capacity {new_transmission_year} (MW)')
+                    )
+                else:
+                    new_transmission_summary = (
+                        new_transmission_year_df.groupby('scenario', observed=False)['value']
+                        .sum()
+                        .to_frame(f'New transmission capacity {new_transmission_year} (MW)')
+                    )
+            else:
+                new_transmission_summary = pd.DataFrame(
+                    columns=[f'New transmission capacity {new_transmission_year} (MW)']
+                ).astype(float)
+            frames.append(new_transmission_summary)
 
     # 6. Cumulative CAPEX by component up to final year
     capex_component_all = _get_dataframe('pCapexInvestmentComponent')
-    capex_year = _resolve_year(capex_component_all)
-    capex_component = _filter_zone(capex_component_all)
-    capex_cumulative = (
-        capex_component[capex_component['year'] <= capex_year]
-        .groupby(['scenario', 'attribute'], observed=False)['value']
-        .sum()
-        .unstack('attribute')
-        .fillna(0)
-        / 1e6  # convert USD to million USD
-    )
-    capex_columns = list(capex_cumulative.columns)
-    capex_cumulative.columns = [f'CAPEX - {col} (M$)' for col in capex_columns]
-    capex_total_col = f'Cumulative CAPEX - Total {capex_year} (M$)'
-    capex_cumulative[capex_total_col] = capex_cumulative.sum(axis=1)
-    capex_cumulative = capex_cumulative[[capex_total_col] + [col for col in capex_cumulative.columns if col != capex_total_col]]
-    frames.append(capex_cumulative)
+    if capex_component_all is not None:
+        capex_year = _resolve_year(capex_component_all)
+        capex_component = _filter_zone(capex_component_all)
+        capex_cumulative = (
+            capex_component[capex_component['year'] <= capex_year]
+            .groupby(['scenario', 'attribute'], observed=False)['value']
+            .sum()
+            .unstack('attribute')
+            .fillna(0)
+            / 1e6  # convert USD to million USD
+        )
+        capex_columns = list(capex_cumulative.columns)
+        capex_cumulative.columns = [f'CAPEX - {col} (M$)' for col in capex_columns]
+        capex_total_col = f'Cumulative CAPEX - Total {capex_year} (M$)'
+        capex_cumulative[capex_total_col] = capex_cumulative.sum(axis=1)
+        capex_cumulative = capex_cumulative[[capex_total_col] + [col for col in capex_cumulative.columns if col != capex_total_col]]
+        frames.append(capex_cumulative)
 
     # 7. Yearly generation cost per zone (last year, $/MWh)
     if 'pYearlyGenCostZonePerMWh' in epm_results.keys():
         yearly_cost_all = _get_dataframe('pYearlyGenCostZonePerMWh')
-        yearly_cost_year = _resolve_year(yearly_cost_all)
-        yearly_cost = yearly_cost_all.copy()
-        if zone_list is not None and 'zone' in yearly_cost.columns:
-            yearly_cost = yearly_cost[yearly_cost['zone'].isin(zone_list)]
-        yearly_cost = yearly_cost[yearly_cost['year'] == yearly_cost_year]
-        if 'attribute' in yearly_cost.columns:
-            # Target rows that already carry $/MWh information; otherwise keep everything.
-            per_mwh_mask = yearly_cost['attribute'].str.contains('/MWh', case=False, na=False)
-            if per_mwh_mask.any():
-                yearly_cost = yearly_cost[per_mwh_mask]
-        if not yearly_cost.empty:
-            yearly_cost_summary = (
-                yearly_cost.groupby(['scenario', 'zone'], observed=False)['value']
-                .sum()
-                .unstack('zone')
-                .fillna(0)
-            )
-            yearly_cost_summary.columns = [
-                f'Generation cost - {zone} ({yearly_cost_year}) $/MWh'
-                for zone in yearly_cost_summary.columns
-            ]
-            frames.append(yearly_cost_summary)
+        if yearly_cost_all is not None:
+            yearly_cost_year = _resolve_year(yearly_cost_all)
+            yearly_cost = yearly_cost_all.copy()
+            if zone_list is not None and 'zone' in yearly_cost.columns:
+                yearly_cost = yearly_cost[yearly_cost['zone'].isin(zone_list)]
+            yearly_cost = yearly_cost[yearly_cost['year'] == yearly_cost_year]
+            if 'attribute' in yearly_cost.columns:
+                # Target rows that already carry $/MWh information; otherwise keep everything.
+                per_mwh_mask = yearly_cost['attribute'].str.contains('/MWh', case=False, na=False)
+                if per_mwh_mask.any():
+                    yearly_cost = yearly_cost[per_mwh_mask]
+            if not yearly_cost.empty:
+                yearly_cost_summary = (
+                    yearly_cost.groupby(['scenario', 'zone'], observed=False)['value']
+                    .sum()
+                    .unstack('zone')
+                    .fillna(0)
+                )
+                yearly_cost_summary.columns = [
+                    f'Generation cost - {zone} ({yearly_cost_year}) $/MWh'
+                    for zone in yearly_cost_summary.columns
+                ]
+                frames.append(yearly_cost_summary)
+
+    if not frames:
+        print("Warning: No data available to build the heatmap summary; skipping plot.")
+        return
 
     # Align scenario index across all frames
     scenario_index = frames[0].index
@@ -2682,6 +2695,7 @@ def make_line_plot(
     filename,
     column_xaxis,
     y_column,
+    preserve_x_spacing=False,
     dict_colors=None,
     column_subplot=None,
     series_column=None,
@@ -2750,6 +2764,8 @@ def make_line_plot(
         Text for the shared x-axis label (defaults to ``column_xaxis``).
     ylabel : str, optional
         Text for the shared y-axis label (defaults to ``y_column``).
+    preserve_x_spacing : bool, default False
+        Plot x values at their numeric/datetime positions to preserve spacing; when False, values are treated as categories.
     selected_zone : str, optional
         Convenience filter applied when the DataFrame contains a ``zone`` column.
     selected_year : int, optional
@@ -2870,6 +2886,16 @@ def make_line_plot(
 
         index_values = list(pivot.index)
         x_positions = list(range(len(index_values)))
+        use_numeric_spacing = preserve_x_spacing
+        if use_numeric_spacing:
+            try:
+                numeric_index = pd.to_numeric(pivot.index, errors='coerce')
+                if not np.isnan(numeric_index).any():
+                    x_positions = numeric_index.to_numpy()
+                else:
+                    use_numeric_spacing = False
+            except Exception:
+                use_numeric_spacing = False
 
         for col in pivot.columns:
             series = pivot[col]
@@ -2881,13 +2907,12 @@ def make_line_plot(
             all_handles.append(line)
             all_labels.append(label)
 
-        ax.set_xticks(x_positions)
         if index_values:
             if len(index_values) > max_ticks:
                 positions = np.linspace(0, len(index_values) - 1, max_ticks, dtype=int)
             else:
                 positions = np.arange(len(index_values))
-            ax.set_xticks(positions)
+            ax.set_xticks([x_positions[i] for i in positions])
             ax.set_xticklabels([index_values[i] for i in positions], rotation=rotation)
 
         ax.spines['left'].set_visible(False)

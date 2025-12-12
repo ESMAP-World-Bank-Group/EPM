@@ -8,7 +8,7 @@ fuel2
 HeatRate2
 BuildLimitperYear
 Life
-MinLimitShare
+MinGenShareAllHours
 HeatRate
 RampUpRate
 RampDnRate
@@ -19,3 +19,10 @@ FOMperMW
 VOM
 ReserveCost
 UnitSize
+HoursOn
+HoursOff
+minUT
+minDT
+StUpCost
+InitialOn
+MinGenCommitment
