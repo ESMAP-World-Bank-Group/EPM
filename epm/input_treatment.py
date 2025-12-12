@@ -80,7 +80,11 @@ COLUMN_RENAME_MAP = {
     "pLossFactorInternal": {"Zone1": "z", "Zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
     'ftfindex': {'fuel': 'f'},
+<<<<<<< HEAD
     "pStorDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
+=======
+    "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
+>>>>>>> bc085926ce7038e9398c8be710eb6beea4036b46
     'pTechData': {'Technology': 'tech'},
     "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
