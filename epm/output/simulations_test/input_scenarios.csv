@@ -2,7 +2,7 @@ paramNames,baseline
 modeltype,RMIP
 cplexfile,input/data_test/cplex/cplex_baseline.opt
 pSettings,input/data_test/pSettings.csv
-y,input/data_test/sensitivity/y_reduced.csv
+y,input/data_test/y.csv
 zcmap,input/data_test/zcmap.csv
 pHours,input/data_test/pHours.csv
 pDays,input/data_test/static/dispatch_month_days.csv
@@ -20,7 +20,7 @@ pDemandData,input/data_test/load/pDemandData.csv
 pDemandForecast,input/data_test/load/pDemandForecast.csv
 sRelevant,input/data_test/load/sRelevant.csv
 pEnergyEfficiencyFactor,input/data_test/load/pEnergyEfficiencyFactor.csv
-pGenDataInput,input/data_test/supply/sensitivity/pGenDataInput_linear.csv
+pGenDataInput,input/data_test/supply/pGenDataInput.csv
 pGenDataInputDefault,input/data_test/supply/pGenDataInputDefault.csv
 pAvailability,input/data_test/supply/pAvailabilityCustom.csv
 pAvailabilityDefault,input/data_test/supply/pAvailabilityDefault.csv

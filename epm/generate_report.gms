@@ -1458,12 +1458,13 @@ $elseIfI.reportshort %REPORTSHORT% == 1
 $endIf.reportshort
 
 * ---------------------------------------------------------
-* Post-process CSV files: rename columns and calculate cumulative values
+* Post-process CSV files: rename columns, fill TechFuel combinations, and calculate cumulative values
+* Note: These treatments are for Tableau compatibility - warnings here are non-fatal
 * ---------------------------------------------------------
 embeddedCode Python:
-from output_treatment import run_output_treatment
+from output_treatment import run_output_treatment_gams
 
 output_dir = r"%OUTPUT_DIR%"
-run_output_treatment(output_dir, log_func=gams.printLog)
+run_output_treatment_gams(gams, output_dir)
 
 endEmbeddedCode
