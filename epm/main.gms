@@ -38,7 +38,7 @@ $if not set EPMVERSION    $set EPMVERSION    9.0
 * Turn on/off additional information to the listing file
 option limRow=0, limCol=0, sysOut=off, solPrint=off;
 $if %DEBUG%==1 $onUELlist onUELXRef onListing 
-$if %DEBUG%==1 option limRow=1e9, limCol=1e9, sysOut=on, solPrint=on;
+$if %DEBUG%==1 option limRow=2000, limCol=2000, solPrint=on, sysOut=off;
 
 *-------------------------------------------------------------------------------------
 
@@ -138,9 +138,10 @@ Sets
    z        'System zones'
    c        'Countries'
    zext     'External trading zones'
+   AT       'Full-year hourly chronology' /AT1*AT8760/
    pGenDataInputHeader 'Generator data input headers'
    pSettingsHeader
-   pStoreDataHeader                                        'Storage data headers'
+   pStorageDataHeader                                        'Storage data headers'
    pCSPDataHeader       'CSP data headers'                 / 'Storage', 'Thermal Field' /
    pTransmissionHeader  'Transmission data headers'
    pH2Header            'Hydrogen data headers'
@@ -155,6 +156,7 @@ Sets
    zcmap(z<,c<) 'Zone-to-country mapping'
    gmap(g,z,tech,f) 'Generator-to-zone/technology/fuel mapping'
    sRelevant(d) 'Days where minimum generation limits apply'
+   mapTS(q,d,t,AT) 'Mapping from season/day/hour tuples to chronological AT index'
 ;
 
 alias (z,z2), (g,g1,g2);
@@ -170,10 +172,10 @@ Parameter
    pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
-   pStorDataExcel(g,*,pStoreDataHeader)                  'Storage unit specifications'
+   pStorageDataInput(g,*,pStorageDataHeader)                 'Storage unit specifications'
    
 * CSP and technology data
-   pCSPData(g,pCSPDataHeader,pStoreDataHeader)           'Concentrated solar power data'
+   pCSPData(g,pCSPDataHeader,pStorageDataHeader)           'Concentrated solar power data'
    
 * Fuel data
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
@@ -181,9 +183,9 @@ Parameter
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
 * Storage and transmission
-   pStorDataInput(g,g2,pStoreDataHeader)                 'Storage unit input data'
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
-   
+   pStorageDataTemp(g,g2,pStorageDataHeader)             'Temporary storage data for processing'
+
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
    pMaxAnnualExternalTradeShare(y,c)                     'Maximum trade share by country'
@@ -200,6 +202,7 @@ Parameter
    
 * Time and transfer parameters
    pHours(q<,d<,t<)                                      'Hours mapping'
+   pDays(q)                                              'Number of days represented by each period'
    pTransferLimit(z,z2,q,y)                              'Inter-zonal transfer limits'
    pMinImport(z2,z,y)                                    'Minimum import requirements'
    pLossFactorInternal(z,z2,y)                           'Transmission loss factors'
@@ -207,7 +210,9 @@ Parameter
 * VRE and availability
    pVREProfile(z,tech,q,d,t)                             'VRE generation profiles by site'
    pVREgenProfile(g,q,d,t)                               'VRE generation profiles by plant'
-   pAvailability(g,q)                                    'Seasonal availability factors'
+   pAvailabilityInput(g,q)                              'Seasonal availability factors (from CSV, no year)'
+   pAvailability(g,y,q)                                  'Seasonal availability factors (expanded to years)'
+   pEvolutionAvailability(g,y)                           'Year-dependent availability evolution factors'
    
 * Reserve requirements
    pSpinningReserveReqCountry(c,y)                       'Country spinning reserve requirements'
@@ -244,8 +249,8 @@ $include %READER_FILE%
 $gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
-$load zcmap pSettingsHeader y pHours
-$load pGenDataInputHeader, pTechData, pStoreDataHeader, 
+$load zcmap pSettingsHeader y pHours pDays mapTS
+$load pGenDataInputHeader, pTechData, pStorageDataHeader, 
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
 $load ftfindex
@@ -257,8 +262,8 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailability
-$load pStorDataExcel pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pStorageDataInput pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
 * Load trade data
@@ -293,7 +298,7 @@ if gms_dir not in sys.path:
     sys.path.insert(0, gms_dir)
 
 from input_verification import run_input_verification_from_gdx
-run_input_verification_from_gdx("input.gdx")
+run_input_verification_from_gdx("input.gdx", verbose=False, log_func=gams.printLog)
 $offEmbeddedCode 
 
 
@@ -326,9 +331,10 @@ $if not errorfree $abort PythonError in input_treatment.py
 
 $offMulti
 
-execute_unload 'input_treated.gdx' pNewTransmission pGenDataInput;
-
 *-------------------------------------------------------------------------------------
+
+$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
+$if %DEBUG%==1 execute_unload 'input_treated.gdx';
 
 $if not errorFree $abort Data errors.
 
@@ -342,8 +348,9 @@ $include %HYDROGEN_FILE%
 
 *-------------------------------------------------------------------------------------
 
-pStorDataInput(g,g2,pStoreDataHeader) = pStorDataExcel(g,g2,pStoreDataHeader);
-pStorDataInput(g,g,pStoreDataHeader)$pStorDataExcel(g,'',pStoreDataHeader) = pStorDataExcel(g,'',pStoreDataHeader);
+* Copy to temp parameter and normalize standalone storage (g,'') to paired format (g,g) for uniform processing
+pStorageDataTemp(g,g2,pStorageDataHeader) = pStorageDataInput(g,g2,pStorageDataHeader);
+pStorageDataTemp(g,g,pStorageDataHeader)$pStorageDataInput(g,'',pStorageDataHeader) = pStorageDataInput(g,'',pStorageDataHeader);
 
 
 * Generate gfmap and others from pGenDataInput
@@ -354,7 +361,6 @@ parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
 parameter H2statIndex(H2status) / Existing 1, Candidate 3, Committed 2 /;
 
              
-
 * Aggregate `gmap(g,z,tech,f)` over `tech` and `f` to get `gzmap(g,z)`,
 * which represents the mapping of generator `g` to zone `z`.
 gzmap(g,z) = sum((tech,f), gmap(g,z,tech,f));
@@ -407,8 +413,16 @@ $include %DEMAND_FILE%
 
 *--- Part2: Start of initialisation of other parameters
 
-
 * Read main parameters from pSettings
+
+fEnableStorage                     = pSettings("fEnableStorage");
+fDispatchMode                      = pSettings("fDispatchMode");
+
+* --- Settings: Dispatch constraint switches
+fApplyMinGenCommitment      = pSettings("fApplyMinGenCommitment");
+fApplyStartupCost                  = pSettings("fApplyStartupCost");
+fApplyRampConstraint               = pSettings("fApplyRampConstraint");
+fApplyMUDT                       = pSettings("fApplyMUDT");
 
 * --- Settings: Economic parameters and penalties
 pDR                          = pSettings("DR");
@@ -426,29 +440,30 @@ ssMaxCapitalInvestmentInvestment = pSettings("sMaxCapitalInvestment") * 1e6;
 fApplyPlanningReserveConstraint    = pSettings("fApplyPlanningReserveConstraint");
 sReserveMarginPct                  = pSettings("sReserveMarginPct");
 fApplyCountrySpinReserveConstraint = pSettings("fApplyCountrySpinReserveConstraint");
-pfApplySystemSpinReserveConstraint = pSettings("fApplySystemSpinReserveConstraint");
+fApplySystemSpinReserveConstraint = pSettings("fApplySystemSpinReserveConstraint");
 psVREForecastErrorPct              = pSettings("sVREForecastErrorPct");
 sIntercoReserveContributionPct     = pSettings("sIntercoReserveContributionPct");
 fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 
 * --- Settings: Policy and operational switches
-fApplyRampConstraint               = pSettings("fApplyRampConstraint");
+fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
-fApplyMinGenerationConstraint      = pSettings("fApplyMinGenerationConstraint");
 fEnableCSP                         = pSettings("fEnableCSP");
-fEnableStorage                     = pSettings("fEnableStorage");
+fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");
 pMinRE                             = pSettings("sMinRenewableSharePct");
 pMinsRenewableTargetYear           = pSettings("sRenewableTargetYear");
 fApplyCountryCo2Constraint         = pSettings("fApplyCountryCo2Constraint");
-pfApplySystemCo2Constraint         = pSettings("fApplySystemCo2Constraint");
-pIncludeCarbon                     = pSettings("fEnableCarbonPrice");
-pfEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
+fApplySystemCo2Constraint         = pSettings("fApplySystemCo2Constraint");
+fEnableCarbonPrice                     = pSettings("fEnableCarbonPrice");
+fEnableEnergyEfficiency           = pSettings("fEnableEnergyEfficiency");
+
 
 * --- Settings: Transmission and trade
 fEnableInternalExchange            = pSettings("fEnableInternalExchange");
 fRemoveInternalTransferLimit       = pSettings("fRemoveInternalTransferLimit");
 fAllowTransferExpansion            = pSettings("fAllowTransferExpansion");
+fAllowTransferExpansion            = fAllowTransferExpansion * fEnableCapacityExpansion;
 
 fEnableExternalExchange            = pSettings("fEnableExternalExchange");
 sMaxHourlyImportExternalShare                 = pSettings("sMaxHourlyImportExternalShare");
@@ -456,8 +471,9 @@ sMaxHourlyExportExternalShare                 = pSettings("sMaxHourlyExportExter
 
 * --- Settings: Hydrogen options
 fEnableCapexTrajectoryH2           = pSettings("fEnableCapexTrajectoryH2");
-pfEnableH2Production               = pSettings("fEnableH2Production");
+fEnableH2Production               = pSettings("fEnableH2Production");
 
+* ----------------------------
 singleton set sFinalYear(y);
 scalar TimeHorizon;
 
@@ -467,6 +483,35 @@ TimeHorizon = sFinalYear.val - sStartYear.val + 1;
 sFirstHour(t) = t.first;
 sLastHour(t) = t.last;
 sFirstDay(d) = d.first;
+
+sFirstHourAT(AT) = AT.first;
+
+sLastDay(d) = yes$(ord(d) = card(d));
+
+* ------------------------------
+* Commitment initialization defaults
+* Consolidates initial ON/OFF values so a single section shows which units start online.
+* ------------------------------
+pInitialOnStart(g) = 0;
+pInitialOnStart(g)$pGenData(g,"InitialOn") = pGenData(g,"InitialOn");
+
+
+pStorageInitShare = pSettings("InitialSOCforBattery");
+if (pStorageInitShare < 0,
+   pStorageInitShare = 0.5;
+);
+
+FD(q,d,t) = yes;
+if (fDispatchMode,
+   FD(q,d,t)$(ord(q) eq 2 and ord(d) > 28) = no;
+   FD(q,d,t)$((ord(q) eq 4 or ord(q) eq 6 or ord(q) eq 9 or ord(q) eq 11) and ord(d) > 30) = no;
+);
+
+* Identify which generators carry minimum-generation commitments so that startup cost logic can focus on them.
+MinGenPoint(g) = yes$(pGenData(g,"MinGenCommitment") > 0);
+
+* ------------------------------
+
 
 * Set external transfer limits to zero if exports are not allowed
 pExtTransferLimit(z,zext,q,"Import",y)$(not fEnableExternalExchange)  = 0 ;
@@ -482,9 +527,9 @@ Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 Zd(z) = not Zt(z);
 
 
-* Assign storage data from `pStorDataInput` based on the generator-storage mapping
-option gsmap<pStorDataInput;
-loop(gsmap(g2,g), pStorData(g,pStoreDataHeader) = pStorDataInput(g,g2,pStoreDataHeader));
+* Assign storage data from pStorageDataTemp based on the generator-storage mapping
+option gsmap<pStorageDataTemp;
+loop(gsmap(g2,g), pStorageData(g,pStorageDataHeader) = pStorageDataTemp(g,g2,pStorageDataHeader));
 
 * Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
 gsmap(g,g) = no;
@@ -587,7 +632,7 @@ pVREgenProfile(VRE,q,d,t)$(not(pVREgenProfile(VRE,q,d,t))) = sum((z,tech)$(gzmap
 pCapacityCredit(VRE,y) =  Sum((z,q,d,t)$gzmap(VRE,z),Sum(f$gfmap(VRE,f),pVREgenProfile(VRE,q,d,t)) * pAllHours(q,d,y,t)) * (Sum((z,f,q,d,t)$(gfmap(VRE,f) and gzmap(VRE,z) ),pVREgenProfile(VRE,q,d,t))/sum((q,d,t),1));
 
 * Compute capacity credit for run-of-river hydro as an availability-weighted average
-pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
+pCapacityCredit(ROR,y) =  sum(q,pAvailability(ROR,y,q)*sum((d,t),pHours(q,d,t)))/sum((q,d,t),pHours(q,d,t));
 
 * Compute CSP and PV with storage generation profiles
 pCSPProfile(cs,q,d,t)    = sum((z,tech)$(gtechmap(cs,tech) and gzmap(cs,z)), pVREProfile(z,tech,q,d,t));
@@ -615,11 +660,11 @@ pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + su
 *-------------------------------------------------------------------
 pLossFactorInternal(z2,z,y)$(pLossFactorInternal(z,z2,y) and not pLossFactorInternal(z2,z,y)) = pLossFactorInternal(z,z2,y);
 
-pEnergyEfficiencyFactor(z,y)$(not pfEnableEnergyEfficiency) = 1;
+pEnergyEfficiencyFactor(z,y)$(not fEnableEnergyEfficiency) = 1;
 pEnergyEfficiencyFactor(z,y)$(pEnergyEfficiencyFactor(z,y)=0) = 1;
 
 pVOMCost(gfmap(g,f),y) = pGenData(g,"VOM")
-                       + pStorData(g, "VOMMWh")
+                       + pStorageData(g, "VOMMWh")
                        + pCSPData(g, "Storage", "VOMMWh")
                        + pCSPData(g, "Thermal Field", "VOMMWh");
 
@@ -667,6 +712,18 @@ vBuildStor.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableStorage) =
 
 * Fix the thermal build variable to zero if the project started before the model start year and CSP (Concentrated Solar Power) is included
 vBuildTherm.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val and fEnableCSP) = 0;
+
+* Disable all capacity expansion decisions when flag is off
+if (fEnableCapacityExpansion = 0,
+   vBuild.fx(g,y)            = 0;
+   vBuiltCapVar.fx(g,y)      = 0;
+   vBuildStor.fx(g,y)        = 0;
+   vBuildTherm.fx(g,y)       = 0;
+   vBuildTransmissionLine.fx(z,z2,y) = 0;
+   vNewTransmissionLine.fx(z,z2,y)   = 0;
+   vBuildH2.fx(hh,y)         = 0;
+   vBuiltCapVarH2.fx(hh,y)   = 0;
+);
 
 *-------------------------------------------------------------------
 * Fixed conditions
@@ -725,10 +782,10 @@ vCap.fx(eg,y)$(pGenData(eg,"RetrYr") and (pGenData(eg,"RetrYr") <= y.val)) = 0;
 vCapTherm.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Thermal Field","CapacityMWh");
 
 * Set the initial storage capacity at the model start year, considering both CSP and standalone storage units
-vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorData(eg,"CapacityMWh");
+vCapStor.fx(eg,sStartYear)$(pGenData(eg,"StYr") < sStartYear.val) = pCSPData(eg,"Storage","CapacityMWh") + pStorageData(eg,"CapacityMWh");
 
 * Prevent decommissioning of storage hours from existing storage when economic retirement is disabled
-vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorData(eg,"CapacityMWh");
+vCapStor.fx(eg,y)$((pSettings("fEnableEconomicRetirement") = 0) and (pGenData(eg,"StYr") <= y.val) and (pGenData(eg,"RetrYr") >= y.val)) = pStorageData(eg,"CapacityMWh");
 
 * Fix the retirement variable to zero, meaning no unit is retired by default unless specified otherwise
 vRetire.fx(ng,y) = 0;
@@ -805,7 +862,7 @@ sImportPrice(z,zext,q,d,t,y)$(pTradePrice(zext,q,d,y,t)= 0) = no;
 sFlow(z,z2,q,d,t,y)$(sTopology(z,z2)) = yes;
 
 * Define spinning reserve constraints based on the settings for zonal and system spinning reserves
-sSpinningReserve(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or pfApplySystemSpinReserveConstraint) ) = yes;
+sSpinningReserve(g,q,d,t,y)$((fApplyCountrySpinReserveConstraint or fApplySystemSpinReserveConstraint) ) = yes;
 
 *To avoid bugs when there is no candidate transmission expansion line
 pNewTransmission(z,z2,"EarliestEntry")$(not fAllowTransferExpansion) = 2500;
@@ -863,7 +920,7 @@ $if %DEBUG%==1 execute_unload 'PA.gdx';
 
 * Include the external report file specified by `%REPORT_FILE%`
 
-$if not set REPORTSHORT $set REPORTSHORT 0
-$log LOG: REPORTSHORT = "%REPORTSHORT%"
+*$if not set REPORTSHORT $set REPORTSHORT 0
+*$log LOG: REPORTSHORT = "%REPORTSHORT%"
 
-$include %REPORT_FILE%
+*$include %REPORT_FILE%

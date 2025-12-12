@@ -20,7 +20,7 @@ Sets
 ;
 
 Parameters
-    pfEnableH2Production
+    fEnableH2Production
    pCRFH2(hh)                       'Capital recovery factor'
    pCapexTrajectoriesH2(hh,y)       'CAPEX trajectories for hydrogen generation units'
    pVarCostH2(hh,y)                 'Variable cost - H2 production'
@@ -84,7 +84,7 @@ Equation eYearlyTotalCost_H2Contribution;
 eYearlyTotalCost_H2Contribution(c,y)..
 *   vYearlyTotalCost(c,y) =e= vYearlyTotalCost(c,y)
     0 =e=
-                          + sum(zcmap(z,c), vYearlyH2UnservedCost(z,y))$pfEnableH2Production;
+                          + sum(zcmap(z,c), vYearlyH2UnservedCost(z,y))$fEnableH2Production;
 
 * --- Hydrogen Contribution to Total Annualized CAPEX ---
 Equation eTotalAnnualizedCapex_H2Contribution;
@@ -92,8 +92,8 @@ Equation eTotalAnnualizedCapex_H2Contribution;
 eTotalAnnualizedCapex_H2Contribution(z,y)..
 *   vAnnCapex(z,y) =e= vAnnCapex(z,y)
     0 =e=
-                   + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$pfEnableH2Production
-                   + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$pfEnableH2Production;
+                   + sum(h2zmap(ndcH2,z), pCRFH2(ndcH2)*vCapH2(ndcH2,y)*pH2Data(ndcH2,"Capex")*1e6)$fEnableH2Production
+                   + sum(h2zmap(dcH2,z), vAnnCapexH2(dcH2,y))$fEnableH2Production;
 
 * --- Hydrogen Contribution to Yearly Variable O&M Cost ---
 Equation eYearlyVOMCost_H2Contribution;
@@ -101,13 +101,13 @@ Equation eYearlyVOMCost_H2Contribution;
 eYearlyVOMCost_H2Contribution(z,y)..
 *   vYearlyVOMCost(z,y) =e= vYearlyVOMCost(z,y)
     0 =e=
-                         + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$pfEnableH2Production;
+                         + sum((h2zmap(hh,z),q,d,t), pVarCostH2(hh,y)*pH2Data(hh,"Heatrate")*vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t))$fEnableH2Production;
 
 * --- Hydrogen Unserved Demand Cost (can stay modular as-is) ---
 Equation eH2UnservedCost;
 
 eH2UnservedCost(z,y)..
-   vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y)) * pH2UnservedCost $pfEnableH2Production;
+   vYearlyH2UnservedCost(z,y) =e= sum(q, vUnmetExternalH2(z,q,y)) * pH2UnservedCost $fEnableH2Production;
 
 * --- Hydrogen Supply Contribution to Demand Balance ---
 Equation eSupply_H2Contribution;
@@ -117,8 +117,8 @@ eSupply_H2Contribution(z,q,d,t,y)..
 *   vSupply(z,q,d,t,y) =e=vSupply(z,q,d,t,y)
 *        -sum((gzmap(g,z),gfmap(g,f)),vPwrOut(g,f,q,d,t,y))
     0 =e=
-     + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(pfEnableH2Production)
-     + vPwrREGrid(z,q,d,t,y)$pfEnableH2Production;
+     + sum((gzmap(nRE,z),gfmap(nRE,f)),vPwrOut(nRE,f,q,d,t,y))$(fEnableH2Production)
+     + vPwrREGrid(z,q,d,t,y)$fEnableH2Production;
 
 * =============================
 * Hydrogen Specific Equations
@@ -126,87 +126,87 @@ eSupply_H2Contribution(z,q,d,t,y)..
 
 
 * Total capacity of H2 plants at 1st year of optimization is equal to pre-existing capacity plus capacity being bulit minus retired capacity
-eCapBalanceH2(hh,sStartYear(y))$(pfEnableH2Production)..
+eCapBalanceH2(hh,sStartYear(y))$(fEnableH2Production)..
    vCapH2(hh,y) =e= pH2Data(hh,"Capacity")$(eh(hh) and (pH2Data(hh,"StYr") <= sStartYear.val))
                + vBuildH2(hh,y) - vRetireH2(hh,y);
 
 * Total capacity of existing H2 palnts is equal to capacity over previous year plus capacity being built in current year minus retired capacity in current year
 *Checked
-eCapBalance1H2(eh,y)$(not sStartYear(y) and pfEnableH2Production)..
+eCapBalance1H2(eh,y)$(not sStartYear(y) and fEnableH2Production)..
    vCapH2(eh,y) =e= vCapH2(eh,y-1) + vBuildH2(eh,y) - vRetireH2(eh,y);
 
 * Total capacity of candidate H2 plants is equal to total capacity at previous year plus capacity being built in current year minus retired capacity in current year
 *Checked
-eCapBalance2H2(nh,y)$(not sStartYear(y) and pfEnableH2Production)..
+eCapBalance2H2(nh,y)$(not sStartYear(y) and fEnableH2Production)..
    vCapH2(nh,y) =e= vCapH2(nh,y-1) + vBuildH2(nh,y);
 
 * New H2 plants can be buuilt only after the StYr; the newly built capacity need to be less than declared capacity
 *Checked
-eBuildNewH2(eh)$(pH2Data(eh,"StYr") > sStartYear.val and pfEnableH2Production)..
+eBuildNewH2(eh)$(pH2Data(eh,"StYr") > sStartYear.val and fEnableH2Production)..
     sum(y, vBuildH2(eh,y)) =l= pH2Data(eh,"Capacity");
 
 
 * (Integer units ) Built capacity each year is equal to unit size
 *Checked
-eBuiltCapH2(nh,y)$(pH2Data(nh,"DescreteCap") and pfEnableH2Production)..
+eBuiltCapH2(nh,y)$(pH2Data(nh,"DescreteCap") and fEnableH2Production)..
    vBuildH2(nh,y) =e= pH2Data(nh,"UnitSize")*vBuiltCapVarH2(nh,y);
 
 * (Integer units ) Retired capacity each year is equal to unit size
 *Checked
-eRetireCapH2(eh,y)$(pH2Data(eh,"DescreteCap") and (y.val <= pH2Data(eh,"RetrYr")) and pfEnableH2Production)..
+eRetireCapH2(eh,y)$(pH2Data(eh,"DescreteCap") and (y.val <= pH2Data(eh,"RetrYr")) and fEnableH2Production)..
    vRetireH2(eh,y) =e= pH2Data(eh,"UnitSize")*vRetireCapVarH2(eh,y);
 
 *  Maximum capacity factor of H2 production based on availability
 *Checked
-eMaxCF_H2(hh,q,y)$(pfEnableH2Production)..
+eMaxCF_H2(hh,q,y)$(fEnableH2Production)..
    sum((d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)) =l= pAvailabilityH2(hh,q)*vCapH2(hh,y)*sum((d,t), pHours(q,d,t));
 
 *       mmBTU of H2 produced
-eFuel_H2(c,q,y)$(pfEnableH2Production)..
+eFuel_H2(c,q,y)$(fEnableH2Production)..
 *                   mmBTU            mmBTU                    mmBTU                                                                     -MWe-                Hr                mmBTU/MWhe 
     sum(zcmap(z,c), pExternalH2(z,q,y)-vUnmetExternalH2(z,q,y)$pExternalH2(z,q,y)+vFuelH2Quarter(z,q,y)) =e= sum( (zcmap(z,c),h2zmap(hh,z), d,t), vH2PwrIn(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"));
 
-eFuel_H2_2(c,z,y)$(pfEnableH2Production)..
+eFuel_H2_2(c,z,y)$(fEnableH2Production)..
     sum((zcmap(z,c),q),vFuelH2Quarter(z,q,y)) =e=  sum(zcmap(z,c),vFuelH2(z,y));
 
-eMaxH2PwrInjection(hh,q,d,t,y)$pfEnableH2Production..
+eMaxH2PwrInjection(hh,q,d,t,y)$fEnableH2Production..
     vH2PwrIn(hh,q,d,t,y)  =l= vCapH2(hh,y);
 
 * The amount of hydrogen fuel that can be used for electricity generation can not be more than the amount of H2 that was produced from VRE curtailment
-eFuelLimitH2(c,f,y)$(pFuelDataH2(f) and pfEnableH2Production)..
+eFuelLimitH2(c,f,y)$(pFuelDataH2(f) and fEnableH2Production)..
    sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  sum((zcmap(z,c)), vFuelH2(z,y));
 
 
 *When the H2 production flag is off don't account for H2 fuel
-eFuelLimitH2_2(c,f,y)$(pFuelDataH2(f) and pfEnableH2Production=0)..
+eFuelLimitH2_2(c,f,y)$(pFuelDataH2(f) and fEnableH2Production=0)..
    sum((zcmap(z,c)),  vFuel(z,f,y)) =e=  0;
 
 
-eRampDnLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and fApplyRampConstraint and pfEnableH2Production)..
+eRampDnLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and fApplyRampConstraint and fEnableH2Production)..
     vH2PwrIn(hh,q,d,t-1,y) -  vH2PwrIn(hh,q,d,t,y) =l= vCapH2(hh,y)*pH2Data(hh,"RampDnRate");
 
-eRampUpLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and fApplyRampConstraint and pfEnableH2Production)..
+eRampUpLimitH2(hh,q,d,t,y)$(RamprateH2(hh) and not sFirstHour(t) and fApplyRampConstraint and fEnableH2Production)..
    vH2PwrIn(hh,q,d,t,y) -  vH2PwrIn(hh,q,d,t-1,y) =l= vCapH2(hh,y)*pH2Data(hh,"RampUpRate");
 
 *Calculation of Annualized CAPEX for electrolyzers
-eAnnCapexH2_1(dcH2,y)$(not sStartYear(y) and pfEnableH2Production)..
+eAnnCapexH2_1(dcH2,y)$(not sStartYear(y) and fEnableH2Production)..
    vAnnCapexH2(dcH2,y) =e= vAnnCapexH2(dcH2,y-1)
                      + vBuildH2(dcH2,y)*pH2Data(dcH2,"Capex")*pCapexTrajectoriesH2(dcH2,y)*pCRFH2(dcH2)*1e6;
 
-eAnnCapexH2(dcH2,sStartYear(y))$pfEnableH2Production..
+eAnnCapexH2(dcH2,sStartYear(y))$fEnableH2Production..
    vAnnCapexH2(dcH2,y) =e= vBuildH2(dcH2,y)*pH2Data(dcH2,"Capex")*pCapexTrajectoriesH2(dcH2,y)*pCRFH2(dcH2)*1e6;                                                                          ;
 
-eRE2H2_4(z,q,d,t,y)$pfEnableH2Production..
+eRE2H2_4(z,q,d,t,y)$fEnableH2Production..
   sum(h2zmap(hh,z),vH2PwrIn(hh,q,d,t,y))=e=vPwrREH2(z,q,d,t,y);
  
 
-eRE2H2_3(z,q,d,t,y)$pfEnableH2Production..
+eRE2H2_3(z,q,d,t,y)$fEnableH2Production..
  vPwrREH2(z,q,d,t,y) =e= sum((gfmap(RE,f),gzmap(RE,z)),vREPwr2H2(RE,f,q,d,t,y));
 
-eRE2H2_2(z,q,d,t,y)$pfEnableH2Production..
+eRE2H2_2(z,q,d,t,y)$fEnableH2Production..
 vPwrREGrid(z,q,d,t,y)=e=sum((gfmap(RE,f),gzmap(RE,z)),vREPwr2Grid(RE,f,q,d,t,y));
 
-eRE2H2(RE,f,q,d,t,y)$pfEnableH2Production..
+eRE2H2(RE,f,q,d,t,y)$fEnableH2Production..
  vPwrOut(RE,f,q,d,t,y)=e=vREPwr2Grid(RE,f,q,d,t,y)+vREPwr2H2(RE,f,q,d,t,y);
 
 *For example equation below is deactivated when H2 is on and is replaced by eVREProfile2

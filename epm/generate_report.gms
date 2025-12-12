@@ -35,6 +35,7 @@ set sumhdr /
   "Generation costs: $m",
   "Fixed O&M: $m",
   "Variable O&M: $m",
+  "Startup costs: $m",
   "Fuel costs: $m",
   "Transmission costs: $m",
   "Spinning reserve costs: $m",
@@ -438,7 +439,7 @@ pRetirementsCountry(c, y) =
 
 pCapacitySummary(z,"Available capacity: MW",y) = sum(gzmap(g,z), vCap.l(g,y));
 pCapacitySummary(z,"Peak demand: MW"       ,y) = smax((q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y));
-pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$pfEnableH2Production+1e-6;
+pCapacitySummary(z,"Peak demand including P to H2: MW"       ,y) = smax((h2zmap(hh,z),q,d,t), pDemandData(z,q,d,y,t)*pEnergyEfficiencyFactor(z,y) + vH2PwrIn.l(hh,q,d,t,y))$fEnableH2Production+1e-6;
 pCapacitySummary(z,"New capacity: MW"      ,y) = sum(gzmap(g,z), vBuild.l(g,y));
 pCapacitySummary(z,"Retired capacity: MW"  ,y) = sum(gzmap(g,z), vRetire.l(g,y));
 pCapacitySummary(z,"Committed Total TX capacity: MW"  ,y) = sum((z2,q), pTransferLimit(z,z2,q,y)/card(q));
@@ -450,7 +451,7 @@ pCapacitySummaryCountry(c,"Retired capacity: MW"  ,y) = sum(zcmap(z,c), pCapacit
 pCapacitySummaryCountry(c,"Committed Total TX capacity: MW",y) = sum(zcmap(z,c), pCapacitySummary(z,"Committed Total TX capacity: MW",y));
 
 * H2 model additions
-pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$pfEnableH2Production+1e-6;
+pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$fEnableH2Production+1e-6;
 
 * ============================================================
 * 2. COSTS
@@ -464,7 +465,7 @@ pCostsPlant(z, g, "Generation costs: $m", y)$gzmap(g, z) =
 pCostsPlant(z, g, "Fixed O&M: $m", y)$gzmap(g, z) =
   (
     vCap.l(g, y)      * pGenData(g, "FOMperMW")
-    + vCapStor.l(g, y)  * pStorData(g, "FixedOMMWh")
+    + vCapStor.l(g, y)  * pStorageData(g, "FixedOMMWh")
     + vCapStor.l(g, y)  * pCSPData(g, "Storage", "FixedOMMWh")
     + vCapTherm.l(g, y) * pCSPData(g, "Thermal field", "FixedOMMWh")
   ) / 1e6;
@@ -491,7 +492,8 @@ pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g))) =
   1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
 pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
-  1e3 * vBuildStor.l(g, y) * pStorData(g, "CapexMWh") * pCapexTrajectories(g, y);
+  1e3 * vBuildStor.l(g, y) * pStorageData(g, "CapexMWh") * pCapexTrajectories(g, y) +
+  1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
 pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$cs(g) =
   1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3 * pCapexTrajectories(g, y);
@@ -504,7 +506,7 @@ pCapexInvestmentComponent(z, capexComponentPlant, y) =
   sum(zgmap(z, g), pCapexInvestmentPlant(z, g, capexComponentPlant, y));
 
 * Hydrogen CAPEX is tracked separately
-pCapexInvestmentComponent(z, "Hydrogen", y)$pfEnableH2Production =
+pCapexInvestmentComponent(z, "Hydrogen", y)$fEnableH2Production =
   1e6 * sum(zH2map(z, hh),
     vBuildH2.l(hh, y) * pH2Data(hh, "Capex") * pCapexTrajectoriesH2(hh, y)
   );
@@ -659,6 +661,9 @@ pYearlyCostsZone(z, "Fixed O&M: $m", y) =
 
 pYearlyCostsZone(z, "Variable O&M: $m", y) =
   vYearlyVOMCost.l(z, y) / 1e6;
+
+pYearlyCostsZone(z, "Startup costs: $m", y) =
+  vYearlyStartupCost.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Fuel costs: $m", y) =
   vYearlyFuelCost.l(z, y) / 1e6;
@@ -900,7 +905,7 @@ pEnergyBalance(z, "Demand: GWh", y) =
   sum((q, d, t), pDemandData(z, q, d, y, t) * pHours(q, d, t) * pEnergyEfficiencyFactor(z, y)) / 1e3;
 
 pEnergyBalance(z, "Demand H2: GWh", y) =
-  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (pfEnableH2Production + 1e-6);
+  (sum((h2zmap(hh, z), q, d, t), vH2PwrIn.l(hh, q, d, t, y) * pHours(q, d, t)) / 1e3) $ (fEnableH2Production + 1e-6);
 
 pEnergyBalance(z, "Total Demand: GWh", y) =
   pEnergyBalance(z, "Demand: GWh", y) + pEnergyBalance(z, "Demand H2: GWh", y);
@@ -932,11 +937,11 @@ pEnergyBalanceCountry(c,dshdr,y) = sum(z$(zcmap(z,c)), pEnergyBalance(z,dshdr,y)
 
 
 *--- H2 Demand-Supply Balance
-pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$pfEnableH2Production+1e-6; 
-pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$pfEnableH2Production+1e-6;
-pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$pfEnableH2Production+1e-6;
-pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$pfEnableH2Production+1e-6;
-pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$pfEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"Demand H2: GWh",y)   =(sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t))/1000)$fEnableH2Production+1e-6; 
+pEnergyBalanceH2(z,"Production H2: mmBTU",           y)        =sum( (h2zmap(hh,z), q,d,t), vH2PwrIn.l(hh,q,d,t,y)*pHours(q,d,t)*pH2Data(hh,"HeatRate"))$fEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"External Demand H2: mmBTU",         y)        =sum(q,pExternalH2(z,q,y)       )$fEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"Unmet External Demand H2: mmBTU",   y)        =sum(q,vUnmetExternalH2.l(z,q,y))$fEnableH2Production+1e-6;
+pEnergyBalanceH2(z,"H2 Power: mmBTU",       y)        =sum(q,vFuelH2Quarter.l(z,q,y)  )$fEnableH2Production+1e-6;
 
 pEnergyBalanceCountryH2(c,dsH2hdr,y) = sum(z$(zcmap(z,c)), pEnergyBalanceH2(z,dsH2hdr,y));
 
@@ -1228,7 +1233,7 @@ pCSPComponents(cs,"Storage Hours: hrs",y) = vCapStor.l(cs,y)/max(vCap.l(cs,y),1)
 pPVwSTOBalance(y,q,d,so, "PV output"     ,t) = sum(gfmap(so,f), vPwrOut.l(so,f,q,d,t,y));
 pPVwSTOBalance(y,q,d,stp,"Storage Input" ,t) = vStorInj.l(stp,q,d,t,y);
 pPVwSTOBalance(y,q,d,stp,"Storage output",t) = sum(gfmap(stp,f), vPwrOut.l(stp,f,q,d,t,y));
-pPVwSTOBalance(y,q,d,stp,"Storage Losses",t) = (1-pStorData(stp,"Efficiency"))*vStorInj.l(stp,q,d,t,y);
+pPVwSTOBalance(y,q,d,stp,"Storage Losses",t) = (1-pStorageData(stp,"Efficiency"))*vStorInj.l(stp,q,d,t,y);
 pPVwSTOBalance(y,q,d,stp,"Storage level" ,t) = vStorage.l(stp,q,d,t,y);
 
 pPVwSTOComponents(so, "PV Plants"           ,y) = vCap.l(so,y);
@@ -1238,7 +1243,7 @@ pPVwSTOComponents(stp,"Storage Hours"       ,y) = vCapStor.l(stp,y)/max(vCap.l(s
 
 pStorageBalance(y,stg,q,d,"Storage Input"     ,t) = vStorInj.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Output"    ,t) = sum(gfmap(stg,f), vPwrOut.l(stg,f,q,d,t,y));
-pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorData(stg,"Efficiency"))*vStorInj.l(stg,q,d,t,y);
+pStorageBalance(y,stg,q,d,"Storage Losses"    ,t) = (1-pStorageData(stg,"Efficiency"))*vStorInj.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Net Storage Change",t) = vStorNet.l(stg,q,d,t,y);
 pStorageBalance(y,stg,q,d,"Storage Level"     ,t) = vStorage.l(stg,q,d,t,y);
 
