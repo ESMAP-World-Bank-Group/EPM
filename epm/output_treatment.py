@@ -50,6 +50,14 @@ CUMULATIVE_FILES = [
     ('pYearlyDiscountedWeightedCostsZone', 'pYearlyDiscountedWeightedCostsZoneCumulated'),
 ]
 
+# Files to fill with all (tech, fuel) combinations
+TECHFUEL_FILES = [
+    'pNewCapacityTechFuel',
+    'pCapacityTechFuel',
+    'pEnergyTechFuel',
+    'pUtilizationTechFuel',
+]
+
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -88,22 +96,20 @@ def rename_columns(
     if output_path is None:
         output_path = input_path
 
-    log_func(f"[output_treatment] Renaming columns in {os.path.basename(input_path)}...")
+    file_name = os.path.basename(input_path)
 
     if not os.path.exists(input_path):
-        log_func(f"[output_treatment]   WARNING: File not found - {input_path}")
+        log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
         return False
 
     df = pd.read_csv(input_path)
     original_cols = list(df.columns)
-    log_func(f"[output_treatment]   Original columns: {original_cols}")
-
     df.rename(columns=column_map, inplace=True)
-    new_cols = list(df.columns)
-    log_func(f"[output_treatment]   New columns:      {new_cols}")
-
     df.to_csv(output_path, index=False)
-    log_func(f"[output_treatment]   SUCCESS: Saved to {os.path.basename(output_path)}")
+
+    # Show only the columns that changed
+    changes = [f"{k}->{v}" for k, v in column_map.items() if k in original_cols]
+    log_func(f"[output_treatment]   {file_name}: {', '.join(changes)}")
 
     return True
 
@@ -136,21 +142,17 @@ def calculate_cumulative(
     bool
         True if successful, False otherwise
     """
-    log_func(f"[output_treatment] Calculating cumulative values for {os.path.basename(input_path)}...")
+    input_name = os.path.basename(input_path)
+    output_name = os.path.basename(output_path)
 
     if not os.path.exists(input_path):
-        log_func(f"[output_treatment]   WARNING: File not found - {input_path}")
+        log_func(f"[output_treatment]   {input_name}: WARNING - file not found")
         return False
 
     df = pd.read_csv(input_path)
-    log_func(f"[output_treatment]   Loaded {len(df)} rows")
-    log_func(f"[output_treatment]   Columns: {list(df.columns)}")
 
     # Identify grouping columns (all columns except year and value)
     group_cols = [col for col in df.columns if col not in [year_col, value_col]]
-    log_func(f"[output_treatment]   Grouping by: {group_cols}")
-    log_func(f"[output_treatment]   Year column: {year_col}")
-    log_func(f"[output_treatment]   Value column: {value_col}")
 
     # Sort by group columns and year to ensure correct cumulative order
     df = df.sort_values(by=group_cols + [year_col])
@@ -160,8 +162,91 @@ def calculate_cumulative(
 
     # Save to output file
     df.to_csv(output_path, index=False)
-    log_func(f"[output_treatment]   SUCCESS: Saved cumulative values to {os.path.basename(output_path)}")
-    log_func(f"[output_treatment]   Output rows: {len(df)}")
+    log_func(f"[output_treatment]   {input_name} -> {output_name} ({len(df)} rows)")
+
+    return True
+
+
+def fill_techfuel_combinations(
+    input_path: str,
+    all_tech: List[str],
+    all_fuel: List[str],
+    tech_col: str = 'tech',
+    fuel_col: str = 'f',
+    value_col: str = 'value',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Fill missing (tech, fuel) combinations in a TechFuel CSV file with value 0.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file
+    all_tech : list
+        List of all technology names (from pTechData)
+    all_fuel : list
+        List of all fuel names (from ftfindex)
+    tech_col : str
+        Name of the technology column (default: 'tech')
+    fuel_col : str
+        Name of the fuel column (default: 'f')
+    value_col : str
+        Name of the value column (default: 'value')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+
+    if not os.path.exists(input_path):
+        log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
+        return False
+
+    df = pd.read_csv(input_path)
+    original_rows = len(df)
+
+    # Identify other dimension columns (e.g., zone, year)
+    other_cols = [col for col in df.columns if col not in [tech_col, fuel_col, value_col]]
+
+    # Get unique values for other dimensions from existing data
+    if other_cols:
+        other_dims = df[other_cols].drop_duplicates()
+    else:
+        other_dims = pd.DataFrame([{}])
+
+    # Create all combinations of (other_dims, tech, fuel)
+    from itertools import product
+
+    all_combinations = []
+    for _, other_row in other_dims.iterrows():
+        for tech, fuel in product(all_tech, all_fuel):
+            row = other_row.to_dict()
+            row[tech_col] = tech
+            row[fuel_col] = fuel
+            all_combinations.append(row)
+
+    full_index_df = pd.DataFrame(all_combinations)
+
+    # Merge with existing data to fill missing combinations with NaN
+    merge_cols = other_cols + [tech_col, fuel_col]
+    df_filled = full_index_df.merge(df, on=merge_cols, how='left')
+
+    # Fill NaN values with 0
+    df_filled[value_col] = df_filled[value_col].fillna(0)
+
+    # Sort for consistent output
+    sort_cols = other_cols + [tech_col, fuel_col]
+    df_filled = df_filled.sort_values(by=sort_cols)
+
+    # Save back to file
+    df_filled.to_csv(input_path, index=False)
+    added_rows = len(df_filled) - original_rows
+    log_func(f"[output_treatment]   {file_name}: {original_rows} -> {len(df_filled)} rows (+{added_rows})")
 
     return True
 
@@ -174,6 +259,9 @@ def run_output_treatment(
     output_dir: str,
     rename_map: Optional[Dict[str, Dict[str, str]]] = None,
     cumulative_files: Optional[List[Tuple[str, str]]] = None,
+    techfuel_files: Optional[List[str]] = None,
+    all_tech: Optional[List[str]] = None,
+    all_fuel: Optional[List[str]] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> None:
     """
@@ -189,6 +277,13 @@ def run_output_treatment(
     cumulative_files : list, optional
         List of (input_name, output_name) tuples for cumulative calculations.
         If None, uses CUMULATIVE_FILES.
+    techfuel_files : list, optional
+        List of file names to fill with all (tech, fuel) combinations.
+        If None, uses TECHFUEL_FILES.
+    all_tech : list, optional
+        List of all technology names. Required for techfuel filling.
+    all_fuel : list, optional
+        List of all fuel names. Required for techfuel filling.
     log_func : callable
         Logging function (default: print)
     """
@@ -196,6 +291,8 @@ def run_output_treatment(
         rename_map = RENAME_COLUMNS_MAP
     if cumulative_files is None:
         cumulative_files = CUMULATIVE_FILES
+    if techfuel_files is None:
+        techfuel_files = TECHFUEL_FILES
 
     log_func("=" * 60)
     log_func("[output_treatment] Starting output treatment")
@@ -214,10 +311,26 @@ def run_output_treatment(
         rename_columns(csv_path, col_map, log_func=log_func)
 
     # ---------------------------------------------------------
-    # 2. Calculate cumulative values
+    # 2. Fill TechFuel combinations (if tech/fuel lists provided)
+    # ---------------------------------------------------------
+    if all_tech and all_fuel and techfuel_files:
+        log_func("")
+        log_func("[output_treatment] STEP 2: Filling TechFuel combinations")
+        log_func("-" * 60)
+
+        for file_name in techfuel_files:
+            csv_path = os.path.join(output_dir, f"{file_name}.csv")
+            fill_techfuel_combinations(csv_path, all_tech, all_fuel, log_func=log_func)
+    else:
+        log_func("")
+        log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no tech/fuel lists provided)")
+        log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 3. Calculate cumulative values
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 2: Calculating cumulative values")
+    log_func("[output_treatment] STEP 3: Calculating cumulative values")
     log_func("-" * 60)
 
     for input_name, output_name in cumulative_files:
@@ -231,20 +344,77 @@ def run_output_treatment(
     log_func("=" * 60)
 
 
-def run_output_treatment_gams(gams) -> None:
+def run_output_treatment_gams(gams, output_dir: str) -> None:
     """
     Run output treatment from GAMS embedded Python.
+
+    Note: This function never raises exceptions - all errors are logged as warnings.
+    These treatments are for Tableau compatibility and are non-fatal.
 
     Parameters
     ----------
     gams : object
-        GAMS object with printLog method and environment variables
+        GAMS object with printLog method and db attribute for GAMS database access
+    output_dir : str
+        Path to the output directory containing CSV files
     """
-    # Get output directory from GAMS environment
-    output_dir = gams.wsWorkingDir
+    log_func = gams.printLog
 
-    # Use GAMS printLog for logging
-    run_output_treatment(output_dir, log_func=gams.printLog)
+    log_func("")
+    log_func("=" * 60)
+    log_func("[output_treatment] Starting output treatment for Tableau")
+    log_func("[output_treatment] Note: Errors here are non-fatal warnings")
+    log_func("=" * 60)
+
+    try:
+        import gams.transfer as gt
+
+        # Validate output directory
+        if not output_dir or not os.path.isdir(output_dir):
+            log_func(f"[output_treatment] WARNING: Output directory not found: {output_dir}")
+            log_func("[output_treatment] Skipping output treatment")
+            return
+
+        log_func(f"[output_treatment] Output directory: {output_dir}")
+
+        # Extract tech and fuel lists from GAMS database
+        log_func("[output_treatment] Extracting tech and fuel from GAMS database...")
+
+        all_tech = []
+        all_fuel = []
+
+        try:
+            db = gt.Container(gams.db)
+
+            # Get tech from pTechData (first dimension)
+            if 'pTechData' in db.data:
+                tech_data = db.data['pTechData']
+                if tech_data.records is not None and len(tech_data.records) > 0:
+                    all_tech = tech_data.records.iloc[:, 0].unique().tolist()
+                    log_func(f"[output_treatment]   Found {len(all_tech)} technologies from pTechData")
+
+            # Get fuel from ftfindex (first dimension)
+            if 'ftfindex' in db.data:
+                ftf_data = db.data['ftfindex']
+                if ftf_data.records is not None and len(ftf_data.records) > 0:
+                    all_fuel = ftf_data.records.iloc[:, 0].unique().tolist()
+                    log_func(f"[output_treatment]   Found {len(all_fuel)} fuels from ftfindex")
+
+        except Exception as e:
+            log_func(f"[output_treatment]   WARNING: Could not extract tech/fuel from GAMS: {e}")
+
+        # Run the main treatment
+        run_output_treatment(
+            output_dir,
+            all_tech=all_tech,
+            all_fuel=all_fuel,
+            log_func=log_func
+        )
+
+    except Exception as e:
+        log_func(f"[output_treatment] WARNING: Output treatment failed: {e}")
+        log_func("[output_treatment] This is non-fatal - model results are still valid")
+        log_func("[output_treatment] Tableau outputs may need manual adjustment")
 
 
 # =============================================================================
