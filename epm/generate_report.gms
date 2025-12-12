@@ -1450,3 +1450,44 @@ $elseIfI.reportshort %REPORTSHORT% == 1
     execute_unload 'epmresults', pYearlyCostsZone, pYearlyCostsZoneFull, pEnergyBalance
     ;
 $endIf.reportshort
+
+* ---------------------------------------------------------
+* Post-process CSV files: rename columns for wildcard domain parameters
+* ---------------------------------------------------------
+embeddedCode Python:
+import pandas as pd
+import os
+
+output_dir = r"%OUTPUT_DIR%"
+
+gams.printLog("=" * 60)
+gams.printLog("[generate_report] Post-processing CSV files")
+gams.printLog(f"[generate_report] Output directory: {output_dir}")
+
+# Define column renaming for parameters with wildcard (*) domains
+rename_map = {
+    'pEnergyTechFuelComplete': {'z_0': 'z', 'uni_1': 'tech', 'uni_2': 'f', 'y_3': 'y'},
+}
+
+for param, col_map in rename_map.items():
+    csv_path = os.path.join(output_dir, f"{param}.csv")
+    gams.printLog(f"[generate_report] Processing {param}.csv...")
+
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+        original_cols = list(df.columns)
+        gams.printLog(f"[generate_report]   Original columns: {original_cols}")
+
+        df.rename(columns=col_map, inplace=True)
+        new_cols = list(df.columns)
+        gams.printLog(f"[generate_report]   New columns:      {new_cols}")
+
+        df.to_csv(csv_path, index=False)
+        gams.printLog(f"[generate_report]   SUCCESS: Saved {param}.csv with renamed columns")
+    else:
+        gams.printLog(f"[generate_report]   WARNING: File not found - {csv_path}")
+
+gams.printLog("[generate_report] Post-processing complete")
+gams.printLog("=" * 60)
+
+endEmbeddedCode
