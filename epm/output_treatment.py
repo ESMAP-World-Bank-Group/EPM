@@ -47,6 +47,7 @@ RENAME_COLUMNS_MAP = {
 CUMULATIVE_FILES = [
     ('pNewCapacityTechFuel', 'pNewCapacityTechFuelCumulated'),
     ('pCapexInvestmentComponent', 'pCapexInvestmentComponentCumulated'),
+    ('pYearlyDiscountedWeightedCostsZone', 'pYearlyDiscountedWeightedCostsZoneCumulated'),
 ]
 
 

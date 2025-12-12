@@ -167,6 +167,7 @@ Parameters
   pTradeSharedBenefits(z, y)                    'Congestion rents shared equally between countries [USD] by zone and year'
 
   pYearlyCostsZone(z, *, y)                      'Annual cost summary [million USD] by zone and year'
+  pYearlyDiscountedWeightedCostsZone(z, *, y)   'Discounted weighted annual cost [million USD] by zone and year'
   pCostsZone(z, *)                               'Total cost [million USD] by zone and cost category'
   pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
   pYearlyCostsSystem
@@ -726,9 +727,13 @@ pYearlyCostsZone(z, "Import costs with external zones: $m", y) =
 pYearlyCostsZone(z, "Export revenues with external zones: $m", y) =
   vYearlyExportExternalCost.l(z, y) / 1e6;
 
-* Cost 
+* Discounted weighted yearly costs by zone
+pYearlyDiscountedWeightedCostsZone(z, sumhdr, y) =
+    pYearlyCostsZone(z, sumhdr, y) * pRR(y) * pWeightYear(y);
+
+* Cost
 pCostsZone(z, sumhdr) =
-    sum(y, pYearlyCostsZone(z,sumhdr,y) * pRR(y) * pWeightYear(y));
+    sum(y, pYearlyDiscountedWeightedCostsZone(z, sumhdr, y));
 
 * ---------------------------------------------------------
 
@@ -1347,6 +1352,7 @@ embeddedCode Connect:
 
         "pPrice",
         "pYearlyCostsZone",
+        "pYearlyDiscountedWeightedCostsZone",
         "pCostsSystem",
         "pCostsSystemPerMWh",
         "pFuelCosts",
@@ -1410,7 +1416,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCostsPlant, 
       pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentComponent,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
-      pYearlyCostsZone, pYearlyCostsCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
+      pYearlyCostsZone, pYearlyDiscountedWeightedCostsZone, pYearlyCostsCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
       pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
 * 3. ENERGY BALANCE
       pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelComplete, pEnergyFuel, pEnergyFuelComplete, pEnergyTechFuelCountry, pEnergyFuelCountry,
