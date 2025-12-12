@@ -72,6 +72,8 @@ pre-analysis/**/output/*
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
+!epm/input/data_sapp/
+!epm/input/data_sapp/**
 
 # Documentation
 /doc/todo.md
