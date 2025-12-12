@@ -58,6 +58,46 @@ TECHFUEL_FILES = [
     'pUtilizationTechFuel',
 ]
 
+# Files to fill with all cost components: (file_name, cost_component_column_name)
+# The cost component column is either 'uni' or 'sumhdr' depending on the file
+COST_COMPONENT_FILES = [
+    ('pYearlyCostsZone', 'uni'),
+    ('pYearlyCostsZonePerMWh', 'sumhdr'),
+    ('pCostsZonePerMWh', 'sumhdr'),
+    ('pYearlyCostsCountryPerMWh', 'sumhdr'),
+    ('pCostsCountryPerMWh', 'sumhdr'),
+    ('pYearlyDiscountedWeightedCostsZone', 'uni'),
+    ('pCostsSystem', 'uni'),
+    ('pCostsSystemPerMWh', 'uni'),
+]
+
+# All cost components from sumhdr set in generate_report.gms
+ALL_COST_COMPONENTS = [
+    "Generation costs: $m",
+    "Fixed O&M: $m",
+    "Variable O&M: $m",
+    "Startup costs: $m",
+    "Fuel costs: $m",
+    "Transmission costs: $m",
+    "Spinning reserve costs: $m",
+    "Unmet demand costs: $m",
+    "Unmet country spinning reserve costs: $m",
+    "Unmet country planning reserve costs: $m",
+    "Unmet country CO2 backstop cost: $m",
+    "Unmet system planning reserve costs: $m",
+    "Unmet system spinning reserve costs: $m",
+    "Unmet system CO2 backstop cost: $m",
+    "Excess generation: $m",
+    "VRE curtailment: $m",
+    "Import costs with external zones: $m",
+    "Export revenues with external zones: $m",
+    "Import costs with internal zones: $m",
+    "Export revenues with internal zones: $m",
+    "Trade shared benefits: $m",
+    "Carbon costs: $m",
+    "NPV of system cost: $m",
+]
+
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -251,6 +291,83 @@ def fill_techfuel_combinations(
     return True
 
 
+def fill_cost_components(
+    input_path: str,
+    all_cost_components: List[str],
+    cost_col: str = 'uni',
+    value_col: str = 'value',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Fill missing cost components in a CSV file with value 0.
+
+    This ensures all cost components from sumhdr are present in the file,
+    which is required for proper visualization in Tableau.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file
+    all_cost_components : list
+        List of all cost component names (from sumhdr)
+    cost_col : str
+        Name of the cost component column (default: 'uni', can be 'sumhdr')
+    value_col : str
+        Name of the value column (default: 'value')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+
+    if not os.path.exists(input_path):
+        log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
+        return False
+
+    df = pd.read_csv(input_path)
+    original_rows = len(df)
+
+    # Identify other dimension columns (e.g., zone, country, year)
+    other_cols = [col for col in df.columns if col not in [cost_col, value_col]]
+
+    # Get unique values for other dimensions from existing data
+    if other_cols:
+        other_dims = df[other_cols].drop_duplicates()
+    else:
+        other_dims = pd.DataFrame([{}])
+
+    # Create all combinations of (other_dims, cost_component)
+    all_combinations = []
+    for _, other_row in other_dims.iterrows():
+        for cost_comp in all_cost_components:
+            row = other_row.to_dict()
+            row[cost_col] = cost_comp
+            all_combinations.append(row)
+
+    full_index_df = pd.DataFrame(all_combinations)
+
+    # Merge with existing data to fill missing combinations with NaN
+    merge_cols = other_cols + [cost_col]
+    df_filled = full_index_df.merge(df, on=merge_cols, how='left')
+
+    # Fill NaN values with 0
+    df_filled[value_col] = df_filled[value_col].fillna(0)
+
+    # Sort for consistent output
+    df_filled = df_filled.sort_values(by=merge_cols)
+
+    # Save back to file
+    df_filled.to_csv(input_path, index=False)
+    added_rows = len(df_filled) - original_rows
+    log_func(f"[output_treatment]   {file_name}: {original_rows} -> {len(df_filled)} rows (+{added_rows})")
+
+    return True
+
+
 # =============================================================================
 # MAIN TREATMENT FUNCTIONS
 # =============================================================================
@@ -260,8 +377,10 @@ def run_output_treatment(
     rename_map: Optional[Dict[str, Dict[str, str]]] = None,
     cumulative_files: Optional[List[Tuple[str, str]]] = None,
     techfuel_files: Optional[List[str]] = None,
+    cost_component_files: Optional[List[Tuple[str, str]]] = None,
     all_tech: Optional[List[str]] = None,
     all_fuel: Optional[List[str]] = None,
+    all_cost_components: Optional[List[str]] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> None:
     """
@@ -280,10 +399,15 @@ def run_output_treatment(
     techfuel_files : list, optional
         List of file names to fill with all (tech, fuel) combinations.
         If None, uses TECHFUEL_FILES.
+    cost_component_files : list, optional
+        List of (file_name, cost_column_name) tuples for cost component filling.
+        If None, uses COST_COMPONENT_FILES.
     all_tech : list, optional
         List of all technology names. Required for techfuel filling.
     all_fuel : list, optional
         List of all fuel names. Required for techfuel filling.
+    all_cost_components : list, optional
+        List of all cost component names. If None, uses ALL_COST_COMPONENTS.
     log_func : callable
         Logging function (default: print)
     """
@@ -293,6 +417,10 @@ def run_output_treatment(
         cumulative_files = CUMULATIVE_FILES
     if techfuel_files is None:
         techfuel_files = TECHFUEL_FILES
+    if cost_component_files is None:
+        cost_component_files = COST_COMPONENT_FILES
+    if all_cost_components is None:
+        all_cost_components = ALL_COST_COMPONENTS
 
     log_func("=" * 60)
     log_func("[output_treatment] Starting output treatment")
@@ -327,10 +455,26 @@ def run_output_treatment(
         log_func("-" * 60)
 
     # ---------------------------------------------------------
-    # 3. Calculate cumulative values
+    # 3. Fill cost components with all sumhdr values
+    # ---------------------------------------------------------
+    if cost_component_files and all_cost_components:
+        log_func("")
+        log_func("[output_treatment] STEP 3: Filling cost components (sumhdr)")
+        log_func("-" * 60)
+
+        for file_name, cost_col in cost_component_files:
+            csv_path = os.path.join(output_dir, f"{file_name}.csv")
+            fill_cost_components(csv_path, all_cost_components, cost_col=cost_col, log_func=log_func)
+    else:
+        log_func("")
+        log_func("[output_treatment] STEP 3: Skipping cost component filling")
+        log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 4. Calculate cumulative values
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 3: Calculating cumulative values")
+    log_func("[output_treatment] STEP 4: Calculating cumulative values")
     log_func("-" * 60)
 
     for input_name, output_name in cumulative_files:
