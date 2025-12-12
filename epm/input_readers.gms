@@ -60,7 +60,7 @@ $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 
 * OTHER SUPPLY OPTIONS
 $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
-$if not set pStorDataInput $set pStorDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
+$if not set pStorageDataInput $set pStorDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
 
 * RESOURCES
 $if not set pSettingsHeader $set pSettingsHeader %FOLDER_INPUT%/resources/pSettingsHeader.csv
@@ -374,8 +374,8 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pStorDataInput%
-    name: pStorDataInput
+    file: %pStorageDataInput%
+    name: pStorageDataInput
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1, 2]
