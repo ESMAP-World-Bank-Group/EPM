@@ -165,14 +165,14 @@ alias (z,z2), (g,g1,g2);
 Parameter
 * Generator data
    pTechData(tech<,pTechDataHeader<)                     'Technology specifications'
-   pGenDataInput(g<,z,tech,f<,pGenDataInputHeader)       'Generator data from Excel input'
+   pGenDataInput(*,z,tech,f<,pGenDataInputHeader)       'Generator data from Excel input'
    pGenDataInputDefault(z,tech,f,pGenDataInputHeader)    'Default generator data by zone/tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y)                 'Default CAPEX trajectories'
    pCapexTrajectories(g,y)                               'Generator CAPEX trajectories'
    pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
-   pStorageDataInput(g,*,pStorageDataHeader)                 'Storage unit specifications'
+   pStorageDataInput(*,z,tech,f,pStorageDataHeader)          'Storage unit specifications'
    
 * CSP and technology data
    pCSPData(g,pCSPDataHeader,pStorageDataHeader)           'Concentrated solar power data'
@@ -184,7 +184,6 @@ Parameter
 
 * Storage and transmission
    pNewTransmission(z,z2,pTransmissionHeader)           'New transmission line specifications'
-   pStorageDataTemp(g,g2,pStorageDataHeader)             'Temporary storage data for processing'
 
 * Trade parameters
    pTradePrice(zext,q,d,y,t)                             'External trade prices'
@@ -251,6 +250,7 @@ $gdxIn input.gdx
 * Load domain-defining symbols (sets and indices)
 $load zcmap pSettingsHeader y pHours pDays mapTS
 $load pGenDataInputHeader, pTechData, pStorageDataHeader, 
+$load g<pGenDataInput.Dim1
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
 $load ftfindex
@@ -263,6 +263,8 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 
 * Load constraints and technical data
 $load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+* Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
+$loadM g<pStorageDataInput.Dim1
 $load pStorageDataInput pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
@@ -278,6 +280,24 @@ $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pEx
 $gdxIn
 
 $if not errorfree $abort CONNECT ERROR in input_readers.gms
+
+
+*-------------------------------------------------------------------------------------
+* Merge storage units from pStorageDataInput into generator structures
+* This ensures all units (generators + storage) are in set g and have consistent data
+*-------------------------------------------------------------------------------------
+
+* Merge storage into gmap so storage units have zone/tech/fuel mappings
+gmap(g,z,tech,f)$pStorageDataInput(g,z,tech,f,'Status') = yes;
+
+* Fill pGenDataInput with storage data for common fields
+* This ensures pGenData(g,header) includes storage units
+* Loop over pGenDataInputHeader and copy values where header exists in both sets
+loop(pGenDataInputHeader,
+    pGenDataInput(g,z,tech,f,pGenDataInputHeader)$pStorageDataInput(g,z,tech,f,'Status')
+        = sum(pStorageDataHeader$sameas(pStorageDataHeader,pGenDataInputHeader),
+              pStorageDataInput(g,z,tech,f,pStorageDataHeader));
+);
 
 *-------------------------------------------------------------------------------------
 
@@ -347,12 +367,6 @@ $if "x%gams.restart%" == "x" $include %BASE_FILE%
 $include %HYDROGEN_FILE%
 
 *-------------------------------------------------------------------------------------
-
-* Copy to temp parameter and normalize standalone storage (g,'') to paired format (g,g) for uniform processing
-pStorageDataTemp(g,g2,pStorageDataHeader) = pStorageDataInput(g,g2,pStorageDataHeader);
-pStorageDataTemp(g,g,pStorageDataHeader)$pStorageDataInput(g,'',pStorageDataHeader) = pStorageDataInput(g,'',pStorageDataHeader);
-
-
 * Generate gfmap and others from pGenDataInput
 parameter gstatIndex(gstatus) / Existing 1, Candidate 3, Committed 2 /;
 parameter tstatIndex(tstatus) / Candidate 3, Committed 2 /;
@@ -526,12 +540,14 @@ Zt(z) = sum((q,d,y,t),pDemandData(z,q,d,y,t)) = 0;
 Zd(z) = not Zt(z);
 
 
-* Assign storage data from pStorageDataTemp based on the generator-storage mapping
-option gsmap<pStorageDataTemp;
-loop(gsmap(g2,g), pStorageData(g,pStorageDataHeader) = pStorageDataTemp(g,g2,pStorageDataHeader));
+* Aggregate storage data from the 4-index pStorageDataInput to pStorageData(g,header)
+pStorageData(g,pStorageDataHeader) = sum((z,tech,f), pStorageDataInput(g,z,tech,f,pStorageDataHeader));
 
-* Remove generator pairs (`g,g`) that correspond to standalone storage plants from `gsmap`
-gsmap(g,g) = no;
+* gsmap is used for linked storage (PV+storage pairs)
+* gsmap(g2,g) means storage g is linked to generator g2
+* For standalone storage (empty "Linked plant"), gsmap remains empty
+* Note: If linked storage is needed, the "Linked plant" column should contain the generator name
+gsmap(g2,g) = no;
 
 * Identify candidate generators (`ng(g)`) based on their status in `gstatusmap`
 ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');

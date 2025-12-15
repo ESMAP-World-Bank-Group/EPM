@@ -51,16 +51,6 @@ data_test/
 │   ├── pSpinningReserveReqCountry.csv
 │   └── pSpinningReserveReqSystem.csv
 │
-├── resources/                          # Shared lookup tables and templates
-│   ├── ftfindex.csv
-│   ├── pFuelCarbonContent.csv
-│   ├── pGenDataInputHeader.csv
-│   ├── pH2Header.csv
-│   ├── pSettingsHeader.csv
-│   ├── pStorageDataHeader.csv
-│   ├── pTransmissionHeader.csv
-│   └── pTechData.csv
-│
 ├── sensitivity/                        # Reduced input files listed in `sensitivity.csv`
 │   └── y_reduced.csv
 │

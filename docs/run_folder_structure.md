@@ -51,9 +51,10 @@ Each of these folders contains CSV files grouped by data type, including:
 - **`h2/`**: Includes hydrogen-related data.
 - **`load/`**: Contains electricity demand and load profiles.
 - **`reserve/`**: Specifies reserve requirements for system reliability.
-- **`resources/`**: Contains information on energy resources and availability.
 - **`supply/`**: Defines supply-side parameters, including power plants and generation capacity.
 - **`trade/`**: Contains parameters related to cross-border electricity trade.
+
+Note: Header files and lookup tables (such as `ftfindex.csv`, `pTechData.csv`, `pFuelCarbonContent.csv`, and column header definitions) are now centralized in `epm/resources/headers/` and shared across all input folders.
 
 Some files are located directly in the `data/` directory and contain key parameters that are not grouped within a specific subdirectory:
 
