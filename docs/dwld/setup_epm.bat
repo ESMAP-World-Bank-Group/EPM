@@ -7,7 +7,7 @@ set REPO_URL=https://github.com/ESMAP-World-Bank-Group/EPM.git
 set REPO_DIR=%~dp0EPM
 set CONDA_ENV=epm_env
 set GAMS_MAIN=%REPO_DIR%\main.gms
-set PYTHON_SCRIPT=%REPO_DIR%\epm\epm.py
+set PYTHON_SCRIPT=%REPO_DIR%\epm\epm\epm.py
 set REQ_FILE=%REPO_DIR%\requirements.txt
 set LOG_FILE=%~dp0setup_log.txt
 
