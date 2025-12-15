@@ -9,5 +9,6 @@ pFuelPrice,
 ResLimShare,
 BuildLimitperYear,
 pVREProfile,
-interco,TRUE
+interco,
 RemoveGenericTechnologies,
+RemoveCandidateFuel,Biomass&Wind&Coal

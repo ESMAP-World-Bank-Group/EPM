@@ -946,7 +946,7 @@ def generate_summary(epm_results, folder):
     # Define the order that will appear in the summary.csv file
     if False:
         order = ['NPV of system cost: $m',
-                "Generation costs: $m",
+                "Investment costs: $m",
                 "Fixed O&M: $m",
                 "Variable O&M: $m",
                 "Fuel costs: $m",

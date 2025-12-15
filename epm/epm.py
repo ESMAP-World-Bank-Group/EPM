@@ -562,13 +562,13 @@ def launch_epm_multi_scenarios(config='config.csv',
             lambda i: os.path.join(folder_input, i) if any(ext in i for ext in ['.csv', '.opt']) else i
         )
 
-    # Run sensitivity analysis if activated
-    if sensitivity is not None:
-        s = perform_sensitivity(sensitivity, s)
-
-    # Set up project assessment scenarios if activated
+    # Set up project assessment scenarios if activated (before sensitivity so sensitivity applies to both)
     if project_assessment is not None:
         s = perform_project_assessment(project_assessment, s)
+
+    # Run sensitivity analysis if activated (applies to all existing scenarios)
+    if sensitivity is not None:
+        s = perform_sensitivity(sensitivity, s)
 
     # Set up generator assessment scenarios if activated
     if generator_assessment is not None:

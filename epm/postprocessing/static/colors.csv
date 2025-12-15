@@ -56,7 +56,7 @@ Unmet demand,firebrick
 Excess generation,yellow
 VRE curtailment,orange
 #Cost Categories,
-Generation costs,darkblue
+Investment costs,darkblue
 Variable Cost,grey
 Fuel costs,grey
 Variable O&M,rosybrown

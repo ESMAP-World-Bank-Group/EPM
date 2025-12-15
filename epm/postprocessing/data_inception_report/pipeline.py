@@ -1768,7 +1768,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "data_folder",
         nargs="?",
-        default="data_test",
+        default="data_westbalkans",
         help="Folder name under epm/input containing config.csv (default: data_test)",
     )
     args = parser.parse_args()

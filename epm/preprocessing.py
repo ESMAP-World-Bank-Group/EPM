@@ -405,7 +405,38 @@ def perform_sensitivity(sensitivity, s):
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pGenDataInput'] = path_file
-        
+
+    param = 'RemoveCandidateFuel'
+    if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
+        # Create a list of fuels to remove that are in a string separated by '&'
+        # For example: 'Biomass&Gas' will create two separate scenarios
+        fuels_to_remove = [f.strip() for f in sensitivity['RemoveCandidateFuel'].split('&') if f.strip()]
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        # Iterate over all existing scenarios
+        new_scenarios = {}
+        for scenario in list(s.keys()):
+            for fuel in fuels_to_remove:
+                df = pd.read_csv(s[scenario]['pGenDataInput'])
+                # For fuel that matches (case-insensitive) and Status is 2 or 3, set Status to 0 (candidate generators become unavailable)
+                mask = (df['fuel'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
+                df.loc[mask, 'Status'] = 0
+
+                scenario_name = f'{scenario}_RemoveCandidateFuel_{fuel}'
+                path_file = os.path.basename(s[scenario]['pGenDataInput']).replace('.csv', f'_RemoveCandidateFuel_{fuel}.csv')
+                path_file = os.path.join(folder_sensi, path_file)
+                # Write the modified file
+                df.to_csv(path_file, index=False)
+                # Put in the scenario dir
+                new_scenarios[scenario_name] = s[scenario].copy()
+                new_scenarios[scenario_name]['pGenDataInput'] = path_file
+
+        s.update(new_scenarios)
+
     param = 'pSettings'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of some setting parameters
         settings_sensi = {'VoLL': [250],
@@ -744,30 +775,33 @@ def perform_assessment(generator_assessment, s):
 def perform_project_assessment(project_assessment, s):
     """
     Build assessment scenarios using an existing pGenDataInput variant (suffix or filename).
+    Always looks for the project file relative to baseline's pGenDataInput location.
     """
     try:
         new_s = {}
-        for scenario in list(s.keys()):
-            base_path = s[scenario]['pGenDataInput']
-            base_dir = os.path.dirname(base_path)
+        # Always use baseline path to find the project assessment file
+        baseline_path = s['baseline']['pGenDataInput']
+        baseline_dir = os.path.dirname(baseline_path)
 
-            if os.path.isabs(project_assessment):
-                candidate = project_assessment
+        if os.path.isabs(project_assessment):
+            candidate = project_assessment
+        else:
+            if project_assessment.endswith(".csv"):
+                candidate = os.path.join(baseline_dir, project_assessment)
             else:
-                if project_assessment.endswith(".csv"):
-                    candidate = os.path.join(base_dir, project_assessment)
-                else:
-                    root, ext = os.path.splitext(os.path.basename(base_path))
-                    suffix = project_assessment
-                    if not suffix.startswith('_'):
-                        suffix = f"_{suffix}"
-                    candidate_name = f"{root}{suffix}.csv" if ext == ".csv" else f"{root}{suffix}{ext}"
-                    candidate = os.path.join(base_dir, candidate_name)
+                root, ext = os.path.splitext(os.path.basename(baseline_path))
+                suffix = project_assessment
+                if not suffix.startswith('_'):
+                    suffix = f"_{suffix}"
+                candidate_name = f"{root}{suffix}.csv" if ext == ".csv" else f"{root}{suffix}{ext}"
+                candidate = os.path.join(baseline_dir, candidate_name)
 
-            if not os.path.exists(candidate):
-                raise FileNotFoundError(f"Project assessment file {os.path.abspath(candidate)} not found.")
+        if not os.path.exists(candidate):
+            raise FileNotFoundError(f"Project assessment file {os.path.abspath(candidate)} not found.")
 
-            label = os.path.splitext(os.path.basename(candidate))[0].replace('pGenDataInput', '').strip('_') or "project"
+        label = os.path.splitext(os.path.basename(candidate))[0].replace('pGenDataInput', '').strip('_') or "project"
+
+        for scenario in list(s.keys()):
             scenario_name = f"{scenario}_{label}"
             new_s[scenario_name] = s[scenario].copy()
             new_s[scenario_name]['pGenDataInput'] = candidate
