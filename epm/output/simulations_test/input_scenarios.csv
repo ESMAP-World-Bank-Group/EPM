@@ -7,14 +7,6 @@ zcmap,input/data_test/zcmap.csv
 pHours,input/data_test/pHours.csv
 pDays,input/data_test/static/dispatch_month_days.csv
 mapTS,input/data_test/static/dispatch_map_ts.csv
-ftfindex,input/data_test/resources/ftfindex.csv
-pFuelCarbonContent,input/data_test/resources/pFuelCarbonContent.csv
-pTechData,input/data_test/resources/pTechData.csv
-pSettingsHeader,input/data_test/resources/pSettingsHeader.csv
-pGenDataInputHeader,input/data_test/resources/pGenDataInputHeader.csv
-pStorageDataHeader,input/data_test/resources/pStorageDataHeader.csv
-pTransmissionHeader,input/data_test/resources/pTransmissionHeader.csv
-pH2Header,input/data_test/resources/pH2Header.csv
 pDemandProfile,input/data_test/load/pDemandProfile.csv
 pDemandData,input/data_test/load/pDemandData.csv
 pDemandForecast,input/data_test/load/pDemandForecast.csv

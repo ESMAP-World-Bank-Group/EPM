@@ -59,37 +59,114 @@ ESSENTIAL_INPUT = [
 
 OPTIONAL_INPUT = ["pDemandForecast"]
 
+
+def _log_input_columns(gams, db):
+    """Log columns and domain names for each symbol in the container (compact)."""
+    names = sorted(db.data.keys())
+    gams.printLog("[input_verification] Columns by symbol (data columns | domains):")
+    for name in names:
+        try:
+            records = db[name].records
+            cols = list(records.columns) if records is not None else []
+            domains = getattr(db[name], "domain_names", None)
+        except Exception:
+            cols = "<error>"
+            domains = "<error>"
+        gams.printLog(f"  {name}: {cols} | domains={domains}")
+
+
 def run_input_verification(gams):
     """Run the full suite of input validation checks on the current GAMS DB."""
     db = gt.Container(gams.db)
+
+    def _step(title):
+        gams.printLog("-" * 60)
+        gams.printLog(title)
+
+    gams.printLog("=" * 60)
+    gams.printLog("[input_verification] starting")
+    gams.printLog("=" * 60)
+
+    _step("Filter inputs to allowed zones")
     filter_inputs_to_allowed_zones(db, log_func=gams.printLog)
+    gams.printLog("[input_verification] Filter inputs to allowed zones completed.")
 
+    _log_input_columns(gams, db)
+    _step("Required inputs")
     _check_required_inputs(gams, db)
+    gams.printLog("[input_verification] Required inputs completed.")
+    _step("Settings flags")
     _check_settings_flags(gams, db)
+    gams.printLog("[input_verification] Settings flags completed.")
+    _step("Settings required entries")
     _check_settings_required_entries(gams, db)
+    gams.printLog("[input_verification] Settings required entries completed.")
     # _check_candidate_build_limits(gams, db)
+    _step("Hours")
     _check_hours(gams, db)
+    gams.printLog("[input_verification] Hours completed.")
+    _step("VRE profile")
     _check_vre_profile(gams, db)
+    gams.printLog("[input_verification] VRE profile completed.")
+    _step("Availability")
     _check_availability(gams, db)
+    gams.printLog("[input_verification] Availability completed.")
+    _step("Time resolution")
     _check_time_resolution(gams, db)
+    gams.printLog("[input_verification] Time resolution completed.")
+    _step("Dispatch chronology")
     _warn_dispatch_chronology_consistency(gams, db)
+    gams.printLog("[input_verification] Dispatch chronology completed.")
+    _step("Demand forecast")
     _check_demand_forecast(gams, db)
+    gams.printLog("[input_verification] Demand forecast completed.")
+    _step("Fuel prices")
     _check_fuel_price_presence(gams, db)
+    gams.printLog("[input_verification] Fuel prices completed.")
+    _step("Transfer limits")
     _check_transfer_limits(gams, db)
+    gams.printLog("[input_verification] Transfer limits completed.")
+    _step("New transmission")
     _check_new_transmission(gams, db)
+    gams.printLog("[input_verification] New transmission completed.")
+    _step("New transmission zones")
     _check_new_transmission_zones(gams, db)
+    gams.printLog("[input_verification] New transmission zones completed.")
+    _step("Interconnected mode")
     _check_interconnected_mode(gams, db)
+    gams.printLog("[input_verification] Interconnected mode completed.")
+    _step("Planning reserves")
     _check_planning_reserves(gams, db)
+    gams.printLog("[input_verification] Planning reserves completed.")
+    _step("Fuel definitions")
     _check_fuel_definitions(gams, db)
+    gams.printLog("[input_verification] Fuel definitions completed.")
+    _step("Tech definitions")
     _check_tech_definitions(gams, db)
+    gams.printLog("[input_verification] Tech definitions completed.")
+    _step("Zone consistency")
     _check_zone_consistency(gams, db)
+    gams.printLog("[input_verification] Zone consistency completed.")
+    _step("Single zone internal exchange")
     _check_single_zone_internal_exchange(gams, db)
+    gams.printLog("[input_verification] Single zone internal exchange completed.")
+    _step("External transfer limits")
     _check_external_transfer_limits(gams, db)
+    gams.printLog("[input_verification] External transfer limits completed.")
+    _step("External transfer settings")
     _check_external_transfer_settings(gams, db)
+    gams.printLog("[input_verification] External transfer settings completed.")
+    _step("Storage data")
     _check_storage_data(gams, db)
+    gams.printLog("[input_verification] Storage data completed.")
+    _step("Generation defaults")
     _check_generation_defaults(gams, db)
+    gams.printLog("[input_verification] Generation defaults completed.")
+    _step("Missing generation default combinations")
     _warn_missing_generation_default_combinations(gams, db)
+    gams.printLog("[input_verification] Missing generation default combinations completed.")
 
+    gams.printLog("=" * 60)
 
 def _run_input_verification_on_container(container: gt.Container, *, verbose=True, log_func=None):
     """Execute verification on an existing gt.Container and collect logs."""
@@ -146,6 +223,7 @@ def _check_settings_flags(gams, db):
     try:
         records = db["pSettings"].records
         if records is None or records.empty:
+            gams.printLog("[input_verification][settings_flags] Skipped: pSettings missing or empty.")
             return
 
         settings_map = dict(zip(records["pSettingsHeader"], records["value"]))
@@ -228,6 +306,10 @@ def _check_settings_required_entries(gams, db):
     try:
         records = db["pSettings"].records
         if records is None:
+            gams.printLog("[input_verification][settings_required] Skipped: pSettings missing.")
+            return
+        if records.empty:
+            gams.printLog("[input_verification][settings_required] Skipped: pSettings empty.")
             return
 
         required_headers = ["VoLL", "ReserveVoLL", "SpinReserveVoLL", "WACC", "DR"]
@@ -474,7 +556,7 @@ def _check_demand_forecast(gams, db):
 
         df_pivot = records.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
         df_pivot.columns.name = None
-        df_pivot.rename(columns={"energy": "energy_value", "peak": "peak_value"}, inplace=True)
+        df_pivot.rename(columns={"Energy": "energy_value", "Peak": "peak_value"}, inplace=True)
 
         if {"energy_value", "peak_value"}.issubset(df_pivot.columns):
             df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
@@ -497,6 +579,11 @@ def _check_demand_forecast(gams, db):
                         f"Extreme Energy/Peak Ratio at zone {row['z']}, year {row['y']}: "
                         f"{row['energy_peak_ratio']:.2f}"
                     )
+        else:
+            gams.printLog(
+                f"Warning: pDemandForecast is missing required columns 'energy'/'peak' after pivot. "
+                f"Got columns: {list(df_pivot.columns)}"
+            )
     except Exception:
         gams.printLog('Unexpected error when checking pDemandForecast')
         raise
@@ -922,7 +1009,7 @@ def _check_storage_data(gams, db):
         gen_records = db["pGenDataInput"].records
         if gen_records is None or gen_records.empty:
             return
-        gen_storage = set(stor_records['g'].unique())
+        gen_storage = set(stor_records['gen'].unique())
         gen_ref = set(gen_records.loc[gen_records.tech == 'Storage']['g'].unique())
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:

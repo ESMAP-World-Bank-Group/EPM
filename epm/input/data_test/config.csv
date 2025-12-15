@@ -9,15 +9,6 @@ Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
 ,STATIC,
 Dispatch day counts per period (Unit: days),pDays,static/dispatch_month_days.csv
 Dispatch chronology mapping (Unit: ordinal index),mapTS,static/dispatch_map_ts.csv
-,RESOURCES,
-Fuel look-up indices used in GAMS import mapping (Unit: unitless),ftfindex,resources/ftfindex.csv
-Carbon intensity by fuel for emissions accounting (Unit: tCO2/MMBtu),pFuelCarbonContent,resources/pFuelCarbonContent.csv
-Technology classification flags (Unit: unitless),pTechData,resources/pTechData.csv
-Column definitions expected in pSettings.csv (Unit: unitless),pSettingsHeader,resources/pSettingsHeader.csv
-Column definitions for generator inputs (Unit: unitless),pGenDataInputHeader,resources/pGenDataInputHeader.csv
-Column definitions for storage inputs (Unit: unitless),pStorageDataHeader,resources/pStorageDataHeader.csv
-Column definitions for tranmission inputs (Unit: unitless),pTransmissionHeader,resources/pTransmissionHeader.csv
-Column definitions for hydrogen inputs (Unit: unitless),pH2Header,resources/pH2Header.csv
 ,LOAD,
 "Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile.csv
 Hourly demand time series by zone (Unit: MW),pDemandData,load/pDemandData.csv
