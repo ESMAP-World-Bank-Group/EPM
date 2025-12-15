@@ -1020,6 +1020,130 @@ def dispatch_plot(df_area=None, filename=None, dict_colors=None, df_line=None, f
         plt.show()
 
 
+def dispatch_diff_plot(df_area=None, filename=None, dict_colors=None, figsize=(10, 6), legend_loc='bottom',
+                       ylabel=None, title=None, order_stacked=None):
+    """
+    Generate a dispatch difference plot with separate stacked areas for positive and negative values.
+
+    This plot shows the difference in dispatch between two scenarios, with positive differences
+    (increases) stacked above zero and negative differences (decreases) stacked below zero.
+
+    Parameters
+    ----------
+    df_area : pandas.DataFrame
+        DataFrame containing difference data with fuels as columns and time as index.
+    filename : str, optional
+        Path to save the plot image. If not provided, the plot will be displayed.
+    dict_colors : dict, optional
+        Dictionary mapping column names to colors for the plot.
+    figsize : tuple, default (10, 6)
+        Size of the figure in inches.
+    legend_loc : str, default 'bottom'
+        Location of the legend. Options are 'bottom' or 'right'.
+    ylabel : str, optional
+        Y-axis label.
+    title : str, optional
+        Plot title.
+    order_stacked : list, optional
+        Preferred stacking order for area series.
+    """
+    if df_area is None or df_area.empty:
+        raise ValueError('No dataframe provided for the plot.')
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    # Apply stacking order
+    stack_order = order_stacked or DEFAULT_FUEL_ORDER
+    if stack_order:
+        ordered_cols = [c for c in stack_order if c in df_area.columns]
+        ordered_cols += [c for c in df_area.columns if c not in ordered_cols]
+        df_area = df_area.loc[:, ordered_cols]
+
+    # Create numeric x-axis for plotting
+    x = np.arange(len(df_area))
+
+    # Separate positive and negative contributions at each time step
+    # For each timestep, stack positive values above zero and negative values below zero
+    df_positive = df_area.clip(lower=0)
+    df_negative = df_area.clip(upper=0)
+
+    # Stack positive values
+    pos_bottom = np.zeros(len(df_area))
+    neg_bottom = np.zeros(len(df_area))
+
+    plotted_labels = set()
+
+    for col in df_area.columns:
+        color = dict_colors.get(col, 'gray') if dict_colors else None
+
+        # Plot positive part
+        pos_values = df_positive[col].values
+        if np.any(pos_values > 0):
+            label = col if col not in plotted_labels else None
+            ax.fill_between(x, pos_bottom, pos_bottom + pos_values,
+                          color=color, alpha=0.8, label=label, linewidth=0)
+            pos_bottom = pos_bottom + pos_values
+            plotted_labels.add(col)
+
+        # Plot negative part
+        neg_values = df_negative[col].values
+        if np.any(neg_values < 0):
+            label = col if col not in plotted_labels else None
+            ax.fill_between(x, neg_bottom + neg_values, neg_bottom,
+                          color=color, alpha=0.8, label=label, linewidth=0)
+            neg_bottom = neg_bottom + neg_values
+            plotted_labels.add(col)
+
+    # Add zero line
+    ax.axhline(y=0, color='black', linewidth=0.8, linestyle='-')
+
+    # Set x-axis limits
+    ax.set_xlim(0, len(df_area) - 1)
+
+    pd_index = df_area.index
+    format_dispatch_ax(ax, pd_index)
+
+    # Add axis labels and title
+    if ylabel is not None:
+        ax.set_ylabel(ylabel, fontweight='bold')
+    else:
+        ax.set_ylabel('Generation Difference (MW)', fontsize=8.5)
+
+    # Add legend
+    if legend_loc == 'bottom':
+        n_items = len(df_area.columns)
+        rows = 1 if n_items <= 5 else (2 if n_items <= 10 else 3)
+        ncol = max(1, int(np.ceil(n_items / rows))) if n_items else 1
+        bottom_pad = 0.25 if rows == 1 else (0.32 if rows == 2 else 0.38)
+        fig.subplots_adjust(bottom=bottom_pad)
+
+        # Deduplicate legend entries
+        handles, labels = ax.get_legend_handles_labels()
+        unique = dict(zip(labels, handles))
+        ax.legend(unique.values(), unique.keys(), loc='upper center', bbox_to_anchor=(0.5, -0.15),
+                  ncol=ncol, frameon=False)
+    elif legend_loc == 'right':
+        handles, labels = ax.get_legend_handles_labels()
+        unique = dict(zip(labels, handles))
+        ax.legend(unique.values(), unique.keys(), loc='center left', bbox_to_anchor=(1.1, 0.5),
+                  ncol=1, frameon=False)
+
+    if title is not None:
+        ax.text(
+            y=ax.get_ylim()[1] * 1.1,
+            x=sum(ax.get_xlim()) / 2,
+            s=title,
+            ha='center',
+            fontsize=8.5
+        )
+
+    if filename is not None:
+        fig.savefig(filename, bbox_inches=None, pad_inches=0.1, dpi=100)
+        plt.close()
+    else:
+        plt.show()
+
+
 def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario, stacked=True,
                                     filename=None, fuel_grouping=None, select_time=None, reorder_dispatch=None,
                                     legend_loc='bottom', bottom=None, figsize=(10,6), ylabel=None, title=None):
@@ -1184,6 +1308,107 @@ def make_fuel_dispatchplot(dfs_area, dfs_line, dict_colors, zone, year, scenario
 
     dispatch_plot(df_tot_area, filename, df_line=df_tot_line, dict_colors=dict_colors, legend_loc=legend_loc, bottom=bottom,
                   figsize=figsize, ylabel=ylabel, title=title)
+
+
+def make_fuel_dispatch_diff_plot(dfs_area, dict_colors, zone, year, scenario,
+                                 filename=None, fuel_grouping=None, select_time=None,
+                                 legend_loc='bottom', figsize=(10, 6), ylabel=None, title=None):
+    """
+    Generates and saves a fuel dispatch difference plot.
+
+    This function prepares data similar to make_fuel_dispatchplot but uses
+    dispatch_diff_plot to handle mixed positive/negative values.
+
+    Parameters
+    ----------
+    dfs_area : dict
+        Dictionary containing dataframes for area plots (e.g., generation diff).
+    dict_colors : dict
+        Dictionary mapping fuel types to colors.
+    zone : str
+        Zone to filter data for.
+    year : int
+        Year to filter data for.
+    scenario : str
+        Scenario label for the diff data.
+    filename : str, optional
+        Path to save the figure.
+    fuel_grouping : dict, optional
+        Mapping to create aggregate fuel categories.
+    select_time : dict, optional
+        Time selection parameters for filtering the data.
+    legend_loc : str, default 'bottom'
+        Location of the legend.
+    figsize : tuple, default (10, 6)
+        Size of the figure.
+    ylabel : str, optional
+        Y-axis label.
+    title : str, optional
+        Plot title.
+    """
+
+    def remove_na_values(df):
+        """Removes na values from a dataframe."""
+        df = df.where((df > 1e-6) | (df < -1e-6), np.nan)
+        df = df.dropna(axis=1, how='all')
+        return df
+
+    def prepare_hourly_dataframe(df, zone, year, scenario, column_stacked, fuel_grouping=None, select_time=None):
+        """Transforms a dataframe into format ready for plotting."""
+        if 'zone' in df.columns:
+            df = df[(df['zone'] == zone) & (df['year'] == year) & (df['scenario'] == scenario)]
+            df = df.drop(columns=['zone', 'year', 'scenario'])
+        else:
+            df = df[(df['year'] == year) & (df['scenario'] == scenario)]
+            df = df.drop(columns=['year', 'scenario'])
+
+        if column_stacked == 'fuel':
+            if fuel_grouping is not None:
+                df['fuel'] = df['fuel'].replace(fuel_grouping)
+
+        if column_stacked is not None:
+            df = (df.groupby(['season', 'day', 't', column_stacked], observed=False)['value'].sum().reset_index())
+
+        if select_time is not None:
+            df, temp = select_time_period(df, select_time)
+        else:
+            temp = None
+
+        if column_stacked is not None:
+            df = df.set_index(['season', 'day', 't', column_stacked]).unstack(column_stacked)
+        else:
+            df = df.set_index(['season', 'day', 't'])
+        return df, temp
+
+    tmp_concat_area = []
+    for key in dfs_area:
+        df = dfs_area[key]
+        if df is None or df.empty:
+            continue
+        column_stacked = NAME_COLUMNS.get(key)
+        df, temp = prepare_hourly_dataframe(df, zone, year, scenario, column_stacked,
+                                            fuel_grouping=fuel_grouping, select_time=select_time)
+        tmp_concat_area.append(df)
+
+    if len(tmp_concat_area) > 0:
+        df_tot_area = pd.concat(tmp_concat_area, axis=1)
+        df_tot_area = df_tot_area.droplevel(0, axis=1)
+        df_tot_area = remove_na_values(df_tot_area)
+    else:
+        return
+
+    if df_tot_area is None or df_tot_area.empty:
+        return
+
+    if select_time is None:
+        temp = 'all'
+    temp = f'{year}_{temp}'
+    if filename is not None and isinstance(filename, str):
+        filename = filename.split('.')[0] + f'_{temp}.pdf'
+
+    dispatch_diff_plot(df_tot_area, filename, dict_colors=dict_colors, legend_loc=legend_loc,
+                       figsize=figsize, ylabel=ylabel, title=title)
+
 
 # Stacked bar plots
 
@@ -2381,7 +2606,7 @@ def make_heatmap_plot(
         4. Total available transmission capacity in the final year (no double counting).
         5. New transmission capacity added in the final model year.
         6. Cumulative CAPEX by component up to the final year.
-        7. Yearly generation costs per zone ($/MWh) for the final model year.
+        7. Yearly Investment costs per zone ($/MWh) for the final model year.
 
     Parameters
     ----------

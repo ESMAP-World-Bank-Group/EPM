@@ -1,5 +1,5 @@
-paramNames,MIP
-modeltype,MIP
+paramNames,LowCoal
+modeltype,
 cplexfile,
 SETTINGS,
 pSettings,
@@ -20,7 +20,7 @@ SUPPLY,
 pGenDataInput,
 pGenDataInputDefault,
 pAvailability,
-pAvailabilityDefault,
+pAvailabilityDefault,supply/pAvailabilityDefault_lowcoal.csv
 pCapexTrajectories,
 pCapexTrajectoriesDefault,
 pCSPData,
