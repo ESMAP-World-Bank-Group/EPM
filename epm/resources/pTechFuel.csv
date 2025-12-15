@@ -14,7 +14,6 @@ PVwSTO,Solar,1,1,4
 STOPV,Solar,0,1,4
 ROR,Water,1,1,3
 ReservoirHydro,Water,0,1,3
-RoR,Water,1,1,3
 ST,Coal,0,0,1
 Storage,Battery,0,0,11
 ImportTransmission,Import,0,0,6

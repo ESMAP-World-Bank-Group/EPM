@@ -54,7 +54,7 @@ ESSENTIAL_INPUT = [
     "pGenDataInput",
     "pFuelPrice",
     "pFuelCarbonContent",
-    "pTechData",
+    "pTechFuel",
 ]
 
 OPTIONAL_INPUT = ["pDemandForecast"]
@@ -91,7 +91,7 @@ def run_input_verification(gams):
     filter_inputs_to_allowed_zones(db, log_func=gams.printLog)
     gams.printLog("[input_verification] Filter inputs to allowed zones completed.")
 
-    _log_input_columns(gams, db)
+    # _log_input_columns(gams, db)
     _step("Required inputs")
     _check_required_inputs(gams, db)
     gams.printLog("[input_verification] Required inputs completed.")
@@ -810,29 +810,29 @@ def _check_planning_reserves(gams, db):
 
 
 def _check_fuel_definitions(gams, db):
-    """Ensure fuel definitions align between ftfindex and generation data."""
+    """Ensure fuel definitions align between pTechFuel and generation data."""
     try:
-        ftf_records = db["ftfindex"].records
-        if ftf_records is None or ftf_records.empty:
+        techfuel_records = db["pTechFuel"].records
+        if techfuel_records is None or techfuel_records.empty:
             return
         gen_records = db["pGenDataInput"].records
         if gen_records is None or gen_records.empty:
             return
 
-        fuels_defined = set(ftf_records['f'].unique())
+        fuels_defined = set(techfuel_records['f'].unique())
         fuels_in_gendata = set(gen_records['f'].unique())
         missing_fuels = fuels_in_gendata - fuels_defined
         additional_fuels = fuels_defined - fuels_in_gendata
         if missing_fuels:
             msg = (
-                "Error: The following fuels are in gendata but not defined in ftfindex: \n"
+                "Error: The following fuels are in gendata but not defined in pTechFuel: \n"
                 f"{missing_fuels}"
             )
             gams.printLog(msg)
             raise ValueError(msg)
         if additional_fuels:
             gams.printLog(
-                "Info: The following fuels are defined in ftfindex but not in gendata.\n"
+                "Info: The following fuels are defined in pTechFuel but not in gendata.\n"
                 f"{additional_fuels}\n This may be because of spelling issues, and may cause problems after."
             )
         gams.printLog('Success: Fuels are well-defined everywhere.')
@@ -841,20 +841,20 @@ def _check_fuel_definitions(gams, db):
     except ValueError:
         raise
     except Exception:
-        gams.printLog('Unexpected error when checking ftfindex')
+        gams.printLog('Unexpected error when checking pTechFuel fuels')
         raise
 
 
 def _check_tech_definitions(gams, db):
-    """Ensure technology definitions align between pTechData and generation data."""
+    """Ensure technology definitions align between pTechFuel and generation data."""
     try:
-        tech_records = db["pTechData"].records
+        techfuel_records = db["pTechFuel"].records
 
         gen_records = db["pGenDataInput"].records
 
         tech_defined = (
-            set(tech_records["tech"].unique())
-            if "tech" in tech_records.columns
+            set(techfuel_records["tech"].unique())
+            if "tech" in techfuel_records.columns
             else set()
         )
         tech_in_gendata = (
@@ -867,14 +867,14 @@ def _check_tech_definitions(gams, db):
         additional_techs = tech_defined - tech_in_gendata
         if missing_techs:
             msg = (
-                "Error: The following technologies are in gendata but not defined in pTechData: \n"
+                "Error: The following technologies are in gendata but not defined in pTechFuel: \n"
                 f"{missing_techs}"
             )
             gams.printLog(msg)
             raise ValueError(msg)
         if additional_techs:
             gams.printLog(
-                "Info: The following technologies are defined in pTechData but not used in gendata.\n"
+                "Info: The following technologies are defined in pTechFuel but not used in gendata.\n"
                 f"{additional_techs}\n This may indicate spelling differences or unused technologies."
             )
         gams.printLog("Success: Technologies are well-defined everywhere.")
@@ -883,7 +883,7 @@ def _check_tech_definitions(gams, db):
     except ValueError:
         raise
     except Exception:
-        gams.printLog("Unexpected error when checking pTechData")
+        gams.printLog("Unexpected error when checking pTechFuel technologies")
         raise
 
 

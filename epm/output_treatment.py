@@ -224,9 +224,9 @@ def fill_techfuel_combinations(
     input_path : str
         Path to input CSV file
     all_tech : list
-        List of all technology names (from pTechData)
+        List of all technology names (from pTechFuel)
     all_fuel : list
-        List of all fuel names (from ftfindex)
+        List of all fuel names (from pTechFuel)
     tech_col : str
         Name of the technology column (default: 'tech')
     fuel_col : str
@@ -530,19 +530,14 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
         try:
             db = gt.Container(gams.db)
 
-            # Get tech from pTechData (first dimension)
-            if 'pTechData' in db.data:
-                tech_data = db.data['pTechData']
-                if tech_data.records is not None and len(tech_data.records) > 0:
-                    all_tech = tech_data.records.iloc[:, 0].unique().tolist()
-                    log_func(f"[output_treatment]   Found {len(all_tech)} technologies from pTechData")
-
-            # Get fuel from ftfindex (first dimension)
-            if 'ftfindex' in db.data:
-                ftf_data = db.data['ftfindex']
-                if ftf_data.records is not None and len(ftf_data.records) > 0:
-                    all_fuel = ftf_data.records.iloc[:, 0].unique().tolist()
-                    log_func(f"[output_treatment]   Found {len(all_fuel)} fuels from ftfindex")
+            # Get tech and fuel from pTechFuel (first two dimensions)
+            if 'pTechFuel' in db.data:
+                techfuel_data = db.data['pTechFuel']
+                if techfuel_data.records is not None and len(techfuel_data.records) > 0:
+                    all_tech = techfuel_data.records.iloc[:, 0].unique().tolist()
+                    all_fuel = techfuel_data.records.iloc[:, 1].unique().tolist()
+                    log_func(f"[output_treatment]   Found {len(all_tech)} technologies from pTechFuel")
+                    log_func(f"[output_treatment]   Found {len(all_fuel)} fuels from pTechFuel")
 
         except Exception as e:
             log_func(f"[output_treatment]   WARNING: Could not extract tech/fuel from GAMS: {e}")
