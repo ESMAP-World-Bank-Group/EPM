@@ -47,7 +47,7 @@ Committed_Wind1-3_BWA,Botswana,OnshoreWind,Wind,2028,2058,0,2,,0,1,1,,,,,,,,50,0
 Committed_Wind1-4_BWA,Botswana,OnshoreWind,Wind,2031,2061,0,2,,0,1,1,,,,,,,,0,0,,0,0,1,0,
 Committed_Wind1-5_BWA,Botswana,OnshoreWind,Wind,2035,2065,0,2,,0,1,1,,,,,,,,50,0,,0,0,1,0,
 Committed1_PV_AGO,Angola,PV,Solar,2025,2055,192,2,,0,,,,,,,,,,400,0,,0,0,1,0,
-Committed1_PV_AGO,Angola,PV,Solar,2027,2057,12,2,,0,,,,,,,,,,400,0,,0,0,1,0,
+Committed2_PV_AGO,Angola,PV,Solar,2027,2057,12,2,,0,,,,,,,,,,400,0,,0,0,1,0,
 Committed3_PV_AGO,Angola,PV,Solar,2026,2056,60,2,,0,,,,,,,,,,400,0,,0,0,1,0,
 CommittedSolar_REN_DRC,DRC,PV,Solar,2025,2060,200,2,,0,,,,,,,,,,200,0,,0,0,1,0,
 CommittedWind1-5_NAM,Namibia,OnshoreWind,Wind,2036,2066,0,2,,0,1,1,,,,,,,,0,0,,0,0,1,0,
