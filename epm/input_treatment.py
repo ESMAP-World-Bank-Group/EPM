@@ -1051,10 +1051,10 @@ def run_input_treatment(gams,
         
         # Identify common columns between param_df and ref_df, excluding "value"
         columns = [c for c in param_df.columns if c != "value" and c in ref_df.columns]
-        
+    
         # Keep only the generator column and common columns in ref_df
         ref_df = ref_df.loc[:, [column_generator] + columns]
-            
+    
         # Remove duplicate rows in the reference DataFrame
         ref_df = ref_df.drop_duplicates()
 
@@ -1069,7 +1069,7 @@ def run_input_treatment(gams,
 
         # Select only the necessary columns for the final output
         param_df = param_df.loc[:, [column_generator] + cols_tokeep + ["value"]]    
-        
+    
         return param_df
 
 
@@ -1110,8 +1110,11 @@ def run_input_treatment(gams,
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
         
+        default_df.to_excel(f'default_values_{param_name}.xlsx')
+        param_df.to_excel(f'param_values_{param_name}.xlsx')
         # Concatenate the original parameter data with the default DataFrame
         param_df = pd.concat([param_df, default_df], axis=0)
+        param_df.to_excel(f'merged_values_{param_name}.xlsx')
         
         # Remove duplicate entries based on all columns except "value"
         param_df = param_df.drop_duplicates(subset=[col for col in param_df.columns if col != 'value'], keep='first')
@@ -1121,6 +1124,7 @@ def run_input_treatment(gams,
                 
         # Update the parameter in the GAMS database with the modified DataFrame
         db.data[param_name].setRecords(param_df)
+        
         _write_back(db, param_name)
 
 
