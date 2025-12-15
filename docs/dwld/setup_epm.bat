@@ -98,7 +98,7 @@ echo [+] All Python dependencies installed successfully.
 :: ---------- Step 8: Run EPM Python test ----------
 echo [*] Running EPM Python test ...
 cd "%REPO_DIR%"
-python "%PYTHON_SCRIPT%" --modeltype RMIP --simple >> "%LOG_FILE%" 2>&1
+python "%PYTHON_SCRIPT%" >> "%LOG_FILE%" 2>&1
 if %errorlevel% neq 0 (
     echo [!] Python EPM test failed — please check logs or Python/GAMS integration.
     pause
