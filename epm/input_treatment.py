@@ -1110,11 +1110,8 @@ def run_input_treatment(gams,
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
         
-        default_df.to_excel(f'default_values_{param_name}.xlsx')
-        param_df.to_excel(f'param_values_{param_name}.xlsx')
         # Concatenate the original parameter data with the default DataFrame
         param_df = pd.concat([param_df, default_df], axis=0)
-        param_df.to_excel(f'merged_values_{param_name}.xlsx')
         
         # Remove duplicate entries based on all columns except "value"
         param_df = param_df.drop_duplicates(subset=[col for col in param_df.columns if col != 'value'], keep='first')
@@ -1124,7 +1121,6 @@ def run_input_treatment(gams,
                 
         # Update the parameter in the GAMS database with the modified DataFrame
         db.data[param_name].setRecords(param_df)
-        
         _write_back(db, param_name)
 
 
