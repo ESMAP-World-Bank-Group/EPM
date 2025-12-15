@@ -426,8 +426,13 @@ def perform_sensitivity(sensitivity, s):
                 mask = (df['fuel'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
                 df.loc[mask, 'Status'] = 0
 
-                scenario_name = f'{scenario}_RemoveCandidateFuel_{fuel}'
-                path_file = os.path.basename(s[scenario]['pGenDataInput']).replace('.csv', f'_RemoveCandidateFuel_{fuel}.csv')
+                # Insert sensitivity suffix before @ if present, otherwise append
+                if '@' in scenario:
+                    base, assessment = scenario.split('@', 1)
+                    scenario_name = f'{base}_No{fuel}@{assessment}'
+                else:
+                    scenario_name = f'{scenario}_No{fuel}'
+                path_file = os.path.basename(s[scenario]['pGenDataInput']).replace('.csv', f'_No{fuel}.csv')
                 path_file = os.path.join(folder_sensi, path_file)
                 # Write the modified file
                 df.to_csv(path_file, index=False)
@@ -802,7 +807,7 @@ def perform_project_assessment(project_assessment, s):
         label = os.path.splitext(os.path.basename(candidate))[0].replace('pGenDataInput', '').strip('_') or "project"
 
         for scenario in list(s.keys()):
-            scenario_name = f"{scenario}_{label}"
+            scenario_name = f"{scenario}@{label}"
             new_s[scenario_name] = s[scenario].copy()
             new_s[scenario_name]['pGenDataInput'] = candidate
 
