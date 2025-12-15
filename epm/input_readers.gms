@@ -32,7 +32,7 @@ $if not set TRACE $set TRACE 0
 
 * Shared resources folder (headers and lookup tables - constant across all input folders)
 * Use modeldir (set in main.gms) to ensure correct path regardless of working directory
-$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources/headers"
+$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
 
 * Define by default path
 * SETTINGS
@@ -72,9 +72,8 @@ $if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_RESOURCES%/pGen
 $if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_RESOURCES%/pStorageDataHeader.csv
 $if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/pH2Header.csv
 
-$if not set ftfindex $set ftfindex %FOLDER_RESOURCES%/ftfindex.csv
+$if not set pTechFuel $set pTechFuel %FOLDER_RESOURCES%/pTechFuel.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelCarbonContent.csv
-$if not set pTechData $set pTechData %FOLDER_RESOURCES%/pTechData.csv
 
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
@@ -255,11 +254,11 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pTechData%
-    name: pTechData
+    file: %pTechFuel%
+    name: pTechFuel
     indexSubstitutions: {.nan: ""}
     header: [1]
-    indexColumns: [1]
+    indexColumns: [1, 2]
     type: par
 
 - CSVReader:
@@ -387,15 +386,6 @@ $onEmbeddedCode Connect:
     type: par
 
 # RESOURCES
-
-- CSVReader:
-    file: %ftfindex%
-    name: ftfindex
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
 
 - CSVReader:
     trace: %TRACE%

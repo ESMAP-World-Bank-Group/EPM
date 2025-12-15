@@ -79,9 +79,8 @@ COLUMN_RENAME_MAP = {
     "pHours": {'season': 'q', 'daytype': 'd', 'uni': 't'},
     "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
-    'ftfindex': {'fuel': 'f'},
+    'pTechFuel': {'tech': 'tech', 'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
-    'pTechData': {'Technology': 'tech'},
     "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
 

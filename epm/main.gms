@@ -145,7 +145,7 @@ Sets
    pCSPDataHeader       'CSP data headers'                 / 'Storage', 'Thermal Field' /
    pTransmissionHeader  'Transmission data headers'
    pH2Header            'Hydrogen data headers'
-   pTechDataHeader      'Technology data headers'
+   pTechFuelHeader      'Technology-fuel data headers'  / 'HourlyVariation', 'RETechnology', 'FuelIndex' /
    pe                   'Peak/energy tags for demand'      / 'peak', 'energy' /
    hh                   'Hydrogen production units'
 ;
@@ -164,8 +164,8 @@ alias (z,z2), (g,g1,g2);
 * Input data parameters 
 Parameter
 * Generator data
-   pTechData(tech<,pTechDataHeader<)                     'Technology specifications'
-   pGenDataInput(*,z,tech,f<,pGenDataInputHeader)       'Generator data from Excel input'
+   pTechFuel(tech<,f<,pTechFuelHeader)                    'Technology-fuel specifications'
+   pGenDataInput(*,z,tech,f,pGenDataInputHeader)       'Generator data from Excel input'
    pGenDataInputDefault(z,tech,f,pGenDataInputHeader)    'Default generator data by zone/tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y)                 'Default CAPEX trajectories'
    pCapexTrajectories(g,y)                               'Generator CAPEX trajectories'
@@ -230,7 +230,6 @@ Parameter
    pCapexTrajectoryH2(hh,y)                              'H2 CAPEX trajectories'
    pExternalH2(z,q,y)                                    'External H2 demand (MMBtu) to be met'
    
-   ftfindex(f)                                           'Fuel-to-fuel index mapping'
 ;   
 
 
@@ -249,11 +248,10 @@ $gdxIn input.gdx
 
 * Load domain-defining symbols (sets and indices)
 $load zcmap pSettingsHeader y pHours pDays mapTS
-$load pGenDataInputHeader, pTechData, pStorageDataHeader, 
+$load pGenDataInputHeader, pTechFuel, pStorageDataHeader, 
 $load g<pGenDataInput.Dim1
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
-$load ftfindex
 $load pSettings
 
 * Load demand data
@@ -278,6 +276,9 @@ $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pEx
 
 * Close the GDX file after loading all required data
 $gdxIn
+
+$gdxunload afterReading.gdx 
+
 
 $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
@@ -391,10 +392,9 @@ gprimf(g,f) = sum((tech,z), gmap(g,z,tech,f));
 * which represents the mapping of generator `g` to technology `tech`.
 gtechmap(g,tech) = sum((z,f), gmap(g,z,tech,f));
 
-* Update `gfmap(g,f)`, ensuring it includes additional mappings 
+* TODO: Update `gfmap(g,f)`, ensuring it includes additional mappings
 * based on `pGenDataInput(g,z,tech,f2,'fuel2')` when a condition is met.
-gfmap(g,f) = gfmap(g,f) 
-         or sum((z,tech,f2), (pGenDataInput(g,z,tech,f2,'fuel2') = ftfindex(f)));
+* gfmap(g,f) = gfmap(g,f) or sum((z,tech,f2), (pGenDataInput(g,z,tech,f2,'fuel2') = pTechFuel(tech,f,'FuelIndex')));
          
 
 * Map generator status from input data
@@ -402,9 +402,9 @@ gstatusmap(g,gstatus) = sum((z,tech,f),pGenDataInput(g,z,tech,f,'status')=gstatI
 
 
 pHeatrate(gprimf(g,f)) = sum((z,tech), pGenDataInput(g,z,tech,f,"Heatrate"));
-pHeatrate(g,f2)$(gfmap(g,f2) and not gprimf(g,f2)) = 
-    sum((z,tech,f), pGenDataInput(g,z,tech,f,"Heatrate2") 
-*  $(pGenDataInput(g,z,tech,f,"fuel2") = ftfindex(f2))
+pHeatrate(g,f2)$(gfmap(g,f2) and not gprimf(g,f2)) =
+    sum((z,tech,f), pGenDataInput(g,z,tech,f,"Heatrate2")
+*  $(pGenDataInput(g,z,tech,f,"fuel2") = pTechFuel(tech,f2,'FuelIndex'))
     );
 
 
@@ -556,10 +556,10 @@ ng(g)  = gstatusmap(g,'candidate') or gstatusmap(g,'committed');
 eg(g)  = not ng(g);
 
 * Identify variable renewable energy (VRE) generators (`vre(g)`) based on hourly variation data
-vre(g) = sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
+vre(g) = sum((gtechmap(g,tech),f)$pTechFuel(tech,f,'HourlyVariation'),1);
 
 * Identify renewable energy (RE) generators (`re(g)`) based on RE technology classification
-re(g)  = sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1);
+re(g)  = sum((gtechmap(g,tech),f)$pTechFuel(tech,f,'RETechnology'),1);
 
 * Identify concentrated solar power (CSP) technologies
 cs(g)  = gtechmap(g,"CSPPlant");
@@ -602,7 +602,7 @@ dcH2(hh)  = sum(y, pCapexTrajectoryH2(hh,y));
 ndcH2(hh) = not dcH2(hh);
 nRE(g) = not re(g);
 nVRE(g)=not VRE(g);
-REH2(g)= sum(gtechmap(g,tech)$pTechData(tech,'RE Technology'),1) - sum(gtechmap(g,tech)$pTechData(tech,'Hourly Variation'),1);
+REH2(g)= sum((gtechmap(g,tech),f)$pTechFuel(tech,f,'RETechnology'),1) - sum((gtechmap(g,tech),f)$pTechFuel(tech,f,'HourlyVariation'),1);
 nREH2(g)= not REH2(g);
 
 *-------------------------------------------------------------------

@@ -461,7 +461,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['pGenDataInput', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
+    keys = ['pGenDataInput', 'pTechFuel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
             'zcmap']
     rename_keys = {}
 
