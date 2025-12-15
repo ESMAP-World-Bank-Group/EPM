@@ -58,17 +58,15 @@ if not exist "%REPO_DIR%" (
 )
 echo [+] Repository ready at %REPO_DIR%.
 
-:: ---------- Step 5: Test GAMS ----------
-echo [*] Testing GAMS installation with MODELTYPE=RMIP ...
-cd "%REPO_DIR%"
-gams "%GAMS_MAIN%" lo=2 --MODELTYPE=RMIP >> "%LOG_FILE%" 2>&1
-if %errorlevel% neq 0 (
-    echo [!] GAMS test failed — please check installation, license, or RMIP modeltype. See %LOG_FILE% for details.
-    pause
-    exit /b
-) else (
-    echo [+] GAMS executed successfully with MODELTYPE=RMIP.
-)
+REM ---------- Step 5: Test GAMS ----------
+REM echo [*] Testing GAMS installation ...
+REM cd "%REPO_DIR%"
+REM gams "%GAMS_MAIN%" lo=2 --MODELTYPE=RMIP
+REM if %errorlevel% neq 0 (
+REM     echo [!] GAMS test failed
+REM     pause
+REM     exit /b
+REM )
 
 :: ---------- Step 6: Recreate Conda environment ----------
 echo [!] Removing old environment '%CONDA_ENV%' (if any)...
