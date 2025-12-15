@@ -52,6 +52,7 @@ from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
     make_assessment_energy_mix_diff,
+    make_assessment_heatmap,
 )
 
 
@@ -2198,13 +2199,15 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
             # Identify scenario pairs: base scenarios have no underscore, counterfactuals start with base name + '_'
             all_scenarios = df['scenario'].unique()
-            base_scenario_names = [s for s in all_scenarios if '_' not in s]
-            counterfactual_names = [s for s in all_scenarios if '_' in s]
+            # Scenarios with @ are counterfactuals (project assessments)
+            base_scenario_names = [s for s in all_scenarios if '@' not in s]
+            counterfactual_names = [s for s in all_scenarios if '@' in s]
 
             # Build pairs: {base_scenario: [list of counterfactual scenarios]}
+            # e.g., baseline_NoBiomass@rehabilitation pairs with baseline_NoBiomass
             scenario_pairs = {}
             for counterfactual in counterfactual_names:
-                base_name = counterfactual.split('_')[0]
+                base_name = counterfactual.split('@')[0]
                 if base_name in base_scenario_names:
                     if base_name not in scenario_pairs:
                         scenario_pairs[base_name] = []
@@ -2251,6 +2254,11 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 make_assessment_energy_mix_diff(
                     epm_results,
                     dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs
+                )
+                make_assessment_heatmap(
+                    epm_results,
                     subfolders['7_comparison'],
                     scenario_pairs
                 )

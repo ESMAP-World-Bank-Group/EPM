@@ -11,4 +11,4 @@ BuildLimitperYear,
 pVREProfile,
 interco,
 RemoveGenericTechnologies,
-RemoveCandidateFuel,Biomass&Wind&Coal
+RemoveCandidateFuel,Biomass
