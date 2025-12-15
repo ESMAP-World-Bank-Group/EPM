@@ -28,7 +28,7 @@
 **********************************************************************
 
 
-$if not set TRACE $set TRACE 0
+$if not set TRACE $set TRACE 1
 
 * Define by default path
 * SETTINGS
