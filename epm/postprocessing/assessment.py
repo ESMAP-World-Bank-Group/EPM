@@ -45,6 +45,8 @@ def _beautify_scenario_name(name: str) -> str:
         'baseline_NoBiomass' -> 'NoBiomass'
         'baseline_pDemandForecast_015' -> 'HighDemand(+15%)'
         'baseline_pDemandForecast_-015' -> 'LowDemand(-15%)'
+        'baseline_TradePrice_015' -> 'HighTradePrice(+15%)'
+        'baseline_TradePrice_-015' -> 'LowTradePrice(-15%)'
         'baseline_NoWind' -> 'NoWind'
     """
     import re
@@ -62,6 +64,16 @@ def _beautify_scenario_name(name: str) -> str:
             return f'LowDemand(-{value}%)'
         else:
             return f'HighDemand(+{value}%)'
+
+    # Handle TradePrice patterns
+    match = re.match(r'TradePrice_(-?)0?(\d+)', name)
+    if match:
+        sign = match.group(1)
+        value = match.group(2)
+        if sign == '-':
+            return f'LowTradePrice(-{value}%)'
+        else:
+            return f'HighTradePrice(+{value}%)'
 
     return name
 
