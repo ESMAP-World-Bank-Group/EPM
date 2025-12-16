@@ -54,6 +54,7 @@ from .assessment import (
     make_assessment_dispatch_diff,
     make_assessment_energy_mix_diff,
     make_assessment_heatmap,
+    make_assessment_npv_comparison,
 )
 
 
@@ -193,7 +194,7 @@ FIGURE_CATEGORY_ENABLED = {
     'capacity': True,
     'costs': True,
     'energy': True,
-    'dispatch': False,
+    'dispatch': True,
     'interconnection': False,
     'maps': False,
 }
@@ -378,7 +379,12 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
             if not years_available:
                 continue
 
-            years_to_plot = [years_available[0], years_available[-1]] if len(years_available) > 1 else [years_available[0]]
+            # Years to plot: first, last, plus 2030/2040 if available
+            years_to_plot = {years_available[0], years_available[-1]} if len(years_available) > 1 else {years_available[0]}
+            for milestone_year in [2030, 2040]:
+                if milestone_year in years_available:
+                    years_to_plot.add(milestone_year)
+            years_to_plot = sorted(years_to_plot)
 
             for zone in zones:
                 for year in years_to_plot:
@@ -437,7 +443,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                             legend_loc='bottom'
                         )
 
-                    if zone_full_season_active and year in (years_available[0], years_available[-1]):
+                    if zone_full_season_active:
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season_{year}.pdf')
                         full_season_filter = zone_demand_year[
                             (zone_demand_year['season'] == max_load_season)
@@ -2088,6 +2094,14 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     epm_results,
                     subfolders['7_comparison'],
                     scenario_pairs
+                )
+                make_assessment_npv_comparison(
+                    epm_results,
+                    dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs,
+                    trade_attrs=TRADE_ATTRS,
+                    reserve_attrs=RESERVE_ATTRS
                 )
 
             if False:

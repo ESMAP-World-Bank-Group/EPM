@@ -1,8 +1,8 @@
 ﻿parameter,sensitivity
 pSettings,
 y,
-pDemandForecast,0.15
-TradePrice,
+pDemandForecast,0.15&-0.15
+TradePrice,0.3&-0.3
 pDemandProfile,
 pAvailabilityDefault,
 pCapexTrajectoriesDefault,
@@ -11,6 +11,6 @@ ResLimShare,
 BuildLimitperYear,
 pVREProfile,
 interco,
-ExternalExchange,
+ExternalExchange,1
 RemoveGenericTechnologies,
-RemoveCandidateFuel,
+RemoveCandidateFuel,Biomass&Coal&Wind
