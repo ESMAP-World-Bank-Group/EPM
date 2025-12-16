@@ -1,13 +1,13 @@
-﻿Internal zone,External zone,Seasons,Import-Export,2025,2029,2030,2035,2040,2045,2050
-BiH,Seepex,m1,Import,300,300,300,0,0,0,0
-BiH,Seepex,m2,Import,300,300,300,0,0,0,0
-BiH,Seepex,m3,Import,300,300,300,0,0,0,0
-BiH,Seepex,m4,Import,300,300,300,0,0,0,0
-BiH,Seepex,m5,Import,300,300,300,0,0,0,0
-BiH,Seepex,m6,Import,300,300,300,0,0,0,0
-BiH,Seepex,m7,Import,300,300,300,0,0,0,0
-BiH,Seepex,m8,Import,300,300,300,0,0,0,0
-BiH,Seepex,m9,Import,300,300,300,0,0,0,0
-BiH,Seepex,m10,Import,300,300,300,0,0,0,0
-BiH,Seepex,m11,Import,300,300,300,0,0,0,0
-BiH,Seepex,m12,Import,300,300,300,0,0,0,0
+﻿Internal zone,External zone,Seasons,Import-Export,2025,2050
+BiH,Seepex,m1,Import,300,300
+BiH,Seepex,m2,Import,300,300
+BiH,Seepex,m3,Import,300,300
+BiH,Seepex,m4,Import,300,300
+BiH,Seepex,m5,Import,300,300
+BiH,Seepex,m6,Import,300,300
+BiH,Seepex,m7,Import,300,300
+BiH,Seepex,m8,Import,300,300
+BiH,Seepex,m9,Import,300,300
+BiH,Seepex,m10,Import,300,300
+BiH,Seepex,m11,Import,300,300
+BiH,Seepex,m12,Import,300,300

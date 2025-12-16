@@ -45,11 +45,12 @@ import pandas as pd
 from types import SimpleNamespace
 
 YEARLY_OUTPUT = [
+    'pTradePrice',
     'pDemandForecast',
     'pCapexTrajectories',
-    'pTradePrice',
     'pExtTransferLimit',
-    'pTransferLimit'
+    'pTransferLimit', 
+    'pFuelPrice'
 ]
 
 ZONE_RESTRICTED_PARAMS = {
@@ -1540,13 +1541,17 @@ def run_input_treatment(gams,
             if records is None or records.empty or year_column not in records:
                 continue
 
+            # Save original column order from records
+            original_col_order = list(records.columns)
+
             data = records.copy()
             data[year_column] = pd.to_numeric(data[year_column], errors='coerce')
             data = data.dropna(subset=[year_column, "value"])
             if data.empty:
                 continue
 
-            group_cols = [c for c in data.columns if c not in (year_column, "value")]
+            group_cols = [c for c in original_col_order if c not in (year_column, "value")]
+
             if group_cols:
                 grouped = data.groupby(group_cols, dropna=False, sort=False, observed=False)
             else:
@@ -1568,7 +1573,7 @@ def run_input_treatment(gams,
                         key = (key,)
                     for col_name, col_value in zip(group_cols, key):
                         frame[col_name] = col_value
-                    frame = frame[group_cols + [year_column, "value"]]
+                    frame = frame[original_col_order]
                 else:
                     frame = frame[[year_column, "value"]]
 
