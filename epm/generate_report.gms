@@ -833,8 +833,10 @@ pEnergyFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyFuel(z,f,y));
 pEnergyFuelComplete(z,f,y) = pEnergyFuel(z,f,y);
 pEnergyFuelComplete(z,"UnmetDemand",y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Surplus",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Imports",y) = (sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+                                     + sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pEnergyFuelComplete(z,"Exports",y) = -(sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+                                      + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 
 pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyTechFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyTechFuel(z,tech,f,y));

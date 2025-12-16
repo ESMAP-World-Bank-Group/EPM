@@ -48,6 +48,7 @@ YEARLY_OUTPUT = [
     'pDemandForecast',
     'pCapexTrajectories',
     'pTradePrice',
+    'pExtTransferLimit',
     'pTransferLimit'
 ]
 
