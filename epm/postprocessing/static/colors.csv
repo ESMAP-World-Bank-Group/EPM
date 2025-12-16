@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+<<<<<<< HEAD,,,,,,,,
 # Use https://matplotlib.org/3.4.2/gallery/color/named_colors.html,,,,,,,,
 Processing,Color,,,,,,,
 # Techonolgies,,,,,,,,
@@ -44,7 +44,7 @@ Solar,orange,,,,,,,
 Wind,darkturquoise,,,,,,,
 Import,thistle,,,,,,,
 HFO,saddlebrown,,,,,,,
-LFO,sandyebrown,,,,,,,
+LFO,sandybrown,,,,,,,
 Uranium,purple,,,,,,,
 CSP,darkorange,,,,,,,
 Battery,deeppink,,,,,,,
@@ -91,89 +91,89 @@ Namibia,mediumvioletred,,,,,,,
 Tanzania,seagreen,,,,,,,
 Zambia,mediumslateblue,,,,,,,
 Zimbabwe,crimson,,,,,,,
-=======
-# Use https://matplotlib.org/3.4.2/gallery/color/named_colors.html,
-Processing,Color
-# Techonolgies,
-ST-Coal,dimgray
-OCGT-HFO,saddlebrown
-OCGT-LFO,saddlebrown
-OCGT-Diesel,darksalmon
-OCGT-Gas,firebrick
-CCGT-Gas,lightcoral
-ICE-HFO,sandyebrown
-ICE-LFO,sandyebrown
-ICE-Diesel,lightsalmon
-ICE-Gas,darkred
-CSP,darkorange
-Onshore Wind,darkturquoise
-Offshore Wind,paleturquoise
-PV,orange
-Pumped-Hydro,cornflowerblue
-Reservoir,darkblue
-ROR,lightskyblue
-Biomass,green
-Battery,darkkhaki
-Battery 4h,darkkhaki
-Battery 8h,darkkhaki
-Nuclear,purple
-Import,thistle
-Trade,thistle
-# Fuels,
-Coal,dimgray
-Gas,firebrick
-LNG,lightcoral
-Water,darkblue
-Solar,orange
-Wind,darkturquoise
-Import,thistle
-HFO,saddlebrown
-LFO,sandyebrown
-Uranium,purple
-CSP,darkorange
-Battery,darkkhaki
-Diesel,darksalmon
-Biomass,green
-Geothermal,red
-#Dispatch Attributes,
-Demand,red
-Exports,green
-Generation,firebrick
-Imports,thistle
-Net exchange,purple
-Storage Charge,pink
-StorageEnergy,darkgreen
-Transmission,purple
-Unmet demand,firebrick
-Excess generation,yellow
-VRE curtailment,orange
-#Cost Categories,
-Generation costs,darkblue
-Variable Cost,grey
-Fuel costs,grey
-Variable O&M,rosybrown
-Fixed O&M,green
-Spinning reserve costs,yellow
-Unmet demand costs,firebrick
-Unmet reserve costs,darkorange
-Carbon costs,darkgreen
-Trade costs,plum
-Transmission costs,purple
-Import costs with external zones: $m,purple
-Export revenues with external zones: $m,orange
-Startup costs,red
-#Geography,
-Angola,teal
-Botswana,firebrick
-DRC,dodgerblue
-DRC_South,slateblue
-Eswatini,goldenrod
-Lesotho,darkgreen
-Malawi,orchid
-Mozal,steelblue
-Mozambique,darkorange
-Namibia,mediumvioletred
-Tanzania,seagreen
-Zambia,mediumslateblue
-Zimbabwe,crimson
->>>>>>> origin/main
+=======,,,,,,,,
+# Use https://matplotlib.org/3.4.2/gallery/color/named_colors.html,,,,,,,,
+Processing,Color,,,,,,,
+# Techonolgies,,,,,,,,
+ST-Coal,dimgray,,,,,,,
+OCGT-HFO,saddlebrown,,,,,,,
+OCGT-LFO,saddlebrown,,,,,,,
+OCGT-Diesel,darksalmon,,,,,,,
+OCGT-Gas,firebrick,,,,,,,
+CCGT-Gas,lightcoral,,,,,,,
+ICE-HFO,sandybrown,,,,,,,
+ICE-LFO,sandybrown,,,,,,,
+ICE-Diesel,lightsalmon,,,,,,,
+ICE-Gas,darkred,,,,,,,
+CSP,darkorange,,,,,,,
+Onshore Wind,darkturquoise,,,,,,,
+Offshore Wind,paleturquoise,,,,,,,
+PV,orange,,,,,,,
+Pumped-Hydro,cornflowerblue,,,,,,,
+Reservoir,darkblue,,,,,,,
+ROR,lightskyblue,,,,,,,
+Biomass,green,,,,,,,
+Battery,darkkhaki,,,,,,,
+Battery 4h,darkkhaki,,,,,,,
+Battery 8h,darkkhaki,,,,,,,
+Nuclear,purple,,,,,,,
+Import,thistle,,,,,,,
+Trade,thistle,,,,,,,
+# Fuels,,,,,,,,
+Coal,dimgray,,,,,,,
+Gas,firebrick,,,,,,,
+LNG,lightcoral,,,,,,,
+Water,darkblue,,,,,,,
+Solar,orange,,,,,,,
+Wind,darkturquoise,,,,,,,
+Import,thistle,,,,,,,
+HFO,saddlebrown,,,,,,,
+LFO,sandybrown,,,,,,,
+Uranium,purple,,,,,,,
+CSP,darkorange,,,,,,,
+Battery,darkkhaki,,,,,,,
+Diesel,darksalmon,,,,,,,
+Biomass,green,,,,,,,
+Geothermal,red,,,,,,,
+#Dispatch Attributes,,,,,,,,
+Demand,red,,,,,,,
+Exports,green,,,,,,,
+Generation,firebrick,,,,,,,
+Imports,thistle,,,,,,,
+Net exchange,purple,,,,,,,
+Storage Charge,pink,,,,,,,
+StorageEnergy,darkgreen,,,,,,,
+Transmission,purple,,,,,,,
+Unmet demand,firebrick,,,,,,,
+Excess generation,yellow,,,,,,,
+VRE curtailment,orange,,,,,,,
+#Cost Categories,,,,,,,,
+Generation costs,darkblue,,,,,,,
+Variable Cost,grey,,,,,,,
+Fuel costs,grey,,,,,,,
+Variable O&M,rosybrown,,,,,,,
+Fixed O&M,green,,,,,,,
+Spinning reserve costs,yellow,,,,,,,
+Unmet demand costs,firebrick,,,,,,,
+Unmet reserve costs,darkorange,,,,,,,
+Carbon costs,darkgreen,,,,,,,
+Trade costs,plum,,,,,,,
+Transmission costs,purple,,,,,,,
+Import costs with external zones: $m,purple,,,,,,,
+Export revenues with external zones: $m,orange,,,,,,,
+Startup costs,red,,,,,,,
+#Geography,,,,,,,,
+Angola,teal,,,,,,,
+Botswana,firebrick,,,,,,,
+DRC,dodgerblue,,,,,,,
+DRC_South,slateblue,,,,,,,
+Eswatini,goldenrod,,,,,,,
+Lesotho,darkgreen,,,,,,,
+Malawi,orchid,,,,,,,
+Mozal,steelblue,,,,,,,
+Mozambique,darkorange,,,,,,,
+Namibia,mediumvioletred,,,,,,,
+Tanzania,seagreen,,,,,,,
+Zambia,mediumslateblue,,,,,,,
+Zimbabwe,crimson,,,,,,,
+>>>>>>> origin/main,,,,,,,,

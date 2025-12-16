@@ -251,7 +251,7 @@ def read_plot_specs(folder='postprocessing'):
         Dictionary containing the specifications for the plots
     """
 
-    colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=1)
+    colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=2, usecols=[0, 1])
     colors = colors.dropna(subset=['Processing'])
     colors['Processing'] = colors['Processing'].astype(str).str.strip()
     colors = colors[~colors['Processing'].str.startswith('#')]

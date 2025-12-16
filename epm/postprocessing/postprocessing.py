@@ -167,7 +167,7 @@ FIGURES_ACTIVATED = {
     
     # 5. Interconnection figures
     'NetImportsZoneEvolution': True,
-    'NetImportsZoneEvolutionZoneEvolutionShare': True,
+    'NetImportsZoneEvolutionZoneEvolutionShare': False,
     'InterconnectionExchangeHeatmap': True,
     'InterconnectionUtilizationHeatmap': True,
 
@@ -1667,6 +1667,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             df_exchange = df_exchange.replace({'Unmet demand: GWh': 'Unmet demand',
                                               'Exports exchange: GWh': 'Exports',
                                               'Imports exchange: GWh': 'Imports'})
+            
             # Put negative values when exports in colmun 'attribute'
             df_exchange['value'] = df_exchange.apply(lambda row: -row['value'] if row['attribute'] == 'Exports' else row['value'], axis=1)
             df_exchange.rename(columns={'attribute': 'fuel'}, inplace=True)
@@ -1741,7 +1742,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
                         df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
                         df_percentage = df_percentage.reset_index()
-                        
+                        print(df_percentage)
                         # Keeping for interconnection figures
                         df_exchange_percentage = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
                         
