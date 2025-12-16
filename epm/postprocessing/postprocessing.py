@@ -51,6 +51,7 @@ from .maps import make_automatic_map
 from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
+    make_assessment_dispatch_diff,
     make_assessment_energy_mix_diff,
     make_assessment_heatmap,
 )
@@ -536,181 +537,6 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                     bottom=None,
                     legend_loc='bottom'
                 )
-
-
-def make_dispatch_diff(epm_results, dict_specs, folder, scenario_base, scenario_compare):
-    """
-    Generate dispatch difference plots between two scenarios.
-
-    Computes the difference in dispatch values (base - compare) and produces
-    stacked area plots showing how generation changes between scenarios.
-    No demand line is included. Plots are generated for the system level
-    at the max load day and max load season.
-
-    Parameters
-    ----------
-    epm_results : dict[str, pandas.DataFrame]
-        Model result tables keyed by result name (e.g., ``'pDispatch'``).
-    dict_specs : dict
-        Plotting specifications, including a ``'colors'`` mapping per fuel.
-    folder : str
-        Destination directory for the generated figures.
-    scenario_base : str
-        The base scenario name (e.g., scenario with the project).
-    scenario_compare : str
-        The comparison scenario name (e.g., scenario without the project).
-    """
-    def aggregate_to_system(df):
-        if df is None or df.empty:
-            return df
-
-        df_system = df.copy()
-        grouping_columns = [col for col in df_system.columns if col not in {'value', 'zone'}]
-
-        if grouping_columns:
-            df_system = df_system.groupby(
-                grouping_columns,
-                as_index=False,
-                observed=False
-            )['value'].sum()
-        else:
-            df_system = pd.DataFrame({'value': [df_system['value'].sum()]})
-
-        df_system.insert(0, 'zone', 'System')
-
-        ordered_cols = ['zone'] + [col for col in grouping_columns if col in df_system.columns] + ['value']
-        return df_system[ordered_cols]
-
-    def compute_diff(df_base, df_compare, merge_cols):
-        """Compute difference between base and compare dataframes."""
-        if df_base is None or df_base.empty or df_compare is None or df_compare.empty:
-            return None
-
-        df_merged = pd.merge(
-            df_base,
-            df_compare,
-            on=merge_cols,
-            suffixes=('', '_compare'),
-            how='outer'
-        )
-        df_merged['value'] = df_merged['value'].fillna(0)
-        df_merged['value_compare'] = df_merged['value_compare'].fillna(0)
-        df_merged['value'] = df_merged['value'] - df_merged['value_compare']
-        df_merged = df_merged.drop(columns=['value_compare'])
-
-        # Set scenario to a label indicating diff
-        df_merged['scenario'] = f'{scenario_base}_diff'
-
-        return df_merged
-
-    # Get dispatch generation data
-    dispatch_generation = epm_results['pDispatchTechFuel']
-    dispatch_components = filter_dataframe(
-        epm_results['pDispatch'],
-        {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']}
-    )
-    demand_df = filter_dataframe(epm_results['pDispatch'], {'attribute': ['Demand']})
-
-    # Aggregate to system level
-    dispatch_generation_system = aggregate_to_system(dispatch_generation)
-    dispatch_components_system = aggregate_to_system(dispatch_components)
-    demand_system = aggregate_to_system(demand_df)
-
-    if dispatch_generation_system is None or dispatch_generation_system.empty:
-        return
-
-    # Filter for the two scenarios
-    gen_base = dispatch_generation_system[dispatch_generation_system['scenario'] == scenario_base].copy()
-    gen_compare = dispatch_generation_system[dispatch_generation_system['scenario'] == scenario_compare].copy()
-
-    comp_base = dispatch_components_system[dispatch_components_system['scenario'] == scenario_base].copy()
-    comp_compare = dispatch_components_system[dispatch_components_system['scenario'] == scenario_compare].copy()
-
-    if gen_base.empty or gen_compare.empty:
-        return
-
-    # Remove scenario column for merging
-    gen_base = gen_base.drop(columns=['scenario'])
-    gen_compare = gen_compare.drop(columns=['scenario'])
-    comp_base = comp_base.drop(columns=['scenario']) if not comp_base.empty else comp_base
-    comp_compare = comp_compare.drop(columns=['scenario']) if not comp_compare.empty else comp_compare
-
-    # Determine merge columns (all columns except value)
-    merge_cols_gen = [col for col in gen_base.columns if col != 'value']
-    merge_cols_comp = [col for col in comp_base.columns if col != 'value'] if not comp_base.empty else []
-
-    # Compute differences
-    gen_diff = compute_diff(gen_base, gen_compare, merge_cols_gen)
-    comp_diff = compute_diff(comp_base, comp_compare, merge_cols_comp) if merge_cols_comp else None
-
-    if gen_diff is None or gen_diff.empty:
-        return
-
-    diff_scenario = f'{scenario_base}_diff'
-
-    # Prepare dataframes for plotting
-    dfs_to_plot_area = {
-        'pDispatchPlant': gen_diff,
-        'pDispatch': comp_diff
-    }
-
-    # Use demand from base scenario to determine time periods
-    demand_scenario = demand_system[demand_system['scenario'] == scenario_base]
-    available_years = sorted(demand_scenario['year'].unique())
-    if not available_years:
-        return
-
-    years_to_plot = [available_years[0], available_years[-1]] if len(available_years) > 1 else [available_years[0]]
-
-    for year in years_to_plot:
-        df_year = demand_scenario[demand_scenario['year'] == year]
-        if df_year.empty:
-            continue
-
-        season_totals = df_year.groupby('season', observed=False)['value'].sum()
-        if season_totals.empty:
-            continue
-
-        max_load_season = season_totals.idxmax()
-        min_load_season = season_totals.idxmin()
-        extreme_seasons = [max_load_season] if max_load_season == min_load_season else [min_load_season, max_load_season]
-
-        # Max load day plot
-        df_extreme_seasons = df_year[df_year['season'].isin(extreme_seasons)]
-        if not df_extreme_seasons.empty:
-            day_totals = df_extreme_seasons.groupby('day', observed=False)['value'].sum()
-            if not day_totals.empty:
-                max_load_day = day_totals.idxmax()
-                filename = os.path.join(folder, f'DispatchDiff_{scenario_base}_vs_{scenario_compare}_system_max_load_day_{year}.pdf')
-                select_time = {'season': extreme_seasons, 'day': [max_load_day]}
-                make_fuel_dispatch_diff_plot(
-                    dfs_to_plot_area,
-                    dict_specs['colors'],
-                    zone='System',
-                    year=year,
-                    scenario=diff_scenario,
-                    fuel_grouping=None,
-                    select_time=select_time,
-                    filename=filename,
-                    legend_loc='bottom',
-                    title=f'Dispatch Difference: {scenario_base} vs {scenario_compare}'
-                )
-
-        # Max load season plot
-        filename = os.path.join(folder, f'DispatchDiff_{scenario_base}_vs_{scenario_compare}_system_max_load_season_{year}.pdf')
-        select_time = {'season': [max_load_season]}
-        make_fuel_dispatch_diff_plot(
-            dfs_to_plot_area,
-            dict_specs['colors'],
-            zone='System',
-            year=year,
-            scenario=diff_scenario,
-            fuel_grouping=None,
-            select_time=select_time,
-            filename=filename,
-            legend_loc='bottom',
-            title=f'Dispatch Difference: {scenario_base} vs {scenario_compare}'
-        )
 
 
 def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
@@ -2223,17 +2049,18 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 log_info('No scenario pairs detected for project assessment.', logger=active_logger)
 
             # Generate dispatch difference plots for each pair
-            for scenario_base, counterfactuals in scenario_pairs.items():
-                if scenario_base not in selected_scenarios:
-                    continue
-                for scenario_counterfactual in counterfactuals:
-                    make_dispatch_diff(
-                        epm_results,
-                        dict_specs,
-                        subfolders['7_comparison'],
-                        scenario_base,
-                        scenario_counterfactual
-                    )
+            if False:
+                for scenario_base, counterfactuals in scenario_pairs.items():
+                    if scenario_base not in selected_scenarios:
+                        continue
+                    for scenario_counterfactual in counterfactuals:
+                        make_assessment_dispatch_diff(
+                            epm_results,
+                            dict_specs,
+                            subfolders['7_comparison'],
+                            scenario_base,
+                            scenario_counterfactual
+                        )
 
             # Generate cost and capacity assessment figures
             if scenario_pairs:
