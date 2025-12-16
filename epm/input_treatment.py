@@ -1130,34 +1130,7 @@ def run_input_treatment(gams,
             return
 
         gen_records = db["pGenDataInput"].records
-        avail_records = db["pAvailabilityInput"].records
-        if gen_records is None or gen_records.empty:
-            return
-
-        gens = set(gen_records["g"].dropna().unique())
-        available = set()
-        if avail_records is not None and not avail_records.empty and "g" in avail_records.columns:
-            available = set(avail_records["g"].dropna().unique())
-
-        missing = gens - available
-        if missing:
-            missing_list = sorted(missing)
-            preview = missing_list[:10]
-            more = ""
-            if len(missing_list) > len(preview):
-                more = f" (showing {len(preview)} of {len(missing_list)})"
-            gams.printLog(
-                "[input_treatment][availability] Warning: the following generator(s) have no entries in pAvailability "
-                f"and will have implicit availability of 0 (they will not dispatch){more}: {preview}"
-            )
-
-    def warn_missing_availability(gams, db: gt.Container):
-        """Warn if generators have no pAvailability rows (implicit availability=0)."""
-        if "pGenDataInput" not in db or "pAvailabilityInput" not in db:
-            return
-
-        gen_records = db["pGenDataInput"].records
-        avail_records = db["pAvailabilityInput"].records
+        avail_records = db["pAvailability"].records
         if gen_records is None or gen_records.empty:
             return
 
