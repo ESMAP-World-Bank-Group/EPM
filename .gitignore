@@ -69,7 +69,7 @@ pre-analysis/**/output/*
 **/sensitivity/
 
 # Input data
-epm/*_def.gms
+epm/*def.gms
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
