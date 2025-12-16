@@ -188,6 +188,24 @@ def _plot_assessment_diffs(
                 show_total=show_total_single,
             )
 
+    # Figure with subplots per scenario pair (shows evolution over years for each pair)
+    if multiple_pairs:
+        filename = os.path.join(folder, f"{filename_prefix}_ByPair.pdf")
+        make_stacked_barplot(
+            df_all_diffs,
+            filename,
+            dict_specs["colors"],
+            column_stacked=stacked_column,
+            column_subplot="scenario",
+            column_xaxis=x_column,
+            column_value="value",
+            format_y=format_y,
+            rotation=45,
+            annotate=annotate,
+            title=f"{title_prefix} (Project - Counterfactual)",
+            show_total=True,
+        )
+
 
 def _simplify_attributes(df: pd.DataFrame, new_label: str, attributes: Iterable[str]):
     """Group specific attributes together using the supplied label."""
@@ -253,6 +271,119 @@ def make_assessment_cost_diff(
         annotate=False,
         show_total_single=True,
     )
+
+
+def make_assessment_npv_comparison(
+    epm_results,
+    dict_specs,
+    folder,
+    scenario_pairs,
+    trade_attrs=None,
+    reserve_attrs=None,
+):
+    """
+    Generate bar charts comparing NPV of system cost across scenario pairs.
+
+    Uses the same data basis and formatting as NPVCostSystemScenarios figures.
+    Creates two figures:
+    - AssessmentNPVComparison_AllPairs.pdf: All pairs (including sensitivity scenarios)
+    - AssessmentNPVComparison_{project}.pdf: Only baseline pairs (one per project)
+    """
+    df = epm_results["pCostsSystem"].copy()
+
+    # Remove NPV row to avoid double counting (same as postprocessing.py)
+    df = df.loc[df["attribute"] != "NPV of system cost: $m"]
+
+    # Group reserve and trade attributes (same as postprocessing.py)
+    if reserve_attrs:
+        df = _simplify_attributes(df, "Unmet reserve costs: $m", reserve_attrs)
+    if trade_attrs:
+        df = _simplify_attributes(df, "Trade costs: $m", trade_attrs)
+
+    # Remove ": $m" from attribute names
+    df["attribute"] = df["attribute"].str.replace(": $m", "", regex=False)
+
+    if df.empty:
+        return
+
+    # Compute differences for all pairs
+    df_all_diffs = _compute_pairwise_differences(
+        df, scenario_pairs, merge_cols=["attribute"]
+    )
+
+    if df_all_diffs.empty:
+        return
+
+    # Check if we have sensitivity scenarios
+    multiple_pairs = len(scenario_pairs) > 1 or any(
+        len(counterfactuals) > 1 for counterfactuals in scenario_pairs.values()
+    )
+
+    # Figure 1: All pairs (only if there are multiple pairs including sensitivities)
+    if multiple_pairs:
+        filename = os.path.join(folder, "AssessmentNPVComparison_AllPairs.pdf")
+        make_stacked_barplot(
+            df_all_diffs,
+            filename,
+            dict_specs["colors"],
+            column_stacked="attribute",
+            column_subplot=None,
+            column_xaxis="scenario",
+            column_value="value",
+            format_y=make_auto_yaxis_formatter("m$"),
+            rotation=45,
+            annotate=False,
+            title="NPV of System Cost: Project - Counterfactual (All Pairs)",
+            show_total=True,
+        )
+
+    # Figure 2: Baseline pairs only (one per project)
+    if "baseline" in scenario_pairs:
+        for scenario_cf in scenario_pairs["baseline"]:
+            # Get the beautified label for this pair
+            raw_label = scenario_cf.split("@")[0] if "@" in scenario_cf else scenario_cf
+            scenario_label = _beautify_scenario_name(raw_label)
+
+            df_pair = df_all_diffs[df_all_diffs["scenario"] == scenario_label]
+            if df_pair.empty:
+                continue
+
+            # Extract project name for filename
+            project_name = scenario_cf.split("@")[1] if "@" in scenario_cf else scenario_cf
+            filename = os.path.join(folder, f"AssessmentNPVComparison_{project_name}.pdf")
+
+            make_stacked_barplot(
+                df_pair,
+                filename,
+                dict_specs["colors"],
+                column_stacked="attribute",
+                column_subplot=None,
+                column_xaxis="scenario",
+                column_value="value",
+                format_y=make_auto_yaxis_formatter("m$"),
+                rotation=0,
+                annotate=False,
+                title=f"NPV of System Cost: {project_name} - Baseline",
+                show_total=True,
+            )
+
+    # Figure 3: Subplots per scenario pair (one subplot per pair)
+    if multiple_pairs:
+        filename = os.path.join(folder, "AssessmentNPVComparison_ByPair.pdf")
+        make_stacked_barplot(
+            df_all_diffs,
+            filename,
+            dict_specs["colors"],
+            column_stacked="attribute",
+            column_subplot="scenario",
+            column_xaxis=None,
+            column_value="value",
+            format_y=make_auto_yaxis_formatter("m$"),
+            rotation=0,
+            annotate=False,
+            title="NPV of System Cost: Project - Counterfactual",
+            show_total=True,
+        )
 
 
 def make_assessment_capacity_diff(
