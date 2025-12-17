@@ -61,6 +61,7 @@ import shutil
 from matplotlib.ticker import FuncFormatter
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from collections import defaultdict, OrderedDict
+import warnings
 
 from .utils import NAME_COLUMNS, RENAME_COLUMNS
 
@@ -71,6 +72,36 @@ def set_default_fuel_order(order):
     """Store the default stacking order for fuel plots."""
     global DEFAULT_FUEL_ORDER
     DEFAULT_FUEL_ORDER = list(order) if order else None
+
+
+def safe_tight_layout(fig, rect=None, shrink_top=0.03):
+    """
+    Apply ``tight_layout`` but fall back gracefully when Matplotlib cannot accommodate decorations.
+
+    When ``tight_layout`` raises a ``UserWarning`` (e.g., heavy legends/supertitles), we relax
+    the top margin slightly via ``subplots_adjust`` instead of emitting a warning.
+    """
+    with warnings.catch_warnings(record=True):
+        warnings.filterwarnings("error", category=UserWarning)
+        try:
+            if rect:
+                fig.tight_layout(rect=rect)
+            else:
+                fig.tight_layout()
+            return
+        except UserWarning:
+            pass
+
+    if rect:
+        left, bottom, right, top = rect
+        fig.subplots_adjust(
+            left=left,
+            bottom=bottom,
+            right=right,
+            top=max(0.0, min(top, 1.0) - shrink_top),
+        )
+    else:
+        fig.subplots_adjust(top=1 - shrink_top, right=0.96, left=0.08, bottom=0.08)
 
 def format_ax(ax, linewidth=True):
     """
@@ -892,11 +923,13 @@ def make_stacked_areaplot(
             else:
                 tight_rect[3] = min(tight_rect[3], 0.95)
 
+    layout_rect = None
     if tight_rect:
         top_bound = min(tight_rect[3], 0.92)
-        fig.tight_layout(rect=[tight_rect[0], tight_rect[1], min(tight_rect[2], 0.96), top_bound])
+        layout_rect = [tight_rect[0], tight_rect[1], min(tight_rect[2], 0.96), top_bound]
     else:
-        fig.tight_layout(rect=[0, 0, 0.96, 0.92])
+        layout_rect = [0, 0, 0.96, 0.92]
+    safe_tight_layout(fig, rect=layout_rect, shrink_top=0.04)
 
     if column_subplot is None:
         if single_panel_title:
