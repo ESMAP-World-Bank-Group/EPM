@@ -479,48 +479,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
-                        Climatic Overview
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
-                        Get Renewables Coordinates
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
-                        Demand Forecast Plots
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
-                        Hydro Availability Builder
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
-                        Supply-demand balance
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
-                        Representative Days for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="../other/other_open_data.html">
                         Open-Source Data (in progress)
                       </a>
@@ -955,48 +913,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
-                        Climatic Overview
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
-                        Get Renewables Coordinates
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
-                        Demand Forecast Plots
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
-                        Hydro Availability Builder
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
-                        Supply-demand balance
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
-                        Representative Days for EPM
-                      </a>
-                    </li>
-                
-
-                    <li class="nav-item">
                       <a class="nav-link nav-internal" href="../other/other_open_data.html">
                         Open-Source Data (in progress)
                       </a>
@@ -1157,12 +1073,6 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_overview.html">Preanalysis Folder Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_projects.html">Data Preparation Workflow Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/climatic_overview.html">Climatic Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/load_plot.html">Demand Forecast Plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/hydro_availability.html">Hydro Availability Builder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">Supply-demand balance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">Representative Days for EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
 <ul class="nav bd-sidenav">
@@ -1503,10 +1413,10 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#project-assessment">
+    <a class="reference internal nav-link" href="#generator-assessment">
      <code class="docutils literal notranslate">
       <span class="pre">
-       --project_assessment
+       --generator_assessment
       </span>
      </code>
     </a>
@@ -1844,13 +1754,13 @@ This CSV file defines which input files correspond to which parameters in the mo
 <li><p><strong>Usage:</strong> Include <code class="docutils literal notranslate"><span class="pre">--sensitivity</span></code> to enable.</p></li>
 </ul>
 </section>
-<section id="project-assessment">
-<h3><code class="docutils literal notranslate"><span class="pre">--project_assessment</span></code><a class="headerlink" href="#project-assessment" title="Permalink to this heading">#</a></h3>
+<section id="generator-assessment">
+<h3><code class="docutils literal notranslate"><span class="pre">--generator_assessment</span></code><a class="headerlink" href="#generator-assessment" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
 <li><p><strong>Type:</strong> list of strings</p></li>
 <li><p><strong>Default:</strong> None</p></li>
 <li><p><strong>Purpose:</strong> Specifies projects to exclude from the simulation to assess counterfactual scenarios.</p></li>
-<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--project_assessment</span> <span class="pre">SolarProject</span></code></p></li>
+<li><p><strong>Example:</strong> <code class="docutils literal notranslate"><span class="pre">--generator_assessment</span> <span class="pre">SolarProject</span></code></p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -2135,10 +2045,10 @@ This CSV file defines which input files correspond to which parameters in the mo
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#project-assessment">
+    <a class="reference internal nav-link" href="#generator-assessment">
      <code class="docutils literal notranslate">
       <span class="pre">
-       --project_assessment
+       --generator_assessment
       </span>
      </code>
     </a>
