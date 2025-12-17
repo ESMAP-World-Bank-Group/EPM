@@ -56,20 +56,28 @@ def _beautify_scenario_name(name: str) -> str:
         name = name[len('baseline_'):]
 
     # Handle pDemandForecast patterns
-    match = re.match(r'pDemandForecast_(-?)0?(\d+)', name)
+    # Format: pDemandForecast_XX where XX represents 0.XX (e.g., 03 = 0.3 = 30%, 3 = 3.0 = 300%, 015 = 0.15 = 15%)
+    match = re.match(r'pDemandForecast_(-?)(\d+)', name)
     if match:
         sign = match.group(1)
-        value = match.group(2)
+        raw_value = match.group(2)
+        # Insert decimal point after first digit: "03" -> "0.3", "3" -> "3.", "015" -> "0.15"
+        decimal_str = raw_value[0] + '.' + raw_value[1:] if len(raw_value) > 1 else raw_value + '.0'
+        value = int(float(decimal_str) * 100)
         if sign == '-':
             return f'LowDemand(-{value}%)'
         else:
             return f'HighDemand(+{value}%)'
 
     # Handle TradePrice patterns
-    match = re.match(r'TradePrice_(-?)0?(\d+)', name)
+    # Format: TradePrice_XX where XX represents 0.XX (e.g., 03 = 0.3 = 30%, 3 = 3.0 = 300%, 015 = 0.15 = 15%)
+    match = re.match(r'TradePrice_(-?)(\d+)', name)
     if match:
         sign = match.group(1)
-        value = match.group(2)
+        raw_value = match.group(2)
+        # Insert decimal point after first digit: "03" -> "0.3", "3" -> "3.", "015" -> "0.15"
+        decimal_str = raw_value[0] + '.' + raw_value[1:] if len(raw_value) > 1 else raw_value + '.0'
+        value = int(float(decimal_str) * 100)
         if sign == '-':
             return f'LowTradePrice(-{value}%)'
         else:
