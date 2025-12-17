@@ -1635,7 +1635,7 @@ def make_automatic_map(epm_results, dict_specs, folder, figures_activated, selec
 
         except Exception as e:
             log_error(
-                'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `static` folder.')
+                'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `resources` folder.')
             raise  # Re-raise the exception for debuggings
 
         capa_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
