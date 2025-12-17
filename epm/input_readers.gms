@@ -30,6 +30,10 @@
 
 $if not set TRACE $set TRACE 0
 
+* Shared resources folder (headers and lookup tables - constant across all input folders)
+* Use modeldir (set in main.gms) to ensure correct path regardless of working directory
+$if not set FOLDER_RESOURCES $set FOLDER_RESOURCES "%modeldir%resources"
+
 * Define by default path
 * SETTINGS
 $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
@@ -62,15 +66,14 @@ $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
 $if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
 
-* RESOURCES
-$if not set pSettingsHeader $set pSettingsHeader %FOLDER_INPUT%/resources/pSettingsHeader.csv
-$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_INPUT%/resources/pGenDataInputHeader.csv
-$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_INPUT%/resources/pStorageDataHeader.csv
-$if not set pH2Header $set pH2Header %FOLDER_INPUT%/resources/pH2Header.csv
+* RESOURCES (shared across all input folders)
+$if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/pSettingsHeader.csv
+$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_RESOURCES%/pGenDataInputHeader.csv
+$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_RESOURCES%/pStorageDataHeader.csv
+$if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/pH2Header.csv
 
-$if not set ftfindex $set ftfindex %FOLDER_INPUT%/resources/ftfindex.csv
-$if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_INPUT%/resources/pFuelCarbonContent.csv
-$if not set pTechData $set pTechData %FOLDER_INPUT%/resources/pTechData.csv
+$if not set pTechFuel $set pTechFuel %FOLDER_RESOURCES%/pTechFuel.csv
+$if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelCarbonContent.csv
 
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
@@ -79,7 +82,7 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %FOLDER_INP
 
 * TRADE
 $if not set zext $set zext %FOLDER_INPUT%/trade/zext.csv
-$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_INPUT%/resources/pTransmissionHeader.csv
+$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/pTransmissionHeader.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxPriceImportShare $set pMaxPriceImportShare %FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
@@ -251,11 +254,11 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
-    file: %pTechData%
-    name: pTechData
+    file: %pTechFuel%
+    name: pTechFuel
     indexSubstitutions: {.nan: ""}
     header: [1]
-    indexColumns: [1]
+    indexColumns: [1, 2]
     type: par
 
 - CSVReader:
@@ -378,20 +381,11 @@ $onEmbeddedCode Connect:
     name: pStorageDataInput
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
-    indexColumns: [1, 2]
+    indexColumns: [1,2,3,4]
     header: [1]
     type: par
 
 # RESOURCES
-
-- CSVReader:
-    file: %ftfindex%
-    name: ftfindex
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
-    indexColumns: [1]
-    valueColumns: [2]
-    type: par
 
 - CSVReader:
     trace: %TRACE%

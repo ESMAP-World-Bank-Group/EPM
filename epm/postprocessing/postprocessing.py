@@ -183,12 +183,12 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': False,
-    'costs': False,
-    'energy': False,
+    'capacity': True,
+    'costs': True,
+    'energy': True,
     'dispatch': True,
-    'interconnection': False,
-    'maps': False,
+    'interconnection': True,
+    'maps': True,
 }
 
 FIGURE_CATEGORY_MAP = {
@@ -802,7 +802,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
     RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
         FOLDER, keys_results=keys_results)
 
-    set_default_fuel_order(dict_specs.get('fuel_order'))
+    set_default_fuel_order(dict_specs.get('techfuel_order'))
 
 
     GRAPHS_FOLDER = os.path.join(FOLDER, graphs_folder)

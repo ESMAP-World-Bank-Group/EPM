@@ -79,9 +79,8 @@ COLUMN_RENAME_MAP = {
     "pHours": {'season': 'q', 'daytype': 'd', 'uni': 't'},
     "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
-    'ftfindex': {'fuel': 'f'},
+    'pTechFuel': {'tech': 'tech', 'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
-    'pTechData': {'Technology': 'tech'},
     "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
 
@@ -129,6 +128,8 @@ def filter_inputs_to_allowed_zones(
     """Remove rows whose zones fall outside zcmap for key input tables."""
     allowed_zones = _get_allowed_zones(db)
     if not allowed_zones:
+        if log_func:
+            log_func("[input_treatment][zones] Skipped: no allowed zones available (zcmap missing/empty).")
         return
 
     for param_name, zone_cols in ZONE_RESTRICTED_PARAMS.items():
@@ -136,8 +137,12 @@ def filter_inputs_to_allowed_zones(
             continue
         records = db[param_name].records
         if records is None or records.empty:
+            if log_func:
+                log_func(f"[input_treatment][zones] Skipped {param_name}: empty.")
             continue
         if any(col not in records.columns for col in zone_cols):
+            if log_func:
+                log_func(f"[input_treatment][zones] Skipped {param_name}: missing zone columns {zone_cols}; got {list(records.columns)}.")
             continue
 
         mask = pd.Series(True, index=records.index)
@@ -188,11 +193,6 @@ def run_input_treatment(gams,
             target_db.data[param_name].setRecords(records)
             return
 
-        gams.printLog(
-            f"[input_treatment] write_back({param_name}): "
-            f"clearing + writing {row_count} row(s) into {target_kind}."
-        )
-
         # When writing back to a real GAMS database we must clear the symbol
         # first; db.write() only overwrites tuples that still exist, so stale
         # rows would otherwise survive our filters.
@@ -207,6 +207,20 @@ def run_input_treatment(gams,
             f"[input_treatment] {param_name}: wrote {row_count} row(s) into {target_kind}; "
             f"live db now has {current_count} row(s)."
         )
+
+    def _col_list(df):
+        return list(df.columns) if df is not None else []
+
+    def _log_columns(param_name, df, prefix=""):
+        gams.printLog(f"{prefix}{param_name} columns: {_col_list(df)}")
+
+    def _step(title):
+        gams.printLog("-" * 60)
+        gams.printLog(title)
+
+    gams.printLog("=" * 60)
+    gams.printLog("[input_treatment] starting")
+    gams.printLog("=" * 60)
 
 
     def _detect_header_and_value_columns(df: pd.DataFrame):
@@ -336,11 +350,16 @@ def run_input_treatment(gams,
         """Set Capacity=0 for generators with missing/invalid Status."""
         param_name = "pGenDataInput"
         if param_name not in db:
+            gams.printLog("[input_treatment][gen_status] Skipped: pGenDataInput missing.")
             return
         records = db[param_name].records
         if records is None or records.empty:
+            gams.printLog("[input_treatment][gen_status] Skipped: pGenDataInput empty.")
+            _log_columns(param_name, records, prefix="[input_treatment][gen_status] ")
             return
         if "g" not in records.columns or "pGenDataInputHeader" not in records.columns:
+            gams.printLog("[input_treatment][gen_status] Skipped: missing 'g' or 'pGenDataInputHeader' column.")
+            _log_columns(param_name, records, prefix="[input_treatment][gen_status] ")
             return
 
         records = records.copy()
@@ -355,6 +374,7 @@ def run_input_treatment(gams,
             )
             invalid_gens = all_gens - valid_gens
         if not invalid_gens:
+            gams.printLog("[input_treatment][gen_status] All generators have valid status.")
             return
 
         mask = (
@@ -376,11 +396,16 @@ def run_input_treatment(gams,
         """Set Capacity=0 for transmission corridors with Status missing or 0."""
         param_name = "pNewTransmission"
         if param_name not in db:
+            gams.printLog("[input_treatment][tx_status] Skipped: pNewTransmission missing.")
             return
         records = db[param_name].records
         if records is None or records.empty:
+            gams.printLog("[input_treatment][tx_status] Skipped: pNewTransmission empty.")
+            _log_columns(param_name, records, prefix="[input_treatment][tx_status] ")
             return
         if any(col not in records.columns for col in ("z", "z2", "pTransmissionHeader")):
+            gams.printLog("[input_treatment][tx_status] Skipped: missing required columns z/z2/pTransmissionHeader.")
+            _log_columns(param_name, records, prefix="[input_treatment][tx_status] ")
             return
 
         # Consolidate by corridor to decide which pairs are invalid before zeroing CapacityPerLine.
@@ -395,6 +420,7 @@ def run_input_treatment(gams,
             )
         )
         if wide.empty:
+            gams.printLog("[input_treatment][tx_status] Skipped: pivot empty (no corridors).")
             return
         if "Status" not in wide.columns:
             wide["Status"] = np.nan
@@ -402,6 +428,7 @@ def run_input_treatment(gams,
         valid_mask = status_numeric.notna() & (status_numeric != 0)
         invalid_pairs = wide.index[~valid_mask].tolist()
         if not invalid_pairs:
+            gams.printLog("[input_treatment][tx_status] All transmission corridors have valid status.")
             return
 
         invalid_set = set(invalid_pairs)
@@ -428,17 +455,22 @@ def run_input_treatment(gams,
         # Use pAvailabilityInput (the raw CSV data without year dimension)
         required_params = {"pGenDataInput", "pAvailabilityInput"}
         if any(name not in db for name in required_params):
+            gams.printLog("[input_treatment][hydro_avail] Skipped: pGenDataInput or pAvailabilityInput missing.")
             return
 
         gen_records = db["pGenDataInput"].records
         avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
+            gams.printLog("[input_treatment][hydro_avail] Skipped: pGenDataInput empty.")
+            _log_columns("pGenDataInput", gen_records, prefix="[input_treatment][hydro_avail] ")
             return
 
         gen_records = gen_records.copy()
         avail_records = avail_records.copy() if avail_records is not None else pd.DataFrame(columns=["g", "q", "value"])
 
         if "g" not in gen_records.columns or "tech" not in gen_records.columns:
+            gams.printLog("[input_treatment][hydro_avail] Skipped: missing 'g' or 'tech' in pGenDataInput.")
+            _log_columns("pGenDataInput", gen_records, prefix="[input_treatment][hydro_avail] ")
             return
 
         zone_column = "z"
@@ -482,6 +514,8 @@ def run_input_treatment(gams,
                     f"Reservoir hydro availability check: all {len(reservoir_meta)} generator(s) "
                     "defined in pGenDataInput have entries in pAvailability."
                 )
+                if not auto_fill:
+                    gams.printLog("[input_treatment][hydro_avail] Auto-fill disabled; no gaps found.")
             else:
                 zone_label = zone_column or "zone"
                 all_zone_values = None
@@ -561,6 +595,7 @@ def run_input_treatment(gams,
         # --- ROR: check pVREgenProfile -------------------------------------------
         ror_meta = _extract_hydro_meta({"ROR"})
         if ror_meta.empty:
+            gams.printLog("[input_treatment][ror_profile] Skipped: no ROR generators found.")
             return
 
         if "pVREgenProfile" not in db:
@@ -584,6 +619,7 @@ def run_input_treatment(gams,
             gams.printLog(
                 "[input_treatment][ror_profile] ROR availability warning: cannot identify generator column in pVREgenProfile."
             )
+            _log_columns("pVREgenProfile", ror_records, prefix="[input_treatment][ror_profile] ")
             return
 
         # Compare ROR generators in pGenDataInput with those that have hourly profiles.
@@ -593,6 +629,8 @@ def run_input_treatment(gams,
                 f"[input_treatment][ror_profile] ROR availability check: all {len(ror_meta)} generator(s) defined in pGenDataInput "
                 "have hourly profiles in pVREgenProfile."
             )
+            if not auto_fill:
+                gams.printLog("[input_treatment][ror_profile] Auto-fill disabled; no gaps found.")
             return
 
         zone_label = zone_column or "zone"
@@ -785,17 +823,24 @@ def run_input_treatment(gams,
     def monitor_hydro_capex(db: gt.Container, auto_fill: bool):
         """Ensure hydro capex is specified for committed/candidate plants."""
         if "pGenDataInput" not in db:
+            gams.printLog("[input_treatment][hydro_capex] Skipped: pGenDataInput missing.")
             return
 
         records = db["pGenDataInput"].records
         if records is None or records.empty:
+            gams.printLog("[input_treatment][hydro_capex] Skipped: pGenDataInput empty.")
+            _log_columns("pGenDataInput", records, prefix="[input_treatment][hydro_capex] ")
             return
         records = records.copy()
 
         header_col, value_col = _detect_header_and_value_columns(records)
         if header_col is None or value_col is None:
+            gams.printLog("[input_treatment][hydro_capex] Skipped: cannot detect header/value columns.")
+            _log_columns("pGenDataInput", records, prefix="[input_treatment][hydro_capex] ")
             return
         if "g" not in records.columns or "tech" not in records.columns:
+            gams.printLog("[input_treatment][hydro_capex] Skipped: missing 'g' or 'tech' in pGenDataInput.")
+            _log_columns("pGenDataInput", records, prefix="[input_treatment][hydro_capex] ")
             return
 
         zone_column = None
@@ -823,6 +868,8 @@ def run_input_treatment(gams,
         target_headers = {"Status", "Capex"}
         subset = records.loc[records[header_col].isin(target_headers)]
         if subset.empty:
+            gams.printLog("[input_treatment][hydro_capex] Skipped: no Status/Capex rows found.")
+            _log_columns("pGenDataInput", records, prefix="[input_treatment][hydro_capex] ")
             return
 
         index_cols = ["g"]
@@ -857,6 +904,10 @@ def run_input_treatment(gams,
             missing_mask &= zone_series_str.isin(allowed_zone_strs)
         missing_capex = pivot.loc[missing_mask]
         if missing_capex.empty:
+            if not auto_fill:
+                gams.printLog("[input_treatment][hydro_capex] Auto-fill disabled; no hydro capex gaps found.")
+            else:
+                gams.printLog("[input_treatment][hydro_capex] No hydro capex gaps found.")
             return
 
         gams.printLog(
@@ -1046,11 +1097,17 @@ def run_input_treatment(gams,
         if param_df is None:
             gams.printLog('{} empty so no effect'.format(param_name))
             return None
-            
-        gams.printLog('Adding generator reference to {}'.format(param_name))
-        
+                    
         # Identify common columns between param_df and ref_df, excluding "value"
         columns = [c for c in param_df.columns if c != "value" and c in ref_df.columns]
+        gams.printLog(f"[prepare_generatorbased_parameter] {param_name}: ref columns={list(ref_df.columns)}, param columns={list(param_df.columns)}, common={columns}")
+
+        if column_generator not in ref_df.columns:
+            gams.printLog(
+                f"[prepare_generatorbased_parameter] {param_name}: generator column '{column_generator}' not found in reference; "
+                f"available columns: {list(ref_df.columns)}"
+            )
+            return None
         
         # Keep only the generator column and common columns in ref_df
         ref_df = ref_df.loc[:, [column_generator] + columns]
@@ -1150,6 +1207,7 @@ def run_input_treatment(gams,
                 "[input_treatment][availability] Warning: the following generator(s) have no entries in pAvailability "
                 f"and will have implicit availability of 0 (they will not dispatch){more}: {preview}"
             )
+
 
     def warn_missing_availability(gams, db: gt.Container):
         """Warn if generators have no pAvailability rows (implicit availability=0)."""
@@ -1586,6 +1644,12 @@ def run_input_treatment(gams,
         
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
+    # Normalize generator column for pGenDataInput (rename 'uni' -> 'g' if needed).
+    if "pGenDataInput" in db:
+        _records = db["pGenDataInput"].records
+        if _records is not None and "uni" in _records.columns and "g" not in _records.columns:
+            gams.printLog("[input_treatment] Renaming pGenDataInput column 'uni' -> 'g'.")
+            db["pGenDataInput"].setRecords(_records.rename(columns={"uni": "g"}))
 
     settings_flags = {}
     # Pull scalar switches from pSettings so model toggles can be driven by the CSV.
@@ -1648,31 +1712,41 @@ def run_input_treatment(gams,
         settings_flags.get("EPM_FILL_ROR_FROM_AVAILABILITY")
     )
     
+    _step("Filter inputs to allowed zones")
     filter_inputs_to_allowed_zones(
         db,
         log_func=gams.printLog,
         write_back=lambda name: _write_back(db, name),
     )
 
+    _step("Zero capacity for invalid generator status")
     zero_capacity_for_invalid_generator_status(db)
     
+    _step("Zero capacity for invalid transmission status")
     zero_capacity_for_invalid_transmission_status(db)
     
+    _step("Interpolate time series parameters")
     interpolate_time_series_parameters(db, YEARLY_OUTPUT)
     
+    _step("Monitor hydro availability")
     monitor_hydro_availability(db, auto_fill_missing_hydro)
     
+    _step("Monitor hydro capex")
     monitor_hydro_capex(db, auto_fill_missing_capex)
     
     # Complete Generator Data
+    _step("Overwrite NaN values for pGenDataInput")
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
     
+    _step("Set missing StYr for existing generators")
     set_missing_styr_for_existing(db)
 
     # CSV is read into pAvailabilityInput(g,q), we expand to pAvailability(g,y,q)
+    _step("Prepare pAvailability")
     prepare_pavailability(db)
 
     # Prepare pAvailability by filling missing values with default values
+    _step("Defaults for pAvailability")
     default_df = prepare_generatorbased_parameter(db,
                                                   "pAvailabilityDefault",
                                                   cols_tokeep=['q'],
@@ -1681,19 +1755,24 @@ def run_input_treatment(gams,
     # Expand default values to all years (constant across years)
     default_df = expand_to_years(db, default_df)
 
+    _step("Fill pAvailability with defaults")
     fill_default_value(db, "pAvailability", default_df)
     
+    _step("Warn missing availability")
     warn_missing_availability(gams, db)
 
     # Apply evolution factors to pAvailability
+    _step("Apply availability evolution")
     apply_availability_evolution(db)
 
     # Prepare pCapexTrajectories by filling missing values with default values
+    _step("Defaults for pCapexTrajectories")
     default_df = prepare_generatorbased_parameter(db, 
                                                   "pCapexTrajectoriesDefault",
                                                   cols_tokeep=['y'],
                                                   param_ref="pGenDataInput")
                                                                                                 
+    _step("Fill pCapexTrajectories with defaults")
     fill_default_value(db, "pCapexTrajectories", default_df)
 
 

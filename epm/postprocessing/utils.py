@@ -119,11 +119,14 @@ _log_warning = log_warning
 _log_error = log_error
 
 
-FUELS = os.path.join('static', 'fuels.csv')
-TECHS = os.path.join('static', 'technologies.csv')
-COLORS = os.path.join('static', 'colors.csv')
-GEOJSON = os.path.join('static', 'zones.geojson')
-GEOJSON_TO_EPM = os.path.join('static', 'geojson_to_epm.csv')
+# Resources directory (relative to epm/ folder)
+_EPM_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_RESOURCES_DIR = os.path.join(_EPM_DIR, 'resources')
+
+TECHFUEL_PROCESSING = os.path.join(_RESOURCES_DIR, 'pTechFuelProcessing.csv')
+COLORS = os.path.join(_RESOURCES_DIR, 'colors.csv')
+GEOJSON = os.path.join(_RESOURCES_DIR, 'zones.geojson')
+GEOJSON_TO_EPM = os.path.join(_RESOURCES_DIR, 'geojson_to_epm.csv')
 
 TOLERANCE = 1e-2
 
@@ -241,41 +244,54 @@ def _extract_peak_memory_mb(log_text: str) -> Optional[float]:
     return peak_value
 
 
-def read_plot_specs(folder='postprocessing'):
+def read_plot_specs():
     """
-    Read the specifications for the plots from the static files.
-    
+    Read the specifications for the plots from the resources files.
+
     Returns:
     -------
     dict_specs: dict
         Dictionary containing the specifications for the plots
     """
 
-    colors = pd.read_csv(os.path.join(folder, COLORS), skiprows=1)
+    # Read base colors (dispatch attributes, cost categories, geography, fuels)
+    colors = pd.read_csv(COLORS, skiprows=1)
     colors = colors.dropna(subset=['Processing'])
     colors['Processing'] = colors['Processing'].astype(str).str.strip()
     colors = colors[~colors['Processing'].str.startswith('#')]
     colors = colors.dropna(subset=['Color'])
     colors['Color'] = colors['Color'].astype(str).str.strip()
     colors = colors[colors['Color'] != '']
-    
-    fuel_df = pd.read_csv(os.path.join(folder, FUELS), skiprows=1)
-    tech_mapping = pd.read_csv(os.path.join(folder, TECHS))
-    zones = gpd.read_file(os.path.join(folder, GEOJSON))
-    geojson_to_epm = pd.read_csv(os.path.join(folder, GEOJSON_TO_EPM))
+    base_colors = colors.set_index('Processing')['Color'].dropna().to_dict()
 
-    fuel_df = fuel_df.dropna(subset=['Processing'])
-    fuel_df['Processing'] = fuel_df['Processing'].astype(str).str.strip()
-    fuel_df = fuel_df[fuel_df['Processing'] != '']
-    fuel_df['EPM_Fuel'] = fuel_df['EPM_Fuel'].astype(str).str.strip()
-    fuel_order = list(dict.fromkeys(fuel_df['Processing']))
-    fuel_mapping = fuel_df.set_index('EPM_Fuel')['Processing'].to_dict()
+    # Read pTechFuelProcessing for tech-fuel mapping and colors
+    techfuel_df = pd.read_csv(TECHFUEL_PROCESSING, comment='#')
+    techfuel_df['tech'] = techfuel_df['tech'].astype(str).str.strip()
+    techfuel_df['fuel'] = techfuel_df['fuel'].astype(str).str.strip()
+    techfuel_df['Processing'] = techfuel_df['Processing'].astype(str).str.strip()
+    techfuel_df['Color'] = techfuel_df['Color'].astype(str).str.strip()
+
+    # Create tech-fuel key for mapping (tech + "-" + fuel -> Processing)
+    techfuel_df['techfuel_key'] = techfuel_df['tech'] + '-' + techfuel_df['fuel']
+    techfuel_mapping = techfuel_df.set_index('techfuel_key')['Processing'].to_dict()
+
+    # Get colors from pTechFuelProcessing (Processing -> Color)
+    techfuel_colors = techfuel_df.set_index('Processing')['Color'].dropna().to_dict()
+
+    # Get techfuel order from pTechFuelProcessing (order in file)
+    techfuel_order = list(dict.fromkeys(techfuel_df['Processing']))
+
+    # Merge colors: techfuel colors take precedence, then base colors
+    all_colors = {**base_colors, **techfuel_colors}
+
+    zones = gpd.read_file(GEOJSON)
+    geojson_to_epm = pd.read_csv(GEOJSON_TO_EPM)
 
     dict_specs = {
-        'colors': colors.set_index('Processing')['Color'].dropna().to_dict(),
-        'fuel_mapping': fuel_mapping,
-        'fuel_order': fuel_order,
-        'tech_mapping': tech_mapping.set_index('EPM_Tech')['Processing'].to_dict(),
+        'colors': all_colors,
+        'techfuel_mapping': techfuel_mapping,
+        'techfuel_order': techfuel_order,
+        'techfuel_df': techfuel_df,
         'map_zones': zones,
         'geojson_to_epm': geojson_to_epm
     }
@@ -418,10 +434,10 @@ def gdx_to_csv(gdx_file, output_csv_folder):
 
 def standardize_names(dict_df, key, mapping, column='fuel'):
     """
-    Standardize the names of fuels in the dataframes.
+    Standardize the names of tech-fuel combinations in the dataframes.
 
     Only works when dataframes have fuel and value (with numerical values) columns.
-    
+
     Parameters
     ----------
     dict_df: dict
@@ -429,9 +445,9 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
     key: str
         Key of the dictionary to modify
     mapping: dict
-        Dictionary mapping the original fuel names to the standardized names
+        Dictionary mapping the original tech-fuel names to the standardized names
     column: str, optional, default='fuel'
-        Name of the column containing the fuels
+        Name of the column containing the tech-fuel combinations
     """
 
     if key in dict_df.keys():
@@ -439,10 +455,10 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
         temp[column] = temp[column].replace(mapping)
         temp = temp.groupby([i for i in temp.columns if i != 'value'], observed=False).sum().reset_index()
 
-        new_fuels = [f for f in temp[column].unique() if f not in mapping.values()]
-        if new_fuels:
-            raise ValueError(f'New fuels found in {key}: {new_fuels}. '
-                             f'Add fuels to the mapping in the /static folder and add in the colors.csv file.')
+        new_values = [f for f in temp[column].unique() if f not in mapping.values()]
+        if new_values:
+            raise ValueError(f'New tech-fuel combinations found in {key}: {new_values}. '
+                             f'Add them to resources/pTechFuel.csv.')
 
         dict_df[key] = temp.copy()
     else:
@@ -461,7 +477,7 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
         Dictionary containing the specifications for the plots
     """
 
-    keys = ['pGenDataInput', 'ftfindex', 'pTechData', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
+    keys = ['pGenDataInput', 'pTechFuel', 'pZoneIndex', 'pDemandProfile', 'pDemandForecast', 'pSettings',
             'zcmap']
     rename_keys = {}
 
@@ -485,20 +501,17 @@ def process_epm_inputs(epm_input, dict_specs, scenarios_rename=None):
             if column in epm_dict[key].columns:
                 epm_dict[key][column] = epm_dict[key][column].astype(type)
 
-    # Modify pGenDataInput
+    # Modify pGenDataInput - use techfuel_mapping to convert tech-fuel combinations
     df = epm_dict['pGenDataInput'].pivot(index=['scenario', 'zone', 'generator', 'tech', 'fuel'], columns='attribute', values='value').reset_index(['tech', 'fuel'])
-    #df = df.loc[:, ['tech', 'fuel']]
-    df['fuel'] = df['fuel'].replace(dict_specs['fuel_mapping'])
-    # Test if all new fuel values are in dict_specs['fuel_mapping'].values
-    for k in df['fuel'].unique():
-        if k not in dict_specs['fuel_mapping'].values():
-            log_warning(f'{k} not defined as accepted fuels. Please add it to `postprocessing/static/fuels.csv`.')
 
-    df['tech'] = df['tech'].replace(dict_specs['tech_mapping'])
-    # Test if all new fuel values are in dict_specs['fuel_mapping'].values
-    for k in df['tech'].unique():
-        if k not in dict_specs['tech_mapping'].values():
-            log_warning(f'{k} not defined as accepted techs. Please add it to `postprocessing/static/technologies.csv`.')
+    # Create techfuel key and map to Processing name
+    df['techfuel_key'] = df['tech'] + '-' + df['fuel']
+    df['techfuel'] = df['techfuel_key'].replace(dict_specs['techfuel_mapping'])
+
+    # Check for unmapped tech-fuel combinations
+    for k in df['techfuel'].unique():
+        if k not in dict_specs['techfuel_mapping'].values():
+            log_warning(f'{k} not defined in pTechFuel.csv. Please add it to `resources/pTechFuel.csv`.')
 
     epm_dict['pGenDataInput'] = df.reset_index()
 
@@ -688,14 +701,9 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
         df.drop(columns=['tech', 'fuel'], inplace=True)
         df.rename({'f': 'fuel'}, inplace=True, axis=1)
 
-    fuel_outputs = [
-        'pFuelCosts',
-        'pFuelCostsCountry',
-        'pFuelConsumption',
-        'pFuelConsumptionCountry'
-    ]
-    for key in fuel_outputs + tech_fuel_outputs:
-        standardize_names(epm_dict, key, dict_specs['fuel_mapping'])
+    # Apply techfuel mapping to standardize names
+    for key in tech_fuel_outputs:
+        standardize_names(epm_dict, key, dict_specs['techfuel_mapping'])
 
     # Add fuel type to Plant-based results
     mapping_gen_fuel = epm_dict['pGeneratorTechFuel'].loc[:, ['scenario', 'generator', 'fuel']]
@@ -1164,7 +1172,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
     dict_specs = read_plot_specs()
     try:
         from .plots import set_default_fuel_order  # Lazy import to avoid circular dependency
-        set_default_fuel_order(dict_specs.get('fuel_order'))
+        set_default_fuel_order(dict_specs.get('techfuel_order'))
     except (ImportError, AttributeError):
         pass
 

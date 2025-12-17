@@ -1,0 +1,23 @@
+# Processing and Color for tech-fuel combinations. Processing sets display name and stack order for figures.
+tech,fuel,Processing,Color
+Nuclear,Uranium,Nuclear,pink
+CCGT,Gas,CCGT-Gas,lightcoral
+ST,Coal,ST-Coal,dimgray
+ST,Lignite,ST-Lignite,dimgray
+OCGT,Diesel,GT-Diesel,darksalmon
+OCGT,Gas,GT-Gas,firebrick
+OCGT,HFO,GT-HFO,saddlebrown
+ICE,Diesel,ICE-Diesel,lightsalmon
+ICE,HFO,ICE-HFO,sandybrown
+BiomassPlant,Biomass,Biomass,green
+ReservoirHydro,Water,Reservoir,darkblue
+ROR,Water,ROR,lightskyblue
+CSPPlant,CSP,CSP,darkorange
+OffshoreWind,Wind,Offshore Wind,paleturquoise
+OnshoreWind,Wind,Onshore Wind,darkturquoise
+PV,Solar,PV,orange
+PVwSTO,Solar,PV with Storage,orange
+STOPV,Solar,Storage for PV,darkkhaki
+Storage,Battery,Battery,darkkhaki
+Storage,Water,PSH,blue
+ImportTransmission,Import,Import,thistle
