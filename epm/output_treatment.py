@@ -215,7 +215,7 @@ def calculate_cumulative(
 
 def fill_techfuel_combinations(
     input_path: str,
-    techfuel_pairs: List[Tuple[str, str]],
+    techfuel_df: pd.DataFrame,
     techfuel_mapping: Optional[Dict[str, str]] = None,
     tech_col: str = 'tech',
     fuel_col: str = 'f',
@@ -230,8 +230,8 @@ def fill_techfuel_combinations(
     ----------
     input_path : str
         Path to input CSV file
-    techfuel_pairs : list of tuples
-        List of valid (tech, fuel) pairs from pTechFuel
+    techfuel_df : pd.DataFrame
+        DataFrame with unique (tech, fuel) pairs from pTechFuel
     techfuel_mapping : dict, optional
         Dictionary mapping 'tech-fuel' keys to Processing names.
         If provided, adds a 'techfuel' column with mapped values.
@@ -255,6 +255,10 @@ def fill_techfuel_combinations(
         log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
         return False
 
+    if techfuel_df.empty:
+        log_func(f"[output_treatment]   {file_name}: WARNING - no techfuel pairs provided")
+        return False
+
     df = pd.read_csv(input_path)
     original_rows = len(df)
 
@@ -267,16 +271,12 @@ def fill_techfuel_combinations(
     else:
         other_dims = pd.DataFrame([{}])
 
-    # Create combinations of (other_dims) x (valid tech, fuel pairs)
-    all_combinations = []
-    for _, other_row in other_dims.iterrows():
-        for tech, fuel in techfuel_pairs:
-            row = other_row.to_dict()
-            row[tech_col] = tech
-            row[fuel_col] = fuel
-            all_combinations.append(row)
-
-    full_index_df = pd.DataFrame(all_combinations)
+    # Cross join other_dims with techfuel_df to get all combinations
+    other_dims['_cross'] = 1
+    techfuel_df = techfuel_df.copy()
+    techfuel_df['_cross'] = 1
+    full_index_df = other_dims.merge(techfuel_df, on='_cross').drop(columns=['_cross'])
+    other_dims = other_dims.drop(columns=['_cross'])
 
     # Merge with existing data to fill missing combinations with NaN
     merge_cols = other_cols + [tech_col, fuel_col]
@@ -400,7 +400,7 @@ def run_output_treatment(
     cumulative_files: Optional[List[Tuple[str, str]]] = None,
     techfuel_files: Optional[List[str]] = None,
     cost_component_files: Optional[List[Tuple[str, str]]] = None,
-    techfuel_pairs: Optional[List[Tuple[str, str]]] = None,
+    techfuel_df: Optional[pd.DataFrame] = None,
     techfuel_mapping: Optional[Dict[str, str]] = None,
     all_cost_components: Optional[List[str]] = None,
     log_func: Callable[[str], None] = _default_log
@@ -424,8 +424,8 @@ def run_output_treatment(
     cost_component_files : list, optional
         List of (file_name, cost_column_name) tuples for cost component filling.
         If None, uses COST_COMPONENT_FILES.
-    techfuel_pairs : list of tuples, optional
-        List of valid (tech, fuel) pairs from pTechFuel. Required for techfuel filling.
+    techfuel_df : pd.DataFrame, optional
+        DataFrame with unique (tech, fuel) pairs from pTechFuel. Required for techfuel filling.
     techfuel_mapping : dict, optional
         Dictionary mapping 'tech-fuel' keys to Processing names.
     all_cost_components : list, optional
@@ -461,19 +461,19 @@ def run_output_treatment(
         rename_columns(csv_path, col_map, log_func=log_func)
 
     # ---------------------------------------------------------
-    # 2. Fill TechFuel combinations (if techfuel_pairs provided)
+    # 2. Fill TechFuel combinations (if techfuel_df provided)
     # ---------------------------------------------------------
-    if techfuel_pairs and techfuel_files:
+    if techfuel_df is not None and not techfuel_df.empty and techfuel_files:
         log_func("")
         log_func("[output_treatment] STEP 2: Filling TechFuel combinations and adding Processing column")
         log_func("-" * 60)
 
         for file_name in techfuel_files:
             csv_path = os.path.join(output_dir, f"{file_name}.csv")
-            fill_techfuel_combinations(csv_path, techfuel_pairs, techfuel_mapping=techfuel_mapping, log_func=log_func)
+            fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
     else:
         log_func("")
-        log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no techfuel_pairs provided)")
+        log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no techfuel_df provided)")
         log_func("-" * 60)
 
     # ---------------------------------------------------------
@@ -546,20 +546,19 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
         # Extract tech-fuel pairs from GAMS database
         log_func("[output_treatment] Extracting tech-fuel pairs from GAMS database...")
 
-        techfuel_pairs = []
+        techfuel_df = pd.DataFrame(columns=['tech', 'f'])
 
         try:
             db = gt.Container(gams.db)
 
-            # Get (tech, fuel) pairs from pTechFuel (first two dimensions)
+            # Get unique (tech, fuel) pairs directly from pTechFuel
             if 'pTechFuel' in db.data:
                 techfuel_data = db.data['pTechFuel']
                 if techfuel_data.records is not None and len(techfuel_data.records) > 0:
-                    techfuel_pairs = list(zip(
-                        techfuel_data.records.iloc[:, 0].tolist(),
-                        techfuel_data.records.iloc[:, 1].tolist()
-                    ))
-                    log_func(f"[output_treatment]   Found {len(techfuel_pairs)} (tech, fuel) pairs from pTechFuel")
+                    techfuel_df = techfuel_data.records.iloc[:, :2].copy()
+                    techfuel_df.columns = ['tech', 'f']
+                    techfuel_df = techfuel_df.drop_duplicates()
+                    log_func(f"[output_treatment]   Found {len(techfuel_df)} unique (tech, fuel) pairs from pTechFuel")
 
         except Exception as e:
             log_func(f"[output_treatment]   WARNING: Could not extract tech-fuel pairs from GAMS: {e}")
@@ -586,7 +585,7 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
         # Run the main treatment
         run_output_treatment(
             output_dir,
-            techfuel_pairs=techfuel_pairs,
+            techfuel_df=techfuel_df,
             techfuel_mapping=techfuel_mapping,
             log_func=log_func
         )
