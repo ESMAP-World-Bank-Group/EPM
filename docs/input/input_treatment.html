@@ -1,0 +1,2648 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Input Treatment &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/input/input_treatment';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/input/input_treatment.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Set definition" href="input_set_definition.html" />
+    <link rel="prev" title="Resource Files" href="resources.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/configuration.html">
+                        Configuration Flow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_dispatch.html">
+                        Dispatch Mode Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/gams.html">
+                        GAMS (General Algebraic Modeling System) help
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="resources.html">
+                        Resource Files
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Input Treatment
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/examples.html">
+                        EPM Output Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/equations.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
+                        Supply-demand balance
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/interconnection.html">
+                        Transmission Line Capacity and Cost Calculator – Explanatory Notes
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/configuration.html">
+                        Configuration Flow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_dispatch.html">
+                        Dispatch Mode Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/options_solver.html">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../run/gams.html">
+                        GAMS (General Algebraic Modeling System) help
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="resources.html">
+                        Resource Files
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Input Treatment
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/examples.html">
+                        EPM Output Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/equations.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
+                        Supply-demand balance
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/interconnection.html">
+                        Transmission Line Capacity and Cost Calculator – Explanatory Notes
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">About EPM</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction_case_studies.html">EPM Recent Case Studies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../run/run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/configuration.html">Configuration Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_epm_setup.html">EPM Code Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_dispatch.html">Dispatch Mode Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_debugging.html">Debugging EPM Models in GAMS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/run_summary.html">Summary Command line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../run/options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/options_thread.html">Threading and Parallelism in EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../run/gams.html">GAMS (General Algebraic Modeling System) help</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources.html">Resource Files</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Input Treatment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_fuel_brief.html">Fuel Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="input_representative_days.html">Representative Days</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../output/examples.html">EPM Output Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output_EPM.html">EPM Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_tableau.html">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_formulation.html">Model Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/equations.html">Mathematical formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced/advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/postprocessing.html">Postprocessing with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_code.html">Contributing to the code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_docs.html">Contributing to the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_postprocess.html">Contributing postprocess</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Pre-processing Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_overview.html">Preanalysis Folder Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_projects.html">Data Preparation Workflow Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/climatic_overview.html">Climatic Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/load_plot.html">Demand Forecast Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/hydro_availability.html">Hydro Availability Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">Supply-demand balance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">Representative Days for EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../other/other_open_data.html">Open-Source Data (in progress)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/other_process.html">Electricity Planning Standard Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/interconnection.html">Transmission Line Capacity and Cost Calculator – Explanatory Notes</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/input/input_treatment.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/input/input_treatment.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../../_sources/docs/input/input_treatment.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Input Treatment</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#processing-steps">
+   Processing Steps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-zone-filtering">
+   Step 1: Zone Filtering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#affected-parameters">
+     Affected Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#behavior">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-log-output">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-invalid-generator-status">
+   Step 2: Invalid Generator Status
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#valid-status-values">
+     Valid Status Values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-invalid-transmission-status">
+   Step 3: Invalid Transmission Status
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-time-series-interpolation">
+   Step 4: Time Series Interpolation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interpolated-parameters">
+     Interpolated Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example">
+     Example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-5-hydro-availability-monitoring">
+   Step 5: Hydro Availability Monitoring
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reservoirhydro-check">
+     ReservoirHydro Check
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ror-check">
+     ROR Check
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#auto-fill-optional">
+     Auto-Fill (Optional)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#enabling-auto-fill">
+     Enabling Auto-Fill
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-6-hydro-capex-monitoring">
+   Step 6: Hydro Capex Monitoring
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#target-generators">
+     Target Generators
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     Auto-Fill (Optional)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     Enabling Auto-Fill
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-7-default-value-filling-pgendatainput">
+   Step 7: Default Value Filling (pGenDataInput)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-it-works">
+     How It Works
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#matching-logic">
+     Matching Logic
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-8-styr-for-existing-generators">
+   Step 8: StYr for Existing Generators
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#default-value">
+     Default Value
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-9-availability-expansion">
+   Step 9: Availability Expansion
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-format">
+     Input Format
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#output-format">
+     Output Format
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-10-availability-default-filling">
+   Step 10: Availability Default Filling
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     Matching Logic
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#error-handling">
+     Error Handling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-11-availability-evolution">
+   Step 11: Availability Evolution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#formula">
+     Formula
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-12-capex-trajectories">
+   Step 12: Capex Trajectories
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     Behavior
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#column-renaming">
+   Column Renaming
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#debugging-input-treatment">
+   Debugging Input Treatment
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#run-standalone">
+     Run Standalone
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#enable-verbose-logging">
+     Enable Verbose Logging
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#auto-fill-settings-summary">
+   Auto-Fill Settings Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#common-issues">
+   Common Issues
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#missing-zones">
+     Missing Zones
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#missing-availability">
+     Missing Availability
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nan-values-in-defaults">
+     NaN Values in Defaults
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#invalid-status">
+     Invalid Status
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="input-treatment">
+<h1>Input Treatment<a class="headerlink" href="#input-treatment" title="Permalink to this heading">#</a></h1>
+<p>The input treatment process automatically validates, transforms, and fills missing data before the GAMS model runs. This happens transparently through embedded Python code in <code class="docutils literal notranslate"><span class="pre">input_treatment.py</span></code>.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h2>
+<p>Input treatment ensures:</p>
+<ol class="arabic simple">
+<li><p>Data consistency across all input files</p></li>
+<li><p>Zone filtering based on <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></p></li>
+<li><p>Status validation for generators and transmission</p></li>
+<li><p>Time series interpolation</p></li>
+<li><p>Default value filling</p></li>
+<li><p>Availability expansion across years</p></li>
+</ol>
+</section>
+<section id="processing-steps">
+<h2>Processing Steps<a class="headerlink" href="#processing-steps" title="Permalink to this heading">#</a></h2>
+<p>The input treatment runs these steps in order:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.</span> <span class="n">Filter</span> <span class="n">inputs</span> <span class="n">to</span> <span class="n">allowed</span> <span class="n">zones</span>
+<span class="mf">2.</span> <span class="n">Zero</span> <span class="n">capacity</span> <span class="k">for</span> <span class="n">invalid</span> <span class="n">generator</span> <span class="n">status</span>
+<span class="mf">3.</span> <span class="n">Zero</span> <span class="n">capacity</span> <span class="k">for</span> <span class="n">invalid</span> <span class="n">transmission</span> <span class="n">status</span>
+<span class="mf">4.</span> <span class="n">Interpolate</span> <span class="n">time</span> <span class="n">series</span> <span class="n">parameters</span>
+<span class="mf">5.</span> <span class="n">Monitor</span> <span class="n">hydro</span> <span class="n">availability</span>
+<span class="mf">6.</span> <span class="n">Monitor</span> <span class="n">hydro</span> <span class="n">capex</span>
+<span class="mf">7.</span> <span class="n">Overwrite</span> <span class="n">NaN</span> <span class="n">values</span> <span class="k">for</span> <span class="n">pGenDataInput</span>
+<span class="mf">8.</span> <span class="n">Set</span> <span class="n">missing</span> <span class="n">StYr</span> <span class="k">for</span> <span class="n">existing</span> <span class="n">generators</span>
+<span class="mf">9.</span> <span class="n">Prepare</span> <span class="n">pAvailability</span> <span class="p">(</span><span class="n">expand</span> <span class="n">to</span> <span class="n">years</span><span class="p">)</span>
+<span class="mf">10.</span> <span class="n">Fill</span> <span class="n">pAvailability</span> <span class="k">with</span> <span class="n">defaults</span>
+<span class="mf">11.</span> <span class="n">Warn</span> <span class="n">about</span> <span class="n">missing</span> <span class="n">availability</span>
+<span class="mf">12.</span> <span class="n">Apply</span> <span class="n">availability</span> <span class="n">evolution</span>
+<span class="mf">13.</span> <span class="n">Fill</span> <span class="n">pCapexTrajectories</span> <span class="k">with</span> <span class="n">defaults</span>
+</pre></div>
+</div>
+</section>
+<section id="step-1-zone-filtering">
+<h2>Step 1: Zone Filtering<a class="headerlink" href="#step-1-zone-filtering" title="Permalink to this heading">#</a></h2>
+<p>Removes rows from input parameters whose zones are not defined in <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code>.</p>
+<section id="affected-parameters">
+<h3>Affected Parameters<a class="headerlink" href="#affected-parameters" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Zone Columns</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code></p></td>
+<td><p>z</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault</span></code></p></td>
+<td><p>z</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault</span></code></p></td>
+<td><p>z</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault</span></code></p></td>
+<td><p>z</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pDemandForecast</span></code></p></td>
+<td><p>z</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pNewTransmission</span></code></p></td>
+<td><p>z, z2</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pLossFactorInternal</span></code></p></td>
+<td><p>z, z2</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit</span></code></p></td>
+<td><p>z, z2</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="behavior">
+<h3>Behavior<a class="headerlink" href="#behavior" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code> is missing or empty, filtering is skipped</p></li>
+<li><p>Rows with zones not in <code class="docutils literal notranslate"><span class="pre">zcmap</span></code> are removed</p></li>
+<li><p>Warnings are logged for removed rows</p></li>
+</ul>
+</section>
+<section id="example-log-output">
+<h3>Example Log Output<a class="headerlink" href="#example-log-output" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pGenDataInput</span><span class="p">:</span> <span class="n">removing</span> <span class="mi">5</span> <span class="n">row</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">with</span> <span class="n">zones</span> <span class="n">outside</span> <span class="n">zcmap</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-2-invalid-generator-status">
+<h2>Step 2: Invalid Generator Status<a class="headerlink" href="#step-2-invalid-generator-status" title="Permalink to this heading">#</a></h2>
+<p>Generators with invalid or missing Status values have their Capacity set to 0.</p>
+<section id="valid-status-values">
+<h3>Valid Status Values<a class="headerlink" href="#valid-status-values" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Status</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Existing</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Committed</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Candidate</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="id1">
+<h3>Behavior<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Generators with Status=0, NaN, or any value not in {1,2,3} are zeroed</p></li>
+<li><p>Only the Capacity field is set to 0; the generator remains in the dataset</p></li>
+<li><p>Warnings are logged per zone</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Example Log Output<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Setting</span> <span class="n">Capacity</span><span class="o">=</span><span class="mi">0</span> <span class="k">for</span> <span class="mi">3</span> <span class="n">generator</span> <span class="n">row</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">with</span> <span class="n">invalid</span><span class="o">/</span><span class="n">missing</span> <span class="n">Status</span> <span class="p">(</span><span class="n">allowed</span> <span class="n">values</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-3-invalid-transmission-status">
+<h2>Step 3: Invalid Transmission Status<a class="headerlink" href="#step-3-invalid-transmission-status" title="Permalink to this heading">#</a></h2>
+<p>Transmission corridors with invalid Status have their CapacityPerLine set to 0.</p>
+<section id="id3">
+<h3>Behavior<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Corridors with Status=0 or missing Status are zeroed</p></li>
+<li><p>Corridors with valid Status (non-zero) are kept</p></li>
+<li><p>Warnings are logged for each removed corridor</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Example Log Output<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">All</span> <span class="n">transmission</span> <span class="n">corridor</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">status</span> <span class="n">are</span> <span class="n">valid</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Removing</span> <span class="mi">2</span> <span class="n">transmission</span> <span class="n">corridor</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pNewTransmission</span> <span class="n">due</span> <span class="n">to</span> <span class="n">Status</span><span class="o">=</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">missing</span> <span class="n">Status</span><span class="o">.</span>
+  <span class="o">-</span> <span class="n">ZoneA</span> <span class="o">-&gt;</span> <span class="n">ZoneB</span> <span class="p">(</span><span class="n">Status</span><span class="o">=</span><span class="n">missing</span><span class="p">)</span>
+  <span class="o">-</span> <span class="n">ZoneC</span> <span class="o">-&gt;</span> <span class="n">ZoneD</span> <span class="p">(</span><span class="n">Status</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-4-time-series-interpolation">
+<h2>Step 4: Time Series Interpolation<a class="headerlink" href="#step-4-time-series-interpolation" title="Permalink to this heading">#</a></h2>
+<p>Linearly interpolates yearly parameters to match all model years in <code class="docutils literal notranslate"><span class="pre">y.csv</span></code>.</p>
+<section id="interpolated-parameters">
+<h3>Interpolated Parameters<a class="headerlink" href="#interpolated-parameters" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pDemandForecast</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pCapexTrajectories</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pTradePrice</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit</span></code></p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>Behavior<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Groups data by non-year columns (e.g., zone, technology)</p></li>
+<li><p>Performs linear interpolation between provided years</p></li>
+<li><p>Extrapolates using edge values for years outside the range</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">#</a></h3>
+<p>If input provides data for years 2025 and 2035:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>z,y,value
+ZoneA,2025,100
+ZoneA,2035,150
+</pre></div>
+</div>
+<p>And <code class="docutils literal notranslate"><span class="pre">y.csv</span></code> contains 2025, 2030, 2035:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Interpolated</span> <span class="n">result</span><span class="p">:</span>
+<span class="n">ZoneA</span><span class="p">,</span><span class="mi">2025</span><span class="p">,</span><span class="mf">100.0</span>
+<span class="n">ZoneA</span><span class="p">,</span><span class="mi">2030</span><span class="p">,</span><span class="mf">125.0</span>  <span class="c1"># interpolated</span>
+<span class="n">ZoneA</span><span class="p">,</span><span class="mi">2035</span><span class="p">,</span><span class="mf">150.0</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Example Log Output<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">input_treatment</span><span class="p">][</span><span class="n">interpolate</span><span class="p">]</span> <span class="n">Linear</span> <span class="n">interpolation</span> <span class="n">performed</span> <span class="n">on</span> <span class="n">pDemandForecast</span> <span class="n">to</span> <span class="n">match</span> <span class="n">model</span> <span class="n">years</span> <span class="mi">2025</span><span class="o">-</span><span class="mf">2050.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-5-hydro-availability-monitoring">
+<h2>Step 5: Hydro Availability Monitoring<a class="headerlink" href="#step-5-hydro-availability-monitoring" title="Permalink to this heading">#</a></h2>
+<p>Checks that hydro generators (ReservoirHydro, ROR) have availability data.</p>
+<section id="reservoirhydro-check">
+<h3>ReservoirHydro Check<a class="headerlink" href="#reservoirhydro-check" title="Permalink to this heading">#</a></h3>
+<p>Verifies each ReservoirHydro generator has entries in <code class="docutils literal notranslate"><span class="pre">pAvailability</span></code>.</p>
+</section>
+<section id="ror-check">
+<h3>ROR Check<a class="headerlink" href="#ror-check" title="Permalink to this heading">#</a></h3>
+<p>Verifies each ROR (run-of-river) generator has hourly profiles in <code class="docutils literal notranslate"><span class="pre">pVREgenProfile</span></code>.</p>
+</section>
+<section id="auto-fill-optional">
+<h3>Auto-Fill (Optional)<a class="headerlink" href="#auto-fill-optional" title="Permalink to this heading">#</a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">EPM_FILL_HYDRO_AVAILABILITY=1</span></code> in pSettings:</p>
+<ul class="simple">
+<li><p>Missing ReservoirHydro availability is filled from zone/tech averages</p></li>
+<li><p>Missing ROR profiles can be derived from seasonal availability</p></li>
+</ul>
+</section>
+<section id="enabling-auto-fill">
+<h3>Enabling Auto-Fill<a class="headerlink" href="#enabling-auto-fill" title="Permalink to this heading">#</a></h3>
+<ol class="arabic">
+<li><p><strong>Via pSettings.csv</strong>:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>Abbreviation,Value
+EPM_FILL_HYDRO_AVAILABILITY,1
+</pre></div>
+</div>
+</li>
+<li><p><strong>Via environment variable</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPM_FILL_HYDRO_AVAILABILITY</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="id7">
+<h3>Example Log Output<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Reservoir</span> <span class="n">hydro</span> <span class="n">availability</span> <span class="n">check</span><span class="p">:</span> <span class="nb">all</span> <span class="mi">15</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">defined</span> <span class="ow">in</span> <span class="n">pGenDataInput</span> <span class="n">have</span> <span class="n">entries</span> <span class="ow">in</span> <span class="n">pAvailability</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">input_treatment</span><span class="p">][</span><span class="n">hydro_avail</span><span class="p">]</span> <span class="n">Reservoir</span> <span class="n">hydro</span> <span class="n">warning</span><span class="p">:</span> <span class="mi">3</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">lack</span> <span class="n">entries</span> <span class="ow">in</span> <span class="n">pAvailability</span><span class="o">.</span>
+  <span class="n">Missing</span> <span class="n">reservoir</span> <span class="n">capacity</span><span class="o">-</span><span class="n">factor</span> <span class="n">rows</span> <span class="n">by</span> <span class="n">zone</span><span class="p">:</span>
+    <span class="n">zone</span> <span class="n">ZoneA</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Hydro1&#39;</span><span class="p">,</span> <span class="s1">&#39;Hydro2&#39;</span><span class="p">]</span>
+    <span class="n">zone</span> <span class="n">ZoneB</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Hydro3&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-6-hydro-capex-monitoring">
+<h2>Step 6: Hydro Capex Monitoring<a class="headerlink" href="#step-6-hydro-capex-monitoring" title="Permalink to this heading">#</a></h2>
+<p>Checks that committed/candidate hydro generators have Capex defined.</p>
+<section id="target-generators">
+<h3>Target Generators<a class="headerlink" href="#target-generators" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Technologies: <code class="docutils literal notranslate"><span class="pre">ReservoirHydro</span></code>, <code class="docutils literal notranslate"><span class="pre">ROR</span></code></p></li>
+<li><p>Status: 2 (Committed) or 3 (Candidate)</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Auto-Fill (Optional)<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>When <code class="docutils literal notranslate"><span class="pre">EPM_FILL_HYDRO_CAPEX=1</span></code> in pSettings:</p>
+<ul class="simple">
+<li><p>Missing Capex is filled using the mean from existing generators in the same zone and technology</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>Enabling Auto-Fill<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<ol class="arabic">
+<li><p><strong>Via pSettings.csv</strong>:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>Abbreviation,Value
+EPM_FILL_HYDRO_CAPEX,1
+</pre></div>
+</div>
+</li>
+<li><p><strong>Via environment variable</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">EPM_FILL_HYDRO_CAPEX</span><span class="o">=</span><span class="m">1</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="id10">
+<h3>Example Log Output<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Hydro</span> <span class="n">capex</span> <span class="n">warning</span><span class="p">:</span> <span class="mi">2</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;ROR&#39;</span><span class="p">,</span> <span class="s1">&#39;ReservoirHydro&#39;</span><span class="p">}</span> <span class="k">with</span> <span class="n">status</span> <span class="mi">2</span> <span class="ow">or</span> <span class="mi">3</span> <span class="n">have</span> <span class="n">no</span> <span class="n">Capex</span> <span class="n">defined</span><span class="o">.</span>
+  <span class="n">Missing</span> <span class="n">hydro</span> <span class="n">capex</span> <span class="n">entries</span> <span class="n">by</span> <span class="n">zone</span><span class="p">:</span>
+    <span class="n">zone</span> <span class="n">ZoneA</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;NewHydro1&#39;</span><span class="p">]</span>
+    <span class="n">zone</span> <span class="n">ZoneB</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;NewHydro2&#39;</span><span class="p">]</span>
+  <span class="o">-&gt;</span> <span class="n">Auto</span><span class="o">-</span><span class="n">filled</span> <span class="n">Capex</span> <span class="k">for</span> <span class="n">NewHydro1</span> <span class="p">(</span><span class="n">ReservoirHydro</span><span class="p">,</span> <span class="n">zone</span><span class="p">:</span> <span class="n">ZoneA</span><span class="p">)</span> <span class="n">using</span> <span class="n">the</span> <span class="n">mean</span> <span class="n">value</span> <span class="mf">2500.000</span> <span class="kn">from</span><span class="w"> </span><span class="nn">existing</span> <span class="n">generators</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">same</span> <span class="n">zone</span> <span class="ow">and</span> <span class="n">technology</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-7-default-value-filling-pgendatainput">
+<h2>Step 7: Default Value Filling (pGenDataInput)<a class="headerlink" href="#step-7-default-value-filling-pgendatainput" title="Permalink to this heading">#</a></h2>
+<p>Fills missing values in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> using <code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault</span></code>.</p>
+<section id="how-it-works">
+<h3>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Unstack both parameters by header (Capacity, Capex, vOM, etc.)</p></li>
+<li><p>Fill NaN values in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> with corresponding values from <code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault</span></code></p></li>
+<li><p>Add any columns present in defaults but missing from custom input</p></li>
+</ol>
+</section>
+<section id="matching-logic">
+<h3>Matching Logic<a class="headerlink" href="#matching-logic" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Matches on zone (z), technology (tech), and fuel (f)</p></li>
+<li><p>Custom values always take priority over defaults</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Example<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pGenDataInputDefault.csv</span></code>:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>z,tech,f,pGenDataInputHeader,value
+ZoneA,CCGT,Gas,Capex,800
+ZoneA,CCGT,Gas,vOM,3
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">pGenDataInput.csv</span></code>:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>g,z,tech,f,pGenDataInputHeader,value
+CCGT_ZoneA_1,ZoneA,CCGT,Gas,Capacity,500
+</pre></div>
+</div>
+<p>Result: CCGT_ZoneA_1 gets Capex=800 and vOM=3 from defaults.</p>
+</section>
+</section>
+<section id="step-8-styr-for-existing-generators">
+<h2>Step 8: StYr for Existing Generators<a class="headerlink" href="#step-8-styr-for-existing-generators" title="Permalink to this heading">#</a></h2>
+<p>Sets the start year (StYr) for existing generators (Status=1) if missing.</p>
+<section id="default-value">
+<h3>Default Value<a class="headerlink" href="#default-value" title="Permalink to this heading">#</a></h3>
+<p>StYr is set to <code class="docutils literal notranslate"><span class="pre">(first</span> <span class="pre">model</span> <span class="pre">year)</span> <span class="pre">-</span> <span class="pre">1</span></code></p>
+</section>
+<section id="id12">
+<h3>Behavior<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Only affects generators with Status=1</p></li>
+<li><p>If StYr is already set, no change is made</p></li>
+<li><p>Adds StYr row if completely missing</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>Example Log Output<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">input_treatment</span><span class="p">][</span><span class="n">defaults</span><span class="p">]</span> <span class="n">Added</span> <span class="n">StYr</span><span class="o">=</span><span class="mi">2024</span> <span class="k">for</span> <span class="mi">5</span> <span class="n">existing</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="p">(</span><span class="n">Status</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> <span class="n">Gen1</span><span class="p">,</span> <span class="n">Gen2</span><span class="p">,</span> <span class="n">Gen3</span><span class="p">,</span> <span class="n">Gen4</span><span class="p">,</span> <span class="n">Gen5</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-9-availability-expansion">
+<h2>Step 9: Availability Expansion<a class="headerlink" href="#step-9-availability-expansion" title="Permalink to this heading">#</a></h2>
+<p>Expands <code class="docutils literal notranslate"><span class="pre">pAvailabilityInput(g,q)</span></code> to <code class="docutils literal notranslate"><span class="pre">pAvailability(g,y,q)</span></code> by copying across all years.</p>
+<section id="input-format">
+<h3>Input Format<a class="headerlink" href="#input-format" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pAvailabilityCustom.csv</span></code> contains seasonal availability without year dimension:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>g,q,value
+Hydro1,q1,0.8
+Hydro1,q2,0.9
+</pre></div>
+</div>
+</section>
+<section id="output-format">
+<h3>Output Format<a class="headerlink" href="#output-format" title="Permalink to this heading">#</a></h3>
+<p>Expanded to all model years:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>g,y,q,value
+Hydro1,2025,q1,0.8
+Hydro1,2025,q2,0.9
+Hydro1,2030,q1,0.8
+Hydro1,2030,q2,0.9
+...
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-10-availability-default-filling">
+<h2>Step 10: Availability Default Filling<a class="headerlink" href="#step-10-availability-default-filling" title="Permalink to this heading">#</a></h2>
+<p>Fills missing <code class="docutils literal notranslate"><span class="pre">pAvailability</span></code> values using <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault</span></code>.</p>
+<section id="id14">
+<h3>Matching Logic<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Matches generators in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> with defaults by (zone, tech, fuel)</p></li>
+<li><p>Default availability is then assigned to generators missing availability data</p></li>
+</ul>
+</section>
+<section id="error-handling">
+<h3>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this heading">#</a></h3>
+<p>If a generator has no availability after filling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">Warning</span><span class="p">:</span> <span class="n">the</span> <span class="n">following</span> <span class="n">generator</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">have</span> <span class="n">no</span> <span class="n">entries</span> <span class="ow">in</span> <span class="n">pAvailability</span> <span class="ow">and</span> <span class="n">will</span> <span class="n">have</span> <span class="n">implicit</span> <span class="n">availability</span> <span class="n">of</span> <span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Gen1&#39;</span><span class="p">,</span> <span class="s1">&#39;Gen2&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="step-11-availability-evolution">
+<h2>Step 11: Availability Evolution<a class="headerlink" href="#step-11-availability-evolution" title="Permalink to this heading">#</a></h2>
+<p>Applies year-dependent availability evolution factors from <code class="docutils literal notranslate"><span class="pre">pEvolutionAvailability</span></code>.</p>
+<section id="formula">
+<h3>Formula<a class="headerlink" href="#formula" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pAvailability</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="o">=</span> <span class="n">pAvailability</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">pEvolutionAvailability</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>Behavior<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Only generators with entries in <code class="docutils literal notranslate"><span class="pre">pEvolutionAvailability</span></code> are affected</p></li>
+<li><p>Linear interpolation is performed for missing years</p></li>
+<li><p>Default evolution factor is 0 (no change)</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>Example<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">pEvolutionAvailability.csv</span></code>:</p>
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>g,y,value
+Hydro1,2025,0.0
+Hydro1,2050,-0.1
+</pre></div>
+</div>
+<p>This reduces Hydro1’s availability by 10% by 2050, with linear interpolation between years.</p>
+</section>
+</section>
+<section id="step-12-capex-trajectories">
+<h2>Step 12: Capex Trajectories<a class="headerlink" href="#step-12-capex-trajectories" title="Permalink to this heading">#</a></h2>
+<p>Fills missing <code class="docutils literal notranslate"><span class="pre">pCapexTrajectories</span></code> values using <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault</span></code>.</p>
+<section id="id17">
+<h3>Behavior<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<p>Same as availability defaults - matches by (zone, tech, fuel) and fills missing values.</p>
+</section>
+</section>
+<section id="column-renaming">
+<h2>Column Renaming<a class="headerlink" href="#column-renaming" title="Permalink to this heading">#</a></h2>
+<p>The input treatment automatically renames columns to match GAMS expectations:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Renames</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code></p></td>
+<td><p>uni → pGenDataInputHeader, gen → g, zone → z, fuel → f</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pAvailabilityInput</span></code></p></td>
+<td><p>uni → q, gen → g</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pNewTransmission</span></code></p></td>
+<td><p>From → z, To → z2, uni → pTransmissionHeader</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">zcmap</span></code></p></td>
+<td><p>country → c, zone → z</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pDemandForecast</span></code></p></td>
+<td><p>type → pe, uni → y, zone → z</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pTransferLimit</span></code></p></td>
+<td><p>From → z, To → z2, uni → y</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="debugging-input-treatment">
+<h2>Debugging Input Treatment<a class="headerlink" href="#debugging-input-treatment" title="Permalink to this heading">#</a></h2>
+<section id="run-standalone">
+<h3>Run Standalone<a class="headerlink" href="#run-standalone" title="Permalink to this heading">#</a></h3>
+<p>You can test input treatment outside of GAMS:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>epm
+python<span class="w"> </span>input_treatment.py
+</pre></div>
+</div>
+<p>This reads <code class="docutils literal notranslate"><span class="pre">epm/test/input.gdx</span></code>, applies all treatments, and writes to <code class="docutils literal notranslate"><span class="pre">epm/test/input_treated.gdx</span></code>.</p>
+</section>
+<section id="enable-verbose-logging">
+<h3>Enable Verbose Logging<a class="headerlink" href="#enable-verbose-logging" title="Permalink to this heading">#</a></h3>
+<p>Check the GAMS log file (e.g., <code class="docutils literal notranslate"><span class="pre">baseline_main.log</span></code>) for detailed input treatment messages:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">============================================================</span>
+<span class="p">[</span><span class="n">input_treatment</span><span class="p">]</span> <span class="n">starting</span>
+<span class="o">============================================================</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">Filter</span> <span class="n">inputs</span> <span class="n">to</span> <span class="n">allowed</span> <span class="n">zones</span>
+<span class="o">------------------------------------------------------------</span>
+<span class="n">pGenDataInput</span><span class="p">:</span> <span class="n">removing</span> <span class="mi">0</span> <span class="n">row</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">with</span> <span class="n">zones</span> <span class="n">outside</span> <span class="n">zcmap</span><span class="o">.</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="auto-fill-settings-summary">
+<h2>Auto-Fill Settings Summary<a class="headerlink" href="#auto-fill-settings-summary" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>pSettings Key</p></th>
+<th class="head"><p>Environment Variable</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Hydro Availability</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EPM_FILL_HYDRO_AVAILABILITY</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EPM_FILL_HYDRO_AVAILABILITY</span></code></p></td>
+<td><p>0 (disabled)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hydro Capex</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EPM_FILL_HYDRO_CAPEX</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EPM_FILL_HYDRO_CAPEX</span></code></p></td>
+<td><p>0 (disabled)</p></td>
+</tr>
+<tr class="row-even"><td><p>ROR from Availability</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">EPM_FILL_ROR_FROM_AVAILABILITY</span></code></p></td>
+<td><p>-</p></td>
+<td><p>0 (disabled)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="common-issues">
+<h2>Common Issues<a class="headerlink" href="#common-issues" title="Permalink to this heading">#</a></h2>
+<section id="missing-zones">
+<h3>Missing Zones<a class="headerlink" href="#missing-zones" title="Permalink to this heading">#</a></h3>
+<p><strong>Symptom</strong>: Generators removed unexpectedly</p>
+<p><strong>Cause</strong>: Zone names in input files don’t match <code class="docutils literal notranslate"><span class="pre">zcmap.csv</span></code></p>
+<p><strong>Solution</strong>: Ensure zone names are consistent across all files</p>
+</section>
+<section id="missing-availability">
+<h3>Missing Availability<a class="headerlink" href="#missing-availability" title="Permalink to this heading">#</a></h3>
+<p><strong>Symptom</strong>: Warning about generators with availability=0</p>
+<p><strong>Cause</strong>: Generator in <code class="docutils literal notranslate"><span class="pre">pGenDataInput</span></code> has no matching entry in <code class="docutils literal notranslate"><span class="pre">pAvailability</span></code></p>
+<p><strong>Solution</strong>: Add availability data or check default file coverage</p>
+</section>
+<section id="nan-values-in-defaults">
+<h3>NaN Values in Defaults<a class="headerlink" href="#nan-values-in-defaults" title="Permalink to this heading">#</a></h3>
+<p><strong>Symptom</strong>: Error about missing values in defaults</p>
+<p><strong>Cause</strong>: <code class="docutils literal notranslate"><span class="pre">pAvailabilityDefault</span></code> or <code class="docutils literal notranslate"><span class="pre">pCapexTrajectoriesDefault</span></code> missing required combinations</p>
+<p><strong>Solution</strong>: Ensure all (zone, tech, fuel) combinations have entries in default files</p>
+</section>
+<section id="invalid-status">
+<h3>Invalid Status<a class="headerlink" href="#invalid-status" title="Permalink to this heading">#</a></h3>
+<p><strong>Symptom</strong>: Generator capacity unexpectedly zero</p>
+<p><strong>Cause</strong>: Status value is not 1, 2, or 3</p>
+<p><strong>Solution</strong>: Set valid Status in <code class="docutils literal notranslate"><span class="pre">pGenDataInput.csv</span></code></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs/input"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="resources.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Resource Files</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="input_set_definition.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Set definition</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#processing-steps">
+   Processing Steps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-1-zone-filtering">
+   Step 1: Zone Filtering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#affected-parameters">
+     Affected Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#behavior">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-log-output">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-2-invalid-generator-status">
+   Step 2: Invalid Generator Status
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#valid-status-values">
+     Valid Status Values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-3-invalid-transmission-status">
+   Step 3: Invalid Transmission Status
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-4-time-series-interpolation">
+   Step 4: Time Series Interpolation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#interpolated-parameters">
+     Interpolated Parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example">
+     Example
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-5-hydro-availability-monitoring">
+   Step 5: Hydro Availability Monitoring
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#reservoirhydro-check">
+     ReservoirHydro Check
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ror-check">
+     ROR Check
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#auto-fill-optional">
+     Auto-Fill (Optional)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#enabling-auto-fill">
+     Enabling Auto-Fill
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-6-hydro-capex-monitoring">
+   Step 6: Hydro Capex Monitoring
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#target-generators">
+     Target Generators
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     Auto-Fill (Optional)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     Enabling Auto-Fill
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-7-default-value-filling-pgendatainput">
+   Step 7: Default Value Filling (pGenDataInput)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-it-works">
+     How It Works
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#matching-logic">
+     Matching Logic
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id11">
+     Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-8-styr-for-existing-generators">
+   Step 8: StYr for Existing Generators
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#default-value">
+     Default Value
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id12">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id13">
+     Example Log Output
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-9-availability-expansion">
+   Step 9: Availability Expansion
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-format">
+     Input Format
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#output-format">
+     Output Format
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-10-availability-default-filling">
+   Step 10: Availability Default Filling
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id14">
+     Matching Logic
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#error-handling">
+     Error Handling
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-11-availability-evolution">
+   Step 11: Availability Evolution
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#formula">
+     Formula
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id15">
+     Behavior
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id16">
+     Example
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#step-12-capex-trajectories">
+   Step 12: Capex Trajectories
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id17">
+     Behavior
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#column-renaming">
+   Column Renaming
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#debugging-input-treatment">
+   Debugging Input Treatment
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#run-standalone">
+     Run Standalone
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#enable-verbose-logging">
+     Enable Verbose Logging
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#auto-fill-settings-summary">
+   Auto-Fill Settings Summary
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#common-issues">
+   Common Issues
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#missing-zones">
+     Missing Zones
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#missing-availability">
+     Missing Availability
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#nan-values-in-defaults">
+     NaN Values in Defaults
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#invalid-status">
+     Invalid Status
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By ESMAP
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Dec 17, 2025.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>

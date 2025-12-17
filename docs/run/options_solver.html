@@ -1,0 +1,2403 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Solver Options for EPM &#8212; Energy Planning Model</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run/options_solver';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run/options_solver.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Threading and Parallelism in EPM" href="options_thread.html" />
+    <link rel="prev" title="Summary Command line" href="run_summary.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="docsearch:language" content="en">
+  </head>
+  
+  
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="180" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__primary" id="__primary">
+  <label class="overlay overlay-primary" for="__primary"></label>
+
+  
+  <input type="checkbox" class="sidebar-toggle" name="__secondary" id="__secondary">
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+      
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+  </div>
+
+  
+  <nav class="bd-header navbar navbar-expand-lg bd-navbar" id="navbar-main"><div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+      <span class="fa-solid fa-bars"></span>
+  </label>
+  <div id="navbar-start">
+    
+    
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    
+  </div>
+
+  
+  <div class="col-lg-9 navbar-header-items">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="configuration.html">
+                        Configuration Flow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_dispatch.html">
+                        Dispatch Mode Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="gams.html">
+                        GAMS (General Algebraic Modeling System) help
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/resources.html">
+                        Resource Files
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_treatment.html">
+                        Input Treatment
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/examples.html">
+                        EPM Output Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/equations.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
+                        Supply-demand balance
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/interconnection.html">
+                        Transmission Line Capacity and Cost Calculator – Explanatory Notes
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+        <div class="navbar-end-item navbar-persistent--container">
+          
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+        </div>
+      
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+
+
+  
+  
+    <div class="navbar-persistent--mobile">
+<button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-toggle="tooltip">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</button>
+    </div>
+  
+
+  
+  <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+  </label>
+  
+
+</div>
+  </nav>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+      
+      <div class="navbar-center-item">
+        <nav class="navbar-nav">
+    <p class="sidebar-header-items__title" role="heading" aria-level="1" aria-label="Site Navigation">
+        Site Navigation
+    </p>
+    <ul id="navbar-main-elements" class="navbar-nav">
+        
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction.html">
+                        About EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../introduction/introduction_case_studies.html">
+                        EPM Recent Case Studies
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_folder_structure.html">
+                        EPM Folder structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_prerequisites.html">
+                        Prerequisites: Install Required Tools
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_installation.html">
+                        EPM Installation Guide
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_gams_studio.html">
+                        Run EPM from GAMS Studio
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python.html">
+                        Run EPM from Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="configuration.html">
+                        Configuration Flow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
+                        Run EPM from Python - Advanced Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_python_summary.html">
+                        Run EPM with Python - Summary
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
+                        Run EPM on the Remote Server
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_git_process.html">
+                        Git Procedure for Beginners
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_epm_setup.html">
+                        EPM Code Set Up
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_dispatch.html">
+                        Dispatch Mode Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_debugging.html">
+                        Debugging EPM Models in GAMS
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
+                        Common Issues & Troubleshooting
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="run_summary.html">
+                        Summary Command line
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Solver Options for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="options_thread.html">
+                        Threading and Parallelism in EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="gams.html">
+                        GAMS (General Algebraic Modeling System) help
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_structure.html">
+                        Input Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_overview.html">
+                        Input Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_detailed.html">
+                        Input Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/resources.html">
+                        Resource Files
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_treatment.html">
+                        Input Treatment
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_set_definition.html">
+                        Set definition
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_from_excel_to_csv.html">
+                        Transitioning from Excel to CSV
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_technology_brief.html">
+                        Technology Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_fuel_brief.html">
+                        Fuel Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../input/input_representative_days.html">
+                        Representative Days
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/examples.html">
+                        EPM Output Examples
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_EPM.html">
+                        EPM Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output.html">
+                        Output Folder Structure
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_overview.html">
+                        Postprocessing Output Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau.html">
+                        Tableau Workflow
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau_advanced.html">
+                        Tableau Advanced Tutorial: How to modify Tableau visualization
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_overview.html">
+                        Mathematical Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_description.html">
+                        Model Description
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_notations.html">
+                        Notations
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/model_formulation.html">
+                        Model Formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../model/equations.html">
+                        Mathematical formulation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/advanced_python.html">
+                        Advanced Use of the Python API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
+                        Postprocessing with Python
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_code.html">
+                        Contributing to the code
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_docs.html">
+                        Contributing to the documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_postprocess.html">
+                        Contributing postprocess
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_overview.html">
+                        Preanalysis Folder Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_projects.html">
+                        Data Preparation Workflow Documentation
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
+                        Climatic Overview
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
+                        Get Renewables Coordinates
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
+                        Demand Forecast Plots
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
+                        Hydro Availability Builder
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
+                        Supply-demand balance
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
+                        Representative Days for EPM
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_open_data.html">
+                        Open-Source Data (in progress)
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/other_process.html">
+                        Electricity Planning Standard Process
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../other/interconnection.html">
+                        Transmission Line Capacity and Cost Calculator – Explanatory Notes
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+    </ul>
+</nav>
+      </div>
+      
+      </div>
+    
+
+    
+    
+    <div class="sidebar-header-items__end">
+      
+      <div class="navbar-end-item">
+        <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+</button>
+      </div>
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+      </ul>
+      </div>
+      
+    </div>
+    
+  </div>
+
+  
+  <div class="sidebar-start-items sidebar-primary__section">
+    <div class="sidebar-start-items__item">
+  
+
+
+<a class="navbar-brand logo" href="../../home.html">
+
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+  
+  
+</a>
+    </div>
+    <div class="sidebar-start-items__item">
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+    </div>
+    <div class="sidebar-start-items__item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">About EPM</a></li>
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction_case_studies.html">EPM Recent Case Studies</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_epm_setup.html">EPM Code Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_dispatch.html">Dispatch Mode Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_debugging.html">Debugging EPM Models in GAMS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_summary.html">Summary Command line</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gams.html">GAMS (General Algebraic Modeling System) help</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../input/input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/resources.html">Resource Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_treatment.html">Input Treatment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_fuel_brief.html">Fuel Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_representative_days.html">Representative Days</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../output/examples.html">EPM Output Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output_EPM.html">EPM Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_tableau.html">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_formulation.html">Model Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/equations.html">Mathematical formulation</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced/advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/postprocessing.html">Postprocessing with Python</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_code.html">Contributing to the code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_docs.html">Contributing to the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_postprocess.html">Contributing postprocess</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Pre-processing Analysis</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_overview.html">Preanalysis Folder Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_projects.html">Data Preparation Workflow Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/climatic_overview.html">Climatic Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/load_plot.html">Demand Forecast Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/hydro_availability.html">Hydro Availability Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">Supply-demand balance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">Representative Days for EPM</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../other/other_open_data.html">Open-Source Data (in progress)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/other_process.html">Electricity Planning Standard Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/interconnection.html">Transmission Line Capacity and Cost Calculator – Explanatory Notes</a></li>
+</ul>
+
+    </div>
+</nav>
+    </div>
+  </div>
+  
+
+  
+  <div class="sidebar-end-items sidebar-primary__section">
+    <div class="sidebar-end-items__item">
+    </div>
+  </div>
+
+  
+  <div id="rtd-footer-container"></div>
+
+      </div>
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+        <div class="bd-content">
+          <div class="bd-article-container">
+            
+            <div class="bd-header-article">
+                
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        <label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" data-toggle="tooltip" data-placement="right" title="Toggle primary sidebar">
+            <span class="fa-solid fa-bars"></span>
+        </label>
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<div class="dropdown dropdown-repository-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">repository</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/run/options_solver.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">open issue</span>
+</a>
+</a>
+      
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/run/options_solver.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">suggest edit</span>
+</a>
+</a>
+      
+  </ul>
+</div>
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      <li><a href="../../_sources/docs/run/options_solver.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</a>
+      
+      <li>
+<button onclick="printPdf(this)"
+  class="btn btn-sm dropdown-item"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</a>
+      
+  </ul>
+</div>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary" data-toggle="tooltip" data-placement="left" title="Toggle secondary sidebar">
+            <span class="fa-solid fa-list"></span>
+        </label>
+    </div>
+</div>
+            </div>
+            
+            
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Solver Options for EPM</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-the-solver-works-new-users">
+   How the Solver Works (new users)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recommended-solver-parameters">
+   Recommended Solver Parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optcr-recommended-0-01">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       optcr
+      </span>
+     </code>
+     (recommended 0.01)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mipemphasis-recommended-0-for-balanced-runs">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       mipemphasis
+      </span>
+     </code>
+     (recommended 0 for balanced runs)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lpmethod-recommended-4-for-energy-planning">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       lpmethod
+      </span>
+     </code>
+     (recommended 4 for energy planning)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#threads-recommended-812">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       threads
+      </span>
+     </code>
+     (recommended 8–12)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baralg-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       baralg
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcrossalg-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcrossalg
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcolnz-default-0-recommended-500">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcolnz
+      </span>
+     </code>
+     (default 0, recommended 500)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barepcomp-recommended-1e-5">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barepcomp
+      </span>
+     </code>
+     (recommended 1e-5)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#solutiontype-recommended-2-for-rmip-lp-1-for-mip-warm-starts">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       solutiontype
+      </span>
+     </code>
+     (recommended 2 for RMIP/LP, 1 for MIP warm starts)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parallelmode-recommended-1-for-reproducibility">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       parallelmode
+      </span>
+     </code>
+     (recommended 1 for reproducibility)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#startalg-recommended-4">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       startalg
+      </span>
+     </code>
+     (recommended 4)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#memoryemphasis-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       memoryemphasis
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predual-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       predual
+      </span>
+     </code>
+     (recommended -1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaind-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       scaind
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#auxrootthreads-recommended-0">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       auxrootthreads
+      </span>
+     </code>
+     (recommended 0)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristics-recommended-0-05">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       heuristics
+      </span>
+     </code>
+     (recommended 0.05)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cuts-recommended-1-for-automatic">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       cuts
+      </span>
+     </code>
+     (recommended -1 for automatic)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mipdisplay-recommended-45">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       mipdisplay
+      </span>
+     </code>
+     (recommended 4–5)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#names-recommended-yes">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       names
+      </span>
+     </code>
+     (recommended yes)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#iis-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       iis
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bardisplay-recommended-2">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       bardisplay
+      </span>
+     </code>
+     (recommended 2)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solver-types-for-epm">
+   Solver Types for EPM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predefined-cplex-option-files">
+   Predefined CPLEX Option Files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#resources">
+   Resources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+            <article class="bd-article" role="main">
+              
+  <section class="tex2jax_ignore mathjax_ignore" id="solver-options-for-epm">
+<h1>Solver Options for EPM<a class="headerlink" href="#solver-options-for-epm" title="Permalink to this heading">#</a></h1>
+<p>EPM solves large-scale mixed-integer programs (MIPs). Properly configuring modeltype options can significantly reduce runtime and improve numerical stability.</p>
+<p>modeltype settings are defined in a <code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code> file.<br />
+→ See <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/cplex.opt">example <code class="docutils literal notranslate"><span class="pre">cplex.opt</span></code></a> for reference.</p>
+<hr class="docutils" />
+<section id="how-the-solver-works-new-users">
+<h2>How the Solver Works (new users)<a class="headerlink" href="#how-the-solver-works-new-users" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Build the equations.</strong> EPM translates your inputs into a large linear model. You choose whether it includes integer decisions via the <code class="docutils literal notranslate"><span class="pre">modeltype</span></code> flag (for example <code class="docutils literal notranslate"><span class="pre">MIP</span></code> or <code class="docutils literal notranslate"><span class="pre">RMIP</span></code>).</p></li>
+<li><p><strong>Presolve trims the problem.</strong> CPLEX removes redundant rows, tightens bounds, and prepares the first LP. If it looks stuck here, the log will linger on “Presolve”; consider adjusting <code class="docutils literal notranslate"><span class="pre">auxrootthreads</span></code> or the data itself.</p></li>
+<li><p><strong>Root LP is solved.</strong> CPLEX decides automatically between dual-simplex and barrier (interior-point) depending on difficulty. This is where settings like <code class="docutils literal notranslate"><span class="pre">lpmethod</span></code>, <code class="docutils literal notranslate"><span class="pre">baralg</span></code>, and <code class="docutils literal notranslate"><span class="pre">barcolnz</span></code> matter most.</p></li>
+<li><p><strong>Branch-and-bound (MIP only).</strong> If you run a MIP, the solver explores branches to enforce integrality, guided by <code class="docutils literal notranslate"><span class="pre">optcr</span></code>, <code class="docutils literal notranslate"><span class="pre">mipemphasis</span></code>, <code class="docutils literal notranslate"><span class="pre">heuristics</span></code>, and <code class="docutils literal notranslate"><span class="pre">cuts</span></code>. In RMIP mode there is no branching, so the run finishes here.</p></li>
+<li><p><strong>Results are reported.</strong> The solver writes solution files, IIS diagnostics (if requested), and logs.</p></li>
+</ol>
+<p><strong>Decisions you need to make:</strong> (a) pick <code class="docutils literal notranslate"><span class="pre">modeltype</span></code> (MIP for discrete builds, RMIP for relaxed analysis), (b) point <code class="docutils literal notranslate"><span class="pre">cplexfile</span></code> to the preset closest to your needs (speed vs precision), and (c) adjust the headline parameters (<code class="docutils literal notranslate"><span class="pre">optcr</span></code>, <code class="docutils literal notranslate"><span class="pre">mipemphasis</span></code>, <code class="docutils literal notranslate"><span class="pre">lpmethod</span></code>, <code class="docutils literal notranslate"><span class="pre">threads</span></code>) only when you have evidence they are limiting performance.</p>
+<blockquote>
+<div><p><strong>Quick vocabulary</strong></p>
+<ul class="simple">
+<li><p><strong>Barrier / interior-point</strong>: LP algorithm that keeps variables strictly within bounds while driving the objective to optimality; chosen automatically on hard relaxations.</p></li>
+<li><p><strong>Crossover</strong>: Post-barrier step that converts the interior solution into a simplex basis so branch-and-bound can reuse it efficiently.</p></li>
+<li><p><strong>Presolve / root node</strong>: Early simplification and the first LP solve before branching. Performance issues here slow down the entire run.</p></li>
+<li><p><strong>Helper threads</strong>: Auxiliary workers CPLEX uses at the root; disabling them (<code class="docutils literal notranslate"><span class="pre">auxrootthreads</span> <span class="pre">=</span> <span class="pre">0</span></code>) can unblock stagnating presolve phases.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="recommended-solver-parameters">
+<h2>Recommended Solver Parameters<a class="headerlink" href="#recommended-solver-parameters" title="Permalink to this heading">#</a></h2>
+<p>When tuning, focus first on <strong><code class="docutils literal notranslate"><span class="pre">optcr</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">mipemphasis</span></code></strong>, <strong><code class="docutils literal notranslate"><span class="pre">lpmethod</span></code></strong>, and <strong><code class="docutils literal notranslate"><span class="pre">threads</span></code></strong>—they have the biggest impact on both runtime and result quality. The remaining parameters help you fine-tune stability and diagnostics once the core settings are in a good place.</p>
+<ul class="simple">
+<li><p><strong>Begin with the defaults on a small test case.</strong> Run a short scenario using the recommended table first; that will confirm the model is stable before you attempt aggressive tuning on full-scale studies.</p></li>
+<li><p><strong>Barrier controls (<code class="docutils literal notranslate"><span class="pre">baralg</span></code>, <code class="docutils literal notranslate"><span class="pre">barcolnz</span></code>, <code class="docutils literal notranslate"><span class="pre">barepcomp</span></code>) shape LP speed.</strong> Whenever CPLEX switches to the barrier (interior-point) algorithm—whether you are running a relaxed RMIP or a full MIP—these settings determine how quickly those LPs converge. Tweak them only if you see sluggish roots or frequent barrier calls; otherwise the recommended values are a solid default.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">solutiontype</span> <span class="pre">=</span> <span class="pre">2</span></code> (interior solution) is ideal for RMIP/LP analysis but not mandatory for MIPs.</strong> If you need a basic solution for warm starts or detailed tableau-based diagnostics, switch to <code class="docutils literal notranslate"><span class="pre">solutiontype</span> <span class="pre">=</span> <span class="pre">1</span></code>; otherwise the interior solution keeps the root solve smooth.</p></li>
+<li><p><strong>Stuck presolve or a hanging root node?</strong> Set <code class="docutils literal notranslate"><span class="pre">auxrootthreads</span> <span class="pre">=</span> <span class="pre">0</span></code> to disable helper threads. You will notice this situation in the solver log if the output pauses for a long time right after messages like “CPLEX Presolve” or “Root relaxation …” without reporting iteration counts; disabling the auxiliary threads usually lets the log resume with normal progress.</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Default (CPLEX)</p></th>
+<th class="head"><p>Recommended Value</p></th>
+<th class="head"><p>Quick Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">optcr</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.0001</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.01</span></code></p></td>
+<td><p>Relative optimality gap; tighten for production-quality results.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mipemphasis</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">(balanced)</span></code></p></td>
+<td><p>Guides MIP search toward speed (<code class="docutils literal notranslate"><span class="pre">1</span></code>) or proof of optimality (<code class="docutils literal notranslate"><span class="pre">2</span></code>); start from balanced.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lpmethod</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">(auto)</span></code></p></td>
+<td><p>Lets CPLEX pick between dual simplex and barrier; best default for energy planning models.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">threads</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">(auto)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">8–12</span></code></p></td>
+<td><p>Moderate parallelism keeps runtimes down without starving the machine.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">baralg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Uses barrier with crossover to produce a strong basis for MIP nodes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">barcrossalg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Dual simplex crossover after barrier; typically faster and more robust.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">barcolnz</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">(auto)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">500</span></code></p></td>
+<td><p>Increase toward 500 to manage dense columns when barrier slows down.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">barepcomp</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1e-6</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1e-5</span></code></p></td>
+<td><p>Complementarity tolerance; lower values boost accuracy, higher values finish faster.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">parallelmode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Deterministic parallelism for reproducible results; flip to <code class="docutils literal notranslate"><span class="pre">0</span></code> for exploratory runs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">startalg</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">(auto)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4</span> <span class="pre">(auto)</span></code></p></td>
+<td><p>Automatic choice of root-start algorithm; usually dual simplex for energy planning data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">memoryemphasis</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Activates memory-saving strategies to avoid swapping.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">predual</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code></p></td>
+<td><p>Lets CPLEX decide between primal/dual formulations; rarely worth forcing manually.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">scaind</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Automatic scaling to stabilize numerics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">auxrootthreads</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">(auto)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>Disables helper threads at the root to reduce contention on large MIPs.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">heuristics</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.05</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.05</span></code></p></td>
+<td><p>Light heuristic effort to get good incumbents early without heavy overhead.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cuts</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span> <span class="pre">(auto)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span> <span class="pre">(auto)</span></code></p></td>
+<td><p>Leave cutting planes on automatic unless diagnosing specific issues.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mipdisplay</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">4–5</span></code></p></td>
+<td><p>Verbosity level for branch-and-bound progress messages.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">solutiontype</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code> (RMIP/LP)</p></td>
+<td><p>Interior solution for relaxed runs; use <code class="docutils literal notranslate"><span class="pre">1</span></code> on MIPs when you need a basic (tableau) solution.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">names</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">auto</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">yes</span></code></p></td>
+<td><p>Keep symbol names for easier debugging and IIS reporting.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">iis</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">1</span></code></p></td>
+<td><p>Enable IIS extraction when infeasibilities occur.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bardisplay</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">2</span></code></p></td>
+<td><p>Medium verbosity for barrier progress diagnostics.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Top-of-table entries are the most impactful; rows toward the bottom mainly enhance monitoring or debugging.</p>
+<section id="optcr-recommended-0-01">
+<h3><code class="docutils literal notranslate"><span class="pre">optcr</span></code> (recommended 0.01)<a class="headerlink" href="#optcr-recommended-0-01" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0.0001</span></code></p></li>
+<li><p><strong>What it controls:</strong> Relative optimality gap used to stop branch-and-bound (<code class="docutils literal notranslate"><span class="pre">(bestBound</span> <span class="pre">-</span> <span class="pre">incumbent)/|incumbent|</span></code>).</p></li>
+<li><p><strong>Precision impact:</strong> Very high — smaller gaps deliver solutions closer to the true optimum.</p></li>
+<li><p><strong>Runtime impact:</strong> High — tightening from 0.05 to 0.01 can multiply solve time; relaxing does the opposite.</p></li>
+<li><p><strong>Applies to:</strong> MIP only; RMIP ignores the gap because it solves a single LP.</p></li>
+</ul>
+</section>
+<section id="mipemphasis-recommended-0-for-balanced-runs">
+<h3><code class="docutils literal notranslate"><span class="pre">mipemphasis</span></code> (recommended 0 for balanced runs)<a class="headerlink" href="#mipemphasis-recommended-0-for-balanced-runs" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+<li><p><strong>What it controls:</strong> Strategic focus of the MIP search (<code class="docutils literal notranslate"><span class="pre">0</span></code> balanced, <code class="docutils literal notranslate"><span class="pre">1</span></code> feasibility, <code class="docutils literal notranslate"><span class="pre">2</span></code> optimality, <code class="docutils literal notranslate"><span class="pre">3</span></code> best bound, <code class="docutils literal notranslate"><span class="pre">4</span></code> hidden feasible).</p></li>
+<li><p><strong>Precision impact:</strong> Medium — emphasis <code class="docutils literal notranslate"><span class="pre">1</span></code> can return decent solutions sooner but may stop with larger gaps.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — changing emphasis reorders node exploration and can save or cost significant time.</p></li>
+<li><p><strong>Applies to:</strong> MIP only.</p></li>
+</ul>
+</section>
+<section id="lpmethod-recommended-4-for-energy-planning">
+<h3><code class="docutils literal notranslate"><span class="pre">lpmethod</span></code> (recommended 4 for energy planning)<a class="headerlink" href="#lpmethod-recommended-4-for-energy-planning" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (primal simplex / automatic)</p></li>
+<li><p><strong>What it controls:</strong> Algorithm for LP relaxations (0=Primal simplex, 1=Dual simplex, 2=Network, 3=Barrier, 4=Automatic).</p></li>
+<li><p><strong>Energy-planning tip:</strong> Dual simplex (<code class="docutils literal notranslate"><span class="pre">1</span></code>) excels on sparse models with warm starts, while barrier (<code class="docutils literal notranslate"><span class="pre">3</span></code>) can be faster on tough relaxations; <code class="docutils literal notranslate"><span class="pre">4</span></code> lets CPLEX switch between them automatically and is usually the best choice for power-system planning models.</p></li>
+<li><p><strong>Simple comparison:</strong> Dual simplex walks along the boundary of feasible solutions with quick pivots, whereas barrier glides through the interior using smooth steps; both reach the same optimum but shine on different problem shapes.</p></li>
+<li><p><strong>Precision impact:</strong> Low — mainly affects numerical path, not the optimal solution itself.</p></li>
+<li><p><strong>Runtime impact:</strong> High — the LP engine is called at every node, so a good choice saves minutes or hours.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP (all solves rely on the LP engine).</p></li>
+</ul>
+</section>
+<section id="threads-recommended-812">
+<h3><code class="docutils literal notranslate"><span class="pre">threads</span></code> (recommended 8–12)<a class="headerlink" href="#threads-recommended-812" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (automatic thread selection)</p></li>
+<li><p><strong>What it controls:</strong> Maximum number of solver threads.</p></li>
+<li><p><strong>Precision impact:</strong> None — only influences how quickly the solver reaches the same answer.</p></li>
+<li><p><strong>Runtime impact:</strong> High — more threads reduce wall-clock time until oversubscription (&gt;16) adds overhead.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="baralg-recommended-1">
+<h3><code class="docutils literal notranslate"><span class="pre">baralg</span></code> (recommended 1)<a class="headerlink" href="#baralg-recommended-1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (standard barrier)</p></li>
+<li><p><strong>What it controls:</strong> Barrier algorithm variant (0=standard interior-point, 1=barrier followed by crossover).</p></li>
+<li><p><strong>Barrier objective explained:</strong> The barrier method minimizes the LP objective while adding logarithmic penalties that keep solutions strictly inside the feasible region; crossover (option <code class="docutils literal notranslate"><span class="pre">1</span></code>) then converts the interior solution into a basic solution suitable for branch-and-bound.</p></li>
+<li><p><strong>Precision impact:</strong> Medium — crossover produces a usable starting basis for integer phases.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — the extra crossover work often pays off by reducing effort in later nodes.</p></li>
+<li><p><strong>Applies to:</strong> Primarily MIP (benefits root basis), but also useful for RMIP.</p></li>
+</ul>
+</section>
+<section id="barcrossalg-recommended-1">
+<h3><code class="docutils literal notranslate"><span class="pre">barcrossalg</span></code> (recommended 1)<a class="headerlink" href="#barcrossalg-recommended-1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p><strong>What it controls:</strong> Method used during crossover after the barrier step (0=Primal simplex, 1=Dual simplex).</p></li>
+<li><p><strong>Precision impact:</strong> Low — both yield feasible bases, but the dual version maintains numerical stability on sparse models.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — dual simplex usually delivers faster crossovers for power-system matrices.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP when barrier is used.</p></li>
+</ul>
+</section>
+<section id="barcolnz-default-0-recommended-500">
+<h3><code class="docutils literal notranslate"><span class="pre">barcolnz</span></code> (default 0, recommended 500)<a class="headerlink" href="#barcolnz-default-0-recommended-500" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (automatic dense-column detection)</p></li>
+<li><p><strong>What it controls:</strong> Threshold for treating columns as dense during barrier factorization.</p></li>
+<li><p><strong>Precision impact:</strong> Low — changing the threshold influences numerical conditioning only indirectly.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium to high — leaving the default <code class="docutils literal notranslate"><span class="pre">0</span></code> lets CPLEX decide automatically; setting it near <code class="docutils literal notranslate"><span class="pre">500</span></code> makes dense handling more proactive (lowering it toward 300 treats more columns as dense, raising toward 700 keeps more sparse) and can unlock faster barrier factorizations.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP when barrier runs.</p></li>
+</ul>
+</section>
+<section id="barepcomp-recommended-1e-5">
+<h3><code class="docutils literal notranslate"><span class="pre">barepcomp</span></code> (recommended 1e-5)<a class="headerlink" href="#barepcomp-recommended-1e-5" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">1e-6</span></code></p></li>
+<li><p><strong>What it controls:</strong> Complementarity tolerance that stops the barrier iterations.</p></li>
+<li><p><strong>Precision impact:</strong> High — lowering the tolerance (for example to 1e-6) forces the interior-point method closer to the exact optimum; raising it (for example to 1e-4 or 5e-4) accepts looser solutions.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — tighter tolerances increase iteration counts; loosening them speeds exploratory runs but leaves larger residuals.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="solutiontype-recommended-2-for-rmip-lp-1-for-mip-warm-starts">
+<h3><code class="docutils literal notranslate"><span class="pre">solutiontype</span></code> (recommended 2 for RMIP/LP, 1 for MIP warm starts)<a class="headerlink" href="#solutiontype-recommended-2-for-rmip-lp-1-for-mip-warm-starts" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p><strong>What it controls:</strong> Type of solution returned by the barrier (1=basic, 2=interior point).</p></li>
+<li><p><strong>Precision impact:</strong> Medium — interior solutions are smooth for RMIP/LP reporting; basic solutions expose the tableau structure required by some MIP workflows.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — keeping <code class="docutils literal notranslate"><span class="pre">solutiontype</span> <span class="pre">=</span> <span class="pre">2</span></code> makes relaxed runs faster, while switching to <code class="docutils literal notranslate"><span class="pre">1</span></code> on MIPs can strengthen branch-and-bound warm starts even if the barrier step itself takes a little longer.</p></li>
+<li><p><strong>Applies to:</strong> Use <code class="docutils literal notranslate"><span class="pre">2</span></code> when solving RMIP or LP-only cases; prefer <code class="docutils literal notranslate"><span class="pre">1</span></code> when running MIPs that need basic solutions or detailed tableau diagnostics.</p></li>
+</ul>
+</section>
+<section id="parallelmode-recommended-1-for-reproducibility">
+<h3><code class="docutils literal notranslate"><span class="pre">parallelmode</span></code> (recommended 1 for reproducibility)<a class="headerlink" href="#parallelmode-recommended-1-for-reproducibility" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (opportunistic)</p></li>
+<li><p><strong>What it controls:</strong> Parallel search strategy (<code class="docutils literal notranslate"><span class="pre">0</span></code> opportunistic for speed, <code class="docutils literal notranslate"><span class="pre">1</span></code> deterministic for repeatability, <code class="docutils literal notranslate"><span class="pre">2</span></code> sequential).</p></li>
+<li><p><strong>Precision impact:</strong> Low — results satisfy the same optimality conditions, but deterministic mode ensures repeatability.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — opportunistic mode can be a few percent faster on multi-core machines.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="startalg-recommended-4">
+<h3><code class="docutils literal notranslate"><span class="pre">startalg</span></code> (recommended 4)<a class="headerlink" href="#startalg-recommended-4" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (automatic)</p></li>
+<li><p><strong>What it controls:</strong> Starting algorithm used at the root (0=automatic primal simplex, 1=automatic dual simplex, 4=automatic).</p></li>
+<li><p><strong>Options explained:</strong> Energy planning models often benefit from dual simplex starts (<code class="docutils literal notranslate"><span class="pre">1</span></code>) when warm-starting from prior runs; barrier starts (<code class="docutils literal notranslate"><span class="pre">3</span></code>) can help ill-conditioned problems; using <code class="docutils literal notranslate"><span class="pre">4</span></code> lets CPLEX choose dynamically based on presolve diagnostics.</p></li>
+<li><p><strong>Precision impact:</strong> Low — influences the initial basis but not the final solution.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — good root starts cut total solve time.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="memoryemphasis-recommended-1">
+<h3><code class="docutils literal notranslate"><span class="pre">memoryemphasis</span></code> (recommended 1)<a class="headerlink" href="#memoryemphasis-recommended-1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+<li><p><strong>What it controls:</strong> Memory-saving strategies that limit cache and RAM usage.</p></li>
+<li><p><strong>Precision impact:</strong> None.</p></li>
+<li><p><strong>Runtime impact:</strong> Low to medium — may slow solves slightly but avoids swapping or out-of-memory failures.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="predual-recommended-1">
+<h3><code class="docutils literal notranslate"><span class="pre">predual</span></code> (recommended -1)<a class="headerlink" href="#predual-recommended-1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">-1</span></code></p></li>
+<li><p><strong>What it controls:</strong> Whether CPLEX converts the model into its dual form before solving.</p></li>
+<li><p><strong>Precision impact:</strong> Low — automatic choice keeps numerical robustness.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — letting CPLEX pick typically yields the fastest presolve.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="scaind-recommended-1">
+<h3><code class="docutils literal notranslate"><span class="pre">scaind</span></code> (recommended 1)<a class="headerlink" href="#scaind-recommended-1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p><strong>What it controls:</strong> Scaling of the constraint matrix (-1 or 0 disables scaling, 1 enables automatic scaling).</p></li>
+<li><p><strong>Precision impact:</strong> Medium — proper scaling stabilizes numerics and reduces rounding issues.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — better scaling shortens solves and avoids degeneracy problems.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="auxrootthreads-recommended-0">
+<h3><code class="docutils literal notranslate"><span class="pre">auxrootthreads</span></code> (recommended 0)<a class="headerlink" href="#auxrootthreads-recommended-0" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code> (automatic helper threads)</p></li>
+<li><p><strong>What it controls:</strong> Number of auxiliary threads used during root node processing.</p></li>
+<li><p><strong>Precision impact:</strong> None.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — turning them off avoids contention on large models and often shortens root solve time.</p></li>
+<li><p><strong>Applies to:</strong> MIP (ignored by RMIP).</p></li>
+</ul>
+</section>
+<section id="heuristics-recommended-0-05">
+<h3><code class="docutils literal notranslate"><span class="pre">heuristics</span></code> (recommended 0.05)<a class="headerlink" href="#heuristics-recommended-0-05" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0.05</span></code></p></li>
+<li><p><strong>What it controls:</strong> Fraction of effort spent on primal heuristics to find incumbents.</p></li>
+<li><p><strong>Precision impact:</strong> Low — heuristics influence how soon good solutions appear, not their final quality.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — more heuristics can reduce total runtime by providing better incumbents early.</p></li>
+<li><p><strong>Applies to:</strong> MIP only.</p></li>
+</ul>
+</section>
+<section id="cuts-recommended-1-for-automatic">
+<h3><code class="docutils literal notranslate"><span class="pre">cuts</span></code> (recommended -1 for automatic)<a class="headerlink" href="#cuts-recommended-1-for-automatic" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">-1</span></code> (automatic)</p></li>
+<li><p><strong>What it controls:</strong> Strength of generic cutting planes (-1 auto, 0 none, &gt;0 more aggressive).</p></li>
+<li><p><strong>Precision impact:</strong> Low — cuts tighten bounds but do not change feasible points.</p></li>
+<li><p><strong>Runtime impact:</strong> Medium — more cuts add overhead yet shrink the search tree.</p></li>
+<li><p><strong>Applies to:</strong> MIP only.</p></li>
+</ul>
+</section>
+<section id="mipdisplay-recommended-45">
+<h3><code class="docutils literal notranslate"><span class="pre">mipdisplay</span></code> (recommended 4–5)<a class="headerlink" href="#mipdisplay-recommended-45" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">2</span></code></p></li>
+<li><p><strong>What it controls:</strong> Verbosity of branch-and-bound progress reporting.</p></li>
+<li><p><strong>Precision impact:</strong> None.</p></li>
+<li><p><strong>Runtime impact:</strong> Negligible — useful for monitoring without slowing the solver.</p></li>
+<li><p><strong>Applies to:</strong> MIP only.</p></li>
+</ul>
+</section>
+<section id="names-recommended-yes">
+<h3><code class="docutils literal notranslate"><span class="pre">names</span></code> (recommended yes)<a class="headerlink" href="#names-recommended-yes" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">auto</span></code></p></li>
+<li><p><strong>What it controls:</strong> Whether CPLEX keeps symbol names in the model it solves.</p></li>
+<li><p><strong>Precision impact:</strong> None.</p></li>
+<li><p><strong>Runtime impact:</strong> Low — storing names costs a little memory but greatly simplifies debugging and IIS analysis.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="iis-recommended-1">
+<h3><code class="docutils literal notranslate"><span class="pre">iis</span></code> (recommended 1)<a class="headerlink" href="#iis-recommended-1" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+<li><p><strong>What it controls:</strong> Requests an irreducible inconsistent subsystem (IIS) if the model is infeasible.</p></li>
+<li><p><strong>Precision impact:</strong> None.</p></li>
+<li><p><strong>Runtime impact:</strong> Low — only invoked on infeasible models, but invaluable for tracing data issues.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+<section id="bardisplay-recommended-2">
+<h3><code class="docutils literal notranslate"><span class="pre">bardisplay</span></code> (recommended 2)<a class="headerlink" href="#bardisplay-recommended-2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">0</span></code></p></li>
+<li><p><strong>What it controls:</strong> Verbosity of barrier progress output.</p></li>
+<li><p><strong>Precision impact:</strong> None.</p></li>
+<li><p><strong>Runtime impact:</strong> Negligible — choose higher levels only when diagnosing convergence issues.</p></li>
+<li><p><strong>Applies to:</strong> MIP &amp; RMIP.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="solver-types-for-epm">
+<h2>Solver Types for EPM<a class="headerlink" href="#solver-types-for-epm" title="Permalink to this heading">#</a></h2>
+<p>In EPM, the <code class="docutils literal notranslate"><span class="pre">MODELTYPE</span></code> determines the class of optimization problem used during the <code class="docutils literal notranslate"><span class="pre">Solve</span></code> statement. You can set it via a macro like:</p>
+<div class="highlight-gams notranslate"><div class="highlight"><pre><span></span>Solve PA using %MODELTYPE% minimizing vNPVcost;
+</pre></div>
+</div>
+<p>Using the Python API, <code class="docutils literal notranslate"><span class="pre">epm.py</span></code>, it’s the parameter <code class="docutils literal notranslate"><span class="pre">--modeltype</span></code> that can be used to specify the modeltype (<code class="docutils literal notranslate"><span class="pre">MIP</span></code>or <code class="docutils literal notranslate"><span class="pre">RMIP</span></code>))</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>MODELTYPE</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Use Case / Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">LP</span></code></p></td>
+<td><p>Linear Programming</p></td>
+<td><p>All variables and constraints are linear. Use for fastest solve when there’s no need for integer or binary decisions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">MIP</span></code></p></td>
+<td><p>Mixed Integer Programming</p></td>
+<td><p>Linear model with some variables constrained to be integer or binary. Use when decisions involve on/off or countable options.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">RMIP</span></code></p></td>
+<td><p>Relaxed MIP</p></td>
+<td><p>Like MIP, but all integer/binary constraints are relaxed to continuous. Useful for debugging or getting bounds before full MIP solve.</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RMIP</span></code> <strong>keeps the full structure of a MIP model</strong> (including integer vars), but relaxes integrality — making it solvable as a continuous problem.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LP</span></code> is <strong>purely linear</strong>, and expects all variables to be continuous.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">RMIP</span></code> when you want to check bounds or feasibility of a MIP model without solving the full integer problem.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="predefined-cplex-option-files">
+<h2>Predefined CPLEX Option Files<a class="headerlink" href="#predefined-cplex-option-files" title="Permalink to this heading">#</a></h2>
+<p>EPM ships several ready-made option files in <code class="docutils literal notranslate"><span class="pre">epm/input/data_test/cplex</span></code>. Each file aligns with the solver scenarios listed in <code class="docutils literal notranslate"><span class="pre">scenarios_solver.csv</span></code>.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Focus</p></th>
+<th class="head"><p>Notes</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cplex_baseline.opt</span></code></p></td>
+<td><p>Balanced defaults</p></td>
+<td><p>General-purpose settings used by baseline runs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cplex_rmip_fast.opt</span></code></p></td>
+<td><p>Fast relaxed solves</p></td>
+<td><p>Opportunistic parallelism, lighter tolerances for exploratory RMIP runs.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cplex_rmip_precision.opt</span></code></p></td>
+<td><p>Accurate relaxed solves</p></td>
+<td><p>Deterministic parallelism, tighter tolerances for reproducible RMIP diagnostics.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cplex_mip_fast.opt</span></code></p></td>
+<td><p>Fast integer solves</p></td>
+<td><p>Looser optimality gap (<code class="docutils literal notranslate"><span class="pre">optcr=0.05</span></code>), heuristic-heavy for quick feasible solutions.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cplex_mip_precision.opt</span></code></p></td>
+<td><p>High-precision integer solves</p></td>
+<td><p>Tighter gap (<code class="docutils literal notranslate"><span class="pre">optcr=0.01</span></code>), deterministic search, IIS reporting enabled.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cplex_test.opt</span></code></p></td>
+<td><p>Debug configuration</p></td>
+<td><p>Verbose output with stable barrier and scaling settings.</p></td>
+</tr>
+</tbody>
+</table>
+<p>To switch the solver configuration:</p>
+<ul class="simple">
+<li><p>Edit the <code class="docutils literal notranslate"><span class="pre">cplexfile</span></code> row in your <code class="docutils literal notranslate"><span class="pre">config.csv</span></code> so it points to the desired option file (for example <code class="docutils literal notranslate"><span class="pre">cplex/cplex_mip_precision.opt</span></code>).</p></li>
+<li><p>Or, for quick experiments, load <code class="docutils literal notranslate"><span class="pre">scenarios_solver.csv</span></code> and pick the column that references the file you want.</p></li>
+</ul>
+<p>Example command (run from the <code class="docutils literal notranslate"><span class="pre">epm</span></code> root) that executes the comparison test:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--folder_input<span class="w"> </span>epm/input/data_test<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config<span class="w"> </span>config.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--scenarios<span class="w"> </span>scenarios_solver.csv
+</pre></div>
+</div>
+</section>
+<section id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ibm.com/docs/en/icos/20.1.0?topic=reference-cplex-parameters">CPLEX User Guide</a></p></li>
+<li><p><a class="reference external" href="https://worldbankgroup.sharepoint.com/:b:/t/PowerSystemPlanning-WBGroup/EU2NwUyeOo9CljzcBCJThbsBac_sVZWv7GWmuUWf0XDIyw?e=wLkYhH">Internal modeltype Tuning Guide (WB)</a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs/run"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+            </article>
+            
+
+            
+            
+            <footer class="bd-footer-article">
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+  <a class='left-prev' id="prev-link" href="run_summary.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Summary Command line</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="options_thread.html" title="next page">
+  <div class="prev-next-info">
+      <p class="prev-next-subtitle">next</p>
+      <p class="prev-next-title">Threading and Parallelism in EPM</p>
+  </div>
+  <i class="fa-solid fa-angle-right"></i>
+  </a>
+</div>
+            </footer>
+            
+          </div>
+          
+          
+          
+            <div class="bd-sidebar-secondary bd-toc">
+              
+<div class="toc-item">
+  
+<div class="tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+</div>
+<nav id="bd-toc-nav" class="page-toc">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-the-solver-works-new-users">
+   How the Solver Works (new users)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#recommended-solver-parameters">
+   Recommended Solver Parameters
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optcr-recommended-0-01">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       optcr
+      </span>
+     </code>
+     (recommended 0.01)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mipemphasis-recommended-0-for-balanced-runs">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       mipemphasis
+      </span>
+     </code>
+     (recommended 0 for balanced runs)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lpmethod-recommended-4-for-energy-planning">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       lpmethod
+      </span>
+     </code>
+     (recommended 4 for energy planning)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#threads-recommended-812">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       threads
+      </span>
+     </code>
+     (recommended 8–12)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#baralg-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       baralg
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcrossalg-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcrossalg
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barcolnz-default-0-recommended-500">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barcolnz
+      </span>
+     </code>
+     (default 0, recommended 500)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#barepcomp-recommended-1e-5">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       barepcomp
+      </span>
+     </code>
+     (recommended 1e-5)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#solutiontype-recommended-2-for-rmip-lp-1-for-mip-warm-starts">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       solutiontype
+      </span>
+     </code>
+     (recommended 2 for RMIP/LP, 1 for MIP warm starts)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parallelmode-recommended-1-for-reproducibility">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       parallelmode
+      </span>
+     </code>
+     (recommended 1 for reproducibility)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#startalg-recommended-4">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       startalg
+      </span>
+     </code>
+     (recommended 4)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#memoryemphasis-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       memoryemphasis
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#predual-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       predual
+      </span>
+     </code>
+     (recommended -1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#scaind-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       scaind
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#auxrootthreads-recommended-0">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       auxrootthreads
+      </span>
+     </code>
+     (recommended 0)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristics-recommended-0-05">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       heuristics
+      </span>
+     </code>
+     (recommended 0.05)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cuts-recommended-1-for-automatic">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       cuts
+      </span>
+     </code>
+     (recommended -1 for automatic)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mipdisplay-recommended-45">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       mipdisplay
+      </span>
+     </code>
+     (recommended 4–5)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#names-recommended-yes">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       names
+      </span>
+     </code>
+     (recommended yes)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#iis-recommended-1">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       iis
+      </span>
+     </code>
+     (recommended 1)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bardisplay-recommended-2">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       bardisplay
+      </span>
+     </code>
+     (recommended 2)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#solver-types-for-epm">
+   Solver Types for EPM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#predefined-cplex-option-files">
+   Predefined CPLEX Option Files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#resources">
+   Resources
+  </a>
+ </li>
+</ul>
+
+</nav>
+</div>
+
+            </div>
+          
+          
+        </div>
+        <footer class="bd-footer-content">
+          <div class="bd-footer-content__inner">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By ESMAP
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+Last updated on Dec 17, 2025.<br>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <div>Cite as: <i>"ESMAP Documentation - EPM. Available at https://github.com/ESMAP-World-Bank-Group/EPM"</i><br>
+    <b>All content (unless otherwise specified) is subject to the <a href="https://raw.githubusercontent.com/worldbank/template/main/LICENSE">World Bank Master Community License Agreement.</a></b>
+</div>
+
+</div>
+  </div>
+  
+</div>
+          </div>
+        </footer>
+        
+
+      </main>
+    </div>
+  </div>
+
+  
+    
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+
+  </body>
+</html>
