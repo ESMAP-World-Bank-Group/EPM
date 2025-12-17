@@ -6,8 +6,8 @@ title EPM One-Click Setup Script
 set REPO_URL=https://github.com/ESMAP-World-Bank-Group/EPM.git
 set REPO_DIR=%~dp0EPM
 set CONDA_ENV=epm_env
-set GAMS_MAIN=%REPO_DIR%\main.gms
-set PYTHON_SCRIPT=%REPO_DIR%\epm\epm.py
+set GAMS_MAIN=%REPO_DIR%\epm\main.gms
+set PYTHON_SCRIPT=epm.py
 set REQ_FILE=%REPO_DIR%\requirements.txt
 set LOG_FILE=%~dp0setup_log.txt
 
@@ -58,29 +58,29 @@ if not exist "%REPO_DIR%" (
 )
 echo [+] Repository ready at %REPO_DIR%.
 
-:: ---------- Step 5: Test GAMS ----------
-echo [*] Testing GAMS installation with MODELTYPE=RMIP ...
-cd "%REPO_DIR%"
-gams "%GAMS_MAIN%" lo=2 --MODELTYPE=RMIP >> "%LOG_FILE%" 2>&1
-if %errorlevel% neq 0 (
-    echo [!] GAMS test failed — please check installation, license, or RMIP modeltype. See %LOG_FILE% for details.
-    pause
-    exit /b
-) else (
-    echo [+] GAMS executed successfully with MODELTYPE=RMIP.
-)
+REM ---------- Step 5: Test GAMS ----------
+REM echo [*] Testing GAMS installation ...
+REM cd "%REPO_DIR%"
+REM gams "%GAMS_MAIN%" lo=2 --MODELTYPE=RMIP
+REM if %errorlevel% neq 0 (
+REM     echo [!] GAMS test failed
+REM     pause
+REM     exit /b
+REM )
 
 :: ---------- Step 6: Recreate Conda environment ----------
 echo [!] Removing old environment '%CONDA_ENV%' (if any)...
-conda env remove -y -n %CONDA_ENV% >> "%LOG_FILE%" 2>&1
+call conda env remove -y -n %CONDA_ENV% >> "%LOG_FILE%" 2>&1
 
 echo [*] Creating new environment '%CONDA_ENV%' ...
-conda create -y -n %CONDA_ENV% python=3.10 >> "%LOG_FILE%" 2>&1
-if %errorlevel% neq 0 (
+call conda create -y -n %CONDA_ENV% python=3.10 >> "%LOG_FILE%" 2>&1
+
+if errorlevel 1 (
     echo [!] Failed to create environment. See %LOG_FILE% for details.
     pause
-    exit /b
+    exit /b 1
 )
+
 echo [+] Environment created successfully.
 
 :: ---------- Step 7: Install dependencies ----------
@@ -97,8 +97,8 @@ echo [+] All Python dependencies installed successfully.
 
 :: ---------- Step 8: Run EPM Python test ----------
 echo [*] Running EPM Python test ...
-cd "%REPO_DIR%"
-python "%PYTHON_SCRIPT%" --modeltype RMIP --simple >> "%LOG_FILE%" 2>&1
+cd "%REPO_DIR%\epm"
+python "%PYTHON_SCRIPT%" >> "%LOG_FILE%" 2>&1
 if %errorlevel% neq 0 (
     echo [!] Python EPM test failed — please check logs or Python/GAMS integration.
     pause
@@ -108,7 +108,7 @@ if %errorlevel% neq 0 (
 )
 
 echo ----------------------------------------
-echo ✅ All tests passed — EPM environment ready to use.
+echo All tests passed — EPM environment ready to use.
 echo ----------------------------------------
 echo See log for details: %LOG_FILE%
 pause

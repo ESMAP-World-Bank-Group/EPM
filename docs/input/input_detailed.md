@@ -149,21 +149,19 @@ Defines the years included in the intertemporal optimization. One-dimensional cs
 - Two-dimensional, defines the zones and countries included in the model.
 - Example: [zcmap.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/zcmap.csv)
 
-## Resources
+## Resources (Shared Headers)
 
-All files in this section are included in the `resources` folder. These datasets define parameters that do not necessarily change between projects.
+All resource files are now located in `epm/resources/headers/` and are shared across all input folders. These datasets define parameters that do not change between projects.
 
 ---
 
 ### **`ftfindex.csv`**
 
-TODO: needs to be updated !!
-
 - List of fuels recognized by EPM.
 - 2 columns:
   1. Fuel
   2. Index (Note: Index is no longer used, and the structure is being simplified to keep only "Fuel").
-- Example: [ftfindex.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/ftfindex.csv)
+- Location: `epm/resources/headers/ftfindex.csv`
 - List of fuel types recognized by EPM:
   - **Coal**
   - **Gas**
@@ -180,7 +178,6 @@ TODO: needs to be updated !!
   - **Biomass**
   - **Geothermal**
   - **LNG**
-- **Note**: Not clear why there is need of OnshoreWind and OffshoreWind.
 
 ---
 
@@ -191,7 +188,7 @@ TODO: needs to be updated !!
   1. Technology name
   2. Hourly variation (if the technology varies hourly)
   3. RE Technology (if it is a renewable energy technology)
-- Example: [pTechData.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_test_region/resources/pTechData.csv)
+- Location: `epm/resources/headers/pTechData.csv`
 - List of technologies recognized by EPM:
   - **OCGT**: Gas Turbine
   - **CCGT**: Combined Cycle Gas Turbine
@@ -216,7 +213,7 @@ TODO: needs to be updated !!
 - 2 columns:
   1. Fuel
   2. Carbon content in gCO₂/MWh
-- Example: [pFuelCarbonContent.csv](https://github.com/ESMAP-World-Bank-Group/EPM/tree/features/epm/input/data_gambia/resources/pFuelCarbonContent.csv)
+- Location: `epm/resources/headers/pFuelCarbonContent.csv`
 
 ---
 
