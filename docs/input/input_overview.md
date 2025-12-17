@@ -4,7 +4,15 @@
 
 The following table lists the key input files used in the EPM model, along with a brief description and their structural dimensions. These files define model parameters, energy demand, supply data, constraints, and trade settings.
 
-> In addition, we provide a [template](dwld/TemplateDataCollection.xlsx) to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
+> In addition, we provide a [template](../dwld/TemplateDataCollection.xlsx) to document the sources for each dataset used in EPM. This ensures clear traceability and consistency in the presentation of information across all inputs.
+
+**Related Documentation:**
+
+- [Input Folder Structure](input_structure.md) - Directory layout and file organization
+- [Input Description](input_detailed.md) - Detailed parameter descriptions for each file
+- [Configuration Flow](../run/configuration.md) - How config.csv routes inputs to the model
+- [Resources](resources.md) - Shared model constants (pTechFuel, pFuelCarbonContent)
+- [Input Treatment](input_treatment.md) - Automatic validation, interpolation, and default filling
 
 | File Name                          | Description                           | Dimensions       |
 | ---------------------------------- | ------------------------------------- | ---------------- |

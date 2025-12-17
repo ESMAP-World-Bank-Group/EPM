@@ -403,24 +403,19 @@ def analyze_supply(df: Optional[pd.DataFrame], years: List[int]) -> Tuple[pd.Dat
     # Filter to active units when status is present and normalise fuel names.
     if "Status" in supply_df.columns:
         supply_df = supply_df[supply_df["Status"].isin([1, 2])]
-    _, _, fuel_mapping = _build_fuel_colors()
+    _, _, techfuel_mapping = _build_fuel_colors()
 
-    # Create tech-fuel merged label, then apply fuel mapping
+    # Create tech-fuel merged label, then apply techfuel mapping
     if "tech" in supply_df.columns and "fuel" in supply_df.columns:
-        # First create raw tech-fuel label
-        supply_df["tech_fuel"] = supply_df["tech"] + " - " + supply_df["fuel"]
-        # Then apply fuel mapping to rename the merged label
-        if fuel_mapping:
-            tech_fuel_mapping = {
-                t + " - " + f: t + " - " + fuel_mapping.get(f, f)
-                for t in supply_df["tech"].unique()
-                for f in supply_df["fuel"].unique()
-            }
-            supply_df["tech_fuel"] = supply_df["tech_fuel"].map(tech_fuel_mapping).fillna(supply_df["tech_fuel"])
+        # Create techfuel key (tech-fuel with hyphen) for mapping
+        supply_df["techfuel_key"] = supply_df["tech"] + "-" + supply_df["fuel"]
+        # Apply techfuel mapping to get Processing name
+        if techfuel_mapping:
+            supply_df["tech_fuel"] = supply_df["techfuel_key"].map(techfuel_mapping).fillna(supply_df["techfuel_key"])
+        else:
+            supply_df["tech_fuel"] = supply_df["techfuel_key"]
     elif "fuel" in supply_df.columns:
         supply_df["tech_fuel"] = supply_df["fuel"]
-        if fuel_mapping:
-            supply_df["tech_fuel"] = supply_df["fuel"].map(fuel_mapping).fillna(supply_df["fuel"])
     else:
         supply_df["tech_fuel"] = "Unknown"
 
@@ -545,21 +540,18 @@ def analyze_gen_defaults(df: Optional[pd.DataFrame]) -> pd.DataFrame:
     if "tech" not in col_map:
         return pd.DataFrame([{"Status": "missing tech column in generator defaults"}])
 
-    # Get fuel mapping for renaming
-    _, _, fuel_mapping = _build_fuel_colors()
+    # Get techfuel mapping for renaming
+    _, _, techfuel_mapping = _build_fuel_colors()
 
-    # Create tech-fuel label, then apply fuel mapping
+    # Create tech-fuel label, then apply techfuel mapping
     if "fuel" in col_map:
-        # First create raw tech-fuel label
-        gen_df["technology"] = gen_df[col_map["tech"]].astype(str).str.strip() + " - " + gen_df[col_map["fuel"]].astype(str).str.strip()
-        # Then apply fuel mapping to rename the merged label
-        if fuel_mapping:
-            tech_fuel_mapping = {
-                t + " - " + f: t + " - " + fuel_mapping.get(f, f)
-                for t in gen_df[col_map["tech"]].astype(str).str.strip().unique()
-                for f in gen_df[col_map["fuel"]].astype(str).str.strip().unique()
-            }
-            gen_df["technology"] = gen_df["technology"].map(tech_fuel_mapping).fillna(gen_df["technology"])
+        # Create techfuel key (tech-fuel with hyphen) for mapping
+        gen_df["techfuel_key"] = gen_df[col_map["tech"]].astype(str).str.strip() + "-" + gen_df[col_map["fuel"]].astype(str).str.strip()
+        # Apply techfuel mapping to get Processing name
+        if techfuel_mapping:
+            gen_df["technology"] = gen_df["techfuel_key"].map(techfuel_mapping).fillna(gen_df["techfuel_key"])
+        else:
+            gen_df["technology"] = gen_df["techfuel_key"]
     else:
         gen_df["technology"] = gen_df[col_map["tech"]].astype(str).str.strip()
 
@@ -903,7 +895,7 @@ def _generate_supply_plot(
     years = sorted({int(y) for y in years})
 
     paths: Dict[str, str] = {}
-    color_lookup, _, fuel_mapping = _build_fuel_colors()
+    color_lookup, _, techfuel_mapping = _build_fuel_colors()
     supply_df = supply_df.copy()
 
     # Clean basic columns and drop inactive statuses.
@@ -916,12 +908,12 @@ def _generate_supply_plot(
     # Apply capacity factors and create tech-fuel merged label.
     supply_df["capacity_factor"] = _map_capacity_factor(supply_df, availability_custom, availability_default)
     if "tech" in supply_df.columns and "fuel" in supply_df.columns:
-        # First create raw tech-fuel label
+        # Create techfuel key for mapping
         supply_df["tech_fuel"] = supply_df["tech"] + "-" + supply_df["fuel"]
-        # Then apply fuel mapping to rename the merged label
-        supply_df["tech_fuel"] = supply_df["tech_fuel"].map(fuel_mapping).fillna(supply_df["tech_fuel"])
+        # Apply techfuel mapping to get Processing name
+        supply_df["tech_fuel"] = supply_df["tech_fuel"].map(techfuel_mapping).fillna(supply_df["tech_fuel"])
     else:
-        supply_df["tech_fuel"] = supply_df["fuel"].map(fuel_mapping).fillna(supply_df["fuel"])
+        supply_df["tech_fuel"] = supply_df["fuel"]
 
     # Ensure every category has a color to avoid missing legends.
     missing_categories = set(supply_df["tech_fuel"].unique()).difference(color_lookup)
@@ -1549,29 +1541,30 @@ def _reshape_price(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _build_fuel_colors() -> Tuple[Dict[str, str], List[str], Dict[str, str]]:
-    """Build fuel color lookup, ordering, and mapping from static tables."""
+    """Build fuel color lookup, ordering, and mapping from resources tables."""
 
-    # Static tables live in epm/postprocessing/static
-    static_dir = Path(__file__).resolve().parent.parent / "static"
-    colors_path = static_dir / "colors.csv"
-    fuels_path = static_dir / "fuels.csv"
+    # Resources tables live in epm/resources
+    resources_dir = Path(__file__).resolve().parent.parent.parent / "resources"
+    colors_path = resources_dir / "colors.csv"
+    techfuel_path = resources_dir / "pTechFuelProcessing.csv"
 
-    def load_table(path: Path, required: List[str]) -> pd.DataFrame:
+    def load_table(path: Path, required: List[str], comment: str = "#") -> pd.DataFrame:
         if not path.exists():
-            _log(f"Static table not found: {path.name} at {path.resolve()} (using empty frame).")
+            _log(f"Resources table not found: {path.name} at {path.resolve()} (using empty frame).")
             return pd.DataFrame(columns=required)
 
         try:
-            df = pd.read_csv(path, comment="#").dropna(how="all")
-            _log(f"Loaded static table {path.name} from {path.resolve()} with {len(df)} rows.")
+            df = pd.read_csv(path, comment=comment).dropna(how="all")
+            _log(f"Loaded resources table {path.name} from {path.resolve()} with {len(df)} rows.")
             return df
         except Exception as exc:  # keep behavior but surface context
-            _log(f"Failed to load static table {path.name} at {path.resolve()}: {exc}")
+            _log(f"Failed to load resources table {path.name} at {path.resolve()}: {exc}")
             raise
 
     colors = load_table(colors_path, ["Processing", "Color"])
-    fuels = load_table(fuels_path, ["EPM_Fuel", "Processing"])
+    techfuel = load_table(techfuel_path, ["tech", "fuel", "Processing", "Color"])
 
+    # Build base color lookup from colors.csv
     color_lookup = {}
     if {"Processing", "Color"}.issubset(colors.columns):
         subset = colors[["Processing", "Color"]].dropna()
@@ -1580,17 +1573,22 @@ def _build_fuel_colors() -> Tuple[Dict[str, str], List[str], Dict[str, str]]:
         subset = subset[(subset["Processing"] != "") & (subset["Color"] != "")]
         color_lookup = subset.set_index("Processing")["Color"].to_dict()
 
-    fuel_mapping = {}
-    fuel_order = []
-    if {"EPM_Fuel", "Processing"}.issubset(fuels.columns):
-        subset = fuels[["EPM_Fuel", "Processing"]].dropna()
-        subset["EPM_Fuel"] = subset["EPM_Fuel"].astype(str).str.strip()
-        subset["Processing"] = subset["Processing"].astype(str).str.strip()
-        subset = subset[(subset["EPM_Fuel"] != "") & (subset["Processing"] != "")]
-        fuel_mapping = subset.set_index("EPM_Fuel")["Processing"].to_dict()
-        fuel_order = list(dict.fromkeys(subset["Processing"]))
+    # Build techfuel mapping and colors from pTechFuelProcessing.csv
+    techfuel_mapping = {}
+    techfuel_order = []
+    if {"tech", "fuel", "Processing", "Color"}.issubset(techfuel.columns):
+        techfuel["tech"] = techfuel["tech"].astype(str).str.strip()
+        techfuel["fuel"] = techfuel["fuel"].astype(str).str.strip()
+        techfuel["Processing"] = techfuel["Processing"].astype(str).str.strip()
+        techfuel["Color"] = techfuel["Color"].astype(str).str.strip()
+        techfuel["techfuel_key"] = techfuel["tech"] + "-" + techfuel["fuel"]
+        techfuel_mapping = techfuel.set_index("techfuel_key")["Processing"].to_dict()
+        techfuel_order = list(dict.fromkeys(techfuel["Processing"]))
+        # Merge techfuel colors into color_lookup
+        techfuel_colors = techfuel.set_index("Processing")["Color"].to_dict()
+        color_lookup.update(techfuel_colors)
 
-    return color_lookup, fuel_order, fuel_mapping
+    return color_lookup, techfuel_order, techfuel_mapping
 
 
 def _normalize_column_label(label: str) -> str:

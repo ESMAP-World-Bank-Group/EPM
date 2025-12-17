@@ -1,33 +1,6 @@
 # Use https://matplotlib.org/3.4.2/gallery/color/named_colors.html,
 Processing,Color
-# Techonolgies,
-ST-Coal,dimgray
-CHP-Coal,grey
-OCGT-HFO,saddlebrown
-OCGT-LFO,saddlebrown
-OCGT-Diesel,darksalmon
-OCGT-Gas,firebrick
-CCGT-Gas,lightcoral
-ICE-HFO,sandyebrown
-ICE-LFO,sandyebrown
-ICE-Diesel,lightsalmon
-ICE-Gas,darkred
-CSP,darkorange
-Onshore Wind,darkturquoise
-Offshore Wind,paleturquoise
-PV,orange
-Pumped-Hydro,cornflowerblue
-Reservoir,darkblue
-ROR,lightskyblue
-PSH,purple
-Biomass,green
-Battery,darkkhaki
-Battery 4h,darkkhaki
-Battery 8h,darkkhaki
-Nuclear,purple
-Import,thistle
-Trade,thistle
-# Fuels,
+# Fuels (standalone),
 Coal,dimgray
 Gas,firebrick
 LNG,lightcoral
@@ -36,7 +9,7 @@ Solar,orange
 Wind,darkturquoise
 Import,thistle
 HFO,saddlebrown
-LFO,sandyebrown
+LFO,sandybrown
 Uranium,purple
 CSP,darkorange
 Battery,darkkhaki
