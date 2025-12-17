@@ -4,7 +4,13 @@ Using the Python interface enables advanced features such as scenario creation, 
 
 You don't need to know Python—just follow the steps below.
 
-You must have Python installed. See the [prerequisites](https://esmap-world-bank-group.github.io/EPM/docs/run_prerequisites.html) for setup instructions.
+You must have Python installed. See the [prerequisites](run_prerequisites.md) for setup instructions.
+
+**Related Documentation:**
+
+- [Configuration Flow](configuration.md) - How config.csv, pSettings, and resources work together
+- [Input Structure](../input/input_structure.md) - Input folder organization
+- [Input Treatment](../input/input_treatment.md) - Automatic data validation and filling
 
 ---
 
