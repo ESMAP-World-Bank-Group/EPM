@@ -1750,7 +1750,7 @@ It plays a <strong>critical role in defining the behavior of the optimization mo
 <li><p><strong>Value</strong> (<em>varied units</em>) – The assigned numerical value or toggle (0/1) for the parameter.</p></li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/config/pSettings.csv">pSettings.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/config/pSettings.csv">pSettings.csv</a></p></li>
 </ul>
 <p><strong>!! Important !!</strong> The validated <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code> template in the repository now includes the full set of required parameters. Starting from EPM v2024.09, the model expects this structure. Always copy the latest file (or extend your custom copy) to avoid missing parameters that would otherwise default to zero.</p>
 <p>The CSV groups parameters by topical blocks. Each row exposes a human-readable label, the abbreviation used in GAMS, and the default value provided in the template.</p>
@@ -2670,7 +2670,7 @@ Defines the available capacity for exchanges between internal zones. This datafr
 </li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTransferLimit.csv">pTransferLimit.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pTransferLimit.csv">pTransferLimit.csv</a></p></li>
 </ul>
 </section>
 <section id="pnewtransmission-csv">
@@ -2711,7 +2711,7 @@ Defines candidate transmission lines for potential expansion. <strong>This file 
 <ul class="simple">
 <li><p>Do not include lines listed in pNewTransmission.csv in <code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code>, or they will be double-counted.</p></li>
 <li><p>For the model to consider lines in pNewTransmission.csv, the option <code class="docutils literal notranslate"><span class="pre">allowTransferExpansion</span></code> in <code class="docutils literal notranslate"><span class="pre">pSettings.csv</span></code> must be activated.</p></li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv">pNewTransmission.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pNewTransmission.csv">pNewTransmission.csv</a></p></li>
 </ul>
 </section>
 <section id="plossfactorinternal-csv">
@@ -2736,7 +2736,7 @@ Lists external zones that can trade with the modeled zones. These external zones
 </li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/zext.csv">zext.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/zext.csv">zext.csv</a></p></li>
 </ul>
 </section>
 <section id="pexttransferlimit-csv">
@@ -2798,7 +2798,7 @@ Trade price for imports and exports driven by price.</p></li>
 </li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTradePrice.csv">pTradePrice.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pTradePrice.csv">pTradePrice.csv</a></p></li>
 </ul>
 </section>
 <section id="pmaxannualexternaltradeshare-csv">
@@ -2827,7 +2827,7 @@ Trade price for imports and exports driven by price.</p></li>
 </li>
 </ul>
 </li>
-<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxAnnualExternalTradeShare.csv">pMaxAnnualExternalTradeShare.csv</a></p></li>
+<li><p><strong>Example Link</strong>: <a class="reference external" href="https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pMaxAnnualExternalTradeShare.csv">pMaxAnnualExternalTradeShare.csv</a></p></li>
 </ul>
 </section>
 </section>
