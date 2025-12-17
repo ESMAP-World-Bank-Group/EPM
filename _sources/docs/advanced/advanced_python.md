@@ -7,6 +7,7 @@ This section provides a guide for advanced users who want to customize EPM runs,
 ## Running the EPM Model Using Python
 
 You can launch the model using:
+
 - The `run_epm.py` script
 - A Jupyter notebook
 
@@ -81,6 +82,7 @@ The `main()` function:
 ### Adding a New Command-Line Argument
 
 1. Add the argument:
+
 ```python
 parser.add_argument(
     "--output_dir",
@@ -91,6 +93,7 @@ parser.add_argument(
 ```
 
 2. Use it:
+
 ```python
 output_dir = args.output_dir
 if not os.path.exists(output_dir):
@@ -106,6 +109,7 @@ if not os.path.exists(output_dir):
 Runs a single scenario.
 
 **Key arguments:**
+
 - `scenario` (DataFrame): Input values
 - `scenario_name` (str): Name of the scenario
 - `folder_input` (str): Input folder path
@@ -114,6 +118,7 @@ Runs a single scenario.
 - `prefix` (optional): For output folder names
 
 **What it does:**
+
 - Creates a dedicated output folder
 - Copies required files
 - Builds and runs the GAMS command
@@ -125,12 +130,14 @@ Runs a single scenario.
 Executes multiple scenarios using Python multiprocessing.
 
 **Key arguments:**
+
 - `df`: Scenario input DataFrame
 - `scenario_name`: Name of the run
 - `path_gams`: Dict of GAMS script paths
 - `folder_input`, `path_engine_file`: As above
 
 **What it does:**
+
 - Launches `launch_epm()` in parallel across CPU cores
 
 ---
@@ -140,15 +147,17 @@ Executes multiple scenarios using Python multiprocessing.
 Handles full simulation workflow.
 
 **Key arguments:**
+
 - `config` (str): Path to `config.csv`
 - `scenarios_specification` (str): Path to `scenarios.csv`
 - `selected_scenarios` (list): Scenarios to run
 - `cpu` (int): Number of cores to use
 - `path_gams` (dict): GAMS file paths
 - `folder_input`: Input folder path
-- `sensitivity`, `project_assessment`, `simple`: Optional flags
+- `sensitivity`, `generator_assessment`, `simple`: Optional flags
 
 **What it does:**
+
 - Reads scenario definitions
 - Prepares inputs
 - Calls multiprocessing function to execute scenarios
@@ -160,7 +169,7 @@ Handles full simulation workflow.
 
 Modifies input data to explore uncertainty.
 
-### `perform_assessment(project_assessment, s)`
+### `perform_assessment(generator_assessment, s)`
 
 Creates counterfactuals by removing specified projects.
 
