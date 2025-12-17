@@ -106,7 +106,6 @@ set genCostCmp /
 /;
 
 set fEnergyBalance /
-  #f,
   UnmetDemand,
   Surplus,
   Imports,

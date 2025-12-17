@@ -50,12 +50,58 @@ CUMULATIVE_FILES = [
     ('pYearlyDiscountedWeightedCostsZone', 'pYearlyDiscountedWeightedCostsZoneCumulated'),
 ]
 
-# Files to fill with all (tech, fuel) combinations
+# Files to fill with all (tech, fuel) combinations and add Processing column
 TECHFUEL_FILES = [
     'pNewCapacityTechFuel',
+    'pNewCapacityTechFuelCumulated',
     'pCapacityTechFuel',
     'pEnergyTechFuel',
+    'pEnergyTechFuelComplete',
     'pUtilizationTechFuel',
+]
+
+# Path to pTechFuelProcessing.csv (relative to epm/ folder)
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'pTechFuelProcessing.csv')
+
+# Files to fill with all cost components: (file_name, cost_component_column_name)
+# The cost component column is either 'uni' or 'sumhdr' depending on the file
+COST_COMPONENT_FILES = [
+    ('pYearlyCostsZone', 'uni'),
+    ('pYearlyCostsZonePerMWh', 'sumhdr'),
+    ('pCostsZonePerMWh', 'sumhdr'),
+    ('pYearlyCostsCountryPerMWh', 'sumhdr'),
+    ('pCostsCountryPerMWh', 'sumhdr'),
+    ('pYearlyDiscountedWeightedCostsZone', 'uni'),
+    ('pCostsSystem', 'uni'),
+    ('pCostsSystemPerMWh', 'uni'),
+]
+
+# All cost components from sumhdr set in generate_report.gms
+ALL_COST_COMPONENTS = [
+    "Generation costs: $m",
+    "Fixed O&M: $m",
+    "Variable O&M: $m",
+    "Startup costs: $m",
+    "Fuel costs: $m",
+    "Transmission costs: $m",
+    "Spinning reserve costs: $m",
+    "Unmet demand costs: $m",
+    "Unmet country spinning reserve costs: $m",
+    "Unmet country planning reserve costs: $m",
+    "Unmet country CO2 backstop cost: $m",
+    "Unmet system planning reserve costs: $m",
+    "Unmet system spinning reserve costs: $m",
+    "Unmet system CO2 backstop cost: $m",
+    "Excess generation: $m",
+    "VRE curtailment: $m",
+    "Import costs with external zones: $m",
+    "Export revenues with external zones: $m",
+    "Import costs with internal zones: $m",
+    "Export revenues with internal zones: $m",
+    "Trade shared benefits: $m",
+    "Carbon costs: $m",
+    "NPV of system cost: $m",
 ]
 
 
@@ -169,8 +215,8 @@ def calculate_cumulative(
 
 def fill_techfuel_combinations(
     input_path: str,
-    all_tech: List[str],
-    all_fuel: List[str],
+    techfuel_pairs: List[Tuple[str, str]],
+    techfuel_mapping: Optional[Dict[str, str]] = None,
     tech_col: str = 'tech',
     fuel_col: str = 'f',
     value_col: str = 'value',
@@ -178,15 +224,17 @@ def fill_techfuel_combinations(
 ) -> bool:
     """
     Fill missing (tech, fuel) combinations in a TechFuel CSV file with value 0.
+    Optionally adds a 'techfuel' column with Processing names.
 
     Parameters
     ----------
     input_path : str
         Path to input CSV file
-    all_tech : list
-        List of all technology names (from pTechData)
-    all_fuel : list
-        List of all fuel names (from ftfindex)
+    techfuel_pairs : list of tuples
+        List of valid (tech, fuel) pairs from pTechFuel
+    techfuel_mapping : dict, optional
+        Dictionary mapping 'tech-fuel' keys to Processing names.
+        If provided, adds a 'techfuel' column with mapped values.
     tech_col : str
         Name of the technology column (default: 'tech')
     fuel_col : str
@@ -211,7 +259,7 @@ def fill_techfuel_combinations(
     original_rows = len(df)
 
     # Identify other dimension columns (e.g., zone, year)
-    other_cols = [col for col in df.columns if col not in [tech_col, fuel_col, value_col]]
+    other_cols = [col for col in df.columns if col not in [tech_col, fuel_col, value_col, 'techfuel']]
 
     # Get unique values for other dimensions from existing data
     if other_cols:
@@ -219,12 +267,10 @@ def fill_techfuel_combinations(
     else:
         other_dims = pd.DataFrame([{}])
 
-    # Create all combinations of (other_dims, tech, fuel)
-    from itertools import product
-
+    # Create combinations of (other_dims) x (valid tech, fuel pairs)
     all_combinations = []
     for _, other_row in other_dims.iterrows():
-        for tech, fuel in product(all_tech, all_fuel):
+        for tech, fuel in techfuel_pairs:
             row = other_row.to_dict()
             row[tech_col] = tech
             row[fuel_col] = fuel
@@ -239,9 +285,102 @@ def fill_techfuel_combinations(
     # Fill NaN values with 0
     df_filled[value_col] = df_filled[value_col].fillna(0)
 
+    # Add techfuel column with Processing names if mapping provided
+    if techfuel_mapping:
+        df_filled['techfuel'] = (df_filled[tech_col] + '-' + df_filled[fuel_col]).map(techfuel_mapping)
+        # Fallback to tech-fuel key if not in mapping
+        df_filled['techfuel'] = df_filled['techfuel'].fillna(df_filled[tech_col] + '-' + df_filled[fuel_col])
+
+    # Sort for consistent output (by techfuel order if available, otherwise by tech/fuel)
+    if techfuel_mapping and 'techfuel' in df_filled.columns:
+        # Create order based on techfuel_mapping values order
+        techfuel_order = list(dict.fromkeys(techfuel_mapping.values()))
+        df_filled['_sort_order'] = df_filled['techfuel'].apply(
+            lambda x: techfuel_order.index(x) if x in techfuel_order else len(techfuel_order)
+        )
+        sort_cols = other_cols + ['_sort_order']
+        df_filled = df_filled.sort_values(by=sort_cols)
+        df_filled = df_filled.drop(columns=['_sort_order'])
+    else:
+        sort_cols = other_cols + [tech_col, fuel_col]
+        df_filled = df_filled.sort_values(by=sort_cols)
+
+    # Save back to file
+    df_filled.to_csv(input_path, index=False)
+    added_rows = len(df_filled) - original_rows
+    log_func(f"[output_treatment]   {file_name}: {original_rows} -> {len(df_filled)} rows (+{added_rows})")
+
+    return True
+
+
+def fill_cost_components(
+    input_path: str,
+    all_cost_components: List[str],
+    cost_col: str = 'uni',
+    value_col: str = 'value',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Fill missing cost components in a CSV file with value 0.
+
+    This ensures all cost components from sumhdr are present in the file,
+    which is required for proper visualization in Tableau.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file
+    all_cost_components : list
+        List of all cost component names (from sumhdr)
+    cost_col : str
+        Name of the cost component column (default: 'uni', can be 'sumhdr')
+    value_col : str
+        Name of the value column (default: 'value')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+
+    if not os.path.exists(input_path):
+        log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
+        return False
+
+    df = pd.read_csv(input_path)
+    original_rows = len(df)
+
+    # Identify other dimension columns (e.g., zone, country, year)
+    other_cols = [col for col in df.columns if col not in [cost_col, value_col]]
+
+    # Get unique values for other dimensions from existing data
+    if other_cols:
+        other_dims = df[other_cols].drop_duplicates()
+    else:
+        other_dims = pd.DataFrame([{}])
+
+    # Create all combinations of (other_dims, cost_component)
+    all_combinations = []
+    for _, other_row in other_dims.iterrows():
+        for cost_comp in all_cost_components:
+            row = other_row.to_dict()
+            row[cost_col] = cost_comp
+            all_combinations.append(row)
+
+    full_index_df = pd.DataFrame(all_combinations)
+
+    # Merge with existing data to fill missing combinations with NaN
+    merge_cols = other_cols + [cost_col]
+    df_filled = full_index_df.merge(df, on=merge_cols, how='left')
+
+    # Fill NaN values with 0
+    df_filled[value_col] = df_filled[value_col].fillna(0)
+
     # Sort for consistent output
-    sort_cols = other_cols + [tech_col, fuel_col]
-    df_filled = df_filled.sort_values(by=sort_cols)
+    df_filled = df_filled.sort_values(by=merge_cols)
 
     # Save back to file
     df_filled.to_csv(input_path, index=False)
@@ -260,8 +399,10 @@ def run_output_treatment(
     rename_map: Optional[Dict[str, Dict[str, str]]] = None,
     cumulative_files: Optional[List[Tuple[str, str]]] = None,
     techfuel_files: Optional[List[str]] = None,
-    all_tech: Optional[List[str]] = None,
-    all_fuel: Optional[List[str]] = None,
+    cost_component_files: Optional[List[Tuple[str, str]]] = None,
+    techfuel_pairs: Optional[List[Tuple[str, str]]] = None,
+    techfuel_mapping: Optional[Dict[str, str]] = None,
+    all_cost_components: Optional[List[str]] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> None:
     """
@@ -278,12 +419,17 @@ def run_output_treatment(
         List of (input_name, output_name) tuples for cumulative calculations.
         If None, uses CUMULATIVE_FILES.
     techfuel_files : list, optional
-        List of file names to fill with all (tech, fuel) combinations.
+        List of file names to fill with valid (tech, fuel) combinations.
         If None, uses TECHFUEL_FILES.
-    all_tech : list, optional
-        List of all technology names. Required for techfuel filling.
-    all_fuel : list, optional
-        List of all fuel names. Required for techfuel filling.
+    cost_component_files : list, optional
+        List of (file_name, cost_column_name) tuples for cost component filling.
+        If None, uses COST_COMPONENT_FILES.
+    techfuel_pairs : list of tuples, optional
+        List of valid (tech, fuel) pairs from pTechFuel. Required for techfuel filling.
+    techfuel_mapping : dict, optional
+        Dictionary mapping 'tech-fuel' keys to Processing names.
+    all_cost_components : list, optional
+        List of all cost component names. If None, uses ALL_COST_COMPONENTS.
     log_func : callable
         Logging function (default: print)
     """
@@ -293,6 +439,10 @@ def run_output_treatment(
         cumulative_files = CUMULATIVE_FILES
     if techfuel_files is None:
         techfuel_files = TECHFUEL_FILES
+    if cost_component_files is None:
+        cost_component_files = COST_COMPONENT_FILES
+    if all_cost_components is None:
+        all_cost_components = ALL_COST_COMPONENTS
 
     log_func("=" * 60)
     log_func("[output_treatment] Starting output treatment")
@@ -311,26 +461,42 @@ def run_output_treatment(
         rename_columns(csv_path, col_map, log_func=log_func)
 
     # ---------------------------------------------------------
-    # 2. Fill TechFuel combinations (if tech/fuel lists provided)
+    # 2. Fill TechFuel combinations (if techfuel_pairs provided)
     # ---------------------------------------------------------
-    if all_tech and all_fuel and techfuel_files:
+    if techfuel_pairs and techfuel_files:
         log_func("")
-        log_func("[output_treatment] STEP 2: Filling TechFuel combinations")
+        log_func("[output_treatment] STEP 2: Filling TechFuel combinations and adding Processing column")
         log_func("-" * 60)
 
         for file_name in techfuel_files:
             csv_path = os.path.join(output_dir, f"{file_name}.csv")
-            fill_techfuel_combinations(csv_path, all_tech, all_fuel, log_func=log_func)
+            fill_techfuel_combinations(csv_path, techfuel_pairs, techfuel_mapping=techfuel_mapping, log_func=log_func)
     else:
         log_func("")
-        log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no tech/fuel lists provided)")
+        log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no techfuel_pairs provided)")
         log_func("-" * 60)
 
     # ---------------------------------------------------------
-    # 3. Calculate cumulative values
+    # 3. Fill cost components with all sumhdr values
+    # ---------------------------------------------------------
+    if cost_component_files and all_cost_components:
+        log_func("")
+        log_func("[output_treatment] STEP 3: Filling cost components (sumhdr)")
+        log_func("-" * 60)
+
+        for file_name, cost_col in cost_component_files:
+            csv_path = os.path.join(output_dir, f"{file_name}.csv")
+            fill_cost_components(csv_path, all_cost_components, cost_col=cost_col, log_func=log_func)
+    else:
+        log_func("")
+        log_func("[output_treatment] STEP 3: Skipping cost component filling")
+        log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 4. Calculate cumulative values
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 3: Calculating cumulative values")
+    log_func("[output_treatment] STEP 4: Calculating cumulative values")
     log_func("-" * 60)
 
     for input_name, output_name in cumulative_files:
@@ -377,37 +543,51 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
 
         log_func(f"[output_treatment] Output directory: {output_dir}")
 
-        # Extract tech and fuel lists from GAMS database
-        log_func("[output_treatment] Extracting tech and fuel from GAMS database...")
+        # Extract tech-fuel pairs from GAMS database
+        log_func("[output_treatment] Extracting tech-fuel pairs from GAMS database...")
 
-        all_tech = []
-        all_fuel = []
+        techfuel_pairs = []
 
         try:
             db = gt.Container(gams.db)
 
-            # Get tech from pTechData (first dimension)
-            if 'pTechData' in db.data:
-                tech_data = db.data['pTechData']
-                if tech_data.records is not None and len(tech_data.records) > 0:
-                    all_tech = tech_data.records.iloc[:, 0].unique().tolist()
-                    log_func(f"[output_treatment]   Found {len(all_tech)} technologies from pTechData")
-
-            # Get fuel from ftfindex (first dimension)
-            if 'ftfindex' in db.data:
-                ftf_data = db.data['ftfindex']
-                if ftf_data.records is not None and len(ftf_data.records) > 0:
-                    all_fuel = ftf_data.records.iloc[:, 0].unique().tolist()
-                    log_func(f"[output_treatment]   Found {len(all_fuel)} fuels from ftfindex")
+            # Get (tech, fuel) pairs from pTechFuel (first two dimensions)
+            if 'pTechFuel' in db.data:
+                techfuel_data = db.data['pTechFuel']
+                if techfuel_data.records is not None and len(techfuel_data.records) > 0:
+                    techfuel_pairs = list(zip(
+                        techfuel_data.records.iloc[:, 0].tolist(),
+                        techfuel_data.records.iloc[:, 1].tolist()
+                    ))
+                    log_func(f"[output_treatment]   Found {len(techfuel_pairs)} (tech, fuel) pairs from pTechFuel")
 
         except Exception as e:
-            log_func(f"[output_treatment]   WARNING: Could not extract tech/fuel from GAMS: {e}")
+            log_func(f"[output_treatment]   WARNING: Could not extract tech-fuel pairs from GAMS: {e}")
+
+        # Load techfuel_mapping from pTechFuelProcessing.csv
+        log_func("[output_treatment] Loading techfuel mapping from pTechFuelProcessing.csv...")
+
+        techfuel_mapping = None
+
+        try:
+            if os.path.exists(TECHFUEL_PROCESSING_PATH):
+                df_processing = pd.read_csv(TECHFUEL_PROCESSING_PATH, comment='#')
+                # Create mapping: 'tech-fuel' -> Processing
+                techfuel_mapping = dict(zip(
+                    df_processing['tech'] + '-' + df_processing['fuel'],
+                    df_processing['Processing']
+                ))
+                log_func(f"[output_treatment]   Loaded {len(techfuel_mapping)} Processing mappings")
+            else:
+                log_func(f"[output_treatment]   WARNING: pTechFuelProcessing.csv not found at {TECHFUEL_PROCESSING_PATH}")
+        except Exception as e:
+            log_func(f"[output_treatment]   WARNING: Could not load techfuel mapping: {e}")
 
         # Run the main treatment
         run_output_treatment(
             output_dir,
-            all_tech=all_tech,
-            all_fuel=all_fuel,
+            techfuel_pairs=techfuel_pairs,
+            techfuel_mapping=techfuel_mapping,
             log_func=log_func
         )
 
