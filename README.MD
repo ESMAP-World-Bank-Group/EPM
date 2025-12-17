@@ -14,10 +14,63 @@
 
 Full documentation is available [here](https://esmap-world-bank-group.github.io/EPM/home.html).
 
-EPM (Electricity Planning Model) is a least-cost power system planning tool. EPM has been developed by the Power Systems Planning Group, embedded in the Energy Sector Management Assistance Program (ESMAP) of the World Bank. As power system planning is one of the key activities performed by energy ministries and utilities around the world, the ambition of this tool is to actively inform the operational work of the World Bank's staff and clients and to be an evolving and versatile decision-making tool. 
+## What is EPM?
 
-EPM is formulated in the General Algebraic Modeling System (GAMS). All input data is provided via an Excel interface to the model and likewise, the results are collected in an Excel output file. Knowledge of the GAMS programming language is not a prerequisite for the basic runs.
-In short, EPM minimizes the costs of expanding and operating a power system while meeting the system's technical, economic, and environmental requirements. EPM is mostly used as a long-term planning model, which means it optimizes the capacity expansion on a yearly basis based on system costs over multiple years, including fixed costs (annualized capital and fixed operation and maintenance [O&M]), variable costs (variable O&M) and fuel costs. Moreover, EPM addresses the dispatch of the generators, decides on the activities per geographical zone and the exchange between them. The model also co-optimizes reserves and generation allowing to allocate spinning reserves among generators. It also allows to test the impact of different policies, e.g., emissions limits, fuel, and import limits, spinning reserve requirements, transmissions caps, ramp limits, or carbon prices, on the power system evolution and costs.
+EPM (Electricity Planning Model) is a least-cost power system planning tool developed by the Power Systems Planning Group at the Energy Sector Management Assistance Program (ESMAP) of the World Bank. As power system planning is a key activity for energy ministries and utilities worldwide, EPM serves as an evolving and versatile decision-making tool for World Bank staff and clients.
+
+## Objectives
+
+EPM helps answer critical questions for power system planners:
+
+### Capacity Planning
+
+- **What generation capacity should be built?** - Optimal mix of technologies (solar, wind, hydro, gas, etc.)
+- **When should new capacity be built?** - Investment timeline over the planning horizon
+- **Where should it be located?** - Geographic distribution across zones/countries
+
+### System Operations
+
+- **How will generation be dispatched?** - Hourly operation of power plants
+- **What are the electricity costs?** - Generation costs by zone and technology
+- **How much will the system cost?** - Total NPV of capacity expansion and operations
+
+### Policy Analysis
+
+- **What is the impact of renewable targets?** - Achieving minimum RE shares
+- **What are the benefits of interconnections?** - Cross-border power trade
+- **What are the CO2 implications?** - Emissions under different scenarios
+
+## How It Works
+
+EPM is formulated in the General Algebraic Modeling System (GAMS). Input data is provided via CSV files, and results are generated as CSV outputs with automatic visualizations. Knowledge of GAMS programming is not required for basic runs.
+
+EPM minimizes the costs of expanding and operating a power system while meeting technical, economic, and environmental requirements:
+
+- **Fixed costs**: Annualized capital and fixed O&M
+- **Variable costs**: Variable O&M and fuel costs
+- **Dispatch optimization**: Hourly generation scheduling
+- **Geographic scope**: Multi-zone with cross-border exchanges
+- **Reserve co-optimization**: Spinning reserves allocation
+- **Policy constraints**: Emissions limits, fuel constraints, renewable targets, carbon prices
+
+## Example Outputs
+
+> **Note**: These examples are for illustrative purposes only. Numbers should not be used quantitatively.
+
+EPM produces comprehensive outputs including:
+
+| Output Type | Description |
+|-------------|-------------|
+| Capacity Mix | Evolution of generation capacity by technology |
+| System Costs | NPV analysis and cost comparisons across scenarios |
+| Energy Generation | GWh production by technology and zone |
+| Dispatch | Hourly generation scheduling |
+| Interconnections | Cross-border power flows |
+| Interactive Maps | Geographic visualization of the power system |
+
+See the [Output Examples](https://esmap-world-bank-group.github.io/EPM/docs/output/examples.html) documentation for sample visualizations.
+
+## Deployment Process
 
 The practical deployment of EPM consists of a 7-step process, which is illustrated below.
 
