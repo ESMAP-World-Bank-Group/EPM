@@ -4,7 +4,15 @@ All input files must be placed inside the `epm/input` folder.
 
 Each dataset lives in its own subfolder, which is passed to the model with `--folder_input`.
 
-Optional, you can also provide a `config.csv` that maps model parameters to the corresponding `.csv` files; the path of this file is passed with `--config` from `--folder_input`.
+A `config.csv` file maps model parameters to the corresponding `.csv` files; the path of this file is passed with `--config` from `--folder_input`. See [Configuration](../run/configuration.md) for details on how config.csv works.
+
+**Related Documentation:**
+
+- [Configuration Flow](../run/configuration.md) - How config.csv, pSettings, and resources work together
+- [Input Overview](input_overview.md) - Summary of all input files
+- [Input Description](input_detailed.md) - Detailed parameter descriptions
+- [Resources](resources.md) - Shared model constants (technologies, fuels, carbon content)
+- [Input Treatment](input_treatment.md) - Automatic data validation and filling
 
 Below is the current baseline structure for the `data_test` dataset.
 

@@ -183,12 +183,12 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': False,
-    'costs': False,
-    'energy': False,
+    'capacity': True,
+    'costs': True,
+    'energy': True,
     'dispatch': True,
-    'interconnection': False,
-    'maps': False,
+    'interconnection': True,
+    'maps': True,
 }
 
 FIGURE_CATEGORY_MAP = {
