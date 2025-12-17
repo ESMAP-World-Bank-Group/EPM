@@ -31,7 +31,7 @@ The Electricity Planning Model (EPM) is designed to answer key questions for pow
 
 Shows how the generation capacity mix evolves over time across scenarios.
 
-![Capacity Mix System Evolution](/output/examples/CapacityMixSystemEvolutionScenarios.pdf)
+![Capacity Mix System Evolution](examples/CapacityMixSystemEvolutionScenarios.png)
 
 *System-wide capacity evolution comparing different scenarios (baseline, no transmission, optimal transmission).*
 
@@ -41,7 +41,7 @@ Shows how the generation capacity mix evolves over time across scenarios.
 
 Shows the percentage breakdown of capacity by technology for each zone.
 
-![Capacity Mix by Zone](/output/examples/CapacityMixEvolutionZonePercentage-baseline.pdf)
+![Capacity Mix by Zone](examples/CapacityMixEvolutionZonePercentage-baseline.png)
 
 *Capacity mix evolution by zone showing the share of each technology over time.*
 
@@ -51,7 +51,7 @@ Shows the percentage breakdown of capacity by technology for each zone.
 
 Compares the Net Present Value (NPV) of total system costs across scenarios.
 
-![NPV Cost System Scenarios](/output/examples/NPVCostSystemScenarios.pdf)
+![NPV Cost System Scenarios](examples/NPVCostSystemScenarios.png)
 
 *NPV of total system costs comparing different planning scenarios.*
 
@@ -61,7 +61,7 @@ Compares the Net Present Value (NPV) of total system costs across scenarios.
 
 Shows how generation costs ($/MWh) evolve over time for each zone.
 
-![Generation Cost Evolution](/output/examples/GenCostMWhZoneEvolution-baseline.pdf)
+![Generation Cost Evolution](examples/GenCostMWhZoneEvolution-baseline.png)
 
 *Evolution of generation costs per MWh by zone over the planning horizon.*
 
@@ -71,7 +71,7 @@ Shows how generation costs ($/MWh) evolve over time for each zone.
 
 Shows how energy generation (GWh) by technology evolves over time.
 
-![Energy Mix Evolution](/output/examples/EnergyMixZoneEvolution-baseline.pdf)
+![Energy Mix Evolution](examples/EnergyMixZoneEvolution-baseline.png)
 
 *Energy generation mix by zone showing total GWh from each technology.*
 
@@ -81,7 +81,7 @@ Shows how energy generation (GWh) by technology evolves over time.
 
 Shows hourly dispatch of generation resources for a representative period.
 
-![Dispatch Example](/output/examples/Dispatch_baseline_Gabon_full_season_2025_Q2d1_d2_d3_d4_d5.pdf)
+![Dispatch Example](examples/Dispatch_baseline_Gabon_full_season_2025_Q2d1_d2_d3_d4_d5.png)
 
 *Hourly dispatch for Gabon in 2025, showing how different generators meet demand throughout representative days.*
 
@@ -91,9 +91,9 @@ Shows hourly dispatch of generation resources for a representative period.
 
 EPM generates interactive HTML maps showing the power system geographically.
 
-<iframe src="/output/examples/InteractiveMap_baseline_2040.html" width="100%" height="600px" frameborder="0"></iframe>
+<iframe src="examples/InteractiveMap_baseline_2040.html" width="100%" height="600px" frameborder="0"></iframe>
 
-[Open Interactive Map in New Tab](/output/examples/InteractiveMap_baseline_2040.html)
+[Open Interactive Map in New Tab](examples/InteractiveMap_baseline_2040.html)
 
 *Interactive map showing generation capacity, interconnections, and power flows for 2040.*
 
