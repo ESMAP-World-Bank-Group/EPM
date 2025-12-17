@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>ESMAP Energy Planning Group Library &#8212; Energy Planning Model</title>
+    <title>GAMS (General Algebraic Modeling System) help &#8212; Energy Planning Model</title>
   
   
   
@@ -16,53 +16,56 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/bootstrap.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=796348d33e8b1d947c94" rel="stylesheet">
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=796348d33e8b1d947c94" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2">
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2">
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=4ec06e9971c5264fbd345897d5258098f11cc577" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94">
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94">
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=8bf782fb4ee92b3d3646425e50f299c4e1fd152d"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
+    <script src="../../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'home';</script>
-    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/home.html" />
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="About EPM" href="docs/introduction/introduction.html" />
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/run/gams';</script>
+    <link rel="canonical" href="https://github.com/ESMAP-World-Bank-Group/EPM/docs/run/gams.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Input Folder Structure" href="../input/input_structure.html" />
+    <link rel="prev" title="Threading and Parallelism in EPM" href="options_thread.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="docsearch:language" content="en">
   </head>
@@ -87,7 +90,7 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="search-button__overlay"></div>
     <div class="search-button__search-container">
       
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
@@ -106,7 +109,7 @@ const thebe_selector_output = ".output, .cell_output"
   
 
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="../../home.html">
 
   
   
@@ -117,8 +120,8 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
-    <img src="_static/esmap.png" class="logo__image only-light" alt="Logo image">
-    <img src="_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
@@ -137,35 +140,35 @@ const thebe_selector_output = ".output, .cell_output"
     <ul id="navbar-main-elements" class="navbar-nav">
         
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/introduction/introduction.html">
+                      <a class="nav-link nav-internal" href="../introduction/introduction.html">
                         About EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/introduction/introduction_case_studies.html">
+                      <a class="nav-link nav-internal" href="../introduction/introduction_case_studies.html">
                         EPM Recent Case Studies
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_folder_structure.html">
+                      <a class="nav-link nav-internal" href="run_folder_structure.html">
                         EPM Folder structure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_prerequisites.html">
+                      <a class="nav-link nav-internal" href="run_prerequisites.html">
                         Prerequisites: Install Required Tools
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_installation.html">
+                      <a class="nav-link nav-internal" href="run_installation.html">
                         EPM Installation Guide
                       </a>
                     </li>
@@ -177,364 +180,364 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_gams_studio.html">
+                      <a class="nav-link nav-internal" href="run_gams_studio.html">
                         Run EPM from GAMS Studio
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_python.html">
+                      <a class="nav-link nav-internal" href="run_python.html">
                         Run EPM from Python
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/configuration.html">
+                      <a class="nav-link nav-internal" href="configuration.html">
                         Configuration Flow
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_python_advanced.html">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
                         Run EPM from Python - Advanced Features
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_python_summary.html">
+                      <a class="nav-link nav-internal" href="run_python_summary.html">
                         Run EPM with Python - Summary
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_remote_server.html">
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
                         Run EPM on the Remote Server
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_git_process.html">
+                      <a class="nav-link nav-internal" href="run_git_process.html">
                         Git Procedure for Beginners
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_epm_setup.html">
+                      <a class="nav-link nav-internal" href="run_epm_setup.html">
                         EPM Code Set Up
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_dispatch.html">
+                      <a class="nav-link nav-internal" href="run_dispatch.html">
                         Dispatch Mode Guide
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_debugging.html">
+                      <a class="nav-link nav-internal" href="run_debugging.html">
                         Debugging EPM Models in GAMS
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_troubleshooting.html">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
                         Common Issues & Troubleshooting
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_summary.html">
+                      <a class="nav-link nav-internal" href="run_summary.html">
                         Summary Command line
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/options_solver.html">
+                      <a class="nav-link nav-internal" href="options_solver.html">
                         Solver Options for EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/options_thread.html">
+                      <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/gams.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         GAMS (General Algebraic Modeling System) help
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_structure.html">
+                      <a class="nav-link nav-internal" href="../input/input_structure.html">
                         Input Folder Structure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_overview.html">
+                      <a class="nav-link nav-internal" href="../input/input_overview.html">
                         Input Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_detailed.html">
+                      <a class="nav-link nav-internal" href="../input/input_detailed.html">
                         Input Description
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/resources.html">
+                      <a class="nav-link nav-internal" href="../input/resources.html">
                         Resource Files
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_treatment.html">
+                      <a class="nav-link nav-internal" href="../input/input_treatment.html">
                         Input Treatment
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_set_definition.html">
+                      <a class="nav-link nav-internal" href="../input/input_set_definition.html">
                         Set definition
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_from_excel_to_csv.html">
+                      <a class="nav-link nav-internal" href="../input/input_from_excel_to_csv.html">
                         Transitioning from Excel to CSV
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_technology_brief.html">
+                      <a class="nav-link nav-internal" href="../input/input_technology_brief.html">
                         Technology Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_fuel_brief.html">
+                      <a class="nav-link nav-internal" href="../input/input_fuel_brief.html">
                         Fuel Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_representative_days.html">
+                      <a class="nav-link nav-internal" href="../input/input_representative_days.html">
                         Representative Days
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/examples.html">
+                      <a class="nav-link nav-internal" href="../output/examples.html">
                         EPM Output Examples
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_output_EPM.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_EPM.html">
                         EPM Output Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_output.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output.html">
                         Output Folder Structure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_output_overview.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_overview.html">
                         Postprocessing Output Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_tableau.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau.html">
                         Tableau Workflow
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_tableau_advanced.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau_advanced.html">
                         Tableau Advanced Tutorial: How to modify Tableau visualization
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_overview.html">
+                      <a class="nav-link nav-internal" href="../model/model_overview.html">
                         Mathematical Formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_description.html">
+                      <a class="nav-link nav-internal" href="../model/model_description.html">
                         Model Description
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_notations.html">
+                      <a class="nav-link nav-internal" href="../model/model_notations.html">
                         Notations
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_formulation.html">
+                      <a class="nav-link nav-internal" href="../model/model_formulation.html">
                         Model Formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/equations.html">
+                      <a class="nav-link nav-internal" href="../model/equations.html">
                         Mathematical formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/advanced/advanced_python.html">
+                      <a class="nav-link nav-internal" href="../advanced/advanced_python.html">
                         Advanced Use of the Python API
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/advanced/postprocessing.html">
+                      <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
                         Postprocessing with Python
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/contributing/contributing_code.html">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_code.html">
                         Contributing to the code
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/contributing/contributing_docs.html">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_docs.html">
                         Contributing to the documentation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/contributing/contributing_postprocess.html">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_postprocess.html">
                         Contributing postprocess
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/preprocessing/pre_overview.html">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_overview.html">
                         Preanalysis Folder Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/preprocessing/pre_projects.html">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_projects.html">
                         Data Preparation Workflow Documentation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/climatic_overview.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
                         Climatic Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/open-data/get_renewables_coordinate.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
                         Get Renewables Coordinates
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/load_plot.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
                         Demand Forecast Plots
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/hydro_availability.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
                         Hydro Availability Builder
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/supply_demand_balance.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
                         Supply-demand balance
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/representative_days/representative_days.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
                         Representative Days for EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/other/other_open_data.html">
+                      <a class="nav-link nav-internal" href="../other/other_open_data.html">
                         Open-Source Data (in progress)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/other/other_process.html">
+                      <a class="nav-link nav-internal" href="../other/other_process.html">
                         Electricity Planning Standard Process
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/other/interconnection.html">
+                      <a class="nav-link nav-internal" href="../other/interconnection.html">
                         Transmission Line Capacity and Cost Calculator – Explanatory Notes
                       </a>
                     </li>
@@ -613,35 +616,35 @@ const thebe_selector_output = ".output, .cell_output"
     <ul id="navbar-main-elements" class="navbar-nav">
         
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/introduction/introduction.html">
+                      <a class="nav-link nav-internal" href="../introduction/introduction.html">
                         About EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/introduction/introduction_case_studies.html">
+                      <a class="nav-link nav-internal" href="../introduction/introduction_case_studies.html">
                         EPM Recent Case Studies
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_folder_structure.html">
+                      <a class="nav-link nav-internal" href="run_folder_structure.html">
                         EPM Folder structure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_prerequisites.html">
+                      <a class="nav-link nav-internal" href="run_prerequisites.html">
                         Prerequisites: Install Required Tools
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_installation.html">
+                      <a class="nav-link nav-internal" href="run_installation.html">
                         EPM Installation Guide
                       </a>
                     </li>
@@ -653,364 +656,364 @@ const thebe_selector_output = ".output, .cell_output"
                 <div class="dropdown-menu">
                     
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_gams_studio.html">
+                      <a class="nav-link nav-internal" href="run_gams_studio.html">
                         Run EPM from GAMS Studio
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_python.html">
+                      <a class="nav-link nav-internal" href="run_python.html">
                         Run EPM from Python
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/configuration.html">
+                      <a class="nav-link nav-internal" href="configuration.html">
                         Configuration Flow
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_python_advanced.html">
+                      <a class="nav-link nav-internal" href="run_python_advanced.html">
                         Run EPM from Python - Advanced Features
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_python_summary.html">
+                      <a class="nav-link nav-internal" href="run_python_summary.html">
                         Run EPM with Python - Summary
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_remote_server.html">
+                      <a class="nav-link nav-internal" href="run_remote_server.html">
                         Run EPM on the Remote Server
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_git_process.html">
+                      <a class="nav-link nav-internal" href="run_git_process.html">
                         Git Procedure for Beginners
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_epm_setup.html">
+                      <a class="nav-link nav-internal" href="run_epm_setup.html">
                         EPM Code Set Up
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_dispatch.html">
+                      <a class="nav-link nav-internal" href="run_dispatch.html">
                         Dispatch Mode Guide
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_debugging.html">
+                      <a class="nav-link nav-internal" href="run_debugging.html">
                         Debugging EPM Models in GAMS
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_troubleshooting.html">
+                      <a class="nav-link nav-internal" href="run_troubleshooting.html">
                         Common Issues & Troubleshooting
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/run_summary.html">
+                      <a class="nav-link nav-internal" href="run_summary.html">
                         Summary Command line
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/options_solver.html">
+                      <a class="nav-link nav-internal" href="options_solver.html">
                         Solver Options for EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/options_thread.html">
+                      <a class="nav-link nav-internal" href="options_thread.html">
                         Threading and Parallelism in EPM
                       </a>
                     </li>
                 
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/run/gams.html">
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
                         GAMS (General Algebraic Modeling System) help
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_structure.html">
+                      <a class="nav-link nav-internal" href="../input/input_structure.html">
                         Input Folder Structure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_overview.html">
+                      <a class="nav-link nav-internal" href="../input/input_overview.html">
                         Input Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_detailed.html">
+                      <a class="nav-link nav-internal" href="../input/input_detailed.html">
                         Input Description
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/resources.html">
+                      <a class="nav-link nav-internal" href="../input/resources.html">
                         Resource Files
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_treatment.html">
+                      <a class="nav-link nav-internal" href="../input/input_treatment.html">
                         Input Treatment
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_set_definition.html">
+                      <a class="nav-link nav-internal" href="../input/input_set_definition.html">
                         Set definition
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_from_excel_to_csv.html">
+                      <a class="nav-link nav-internal" href="../input/input_from_excel_to_csv.html">
                         Transitioning from Excel to CSV
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_technology_brief.html">
+                      <a class="nav-link nav-internal" href="../input/input_technology_brief.html">
                         Technology Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_fuel_brief.html">
+                      <a class="nav-link nav-internal" href="../input/input_fuel_brief.html">
                         Fuel Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/input/input_representative_days.html">
+                      <a class="nav-link nav-internal" href="../input/input_representative_days.html">
                         Representative Days
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/examples.html">
+                      <a class="nav-link nav-internal" href="../output/examples.html">
                         EPM Output Examples
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_output_EPM.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_EPM.html">
                         EPM Output Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_output.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output.html">
                         Output Folder Structure
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_output_overview.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_output_overview.html">
                         Postprocessing Output Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_tableau.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau.html">
                         Tableau Workflow
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/output/postprocessing_tableau_advanced.html">
+                      <a class="nav-link nav-internal" href="../output/postprocessing_tableau_advanced.html">
                         Tableau Advanced Tutorial: How to modify Tableau visualization
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_overview.html">
+                      <a class="nav-link nav-internal" href="../model/model_overview.html">
                         Mathematical Formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_description.html">
+                      <a class="nav-link nav-internal" href="../model/model_description.html">
                         Model Description
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_notations.html">
+                      <a class="nav-link nav-internal" href="../model/model_notations.html">
                         Notations
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/model_formulation.html">
+                      <a class="nav-link nav-internal" href="../model/model_formulation.html">
                         Model Formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/model/equations.html">
+                      <a class="nav-link nav-internal" href="../model/equations.html">
                         Mathematical formulation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/advanced/advanced_python.html">
+                      <a class="nav-link nav-internal" href="../advanced/advanced_python.html">
                         Advanced Use of the Python API
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/advanced/postprocessing.html">
+                      <a class="nav-link nav-internal" href="../advanced/postprocessing.html">
                         Postprocessing with Python
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/contributing/contributing_code.html">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_code.html">
                         Contributing to the code
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/contributing/contributing_docs.html">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_docs.html">
                         Contributing to the documentation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/contributing/contributing_postprocess.html">
+                      <a class="nav-link nav-internal" href="../contributing/contributing_postprocess.html">
                         Contributing postprocess
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/preprocessing/pre_overview.html">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_overview.html">
                         Preanalysis Folder Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/preprocessing/pre_projects.html">
+                      <a class="nav-link nav-internal" href="../preprocessing/pre_projects.html">
                         Data Preparation Workflow Documentation
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/climatic_overview.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/climatic_overview.html">
                         Climatic Overview
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/open-data/get_renewables_coordinate.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">
                         Get Renewables Coordinates
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/load_plot.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/load_plot.html">
                         Demand Forecast Plots
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/hydro_availability.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/hydro_availability.html">
                         Hydro Availability Builder
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/supply_demand_balance.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">
                         Supply-demand balance
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="pre-analysis/prepare-data/representative_days/representative_days.html">
+                      <a class="nav-link nav-internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">
                         Representative Days for EPM
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/other/other_open_data.html">
+                      <a class="nav-link nav-internal" href="../other/other_open_data.html">
                         Open-Source Data (in progress)
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/other/other_process.html">
+                      <a class="nav-link nav-internal" href="../other/other_process.html">
                         Electricity Planning Standard Process
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
-                      <a class="nav-link nav-internal" href="docs/other/interconnection.html">
+                      <a class="nav-link nav-internal" href="../other/interconnection.html">
                         Transmission Line Capacity and Cost Calculator – Explanatory Notes
                       </a>
                     </li>
@@ -1052,7 +1055,7 @@ const thebe_selector_output = ".output, .cell_output"
   
 
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="../../home.html">
 
   
   
@@ -1063,14 +1066,14 @@ const thebe_selector_output = ".output, .cell_output"
   
 
   
-    <img src="_static/esmap.png" class="logo__image only-light" alt="Logo image">
-    <img src="_static/esmap.png" class="logo__image only-dark" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-light" alt="Logo image">
+    <img src="../../_static/esmap.png" class="logo__image only-dark" alt="Logo image">
   
   
 </a>
     </div>
     <div class="sidebar-start-items__item">
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+<form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
@@ -1080,94 +1083,94 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Introduction</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/introduction/introduction.html">About EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction.html">About EPM</a></li>
 
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="docs/introduction/introduction_case_studies.html">EPM Recent Case Studies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction/introduction_case_studies.html">EPM Recent Case Studies</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run EPM</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_folder_structure.html">EPM Folder structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_installation.html">EPM Installation Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_gams_studio.html">Run EPM from GAMS Studio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_python.html">Run EPM from Python</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/configuration.html">Configuration Flow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_python_summary.html">Run EPM with Python - Summary</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_remote_server.html">Run EPM on the Remote Server</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_git_process.html">Git Procedure for Beginners</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_epm_setup.html">EPM Code Set Up</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_dispatch.html">Dispatch Mode Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_debugging.html">Debugging EPM Models in GAMS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/run_summary.html">Summary Command line</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_folder_structure.html">EPM Folder structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_prerequisites.html">Prerequisites: Install Required Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_installation.html">EPM Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_gams_studio.html">Run EPM from GAMS Studio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python.html">Run EPM from Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_advanced.html">Run EPM from Python - Advanced Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_python_summary.html">Run EPM with Python - Summary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_remote_server.html">Run EPM on the Remote Server</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_git_process.html">Git Procedure for Beginners</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_epm_setup.html">EPM Code Set Up</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_dispatch.html">Dispatch Mode Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_debugging.html">Debugging EPM Models in GAMS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_troubleshooting.html">Common Issues &amp; Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_summary.html">Summary Command line</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Run Options</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/run/options_solver.html">Solver Options for EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/options_thread.html">Threading and Parallelism in EPM</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/run/gams.html">GAMS (General Algebraic Modeling System) help</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="options_solver.html">Solver Options for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="options_thread.html">Threading and Parallelism in EPM</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GAMS (General Algebraic Modeling System) help</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Input</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_structure.html">Input Folder Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_overview.html">Input Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_detailed.html">Input Description</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/resources.html">Resource Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_treatment.html">Input Treatment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_set_definition.html">Set definition</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_technology_brief.html">Technology Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_fuel_brief.html">Fuel Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/input/input_representative_days.html">Representative Days</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_structure.html">Input Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_overview.html">Input Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_detailed.html">Input Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/resources.html">Resource Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_treatment.html">Input Treatment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_set_definition.html">Set definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_from_excel_to_csv.html">Transitioning from Excel to CSV</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_technology_brief.html">Technology Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_fuel_brief.html">Fuel Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../input/input_representative_days.html">Representative Days</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Output &amp; Postprocessing</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/output/examples.html">EPM Output Examples</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/output/postprocessing_output_EPM.html">EPM Output Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/output/postprocessing_output.html">Output Folder Structure</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/output/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/output/postprocessing_tableau.html">Tableau Workflow</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/output/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/examples.html">EPM Output Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output_EPM.html">EPM Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output.html">Output Folder Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_output_overview.html">Postprocessing Output Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_tableau.html">Tableau Workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../output/postprocessing_tableau_advanced.html">Tableau Advanced Tutorial: How to modify Tableau visualization</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Description</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/model/model_overview.html">Mathematical Formulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/model/model_description.html">Model Description</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/model/model_notations.html">Notations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/model/model_formulation.html">Model Formulation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/model/equations.html">Mathematical formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_overview.html">Mathematical Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_description.html">Model Description</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_notations.html">Notations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/model_formulation.html">Model Formulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/equations.html">Mathematical formulation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced Topics</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/advanced/advanced_python.html">Advanced Use of the Python API</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/advanced/postprocessing.html">Postprocessing with Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/advanced_python.html">Advanced Use of the Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/postprocessing.html">Postprocessing with Python</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contributing</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/contributing/contributing_code.html">Contributing to the code</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/contributing/contributing_docs.html">Contributing to the documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/contributing/contributing_postprocess.html">Contributing postprocess</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_code.html">Contributing to the code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_docs.html">Contributing to the documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing/contributing_postprocess.html">Contributing postprocess</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Pre-processing Analysis</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/preprocessing/pre_overview.html">Preanalysis Folder Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/preprocessing/pre_projects.html">Data Preparation Workflow Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre-analysis/prepare-data/climatic_overview.html">Climatic Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre-analysis/open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre-analysis/prepare-data/load_plot.html">Demand Forecast Plots</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre-analysis/prepare-data/hydro_availability.html">Hydro Availability Builder</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre-analysis/prepare-data/supply_demand_balance.html">Supply-demand balance</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre-analysis/prepare-data/representative_days/representative_days.html">Representative Days for EPM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_overview.html">Preanalysis Folder Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preprocessing/pre_projects.html">Data Preparation Workflow Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/climatic_overview.html">Climatic Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/open-data/get_renewables_coordinate.html">Get Renewables Coordinates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/load_plot.html">Demand Forecast Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/hydro_availability.html">Hydro Availability Builder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/supply_demand_balance.html">Supply-demand balance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre-analysis/prepare-data/representative_days/representative_days.html">Representative Days for EPM</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Other Resources</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="docs/other/other_open_data.html">Open-Source Data (in progress)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/other/other_process.html">Electricity Planning Standard Process</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/other/interconnection.html">Transmission Line Capacity and Cost Calculator – Explanatory Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/other_open_data.html">Open-Source Data (in progress)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/other_process.html">Electricity Planning Standard Process</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../other/interconnection.html">Transmission Line Capacity and Cost Calculator – Explanatory Notes</a></li>
 </ul>
 
     </div>
@@ -1243,7 +1246,7 @@ title="Source repository"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fhome.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/issues/new?title=Issue%20on%20page%20%2Fdocs/run/gams.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -1258,7 +1261,7 @@ title="Open an issue"
 </a>
 </a>
       
-      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/home.md" target="_blank"
+      <li><a href="https://github.com/ESMAP-World-Bank-Group/EPM/edit/main/docs/run/gams.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -1283,7 +1286,7 @@ title="Edit this page"
     <i class="fas fa-download"></i>
   </button>
   <ul class="dropdown-menu">
-      <li><a href="_sources/home.md" target="_blank"
+      <li><a href="../../_sources/docs/run/gams.md" target="_blank"
    class="btn btn-sm dropdown-item"
    data-toggle="tooltip"
 data-placement="left"
@@ -1326,7 +1329,7 @@ title="Print to PDF"
             
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>ESMAP Energy Planning Group Library</h1>
+    <h1>GAMS (General Algebraic Modeling System) help</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -1337,8 +1340,26 @@ title="Print to PDF"
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#main-tool-electricity-planning-model-epm">
-   Main Tool: Electricity Planning Model (EPM)
+  <a class="reference internal nav-link" href="#compilation-vs-execution-time-in-gams">
+   Compilation vs. Execution Time in GAMS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conditional-directives-if-ifi-ifthen-ifthen-variable">
+   Conditional Directives:
+   <span class="math notranslate nohighlight">
+    \(if, \)
+   </span>
+   ifi,
+   <span class="math notranslate nohighlight">
+    \(ifthen, \)
+   </span>
+   ifthen.variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#onmulti-directive">
+   $onmulti Directive
   </a>
  </li>
 </ul>
@@ -1350,51 +1371,43 @@ title="Print to PDF"
 
             <article class="bd-article" role="main">
               
-  <section class="tex2jax_ignore mathjax_ignore" id="esmap-energy-planning-group-library">
-<h1>ESMAP Energy Planning Group Library<a class="headerlink" href="#esmap-energy-planning-group-library" title="Permalink to this heading">#</a></h1>
-<p>Welcome to the Energy Planning Group Library, a collection of tools and models developed by the World Bank’s Energy Sector Management Assistance Program (ESMAP) to support electricity system planning at national and regional levels.</p>
-<p>This open-source library provides Python-based and GAMS-based tools to conduct robust, data-driven assessments of power systems—supporting policy makers, planners, and analysts working on:</p>
-<ul class="simple">
-<li><p>Renewable energy integration</p></li>
-<li><p>Power system flexibility analysis</p></li>
-<li><p>Long-term capacity expansion</p></li>
-<li><p>Multi-zone dispatch modeling</p></li>
-</ul>
-<section id="main-tool-electricity-planning-model-epm">
-<h2>Main Tool: Electricity Planning Model (EPM)<a class="headerlink" href="#main-tool-electricity-planning-model-epm" title="Permalink to this heading">#</a></h2>
-<p>At the core of this library is the Electricity Planning Model (EPM)—a long-term, multi-year, multi-zone capacity expansion and dispatch model. EPM is designed to identify cost-optimal investment and operational strategies for electricity systems.</p>
-<p>Key Features:</p>
-<ul class="simple">
-<li><p>Models power generation, transmission, and dispatch over multiple years and zones</p></li>
-<li><p>Minimizes the net present value of total system costs, including:</p>
-<ul>
-<li><p>Fixed and annualized capital costs</p></li>
-<li><p>Variable generation and fuel costs</p></li>
-</ul>
-</li>
-<li><p>Supports planning under various policy, demand, and technology scenarios</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="gams-general-algebraic-modeling-system-help">
+<h1>GAMS (General Algebraic Modeling System) help<a class="headerlink" href="#gams-general-algebraic-modeling-system-help" title="Permalink to this heading">#</a></h1>
+<section id="compilation-vs-execution-time-in-gams">
+<h2>Compilation vs. Execution Time in GAMS<a class="headerlink" href="#compilation-vs-execution-time-in-gams" title="Permalink to this heading">#</a></h2>
+<p>In GAMS, compilation time refers to when the model is being processed and checked for syntax errors before execution. During this phase, GAMS interprets <span class="math notranslate nohighlight">\( directives, defines sets, parameters, and equations but does not execute calculations or solve the model. Execution time, on the other hand, is when the model actually runs, evaluates expressions, processes loops, and solves optimization problems. The key difference is that \)</span> directives (e.g., <span class="math notranslate nohighlight">\(if, \)</span>include) are handled at compilation time, while assignments and calculations occur during execution.</p>
 </section>
-<div class="toctree-wrapper compound">
+<section id="conditional-directives-if-ifi-ifthen-ifthen-variable">
+<h2>Conditional Directives: <span class="math notranslate nohighlight">\(if, \)</span>ifi, <span class="math notranslate nohighlight">\(ifthen, \)</span>ifthen.variable<a class="headerlink" href="#conditional-directives-if-ifi-ifthen-ifthen-variable" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$if</span></code> is evaluated at compilation time and is used for simple conditional execution of code blocks. It does not allow nested conditions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$ifi</span></code> is an “inline” version of $if, used when the condition should be evaluated within a single line.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$ifthen</span></code> / <code class="docutils literal notranslate"><span class="pre">$else</span></code> / <code class="docutils literal notranslate"><span class="pre">$endif</span></code> provides a structured way to handle multi-line conditions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">$ifthen.variable</span></code> is used when the condition involves a runtime variable (i.e., a GAMS parameter or scalar), making it useful for execution-time decision-making.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$setglobal mode test
+$if &quot;%mode%&quot; == &quot;test&quot; $include test_model.gms
+
+Scalar x /5/;
+$ifthen.variable x &gt; 4
+    Display &quot;x is greater than 4&quot;;
+$endif
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
+</section>
+<section id="onmulti-directive">
+<h2>$onmulti Directive<a class="headerlink" href="#onmulti-directive" title="Permalink to this heading">#</a></h2>
+<p>$onmulti allows the redefinition of sets and parameters without causing an error. Normally, GAMS prevents duplicate definitions, but this directive is useful when data may be defined multiple times, such as when reading external files or updating sets dynamically.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$onmulti
+Set A /a, b, c/;
+Set A /d, e/;  * This would normally cause an error without $onmulti
+$offmulti
+</pre></div>
 </div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
-</div>
+<p>This directive should be used with caution to avoid unintended overwrites.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1410,7 +1423,7 @@ title="Print to PDF"
         },
         kernelOptions: {
             name: "python3",
-            path: "./."
+            path: "./docs/run"
         },
         predefinedOutput: true
     }
@@ -1425,10 +1438,17 @@ title="Print to PDF"
             <footer class="bd-footer-article">
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-  <a class='right-next' id="next-link" href="docs/introduction/introduction.html" title="next page">
+  <a class='left-prev' id="prev-link" href="options_thread.html" title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+          <p class="prev-next-subtitle">previous</p>
+          <p class="prev-next-title">Threading and Parallelism in EPM</p>
+      </div>
+  </a>
+  <a class='right-next' id="next-link" href="../input/input_structure.html" title="next page">
   <div class="prev-next-info">
       <p class="prev-next-subtitle">next</p>
-      <p class="prev-next-title">About EPM</p>
+      <p class="prev-next-title">Input Folder Structure</p>
   </div>
   <i class="fa-solid fa-angle-right"></i>
   </a>
@@ -1449,8 +1469,26 @@ title="Print to PDF"
 <nav id="bd-toc-nav" class="page-toc">
     <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#main-tool-electricity-planning-model-epm">
-   Main Tool: Electricity Planning Model (EPM)
+  <a class="reference internal nav-link" href="#compilation-vs-execution-time-in-gams">
+   Compilation vs. Execution Time in GAMS
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conditional-directives-if-ifi-ifthen-ifthen-variable">
+   Conditional Directives:
+   <span class="math notranslate nohighlight">
+    \(if, \)
+   </span>
+   ifi,
+   <span class="math notranslate nohighlight">
+    \(ifthen, \)
+   </span>
+   ifthen.variable
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#onmulti-directive">
+   $onmulti Directive
   </a>
  </li>
 </ul>
@@ -1507,8 +1545,8 @@ Last updated on Dec 17, 2025.<br>
   
     
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=796348d33e8b1d947c94"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=796348d33e8b1d947c94"></script>
 
   </body>
 </html>
