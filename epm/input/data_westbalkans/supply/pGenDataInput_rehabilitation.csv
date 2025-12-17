@@ -1,0 +1,65 @@
+﻿gen,zone,tech,fuel,Status,StYr,RetrYr,Capacity,UnitSize,DescreteCap,fuel2,HeatRate2,BuildLimitperYear,Life,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,Capex,FOMperMW,VOM,ReserveCost
+HPP Bocac,BiH,ROR,Water,1,,,110,,,,,,,,,,,,,,,,
+HPP Dub i Ustipraca,BiH,ROR,Water,1,,,17,,,,,,,,,,,,,,,,
+HPP Dubrovnik,BiH,ReservoirHydro,Water,1,,,120,,,,,,,,,,,,,,,,
+HPP Grabovica,BiH,ROR,Water,1,,,114,,,,,,,,,,,,,,,,
+HPP Jablanica,BiH,ReservoirHydro,Water,1,,,180,,,,,,,,,,,,,,,,
+HPP Jajce 1,BiH,ROR,Water,1,,,60,,,,,,,,,,,,,,,,
+HPP Jajce 2,BiH,ROR,Water,1,,2025,30,,,,,,,,,,,,,,,,
+HPP Mostar,BiH,ROR,Water,1,,,72,,,,,,,,,,,,,,,,
+HPP Mostarsko blato,BiH,ROR,Water,1,,,60,,,,,,,,,,,,,,,,
+HPP Pec-Mlini,BiH,ROR,Water,1,,,30.6,,,,,,,,,,,,,,,,
+HPP Rama,BiH,ReservoirHydro,Water,1,,,170,,,,,,,,,,,,,,,,
+HPP Salakovac,BiH,ROR,Water,1,,2025,210,,,,,,,,,,,,,,,,
+HPP Trebinje 1,BiH,ReservoirHydro,Water,1,,,171,,,,,,,,,,,,,,,,
+HPP Visegrad,BiH,ROR,Water,1,,,315,,,,,,,,,,,,,,,,
+PSPCapljina,BiH,Storage,Water,1,1968,2051,440,,,,,,,,,1,1,0,1,,35872,,0
+PV_Ex_BiH,BiH,PV,Solar,1,2020,2044,56,,,,,,,,,,,,,,10000,,0
+TPP_Gacko,BiH,ST,Coal,1,1983,2035,276,,,,,,,0.22,10.902,0.7,0.7,0,0.05,,48000,4.5,0
+TPP_Kakanj5_Old,BiH,ST,Coal,1,1969,2022,100,,,,,,,0.22,12.324,0.7,0.7,0,0.05,,48000,3.8,0
+TPP_Kakanj5,BiH,ST,Coal,1,2022,2051,100,,,,,,,0.22,12.98,1,1,0,0.05,,48000,3.8,0
+TPP_Kakanj6,BiH,ST,Coal,1,1977,2051,100,,,,,,,0.22,12.4188,0.7,0.7,0,0.05,,42000,3.7,0
+TPP_Kakanj7,BiH,ST,Coal,1,1988,2051,208,,,,,,,0.22,12.0396,0.7,0.7,0,0.05,,48000,3.8,0
+TPP_Stanari,BiH,ST,Coal,1,2015,2060,275,,,,,,,0.22,9.2,0.7,0.7,0,0.05,,38000,4,0
+TPP_Tuzla3,BiH,ST,Coal,1,1966,2023,90,,,,,,,0.22,13.9356,0.7,0.7,0,0.05,,19200,6,0
+TPP_Tuzla4_Old,BiH,ST,Coal,1,1971,2022,180,,,,,,,0.22,11.7552,0.7,0.7,0,0.05,,34800,5.3,0
+TPP_Tuzla4,BiH,ST,Coal,1,2022,2051,180,,,,,,,0.22,12.35,1,1,0,0.05,,34800,5.3,0
+TPP_Tuzla5,BiH,ST,Coal,1,1974,2025,180,,,,,,,0.22,11.4708,0.7,0.7,0,0.05,,32400,5.3,0
+TPP_Tuzla6,BiH,ST,Coal,1,1978,2051,200,,,,,,,0.22,10.2384,0.7,0.7,0,0.05,,34800,3.7,0
+TPP_Ugljevik,BiH,ST,Coal,1,1985,2035,279,,,,,,,0.22,10.902,0.7,0.7,0,0.05,,48000,5,0
+Wind_Ex_BiH,BiH,OnshoreWind,Wind,1,2018,2044,135,,,,,,,,,,,,,,28180,,0
+BECCS_New_BiH,BiH,BiomassPlant,Biomass,3,2045,,10000,,,,,100,40,0.22,11.37384698,1,1,0,0.05,5.4,135000,30,0
+BESS2025_4h_BiH,BiH,Storage,Battery,,2028,,5000,,,,,120,20,,,1,1,0,1,1.05,21000,,0
+BESS2025_8h_BiH,BiH,Storage,Battery,,2028,,5000,,,,,120,20,,,1,1,0,1,1.9,38000,,0
+BESS2030_4h_BiH,BiH,Storage,Battery,3,2030,,5000,,,,,120,20,,,1,1,0,1,0.57,14000,,0
+BESS2030_8h_BiH,BiH,Storage,Battery,3,2030,,5000,,,,,120,20,,,1,1,0,1,1,26000,,0
+BESS2035_4h_BiH,BiH,Storage,Battery,3,2035,,5000,,,,,120,20,,,1,1,0,1,0.51,13000,,0
+BESS2035_8h_BiH,BiH,Storage,Battery,3,2035,,5000,,,,,120,20,,,1,1,0,1,0.93,23000,,0
+BESS2040_4h_BiH,BiH,Storage,Battery,3,2040,,5000,,,,,120,20,,,1,1,0,1,0.45,11000,,0
+BESS2040_8h_BiH,BiH,Storage,Battery,3,2040,,5000,,,,,120,20,,,1,1,0,1,0.82,21000,,0
+BESS2045_4h_BiH,BiH,Storage,Battery,3,2045,,5000,,,,,120,20,,,1,1,0,1,0.4,10000,,0
+BESS2045_8h_BiH,BiH,Storage,Battery,3,2045,,5000,,,,,120,20,,,1,1,0,1,0.72,18000,,0
+BESS2050_4h_BiH,BiH,Storage,Battery,3,2050,,5000,,,,,120,20,,,1,1,0,1,0.35,9000,,0
+BESS2050_8h_BiH,BiH,Storage,Battery,3,2050,,5000,,,,,120,20,,,1,1,0,1,0.63,16000,,0
+Biomass_New_BiH,BiH,BiomassPlant,Biomass,3,2030,,10000,50,1,,,120,40,0.22,9.749011694,1,1,0,0.05,2.4,77500,3.5,0
+CCGT_New_BiH,BiH,CCGT,Gas,3,2040,,10000,50,1,,,300,40,0.22,5.783312022,1,1,0,0.1,1,25000,3.5,0
+CCGTCCS_New_BiH,BiH,CCGT,Gas,3,2045,,10000,50,1,,,300,40,0.22,6.7,1,1,0,0.1,3.08,80000,21.8,0
+Coal_SubNew_BiH,BiH,ST,Coal,3,2030,,10000,50,1,,,300,40,0.22,8.749113059,1,1,0,0.05,1.7,45000,3,0
+Coal_SuperNew_BiH,BiH,ST,Coal,3,2030,,10000,50,1,,,300,40,0.22,7.935242076,1,1,0,0.05,2,60000,3,0
+Coal_UltraNew_BiH,BiH,ST,Coal,3,2030,,10000,50,1,,,300,40,0.22,7.582564651,1,1,0,0.05,2.2,65000,3,0
+CoalCCS_New_BiH,BiH,ST,Coal,3,2045,,10000,50,1,,,300,40,0.22,9.478205814,1,1,0,0.05,5.08,100000,43.8,0
+HPP Jajce 2 Rehab,BiH,ROR,Water,2,2030,,30,30,1,,,30,,,,,,,,1,,,
+HPP Salakovac Rehab,BiH,ROR,Water,2,2030,,210,210,1,,,210,,,,,,,,0.36,,,
+OCGT_New_BiH,BiH,OCGT,Gas,3,2030,,10000,50,1,,,100,40,,8.530385232,1,1,0,0.2,0.5,20000,3.5,0
+PV_New_BiH,BiH,PV,Solar,3,2030,,10000,,,,,350,25,,,,,,,0.9,10000,,0
+TPP_Kakanj5_Biomass,BiH,BiomassPlant,Biomass,3,2031,,70,,,,,70,40,0.22,10.19,1,1,0,0.05,0.428571429,48000,3.8,0
+TPP_Tuzla3_Biomass,BiH,BiomassPlant,Biomass,3,2030,,75.6,,,,,75.6,40,0.22,9.48,1,1,0,0.05,1.322751323,38000,4,0
+Wind_New_BiH,BiH,OnshoreWind,Wind,3,2030,,6300,,,,,250,30,,,,,,,1.26,38000,,0
+HySto_Com_BiH,BiH,ReservoirHydro,Water,,2025,,215,,,,,215,30,,,1,1,0,0.3,2.65,60000,,0
+HySto_New_BiH,BiH,ReservoirHydro,Water,,2029,,2200,,,,,500,30,,,1,1,0,0.3,2.65,60000,,0
+PHP_New_BiH,BiH,Storage,Water,,2051,,1000,,,,,250,40,,,1,1,0,1,1.23,35872,,0
+PHP_Vrilo ,BiH,Storage,Water,,2030,,66,,,,,66,40,,,1,1,0,1,1.23,35872,,0
+PV_Com_BiH,BiH,PV,Solar,,2025,,290,,,,,290,25,,,,,,,0.9,10000,,0
+RoR_Com_BiH,BiH,ROR,Water,,2025,,100,,,,,100,30,,,1,1,0,0,2.65,60000,,0
+RoR_New_BiH,BiH,ROR,Water,,2029,,1000,,,,,300,30,,,1,1,0,0,2.65,60000,,0
+Wind_Com_BiH,BiH,OnshoreWind,Wind,,2025,,109,,,,,5000,30,,,,,,,1.26,38000,,0

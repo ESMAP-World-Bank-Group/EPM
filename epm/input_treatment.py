@@ -45,10 +45,12 @@ import pandas as pd
 from types import SimpleNamespace
 
 YEARLY_OUTPUT = [
+    'pTradePrice',
     'pDemandForecast',
     'pCapexTrajectories',
-    'pTradePrice',
-    'pTransferLimit'
+    'pExtTransferLimit',
+    'pTransferLimit', 
+    'pFuelPrice'
 ]
 
 ZONE_RESTRICTED_PARAMS = {
@@ -81,6 +83,7 @@ COLUMN_RENAME_MAP = {
     'pPlanningReserveMargin': {'uni': 'c'},
     'pTechFuel': {'tech': 'tech', 'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
+    'pTechData': {'Technology': 'tech'},
     "pVREGenProfile": {"gen": "g", "uni": "t"}
 }
 
@@ -173,10 +176,14 @@ def run_input_treatment(gams,
         """
         target_db = gams.db
         records = db[param_name].records
-        row_count = 0 if records is None else len(records)
-        target_kind = type(target_db).__name__
+        new_count = 0 if records is None else len(records)
 
         if isinstance(target_db, gt.Container):
+            # Get previous count before writing
+            prev_count = 0
+            if param_name in target_db.data and target_db.data[param_name].records is not None:
+                prev_count = len(target_db.data[param_name].records)
+
             if param_name not in target_db.data:
                 # Mirror the schema from the working container when the target container
                 # doesn't yet have the symbol (avoids KeyError on first write).
@@ -187,25 +194,27 @@ def run_input_treatment(gams,
                     domains = [c for c in source_symbol.records.columns if c != "value"]
                 target_db.addParameter(param_name, domains or [], records=None)
 
-            gams.printLog(
-                f"[input_treatment] {param_name}: wrote {row_count} row(s) into {target_kind} (container path)."
-            )
             target_db.data[param_name].setRecords(records)
+            gams.printLog(
+                f"[input_treatment] {param_name}: {prev_count} -> {new_count} row(s)."
+            )
             return
 
         # When writing back to a real GAMS database we must clear the symbol
         # first; db.write() only overwrites tuples that still exist, so stale
         # rows would otherwise survive our filters.
+
+        # Get previous count before clearing
+        prev_snapshot = gt.Container(target_db)
+        prev_records = prev_snapshot[param_name].records if param_name in prev_snapshot.data else None
+        prev_count = 0 if prev_records is None else len(prev_records)
+
         symbol = target_db[param_name]
         symbol.clear()
         db.write(target_db, [param_name])
-        
-        live_snapshot = gt.Container(target_db)
-        current = live_snapshot[param_name].records
-        current_count = 0 if current is None else len(current)
+
         gams.printLog(
-            f"[input_treatment] {param_name}: wrote {row_count} row(s) into {target_kind}; "
-            f"live db now has {current_count} row(s)."
+            f"[input_treatment] {param_name}: {prev_count} -> {new_count} row(s)."
         )
 
     def _col_list(df):
@@ -530,16 +539,18 @@ def run_input_treatment(gams,
                             .tolist()
                         )
                 gams.printLog(
-                    f"[input_treatment][hydro_avail] Reservoir hydro warning: {len(missing_meta)} generator(s) lack entries in pAvailability. "
+                    f"[input_treatment][hydro_avail] Reservoir hydro warning: {len(missing_meta)} generator(s) lack entries in pAvailability."
                 )
+                gams.printLog("-" * 60)
                 _log_zone_summary(
                     gams,
-                    "  Missing reservoir capacity-factor rows by zone:",
+                    "Missing reservoir capacity-factor rows by zone:",
                     missing_meta.loc[:, ["g"] + ([zone_column] if zone_column else [])],
                     zone_column,
                     zone_label,
                     all_zone_values,
                 )
+                gams.printLog("-" * 60)
 
                 if auto_fill:
                     if avail_records.empty:
@@ -569,21 +580,30 @@ def run_input_treatment(gams,
                                 }
 
                             new_entries = []
+                            filled_by_key = {}  # Group filled generators by (zone, tech, source)
+                            no_donor = []
                             for row in missing_meta.itertuples():
                                 key = (getattr(row, zone_column), row.tech)
                                 donor_info = donor_profiles.get(key)
                                 if donor_info is None:
-                                    gams.printLog(
-                                        f"[input_treatment][hydro_avail] No donor found to auto-fill {row.g} ({row.tech}, {zone_label}: {key[0]})."
-                                    )
+                                    no_donor.append(f"{row.g} ({row.tech}, {zone_label}: {key[0]})")
                                     continue
                                 addition = donor_info["profile"].copy()
                                 addition["g"] = row.g
                                 new_entries.append(addition.loc[:, ["g", "q", "value"]])
-                                gams.printLog(
-                                    f"[input_treatment][hydro_avail] Auto-filled availability for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
-                                    f"using {donor_info['source']}."
-                                )
+                                group_key = (key[0], row.tech, donor_info["source"])
+                                filled_by_key.setdefault(group_key, []).append(row.g)
+
+                            # Log no-donor cases
+                            if no_donor:
+                                gams.printLog(f"[input_treatment][hydro_avail] No donor found to auto-fill: {', '.join(no_donor)}.")
+
+                            # Log filled generators grouped by (zone, tech, source)
+                            if filled_by_key:
+                                gams.printLog("[input_treatment][hydro_avail] Auto-filled availability:")
+                                for (zone_val, tech, source), gens in sorted(filled_by_key.items()):
+                                    gams.printLog(f"  {zone_label}: {zone_val}, {tech} ({len(gens)}): {', '.join(sorted(gens))}")
+                                    gams.printLog(f"    using {source}")
 
                             if new_entries:
                                 updated_availability = pd.concat([avail_records] + new_entries, ignore_index=True)
@@ -646,18 +666,20 @@ def run_input_treatment(gams,
                     .tolist()
                 )
 
+        gams.printLog("-" * 60)
         gams.printLog(
-            f"[input_treatment][ror_profile] ROR availability warning: {len(missing_ror)} generator(s) lack hourly profiles in pVREgenProfile. "
-            f"Update the hydro notebook at `{notebook_hint}`."
+            f"[input_treatment][ror_profile] ROR availability warning: {len(missing_ror)} generator(s) lack hourly profiles in pVREgenProfile."
         )
+        gams.printLog("-" * 60)
         _log_zone_summary(
             gams,
-            "  Missing ROR hourly profiles by zone:",
+            "Missing ROR hourly profiles by zone:",
             missing_ror.loc[:, ["g"] + ([zone_column] if zone_column else [])],
             zone_column,
             zone_label,
             all_zone_values,
         )
+        gams.printLog("-" * 60)
 
         # Optionally backfill seasonal availability for missing ROR units using donor ROR availability.
         if auto_fill_missing_hydro:
@@ -673,42 +695,85 @@ def run_input_treatment(gams,
                 gams.printLog("[input_treatment][ror_profile] Auto-fill skipped: all ROR units missing profiles already have pAvailabilityInput.")
             else:
                 # Join availability with ROR generator metadata to build donor profiles by zone.
-                gen_zone_meta = gen_records.loc[gen_records["tech"] == "ROR", ["g", zone_column]].drop_duplicates(subset=["g"])
-                donor_frame = avail_df.merge(gen_zone_meta, on="g", how="left").dropna(subset=[zone_column])
-                if donor_frame.empty:
-                    gams.printLog("[input_treatment][ror_profile] Auto-fill skipped: no donor ROR generators with both zone and availability.")
+                # Also prepare ReservoirHydro donors as fallback when no ROR donors exist for a zone.
+                gen_zone_meta_ror = gen_records.loc[gen_records["tech"] == "ROR", ["g", zone_column]].drop_duplicates(subset=["g"])
+                gen_zone_meta_reservoir = gen_records.loc[gen_records["tech"] == "ReservoirHydro", ["g", zone_column]].drop_duplicates(subset=["g"])
+                donor_frame_ror = avail_df.merge(gen_zone_meta_ror, on="g", how="inner").dropna(subset=[zone_column])
+                donor_frame_reservoir = avail_df.merge(gen_zone_meta_reservoir, on="g", how="inner").dropna(subset=[zone_column])
+                donor_frame = donor_frame_ror  # Primary donors are ROR
+                if donor_frame.empty and donor_frame_reservoir.empty:
+                    gams.printLog("[input_treatment][ror_profile] Auto-fill skipped: no donor ROR or ReservoirHydro generators with both zone and availability.")
                 else:
-                    # Build zone-level donor profiles and a system-wide fallback (means and donor lists).
-                    zone_profiles = {}
-                    for zone_val, frame in donor_frame.groupby(zone_column, observed=False):
-                        zone_profiles[zone_val] = {
+                    # Build zone-level donor profiles from ROR first, then ReservoirHydro fallback.
+                    zone_profiles_ror = {}
+                    for zone_val, frame in donor_frame_ror.groupby(zone_column, observed=False):
+                        zone_profiles_ror[zone_val] = {
                             "profile": frame.groupby("q", observed=False)["value"].mean().reset_index(),
                             "donors": sorted(frame["g"].unique()),
+                            "tech": "ROR",
                         }
-                    global_profile = {
-                        "profile": donor_frame.groupby("q", observed=False)["value"].mean().reset_index(),
-                        "donors": sorted(donor_frame["g"].unique()),
-                    }
+                    zone_profiles_reservoir = {}
+                    for zone_val, frame in donor_frame_reservoir.groupby(zone_column, observed=False):
+                        zone_profiles_reservoir[zone_val] = {
+                            "profile": frame.groupby("q", observed=False)["value"].mean().reset_index(),
+                            "donors": sorted(frame["g"].unique()),
+                            "tech": "ReservoirHydro",
+                        }
+                    # System-wide fallback: prefer ROR, then ReservoirHydro
+                    if not donor_frame_ror.empty:
+                        global_profile = {
+                            "profile": donor_frame_ror.groupby("q", observed=False)["value"].mean().reset_index(),
+                            "donors": sorted(donor_frame_ror["g"].unique()),
+                            "tech": "ROR",
+                        }
+                    else:
+                        global_profile = {
+                            "profile": donor_frame_reservoir.groupby("q", observed=False)["value"].mean().reset_index(),
+                            "donors": sorted(donor_frame_reservoir["g"].unique()),
+                            "tech": "ReservoirHydro",
+                        }
 
                     new_entries = []
                     filled_avail = []
+                    filled_by_donor = {}  # Group by (zone, tech, donors tuple, fallback_reason)
+                    skipped = []
                     for row in missing_ror_no_avail.itertuples():
                         zone_val = getattr(row, zone_column)
-                        donor_info = zone_profiles.get(zone_val, global_profile)
-                        if donor_info["profile"].empty:
-                            gams.printLog(
-                                f"[input_treatment][ror_profile] Auto-fill skipped for {row.g}: no donor availability profiles found."
-                            )
+                        # Priority: ROR in same zone > ReservoirHydro in same zone > global fallback
+                        donor_info = zone_profiles_ror.get(zone_val)
+                        fallback_reason = None
+                        if donor_info is None or not donor_info["donors"]:
+                            donor_info = zone_profiles_reservoir.get(zone_val)
+                            if donor_info and donor_info["donors"]:
+                                fallback_reason = "no ROR donors in zone, using ReservoirHydro as proxy"
+                        if donor_info is None or not donor_info["donors"]:
+                            donor_info = global_profile
+                            if donor_info and donor_info["donors"]:
+                                fallback_reason = f"no donors in zone, using global {donor_info.get('tech', 'ROR')} average"
+                        if not donor_info["donors"]:
+                            skipped.append(row.g)
                             continue
                         addition = donor_info["profile"].copy()
                         addition["g"] = row.g
                         new_entries.append(addition.loc[:, ["g", "q", "value"]])
                         filled_avail.append(row.g)
-                        donor_names = ", ".join(donor_info["donors"])
-                        gams.printLog(
-                            f"[input_treatment][ror_profile] Auto-filled pAvailabilityInput for {row.g} because no pVREgenProfile and no pAvailabilityInput "
-                            f"using mean of {len(donor_info['donors'])} donor ROR generator(s): {donor_names}."
-                        )
+                        donor_tech = donor_info.get("tech", "ROR")
+                        group_key = (zone_val, donor_tech, tuple(donor_info["donors"]), fallback_reason)
+                        filled_by_donor.setdefault(group_key, []).append(row.g)
+
+                    # Log skipped generators
+                    if skipped:
+                        gams.printLog(f"[input_treatment][ror_profile] Auto-fill skipped (no donors): {', '.join(skipped)}.")
+
+                    # Log filled generators grouped by donor source
+                    if filled_by_donor:
+                        gams.printLog("[input_treatment][ror_profile] Auto-filled pAvailabilityInput:")
+                        for (zone_val, tech, donors, fallback_reason), gens in sorted(filled_by_donor.items()):
+                            gams.printLog(f"  {zone_label}: {zone_val} ({len(gens)}): {', '.join(sorted(gens))}")
+                            donor_msg = f"    using mean of {len(donors)} {tech} donor(s): {', '.join(donors)}"
+                            if fallback_reason:
+                                donor_msg += f" ({fallback_reason})"
+                            gams.printLog(donor_msg)
 
                     if new_entries:
                         updated_availability = pd.concat([avail_df] + new_entries, ignore_index=True)
@@ -721,6 +786,7 @@ def run_input_treatment(gams,
         if fill_ror_from_availability and "pAvailabilityInput" in db:
             avail_df = db["pAvailabilityInput"].records
             if avail_df is not None and not avail_df.empty and {"g", "q", "value"}.issubset(avail_df.columns):
+                gams.printLog("-" * 60)
                 gams.printLog(
                     "[input_treatment][ror_profile] EPM_FILL_ROR_FROM_AVAILABILITY is enabled; "
                     "building flat hourly profiles in pVREgenProfile from pAvailabilityInput."
@@ -799,6 +865,13 @@ def run_input_treatment(gams,
                         existing_long = _stack_pvregen(ror_records)
                         updated_profiles = pd.concat([existing_long, new_df], ignore_index=True)
                         required_cols = {"g", "q", "d", "t", "value"}
+
+                        # Log before writing so verbose message appears before write_back logs
+                        gams.printLog(
+                            f"[input_treatment][ror_profile] Auto-filled ROR profiles for {len(filled_gens)} generator(s) in pVREgenProfile "
+                            f"using their pAvailabilityInput values (steady production assumed): {', '.join(sorted(filled_gens))}."
+                        )
+
                         if required_cols.issubset(updated_profiles.columns):
                             db.data["pVREgenProfile"].setRecords(updated_profiles)
                             _write_back(db, "pVREgenProfile")
@@ -813,11 +886,6 @@ def run_input_treatment(gams,
                         updated_avail.loc[updated_avail["g"].isin(filled_gens), "value"] = 1
                         db.data["pAvailabilityInput"].setRecords(updated_avail)
                         _write_back(db, "pAvailabilityInput")
-
-                        gams.printLog(
-                            f"[input_treatment][ror_profile] Auto-filled ROR profiles for {len(filled_gens)} generator(s) in pVREgenProfile "
-                            f"using their pAvailabilityInput values (steady production assumed): {', '.join(sorted(filled_gens))}."
-                        )
 
 
     def monitor_hydro_capex(db: gt.Container, auto_fill: bool):
@@ -914,6 +982,7 @@ def run_input_treatment(gams,
             f"Hydro capex warning: {len(missing_capex)} generator(s) in {sorted(target_techs)} "
             "with status 2 or 3 have no Capex defined."
         )
+        gams.printLog("-" * 60)
         zone_label = zone_column or "zone"
         all_zone_values = None
         if zone_column:
@@ -928,12 +997,13 @@ def run_input_treatment(gams,
                 )
         _log_zone_summary(
             gams,
-            "  Missing hydro capex entries by zone:",
+            "Missing hydro capex entries by zone:",
             missing_capex.loc[:, ["g"] + ([zone_column] if zone_column else [])],
             zone_column,
             zone_label,
             all_zone_values,
         )
+        gams.printLog("-" * 60)
 
         if not auto_fill:
             return
@@ -956,14 +1026,14 @@ def run_input_treatment(gams,
 
         updated = False
         new_rows = []
+        filled_by_key = {}  # Group by (zone, tech, capex_value)
+        no_donor = []
+        skipped_no_rows = []
         for row in missing_capex.itertuples():
             key = (getattr(row, zone_column), row.tech)
             donor_info = donor_lookup.get(key)
             if donor_info is None:
-                gams.printLog(
-                    f"  -> No donor Capex found for {row.g} ({row.tech}, {zone_label}: {key[0]}). "
-                    "Provide values in the hydro capex input or extend `pGenDataInput`."
-                )
+                no_donor.append(f"{row.g} ({row.tech}, {zone_label}: {key[0]})")
                 continue
             donor_capex = donor_info
             row_mask = (records["g"] == row.g) & (records[header_col] == "Capex")
@@ -972,17 +1042,28 @@ def run_input_treatment(gams,
             else:
                 template = records.loc[records["g"] == row.g]
                 if template.empty:
-                    gams.printLog(f"  -> Capex auto-fill skipped for {row.g}; generator rows not found.")
+                    skipped_no_rows.append(row.g)
                     continue
                 new_row = template.iloc[0].copy()
                 new_row[header_col] = "Capex"
                 new_row[value_col] = donor_capex
                 new_rows.append(new_row)
             updated = True
-            gams.printLog(
-                f"  -> Auto-filled Capex for {row.g} ({row.tech}, {zone_label}: {key[0]}) "
-                f"using the mean value {donor_capex:.3f} from existing generators in the same zone and technology."
-            )
+            group_key = (key[0], row.tech, donor_capex)
+            filled_by_key.setdefault(group_key, []).append(row.g)
+
+        # Log no-donor cases
+        if no_donor:
+            gams.printLog(f"[input_treatment][hydro_capex] No donor Capex found for: {', '.join(no_donor)}.")
+        if skipped_no_rows:
+            gams.printLog(f"[input_treatment][hydro_capex] Capex auto-fill skipped (generator rows not found): {', '.join(skipped_no_rows)}.")
+
+        # Log filled generators grouped by (zone, tech, capex value)
+        if filled_by_key:
+            gams.printLog("[input_treatment][hydro_capex] Auto-filled Capex:")
+            for (zone_val, tech, capex_val), gens in sorted(filled_by_key.items()):
+                gams.printLog(f"  {zone_label}: {zone_val}, {tech} ({len(gens)}): {', '.join(sorted(gens))}")
+                gams.printLog(f"    using mean value {capex_val:.3f}")
 
         if new_rows:
             records = pd.concat([records, pd.DataFrame(new_rows)], ignore_index=True)
@@ -1094,13 +1175,12 @@ def run_input_treatment(gams,
         ref_df = db[param_ref].records
 
         # If the parameter is empty, print a message and return None
-        if param_df is None:
-            gams.printLog('{} empty so no effect'.format(param_name))
+        if param_df is None or param_df.empty:
+            gams.printLog(f'[input_treatment] {param_name}: empty, no defaults to prepare.')
             return None
                     
         # Identify common columns between param_df and ref_df, excluding "value"
         columns = [c for c in param_df.columns if c != "value" and c in ref_df.columns]
-        gams.printLog(f"[prepare_generatorbased_parameter] {param_name}: ref columns={list(ref_df.columns)}, param columns={list(param_df.columns)}, common={columns}")
 
         if column_generator not in ref_df.columns:
             gams.printLog(
@@ -1162,8 +1242,12 @@ def run_input_treatment(gams,
         - NaN values in the "value" column are filled with `fillna`.
         """
         
-        gams.printLog("Modifying {} with default values".format(param_name))
-        
+        if default_df is None or default_df.empty:
+            gams.printLog(f"[input_treatment] {param_name}: no defaults to apply.")
+            return
+
+        gams.printLog(f"[input_treatment] Modifying {param_name} with default values.")
+
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
         
@@ -1597,13 +1681,17 @@ def run_input_treatment(gams,
             if records is None or records.empty or year_column not in records:
                 continue
 
+            # Save original column order from records
+            original_col_order = list(records.columns)
+
             data = records.copy()
             data[year_column] = pd.to_numeric(data[year_column], errors='coerce')
             data = data.dropna(subset=[year_column, "value"])
             if data.empty:
                 continue
 
-            group_cols = [c for c in data.columns if c not in (year_column, "value")]
+            group_cols = [c for c in original_col_order if c not in (year_column, "value")]
+
             if group_cols:
                 grouped = data.groupby(group_cols, dropna=False, sort=False, observed=False)
             else:
@@ -1625,7 +1713,7 @@ def run_input_treatment(gams,
                         key = (key,)
                     for col_name, col_value in zip(group_cols, key):
                         frame[col_name] = col_value
-                    frame = frame[group_cols + [year_column, "value"]]
+                    frame = frame[original_col_order]
                 else:
                     frame = frame[[year_column, "value"]]
 
@@ -1708,11 +1796,19 @@ def run_input_treatment(gams,
             "Hydro capex auto-fill enabled via EPM_FILL_HYDRO_CAPEX environment variable."
         )
 
-    fill_ror_from_availability = _truthy(
-        settings_flags.get("EPM_FILL_ROR_FROM_AVAILABILITY")
-    )
-    
-    _step("Filter inputs to allowed zones")
+    setting_fill_ror = _truthy(settings_flags.get("EPM_FILL_ROR_FROM_AVAILABILITY"))
+    ror_flag = str(os.environ.get("EPM_FILL_ROR_FROM_AVAILABILITY", "")).strip().lower()
+    env_fill_ror = ror_flag in {"1", "true", "yes", "on"}
+    fill_ror_from_availability = setting_fill_ror or env_fill_ror
+    if setting_fill_ror and not env_fill_ror:
+        gams.printLog(
+            "ROR from availability auto-fill enabled via pSettings (EPM_FILL_ROR_FROM_AVAILABILITY)."
+        )
+    elif env_fill_ror:
+        gams.printLog(
+            "ROR from availability auto-fill enabled via EPM_FILL_ROR_FROM_AVAILABILITY environment variable."
+        )
+
     filter_inputs_to_allowed_zones(
         db,
         log_func=gams.printLog,
@@ -1775,6 +1871,9 @@ def run_input_treatment(gams,
     _step("Fill pCapexTrajectories with defaults")
     fill_default_value(db, "pCapexTrajectories", default_df)
 
+    gams.printLog("-" * 60)
+    gams.printLog("[input_treatment] completed")
+    gams.printLog("=" * 60)
 
     # LossFactor must be defined through a specific csv
     # prepare_lossfactor(db, "pNewTransmission", "pLossFactorInternal", "y", "value")
@@ -1782,6 +1881,8 @@ def run_input_treatment(gams,
 
 if __name__ == "__main__":
 
+    DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
+    output_gdx = os.path.join("epm", "test", "input_treated.gdx")
     DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
     output_gdx = os.path.join("epm", "test", "input_treated.gdx")
 

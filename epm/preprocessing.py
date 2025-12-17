@@ -38,6 +38,7 @@ Contact:
 **********************************************************************
 """
 import math
+import numbers
 import pandas as pd
 import os
 
@@ -102,6 +103,16 @@ class NamedJ:
             Name of the variable (as defined in the input dictionary).
         """
         return self.J[self.mapping[attr]]
+
+
+def _with_assessment_suffix(scenario_name, suffix):
+    """
+    Append a sensitivity suffix while preserving project assessment markers (anything after '@').
+    """
+    if '@' in scenario_name:
+        base, assessment = scenario_name.split('@', 1)
+        return f"{base}_{suffix}@{assessment}"
+    return f"{scenario_name}_{suffix}"
 
     def J_from_dict(self, values):
         cp = _ensure_chaospy()
@@ -329,6 +340,8 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
     return s, scenarios_montecarlo
 
 def perform_sensitivity(sensitivity, s):
+    # Work on the initial scenario set (including project assessments), avoid cascading combinations
+    base_scenarios = list(s.keys())
     
     param = 'interco'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of interconnection mode
@@ -383,6 +396,28 @@ def perform_sensitivity(sensitivity, s):
         s[name] = s['baseline'].copy()
         s[name]['pSettings'] = path_file
     
+    param = 'ExternalExchange'
+    if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pSettings']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        new_scenarios = {}
+        suffix = 'NoExternalExchange'
+        for scenario in base_scenarios:
+            df = pd.read_csv(s[scenario]['pSettings'])
+            df.loc[df['Abbreviation'] == 'fEnableExternalExchange', 'Value'] = 0
+
+            scenario_name = _with_assessment_suffix(scenario, suffix)
+            path_file = os.path.basename(s[scenario]['pSettings']).replace('pSettings', f'pSettings_{suffix}')
+            path_file = os.path.join(folder_sensi, path_file)
+            df.to_csv(path_file, index=False)
+
+            new_scenarios[scenario_name] = s[scenario].copy()
+            new_scenarios[scenario_name]['pSettings'] = path_file
+
+        s.update(new_scenarios)
+    
     param = 'RemoveGenericTechnologies'
     if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
         
@@ -405,14 +440,45 @@ def perform_sensitivity(sensitivity, s):
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pGenDataInput'] = path_file
-        
+
+    param = 'RemoveCandidateFuel'
+    if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
+        # Create a list of fuels to remove that are in a string separated by '&'
+        # For example: 'Biomass&Gas' will create two separate scenarios
+        fuels_to_remove = [f.strip() for f in sensitivity['RemoveCandidateFuel'].split('&') if f.strip()]
+
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        # Iterate over all existing scenarios
+        new_scenarios = {}
+        for scenario in base_scenarios:
+            for fuel in fuels_to_remove:
+                df = pd.read_csv(s[scenario]['pGenDataInput'])
+                # For fuel that matches (case-insensitive) and Status is 2 or 3, set Status to 0 (candidate generators become unavailable)
+                mask = (df['fuel'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
+                df.loc[mask, 'Status'] = 0
+
+                scenario_name = _with_assessment_suffix(scenario, f"No{fuel}")
+                path_file = os.path.basename(s[scenario]['pGenDataInput']).replace('.csv', f'_No{fuel}.csv')
+                path_file = os.path.join(folder_sensi, path_file)
+                # Write the modified file
+                df.to_csv(path_file, index=False)
+                # Put in the scenario dir
+                new_scenarios[scenario_name] = s[scenario].copy()
+                new_scenarios[scenario_name]['pGenDataInput'] = path_file
+
+        s.update(new_scenarios)
+
     param = 'pSettings'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of some setting parameters
         settings_sensi = {'VoLL': [250],
-                          'fApplyPlanningReserveConstraint': [0], 'sVREForecastErrorPct': [0, 0.3],
-                          'zonal_spinning_reserve_constraints': [0],
-                          'CostSurplus': [1, 5], 'CostCurtail': [1, 5], "fEnableInternalExchange": [0,1],
-                          'fCountIntercoForReserves': [0,1], 'sIntercoReserveContributionPct': [0, 0.5]}
+                            'fApplyPlanningReserveConstraint': [0], 'sVREForecastErrorPct': [0, 0.3],
+                            'zonal_spinning_reserve_constraints': [0],
+                            'CostSurplus': [1, 5], 'CostCurtail': [1, 5], "fEnableInternalExchange": [0,1],
+                            'fCountIntercoForReserves': [0,1], 'sIntercoReserveContributionPct': [0, 0.5]}
 
         # Iterate over the Settings to change
         for k, vals in settings_sensi.items():
@@ -481,28 +547,79 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'pDemandForecast'  # testing implications of demand forecast
     if sensitivity.get(param) and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
-        demand_forecast_sensi = [float(i) for i in sensitivity[param].split('&')]
-        for val in demand_forecast_sensi:
-            df = pd.read_csv(s['baseline'][param])
+        raw_val = sensitivity[param]
+        if isinstance(raw_val, str):
+            values = [v.strip() for v in raw_val.split('&') if v.strip()]
+        elif isinstance(raw_val, numbers.Real):
+            values = [raw_val]
+        else:
+            raise ValueError(f"Unsupported sensitivity value for {param}: {raw_val}")
 
-            cols = [i for i in df.columns if i not in ['zone', 'type']]
-            df[cols] = df[cols].astype(float)
-            df.loc[:, cols] *= (1 + val)
+        demand_forecast_sensi = [float(v) for v in values]
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = str(val).replace('.', '')
-            name = f'{param}_{name}'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
-            df.to_csv(path_file, index=False)
+        # Creating a new folder
+        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
 
-            # Put in the scenario dir
-            s[name] = s['baseline'].copy()
-            s[name][param] = path_file
+        # Iterate over all existing scenarios
+        new_scenarios = {}
+        for scenario in base_scenarios:
+            for val in demand_forecast_sensi:
+                df = pd.read_csv(s[scenario][param])
+
+                cols = [i for i in df.columns if i not in ['zone', 'type']]
+                df[cols] = df[cols].astype(float)
+                df.loc[:, cols] *= (1 + val)
+
+                val_name = str(val).replace('.', '')
+                scenario_name = _with_assessment_suffix(scenario, f"{param}_{val_name}")
+
+                path_file = os.path.basename(s[scenario][param]).replace('.csv', f'_{val_name}.csv')
+                path_file = os.path.join(folder_sensi, path_file)
+                # Write the modified file
+                df.to_csv(path_file, index=False)
+
+                # Put in the scenario dir
+                new_scenarios[scenario_name] = s[scenario].copy()
+                new_scenarios[scenario_name][param] = path_file
+
+        s.update(new_scenarios)
+
+    param = 'TradePrice'  # testing implications of external trade prices
+    if sensitivity.get(param) and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
+        raw_val = sensitivity[param]
+        if isinstance(raw_val, str):
+            values = [v.strip() for v in raw_val.split('&') if v.strip()]
+        elif isinstance(raw_val, numbers.Real):
+            values = [raw_val]
+        else:
+            raise ValueError(f"Unsupported sensitivity value for {param}: {raw_val}")
+
+        trade_price_sensi = [float(v) for v in values]
+
+        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pTradePrice']), 'sensitivity')
+        if not os.path.exists(folder_sensi):
+            os.mkdir(folder_sensi)
+
+        new_scenarios = {}
+        for scenario in base_scenarios:
+            for val in trade_price_sensi:
+                df = pd.read_csv(s[scenario]['pTradePrice'])
+                cols = [c for c in df.columns if c not in ['zext', 'q', 'daytype', 'y']]
+                df[cols] = df[cols].astype(float)
+                df.loc[:, cols] *= (1 + val)
+
+                val_name = str(val).replace('.', '')
+                scenario_name = _with_assessment_suffix(scenario, f"{param}_{val_name}")
+                path_file = os.path.basename(s[scenario]['pTradePrice']).replace('.csv', f'_{val_name}.csv')
+                path_file = os.path.join(folder_sensi, path_file)
+                df.to_csv(path_file, index=False)
+
+                new_scenarios[scenario_name] = s[scenario].copy()
+                new_scenarios[scenario_name]['pTradePrice'] = path_file
+
+        s.update(new_scenarios)
 
     param = 'pDemandProfile'  # testing implications of having a flat profile
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
@@ -702,7 +819,7 @@ def perform_sensitivity(sensitivity, s):
 
     return s
 
-def perform_assessment(project_assessment, s):
+def perform_assessment(generator_assessment, s):
     try:
 
         # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
@@ -719,11 +836,11 @@ def perform_assessment(project_assessment, s):
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pGenDataInput'])
             
-            # Remove project(s) in project_assessment
-            df = df.loc[~df['gen'].isin(project_assessment)]
+            # Remove project(s) in generator_assessment
+            df = df.loc[~df['gen'].isin(generator_assessment)]
 
             # Write the modified file
-            name = '-'.join(project_assessment).replace(' ', '')
+            name = '-'.join(generator_assessment).replace(' ', '')
             path_file = os.path.basename(s[scenario]['pGenDataInput']).split('.')[0] + '_' + name + '.csv'
             path_file = os.path.join(folder_assessment, path_file)
             df.to_csv(path_file, index=False)
@@ -734,10 +851,51 @@ def perform_assessment(project_assessment, s):
                 
 
     except Exception:
-        raise KeyError('Error in project_assessment features')
+        raise KeyError('Error in generator_assessment features')
 
     s.update(new_s)
 
+    return s
+
+
+def perform_project_assessment(project_assessment, s):
+    """
+    Build assessment scenarios using an existing pGenDataInput variant (suffix or filename).
+    Always looks for the project file relative to baseline's pGenDataInput location.
+    """
+    try:
+        new_s = {}
+        # Always use baseline path to find the project assessment file
+        baseline_path = s['baseline']['pGenDataInput']
+        baseline_dir = os.path.dirname(baseline_path)
+
+        if os.path.isabs(project_assessment):
+            candidate = project_assessment
+        else:
+            if project_assessment.endswith(".csv"):
+                candidate = os.path.join(baseline_dir, project_assessment)
+            else:
+                root, ext = os.path.splitext(os.path.basename(baseline_path))
+                suffix = project_assessment
+                if not suffix.startswith('_'):
+                    suffix = f"_{suffix}"
+                candidate_name = f"{root}{suffix}.csv" if ext == ".csv" else f"{root}{suffix}{ext}"
+                candidate = os.path.join(baseline_dir, candidate_name)
+
+        if not os.path.exists(candidate):
+            raise FileNotFoundError(f"Project assessment file {os.path.abspath(candidate)} not found.")
+
+        label = os.path.splitext(os.path.basename(candidate))[0].replace('pGenDataInput', '').strip('_') or "project"
+
+        for scenario in list(s.keys()):
+            scenario_name = f"{scenario}@{label}"
+            new_s[scenario_name] = s[scenario].copy()
+            new_s[scenario_name]['pGenDataInput'] = candidate
+
+    except Exception:
+        raise KeyError('Error in project_assessment features')
+
+    s.update(new_s)
     return s
 
 def perform_interco_assessment(interco_assessment, s, delay=5):

@@ -89,7 +89,11 @@ def run_input_verification(gams):
 
     _step("Filter inputs to allowed zones")
     filter_inputs_to_allowed_zones(db, log_func=gams.printLog)
-    gams.printLog("[input_verification] Filter inputs to allowed zones completed.")
+    if "zcmap" in db and db["zcmap"].records is not None and not db["zcmap"].records.empty:
+        zones_seen = sorted(db["zcmap"].records["z"].dropna().unique())
+        gams.printLog(f"[input_verification][zones] Zones included in verification: {zones_seen}")
+    else:
+        gams.printLog("[input_verification][zones] No zones available; zone-based checks may be skipped.")
 
     # _log_input_columns(gams, db)
     _step("Required inputs")
@@ -164,7 +168,8 @@ def run_input_verification(gams):
     gams.printLog("[input_verification] Generation defaults completed.")
     _step("Missing generation default combinations")
     _warn_missing_generation_default_combinations(gams, db)
-    gams.printLog("[input_verification] Missing generation default combinations completed.")
+    _warn_missing_availability_default_combinations(gams, db)
+    _warn_missing_build_limits(gams, db)
 
     gams.printLog("=" * 60)
 
@@ -345,10 +350,29 @@ def _check_candidate_build_limits(gams, db):
         records = db["pGenDataInput"].records
         if records is None or records.empty:
             return
+        df_wide = records
+        identifier_column = None
+        if {"pGenDataInputHeader", "value"}.issubset(records.columns) and "BuildLimitperYear" not in records.columns:
+            if "g" in records.columns:
+                identifier_column = "g"
+            elif "gen" in records.columns:
+                identifier_column = "gen"
+            df_wide = (
+                records.pivot_table(
+                    index=identifier_column or records.index,
+                    columns="pGenDataInputHeader",
+                    values="value",
+                    aggfunc="first",
+                    observed=False,
+                )
+                .reset_index()
+            )
+            if identifier_column:
+                df_wide = df_wide.rename(columns={identifier_column: "g"})
 
         required_columns = {"Status", "BuildLimitperYear"}
-        if not required_columns.issubset(records.columns):
-            missing = required_columns - set(records.columns)
+        if not required_columns.issubset(df_wide.columns):
+            missing = required_columns - set(df_wide.columns)
             msg = (
                 "Error: pGenDataInput is missing columns required for BuildLimitperYear validation: "
                 f"{missing}"
@@ -356,17 +380,16 @@ def _check_candidate_build_limits(gams, db):
             gams.printLog(msg)
             raise ValueError(msg)
 
-        status_numeric = pd.to_numeric(records["Status"], errors="coerce")
-        build_limit_numeric = pd.to_numeric(records["BuildLimitperYear"], errors="coerce")
+        status_numeric = pd.to_numeric(df_wide["Status"], errors="coerce")
+        build_limit_numeric = pd.to_numeric(df_wide["BuildLimitperYear"], errors="coerce")
         candidate_mask = status_numeric.isin([2, 3])
         violation_mask = candidate_mask & (build_limit_numeric.isna() | (build_limit_numeric == 0))
 
         if violation_mask.any():
-            violations = records.loc[violation_mask]
-            identifier_column = "gen" if "gen" in violations.columns else None
+            violations = df_wide.loc[violation_mask]
             offending_entries = (
-                violations[identifier_column].astype(str).tolist()
-                if identifier_column
+                violations["g"].astype(str).tolist()
+                if "g" in violations.columns
                 else violations.index.tolist()
             )
             msg = (
@@ -1089,6 +1112,134 @@ def _warn_missing_generation_default_combinations(gams, db):
             )
     except Exception:
         gams.printLog('Unexpected error when checking pGenDataInputDefault combinations')
+        raise
+
+
+def _warn_missing_availability_default_combinations(gams, db):
+    """Warn when a (zone, tech, fuel) tuple in pGenDataInput is absent in pAvailabilityDefault."""
+    try:
+        avail_defaults = db["pAvailabilityDefault"].records
+        gen_records = db["pGenDataInput"].records
+        if (
+            avail_defaults is None
+            or avail_defaults.empty
+            or gen_records is None
+            or gen_records.empty
+        ):
+            gams.printLog(
+                "[input_verification][availability] Skipping pAvailabilityDefault coverage check: table missing or empty."
+            )
+            return
+
+        zone_col_defaults = "z" if "z" in avail_defaults.columns else ("zone" if "zone" in avail_defaults.columns else None)
+        fuel_col_defaults = "f" if "f" in avail_defaults.columns else ("fuel" if "fuel" in avail_defaults.columns else None)
+        tech_col_defaults = "tech" if "tech" in avail_defaults.columns else None
+
+        if zone_col_defaults is None or fuel_col_defaults is None or tech_col_defaults is None:
+            gams.printLog(
+                "[input_verification][availability] Skipping coverage check: pAvailabilityDefault lacks required columns "
+                f"(have {list(avail_defaults.columns)}; need zone/z, tech, fuel/f)."
+            )
+            return
+
+        required = (
+            gen_records[["z", "tech", "f"]]
+            .dropna(subset=["z", "tech", "f"])
+            .drop_duplicates()
+        )
+        available = (
+            avail_defaults[[zone_col_defaults, tech_col_defaults, fuel_col_defaults]]
+            .dropna(subset=[zone_col_defaults, tech_col_defaults, fuel_col_defaults])
+            .drop_duplicates()
+            .rename(columns={zone_col_defaults: "z", tech_col_defaults: "tech", fuel_col_defaults: "f"})
+        )
+
+        required_set = set(map(tuple, required.to_records(index=False)))
+        available_set = set(map(tuple, available.to_records(index=False)))
+        missing = required_set - available_set
+        if missing:
+            missing_list = sorted(missing)
+            preview = missing_list[:10]
+            more = ""
+            if len(missing_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(missing_list)})"
+            gams.printLog(
+                "Warning: pAvailabilityDefault lacks entries for the following (zone, tech, fuel) combinations "
+                f"present in pGenDataInput{more}: {preview}. No errors will be raised, but this may create unexpected results."
+            )
+        else:
+            gams.printLog("[input_verification][availability] pAvailabilityDefault covers all (zone, tech, fuel) combinations present in pGenDataInput.")
+    except Exception:
+        gams.printLog("Unexpected error when checking pAvailabilityDefault combinations")
+        raise
+
+
+def _warn_missing_build_limits(gams, db):
+    """Warn when candidate/committed units lack BuildLimitperYear (treated as not buildable)."""
+    try:
+        if "pGenDataInput" not in db:
+            return
+        records = db["pGenDataInput"].records
+        if records is None or records.empty:
+            return
+
+        if not {"Status", "BuildLimitperYear"}.issubset(records.columns):
+            gen_col = "g" if "g" in records.columns else ("gen" if "gen" in records.columns else None)
+            gen_list = (
+                records[gen_col].astype(str).unique().tolist()
+                if gen_col is not None
+                else records.index.astype(str).tolist()
+            )
+            preview = gen_list[:10]
+            more = ""
+            if len(gen_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(gen_list)})"
+            gams.printLog(
+                "[input_verification][build_limit] Warning: pGenDataInput lacks Status/BuildLimitperYear columns; "
+                f"candidate/committed units may not be buildable. Consider clearing Status to exclude plants if needed. "
+                f"Generators present{more}: {preview}"
+            )
+            return
+
+        df_wide = records
+        if {"pGenDataInputHeader", "value"}.issubset(records.columns) and "BuildLimitperYear" not in records.columns:
+            id_col = "g" if "g" in records.columns else ("gen" if "gen" in records.columns else None)
+            df_wide = (
+                records.pivot_table(
+                    index=id_col or records.index,
+                    columns="pGenDataInputHeader",
+                    values="value",
+                    aggfunc="first",
+                    observed=False,
+                )
+                .reset_index()
+            )
+            if id_col:
+                df_wide = df_wide.rename(columns={id_col: "g"})
+
+        status_num = pd.to_numeric(df_wide["Status"], errors="coerce")
+        build_limit = pd.to_numeric(df_wide["BuildLimitperYear"], errors="coerce")
+        mask = status_num.isin([2, 3]) & (build_limit.isna() | (build_limit == 0))
+        if not mask.any():
+            return
+
+        offenders = df_wide.loc[mask]
+        gen_col = "g" if "g" in offenders.columns else ("gen" if "gen" in offenders.columns else None)
+        names = (
+            offenders[gen_col].astype(str).tolist()
+            if gen_col is not None
+            else offenders.index.astype(str).tolist()
+        )
+        preview = names[:10]
+        more = ""
+        if len(names) > len(preview):
+            more = f" (showing {len(preview)} of {len(names)})"
+        gams.printLog(
+            "[input_verification][build_limit] Warning: BuildLimitperYear is missing or zero for "
+            f"{len(names)} candidate/committed generator(s); they will not be eligible to build{more}: {preview}."
+        )
+    except Exception:
+        gams.printLog("Unexpected error when warning about BuildLimitperYear in pGenDataInput")
         raise
 
 

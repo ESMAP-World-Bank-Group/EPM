@@ -21,6 +21,10 @@
 *.log~3
 *.log~4
 *.log~5
+*.nc
+*.idx
+*.grib
+*.zip
 
 # IDE / Editor configs
 .vscode
@@ -42,6 +46,8 @@ epm/postprocessing/main_postprocessing.py
 /epm/output_csv
 epm/epm.~log
 
+epm/postprocessing/data_inception_report/output
+
 /pre-analysis/not_git_track/
 
 epm/postprocessing/data_inception_report/output
@@ -57,6 +63,14 @@ epm/postprocessing/data_inception_report/output
 /epm/preprocessing
 
 # Pre-analysis generated data
+pre-analysis/output_workflow
+pre-analysis/output_standalone
+pre-analysis/api
+pre-analysis/.snakemake/
+pre-analysis/open-data/.snakemake/
+pre-analysis/open-data/old/
+pre-analysis/dataset/
+!pre-analysis/dataset/.gitkeep
 pre-analysis/**/input/*
 pre-analysis/**/output/*
 !pre-analysis/**/input/.gitkeep
@@ -68,10 +82,14 @@ pre-analysis/**/output/*
 # Sensitivity analysis artifacts
 **/sensitivity/
 
+
+
 # Input data
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
+!epm/input/data_westbalkans/
+!epm/input/data_westbalkans/**
 
 # Documentation
 /doc/todo.md
@@ -164,6 +182,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+/config/api_tokens.ini
 /.python-version
 
 # PEP 582

@@ -1,147 +1,73 @@
+# Open-Data Workflows
 
+This folder contains the exploratory and ingestion notebooks that pull hydrologic and renewable datasets into a common structure before they feed the EPM model. Use the catalog below to pick the workflow that matches the question you are trying to answer.
 
-# Hydro Notebook Guide
+## Running the Snakemake workflow
+- Prep inputs/config: place `dataset/Global-Integrated-Power-April-2025.xlsx` (and IRENA CSVs under `irena.input_dir`) in the expected folders; copy `config/api_tokens.example.ini` → `config/api_tokens.ini` and add a `renewables_ninja` token (or export `API_TOKEN_RENEWABLES_NINJA`); tweak countries/years in `config/open_data_config.yaml` as needed.
+- Fix the conda env path so Snakemake can find it: the Snakefile points to `envs/renewables.yaml` but the file is `renewables.yml`. Either create the expected path (`mkdir -p envs && ln -s ../renewables.yml envs/renewables.yaml`) or edit the Snakefile to reference `renewables.yml`.
+- Create the env once (or let Snakemake do it after the path fix): `conda env create -f renewables.yml -n epm-open-data`.
+- CBC solver is included in the env (`coin-or-cbc`) so PuLP never falls back to Gurobi; make sure `cbc` is on your PATH (the conda env activation does this) to avoid license warnings.
+- Run from `pre-analysis/open-data`: `snakemake --snakefile Snakefile --cores 1 --use-conda --conda-frontend mamba` (drop `--use-conda` only if you already activated `epm-open-data`).
+- Outputs land in `output/`: GAP filtered CSV + Renewables Ninja CSVs + IRENA CSVs. VRE outputs now follow the unified naming/shape `vre_<source>_<label?>_<tech>.csv` with columns `zone,season,day,hour,<year columns>`.
+- Optional: to compute representative days via the prepare-data pipeline, fill `representative_days` in `config/open_data_config.yaml` (set `enabled: true`, point `input_files` to your hourly CSVs, adjust seasons/map and counts). Snakemake will then emit `repr_days.csv`, `pHours.csv`, and `pVREProfile.csv` under the configured `output_dir` (plus `pDemandProfile.csv` when a load series is provided).
+- Socio-economic static maps (GDP, population): enable the `socioeconomic_maps` block in `config/open_data_config.yaml` to render PDFs under `output_workflow/socioeconomic/` from the configured rasters using Natural Earth country outlines. For a quick ad-hoc run from the IDE, execute `python socioeconomic_map_pipeline.py` after adjusting the dataset list and `selected_countries` at the bottom of the file.
 
 ## Notebook catalog
 
-| Notebook | Focus & what you get | Key inputs (relative to `pre-analysis/hydro`) | Outputs |
-|----------|----------------------|-----------------------------------------------|---------|
-| `generate_hydro_capacity_inputs.ipynb` | Turns Hydropower Atlas profiles into GAMS-ready seasonal inputs. Builds reservoir `pAvailability` and ROR `pVREgenProfile` tables across baseline/dry/wet scenarios. | `input/African_Hydropower_Atlas_v2-0.xlsx`; `../../epm/input/data_capp/supply/pGenDataInput_clean.csv`; `../../epm/input/data_capp/pHours.csv`. | Scenario-specific `output/pAvailability_<scenario>.csv` and `output/pVREgenProfile_<scenario>.csv`. |
-| `hydro_atlas_comparison.ipynb` | Compares utility-reported capacity factors against the African Hydropower Atlas to validate magnitude and seasonality before adopting Atlas curves. Generates per-plant plots for QA/QC. | Utility CSVs placed under `input/utility/` plus `input/African_Hydropower_Atlas_v2-0.xlsx`. | PNG/inline plots plus cleaned comparison tables in memory (save manually as needed). |
-| `hydro_availability.ipynb` | Converts monthly hydro profiles into the `pAvailabilityCustom.csv` and hourly ROR `pVREgenProfile.csv` templates expected by the EPM model. Handles validation against `pHours.csv`. | `input/hydro_profile_*.csv` (default `hydro_profile_dry.csv`) with `gen/zone/tech/month` columns; `../../epm/input/data_capp/pHours.csv`. | `output/pAvailabilityCustom.csv`; `output/pVREgenProfile.csv`. |
-| `hydro_basins_maps.ipynb` | Visualizes GRDC catchment polygons (`stationbasins.geojson`) and inspects metadata such as areas, pour points, and quality flags. Helpful for tracing basins tied to plants. | Sub-folders under `data_grdc_hydro_capp/input/**/stationbasins.geojson`. | Map layers rendered in-notebook; aggregated GeoDataFrames for further export. |
-| `hydro_capacity (in progress).ipynb` | Work-in-progress pipeline to merge the African Hydropower Atlas with the Global Hydropower Tracker for a consolidated hydropower capacity catalog. | `input/African_Hydropower_Atlas_v2-0.xlsx`; `input/Global-Hydropower-Tracker-*.xlsx`. | Draft merged tables (WIP—inspect notebook before relying on outputs). |
-| `hydro_inflow_analysis.ipynb` | End-to-end GRDC workflow: load NetCDF station data, intersect with HydroRIVERS and the Global Hydropower Tracker, and export cleaned inflow/runoff datasets plus exploratory maps. | `input/grdc_input/**/GRDC-Monthly.nc`; `input/river_input/HydroRIVERS_v10_af_shp`; `input/Global-Hydropower-Tracker-April-2025.xlsx`. | Processed CSVs/GeoPackages in `output/`, interactive Folium maps, diagnostic plots. |
-| `in_progress/representative_years_hydro.ipynb` | Prototype to pick representative hydropower years (with reservoir management rules) and export EPM-ready `pAvailability` CSVs. | Same cleaned hydro generation profiles used above plus installed-capacity metadata. | CSVs written to `output/` once logic is finalized (currently experimental). |
+| Notebook | Focus & what you get | Key inputs (relative to `pre-analysis/open-data`) | Outputs |
+|----------|----------------------|---------------------------------------------------|---------|
+| `hydro_atlas_comparison.ipynb` | Compares utility-reported capacity factors against the African Hydropower Atlas to validate magnitude and seasonality before adopting Atlas curves. Generates per-plant plots for QA/QC. | Utility CSVs dropped in `input/utility/` plus `input/African_Hydropower_Atlas_v2-0.xlsx`. | PNG/inline plots plus cleaned comparison tables in memory (save manually as needed). |
+| `hydro_basins.ipynb` | Visualizes GRDC catchment polygons (`stationbasins.geojson`) and inspects metadata such as drainage areas, pour points, and quality flags so you can trace basins tied to plants. | Sub-folders under `data_grdc_hydro_capp/input/**/stationbasins.geojson`. | Map layers rendered in-notebook and aggregated GeoDataFrames for export if needed. |
+| `hydro_capacity_factors.ipynb` | Work-in-progress pipeline to merge the African Hydropower Atlas with the Global Hydropower Tracker for a consolidated hydropower capacity catalog. | `input/African_Hydropower_Atlas_v2-0.xlsx`; `input/Global-Hydropower-Tracker-*.xlsx`. | Draft merged tables (WIP—inspect notebook before relying on outputs). |
+| `hydro_inflow.ipynb` | End-to-end GRDC workflow: load NetCDF station data, intersect with HydroRIVERS and the Global Hydropower Tracker, and export cleaned inflow/runoff datasets plus exploratory maps. | `input/grdc_input/**/GRDC-Monthly.nc`; `input/river_input/HydroRIVERS_v10_af_shp`; `input/Global-Hydropower-Tracker-April-2025.xlsx`. | Processed CSVs/GeoPackages in `output/`, interactive Folium maps, diagnostic plots. |
 
-## Directory tips
-- `input/` holds raw data dropped manually (GRDC NetCDF, HydroRIVERS shapefiles, Atlas workbooks, utility CSVs, etc.).
-- `output/` is git-ignored so you can iterate freely before copying vetted tables into `epm/input`.
-- `in_progress/` notebooks are exploratory; document assumptions in this README before promoting them.
+### Directory tips
+- `input/` holds the raw GRDC NetCDF, HydroRIVERS shapefiles, Atlas workbooks, and any utility CSVs you manually download.
+- `output/` is git-ignored so you can iterate freely before copying vetted tables onward.
+- `in_progress/` notebooks should document any assumptions here before promoting them into the main workflow.
 
-# Data Summary
+## API tokens
+- Copy `config/api_tokens.example.ini` to `config/api_tokens.ini` and fill in your keys under the `[api_tokens]` section (git-ignored).
+- Renewables Ninja looks for `renewables_ninja`; you can add other APIs (e.g., `enstoe`) as new keys.
+- You can also set environment variables instead of a file: `API_TOKEN_RENEWABLES_NINJA=<token>`. To point to a non-default config file, set `API_TOKENS_PATH=/path/to/api_tokens.ini`.
+- Token config is stored at the project root under `config/api_tokens.ini` so all open-data utilities can share it.
 
-## Global Runoff Data Centre (GRDC)
+## Key datasets referenced by these notebooks
 
-> The Global Runoff Data Centre (GRDC) is an international data centre operating under the auspices of the World
-> Meteorological Organization (WMO). Established in 1988 to support the research on global and climate change and
-> integrated water resources management, it holds the most substantive collection of quality assured river discharge
-> data on global scale.
+### Global Runoff Data Centre (GRDC)
+The GRDC hosts the most complete collection of quality-assured river discharge observations worldwide. Data are downloaded manually from the [GRDC Data PORTAL](https://portal.grdc.bafg.de/applications/public.html?publicuser=PublicUser#dataDownload/StationCatalogue) as station-level time series (no API or gridded option). Review the [FAQ](https://grdc.bafg.de/help/faq/) to choose stations and formats.
 
-There is no API available for the GRDC, but the data can be downloaded from the [GRDC Data PORTAL](https://portal.grdc.bafg.de/applications/public.html?publicuser=PublicUser#dataDownload/StationCatalogue).
+### VegDischarge
+VegET-based gridded runoff is routed through the mizuRoute model, producing discharge estimates for 63k African river reaches. Five routing algorithms are available—IRF, KWT, KW, MC, DW—and prior work suggests KWT or KW gives the most reliable hydrology for our purposes.
 
-Unlike ERA5 and GRUN, the GRDC data is not available in a gridded format.
-The discharge (streamflow) data is available at station level.
+### ERA5-Land monthly averages
+- Period: **Jan 1950 to ~2–3 months before present**
+- Resolution: 0.1° (~9 km)
+- Dataset: `monthly_averaged_reanalysis` via the CDS API
 
-Check out the [FAQ](https://grdc.bafg.de/help/faq/) to define the way to download the data.
+Key variables and units:
 
-## VegDischarge
+| Variable | Unit | Notes |
+|----------|------|-------|
+| `2m_temperature` | Kelvin | Subtract 273.15 for °C. |
+| `total_precipitation` | m/day | Multiply by 1000 for mm/day, then by days-per-month for totals. |
+| `surface_runoff` | m/day | Same conversion as precipitation. |
+| `snow_depth_water_equivalent` | m | Instantaneous depth. |
+| `potential_evaporation` | m/day | Multiply by 1000 for mm/day. |
+| `total_evaporation` | m/day | Multiply by 1000 for mm/day. |
 
-To route the gridded runoff generated by the VegET model, the mizuRoute river routing model was used, resulting in
-routed discharge estimates for over 63,000 river reaches in Africa. The routing tool has 5 different routing algorithms
-available: Impulse Response Function-Unit Hydrograph (IRF), Lagrangean-based Kinematic Wave Tracking (KWT), Eulerian
-based Kinematic Wave (KW), Muskingum-Cunge (MC), and Diffusive Wave (DW). All 5 algorithms were used for this study.
+Accumulated variables are stored as daily means; multiply by the number of days per month to recover totals. Instantaneous variables already represent monthly means.
 
-The usage of KWT or KW is suggested to yield the best results.
-
-## ERA5-Land
-
-### ERA5-Land Monthly Averages
-
-- Covers the period from **January 1950 to 2-3 months before the present**
-- ERA5-Land runs at enhanced resolution (9 km) - a regular latitude/longitude grid of 0.1°x0.1° via the CDS catalogue
-
-This document summarizes the units for each variable available in the ERA5-Land **monthly_averaged_reanalysis** dataset via the CDS API.
-> Check the [Documentation](https://cds.climate.copernicus.eu/datasets/reanalysis-era5-land-monthly-means?tab=overview)
-
----
-
-####  Units for ERA5-Land Monthly Averaged Variables
-
-| Variable                         | Unit     | Description |
-|----------------------------------|----------|-------------|
-| **2m_temperature**               | Kelvin (K) | Air temperature at 2 meters above the surface. To convert to Celsius, subtract 273.15. |
-| **total_precipitation**          | m/day    | Total precipitation accumulated over the day, expressed in meters of water equivalent per day. Multiply by 1000 to convert to mm/day. Multiply by the number of days in the month for total monthly precipitation. |
-| **surface_runoff**               | m/day    | Surface runoff accumulated over the day, in meters of water equivalent. Multiply by 1000 for mm/day. Multiply by number of days in the month for monthly total. |
-| **snow_depth_water_equivalent**  | m        | Instantaneous depth of snow in meters of water equivalent. |
-| **potential_evaporation**        | m/day    | Potential evaporation per day in meters. Multiply by 1000 for mm/day. Multiply by number of days in the month for monthly total. |
-| **total_evaporation**            | m/day    | Actual evapotranspiration per day in meters. Multiply by 1000 for mm/day. Multiply by number of days in the month for monthly total. |
-
----
-
-#### Notes on Data Interpretation
-
-- **Accumulated Variables**:
-    - Values are **daily means in meters/day**.
-    - To compute **total for a month**:
-      `monthly_total = daily_mean × number_of_days_in_month`
-    - Example:
-      `0.004 m/day × 30 days = 0.12 m`
-
-- **Instantaneous Variables**:
-    - Do **not** need accumulation over time.
-
----
-
-> For more details, refer to the [ERA5-Land documentation](https://confluence.ecmwf.int/display/CKB/ERA5-Land:+data+documentation).
-
-
-#### Extracting Data from file
-
-Understanding `stepType`: Handling Instantaneous vs Accumulated Variables in ERA5-Land Monthly Averages
-
-In ERA5-Land monthly reanalysis data, variables are processed differently depending on whether they are **instantaneous
-** or **accumulated**. This affects how they are averaged and stored in GRIB files.
-
-**Key `stepType` Values**
-
-| `stepType`  | Meaning                                                                                                                                                               |
-|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`avgid`** | Monthly **average of hourly data** that was originally **instantaneous** (e.g., 2m temperature).                                                                      |
-| **`avgas`** | Monthly **average of hourly data** that was originally **accumulated**, then **scaled** to a rate (e.g., total precipitation → precipitation rate → monthly average). |
-
----
-
-Why It Matters
-
-- These different `stepType`s **must be handled separately** when reading GRIB files using tools like `cfgrib`.
-- Attempting to read a GRIB file with mixed `stepType`s without filtering will cause errors.
-
----
-
-How to Extract Data
-
-Use `cfgrib` with `filter_by_keys` to open each type separately:
+To read GRIB files, filter by `stepType` to separate instantaneous (`avgid`) from accumulated (`avgas`) fields:
 
 ```python
 import xarray as xr
 
-# For instantaneous variables (e.g., 2m_temperature)
 ds_instant = xr.open_dataset("data.grib", engine="cfgrib",
                              backend_kwargs={"filter_by_keys": {"stepType": "avgid"}})
-
-# For accumulated variables (e.g., total_precipitation)
 ds_accum = xr.open_dataset("data.grib", engine="cfgrib",
                            backend_kwargs={"filter_by_keys": {"stepType": "avgas"}})
 ```
 
-You can then merge the datasets if they share compatible dimensions.
-
----
-
-> For more, see the [CDS GRIB-to-netCDF changes](https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation).
-
-## GRUN
-
-The dataset contains a gridded global reconstruction of monthly runoff timeseries.
-The data are at monthly resolution covering the period 1902-2014 on a **0.5 degrees (WGS84)
-grid in units of mm/day**
-The data are provided in a NetCDFv4 file, that is downloadable from the GRUN repository.
-
-
-[GRUN Dataset](https://figshare.com/articles/dataset/GRUN_Global_Runoff_Reconstruction/9228176)
-[Publication](https://essd.copernicus.org/articles/11/1655/2019/)
-
-> In-situ streamflow observations from the GSIM dataset are used to train a machine learning algorithm
-> that predicts monthly runoff rates based on antecedent precipitation and temperature from the
-> Global Soil Wetness Project Phase 3 (GSWP3) meteorological forcing dataset.
+### GRUN
+GRUN provides a global reconstruction of monthly runoff for 1902–2014 on a 0.5° grid (mm/day), distributed as NetCDFv4. The model is trained with GSIM streamflow and meteorological forcings from GSWP3. Download from [figshare](https://figshare.com/articles/dataset/GRUN_Global_Runoff_Reconstruction/9228176) and see the [ESSD publication](https://essd.copernicus.org/articles/11/1655/2019/) for methodology.
