@@ -277,8 +277,9 @@ $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pEx
 * Close the GDX file after loading all required data
 $gdxIn
 
-$gdxunload afterReading.gdx 
-
+* $gdxunload afterReading.gdx 
+$if %DEBUG%==1 $log Debug mode active: exporting loading input to input_loaded.gdx
+$if %DEBUG%==1 execute_unload $gdxunload input_loaded.gdx ;
 
 $if not errorfree $abort CONNECT ERROR in input_readers.gms
 
@@ -355,7 +356,7 @@ $offMulti
 *-------------------------------------------------------------------------------------
 
 $if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 execute_unload 'input_treated.gdx';
+$if %DEBUG%==1 execute_unload $gdxunload input_treated.gdx ;
 
 $if not errorFree $abort Data errors.
 
@@ -666,7 +667,7 @@ pWeightYear(sStartYear) = 1.0;
 * Compute weight for each year as the difference from the previous year's cumulative weight
 pWeightYear(y)$(not sStartYear(y)) = y.val - sum(sameas(y2+1,y), y2.val) ;
 
-* Compute the present value discounting factor considering mid-year adjustments
+* Compute the present value discounting factor considering mid-period adjustments
 pRR(y) = 1.0;
 pRR(y)$(ord(y)>1) = 1/((1+pDR)**(sum(y2$(ord(y2)<ord(y)),pWeightYear(y2))-1 + sum(sameas(y2,y), pWeightYear(y2)/2))) ;        
                                     
