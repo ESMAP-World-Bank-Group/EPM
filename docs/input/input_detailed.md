@@ -11,7 +11,7 @@ Input files are located in the data_input folder, and are organized into several
   - **Parameter** (_string_) – Full name of the parameter.
   - **Abbreviation** (_string_) – Short name used in the model.
   - **Value** (_varied units_) – The assigned numerical value or toggle (0/1) for the parameter.
-- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/config/pSettings.csv)
+- **Example Link**: [pSettings.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/config/pSettings.csv)
 
 **!! Important !!** The validated `pSettings.csv` template in the repository now includes the full set of required parameters. Starting from EPM v2024.09, the model expects this structure. Always copy the latest file (or extend your custom copy) to avoid missing parameters that would otherwise default to zero.
 
@@ -613,7 +613,7 @@ Documentation in progress. Check the `trade` [folder](https://github.com/ESMAP-W
   - **Value**
     - Capacity available for imports or exports between internal zones.
 
-- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTransferLimit.csv)
+- **Example Link**: [pTransferLimit.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pTransferLimit.csv)
 
 ### `pNewTransmission.csv`
 
@@ -641,7 +641,7 @@ Each transmission line must be specified only once. The order of the From and To
 - Do not include lines listed in pNewTransmission.csv in `pTransferLimit.csv`, or they will be double-counted.
 - For the model to consider lines in pNewTransmission.csv, the option `allowTransferExpansion` in `pSettings.csv` must be activated.
 
-- **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pNewTransmission.csv)
+- **Example Link**: [pNewTransmission.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pNewTransmission.csv)
 
 ### `pLossFactorInternal.csv`
 
@@ -659,7 +659,7 @@ Each transmission line must be specified only once. The order of the From and To
   - **Index**
     - **zone** (_str_) – Name of external zone
 
-- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/zext.csv)
+- **Example Link**: [zext.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/zext.csv)
 
 ### `pExtTransferLimit.csv`
 
@@ -700,7 +700,7 @@ Each transmission line must be specified only once. The order of the From and To
   - **Value**
     - Trade price (€/MWh)
 
-- **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pTradePrice.csv)
+- **Example Link**: [pTradePrice.csv](https://github.com/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pTradePrice.csv)
 
 ### `pMaxAnnualExternalTradeShare.csv`
 
@@ -719,7 +719,7 @@ Each transmission line must be specified only once. The order of the From and To
   - **Value**
     - **Maximum exchange share** (_fraction [0-1]_) – Maximum percentage of total demand that imports and exports can reach.
 
-- **Example Link**: [pMaxAnnualExternalTradeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test_region/trade/pMaxAnnualExternalTradeShare.csv)
+- **Example Link**: [pMaxAnnualExternalTradeShare.csv](https://github.com.mcas.ms/ESMAP-World-Bank-Group/EPM/blob/main/epm/input/data_test/trade/pMaxAnnualExternalTradeShare.csv)
 
 ---
 
