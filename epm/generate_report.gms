@@ -32,7 +32,7 @@ $onMulti
 * Report
 
 set sumhdr /
-  "Generation costs: $m",
+  "Investment costs: $m",
   "Fixed O&M: $m",
   "Variable O&M: $m",
   "Startup costs: $m",
@@ -100,7 +100,7 @@ set capexComponentPlant(capexComponent) /
 /;
 
 set genCostCmp /
-  "Generation costs: $m",
+  "Investment costs: $m",
   "Fixed O&M: $m",
   "Variable Cost: $m"
 /;
@@ -459,7 +459,7 @@ pCapacityPlantH2(zh2map(z,hh),y) = vCapH2.l(hh,y)$fEnableH2Production+1e-6;
 
 * Reporting costs by plant
 * Plant-level cost reporting (prettier formatting)
-pCostsPlant(z, g, "Generation costs: $m", y)$gzmap(g, z) =
+pCostsPlant(z, g, "Investment costs: $m", y)$gzmap(g, z) =
   vAnnGenCapex.l(g, y) / 1e6;
 
 pCostsPlant(z, g, "Fixed O&M: $m", y)$gzmap(g, z) =
@@ -483,7 +483,7 @@ pCostsPlant(z, g, "Spinning Reserve Cost: $m", y)$gzmap(g, z) =
 * ---------------------------------------------------------
 * Plant-level CAPEX investment breakdown [USD]
 * ---------------------------------------------------------
-* Stores the non-Generation costs flows for each plant and
+* Stores the non-Investment costs flows for each plant and
 * component so that we can add dedicated transmission and
 * hydrogen entries later on.
 * ---------------------------------------------------------
@@ -633,7 +633,7 @@ pDemandPeakSystem(y) = smax((q,d,t), sum(z, pDemandData(z,q,d,y,t) * pEnergyEffi
 * at the zonal level in million $.
 *
 * Categories included:
-*   - Generation costs
+*   - Investment costs
 *   - Fixed O&M
 *   - Variable O&M
 *   - Fuel costs
@@ -649,7 +649,7 @@ pDemandPeakSystem(y) = smax((q,d,t), sum(z, pDemandData(z,q,d,y,t) * pEnergyEffi
 * ---------------------------------------------------------
 
 * Investment-related costs
-pYearlyCostsZone(z, "Generation costs: $m", y) =
+pYearlyCostsZone(z, "Investment costs: $m", y) =
   vAnnCapex.l(z, y) / 1e6;
 
 pYearlyCostsZone(z, "Transmission costs: $m", y) =
@@ -837,8 +837,10 @@ pEnergyFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyFuel(z,f,y));
 pEnergyFuelComplete(z,f,y) = pEnergyFuel(z,f,y);
 pEnergyFuelComplete(z,"UnmetDemand",y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Surplus",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Imports",y) = (sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
+                                     + sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pEnergyFuelComplete(z,"Exports",y) = -(sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
+                                      + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
 
 pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyTechFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyTechFuel(z,tech,f,y));
@@ -1263,7 +1265,7 @@ pStorageComponents(stg,"Storage Hours"         ,y) = vCapStor.l(stg,y)/max(vCap.
 *   - pSolarPower: hourly solar generation
 *   - pSolarEnergyZone: total annual solar energy (MWh)
 *   - pSolarValueZone: average market value of solar ($/MWh)
-*   - pSolarCost: levelized cost of solar based on Generation costs ($/MWh)
+*   - pSolarCost: levelized cost of solar based on Investment costs ($/MWh)
 * ---------------------------------------------------------
 
 set PVtech(tech) / PV, PVwSTO /;
@@ -1293,7 +1295,7 @@ pPlantEnergyMWh(z,g,y)$pEnergyPlant(z,g,y) = pEnergyPlant(z,g,y)*1e3;
 * LCOE for new capacity plants (without direct spinning reserve cost)
 pPlantAnnualLCOE(z,g,y)$((pPlantEnergyMWh(z,g,y)) and (pPlantEnergyMWh(z,g,y) >= 1e3)) =
     1e6 * (
-        pCostsPlant(z, g, "Generation costs: $m", y)
+        pCostsPlant(z, g, "Investment costs: $m", y)
       + pCostsPlant(z, g, "Fixed O&M: $m", y)
       + pCostsPlant(z, g, "Variable Cost: $m", y)
 *      + pCostsPlant(z, g, "Spinning Reserve Cost: $m", y)

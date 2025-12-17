@@ -43,5 +43,8 @@ fApplyMinGenShareAllHours
 fApplyMinGenCommitment
 fApplyStartupCost
 fApplyRampConstraint
-fApplyMUDT
+EPM_FILL_HYDRO_AVAILABILITY
+EPM_FILL_HYDRO_CAPEX
+EPM_FILL_ROR_FROM_AVAILABILITY
 sPeakLoadProximityThreshold
+fApplyMUDT

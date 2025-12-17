@@ -48,6 +48,14 @@ import pandas as pd
 from .utils import *
 from .plots import *
 from .maps import make_automatic_map
+from .assessment import (
+    make_assessment_capacity_diff,
+    make_assessment_cost_diff,
+    make_assessment_dispatch_diff,
+    make_assessment_energy_mix_diff,
+    make_assessment_heatmap,
+    make_assessment_npv_comparison,
+)
 
 
 def _wrap_plot_function(func):
@@ -371,7 +379,12 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
             if not years_available:
                 continue
 
-            years_to_plot = [years_available[0], years_available[-1]] if len(years_available) > 1 else [years_available[0]]
+            # Years to plot: first, last, plus 2030/2040 if available
+            years_to_plot = {years_available[0], years_available[-1]} if len(years_available) > 1 else {years_available[0]}
+            for milestone_year in [2030, 2040]:
+                if milestone_year in years_available:
+                    years_to_plot.add(milestone_year)
+            years_to_plot = sorted(years_to_plot)
 
             for zone in zones:
                 for year in years_to_plot:
@@ -430,8 +443,8 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                             legend_loc='bottom'
                         )
 
-                    if zone_full_season_active and year == years_available[0]:
-                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
+                    if zone_full_season_active:
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season_{year}.pdf')
                         full_season_filter = zone_demand_year[
                             (zone_demand_year['season'] == max_load_season)
                         ]
@@ -568,7 +581,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
     df_cost_summary.index.names = ['scenario', 'zone', 'year', 'error']
     df_cost_summary.reset_index(inplace=True)
 
-    costs_notrade = ["Generation costs: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission costs: $m",
+    costs_notrade = ["Investment costs: $m", "Fixed O&M: $m", "Variable O&M: $m", "Total fuel Costs: $m", "Transmission costs: $m",
                         "Spinning Reserve costs: $m", "Unmet demand costs: $m", "Excess generation: $m",
                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
                         # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
@@ -860,7 +873,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             
             # Create subfolders directly under GRAPHS_FOLDER
             subfolders = {}
-            for subfolder in ['1_capacity', '2_cost', '3_energy', '4_interconnection', '5_dispatch', '6_maps']:
+            for subfolder in ['1_capacity', '2_cost', '3_energy', '4_interconnection', '5_dispatch', '6_maps', '7_comparison']:
                 subfolders[subfolder] = Path(GRAPHS_FOLDER) / Path(subfolder)
                 if not os.path.exists(subfolders[subfolder]):
                     os.mkdir(subfolders[subfolder])
@@ -2011,6 +2024,86 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         )
 
             
+            
+            #----------------------- Project Economic Assessment -----------------------
+            # Difference between scenarios with and without a project
+            log_info('Generating project economic assessment figures...', logger=active_logger)
+
+            # Identify scenario pairs: base scenarios have no underscore, counterfactuals start with base name + '_'
+            all_scenarios = df['scenario'].unique()
+            # Scenarios with @ are counterfactuals (project assessments)
+            base_scenario_names = [s for s in all_scenarios if '@' not in s]
+            counterfactual_names = [s for s in all_scenarios if '@' in s]
+
+            # Build pairs: {base_scenario: [list of counterfactual scenarios]}
+            # e.g., baseline_NoBiomass@rehabilitation pairs with baseline_NoBiomass
+            scenario_pairs = {}
+            for counterfactual in counterfactual_names:
+                base_name = counterfactual.split('@')[0]
+                if base_name in base_scenario_names:
+                    if base_name not in scenario_pairs:
+                        scenario_pairs[base_name] = []
+                    scenario_pairs[base_name].append(counterfactual)
+
+            # Log detected pairs
+            if scenario_pairs:
+                log_info(f'Detected {len(scenario_pairs)} scenario pair(s) for project assessment:', logger=active_logger)
+                for base, counterfactuals in scenario_pairs.items():
+                    for cf in counterfactuals:
+                        log_info(f'  - Base: {base} | Counterfactual: {cf}', logger=active_logger)
+            else:
+                log_info('No scenario pairs detected for project assessment.', logger=active_logger)
+
+            # Generate dispatch difference plots for each pair
+            if False:
+                for scenario_base, counterfactuals in scenario_pairs.items():
+                    if scenario_base not in selected_scenarios:
+                        continue
+                    for scenario_counterfactual in counterfactuals:
+                        make_assessment_dispatch_diff(
+                            epm_results,
+                            dict_specs,
+                            subfolders['7_comparison'],
+                            scenario_base,
+                            scenario_counterfactual
+                        )
+
+            # Generate cost and capacity assessment figures
+            if scenario_pairs:
+                make_assessment_cost_diff(
+                    epm_results,
+                    dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs,
+                    trade_attrs=TRADE_ATTRS,
+                    reserve_attrs=RESERVE_ATTRS
+                )
+                make_assessment_capacity_diff(
+                    epm_results,
+                    dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs
+                )
+                make_assessment_energy_mix_diff(
+                    epm_results,
+                    dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs
+                )
+                make_assessment_heatmap(
+                    epm_results,
+                    subfolders['7_comparison'],
+                    scenario_pairs
+                )
+                make_assessment_npv_comparison(
+                    epm_results,
+                    dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs,
+                    trade_attrs=TRADE_ATTRS,
+                    reserve_attrs=RESERVE_ATTRS
+                )
+
             if False:
                 #----------------------- Project Economic Assessment -----------------------
                 # Difference between scenarios with and without a project

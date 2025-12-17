@@ -2,6 +2,7 @@
 pSettings,
 y,
 pDemandForecast,
+TradePrice,
 pDemandProfile,
 pAvailabilityDefault,
 pCapexTrajectoriesDefault,
@@ -10,4 +11,5 @@ ResLimShare,
 BuildLimitperYear,
 pVREProfile,
 interco,TRUE
+ExternalExchange,
 RemoveGenericTechnologies,
