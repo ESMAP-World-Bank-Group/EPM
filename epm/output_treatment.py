@@ -50,14 +50,19 @@ CUMULATIVE_FILES = [
     ('pYearlyDiscountedWeightedCostsZone', 'pYearlyDiscountedWeightedCostsZoneCumulated'),
 ]
 
-# Files to fill with all (tech, fuel) combinations
+# Files to fill with all (tech, fuel) combinations and add Processing column
 TECHFUEL_FILES = [
     'pNewCapacityTechFuel',
+    'pNewCapacityTechFuelCumulated',
     'pCapacityTechFuel',
     'pEnergyTechFuel',
     'pEnergyTechFuelComplete',
     'pUtilizationTechFuel',
 ]
+
+# Path to pTechFuelProcessing.csv (relative to epm/ folder)
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'pTechFuelProcessing.csv')
 
 # Files to fill with all cost components: (file_name, cost_component_column_name)
 # The cost component column is either 'uni' or 'sumhdr' depending on the file
@@ -211,6 +216,7 @@ def calculate_cumulative(
 def fill_techfuel_combinations(
     input_path: str,
     techfuel_pairs: List[Tuple[str, str]],
+    techfuel_mapping: Optional[Dict[str, str]] = None,
     tech_col: str = 'tech',
     fuel_col: str = 'f',
     value_col: str = 'value',
@@ -218,6 +224,7 @@ def fill_techfuel_combinations(
 ) -> bool:
     """
     Fill missing (tech, fuel) combinations in a TechFuel CSV file with value 0.
+    Optionally adds a 'techfuel' column with Processing names.
 
     Parameters
     ----------
@@ -225,6 +232,9 @@ def fill_techfuel_combinations(
         Path to input CSV file
     techfuel_pairs : list of tuples
         List of valid (tech, fuel) pairs from pTechFuel
+    techfuel_mapping : dict, optional
+        Dictionary mapping 'tech-fuel' keys to Processing names.
+        If provided, adds a 'techfuel' column with mapped values.
     tech_col : str
         Name of the technology column (default: 'tech')
     fuel_col : str
@@ -249,7 +259,7 @@ def fill_techfuel_combinations(
     original_rows = len(df)
 
     # Identify other dimension columns (e.g., zone, year)
-    other_cols = [col for col in df.columns if col not in [tech_col, fuel_col, value_col]]
+    other_cols = [col for col in df.columns if col not in [tech_col, fuel_col, value_col, 'techfuel']]
 
     # Get unique values for other dimensions from existing data
     if other_cols:
@@ -275,9 +285,25 @@ def fill_techfuel_combinations(
     # Fill NaN values with 0
     df_filled[value_col] = df_filled[value_col].fillna(0)
 
-    # Sort for consistent output
-    sort_cols = other_cols + [tech_col, fuel_col]
-    df_filled = df_filled.sort_values(by=sort_cols)
+    # Add techfuel column with Processing names if mapping provided
+    if techfuel_mapping:
+        df_filled['techfuel'] = (df_filled[tech_col] + '-' + df_filled[fuel_col]).map(techfuel_mapping)
+        # Fallback to tech-fuel key if not in mapping
+        df_filled['techfuel'] = df_filled['techfuel'].fillna(df_filled[tech_col] + '-' + df_filled[fuel_col])
+
+    # Sort for consistent output (by techfuel order if available, otherwise by tech/fuel)
+    if techfuel_mapping and 'techfuel' in df_filled.columns:
+        # Create order based on techfuel_mapping values order
+        techfuel_order = list(dict.fromkeys(techfuel_mapping.values()))
+        df_filled['_sort_order'] = df_filled['techfuel'].apply(
+            lambda x: techfuel_order.index(x) if x in techfuel_order else len(techfuel_order)
+        )
+        sort_cols = other_cols + ['_sort_order']
+        df_filled = df_filled.sort_values(by=sort_cols)
+        df_filled = df_filled.drop(columns=['_sort_order'])
+    else:
+        sort_cols = other_cols + [tech_col, fuel_col]
+        df_filled = df_filled.sort_values(by=sort_cols)
 
     # Save back to file
     df_filled.to_csv(input_path, index=False)
@@ -375,6 +401,7 @@ def run_output_treatment(
     techfuel_files: Optional[List[str]] = None,
     cost_component_files: Optional[List[Tuple[str, str]]] = None,
     techfuel_pairs: Optional[List[Tuple[str, str]]] = None,
+    techfuel_mapping: Optional[Dict[str, str]] = None,
     all_cost_components: Optional[List[str]] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> None:
@@ -399,6 +426,8 @@ def run_output_treatment(
         If None, uses COST_COMPONENT_FILES.
     techfuel_pairs : list of tuples, optional
         List of valid (tech, fuel) pairs from pTechFuel. Required for techfuel filling.
+    techfuel_mapping : dict, optional
+        Dictionary mapping 'tech-fuel' keys to Processing names.
     all_cost_components : list, optional
         List of all cost component names. If None, uses ALL_COST_COMPONENTS.
     log_func : callable
@@ -436,12 +465,12 @@ def run_output_treatment(
     # ---------------------------------------------------------
     if techfuel_pairs and techfuel_files:
         log_func("")
-        log_func("[output_treatment] STEP 2: Filling TechFuel combinations")
+        log_func("[output_treatment] STEP 2: Filling TechFuel combinations and adding Processing column")
         log_func("-" * 60)
 
         for file_name in techfuel_files:
             csv_path = os.path.join(output_dir, f"{file_name}.csv")
-            fill_techfuel_combinations(csv_path, techfuel_pairs, log_func=log_func)
+            fill_techfuel_combinations(csv_path, techfuel_pairs, techfuel_mapping=techfuel_mapping, log_func=log_func)
     else:
         log_func("")
         log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no techfuel_pairs provided)")
@@ -535,10 +564,30 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
         except Exception as e:
             log_func(f"[output_treatment]   WARNING: Could not extract tech-fuel pairs from GAMS: {e}")
 
+        # Load techfuel_mapping from pTechFuelProcessing.csv
+        log_func("[output_treatment] Loading techfuel mapping from pTechFuelProcessing.csv...")
+
+        techfuel_mapping = None
+
+        try:
+            if os.path.exists(TECHFUEL_PROCESSING_PATH):
+                df_processing = pd.read_csv(TECHFUEL_PROCESSING_PATH, comment='#')
+                # Create mapping: 'tech-fuel' -> Processing
+                techfuel_mapping = dict(zip(
+                    df_processing['tech'] + '-' + df_processing['fuel'],
+                    df_processing['Processing']
+                ))
+                log_func(f"[output_treatment]   Loaded {len(techfuel_mapping)} Processing mappings")
+            else:
+                log_func(f"[output_treatment]   WARNING: pTechFuelProcessing.csv not found at {TECHFUEL_PROCESSING_PATH}")
+        except Exception as e:
+            log_func(f"[output_treatment]   WARNING: Could not load techfuel mapping: {e}")
+
         # Run the main treatment
         run_output_treatment(
             output_dir,
             techfuel_pairs=techfuel_pairs,
+            techfuel_mapping=techfuel_mapping,
             log_func=log_func
         )
 
