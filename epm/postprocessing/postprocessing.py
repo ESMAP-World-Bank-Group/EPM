@@ -159,23 +159,23 @@ FIGURES_ACTIVATED = {
     'EnergyPlantZoneTop10': True,
     
     # 4. Dispatch figures
-    'DispatchZoneMaxLoadDay': False,
-    'DispatchZoneMaxLoadSeason': False,
+    'DispatchZoneMaxLoadDay': True,
+    'DispatchZoneMaxLoadSeason': True,
     'DispatchZoneFullSeason': True,
-    'DispatchSystemMaxLoadDay': False,
-    'DispatchSystemMaxLoadSeason': False,
+    'DispatchSystemMaxLoadDay': True,
+    'DispatchSystemMaxLoadSeason': True,
     
     # 5. Interconnection figures
     'NetImportsZoneEvolution': True,
-    'NetImportsZoneEvolutionZoneEvolutionShare': False,
+    'NetImportsZoneEvolutionZoneEvolutionShare': True,
     'InterconnectionExchangeHeatmap': True,
     'InterconnectionUtilizationHeatmap': True,
 
     # 6. Maps
     # 'TransmissionCapacityMap': False, 
-    'TransmissionCapacityMapEvolution': False,
+    'TransmissionCapacityMapEvolution': True,
     # 'TransmissionUtilizationMap': False,
-    'TransmissionUtilizationMapEvolution': False,
+    'TransmissionUtilizationMapEvolution': True,
     # 'NetExportsMap': True, 
     
     'InteractiveMap': True
@@ -183,9 +183,9 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': False,
-    'costs': False,
-    'energy': False,
+    'capacity': True,
+    'costs': True,
+    'energy': True,
     'dispatch': True,
     'interconnection': True,
     'maps': True,
@@ -1742,7 +1742,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
                         df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
                         df_percentage = df_percentage.reset_index()
-                        print(df_percentage)
+                        
                         # Keeping for interconnection figures
                         df_exchange_percentage = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
                         

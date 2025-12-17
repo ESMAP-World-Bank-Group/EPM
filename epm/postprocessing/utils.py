@@ -1186,7 +1186,7 @@ def process_simulation_results(FOLDER, SCENARIOS_RENAME=None, keys_results=None)
 
             # Map base colors from fuel types
             plant_fuel_pairs['colors'] = plant_fuel_pairs['fuel'].map(dict_specs['colors'])
-            print(plant_fuel_pairs)
+            
 
             # Generate slightly varied colors for each generator
             plant_fuel_pairs['colors'] = plant_fuel_pairs.apply(
