@@ -88,8 +88,6 @@ pre-analysis/**/output/*
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
-!epm/input/data_westbalkans/
-!epm/input/data_westbalkans/**
 
 # Documentation
 /doc/todo.md
