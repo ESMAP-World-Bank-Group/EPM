@@ -60,6 +60,17 @@ TECHFUEL_FILES = [
     'pUtilizationTechFuel',
 ]
 
+# Plant-level files that need to be merged with pGeneratorTechFuel to add tech/fuel columns
+# After merging, these files can be processed like TechFuel files (techfuel column, renaming, etc.)
+PLANT_FILES = [
+    'pCapacityPlant',
+    'pNewCapacityPlant',
+    'pEnergyPlant',
+    'pUtilizationPlant',
+    'pPlantAnnualLCOE',
+    'pCostsPlant',
+]
+
 # Path to pTechFuelProcessing.csv (relative to epm/ folder)
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'pTechFuelProcessing.csv')
@@ -390,6 +401,75 @@ def fill_cost_components(
     return True
 
 
+def merge_plant_with_generator_techfuel(
+    input_path: str,
+    generator_techfuel_df: pd.DataFrame,
+    generator_col: str = 'g',
+    tech_col: str = 'tech',
+    fuel_col: str = 'f',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Merge a plant-level CSV file with pGeneratorTechFuel to add tech and fuel columns.
+
+    This enables plant-level files to be processed like TechFuel files, allowing
+    the addition of the techfuel column and Processing names.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file (plant-level data with 'g' column)
+    generator_techfuel_df : pd.DataFrame
+        DataFrame with (g, tech, f) mapping from pGeneratorTechFuel
+    generator_col : str
+        Name of the generator column in the input file (default: 'g')
+    tech_col : str
+        Name of the technology column to add (default: 'tech')
+    fuel_col : str
+        Name of the fuel column to add (default: 'f')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+
+    if not os.path.exists(input_path):
+        log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
+        return False
+
+    if generator_techfuel_df.empty:
+        log_func(f"[output_treatment]   {file_name}: WARNING - no generator techfuel mapping provided")
+        return False
+
+    df = pd.read_csv(input_path)
+
+    if generator_col not in df.columns:
+        log_func(f"[output_treatment]   {file_name}: WARNING - column '{generator_col}' not found")
+        return False
+
+    original_cols = list(df.columns)
+
+    # Merge with generator techfuel mapping
+    df = df.merge(generator_techfuel_df, on=generator_col, how='left')
+
+    # Reorder columns: put tech and f right after g
+    g_idx = original_cols.index(generator_col)
+    new_cols = original_cols[:g_idx + 1] + [tech_col, fuel_col] + original_cols[g_idx + 1:]
+    # Only include columns that exist
+    new_cols = [c for c in new_cols if c in df.columns]
+    df = df[new_cols]
+
+    # Save back to file
+    df.to_csv(input_path, index=False)
+    log_func(f"[output_treatment]   {file_name}: added {tech_col}, {fuel_col} columns")
+
+    return True
+
+
 # =============================================================================
 # MAIN TREATMENT FUNCTIONS
 # =============================================================================
@@ -403,6 +483,8 @@ def run_output_treatment(
     techfuel_df: Optional[pd.DataFrame] = None,
     techfuel_mapping: Optional[Dict[str, str]] = None,
     all_cost_components: Optional[List[str]] = None,
+    plant_files: Optional[List[str]] = None,
+    generator_techfuel_df: Optional[pd.DataFrame] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> None:
     """
@@ -430,6 +512,11 @@ def run_output_treatment(
         Dictionary mapping 'tech-fuel' keys to Processing names.
     all_cost_components : list, optional
         List of all cost component names. If None, uses ALL_COST_COMPONENTS.
+    plant_files : list, optional
+        List of plant-level file names to merge with generator techfuel data.
+        If None, uses PLANT_FILES.
+    generator_techfuel_df : pd.DataFrame, optional
+        DataFrame with (g, tech, f) mapping from pGeneratorTechFuel. Required for plant file merging.
     log_func : callable
         Logging function (default: print)
     """
@@ -443,6 +530,8 @@ def run_output_treatment(
         cost_component_files = COST_COMPONENT_FILES
     if all_cost_components is None:
         all_cost_components = ALL_COST_COMPONENTS
+    if plant_files is None:
+        plant_files = PLANT_FILES
 
     log_func("=" * 60)
     log_func("[output_treatment] Starting output treatment")
@@ -461,27 +550,49 @@ def run_output_treatment(
         rename_columns(csv_path, col_map, log_func=log_func)
 
     # ---------------------------------------------------------
-    # 2. Fill TechFuel combinations (if techfuel_df provided)
+    # 2. Merge plant files with generator techfuel mapping
+    # ---------------------------------------------------------
+    if generator_techfuel_df is not None and not generator_techfuel_df.empty and plant_files:
+        log_func("")
+        log_func("[output_treatment] STEP 2: Merging plant files with generator techfuel mapping")
+        log_func("-" * 60)
+
+        for file_name in plant_files:
+            csv_path = os.path.join(output_dir, f"{file_name}.csv")
+            merge_plant_with_generator_techfuel(csv_path, generator_techfuel_df, log_func=log_func)
+    else:
+        log_func("")
+        log_func("[output_treatment] STEP 2: Skipping plant file merging (no generator_techfuel_df provided)")
+        log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 3. Fill TechFuel combinations (if techfuel_df provided)
     # ---------------------------------------------------------
     if techfuel_df is not None and not techfuel_df.empty and techfuel_files:
         log_func("")
-        log_func("[output_treatment] STEP 2: Filling TechFuel combinations and adding Processing column")
+        log_func("[output_treatment] STEP 3: Filling TechFuel combinations and adding Processing column")
         log_func("-" * 60)
 
+        # Process standard TechFuel files
         for file_name in techfuel_files:
+            csv_path = os.path.join(output_dir, f"{file_name}.csv")
+            fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
+
+        # Also process plant files that now have tech/f columns (from Step 2)
+        for file_name in PLANT_FILES:
             csv_path = os.path.join(output_dir, f"{file_name}.csv")
             fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
     else:
         log_func("")
-        log_func("[output_treatment] STEP 2: Skipping TechFuel filling (no techfuel_df provided)")
+        log_func("[output_treatment] STEP 3: Skipping TechFuel filling (no techfuel_df provided)")
         log_func("-" * 60)
 
     # ---------------------------------------------------------
-    # 3. Fill cost components with all sumhdr values
+    # 4. Fill cost components with all sumhdr values
     # ---------------------------------------------------------
     if cost_component_files and all_cost_components:
         log_func("")
-        log_func("[output_treatment] STEP 3: Filling cost components (sumhdr)")
+        log_func("[output_treatment] STEP 4: Filling cost components (sumhdr)")
         log_func("-" * 60)
 
         for file_name, cost_col in cost_component_files:
@@ -489,14 +600,14 @@ def run_output_treatment(
             fill_cost_components(csv_path, all_cost_components, cost_col=cost_col, log_func=log_func)
     else:
         log_func("")
-        log_func("[output_treatment] STEP 3: Skipping cost component filling")
+        log_func("[output_treatment] STEP 4: Skipping cost component filling")
         log_func("-" * 60)
 
     # ---------------------------------------------------------
-    # 4. Calculate cumulative values
+    # 5. Calculate cumulative values
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 4: Calculating cumulative values")
+    log_func("[output_treatment] STEP 5: Calculating cumulative values")
     log_func("-" * 60)
 
     for input_name, output_name in cumulative_files:
@@ -547,6 +658,7 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
         log_func("[output_treatment] Extracting tech-fuel pairs from GAMS database...")
 
         techfuel_df = pd.DataFrame(columns=['tech', 'f'])
+        generator_techfuel_df = pd.DataFrame(columns=['g', 'tech', 'f'])
 
         try:
             db = gt.Container(gams.db)
@@ -559,6 +671,15 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
                     techfuel_df.columns = ['tech', 'f']
                     techfuel_df = techfuel_df.drop_duplicates()
                     log_func(f"[output_treatment]   Found {len(techfuel_df)} unique (tech, fuel) pairs from pTechFuel")
+
+            # Get generator to (tech, fuel) mapping from pGeneratorTechFuel
+            if 'pGeneratorTechFuel' in db.data:
+                gen_techfuel_data = db.data['pGeneratorTechFuel']
+                if gen_techfuel_data.records is not None and len(gen_techfuel_data.records) > 0:
+                    generator_techfuel_df = gen_techfuel_data.records.iloc[:, :3].copy()
+                    generator_techfuel_df.columns = ['g', 'tech', 'f']
+                    generator_techfuel_df = generator_techfuel_df.drop_duplicates()
+                    log_func(f"[output_treatment]   Found {len(generator_techfuel_df)} generator-techfuel mappings from pGeneratorTechFuel")
 
         except Exception as e:
             log_func(f"[output_treatment]   WARNING: Could not extract tech-fuel pairs from GAMS: {e}")
@@ -587,6 +708,7 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
             output_dir,
             techfuel_df=techfuel_df,
             techfuel_mapping=techfuel_mapping,
+            generator_techfuel_df=generator_techfuel_df,
             log_func=log_func
         )
 
