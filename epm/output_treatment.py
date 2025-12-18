@@ -115,6 +115,38 @@ ALL_COST_COMPONENTS = [
     "NPV of system cost: $m",
 ]
 
+# =============================================================================
+# FILES TO MERGE INTO CONSOLIDATED CSVs
+# =============================================================================
+
+# TechFuel files to merge (dimensions: z, tech, f, y, value)
+# These will be merged into pTechFuelMerged.csv with an 'attribute' column
+TECHFUEL_MERGE_FILES = [
+    'pCapacityTechFuel',
+    'pNewCapacityTechFuel',
+    'pEnergyTechFuel',
+    'pUtilizationTechFuel',
+]
+
+# Plant files to merge (dimensions: z, g, y, value) - excludes pDispatch which has time dimensions
+# These will be merged into pPlantMerged.csv with an 'attribute' column
+PLANT_MERGE_FILES = [
+    'pCapacityPlant',
+    'pNewCapacityPlant',
+    'pEnergyPlant',
+    'pUtilizationPlant',
+    'pPlantAnnualLCOE',
+    'pCostsPlant',
+    'pCapexInvestmentPlant',
+]
+
+# YearlyCosts zone files to merge (dimensions: z, uni, y, value)
+# These will be merged into pYearlyCostsMerged.csv
+YEARLY_COSTS_MERGE_FILES = [
+    'pYearlyCostsZone',
+    'pYearlyDiscountedWeightedCostsZone',
+]
+
 
 # =============================================================================
 # HELPER FUNCTIONS
@@ -123,6 +155,81 @@ ALL_COST_COMPONENTS = [
 def _default_log(message: str) -> None:
     """Default logging function that prints to stdout."""
     print(message)
+
+
+def merge_csv_files(
+    output_dir: str,
+    file_names: List[str],
+    output_name: str,
+    attribute_col: str = 'attribute',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Merge multiple CSV files into one consolidated file with an attribute column.
+
+    Each source file's data is tagged with an 'attribute' column containing the
+    original file name (without 'p' prefix and '.csv' suffix).
+
+    Parameters
+    ----------
+    output_dir : str
+        Path to the directory containing CSV files
+    file_names : list
+        List of file names (without .csv extension) to merge
+    output_name : str
+        Name for the output merged file (without .csv extension)
+    attribute_col : str
+        Name of the attribute column to add (default: 'attribute')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    dfs = []
+    merged_files = []
+
+    for file_name in file_names:
+        csv_path = os.path.join(output_dir, f"{file_name}.csv")
+        if not os.path.exists(csv_path):
+            continue
+
+        df = pd.read_csv(csv_path)
+        if df.empty:
+            continue
+
+        # Extract attribute name from file name (remove 'p' prefix)
+        attr_name = file_name[1:] if file_name.startswith('p') else file_name
+        df[attribute_col] = attr_name
+        dfs.append(df)
+        merged_files.append(file_name)
+
+    if not dfs:
+        log_func(f"[output_treatment]   {output_name}: WARNING - no files found to merge")
+        return False
+
+    # Concatenate all dataframes
+    merged_df = pd.concat(dfs, ignore_index=True)
+
+    # Reorder columns to put attribute column first (after dimension columns)
+    cols = list(merged_df.columns)
+    cols.remove(attribute_col)
+    # Find position after all non-value columns (typically 'value' is last)
+    if 'value' in cols:
+        value_idx = cols.index('value')
+        new_cols = cols[:value_idx] + [attribute_col] + cols[value_idx:]
+    else:
+        new_cols = [attribute_col] + cols
+    merged_df = merged_df[new_cols]
+
+    # Save merged file
+    output_path = os.path.join(output_dir, f"{output_name}.csv")
+    merged_df.to_csv(output_path, index=False)
+    log_func(f"[output_treatment]   {output_name}.csv: merged {len(merged_files)} files ({len(merged_df)} rows)")
+
+    return True
 
 
 def rename_columns(
@@ -401,6 +508,73 @@ def fill_cost_components(
     return True
 
 
+def add_country_to_zone_file(
+    input_path: str,
+    zone_country_df: pd.DataFrame,
+    zone_col: str = 'z',
+    country_col: str = 'c',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Add country column to a zone-based CSV file by merging with pZoneCountry.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file (zone-level data with 'z' column)
+    zone_country_df : pd.DataFrame
+        DataFrame with (z, c) mapping from pZoneCountry
+    zone_col : str
+        Name of the zone column in the input file (default: 'z')
+    country_col : str
+        Name of the country column to add (default: 'c')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+
+    if not os.path.exists(input_path):
+        return False
+
+    if zone_country_df.empty:
+        log_func(f"[output_treatment]   {file_name}: WARNING - no zone-country mapping provided")
+        return False
+
+    df = pd.read_csv(input_path)
+
+    # Skip if no zone column
+    if zone_col not in df.columns:
+        return False
+
+    # Skip if country column already exists
+    if country_col in df.columns:
+        log_func(f"[output_treatment]   {file_name}: skipped (already has '{country_col}' column)")
+        return False
+
+    original_cols = list(df.columns)
+
+    # Merge with zone-country mapping
+    df = df.merge(zone_country_df, on=zone_col, how='left')
+
+    # Reorder columns: put country right after zone
+    z_idx = original_cols.index(zone_col)
+    new_cols = original_cols[:z_idx + 1] + [country_col] + original_cols[z_idx + 1:]
+    # Only include columns that exist
+    new_cols = [c for c in new_cols if c in df.columns]
+    df = df[new_cols]
+
+    # Save back to file
+    df.to_csv(input_path, index=False)
+    log_func(f"[output_treatment]   {file_name}: added '{country_col}' column")
+
+    return True
+
+
 def merge_plant_with_generator_techfuel(
     input_path: str,
     generator_techfuel_df: pd.DataFrame,
@@ -485,6 +659,7 @@ def run_output_treatment(
     all_cost_components: Optional[List[str]] = None,
     plant_files: Optional[List[str]] = None,
     generator_techfuel_df: Optional[pd.DataFrame] = None,
+    zone_country_df: Optional[pd.DataFrame] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> None:
     """
@@ -517,6 +692,8 @@ def run_output_treatment(
         If None, uses PLANT_FILES.
     generator_techfuel_df : pd.DataFrame, optional
         DataFrame with (g, tech, f) mapping from pGeneratorTechFuel. Required for plant file merging.
+    zone_country_df : pd.DataFrame, optional
+        DataFrame with (z, c) mapping from pZoneCountry. Required for adding country to zone-based files.
     log_func : callable
         Logging function (default: print)
     """
@@ -537,6 +714,22 @@ def run_output_treatment(
     log_func("[output_treatment] Starting output treatment")
     log_func(f"[output_treatment] Output directory: {output_dir}")
     log_func("=" * 60)
+
+    # ---------------------------------------------------------
+    # 0. Merge related CSV files into consolidated files
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 0: Merging related CSV files into consolidated files")
+    log_func("-" * 60)
+
+    # Merge TechFuel files (z, tech, f, y, value)
+    merge_csv_files(output_dir, TECHFUEL_MERGE_FILES, 'pTechFuelMerged', log_func=log_func)
+
+    # Merge Plant files (z, g, y, value)
+    merge_csv_files(output_dir, PLANT_MERGE_FILES, 'pPlantMerged', log_func=log_func)
+
+    # Merge YearlyCosts zone files (z, uni, y, value)
+    merge_csv_files(output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged', log_func=log_func)
 
     # ---------------------------------------------------------
     # 1. Rename columns for wildcard domain parameters
@@ -615,6 +808,29 @@ def run_output_treatment(
         output_path = os.path.join(output_dir, f"{output_name}.csv")
         calculate_cumulative(input_path, output_path, log_func=log_func)
 
+    # ---------------------------------------------------------
+    # 6. Add country column to all zone-based files (FINAL STEP)
+    # ---------------------------------------------------------
+    if zone_country_df is not None and not zone_country_df.empty:
+        log_func("")
+        log_func("[output_treatment] STEP 6: Adding country column to zone-based files")
+        log_func("-" * 60)
+
+        # Find all CSV files in the output directory
+        csv_files = [f for f in os.listdir(output_dir) if f.endswith('.csv')]
+        processed_count = 0
+
+        for csv_file in sorted(csv_files):
+            csv_path = os.path.join(output_dir, csv_file)
+            if add_country_to_zone_file(csv_path, zone_country_df, log_func=log_func):
+                processed_count += 1
+
+        log_func(f"[output_treatment]   Processed {processed_count} zone-based files")
+    else:
+        log_func("")
+        log_func("[output_treatment] STEP 6: Skipping country column addition (no zone_country_df provided)")
+        log_func("-" * 60)
+
     log_func("")
     log_func("=" * 60)
     log_func("[output_treatment] Output treatment complete")
@@ -659,6 +875,7 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
 
         techfuel_df = pd.DataFrame(columns=['tech', 'f'])
         generator_techfuel_df = pd.DataFrame(columns=['g', 'tech', 'f'])
+        zone_country_df = pd.DataFrame(columns=['z', 'c'])
 
         try:
             db = gt.Container(gams.db)
@@ -681,8 +898,17 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
                     generator_techfuel_df = generator_techfuel_df.drop_duplicates()
                     log_func(f"[output_treatment]   Found {len(generator_techfuel_df)} generator-techfuel mappings from pGeneratorTechFuel")
 
+            # Get zone to country mapping from pZoneCountry
+            if 'pZoneCountry' in db.data:
+                zone_country_data = db.data['pZoneCountry']
+                if zone_country_data.records is not None and len(zone_country_data.records) > 0:
+                    zone_country_df = zone_country_data.records.iloc[:, :2].copy()
+                    zone_country_df.columns = ['z', 'c']
+                    zone_country_df = zone_country_df.drop_duplicates()
+                    log_func(f"[output_treatment]   Found {len(zone_country_df)} zone-country mappings from pZoneCountry")
+
         except Exception as e:
-            log_func(f"[output_treatment]   WARNING: Could not extract tech-fuel pairs from GAMS: {e}")
+            log_func(f"[output_treatment]   WARNING: Could not extract mappings from GAMS: {e}")
 
         # Load techfuel_mapping from pTechFuelProcessing.csv
         log_func("[output_treatment] Loading techfuel mapping from pTechFuelProcessing.csv...")
@@ -709,6 +935,7 @@ def run_output_treatment_gams(gams, output_dir: str) -> None:
             techfuel_df=techfuel_df,
             techfuel_mapping=techfuel_mapping,
             generator_techfuel_df=generator_techfuel_df,
+            zone_country_df=zone_country_df,
             log_func=log_func
         )
 
