@@ -4,11 +4,26 @@
 * Developed at the World Bank
 **********************************************************************
 Description:
-    This Python script is part of the GAMS-based Electricity Planning Model (EPM),
-    designed for post-processing of model outputs. It handles tasks such as:
-    - Renaming columns in CSV files with wildcard domains
-    - Calculating cumulative values over years
-    - Other output transformations
+    Post-processing script for EPM model outputs. Prepares CSV files for
+    Tableau visualization by:
+
+    1. Renaming columns (wildcard domain parameters)
+    2. Adding tech/fuel columns to plant files (via pGeneratorTechFuel)
+    3. Filling missing tech-fuel combinations with zeros
+    4. Adding techfuel column to dispatch files
+    5. Creating pDispatchComplete (pDispatch + pDispatchTechFuel)
+    6. Filling cost components with all sumhdr values
+    7. Calculating cumulative values over years
+    8. Aggregating plant files to tech-fuel level
+    9. Merging related files into consolidated CSVs:
+       - pTechFuelMerged (wide format)
+       - pPlantMerged (long format)
+       - pYearlyCostsMerged (wide format)
+       - pTransmissionMerged (wide format)
+       - pYearlyZoneMerged (wide format: demand + emissions)
+       - pCostsSystemMerged (wide format)
+    10. Adding country column to zone-based files
+    11. Organizing files (essential in main dir, others in 'other/' subdir)
 
 Author(s):
     ESMAP Modelling Team
@@ -21,7 +36,8 @@ License:
 
 Notes:
     - Can be run standalone or called from GAMS embedded Python
-    - Default folder: simulations_test/baseline
+    - Default folder: simulations_test/baseline/output_csv
+    - All errors are non-fatal (logged as warnings)
 
 Contact:
     Claire Nicolas - cnicolas@worldbank.org
@@ -36,6 +52,20 @@ from typing import Callable, Dict, List, Optional, Tuple
 
 # =============================================================================
 # CONFIGURATION
+# =============================================================================
+# This section defines which files to process and how.
+#
+# PROCESSING PIPELINE:
+# 1. RENAME_COLUMNS_MAP     -> Fix column names from wildcard domains
+# 2. PLANT_FILES            -> Add tech/f columns via pGeneratorTechFuel
+# 3. TECHFUEL_FILES         -> Fill missing (tech,fuel) combinations with zeros
+# 4. DISPATCH_FUEL_FILES    -> Add techfuel column (tech-f combination)
+# 5. COST_COMPONENT_FILES   -> Fill missing cost components with zeros
+# 6. CUMULATIVE_FILES       -> Calculate cumulative values over years
+# 7. PLANT_TO_TECHFUEL_AGGREGATIONS -> Aggregate plant data to tech-fuel level
+# 8. *_MERGE_FILES          -> Merge related files into consolidated CSVs
+# 9. Add country column to all zone-based files
+# 10. Move non-essential files to 'other/' subdirectory
 # =============================================================================
 
 # Column renaming for parameters with wildcard (*) domains
@@ -58,6 +88,12 @@ TECHFUEL_FILES = [
     'pEnergyTechFuel',
     'pEnergyTechFuelComplete',
     'pUtilizationTechFuel',
+]
+
+# Dispatch files that need techfuel column added (they already have tech and f columns)
+# These will be merged with pDispatch into pDispatchComplete
+DISPATCH_FUEL_FILES = [
+    'pDispatchTechFuel',
 ]
 
 # Plant-level files that need to be merged with pGeneratorTechFuel to add tech/fuel columns
@@ -120,12 +156,21 @@ ALL_COST_COMPONENTS = [
 # =============================================================================
 
 # TechFuel files to merge (dimensions: z, tech, f, y, value)
-# These will be merged into pTechFuelMerged.csv with an 'attribute' column
+# These will be merged into pTechFuelMerged.csv in wide format
+# Note: Includes cumulated files, so merge must happen after cumulative calculation
 TECHFUEL_MERGE_FILES = [
     'pCapacityTechFuel',
     'pNewCapacityTechFuel',
-    'pEnergyTechFuel',
+    'pNewCapacityTechFuelCumulated',
+    'pEnergyTechFuelComplete',
     'pUtilizationTechFuel',
+    'pReserveSpinningTechFuel',
+]
+
+# Plant files to aggregate to TechFuel level: (input_name, output_name)
+# These are plant-level files that will be merged with pGeneratorTechFuel and grouped by sum
+PLANT_TO_TECHFUEL_AGGREGATIONS = [
+    ('pReserveSpinningPlantZone', 'pReserveSpinningTechFuel'),
 ]
 
 # Plant files to merge (dimensions: z, g, y, value) - excludes pDispatch which has time dimensions
@@ -145,6 +190,58 @@ PLANT_MERGE_FILES = [
 YEARLY_COSTS_MERGE_FILES = [
     'pYearlyCostsZone',
     'pYearlyDiscountedWeightedCostsZone',
+    'pCostsZonePerMWh',
+    'pYearlyGenCostZonePerMWh',
+]
+
+# Transmission/interconnection files to merge (dimensions: z, z2, y, value)
+# These will be merged into pTransmissionMerged.csv
+TRANSMISSION_MERGE_FILES = [
+    'pInterchange',
+    'pInterconUtilization',
+    'pAnnualTransmissionCapacity',
+    'pAdditionalTransmissionCapacity',
+]
+
+# Yearly zone files to merge (dimensions: z, y, value)
+# Combines demand, emissions into pYearlyZoneMerged.csv
+YEARLY_ZONE_MERGE_FILES = [
+    'pDemandEnergyZone',
+    'pDemandPeakZone',
+    'pEmissionsZone',
+    'pEmissionsIntensityZone',
+]
+
+# System-level cost files to merge (dimensions: uni, value or y, value)
+# These will be merged into pCostsSystemMerged.csv
+SYSTEM_COSTS_MERGE_FILES = [
+    'pCostsSystem',
+    'pCostsSystemPerMWh',
+]
+
+# =============================================================================
+# FILES TO KEEP IN MAIN OUTPUT DIRECTORY
+# =============================================================================
+# These files are kept in the main output_csv directory for Tableau/analysis
+# All other CSV files will be moved to the 'other' subdirectory
+
+# Primary merged/consolidated files (created by output_treatment)
+PRIMARY_OUTPUT_FILES = [
+    'pTechFuelMerged',
+    'pPlantMerged',
+    'pYearlyCostsMerged',
+    'pTransmissionMerged',
+    'pYearlyZoneMerged',
+    'pCostsSystemMerged',
+    'pDispatchComplete',
+]
+
+# Essential standalone files (not merged but needed for analysis)
+ESSENTIAL_FILES = [
+    # Prices
+    'pPrice',
+    # Settings
+    'pSettings',
 ]
 
 
@@ -157,18 +254,43 @@ def _default_log(message: str) -> None:
     print(message)
 
 
-def merge_csv_files(
+# Preferred column order for merged files
+COLUMN_ORDER = ['c', 'z', 'tech', 'f', 'g', 'y', 'uni', 'techfuel']
+
+
+def _reorder_columns(df: pd.DataFrame, preferred_order: List[str] = COLUMN_ORDER) -> pd.DataFrame:
+    """
+    Reorder DataFrame columns according to preferred order.
+    Columns not in preferred_order are placed at the end in their original order.
+    """
+    existing_cols = list(df.columns)
+    ordered_cols = []
+
+    # Add columns in preferred order (if they exist)
+    for col in preferred_order:
+        if col in existing_cols:
+            ordered_cols.append(col)
+            existing_cols.remove(col)
+
+    # Add remaining columns at the end
+    ordered_cols.extend(existing_cols)
+
+    return df[ordered_cols]
+
+
+def merge_csv_files_wide(
     output_dir: str,
     file_names: List[str],
     output_name: str,
-    attribute_col: str = 'attribute',
+    techfuel_df: Optional[pd.DataFrame] = None,
+    techfuel_mapping: Optional[Dict[str, str]] = None,
     log_func: Callable[[str], None] = _default_log
 ) -> bool:
     """
-    Merge multiple CSV files into one consolidated file with an attribute column.
+    Merge multiple CSV files into one wide-format file with attributes as columns.
 
-    Each source file's data is tagged with an 'attribute' column containing the
-    original file name (without 'p' prefix and '.csv' suffix).
+    Each source file becomes a column in the output, with the file name (without 'p'
+    prefix) as the column name. Missing combinations are filled with 0.
 
     Parameters
     ----------
@@ -178,8 +300,10 @@ def merge_csv_files(
         List of file names (without .csv extension) to merge
     output_name : str
         Name for the output merged file (without .csv extension)
-    attribute_col : str
-        Name of the attribute column to add (default: 'attribute')
+    techfuel_df : pd.DataFrame, optional
+        DataFrame with unique (tech, fuel) pairs to fill all combinations
+    techfuel_mapping : dict, optional
+        Dictionary mapping 'tech-fuel' keys to Processing names for techfuel column
     log_func : callable
         Logging function (default: print)
 
@@ -188,8 +312,7 @@ def merge_csv_files(
     bool
         True if successful, False otherwise
     """
-    dfs = []
-    merged_files = []
+    dfs = {}
 
     for file_name in file_names:
         csv_path = os.path.join(output_dir, f"{file_name}.csv")
@@ -200,11 +323,135 @@ def merge_csv_files(
         if df.empty:
             continue
 
+        # Rename sumhdr to uni for consistency (cost files use sumhdr, others use uni)
+        if 'sumhdr' in df.columns:
+            df = df.rename(columns={'sumhdr': 'uni'})
+
         # Extract attribute name from file name (remove 'p' prefix)
         attr_name = file_name[1:] if file_name.startswith('p') else file_name
+
+        # Skip files without 'value' column
+        if 'value' not in df.columns:
+            log_func(f"[output_treatment]   {file_name}: WARNING - no 'value' column found, skipping")
+            continue
+
+        # Rename value column to attribute name
+        df = df.rename(columns={'value': attr_name})
+        dfs[attr_name] = df
+
+    if not dfs:
+        log_func(f"[output_treatment]   {output_name}: WARNING - no files found to merge")
+        return False
+
+    # Merge all dataframes on common index columns
+    attr_names = list(dfs.keys())
+    merged_df = dfs[attr_names[0]]
+
+    for attr_name in attr_names[1:]:
+        df = dfs[attr_name]
+        # Find common columns (excluding the attribute columns we've added)
+        common_cols = [c for c in merged_df.columns if c in df.columns and c not in attr_names]
+        if common_cols:
+            merged_df = merged_df.merge(df, on=common_cols, how='outer')
+        else:
+            # If no common columns, just concatenate
+            merged_df = pd.concat([merged_df, df], ignore_index=True)
+
+    # Fill missing tech-fuel combinations if techfuel_df provided
+    if techfuel_df is not None and not techfuel_df.empty:
+        if 'tech' in merged_df.columns and 'f' in merged_df.columns:
+            # Identify dimension columns (not attribute columns)
+            dim_cols = [c for c in merged_df.columns if c not in attr_names]
+            other_dim_cols = [c for c in dim_cols if c not in ['tech', 'f']]
+
+            if other_dim_cols:
+                # Get unique values for other dimensions
+                other_dims = merged_df[other_dim_cols].drop_duplicates()
+
+                # Cross join with techfuel_df
+                other_dims['_cross'] = 1
+                techfuel_expanded = techfuel_df.copy()
+                techfuel_expanded['_cross'] = 1
+                full_index = other_dims.merge(techfuel_expanded, on='_cross').drop(columns=['_cross'])
+
+                # Merge with existing data
+                merged_df = full_index.merge(merged_df, on=dim_cols, how='left')
+
+            # Fill NaN values with 0 for attribute columns
+            for attr_name in attr_names:
+                if attr_name in merged_df.columns:
+                    merged_df[attr_name] = merged_df[attr_name].fillna(0)
+
+            # Add techfuel column if mapping provided
+            if techfuel_mapping:
+                merged_df['techfuel'] = (merged_df['tech'] + '-' + merged_df['f']).map(techfuel_mapping)
+                merged_df['techfuel'] = merged_df['techfuel'].fillna(merged_df['tech'] + '-' + merged_df['f'])
+
+    # Reorder columns according to preferred order
+    merged_df = _reorder_columns(merged_df)
+
+    # Save merged file
+    output_path = os.path.join(output_dir, f"{output_name}.csv")
+    merged_df.to_csv(output_path, index=False)
+    log_func(f"[output_treatment]   {output_name}.csv: merged {len(dfs)} files -> wide format ({len(merged_df)} rows)")
+
+    return True
+
+
+def merge_csv_files_long(
+    output_dir: str,
+    file_names: List[str],
+    output_name: str,
+    attribute_col: str = 'attribute',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Merge multiple CSV files into one long-format file with an attribute column.
+
+    Each source file contributes rows with an 'attribute' column indicating the source.
+    The output has columns: [index_cols..., attribute, value]
+
+    Parameters
+    ----------
+    output_dir : str
+        Path to the directory containing CSV files
+    file_names : list
+        List of file names (without .csv extension) to merge
+    output_name : str
+        Name for the output merged file (without .csv extension)
+    attribute_col : str
+        Name for the attribute column (default: 'attribute')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    dfs = []
+
+    for file_name in file_names:
+        csv_path = os.path.join(output_dir, f"{file_name}.csv")
+        if not os.path.exists(csv_path):
+            continue
+
+        df = pd.read_csv(csv_path)
+        if df.empty:
+            continue
+
+        # Identify if file has 'value' column
+        if 'value' not in df.columns:
+            log_func(f"[output_treatment]   {file_name}: WARNING - no 'value' column found, skipping")
+            continue
+
+        # Extract attribute name from file name (remove 'p' prefix)
+        attr_name = file_name[1:] if file_name.startswith('p') else file_name
+
+        # Add attribute column
         df[attribute_col] = attr_name
+
         dfs.append(df)
-        merged_files.append(file_name)
 
     if not dfs:
         log_func(f"[output_treatment]   {output_name}: WARNING - no files found to merge")
@@ -213,21 +460,21 @@ def merge_csv_files(
     # Concatenate all dataframes
     merged_df = pd.concat(dfs, ignore_index=True)
 
-    # Reorder columns to put attribute column first (after dimension columns)
+    # Reorder columns: put attribute before value
     cols = list(merged_df.columns)
-    cols.remove(attribute_col)
-    # Find position after all non-value columns (typically 'value' is last)
-    if 'value' in cols:
+    if attribute_col in cols and 'value' in cols:
+        cols.remove(attribute_col)
         value_idx = cols.index('value')
-        new_cols = cols[:value_idx] + [attribute_col] + cols[value_idx:]
-    else:
-        new_cols = [attribute_col] + cols
-    merged_df = merged_df[new_cols]
+        cols.insert(value_idx, attribute_col)
+        merged_df = merged_df[cols]
+
+    # Reorder columns according to preferred order
+    merged_df = _reorder_columns(merged_df)
 
     # Save merged file
     output_path = os.path.join(output_dir, f"{output_name}.csv")
     merged_df.to_csv(output_path, index=False)
-    log_func(f"[output_treatment]   {output_name}.csv: merged {len(merged_files)} files ({len(merged_df)} rows)")
+    log_func(f"[output_treatment]   {output_name}.csv: merged {len(dfs)} files -> long format ({len(merged_df)} rows)")
 
     return True
 
@@ -508,6 +755,262 @@ def fill_cost_components(
     return True
 
 
+def add_techfuel_column_to_dispatch(
+    input_path: str,
+    techfuel_mapping: Optional[Dict[str, str]] = None,
+    tech_col: str = 'tech',
+    fuel_col: str = 'f',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Add techfuel column to dispatch files that already have tech and fuel columns.
+
+    This function is for files like pDispatchTechFuel that already have both
+    'tech' and 'f' columns. It adds the 'techfuel' column with Processing names.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file (dispatch data with 'tech' and 'f' columns)
+    techfuel_mapping : dict, optional
+        Dictionary mapping 'tech-fuel' keys to Processing names.
+    tech_col : str
+        Name of the technology column (default: 'tech')
+    fuel_col : str
+        Name of the fuel column (default: 'f')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+
+    if not os.path.exists(input_path):
+        log_func(f"[output_treatment]   {file_name}: WARNING - file not found")
+        return False
+
+    df = pd.read_csv(input_path)
+
+    # Check if file already has tech and fuel columns
+    if tech_col not in df.columns:
+        log_func(f"[output_treatment]   {file_name}: WARNING - column '{tech_col}' not found, skipping")
+        return False
+
+    if fuel_col not in df.columns:
+        log_func(f"[output_treatment]   {file_name}: WARNING - column '{fuel_col}' not found, skipping")
+        return False
+
+    # Skip if techfuel column already exists
+    if 'techfuel' in df.columns:
+        log_func(f"[output_treatment]   {file_name}: skipped (already has 'techfuel' column)")
+        return True
+
+    # Add techfuel column
+    if techfuel_mapping:
+        # Use mapping to get Processing names
+        df['techfuel'] = (df[tech_col] + '-' + df[fuel_col]).map(techfuel_mapping)
+        # Fallback to tech-fuel for unmapped values
+        df['techfuel'] = df['techfuel'].fillna(df[tech_col] + '-' + df[fuel_col])
+    else:
+        # Just concatenate tech and fuel
+        df['techfuel'] = df[tech_col] + '-' + df[fuel_col]
+
+    # Reorder columns to have techfuel after tech and f
+    cols = list(df.columns)
+    cols.remove('techfuel')
+    if fuel_col in cols:
+        f_idx = cols.index(fuel_col)
+        cols.insert(f_idx + 1, 'techfuel')
+    df = df[cols]
+
+    # Save back to file
+    df.to_csv(input_path, index=False)
+    log_func(f"[output_treatment]   {file_name}: added techfuel column ({len(df)} rows)")
+
+    return True
+
+
+def create_dispatch_complete(
+    dispatch_path: str,
+    dispatch_techfuel_path: str,
+    output_path: str,
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Create pDispatchComplete by merging pDispatch with pDispatchTechFuel.
+
+    pDispatch has: z, c, y, q, d, uni, t, value (where uni contains demand categories like Imports, Exports)
+    pDispatchTechFuel has: z, c, y, q, d, tech, f, t, value (dispatch by technology and fuel)
+
+    The output pDispatchComplete will have 'uni' containing both:
+    - Demand categories (from pDispatch): Imports, Exports, etc.
+    - Tech-fuel combinations (from pDispatchTechFuel): formatted as "tech-fuel" or using techfuel mapping
+
+    Parameters
+    ----------
+    dispatch_path : str
+        Path to pDispatch.csv
+    dispatch_techfuel_path : str
+        Path to pDispatchTechFuel.csv
+    output_path : str
+        Path to output pDispatchComplete.csv
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    dispatch_name = os.path.basename(dispatch_path)
+    dispatch_techfuel_name = os.path.basename(dispatch_techfuel_path)
+    output_name = os.path.basename(output_path)
+
+    # Check file existence with verbose logging
+    dispatch_exists = os.path.exists(dispatch_path)
+    dispatch_techfuel_exists = os.path.exists(dispatch_techfuel_path)
+
+    log_func(f"[output_treatment]     - {dispatch_name}: {'found' if dispatch_exists else 'NOT FOUND'}")
+    log_func(f"[output_treatment]     - {dispatch_techfuel_name}: {'found' if dispatch_techfuel_exists else 'NOT FOUND'}")
+
+    if not dispatch_exists:
+        log_func(f"[output_treatment]   WARNING: Cannot create {output_name} - {dispatch_name} not found")
+        return False
+
+    if not dispatch_techfuel_exists:
+        log_func(f"[output_treatment]   WARNING: Cannot create {output_name} - {dispatch_techfuel_name} not found")
+        return False
+
+    # Read dispatch files
+    df_dispatch = pd.read_csv(dispatch_path)
+    df_dispatch_techfuel = pd.read_csv(dispatch_techfuel_path)
+
+    log_func(f"[output_treatment]     - {dispatch_name}: {len(df_dispatch)} rows, columns: {list(df_dispatch.columns)}")
+    log_func(f"[output_treatment]     - {dispatch_techfuel_name}: {len(df_dispatch_techfuel)} rows, columns: {list(df_dispatch_techfuel.columns)}")
+
+    # Create 'uni' column in dispatch_techfuel from tech-fuel combination
+    # Check what columns are available
+    if 'techfuel' in df_dispatch_techfuel.columns:
+        # If techfuel column already exists (added by earlier processing), use it
+        df_dispatch_techfuel['uni'] = df_dispatch_techfuel['techfuel']
+        log_func(f"[output_treatment]     - Using existing 'techfuel' column for 'uni'")
+    elif 'tech' in df_dispatch_techfuel.columns and 'f' in df_dispatch_techfuel.columns:
+        # Create techfuel from tech and fuel columns
+        df_dispatch_techfuel['uni'] = df_dispatch_techfuel['tech'] + '-' + df_dispatch_techfuel['f']
+        log_func(f"[output_treatment]     - Created 'uni' from tech-f combination")
+    elif 'f' in df_dispatch_techfuel.columns:
+        # Fallback: use fuel column only
+        df_dispatch_techfuel['uni'] = df_dispatch_techfuel['f']
+        log_func(f"[output_treatment]     - Using 'f' column for 'uni' (fallback)")
+    else:
+        log_func(f"[output_treatment]   WARNING: Cannot create {output_name} - no tech/f/techfuel columns found")
+        return False
+
+    # Keep only the columns needed for merge (same structure as pDispatch)
+    # Common structure: z, c, y, q, d, uni, t, value
+    common_cols = ['z', 'c', 'y', 'q', 'd', 'uni', 't', 'value']
+
+    # Select only columns that exist
+    dispatch_cols = [c for c in common_cols if c in df_dispatch.columns]
+    dispatch_techfuel_cols = [c for c in common_cols if c in df_dispatch_techfuel.columns]
+
+    log_func(f"[output_treatment]     - Selecting columns from {dispatch_name}: {dispatch_cols}")
+    log_func(f"[output_treatment]     - Selecting columns from {dispatch_techfuel_name}: {dispatch_techfuel_cols}")
+
+    df_dispatch = df_dispatch[dispatch_cols]
+    df_dispatch_techfuel = df_dispatch_techfuel[dispatch_techfuel_cols]
+
+    # Concatenate both dataframes
+    df_complete = pd.concat([df_dispatch, df_dispatch_techfuel], ignore_index=True)
+
+    # Sort for consistent output
+    sort_cols = [c for c in ['z', 'c', 'y', 'q', 'd', 'uni', 't'] if c in df_complete.columns]
+    df_complete = df_complete.sort_values(by=sort_cols)
+
+    # Save to output file
+    df_complete.to_csv(output_path, index=False)
+    log_func(f"[output_treatment]   SUCCESS: {output_name} created ({len(df_complete)} rows)")
+
+    return True
+
+
+def aggregate_plant_to_techfuel(
+    input_path: str,
+    output_path: str,
+    generator_techfuel_df: pd.DataFrame,
+    generator_col: str = 'g',
+    zone_col: str = 'z',
+    year_col: str = 'y',
+    value_col: str = 'value',
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Aggregate plant-level data to tech-fuel level by merging with pGeneratorTechFuel and grouping.
+
+    This transforms files like pReserveSpinningPlantZone (z, g, y, value) into
+    tech-fuel aggregated files (z, tech, f, y, value) by summing values.
+
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file (plant-level data with 'g' column)
+    output_path : str
+        Path to output CSV file (tech-fuel aggregated data)
+    generator_techfuel_df : pd.DataFrame
+        DataFrame with (g, tech, f) mapping from pGeneratorTechFuel
+    generator_col : str
+        Name of the generator column (default: 'g')
+    zone_col : str
+        Name of the zone column (default: 'z')
+    year_col : str
+        Name of the year column (default: 'y')
+    value_col : str
+        Name of the value column (default: 'value')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    input_name = os.path.basename(input_path)
+    output_name = os.path.basename(output_path)
+
+    if not os.path.exists(input_path):
+        log_func(f"[output_treatment]   {input_name}: WARNING - file not found")
+        return False
+
+    if generator_techfuel_df.empty:
+        log_func(f"[output_treatment]   {input_name}: WARNING - no generator techfuel mapping provided")
+        return False
+
+    df = pd.read_csv(input_path)
+
+    if generator_col not in df.columns:
+        log_func(f"[output_treatment]   {input_name}: WARNING - column '{generator_col}' not found")
+        return False
+
+    # Merge with generator techfuel mapping to get tech and fuel columns
+    df = df.merge(generator_techfuel_df, on=generator_col, how='left')
+
+    # Group by zone, tech, fuel, year and sum the values
+    group_cols = [zone_col, 'tech', 'f', year_col]
+    # Only include columns that exist
+    group_cols = [c for c in group_cols if c in df.columns]
+
+    df_aggregated = df.groupby(group_cols, as_index=False)[value_col].sum()
+
+    # Save to output file
+    df_aggregated.to_csv(output_path, index=False)
+    log_func(f"[output_treatment]   {input_name} -> {output_name}: aggregated to tech-fuel ({len(df_aggregated)} rows)")
+
+    return True
+
+
 def add_country_to_zone_file(
     input_path: str,
     zone_country_df: pd.DataFrame,
@@ -573,6 +1076,71 @@ def add_country_to_zone_file(
     log_func(f"[output_treatment]   {file_name}: added '{country_col}' column")
 
     return True
+
+
+def organize_output_files(
+    output_dir: str,
+    keep_files: Optional[List[str]] = None,
+    other_subdir: str = 'other',
+    log_func: Callable[[str], None] = _default_log
+) -> Tuple[int, int]:
+    """
+    Organize output files by moving non-essential CSVs to a subdirectory.
+
+    Files in keep_files list stay in the main directory, all other CSV files
+    are moved to the 'other' subdirectory.
+
+    Parameters
+    ----------
+    output_dir : str
+        Path to the output directory containing CSV files
+    keep_files : list, optional
+        List of file names (without .csv extension) to keep in main directory.
+        If None, uses PRIMARY_OUTPUT_FILES + ESSENTIAL_FILES.
+    other_subdir : str
+        Name of subdirectory for other files (default: 'other')
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    tuple
+        (kept_count, moved_count) - number of files kept and moved
+    """
+    import shutil
+
+    if keep_files is None:
+        keep_files = PRIMARY_OUTPUT_FILES + ESSENTIAL_FILES
+
+    # Create set of files to keep (with .csv extension)
+    keep_set = {f"{name}.csv" for name in keep_files}
+
+    # Create other subdirectory if needed
+    other_dir = os.path.join(output_dir, other_subdir)
+
+    # Find all CSV files in output directory
+    csv_files = [f for f in os.listdir(output_dir) if f.endswith('.csv')]
+
+    kept_count = 0
+    moved_count = 0
+
+    for csv_file in sorted(csv_files):
+        if csv_file in keep_set:
+            kept_count += 1
+            log_func(f"[output_treatment]   KEEP: {csv_file}")
+        else:
+            # Create other directory only when we have files to move
+            if not os.path.exists(other_dir):
+                os.makedirs(other_dir)
+                log_func(f"[output_treatment]   Created subdirectory: {other_subdir}/")
+
+            src_path = os.path.join(output_dir, csv_file)
+            dst_path = os.path.join(other_dir, csv_file)
+            shutil.move(src_path, dst_path)
+            moved_count += 1
+            log_func(f"[output_treatment]   MOVE: {csv_file} -> {other_subdir}/")
+
+    return kept_count, moved_count
 
 
 def merge_plant_with_generator_techfuel(
@@ -716,22 +1284,6 @@ def run_output_treatment(
     log_func("=" * 60)
 
     # ---------------------------------------------------------
-    # 0. Merge related CSV files into consolidated files
-    # ---------------------------------------------------------
-    log_func("")
-    log_func("[output_treatment] STEP 0: Merging related CSV files into consolidated files")
-    log_func("-" * 60)
-
-    # Merge TechFuel files (z, tech, f, y, value)
-    merge_csv_files(output_dir, TECHFUEL_MERGE_FILES, 'pTechFuelMerged', log_func=log_func)
-
-    # Merge Plant files (z, g, y, value)
-    merge_csv_files(output_dir, PLANT_MERGE_FILES, 'pPlantMerged', log_func=log_func)
-
-    # Merge YearlyCosts zone files (z, uni, y, value)
-    merge_csv_files(output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged', log_func=log_func)
-
-    # ---------------------------------------------------------
     # 1. Rename columns for wildcard domain parameters
     # ---------------------------------------------------------
     log_func("")
@@ -772,13 +1324,30 @@ def run_output_treatment(
             fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
 
         # Also process plant files that now have tech/f columns (from Step 2)
-        for file_name in PLANT_FILES:
+        for file_name in plant_files:
             csv_path = os.path.join(output_dir, f"{file_name}.csv")
             fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
+
+        # Process dispatch techfuel files (add techfuel column with Processing names)
+        for file_name in DISPATCH_FUEL_FILES:
+            csv_path = os.path.join(output_dir, f"{file_name}.csv")
+            add_techfuel_column_to_dispatch(csv_path, techfuel_mapping=techfuel_mapping, log_func=log_func)
     else:
         log_func("")
         log_func("[output_treatment] STEP 3: Skipping TechFuel filling (no techfuel_df provided)")
         log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 3b. Create pDispatchComplete (independent of techfuel_df)
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 3b: Creating pDispatchComplete")
+    log_func("-" * 60)
+
+    dispatch_path = os.path.join(output_dir, "pDispatch.csv")
+    dispatch_techfuel_path = os.path.join(output_dir, "pDispatchTechFuel.csv")
+    dispatch_complete_path = os.path.join(output_dir, "pDispatchComplete.csv")
+    create_dispatch_complete(dispatch_path, dispatch_techfuel_path, dispatch_complete_path, log_func=log_func)
 
     # ---------------------------------------------------------
     # 4. Fill cost components with all sumhdr values
@@ -809,11 +1378,56 @@ def run_output_treatment(
         calculate_cumulative(input_path, output_path, log_func=log_func)
 
     # ---------------------------------------------------------
-    # 6. Add country column to all zone-based files (FINAL STEP)
+    # 6. Aggregate plant files to TechFuel level
+    # ---------------------------------------------------------
+    if generator_techfuel_df is not None and not generator_techfuel_df.empty:
+        log_func("")
+        log_func("[output_treatment] STEP 6: Aggregating plant files to TechFuel level")
+        log_func("-" * 60)
+
+        for input_name, output_name in PLANT_TO_TECHFUEL_AGGREGATIONS:
+            input_path = os.path.join(output_dir, f"{input_name}.csv")
+            output_path = os.path.join(output_dir, f"{output_name}.csv")
+            aggregate_plant_to_techfuel(input_path, output_path, generator_techfuel_df, log_func=log_func)
+    else:
+        log_func("")
+        log_func("[output_treatment] STEP 6: Skipping plant-to-techfuel aggregation (no generator_techfuel_df provided)")
+        log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 7. Merge related CSV files into consolidated files (wide format)
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 7: Merging related CSV files into consolidated files (wide format)")
+    log_func("-" * 60)
+
+    # Merge TechFuel files (z, tech, f, y) -> wide format with techfuel filling
+    merge_csv_files_wide(
+        output_dir, TECHFUEL_MERGE_FILES, 'pTechFuelMerged',
+        techfuel_df=techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func
+    )
+
+    # Merge Plant files (z, g, y) -> long format with attribute column
+    merge_csv_files_long(output_dir, PLANT_MERGE_FILES, 'pPlantMerged', log_func=log_func)
+
+    # Merge YearlyCosts zone files (z, uni, y) -> wide format
+    merge_csv_files_wide(output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged', log_func=log_func)
+
+    # Merge Transmission/interconnection files (z, z2, y) -> wide format
+    merge_csv_files_wide(output_dir, TRANSMISSION_MERGE_FILES, 'pTransmissionMerged', log_func=log_func)
+
+    # Merge Yearly zone files (demand, emissions) (z, y) -> wide format
+    merge_csv_files_wide(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)
+
+    # Merge System costs files -> wide format
+    merge_csv_files_wide(output_dir, SYSTEM_COSTS_MERGE_FILES, 'pCostsSystemMerged', log_func=log_func)
+
+    # ---------------------------------------------------------
+    # 8. Add country column to all zone-based files
     # ---------------------------------------------------------
     if zone_country_df is not None and not zone_country_df.empty:
         log_func("")
-        log_func("[output_treatment] STEP 6: Adding country column to zone-based files")
+        log_func("[output_treatment] STEP 8: Adding country column to zone-based files")
         log_func("-" * 60)
 
         # Find all CSV files in the output directory
@@ -828,8 +1442,18 @@ def run_output_treatment(
         log_func(f"[output_treatment]   Processed {processed_count} zone-based files")
     else:
         log_func("")
-        log_func("[output_treatment] STEP 6: Skipping country column addition (no zone_country_df provided)")
+        log_func("[output_treatment] STEP 8: Skipping country column addition (no zone_country_df provided)")
         log_func("-" * 60)
+
+    # ---------------------------------------------------------
+    # 9. Organize output files (move non-essential to 'other' subdir)
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 9: Organizing output files")
+    log_func("-" * 60)
+
+    kept_count, moved_count = organize_output_files(output_dir, log_func=log_func)
+    log_func(f"[output_treatment]   Summary: {kept_count} files kept, {moved_count} files moved to 'other/'")
 
     log_func("")
     log_func("=" * 60)
