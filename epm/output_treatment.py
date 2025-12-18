@@ -15,13 +15,13 @@ Description:
     6. Filling cost components with all sumhdr values
     7. Calculating cumulative values over years
     8. Aggregating plant files to tech-fuel level
-    9. Merging related files into consolidated CSVs:
-       - pTechFuelMerged (wide format)
-       - pPlantMerged (long format)
-       - pYearlyCostsMerged (wide format)
-       - pTransmissionMerged (wide format)
-       - pYearlyZoneMerged (wide format: demand + emissions)
-       - pCostsSystemMerged (wide format)
+    9. Merging related files into consolidated CSVs (long format):
+       - pTechFuelMerged
+       - pPlantMerged
+       - pYearlyCostsMerged
+       - pTransmissionMerged
+       - pYearlyZoneMerged
+       - pCostsSystemMerged
     10. Adding country column to zone-based files
     11. Organizing files (essential in main dir, others in 'other/' subdir)
 
@@ -156,7 +156,7 @@ ALL_COST_COMPONENTS = [
 # =============================================================================
 
 # TechFuel files to merge (dimensions: z, tech, f, y, value)
-# These will be merged into pTechFuelMerged.csv in wide format
+# These will be merged into pTechFuelMerged.csv in long format
 # Note: Includes cumulated files, so merge must happen after cumulative calculation
 TECHFUEL_MERGE_FILES = [
     'pCapacityTechFuel',
@@ -186,7 +186,7 @@ PLANT_MERGE_FILES = [
 ]
 
 # YearlyCosts zone files to merge (dimensions: z, uni, y, value)
-# These will be merged into pYearlyCostsMerged.csv
+# These will be merged into pYearlyCostsMerged.csv (long format)
 YEARLY_COSTS_MERGE_FILES = [
     'pYearlyCostsZone',
     'pYearlyDiscountedWeightedCostsZone',
@@ -195,7 +195,7 @@ YEARLY_COSTS_MERGE_FILES = [
 ]
 
 # Transmission/interconnection files to merge (dimensions: z, z2, y, value)
-# These will be merged into pTransmissionMerged.csv
+# These will be merged into pTransmissionMerged.csv (long format)
 TRANSMISSION_MERGE_FILES = [
     'pInterchange',
     'pInterconUtilization',
@@ -204,7 +204,7 @@ TRANSMISSION_MERGE_FILES = [
 ]
 
 # Yearly zone files to merge (dimensions: z, y, value)
-# Combines demand, emissions into pYearlyZoneMerged.csv
+# Combines demand, emissions into pYearlyZoneMerged.csv (long format)
 YEARLY_ZONE_MERGE_FILES = [
     'pDemandEnergyZone',
     'pDemandPeakZone',
@@ -213,7 +213,7 @@ YEARLY_ZONE_MERGE_FILES = [
 ]
 
 # System-level cost files to merge (dimensions: uni, value or y, value)
-# These will be merged into pCostsSystemMerged.csv
+# These will be merged into pCostsSystemMerged.csv (long format)
 SYSTEM_COSTS_MERGE_FILES = [
     'pCostsSystem',
     'pCostsSystemPerMWh',
@@ -412,6 +412,7 @@ def merge_csv_files_long(
     file_names: List[str],
     output_name: str,
     attribute_col: str = 'attribute',
+    normalize_cost_component_cols: bool = False,
     log_func: Callable[[str], None] = _default_log
 ) -> bool:
     """
@@ -430,6 +431,8 @@ def merge_csv_files_long(
         Name for the output merged file (without .csv extension)
     attribute_col : str
         Name for the attribute column (default: 'attribute')
+    normalize_cost_component_cols : bool
+        Rename cost component columns ('sumhdr' or 'genCostCmp') to 'uni' for consistency
     log_func : callable
         Logging function (default: print)
 
@@ -446,6 +449,12 @@ def merge_csv_files_long(
             continue
 
         df = pd.read_csv(csv_path)
+
+        if normalize_cost_component_cols:
+            if 'sumhdr' in df.columns:
+                df = df.rename(columns={'sumhdr': 'uni'})
+            if 'genCostCmp' in df.columns:
+                df = df.rename(columns={'genCostCmp': 'uni'})
         if df.empty:
             continue
 
@@ -1402,32 +1411,32 @@ def run_output_treatment(
         log_func("-" * 60)
 
     # ---------------------------------------------------------
-    # 7. Merge related CSV files into consolidated files (wide format)
+    # 7. Merge related CSV files into consolidated files (long format)
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 7: Merging related CSV files into consolidated files (wide format)")
+    log_func("[output_treatment] STEP 7: Merging related CSV files into consolidated files (long format)")
     log_func("-" * 60)
 
-    # Merge TechFuel files (z, tech, f, y) -> wide format with techfuel filling
-    merge_csv_files_wide(
-        output_dir, TECHFUEL_MERGE_FILES, 'pTechFuelMerged',
-        techfuel_df=techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func
-    )
+    # Merge TechFuel files (z, tech, f, y) -> long format with attribute column
+    merge_csv_files_long(output_dir, TECHFUEL_MERGE_FILES, 'pTechFuelMerged', log_func=log_func)
 
     # Merge Plant files (z, g, y) -> long format with attribute column
     merge_csv_files_long(output_dir, PLANT_MERGE_FILES, 'pPlantMerged', log_func=log_func)
 
-    # Merge YearlyCosts zone files (z, uni, y) -> wide format
-    merge_csv_files_wide(output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged', log_func=log_func)
+    # Merge YearlyCosts zone files (z, uni, y) -> long format
+    merge_csv_files_long(
+        output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged',
+        normalize_cost_component_cols=True, log_func=log_func
+    )
 
-    # Merge Transmission/interconnection files (z, z2, y) -> wide format
-    merge_csv_files_wide(output_dir, TRANSMISSION_MERGE_FILES, 'pTransmissionMerged', log_func=log_func)
+    # Merge Transmission/interconnection files (z, z2, y) -> long format
+    merge_csv_files_long(output_dir, TRANSMISSION_MERGE_FILES, 'pTransmissionMerged', log_func=log_func)
 
-    # Merge Yearly zone files (demand, emissions) (z, y) -> wide format
-    merge_csv_files_wide(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)
+    # Merge Yearly zone files (demand, emissions) (z, y) -> long format
+    merge_csv_files_long(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)
 
-    # Merge System costs files -> wide format
-    merge_csv_files_wide(output_dir, SYSTEM_COSTS_MERGE_FILES, 'pCostsSystemMerged', log_func=log_func)
+    # Merge System costs files -> long format
+    merge_csv_files_long(output_dir, SYSTEM_COSTS_MERGE_FILES, 'pCostsSystemMerged', log_func=log_func)
 
     # ---------------------------------------------------------
     # 8. Add country column to all zone-based files
