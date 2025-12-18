@@ -323,9 +323,12 @@ def merge_csv_files_wide(
         if df.empty:
             continue
 
-        # Rename sumhdr to uni for consistency (cost files use sumhdr, others use uni)
+        # Rename cost component columns to 'uni' for consistency
+        # (cost files use sumhdr or genCostCmp, others use uni)
         if 'sumhdr' in df.columns:
             df = df.rename(columns={'sumhdr': 'uni'})
+        if 'genCostCmp' in df.columns:
+            df = df.rename(columns={'genCostCmp': 'uni'})
 
         # Extract attribute name from file name (remove 'p' prefix)
         attr_name = file_name[1:] if file_name.startswith('p') else file_name
@@ -349,9 +352,15 @@ def merge_csv_files_wide(
 
     for attr_name in attr_names[1:]:
         df = dfs[attr_name]
-        # Find common columns (excluding the attribute columns we've added)
-        common_cols = [c for c in merged_df.columns if c in df.columns and c not in attr_names]
+        # Find common columns (excluding attribute columns and 'techfuel' which is added later)
+        # Excluding 'techfuel' prevents duplicates when some files have it and others don't
+        common_cols = [c for c in merged_df.columns if c in df.columns and c not in attr_names and c != 'techfuel']
         if common_cols:
+            # Drop techfuel before merge to avoid column conflicts
+            if 'techfuel' in merged_df.columns:
+                merged_df = merged_df.drop(columns=['techfuel'])
+            if 'techfuel' in df.columns:
+                df = df.drop(columns=['techfuel'])
             merged_df = merged_df.merge(df, on=common_cols, how='outer')
         else:
             # If no common columns, just concatenate
@@ -1318,15 +1327,13 @@ def run_output_treatment(
         log_func("[output_treatment] STEP 3: Filling TechFuel combinations and adding Processing column")
         log_func("-" * 60)
 
-        # Process standard TechFuel files
+        # Process standard TechFuel files (fill missing tech-fuel combinations)
         for file_name in techfuel_files:
             csv_path = os.path.join(output_dir, f"{file_name}.csv")
             fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
 
-        # Also process plant files that now have tech/f columns (from Step 2)
-        for file_name in plant_files:
-            csv_path = os.path.join(output_dir, f"{file_name}.csv")
-            fill_techfuel_combinations(csv_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
+        # Note: Plant files are NOT filled with all tech-fuel combinations
+        # Each generator has exactly one tech-fuel, so no filling is needed
 
         # Process dispatch techfuel files (add techfuel column with Processing names)
         for file_name in DISPATCH_FUEL_FILES:
