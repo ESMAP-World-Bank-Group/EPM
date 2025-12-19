@@ -16,7 +16,7 @@ PARAMETERS,,
 ,,
 INTERCONNECTION,,
 INTERNAL,,
-Activate exchange between internal zone,fEnableInternalExchange,0
+Activate exchange between internal zone,fEnableInternalExchange,1
 Remove transfer limits between internal zone,fRemoveInternalTransferLimit,0
 Allow expansion of transfer limits,fAllowTransferExpansion,1
 EXTERNAL,,
@@ -64,3 +64,8 @@ Apply ramp constraints,fApplyRampConstraint,0
 Apply min generation constraint (only dispatch),fApplyMinGenCommitment,0
 Include minimum up/down time constraints (only dispatch),fApplyMUDT,0
 Apply startup cost (only dispatch),fApplyStartupCost,0
+,,
+INPUT TREATMENTS,,
+Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,1
+Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,1

@@ -1,0 +1,32 @@
+GAMS 50.1.0  12b75dde Jun 18, 2025          WEX-WEI x86 64bit/MS Windows - 12/17/25 14:38:12 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+****  $588  Termination request by Control C Event
+
+**** 1 ERROR(S)   0 WARNING(S)
+GAMS 50.1.0  12b75dde Jun 18, 2025          WEX-WEI x86 64bit/MS Windows - 12/17/25 14:38:12 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Include File Summary
+
+
+   SEQ   GLOBAL TYPE      PARENT   LOCAL  FILENAME
+
+     1        1 INPUT          0       0  C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+     2        0 TERMINATE      1       0  Control C Event
+
+
+COMPILATION TIME     =        0.000 SECONDS      2 MB  50.1.0 12b75dde WEX-WEI
+
+
+USER: Medium MUD - 10 User License                   G251002+0003Cc-GEN
+      The World Bank, Energy Sector Management Assistance PrograDC12370
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+Output     C:\Users\wb590499\Documents\Projects\EPM\epm\output\sensitivity_run_20251217_143747\pSettings_CO2backstop_1000\main.lst
+
+**** USER ERROR(S) ENCOUNTERED

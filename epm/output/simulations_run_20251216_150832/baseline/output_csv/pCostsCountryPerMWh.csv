@@ -1,0 +1,122 @@
+c,sumhdr,value
+South_Africa,Generation costs: $m,8.742088574131268
+South_Africa,Fixed O&M: $m,10.47405343340099
+South_Africa,Variable O&M: $m,2.0452698002373495
+South_Africa,Fuel costs: $m,30.69066578603395
+South_Africa,Transmission costs: $m,0.021374576871951788
+South_Africa,Unmet country spinning reserve costs: $m,0.0003413150147561602
+South_Africa,Unmet country planning reserve costs: $m,0.020326731342308484
+South_Africa,Unmet system planning reserve costs: $m,0.028066178160337164
+South_Africa,Import costs with internal zones: $m,0.5604902315036611
+South_Africa,Export revenues with internal zones: $m,-2.1164759959759047
+South_Africa,Trade shared benefits: $m,-0.051872717331126805
+Lesotho,Generation costs: $m,12.379881216786204
+Lesotho,Fixed O&M: $m,7.421286817167657
+Lesotho,Variable O&M: $m,0.24345665888839488
+Lesotho,Unmet demand costs: $m,0.16410051213959495
+Lesotho,Unmet country spinning reserve costs: $m,1.614014163895021
+Lesotho,Unmet country planning reserve costs: $m,0.42751311274514064
+Lesotho,Unmet system planning reserve costs: $m,0.029954134543287343
+Lesotho,Import costs with internal zones: $m,15.855951486140011
+Lesotho,Export revenues with internal zones: $m,-5.171075488468
+Lesotho,Trade shared benefits: $m,-2.6293639978046652
+Eswatini,Generation costs: $m,4.161921256089365
+Eswatini,Fixed O&M: $m,2.792972997743165
+Eswatini,Variable O&M: $m,0.03637398367999569
+Eswatini,Fuel costs: $m,0.0002058230834088031
+Eswatini,Unmet country spinning reserve costs: $m,0.00941541255654215
+Eswatini,Unmet system planning reserve costs: $m,0.029649279987708284
+Eswatini,Import costs with internal zones: $m,47.99266933531269
+Eswatini,Export revenues with internal zones: $m,-0.10816811106652904
+Eswatini,Trade shared benefits: $m,-0.9267326609264463
+Mozambique,Generation costs: $m,10.5892216716024
+Mozambique,Fixed O&M: $m,7.09056050489959
+Mozambique,Variable O&M: $m,0.6171910799162861
+Mozambique,Fuel costs: $m,0.6879328182983578
+Mozambique,Transmission costs: $m,0.773023238492099
+Mozambique,Unmet system planning reserve costs: $m,0.028895797849680785
+Mozambique,Import costs with internal zones: $m,32.03443892414276
+Mozambique,Export revenues with internal zones: $m,-35.384839285408894
+Mozambique,Trade shared benefits: $m,-2.2738870943857363
+Zimbabwe,Generation costs: $m,4.210326094876099
+Zimbabwe,Fixed O&M: $m,11.745321220895582
+Zimbabwe,Variable O&M: $m,4.653694216516105
+Zimbabwe,Fuel costs: $m,28.63258258342287
+Zimbabwe,Transmission costs: $m,0.1263848908170101
+Zimbabwe,Unmet system planning reserve costs: $m,0.02971380846419554
+Zimbabwe,Import costs with internal zones: $m,14.089790447730582
+Zimbabwe,Export revenues with internal zones: $m,-25.336610429960736
+Zimbabwe,Trade shared benefits: $m,-27.274446977585384
+Botswana,Generation costs: $m,22.249217429891903
+Botswana,Fixed O&M: $m,11.46588361624732
+Botswana,Variable O&M: $m,2.3287445124218724
+Botswana,Fuel costs: $m,32.92532919994744
+Botswana,Transmission costs: $m,0.2518160778881678
+Botswana,Unmet country spinning reserve costs: $m,1.8006312663943598
+Botswana,Unmet system planning reserve costs: $m,0.02728646942402969
+Botswana,Import costs with internal zones: $m,2.982024460735571
+Botswana,Export revenues with internal zones: $m,-29.15106160844187
+Botswana,Trade shared benefits: $m,-1.96119800251002
+Namibia,Generation costs: $m,22.193400620460263
+Namibia,Fixed O&M: $m,10.807456152790426
+Namibia,Variable O&M: $m,0.1329946470130606
+Namibia,Fuel costs: $m,0.21662529569284103
+Namibia,Transmission costs: $m,2.944685171473487
+Namibia,Unmet country spinning reserve costs: $m,0.49315611163795625
+Namibia,Unmet system planning reserve costs: $m,0.02776643525071031
+Namibia,Import costs with internal zones: $m,32.774598393304
+Namibia,Export revenues with internal zones: $m,-23.699065758640874
+Namibia,Trade shared benefits: $m,-43.68961181303034
+Zambia,Generation costs: $m,8.769775549454062
+Zambia,Fixed O&M: $m,6.332329921445801
+Zambia,Variable O&M: $m,0.9235149907286503
+Zambia,Fuel costs: $m,5.822752924893011
+Zambia,Transmission costs: $m,0.5998800845375531
+Zambia,Unmet demand costs: $m,1.5561285198866739
+Zambia,Unmet system planning reserve costs: $m,0.03459683218458382
+Zambia,Import costs with internal zones: $m,56.60199250634696
+Zambia,Export revenues with internal zones: $m,-14.005788131482655
+Zambia,Trade shared benefits: $m,-32.89510054422082
+Angola,Generation costs: $m,5.282848933921641
+Angola,Fixed O&M: $m,8.864346676537323
+Angola,Variable O&M: $m,0.5434976386731288
+Angola,Fuel costs: $m,0.4863652071514211
+Angola,Transmission costs: $m,0.6556172686432293
+Angola,Unmet system planning reserve costs: $m,0.0315444122052526
+Angola,Import costs with internal zones: $m,0.29409550330422246
+Angola,Export revenues with internal zones: $m,-2.2955208480397324
+Angola,Trade shared benefits: $m,-0.19168472352919938
+Tanzania,Generation costs: $m,10.69066631951373
+Tanzania,Fixed O&M: $m,1.7708987476827454
+Tanzania,Variable O&M: $m,1.7920342670634897
+Tanzania,Fuel costs: $m,20.663331364754352
+Tanzania,Transmission costs: $m,0.21662306962066302
+Tanzania,Unmet demand costs: $m,37.61500791042789
+Tanzania,Unmet country spinning reserve costs: $m,0.007712995816597134
+Tanzania,Unmet country planning reserve costs: $m,0.12374547289645726
+Tanzania,Unmet system planning reserve costs: $m,0.033823272665933594
+Tanzania,Import costs with internal zones: $m,4.428244749536408
+Tanzania,Export revenues with internal zones: $m,-0.4264026325461629
+Tanzania,Trade shared benefits: $m,-0.7607103795531407
+DRC,Generation costs: $m,8.908072360452145
+DRC,Fixed O&M: $m,5.173068165343058
+DRC,Variable O&M: $m,0.5647297534720607
+DRC,Fuel costs: $m,4.690423151507085
+DRC,Transmission costs: $m,1.8309676290826467
+DRC,Unmet demand costs: $m,66.47274852198291
+DRC,Unmet country spinning reserve costs: $m,0.0015861982197748138
+DRC,Unmet country planning reserve costs: $m,1.3978331271445275
+DRC,Unmet system planning reserve costs: $m,0.02932842234350811
+DRC,Import costs with internal zones: $m,177.5478605073883
+DRC,Export revenues with internal zones: $m,-27.415132036089364
+DRC,Trade shared benefits: $m,-107.2966411520382
+Malawi,Generation costs: $m,7.347811366290455
+Malawi,Fixed O&M: $m,5.597134976002242
+Malawi,Variable O&M: $m,0.33778990950551885
+Malawi,Transmission costs: $m,3.1991810511216707
+Malawi,Unmet demand costs: $m,12.293252101957155
+Malawi,Unmet country planning reserve costs: $m,0.14461244310055052
+Malawi,Unmet system planning reserve costs: $m,0.03602017589059062
+Malawi,Import costs with internal zones: $m,30.972078384599136
+Malawi,Export revenues with internal zones: $m,-18.241861574400534
+Malawi,Trade shared benefits: $m,-4.129548374761175

@@ -1,0 +1,1498 @@
+z,uni,y,value
+South_Africa,Demand: GWh,2025,247000.00000000012
+South_Africa,Demand: GWh,2026,249999.9999999998
+South_Africa,Demand: GWh,2027,250999.99999999994
+South_Africa,Demand: GWh,2028,253499.99999999965
+South_Africa,Demand: GWh,2029,255999.99999999983
+South_Africa,Demand: GWh,2030,260000.00000000006
+South_Africa,Demand: GWh,2031,263999.9999999997
+South_Africa,Demand: GWh,2032,269000.0
+South_Africa,Demand: GWh,2033,273999.99999999953
+South_Africa,Demand: GWh,2034,281500.00000000023
+South_Africa,Demand: GWh,2035,289000.0000000002
+South_Africa,Demand: GWh,2036,297000.00000000006
+South_Africa,Demand: GWh,2037,305000.00000000023
+South_Africa,Demand: GWh,2038,315000.00000000023
+South_Africa,Demand: GWh,2039,325000.00000000023
+South_Africa,Demand: GWh,2040,334000.0000000001
+South_Africa,Total production: GWh,2025,252567.5089098361
+South_Africa,Total production: GWh,2026,257381.8846822087
+South_Africa,Total production: GWh,2027,261228.58585510324
+South_Africa,Total production: GWh,2028,267166.75435511116
+South_Africa,Total production: GWh,2029,270079.50218928943
+South_Africa,Total production: GWh,2030,277324.94269279717
+South_Africa,Total production: GWh,2031,282509.39514151035
+South_Africa,Total production: GWh,2032,270543.5675965728
+South_Africa,Total production: GWh,2033,275682.13580746594
+South_Africa,Total production: GWh,2034,279976.6669613986
+South_Africa,Total production: GWh,2035,287926.36191322794
+South_Africa,Total production: GWh,2036,296789.98701281054
+South_Africa,Total production: GWh,2037,301225.0544352405
+South_Africa,Total production: GWh,2038,306406.5387019415
+South_Africa,Total production: GWh,2039,311027.06261341023
+South_Africa,Total production: GWh,2040,321476.4072704227
+South_Africa,Imports exchange: GWh,2025,265.254131446831
+South_Africa,Imports exchange: GWh,2026,289.51870092283383
+South_Africa,Imports exchange: GWh,2027,914.9844876898536
+South_Africa,Imports exchange: GWh,2028,1009.4636739402282
+South_Africa,Imports exchange: GWh,2029,834.5160481355921
+South_Africa,Imports exchange: GWh,2030,355.0278203938952
+South_Africa,Imports exchange: GWh,2031,859.7034737924073
+South_Africa,Imports exchange: GWh,2032,5061.777045156898
+South_Africa,Imports exchange: GWh,2033,5774.394976425753
+South_Africa,Imports exchange: GWh,2034,8563.935503959301
+South_Africa,Imports exchange: GWh,2035,9263.272564462128
+South_Africa,Imports exchange: GWh,2036,9346.961412057883
+South_Africa,Imports exchange: GWh,2037,13760.837169882052
+South_Africa,Imports exchange: GWh,2038,23592.08120987179
+South_Africa,Imports exchange: GWh,2039,29796.373982788362
+South_Africa,Imports exchange: GWh,2040,29415.76281168237
+South_Africa,Exports exchange: GWh,2025,5822.1528760246865
+South_Africa,Exports exchange: GWh,2026,7638.975026346399
+South_Africa,Exports exchange: GWh,2027,10968.356101930582
+South_Africa,Exports exchange: GWh,2028,14316.636274861485
+South_Africa,Exports exchange: GWh,2029,14380.039580834851
+South_Africa,Exports exchange: GWh,2030,17026.522080002946
+South_Africa,Exports exchange: GWh,2031,18494.389247022293
+South_Africa,Exports exchange: GWh,2032,5378.792987738399
+South_Africa,Exports exchange: GWh,2033,5495.36463833022
+South_Africa,Exports exchange: GWh,2034,4455.509179187821
+South_Africa,Exports exchange: GWh,2035,5383.336993915453
+South_Africa,Exports exchange: GWh,2036,5983.276544854111
+South_Africa,Exports exchange: GWh,2037,6532.216486320241
+South_Africa,Exports exchange: GWh,2038,10745.399829718841
+South_Africa,Exports exchange: GWh,2039,10928.382863271096
+South_Africa,Exports exchange: GWh,2040,11236.052129585316
+South_Africa,Net interchange: GWh,2025,-5556.898744577856
+South_Africa,Net interchange: GWh,2026,-7349.456325423565
+South_Africa,Net interchange: GWh,2027,-10053.371614240728
+South_Africa,Net interchange: GWh,2028,-13307.172600921256
+South_Africa,Net interchange: GWh,2029,-13545.523532699259
+South_Africa,Net interchange: GWh,2030,-16671.49425960905
+South_Africa,Net interchange: GWh,2031,-17634.685773229885
+South_Africa,Net interchange: GWh,2032,-317.0159425815009
+South_Africa,Net interchange: GWh,2033,279.0303380955329
+South_Africa,Net interchange: GWh,2034,4108.42632477148
+South_Africa,Net interchange: GWh,2035,3879.935570546675
+South_Africa,Net interchange: GWh,2036,3363.6848672037713
+South_Africa,Net interchange: GWh,2037,7228.620683561811
+South_Africa,Net interchange: GWh,2038,12846.68138015295
+South_Africa,Net interchange: GWh,2039,18867.991119517268
+South_Africa,Net interchange: GWh,2040,18179.71068209705
+South_Africa,Net interchange Ratio: GWh,2025,-0.022497565767521672
+South_Africa,Net interchange Ratio: GWh,2026,-0.029397825301694287
+South_Africa,Net interchange Ratio: GWh,2027,-0.04005327336350889
+South_Africa,Net interchange Ratio: GWh,2028,-0.05249377751842712
+South_Africa,Net interchange Ratio: GWh,2029,-0.05291220129960652
+South_Africa,Net interchange Ratio: GWh,2030,-0.0641211317677271
+South_Africa,Net interchange Ratio: GWh,2031,-0.0667980521713254
+South_Africa,Net interchange Ratio: GWh,2032,-0.001178497927812271
+South_Africa,Net interchange Ratio: GWh,2033,0.0010183588981588808
+South_Africa,Net interchange Ratio: GWh,2034,0.014594764919259241
+South_Africa,Net interchange Ratio: GWh,2035,0.01342538259704731
+South_Africa,Net interchange Ratio: GWh,2036,0.01132553827341337
+South_Africa,Net interchange Ratio: GWh,2037,0.0237003956838092
+South_Africa,Net interchange Ratio: GWh,2038,0.04078311549254902
+South_Africa,Net interchange Ratio: GWh,2039,0.05805535729082232
+South_Africa,Net interchange Ratio: GWh,2040,0.05443027150328456
+South_Africa,Total Demand: GWh,2025,247000.00000000012
+South_Africa,Total Demand: GWh,2026,249999.9999999998
+South_Africa,Total Demand: GWh,2027,250999.99999999994
+South_Africa,Total Demand: GWh,2028,253499.99999999965
+South_Africa,Total Demand: GWh,2029,255999.99999999983
+South_Africa,Total Demand: GWh,2030,260000.00000000006
+South_Africa,Total Demand: GWh,2031,263999.9999999997
+South_Africa,Total Demand: GWh,2032,269000.0
+South_Africa,Total Demand: GWh,2033,273999.99999999953
+South_Africa,Total Demand: GWh,2034,281500.00000000023
+South_Africa,Total Demand: GWh,2035,289000.0000000002
+South_Africa,Total Demand: GWh,2036,297000.00000000006
+South_Africa,Total Demand: GWh,2037,305000.00000000023
+South_Africa,Total Demand: GWh,2038,315000.00000000023
+South_Africa,Total Demand: GWh,2039,325000.00000000023
+South_Africa,Total Demand: GWh,2040,334000.0000000001
+Lesotho,Demand: GWh,2025,979.0000000000009
+Lesotho,Demand: GWh,2026,1011.0000000000017
+Lesotho,Demand: GWh,2027,1052.9999999999973
+Lesotho,Demand: GWh,2028,1074.000000000002
+Lesotho,Demand: GWh,2029,1127.0000000000018
+Lesotho,Demand: GWh,2030,1161.0000000000002
+Lesotho,Demand: GWh,2031,1195.0000000000007
+Lesotho,Demand: GWh,2032,1230.9999999999995
+Lesotho,Demand: GWh,2033,1271.0000000000007
+Lesotho,Demand: GWh,2034,1310.9999999999984
+Lesotho,Demand: GWh,2035,1350.9999999999973
+Lesotho,Demand: GWh,2036,1377.9999999999989
+Lesotho,Demand: GWh,2037,1405.0000000000018
+Lesotho,Demand: GWh,2038,1432.9999999999993
+Lesotho,Demand: GWh,2039,1461.9999999999998
+Lesotho,Demand: GWh,2040,1490.9999999999989
+Lesotho,Total production: GWh,2025,574.8469720000003
+Lesotho,Total production: GWh,2026,740.5244470000004
+Lesotho,Total production: GWh,2027,917.8040497783916
+Lesotho,Total production: GWh,2028,1080.019463725308
+Lesotho,Total production: GWh,2029,1167.5322969705044
+Lesotho,Total production: GWh,2030,1252.0432747481145
+Lesotho,Total production: GWh,2031,1273.994030993501
+Lesotho,Total production: GWh,2032,1293.3747956906336
+Lesotho,Total production: GWh,2033,1348.6994868413087
+Lesotho,Total production: GWh,2034,1575.0483792960908
+Lesotho,Total production: GWh,2035,1587.9262908933674
+Lesotho,Total production: GWh,2036,1591.6427069098015
+Lesotho,Total production: GWh,2037,1712.6421255600974
+Lesotho,Total production: GWh,2038,1725.5118236147507
+Lesotho,Total production: GWh,2039,1911.3120728433105
+Lesotho,Total production: GWh,2040,2131.5480701718684
+Lesotho,Unmet demand: GWh,2025,0.7137855931629223
+Lesotho,Unmet demand: GWh,2026,0.9163456434225243
+Lesotho,Surplus generation: GWh,2029,0.07697885841839179
+Lesotho,Imports exchange: GWh,2025,411.6726963335081
+Lesotho,Imports exchange: GWh,2026,285.8453113759286
+Lesotho,Imports exchange: GWh,2027,224.97773621427143
+Lesotho,Imports exchange: GWh,2028,219.07820389194114
+Lesotho,Imports exchange: GWh,2029,240.6431697894518
+Lesotho,Imports exchange: GWh,2030,232.41102923776222
+Lesotho,Imports exchange: GWh,2031,250.11915670343953
+Lesotho,Imports exchange: GWh,2032,270.11937514529427
+Lesotho,Imports exchange: GWh,2033,288.4896006148591
+Lesotho,Imports exchange: GWh,2034,250.41836642465734
+Lesotho,Imports exchange: GWh,2035,271.6640248307781
+Lesotho,Imports exchange: GWh,2036,290.4098998936367
+Lesotho,Imports exchange: GWh,2037,216.72482113460973
+Lesotho,Imports exchange: GWh,2038,244.45564813755396
+Lesotho,Imports exchange: GWh,2039,136.1559748871741
+Lesotho,Imports exchange: GWh,2040,50.349059414132086
+Lesotho,Exports exchange: GWh,2026,10.569197791832227
+Lesotho,Exports exchange: GWh,2027,72.39097818127719
+Lesotho,Exports exchange: GWh,2028,206.68267545406354
+Lesotho,Exports exchange: GWh,2029,252.87931130917588
+Lesotho,Exports exchange: GWh,2030,264.6555558759636
+Lesotho,Exports exchange: GWh,2031,264.3452874482593
+Lesotho,Exports exchange: GWh,2032,264.2552310075408
+Lesotho,Exports exchange: GWh,2033,278.33235668484963
+Lesotho,Exports exchange: GWh,2034,329.929196299778
+Lesotho,Exports exchange: GWh,2035,323.43988670739714
+Lesotho,Exports exchange: GWh,2036,319.28436939216334
+Lesotho,Exports exchange: GWh,2037,341.97579809651944
+Lesotho,Exports exchange: GWh,2038,344.8513457016692
+Lesotho,Exports exchange: GWh,2039,385.06333782511206
+Lesotho,Exports exchange: GWh,2040,463.5131626914967
+Lesotho,Net interchange: GWh,2025,411.6726963335081
+Lesotho,Net interchange: GWh,2026,275.2761135840964
+Lesotho,Net interchange: GWh,2027,152.58675803299423
+Lesotho,Net interchange: GWh,2028,12.395528437877601
+Lesotho,Net interchange: GWh,2029,-12.236141519724072
+Lesotho,Net interchange: GWh,2030,-32.24452663820139
+Lesotho,Net interchange: GWh,2031,-14.226130744819756
+Lesotho,Net interchange: GWh,2032,5.864144137753499
+Lesotho,Net interchange: GWh,2033,10.157243930009486
+Lesotho,Net interchange: GWh,2034,-79.51082987512069
+Lesotho,Net interchange: GWh,2035,-51.77586187661905
+Lesotho,Net interchange: GWh,2036,-28.87446949852665
+Lesotho,Net interchange: GWh,2037,-125.25097696190971
+Lesotho,Net interchange: GWh,2038,-100.39569756411521
+Lesotho,Net interchange: GWh,2039,-248.90736293793796
+Lesotho,Net interchange: GWh,2040,-413.1641032773646
+Lesotho,Net interchange Ratio: GWh,2025,0.42050326489633066
+Lesotho,Net interchange Ratio: GWh,2026,0.2722810223383738
+Lesotho,Net interchange Ratio: GWh,2027,0.14490670278537002
+Lesotho,Net interchange Ratio: GWh,2028,0.011541460370463294
+Lesotho,Net interchange Ratio: GWh,2029,-0.010857268429213888
+Lesotho,Net interchange Ratio: GWh,2030,-0.027773063426530048
+Lesotho,Net interchange Ratio: GWh,2031,-0.011904711920351254
+Lesotho,Net interchange Ratio: GWh,2032,0.0047637239136909025
+Lesotho,Net interchange Ratio: GWh,2033,0.007991537317080629
+Lesotho,Net interchange Ratio: GWh,2034,-0.060648993039756516
+Lesotho,Net interchange Ratio: GWh,2035,-0.03832410205523253
+Lesotho,Net interchange Ratio: GWh,2036,-0.02095389658819062
+Lesotho,Net interchange Ratio: GWh,2037,-0.08914660281986445
+Lesotho,Net interchange Ratio: GWh,2038,-0.07005980290587248
+Lesotho,Net interchange Ratio: GWh,2039,-0.17025127423935568
+Lesotho,Net interchange Ratio: GWh,2040,-0.2771053677245908
+Lesotho,Total Demand: GWh,2025,979.0000000000009
+Lesotho,Total Demand: GWh,2026,1011.0000000000017
+Lesotho,Total Demand: GWh,2027,1052.9999999999973
+Lesotho,Total Demand: GWh,2028,1074.000000000002
+Lesotho,Total Demand: GWh,2029,1127.0000000000018
+Lesotho,Total Demand: GWh,2030,1161.0000000000002
+Lesotho,Total Demand: GWh,2031,1195.0000000000007
+Lesotho,Total Demand: GWh,2032,1230.9999999999995
+Lesotho,Total Demand: GWh,2033,1271.0000000000007
+Lesotho,Total Demand: GWh,2034,1310.9999999999984
+Lesotho,Total Demand: GWh,2035,1350.9999999999973
+Lesotho,Total Demand: GWh,2036,1377.9999999999989
+Lesotho,Total Demand: GWh,2037,1405.0000000000018
+Lesotho,Total Demand: GWh,2038,1432.9999999999993
+Lesotho,Total Demand: GWh,2039,1461.9999999999998
+Lesotho,Total Demand: GWh,2040,1490.9999999999989
+Eswatini,Demand: GWh,2025,1994.117646999996
+Eswatini,Demand: GWh,2026,2064.705882000001
+Eswatini,Demand: GWh,2027,2135.294118000003
+Eswatini,Demand: GWh,2028,2205.882353000001
+Eswatini,Demand: GWh,2029,2276.470587999996
+Eswatini,Demand: GWh,2030,2347.058824000003
+Eswatini,Demand: GWh,2031,2417.6470589999985
+Eswatini,Demand: GWh,2032,2488.2352940000014
+Eswatini,Demand: GWh,2033,2558.823529000004
+Eswatini,Demand: GWh,2034,2629.4117649999985
+Eswatini,Demand: GWh,2035,2700.0000000000005
+Eswatini,Demand: GWh,2036,2770.5882350000015
+Eswatini,Demand: GWh,2037,2841.176470999999
+Eswatini,Demand: GWh,2038,2911.7647060000027
+Eswatini,Demand: GWh,2039,2982.3529409999983
+Eswatini,Demand: GWh,2040,3052.9411760000007
+Eswatini,Total production: GWh,2025,170.00797
+Eswatini,Total production: GWh,2026,170.00796999999997
+Eswatini,Total production: GWh,2027,205.07524299999997
+Eswatini,Total production: GWh,2028,240.64638999999997
+Eswatini,Total production: GWh,2029,409.6845075
+Eswatini,Total production: GWh,2030,569.88058725
+Eswatini,Total production: GWh,2031,703.7832726111111
+Eswatini,Total production: GWh,2032,839.1983373888888
+Eswatini,Total production: GWh,2033,982.2157562777777
+Eswatini,Total production: GWh,2034,1127.9917852681726
+Eswatini,Total production: GWh,2035,1272.13772117701
+Eswatini,Total production: GWh,2036,1410.8320850729947
+Eswatini,Total production: GWh,2037,1552.6890097050987
+Eswatini,Total production: GWh,2038,1706.7710242704404
+Eswatini,Total production: GWh,2039,1849.781268994038
+Eswatini,Total production: GWh,2040,2002.1335640500943
+Eswatini,Imports exchange: GWh,2025,1890.859726120104
+Eswatini,Imports exchange: GWh,2026,1963.095761708532
+Eswatini,Imports exchange: GWh,2027,1999.5858363459638
+Eswatini,Imports exchange: GWh,2028,2017.9615142229343
+Eswatini,Imports exchange: GWh,2029,1914.2120715828123
+Eswatini,Imports exchange: GWh,2030,1821.5988722505676
+Eswatini,Imports exchange: GWh,2031,1767.51254745017
+Eswatini,Imports exchange: GWh,2032,1727.8844878180923
+Eswatini,Imports exchange: GWh,2033,1662.686685224298
+Eswatini,Imports exchange: GWh,2034,1606.2816119809147
+Eswatini,Imports exchange: GWh,2035,1551.6935438849143
+Eswatini,Imports exchange: GWh,2036,1573.6684119385532
+Eswatini,Imports exchange: GWh,2037,1495.777453704859
+Eswatini,Imports exchange: GWh,2038,1569.7704161300471
+Eswatini,Imports exchange: GWh,2039,1574.2104234966478
+Eswatini,Imports exchange: GWh,2040,1614.7339654937643
+Eswatini,Exports exchange: GWh,2031,6.805893877710364
+Eswatini,Exports exchange: GWh,2032,0.1725007125667126
+Eswatini,Exports exchange: GWh,2034,3.754065147417122
+Eswatini,Exports exchange: GWh,2035,10.323721461348633
+Eswatini,Exports exchange: GWh,2036,92.28767164288416
+Eswatini,Exports exchange: GWh,2037,76.28878153487491
+Eswatini,Exports exchange: GWh,2038,207.57216279168702
+Eswatini,Exports exchange: GWh,2039,271.86504581430495
+Eswatini,Exports exchange: GWh,2040,373.27871383525803
+Eswatini,Net interchange: GWh,2025,1890.859726120104
+Eswatini,Net interchange: GWh,2026,1963.095761708532
+Eswatini,Net interchange: GWh,2027,1999.5858363459638
+Eswatini,Net interchange: GWh,2028,2017.9615142229343
+Eswatini,Net interchange: GWh,2029,1914.2120715828123
+Eswatini,Net interchange: GWh,2030,1821.5988722505676
+Eswatini,Net interchange: GWh,2031,1760.7066535724596
+Eswatini,Net interchange: GWh,2032,1727.7119871055256
+Eswatini,Net interchange: GWh,2033,1662.686685224298
+Eswatini,Net interchange: GWh,2034,1602.5275468334976
+Eswatini,Net interchange: GWh,2035,1541.3698224235657
+Eswatini,Net interchange: GWh,2036,1481.380740295669
+Eswatini,Net interchange: GWh,2037,1419.488672169984
+Eswatini,Net interchange: GWh,2038,1362.19825333836
+Eswatini,Net interchange: GWh,2039,1302.3453776823428
+Eswatini,Net interchange: GWh,2040,1241.4552516585063
+Eswatini,Net interchange Ratio: GWh,2025,0.9482187417401194
+Eswatini,Net interchange Ratio: GWh,2026,0.9507871212179416
+Eswatini,Net interchange Ratio: GWh,2027,0.9364451573626079
+Eswatini,Net interchange Ratio: GWh,2028,0.9148092197566683
+Eswatini,Net interchange Ratio: GWh,2029,0.8408683519449959
+Eswatini,Net interchange Ratio: GWh,2030,0.7761198201015201
+Eswatini,Net interchange Ratio: GWh,2031,0.7282728250254747
+Eswatini,Net interchange Ratio: GWh,2032,0.6943523352761849
+Eswatini,Net interchange Ratio: GWh,2033,0.6497856012267016
+Eswatini,Net interchange Ratio: GWh,2034,0.609462377922196
+Eswatini,Net interchange Ratio: GWh,2035,0.5708777120087279
+Eswatini,Net interchange Ratio: GWh,2036,0.5346809466602922
+Eswatini,Net interchange Ratio: GWh,2037,0.49961299013234883
+Eswatini,Net interchange Ratio: GWh,2038,0.46782566274376663
+Eswatini,Net interchange Ratio: GWh,2039,0.43668385447554026
+Eswatini,Net interchange Ratio: GWh,2040,0.40664237536508174
+Eswatini,Total Demand: GWh,2025,1994.117646999996
+Eswatini,Total Demand: GWh,2026,2064.705882000001
+Eswatini,Total Demand: GWh,2027,2135.294118000003
+Eswatini,Total Demand: GWh,2028,2205.882353000001
+Eswatini,Total Demand: GWh,2029,2276.470587999996
+Eswatini,Total Demand: GWh,2030,2347.058824000003
+Eswatini,Total Demand: GWh,2031,2417.6470589999985
+Eswatini,Total Demand: GWh,2032,2488.2352940000014
+Eswatini,Total Demand: GWh,2033,2558.823529000004
+Eswatini,Total Demand: GWh,2034,2629.4117649999985
+Eswatini,Total Demand: GWh,2035,2700.0000000000005
+Eswatini,Total Demand: GWh,2036,2770.5882350000015
+Eswatini,Total Demand: GWh,2037,2841.176470999999
+Eswatini,Total Demand: GWh,2038,2911.7647060000027
+Eswatini,Total Demand: GWh,2039,2982.3529409999983
+Eswatini,Total Demand: GWh,2040,3052.9411760000007
+Mozambique,Demand: GWh,2025,7550.999999999997
+Mozambique,Demand: GWh,2026,8130.999999999994
+Mozambique,Demand: GWh,2027,8713.999999999993
+Mozambique,Demand: GWh,2028,9309.000000000035
+Mozambique,Demand: GWh,2029,9861.000000000015
+Mozambique,Demand: GWh,2030,10442.999999999995
+Mozambique,Demand: GWh,2031,10796.000000000004
+Mozambique,Demand: GWh,2032,11156.999999999987
+Mozambique,Demand: GWh,2033,11524.999999999996
+Mozambique,Demand: GWh,2034,11902.000000000018
+Mozambique,Demand: GWh,2035,12286.000000000004
+Mozambique,Demand: GWh,2036,12678.0
+Mozambique,Demand: GWh,2037,13079.000000000005
+Mozambique,Demand: GWh,2038,13488.999999999984
+Mozambique,Demand: GWh,2039,13907.0
+Mozambique,Demand: GWh,2040,14321.999999999995
+Mozambique,Total production: GWh,2025,16345.299618824634
+Mozambique,Total production: GWh,2026,16248.576304689826
+Mozambique,Total production: GWh,2027,15670.88213882464
+Mozambique,Total production: GWh,2028,15834.072338824655
+Mozambique,Total production: GWh,2029,15834.07233882464
+Mozambique,Total production: GWh,2030,16242.04783882464
+Mozambique,Total production: GWh,2031,16650.02333882464
+Mozambique,Total production: GWh,2032,32375.90595700865
+Mozambique,Total production: GWh,2033,32801.985084115004
+Mozambique,Total production: GWh,2034,33230.91642700864
+Mozambique,Total production: GWh,2035,33645.44916826708
+Mozambique,Total production: GWh,2036,34081.9304885563
+Mozambique,Total production: GWh,2037,34502.9388932538
+Mozambique,Total production: GWh,2038,34981.75932875705
+Mozambique,Total production: GWh,2039,35427.215000574695
+Mozambique,Total production: GWh,2040,35877.16423847321
+Mozambique,Imports exchange: GWh,2025,875.3446162469078
+Mozambique,Imports exchange: GWh,2026,359.94558953063733
+Mozambique,Imports exchange: GWh,2027,274.19212443694545
+Mozambique,Imports exchange: GWh,2028,768.3655202775486
+Mozambique,Imports exchange: GWh,2029,908.71757996497
+Mozambique,Imports exchange: GWh,2030,3444.3406961615897
+Mozambique,Imports exchange: GWh,2031,6028.245777703098
+Mozambique,Imports exchange: GWh,2032,102.74785171607932
+Mozambique,Imports exchange: GWh,2033,420.4452282607114
+Mozambique,Imports exchange: GWh,2034,1098.634204106761
+Mozambique,Imports exchange: GWh,2035,766.2630621000715
+Mozambique,Imports exchange: GWh,2036,877.4155964337417
+Mozambique,Imports exchange: GWh,2037,736.8675462580275
+Mozambique,Imports exchange: GWh,2038,1094.9056932589224
+Mozambique,Imports exchange: GWh,2039,1102.5088999100424
+Mozambique,Imports exchange: GWh,2040,1239.9139544289894
+Mozambique,Exports exchange: GWh,2025,9634.630450421684
+Mozambique,Exports exchange: GWh,2026,8463.124070639255
+Mozambique,Exports exchange: GWh,2027,7220.106578284111
+Mozambique,Exports exchange: GWh,2028,7264.02969078564
+Mozambique,Exports exchange: GWh,2029,6847.246032465825
+Mozambique,Exports exchange: GWh,2030,9109.191469332194
+Mozambique,Exports exchange: GWh,2031,11644.509489944317
+Mozambique,Exports exchange: GWh,2032,21305.487019435768
+Mozambique,Exports exchange: GWh,2033,21649.07999161739
+Mozambique,Exports exchange: GWh,2034,22312.73565342222
+Mozambique,Exports exchange: GWh,2035,22031.187941034386
+Mozambique,Exports exchange: GWh,2036,22151.86256660429
+Mozambique,Exports exchange: GWh,2037,22024.165529397702
+Mozambique,Exports exchange: GWh,2038,22357.790117996523
+Mozambique,Exports exchange: GWh,2039,22350.843689421326
+Mozambique,Exports exchange: GWh,2040,22471.365533057742
+Mozambique,Net interchange: GWh,2025,-8759.285834174776
+Mozambique,Net interchange: GWh,2026,-8103.178481108617
+Mozambique,Net interchange: GWh,2027,-6945.9144538471655
+Mozambique,Net interchange: GWh,2028,-6495.664170508091
+Mozambique,Net interchange: GWh,2029,-5938.528452500855
+Mozambique,Net interchange: GWh,2030,-5664.850773170605
+Mozambique,Net interchange: GWh,2031,-5616.26371224122
+Mozambique,Net interchange: GWh,2032,-21202.73916771969
+Mozambique,Net interchange: GWh,2033,-21228.634763356677
+Mozambique,Net interchange: GWh,2034,-21214.101449315458
+Mozambique,Net interchange: GWh,2035,-21264.924878934315
+Mozambique,Net interchange: GWh,2036,-21274.44697017055
+Mozambique,Net interchange: GWh,2037,-21287.297983139673
+Mozambique,Net interchange: GWh,2038,-21262.8844247376
+Mozambique,Net interchange: GWh,2039,-21248.334789511286
+Mozambique,Net interchange: GWh,2040,-21231.451578628752
+Mozambique,Net interchange Ratio: GWh,2025,-1.1600166645708885
+Mozambique,Net interchange Ratio: GWh,2026,-0.9965783398239606
+Mozambique,Net interchange Ratio: GWh,2027,-0.7970982848114725
+Mozambique,Net interchange Ratio: GWh,2028,-0.6977832388557382
+Mozambique,Net interchange Ratio: GWh,2029,-0.6022237554508514
+Mozambique,Net interchange Ratio: GWh,2030,-0.5424543496285175
+Mozambique,Net interchange Ratio: GWh,2031,-0.5202170907967041
+Mozambique,Net interchange Ratio: GWh,2032,-1.9003978818427636
+Mozambique,Net interchange Ratio: GWh,2033,-1.8419639707901678
+Mozambique,Net interchange Ratio: GWh,2034,-1.782398038087332
+Mozambique,Net interchange Ratio: GWh,2035,-1.7308257267568214
+Mozambique,Net interchange Ratio: GWh,2036,-1.6780601806413116
+Mozambique,Net interchange Ratio: GWh,2037,-1.6275936985350306
+Mozambique,Net interchange Ratio: GWh,2038,-1.5763128789930778
+Mozambique,Net interchange Ratio: GWh,2039,-1.527887739232853
+Mozambique,Net interchange Ratio: GWh,2040,-1.482436222498866
+Mozambique,Total Demand: GWh,2025,7550.999999999997
+Mozambique,Total Demand: GWh,2026,8130.999999999994
+Mozambique,Total Demand: GWh,2027,8713.999999999993
+Mozambique,Total Demand: GWh,2028,9309.000000000035
+Mozambique,Total Demand: GWh,2029,9861.000000000015
+Mozambique,Total Demand: GWh,2030,10442.999999999995
+Mozambique,Total Demand: GWh,2031,10796.000000000004
+Mozambique,Total Demand: GWh,2032,11156.999999999987
+Mozambique,Total Demand: GWh,2033,11524.999999999996
+Mozambique,Total Demand: GWh,2034,11902.000000000018
+Mozambique,Total Demand: GWh,2035,12286.000000000004
+Mozambique,Total Demand: GWh,2036,12678.0
+Mozambique,Total Demand: GWh,2037,13079.000000000005
+Mozambique,Total Demand: GWh,2038,13488.999999999984
+Mozambique,Total Demand: GWh,2039,13907.0
+Mozambique,Total Demand: GWh,2040,14321.999999999995
+Zimbabwe,Demand: GWh,2025,12925.999999999995
+Zimbabwe,Demand: GWh,2026,13738.000000000022
+Zimbabwe,Demand: GWh,2027,14136.999999999985
+Zimbabwe,Demand: GWh,2028,14562.0
+Zimbabwe,Demand: GWh,2029,14978.999999999978
+Zimbabwe,Demand: GWh,2030,15423.000000000013
+Zimbabwe,Demand: GWh,2031,15824.098269999995
+Zimbabwe,Demand: GWh,2032,16362.752690000008
+Zimbabwe,Demand: GWh,2033,16786.991249999995
+Zimbabwe,Demand: GWh,2034,17362.927230000023
+Zimbabwe,Demand: GWh,2035,17811.59165000001
+Zimbabwe,Demand: GWh,2036,18354.10277999999
+Zimbabwe,Demand: GWh,2037,18760.343340000014
+Zimbabwe,Demand: GWh,2038,19176.86846999997
+Zimbabwe,Demand: GWh,2039,19599.821459999992
+Zimbabwe,Demand: GWh,2040,20033.059009999986
+Zimbabwe,Total production: GWh,2025,16504.556589039414
+Zimbabwe,Total production: GWh,2026,16633.76285089838
+Zimbabwe,Total production: GWh,2027,16721.161084253552
+Zimbabwe,Total production: GWh,2028,16965.354114734797
+Zimbabwe,Total production: GWh,2029,16790.374600089606
+Zimbabwe,Total production: GWh,2030,17669.834296
+Zimbabwe,Total production: GWh,2031,17861.952596
+Zimbabwe,Total production: GWh,2032,22213.610859542423
+Zimbabwe,Total production: GWh,2033,22574.793338484447
+Zimbabwe,Total production: GWh,2034,22762.26451407243
+Zimbabwe,Total production: GWh,2035,22954.48281407243
+Zimbabwe,Total production: GWh,2036,23155.42671055955
+Zimbabwe,Total production: GWh,2037,23389.579343577618
+Zimbabwe,Total production: GWh,2038,21058.384607738386
+Zimbabwe,Total production: GWh,2039,21271.377390018923
+Zimbabwe,Total production: GWh,2040,21563.801583563887
+Zimbabwe,Imports exchange: GWh,2025,1208.9943954623552
+Zimbabwe,Imports exchange: GWh,2026,1424.4620662746738
+Zimbabwe,Imports exchange: GWh,2027,1901.0810844812902
+Zimbabwe,Imports exchange: GWh,2028,2051.7221006142177
+Zimbabwe,Imports exchange: GWh,2029,2631.610072629505
+Zimbabwe,Imports exchange: GWh,2030,7787.890286320127
+Zimbabwe,Imports exchange: GWh,2031,7217.732276357854
+Zimbabwe,Imports exchange: GWh,2032,4127.645328451979
+Zimbabwe,Imports exchange: GWh,2033,4877.766061743386
+Zimbabwe,Imports exchange: GWh,2034,4439.981839558962
+Zimbabwe,Imports exchange: GWh,2035,4509.140329929954
+Zimbabwe,Imports exchange: GWh,2036,4906.159307134517
+Zimbabwe,Imports exchange: GWh,2037,5255.069182279649
+Zimbabwe,Imports exchange: GWh,2038,8511.552746486104
+Zimbabwe,Imports exchange: GWh,2039,9002.772334768993
+Zimbabwe,Imports exchange: GWh,2040,9540.870735962842
+Zimbabwe,Exports exchange: GWh,2025,4739.191208683291
+Zimbabwe,Exports exchange: GWh,2026,4263.246434522044
+Zimbabwe,Exports exchange: GWh,2027,4409.198925355604
+Zimbabwe,Exports exchange: GWh,2028,4352.878154549848
+Zimbabwe,Exports exchange: GWh,2029,4299.520967534644
+Zimbabwe,Exports exchange: GWh,2030,9605.168006357673
+Zimbabwe,Exports exchange: GWh,2031,8847.220459253302
+Zimbabwe,Exports exchange: GWh,2032,9773.084265026886
+Zimbabwe,Exports exchange: GWh,2033,10402.054226016644
+Zimbabwe,Exports exchange: GWh,2034,9611.792530742607
+Zimbabwe,Exports exchange: GWh,2035,9419.062001047572
+Zimbabwe,Exports exchange: GWh,2036,9445.312938663665
+Zimbabwe,Exports exchange: GWh,2037,9598.19778537345
+Zimbabwe,Exports exchange: GWh,2038,9914.712429200834
+Zimbabwe,Exports exchange: GWh,2039,10158.432476909704
+Zimbabwe,Exports exchange: GWh,2040,10474.895694648276
+Zimbabwe,Net interchange: GWh,2025,-3530.196813220936
+Zimbabwe,Net interchange: GWh,2026,-2838.7843682473704
+Zimbabwe,Net interchange: GWh,2027,-2508.1178408743135
+Zimbabwe,Net interchange: GWh,2028,-2301.15605393563
+Zimbabwe,Net interchange: GWh,2029,-1667.9108949051392
+Zimbabwe,Net interchange: GWh,2030,-1817.2777200375458
+Zimbabwe,Net interchange: GWh,2031,-1629.4881828954476
+Zimbabwe,Net interchange: GWh,2032,-5645.438936574907
+Zimbabwe,Net interchange: GWh,2033,-5524.288164273258
+Zimbabwe,Net interchange: GWh,2034,-5171.810691183645
+Zimbabwe,Net interchange: GWh,2035,-4909.921671117619
+Zimbabwe,Net interchange: GWh,2036,-4539.153631529148
+Zimbabwe,Net interchange: GWh,2037,-4343.128603093801
+Zimbabwe,Net interchange: GWh,2038,-1403.1596827147296
+Zimbabwe,Net interchange: GWh,2039,-1155.6601421407104
+Zimbabwe,Net interchange: GWh,2040,-934.0249586854334
+Zimbabwe,Net interchange Ratio: GWh,2025,-0.27310821702157956
+Zimbabwe,Net interchange Ratio: GWh,2026,-0.20663738304319157
+Zimbabwe,Net interchange Ratio: GWh,2027,-0.1774151404735316
+Zimbabwe,Net interchange Ratio: GWh,2028,-0.1580247255827242
+Zimbabwe,Net interchange Ratio: GWh,2029,-0.11134994958976846
+Zimbabwe,Net interchange Ratio: GWh,2030,-0.11782906827708904
+Zimbabwe,Net interchange Ratio: GWh,2031,-0.10297510512714025
+Zimbabwe,Net interchange Ratio: GWh,2032,-0.34501767786450016
+Zimbabwe,Net interchange Ratio: GWh,2033,-0.3290814942357976
+Zimbabwe,Net interchange Ratio: GWh,2034,-0.2978651366025242
+Zimbabwe,Net interchange Ratio: GWh,2035,-0.27565878263987803
+Zimbabwe,Net interchange Ratio: GWh,2036,-0.24731002577120526
+Zimbabwe,Net interchange Ratio: GWh,2037,-0.2315058165184837
+Zimbabwe,Net interchange Ratio: GWh,2038,-0.07316938554956527
+Zimbabwe,Net interchange Ratio: GWh,2039,-0.05896278925291347
+Zimbabwe,Net interchange Ratio: GWh,2040,-0.046624180471848665
+Zimbabwe,Total Demand: GWh,2025,12925.999999999995
+Zimbabwe,Total Demand: GWh,2026,13738.000000000022
+Zimbabwe,Total Demand: GWh,2027,14136.999999999985
+Zimbabwe,Total Demand: GWh,2028,14562.0
+Zimbabwe,Total Demand: GWh,2029,14978.999999999978
+Zimbabwe,Total Demand: GWh,2030,15423.000000000013
+Zimbabwe,Total Demand: GWh,2031,15824.098269999995
+Zimbabwe,Total Demand: GWh,2032,16362.752690000008
+Zimbabwe,Total Demand: GWh,2033,16786.991249999995
+Zimbabwe,Total Demand: GWh,2034,17362.927230000023
+Zimbabwe,Total Demand: GWh,2035,17811.59165000001
+Zimbabwe,Total Demand: GWh,2036,18354.10277999999
+Zimbabwe,Total Demand: GWh,2037,18760.343340000014
+Zimbabwe,Total Demand: GWh,2038,19176.86846999997
+Zimbabwe,Total Demand: GWh,2039,19599.821459999992
+Zimbabwe,Total Demand: GWh,2040,20033.059009999986
+Botswana,Demand: GWh,2025,4612.999999999999
+Botswana,Demand: GWh,2026,4988.999999999984
+Botswana,Demand: GWh,2027,5370.000000000018
+Botswana,Demand: GWh,2028,5477.0000000000155
+Botswana,Demand: GWh,2029,5594.999999999993
+Botswana,Demand: GWh,2030,5539.999999999996
+Botswana,Demand: GWh,2031,5568.999999999989
+Botswana,Demand: GWh,2032,5621.999999999992
+Botswana,Demand: GWh,2033,5605.999999999995
+Botswana,Demand: GWh,2034,5656.000000000004
+Botswana,Demand: GWh,2035,5737.999999999995
+Botswana,Demand: GWh,2036,5869.999999999998
+Botswana,Demand: GWh,2037,6033.9047610000025
+Botswana,Demand: GWh,2038,6026.0
+Botswana,Demand: GWh,2039,6194.260662999984
+Botswana,Demand: GWh,2040,6150.9999999999845
+Botswana,Total production: GWh,2025,4623.528
+Botswana,Total production: GWh,2026,5149.096679999999
+Botswana,Total production: GWh,2027,6212.460840000001
+Botswana,Total production: GWh,2028,6984.316530283483
+Botswana,Total production: GWh,2029,7393.11527719953
+Botswana,Total production: GWh,2030,8571.371080774481
+Botswana,Total production: GWh,2031,9752.48424379409
+Botswana,Total production: GWh,2032,10934.106662406919
+Botswana,Total production: GWh,2033,12140.066092702213
+Botswana,Total production: GWh,2034,13333.124079551002
+Botswana,Total production: GWh,2035,14504.916114039486
+Botswana,Total production: GWh,2036,15664.639098068028
+Botswana,Total production: GWh,2037,16714.661551768222
+Botswana,Total production: GWh,2038,17859.40409316334
+Botswana,Total production: GWh,2039,18375.22638944801
+Botswana,Total production: GWh,2040,19591.590090830523
+Botswana,Surplus generation: GWh,2037,0.6868204954739078
+Botswana,Surplus generation: GWh,2038,24.554135359783462
+Botswana,Surplus generation: GWh,2039,43.38368824229689
+Botswana,Surplus generation: GWh,2040,53.150399319599174
+Botswana,Imports exchange: GWh,2025,266.70944416542073
+Botswana,Imports exchange: GWh,2026,143.21638212122474
+Botswana,Imports exchange: GWh,2027,57.19577104460706
+Botswana,Imports exchange: GWh,2028,38.02831816011829
+Botswana,Imports exchange: GWh,2029,102.2970961739722
+Botswana,Imports exchange: GWh,2030,1054.7081011369082
+Botswana,Imports exchange: GWh,2031,424.9803363190553
+Botswana,Imports exchange: GWh,2032,37.30694841009715
+Botswana,Imports exchange: GWh,2033,57.535905161287
+Botswana,Imports exchange: GWh,2034,67.48326543710095
+Botswana,Imports exchange: GWh,2035,108.93509196181807
+Botswana,Imports exchange: GWh,2036,113.03445233627552
+Botswana,Imports exchange: GWh,2037,227.2801284045754
+Botswana,Imports exchange: GWh,2038,401.7821916113289
+Botswana,Imports exchange: GWh,2039,526.0358373773191
+Botswana,Imports exchange: GWh,2040,665.0450527436461
+Botswana,Exports exchange: GWh,2025,265.254131446831
+Botswana,Exports exchange: GWh,2026,278.94950313100156
+Botswana,Exports exchange: GWh,2027,842.593509508577
+Botswana,Exports exchange: GWh,2028,1472.407514687517
+Botswana,Exports exchange: GWh,2029,1809.0413261711722
+Botswana,Exports exchange: GWh,2030,3939.31410144982
+Botswana,Exports exchange: GWh,2031,4466.065095778061
+Botswana,Exports exchange: GWh,2032,5201.358477280013
+Botswana,Exports exchange: GWh,2033,6393.419675122531
+Botswana,Exports exchange: GWh,2034,7512.461152114267
+Botswana,Exports exchange: GWh,2035,8621.851657187504
+Botswana,Exports exchange: GWh,2036,9608.089768412305
+Botswana,Exports exchange: GWh,2037,10524.220867560249
+Botswana,Exports exchange: GWh,2038,11687.244273474666
+Botswana,Exports exchange: GWh,2039,12094.371717483973
+Botswana,Exports exchange: GWh,2040,13371.892133831776
+Botswana,Net interchange: GWh,2025,1.4553127185897097
+Botswana,Net interchange: GWh,2026,-135.73312100977682
+Botswana,Net interchange: GWh,2027,-785.3977384639699
+Botswana,Net interchange: GWh,2028,-1434.3791965273988
+Botswana,Net interchange: GWh,2029,-1706.7442299972
+Botswana,Net interchange: GWh,2030,-2884.606000312912
+Botswana,Net interchange: GWh,2031,-4041.0847594590055
+Botswana,Net interchange: GWh,2032,-5164.051528869916
+Botswana,Net interchange: GWh,2033,-6335.883769961244
+Botswana,Net interchange: GWh,2034,-7444.977886677166
+Botswana,Net interchange: GWh,2035,-8512.916565225687
+Botswana,Net interchange: GWh,2036,-9495.05531607603
+Botswana,Net interchange: GWh,2037,-10296.940739155674
+Botswana,Net interchange: GWh,2038,-11285.462081863338
+Botswana,Net interchange: GWh,2039,-11568.335880106653
+Botswana,Net interchange: GWh,2040,-12706.84708108813
+Botswana,Net interchange Ratio: GWh,2025,0.00031548075408404725
+Botswana,Net interchange Ratio: GWh,2026,-0.027206478454555476
+Botswana,Net interchange Ratio: GWh,2027,-0.14625656209757304
+Botswana,Net interchange Ratio: GWh,2028,-0.2618913997676456
+Botswana,Net interchange Ratio: GWh,2029,-0.30504811974927654
+Botswana,Net interchange Ratio: GWh,2030,-0.5206870036665909
+Botswana,Net interchange Ratio: GWh,2031,-0.7256392098148704
+Botswana,Net interchange Ratio: GWh,2032,-0.918543494996429
+Botswana,Net interchange Ratio: GWh,2033,-1.1301968908243398
+Botswana,Net interchange Ratio: GWh,2034,-1.316297363273897
+Botswana,Net interchange Ratio: GWh,2035,-1.4836034446193263
+Botswana,Net interchange Ratio: GWh,2036,-1.6175562719039238
+Botswana,Net interchange Ratio: GWh,2037,-1.7065136337102471
+Botswana,Net interchange Ratio: GWh,2038,-1.8727949024001556
+Botswana,Net interchange Ratio: GWh,2039,-1.8675894524761436
+Botswana,Net interchange Ratio: GWh,2040,-2.0658180915441653
+Botswana,Total Demand: GWh,2025,4612.999999999999
+Botswana,Total Demand: GWh,2026,4988.999999999984
+Botswana,Total Demand: GWh,2027,5370.000000000018
+Botswana,Total Demand: GWh,2028,5477.0000000000155
+Botswana,Total Demand: GWh,2029,5594.999999999993
+Botswana,Total Demand: GWh,2030,5539.999999999996
+Botswana,Total Demand: GWh,2031,5568.999999999989
+Botswana,Total Demand: GWh,2032,5621.999999999992
+Botswana,Total Demand: GWh,2033,5605.999999999995
+Botswana,Total Demand: GWh,2034,5656.000000000004
+Botswana,Total Demand: GWh,2035,5737.999999999995
+Botswana,Total Demand: GWh,2036,5869.999999999998
+Botswana,Total Demand: GWh,2037,6033.9047610000025
+Botswana,Total Demand: GWh,2038,6026.0
+Botswana,Total Demand: GWh,2039,6194.260662999984
+Botswana,Total Demand: GWh,2040,6150.9999999999845
+Namibia,Demand: GWh,2025,4406.071825999999
+Namibia,Demand: GWh,2026,4524.267380000007
+Namibia,Demand: GWh,2027,4637.4033289999925
+Namibia,Demand: GWh,2028,4695.467875000007
+Namibia,Demand: GWh,2029,4777.122507999991
+Namibia,Demand: GWh,2030,4843.813934999992
+Namibia,Demand: GWh,2031,4912.079998000003
+Namibia,Demand: GWh,2032,4972.552911000007
+Namibia,Demand: GWh,2033,5047.794659999999
+Namibia,Demand: GWh,2034,5119.576460999989
+Namibia,Demand: GWh,2035,5196.2669339999875
+Namibia,Demand: GWh,2036,5252.915805999997
+Namibia,Demand: GWh,2037,5348.268002999992
+Namibia,Demand: GWh,2038,5411.744220000002
+Namibia,Demand: GWh,2039,5487.080356000001
+Namibia,Demand: GWh,2040,5557.393166999997
+Namibia,Total production: GWh,2025,1370.0234829999995
+Namibia,Total production: GWh,2026,2086.7307919999994
+Namibia,Total production: GWh,2027,3198.472637152125
+Namibia,Total production: GWh,2028,3847.759317811636
+Namibia,Total production: GWh,2029,4489.49890657925
+Namibia,Total production: GWh,2030,5135.677751456511
+Namibia,Total production: GWh,2031,5783.114630161112
+Namibia,Total production: GWh,2032,6948.2991144065245
+Namibia,Total production: GWh,2033,7420.223214380642
+Namibia,Total production: GWh,2034,7789.051990198857
+Namibia,Total production: GWh,2035,8151.130735203173
+Namibia,Total production: GWh,2036,8677.817805589972
+Namibia,Total production: GWh,2037,9703.420109941708
+Namibia,Total production: GWh,2038,10094.731738472085
+Namibia,Total production: GWh,2039,10643.127894453291
+Namibia,Total production: GWh,2040,10899.178156440528
+Namibia,Surplus generation: GWh,2037,3.7297364815800735
+Namibia,Surplus generation: GWh,2038,2.557859504075568
+Namibia,Surplus generation: GWh,2040,15.879015373471685
+Namibia,Imports exchange: GWh,2025,3162.5503572916696
+Namibia,Imports exchange: GWh,2026,2564.391479398156
+Namibia,Imports exchange: GWh,2027,3717.7717171935906
+Namibia,Imports exchange: GWh,2028,3111.226868568284
+Namibia,Imports exchange: GWh,2029,2583.8966759100754
+Namibia,Imports exchange: GWh,2030,2243.8898118970556
+Namibia,Imports exchange: GWh,2031,1775.0810408041125
+Namibia,Imports exchange: GWh,2032,935.9108680569751
+Namibia,Imports exchange: GWh,2033,857.1889220906536
+Namibia,Imports exchange: GWh,2034,2500.0820956662974
+Namibia,Imports exchange: GWh,2035,2330.2579841042198
+Namibia,Imports exchange: GWh,2036,2048.8388602725495
+Namibia,Imports exchange: GWh,2037,1066.108463722288
+Namibia,Imports exchange: GWh,2038,2111.6151562617765
+Namibia,Imports exchange: GWh,2039,2063.525877774851
+Namibia,Imports exchange: GWh,2040,2555.620851323413
+Namibia,Exports exchange: GWh,2027,2093.6189035649436
+Namibia,Exports exchange: GWh,2028,2094.9860429520004
+Namibia,Exports exchange: GWh,2029,2139.545486631943
+Namibia,Exports exchange: GWh,2030,2354.4666911920663
+Namibia,Exports exchange: GWh,2031,2474.656618006098
+Namibia,Exports exchange: GWh,2032,2734.469533908983
+Namibia,Exports exchange: GWh,2033,2998.917357664793
+Namibia,Exports exchange: GWh,2034,4787.076019734668
+Namibia,Exports exchange: GWh,2035,4849.083032371704
+Namibia,Exports exchange: GWh,2036,4962.930868011465
+Namibia,Exports exchange: GWh,2037,5015.978993074919
+Namibia,Exports exchange: GWh,2038,6200.699212023471
+Namibia,Exports exchange: GWh,2039,6347.429923471276
+Namibia,Exports exchange: GWh,2040,7046.661779540955
+Namibia,Net interchange: GWh,2025,3162.5503572916696
+Namibia,Net interchange: GWh,2026,2564.391479398156
+Namibia,Net interchange: GWh,2027,1624.152813628647
+Namibia,Net interchange: GWh,2028,1016.2408256162835
+Namibia,Net interchange: GWh,2029,444.35118927813255
+Namibia,Net interchange: GWh,2030,-110.57687929501071
+Namibia,Net interchange: GWh,2031,-699.5755772019857
+Namibia,Net interchange: GWh,2032,-1798.5586658520078
+Namibia,Net interchange: GWh,2033,-2141.7284355741394
+Namibia,Net interchange: GWh,2034,-2286.9939240683707
+Namibia,Net interchange: GWh,2035,-2518.825048267484
+Namibia,Net interchange: GWh,2036,-2914.092007738915
+Namibia,Net interchange: GWh,2037,-3949.8705293526314
+Namibia,Net interchange: GWh,2038,-4089.0840557616943
+Namibia,Net interchange: GWh,2039,-4283.904045696425
+Namibia,Net interchange: GWh,2040,-4491.040928217542
+Namibia,Net interchange Ratio: GWh,2025,0.7177709493135417
+Namibia,Net interchange Ratio: GWh,2026,0.5668081180909675
+Namibia,Net interchange Ratio: GWh,2027,0.35022893166786045
+Namibia,Net interchange Ratio: GWh,2028,0.21643015194013696
+Namibia,Net interchange Ratio: GWh,2029,0.09301649445539682
+Namibia,Net interchange Ratio: GWh,2030,-0.022828473756189172
+Namibia,Net interchange Ratio: GWh,2031,-0.14241941855320436
+Namibia,Net interchange Ratio: GWh,2032,-0.36169724044028484
+Namibia,Net interchange Ratio: GWh,2033,-0.42428992853963277
+Namibia,Net interchange Ratio: GWh,2034,-0.4467154541963146
+Namibia,Net interchange Ratio: GWh,2035,-0.48473742405079645
+Namibia,Net interchange Ratio: GWh,2036,-0.5547570369223078
+Namibia,Net interchange Ratio: GWh,2037,-0.7385326477912175
+Namibia,Net interchange Ratio: GWh,2038,-0.7555944792530666
+Namibia,Net interchange Ratio: GWh,2039,-0.7807255895226812
+Namibia,Net interchange Ratio: GWh,2040,-0.8081200651567189
+Namibia,Total Demand: GWh,2025,4406.071825999999
+Namibia,Total Demand: GWh,2026,4524.267380000007
+Namibia,Total Demand: GWh,2027,4637.4033289999925
+Namibia,Total Demand: GWh,2028,4695.467875000007
+Namibia,Total Demand: GWh,2029,4777.122507999991
+Namibia,Total Demand: GWh,2030,4843.813934999992
+Namibia,Total Demand: GWh,2031,4912.079998000003
+Namibia,Total Demand: GWh,2032,4972.552911000007
+Namibia,Total Demand: GWh,2033,5047.794659999999
+Namibia,Total Demand: GWh,2034,5119.576460999989
+Namibia,Total Demand: GWh,2035,5196.2669339999875
+Namibia,Total Demand: GWh,2036,5252.915805999997
+Namibia,Total Demand: GWh,2037,5348.268002999992
+Namibia,Total Demand: GWh,2038,5411.744220000002
+Namibia,Total Demand: GWh,2039,5487.080356000001
+Namibia,Total Demand: GWh,2040,5557.393166999997
+Zambia,Demand: GWh,2025,19485.00000000002
+Zambia,Demand: GWh,2026,20287.000000000047
+Zambia,Demand: GWh,2027,24601.499999999945
+Zambia,Demand: GWh,2028,28916.000000000022
+Zambia,Demand: GWh,2029,33230.5
+Zambia,Demand: GWh,2030,37545.00000000006
+Zambia,Demand: GWh,2031,38881.899999999965
+Zambia,Demand: GWh,2032,40218.79999999995
+Zambia,Demand: GWh,2033,41555.7000000001
+Zambia,Demand: GWh,2034,42892.6
+Zambia,Demand: GWh,2035,44229.49999999996
+Zambia,Demand: GWh,2036,45566.39999999998
+Zambia,Demand: GWh,2037,46903.30000000002
+Zambia,Demand: GWh,2038,48240.20000000004
+Zambia,Demand: GWh,2039,49577.09999999983
+Zambia,Demand: GWh,2040,50914.00000000008
+Zambia,Total production: GWh,2025,19586.48764096378
+Zambia,Total production: GWh,2026,20211.256390963772
+Zambia,Total production: GWh,2027,21784.414681531987
+Zambia,Total production: GWh,2028,22590.520577482734
+Zambia,Total production: GWh,2029,26560.440659430216
+Zambia,Total production: GWh,2030,29011.66327752379
+Zambia,Total production: GWh,2031,28959.058988616966
+Zambia,Total production: GWh,2032,29230.345238616967
+Zambia,Total production: GWh,2033,29501.839360016973
+Zambia,Total production: GWh,2034,29773.317738616963
+Zambia,Total production: GWh,2035,31293.85998861696
+Zambia,Total production: GWh,2036,32814.40223861697
+Zambia,Total production: GWh,2037,34334.85203571831
+Zambia,Total production: GWh,2038,34610.094346318314
+Zambia,Total production: GWh,2039,34883.140024068314
+Zambia,Total production: GWh,2040,36086.99375799696
+Zambia,Imports exchange: GWh,2025,3820.015427370494
+Zambia,Imports exchange: GWh,2026,3890.470721478518
+Zambia,Imports exchange: GWh,2027,6228.338903564944
+Zambia,Imports exchange: GWh,2028,9888.27606512215
+Zambia,Imports exchange: GWh,2029,9544.021015122167
+Zambia,Imports exchange: GWh,2030,15828.090130361747
+Zambia,Imports exchange: GWh,2031,17460.188127289544
+Zambia,Imports exchange: GWh,2032,18551.560616693754
+Zambia,Imports exchange: GWh,2033,19054.606722426888
+Zambia,Imports exchange: GWh,2034,20571.136656913466
+Zambia,Imports exchange: GWh,2035,20281.622259762913
+Zambia,Imports exchange: GWh,2036,20066.776807178125
+Zambia,Imports exchange: GWh,2037,19202.8266931603
+Zambia,Imports exchange: GWh,2038,20021.65637695713
+Zambia,Imports exchange: GWh,2039,21700.86892559201
+Zambia,Imports exchange: GWh,2040,21945.21521653592
+Zambia,Exports exchange: GWh,2025,3845.1027597868465
+Zambia,Exports exchange: GWh,2026,3736.917698012735
+Zambia,Exports exchange: GWh,2027,3244.81442895436
+Zambia,Exports exchange: GWh,2028,3249.96
+Zambia,Exports exchange: GWh,2029,2574.895233947478
+Zambia,Exports exchange: GWh,2030,6853.733162798203
+Zambia,Exports exchange: GWh,2031,7015.883999999994
+Zambia,Exports exchange: GWh,2032,7016.46088488302
+Zambia,Exports exchange: GWh,2033,6441.55585788625
+Zambia,Exports exchange: GWh,2034,6819.897831992847
+Zambia,Exports exchange: GWh,2035,6700.354758363
+Zambia,Exports exchange: GWh,2036,6678.091572554992
+Zambia,Exports exchange: GWh,2037,6043.8064497309115
+Zambia,Exports exchange: GWh,2038,5765.479218371725
+Zambia,Exports exchange: GWh,2039,6284.569364861414
+Zambia,Exports exchange: GWh,2040,6388.211186588783
+Zambia,Net interchange: GWh,2025,-25.087332416352638
+Zambia,Net interchange: GWh,2026,153.5530234657831
+Zambia,Net interchange: GWh,2027,2983.524474610584
+Zambia,Net interchange: GWh,2028,6638.316065122151
+Zambia,Net interchange: GWh,2029,6969.125781174689
+Zambia,Net interchange: GWh,2030,8974.356967563544
+Zambia,Net interchange: GWh,2031,10444.30412728955
+Zambia,Net interchange: GWh,2032,11535.099731810733
+Zambia,Net interchange: GWh,2033,12613.050864540637
+Zambia,Net interchange: GWh,2034,13751.23882492062
+Zambia,Net interchange: GWh,2035,13581.267501399914
+Zambia,Net interchange: GWh,2036,13388.685234623132
+Zambia,Net interchange: GWh,2037,13159.020243429388
+Zambia,Net interchange: GWh,2038,14256.177158585404
+Zambia,Net interchange: GWh,2039,15416.299560730597
+Zambia,Net interchange: GWh,2040,15557.004029947137
+Zambia,Net interchange Ratio: GWh,2025,-0.001287520267711194
+Zambia,Net interchange Ratio: GWh,2026,0.007569035513668001
+Zambia,Net interchange Ratio: GWh,2027,0.12127408794628745
+Zambia,Net interchange Ratio: GWh,2028,0.2295724189072536
+Zambia,Net interchange Ratio: GWh,2029,0.20972076198596737
+Zambia,Net interchange Ratio: GWh,2030,0.23902935058099695
+Zambia,Net interchange Ratio: GWh,2031,0.26861609456558344
+Zambia,Net interchange Ratio: GWh,2032,0.2868086499798787
+Zambia,Net interchange Ratio: GWh,2033,0.30352155936587777
+Zambia,Net interchange Ratio: GWh,2034,0.32059699866458596
+Zambia,Net interchange Ratio: GWh,2035,0.30706355489887804
+Zambia,Net interchange Ratio: GWh,2036,0.2938280231623112
+Zambia,Net interchange Ratio: GWh,2037,0.2805563839522887
+Zambia,Net interchange Ratio: GWh,2038,0.29552483527401197
+Zambia,Net interchange Ratio: GWh,2039,0.3109560575493655
+Zambia,Net interchange Ratio: GWh,2040,0.3055545435429766
+Zambia,Total Demand: GWh,2025,19485.00000000002
+Zambia,Total Demand: GWh,2026,20287.000000000047
+Zambia,Total Demand: GWh,2027,24601.499999999945
+Zambia,Total Demand: GWh,2028,28916.000000000022
+Zambia,Total Demand: GWh,2029,33230.5
+Zambia,Total Demand: GWh,2030,37545.00000000006
+Zambia,Total Demand: GWh,2031,38881.899999999965
+Zambia,Total Demand: GWh,2032,40218.79999999995
+Zambia,Total Demand: GWh,2033,41555.7000000001
+Zambia,Total Demand: GWh,2034,42892.6
+Zambia,Total Demand: GWh,2035,44229.49999999996
+Zambia,Total Demand: GWh,2036,45566.39999999998
+Zambia,Total Demand: GWh,2037,46903.30000000002
+Zambia,Total Demand: GWh,2038,48240.20000000004
+Zambia,Total Demand: GWh,2039,49577.09999999983
+Zambia,Total Demand: GWh,2040,50914.00000000008
+Angola,Demand: GWh,2025,17270.64000000001
+Angola,Demand: GWh,2026,18336.58999999999
+Angola,Demand: GWh,2027,22469.34000000002
+Angola,Demand: GWh,2028,23916.000000000004
+Angola,Demand: GWh,2029,24840.300000000003
+Angola,Demand: GWh,2030,25765.30000000002
+Angola,Demand: GWh,2031,26692.530000000013
+Angola,Demand: GWh,2032,27618.34000000004
+Angola,Demand: GWh,2033,28543.289999999986
+Angola,Demand: GWh,2034,29457.949999999975
+Angola,Demand: GWh,2035,30374.99000000003
+Angola,Demand: GWh,2036,31282.829999999976
+Angola,Demand: GWh,2037,46077.029999999984
+Angola,Demand: GWh,2038,47344.81999999999
+Angola,Demand: GWh,2039,48601.47000000002
+Angola,Demand: GWh,2040,49845.869999999966
+Angola,Total production: GWh,2025,17270.64
+Angola,Total production: GWh,2026,18336.59000000001
+Angola,Total production: GWh,2027,22469.33999999998
+Angola,Total production: GWh,2028,23916.00000000004
+Angola,Total production: GWh,2029,24840.299999999985
+Angola,Total production: GWh,2030,26423.69137769639
+Angola,Total production: GWh,2031,27232.389313359155
+Angola,Total production: GWh,2032,28050.657412533903
+Angola,Total production: GWh,2033,30597.793816159097
+Angola,Total production: GWh,2034,33678.11604192255
+Angola,Total production: GWh,2035,35047.5237782447
+Angola,Total production: GWh,2036,35557.869015124634
+Angola,Total production: GWh,2037,43473.38661188749
+Angola,Total production: GWh,2038,44011.70162613419
+Angola,Total production: GWh,2039,47130.46678688653
+Angola,Total production: GWh,2040,48266.771256649205
+Angola,Imports exchange: GWh,2030,175.14390930899717
+Angola,Imports exchange: GWh,2031,281.4572828536526
+Angola,Imports exchange: GWh,2032,494.6672091645016
+Angola,Imports exchange: GWh,2033,603.6687044414388
+Angola,Imports exchange: GWh,2034,299.75986276924453
+Angola,Imports exchange: GWh,2035,344.66693234056766
+Angola,Imports exchange: GWh,2036,427.1653937354628
+Angola,Imports exchange: GWh,2037,3405.219358827188
+Angola,Imports exchange: GWh,2038,4479.369424596164
+Angola,Imports exchange: GWh,2039,3586.9189914704916
+Angola,Imports exchange: GWh,2040,3767.9292115510048
+Angola,Exports exchange: GWh,2030,821.2752133537587
+Angola,Exports exchange: GWh,2031,801.6145864130411
+Angola,Exports exchange: GWh,2032,868.8154177176506
+Angola,Exports exchange: GWh,2033,2572.1457336709027
+Angola,Exports exchange: GWh,2034,4438.752411954337
+Angola,Exports exchange: GWh,2035,4916.670953107235
+Angola,Exports exchange: GWh,2036,4569.072415326028
+Angola,Exports exchange: GWh,2037,459.6650635351699
+Angola,Exports exchange: GWh,2038,626.5324603844641
+Angola,Exports exchange: GWh,2039,1671.9155512993798
+Angola,Exports exchange: GWh,2040,1692.2912938469467
+Angola,Net interchange: GWh,2030,-646.1313040447615
+Angola,Net interchange: GWh,2031,-520.1573035593885
+Angola,Net interchange: GWh,2032,-374.14820855314895
+Angola,Net interchange: GWh,2033,-1968.4770292294638
+Angola,Net interchange: GWh,2034,-4138.992549185093
+Angola,Net interchange: GWh,2035,-4572.004020766667
+Angola,Net interchange: GWh,2036,-4141.907021590565
+Angola,Net interchange: GWh,2037,2945.554295292018
+Angola,Net interchange: GWh,2038,3852.8369642117
+Angola,Net interchange: GWh,2039,1915.0034401711118
+Angola,Net interchange: GWh,2040,2075.637917704058
+Angola,Net interchange Ratio: GWh,2030,-0.025077577363537818
+Angola,Net interchange Ratio: GWh,2031,-0.019486998930389448
+Angola,Net interchange Ratio: GWh,2032,-0.013547092567951165
+Angola,Net interchange Ratio: GWh,2033,-0.06896461582492644
+Angola,Net interchange Ratio: GWh,2034,-0.14050511149571154
+Angola,Net interchange Ratio: GWh,2035,-0.15051870044291907
+Angola,Net interchange Ratio: GWh,2036,-0.1324019285208713
+Angola,Net interchange Ratio: GWh,2037,0.06392673953360317
+Angola,Net interchange Ratio: GWh,2038,0.08137821548823505
+Angola,Net interchange Ratio: GWh,2039,0.03940217117241744
+Angola,Net interchange Ratio: GWh,2040,0.04164112127452203
+Angola,Total Demand: GWh,2025,17270.64000000001
+Angola,Total Demand: GWh,2026,18336.58999999999
+Angola,Total Demand: GWh,2027,22469.34000000002
+Angola,Total Demand: GWh,2028,23916.000000000004
+Angola,Total Demand: GWh,2029,24840.300000000003
+Angola,Total Demand: GWh,2030,25765.30000000002
+Angola,Total Demand: GWh,2031,26692.530000000013
+Angola,Total Demand: GWh,2032,27618.34000000004
+Angola,Total Demand: GWh,2033,28543.289999999986
+Angola,Total Demand: GWh,2034,29457.949999999975
+Angola,Total Demand: GWh,2035,30374.99000000003
+Angola,Total Demand: GWh,2036,31282.829999999976
+Angola,Total Demand: GWh,2037,46077.029999999984
+Angola,Total Demand: GWh,2038,47344.81999999999
+Angola,Total Demand: GWh,2039,48601.47000000002
+Angola,Total Demand: GWh,2040,49845.869999999966
+Tanzania,Demand: GWh,2025,14381.89999999999
+Tanzania,Demand: GWh,2026,17002.759999999987
+Tanzania,Demand: GWh,2027,19588.389999999992
+Tanzania,Demand: GWh,2028,22581.589999999956
+Tanzania,Demand: GWh,2029,24422.189999999977
+Tanzania,Demand: GWh,2030,26862.830000000005
+Tanzania,Demand: GWh,2031,28558.64999999992
+Tanzania,Demand: GWh,2032,29622.100000000028
+Tanzania,Demand: GWh,2033,30539.60999999998
+Tanzania,Demand: GWh,2034,31428.380000000005
+Tanzania,Demand: GWh,2035,32320.019999999942
+Tanzania,Demand: GWh,2036,33169.960000000065
+Tanzania,Demand: GWh,2037,34064.48999999992
+Tanzania,Demand: GWh,2038,34914.64000000004
+Tanzania,Demand: GWh,2039,36636.97000000004
+Tanzania,Demand: GWh,2040,37583.82000000002
+Tanzania,Total production: GWh,2025,14381.899999999998
+Tanzania,Total production: GWh,2026,16912.215591647713
+Tanzania,Total production: GWh,2027,18488.648848791505
+Tanzania,Total production: GWh,2028,19254.528647296003
+Tanzania,Total production: GWh,2029,19725.211039197693
+Tanzania,Total production: GWh,2030,27910.793287693607
+Tanzania,Total production: GWh,2031,27017.9753567083
+Tanzania,Total production: GWh,2032,25454.23923899826
+Tanzania,Total production: GWh,2033,26803.231488425743
+Tanzania,Total production: GWh,2034,30275.527306828528
+Tanzania,Total production: GWh,2035,30080.26288657622
+Tanzania,Total production: GWh,2036,30650.733378867408
+Tanzania,Total production: GWh,2037,30302.720100860563
+Tanzania,Total production: GWh,2038,30636.388896094217
+Tanzania,Total production: GWh,2039,32782.12609344617
+Tanzania,Total production: GWh,2040,33278.36907619013
+Tanzania,Unmet demand: GWh,2026,90.54440835227408
+Tanzania,Unmet demand: GWh,2027,1099.7411512084907
+Tanzania,Unmet demand: GWh,2028,3327.061352703998
+Tanzania,Unmet demand: GWh,2029,4696.978960802302
+Tanzania,Imports exchange: GWh,2030,165.8064433766676
+Tanzania,Imports exchange: GWh,2031,1923.3818920770482
+Tanzania,Imports exchange: GWh,2032,4877.221355847327
+Tanzania,Imports exchange: GWh,2033,4407.968047022404
+Tanzania,Imports exchange: GWh,2034,3531.0285947461225
+Tanzania,Imports exchange: GWh,2035,3531.68007533415
+Tanzania,Imports exchange: GWh,2036,3759.106606119109
+Tanzania,Imports exchange: GWh,2037,4535.741399634788
+Tanzania,Imports exchange: GWh,2038,4818.284613188276
+Tanzania,Imports exchange: GWh,2039,4283.383499520477
+Tanzania,Imports exchange: GWh,2040,4683.0476752082795
+Tanzania,Exports exchange: GWh,2030,1202.1632800339232
+Tanzania,Exports exchange: GWh,2031,248.07051633998998
+Tanzania,Exports exchange: GWh,2032,367.9550999362677
+Tanzania,Exports exchange: GWh,2033,363.0317721565832
+Tanzania,Exports exchange: GWh,2034,2131.003899942416
+Tanzania,Exports exchange: GWh,2035,1044.7053566369889
+Tanzania,Exports exchange: GWh,2036,976.7425225581522
+Tanzania,Exports exchange: GWh,2037,456.46960252097864
+Tanzania,Exports exchange: GWh,2038,202.75358635926258
+Tanzania,Exports exchange: GWh,2039,128.7027480001835
+Tanzania,Exports exchange: GWh,2040,49.783414133798395
+Tanzania,Net interchange: GWh,2030,-1036.3568366572556
+Tanzania,Net interchange: GWh,2031,1675.3113757370581
+Tanzania,Net interchange: GWh,2032,4509.2662559110595
+Tanzania,Net interchange: GWh,2033,4044.9362748658205
+Tanzania,Net interchange: GWh,2034,1400.0246948037066
+Tanzania,Net interchange: GWh,2035,2486.974718697161
+Tanzania,Net interchange: GWh,2036,2782.3640835609567
+Tanzania,Net interchange: GWh,2037,4079.271797113809
+Tanzania,Net interchange: GWh,2038,4615.531026829013
+Tanzania,Net interchange: GWh,2039,4154.680751520294
+Tanzania,Net interchange: GWh,2040,4633.2642610744815
+Tanzania,Net interchange Ratio: GWh,2030,-0.038579585124026594
+Tanzania,Net interchange Ratio: GWh,2031,0.058662134790582285
+Tanzania,Net interchange Ratio: GWh,2032,0.15222642067615244
+Tanzania,Net interchange Ratio: GWh,2033,0.1324488516672552
+Tanzania,Net interchange Ratio: GWh,2034,0.04454651161796142
+Tanzania,Net interchange Ratio: GWh,2035,0.07694842759061304
+Tanzania,Net interchange Ratio: GWh,2036,0.08388204518669758
+Tanzania,Net interchange Ratio: GWh,2037,0.11975144195946626
+Tanzania,Net interchange Ratio: GWh,2038,0.13219471908715105
+Tanzania,Net interchange Ratio: GWh,2039,0.11340131980129059
+Tanzania,Net interchange Ratio: GWh,2040,0.12327816228032379
+Tanzania,Total Demand: GWh,2025,14381.89999999999
+Tanzania,Total Demand: GWh,2026,17002.759999999987
+Tanzania,Total Demand: GWh,2027,19588.389999999992
+Tanzania,Total Demand: GWh,2028,22581.589999999956
+Tanzania,Total Demand: GWh,2029,24422.189999999977
+Tanzania,Total Demand: GWh,2030,26862.830000000005
+Tanzania,Total Demand: GWh,2031,28558.64999999992
+Tanzania,Total Demand: GWh,2032,29622.100000000028
+Tanzania,Total Demand: GWh,2033,30539.60999999998
+Tanzania,Total Demand: GWh,2034,31428.380000000005
+Tanzania,Total Demand: GWh,2035,32320.019999999942
+Tanzania,Total Demand: GWh,2036,33169.960000000065
+Tanzania,Total Demand: GWh,2037,34064.48999999992
+Tanzania,Total Demand: GWh,2038,34914.64000000004
+Tanzania,Total Demand: GWh,2039,36636.97000000004
+Tanzania,Total Demand: GWh,2040,37583.82000000002
+DRC,Demand: GWh,2025,6849.151164000009
+DRC,Demand: GWh,2026,7123.117211000005
+DRC,Demand: GWh,2027,7408.041899000003
+DRC,Demand: GWh,2028,7704.363575000001
+DRC,Demand: GWh,2029,8012.538118000011
+DRC,Demand: GWh,2030,8333.039642999982
+DRC,Demand: GWh,2031,8666.361227999994
+DRC,Demand: GWh,2032,9013.015677999989
+DRC,Demand: GWh,2033,9373.536305000007
+DRC,Demand: GWh,2034,9748.477757000004
+DRC,Demand: GWh,2035,10138.416869999995
+DRC,Demand: GWh,2036,10543.953539999999
+DRC,Demand: GWh,2037,10965.71167999999
+DRC,Demand: GWh,2038,11404.340149999989
+DRC,Demand: GWh,2039,11860.513760000022
+DRC,Demand: GWh,2040,12334.934310000042
+DRC,Total production: GWh,2025,11528.756636372353
+DRC,Total production: GWh,2026,11851.553728876752
+DRC,Total production: GWh,2027,12287.084421873175
+DRC,Total production: GWh,2028,12591.976788423566
+DRC,Total production: GWh,2029,12918.138118000013
+DRC,Total production: GWh,2030,12003.214663083294
+DRC,Total production: GWh,2031,12352.390192404988
+DRC,Total production: GWh,2032,12897.430723808051
+DRC,Total production: GWh,2033,12134.852512492358
+DRC,Total production: GWh,2034,12240.729204755753
+DRC,Total production: GWh,2035,12336.859285795004
+DRC,Total production: GWh,2036,12341.420994815177
+DRC,Total production: GWh,2037,23334.196468043046
+DRC,Total production: GWh,2038,34370.712562657616
+DRC,Total production: GWh,2039,39985.61303225258
+DRC,Total production: GWh,2040,40101.68797420857
+DRC,Imports exchange: GWh,2030,3.4563080608945893
+DRC,Imports exchange: GWh,2031,1.7295797387319742
+DRC,Imports exchange: GWh,2032,0.8104857505115408
+DRC,Imports exchange: GWh,2033,2064.6192572983505
+DRC,Imports exchange: GWh,2034,2204.18568214231
+DRC,Imports exchange: GWh,2035,2974.910603863256
+DRC,Imports exchange: GWh,2036,3689.7352708222747
+DRC,Imports exchange: GWh,2037,29.28493776501299
+DRC,Imports exchange: GWh,2039,91.2021001819837
+DRC,Imports exchange: GWh,2040,107.7155066962103
+DRC,Exports exchange: GWh,2025,4679.605472372353
+DRC,Exports exchange: GWh,2026,4728.436517876754
+DRC,Exports exchange: GWh,2027,4879.042522873165
+DRC,Exports exchange: GWh,2028,4887.613213423568
+DRC,Exports exchange: GWh,2029,4905.6
+DRC,Exports exchange: GWh,2030,3667.1755852187093
+DRC,Exports exchange: GWh,2031,3685.3946461928163
+DRC,Exports exchange: GWh,2032,3874.5712620773966
+DRC,Exports exchange: GWh,2033,4647.807905852296
+DRC,Exports exchange: GWh,2034,4496.956840927937
+DRC,Exports exchange: GWh,2035,4950.002926925748
+DRC,Exports exchange: GWh,2036,5237.421727253568
+DRC,Exports exchange: GWh,2037,12395.686838357948
+DRC,Exports exchange: GWh,2038,22966.372412657573
+DRC,Exports exchange: GWh,2039,28212.844698768073
+DRC,Exports exchange: GWh,2040,27847.602626202723
+DRC,Net interchange: GWh,2025,-4679.605472372353
+DRC,Net interchange: GWh,2026,-4728.436517876754
+DRC,Net interchange: GWh,2027,-4879.042522873165
+DRC,Net interchange: GWh,2028,-4887.613213423568
+DRC,Net interchange: GWh,2029,-4905.6
+DRC,Net interchange: GWh,2030,-3663.7192771578148
+DRC,Net interchange: GWh,2031,-3683.6650664540844
+DRC,Net interchange: GWh,2032,-3873.760776326885
+DRC,Net interchange: GWh,2033,-2583.1886485539458
+DRC,Net interchange: GWh,2034,-2292.7711587856274
+DRC,Net interchange: GWh,2035,-1975.0923230624926
+DRC,Net interchange: GWh,2036,-1547.6864564312932
+DRC,Net interchange: GWh,2037,-12366.401900592935
+DRC,Net interchange: GWh,2038,-22966.372412657573
+DRC,Net interchange: GWh,2039,-28121.642598586088
+DRC,Net interchange: GWh,2040,-27739.88711950651
+DRC,Net interchange Ratio: GWh,2025,-0.6832387489078854
+DRC,Net interchange Ratio: GWh,2026,-0.663815627036823
+DRC,Net interchange Ratio: GWh,2027,-0.6586143260787681
+DRC,Net interchange Ratio: GWh,2028,-0.6343954521154029
+DRC,Net interchange Ratio: GWh,2029,-0.612240457113042
+DRC,Net interchange Ratio: GWh,2030,-0.43966180818969886
+DRC,Net interchange Ratio: GWh,2031,-0.4250532570177891
+DRC,Net interchange Ratio: GWh,2032,-0.42979629845562217
+DRC,Net interchange Ratio: GWh,2033,-0.27558314861126937
+DRC,Net interchange Ratio: GWh,2034,-0.23519273633663237
+DRC,Net interchange Ratio: GWh,2035,-0.19481269594534767
+DRC,Net interchange Ratio: GWh,2036,-0.14678426365972905
+DRC,Net interchange Ratio: GWh,2037,-1.1277336356697778
+DRC,Net interchange Ratio: GWh,2038,-2.0138273771725053
+DRC,Net interchange Ratio: GWh,2039,-2.3710307300032203
+DRC,Net interchange Ratio: GWh,2040,-2.2488881109822803
+DRC,Total Demand: GWh,2025,6849.151164000009
+DRC,Total Demand: GWh,2026,7123.117211000005
+DRC,Total Demand: GWh,2027,7408.041899000003
+DRC,Total Demand: GWh,2028,7704.363575000001
+DRC,Total Demand: GWh,2029,8012.538118000011
+DRC,Total Demand: GWh,2030,8333.039642999982
+DRC,Total Demand: GWh,2031,8666.361227999994
+DRC,Total Demand: GWh,2032,9013.015677999989
+DRC,Total Demand: GWh,2033,9373.536305000007
+DRC,Total Demand: GWh,2034,9748.477757000004
+DRC,Total Demand: GWh,2035,10138.416869999995
+DRC,Total Demand: GWh,2036,10543.953539999999
+DRC,Total Demand: GWh,2037,10965.71167999999
+DRC,Total Demand: GWh,2038,11404.340149999989
+DRC,Total Demand: GWh,2039,11860.513760000022
+DRC,Total Demand: GWh,2040,12334.934310000042
+Malawi,Demand: GWh,2025,3319.9999999999964
+Malawi,Demand: GWh,2026,3865.9999999999986
+Malawi,Demand: GWh,2027,4079.0000000000014
+Malawi,Demand: GWh,2028,4379.999999999998
+Malawi,Demand: GWh,2029,4814.0
+Malawi,Demand: GWh,2030,5131.999999999996
+Malawi,Demand: GWh,2031,5515.999999999999
+Malawi,Demand: GWh,2032,5947.0
+Malawi,Demand: GWh,2033,6447.9999999999945
+Malawi,Demand: GWh,2034,6901.999999999998
+Malawi,Demand: GWh,2035,7430.000000000008
+Malawi,Demand: GWh,2036,7967.000000000005
+Malawi,Demand: GWh,2037,8551.99999999999
+Malawi,Demand: GWh,2038,9187.999999999996
+Malawi,Demand: GWh,2039,9883.0
+Malawi,Demand: GWh,2040,10638.999999999975
+Malawi,Total production: GWh,2025,2789.038410647445
+Malawi,Total production: GWh,2026,2789.038410647445
+Malawi,Total production: GWh,2027,2904.411115122157
+Malawi,Total production: GWh,2028,2994.1560651221566
+Malawi,Total production: GWh,2029,3083.901015122157
+Malawi,Total production: GWh,2030,3263.3909151221574
+Malawi,Total production: GWh,2031,5481.823559999245
+Malawi,Total production: GWh,2032,5663.035654452151
+Malawi,Total production: GWh,2033,5845.911230509406
+Malawi,Total production: GWh,2034,6022.444255376454
+Malawi,Total production: GWh,2035,6203.237818702206
+Malawi,Total production: GWh,2036,6384.262154085089
+Malawi,Total production: GWh,2037,6571.524616456823
+Malawi,Total production: GWh,2038,6750.529779921964
+Malawi,Total production: GWh,2039,6930.023771737095
+Malawi,Total production: GWh,2040,7123.273173920107
+Malawi,Unmet demand: GWh,2025,530.9615893525564
+Malawi,Imports exchange: GWh,2026,1121.8349889089118
+Malawi,Imports exchange: GWh,2027,1223.5300884144217
+Malawi,Imports exchange: GWh,2028,5256.0
+Malawi,Imports exchange: GWh,2029,5256.0
+Malawi,Imports exchange: GWh,2030,6458.163280033924
+Malawi,Imports exchange: GWh,2031,3612.9155978770104
+Malawi,Imports exchange: GWh,2032,4445.59282872488
+Malawi,Imports exchange: GWh,2033,4729.819523194848
+Malawi,Imports exchange: GWh,2034,5075.628054981119
+Malawi,Imports exchange: GWh,2035,4612.630104952498
+Malawi,Imports exchange: GWh,2036,4607.850463079523
+Malawi,Imports exchange: GWh,2037,5065.484786054498
+Malawi,Imports exchange: GWh,2038,5771.118346053852
+Malawi,Imports exchange: GWh,2039,5960.3749609403485
+Malawi,Imports exchange: GWh,2040,6031.370272341577
+Malawi,Exports exchange: GWh,2028,3659.916065122154
+Malawi,Exports exchange: GWh,2029,3315.6610151221566
+Malawi,Exports exchange: GWh,2030,4295.162765553701
+Malawi,Exports exchange: GWh,2031,3426.655418470974
+Malawi,Exports exchange: GWh,2032,3973.762220635916
+Malawi,Exports exchange: GWh,2033,3924.7308952009757
+Malawi,Exports exchange: GWh,2034,3945.2999607568254
+Malawi,Exports exchange: GWh,2035,3170.4395201684897
+Malawi,Exports exchange: GWh,2036,2809.0399593600146
+Malawi,Exports exchange: GWh,2037,2854.9188562064573
+Malawi,Exports exchange: GWh,2038,3083.3894884318916
+Malawi,Exports exchange: GWh,2039,2751.381905078619
+Malawi,Exports exchange: GWh,2040,2243.836228587499
+Malawi,Net interchange: GWh,2026,1121.8349889089118
+Malawi,Net interchange: GWh,2027,1223.5300884144217
+Malawi,Net interchange: GWh,2028,1596.0839348778459
+Malawi,Net interchange: GWh,2029,1940.3389848778434
+Malawi,Net interchange: GWh,2030,2163.0005144802226
+Malawi,Net interchange: GWh,2031,186.2601794060365
+Malawi,Net interchange: GWh,2032,471.8306080889638
+Malawi,Net interchange: GWh,2033,805.0886279938727
+Malawi,Net interchange: GWh,2034,1130.3280942242936
+Malawi,Net interchange: GWh,2035,1442.1905847840085
+Malawi,Net interchange: GWh,2036,1798.8105037195087
+Malawi,Net interchange: GWh,2037,2210.5659298480405
+Malawi,Net interchange: GWh,2038,2687.7288576219607
+Malawi,Net interchange: GWh,2039,3208.9930558617293
+Malawi,Net interchange: GWh,2040,3787.534043754078
+Malawi,Net interchange Ratio: GWh,2026,0.29017976950566793
+Malawi,Net interchange Ratio: GWh,2027,0.2999583447939253
+Malawi,Net interchange Ratio: GWh,2028,0.36440272485795583
+Malawi,Net interchange Ratio: GWh,2029,0.4030616919147992
+Malawi,Net interchange Ratio: GWh,2030,0.4214732101481341
+Malawi,Net interchange Ratio: GWh,2031,0.03376725514975282
+Malawi,Net interchange Ratio: GWh,2032,0.07933926485437427
+Malawi,Net interchange Ratio: GWh,2033,0.12485865818763545
+Malawi,Net interchange Ratio: GWh,2034,0.16376819678706084
+Malawi,Net interchange Ratio: GWh,2035,0.19410371262234277
+Malawi,Net interchange Ratio: GWh,2036,0.2257826664641029
+Malawi,Net interchange Ratio: GWh,2037,0.25848525840131464
+Malawi,Net interchange Ratio: GWh,2038,0.2925259966937268
+Malawi,Net interchange Ratio: GWh,2039,0.3246982754084518
+Malawi,Net interchange Ratio: GWh,2040,0.3560047038024332
+Malawi,Total Demand: GWh,2025,3319.9999999999964
+Malawi,Total Demand: GWh,2026,3865.9999999999986
+Malawi,Total Demand: GWh,2027,4079.0000000000014
+Malawi,Total Demand: GWh,2028,4379.999999999998
+Malawi,Total Demand: GWh,2029,4814.0
+Malawi,Total Demand: GWh,2030,5131.999999999996
+Malawi,Total Demand: GWh,2031,5515.999999999999
+Malawi,Total Demand: GWh,2032,5947.0
+Malawi,Total Demand: GWh,2033,6447.9999999999945
+Malawi,Total Demand: GWh,2034,6901.999999999998
+Malawi,Total Demand: GWh,2035,7430.000000000008
+Malawi,Total Demand: GWh,2036,7967.000000000005
+Malawi,Total Demand: GWh,2037,8551.99999999999
+Malawi,Total Demand: GWh,2038,9187.999999999996
+Malawi,Total Demand: GWh,2039,9883.0
+Malawi,Total Demand: GWh,2040,10638.999999999975
+DRC_South,Demand: GWh,2025,12367.292569999987
+DRC_South,Demand: GWh,2026,12596.816010000004
+DRC_South,Demand: GWh,2027,12832.868710000013
+DRC_South,Demand: GWh,2028,13075.685319999997
+DRC_South,Demand: GWh,2029,13325.509609999985
+DRC_South,Demand: GWh,2030,13582.594839999987
+DRC_South,Demand: GWh,2031,13847.204130000024
+DRC_South,Demand: GWh,2032,14119.610840000001
+DRC_South,Demand: GWh,2033,14400.099010000029
+DRC_South,Demand: GWh,2034,14688.96374999999
+DRC_South,Demand: GWh,2035,14986.51167999999
+DRC_South,Demand: GWh,2036,15293.061420000022
+DRC_South,Demand: GWh,2037,15608.944039999991
+DRC_South,Demand: GWh,2038,15934.50357000003
+DRC_South,Demand: GWh,2039,16270.097499999998
+DRC_South,Demand: GWh,2040,16616.09731999998
+DRC_South,Total production: GWh,2025,3027.800313328001
+DRC_South,Total production: GWh,2026,3123.2522333279994
+DRC_South,Total production: GWh,2027,3301.005038546964
+DRC_South,Total production: GWh,2028,3364.1672935252964
+DRC_South,Total production: GWh,2029,3409.607993327999
+DRC_South,Total production: GWh,2030,3698.7476544126635
+DRC_South,Total production: GWh,2031,3832.5667169522294
+DRC_South,Total production: GWh,2032,3972.7019786739584
+DRC_South,Total production: GWh,2033,4121.429598178078
+DRC_South,Total production: GWh,2034,4207.873614247535
+DRC_South,Total production: GWh,2035,4302.5604222606
+DRC_South,Total production: GWh,2036,4404.288537337508
+DRC_South,Total production: GWh,2037,4480.43561618027
+DRC_South,Total production: GWh,2038,4510.8488154561755
+DRC_South,Total production: GWh,2039,4669.361584777972
+DRC_South,Total production: GWh,2040,4765.500006270775
+DRC_South,Unmet demand: GWh,2025,1727.109403194554
+DRC_South,Unmet demand: GWh,2026,1814.3031195103144
+DRC_South,Unmet demand: GWh,2027,1824.4064257196937
+DRC_South,Unmet demand: GWh,2028,1955.0157640295206
+DRC_South,Unmet demand: GWh,2029,2734.6261920824045
+DRC_South,Unmet demand: GWh,2030,2.439696757178781
+DRC_South,Unmet demand: GWh,2031,0.9782520238964134
+DRC_South,Unmet demand: GWh,2032,0.369212533321474
+DRC_South,Imports exchange: GWh,2025,7929.565472372351
+DRC_South,Imports exchange: GWh,2026,7978.396517876757
+DRC_South,Imports exchange: GWh,2027,8123.856951827524
+DRC_South,Imports exchange: GWh,2028,8137.573213423565
+DRC_South,Imports exchange: GWh,2029,7480.4952339474785
+DRC_South,Imports exchange: GWh,2030,10520.908748016926
+DRC_South,Imports exchange: GWh,2031,10701.278646192819
+DRC_South,Imports exchange: GWh,2032,10890.455262077423
+DRC_South,Imports exchange: GWh,2033,11088.907865150288
+DRC_South,Imports exchange: GWh,2034,11289.336971176783
+DRC_South,Imports exchange: GWh,2035,11499.76509363202
+DRC_South,Imports exchange: GWh,2036,11720.38506759927
+DRC_South,Imports exchange: GWh,2037,11947.766023483799
+DRC_South,Imports exchange: GWh,2038,12179.93382085383
+DRC_South,Imports exchange: GWh,2039,12437.380457349394
+DRC_South,Imports exchange: GWh,2040,12698.447309373942
+DRC_South,Exports exchange: GWh,2030,3.4563080608945893
+DRC_South,Exports exchange: GWh,2031,1.7295797387319742
+DRC_South,Exports exchange: GWh,2032,0.8104857505115408
+DRC_South,Net interchange: GWh,2025,7929.565472372351
+DRC_South,Net interchange: GWh,2026,7978.396517876757
+DRC_South,Net interchange: GWh,2027,8123.856951827524
+DRC_South,Net interchange: GWh,2028,8137.573213423565
+DRC_South,Net interchange: GWh,2029,7480.4952339474785
+DRC_South,Net interchange: GWh,2030,10517.45243995603
+DRC_South,Net interchange: GWh,2031,10699.549066454087
+DRC_South,Net interchange: GWh,2032,10889.644776326912
+DRC_South,Net interchange: GWh,2033,11088.907865150288
+DRC_South,Net interchange: GWh,2034,11289.336971176783
+DRC_South,Net interchange: GWh,2035,11499.76509363202
+DRC_South,Net interchange: GWh,2036,11720.38506759927
+DRC_South,Net interchange: GWh,2037,11947.766023483799
+DRC_South,Net interchange: GWh,2038,12179.93382085383
+DRC_South,Net interchange: GWh,2039,12437.380457349394
+DRC_South,Net interchange: GWh,2040,12698.447309373942
+DRC_South,Net interchange Ratio: GWh,2025,0.6411723040827487
+DRC_South,Net interchange Ratio: GWh,2026,0.6333661229586185
+DRC_South,Net interchange Ratio: GWh,2027,0.6330507336599656
+DRC_South,Net interchange Ratio: GWh,2028,0.6223439165346606
+DRC_South,Net interchange Ratio: GWh,2029,0.5613665407838377
+DRC_South,Net interchange Ratio: GWh,2030,0.774333075811311
+DRC_South,Net interchange Ratio: GWh,2031,0.7726865991145079
+DRC_South,Net interchange Ratio: GWh,2032,0.7712425575836133
+DRC_South,Net interchange Ratio: GWh,2033,0.7700577515091866
+DRC_South,Net interchange Ratio: GWh,2034,0.7685591144015718
+DRC_South,Net interchange Ratio: GWh,2035,0.7673410156533523
+DRC_South,Net interchange Ratio: GWh,2036,0.7663857971741053
+DRC_South,Net interchange Ratio: GWh,2037,0.7654435811202899
+DRC_South,Net interchange Ratio: GWh,2038,0.7643748528058981
+DRC_South,Net interchange Ratio: GWh,2039,0.7644318331435566
+DRC_South,Net interchange Ratio: GWh,2040,0.7642256219870261
+DRC_South,Total Demand: GWh,2025,12367.292569999987
+DRC_South,Total Demand: GWh,2026,12596.816010000004
+DRC_South,Total Demand: GWh,2027,12832.868710000013
+DRC_South,Total Demand: GWh,2028,13075.685319999997
+DRC_South,Total Demand: GWh,2029,13325.509609999985
+DRC_South,Total Demand: GWh,2030,13582.594839999987
+DRC_South,Total Demand: GWh,2031,13847.204130000024
+DRC_South,Total Demand: GWh,2032,14119.610840000001
+DRC_South,Total Demand: GWh,2033,14400.099010000029
+DRC_South,Total Demand: GWh,2034,14688.96374999999
+DRC_South,Total Demand: GWh,2035,14986.51167999999
+DRC_South,Total Demand: GWh,2036,15293.061420000022
+DRC_South,Total Demand: GWh,2037,15608.944039999991
+DRC_South,Total Demand: GWh,2038,15934.50357000003
+DRC_South,Total Demand: GWh,2039,16270.097499999998
+DRC_South,Total Demand: GWh,2040,16616.09731999998
+Mozal,Demand: GWh,2025,8912.195121999981
+Mozal,Demand: GWh,2026,8934.146341000014
+Mozal,Demand: GWh,2027,8956.097560999984
+Mozal,Demand: GWh,2028,8978.048779999994
+Mozal,Demand: GWh,2029,9000.0
+Mozal,Demand: GWh,2030,9021.951219999999
+Mozal,Demand: GWh,2031,9043.90243900001
+Mozal,Demand: GWh,2032,9065.853658999999
+Mozal,Demand: GWh,2033,9087.804878000014
+Mozal,Demand: GWh,2034,9109.756097999987
+Mozal,Demand: GWh,2035,9131.707316999986
+Mozal,Demand: GWh,2036,9153.658537000003
+Mozal,Demand: GWh,2037,9175.609756000007
+Mozal,Demand: GWh,2038,9197.560975999988
+Mozal,Demand: GWh,2039,9219.512195000008
+Mozal,Demand: GWh,2040,9241.463414999997
+Mozal,Imports exchange: GWh,2025,9154.970631926044
+Mozal,Imports exchange: GWh,2026,9099.04092872385
+Mozal,Imports exchange: GWh,2027,9064.607247439182
+Mozal,Imports exchange: GWh,2028,9223.140982210281
+Mozal,Imports exchange: GWh,2029,9321.545331613625
+Mozal,Imports exchange: GWh,2030,9632.520890940204
+Mozal,Imports exchange: GWh,2031,9621.126352538531
+Mozal,Imports exchange: GWh,2032,9286.848808922708
+Mozal,Imports exchange: GWh,2033,9493.312506237087
+Mozal,Imports exchange: GWh,2034,9760.379006805093
+Mozal,Imports exchange: GWh,2035,9778.638370508757
+Mozal,Imports exchange: GWh,2036,9746.4966227689
+Mozal,Imports exchange: GWh,2037,9561.32006815473
+Mozal,Imports exchange: GWh,2038,9469.749370846694
+Mozal,Imports exchange: GWh,2039,9501.605400363465
+Mozal,Imports exchange: GWh,2040,9518.126413107446
+Mozal,Exports exchange: GWh,2028,215.7268285949942
+Mozal,Exports exchange: GWh,2029,293.5253408523811
+Mozal,Exports exchange: GWh,2030,581.6721082673888
+Mozal,Exports exchange: GWh,2031,548.111249211878
+Mozal,Exports exchange: GWh,2032,50.55308582555178
+Mozal,Exports exchange: GWh,2033,214.96959508880752
+Mozal,Exports exchange: GWh,2034,413.10297444501253
+Mozal,Exports exchange: GWh,2035,404.6812927413562
+Mozal,Exports exchange: GWh,2036,340.59124673639826
+Mozal,Exports exchange: GWh,2037,182.71698075693175
+Mozal,Exports exchange: GWh,2038,163.4784771406227
+Mozal,Exports exchange: GWh,2039,177.51434421719784
+Mozal,Exports exchange: GWh,2040,174.76413931285498
+Mozal,Net interchange: GWh,2025,9154.970631926044
+Mozal,Net interchange: GWh,2026,9099.04092872385
+Mozal,Net interchange: GWh,2027,9064.607247439182
+Mozal,Net interchange: GWh,2028,9007.414153615287
+Mozal,Net interchange: GWh,2029,9028.019990761244
+Mozal,Net interchange: GWh,2030,9050.848782672816
+Mozal,Net interchange: GWh,2031,9073.015103326654
+Mozal,Net interchange: GWh,2032,9236.295723097157
+Mozal,Net interchange: GWh,2033,9278.34291114828
+Mozal,Net interchange: GWh,2034,9347.27603236008
+Mozal,Net interchange: GWh,2035,9373.957077767402
+Mozal,Net interchange: GWh,2036,9405.905376032502
+Mozal,Net interchange: GWh,2037,9378.603087397798
+Mozal,Net interchange: GWh,2038,9306.27089370607
+Mozal,Net interchange: GWh,2039,9324.091056146268
+Mozal,Net interchange: GWh,2040,9343.362273794592
+Mozal,Net interchange Ratio: GWh,2025,1.0272408207633117
+Mozal,Net interchange Ratio: GWh,2026,1.018456669661556
+Mozal,Net interchange Ratio: GWh,2027,1.0121157329629493
+Mozal,Net interchange Ratio: GWh,2028,1.0032707968440435
+Mozal,Net interchange Ratio: GWh,2029,1.0031133323068049
+Mozal,Net interchange Ratio: GWh,2030,1.0032030280333102
+Mozal,Net interchange Ratio: GWh,2031,1.003219037857054
+Mozal,Net interchange Ratio: GWh,2032,1.0188004429045636
+Mozal,Net interchange Ratio: GWh,2033,1.0209663428854558
+Mozal,Net interchange Ratio: GWh,2034,1.026073138710293
+Mozal,Net interchange Ratio: GWh,2035,1.0265284193150204
+Mozal,Net interchange Ratio: GWh,2036,1.0275569421792272
+Mozal,Net interchange Ratio: GWh,2037,1.0221231435071714
+Mozal,Net interchange Ratio: GWh,2038,1.0118194288670386
+Mozal,Net interchange Ratio: GWh,2039,1.0113432098070194
+Mozal,Net interchange Ratio: GWh,2040,1.0110262686999552
+Mozal,Total Demand: GWh,2025,8912.195121999981
+Mozal,Total Demand: GWh,2026,8934.146341000014
+Mozal,Total Demand: GWh,2027,8956.097560999984
+Mozal,Total Demand: GWh,2028,8978.048779999994
+Mozal,Total Demand: GWh,2029,9000.0
+Mozal,Total Demand: GWh,2030,9021.951219999999
+Mozal,Total Demand: GWh,2031,9043.90243900001
+Mozal,Total Demand: GWh,2032,9065.853658999999
+Mozal,Total Demand: GWh,2033,9087.804878000014
+Mozal,Total Demand: GWh,2034,9109.756097999987
+Mozal,Total Demand: GWh,2035,9131.707316999986
+Mozal,Total Demand: GWh,2036,9153.658537000003
+Mozal,Total Demand: GWh,2037,9175.609756000007
+Mozal,Total Demand: GWh,2038,9197.560975999988
+Mozal,Total Demand: GWh,2039,9219.512195000008
+Mozal,Total Demand: GWh,2040,9241.463414999997

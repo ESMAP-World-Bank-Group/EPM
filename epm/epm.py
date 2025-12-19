@@ -462,6 +462,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                                uncertainties=None,
                                folder_input=None,
                                project_assessment=None,
+                               generator_assessment=None,
                                interco_assessment=None,
                                simple=None,
                                simulation_label=None,
@@ -561,13 +562,17 @@ def launch_epm_multi_scenarios(config='config.csv',
             lambda i: os.path.join(folder_input, i) if any(ext in i for ext in ['.csv', '.opt']) else i
         )
 
-    # Run sensitivity analysis if activated
+    # Set up project assessment scenarios if activated (before sensitivity so sensitivity applies to both)
+    if project_assessment is not None:
+        s = perform_project_assessment(project_assessment, s)
+
+    # Run sensitivity analysis if activated (applies to all existing scenarios)
     if sensitivity is not None:
         s = perform_sensitivity(sensitivity, s)
 
-    # Set up project assessment scenarios if activated
-    if project_assessment is not None:
-        s = perform_assessment(project_assessment, s)
+    # Set up generator assessment scenarios if activated
+    if generator_assessment is not None:
+        s = perform_assessment(generator_assessment, s)
         
     # Set up interconnection assessment scenarios if activated
     if interco_assessment is not None:
@@ -638,6 +643,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         pre = 'sensitivity_run'
     if project_assessment is not None:
         pre = 'project_assessment_run'
+    if generator_assessment is not None:
+        pre = 'generator_assessment_run'
     if simulation_label:
         folder_name = simulation_label
     else:
@@ -652,10 +659,10 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     # Export scenario.csv file
     df = pd.DataFrame(s).copy()
-    # Extracts everything after '/epm/' in a specified column of a Pandas DataFrame.
+    # Extracts everything after 'epm' folder in a path (cross-platform).
     def extract_path(path):
-        match = re.search(r"/epm/(.*)", path)
-        return match.group(1) if match else path
+        match = re.search(r"[/\\]epm[/\\](.*)", path)
+        return match.group(1).replace("\\", "/") if match else path
     df = df.astype(str).map(extract_path)
     df.to_csv('input_scenarios.csv')
 
@@ -800,11 +807,17 @@ def main(test_args=None):
     )
 
     parser.add_argument(
-        "--project_assessment",
+        "--generator_assessment",
         nargs="+",  # Accepts one or more values
         type=str,
         default=None,
-        help="Name of the project to assess (default: None). Example usage: --project_assessment Solar"
+        help="Name of the project to assess (default: None). Example usage: --generator_assessment Solar"
+    )
+    parser.add_argument(
+        "--project_assessment",
+        type=str,
+        default=None,
+        help="Suffix or filename for an alternate pGenDataInput (default: None). Example: --project_assessment rehabilitation"
     )
     
     parser.add_argument(
@@ -933,6 +946,7 @@ def main(test_args=None):
                                                         selected_scenarios=args.selected_scenarios,
                                                         cpu=args.cpu,
                                                         project_assessment=args.project_assessment,
+                                                        generator_assessment=args.generator_assessment,
                                                         interco_assessment=args.interco_assessment,
                                                         simple=args.simple,
                                                         simulation_label=args.simulation_label,

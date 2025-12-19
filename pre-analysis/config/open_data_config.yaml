@@ -1,0 +1,187 @@
+# Configuration for open-data workflows (Renewables Ninja + IRENA MSR)
+# -------------------------------------------------------------------
+# Countries for GAP/Ninja are human-readable names matching the Global Atlas
+# Power Excel "Country/area" column. Countries for IRENA must match the SPLAT-
+# style names used in the IRENA MSR CSVs under the "CtryName" column.
+
+output_workflow_dir: output_workflow # relative to pre-analysis/
+
+# Declare countries once and reuse below via YAML anchors
+countries_common: &countries_common
+  - Bosnia and Herzegovina
+  - Croatia
+
+gap:
+  # Excel is stored directly under pre-analysis/dataset/, so avoid the extra dataset/ prefix
+  excel: Global-Integrated-Power-September-2025-II.xlsx
+  countries: *countries_common
+  tech_types: [solar, wind]
+  output_dir: ""
+
+climate_overview:
+  enabled: true
+  download: true
+  countries: *countries_common
+  start_year: 2023
+  end_year: 2025
+  variables: [2m_temperature, total_precipitation]
+  dataset: reanalysis-era5-land-monthly-means
+  api_dir: api
+  extract_dir: api/climate_extract
+  output_dir: climate
+  generate_plots: true
+  save_netcdf: true
+
+generation_map:
+  enabled: true
+  # Reuse the same GAP Excel location as above
+  excel: Global-Integrated-Power-September-2025-II.xlsx
+  sheet_name: Power facilities
+  countries: *countries_common
+  output_dir: ""
+  map_filename: generation_map_gap.html
+  data_filename: generation_sites_gap.csv
+  summary_filename: generation_sites_summary_gap.csv
+  comparison_filename: generation_sites_summary_comparison.csv
+  pgen_filename: pGenDataInput_gap.csv
+  sources:
+    - key: gap
+      label: Global Integrated Power
+      path: Global-Integrated-Power-September-2025-II.xlsx
+      sheet_name: Power facilities
+      map_filename: generation_map_gap.html
+      data_filename: generation_sites_gap.csv
+      summary_filename: generation_sites_summary_gap.csv
+      pgen_filename: pGenDataInput_gap.csv
+    - key: gppd
+      label: Global Power Plant Database
+      path: global_power_plant_database.csv
+      map_filename: generation_map_gppd.html
+      data_filename: generation_sites_gppd.csv
+      summary_filename: generation_sites_summary_gppd.csv
+      pgen_filename: pGenDataInput_gppd.csv
+
+socioeconomic_maps:
+  enabled: true
+  countries: *countries_common
+  output_dir: socioeconomic
+  world_map_shapefile: dataset/maps/ne_110m_admin_0_countries/ne_110m_admin_0_countries.shp
+  cities_shapefile: dataset/maps/ne_110m_populated_places/ne_110m_populated_places.shp
+  use_log_scale: true
+  percentile_clip: [2, 98]
+  dpi: 250
+  datasets:
+    - key: gdp
+      enabled: true
+      label: GDP (2005 PPP $)
+      raster: GDP2005_1km.tif
+      output_basename: gdp_map_static
+      title_prefix: GDP density (2005, 1 km)
+      cmap: YlGnBu
+    - key: population
+      enabled: true
+      label: Population density (2020)
+      raster: pop/SSP2/SSP2_2020.tif
+      output_basename: population_map_static
+      title_prefix: Population density (2020, 1 km)
+      cmap: OrRd
+
+owid_energy:
+  enabled: true
+  dataset: owid-energy-data.csv
+  # Exact column names from the OWID CSV (helps users verify expected headers).
+  variables:
+    - electricity_demand
+    - electricity_demand_per_capita
+    - energy_per_capita
+    - population
+    - gdp
+  countries: *countries_common
+  output_dir: owid_energy
+  output_basename: owid_energy
+  start_year: null
+  end_year: null
+
+hydro_reservoirs:
+  enabled: true
+  dataset: GloHydroRes_vs1.csv
+  countries: *countries_common
+  output_dir: hydro_reservoirs
+  zoom_start: 6
+
+rninja:
+  start_year: 2015 # inclusive
+  end_year: 2016 # exclusive
+  local_time: true
+  dataset: merra2
+  capacity: 1
+  system_loss: 0.1
+  height: 100
+  tracking: 0
+  tilt: 35
+  azim: 180
+  turbine: Gamesa+G114+2000
+  output_dir: "" # also used as input_dir for the Ninja workflow to align outputs
+
+irena:
+  countries: *countries_common
+  input_dir: dataset
+  output_dir: ""
+  input_files:
+    solar: SolarPV_BestMSRsToCover5%CountryArea.csv
+    wind: Wind_BestMSRsToCover5%CountryArea.csv
+  profile_year: 2023
+  include_capacity_factors: true
+  # Map IRENA CtryName -> geocoding-friendly name to make timezone lookups explicit.
+  # Add entries when the CtryName string lacks spaces/accents used by the geocoder.
+  country_name_map:
+  timezone_map: {} # optional precomputed tz map
+
+# Hourly load profile (Toktarova et al. 2019)
+load_profile:
+  countries: *countries_common
+  dataset: Toktarova2019_paper_LongtermLoadProjectioninHighREsolutionforallCountriesGlobally_ElecPowerEnergySys_supplementary_7_load_all_2020.csv
+  output_dir: ""
+  year: 2020
+  generate_heatmap_boxplot: true
+
+# Representative seasons (month -> season clustering).
+# - If input_files is left empty, the workflow auto-uses generated upstream outputs in this order:
+#   Climate monthly precipitation/temperature, load profiles, RNinja/IRENA PV & Wind.
+# - Otherwise, provide explicit CSVs with columns: month, value (and optional zone).
+representative_seasons:
+  enabled: true
+  input_files: {} # leave empty to auto-pick; override to force specific monthly inputs.
+  include_inputs: [Precipitation, Load, PV, Wind] # subset/extend to control which auto inputs are used.
+  output_dir: representative_seasons
+  K: 2
+  random_state: 0
+  value_column: value
+
+# Representative days (prepare-data pipeline). Set enabled: true to run; point inputs to
+# cleaned hourly CSVs with columns zone, month (or season), day, hour, and a value column.
+representative_days:
+  enabled: true # Flip to true to run the representative-days pipeline.
+  seasons_map: {} # Leave empty to consume the generated seasons_map from representative_seasons; fill to override.
+  input_files: {} # Hourly CSVs per tech (keys like PV/Wind/Load)
+  output_dir: output # Stored under pre-analysis/representative_days/output.
+  summary_dir: representative_days # Folder under output_workflow/ for summary + heatmap exports.
+  zones_to_exclude: [] # Optional list of zones to drop before processing.
+  value_column: value # Override if the value column is not named "value".
+  year_label: 2018 # Column name used for representative-year selection.
+  n_representative_days: 1 # Number of representative days selected by the optimizer.
+  n_clusters: 20 # KMeans clusters used to extract special/extreme days.
+  n_bins: 10 # Number of bins passed to the GAMS model.
+  feature_selection_count: null # If set (int), keep only N series via hierarchical selection.
+  feature_selection_method: ward # Linkage method for feature selection.
+  feature_selection_metric: euclidean # Distance metric for feature selection.
+  feature_selection_scale: true # Scale features before feature selection.
+  special_day_threshold: 0.1 # Probability cutoff for extracting special days.
+  gams_main_file: ../representative_days/gams/OptimizationModelZone.gms # GAMS model path.
+
+entsoe:
+  enabled: true
+  countries: *countries_common
+  timezone: Europe/Brussels
+  start: 2020-01-01
+  end: 2025-12-31

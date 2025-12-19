@@ -40,7 +40,7 @@ ESSENTIAL_INPUT = {
     "pGenDataInput",
     "pFuelPrice",
     "pFuelCarbonContent",
-    "pTechData",
+    "pTechFuel",
 }
 
 # Optional symbols that still deserve visibility if missing or empty.

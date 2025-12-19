@@ -769,7 +769,7 @@ eMaxCF(g,q,y)..
 * dispatched anyway because they have zero cost (i.e., not a different outcome from net load approach, but this allows for
 * RE generation to be rejected as well
 eVREProfile(gfmap(VRE,f),z,q,d,t,y)$(gzmap(VRE,z) and FD(q,d,t))..
-   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,q,d,t)*vCap(VRE,y);
+   vPwrOut(VRE,f,q,d,t,y) + vCurtailedVRE(z,VRE,q,d,t,y) =e= pVREgenProfile(VRE,q,d,t)*pAvailability(VRE,y,q)*vCap(VRE,y);
 
 eFuel(zfmap(z,f),y)..
    vFuel(z,f,y) =e= sum((gzmap(g,z),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t)*pHeatRate(g,f));

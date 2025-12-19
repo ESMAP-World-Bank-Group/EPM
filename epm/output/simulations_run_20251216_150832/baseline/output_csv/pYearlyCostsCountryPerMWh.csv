@@ -1,0 +1,994 @@
+c,sumhdr,y,value
+South_Africa,Generation costs: $m,2025,1.057160475705706
+South_Africa,Generation costs: $m,2026,2.9620495868461707
+South_Africa,Generation costs: $m,2027,5.111711531606902
+South_Africa,Generation costs: $m,2028,7.282773513058501
+South_Africa,Generation costs: $m,2029,8.84459225287912
+South_Africa,Generation costs: $m,2030,10.011505055457203
+South_Africa,Generation costs: $m,2031,11.122016610048684
+South_Africa,Generation costs: $m,2032,12.06101683712837
+South_Africa,Generation costs: $m,2033,13.508712394008057
+South_Africa,Generation costs: $m,2034,15.161553705332214
+South_Africa,Generation costs: $m,2035,15.777442076367873
+South_Africa,Fixed O&M: $m,2025,9.580761133603234
+South_Africa,Fixed O&M: $m,2026,9.962700000000007
+South_Africa,Fixed O&M: $m,2027,10.42155378486056
+South_Africa,Fixed O&M: $m,2028,10.913712031558198
+South_Africa,Fixed O&M: $m,2029,11.271301422265633
+South_Africa,Fixed O&M: $m,2030,11.510819861923073
+South_Africa,Fixed O&M: $m,2031,11.21643243977274
+South_Africa,Fixed O&M: $m,2032,10.792446706691448
+South_Africa,Fixed O&M: $m,2033,10.0460094988078
+South_Africa,Fixed O&M: $m,2034,9.831661806513294
+South_Africa,Fixed O&M: $m,2035,9.702328022607244
+South_Africa,Variable O&M: $m,2025,2.7124182195054694
+South_Africa,Variable O&M: $m,2026,2.5800818211188203
+South_Africa,Variable O&M: $m,2027,2.4137075240810626
+South_Africa,Variable O&M: $m,2028,2.2091230764635457
+South_Africa,Variable O&M: $m,2029,2.074226921403834
+South_Africa,Variable O&M: $m,2030,2.024992692842051
+South_Africa,Variable O&M: $m,2031,1.926428206802025
+South_Africa,Variable O&M: $m,2032,1.6462649298802923
+South_Africa,Variable O&M: $m,2033,1.5049897885450705
+South_Africa,Variable O&M: $m,2034,1.3934423930149422
+South_Africa,Variable O&M: $m,2035,1.3616843574112811
+South_Africa,Fuel costs: $m,2025,49.46400978659775
+South_Africa,Fuel costs: $m,2026,44.09958467463415
+South_Africa,Fuel costs: $m,2027,39.08304875897982
+South_Africa,Fuel costs: $m,2028,33.782598465147785
+South_Africa,Fuel costs: $m,2029,30.166054560250668
+South_Africa,Fuel costs: $m,2030,28.35924145769464
+South_Africa,Fuel costs: $m,2031,25.829103384535742
+South_Africa,Fuel costs: $m,2032,21.02977714218058
+South_Africa,Fuel costs: $m,2033,18.316283223667977
+South_Africa,Fuel costs: $m,2034,16.283002269785484
+South_Africa,Fuel costs: $m,2035,15.329898248232393
+South_Africa,Transmission costs: $m,2033,0.014070997284216867
+South_Africa,Transmission costs: $m,2034,0.02739220785701891
+South_Africa,Transmission costs: $m,2035,0.24467460108788683
+South_Africa,Unmet country spinning reserve costs: $m,2033,0.0013538798501919322
+South_Africa,Unmet country spinning reserve costs: $m,2034,0.00039803996866397617
+South_Africa,Unmet country spinning reserve costs: $m,2035,0.0027447695684040055
+South_Africa,Unmet country planning reserve costs: $m,2034,0.26521326586145516
+South_Africa,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+South_Africa,Unmet system planning reserve costs: $m,2034,0.1979455769660456
+South_Africa,Unmet system planning reserve costs: $m,2035,0.12161740562764269
+South_Africa,Import costs with internal zones: $m,2025,0.0778735731973119
+South_Africa,Import costs with internal zones: $m,2026,0.07468312660125248
+South_Africa,Import costs with internal zones: $m,2027,0.2267921415249235
+South_Africa,Import costs with internal zones: $m,2028,0.3730760921384477
+South_Africa,Import costs with internal zones: $m,2029,0.33787887819770096
+South_Africa,Import costs with internal zones: $m,2030,0.073380670147134
+South_Africa,Import costs with internal zones: $m,2031,0.16578703110104342
+South_Africa,Import costs with internal zones: $m,2032,0.9236400919174239
+South_Africa,Import costs with internal zones: $m,2033,1.4242451403423408
+South_Africa,Import costs with internal zones: $m,2034,1.6177076593139192
+South_Africa,Import costs with internal zones: $m,2035,1.6041565879034225
+South_Africa,Export revenues with internal zones: $m,2025,-2.034477271325851
+South_Africa,Export revenues with internal zones: $m,2026,-2.112028097066803
+South_Africa,Export revenues with internal zones: $m,2027,-2.721010308752864
+South_Africa,Export revenues with internal zones: $m,2028,-2.5713804966531937
+South_Africa,Export revenues with internal zones: $m,2029,-2.640204267824954
+South_Africa,Export revenues with internal zones: $m,2030,-3.4544942264426517
+South_Africa,Export revenues with internal zones: $m,2031,-3.530308365939577
+South_Africa,Export revenues with internal zones: $m,2032,-0.9476543584888588
+South_Africa,Export revenues with internal zones: $m,2033,-0.7914049619992688
+South_Africa,Export revenues with internal zones: $m,2034,-0.8290078471522935
+South_Africa,Export revenues with internal zones: $m,2035,-0.9451650074793816
+South_Africa,Trade shared benefits: $m,2025,-0.03831427634893507
+South_Africa,Trade shared benefits: $m,2026,-0.03069452845600552
+South_Africa,Trade shared benefits: $m,2027,-0.08184714126835077
+South_Africa,Trade shared benefits: $m,2028,-0.030539961780435696
+South_Africa,Trade shared benefits: $m,2029,-0.037935280019941967
+South_Africa,Trade shared benefits: $m,2030,-0.0643312974063202
+South_Africa,Trade shared benefits: $m,2031,-0.05692739027432775
+South_Africa,Trade shared benefits: $m,2032,-0.03847606912320181
+South_Africa,Trade shared benefits: $m,2033,-0.06061466259183932
+South_Africa,Trade shared benefits: $m,2034,-0.07353890134359845
+South_Africa,Trade shared benefits: $m,2035,-0.06947719544267557
+Lesotho,Generation costs: $m,2026,3.8997295726
+Lesotho,Generation costs: $m,2027,8.376980720490062
+Lesotho,Generation costs: $m,2028,11.42091747555357
+Lesotho,Generation costs: $m,2029,12.679896711196713
+Lesotho,Generation costs: $m,2030,15.157546169512974
+Lesotho,Generation costs: $m,2031,15.394794807803182
+Lesotho,Generation costs: $m,2032,15.926797825738126
+Lesotho,Generation costs: $m,2033,18.555701485885045
+Lesotho,Generation costs: $m,2034,19.23138440757802
+Lesotho,Generation costs: $m,2035,20.48363892639249
+Lesotho,Fixed O&M: $m,2025,3.4525025536261458
+Lesotho,Fixed O&M: $m,2026,4.4559841740850565
+Lesotho,Fixed O&M: $m,2027,5.920509021842371
+Lesotho,Fixed O&M: $m,2028,6.852230912476709
+Lesotho,Fixed O&M: $m,2029,7.175477967838928
+Lesotho,Fixed O&M: $m,2030,8.000259892550952
+Lesotho,Fixed O&M: $m,2031,8.415738242316106
+Lesotho,Fixed O&M: $m,2032,8.861579602242351
+Lesotho,Fixed O&M: $m,2033,9.649774871220751
+Lesotho,Fixed O&M: $m,2034,10.07212387436133
+Lesotho,Fixed O&M: $m,2035,10.58658912482408
+Lesotho,Variable O&M: $m,2025,0.2881989033707865
+Lesotho,Variable O&M: $m,2026,0.2790768807121658
+Lesotho,Variable O&M: $m,2027,0.2679456091168103
+Lesotho,Variable O&M: $m,2028,0.2606949762875088
+Lesotho,Variable O&M: $m,2029,0.24468412430231437
+Lesotho,Variable O&M: $m,2030,0.23795640241523586
+Lesotho,Variable O&M: $m,2031,0.2306964093810378
+Lesotho,Variable O&M: $m,2032,0.2230504909620907
+Lesotho,Variable O&M: $m,2033,0.2147521440051521
+Lesotho,Variable O&M: $m,2034,0.2073816469434023
+Lesotho,Variable O&M: $m,2035,0.19971557311968102
+Lesotho,Unmet demand costs: $m,2025,0.7290966222297469
+Lesotho,Unmet demand costs: $m,2026,0.9063755127819226
+Lesotho,Unmet country spinning reserve costs: $m,2025,7.3122770132788375
+Lesotho,Unmet country spinning reserve costs: $m,2026,8.555703729970316
+Lesotho,Unmet country spinning reserve costs: $m,2027,0.015512201379591393
+Lesotho,Unmet country spinning reserve costs: $m,2028,0.15510145704458267
+Lesotho,Unmet country spinning reserve costs: $m,2029,0.01399376546973108
+Lesotho,Unmet country spinning reserve costs: $m,2033,0.0003906207746262267
+Lesotho,Unmet country spinning reserve costs: $m,2034,0.012604079510577501
+Lesotho,Unmet country spinning reserve costs: $m,2035,0.041223436349286526
+Lesotho,Unmet country planning reserve costs: $m,2025,2.065372829417772
+Lesotho,Unmet country planning reserve costs: $m,2026,2.195845697329375
+Lesotho,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Lesotho,Unmet system planning reserve costs: $m,2034,0.19794557696604562
+Lesotho,Unmet system planning reserve costs: $m,2035,0.12161740562764269
+Lesotho,Import costs with internal zones: $m,2025,42.636208395972716
+Lesotho,Import costs with internal zones: $m,2026,25.914791688651775
+Lesotho,Import costs with internal zones: $m,2027,14.038268964379602
+Lesotho,Import costs with internal zones: $m,2028,12.607303250805515
+Lesotho,Import costs with internal zones: $m,2029,12.95079356750372
+Lesotho,Import costs with internal zones: $m,2030,10.150086466652493
+Lesotho,Import costs with internal zones: $m,2031,10.402569948769147
+Lesotho,Import costs with internal zones: $m,2032,10.300114573075243
+Lesotho,Import costs with internal zones: $m,2033,9.361828302174397
+Lesotho,Import costs with internal zones: $m,2034,10.362672534820904
+Lesotho,Import costs with internal zones: $m,2035,10.158078005894398
+Lesotho,Export revenues with internal zones: $m,2026,-0.6574576579553005
+Lesotho,Export revenues with internal zones: $m,2027,-4.234168854534016
+Lesotho,Export revenues with internal zones: $m,2028,-10.025279141024466
+Lesotho,Export revenues with internal zones: $m,2029,-7.436487359936038
+Lesotho,Export revenues with internal zones: $m,2030,-5.5272732868107814
+Lesotho,Export revenues with internal zones: $m,2031,-5.338055177089668
+Lesotho,Export revenues with internal zones: $m,2032,-5.097701630823344
+Lesotho,Export revenues with internal zones: $m,2033,-6.368879733226737
+Lesotho,Export revenues with internal zones: $m,2034,-6.614522334827863
+Lesotho,Export revenues with internal zones: $m,2035,-6.8090125137598365
+Lesotho,Trade shared benefits: $m,2025,-3.365561470240087
+Lesotho,Trade shared benefits: $m,2026,-3.2079339852082804
+Lesotho,Trade shared benefits: $m,2027,-0.3999358110570544
+Lesotho,Trade shared benefits: $m,2028,-0.9704008697227966
+Lesotho,Trade shared benefits: $m,2029,-3.0650571451518114
+Lesotho,Trade shared benefits: $m,2030,-3.500795382712523
+Lesotho,Trade shared benefits: $m,2031,-3.116671504726254
+Lesotho,Trade shared benefits: $m,2032,-2.8419934475781043
+Lesotho,Trade shared benefits: $m,2033,-2.7688855545298052
+Lesotho,Trade shared benefits: $m,2034,-2.967934270722477
+Lesotho,Trade shared benefits: $m,2035,-2.9341192379675207
+Eswatini,Generation costs: $m,2027,0.4695930985232563
+Eswatini,Generation costs: $m,2028,0.8965077503452533
+Eswatini,Generation costs: $m,2029,2.7587424376422085
+Eswatini,Generation costs: $m,2030,4.284896894690905
+Eswatini,Generation costs: $m,2031,5.480841578161651
+Eswatini,Generation costs: $m,2032,6.927490269932401
+Eswatini,Generation costs: $m,2033,8.268212600435739
+Eswatini,Generation costs: $m,2034,9.510909556818891
+Eswatini,Generation costs: $m,2035,10.66562130278015
+Eswatini,Fixed O&M: $m,2025,1.3148672566759574
+Eswatini,Fixed O&M: $m,2026,1.2699145301316086
+Eswatini,Fixed O&M: $m,2027,1.3726560548695312
+Eswatini,Fixed O&M: $m,2028,1.4783551332939098
+Eswatini,Fixed O&M: $m,2029,2.1211989627515484
+Eswatini,Fixed O&M: $m,2030,2.693085974397373
+Eswatini,Fixed O&M: $m,2031,3.1529926469718026
+Eswatini,Fixed O&M: $m,2032,3.7941843453330555
+Eswatini,Fixed O&M: $m,2033,4.399999950133327
+Eswatini,Fixed O&M: $m,2034,4.9732885408307315
+Eswatini,Fixed O&M: $m,2035,5.516601259259258
+Eswatini,Variable O&M: $m,2025,0.04207648938177218
+Eswatini,Variable O&M: $m,2026,0.04063797693002358
+Eswatini,Variable O&M: $m,2027,0.039294572720777576
+Eswatini,Variable O&M: $m,2028,0.0380371463989856
+Eswatini,Variable O&M: $m,2029,0.036857700003809626
+Eswatini,Variable O&M: $m,2030,0.03574919773719299
+Eswatini,Variable O&M: $m,2031,0.034705425544912016
+Eswatini,Variable O&M: $m,2032,0.03372087446967941
+Eswatini,Variable O&M: $m,2033,0.0328266600052824
+Eswatini,Variable O&M: $m,2034,0.03194540737897703
+Eswatini,Variable O&M: $m,2035,0.03111023333333335
+Eswatini,Fuel costs: $m,2033,0.0008771793463803808
+Eswatini,Fuel costs: $m,2034,0.0008461438829075644
+Eswatini,Fuel costs: $m,2035,0.0008167311953428966
+Eswatini,Unmet country spinning reserve costs: $m,2027,0.007545049585529729
+Eswatini,Unmet country spinning reserve costs: $m,2028,0.011618207999690133
+Eswatini,Unmet country spinning reserve costs: $m,2029,0.031153587212522305
+Eswatini,Unmet country spinning reserve costs: $m,2030,0.03970819736045938
+Eswatini,Unmet country spinning reserve costs: $m,2031,0.004670297079951081
+Eswatini,Unmet country spinning reserve costs: $m,2033,0.0034515862074519744
+Eswatini,Unmet country spinning reserve costs: $m,2034,0.00029208053688008066
+Eswatini,Unmet country spinning reserve costs: $m,2035,0.003555555555555555
+Eswatini,Unmet system planning reserve costs: $m,2033,0.048904829467319486
+Eswatini,Unmet system planning reserve costs: $m,2034,0.19794557696604562
+Eswatini,Unmet system planning reserve costs: $m,2035,0.12161740562764269
+Eswatini,Import costs with internal zones: $m,2025,82.27180535458092
+Eswatini,Import costs with internal zones: $m,2026,66.8440480543336
+Eswatini,Import costs with internal zones: $m,2027,59.40404879969721
+Eswatini,Import costs with internal zones: $m,2028,54.8669295631912
+Eswatini,Import costs with internal zones: $m,2029,47.42482042059691
+Eswatini,Import costs with internal zones: $m,2030,41.88113656823381
+Eswatini,Import costs with internal zones: $m,2031,37.77684053293983
+Eswatini,Import costs with internal zones: $m,2032,34.20114962137772
+Eswatini,Import costs with internal zones: $m,2033,31.58285956587154
+Eswatini,Import costs with internal zones: $m,2034,30.166828697103384
+Eswatini,Import costs with internal zones: $m,2035,27.12151201426628
+Eswatini,Export revenues with internal zones: $m,2031,-0.18755957110314683
+Eswatini,Export revenues with internal zones: $m,2032,-0.004505510451958726
+Eswatini,Export revenues with internal zones: $m,2033,-0.03643134091617644
+Eswatini,Export revenues with internal zones: $m,2034,-0.7112850277291414
+Eswatini,Export revenues with internal zones: $m,2035,-0.38913403104931693
+Eswatini,Trade shared benefits: $m,2025,-1.7034302720921026
+Eswatini,Trade shared benefits: $m,2026,-1.3787499174751663
+Eswatini,Trade shared benefits: $m,2027,-1.2281196081600354
+Eswatini,Trade shared benefits: $m,2028,-1.0448378767226107
+Eswatini,Trade shared benefits: $m,2029,-0.7494514593452395
+Eswatini,Trade shared benefits: $m,2030,-0.41881136568233873
+Eswatini,Trade shared benefits: $m,2031,-0.3902043455343177
+Eswatini,Trade shared benefits: $m,2032,-0.7343532523305936
+Eswatini,Trade shared benefits: $m,2033,-0.776098415716207
+Eswatini,Trade shared benefits: $m,2034,-0.804181734661086
+Eswatini,Trade shared benefits: $m,2035,-0.727438890738755
+Mozambique,Generation costs: $m,2027,0.27872818254921083
+Mozambique,Generation costs: $m,2028,0.5205119309617481
+Mozambique,Generation costs: $m,2029,0.5046724496086892
+Mozambique,Generation costs: $m,2030,0.9937812153187151
+Mozambique,Generation costs: $m,2031,1.4623421329702109
+Mozambique,Generation costs: $m,2032,31.671129271394555
+Mozambique,Generation costs: $m,2033,31.7416765355287
+Mozambique,Generation costs: $m,2034,31.78443355665342
+Mozambique,Generation costs: $m,2035,31.804908704401992
+Mozambique,Fixed O&M: $m,2025,6.001143718935516
+Mozambique,Fixed O&M: $m,2026,5.789461046849159
+Mozambique,Fixed O&M: $m,2027,5.676142967165597
+Mozambique,Fixed O&M: $m,2028,5.5666718684172425
+Mozambique,Fixed O&M: $m,2029,5.397274799851541
+Mozambique,Fixed O&M: $m,2030,5.422464141166238
+Mozambique,Fixed O&M: $m,2031,5.508998864084583
+Mozambique,Fixed O&M: $m,2032,9.979798271950703
+Mozambique,Fixed O&M: $m,2033,10.107406596681212
+Mozambique,Fixed O&M: $m,2034,10.225894446797417
+Mozambique,Fixed O&M: $m,2035,10.336587232391494
+Mozambique,Variable O&M: $m,2025,0.7177904865843573
+Mozambique,Variable O&M: $m,2026,0.6697995336925144
+Mozambique,Variable O&M: $m,2027,0.4791537844160279
+Mozambique,Variable O&M: $m,2028,0.4629885455663727
+Mozambique,Variable O&M: $m,2029,0.448899534348844
+Mozambique,Variable O&M: $m,2030,0.4349712476368365
+Mozambique,Variable O&M: $m,2031,0.4267507939308347
+Mozambique,Variable O&M: $m,2032,0.835049163540739
+Mozambique,Variable O&M: $m,2033,0.8192517773443938
+Mozambique,Variable O&M: $m,2034,0.8036966045861388
+Mozambique,Variable O&M: $m,2035,0.7884633393486943
+Mozambique,Fuel costs: $m,2025,3.573979410515877
+Mozambique,Fuel costs: $m,2026,3.0840257889024123
+Mozambique,Fuel costs: $m,2027,0.013180215717655638
+Mozambique,Fuel costs: $m,2028,0.012735554020105785
+Mozambique,Fuel costs: $m,2029,0.01234800369047239
+Mozambique,Fuel costs: $m,2030,0.011964874454280834
+Mozambique,Fuel costs: $m,2031,0.011738752159798353
+Mozambique,Fuel costs: $m,2032,0.011516460611005424
+Mozambique,Fuel costs: $m,2033,0.011298593228065182
+Mozambique,Fuel costs: $m,2034,0.011084066296970221
+Mozambique,Fuel costs: $m,2035,0.01087397890721676
+Mozambique,Transmission costs: $m,2026,0.5889928249480435
+Mozambique,Transmission costs: $m,2027,0.5688281412617479
+Mozambique,Transmission costs: $m,2028,0.549637553465166
+Mozambique,Transmission costs: $m,2029,0.5329117624482983
+Mozambique,Transmission costs: $m,2030,0.5163767757717178
+Mozambique,Transmission costs: $m,2031,0.9185170362799275
+Mozambique,Transmission costs: $m,2032,1.3462260324936108
+Mozambique,Transmission costs: $m,2033,1.3207582475158983
+Mozambique,Transmission costs: $m,2034,1.295680947374304
+Mozambique,Transmission costs: $m,2035,1.2711226110296774
+Mozambique,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Mozambique,Unmet system planning reserve costs: $m,2034,0.1979455769660456
+Mozambique,Unmet system planning reserve costs: $m,2035,0.12161740562764269
+Mozambique,Import costs with internal zones: $m,2025,50.49785928391237
+Mozambique,Import costs with internal zones: $m,2026,38.103913645960034
+Mozambique,Import costs with internal zones: $m,2027,32.93546556911395
+Mozambique,Import costs with internal zones: $m,2028,29.72156951719181
+Mozambique,Import costs with internal zones: $m,2029,26.994647706569744
+Mozambique,Import costs with internal zones: $m,2030,36.055194768243
+Mozambique,Import costs with internal zones: $m,2031,40.51765846693638
+Mozambique,Import costs with internal zones: $m,2032,22.507810585616486
+Mozambique,Import costs with internal zones: $m,2033,22.872431171505564
+Mozambique,Import costs with internal zones: $m,2034,23.735362342513817
+Mozambique,Import costs with internal zones: $m,2035,21.698014977151946
+Mozambique,Export revenues with internal zones: $m,2025,-48.89462378168678
+Mozambique,Export revenues with internal zones: $m,2026,-33.39156194408621
+Mozambique,Export revenues with internal zones: $m,2027,-24.621615069235638
+Mozambique,Export revenues with internal zones: $m,2028,-20.896571135730245
+Mozambique,Export revenues with internal zones: $m,2029,-17.529828249968247
+Mozambique,Export revenues with internal zones: $m,2030,-27.32823736503586
+Mozambique,Export revenues with internal zones: $m,2031,-32.13242425166623
+Mozambique,Export revenues with internal zones: $m,2032,-49.426540295102036
+Mozambique,Export revenues with internal zones: $m,2033,-48.40638361223024
+Mozambique,Export revenues with internal zones: $m,2034,-48.51326349331513
+Mozambique,Export revenues with internal zones: $m,2035,-45.140674006356946
+Mozambique,Trade shared benefits: $m,2025,-1.6622304150738807
+Mozambique,Trade shared benefits: $m,2026,-1.0260527303516922
+Mozambique,Trade shared benefits: $m,2027,-0.7182326537199227
+Mozambique,Trade shared benefits: $m,2028,-0.6240580501414893
+Mozambique,Trade shared benefits: $m,2029,-0.5037963955534107
+Mozambique,Trade shared benefits: $m,2030,-6.824341347073329
+Mozambique,Trade shared benefits: $m,2031,-2.261901855485576
+Mozambique,Trade shared benefits: $m,2032,-2.628657937874828
+Mozambique,Trade shared benefits: $m,2033,-3.0962880972579447
+Mozambique,Trade shared benefits: $m,2034,-3.5110048384428527
+Mozambique,Trade shared benefits: $m,2035,-3.0512932081695623
+Zimbabwe,Generation costs: $m,2026,1.0714179137299056
+Zimbabwe,Generation costs: $m,2027,1.041178418251502
+Zimbabwe,Generation costs: $m,2028,1.3262334976133907
+Zimbabwe,Generation costs: $m,2029,1.5738302824254564
+Zimbabwe,Generation costs: $m,2030,1.7833439748061661
+Zimbabwe,Generation costs: $m,2031,1.9825485494694386
+Zimbabwe,Generation costs: $m,2032,10.195738294694287
+Zimbabwe,Generation costs: $m,2033,10.293409448953085
+Zimbabwe,Generation costs: $m,2034,10.289437465477633
+Zimbabwe,Generation costs: $m,2035,10.353822262375465
+Zimbabwe,Fixed O&M: $m,2025,12.02228067460932
+Zimbabwe,Fixed O&M: $m,2026,11.617411559178901
+Zimbabwe,Fixed O&M: $m,2027,11.289523944259756
+Zimbabwe,Fixed O&M: $m,2028,11.063040791100123
+Zimbabwe,Fixed O&M: $m,2029,10.855197276186678
+Zimbabwe,Fixed O&M: $m,2030,10.639953316475385
+Zimbabwe,Fixed O&M: $m,2031,10.465051289143696
+Zimbabwe,Fixed O&M: $m,2032,13.230414472517452
+Zimbabwe,Fixed O&M: $m,2033,13.067976073437224
+Zimbabwe,Fixed O&M: $m,2034,12.80072173636586
+Zimbabwe,Fixed O&M: $m,2035,12.640307751497314
+Zimbabwe,Variable O&M: $m,2025,5.7608474713566595
+Zimbabwe,Variable O&M: $m,2026,5.226961861758576
+Zimbabwe,Variable O&M: $m,2027,5.119621601022007
+Zimbabwe,Variable O&M: $m,2028,4.993447076073077
+Zimbabwe,Variable O&M: $m,2029,4.396049386429849
+Zimbabwe,Variable O&M: $m,2030,4.849650496012452
+Zimbabwe,Variable O&M: $m,2031,4.726724918145999
+Zimbabwe,Variable O&M: $m,2032,4.046562597825663
+Zimbabwe,Variable O&M: $m,2033,4.007986310918501
+Zimbabwe,Variable O&M: $m,2034,3.7619505550223398
+Zimbabwe,Variable O&M: $m,2035,3.7699080351890917
+Zimbabwe,Fuel costs: $m,2025,42.817551833007926
+Zimbabwe,Fuel costs: $m,2026,37.101300829347934
+Zimbabwe,Fuel costs: $m,2027,34.90858786576248
+Zimbabwe,Fuel costs: $m,2028,32.69859845227428
+Zimbabwe,Fuel costs: $m,2029,27.25841352390482
+Zimbabwe,Fuel costs: $m,2030,29.373270847144855
+Zimbabwe,Fuel costs: $m,2031,27.490447703870316
+Zimbabwe,Fuel costs: $m,2032,20.968295753855802
+Zimbabwe,Fuel costs: $m,2033,20.0174161421385
+Zimbabwe,Fuel costs: $m,2034,17.937545066014597
+Zimbabwe,Fuel costs: $m,2035,17.375648246607124
+Zimbabwe,Transmission costs: $m,2030,0.2661539407340634
+Zimbabwe,Transmission costs: $m,2031,0.25940765520419534
+Zimbabwe,Transmission costs: $m,2032,0.25086807248820314
+Zimbabwe,Transmission costs: $m,2033,0.24452816867593616
+Zimbabwe,Transmission costs: $m,2034,0.23641706110758479
+Zimbabwe,Transmission costs: $m,2035,0.23046184241156578
+Zimbabwe,Unmet system planning reserve costs: $m,2033,0.04890482946731948
+Zimbabwe,Unmet system planning reserve costs: $m,2034,0.1979455769660456
+Zimbabwe,Unmet system planning reserve costs: $m,2035,0.12161740562764264
+Zimbabwe,Import costs with internal zones: $m,2025,9.44897817425152
+Zimbabwe,Import costs with internal zones: $m,2026,7.685915887951693
+Zimbabwe,Import costs with internal zones: $m,2027,8.548796569231374
+Zimbabwe,Import costs with internal zones: $m,2028,8.447045039913233
+Zimbabwe,Import costs with internal zones: $m,2029,12.430447021924685
+Zimbabwe,Import costs with internal zones: $m,2030,41.60616524633315
+Zimbabwe,Import costs with internal zones: $m,2031,26.38507780649141
+Zimbabwe,Import costs with internal zones: $m,2032,12.05167049892777
+Zimbabwe,Import costs with internal zones: $m,2033,8.666896655626111
+Zimbabwe,Import costs with internal zones: $m,2034,10.13627969708118
+Zimbabwe,Import costs with internal zones: $m,2035,10.600754878541107
+Zimbabwe,Export revenues with internal zones: $m,2025,-28.12032734151842
+Zimbabwe,Export revenues with internal zones: $m,2026,-20.596911088650476
+Zimbabwe,Export revenues with internal zones: $m,2027,-18.934241045847465
+Zimbabwe,Export revenues with internal zones: $m,2028,-17.316804095875423
+Zimbabwe,Export revenues with internal zones: $m,2029,-15.861652519165855
+Zimbabwe,Export revenues with internal zones: $m,2030,-47.29597912896956
+Zimbabwe,Export revenues with internal zones: $m,2031,-31.616340008555966
+Zimbabwe,Export revenues with internal zones: $m,2032,-28.539434513129418
+Zimbabwe,Export revenues with internal zones: $m,2033,-24.495000391672964
+Zimbabwe,Export revenues with internal zones: $m,2034,-23.985118349656886
+Zimbabwe,Export revenues with internal zones: $m,2035,-23.554164807565808
+Zimbabwe,Trade shared benefits: $m,2025,-0.9391636674054327
+Zimbabwe,Trade shared benefits: $m,2026,-0.5769165696111613
+Zimbabwe,Trade shared benefits: $m,2027,-12.612910857319624
+Zimbabwe,Trade shared benefits: $m,2028,-128.28792297505603
+Zimbabwe,Trade shared benefits: $m,2029,-129.334720055782
+Zimbabwe,Trade shared benefits: $m,2030,-9.642164188676965
+Zimbabwe,Trade shared benefits: $m,2031,-2.0089618946115126
+Zimbabwe,Trade shared benefits: $m,2032,-1.186869837354942
+Zimbabwe,Trade shared benefits: $m,2033,-0.8096320898284066
+Zimbabwe,Trade shared benefits: $m,2034,-0.7159655810180039
+Zimbabwe,Trade shared benefits: $m,2035,-0.7083062937918785
+Botswana,Generation costs: $m,2026,3.0244647933223465
+Botswana,Generation costs: $m,2027,8.764465998600087
+Botswana,Generation costs: $m,2028,12.896824862836622
+Botswana,Generation costs: $m,2029,18.280937697316798
+Botswana,Generation costs: $m,2030,23.980466122038088
+Botswana,Generation costs: $m,2031,29.51218582908348
+Botswana,Generation costs: $m,2032,34.8326226748449
+Botswana,Generation costs: $m,2033,40.50481352330334
+Botswana,Generation costs: $m,2034,45.62818063472103
+Botswana,Generation costs: $m,2035,50.34051048119361
+Botswana,Fixed O&M: $m,2025,6.486884890526773
+Botswana,Fixed O&M: $m,2026,6.918620966125498
+Botswana,Fixed O&M: $m,2027,8.010986964618223
+Botswana,Fixed O&M: $m,2028,9.01522220193534
+Botswana,Fixed O&M: $m,2029,9.418758891867752
+Botswana,Fixed O&M: $m,2030,11.171189891696757
+Botswana,Fixed O&M: $m,2031,12.887408870533333
+Botswana,Fixed O&M: $m,2032,14.54215225898259
+Botswana,Fixed O&M: $m,2033,16.364962540135583
+Botswana,Fixed O&M: $m,2034,17.98585219236208
+Botswana,Fixed O&M: $m,2035,19.469149529452785
+Botswana,Variable O&M: $m,2025,3.0068467374810233
+Botswana,Variable O&M: $m,2026,2.7802333132892363
+Botswana,Variable O&M: $m,2027,2.5829765363128363
+Botswana,Variable O&M: $m,2028,2.53251488040897
+Botswana,Variable O&M: $m,2029,2.07609651474531
+Botswana,Variable O&M: $m,2030,2.0967075812274385
+Botswana,Variable O&M: $m,2031,2.0857891901598165
+Botswana,Variable O&M: $m,2032,2.06612593383138
+Botswana,Variable O&M: $m,2033,2.0720228326792745
+Botswana,Variable O&M: $m,2034,1.9099435151787831
+Botswana,Variable O&M: $m,2035,2.018411930292006
+Botswana,Fuel costs: $m,2025,50.417842407814305
+Botswana,Fuel costs: $m,2026,44.729814932833364
+Botswana,Fuel costs: $m,2027,39.878758211535086
+Botswana,Fuel costs: $m,2028,37.52695127854173
+Botswana,Fuel costs: $m,2029,29.058913883201324
+Botswana,Fuel costs: $m,2030,28.1758416325711
+Botswana,Fuel costs: $m,2031,26.91467004262511
+Botswana,Fuel costs: $m,2032,25.60531692451181
+Botswana,Fuel costs: $m,2033,24.666099771213855
+Botswana,Fuel costs: $m,2034,21.84438081808373
+Botswana,Fuel costs: $m,2035,22.183285944869876
+Botswana,Transmission costs: $m,2033,0.6883689367840276
+Botswana,Transmission costs: $m,2034,1.3645672770902593
+Botswana,Transmission costs: $m,2035,1.3450666642074796
+Botswana,Unmet country spinning reserve costs: $m,2025,10.04940819423369
+Botswana,Unmet country spinning reserve costs: $m,2026,5.6248893806374225
+Botswana,Unmet country spinning reserve costs: $m,2027,1.442593519553068
+Botswana,Unmet country spinning reserve costs: $m,2028,0.13766565638122966
+Botswana,Unmet country spinning reserve costs: $m,2029,0.17709683646112626
+Botswana,Unmet country spinning reserve costs: $m,2030,0.21360246704025482
+Botswana,Unmet country spinning reserve costs: $m,2031,0.018454121027114304
+Botswana,Unmet country spinning reserve costs: $m,2033,0.00047199429183018225
+Botswana,Unmet country spinning reserve costs: $m,2034,0.0024874115983026857
+Botswana,Unmet country spinning reserve costs: $m,2035,0.004770094109445804
+Botswana,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Botswana,Unmet system planning reserve costs: $m,2034,0.19794557696604556
+Botswana,Unmet system planning reserve costs: $m,2035,0.12161740562764267
+Botswana,Import costs with internal zones: $m,2025,5.718838887023939
+Botswana,Import costs with internal zones: $m,2026,2.1612779700942046
+Botswana,Import costs with internal zones: $m,2027,0.6980018344519948
+Botswana,Import costs with internal zones: $m,2028,0.4199862126698219
+Botswana,Import costs with internal zones: $m,2029,1.0499744023617084
+Botswana,Import costs with internal zones: $m,2030,11.44662433331719
+Botswana,Import costs with internal zones: $m,2031,4.17984611761564
+Botswana,Import costs with internal zones: $m,2032,0.33866826087678376
+Botswana,Import costs with internal zones: $m,2033,1.1649519679542473
+Botswana,Import costs with internal zones: $m,2034,4.207741257753562
+Botswana,Import costs with internal zones: $m,2035,1.5111968787342538
+Botswana,Export revenues with internal zones: $m,2025,-4.002900862030484
+Botswana,Export revenues with internal zones: $m,2026,-3.462181957880711
+Botswana,Export revenues with internal zones: $m,2027,-9.36317430960688
+Botswana,Export revenues with internal zones: $m,2028,-14.929601306055453
+Botswana,Export revenues with internal zones: $m,2029,-17.112936613470357
+Botswana,Export revenues with internal zones: $m,2030,-39.25635438812878
+Botswana,Export revenues with internal zones: $m,2031,-40.00092747265179
+Botswana,Export revenues with internal zones: $m,2032,-42.93700827103729
+Botswana,Export revenues with internal zones: $m,2033,-52.31379930044086
+Botswana,Export revenues with internal zones: $m,2034,-62.11984756388391
+Botswana,Export revenues with internal zones: $m,2035,-66.31907913223014
+Botswana,Trade shared benefits: $m,2025,-0.20755986353435238
+Botswana,Trade shared benefits: $m,2026,-0.11787737331952695
+Botswana,Trade shared benefits: $m,2027,-0.20907742862351253
+Botswana,Trade shared benefits: $m,2028,-0.32772159712207327
+Botswana,Trade shared benefits: $m,2029,-0.46337246947688543
+Botswana,Trade shared benefits: $m,2030,-11.100613635613497
+Botswana,Trade shared benefits: $m,2031,-3.3205145542399492
+Botswana,Trade shared benefits: $m,2032,-1.1523752857435872
+Botswana,Trade shared benefits: $m,2033,-1.4918242163476558
+Botswana,Trade shared benefits: $m,2034,-2.0358530420367136
+Botswana,Trade shared benefits: $m,2035,-2.057864047469787
+Namibia,Generation costs: $m,2025,0.25395749808377427
+Namibia,Generation costs: $m,2026,5.776126463157724
+Namibia,Generation costs: $m,2027,13.08668053210789
+Namibia,Generation costs: $m,2028,17.026548159612943
+Namibia,Generation costs: $m,2029,20.50825822454972
+Namibia,Generation costs: $m,2030,23.8441346834544
+Namibia,Generation costs: $m,2031,27.23025651759924
+Namibia,Generation costs: $m,2032,34.3852884923192
+Namibia,Generation costs: $m,2033,37.35277374239792
+Namibia,Generation costs: $m,2034,41.224831617785775
+Namibia,Generation costs: $m,2035,42.485388242634485
+Namibia,Fixed O&M: $m,2025,4.576979403966712
+Namibia,Fixed O&M: $m,2026,6.025692674688903
+Namibia,Fixed O&M: $m,2027,7.886921342657288
+Namibia,Fixed O&M: $m,2028,8.972115399682068
+Namibia,Fixed O&M: $m,2029,9.95324348085571
+Namibia,Fixed O&M: $m,2030,10.953490254162721
+Namibia,Fixed O&M: $m,2031,12.03059353146959
+Namibia,Fixed O&M: $m,2032,14.301956987260683
+Namibia,Fixed O&M: $m,2033,15.516579968114945
+Namibia,Fixed O&M: $m,2034,16.923739014254277
+Namibia,Fixed O&M: $m,2035,17.640428610337356
+Namibia,Variable O&M: $m,2025,0.3486160236735083
+Namibia,Variable O&M: $m,2026,0.1108585673378126
+Namibia,Variable O&M: $m,2027,0.1347164497016186
+Namibia,Variable O&M: $m,2028,0.10910947824228562
+Namibia,Variable O&M: $m,2029,0.10579416425350997
+Namibia,Variable O&M: $m,2030,0.10354522422422507
+Namibia,Variable O&M: $m,2031,0.10210619538041162
+Namibia,Variable O&M: $m,2032,0.10086444709124982
+Namibia,Variable O&M: $m,2033,0.09936097519466072
+Namibia,Variable O&M: $m,2034,0.09796783070254858
+Namibia,Variable O&M: $m,2035,0.09652194669181739
+Namibia,Fuel costs: $m,2025,1.8386505863875573
+Namibia,Fuel costs: $m,2027,0.1693487275561731
+Namibia,Fuel costs: $m,2028,0.01413112080111543
+Namibia,Fuel costs: $m,2029,0.004715564294461473
+Namibia,Transmission costs: $m,2030,5.612075895480873
+Namibia,Transmission costs: $m,2031,5.5340815780435095
+Namibia,Transmission costs: $m,2032,5.466779723283225
+Namibia,Transmission costs: $m,2033,6.168915046386022
+Namibia,Transmission costs: $m,2034,6.855055627906224
+Namibia,Transmission costs: $m,2035,6.753883485438796
+Namibia,Unmet country spinning reserve costs: $m,2025,3.1146900661078796
+Namibia,Unmet country spinning reserve costs: $m,2026,0.3102158975405203
+Namibia,Unmet country spinning reserve costs: $m,2027,0.39850181704995324
+Namibia,Unmet country spinning reserve costs: $m,2028,0.3672800057064046
+Namibia,Unmet country spinning reserve costs: $m,2029,0.2602874817951766
+Namibia,Unmet country spinning reserve costs: $m,2030,0.2237587059586346
+Namibia,Unmet country spinning reserve costs: $m,2031,0.03776413985023214
+Namibia,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Namibia,Unmet system planning reserve costs: $m,2034,0.1979455769660456
+Namibia,Unmet system planning reserve costs: $m,2035,0.12161740562764266
+Namibia,Import costs with internal zones: $m,2025,62.357736035121455
+Namibia,Import costs with internal zones: $m,2026,40.647896606462396
+Namibia,Import costs with internal zones: $m,2027,57.59890354282876
+Namibia,Import costs with internal zones: $m,2028,40.29261313044566
+Namibia,Import costs with internal zones: $m,2029,30.987085251980908
+Namibia,Import costs with internal zones: $m,2030,25.49426626952558
+Namibia,Import costs with internal zones: $m,2031,18.964852708836876
+Namibia,Import costs with internal zones: $m,2032,7.807139302469308
+Namibia,Import costs with internal zones: $m,2033,16.47110716622823
+Namibia,Import costs with internal zones: $m,2034,20.843666929505073
+Namibia,Import costs with internal zones: $m,2035,18.640620094664985
+Namibia,Export revenues with internal zones: $m,2027,-32.1714904705567
+Namibia,Export revenues with internal zones: $m,2028,-27.13080734608881
+Namibia,Export revenues with internal zones: $m,2029,-25.283161365074065
+Namibia,Export revenues with internal zones: $m,2030,-26.482099455424603
+Namibia,Export revenues with internal zones: $m,2031,-25.982667242530326
+Namibia,Export revenues with internal zones: $m,2032,-22.698067505877543
+Namibia,Export revenues with internal zones: $m,2033,-33.07630003477925
+Namibia,Export revenues with internal zones: $m,2034,-41.58931217708078
+Namibia,Export revenues with internal zones: $m,2035,-40.75902127394314
+Namibia,Trade shared benefits: $m,2025,-1.24715472070243
+Namibia,Trade shared benefits: $m,2026,-0.8129579321292499
+Namibia,Trade shared benefits: $m,2027,-20.699024921578424
+Namibia,Trade shared benefits: $m,2028,-201.3110433300539
+Namibia,Trade shared benefits: $m,2029,-205.20004280053553
+Namibia,Trade shared benefits: $m,2030,-8.005405649125768
+Namibia,Trade shared benefits: $m,2031,-2.2346693582487163
+Namibia,Trade shared benefits: $m,2032,-2.1773393120406115
+Namibia,Trade shared benefits: $m,2033,-3.373923600463912
+Namibia,Trade shared benefits: $m,2034,-4.343651731813496
+Namibia,Trade shared benefits: $m,2035,-3.670856143898763
+Zambia,Generation costs: $m,2026,1.2240741000737105
+Zambia,Generation costs: $m,2027,2.2366096684987506
+Zambia,Generation costs: $m,2028,4.04615323433085
+Zambia,Generation costs: $m,2029,6.763767977796885
+Zambia,Generation costs: $m,2030,13.046017767971687
+Zambia,Generation costs: $m,2031,12.74665154020561
+Zambia,Generation costs: $m,2032,12.577281346508784
+Zambia,Generation costs: $m,2033,12.414636527335478
+Zambia,Generation costs: $m,2034,12.257933742763964
+Zambia,Generation costs: $m,2035,13.082144282713479
+Zambia,Fixed O&M: $m,2025,7.695817295355394
+Zambia,Fixed O&M: $m,2026,7.709518410804931
+Zambia,Fixed O&M: $m,2027,6.652155356380724
+Zambia,Fixed O&M: $m,2028,6.029291741596343
+Zambia,Fixed O&M: $m,2029,5.8197439099622335
+Zambia,Fixed O&M: $m,2030,6.282641064554047
+Zambia,Fixed O&M: $m,2031,6.124488740742668
+Zambia,Fixed O&M: $m,2032,6.0457735876923815
+Zambia,Fixed O&M: $m,2033,5.972123168871695
+Zambia,Fixed O&M: $m,2034,5.903063903066778
+Zambia,Fixed O&M: $m,2035,6.199928978819166
+Zambia,Variable O&M: $m,2025,1.2287055737120876
+Zambia,Variable O&M: $m,2026,1.1801315179070377
+Zambia,Variable O&M: $m,2027,1.2207829156774828
+Zambia,Variable O&M: $m,2028,1.4276574117505876
+Zambia,Variable O&M: $m,2029,1.267804469638927
+Zambia,Variable O&M: $m,2030,0.7666513534340805
+Zambia,Variable O&M: $m,2031,0.7015983603917371
+Zambia,Variable O&M: $m,2032,0.6782767583546853
+Zambia,Variable O&M: $m,2033,0.6564557278283253
+Zambia,Variable O&M: $m,2034,0.6359949569136717
+Zambia,Variable O&M: $m,2035,0.6323032837566633
+Zambia,Fuel costs: $m,2025,5.060398587555781
+Zambia,Fuel costs: $m,2026,4.663480884737767
+Zambia,Fuel costs: $m,2027,8.907607264212876
+Zambia,Fuel costs: $m,2028,18.658544176634887
+Zambia,Fuel costs: $m,2029,16.1122597914492
+Zambia,Fuel costs: $m,2030,2.972016716963774
+Zambia,Fuel costs: $m,2031,1.983262329161805
+Zambia,Fuel costs: $m,2032,1.8414216810089428
+Zambia,Fuel costs: $m,2033,1.7119234415304274
+Zambia,Fuel costs: $m,2034,1.5934771389160576
+Zambia,Fuel costs: $m,2035,1.484954125007133
+Zambia,Transmission costs: $m,2030,0.8023370738866517
+Zambia,Transmission costs: $m,2031,0.9849249223988019
+Zambia,Transmission costs: $m,2032,0.9521853546157016
+Zambia,Transmission costs: $m,2033,1.0166520038783922
+Zambia,Transmission costs: $m,2034,1.0770999896234055
+Zambia,Transmission costs: $m,2035,1.3158554618243195
+Zambia,Unmet demand costs: $m,2029,15.899142625024343
+Zambia,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Zambia,Unmet system planning reserve costs: $m,2034,0.19794557696604553
+Zambia,Unmet system planning reserve costs: $m,2035,0.12161740562764266
+Zambia,Import costs with internal zones: $m,2025,16.500891796680673
+Zambia,Import costs with internal zones: $m,2026,13.330411108523137
+Zambia,Import costs with internal zones: $m,2027,36.88975667115991
+Zambia,Import costs with internal zones: $m,2028,206.77913957670478
+Zambia,Import costs with internal zones: $m,2029,185.53932321210937
+Zambia,Import costs with internal zones: $m,2030,35.85710196172829
+Zambia,Import costs with internal zones: $m,2031,26.390905496997274
+Zambia,Import costs with internal zones: $m,2032,23.425337715228515
+Zambia,Import costs with internal zones: $m,2033,20.647646731214277
+Zambia,Import costs with internal zones: $m,2034,21.887536332277353
+Zambia,Import costs with internal zones: $m,2035,19.960725875834342
+Zambia,Export revenues with internal zones: $m,2025,-16.39831916826089
+Zambia,Export revenues with internal zones: $m,2026,-12.708800711194375
+Zambia,Export revenues with internal zones: $m,2027,-19.238896799781426
+Zambia,Export revenues with internal zones: $m,2028,-55.131545684230815
+Zambia,Export revenues with internal zones: $m,2029,-1.1661766561994544
+Zambia,Export revenues with internal zones: $m,2030,-15.497501312706675
+Zambia,Export revenues with internal zones: $m,2031,-10.652024255774593
+Zambia,Export revenues with internal zones: $m,2032,-8.89112512208257
+Zambia,Export revenues with internal zones: $m,2033,-5.972709766468998
+Zambia,Export revenues with internal zones: $m,2034,-6.360883777657536
+Zambia,Export revenues with internal zones: $m,2035,-5.7000170486107296
+Zambia,Trade shared benefits: $m,2025,-53.88198527246469
+Zambia,Trade shared benefits: $m,2026,-53.11674014236399
+Zambia,Trade shared benefits: $m,2027,-60.02697387822556
+Zambia,Trade shared benefits: $m,2028,-98.18871149635075
+Zambia,Trade shared benefits: $m,2029,-87.56333386473956
+Zambia,Trade shared benefits: $m,2030,-7.463078123474906
+Zambia,Trade shared benefits: $m,2031,-9.43940156509411
+Zambia,Trade shared benefits: $m,2032,-10.184497686493586
+Zambia,Trade shared benefits: $m,2033,-0.7889771762243166
+Zambia,Trade shared benefits: $m,2034,-0.870463424452423
+Zambia,Trade shared benefits: $m,2035,-0.9722611866915931
+Angola,Generation costs: $m,2027,0.1678458282415827
+Angola,Generation costs: $m,2028,0.5418268426656286
+Angola,Generation costs: $m,2029,1.513978045238309
+Angola,Generation costs: $m,2030,4.197890384300787
+Angola,Generation costs: $m,2031,4.7765254871194
+Angola,Generation costs: $m,2032,5.364099061781796
+Angola,Generation costs: $m,2033,13.637030296884353
+Angola,Generation costs: $m,2034,14.880104683882712
+Angola,Generation costs: $m,2035,14.929838656882044
+Angola,Fixed O&M: $m,2025,10.744998448233526
+Angola,Fixed O&M: $m,2026,10.12036589136803
+Angola,Fixed O&M: $m,2027,8.310062031849656
+Angola,Fixed O&M: $m,2028,7.932831962482057
+Angola,Fixed O&M: $m,2029,7.945337642335976
+Angola,Fixed O&M: $m,2030,8.227972231912307
+Angola,Fixed O&M: $m,2031,8.2231310762558
+Angola,Fixed O&M: $m,2032,8.277816977130744
+Angola,Fixed O&M: $m,2033,9.370820995786767
+Angola,Fixed O&M: $m,2034,9.48693898086183
+Angola,Fixed O&M: $m,2035,9.439929828825564
+Angola,Variable O&M: $m,2025,0.5373337021963286
+Angola,Variable O&M: $m,2026,0.5380700244974667
+Angola,Variable O&M: $m,2027,0.549752138874482
+Angola,Variable O&M: $m,2028,0.5773562999156564
+Angola,Variable O&M: $m,2029,0.5624302807890947
+Angola,Variable O&M: $m,2030,0.5263856728158518
+Angola,Variable O&M: $m,2031,0.5086002593041283
+Angola,Variable O&M: $m,2032,0.49076845596490704
+Angola,Variable O&M: $m,2033,0.5709435211581035
+Angola,Variable O&M: $m,2034,0.5677589093908818
+Angola,Variable O&M: $m,2035,0.5470304288771206
+Angola,Fuel costs: $m,2027,0.4225400594251414
+Angola,Fuel costs: $m,2028,1.85102137174281
+Angola,Fuel costs: $m,2029,1.8097092128259524
+Angola,Fuel costs: $m,2030,0.2054320473792478
+Angola,Fuel costs: $m,2031,0.21494167180538096
+Angola,Fuel costs: $m,2032,0.18167170428466753
+Angola,Fuel costs: $m,2033,0.13003214473510263
+Angola,Fuel costs: $m,2034,0.12674951934252066
+Angola,Fuel costs: $m,2035,0.08381968283378491
+Angola,Transmission costs: $m,2030,1.0596801356771561
+Angola,Transmission costs: $m,2031,1.0228695668699308
+Angola,Transmission costs: $m,2032,0.98858137743842
+Angola,Transmission costs: $m,2033,1.4781034162187923
+Angola,Transmission costs: $m,2034,1.4322087741721237
+Angola,Transmission costs: $m,2035,1.38896949296522
+Angola,Unmet system planning reserve costs: $m,2033,0.04890482946731948
+Angola,Unmet system planning reserve costs: $m,2034,0.1979455769660456
+Angola,Unmet system planning reserve costs: $m,2035,0.12161740562764267
+Angola,Import costs with internal zones: $m,2030,0.43242101693257784
+Angola,Import costs with internal zones: $m,2031,0.5910018545418962
+Angola,Import costs with internal zones: $m,2032,0.924263132360485
+Angola,Import costs with internal zones: $m,2033,0.4513521605336289
+Angola,Import costs with internal zones: $m,2034,0.40761004979820703
+Angola,Import costs with internal zones: $m,2035,0.46942158747734763
+Angola,Export revenues with internal zones: $m,2030,-1.566134791087119
+Angola,Export revenues with internal zones: $m,2031,-1.407251021213525
+Angola,Export revenues with internal zones: $m,2032,-1.1569336525845721
+Angola,Export revenues with internal zones: $m,2033,-7.523581539255866
+Angola,Export revenues with internal zones: $m,2034,-7.766188942603462
+Angola,Export revenues with internal zones: $m,2035,-6.896600779778319
+Angola,Trade shared benefits: $m,2030,-0.07407529224645655
+Angola,Trade shared benefits: $m,2031,-0.07652403811851097
+Angola,Trade shared benefits: $m,2032,-0.1557237193157632
+Angola,Trade shared benefits: $m,2033,-0.6640015047487253
+Angola,Trade shared benefits: $m,2034,-0.7325798387778679
+Angola,Trade shared benefits: $m,2035,-0.49753421515107543
+Tanzania,Generation costs: $m,2025,7.035433665349881
+Tanzania,Generation costs: $m,2026,8.078389014765522
+Tanzania,Generation costs: $m,2027,7.574062768464055
+Tanzania,Generation costs: $m,2028,6.5701173120738545
+Tanzania,Generation costs: $m,2029,6.0749545963385625
+Tanzania,Generation costs: $m,2030,12.732334794050985
+Tanzania,Generation costs: $m,2031,11.976285471325767
+Tanzania,Generation costs: $m,2032,13.996108305289104
+Tanzania,Generation costs: $m,2033,14.35571904180174
+Tanzania,Generation costs: $m,2034,13.94975053776868
+Tanzania,Generation costs: $m,2035,13.564906853591033
+Tanzania,Fixed O&M: $m,2025,1.2295871894534107
+Tanzania,Fixed O&M: $m,2026,1.4473414904403765
+Tanzania,Fixed O&M: $m,2027,1.3138088428911212
+Tanzania,Fixed O&M: $m,2028,1.1130128569334599
+Tanzania,Fixed O&M: $m,2029,1.029129656267518
+Tanzania,Fixed O&M: $m,2030,2.4160003595394417
+Tanzania,Fixed O&M: $m,2031,2.255113842504708
+Tanzania,Fixed O&M: $m,2032,2.185760865645813
+Tanzania,Fixed O&M: $m,2033,2.1534313324903893
+Tanzania,Fixed O&M: $m,2034,2.0925339790354056
+Tanzania,Fixed O&M: $m,2035,1.9570301335220983
+Tanzania,Variable O&M: $m,2025,1.8465492038533848
+Tanzania,Variable O&M: $m,2026,1.9328821038819894
+Tanzania,Variable O&M: $m,2027,1.8951430844410941
+Tanzania,Variable O&M: $m,2028,1.7639376351157694
+Tanzania,Variable O&M: $m,2029,1.702310788150936
+Tanzania,Variable O&M: $m,2030,2.432994252223032
+Tanzania,Variable O&M: $m,2031,2.136458181888804
+Tanzania,Variable O&M: $m,2032,1.3978455637243778
+Tanzania,Variable O&M: $m,2033,1.4504098096965259
+Tanzania,Variable O&M: $m,2034,1.6897210242347365
+Tanzania,Variable O&M: $m,2035,1.4520595807542906
+Tanzania,Fuel costs: $m,2025,20.659797612568305
+Tanzania,Fuel costs: $m,2026,25.115789542593674
+Tanzania,Fuel costs: $m,2027,26.090352821208604
+Tanzania,Fuel costs: $m,2028,25.929585926425474
+Tanzania,Fuel costs: $m,2029,25.315511568541
+Tanzania,Fuel costs: $m,2030,26.624748281013257
+Tanzania,Fuel costs: $m,2031,22.758011499071635
+Tanzania,Fuel costs: $m,2032,12.490580917146163
+Tanzania,Fuel costs: $m,2033,13.206184464238907
+Tanzania,Fuel costs: $m,2034,16.29298350325623
+Tanzania,Fuel costs: $m,2035,13.323103961417315
+Tanzania,Transmission costs: $m,2030,0.1414615223520084
+Tanzania,Transmission costs: $m,2031,0.13306150068309297
+Tanzania,Transmission costs: $m,2032,0.43376457248133066
+Tanzania,Transmission costs: $m,2033,0.4207328627477314
+Tanzania,Transmission costs: $m,2034,0.4088348665282536
+Tanzania,Transmission costs: $m,2035,0.7708129514624472
+Tanzania,Unmet demand costs: $m,2026,5.325277093382135
+Tanzania,Unmet demand costs: $m,2027,56.14249824556744
+Tanzania,Unmet demand costs: $m,2028,147.33512355436466
+Tanzania,Unmet demand costs: $m,2029,192.32423303570684
+Tanzania,Unmet country spinning reserve costs: $m,2028,0.014326204797802155
+Tanzania,Unmet country spinning reserve costs: $m,2029,0.0662856037086205
+Tanzania,Unmet country planning reserve costs: $m,2028,0.2530558051252468
+Tanzania,Unmet country planning reserve costs: $m,2029,1.0407224920639078
+Tanzania,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Tanzania,Unmet system planning reserve costs: $m,2034,0.19794557696604556
+Tanzania,Unmet system planning reserve costs: $m,2035,0.12161740562764267
+Tanzania,Import costs with internal zones: $m,2030,0.5710023704700329
+Tanzania,Import costs with internal zones: $m,2031,5.2738658937761045
+Tanzania,Import costs with internal zones: $m,2032,10.469480580379752
+Tanzania,Import costs with internal zones: $m,2033,10.815771058869979
+Tanzania,Import costs with internal zones: $m,2034,8.404284625691865
+Tanzania,Import costs with internal zones: $m,2035,11.34033779484538
+Tanzania,Export revenues with internal zones: $m,2030,-2.215214428454079
+Tanzania,Export revenues with internal zones: $m,2031,-0.19522789784096561
+Tanzania,Export revenues with internal zones: $m,2032,-0.5688969718888403
+Tanzania,Export revenues with internal zones: $m,2033,-0.5240643992182488
+Tanzania,Export revenues with internal zones: $m,2034,-0.48442929220526443
+Tanzania,Export revenues with internal zones: $m,2035,-0.4015538948942293
+Tanzania,Trade shared benefits: $m,2030,-0.4270392721199942
+Tanzania,Trade shared benefits: $m,2031,-0.8061199746079442
+Tanzania,Trade shared benefits: $m,2032,-1.4316807971340462
+Tanzania,Trade shared benefits: $m,2033,-1.8616628247966611
+Tanzania,Trade shared benefits: $m,2034,-1.8396748591408385
+Tanzania,Trade shared benefits: $m,2035,-1.6820500878355473
+DRC,Generation costs: $m,2025,6.884222948861962
+DRC,Generation costs: $m,2026,7.242793772104971
+DRC,Generation costs: $m,2027,7.858564941238571
+DRC,Generation costs: $m,2028,8.199866909518395
+DRC,Generation costs: $m,2029,8.485886513441338
+DRC,Generation costs: $m,2030,8.708617907798471
+DRC,Generation costs: $m,2031,9.656179485654626
+DRC,Generation costs: $m,2032,9.825171071527715
+DRC,Generation costs: $m,2033,9.861610901228289
+DRC,Generation costs: $m,2034,9.924007244806738
+DRC,Generation costs: $m,2035,12.865345189299417
+DRC,Fixed O&M: $m,2025,4.889030141281642
+DRC,Fixed O&M: $m,2026,4.89862213719405
+DRC,Fixed O&M: $m,2027,4.9770951803209
+DRC,Fixed O&M: $m,2028,5.041521788331305
+DRC,Fixed O&M: $m,2029,5.098048407185821
+DRC,Fixed O&M: $m,2030,5.145640870609938
+DRC,Fixed O&M: $m,2031,5.299737407370492
+DRC,Fixed O&M: $m,2032,5.324197956156103
+DRC,Fixed O&M: $m,2033,5.33989358991973
+DRC,Fixed O&M: $m,2034,5.34976964712978
+DRC,Fixed O&M: $m,2035,5.783924222449503
+DRC,Variable O&M: $m,2025,0.5776279899764781
+DRC,Variable O&M: $m,2026,0.6366636606672017
+DRC,Variable O&M: $m,2027,0.7265872269282573
+DRC,Variable O&M: $m,2028,0.7789684900923562
+DRC,Variable O&M: $m,2029,0.8224008270426845
+DRC,Variable O&M: $m,2030,0.5235124651507548
+DRC,Variable O&M: $m,2031,0.46117218866576215
+DRC,Variable O&M: $m,2032,0.5707100932959078
+DRC,Variable O&M: $m,2033,0.32413919178485856
+DRC,Variable O&M: $m,2034,0.3155304827650793
+DRC,Variable O&M: $m,2035,0.33892319591939135
+DRC,Fuel costs: $m,2025,4.145668127702955
+DRC,Fuel costs: $m,2026,5.6691667899939056
+DRC,Fuel costs: $m,2027,7.868091404219572
+DRC,Fuel costs: $m,2028,9.227598875375735
+DRC,Fuel costs: $m,2029,10.382047742037463
+DRC,Fuel costs: $m,2030,3.987323753484243
+DRC,Fuel costs: $m,2031,2.6072308257329944
+DRC,Fuel costs: $m,2032,5.174670286487407
+DRC,Fuel costs: $m,2034,0.004125786318445914
+DRC,Fuel costs: $m,2035,0.002468113882984487
+DRC,Transmission costs: $m,2030,3.151067559835038
+DRC,Transmission costs: $m,2031,3.067379323286271
+DRC,Transmission costs: $m,2032,2.985291999542209
+DRC,Transmission costs: $m,2033,3.530995643690188
+DRC,Transmission costs: $m,2034,3.4350814796998606
+DRC,Transmission costs: $m,2035,5.861862766305504
+DRC,Unmet demand costs: $m,2025,89.87664039724191
+DRC,Unmet demand costs: $m,2026,92.00351234345149
+DRC,Unmet demand costs: $m,2027,90.15270934613105
+DRC,Unmet demand costs: $m,2028,166.40814894804294
+DRC,Unmet demand costs: $m,2029,242.18583860963744
+DRC,Unmet country spinning reserve costs: $m,2030,0.006244037533980021
+DRC,Unmet country spinning reserve costs: $m,2031,0.002950480927023501
+DRC,Unmet country spinning reserve costs: $m,2032,0.0075091078432010456
+DRC,Unmet country spinning reserve costs: $m,2034,0.0015193750463957704
+DRC,Unmet country planning reserve costs: $m,2025,2.5422467447136463
+DRC,Unmet country planning reserve costs: $m,2026,2.6602344844298047
+DRC,Unmet country planning reserve costs: $m,2027,2.4445108711560692
+DRC,Unmet country planning reserve costs: $m,2028,2.289880453503497
+DRC,Unmet country planning reserve costs: $m,2029,2.1517936024840263
+DRC,Unmet country planning reserve costs: $m,2030,0.8625758164845887
+DRC,Unmet country planning reserve costs: $m,2031,0.6787159524034124
+DRC,Unmet country planning reserve costs: $m,2032,0.6731523592640036
+DRC,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+DRC,Unmet system planning reserve costs: $m,2034,0.1979455769660456
+DRC,Unmet system planning reserve costs: $m,2035,0.12161740562764266
+DRC,Import costs with internal zones: $m,2025,306.4652953110946
+DRC,Import costs with internal zones: $m,2026,300.2017736439226
+DRC,Import costs with internal zones: $m,2027,361.78301003122516
+DRC,Import costs with internal zones: $m,2028,315.98617174301756
+DRC,Import costs with internal zones: $m,2029,231.7909955717707
+DRC,Import costs with internal zones: $m,2030,69.88086278153787
+DRC,Import costs with internal zones: $m,2031,73.67458584291413
+DRC,Import costs with internal zones: $m,2032,75.48392939539863
+DRC,Import costs with internal zones: $m,2033,31.023615129822566
+DRC,Import costs with internal zones: $m,2034,31.297311242662044
+DRC,Import costs with internal zones: $m,2035,30.995178138969347
+DRC,Export revenues with internal zones: $m,2025,-36.657852502133665
+DRC,Export revenues with internal zones: $m,2026,-36.04887509779751
+DRC,Export revenues with internal zones: $m,2027,-36.16368418999566
+DRC,Export revenues with internal zones: $m,2028,-35.39832301321232
+DRC,Export revenues with internal zones: $m,2029,-34.428610008623735
+DRC,Export revenues with internal zones: $m,2030,-24.44526901041712
+DRC,Export revenues with internal zones: $m,2031,-24.413428149220824
+DRC,Export revenues with internal zones: $m,2032,-26.195400548752776
+DRC,Export revenues with internal zones: $m,2033,-12.348565743069814
+DRC,Export revenues with internal zones: $m,2034,-11.741082250349582
+DRC,Export revenues with internal zones: $m,2035,-14.437838211544301
+DRC,Trade shared benefits: $m,2025,-201.12830498018005
+DRC,Trade shared benefits: $m,2026,-198.30597655649814
+DRC,Trade shared benefits: $m,2027,-241.80038023643894
+DRC,Trade shared benefits: $m,2028,-202.27254036803924
+DRC,Trade shared benefits: $m,2029,-195.5084212077039
+DRC,Trade shared benefits: $m,2030,-9.952219537115807
+DRC,Trade shared benefits: $m,2031,-15.940946563957416
+DRC,Trade shared benefits: $m,2032,-17.461714530115763
+DRC,Trade shared benefits: $m,2033,-1.3938015968216324
+DRC,Trade shared benefits: $m,2034,-1.546819428626043
+DRC,Trade shared benefits: $m,2035,-1.8029292966126855
+Malawi,Generation costs: $m,2027,0.8512141637909639
+Malawi,Generation costs: $m,2028,1.3170865344328102
+Malawi,Generation costs: $m,2029,1.6409918622596693
+Malawi,Generation costs: $m,2030,2.3051140194666213
+Malawi,Generation costs: $m,2031,14.334081981918517
+Malawi,Generation costs: $m,2032,14.31548072793198
+Malawi,Generation costs: $m,2033,14.211507063351485
+Malawi,Generation costs: $m,2034,14.125641429001973
+Malawi,Generation costs: $m,2035,13.89750704527032
+Malawi,Fixed O&M: $m,2025,5.348283132530127
+Malawi,Fixed O&M: $m,2026,4.592938437661667
+Malawi,Fixed O&M: $m,2027,4.581098308408922
+Malawi,Fixed O&M: $m,2028,4.437511415525116
+Malawi,Fixed O&M: $m,2029,4.193248857498961
+Malawi,Fixed O&M: $m,2030,4.225701480904134
+Malawi,Fixed O&M: $m,2031,6.7995467730239305
+Malawi,Fixed O&M: $m,2032,6.792046409954599
+Malawi,Fixed O&M: $m,2033,6.754885235732015
+Malawi,Fixed O&M: $m,2034,6.7287018255578115
+Malawi,Fixed O&M: $m,2035,6.638963660834447
+Malawi,Variable O&M: $m,2025,0.3814328874717175
+Malawi,Variable O&M: $m,2026,0.3275626452162686
+Malawi,Variable O&M: $m,2027,0.3139133246793794
+Malawi,Variable O&M: $m,2028,0.29234074232127566
+Malawi,Variable O&M: $m,2029,0.26598513738412816
+Malawi,Variable O&M: $m,2030,0.24950359535603792
+Malawi,Variable O&M: $m,2031,0.435425867666715
+Malawi,Variable O&M: $m,2032,0.40386902405407626
+Malawi,Variable O&M: $m,2033,0.37248900217890835
+Malawi,Variable O&M: $m,2034,0.3479874074253234
+Malawi,Variable O&M: $m,2035,0.3232582888357457
+Malawi,Transmission costs: $m,2026,2.613691685645581
+Malawi,Transmission costs: $m,2027,2.477208153151706
+Malawi,Transmission costs: $m,2028,2.306970789202241
+Malawi,Transmission costs: $m,2029,2.0989887944964294
+Malawi,Transmission costs: $m,2030,4.962513433537899
+Malawi,Transmission costs: $m,2031,4.617044768113939
+Malawi,Transmission costs: $m,2032,4.28243129996914
+Malawi,Transmission costs: $m,2033,3.94969276378978
+Malawi,Transmission costs: $m,2034,3.6898897335433913
+Malawi,Transmission costs: $m,2035,3.4276741508635866
+Malawi,Unmet demand costs: $m,2025,159.9281895640232
+Malawi,Unmet country planning reserve costs: $m,2025,1.8813253012048226
+Malawi,Unmet system planning reserve costs: $m,2033,0.04890482946731949
+Malawi,Unmet system planning reserve costs: $m,2034,0.19794557696604556
+Malawi,Unmet system planning reserve costs: $m,2035,0.12161740562764267
+Malawi,Import costs with internal zones: $m,2026,19.866345250807456
+Malawi,Import costs with internal zones: $m,2027,18.774857642417803
+Malawi,Import costs with internal zones: $m,2028,19.423852484140767
+Malawi,Import costs with internal zones: $m,2029,20.91307833842128
+Malawi,Import costs with internal zones: $m,2030,102.28296837837537
+Malawi,Import costs with internal zones: $m,2031,37.06305262313194
+Malawi,Import costs with internal zones: $m,2032,34.82530654647062
+Malawi,Import costs with internal zones: $m,2033,27.772659295706998
+Malawi,Import costs with internal zones: $m,2034,29.592663538919634
+Malawi,Import costs with internal zones: $m,2035,24.14265002844619
+Malawi,Export revenues with internal zones: $m,2030,-67.89741187220564
+Malawi,Export revenues with internal zones: $m,2031,-35.44139815025031
+Malawi,Export revenues with internal zones: $m,2032,-31.066132405963266
+Malawi,Export revenues with internal zones: $m,2033,-22.125352898431814
+Malawi,Export revenues with internal zones: $m,2034,-22.211802540844623
+Malawi,Export revenues with internal zones: $m,2035,-15.413353350551454
+Malawi,Trade shared benefits: $m,2026,-0.397326905016149
+Malawi,Trade shared benefits: $m,2027,-0.3754971528483565
+Malawi,Trade shared benefits: $m,2028,-0.38847704968281643
+Malawi,Trade shared benefits: $m,2029,-0.41826156676842613
+Malawi,Trade shared benefits: $m,2030,-18.666099448829506
+Malawi,Trade shared benefits: $m,2031,-6.292923302226081
+Malawi,Trade shared benefits: $m,2032,-4.28015783884129
+Malawi,Trade shared benefits: $m,2033,-4.859601831279367
+Malawi,Trade shared benefits: $m,2034,-5.115524878219287
+Malawi,Trade shared benefits: $m,2035,-3.3414193972367996

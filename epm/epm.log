@@ -1,0 +1,49 @@
+2025-12-19 10:19:40,690 - INFO - Starting EPM workflow
+2025-12-19 10:19:40,690 - INFO - Config file: config.csv
+2025-12-19 10:19:40,690 - INFO - Folder input: data_test
+2025-12-19 10:19:40,690 - INFO - modeltype: None
+2025-12-19 10:19:40,690 - INFO - Scenarios file: None
+2025-12-19 10:19:40,690 - INFO - Sensitivity: False
+2025-12-19 10:19:40,690 - INFO - MonteCarlo: False
+2025-12-19 10:19:40,690 - INFO - MonteCarlo samples: 10
+2025-12-19 10:19:40,690 - INFO - Monte Carlo uncertainties file: None
+2025-12-19 10:19:40,690 - INFO - Reduced output: False
+2025-12-19 10:19:40,690 - INFO - Reduced definition csv: False
+2025-12-19 10:19:40,690 - INFO - Selected scenarios: None
+2025-12-19 10:19:40,690 - INFO - Simple: None
+2025-12-19 10:19:40,690 - INFO - Simulation label: None
+2025-12-19 10:19:40,690 - INFO - Debug flag: False
+2025-12-19 10:19:40,690 - INFO - Project folder: output\simulations_run_20251217_103058
+2025-12-19 10:19:40,690 - INFO - EPM does not run again but use the existing simulation within the folder
+2025-12-19 10:19:40,690 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251217_103058 for postprocessing.
+2025-12-19 10:19:40,690 - INFO - Starting postprocessing for folder: output\simulations_run_20251217_103058
+2025-12-19 10:19:40,690 - INFO - Postprocessing started for output\simulations_run_20251217_103058
+2025-12-19 10:19:40,690 - INFO - Processing simulation results from output\simulations_run_20251217_103058
+2025-12-19 10:19:42,981 - WARNING - pInterchangeExternalExports not in epm_results.keys().
+2025-12-19 10:19:42,981 - WARNING - pInterchangeExternalImports not in epm_results.keys().
+2025-12-19 10:19:45,174 - INFO - Loaded 53 processed result tables
+2025-12-19 10:19:45,190 - INFO - Generating summary...
+2025-12-19 10:19:45,190 - WARNING - No pInterchangeExternalExports in epm_results
+2025-12-19 10:19:45,190 - WARNING - No pInterchangeExternalImports in epm_results
+2025-12-19 10:19:45,301 - INFO - Generating detailed summary by Power Plant...
+2025-12-19 10:19:45,364 - INFO - Generating heatmap summary...
+2025-12-19 10:19:46,297 - INFO - Creating folders for figures...
+2025-12-19 10:19:46,297 - INFO - Generating capacity figures...
+2025-12-19 10:20:06,403 - INFO - Generating cost figures...
+2025-12-19 10:20:22,545 - INFO - Generating energy figures...
+2025-12-19 10:21:10,786 - INFO - Generating energy dispatch figures...
+2025-12-19 10:21:53,643 - INFO - Generating interconnection figures...
+2025-12-19 10:22:15,798 - INFO - Generating interactive map figures...
+2025-12-19 10:22:15,798 - INFO - Generating map for scenario baseline
+2025-12-19 10:22:16,353 - INFO - Saved transmission capacity map: output\simulations_run_20251217_103058\img\6_maps\TransmissionCapacityMapEvolution_baseline.pdf
+2025-12-19 10:22:17,161 - INFO - Saved transmission utilization map: output\simulations_run_20251217_103058\img\6_maps\TransmissionUtilizationMapEvolution_baseline.pdf
+2025-12-19 10:22:37,945 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2025.html
+2025-12-19 10:22:38,610 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2025.html
+2025-12-19 10:23:04,254 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2030.html
+2025-12-19 10:23:04,866 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2030.html
+2025-12-19 10:23:28,781 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2035.html
+2025-12-19 10:23:29,399 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2035.html
+2025-12-19 10:23:52,461 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2040.html
+2025-12-19 10:23:53,135 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2040.html
+2025-12-19 10:24:13,725 - INFO - Postprocessing completed for folder: output\simulations_run_20251217_103058
+2025-12-19 10:24:13,725 - INFO - EPM workflow completed

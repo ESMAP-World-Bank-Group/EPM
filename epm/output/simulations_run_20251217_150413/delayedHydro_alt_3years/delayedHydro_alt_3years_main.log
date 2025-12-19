@@ -1,0 +1,184 @@
+--- Job main.gms Start 12/17/25 15:04:23 50.1.0 12b75dde WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\50\gmsprmNT.txt
+    C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    ScrDir C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251217_150413\delayedHydro_alt_3years\225a\
+    SysDir C:\GAMS\50\
+    LogOption 4
+    LogFile C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251217_150413\delayedHydro_alt_3years\delayedHydro_alt_3years_main.log
+    AppendLog 1
+    --BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms
+    --REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms
+    --READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms
+    --DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms
+    --HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms
+    --FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp
+    --pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pSettings.csv
+    --y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y.csv
+    --zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap.csv
+    --pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv
+    --ftfindex C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/ftfindex.csv
+    --pFuelCarbonContent C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pFuelCarbonContent.csv
+    --pTechData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pTechData.csv
+    --pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv
+    --pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast.csv
+    --pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv
+    --sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/srelevant.csv
+    --pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv
+    --pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/sensitivity/pGenDataExcelCustom_3y.csv
+    --pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelDefaultRampHydro.csv
+    --pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv
+    --pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv
+    --pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv
+    --pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv
+    --pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefaultCCDR.csv
+    --pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv
+    --pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv
+    --pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfileROR.csv
+    --pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv
+    --pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorDataExcel.csv
+    --pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv
+    --pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv
+    --pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv
+    --pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv
+    --pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv
+    --pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv
+    --pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv
+    --zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv
+    --pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv
+    --pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactor.csv
+    --pMaxPriceImportShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxPriceImportShare.csv
+    --pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxExchangeShare.csv
+    --pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv
+    --pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pNewTransmission.csv
+    --pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv
+    --pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv
+    --pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv
+    --pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv
+    --pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv
+    --pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv
+    --pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv
+    --solvemode 2
+    --trace 0
+    --reportshort 0
+    --modeltype rmip
+Licensee: Medium MUD - 10 User License                   G251002+0003Cc-GEN
+          The World Bank, Energy Sector Management Assistance PrograDC12370
+          C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamslice.txt
+          v:2                                                              
+          The maintenance period of the license will expire on Dec 31, 2025
+System information: 12 physical cores and 32 Gb physical memory detected
+GAMS 50.1.0   Copyright (C) 1987-2025 GAMS Development. All rights reserved
+--- Starting compilation
+FOLDER_INPUT is "C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp"
+LOG: Solving with MODELTYPE = "rmip"
+CPLEXFILE is "C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp/cplex/cplex_baseline.opt"
+--- main.gms(66) 2 Mb
+--- call rm -f cplex.opt
+--- main.gms(67) 2 Mb
+--- call cp "C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp/cplex/cplex_baseline.opt" cplex.opt
+BASE_FILE is "C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms"
+REPORT_FILE is "C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms"
+READER_FILE is "C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms"
+DEMAND_FILE is "C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms"
+HYDROGEN_FILE is "C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms"
+--- main.gms(246) 4 Mb
+### reading using Connect and CSV Input with Python
+--- . input_readers.gms(637) 4 Mb
+--- Initialize embedded library embconnectcclib64.dll
+--- Execute embedded library embconnectcclib64.dll
+  File "<string>", line 155, in <module>
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\gams\connect\connectdatabase.py", line 201, in execute
+    self._execute(instructions)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\gams\connect\connectdatabase.py", line 174, in _execute
+    execute_return = agent.execute()
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\gams\connect\agents\csvreader.py", line 654, in execute
+    sym.setRecords(df)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\gams\transfer\syms\container_syms\_parameter.py", line 414, in setRecords
+    self._from_dataframe(records, uels_on_axes=uels_on_axes)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\gams\transfer\syms\container_syms\_parameter.py", line 484, in _from_dataframe
+    self._from_flat_dataframe(records)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\gams\transfer\syms\container_syms\_parameter.py", line 544, in _from_flat_dataframe
+    records.isetitem(-1, records.iloc[:, -1].astype(float))
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\generic.py", line 6643, in astype
+    new_data = self._mgr.astype(dtype=dtype, copy=copy, errors=errors)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\internals\managers.py", line 430, in astype
+    return self.apply(
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\internals\managers.py", line 363, in apply
+    applied = getattr(b, f)(**kwargs)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\internals\blocks.py", line 758, in astype
+    new_values = astype_array_safe(values, dtype, copy=copy, errors=errors)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\dtypes\astype.py", line 237, in astype_array_safe
+    new_values = astype_array(values, dtype, copy=copy)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\dtypes\astype.py", line 182, in astype_array
+    values = _astype_nansafe(values, dtype, copy=copy)
+  File "C:\GAMS\50\GMSPython\Lib\site-packages\pandas\core\dtypes\astype.py", line 133, in _astype_nansafe
+    return arr.astype(dtype, copy=True)
+Exception from Connect:
+    CSVReader(21) failed: <class 'ValueError'>: could not convert string to float: 'South_AfricaSTCoal'
+*** Error executing embedded code section:
+*** Check log above
+--- . input_readers.gms(637) 4 Mb 1 Error
+*** Error 865 in C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms
+    Problem in embedded code section
+--- main.gms(249) 4 Mb
+*** GDXIN failed C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251217_150413\delayedHydro_alt_3years\input.gdx
+*** Msg: No such file or directory
+--- main.gms(249) 4 Mb 2 Errors
+*** Error 510 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    Unable to open gdx file for $GDXIN
+--- main.gms(252) 4 Mb 3 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(253) 4 Mb 4 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(254) 4 Mb 5 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(255) 4 Mb 6 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(256) 4 Mb 7 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(257) 4 Mb 8 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(260) 4 Mb 9 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(262) 4 Mb 10 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(265) 4 Mb 11 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(266) 4 Mb 12 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(267) 4 Mb 13 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(270) 4 Mb 14 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(271) 4 Mb 15 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(272) 4 Mb 16 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(275) 4 Mb 17 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+***
+*** Abort CONNECT ERROR in input_readers.gms
+***
+*** Error 343 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    Abort triggered by above statement
+--- main.gms(280) 4 Mb 18 Errors
+*** Status: Compilation error(s)
+--- Job main.gms Stop 12/17/25 15:04:25 elapsed 0:00:02.565

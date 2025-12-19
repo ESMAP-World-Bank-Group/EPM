@@ -8,5 +8,10 @@ requests
 folium
 timezonefinder
 geopy
+jinja2
+PyYAML
+rasterio
+entsoe-py
+pycountry
 # Optional (Monte Carlo analysis only):
 # chaospy==4.3.18
