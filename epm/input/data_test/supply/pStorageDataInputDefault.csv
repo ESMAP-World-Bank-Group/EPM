@@ -1,0 +1,2 @@
+﻿zone,tech,fuel,Life,UnitSize,BuildLimitperYear,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+,Storage,Battery,20,,,,0.9,0.3,40000,0,0,180,,,,,,,,,,,,,,,

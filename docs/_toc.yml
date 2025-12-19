@@ -4,74 +4,72 @@ root: home
 parts:
   - caption: Introduction
     chapters:
-      - file: docs/introduction
-      - file: docs/introduction_case_studies
+      - file: docs/introduction/introduction
+      - file: docs/introduction/introduction_case_studies
   - caption: Run EPM
     chapters:
-      - file: docs/run_folder_structure
-      - file: docs/run_prerequisites
-      - file: docs/run_installation
-      - file: docs/run_gams_studio
-      - file: docs/run_python
-      - file: docs/run_python_advanced
-      - file: docs/run_python_summary
-      - file: docs/run_remote_server.md
-      - file: docs/run_git_process.md
-      - file: docs/run_epm_setup.md
-      - file: docs/run_dispatch.md
-      - file: docs/run_debugging.md
-      - file: docs/run_troubleshooting.md
-      - file: docs/run_summary.md
+      - file: docs/run/run_folder_structure
+      - file: docs/run/run_prerequisites
+      - file: docs/run/run_installation
+      - file: docs/run/run_gams_studio
+      - file: docs/run/run_python
+      - file: docs/run/configuration
+      - file: docs/run/run_python_advanced
+      - file: docs/run/run_python_summary
+      - file: docs/run/run_remote_server
+      - file: docs/run/run_git_process
+      - file: docs/run/run_epm_setup
+      - file: docs/run/run_dispatch
+      - file: docs/run/run_debugging
+      - file: docs/run/run_troubleshooting
+      - file: docs/run/run_summary
   - caption: Run Options
     chapters:
-      - file: docs/options_solver.md
-      - file: docs/options_thread.md
+      - file: docs/run/options_solver
+      - file: docs/run/options_thread
+      - file: docs/run/gams
   - caption: Input
     chapters:
-      - file: docs/input_structure.md
-      - file: docs/input_overview.md
-      - file: docs/input_detailed.md
-      - file: docs/input_set_definition.md
-      - file: docs/input_from_excel_to_csv.md
-      - file: docs/input_technology_brief.md
-      - file: docs/input_fuel_brief.md
-      - file: docs/input_representative_days.md
+      - file: docs/input/input_structure
+      - file: docs/input/input_overview
+      - file: docs/input/input_detailed
+      - file: docs/input/resources
+      - file: docs/input/input_treatment
+      - file: docs/input/input_set_definition
+      - file: docs/input/input_from_excel_to_csv
+      - file: docs/input/input_technology_brief
+      - file: docs/input/input_fuel_brief
+      - file: docs/input/input_representative_days
   - caption: Output & Postprocessing
     chapters:
-      - file: docs/postprocessing_output_EPM
-      - file: docs/postprocessing_output
-      - file: docs/postprocessing_output_overview
-      - file: docs/postprocessing_tableau
-      - file: docs/postprocessing_tableau_advanced
+      - file: docs/output/examples
+      - file: docs/output/postprocessing_output_EPM
+      - file: docs/output/postprocessing_output
+      - file: docs/output/postprocessing_output_overview
+      - file: docs/output/postprocessing_tableau
+      - file: docs/output/postprocessing_tableau_advanced
   - caption: Model Description
     chapters:
-      - file: docs/model_overview
-      - file: docs/model_description
-      - file: docs/model_notations
-      - file: docs/model_formulation
+      - file: docs/model/model_overview
+      - file: docs/model/model_description
+      - file: docs/model/model_notations
+      - file: docs/model/model_formulation
+      - file: docs/model/equations
   - caption: Advanced Topics
     chapters:
-      - file: docs/advanced_python
-      - file: docs/postprocessing
+      - file: docs/advanced/advanced_python
+      - file: docs/advanced/postprocessing
   - caption: Contributing
     chapters:
-      - file: docs/contributing_code.md
-      - file: docs/contributing_docs.md
-      - file: docs/contributing_postprocess.md
+      - file: docs/contributing/contributing_code
+      - file: docs/contributing/contributing_docs
+      - file: docs/contributing/contributing_postprocess
   - caption: Pre-processing Analysis
     chapters:
-      - file: docs/pre_overview.md
-      - file: docs/pre_projects.md
-      - file: pre-analysis/prepare-data/climatic_overview.ipynb
-      - file: pre-analysis/open-data/get_renewables_coordinate.ipynb
-      - file: pre-analysis/open-data/get_renewables_ninja_data.ipynb
-      - file: pre-analysis/prepare-data/load_plot.ipynb
-      - file: pre-analysis/prepare-data/hydro_availability.ipynb
-      - file: pre-analysis/prepare-data/supply_demand_balance.ipynb
-      - file: pre-analysis/prepare-data/representative_days/representative_days.ipynb
+      - file: docs/preprocessing/pre_overview
+      - file: docs/preprocessing/pre_projects
   - caption: Other Resources
     chapters:
-      #     - file: docs/other_overview
-      #     - file: docs/other_comparison
-      - file: docs/other_open_data
-      - file: docs/other_process
+      - file: docs/other/other_open_data
+      - file: docs/other/other_process
+      - file: docs/other/interconnection

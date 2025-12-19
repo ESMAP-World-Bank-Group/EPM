@@ -1,0 +1,77 @@
+--- Job main.gms Start 12/17/25 14:38:12 50.1.0 12b75dde WEX-WEI x86 64bit/MS Windows
+--- Applying:
+    C:\GAMS\50\gmsprmNT.txt
+    C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamsconfig.yaml
+--- GAMS Parameters defined
+    Input C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    ScrDir C:\Users\wb590499\Documents\Projects\EPM\epm\output\sensitivity_run_20251217_143747\pSettings_CO2backstop_1000\225a\
+    SysDir C:\GAMS\50\
+    LogOption 4
+    LogFile C:\Users\wb590499\Documents\Projects\EPM\epm\output\sensitivity_run_20251217_143747\pSettings_CO2backstop_1000\pSettings_CO2backstop_1000_main.log
+    AppendLog 1
+    --BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms
+    --REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms
+    --READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms
+    --DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms
+    --HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms
+    --FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp
+    --pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\sensitivity\pSettings_CO2backstop_1000.csv
+    --y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y.csv
+    --zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap.csv
+    --pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv
+    --ftfindex C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/ftfindex.csv
+    --pFuelCarbonContent C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pFuelCarbonContent.csv
+    --pTechData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pTechData.csv
+    --pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv
+    --pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast.csv
+    --pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv
+    --sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/srelevant.csv
+    --pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv
+    --pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelCustom.csv
+    --pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelDefaultRampHydro.csv
+    --pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv
+    --pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv
+    --pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv
+    --pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv
+    --pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefaultCCDR.csv
+    --pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv
+    --pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv
+    --pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfileROR.csv
+    --pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv
+    --pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorDataExcel.csv
+    --pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv
+    --pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv
+    --pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv
+    --pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv
+    --pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv
+    --pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv
+    --pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv
+    --zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv
+    --pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv
+    --pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactor.csv
+    --pMaxPriceImportShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxPriceImportShare.csv
+    --pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxExchangeShare.csv
+    --pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv
+    --pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pNewTransmission.csv
+    --pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv
+    --pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv
+    --pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv
+    --pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv
+    --pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv
+    --pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv
+    --pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv
+    --solvemode 2
+    --trace 0
+    --reportshort 0
+    --modeltype rmip
+Licensee: Medium MUD - 10 User License                   G251002+0003Cc-GEN
+          The World Bank, Energy Sector Management Assistance PrograDC12370
+          C:\Users\wb590499\OneDrive - WBG\Documents\GAMS\gamslice.txt
+          v:2                                                              
+          The maintenance period of the license will expire on Dec 31, 2025
+System information: 12 physical cores and 32 Gb physical memory detected
+GAMS 50.1.0   Copyright (C) 1987-2025 GAMS Development. All rights reserved
+--- Starting compilation
+*** Termination requested by Control C
+*** Status: Compilation error(s)
+--- Job main.gms Stop 12/17/25 14:38:12 elapsed 0:00:00.064

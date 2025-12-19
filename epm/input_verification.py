@@ -54,42 +54,124 @@ ESSENTIAL_INPUT = [
     "pGenDataInput",
     "pFuelPrice",
     "pFuelCarbonContent",
-    "pTechData",
+    "pTechFuel",
 ]
 
 OPTIONAL_INPUT = ["pDemandForecast"]
 
+
+def _log_input_columns(gams, db):
+    """Log columns and domain names for each symbol in the container (compact)."""
+    names = sorted(db.data.keys())
+    gams.printLog("[input_verification] Columns by symbol (data columns | domains):")
+    for name in names:
+        try:
+            records = db[name].records
+            cols = list(records.columns) if records is not None else []
+            domains = getattr(db[name], "domain_names", None)
+        except Exception:
+            cols = "<error>"
+            domains = "<error>"
+        gams.printLog(f"  {name}: {cols} | domains={domains}")
+
+
 def run_input_verification(gams):
     """Run the full suite of input validation checks on the current GAMS DB."""
     db = gt.Container(gams.db)
+
+    def _step(title):
+        gams.printLog("-" * 60)
+        gams.printLog(title)
+
+    gams.printLog("=" * 60)
+    gams.printLog("[input_verification] starting")
+    gams.printLog("=" * 60)
+
+    _step("Filter inputs to allowed zones")
     filter_inputs_to_allowed_zones(db, log_func=gams.printLog)
+    if "zcmap" in db and db["zcmap"].records is not None and not db["zcmap"].records.empty:
+        zones_seen = sorted(db["zcmap"].records["z"].dropna().unique())
+        gams.printLog(f"[input_verification][zones] Zones included in verification: {zones_seen}")
+    else:
+        gams.printLog("[input_verification][zones] No zones available; zone-based checks may be skipped.")
 
+    # _log_input_columns(gams, db)
+    _step("Required inputs")
     _check_required_inputs(gams, db)
+    gams.printLog("[input_verification] Required inputs completed.")
+    _step("Settings flags")
     _check_settings_flags(gams, db)
+    gams.printLog("[input_verification] Settings flags completed.")
+    _step("Settings required entries")
     _check_settings_required_entries(gams, db)
+    gams.printLog("[input_verification] Settings required entries completed.")
     # _check_candidate_build_limits(gams, db)
+    _step("Hours")
     _check_hours(gams, db)
+    gams.printLog("[input_verification] Hours completed.")
+    _step("VRE profile")
     _check_vre_profile(gams, db)
+    gams.printLog("[input_verification] VRE profile completed.")
+    _step("Availability")
     _check_availability(gams, db)
+    gams.printLog("[input_verification] Availability completed.")
+    _step("Time resolution")
     _check_time_resolution(gams, db)
+    gams.printLog("[input_verification] Time resolution completed.")
+    _step("Dispatch chronology")
     _warn_dispatch_chronology_consistency(gams, db)
+    gams.printLog("[input_verification] Dispatch chronology completed.")
+    _step("Demand forecast")
     _check_demand_forecast(gams, db)
+    gams.printLog("[input_verification] Demand forecast completed.")
+    _step("Fuel prices")
     _check_fuel_price_presence(gams, db)
+    gams.printLog("[input_verification] Fuel prices completed.")
+    _step("Transfer limits")
     _check_transfer_limits(gams, db)
+    gams.printLog("[input_verification] Transfer limits completed.")
+    _step("New transmission")
     _check_new_transmission(gams, db)
+    gams.printLog("[input_verification] New transmission completed.")
+    _step("New transmission zones")
     _check_new_transmission_zones(gams, db)
+    gams.printLog("[input_verification] New transmission zones completed.")
+    _step("Interconnected mode")
     _check_interconnected_mode(gams, db)
+    gams.printLog("[input_verification] Interconnected mode completed.")
+    _step("Planning reserves")
     _check_planning_reserves(gams, db)
+    gams.printLog("[input_verification] Planning reserves completed.")
+    _step("Fuel definitions")
     _check_fuel_definitions(gams, db)
+    gams.printLog("[input_verification] Fuel definitions completed.")
+    _step("Tech definitions")
     _check_tech_definitions(gams, db)
+    gams.printLog("[input_verification] Tech definitions completed.")
+    _step("Zone consistency")
     _check_zone_consistency(gams, db)
+    gams.printLog("[input_verification] Zone consistency completed.")
+    _step("Single zone internal exchange")
     _check_single_zone_internal_exchange(gams, db)
+    gams.printLog("[input_verification] Single zone internal exchange completed.")
+    _step("External transfer limits")
     _check_external_transfer_limits(gams, db)
+    gams.printLog("[input_verification] External transfer limits completed.")
+    _step("External transfer settings")
     _check_external_transfer_settings(gams, db)
+    gams.printLog("[input_verification] External transfer settings completed.")
+    _step("Storage data")
     _check_storage_data(gams, db)
+    gams.printLog("[input_verification] Storage data completed.")
+    _step("Generation defaults")
     _check_generation_defaults(gams, db)
+    gams.printLog("[input_verification] Generation defaults completed.")
+    _step("Missing generation default combinations")
     _warn_missing_generation_default_combinations(gams, db)
+    _warn_missing_availability_default_combinations(gams, db)
+    _warn_missing_build_limits(gams, db)
 
+    gams.printLog("=" * 60)
 
 def _run_input_verification_on_container(container: gt.Container, *, verbose=True, log_func=None):
     """Execute verification on an existing gt.Container and collect logs."""
@@ -146,6 +228,7 @@ def _check_settings_flags(gams, db):
     try:
         records = db["pSettings"].records
         if records is None or records.empty:
+            gams.printLog("[input_verification][settings_flags] Skipped: pSettings missing or empty.")
             return
 
         settings_map = dict(zip(records["pSettingsHeader"], records["value"]))
@@ -228,6 +311,10 @@ def _check_settings_required_entries(gams, db):
     try:
         records = db["pSettings"].records
         if records is None:
+            gams.printLog("[input_verification][settings_required] Skipped: pSettings missing.")
+            return
+        if records.empty:
+            gams.printLog("[input_verification][settings_required] Skipped: pSettings empty.")
             return
 
         required_headers = ["VoLL", "ReserveVoLL", "SpinReserveVoLL", "WACC", "DR"]
@@ -263,10 +350,29 @@ def _check_candidate_build_limits(gams, db):
         records = db["pGenDataInput"].records
         if records is None or records.empty:
             return
+        df_wide = records
+        identifier_column = None
+        if {"pGenDataInputHeader", "value"}.issubset(records.columns) and "BuildLimitperYear" not in records.columns:
+            if "g" in records.columns:
+                identifier_column = "g"
+            elif "gen" in records.columns:
+                identifier_column = "gen"
+            df_wide = (
+                records.pivot_table(
+                    index=identifier_column or records.index,
+                    columns="pGenDataInputHeader",
+                    values="value",
+                    aggfunc="first",
+                    observed=False,
+                )
+                .reset_index()
+            )
+            if identifier_column:
+                df_wide = df_wide.rename(columns={identifier_column: "g"})
 
         required_columns = {"Status", "BuildLimitperYear"}
-        if not required_columns.issubset(records.columns):
-            missing = required_columns - set(records.columns)
+        if not required_columns.issubset(df_wide.columns):
+            missing = required_columns - set(df_wide.columns)
             msg = (
                 "Error: pGenDataInput is missing columns required for BuildLimitperYear validation: "
                 f"{missing}"
@@ -274,17 +380,16 @@ def _check_candidate_build_limits(gams, db):
             gams.printLog(msg)
             raise ValueError(msg)
 
-        status_numeric = pd.to_numeric(records["Status"], errors="coerce")
-        build_limit_numeric = pd.to_numeric(records["BuildLimitperYear"], errors="coerce")
+        status_numeric = pd.to_numeric(df_wide["Status"], errors="coerce")
+        build_limit_numeric = pd.to_numeric(df_wide["BuildLimitperYear"], errors="coerce")
         candidate_mask = status_numeric.isin([2, 3])
         violation_mask = candidate_mask & (build_limit_numeric.isna() | (build_limit_numeric == 0))
 
         if violation_mask.any():
-            violations = records.loc[violation_mask]
-            identifier_column = "gen" if "gen" in violations.columns else None
+            violations = df_wide.loc[violation_mask]
             offending_entries = (
-                violations[identifier_column].astype(str).tolist()
-                if identifier_column
+                violations["g"].astype(str).tolist()
+                if "g" in violations.columns
                 else violations.index.tolist()
             )
             msg = (
@@ -474,7 +579,7 @@ def _check_demand_forecast(gams, db):
 
         df_pivot = records.pivot(index=["z", "y"], columns="pe", values="value").reset_index()
         df_pivot.columns.name = None
-        df_pivot.rename(columns={"energy": "energy_value", "peak": "peak_value"}, inplace=True)
+        df_pivot.rename(columns={"Energy": "energy_value", "Peak": "peak_value"}, inplace=True)
 
         if {"energy_value", "peak_value"}.issubset(df_pivot.columns):
             df_pivot["energy_peak_ratio"] = df_pivot["energy_value"] / df_pivot["peak_value"]
@@ -497,6 +602,11 @@ def _check_demand_forecast(gams, db):
                         f"Extreme Energy/Peak Ratio at zone {row['z']}, year {row['y']}: "
                         f"{row['energy_peak_ratio']:.2f}"
                     )
+        else:
+            gams.printLog(
+                f"Warning: pDemandForecast is missing required columns 'energy'/'peak' after pivot. "
+                f"Got columns: {list(df_pivot.columns)}"
+            )
     except Exception:
         gams.printLog('Unexpected error when checking pDemandForecast')
         raise
@@ -723,29 +833,29 @@ def _check_planning_reserves(gams, db):
 
 
 def _check_fuel_definitions(gams, db):
-    """Ensure fuel definitions align between ftfindex and generation data."""
+    """Ensure fuel definitions align between pTechFuel and generation data."""
     try:
-        ftf_records = db["ftfindex"].records
-        if ftf_records is None or ftf_records.empty:
+        techfuel_records = db["pTechFuel"].records
+        if techfuel_records is None or techfuel_records.empty:
             return
         gen_records = db["pGenDataInput"].records
         if gen_records is None or gen_records.empty:
             return
 
-        fuels_defined = set(ftf_records['f'].unique())
+        fuels_defined = set(techfuel_records['f'].unique())
         fuels_in_gendata = set(gen_records['f'].unique())
         missing_fuels = fuels_in_gendata - fuels_defined
         additional_fuels = fuels_defined - fuels_in_gendata
         if missing_fuels:
             msg = (
-                "Error: The following fuels are in gendata but not defined in ftfindex: \n"
+                "Error: The following fuels are in gendata but not defined in pTechFuel: \n"
                 f"{missing_fuels}"
             )
             gams.printLog(msg)
             raise ValueError(msg)
         if additional_fuels:
             gams.printLog(
-                "Info: The following fuels are defined in ftfindex but not in gendata.\n"
+                "Info: The following fuels are defined in pTechFuel but not in gendata.\n"
                 f"{additional_fuels}\n This may be because of spelling issues, and may cause problems after."
             )
         gams.printLog('Success: Fuels are well-defined everywhere.')
@@ -754,20 +864,20 @@ def _check_fuel_definitions(gams, db):
     except ValueError:
         raise
     except Exception:
-        gams.printLog('Unexpected error when checking ftfindex')
+        gams.printLog('Unexpected error when checking pTechFuel fuels')
         raise
 
 
 def _check_tech_definitions(gams, db):
-    """Ensure technology definitions align between pTechData and generation data."""
+    """Ensure technology definitions align between pTechFuel and generation data."""
     try:
-        tech_records = db["pTechData"].records
+        techfuel_records = db["pTechFuel"].records
 
         gen_records = db["pGenDataInput"].records
 
         tech_defined = (
-            set(tech_records["tech"].unique())
-            if "tech" in tech_records.columns
+            set(techfuel_records["tech"].unique())
+            if "tech" in techfuel_records.columns
             else set()
         )
         tech_in_gendata = (
@@ -780,14 +890,14 @@ def _check_tech_definitions(gams, db):
         additional_techs = tech_defined - tech_in_gendata
         if missing_techs:
             msg = (
-                "Error: The following technologies are in gendata but not defined in pTechData: \n"
+                "Error: The following technologies are in gendata but not defined in pTechFuel: \n"
                 f"{missing_techs}"
             )
             gams.printLog(msg)
             raise ValueError(msg)
         if additional_techs:
             gams.printLog(
-                "Info: The following technologies are defined in pTechData but not used in gendata.\n"
+                "Info: The following technologies are defined in pTechFuel but not used in gendata.\n"
                 f"{additional_techs}\n This may indicate spelling differences or unused technologies."
             )
         gams.printLog("Success: Technologies are well-defined everywhere.")
@@ -796,7 +906,7 @@ def _check_tech_definitions(gams, db):
     except ValueError:
         raise
     except Exception:
-        gams.printLog("Unexpected error when checking pTechData")
+        gams.printLog("Unexpected error when checking pTechFuel technologies")
         raise
 
 
@@ -922,7 +1032,7 @@ def _check_storage_data(gams, db):
         gen_records = db["pGenDataInput"].records
         if gen_records is None or gen_records.empty:
             return
-        gen_storage = set(stor_records['g'].unique())
+        gen_storage = set(stor_records['gen'].unique())
         gen_ref = set(gen_records.loc[gen_records.tech == 'Storage']['g'].unique())
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:
@@ -1002,6 +1112,134 @@ def _warn_missing_generation_default_combinations(gams, db):
             )
     except Exception:
         gams.printLog('Unexpected error when checking pGenDataInputDefault combinations')
+        raise
+
+
+def _warn_missing_availability_default_combinations(gams, db):
+    """Warn when a (zone, tech, fuel) tuple in pGenDataInput is absent in pAvailabilityDefault."""
+    try:
+        avail_defaults = db["pAvailabilityDefault"].records
+        gen_records = db["pGenDataInput"].records
+        if (
+            avail_defaults is None
+            or avail_defaults.empty
+            or gen_records is None
+            or gen_records.empty
+        ):
+            gams.printLog(
+                "[input_verification][availability] Skipping pAvailabilityDefault coverage check: table missing or empty."
+            )
+            return
+
+        zone_col_defaults = "z" if "z" in avail_defaults.columns else ("zone" if "zone" in avail_defaults.columns else None)
+        fuel_col_defaults = "f" if "f" in avail_defaults.columns else ("fuel" if "fuel" in avail_defaults.columns else None)
+        tech_col_defaults = "tech" if "tech" in avail_defaults.columns else None
+
+        if zone_col_defaults is None or fuel_col_defaults is None or tech_col_defaults is None:
+            gams.printLog(
+                "[input_verification][availability] Skipping coverage check: pAvailabilityDefault lacks required columns "
+                f"(have {list(avail_defaults.columns)}; need zone/z, tech, fuel/f)."
+            )
+            return
+
+        required = (
+            gen_records[["z", "tech", "f"]]
+            .dropna(subset=["z", "tech", "f"])
+            .drop_duplicates()
+        )
+        available = (
+            avail_defaults[[zone_col_defaults, tech_col_defaults, fuel_col_defaults]]
+            .dropna(subset=[zone_col_defaults, tech_col_defaults, fuel_col_defaults])
+            .drop_duplicates()
+            .rename(columns={zone_col_defaults: "z", tech_col_defaults: "tech", fuel_col_defaults: "f"})
+        )
+
+        required_set = set(map(tuple, required.to_records(index=False)))
+        available_set = set(map(tuple, available.to_records(index=False)))
+        missing = required_set - available_set
+        if missing:
+            missing_list = sorted(missing)
+            preview = missing_list[:10]
+            more = ""
+            if len(missing_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(missing_list)})"
+            gams.printLog(
+                "Warning: pAvailabilityDefault lacks entries for the following (zone, tech, fuel) combinations "
+                f"present in pGenDataInput{more}: {preview}. No errors will be raised, but this may create unexpected results."
+            )
+        else:
+            gams.printLog("[input_verification][availability] pAvailabilityDefault covers all (zone, tech, fuel) combinations present in pGenDataInput.")
+    except Exception:
+        gams.printLog("Unexpected error when checking pAvailabilityDefault combinations")
+        raise
+
+
+def _warn_missing_build_limits(gams, db):
+    """Warn when candidate/committed units lack BuildLimitperYear (treated as not buildable)."""
+    try:
+        if "pGenDataInput" not in db:
+            return
+        records = db["pGenDataInput"].records
+        if records is None or records.empty:
+            return
+
+        if not {"Status", "BuildLimitperYear"}.issubset(records.columns):
+            gen_col = "g" if "g" in records.columns else ("gen" if "gen" in records.columns else None)
+            gen_list = (
+                records[gen_col].astype(str).unique().tolist()
+                if gen_col is not None
+                else records.index.astype(str).tolist()
+            )
+            preview = gen_list[:10]
+            more = ""
+            if len(gen_list) > len(preview):
+                more = f" (showing {len(preview)} of {len(gen_list)})"
+            gams.printLog(
+                "[input_verification][build_limit] Warning: pGenDataInput lacks Status/BuildLimitperYear columns; "
+                f"candidate/committed units may not be buildable. Consider clearing Status to exclude plants if needed. "
+                f"Generators present{more}: {preview}"
+            )
+            return
+
+        df_wide = records
+        if {"pGenDataInputHeader", "value"}.issubset(records.columns) and "BuildLimitperYear" not in records.columns:
+            id_col = "g" if "g" in records.columns else ("gen" if "gen" in records.columns else None)
+            df_wide = (
+                records.pivot_table(
+                    index=id_col or records.index,
+                    columns="pGenDataInputHeader",
+                    values="value",
+                    aggfunc="first",
+                    observed=False,
+                )
+                .reset_index()
+            )
+            if id_col:
+                df_wide = df_wide.rename(columns={id_col: "g"})
+
+        status_num = pd.to_numeric(df_wide["Status"], errors="coerce")
+        build_limit = pd.to_numeric(df_wide["BuildLimitperYear"], errors="coerce")
+        mask = status_num.isin([2, 3]) & (build_limit.isna() | (build_limit == 0))
+        if not mask.any():
+            return
+
+        offenders = df_wide.loc[mask]
+        gen_col = "g" if "g" in offenders.columns else ("gen" if "gen" in offenders.columns else None)
+        names = (
+            offenders[gen_col].astype(str).tolist()
+            if gen_col is not None
+            else offenders.index.astype(str).tolist()
+        )
+        preview = names[:10]
+        more = ""
+        if len(names) > len(preview):
+            more = f" (showing {len(preview)} of {len(names)})"
+        gams.printLog(
+            "[input_verification][build_limit] Warning: BuildLimitperYear is missing or zero for "
+            f"{len(names)} candidate/committed generator(s); they will not be eligible to build{more}: {preview}."
+        )
+    except Exception:
+        gams.printLog("Unexpected error when warning about BuildLimitperYear in pGenDataInput")
         raise
 
 
