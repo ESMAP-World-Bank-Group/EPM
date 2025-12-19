@@ -16,7 +16,7 @@ With MCP, you can just **ask the AI in Cursor** to run EPM, and it will do it fo
 
 I created two things:
 
-### 1. `mcp_server.py` - The Bridge Script
+### 1. `tools/mcp_server.py` - The Bridge Script
 This is a Python script that:
 - Listens for commands from Cursor's AI
 - Translates those commands into actual `epm.py` calls
@@ -35,7 +35,7 @@ You (in Cursor)
     ↓
 Cursor's AI
     ↓
-MCP Server (mcp_server.py)
+MCP Server (tools/mcp_server.py)
     ↓
 Executes: python epm/epm.py --folder_input data_test --cpu 4
     ↓
@@ -94,7 +94,7 @@ The configuration file location depends on your system:
     "epm": {
       "command": "python",
       "args": [
-        "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main/mcp_server.py"
+        "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main/tools/mcp_server.py"
       ],
       "cwd": "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main",
       "env": {}
@@ -162,7 +162,7 @@ python epm/epm.py --folder_input data_test_region --sensitivity --cpu 4 --select
 ### Test 1: Check if MCP server runs
 ```bash
 cd /Users/lucas/Documents/World\ Bank/Projects/EPM_APPLIED/EPM_main
-python mcp_server.py
+python tools/mcp_server.py
 ```
 
 If it starts without errors and waits (doesn't exit), it's working!
