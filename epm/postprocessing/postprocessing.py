@@ -348,6 +348,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
         {'attribute': ['Unmet demand', 'Exports', 'Imports', 'Storage Charge']}
     )
     demand_df = filter_dataframe(epm_results['pDispatch'], {'attribute': ['Demand']})
+    exchange_components = filter_dataframe(epm_results['pDispatch'], {'attribute': ['Exports', 'Imports']})
 
     if generate_zone_figures:
         dfs_to_plot_area_zone = {
@@ -416,6 +417,28 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                     if zone_max_load_season_active:
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_max_load_season.pdf')
                         select_time = {'season': [max_load_season]}
+                        make_fuel_dispatchplot(
+                            dfs_to_plot_area_zone,
+                            dfs_to_plot_line_zone,
+                            dict_specs['colors'],
+                            zone=zone,
+                            year=year,
+                            scenario=selected_scenario,
+                            fuel_grouping=None,
+                            select_time=select_time,
+                            filename=filename,
+                            bottom=None,
+                            legend_loc='bottom'
+                        )
+
+                    if zone_full_season_active:
+                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_all_seasons.pdf')
+                        unique_days = pd.Index(zone_demand_year['day']).dropna().unique()
+                        sorted_days = sorted(unique_days, key=_day_sort_key)
+                        days_to_plot = sorted_days[:MAX_FULL_SEASON_DAYS]
+                        select_time = {'season': zone_demand_year['season'].unique().tolist()}
+                        if len(sorted_days) > 0:
+                            select_time['day'] = days_to_plot
                         make_fuel_dispatchplot(
                             dfs_to_plot_area_zone,
                             dfs_to_plot_line_zone,
@@ -1737,7 +1760,24 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     title=f'Energy Mix by Fuel - {scenario} (GWh)'
                                                     )                     
                         
-                        
+                        for zone in df['zone'].unique():
+                            figure_name_zone = f'{figure_name}Zone-{zone}-{scenario}'
+                            df_zone = df[df['zone'] == zone]
+                            
+                            filename = os.path.join(subfolders['3_energy'], f'{figure_name_zone}.pdf')
+                            
+                            make_stacked_barplot(df_zone, 
+                                                        filename, 
+                                                        dict_specs['colors'], 
+                                                        column_stacked='fuel',
+                                                        column_subplot=None,
+                                                        column_xaxis='year',
+                                                        column_value='value',
+                                                        format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
+                                                        annotate=False,
+                                                        title=f'Energy Mix by Fuel - {zone} - {scenario} (GWh)'
+                                                        )
+                                
                         # Energy mix in percentage by fuel by zone
                         df_percentage = df.set_index(['zone', 'year', 'fuel']).squeeze()
                         df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
@@ -1858,7 +1898,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
                 except Exception as err:
                     log_warning(f'Failed to generate dispatch figures: {err}', logger=active_logger)
-            
+                # Generate stacked bar plot: 3 subplots (2025, 2030, 2035), countries stacked, x-axis by season|day|time
+
+
+
             # ------------------------------------------------------------------------------------
             # 5. Interconnection Heamap
             # ------------------------------------------------------------------------------------
@@ -2117,7 +2160,39 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             annotate=False,
                                             title=f'Additional Capacity with the Project {year}', show_total=True)
                     log_info(f'Capacity assessment figures generated successfully: {filename}', logger=active_logger)
+    # Filter for imports and exports from pDispatch
+    df_plot = filter_dataframe(epm_results['pDispatch'], {'attribute': ['Imports', 'Exports']})
 
-    log_info(f"Postprocessing finished for {FOLDER}", logger=active_logger)
-    set_default_logger(previous_logger)
-    set_utils_logger(previous_logger)
+# Create combined x-axis column from season, day, time multi-index
+    df_plot = df_plot.copy()
+    df_plot['qdt'] = (df_plot['season'].astype(str) + '|' + 
+        df_plot['day'].astype(str) + '|' + 
+        df_plot['t'].astype(str))
+
+# Select years and maintain order
+    years_target = [2025, 2030, 2035, 2040]
+    df_plot = df_plot[df_plot['year'].isin(years_target)]
+    df_plot = df_plot[['scenario','zone', 'year','qdt', 'value']]
+
+# Create ordered x-axis values (q, d, t sorted)
+    """x_order = (df_plot[['season', 'day', 't', 'qdt']]
+                .drop_duplicates()
+                .sort_values(['season', 'day', 't'])['qdt']
+                .tolist())"""
+
+# Generate stacked bar plot with 3 subplots
+    
+    make_stacked_barplot(
+        df_plot,
+        os.path.join(subfolders['5_dispatch'], 'InterconnectionDispatch2025_2035.pdf'),
+        dict_specs['colors'],
+        column_stacked='zone',
+        column_subplot='year',
+        column_xaxis='qdt',
+        column_value='value',
+        format_y=make_auto_yaxis_formatter('GWh'),
+        rotation=90,
+        annotate=False,
+        title='Interconnection Dispatch (Imports/Exports) for Selected Years (GWh)',
+        #x_order=x_order 
+)                
