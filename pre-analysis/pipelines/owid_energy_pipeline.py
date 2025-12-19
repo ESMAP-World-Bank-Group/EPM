@@ -13,10 +13,11 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import pandas as pd
 
-from load_pipeline import require_file, resolve_country_name
+from .load_pipeline import require_file, resolve_country_name
 
+BASE_DIR = Path(__file__).resolve().parents[1]
 SCRIPT_DIR = Path(__file__).resolve().parent
-DEFAULT_DATASET = SCRIPT_DIR / "dataset" / "owid-energy-data.csv"
+DEFAULT_DATASET = BASE_DIR / "dataset" / "owid-energy-data.csv"
 LEGEND_RECT_RIGHT = 0.92
 
 
@@ -53,7 +54,7 @@ def _resolve_dataset_path(dataset_path: Path | str | None) -> Path:
         if candidate.exists():
             path = candidate
         else:
-            dataset_candidate = SCRIPT_DIR / "dataset" / path.name
+            dataset_candidate = BASE_DIR / "dataset" / path.name
             if dataset_candidate.exists():
                 path = dataset_candidate
     return require_file(path, hint="Place owid-energy-data.csv under pre-analysis/dataset/.")

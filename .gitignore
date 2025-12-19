@@ -48,7 +48,7 @@ epm/epm.~log
 
 epm/postprocessing/data_inception_report/output
 
-/pre-analysis/not_git_track/
+pre-analysis/scratch/
 
 epm/postprocessing/data_inception_report/output
 
@@ -64,11 +64,8 @@ epm/postprocessing/data_inception_report/output
 
 # Pre-analysis generated data
 pre-analysis/output_workflow
-pre-analysis/output_standalone
 pre-analysis/api
 pre-analysis/.snakemake/
-pre-analysis/open-data/.snakemake/
-pre-analysis/open-data/old/
 pre-analysis/dataset/
 !pre-analysis/dataset/.gitkeep
 pre-analysis/**/input/*

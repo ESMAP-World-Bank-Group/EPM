@@ -2,7 +2,7 @@
 
 Main entry points:
 - `build_generation_map`: clean GAP Excel and export interactive/static maps + CSVs.
-- CLI/`__main__`: provides a no-arg standalone run targeting `output_standalone/generation_map_standalone`.
+- CLI/`__main__`: provides a no-arg standalone run targeting `output_workflow/generation_map_standalone`.
 """
 
 from __future__ import annotations
@@ -32,7 +32,11 @@ try:
 except ImportError:  # pragma: no cover - geopandas optional for static map background.
     gpd = None
 
-from load_pipeline import require_file, resolve_country_name
+from .load_pipeline import require_file, resolve_country_name
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = Path(__file__).resolve().parent
+DATASET_DIR = BASE_DIR / "dataset"
 
 # --------------------------------------------------------------------------- #
 # Constants and default styles
@@ -99,8 +103,6 @@ STATUS_CATEGORY_ORDER: Tuple[str, ...] = (
     "Other",
 )
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-DATASET_DIR = SCRIPT_DIR / "dataset"
 DEFAULT_WORLD_MAP_SHAPEFILE = (
     DATASET_DIR / "maps" / "ne_110m_admin_0_countries" / "ne_110m_admin_0_countries.shp"
 )
@@ -202,7 +204,7 @@ def load_generation_sites(
     """
     path = require_file(
         xlsx_path,
-        hint="Place Global-Integrated-Power-April-2025.xlsx under pre-analysis/open-data/dataset/ or point the config to the correct location.",
+        hint="Place Global-Integrated-Power-April-2025.xlsx under pre-analysis/dataset/ or point the config to the correct location.",
     )
     suffix = path.suffix.lower()
     if suffix == ".csv":
@@ -1052,8 +1054,7 @@ def _find_gap_excel(source: Path) -> Path:
 
 def main(default_verbose: bool = False) -> None:
     """CLI entrypoint for generation-map helpers (uses argparse)."""
-    script_dir = Path(__file__).resolve().parent
-    default_source = script_dir / "dataset"
+    default_source = DATASET_DIR
 
     parser = argparse.ArgumentParser(description="Quick-start helper for GAP-based generation maps.")
     parser.add_argument(
@@ -1061,7 +1062,7 @@ def main(default_verbose: bool = False) -> None:
         nargs="?",
         type=Path,
         default=default_source,
-        help="Folder containing the GAP Excel (defaults to ./dataset) or the Excel file itself.",
+        help="Folder containing the GAP Excel (defaults to pre-analysis/dataset) or the Excel file itself.",
     )
     parser.add_argument(
         "--output-dir",
@@ -1132,10 +1133,9 @@ if __name__ == "__main__":
         module=r"openpyxl\.worksheet\._read_only",
     )
     if len(sys.argv) == 1:
-        script_dir = Path(__file__).resolve().parent
-        sample_output_dir = script_dir / "output_standalone" / "generation_map_standalone"
+        sample_output_dir = BASE_DIR / "output_workflow" / "generation_map_standalone"
         sample_output_dir.mkdir(parents=True, exist_ok=True)
-        default_source = script_dir / "dataset"
+        default_source = DATASET_DIR
 
         print("[generation-map] Running standalone example with default dataset.")
         try:

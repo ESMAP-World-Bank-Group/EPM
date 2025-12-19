@@ -5,7 +5,7 @@ Main entry points
 - ``load_hydro_reservoirs``: read + clean the CSV for a target country list.
 - ``summarize_hydro_sites``: aggregate key metrics (site counts, capacity, head).
 - ``build_hydro_map``: static PDF map styled by plant type.
-- CLI/``__main__``: convenience runner that targets ``output_standalone/hydro_reservoirs`` with user-editable params.
+- CLI/``__main__``: convenience runner that targets ``output_workflow/hydro_reservoirs`` with user-editable params.
 """
 
 from __future__ import annotations
@@ -29,6 +29,14 @@ except ImportError:  # pragma: no cover - geopandas is optional.
     gpd = None
 
 from difflib import SequenceMatcher
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_DATASET = BASE_DIR / "dataset" / "GloHydroRes_vs1.csv"
+DEFAULT_OUTPUT_DIR = BASE_DIR / "output_workflow" / "hydro_reservoirs"
+DEFAULT_COUNTRY_SHP = (
+    BASE_DIR / "dataset" / "maps" / "ne_110m_admin_0_countries" / "ne_110m_admin_0_countries.shp"
+)
 
 # --------------------------------------------------------------------------- #
 # Local utilities (duplicated to avoid extra dependencies)
@@ -102,12 +110,7 @@ def _clean_site_label(label: str, country: str | None = None) -> str:
     cleaned = " ".join(cleaned.split())
     return cleaned or label
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-DEFAULT_DATASET = SCRIPT_DIR / "dataset" / "GloHydroRes_vs1.csv"
-DEFAULT_OUTPUT_DIR = SCRIPT_DIR / "output_standalone" / "hydro_reservoirs"
-DEFAULT_WORLD_MAP_SHAPEFILE = (
-    SCRIPT_DIR / "dataset" / "maps" / "ne_110m_admin_0_countries" / "ne_110m_admin_0_countries.shp"
-)
+DEFAULT_WORLD_MAP_SHAPEFILE = DEFAULT_COUNTRY_SHP
 
 # Simple styling keyed by plant_type codes in the dataset (STO=storage, ROR=run-of-river, PS=pumped storage).
 TYPE_COLORS = {"STO": "#1f77b4", "ROR": "#2ca02c", "PS": "#ff7f0e", "Unknown": "#6c757d"}
@@ -153,7 +156,7 @@ def load_hydro_reservoirs(
         candidate = SCRIPT_DIR / path
         # If a bare filename was provided, also try the dataset/ subfolder.
         if not candidate.exists():
-            candidate_dataset = SCRIPT_DIR / "dataset" / path.name
+            candidate_dataset = BASE_DIR / "dataset" / path.name
             if candidate_dataset.exists():
                 candidate = candidate_dataset
         path = candidate
@@ -325,7 +328,7 @@ def run_hydro_pipeline(
 
     out_dir = Path(output_dir)
     if not out_dir.is_absolute():
-        out_dir = SCRIPT_DIR / out_dir
+        out_dir = BASE_DIR / out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
 
     cleaned_csv = out_dir / "hydro_sites_cleaned.csv"
@@ -356,7 +359,7 @@ if __name__ == "__main__":
     # ------------------------------------------------------------------ #
     # User-editable parameters (tweak in-place from your IDE)
     # ------------------------------------------------------------------ #
-    config_path = SCRIPT_DIR / "config" / "open_data_config.yaml"  # Set to None to skip config lookup.
+    config_path = BASE_DIR / "config" / "open_data_config.yaml"  # Set to None to skip config lookup.
     use_config = True  # Flip to False to ignore config file entirely.
     countries = []  # e.g., ["Bosnia and Herzegovina", "Croatia"]. Falls back to config if empty.
     dataset_path = DEFAULT_DATASET  # Override with a custom CSV path if needed.
