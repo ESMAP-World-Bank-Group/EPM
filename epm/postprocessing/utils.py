@@ -132,6 +132,7 @@ NAME_COLUMNS = {
     'pDispatchTechFuel': 'fuel',
     'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
+    'pExchange': 'zone',
     'pYearlyCostsZone': 'attribute',
     'pCapacityTechFuel': 'fuel',
     'pEnergyTechFuel': 'fuel',
