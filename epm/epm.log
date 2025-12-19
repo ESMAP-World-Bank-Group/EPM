@@ -1,49 +1,50 @@
-2025-12-19 10:19:40,690 - INFO - Starting EPM workflow
-2025-12-19 10:19:40,690 - INFO - Config file: config.csv
-2025-12-19 10:19:40,690 - INFO - Folder input: data_test
-2025-12-19 10:19:40,690 - INFO - modeltype: None
-2025-12-19 10:19:40,690 - INFO - Scenarios file: None
-2025-12-19 10:19:40,690 - INFO - Sensitivity: False
-2025-12-19 10:19:40,690 - INFO - MonteCarlo: False
-2025-12-19 10:19:40,690 - INFO - MonteCarlo samples: 10
-2025-12-19 10:19:40,690 - INFO - Monte Carlo uncertainties file: None
-2025-12-19 10:19:40,690 - INFO - Reduced output: False
-2025-12-19 10:19:40,690 - INFO - Reduced definition csv: False
-2025-12-19 10:19:40,690 - INFO - Selected scenarios: None
-2025-12-19 10:19:40,690 - INFO - Simple: None
-2025-12-19 10:19:40,690 - INFO - Simulation label: None
-2025-12-19 10:19:40,690 - INFO - Debug flag: False
-2025-12-19 10:19:40,690 - INFO - Project folder: output\simulations_run_20251217_103058
-2025-12-19 10:19:40,690 - INFO - EPM does not run again but use the existing simulation within the folder
-2025-12-19 10:19:40,690 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251217_103058 for postprocessing.
-2025-12-19 10:19:40,690 - INFO - Starting postprocessing for folder: output\simulations_run_20251217_103058
-2025-12-19 10:19:40,690 - INFO - Postprocessing started for output\simulations_run_20251217_103058
-2025-12-19 10:19:40,690 - INFO - Processing simulation results from output\simulations_run_20251217_103058
-2025-12-19 10:19:42,981 - WARNING - pInterchangeExternalExports not in epm_results.keys().
-2025-12-19 10:19:42,981 - WARNING - pInterchangeExternalImports not in epm_results.keys().
-2025-12-19 10:19:45,174 - INFO - Loaded 53 processed result tables
-2025-12-19 10:19:45,190 - INFO - Generating summary...
-2025-12-19 10:19:45,190 - WARNING - No pInterchangeExternalExports in epm_results
-2025-12-19 10:19:45,190 - WARNING - No pInterchangeExternalImports in epm_results
-2025-12-19 10:19:45,301 - INFO - Generating detailed summary by Power Plant...
-2025-12-19 10:19:45,364 - INFO - Generating heatmap summary...
-2025-12-19 10:19:46,297 - INFO - Creating folders for figures...
-2025-12-19 10:19:46,297 - INFO - Generating capacity figures...
-2025-12-19 10:20:06,403 - INFO - Generating cost figures...
-2025-12-19 10:20:22,545 - INFO - Generating energy figures...
-2025-12-19 10:21:10,786 - INFO - Generating energy dispatch figures...
-2025-12-19 10:21:53,643 - INFO - Generating interconnection figures...
-2025-12-19 10:22:15,798 - INFO - Generating interactive map figures...
-2025-12-19 10:22:15,798 - INFO - Generating map for scenario baseline
-2025-12-19 10:22:16,353 - INFO - Saved transmission capacity map: output\simulations_run_20251217_103058\img\6_maps\TransmissionCapacityMapEvolution_baseline.pdf
-2025-12-19 10:22:17,161 - INFO - Saved transmission utilization map: output\simulations_run_20251217_103058\img\6_maps\TransmissionUtilizationMapEvolution_baseline.pdf
-2025-12-19 10:22:37,945 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2025.html
-2025-12-19 10:22:38,610 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2025.html
-2025-12-19 10:23:04,254 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2030.html
-2025-12-19 10:23:04,866 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2030.html
-2025-12-19 10:23:28,781 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2035.html
-2025-12-19 10:23:29,399 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2035.html
-2025-12-19 10:23:52,461 - INFO - Saving interactive energy map to output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2040.html
-2025-12-19 10:23:53,135 - INFO - Saved interactive map: output\simulations_run_20251217_103058\img\6_maps\InteractiveMap_baseline_2040.html
-2025-12-19 10:24:13,725 - INFO - Postprocessing completed for folder: output\simulations_run_20251217_103058
-2025-12-19 10:24:13,725 - INFO - EPM workflow completed
+2025-12-19 15:12:38,941 - INFO - Starting EPM workflow
+2025-12-19 15:12:38,941 - INFO - Config file: config.csv
+2025-12-19 15:12:38,941 - INFO - Folder input: data_sapp
+2025-12-19 15:12:38,941 - INFO - modeltype: None
+2025-12-19 15:12:38,941 - INFO - Scenarios file: None
+2025-12-19 15:12:38,941 - INFO - Sensitivity: False
+2025-12-19 15:12:38,941 - INFO - MonteCarlo: False
+2025-12-19 15:12:38,957 - INFO - MonteCarlo samples: 10
+2025-12-19 15:12:38,957 - INFO - Monte Carlo uncertainties file: None
+2025-12-19 15:12:38,957 - INFO - Reduced output: False
+2025-12-19 15:12:38,957 - INFO - Reduced definition csv: False
+2025-12-19 15:12:38,957 - INFO - Selected scenarios: None
+2025-12-19 15:12:38,957 - INFO - Simple: None
+2025-12-19 15:12:38,957 - INFO - Simulation label: None
+2025-12-19 15:12:38,957 - INFO - Debug flag: False
+2025-12-19 15:12:39,005 - INFO - Prepared 1 scenario(s): baseline
+2025-12-19 15:12:39,005 - INFO - Folder ready: output\simulations_run_20251219_151239
+2025-12-19 15:12:44,423 - INFO - Command to execute: gams 'C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms' 'LogOption 4' 'LogFile baseline_main.log' '--BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms' '--REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms' '--READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms' '--DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms' '--HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms' '--FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp' '--pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pSettings.csv' '--y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y.csv' '--zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap.csv' '--pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv' '--ftfindex C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/ftfindex.csv' '--pFuelCarbonContent C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pFuelCarbonContent.csv' '--pTechData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pTechData.csv' '--pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv' '--pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast.csv' '--pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv' '--sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/srelevant.csv' '--pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv' '--pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelCustom.csv' '--pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelDefaultRampHydro.csv' '--pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv' '--pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv' '--pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv' '--pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv' '--pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefaultCCDR.csv' '--pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv' '--pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv' '--pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfileROR.csv' '--pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv' '--pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorDataExcel.csv' '--pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv' '--pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv' '--pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv' '--pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv' '--pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv' '--pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv' '--pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv' '--zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv' '--pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv' '--pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactor.csv' '--pMaxPriceImportShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxPriceImportShare.csv' '--pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxExchangeShare.csv' '--pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv' '--pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pNewTransmission.csv' '--pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv' '--pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv' '--pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv' '--pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv' '--pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv' '--pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv' '--pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv' '--solvemode 2' '--trace 0' '--reportshort 0' '--modeltype rmip'
+2025-12-19 15:13:16,270 - ERROR - EPM workflow failed
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 51, in starmapstar
+    return list(itertools.starmap(args[0], args[1]))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm\epm.py", line 451, in launch_epm_multiprocess
+    return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm\epm.py", line 436, in launch_epm
+    raise RuntimeError('GAMS Error: check GAMS logs file ')
+RuntimeError: GAMS Error: check GAMS logs file 
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm\epm.py", line 939, in main
+    folder, result = launch_epm_multi_scenarios(config=args.config,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm\epm.py", line 680, in launch_epm_multi_scenarios
+    pool.starmap(
+  File "C:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 375, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 774, in get
+    raise self._value
+RuntimeError: GAMS Error: check GAMS logs file 

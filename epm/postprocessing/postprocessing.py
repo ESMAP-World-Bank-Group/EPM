@@ -190,7 +190,6 @@ FIGURES_ACTIVATED = {
 }
 
 FIGURE_CATEGORY_ENABLED = {
-<<<<<<< HEAD
     'summary': True,
     'capacity': True,
     'costs': True,
@@ -198,15 +197,6 @@ FIGURE_CATEGORY_ENABLED = {
     'dispatch': True,
     'interconnection': True,
     'maps': True,
-=======
-    'summary': False,
-    'capacity': False,
-    'costs': False,
-    'energy': False,
-    'dispatch': False,
-    'interconnection': False,
-    'maps': False,
->>>>>>> origin/main
 }
 
 FIGURE_CATEGORY_MAP = {
@@ -455,7 +445,6 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                         )
 
                     if zone_full_season_active:
-<<<<<<< HEAD
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_all_seasons.pdf')
                         unique_days = pd.Index(zone_demand_year['day']).dropna().unique()
                         sorted_days = sorted(unique_days, key=_day_sort_key)
@@ -478,10 +467,7 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                         )
 
                     if zone_full_season_active and year == years_available[0]:
-                        filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season.pdf')
-=======
                         filename = os.path.join(folder, f'Dispatch_{selected_scenario}_{zone}_full_season_{year}.pdf')
->>>>>>> origin/main
                         full_season_filter = zone_demand_year[
                             (zone_demand_year['season'] == max_load_season)
                         ]
