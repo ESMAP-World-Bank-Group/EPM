@@ -16,7 +16,7 @@ This guide explains how to set up and use the MCP (Model Context Protocol) serve
 
 2. **Make the MCP server executable (optional):**
    ```bash
-   chmod +x mcp_server.py
+   chmod +x tools/mcp_server.py
    ```
 
 ## Configuration in Cursor
@@ -42,7 +42,7 @@ Add the following to your MCP configuration file:
     "epm": {
       "command": "python",
       "args": [
-        "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main/mcp_server.py"
+        "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main/tools/mcp_server.py"
       ],
       "env": {}
     }
@@ -59,7 +59,7 @@ Alternatively, you can use a relative path if you set the `cwd`:
   "mcpServers": {
     "epm": {
       "command": "python",
-      "args": ["mcp_server.py"],
+      "args": ["tools/mcp_server.py"],
       "cwd": "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main",
       "env": {}
     }
@@ -123,7 +123,7 @@ You can test the MCP server directly from the command line:
 
 ```bash
 cd /Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main
-python mcp_server.py
+python tools/mcp_server.py
 ```
 
 The server will start and wait for MCP protocol messages on stdin/stdout.

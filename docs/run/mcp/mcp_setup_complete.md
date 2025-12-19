@@ -5,7 +5,7 @@ I've automatically set up the MCP server for EPM. Here's what was done:
 ## ✅ Completed Steps
 
 1. **Installed MCP package** - `pip install mcp` ✓
-2. **Created MCP server script** - `mcp_server.py` ✓
+2. **Created MCP server script** - `tools/mcp_server.py` ✓
 3. **Created Cursor configuration** - `~/Library/Application Support/Cursor/User/globalStorage/mcp.json` ✓
 4. **Made server executable** - Added execute permissions ✓
 
@@ -18,7 +18,7 @@ I've automatically set up the MCP server for EPM. Here's what was done:
 
 **Server Script:**
 ```
-/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main/mcp_server.py
+/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main/tools/mcp_server.py
 ```
 
 **Python Interpreter:**
@@ -84,7 +84,7 @@ Once working, the AI will have access to:
 4. **Test server manually:**
    ```bash
    cd "/Users/lucas/Documents/World Bank/Projects/EPM_APPLIED/EPM_main"
-   timeout 2 python mcp_server.py
+   timeout 2 python tools/mcp_server.py
    ```
    (Should start without errors, timeout is expected)
 
@@ -109,9 +109,9 @@ Once working, you can ask:
 
 ## 📚 Additional Files
 
-- `MCP_EXPLAINED.md` - Detailed explanation of MCP
-- `MCP_SETUP.md` - Original setup guide
-- `test_epm_simple.py` - Alternative simple test script (no MCP needed)
+- `docs/run/mcp/mcp_explained.md` - Detailed explanation of MCP
+- `docs/run/mcp/mcp_setup.md` - Original setup guide
+- `tools/test_epm_simple.py` - Alternative simple test script (no MCP needed)
 
 ---
 

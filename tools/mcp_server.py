@@ -23,7 +23,9 @@ except ImportError:
     sys.exit(1)
 
 # Get the base directory (where this script is located)
-BASE_DIR = Path(__file__).parent.absolute()
+# Script is in tools/, so go up one level to get project root
+TOOLS_DIR = Path(__file__).parent.absolute()
+BASE_DIR = TOOLS_DIR.parent.absolute()
 EPM_DIR = BASE_DIR / "epm"
 
 # Add EPM directory to path and import main

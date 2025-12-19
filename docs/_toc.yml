@@ -23,6 +23,11 @@ parts:
       - file: docs/run/run_debugging
       - file: docs/run/run_troubleshooting
       - file: docs/run/run_summary
+      - caption: Running EPM with MCP (Cursor AI)
+        chapters:
+          - file: docs/run/mcp/mcp_explained
+          - file: docs/run/mcp/mcp_setup
+          - file: docs/run/mcp/mcp_setup_complete
   - caption: Run Options
     chapters:
       - file: docs/run/options_solver
