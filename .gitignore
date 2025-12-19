@@ -34,8 +34,6 @@
 /epm/cplex.opt
 epm/output/*
 !epm/output/tableau/
-!epm/output/simulations_test/**
-epm/output/simulations_test/**/*.pdf
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
 epm/postprocessing/*.ipynb
@@ -76,8 +74,10 @@ pre-analysis/**/output/*
 !pre-analysis/load/input/load_monthly.csv
 !pre-analysis/hydro/input/utility
 
-# Sensitivity analysis artifacts
+# Sensitivity and assessment analysis artifacts (generated input files)
 **/sensitivity/
+**/assessment/
+**/montecarlo/
 
 
 
@@ -85,6 +85,10 @@ pre-analysis/**/output/*
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
+# Exclude generated folders within data_test
+epm/input/data_test/**/sensitivity/
+epm/input/data_test/**/assessment/
+epm/input/data_test/**/montecarlo/
 
 # Documentation
 /doc/todo.md
