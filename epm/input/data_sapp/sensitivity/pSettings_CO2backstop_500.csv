@@ -11,8 +11,8 @@ PARAMETERS,,
 "Spin Reserve vOLL per MWh, $",SpinReserveVoLL,60.0
 "Cost of surplus power per MWh, $",CostSurplus,0.0
 "Cost of curtailment per MWh, $",CostCurtail,0.0
-"Cost of Climate backstop techno per ton  CO2, $",CO2backstop,500.0
-"Cost of H2 unserved per MWh, $",H2UnservedCost,3000.0
+"Cost of curtailment per MWh, $",CO2backstop,500.0
+"Cost of Climate backstop techno per ton  CO2, $",H2UnservedCost,3000.0
 ,,
 INTERCONNECTION,,
 INTERNAL,,
@@ -64,3 +64,8 @@ Apply ramp constraints,fApplyRampConstraint,0.0
 Apply min generation constraint (only dispatch),fApplyMinGenCommitment,0.0
 Include minimum up/down time constraints (only dispatch),fApplyMUDT,0.0
 Apply startup cost (only dispatch),fApplyStartupCost,0.0
+,,
+INPUT TREATMENTS,,
+Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,1.0
+Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1.0
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,1.0

@@ -459,7 +459,7 @@ def standardize_names(dict_df, key, mapping, column='fuel'):
         new_values = [f for f in temp[column].unique() if f not in mapping.values()]
         if new_values:
             raise ValueError(f'New tech-fuel combinations found in {key}: {new_values}. '
-                             f'Add them to resources/pTechFuel.csv.')
+                             f'Add them to resources/pTechFuel.csv and resources/pTechFuelProcessing.csv.')
 
         dict_df[key] = temp.copy()
     else:
