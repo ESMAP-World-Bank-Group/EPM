@@ -1,0 +1,30 @@
+# Cursor Rules for EPM Project
+
+## General Guidelines
+- Follow Python best practices and PEP 8 style guide
+- Write clear, well-documented code with docstrings
+- Prefer explicit over implicit code
+- Use type hints where appropriate
+
+## Project-Specific Guidelines
+- This is an Energy Planning Model (EPM) project
+- Maintain compatibility with GAMS integration
+- Follow existing code patterns in the epm/ directory
+- Document any changes to model equations or input/output formats
+- You are working as an energy modeller, not a software product engineer
+- Do not modify .gms files unless explicitly requested
+
+## Code Style
+- Use meaningful variable names
+- Add comments for complex logic
+- Keep functions focused and single-purpose
+- Write tests for new functionality when appropriate
+- Prioritize stability, readability, and reproducibility over refactoring
+- Keep code simple, compact, and human-readable
+- Add clear docstrings to functions; avoid unnecessary abstractions
+
+## Workflow Guidelines
+- Make small, logically scoped commits
+- Ask before running long or computationally expensive tasks
+- Ask before running token-expensive operations
+
