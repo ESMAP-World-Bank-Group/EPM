@@ -1,0 +1,207 @@
+**/*confidential*
+
+# Temporary files
+**/~*
+*.dat
+*.sh
+*~
+
+# GAMS artifacts
+*.bk
+*.g00
+*.gsp
+*.gdx
+*.in
+*.log
+*.txt
+*.lxi
+*.lst
+*.log~1
+*.log~2
+*.log~3
+*.log~4
+*.log~5
+*.nc
+*.idx
+*.grib
+*.zip
+
+# IDE / Editor configs
+.vscode
+/.idea/
+
+# Project-specific outputs
+/epm/cplex.opt
+epm/output/*
+!epm/output/tableau/
+epm/output/tableau/scenarios/*
+!epm/output/tableau/scenarios/.gitkeep
+epm/postprocessing/*.ipynb
+epm/postprocessing/*.xlsx
+epm/postprocessing/EPM_Results
+epm/postprocessing/Results
+epm/postprocessing/main_postprocessing.py
+/epm/output_csv
+epm/epm.~log
+
+epm/postprocessing/data_inception_report/output
+
+pre-analysis/scratch/
+
+epm/postprocessing/data_inception_report/output
+
+# Tableau retained files
+!epm/output/tableau/*.twb
+!epm/output/tableau/ESMAP_logo.png
+!epm/output/tableau/linestring_countries.geojson
+!epm/output/tableau/geojson_to_epm.csv
+
+# Training and preprocessing
+/training
+/epm/preprocessing
+
+# Pre-analysis generated data
+pre-analysis/output_workflow
+pre-analysis/api
+pre-analysis/.snakemake/
+pre-analysis/dataset/
+!pre-analysis/dataset/.gitkeep
+pre-analysis/**/input/*
+pre-analysis/**/output/*
+!pre-analysis/**/input/.gitkeep
+!pre-analysis/**/output/.gitkeep
+!pre-analysis/load/input/load_daily.csv
+!pre-analysis/load/input/load_monthly.csv
+!pre-analysis/hydro/input/utility
+
+# Sensitivity and assessment analysis artifacts (generated input files)
+**/sensitivity/
+**/assessment/
+**/montecarlo/
+
+
+
+# Input data
+epm/input/*
+!epm/input/data_test/
+!epm/input/data_test/**
+# Exclude generated folders within data_test
+epm/input/data_test/**/sensitivity/
+epm/input/data_test/**/assessment/
+epm/input/data_test/**/montecarlo/
+
+# Documentation
+/doc/todo.md
+/doc/master_plan_guidance.md
+docs/_build/
+/site
+!/docs/dwld/setup_epm.sh
+
+!requirements.txt
+
+# macOS
+*.DS_Store
+
+# Python cache / bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Compiled extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+target/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing / coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Databases
+db.sqlite3
+db.sqlite3-journal
+
+# Framework configs
+local_settings.py
+instance/
+.webassets-cache
+.scrapy
+
+# Jupyter / IPython
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+/config/api_tokens.ini
+/.python-version
+
+# PEP 582
+__pypackages__/
+
+# Pipenv
+#Pipfile.lock
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath
+*.sage.py
+
+# Tooling metadata
+.spyderproject
+.spyproject
+.ropeproject
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
