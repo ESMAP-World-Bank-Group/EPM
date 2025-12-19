@@ -1181,9 +1181,6 @@ def run_input_treatment(gams,
                     
         # Identify common columns between param_df and ref_df, excluding "value"
         columns = [c for c in param_df.columns if c != "value" and c in ref_df.columns]
-<<<<<<< HEAD
-    
-=======
 
         if column_generator not in ref_df.columns:
             gams.printLog(
@@ -1192,7 +1189,6 @@ def run_input_treatment(gams,
             )
             return None
         
->>>>>>> origin/main
         # Keep only the generator column and common columns in ref_df
         ref_df = ref_df.loc[:, [column_generator] + columns]
     
@@ -1275,9 +1271,6 @@ def run_input_treatment(gams,
             return
 
         gen_records = db["pGenDataInput"].records
-<<<<<<< HEAD
-        avail_records = db["pAvailability"].records
-=======
         avail_records = db["pAvailabilityInput"].records
         if gen_records is None or gen_records.empty:
             return
@@ -1307,7 +1300,6 @@ def run_input_treatment(gams,
 
         gen_records = db["pGenDataInput"].records
         avail_records = db["pAvailabilityInput"].records
->>>>>>> origin/main
         if gen_records is None or gen_records.empty:
             return
 
