@@ -659,10 +659,10 @@ def launch_epm_multi_scenarios(config='config.csv',
 
     # Export scenario.csv file
     df = pd.DataFrame(s).copy()
-    # Extracts everything after '/epm/' in a specified column of a Pandas DataFrame.
+    # Extracts everything after 'epm' folder in a path (cross-platform).
     def extract_path(path):
-        match = re.search(r"/epm/(.*)", path)
-        return match.group(1) if match else path
+        match = re.search(r"[/\\]epm[/\\](.*)", path)
+        return match.group(1).replace("\\", "/") if match else path
     df = df.astype(str).map(extract_path)
     df.to_csv('input_scenarios.csv')
 

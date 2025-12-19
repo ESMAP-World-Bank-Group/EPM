@@ -41,6 +41,7 @@ import math
 import numbers
 import pandas as pd
 import os
+from pathlib import Path
 
 try:
     import chaospy  # optional dependency for Monte Carlo analysis
@@ -113,6 +114,142 @@ def _with_assessment_suffix(scenario_name, suffix):
         base, assessment = scenario_name.split('@', 1)
         return f"{base}_{suffix}@{assessment}"
     return f"{scenario_name}_{suffix}"
+
+
+def _get_sensitivity_folder(base_path):
+    """
+    Get or create a sensitivity folder relative to the given base path.
+    Uses pathlib for cross-platform compatibility.
+
+    Parameters
+    ----------
+    base_path : str or Path
+        Path to the base file (e.g., pSettings.csv)
+
+    Returns
+    -------
+    Path
+        Path to the sensitivity folder
+    """
+    base_path = Path(base_path)
+    folder_sensi = base_path.parent / 'sensitivity'
+    folder_sensi.mkdir(parents=True, exist_ok=True)
+    return folder_sensi
+
+
+def _generate_sensitivity_filepath(base_path, suffix):
+    """
+    Generate a sensitivity file path with proper cross-platform handling.
+
+    Parameters
+    ----------
+    base_path : str or Path
+        Path to the original file
+    suffix : str
+        Suffix to add to the filename (e.g., 'NoInterconnection')
+
+    Returns
+    -------
+    str
+        Full path to the new sensitivity file
+    """
+    base_path = Path(base_path)
+    folder_sensi = _get_sensitivity_folder(base_path)
+    # Create new filename: stem + suffix + extension
+    new_filename = f"{base_path.stem}_{suffix}{base_path.suffix}"
+    return str(folder_sensi / new_filename)
+
+
+def _get_assessment_folder(base_path):
+    """
+    Get or create an assessment folder relative to the given base path.
+    Uses pathlib for cross-platform compatibility.
+
+    Parameters
+    ----------
+    base_path : str or Path
+        Path to the base file (e.g., pGenDataInput.csv)
+
+    Returns
+    -------
+    Path
+        Path to the assessment folder
+    """
+    base_path = Path(base_path)
+    folder_assessment = base_path.parent / 'assessment'
+    folder_assessment.mkdir(parents=True, exist_ok=True)
+    return folder_assessment
+
+
+def _generate_assessment_filepath(base_path, suffix):
+    """
+    Generate an assessment file path with proper cross-platform handling.
+
+    Parameters
+    ----------
+    base_path : str or Path
+        Path to the original file
+    suffix : str
+        Suffix to add to the filename
+
+    Returns
+    -------
+    str
+        Full path to the new assessment file
+    """
+    base_path = Path(base_path)
+    folder_assessment = _get_assessment_folder(base_path)
+    # Create new filename: stem + suffix + extension
+    new_filename = f"{base_path.stem}_{suffix}{base_path.suffix}"
+    return str(folder_assessment / new_filename)
+
+
+def _get_montecarlo_folder(base_path):
+    """
+    Get or create a montecarlo folder relative to the given base path.
+    Uses pathlib for cross-platform compatibility.
+
+    Parameters
+    ----------
+    base_path : str or Path
+        Path to the base file
+
+    Returns
+    -------
+    Path
+        Path to the montecarlo folder
+    """
+    base_path = Path(base_path)
+    folder_mc = base_path.parent / 'montecarlo'
+    folder_mc.mkdir(parents=True, exist_ok=True)
+    return folder_mc
+
+
+def _generate_montecarlo_filepath(base_path, param, val):
+    """
+    Generate a montecarlo file path with proper cross-platform handling.
+
+    Parameters
+    ----------
+    base_path : str or Path
+        Path to the original file
+    param : str
+        Parameter name (e.g., 'pFuelPrice')
+    val : float
+        Value used for this Monte Carlo sample
+
+    Returns
+    -------
+    str
+        Full path to the new montecarlo file
+    """
+    base_path = Path(base_path)
+    folder_mc = _get_montecarlo_folder(base_path)
+    # Create new filename with value (replace . with p for valid filename)
+    val_str = str(val).replace('.', 'p')
+    new_filename = f"{param}_{val_str}.csv"
+    return str(folder_mc / new_filename)
+
 
     def J_from_dict(self, values):
         cp = _ensure_chaospy()
@@ -246,14 +383,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
         val : float
             The value used for this Monte Carlo sample (used in naming).
         """
-        folder_mc = os.path.join(os.path.dirname(s[name][param]), 'montecarlo')
-        if not os.path.exists(folder_mc):
-            os.mkdir(folder_mc)
-
-        new_name = f'{param}_{val}'
-        new_name = new_name.replace('.', 'p') + '.csv'
-        path_file = os.path.join(folder_mc, new_name)
-        # Write the modified file
+        path_file = _generate_montecarlo_filepath(s[name][param], param, val)
         df.to_csv(path_file, index=True)
 
         s[name_scenario][param] = path_file
@@ -345,63 +475,49 @@ def perform_sensitivity(sensitivity, s):
     
     param = 'interco'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of interconnection mode
-        
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pSettings']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-        
+
         df = pd.read_csv(s['baseline']['pSettings'])
         # Modifying the value if it's 1 put 0 and vice versa
         name = 'NoInterconnection'
         df.loc[df['Abbreviation'] == "fEnableInternalExchange", 'Value'] = 0
 
-        path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+        path_file = _generate_sensitivity_filepath(s['baseline']['pSettings'], name)
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pSettings'] = path_file
-        
+
         #----------------------------------------
-        
+
         df = pd.read_csv(s['baseline']['pSettings'])
         # fAllowTransferExpansion
         name = 'NoInterconnectionExpansion'
         df.loc[df['Abbreviation'] == 'fAllowTransferExpansion', 'Value'] = 0
-        
-        path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+
+        path_file = _generate_sensitivity_filepath(s['baseline']['pSettings'], name)
         df.to_csv(path_file, index=False)
-        
+
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pSettings'] = path_file
-        
+
         #----------------------------------------
-        
+
         df = pd.read_csv(s['baseline']['pSettings'])
         # OptimalInterconnection with fRemoveInternalTransferLimit
         name = 'OptimalInterconnection'
         df.loc[df['Abbreviation'] == 'fRemoveInternalTransferLimit', 'Value'] = 1
-        
-        path_file = os.path.basename(s['baseline']['pSettings']).replace('pSettings', f'pSettings_{name}')
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+
+        path_file = _generate_sensitivity_filepath(s['baseline']['pSettings'], name)
         df.to_csv(path_file, index=False)
+
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pSettings'] = path_file
     
     param = 'ExternalExchange'
     if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pSettings']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-
         new_scenarios = {}
         suffix = 'NoExternalExchange'
         for scenario in base_scenarios:
@@ -409,8 +525,7 @@ def perform_sensitivity(sensitivity, s):
             df.loc[df['Abbreviation'] == 'fEnableExternalExchange', 'Value'] = 0
 
             scenario_name = _with_assessment_suffix(scenario, suffix)
-            path_file = os.path.basename(s[scenario]['pSettings']).replace('pSettings', f'pSettings_{suffix}')
-            path_file = os.path.join(folder_sensi, path_file)
+            path_file = _generate_sensitivity_filepath(s[scenario]['pSettings'], suffix)
             df.to_csv(path_file, index=False)
 
             new_scenarios[scenario_name] = s[scenario].copy()
@@ -420,7 +535,7 @@ def perform_sensitivity(sensitivity, s):
     
     param = 'RemoveGenericTechnologies'
     if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
-        
+
         df = pd.read_csv(s['baseline']['pGenDataInput'])
         # Create a list of technologies to remove that are in a string separated by '&'
         # For example: 'WindOnshore&WindOffshore&SolarPV' will be converted to ['WindOnshore', 'WindOffshore', 'SolarPV']
@@ -428,15 +543,11 @@ def perform_sensitivity(sensitivity, s):
         # For tech that equal to sensitivity['RemoveGenericTechnologies'], status 3, and Candidate in the name, put BuildLimitperYear to 0
         mask = df['tech'].isin(techs_to_remove) & (df['Status'] == 3) & (df['gen'].str.contains('Candidate'))
         df.loc[mask, 'BuildLimitperYear'] = 0
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
+
         name = 'RemoveGenericTechnologies'
-        path_file = os.path.basename(s['baseline']['pGenDataInput']).replace('pGenDataInput', f'pGenDataInput_{name}')
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+        path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], name)
         df.to_csv(path_file, index=False)
+
         # Put in the scenario dir
         s[name] = s['baseline'].copy()
         s[name]['pGenDataInput'] = path_file
@@ -446,11 +557,6 @@ def perform_sensitivity(sensitivity, s):
         # Create a list of fuels to remove that are in a string separated by '&'
         # For example: 'Biomass&Gas' will create two separate scenarios
         fuels_to_remove = [f.strip() for f in sensitivity['RemoveCandidateFuel'].split('&') if f.strip()]
-
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
 
         # Iterate over all existing scenarios
         new_scenarios = {}
@@ -462,10 +568,9 @@ def perform_sensitivity(sensitivity, s):
                 df.loc[mask, 'Status'] = 0
 
                 scenario_name = _with_assessment_suffix(scenario, f"No{fuel}")
-                path_file = os.path.basename(s[scenario]['pGenDataInput']).replace('.csv', f'_No{fuel}.csv')
-                path_file = os.path.join(folder_sensi, path_file)
-                # Write the modified file
+                path_file = _generate_sensitivity_filepath(s[scenario]['pGenDataInput'], f"No{fuel}")
                 df.to_csv(path_file, index=False)
+
                 # Put in the scenario dir
                 new_scenarios[scenario_name] = s[scenario].copy()
                 new_scenarios[scenario_name]['pGenDataInput'] = path_file
@@ -491,20 +596,15 @@ def perform_sensitivity(sensitivity, s):
                 # Modifying the value
                 df.loc[df['Abbreviation'] == k, 'Value'] = val
 
-                # Creating a new folder
-                folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-                if not os.path.exists(folder_sensi):
-                    os.mkdir(folder_sensi)
-                name = str(val).replace('.', '')
-                name = f'{param}_{k}_{name}'
-                path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-                path_file = os.path.join(folder_sensi, path_file)
-                # Write the modified file
+                val_name = str(val).replace('.', '')
+                suffix = f"{k}_{val_name}"
+                scenario_name = f'{param}_{suffix}'
+                path_file = _generate_sensitivity_filepath(s['baseline'][param], suffix)
                 df.to_csv(path_file, index=False)
 
                 # Put in the scenario dir
-                s[name] = s['baseline'].copy()
-                s[name][param] = path_file
+                s[scenario_name] = s['baseline'].copy()
+                s[scenario_name][param] = path_file
 
     param = 'y'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of year definition
@@ -513,14 +613,8 @@ def perform_sensitivity(sensitivity, s):
         if not (df[param].diff().dropna() == 1).all():
             t = pd.Series(range(df['y'].min(), df['y'].max() + 1, 1))
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
             name = f'{param}_full'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
+            path_file = _generate_sensitivity_filepath(s['baseline'][param], 'full')
             t.to_csv(path_file, index=False)
 
             # Put in the scenario dir
@@ -531,14 +625,8 @@ def perform_sensitivity(sensitivity, s):
         if len(df) > 2:
             t = pd.Series([df['y'].min(), df['y'].max()])
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
             name = f'{param}_reduced'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
+            path_file = _generate_sensitivity_filepath(s['baseline'][param], 'reduced')
             t.to_csv(path_file, index=False)
 
             # Put in the scenario dir
@@ -557,11 +645,6 @@ def perform_sensitivity(sensitivity, s):
 
         demand_forecast_sensi = [float(v) for v in values]
 
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-
         # Iterate over all existing scenarios
         new_scenarios = {}
         for scenario in base_scenarios:
@@ -575,9 +658,7 @@ def perform_sensitivity(sensitivity, s):
                 val_name = str(val).replace('.', '')
                 scenario_name = _with_assessment_suffix(scenario, f"{param}_{val_name}")
 
-                path_file = os.path.basename(s[scenario][param]).replace('.csv', f'_{val_name}.csv')
-                path_file = os.path.join(folder_sensi, path_file)
-                # Write the modified file
+                path_file = _generate_sensitivity_filepath(s[scenario][param], val_name)
                 df.to_csv(path_file, index=False)
 
                 # Put in the scenario dir
@@ -598,10 +679,6 @@ def perform_sensitivity(sensitivity, s):
 
         trade_price_sensi = [float(v) for v in values]
 
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pTradePrice']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-
         new_scenarios = {}
         for scenario in base_scenarios:
             for val in trade_price_sensi:
@@ -612,8 +689,7 @@ def perform_sensitivity(sensitivity, s):
 
                 val_name = str(val).replace('.', '')
                 scenario_name = _with_assessment_suffix(scenario, f"{param}_{val_name}")
-                path_file = os.path.basename(s[scenario]['pTradePrice']).replace('.csv', f'_{val_name}.csv')
-                path_file = os.path.join(folder_sensi, path_file)
+                path_file = _generate_sensitivity_filepath(s[scenario]['pTradePrice'], val_name)
                 df.to_csv(path_file, index=False)
 
                 new_scenarios[scenario_name] = s[scenario].copy()
@@ -626,15 +702,10 @@ def perform_sensitivity(sensitivity, s):
         df = pd.read_csv(s['baseline'][param])
 
         cols = [i for i in df.columns if i not in ['zone', 'q', 'd', 't']]
-        df.loc[:, cols], name = 1 / 24, 'flat'
-        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
+        df.loc[:, cols] = 1 / 24
 
-        name = f'{param}_{name}'
-        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+        name = f'{param}_flat'
+        path_file = _generate_sensitivity_filepath(s['baseline'][param], 'flat')
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
@@ -651,20 +722,14 @@ def perform_sensitivity(sensitivity, s):
             df.loc[df['fuel'].isin(['Coal', 'Gas', 'Diesel', 'HFO', 'LFO']), [i for i in df.columns if
                                                                               i not in ['zone', 'tech', 'fuel']]] = val
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = str(val).replace('.', '')
-            name = f'{param}_{name}'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
+            val_name = str(val).replace('.', '')
+            scenario_name = f'{param}_{val_name}'
+            path_file = _generate_sensitivity_filepath(s['baseline'][param], val_name)
             df.to_csv(path_file, index=False)
 
             # Put in the scenario dir
-            s[name] = s['baseline'].copy()
-            s[name][param] = path_file
+            s[scenario_name] = s['baseline'].copy()
+            s[scenario_name][param] = path_file
 
     param = 'pCapexTrajectoriesDefault'  # testing implications of constant capex trajectories
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
@@ -672,20 +737,15 @@ def perform_sensitivity(sensitivity, s):
         df = pd.read_csv(s['baseline'][param])
 
         cols = [i for i in df.columns if i not in ['zone', 'tech', 'fuel']]
-        df.loc[:, cols], name = 1, 'flat'
-        folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
+        df.loc[:, cols] = 1
 
-        name = f'{param}_{name}'
-        path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+        scenario_name = f'{param}_flat'
+        path_file = _generate_sensitivity_filepath(s['baseline'][param], 'flat')
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name][param] = path_file
+        s[scenario_name] = s['baseline'].copy()
+        s[scenario_name][param] = path_file
 
     param = 'pFuelPrice'  # testing implications of fuel prices
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
@@ -697,20 +757,14 @@ def perform_sensitivity(sensitivity, s):
             cols = [i for i in df.columns if i not in ['country', 'fuel']]
             df.loc[:, cols] *= (1 + val)
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = str(val).replace('.', '')
-            name = f'{param}_{name}'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
+            val_name = str(val).replace('.', '')
+            scenario_name = f'{param}_{val_name}'
+            path_file = _generate_sensitivity_filepath(s['baseline'][param], val_name)
             df.to_csv(path_file, index=False)
 
             # Put in the scenario dir
-            s[name] = s['baseline'].copy()
-            s[name][param] = path_file
+            s[scenario_name] = s['baseline'].copy()
+            s[scenario_name][param] = path_file
 
     param = 'ResLimShare'  # testing implications of contribution to reserves
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
@@ -721,20 +775,14 @@ def perform_sensitivity(sensitivity, s):
             df = pd.read_csv(s['baseline'][parameter])
             df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][parameter]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = str(val).replace('.', '')
-            name = f'{parameter}_{param}_{name}'
-            path_file = os.path.basename(s['baseline'][parameter]).replace(parameter, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
+            val_name = str(val).replace('.', '')
+            scenario_name = f'{parameter}_{param}_{val_name}'
+            path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_{val_name}')
             df.to_csv(path_file, index=False)
 
             # Put in the scenario dir
-            s[name] = s['baseline'].copy()
-            s[name][parameter] = path_file
+            s[scenario_name] = s['baseline'].copy()
+            s[scenario_name][parameter] = path_file
 
     param = 'BuildLimitperYear'  # testing implications of limitations of build per year
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
@@ -742,58 +790,44 @@ def perform_sensitivity(sensitivity, s):
 
         df = pd.read_csv(s['baseline'][parameter])
         # Remove any built limitation per year
-        df.loc[df.loc[:, 'Status'] == 3, param]  = df.loc[df.loc[:, 'Status'] == 3, 'Capacity']
+        df.loc[df.loc[:, 'Status'] == 3, param] = df.loc[df.loc[:, 'Status'] == 3, 'Capacity']
 
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline'][parameter]), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-        name = f'{parameter}_{param}_removed'
-        path_file = os.path.basename(s['baseline'][parameter]).replace(parameter, name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+        scenario_name = f'{parameter}_{param}_removed'
+        path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_removed')
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
-        s[parameter] = s['baseline'].copy()
-        s[parameter][parameter] = path_file
-        
+        s[scenario_name] = s['baseline'].copy()
+        s[scenario_name][parameter] = path_file
+
         # For gen with Candidate name, status 3, fuel Solar, Wind, Battery, divide the BuildLimitperYear by 2
         df = pd.read_csv(s['baseline'][parameter])
 
         df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['fuel'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
-        
-        name = f'{parameter}_{param}_reduced'
-        path_file = os.path.basename(s['baseline'][parameter]).replace(parameter, name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+
+        scenario_name = f'{parameter}_{param}_reduced'
+        path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_reduced')
         df.to_csv(path_file, index=False)
-        
+
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name][parameter] = path_file
+        s[scenario_name] = s['baseline'].copy()
+        s[scenario_name][parameter] = path_file
                 
     param = 'delayedHydro'
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of delayed hydro projects
         df = pd.read_csv(s['baseline']['pGenDataInput'])
         # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
         df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
-        
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
-        name = f'{param}_5years'
-        path_file = os.path.basename(s['baseline']['pGenDataInput']).replace('pGenDataInput', name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+
+        scenario_name = f'{param}_5years'
+        path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_5years')
         df.to_csv(path_file, index=False)
-        
+
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name]['pGenDataInput'] = path_file
+        s[scenario_name] = s['baseline'].copy()
+        s[scenario_name]['pGenDataInput'] = path_file
     
-    param  = 'pVREProfile'  # testing implications of a change in VRE production
+    param = 'pVREProfile'  # testing implications of a change in VRE production
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):
         capacity_factor_sensi = [-0.2, 0.2]
 
@@ -802,53 +836,37 @@ def perform_sensitivity(sensitivity, s):
             cols = [i for i in df.columns if i not in ['zone', 'tech', 'q', 'd']]
             df[cols] = (df[cols] * (1 + val)).clip(upper=1)
 
-            # Creating a new folder
-            folder_sensi = os.path.join(os.path.dirname(s['baseline'][param]), 'sensitivity')
-            if not os.path.exists(folder_sensi):
-                os.mkdir(folder_sensi)
-            name = str(val).replace('.', '')
-            name = f'{param}_{name}'
-            path_file = os.path.basename(s['baseline'][param]).replace(param, name)
-            path_file = os.path.join(folder_sensi, path_file)
-            # Write the modified file
+            val_name = str(val).replace('.', '')
+            scenario_name = f'{param}_{val_name}'
+            path_file = _generate_sensitivity_filepath(s['baseline'][param], val_name)
             df.to_csv(path_file, index=False)
 
             # Put in the scenario dir
-            s[name] = s['baseline'].copy()
-            s[name][param] = path_file
+            s[scenario_name] = s['baseline'].copy()
+            s[scenario_name][param] = path_file
 
     return s
 
 def perform_assessment(generator_assessment, s):
     try:
-
         # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
         new_s = {}
         for scenario in s.keys():
-            
-             # Create a specific folder to store the counterfactual scenario
-            folder_assessment = os.path.join(os.path.dirname(s[scenario]['pGenDataInput']), 'assessment')
-            if not os.path.exists(folder_assessment):
-                os.mkdir(folder_assessment)
-                print('Folder created:', folder_assessment)
-            
-            
+
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pGenDataInput'])
-            
+
             # Remove project(s) in generator_assessment
             df = df.loc[~df['gen'].isin(generator_assessment)]
 
             # Write the modified file
             name = '-'.join(generator_assessment).replace(' ', '')
-            path_file = os.path.basename(s[scenario]['pGenDataInput']).split('.')[0] + '_' + name + '.csv'
-            path_file = os.path.join(folder_assessment, path_file)
+            path_file = _generate_assessment_filepath(s[scenario]['pGenDataInput'], name)
             df.to_csv(path_file, index=False)
 
             # Put in the scenario specification dictionary
             new_s[f'{scenario}_wo_{name}'] = s[scenario].copy()
             new_s[f'{scenario}_wo_{name}']['pGenDataInput'] = path_file
-                
 
     except Exception:
         raise KeyError('Error in generator_assessment features')
@@ -866,31 +884,30 @@ def perform_project_assessment(project_assessment, s):
     try:
         new_s = {}
         # Always use baseline path to find the project assessment file
-        baseline_path = s['baseline']['pGenDataInput']
-        baseline_dir = os.path.dirname(baseline_path)
+        baseline_path = Path(s['baseline']['pGenDataInput'])
+        baseline_dir = baseline_path.parent
 
-        if os.path.isabs(project_assessment):
-            candidate = project_assessment
+        if Path(project_assessment).is_absolute():
+            candidate = Path(project_assessment)
         else:
             if project_assessment.endswith(".csv"):
-                candidate = os.path.join(baseline_dir, project_assessment)
+                candidate = baseline_dir / project_assessment
             else:
-                root, ext = os.path.splitext(os.path.basename(baseline_path))
                 suffix = project_assessment
                 if not suffix.startswith('_'):
                     suffix = f"_{suffix}"
-                candidate_name = f"{root}{suffix}.csv" if ext == ".csv" else f"{root}{suffix}{ext}"
-                candidate = os.path.join(baseline_dir, candidate_name)
+                candidate_name = f"{baseline_path.stem}{suffix}{baseline_path.suffix}"
+                candidate = baseline_dir / candidate_name
 
-        if not os.path.exists(candidate):
-            raise FileNotFoundError(f"Project assessment file {os.path.abspath(candidate)} not found.")
+        if not candidate.exists():
+            raise FileNotFoundError(f"Project assessment file {candidate.resolve()} not found.")
 
-        label = os.path.splitext(os.path.basename(candidate))[0].replace('pGenDataInput', '').strip('_') or "project"
+        label = candidate.stem.replace('pGenDataInput', '').strip('_') or "project"
 
         for scenario in list(s.keys()):
             scenario_name = f"{scenario}@{label}"
             new_s[scenario_name] = s[scenario].copy()
-            new_s[scenario_name]['pGenDataInput'] = candidate
+            new_s[scenario_name]['pGenDataInput'] = str(candidate)
 
     except Exception:
         raise KeyError('Error in project_assessment features')
@@ -900,61 +917,48 @@ def perform_project_assessment(project_assessment, s):
 
 def perform_interco_assessment(interco_assessment, s, delay=5):
     try:
-        
-    
         # Iterate over all scenarios to generate a counterfactual scenario without the project(s)
         new_s = {}
         for scenario in s.keys():
-            
-             # Create a specific folder to store the counterfactual scenario
-            folder_assessment = os.path.join(os.path.dirname(s[scenario]['pNewTransmission']), 'assessment')
-            if not os.path.exists(folder_assessment):
-                os.mkdir(folder_assessment)
-                print('Folder created:', folder_assessment)
-            
+
             # Reading the initial value
             df = pd.read_csv(s[scenario]['pNewTransmission'])
-            
+
             # Create a helper column with standardized "From-To" or "To-From" format
             df['interco_key'] = df.apply(lambda row: f"{row['From']}-{row['To']}", axis=1)
-            
+
             # Remove project(s) in interco_assessment
             df_filtered = df[~df['interco_key'].isin(interco_assessment)].drop(columns='interco_key')
 
             # Write the modified file
             name = '-'.join(interco_assessment).replace(' ', '')
-            path_file = os.path.basename(s[scenario]['pNewTransmission']).split('.')[0] + '_' + name + '.csv'
-            path_file = os.path.join(folder_assessment, path_file)
+            path_file = _generate_assessment_filepath(s[scenario]['pNewTransmission'], name)
             df_filtered.to_csv(path_file, index=False)
 
             # Put in the scenario specification dictionary
             new_s[f'{scenario}_wo_{name}'] = s[scenario].copy()
             new_s[f'{scenario}_wo_{name}']['pNewTransmission'] = path_file
-            
+
             if False:
                 # Delayed project implementation
                 df_delay = df.copy()
                 df_delay.loc[df_delay['interco_key'].isin(interco_assessment), 'EarliestEntry'] += delay
                 df_delay = df_delay.drop(columns='interco_key')
-                path_file = os.path.basename(s[scenario]['pNewTransmission']).split('.')[0] + '_' + name + '.csv'
-                path_file = os.path.join(folder_assessment, path_file)
+                path_file = _generate_assessment_filepath(s[scenario]['pNewTransmission'], f'{name}_delay{delay}')
                 df_delay.to_csv(path_file, index=False)
                 # Put in the scenario specification dictionary
                 new_s[f'{scenario}_{name}_delay{delay}'] = s[scenario].copy()
                 new_s[f'{scenario}_{name}_delay{delay}']['pNewTransmission'] = path_file
-                
+
                 # Reduce capacity of the interconnection to 50% of the original value
                 df_reduced = df.copy()
                 df_reduced.loc[df_reduced['interco_key'].isin(interco_assessment), 'CapacityPerLine'] *= 0.5
                 df_reduced = df_reduced.drop(columns='interco_key')
-                path_file = os.path.basename(s[scenario]['pNewTransmission']).split('.')[0]
-                path_file = f'{path_file}_{name}.csv'
-                path_file = os.path.join(folder_assessment, path_file)
+                path_file = _generate_assessment_filepath(s[scenario]['pNewTransmission'], f'{name}_reduced')
                 df_reduced.to_csv(path_file, index=False)
                 # Put in the scenario specification dictionary
                 new_s[f'{scenario}_{name}_reduced'] = s[scenario].copy()
                 new_s[f'{scenario}_{name}_reduced']['pNewTransmission'] = path_file
-               
 
     except Exception:
         raise KeyError('Error in interco_assessment features')
