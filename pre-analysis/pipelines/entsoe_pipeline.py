@@ -34,11 +34,11 @@ except ImportError:  # pragma: no cover - pip install entsoe-py when using this 
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parent
-DEFAULT_CONFIG_PATH = SCRIPT_DIR / "config" / "open_data_config.yaml"
+BASE_DIR = SCRIPT_DIR.parent
+DEFAULT_CONFIG_PATH = BASE_DIR / "config" / "open_data_config.yaml"
 TOKEN_SECTION = "api_tokens"
 TOKEN_PATH_ENV_VAR = "API_TOKENS_PATH"
-DEFAULT_TOKEN_PATH = REPO_ROOT / "config" / "api_tokens.ini"
+DEFAULT_TOKEN_PATH = BASE_DIR / "config" / "api_tokens.ini"
 DEFAULT_TIMEZONE = "Europe/Brussels"
 DEFAULT_OUTPUT_SUBDIR = "entsoe"
 

@@ -15,8 +15,9 @@ import pytz
 from timezonefinder import TimezoneFinder
 from geopy.geocoders import Nominatim
 
+BASE_DIR = Path(__file__).resolve().parents[1]
 DEFAULT_TOKTAROVA_PATH = (
-    Path(__file__).resolve().parent
+    BASE_DIR
     / "dataset"
     / "Toktarova2019_paper_LongtermLoadProjectioninHighREsolutionforallCountriesGlobally_ElecPowerEnergySys_supplementary_7_load_all_2020.csv"
 )
@@ -342,8 +343,7 @@ def convert_to_utc(row, country_timezones):
 
 
 if __name__ == "__main__":
-    script_dir = Path(__file__).resolve().parent
-    output_dir = script_dir / "output_standalone" / "load_standalone"
+    output_dir = BASE_DIR / "output_workflow" / "load_standalone"
     
     countries_example = ["Bosnia and Herzegovina", "Croatia"]
     

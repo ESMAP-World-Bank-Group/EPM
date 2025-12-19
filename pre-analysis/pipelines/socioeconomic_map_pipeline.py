@@ -31,10 +31,11 @@ from matplotlib.colors import LogNorm, Normalize
 from matplotlib.ticker import FuncFormatter
 from matplotlib import patheffects
 
-from load_pipeline import require_file, resolve_country_name
+from .load_pipeline import require_file, resolve_country_name
 
+BASE_DIR = Path(__file__).resolve().parents[1]
 SCRIPT_DIR = Path(__file__).resolve().parent
-DATASET_DIR = SCRIPT_DIR / "dataset"
+DATASET_DIR = BASE_DIR / "dataset"
 DEFAULT_RASTER = DATASET_DIR / "GDP2005_1km.tif"
 DEFAULT_WORLD_MAP_SHAPEFILE = (
     DATASET_DIR / "maps" / "ne_110m_admin_0_countries" / "ne_110m_admin_0_countries.shp"
@@ -296,7 +297,7 @@ if __name__ == "__main__":
     selected_countries = ["Spain"]
     verbose = True
     use_log_scale = True
-    output_root = SCRIPT_DIR / "output_standalone"
+    output_root = BASE_DIR / "output_workflow" / "socioeconomic_standalone"
 
     default_maps = [
         {

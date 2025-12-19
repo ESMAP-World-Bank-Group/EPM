@@ -14,7 +14,7 @@ from pathlib import Path
 # modeling helpers (representative days, generation map, Renewables Ninja), and reporting outputs.
 # Key dependencies: config/open_data_config.yaml, load/vre pipelines, repdays_pipeline,
 # climate_pipeline/generators_pipeline/generate_report helpers, and Pandoc for PDF/DOCX exports.
-# Assumes data lives under the open-data folder and required
+# Assumes data lives under the dataset folder and required
 # Python packages (cartopy, climate_pipeline) are installed alongside Pandoc on PATH.
 
 ################################################################################
@@ -22,19 +22,20 @@ from pathlib import Path
 ################################################################################
 BASE_DIR = Path(getattr(workflow, "basedir", Path(__file__).resolve().parent)).resolve()
 OPEN_DATA_DIR = BASE_DIR / "dataset"
-PREPARE_DIR = BASE_DIR / "prepare-data"
+PIPELINES_DIR = BASE_DIR / "pipelines"
 # Representative-days folder moved to top-level under pre-analysis/representative_days
 REP_DAYS_DIR = BASE_DIR / "representative_days"
+REPORTING_DIR = BASE_DIR / "reporting"
 CONFIG_PATH = (BASE_DIR / "config" / "open_data_config.yaml").resolve()
 
 configfile: str(CONFIG_PATH)
 
 # Make sure we can import utilities that live alongside the config + repr-days.
-for _path in (OPEN_DATA_DIR, PREPARE_DIR, REP_DAYS_DIR):
+for _path in (BASE_DIR, PIPELINES_DIR, REP_DAYS_DIR, REPORTING_DIR):
     if str(_path) not in sys.path:
         sys.path.append(str(_path))
 
-from vre_pipeline import (
+from pipelines.vre_pipeline import (
     gap_rninja_coordinates,
     run_renewables_ninja_workflow,
     run_irena_workflow,
@@ -43,7 +44,7 @@ from vre_pipeline import (
     irena_output_filename,
     export_epm_full_timeseries,
 )
-from load_pipeline import (
+from pipelines.load_pipeline import (
     DEFAULT_TOKTAROVA_PATH,
     load_country_load_profile,
     run_load_workflow,
@@ -66,7 +67,10 @@ def _resolve_relative(base, maybe_path):
 # Allow users to override workflow roots in the config; default to new dirs at the
 # pre-analysis root. Inputs fallback to the legacy open-data structure if needed.
 INPUT_ROOT = OPEN_DATA_DIR
-OUTPUT_ROOT = _resolve_relative(BASE_DIR, config.get("output_workflow_dir", "output_workflow")).resolve()
+OUTPUT_ROOT = _resolve_relative(
+    BASE_DIR,
+    config.get("output_workflow_dir", config.get("output_dir", "output_workflow")),
+).resolve()
 INPUT_ROOT.mkdir(parents=True, exist_ok=True)
 OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 
@@ -485,7 +489,7 @@ def _climate_settings():
     variables = CLIMATE_CFG.get("variables", ["2m_temperature", "total_precipitation"])
 
     try:
-        from climate_pipeline import default_output_paths
+        from pipelines.climate_pipeline import default_output_paths
 
         all_targets = [str(p) for p in default_output_paths(outdir, variables)]
     except Exception:
@@ -519,7 +523,7 @@ def _climate_plan_paths():
     if not CLIMATE_ISO_CODES:
         return {}
     try:
-        from climate_pipeline import _build_download_plan
+        from pipelines.climate_pipeline import _build_download_plan
 
         return _build_download_plan(
             CLIMATE_ISO_CODES,
@@ -964,7 +968,7 @@ PGEN_GAP_EPMPATH = (
     str(FULL_OUTDIR / Path(GENMAP_PGEN).name) if GENMAP_PGEN else None
 )
 
-REPORT_TEMPLATE = str(BASE_DIR / "report.md.j2")
+REPORT_TEMPLATE = str(REPORTING_DIR / "report.md.j2")
 REPORT_OUTPUT = str(resolve_output("report.md", category="report"))
 REPORT_PDF = str(resolve_output("report.pdf", category="report"))
 REPORT_DOCX = str(resolve_output("report.docx", category="report"))
@@ -1017,7 +1021,7 @@ if CLIMATE_DATA_TARGETS:
         run:
             def _task():
                 """Download ERA5 layers and report missing archives before returning ISO codes."""
-                from climate_pipeline import run_climate_overview
+                from pipelines.climate_pipeline import run_climate_overview
 
                 available_iso_codes = _climate_iso_codes_for_run()
                 label_map = {
@@ -1089,7 +1093,7 @@ if CLIMATE_PLOTS_ENABLED and CLIMATE_PLOT_TARGETS:
                     print(f"[climate_overview_plots] {warning}")
                     _write_plot_placeholders(warning)
                     return
-                from climate_pipeline import run_climate_overview
+                from pipelines.climate_pipeline import run_climate_overview
 
                 label_map = {
                     iso: CLIMATE_LABELS.get(iso)
@@ -1237,7 +1241,7 @@ if OWID_TARGETS:
         run:
             def _task():
                 """Build OWID figures and summary tables for configured countries."""
-                from owid_energy_pipeline import build_owid_energy_outputs
+                from pipelines.owid_energy_pipeline import build_owid_energy_outputs
 
                 build_owid_energy_outputs(
                     dataset_path=OWID_DATASET,
@@ -1262,7 +1266,7 @@ if SOCIO_TARGETS:
         run:
             def _task():
                 """Render configured socio-economic maps and keep going on failure."""
-                from socioeconomic_map_pipeline import render_socioeconomic_map
+                from pipelines.socioeconomic_map_pipeline import render_socioeconomic_map
 
                 for entry in SOCIO_MAPS:
                     render_socioeconomic_map(
@@ -1300,7 +1304,7 @@ if GENMAP_TARGETS:
         run:
             def _task():
                 """Build generation map artifacts and fallback placeholders on failure."""
-                from generators_pipeline import build_generation_map
+                from pipelines.generators_pipeline import build_generation_map
 
                 try:
                     build_generation_map(
@@ -1583,7 +1587,7 @@ rule report:
     input:
         template=REPORT_TEMPLATE,
         config=CONFIG_PATH,
-        script=str(BASE_DIR / "generate_report.py"),
+        script=str(REPORTING_DIR / "generate_report.py"),
         climate=CLIMATE_TARGETS,
         gap=GAP_OUTPUT,
         ninja=NINJA_OUTPUTS,
@@ -1599,7 +1603,7 @@ rule report:
     run:
         def _task():
             """Render the Markdown report using the configured template and config."""
-            from generate_report import render_report
+            from reporting.generate_report import render_report
 
             render_report(
                 template_path=Path(input.template),
@@ -1626,7 +1630,7 @@ rule report_pdf:
         def _task():
             """Invoke shared export helper to convert Markdown to PDF."""
             from pathlib import Path
-            from generate_report import export_report_variants
+            from reporting.generate_report import export_report_variants
 
             export_report_variants(Path(input.report), pdf_path=Path(output.pdf), docx_path=None)
 
@@ -1648,7 +1652,7 @@ rule report_docx:
         def _task():
             """Invoke shared export helper to convert Markdown to DOCX."""
             from pathlib import Path
-            from generate_report import export_report_variants
+            from reporting.generate_report import export_report_variants
 
             export_report_variants(Path(input.report), pdf_path=None, docx_path=Path(output.docx))
 

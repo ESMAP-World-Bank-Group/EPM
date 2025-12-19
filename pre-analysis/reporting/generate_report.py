@@ -27,11 +27,12 @@ try:
 except Exception:
     matplotlib = None
 
-BASE_DIR = Path(__file__).resolve().parent
-DEFAULT_TEMPLATE = BASE_DIR / "report.md.j2"
+REPORTING_DIR = Path(__file__).resolve().parent
+BASE_DIR = REPORTING_DIR.parent
+DEFAULT_TEMPLATE = REPORTING_DIR / "report.md.j2"
 DEFAULT_OUTPUT = BASE_DIR / "output_workflow" / "report.md"
 DEFAULT_CONFIG = BASE_DIR / "config" / "open_data_config.yaml"
-DISABLE_FLOAT_TEX = BASE_DIR / "disable_float.tex"
+DISABLE_FLOAT_TEX = REPORTING_DIR / "disable_float.tex"
 
 
 def _vprint(enabled: bool, message: str) -> None:
@@ -147,16 +148,12 @@ def default_report_output(config_path: Path, output_dir_override: Optional[Path]
 
 
 def find_output_dir(config: Dict, override: Optional[Path]) -> Path:
-    """Pick an output directory; fall back to defaults when missing."""
+    """Pick an output directory; prefer explicit override/config."""
     if override:
         return override.resolve()
 
     root = _resolve_relative(BASE_DIR, config.get("output_workflow_dir", "output_workflow"))
-    candidates = [root, root / "output"]
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate.resolve()
-    return candidates[0].resolve()
+    return root.resolve()
 
 
 def readable_country(slug: str, slug_map: Dict[str, str]) -> str:
@@ -1769,7 +1766,7 @@ def render_report(
         rninja_avg_cf_table = f"**{rninja_period_text}**\n" + _wrap_table(df_rn_wide.to_markdown(index=False))
 
     workflow_path = BASE_DIR / "Snakefile"
-    report_script = BASE_DIR / "generate_report.py"
+    report_script = REPORTING_DIR / "generate_report.py"
     workflow_path_rel = _relpath_for_display(workflow_path)
     report_script_rel = _relpath_for_display(report_script)
     config_label = _relpath_for_display(config_path)

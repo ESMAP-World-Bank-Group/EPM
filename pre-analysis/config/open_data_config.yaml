@@ -177,7 +177,7 @@ representative_days:
   feature_selection_metric: euclidean # Distance metric for feature selection.
   feature_selection_scale: true # Scale features before feature selection.
   special_day_threshold: 0.1 # Probability cutoff for extracting special days.
-  gams_main_file: ../prepare-data/representative_days/gams/OptimizationModelZone.gms # GAMS model path.
+  gams_main_file: ../representative_days/gams/OptimizationModelZone.gms # GAMS model path.
 
 entsoe:
   enabled: true

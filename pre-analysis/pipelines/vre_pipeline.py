@@ -23,7 +23,8 @@ from timezonefinder import TimezoneFinder
 TOKEN_SECTION = "api_tokens"
 TOKEN_PATH_ENV_VAR = "API_TOKENS_PATH"
 # Default to the repo's config/api_tokens.ini (two levels up from this file).
-DEFAULT_TOKEN_PATH = Path(__file__).resolve().parent.parent / "config" / "api_tokens.ini"
+BASE_DIR = Path(__file__).resolve().parents[1]
+DEFAULT_TOKEN_PATH = BASE_DIR / "config" / "api_tokens.ini"
 nb_days = pd.Series([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31], index=range(1, 13))
 
 # ---------------------------------------------------------------------------
@@ -944,9 +945,9 @@ def export_epm_full_timeseries(
 
 if __name__ == '__main__':
     script_dir = Path(__file__).resolve().parent
-    sample_output = script_dir / "output_standalone" / "vre_standalone"
+    sample_output = BASE_DIR / "output_workflow" / "vre_standalone"
     sample_output.mkdir(parents=True, exist_ok=True)
-    sample_excel = script_dir / "dataset" / "Global-Integrated-Power-April-2025.xlsx"
+    sample_excel = BASE_DIR / "dataset" / "Global-Integrated-Power-April-2025.xlsx"
     print(f"[vre-standalone] Preparing sample GAP extraction to {sample_output}")
     try:
         _, locations, csv_path = gap_rninja_coordinates(
