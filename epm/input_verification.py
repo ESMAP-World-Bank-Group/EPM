@@ -1032,6 +1032,7 @@ def _check_storage_data(gams, db):
         gen_records = db["pGenDataInput"].records
         if gen_records is None or gen_records.empty:
             return
+        print(stor_records)
         gen_storage = set(stor_records['gen'].unique())
         gen_ref = set(gen_records.loc[gen_records.tech == 'Storage']['g'].unique())
         missing_storage_gen = gen_ref - gen_storage

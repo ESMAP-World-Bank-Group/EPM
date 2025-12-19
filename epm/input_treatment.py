@@ -1883,8 +1883,6 @@ if __name__ == "__main__":
 
     DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
     output_gdx = os.path.join("epm", "test", "input_treated.gdx")
-    DEFAULT_GDX = os.path.join("epm", "test", "input.gdx")
-    output_gdx = os.path.join("epm", "test", "input_treated.gdx")
 
     container = gt.Container()
     container.read(DEFAULT_GDX)
