@@ -3,9 +3,9 @@
 How it works (summary):
 - Reads a legacy GDX with the GAMS transfer API and a mapping table (`symbol_mapping.csv`)
   that aligns old GDX symbol names to the expected CSV names.
-- For each symbol defined in `CSV_LAYOUT`, reshapes records (sets vs. parameters with
-  header/value columns) into a normalized DataFrame and writes it to the corresponding
-  `data_test/...` CSV path. Optional symbols missing in the GDX are written as empty stubs.
+- For each symbol defined in `CSV_LAYOUT`, reads the data and optionally unstacks a specified
+  column to create wide-format CSV files. Writes to the corresponding `data_test/...` CSV path.
+  Optional symbols missing in the GDX are written as empty stubs.
 - Any extra GDX symbols not covered by the layout are dumped to `output/data_test/extras/`
   for inspection.
 - Run from the CLI (`python legacy_to_new_format.py --gdx ... --mapping ...`) to batch-convert
@@ -40,49 +40,63 @@ DEFAULT_TARGET_FOLDER = "data"
 def _entry(
     csv_symbol: str,
     path: str,
-    gdx_dim: int,
-    header_cols: int = 0,
+    gdx_symbol: Optional[str] = None,
+    header_cols: Optional[int] = None,
     symbols: Optional[List[str]] = None,
-    typ: str = "par",
-    value_cols: Optional[List[int]] = None,
 ) -> Dict:
     """Create a CSV layout entry specification.
     
     Args:
         csv_symbol: The CSV symbol name (primary identifier in CSV_LAYOUT)
         path: Relative path where the CSV file should be written
-        gdx_dim: GDX dimension (number of dimensions in the GDX parameter/set)
-        header_cols: Number of GDX dimensions to pivot to CSV column headers
-                    (typically the last dimension like years, hours, seasons).
-                    Remaining dimensions become index columns.
+        gdx_symbol: GDX symbol name to look up dimension in GDX_DIM (defaults to csv_symbol)
+        header_cols: 0-indexed column index to unstack (move from rows to column headers).
+                    If None, no unstacking (all dimensions become index columns).
+                    Columns before this index become index columns.
         symbols: Alternative GDX symbol names to check (for aliases)
-        typ: Type of symbol - "par" for parameter, "set" for set
-        value_cols: Explicit value column indices (rarely used)
     
     Returns:
         Dictionary specification for the CSV layout entry.
-    
-    Note:
-        indexColumns count = gdx_dim - header_cols
-        For sets, header_cols is ignored (all dimensions become index columns).
     """
-    # Calculate number of index columns: total GDX dimensions minus those pivoted to headers
-    num_index_cols = gdx_dim - header_cols if typ != "set" else gdx_dim
+    # Determine GDX symbol name: use provided gdx_symbol, first symbol from symbols list, or csv_symbol
+    if gdx_symbol:
+        gdx_name = gdx_symbol
+    elif symbols and len(symbols) > 0:
+        gdx_name = symbols[0]
+    else:
+        gdx_name = csv_symbol
+    
+    # Look up dimension from GDX_DIM
+    if gdx_name not in GDX_DIM:
+        raise KeyError(
+            f"GDX dimension not found for '{gdx_name}' (CSV symbol: '{csv_symbol}'). "
+            f"Add it to GDX_DIM dictionary."
+        )
+    gdx_dim = GDX_DIM[gdx_name]
+    
+    # Calculate index columns and header based on column index
+    if header_cols is None:
+        # No unstacking: all dimensions become index columns
+        num_index_cols = gdx_dim
+        header_index = None
+    else:
+        # Unstack column at header_cols index
+        # Columns before header_cols become index columns
+        num_index_cols = header_cols
+        header_index = header_cols
+    
     return {
         "primary_symbol": csv_symbol,
         "relative_path": path,
         "symbols": symbols or [csv_symbol],
-        "type": typ,
         "indexColumns": list(range(1, num_index_cols + 1)) if num_index_cols > 0 else [],
-        "header": list(range(1, header_cols + 1)) if header_cols > 0 else [],
-        "valueColumns": value_cols or [],
+        "header": [header_index] if header_index is not None else [],
     }
 
 
 # GDX dimension mapping: Maps GDX symbol names to their dimensionality (1D, 2D, 3D, etc.)
-# This is used to determine how many index columns vs header columns the CSV should have.
-# Key insight: indexColumns count = GDX_DIM - header_cols
-# Example: pFuelPrice has GDX dim=3, header_cols=1 → 2 index columns (zone, fuel) + years as headers
+# This is used to determine the structure of the data and calculate column indices for unstacking.
+# Example: pFuelPrice has GDX dim=3, header_cols=2 → 2 index columns (zone, fuel at indices 0,1) + years (index 2) unstacked as headers
 GDX_DIM = {
     "hh": 1,
     "MapGG": 2,
@@ -138,98 +152,77 @@ GDX_DIM = {
 }
 
 
-def get_gdx_dimension(csv_symbol: str, gdx_symbol: str) -> int:
-    """Get GDX dimension for a symbol, looking up by GDX symbol name.
-    
-    Args:
-        csv_symbol: CSV symbol name (for error messages)
-        gdx_symbol: GDX symbol name to look up in GDX_DIM
-    
-    Returns:
-        GDX dimension (number of dimensions)
-    
-    Raises:
-        KeyError: If gdx_symbol is not found in GDX_DIM
-    """
-    if gdx_symbol not in GDX_DIM:
-        raise KeyError(
-            f"GDX dimension not found for '{gdx_symbol}' (CSV symbol: '{csv_symbol}'). "
-            f"Add it to GDX_DIM dictionary."
-        )
-    return GDX_DIM[gdx_symbol]
-
-
 # CSV layout specification: Defines how each CSV symbol should be converted from GDX format.
 # 
 # Structure:
 # - Each entry specifies a CSV symbol name, output path, and transformation rules
-# - gdx_dim: Number of dimensions in the GDX parameter/set (from GDX_DIM)
-# - header_cols: Number of GDX dimensions to pivot to CSV column headers
-#   * header_cols=0: All dimensions become index columns (e.g., pGenDataInput, pStorageDataInput)
-#   * header_cols=1: Last dimension becomes column headers (e.g., years, hours, seasons)
-#   * indexColumns count = gdx_dim - header_cols
+# - gdx_symbol: GDX symbol name to look up dimension in GDX_DIM (defaults to csv_symbol)
+# - header_cols: 0-indexed column index to unstack (move from rows to column headers)
+#   * header_cols=None: No unstacking, all dimensions become index columns (e.g., pGenDataInput, pStorageDataInput)
+#   * header_cols=N: Unstack column at index N, columns before N become index columns
+#   * For a GDX parameter with D dimensions (0-indexed 0..D-1), header_cols=D-1 unstacks the last dimension
 #
 # Examples:
-# - pCarbonPrice: GDX dim=1, header_cols=0 → 1 index column (year) + value column
-# - pFuelPrice: GDX dim=3, header_cols=1 → 2 index columns (zone, fuel) + years as headers
-# - pGenDataInput: GDX dim=2, header_cols=0 → All dimensions as columns (no pivot)
-# - pHours: GDX dim=4, header_cols=1 → 3 index columns (season, daytype, ?) + hours as headers
+# - pCarbonPrice: GDX dim=1, header_cols=None → 1 index column (year) + value column
+# - pFuelPrice: GDX dim=3, header_cols=2 → 2 index columns (zone, fuel at indices 0,1) + years (index 2) as headers
+# - pGenDataInput: GDX dim=2, header_cols=None → All dimensions as columns (no unstacking)
+# - pHours: GDX dim=4, header_cols=3 → 3 index columns (indices 0,1,2) + hours (index 3) as headers
 #
-# Note: GDX symbol names may differ from CSV symbol names (see symbol_mapping.csv)
+# Note: GDX symbol names may differ from CSV symbol names (specify gdx_symbol parameter or use symbol_mapping.csv)
 CSV_LAYOUT: List[Dict] = [
     # Constraint parameters
-    _entry("pCarbonPrice", "constraint/pCarbonPrice.csv", gdx_dim=1, header_cols=0),  # GDX: pCarbonPrice, CSV: year,value
-    _entry("pEmissionsCountry", "constraint/pEmissionsCountry.csv", gdx_dim=2, header_cols=1),  # GDX: pEmissionsCountry, CSV: country index, years as headers
-    _entry("pEmissionsTotal", "constraint/pEmissionsTotal.csv", gdx_dim=1, header_cols=0),  # GDX: pEmissionsTotal, CSV: year,value
-    _entry("pMaxFuellimit", "constraint/pMaxFuellimit.csv", gdx_dim=3, header_cols=1),  # GDX: pMaxFuellimit, CSV: zone,fuel index, years as headers
+    _entry("pCarbonPrice", "constraint/pCarbonPrice.csv"),  # GDX: pCarbonPrice (1D), CSV: year,value
+    _entry("pEmissionsCountry", "constraint/pEmissionsCountry.csv", header_cols=1),  # GDX: pEmissionsCountry (2D), CSV: country index, years as headers
+    _entry("pEmissionsTotal", "constraint/pEmissionsTotal.csv"),  # GDX: pEmissionsTotal (1D), CSV: year,value
+    _entry("pMaxFuellimit", "constraint/pMaxFuellimit.csv", gdx_symbol="pMaxFuelLimit", header_cols=2),  # GDX: pMaxFuelLimit (3D), CSV: zone,fuel index, years as headers
     
     # H2 parameters
-    _entry("pAvailabilityH2", "h2/pAvailabilityH2.csv", gdx_dim=2, header_cols=1),  # GDX: pAvailabilityH2, CSV: gen index, seasons as headers
-    _entry("pCapexTrajectoryH2", "h2/pCapexTrajectoryH2.csv", gdx_dim=2, header_cols=1),  # GDX: pCapexTrajectoryH2, CSV: gen index, years as headers
-    _entry("pExternalH2", "h2/pExternalH2.csv", gdx_dim=4, header_cols=1),  # GDX: pExternalH2, CSV: ZONE,Season index, years as headers
-    _entry("pFuelDataH2", "h2/pFuelDataH2.csv", gdx_dim=1, header_cols=0),  # GDX: pFuelDataH2, CSV: Type of fuel, Hydrogen index (all columns)
-    _entry("pH2DataExcel", "h2/pH2DataExcel.csv", gdx_dim=2, header_cols=1),  # GDX: pH2DataExcel, CSV: gen index, attributes as headers
+    _entry("pAvailabilityH2", "h2/pAvailabilityH2.csv", header_cols=1),  # GDX: pAvailabilityH2 (2D), CSV: gen index, seasons as headers
+    _entry("pCapexTrajectoryH2", "h2/pCapexTrajectoryH2.csv", header_cols=1),  # GDX: pCapexTrajectoryH2 (2D), CSV: gen index, years as headers
+    _entry("pExternalH2", "h2/pExternalH2.csv", header_cols=3),  # GDX: pExternalH2 (4D), CSV: ZONE,Season index, years as headers
+    _entry("pFuelDataH2", "h2/pFuelDataH2.csv"),  # GDX: pFuelData (1D), CSV: Type of fuel, Hydrogen index (all columns)
+    _entry("pH2DataExcel", "h2/pH2DataExcel.csv", header_cols=1),  # GDX: pH2DataExcel (2D), CSV: gen index, attributes as headers
     
     # Load parameters
-    _entry("pDemandData", "load/pDemandData.csv", gdx_dim=5, header_cols=1),  # GDX: pDemandData, CSV: zone,q,d,y index, hours as headers
-    _entry("pDemandForecast", "load/pDemandForecast.csv", gdx_dim=3, header_cols=1),  # GDX: pDemandForecast, CSV: zone,type index, years as headers
-    _entry("pDemandProfile", "load/pDemandProfile.csv", gdx_dim=4, header_cols=1),  # GDX: pDemandProfile, CSV: zone,season,daytype index, hours as headers
-    _entry("pEnergyEfficiencyFactor", "load/pEnergyEfficiencyFactor.csv", gdx_dim=2, header_cols=1),  # GDX: pEnergyEfficiencyFactor, CSV: years as headers (1D pivot)
-    _entry("sRelevant", "load/sRelevant.csv", gdx_dim=1, typ="set"),  # GDX: sRelevant, CSV: set elements
+    _entry("pDemandData", "load/pDemandData.csv", header_cols=4),  # GDX: pDemandData (5D), CSV: zone,q,d,y index, hours as headers
+    _entry("pDemandForecast", "load/pDemandForecast.csv", header_cols=2),  # GDX: pDemandForecast (3D), CSV: zone,type index, years as headers
+    _entry("pDemandProfile", "load/pDemandProfile.csv", header_cols=3),  # GDX: pDemandProfile (4D), CSV: zone,season,daytype index, hours as headers
+    _entry("pEnergyEfficiencyFactor", "load/pEnergyEfficiencyFactor.csv", header_cols=1),  # GDX: pEnergyEfficiencyFactor (2D), CSV: years as headers
+    _entry("sRelevant", "load/sRelevant.csv"),  # GDX: sRelevant (1D), CSV: set elements
     
     # General parameters
-    _entry("pHours", "pHours.csv", gdx_dim=4, header_cols=1),  # GDX: pHours, CSV: season,daytype index, hours as headers
-    _entry("pSettings", "pSettings.csv", gdx_dim=1, header_cols=0),  # GDX: pScalars, CSV: Parameter,Abbreviation,Value (special format)
+    _entry("pHours", "pHours.csv", header_cols=3),  # GDX: pHours (4D), CSV: season,daytype index, hours as headers
+    _entry("pSettings", "pSettings.csv", gdx_symbol="pScalars"),  # GDX: pScalars (1D), CSV: Parameter,Abbreviation,Value
     
     # Reserve parameters
-    _entry("pPlanningReserveMargin", "reserve/pPlanningReserveMargin.csv", gdx_dim=1, header_cols=0),  # GDX: pPlanningReserveMargin, CSV: year,value
-    _entry("pSpinningReserveReqCountry", "reserve/pSpinningReserveReqCountry.csv", gdx_dim=2, header_cols=1),  # GDX: pSpinningReserveReqCountry, CSV: country index, years as headers
-    _entry("pSpinningReserveReqSystem", "reserve/pSpinningReserveReqSystem.csv", gdx_dim=1, header_cols=0),  # GDX: pSpinningReserveReqSystem, CSV: year,value
+    _entry("pPlanningReserveMargin", "reserve/pPlanningReserveMargin.csv"),  # GDX: pPlanningReserveMargin (1D), CSV: year,value
+    _entry("pSpinningReserveReqCountry", "reserve/pSpinningReserveReqCountry.csv", header_cols=1),  # GDX: pSpinningReserveReqCountry (2D), CSV: country index, years as headers
+    _entry("pSpinningReserveReqSystem", "reserve/pSpinningReserveReqSystem.csv"),  # GDX: pSpinningReserveReqSystem (1D), CSV: year,value
     
     # Supply parameters
-    _entry("pAvailability", "supply/pAvailabilityCustom.csv", gdx_dim=2, header_cols=1),  # GDX: pAvailability, CSV: gen index, seasons as headers
-    _entry("pCSPData", "supply/pCSPData.csv", gdx_dim=3, header_cols=1),  # GDX: pCSPData, CSV: gen,attribute index, years as headers
-    _entry("pCapexTrajectories", "supply/pCapexTrajectoriesCustom.csv", gdx_dim=2, header_cols=1),  # GDX: pCapexTrajectory, CSV: gen index, years as headers
-    _entry("pFuelPrice", "supply/pFuelPrice.csv", gdx_dim=3, header_cols=1),  # GDX: pFuelPrice, CSV: zone,fuel index, years as headers
-    _entry("pGenDataInput", "supply/pGenDataInput.csv", gdx_dim=2, header_cols=0, symbols=["gmap", "pGenDataInput"]),  # GDX: pGenDataExcel, CSV: all dimensions as columns (no pivot)
-    _entry("pStorageDataInput", "supply/pStorageDataInput.csv", gdx_dim=3, header_cols=0),  # GDX: pStorDataExcel, CSV: all dimensions as columns (no pivot)
-    _entry("pVREProfile", "supply/pVREProfile.csv", gdx_dim=5, header_cols=1),  # GDX: pVREProfile, CSV: zone,tech,season,daytype index, hours as headers
-    _entry("pVREgenProfile", "supply/pVREgenProfile.csv", gdx_dim=5, header_cols=1),  # GDX: pVREgenProfile, CSV: zone,tech,season,daytype index, hours as headers
+    _entry("pAvailability", "supply/pAvailabilityCustom.csv", header_cols=1),  # GDX: pAvailability (2D), CSV: gen index, seasons as headers
+    _entry("pCSPData", "supply/pCSPData.csv", header_cols=2),  # GDX: pCSPData (3D), CSV: gen,attribute index, years as headers
+    _entry("pCapexTrajectories", "supply/pCapexTrajectoriesCustom.csv", gdx_symbol="pCapexTrajectory", header_cols=1),  # GDX: pCapexTrajectory (2D), CSV: gen index, years as headers
+    _entry("pFuelPrice", "supply/pFuelPrice.csv", header_cols=2),  # GDX: pFuelPrice (3D), CSV: zone,fuel index, years as headers
+    _entry("pGenDataInput", "supply/pGenDataInput.csv", gdx_symbol="pGenDataExcel", symbols=["gmap", "pGenDataInput"]),  # GDX: pGenDataExcel (2D), CSV: all dimensions as columns (no unstacking)
+    _entry("pStorageDataInput", "supply/pStorageDataInput.csv", gdx_symbol="pStorDataExcel"),  # GDX: pStorDataExcel (3D), CSV: all dimensions as columns (no unstacking)
+    _entry("pVREProfile", "supply/pVREProfile.csv", gdx_symbol="pVREprofile", header_cols=4),  # GDX: pVREprofile (5D), CSV: zone,tech,season,daytype index, hours as headers
+    _entry("pVREgenProfile", "supply/pVREgenProfile.csv", header_cols=4),  # GDX: pVREgenProfile (5D), CSV: zone,tech,season,daytype index, hours as headers
     
     # Trade parameters
-    _entry("pExtTransferLimit", "trade/pExtTransferLimit.csv", gdx_dim=5, header_cols=1),  # GDX: pExtTransferLimit, CSV: Internal zone,External zone,Seasons,Import-Export index, years as headers
-    _entry("pLossFactorInternal", "trade/pLossFactorInternal.csv", gdx_dim=3, header_cols=1),  # GDX: pLossFactor, CSV: zone1,zone2 index, years as headers
-    _entry("pMaxAnnualExternalTradeShare", "trade/pMaxAnnualExternalTradeShare.csv", gdx_dim=2, header_cols=1),  # GDX: pMaxAnnualExternalTradeShare, CSV: y index, zones as headers
-    _entry("pMaxPriceImportShare", "trade/pMaxPriceImportShare.csv", gdx_dim=2, header_cols=1),  # GDX: pMaxPriceImportShare, CSV: y index, zones as headers
-    _entry("pMinImport", "trade/pMinImport.csv", gdx_dim=2, header_cols=1),  # GDX: pMinImport, CSV: zone1,zone2 index, years as headers
-    _entry("pNewTransmission", "trade/pNewTransmission.csv", gdx_dim=3, header_cols=1),  # GDX: pNewTransmission, CSV: From,To index, years as headers
-    _entry("pTradePrice", "trade/pTradePrice.csv", gdx_dim=5, header_cols=1),  # GDX: pTradePrice, CSV: zext,q,daytype,y index, hours as headers
-    _entry("pTransferLimit", "trade/pTransferLimit.csv", gdx_dim=4, header_cols=1),  # GDX: pTranspferLimit, CSV: From,To,q index, years as headers
+    _entry("pExtTransferLimit", "trade/pExtTransferLimit.csv", header_cols=4),  # GDX: pExtTransferLimit (5D), CSV: Internal zone,External zone,Seasons,Import-Export index, years as headers
+    _entry("pLossFactorInternal", "trade/pLossFactorInternal.csv", gdx_symbol="pLossFactor", header_cols=2),  # GDX: pLossFactor (3D), CSV: zone1,zone2 index, years as headers
+    _entry("pMaxAnnualExternalTradeShare", "trade/pMaxAnnualExternalTradeShare.csv", gdx_symbol="pMaxExchangeShare", header_cols=1),  # GDX: pMaxExchangeShare (2D), CSV: y index, zones as headers
+    _entry("pMaxPriceImportShare", "trade/pMaxPriceImportShare.csv", header_cols=1),  # GDX: pMaxPriceImportShare (2D), CSV: y index, zones as headers
+    _entry("pMinImport", "trade/pMinImport.csv", header_cols=1),  # GDX: pMinImport (2D), CSV: zone1,zone2 index, years as headers
+    _entry("pNewTransmission", "trade/pNewTransmission.csv", header_cols=2),  # GDX: pNewTransmission (3D), CSV: From,To index, years as headers
+    _entry("pTradePrice", "trade/pTradePrice.csv", header_cols=4),  # GDX: pTradePrice (5D), CSV: zext,q,daytype,y index, hours as headers
+    _entry("pTransferLimit", "trade/pTransferLimit.csv", gdx_symbol="pTranspferLimit", header_cols=3),  # GDX: pTranspferLimit (4D), CSV: From,To,q index, years as headers
     
     # Sets
-    _entry("zext", "trade/zext.csv", gdx_dim=1, typ="set"),  # GDX: zext, CSV: set elements
-    _entry("y", "y.csv", gdx_dim=1, typ="set"),  # GDX: y, CSV: set elements
-    _entry("zcmap", "zcmap.csv", gdx_dim=2, typ="set"),  # GDX: zcmapExcel, CSV: set elements (2D)
+    _entry("zext", "trade/zext.csv"),  # GDX: zext (1D), CSV: set elements
+    _entry("y", "y.csv"),  # GDX: y (1D), CSV: set elements
+    _entry("zcmap", "zcmap.csv", gdx_symbol="zcmapExcel"),  # GDX: zcmapExcel (2D), CSV: set elements
 ]
 
 OPTIONAL_SYMBOLS = {
@@ -272,7 +265,6 @@ OPTIONAL_SYMBOLS = {
     "sRelevant",
 }
 
-# Hard-coded column layouts mirroring epm/input/data_test (no runtime discovery)
 # --------------------------------------------------------------------------- #
 # Helpers
 # --------------------------------------------------------------------------- #
@@ -294,88 +286,64 @@ def find_value_column(df_gdx_records: pd.DataFrame) -> Optional[str]:
     return None
 
 
-def format_set(df_gdx_set: pd.DataFrame) -> pd.DataFrame:
-    """Format GDX set records into CSV format (deduplicate and sort).
-    
-    Sets in GDX are simple lists of elements. This function ensures
-    the CSV output has unique, sorted set elements.
-    
-    Args:
-        df_gdx_set: DataFrame from GDX set records
-    
-    Returns:
-        DataFrame with unique, sorted set elements
-    """
-    if not list(df_gdx_set.columns):
-        return df_gdx_set.copy().reset_index(drop=True)
-    return df_gdx_set.drop_duplicates().sort_values(list(df_gdx_set.columns)).reset_index(drop=True)
-
-
 def format_header_table(df_gdx_records: pd.DataFrame, spec: dict) -> pd.DataFrame:
-    """Transform GDX parameter records into CSV format by pivoting header dimensions.
+    """Transform GDX records into CSV format by unstacking a specific column.
     
     This function takes GDX records (which have all dimensions as columns plus a value column)
-    and pivots the specified header dimensions to become CSV column headers.
+    and unstacks the column at the specified index to become CSV column headers (wide format).
     
     Args:
         df_gdx_records: DataFrame from GDX records (all dimensions + value column)
-        spec: Layout specification dict with indexColumns, header, etc.
+        spec: Layout specification dict with indexColumns, header (containing column index)
     
     Returns:
-        DataFrame in CSV format with index columns + pivoted header columns
+        DataFrame in CSV format with index columns + unstacked header column
     """
     value_col = find_value_column(df_gdx_records)
     # All columns except the value column are dimension columns from GDX
     gdx_dimension_cols = [col for col in df_gdx_records.columns if col != value_col]
-    # First N dimension columns become CSV index columns
-    csv_index_cols = gdx_dimension_cols[: len(spec["indexColumns"])]
-    # Next M dimension columns become CSV header columns (pivoted)
-    gdx_header_dimensions = gdx_dimension_cols[len(csv_index_cols) : len(csv_index_cols) + len(spec["header"])]
-    base_cols = csv_index_cols + gdx_header_dimensions + ([value_col] if value_col else [])
-    data = df_gdx_records[base_cols] if base_cols else df_gdx_records.copy()
-    if gdx_header_dimensions and value_col:
-        # Pivot: GDX header dimensions → CSV column headers
-        pivot = data.pivot_table(
-            index=csv_index_cols,
-            columns=gdx_header_dimensions,
+    
+    # Get the column index to unstack (should be a single index in spec["header"])
+    if not spec["header"]:
+        # No unstacking: return data as-is
+        if value_col:
+            return df_gdx_records.rename(columns={value_col: "value"}).reset_index(drop=True)
+        return df_gdx_records.reset_index(drop=True)
+    
+    header_col_index = spec["header"][0]  # 0-indexed column index to unstack
+    
+    # Validate header_col_index is within bounds
+    if header_col_index >= len(gdx_dimension_cols):
+        raise IndexError(
+            f"header_cols index {header_col_index} is out of bounds for {len(gdx_dimension_cols)} dimension columns"
+        )
+    
+    # Columns before header_col_index become CSV index columns
+    csv_index_cols = gdx_dimension_cols[:header_col_index]
+    # Column at header_col_index becomes header (unstacked)
+    header_col = gdx_dimension_cols[header_col_index]
+    
+    if value_col:
+        # Unstack: specific column → CSV column headers
+        pivot = df_gdx_records.pivot_table(
+            index=csv_index_cols if csv_index_cols else None,
+            columns=header_col,
             values=value_col,
             aggfunc="first",
             observed=False,
         )
         pivot.columns = [col if isinstance(col, str) else "_".join(map(str, col)) for col in pivot.columns]
         return pivot.reset_index().reset_index(drop=True)
-    if value_col:
-        return data.rename(columns={value_col: "value"}).reset_index(drop=True)
-    return data.reset_index(drop=True)
-
-
-def format_value_table(df_gdx_records: pd.DataFrame, spec: dict, csv_symbol: str, gdx_symbol: str) -> pd.DataFrame:
-    """Transform GDX parameter records to CSV format with explicit value columns.
     
-    Args:
-        df_gdx_records: DataFrame from GDX records
-        spec: Layout specification dict
-        csv_symbol: CSV symbol name (for error messages)
-        gdx_symbol: GDX symbol name (for error messages)
-    
-    Returns:
-        DataFrame with CSV index columns + value column
-    """
-    value_col = find_value_column(df_gdx_records)
-    if value_col is None:
-        raise KeyError(f"No value column found for GDX symbol '{gdx_symbol}' (CSV: '{csv_symbol}')")
-    # All columns except value are GDX dimension columns
-    gdx_dimension_cols = [col for col in df_gdx_records.columns if col != value_col]
-    # First N dimensions become CSV index columns
-    csv_index_cols = gdx_dimension_cols[: len(spec["indexColumns"])]
-    columns = csv_index_cols + [value_col]
-    return df_gdx_records[columns].reset_index(drop=True)
+    # No value column: return data as-is
+    return df_gdx_records.reset_index(drop=True)
 
 
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
     """Fetch GDX symbol and transform it to CSV format according to spec.
     
     This is the main transformation function that converts GDX data to CSV format.
+    Sets and parameters are treated the same - no special handling.
     
     Args:
         container: GDX container with loaded symbols
@@ -392,14 +360,16 @@ def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec:
     if gdx_records is None:
         return None
     df_gdx_data = gdx_records.copy()
-    if spec["type"] == "set":
-        # Sets: just format and deduplicate
-        return format_set(df_gdx_data)
-    if spec["valueColumns"]:
-        # Explicit value columns specified
-        return format_value_table(df_gdx_data, spec, csv_symbol, gdx_symbol)
-    # Default: pivot header dimensions to CSV column headers
-    return format_header_table(df_gdx_data, spec)
+    
+    # If header_cols is specified, unstack that column; otherwise return data as-is
+    if spec.get("header"):
+        return format_header_table(df_gdx_data, spec)
+    
+    # No unstacking: return data as-is (with value column renamed if present)
+    value_col = find_value_column(df_gdx_data)
+    if value_col:
+        return df_gdx_data.rename(columns={value_col: "value"}).reset_index(drop=True)
+    return df_gdx_data.reset_index(drop=True)
 
 
 def fallback_frame(container: gt.Container, gdx_symbol: str) -> Optional[pd.DataFrame]:
