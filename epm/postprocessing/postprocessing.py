@@ -1137,7 +1137,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                             column_value='value',
                             format_y=make_auto_yaxis_formatter("MW"),
                             column_stacked='fuel',
-                            annotation_source='annotation_label',
+                            annotation_source=None,
+                            #annotation_source='annotation_label',
                             annotation_template="{category}: {value:.0f} MW",
                             title=f'Installed Capacity {zone} - {scenario} [MW]'
                         )
@@ -1727,7 +1728,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             select_subplot=selected_years,
                                             format_y=make_auto_yaxis_formatter("GWh"), 
-                                            rotation=45, 
+                                            rotation=90, 
                                             show_total=False,
                                             format_label="{:.0f}",
                                             title = 'System Energy Generation Mix by Fuel (GWh)',
@@ -1947,7 +1948,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         title=f"Net Imports by Zone over Time - {scenario_reference} [GWh]",
                         x_column='zone',
                         y_column='year',
-                        value_column='value'
+                        value_column='value',
+                        annot_kws={"size": 10}
                     )
                     
                 figure_name = 'NetImportsZoneEvolutionZoneEvolutionShare'
@@ -1969,7 +1971,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         title=f"Net Imports by Zone over Time - {scenario_reference} [% of energy demand]",
                         x_column='zone',
                         y_column='year',
-                        value_column='value'
+                        value_column='value',
+                        annot_kws={"size": 10}
                     )
 
                 # 4.2 Exchange between zones (energy)
@@ -2009,7 +2012,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                         title=title,
                                         x_column='zone',
                                         y_column='z2',
-                                        value_column='value'
+                                        value_column='value',
+                                        annot_kws={"size": 10}
                                     )
                                     
                 figure_name = 'InterconnectionUtilizationHeatmap'
@@ -2046,7 +2050,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                         title=title,
                                         x_column='zone',
                                         y_column='z2',
-                                        value_column='value'
+                                        value_column='value',
+                                        annot_kws={"size": 10}
                                     )
                 
             # ------------------------------------------------------------------------------------
