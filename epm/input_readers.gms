@@ -85,7 +85,6 @@ $if not set zext $set zext %FOLDER_INPUT%/trade/zext.csv
 $if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/pTransmissionHeader.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
-$if not set pMaxPriceImportShare $set pMaxPriceImportShare %FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
@@ -456,22 +455,11 @@ $onEmbeddedCode Connect:
     indexColumns: [1,2,3,4]
     header: [1]
     type: par
-    
 
 - CSVReader:
     trace: %TRACE%
     file: %pMaxAnnualExternalTradeShare%
     name: pMaxAnnualExternalTradeShare
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: %TRACE%
-    file: %pMaxPriceImportShare%
-    name: pMaxPriceImportShare
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
     indexColumns: [1]
     header: [1]
     type: par

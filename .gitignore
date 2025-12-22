@@ -86,6 +86,10 @@ pre-analysis/**/output/*
 epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
+
+!epm/input/datapackage.json
+!epm/input/validate.py
+
 # Exclude generated folders within data_test
 epm/input/data_test/**/sensitivity/
 epm/input/data_test/**/assessment/

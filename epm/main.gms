@@ -277,11 +277,12 @@ $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pEx
 * Close the GDX file after loading all required data
 $gdxIn
 
+$if not errorfree $abort CONNECT ERROR in input_readers.gms
+
+*-------------------------------------------------------------------------------------
 * $gdxunload afterReading.gdx 
 $if %DEBUG%==1 $log Debug mode active: exporting loading input to input_loaded.gdx
-$if %DEBUG%==1 execute_unload $gdxunload input_loaded.gdx ;
-
-$if not errorfree $abort CONNECT ERROR in input_readers.gms
+$if %DEBUG%==1 $gdxunload input_loaded.gdx
 
 
 *-------------------------------------------------------------------------------------
@@ -356,7 +357,7 @@ $offMulti
 *-------------------------------------------------------------------------------------
 
 $if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 execute_unload $gdxunload input_treated.gdx ;
+$if %DEBUG%==1 $gdxunload input_treated.gdx 
 
 $if not errorFree $abort Data errors.
 

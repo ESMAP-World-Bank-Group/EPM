@@ -38,7 +38,6 @@ Carbon pricing trajectory (Unit: USD/tCO2),pCarbonPrice,constraint/pCarbonPrice.
 External trading zones (Unit: unitless),zext,trade/zext.csv
 Seasonal import and export limits with external zones (Unit: MW),pExtTransferLimit,trade/pExtTransferLimit.csv
 Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal.csv
-Share of demand allowed to be served by high-price imports (Unit: per-unit share),pMaxPriceImportShare,trade/pMaxPriceImportShare.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv

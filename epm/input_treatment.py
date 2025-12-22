@@ -65,26 +65,25 @@ ZONE_RESTRICTED_PARAMS = {
 }
 
 COLUMN_RENAME_MAP = {
-    "pGenDataInput": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
-    "pGenDataInputDefault": {"uni": "pGenDataInputHeader", "gen": "g", "zone": "z", 'fuel': 'f'},
-    "pAvailabilityInput": {"uni": "q", "gen": "g"},
-    "pAvailability": {"uni": "q", "gen": "g"},
-    "pAvailabilityDefault": {"uni": "q", "zone": "z"},
-    "pEvolutionAvailability": {"uni": "y", "gen": "g"},
-    "pCapexTrajectoriesDefault": {"uni": "y", "zone": "z"},
-    "pDemandForecast": {"uni": "y", "zone": "z"},
+    "pGenDataInput": {"uni": "pGenDataInputHeader", 'fuel': 'f'},
+    "pGenDataInputDefault": {"uni": "pGenDataInputHeader", 'fuel': 'f'},
+    "pAvailabilityInput": {"uni": "q"},
+    "pAvailability": {"uni": "q"},
+    "pAvailabilityDefault": {"uni": "q"},
+    "pEvolutionAvailability": {"uni": "y"},
+    "pCapexTrajectoriesDefault": {"uni": "y"},
+    "pDemandForecast": {"uni": "y"},
     "pNewTransmission": {"From": "z", "To": "z2", "uni": "pTransmissionHeader"},
-    "zcmap": {"country": "c", "zone": "z"},
     "pSettings": {"Abbreviation": "pSettingsHeader"},
-    "pDemandForecast": {'type': 'pe', 'uni': 'y', 'zone': 'z'},
+    "pDemandForecast": {'type': 'pe', 'uni': 'y'},
     "pTransferLimit": {"From": "z", "To": "z2", "uni": "y"},
-    "pHours": {'season': 'q', 'daytype': 'd', 'uni': 't'},
+    "pHours": {'uni': 't'},
     "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
     'pTechFuel': {'tech': 'tech', 'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
     'pTechData': {'Technology': 'tech'},
-    "pVREGenProfile": {"gen": "g", "uni": "t"}
+    "pVREGenProfile": {"uni": "t"}
 }
 
 
