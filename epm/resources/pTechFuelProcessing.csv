@@ -4,8 +4,10 @@ Nuclear,Uranium,Nuclear,pink
 CCGT,Gas,CCGT-Gas,lightcoral
 CCGT,LNG,CCGT-LNG,indianred
 ST,Coal,ST-Coal,dimgray
+ST,DomesticCoal,ST-DomesticCoal,dimgray
+ST,ImportedCoal,ST-ImportedCoal,silver
 ST,Geothermal,ST-Geothermal,mediumturquoise
-ST,Lignite,ST-Lignite,dimgray
+ST,Lignite,ST-Lignite,lightgray
 OCGT,Diesel,GT-Diesel,darksalmon
 OCGT,Gas,GT-Gas,firebrick
 OCGT,LNG,GT-LNG,darkgoldenrod
@@ -19,7 +21,7 @@ CSPPlant,CSP,CSP,darkorange
 OffshoreWind,Wind,Offshore Wind,paleturquoise
 OnshoreWind,Wind,Onshore Wind,darkturquoise
 PV,Solar,PV,orange
-pvwsto,Solar,PV +Storage,orange
+pvwsto,Solar,PV+Storage,orange
 STOPV,Solar,Solar Thermal,darkkhaki
 Storage,Battery,Battery,darkkhaki
 Storage,Water,PSH,blue
