@@ -6,9 +6,6 @@ Global model switches and financial defaults (Unit: parameter-specific),pSetting
 Planning horizon years (Unit: year),y,y.csv
 Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
-,STATIC,
-Dispatch day counts per period (Unit: days),pDays,static/dispatch_month_days.csv
-Dispatch chronology mapping (Unit: ordinal index),mapTS,static/dispatch_map_ts.csv
 ,LOAD,
 "Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile.csv
 Hourly demand time series by zone (Unit: MW),pDemandData,load/pDemandData.csv
