@@ -306,6 +306,9 @@ def postprocess_pGenDataInput(csv_path: Path, extras_root: Path, repo_root: Path
         try:
             if tech_file.exists():
                 tech_lookup = pd.read_csv(tech_file)
+                # Only keep Assigned Value in the second column
+                tech_lookup = tech_lookup[tech_lookup[tech_lookup.columns[1]] == "Assigned Value"]
+                
                 if len(tech_lookup.columns) >= 1:
                     tech_map = dict(zip(tech_lookup.iloc[:, 2], tech_lookup.iloc[:, 0]))
                     mapped_series = df[tech_col].map(tech_map)
@@ -345,17 +348,213 @@ def postprocess_pGenDataInput(csv_path: Path, extras_root: Path, repo_root: Path
         print(f"  [pGenDataInput] Failed to write {csv_path}: {e}")
 
 
+def postprocess_csv(csv_path: Path, output_root: Path, extras_root: Path, repo_root: Path) -> None:
+    """Apply post-processing to a single CSV file."""
+    try:
+        df = pd.read_csv(csv_path)
+    except Exception:
+        return
+    
+    if df.empty:
+        return
+    
+    file_name = csv_path.name
+    folder = csv_path.parent.name if csv_path.parent != output_root else ""
+    file_path_str = f"{folder}/{file_name}" if folder else file_name
+    
+    changes = []
+    
+    # Remove element_text column
+    if "element_text" in df.columns:
+        df = df.drop(columns=["element_text"])
+        changes.append("removed element_text")
+    
+    # Apply file-specific rules (rename columns by position)
+    if file_name == "pCarbonPrice.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "year"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
+    
+    elif file_name == "pEmissionsTotal.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "year"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
+    
+    elif file_name == "pDemandForecast.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "zone"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "type"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "pDemandProfile.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "zone"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "season"
+        if len(df.columns) > 2:
+            rename_dict[df.columns[2]] = "daytype"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "pHours.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "season"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "daytype"
+        if len(df.columns) > 2:
+            rename_dict[df.columns[2]] = "year"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "pSpinningReserveReqSystem.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "year"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
+    
+    elif file_name == "pMaxAnnualExternalTradeShare.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "year"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
+    
+    elif file_name == "pAvailabilityCustom.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "gen"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→gen")
+    
+    elif file_name == "pCapexTrajectoriesCustom.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "gen"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→gen")
+    
+    elif file_name == "pStorageDataInput.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "gen"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "Linked plants"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+        
+        additional_renames = {}
+        if "Capacity" in df.columns:
+            additional_renames["Capacity"] = "CapacityMWh"
+        if "Capex" in df.columns:
+            additional_renames["Capex"] = "CapexMWh"
+        if "FixedOM" in df.columns:
+            additional_renames["FixedOM"] = "FixedOMMWh"
+        if "VOMMWh" in df.columns:
+            additional_renames["VOMMWh"] = "VOM"
+        if additional_renames:
+            df = df.rename(columns=additional_renames)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in additional_renames.items())}")
+    
+    elif file_name == "pVREProfile.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "zone"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "tech"
+        if len(df.columns) > 2:
+            rename_dict[df.columns[2]] = "season"
+        if len(df.columns) > 3:
+            rename_dict[df.columns[3]] = "daytype"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "pExtTransferLimit.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "zone"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "zext"
+        if len(df.columns) > 2:
+            rename_dict[df.columns[2]] = "season"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "pLossFactorInternal.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "From"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "To"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "pTradePrice.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "zone"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "season"
+        if len(df.columns) > 2:
+            rename_dict[df.columns[2]] = "daytype"
+        if len(df.columns) > 3:
+            rename_dict[df.columns[3]] = "year"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    elif file_name == "y.csv":
+        if len(df.columns) > 0:
+            rename_dict = {df.columns[0]: "year"}
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
+    
+    elif file_name == "zcmap.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "zone"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "country"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
+    # Write back
+    try:
+        df.to_csv(csv_path, index=False, na_rep="")
+        if changes:
+            print(f"  [{file_name}] {', '.join(changes)}")
+    except Exception:
+        pass
+
+
 def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) -> None:
     """Apply post-processing rules to exported CSV files.
     
     This function is called after all CSV files have been exported.
     It applies symbol-specific post-processing rules.
     """
-    # Post-process pGenDataInput
+    # Post-process pGenDataInput (has special logic)
     pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
     if pGenDataInput_path.exists():
         print(f"[Post-processing] Applying rules to pGenDataInput.csv")
         postprocess_pGenDataInput(pGenDataInput_path, extras_root, repo_root)
+    
+    # Post-process all other CSV files
+    for csv_file in output_root.rglob("*.csv"):
+        if csv_file.name == "pGenDataInput.csv":
+            continue
+        postprocess_csv(csv_file, output_root, extras_root, repo_root)
 
 
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
@@ -575,11 +774,17 @@ def convert_legacy_gdx(
         csv_target_path = output_root / Path(entry["relative_path"])
         csv_target_path.parent.mkdir(parents=True, exist_ok=True)
 
+        # Skip exporting pSettings.csv
+        if csv_symbol == "pSettings":
+            continue
+        
         if not overwrite and csv_target_path.exists():
             skipped.append(csv_target_path)
             continue
 
         df_csv_data.to_csv(csv_target_path, index=False, na_rep="")
+        
+        # Add to summary (pSettings is already skipped above)
         summary.append(
             {
                 "csv_symbol": csv_symbol,
