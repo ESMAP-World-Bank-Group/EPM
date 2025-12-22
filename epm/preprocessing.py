@@ -592,7 +592,7 @@ def perform_sensitivity(sensitivity, s):
 
     param = 'pSettings'
     if sensitivity.get(param) and not math.isnan(float(sensitivity[param])):  # testing implications of some setting parameters
-        settings_sensi = {'CO2backstop': [500, 1000]}
+        settings_sensi = {'CO2backstop': [500]}
         """ 'VoLL': [250],
                           'fApplyPlanningReserveConstraint': [0], 'sVREForecastErrorPct': [0, 0.3],
                           'zonal_spinning_reserve_constraints': [0],
@@ -846,16 +846,10 @@ def perform_sensitivity(sensitivity, s):
         # Add 3 years delay to all fuel Water projects more than 400 MW Capacity if status is 2 or 3
         df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 400) & (df['Status'].isin([2, 3])), 'StYr'] += 3
         
-        # Creating a new folder
-        folder_sensi = os.path.join(os.path.dirname(s['baseline']['pGenDataInput']), 'sensitivity')
-        if not os.path.exists(folder_sensi):
-            os.mkdir(folder_sensi)
         scenario_name = f'{param}_3years'
-        path_file = os.path.basename(s['baseline']['pGenDataInput']).replace('pGenDataInput', scenario_name)
-        path_file = os.path.join(folder_sensi, path_file)
-        # Write the modified file
+        path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_3years')
         df.to_csv(path_file, index=False)
-        
+
         # Put in the scenario dir
         s[scenario_name] = s['baseline'].copy()
         s[scenario_name]['pGenDataInput'] = path_file
