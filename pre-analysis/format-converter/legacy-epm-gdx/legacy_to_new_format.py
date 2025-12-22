@@ -15,6 +15,7 @@ How it works (summary):
 from __future__ import annotations
 
 import argparse
+import difflib
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -684,6 +685,211 @@ def merge_storage_from_gen_to_storage(output_root: Path, repo_root: Path) -> Non
         traceback.print_exc()
 
 
+def copy_and_expand_default_files(output_root: Path, repo_root: Path) -> None:
+    """Copy default files from data_test and expand for all zones in zcmap."""
+    data_test_dir = repo_root / "epm" / "input" / "data_test" / "supply"
+    output_supply_dir = output_root / "supply"
+    
+    # Read zcmap to get all zones
+    zcmap_path = output_root / "zcmap.csv"
+    if not zcmap_path.exists():
+        print(f"  [Default files] zcmap.csv not found at {zcmap_path}")
+        return
+    
+    try:
+        zcmap_df = pd.read_csv(zcmap_path)
+        if "zone" not in zcmap_df.columns:
+            print(f"  [Default files] No 'zone' column in zcmap.csv")
+            return
+        all_zones = zcmap_df["zone"].astype(str).tolist()
+        print(f"  [Default files] Found {len(all_zones)} zones in zcmap: {', '.join(all_zones[:10])}{'...' if len(all_zones) > 10 else ''}")
+    except Exception as e:
+        print(f"  [Default files] Failed to read zcmap.csv: {e}")
+        return
+    
+    # Files to copy and expand
+    default_files = [
+        "pCapexTrajectoriesDefault.csv",
+        "pAvailabilityDefault.csv",
+        "pGenDataInputDefault.csv"
+    ]
+    
+    for file_name in default_files:
+        source_path = data_test_dir / file_name
+        target_path = output_supply_dir / file_name
+        
+        if not source_path.exists():
+            print(f"  [Default files] {file_name} not found at {source_path}")
+            continue
+        
+        try:
+            df = pd.read_csv(source_path)
+            if df.empty:
+                print(f"  [Default files] {file_name} is empty")
+                continue
+            
+            if "zone" not in df.columns:
+                print(f"  [Default files] No 'zone' column in {file_name}")
+                continue
+            
+            # Get first zone as reference
+            reference_zone = df["zone"].iloc[0]
+            print(f"  [Default files] Using '{reference_zone}' as reference zone for {file_name}")
+            
+            # Get all rows for reference zone
+            ref_rows = df[df["zone"] == reference_zone].copy()
+            if ref_rows.empty:
+                print(f"  [Default files] No rows found for reference zone '{reference_zone}' in {file_name}")
+                continue
+            
+            # Create expanded dataframe
+            expanded_rows = []
+            for zone in all_zones:
+                zone_rows = ref_rows.copy()
+                zone_rows["zone"] = zone
+                expanded_rows.append(zone_rows)
+            
+            expanded_df = pd.concat(expanded_rows, ignore_index=True)
+            expanded_df.to_csv(target_path, index=False, na_rep="")
+            print(f"  [Default files] Expanded {file_name}: {len(ref_rows)} rows × {len(all_zones)} zones = {len(expanded_df)} rows")
+            
+        except Exception as e:
+            print(f"  [Default files] Failed to process {file_name}: {e}")
+            import traceback
+            traceback.print_exc()
+
+
+def validate_tech_fuel_combinations(output_root: Path, repo_root: Path) -> None:
+    """Validate tech-fuel combinations in pGenDataInput and pStorageDataInput against pTechFuel.csv.
+    
+    Checks unique combinations and suggests corrections based on string similarity.
+    """
+    pTechFuel_path = repo_root / "epm" / "resources" / "pTechFuel.csv"
+    
+    if not pTechFuel_path.exists():
+        print(f"  [Tech-Fuel validation] pTechFuel.csv not found")
+        return
+    
+    try:
+        # Load valid tech-fuel combinations
+        pTechFuel_df = pd.read_csv(pTechFuel_path)
+        if len(pTechFuel_df.columns) < 2:
+            return
+        
+        valid_techs = set(pTechFuel_df.iloc[:, 0].astype(str).str.strip())
+        valid_fuels = set(pTechFuel_df.iloc[:, 1].astype(str).str.strip())
+        valid_combinations = set(
+            (str(row.iloc[0]).strip(), str(row.iloc[1]).strip())
+            for _, row in pTechFuel_df.iterrows()
+        )
+        
+        # Files to check
+        files_to_check = [
+            ("pGenDataInput", output_root / "supply" / "pGenDataInput.csv"),
+            ("pStorageDataInput", output_root / "supply" / "pStorageDataInput.csv"),
+        ]
+        
+        all_invalid = []
+        
+        for file_name, file_path in files_to_check:
+            if not file_path.exists():
+                continue
+            
+            try:
+                df = pd.read_csv(file_path)
+                if df.empty or "tech" not in df.columns or "fuel" not in df.columns:
+                    continue
+                
+                # Get unique tech-fuel combinations
+                df_clean = df[["tech", "fuel"]].copy()
+                df_clean["tech"] = df_clean["tech"].astype(str).str.strip()
+                df_clean["fuel"] = df_clean["fuel"].astype(str).str.strip()
+                df_clean = df_clean[(df_clean["tech"] != "") & (df_clean["tech"] != "nan") & 
+                                   (df_clean["fuel"] != "") & (df_clean["fuel"] != "nan")]
+                
+                unique_combinations = set(zip(df_clean["tech"], df_clean["fuel"]))
+                invalid_combinations = [(tech, fuel) for tech, fuel in unique_combinations 
+                                       if (tech, fuel) not in valid_combinations]
+                
+                if invalid_combinations:
+                    all_invalid.append((file_name, invalid_combinations))
+                    
+            except Exception:
+                continue
+        
+        # Report and suggest corrections
+        if all_invalid:
+            for file_name, invalid_combinations in all_invalid:
+                for tech, fuel in sorted(invalid_combinations):
+                    # Find closest tech match
+                    closest_tech = None
+                    if tech:
+                        matches = difflib.get_close_matches(tech, valid_techs, n=1, cutoff=0.6)
+                        if matches:
+                            closest_tech = matches[0]
+                    
+                    # Find closest fuel match
+                    closest_fuel = None
+                    if fuel:
+                        matches = difflib.get_close_matches(fuel, valid_fuels, n=1, cutoff=0.6)
+                        if matches:
+                            closest_fuel = matches[0]
+                    
+                    # Check if fuel is valid
+                    fuel_is_valid = fuel in valid_fuels
+                    
+                    # Build suggestion message
+                    suggestion_parts = []
+                    
+                    # First, try to find a valid combination with suggested tech
+                    suggested_tech = closest_tech
+                    suggested_fuel = None
+                    if suggested_tech:
+                        # Check if suggested tech + current fuel is valid
+                        if fuel_is_valid and (suggested_tech, fuel) in valid_combinations:
+                            suggested_fuel = fuel
+                        else:
+                            # Try to find a valid fuel for the suggested tech
+                            valid_fuels_for_tech = [f for t, f in valid_combinations if t == suggested_tech]
+                            if valid_fuels_for_tech:
+                                closest_valid_fuel = difflib.get_close_matches(fuel, valid_fuels_for_tech, n=1, cutoff=0.6)
+                                if closest_valid_fuel:
+                                    suggested_fuel = closest_valid_fuel[0]
+                    
+                    # Build suggestion text
+                    if suggested_tech:
+                        suggestion_parts.append(f"tech: '{suggested_tech}'")
+                        
+                        if suggested_fuel:
+                            if suggested_fuel == fuel:
+                                suggestion_parts.append("and fuel is valid")
+                            else:
+                                suggestion_parts.append(f"and fuel should be replaced by '{suggested_fuel}'")
+                        else:
+                            if fuel_is_valid:
+                                suggestion_parts.append("and fuel is valid")
+                            elif closest_fuel:
+                                suggestion_parts.append(f"and fuel should be replaced by '{closest_fuel}'")
+                            else:
+                                suggestion_parts.append("and fuel is invalid (no suggestion)")
+                    else:
+                        if fuel_is_valid:
+                            suggestion_parts.append("fuel is valid but tech is invalid (no suggestion)")
+                        elif closest_fuel:
+                            suggestion_parts.append(f"fuel should be replaced by '{closest_fuel}' (tech suggestion unavailable)")
+                        else:
+                            suggestion_parts.append("no suggestion available")
+                    
+                    suggestion = ". Suggest replacement of " + " and ".join(suggestion_parts) if suggestion_parts else ". No suggestion available"
+                    
+                    print(f"  Found in {file_name} tech: '{tech}' - fuel: '{fuel}'{suggestion}.")
+        else:
+            print(f"  [Tech-Fuel validation] All combinations valid ✓")
+            
+    except Exception:
+        pass
+
+
 def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) -> None:
     """Apply post-processing rules to exported CSV files.
     
@@ -704,6 +910,14 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) 
     
     # Merge Storage rows from pGenDataInput to pStorageDataInput (after all post-processing)
     merge_storage_from_gen_to_storage(output_root, repo_root)
+    
+    # Copy and expand default files (last step)
+    print(f"\n[Post-processing] Copying and expanding default files...")
+    copy_and_expand_default_files(output_root, repo_root)
+    
+    # Validate tech-fuel combinations (final validation step)
+    print(f"\n[Post-processing] Validating tech-fuel combinations...")
+    validate_tech_fuel_combinations(output_root, repo_root)
 
 
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
