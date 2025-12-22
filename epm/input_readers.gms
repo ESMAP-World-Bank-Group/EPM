@@ -40,8 +40,8 @@ $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
-$if not set pDays $set pDays %FOLDER_INPUT%/static/dispatch_month_days.csv
-$if not set mapTS $set mapTS %FOLDER_INPUT%/static/dispatch_map_ts.csv
+$if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch_month_days.csv
+$if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch_map_ts.csv
 
 * LOAD DATA
 $if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
