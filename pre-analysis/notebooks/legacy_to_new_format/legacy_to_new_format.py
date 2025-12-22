@@ -538,6 +538,152 @@ def postprocess_csv(csv_path: Path, output_root: Path, extras_root: Path, repo_r
         pass
 
 
+def merge_storage_from_gen_to_storage(output_root: Path, repo_root: Path) -> None:
+    """Merge Storage rows from pGenDataInput into pStorageDataInput."""
+    pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
+    pStorageDataInput_path = output_root / "supply" / "pStorageDataInput.csv"
+    
+    print(f"[Post-processing] Merging Storage rows from pGenDataInput to pStorageDataInput")
+    
+    if not pGenDataInput_path.exists():
+        print(f"  [Storage merge] pGenDataInput.csv not found at {pGenDataInput_path}")
+        return
+    
+    if not pStorageDataInput_path.exists():
+        print(f"  [Storage merge] pStorageDataInput.csv not found at {pStorageDataInput_path}")
+        return
+    
+    try:
+        # Load both files
+        df_gen = pd.read_csv(pGenDataInput_path)
+        df_storage = pd.read_csv(pStorageDataInput_path)
+        
+        print(f"  [Storage merge] Loaded pGenDataInput: {len(df_gen)} rows, pStorageDataInput: {len(df_storage)} rows")
+        
+        if df_gen.empty:
+            print(f"  [Storage merge] pGenDataInput is empty, nothing to merge")
+            return
+        
+        if "tech" not in df_gen.columns:
+            print(f"  [Storage merge] No 'tech' column in pGenDataInput")
+            return
+        
+        # Find rows where tech contains "Storage" or "Sto" but exclude "STO HY" (reservoir)
+        tech_lower = df_gen["tech"].astype(str).str.lower()
+        storage_mask = tech_lower.str.contains("storage|sto", na=False, regex=True) & ~tech_lower.str.contains("sto hy|storage hy|reservoir", na=False, regex=True)
+        storage_rows = df_gen[storage_mask].copy()
+        
+        if storage_rows.empty:
+            print(f"  [Storage merge] No Storage rows found in pGenDataInput (searched for 'storage' or 'sto' in tech column)")
+            return
+        
+        print(f"  [Storage merge] Found {len(storage_rows)} Storage rows in pGenDataInput")
+        if "gen" in storage_rows.columns:
+            storage_gens = storage_rows["gen"].astype(str).tolist()
+            print(f"  [Storage merge] Storage gen values: {', '.join(storage_gens[:10])}{'...' if len(storage_gens) > 10 else ''}")
+        
+        # Merge: keep existing values in pStorageDataInput when gen matches
+        if "gen" not in df_storage.columns:
+            print(f"  [Storage merge] No 'gen' column in pStorageDataInput, cannot merge")
+            return
+        
+        if "gen" not in storage_rows.columns:
+            print(f"  [Storage merge] No 'gen' column in Storage rows, cannot merge")
+            return
+        
+        # Convert gen to string for consistent matching
+        df_storage["gen"] = df_storage["gen"].astype(str)
+        storage_rows["gen"] = storage_rows["gen"].astype(str)
+        
+        # Get gens that already exist in pStorageDataInput
+        existing_gens = set(df_storage["gen"])
+        print(f"  [Storage merge] pStorageDataInput has {len(existing_gens)} existing gen values")
+        
+        # Separate existing and new rows
+        existing_rows = storage_rows[storage_rows["gen"].isin(existing_gens)]
+        new_rows = storage_rows[~storage_rows["gen"].isin(existing_gens)]
+        
+        # Merge existing rows: combine all columns, keep pStorageDataInput values when duplicate
+        if len(existing_rows) > 0:
+            existing_gens_list = existing_rows["gen"].tolist()
+            print(f"  [Storage merge] Merging {len(existing_rows)} existing rows: {', '.join(existing_gens_list[:10])}{'...' if len(existing_gens_list) > 10 else ''}")
+            
+            # Set gen as index for merging
+            df_storage_indexed = df_storage.set_index("gen")
+            existing_rows_indexed = existing_rows.set_index("gen")
+            
+            # For each existing gen, add new columns from pGenDataInput
+            # Keep existing values in pStorageDataInput (don't overwrite)
+            for gen in existing_gens_list:
+                if gen in existing_rows_indexed.index:
+                    for col in existing_rows_indexed.columns:
+                        if col not in df_storage_indexed.columns:
+                            # New column - add it
+                            df_storage_indexed[col] = None
+                            df_storage_indexed.loc[gen, col] = existing_rows_indexed.loc[gen, col]
+                        else:
+                            # Column exists - only update if pStorageDataInput value is empty/null
+                            if pd.isna(df_storage_indexed.loc[gen, col]) or df_storage_indexed.loc[gen, col] == "":
+                                val = existing_rows_indexed.loc[gen, col]
+                                if not pd.isna(val) and val != "":
+                                    df_storage_indexed.loc[gen, col] = val
+            
+            df_storage = df_storage_indexed.reset_index()
+        
+        # Add new rows
+        if len(new_rows) > 0:
+            print(f"  [Storage merge] Adding {len(new_rows)} new rows to pStorageDataInput")
+            new_gens = new_rows["gen"].tolist()
+            print(f"  [Storage merge] New gen values: {', '.join(new_gens[:10])}{'...' if len(new_gens) > 10 else ''}")
+            df_storage = pd.concat([df_storage, new_rows], ignore_index=True)
+        
+        print(f"  [Storage merge] Merged: pStorageDataInput now has {len(df_storage)} rows")
+        
+        # Load pStorageDataHeader for column ordering
+        header_file = repo_root / "epm" / "resources" / "pStorageDataHeader.csv"
+        header_cols = []
+        try:
+            if header_file.exists():
+                header_df = pd.read_csv(header_file)
+                header_cols = header_df.iloc[:, 0].tolist()
+                if len(header_cols) > 0 and header_cols[0] == "pStorageDataHeader":
+                    header_cols = header_cols[1:]
+                print(f"  [Storage merge] Loaded {len(header_cols)} columns from pStorageDataHeader.csv")
+            else:
+                print(f"  [Storage merge] pStorageDataHeader.csv not found at {header_file}")
+        except Exception as e:
+            print(f"  [Storage merge] Failed to load pStorageDataHeader.csv: {e}")
+        
+        # Reorder columns: gen, zone, tech, fuel, Linked plants, then header order
+        ordered_cols = []
+        priority_cols = ["gen", "zone", "tech", "fuel", "Linked plants"]
+        for col in priority_cols:
+            if col in df_storage.columns and col not in ordered_cols:
+                ordered_cols.append(col)
+        
+        for col in header_cols:
+            if col in df_storage.columns and col not in ordered_cols:
+                ordered_cols.append(col)
+        
+        for col in df_storage.columns:
+            if col not in ordered_cols:
+                ordered_cols.append(col)
+        
+        df_storage = df_storage[ordered_cols]
+        df_storage.to_csv(pStorageDataInput_path, index=False, na_rep="")
+        print(f"  [Storage merge] Reordered columns in pStorageDataInput: {', '.join(ordered_cols[:10])}{'...' if len(ordered_cols) > 10 else ''}")
+        
+        # Remove Storage rows from pGenDataInput
+        df_gen = df_gen[~storage_mask]
+        df_gen.to_csv(pGenDataInput_path, index=False, na_rep="")
+        print(f"  [Storage merge] Removed {len(storage_rows)} Storage rows from pGenDataInput (now has {len(df_gen)} rows)")
+        
+    except Exception as e:
+        print(f"  [Storage merge] Failed: {e}")
+        import traceback
+        traceback.print_exc()
+
+
 def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) -> None:
     """Apply post-processing rules to exported CSV files.
     
@@ -555,6 +701,9 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) 
         if csv_file.name == "pGenDataInput.csv":
             continue
         postprocess_csv(csv_file, output_root, extras_root, repo_root)
+    
+    # Merge Storage rows from pGenDataInput to pStorageDataInput (after all post-processing)
+    merge_storage_from_gen_to_storage(output_root, repo_root)
 
 
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
