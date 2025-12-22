@@ -148,6 +148,216 @@ def format_header_table(df_gdx_records: pd.DataFrame, spec: dict, csv_symbol: st
     return df_gdx_records.reset_index(drop=True)
 
 
+def postprocess_pGenDataInput(csv_path: Path, extras_root: Path, repo_root: Path) -> None:
+    """Apply optional post-processing rules to pGenDataInput CSV file.
+    
+    Rules applied:
+    - Rename first column to "gen"
+    - Find and rename fuel, tech, zone columns
+    - Reorder columns: gen, zone, tech, fuel, then others
+    - Apply lookup mappings from extras folder
+    
+    All operations are optional and fail gracefully.
+    Reads from CSV file and writes back to the same file.
+    """
+    try:
+        df = pd.read_csv(csv_path)
+    except Exception as e:
+        print(f"  [pGenDataInput] Failed to read {csv_path}: {e}")
+        return
+    
+    if df.empty or len(df.columns) == 0:
+        return
+    
+    # Rename first column to "gen"
+    first_col = df.columns[0]
+    if first_col != "gen":
+        df = df.rename(columns={first_col: "gen"})
+    
+    # Find fuel column (case-insensitive, could be fuel, fuel1, Fuel, etc.)
+    fuel_col = None
+    for col in df.columns:
+        col_lower = col.lower()
+        if col_lower == "fuel" or col_lower.startswith("fuel"):
+            fuel_col = col
+            break
+    
+    # Find tech column (could be tech or type)
+    tech_col = None
+    for col in df.columns:
+        col_lower = col.lower()
+        if col_lower == "tech" or col_lower == "type":
+            tech_col = col
+            break
+    
+    # Find zone column
+    zone_col = None
+    for col in df.columns:
+        if col.lower() == "zone":
+            zone_col = col
+            break
+    
+    # Rename columns to standard names
+    rename_dict = {}
+    if zone_col and zone_col != "zone":
+        rename_dict[zone_col] = "zone"
+        zone_col = "zone"
+    if tech_col and tech_col != "tech":
+        rename_dict[tech_col] = "tech"
+        tech_col = "tech"
+    if fuel_col and fuel_col != "fuel":
+        rename_dict[fuel_col] = "fuel"
+        fuel_col = "fuel"
+    if rename_dict:
+        df = df.rename(columns=rename_dict)
+    
+    # Load expected column order from pGenDataInputHeader
+    header_file = repo_root / "epm" / "resources" / "pGenDataInputHeader.csv"
+    header_cols = []
+    try:
+        if header_file.exists():
+            header_df = pd.read_csv(header_file)
+            header_cols = header_df.iloc[:, 0].tolist()
+            # Remove header row name if present
+            if len(header_cols) > 0 and header_cols[0] == "pGenDataInputHeader":
+                header_cols = header_cols[1:]
+            print(f"  [pGenDataInput] Loaded {len(header_cols)} columns from pGenDataInputHeader.csv")
+            
+            # Remove columns not in header (keep gen, zone, tech, fuel)
+            columns_to_keep = ["gen"]
+            if zone_col:
+                columns_to_keep.append(zone_col)
+            if tech_col:
+                columns_to_keep.append(tech_col)
+            if fuel_col:
+                columns_to_keep.append(fuel_col)
+            columns_to_keep.extend(header_cols)
+            
+            columns_to_remove = [col for col in df.columns if col not in columns_to_keep]
+            if columns_to_remove:
+                df = df.drop(columns=columns_to_remove)
+                print(f"  [pGenDataInput] Removed {len(columns_to_remove)} columns not in pGenDataInputHeader: {', '.join(columns_to_remove)}")
+        else:
+            print(f"  [pGenDataInput] pGenDataInputHeader.csv not found at {header_file}")
+    except Exception as e:
+        print(f"  [pGenDataInput] Failed to load pGenDataInputHeader.csv: {e}")
+    
+    # Build column order: gen, zone, tech, fuel, then others in header order
+    ordered_cols = ["gen"]
+    if zone_col:
+        if zone_col not in ordered_cols:
+            ordered_cols.append(zone_col)
+        print(f"  [pGenDataInput] Found zone column: {zone_col}")
+    else:
+        print(f"  [pGenDataInput] Zone column not found (searched for 'zone')")
+    
+    if tech_col:
+        if tech_col not in ordered_cols:
+            ordered_cols.append(tech_col)
+        print(f"  [pGenDataInput] Found tech column: {tech_col}")
+    else:
+        print(f"  [pGenDataInput] Tech column not found (searched for 'tech' or 'type')")
+    
+    if fuel_col:
+        if fuel_col not in ordered_cols:
+            ordered_cols.append(fuel_col)
+        print(f"  [pGenDataInput] Found fuel column: {fuel_col}")
+    else:
+        print(f"  [pGenDataInput] Fuel column not found (searched for 'fuel' or 'fuel*')")
+    
+    # Add remaining columns in header order, then any others
+    for col in header_cols:
+        if col in df.columns and col not in ordered_cols:
+            ordered_cols.append(col)
+    
+    # Add any remaining columns not yet included
+    for col in df.columns:
+        if col not in ordered_cols:
+            ordered_cols.append(col)
+    
+    print(f"  [pGenDataInput] Column order: {', '.join(ordered_cols)}")
+    
+    # Reorder columns
+    df = df[ordered_cols]
+    
+    # Apply lookup mappings from extras folder
+    # Zone mapping from pZoneIndex
+    if zone_col:
+        zone_file = extras_root / "pZoneIndex.csv"
+        try:
+            if zone_file.exists():
+                zone_lookup = pd.read_csv(zone_file)
+                if len(zone_lookup.columns) >= 2:
+                    zone_map = dict(zip(zone_lookup.iloc[:, 1], zone_lookup.iloc[:, 0]))
+                    mapped_series = df[zone_col].map(zone_map)
+                    mapped_count = mapped_series.notna().sum()
+                    df[zone_col] = mapped_series.where(mapped_series.notna(), df[zone_col])
+                    print(f"  [pGenDataInput] Applied zone mapping from pZoneIndex.csv ({mapped_count}/{len(df)} values mapped)")
+                else:
+                    print(f"  [pGenDataInput] pZoneIndex.csv has insufficient columns ({len(zone_lookup.columns)} < 2)")
+            else:
+                print(f"  [pGenDataInput] pZoneIndex.csv not found at {zone_file}")
+        except Exception as e:
+            print(f"  [pGenDataInput] Failed to apply zone mapping: {e}")
+    
+    # Tech mapping from pTechDataExcel
+    if tech_col:
+        tech_file = extras_root / "pTechDataExcel.csv"
+        try:
+            if tech_file.exists():
+                tech_lookup = pd.read_csv(tech_file)
+                if len(tech_lookup.columns) >= 1:
+                    tech_map = dict(zip(tech_lookup.iloc[:, 2], tech_lookup.iloc[:, 0]))
+                    mapped_series = df[tech_col].map(tech_map)
+                    mapped_count = mapped_series.notna().sum()
+                    df[tech_col] = mapped_series.where(mapped_series.notna(), df[tech_col])
+                    print(f"  [pGenDataInput] Applied tech mapping from pTechDataExcel.csv ({mapped_count}/{len(df)} values mapped)")
+                else:
+                    print(f"  [pGenDataInput] pTechDataExcel.csv has no columns")
+            else:
+                print(f"  [pGenDataInput] pTechDataExcel.csv not found at {tech_file}")
+        except Exception as e:
+            print(f"  [pGenDataInput] Failed to apply tech mapping: {e}")
+    
+    # Fuel mapping from ftfindex
+    if fuel_col:
+        fuel_file = extras_root / "ftfindex.csv"
+        try:
+            if fuel_file.exists():
+                fuel_lookup = pd.read_csv(fuel_file)
+                if len(fuel_lookup.columns) >= 1:
+                    fuel_map = dict(zip(fuel_lookup.iloc[:, 2], fuel_lookup.iloc[:, 0]))
+                    mapped_series = df[fuel_col].map(fuel_map)
+                    mapped_count = mapped_series.notna().sum()
+                    df[fuel_col] = mapped_series.where(mapped_series.notna(), df[fuel_col])
+                    print(f"  [pGenDataInput] Applied fuel mapping from ftfindex.csv ({mapped_count}/{len(df)} values mapped)")
+                else:
+                    print(f"  [pGenDataInput] ftfindex.csv has no columns")
+            else:
+                print(f"  [pGenDataInput] ftfindex.csv not found at {fuel_file}")
+        except Exception as e:
+            print(f"  [pGenDataInput] Failed to apply fuel mapping: {e}")
+    
+    # Write back to CSV file
+    try:
+        df.to_csv(csv_path, index=False, na_rep="")
+    except Exception as e:
+        print(f"  [pGenDataInput] Failed to write {csv_path}: {e}")
+
+
+def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) -> None:
+    """Apply post-processing rules to exported CSV files.
+    
+    This function is called after all CSV files have been exported.
+    It applies symbol-specific post-processing rules.
+    """
+    # Post-process pGenDataInput
+    pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
+    if pGenDataInput_path.exists():
+        print(f"[Post-processing] Applying rules to pGenDataInput.csv")
+        postprocess_pGenDataInput(pGenDataInput_path, extras_root, repo_root)
+
+
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
     """Fetch GDX symbol and transform it to CSV format according to spec.
     
@@ -468,10 +678,12 @@ def main() -> None:
         overwrite=args.overwrite,
     )
 
-    df = pd.DataFrame(results["summary"] + results["extras_written"]).sort_values("path")
-    print(df)
     print_report(results, export_root)
     print(f"\nExports written under: {export_root}")
+    
+    # Apply post-processing to exported CSV files
+    print("\n[Post-processing] Starting post-processing of exported files...")
+    apply_postprocessing(export_root, extras_root, REPO_ROOT)
 
 
 if __name__ == "__main__":
