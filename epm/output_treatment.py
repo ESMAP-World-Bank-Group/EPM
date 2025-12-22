@@ -201,6 +201,7 @@ TRANSMISSION_MERGE_FILES = [
     'pInterconUtilization',
     'pAnnualTransmissionCapacity',
     'pAdditionalTransmissionCapacity',
+    'pCongestionShare',
 ]
 
 # Yearly zone files to merge (dimensions: z, y, value)
@@ -242,6 +243,9 @@ ESSENTIAL_FILES = [
     'pPrice',
     # Settings
     'pSettings',
+    # Investment components
+    'pCapexInvestmentComponent',
+    'pCapexInvestmentComponentCumulated',
 ]
 
 
@@ -1029,6 +1033,65 @@ def aggregate_plant_to_techfuel(
     return True
 
 
+def add_total_to_yearly_zone_merged(
+    input_file_path: str,
+    attribute_name: str,
+    yearly_zone_merged_path: str,
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Calculate total per year and zone from a CSV file and add it to pYearlyZoneMerged.
+    
+    Sums across all component columns (e.g., uni, sumhdr, genCostCmp) grouped by zone and year,
+    then appends the totals to pYearlyZoneMerged with the specified attribute name.
+    
+    Parameters
+    ----------
+    input_file_path : str
+        Path to input CSV file (must have z, y, value columns)
+    attribute_name : str
+        Name for the attribute column in pYearlyZoneMerged
+    yearly_zone_merged_path : str
+        Path to pYearlyZoneMerged.csv file
+    log_func : callable
+        Logging function (default: print)
+    
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    if not os.path.exists(input_file_path):
+        return False
+    
+    df = pd.read_csv(input_file_path)
+    
+    # Check for required columns
+    if 'value' not in df.columns or 'z' not in df.columns or 'y' not in df.columns:
+        return False
+    
+    # Sum across all component columns by zone and year
+    df_total = df.groupby(['z', 'y'], as_index=False)['value'].sum()
+    df_total['attribute'] = attribute_name
+    # Reorder columns to match pYearlyZoneMerged format
+    df_total = df_total[['z', 'y', 'attribute', 'value']]
+    
+    # Append to pYearlyZoneMerged or create it if it doesn't exist
+    if os.path.exists(yearly_zone_merged_path):
+        df_zone_merged = pd.read_csv(yearly_zone_merged_path)
+        df_zone_merged = pd.concat([df_zone_merged, df_total], ignore_index=True)
+        df_zone_merged = _reorder_columns(df_zone_merged)
+        df_zone_merged.to_csv(yearly_zone_merged_path, index=False)
+        log_func(f"[output_treatment]   pYearlyZoneMerged.csv: added {attribute_name} totals")
+    else:
+        # If pYearlyZoneMerged doesn't exist yet, create it
+        df_total = _reorder_columns(df_total)
+        df_total.to_csv(yearly_zone_merged_path, index=False)
+        log_func(f"[output_treatment]   pYearlyZoneMerged.csv: created with {attribute_name} totals")
+    
+    return True
+
+
 def add_country_to_zone_file(
     input_path: str,
     zone_country_df: pd.DataFrame,
@@ -1423,6 +1486,28 @@ def run_output_treatment(
     # Merge Plant files (z, g, y) -> long format with attribute column
     merge_csv_files_long(output_dir, PLANT_MERGE_FILES, 'pPlantMerged', log_func=log_func)
 
+    # Add techfuel column to pPlantMerged (if tech and f columns exist)
+    plant_merged_path = os.path.join(output_dir, 'pPlantMerged.csv')
+    if os.path.exists(plant_merged_path):
+        df_plant_merged = pd.read_csv(plant_merged_path)
+        if 'tech' in df_plant_merged.columns and 'f' in df_plant_merged.columns:
+            if 'techfuel' not in df_plant_merged.columns:
+                if techfuel_mapping:
+                    df_plant_merged['techfuel'] = (df_plant_merged['tech'] + '-' + df_plant_merged['f']).map(techfuel_mapping)
+                    df_plant_merged['techfuel'] = df_plant_merged['techfuel'].fillna(df_plant_merged['tech'] + '-' + df_plant_merged['f'])
+                else:
+                    df_plant_merged['techfuel'] = df_plant_merged['tech'] + '-' + df_plant_merged['f']
+                # Reorder columns to have techfuel after f
+                cols = list(df_plant_merged.columns)
+                cols.remove('techfuel')
+                if 'f' in cols:
+                    f_idx = cols.index('f')
+                    cols.insert(f_idx + 1, 'techfuel')
+                df_plant_merged = df_plant_merged[cols]
+                df_plant_merged = _reorder_columns(df_plant_merged)
+                df_plant_merged.to_csv(plant_merged_path, index=False)
+                log_func(f"[output_treatment]   pPlantMerged.csv: added techfuel column")
+
     # Merge YearlyCosts zone files (z, uni, y) -> long format
     merge_csv_files_long(
         output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged',
@@ -1434,6 +1519,22 @@ def run_output_treatment(
 
     # Merge Yearly zone files (demand, emissions) (z, y) -> long format
     merge_csv_files_long(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)
+
+    # Add totals from various cost and investment files to pYearlyZoneMerged
+    yearly_zone_merged_path = os.path.join(output_dir, 'pYearlyZoneMerged.csv')
+    
+    # List of files to add: (file_name, attribute_name)
+    files_to_add = [
+        ('pYearlyCostsZone', 'YearlyCostsZone'),
+        ('pYearlyCostsZonePerMWh', 'YearlyCostsZonePerMWh'),
+        ('pYearlyGenCostZonePerMWh', 'YearlyGenCostZonePerMWh'),
+        ('pCapexInvestmentComponent', 'CapexInvestmentComponent'),
+        ('pCapexInvestmentComponentCumulated', 'CapexInvestmentComponentCumulated'),
+    ]
+    
+    for file_name, attribute_name in files_to_add:
+        file_path = os.path.join(output_dir, f"{file_name}.csv")
+        add_total_to_yearly_zone_merged(file_path, attribute_name, yearly_zone_merged_path, log_func=log_func)
 
     # Merge System costs files -> long format
     merge_csv_files_long(output_dir, SYSTEM_COSTS_MERGE_FILES, 'pCostsSystemMerged', log_func=log_func)
