@@ -25,7 +25,7 @@ Activate exchange between external zone,fEnableExternalExchange,1
 "Maximum external export share, %",sMaxHourlyExportExternalShare,1
 ,,
 OPTIONAL FEATURES,,
-Include carbon price ,fEnableCarbonPrice,0
+Include carbon price ,fEnableCarbonPrice,1
 Include energy efficiency,fEnableEnergyEfficiency,0
 Include CSP optimization,fEnableCSP,0
 Include Storage operation,fEnableStorage,1
