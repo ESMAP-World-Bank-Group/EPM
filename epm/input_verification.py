@@ -355,8 +355,6 @@ def _check_candidate_build_limits(gams, db):
         if {"pGenDataInputHeader", "value"}.issubset(records.columns) and "BuildLimitperYear" not in records.columns:
             if "g" in records.columns:
                 identifier_column = "g"
-            elif "gen" in records.columns:
-                identifier_column = "gen"
             df_wide = (
                 records.pivot_table(
                     index=identifier_column or records.index,
@@ -1032,7 +1030,7 @@ def _check_storage_data(gams, db):
         gen_records = db["pGenDataInput"].records
         if gen_records is None or gen_records.empty:
             return
-        gen_storage = set(stor_records['gen'].unique())
+        gen_storage = set(stor_records['g'].unique())
         gen_ref = set(gen_records.loc[gen_records.tech == 'Storage']['g'].unique())
         missing_storage_gen = gen_ref - gen_storage
         if missing_storage_gen:
@@ -1131,7 +1129,7 @@ def _warn_missing_availability_default_combinations(gams, db):
             )
             return
 
-        zone_col_defaults = "z" if "z" in avail_defaults.columns else ("zone" if "zone" in avail_defaults.columns else None)
+        zone_col_defaults = "z" if "z" in avail_defaults.columns else None
         fuel_col_defaults = "f" if "f" in avail_defaults.columns else ("fuel" if "fuel" in avail_defaults.columns else None)
         tech_col_defaults = "tech" if "tech" in avail_defaults.columns else None
 
@@ -1184,7 +1182,7 @@ def _warn_missing_build_limits(gams, db):
             return
 
         if not {"Status", "BuildLimitperYear"}.issubset(records.columns):
-            gen_col = "g" if "g" in records.columns else ("gen" if "gen" in records.columns else None)
+            gen_col = "g" if "g" in records.columns else None
             gen_list = (
                 records[gen_col].astype(str).unique().tolist()
                 if gen_col is not None
@@ -1203,7 +1201,7 @@ def _warn_missing_build_limits(gams, db):
 
         df_wide = records
         if {"pGenDataInputHeader", "value"}.issubset(records.columns) and "BuildLimitperYear" not in records.columns:
-            id_col = "g" if "g" in records.columns else ("gen" if "gen" in records.columns else None)
+            id_col = "g" if "g" in records.columns else None
             df_wide = (
                 records.pivot_table(
                     index=id_col or records.index,
@@ -1224,7 +1222,7 @@ def _warn_missing_build_limits(gams, db):
             return
 
         offenders = df_wide.loc[mask]
-        gen_col = "g" if "g" in offenders.columns else ("gen" if "gen" in offenders.columns else None)
+        gen_col = "g" if "g" in offenders.columns else None
         names = (
             offenders[gen_col].astype(str).tolist()
             if gen_col is not None

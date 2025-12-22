@@ -1,0 +1,2521 @@
+{
+  "profile": "data-package",
+  "name": "epm-input-schema",
+  "title": "EPM Model Input Data Schema",
+  "description": "Generic input schema for Energy Planning Model (EPM) input files",
+  "resources": [
+    {
+      "name": "config",
+      "path": "config.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "metadata",
+            "type": "string"
+          },
+          {
+            "name": "paramNames",
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "metadata"
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pCarbonPrice",
+      "path": "constraint/pCarbonPrice.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
+          }
+        ],
+        "primaryKey": [
+          "year"
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pEmissionsCountry",
+      "path": "constraint/pEmissionsCountry.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "c",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "c"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "c"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "c"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)",
+          "wide_to_long(c,value)"
+        ],
+        "encoding": {
+          "c": {
+            "type": "rows",
+            "field": "c",
+            "source": "zcmap.c"
+          },
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "emissions",
+          "unit": "tCO2"
+        }
+      }
+    },
+    {
+      "name": "pEmissionsTotal",
+      "path": "constraint/pEmissionsTotal.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "y",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "t"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "y"
+            ],
+            "reference": {
+              "resource": "y",
+              "fields": [
+                "y"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "t"
+        ]
+      }
+    },
+    {
+      "name": "pMaxFuellimit",
+      "path": "constraint/pMaxFuellimit.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "fuel_limit",
+          "unit": "MMBtu"
+        }
+      }
+    },
+    {
+      "name": "pDemandData",
+      "path": "load/pDemandData.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "d",
+            "type": "string"
+          },
+          {
+            "name": "y",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "y"
+            ],
+            "reference": {
+              "resource": "y",
+              "fields": [
+                "y"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "t",
+          "q",
+          "d"
+        ],
+        "encoding": {
+          "q": {
+            "type": "rows",
+            "field": "q",
+            "source": "pHours.q"
+          },
+          "d": {
+            "type": "rows",
+            "field": "d",
+            "source": "pHours.d"
+          },
+          "t": {
+            "type": "columns",
+            "pattern": "tN",
+            "source": "pHours.t"
+          }
+        },
+        "allowed_transformations": [
+          "wide_times_to_long(t,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "demand",
+          "unit": "MW"
+        }
+      }
+    },
+    {
+      "name": "pDemandForecast",
+      "path": "load/pDemandForecast.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "demand_forecast"
+        }
+      }
+    },
+    {
+      "name": "pDemandProfile",
+      "path": "load/pDemandProfile.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "d",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "t"
+        ],
+        "encoding": {
+          "q": {
+            "type": "rows",
+            "field": "q",
+            "source": "pHours.q"
+          },
+          "d": {
+            "type": "rows",
+            "field": "d",
+            "source": "pHours.d"
+          },
+          "t": {
+            "type": "columns",
+            "pattern": "tN",
+            "source": "pHours.t"
+          }
+        },
+        "allowed_transformations": [
+          "wide_times_to_long(t,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "normalized_demand"
+        }
+      }
+    },
+    {
+      "name": "pEnergyEfficiencyFactor",
+      "path": "load/pEnergyEfficiencyFactor.csv",
+      "format": "csv",
+      "schema": {
+        "fields": []
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "efficiency_multiplier"
+        }
+      }
+    },
+    {
+      "name": "sRelevant",
+      "path": "load/sRelevant.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "d",
+            "type": "string"
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "d"
+        ],
+        "encoding": {
+          "d": {
+            "type": "rows",
+            "field": "d",
+            "source": "pHours.d"
+          }
+        }
+      }
+    },
+    {
+      "name": "pHours",
+      "path": "pHours.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "d",
+            "type": "string"
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "t"
+        ],
+        "encoding": {
+          "t": {
+            "type": "columns",
+            "pattern": "tN"
+          }
+        },
+        "allowed_transformations": [
+          "wide_times_to_long(t,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "hours",
+          "unit": "hours"
+        }
+      }
+    },
+    {
+      "name": "pSettings",
+      "path": "pSettings.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿Parameter",
+            "type": "string"
+          },
+          {
+            "name": "Abbreviation",
+            "type": "string"
+          },
+          {
+            "name": "Value",
+            "type": "number"
+          }
+        ],
+        "primaryKey": [
+          "﻿Parameter"
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pPlanningReserveMargin",
+      "path": "reserve/pPlanningReserveMargin.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "c",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "c"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "c"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "c"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "reserve_margin"
+        }
+      }
+    },
+    {
+      "name": "pSpinningReserveReqCountry",
+      "path": "reserve/pSpinningReserveReqCountry.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "c",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "c"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "c"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "c"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "spinning_reserve_requirement"
+        }
+      }
+    },
+    {
+      "name": "pSpinningReserveReqSystem",
+      "path": "reserve/pSpinningReserveReqSystem.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "Year",
+            "type": "integer"
+          },
+          {
+            "name": "MW",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": [
+          "Year"
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "scenarios",
+      "path": "scenarios.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "paramNames",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "paramNames"
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "sensitivity",
+      "path": "sensitivity.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿parameter",
+            "type": "string"
+          },
+          {
+            "name": "sensitivity",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "﻿parameter"
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pAvailabilityCustom",
+      "path": "supply/pAvailabilityCustom.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "g",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "g"
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "quarter",
+          "generator"
+        ],
+        "encoding": {
+          "quarter": {
+            "type": "columns",
+            "pattern": "QN"
+          },
+          "generator": {
+            "type": "rows",
+            "field": "g",
+            "source": "pGenDataInput.gen | pStorageDataInput.gen"
+          }
+        },
+        "allowed_transformations": [
+          "wide_quarters_to_long(quarter,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "availability"
+        }
+      }
+    },
+    {
+      "name": "pAvailabilityDefault",
+      "path": "supply/pAvailabilityDefault.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿zone",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "quarter",
+          "technology"
+        ],
+        "encoding": {
+          "quarter": {
+            "type": "columns",
+            "pattern": "QN"
+          },
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        },
+        "allowed_transformations": [
+          "wide_quarters_to_long(quarter,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "availability"
+        }
+      }
+    },
+    {
+      "name": "pCSPData",
+      "path": "supply/pCSPData.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿gen",
+            "type": "string"
+          },
+          {
+            "name": "attribute",
+            "type": "string"
+          },
+          {
+            "name": "Capacity",
+            "type": "number"
+          },
+          {
+            "name": "Capex",
+            "type": "number"
+          },
+          {
+            "name": "FixedOM",
+            "type": "number"
+          },
+          {
+            "name": "VOM",
+            "type": "number"
+          },
+          {
+            "name": "Availability",
+            "type": "number"
+          },
+          {
+            "name": "Efficiency",
+            "type": "number"
+          }
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pCapexTrajectoriesCustom",
+      "path": "supply/pCapexTrajectoriesCustom.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿gen",
+            "type": "string"
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "capex_multiplier"
+        }
+      }
+    },
+    {
+      "name": "pCapexTrajectoriesDefault",
+      "path": "supply/pCapexTrajectoriesDefault.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿zone",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year",
+          "technology"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "capex_multiplier"
+        }
+      }
+    },
+    {
+      "name": "pEvolutionAvailability",
+      "path": "supply/pEvolutionAvailability.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "g",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "g"
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year",
+          "generator"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "generator": {
+            "type": "rows",
+            "field": "g",
+            "source": "pGenDataInput.gen | pStorageDataInput.gen"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "availability_change"
+        }
+      }
+    },
+    {
+      "name": "pFuelPrice",
+      "path": "supply/pFuelPrice.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "c",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "c"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "c"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "fuel_price",
+          "unit": "USD/MMBtu"
+        }
+      }
+    },
+    {
+      "name": "pGenDataInput",
+      "path": "supply/pGenDataInput.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "g",
+            "type": "string"
+          },
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          },
+          {
+            "name": "Status",
+            "type": "integer"
+          },
+          {
+            "name": "StYr",
+            "type": "integer"
+          },
+          {
+            "name": "RetrYr",
+            "type": "integer"
+          },
+          {
+            "name": "Life",
+            "type": "string"
+          },
+          {
+            "name": "Capacity",
+            "type": "number"
+          },
+          {
+            "name": "UnitSize",
+            "type": "number"
+          },
+          {
+            "name": "BuildLimitperYear",
+            "type": "number"
+          },
+          {
+            "name": "DescreteCap",
+            "type": "integer"
+          },
+          {
+            "name": "HeatRate",
+            "type": "number"
+          },
+          {
+            "name": "Capex",
+            "type": "number"
+          },
+          {
+            "name": "FOMperMW",
+            "type": "number"
+          },
+          {
+            "name": "VOM",
+            "type": "number"
+          },
+          {
+            "name": "ReserveCost",
+            "type": "number"
+          },
+          {
+            "name": "MinLimitShare",
+            "type": "number"
+          },
+          {
+            "name": "RampUpRate",
+            "type": "number"
+          },
+          {
+            "name": "RampDnRate",
+            "type": "number"
+          },
+          {
+            "name": "OverLoadFactor",
+            "type": "number"
+          },
+          {
+            "name": "ResLimShare",
+            "type": "number"
+          },
+          {
+            "name": "MinGenCommitment",
+            "type": "number"
+          },
+          {
+            "name": "HoursOn",
+            "type": "number"
+          },
+          {
+            "name": "HoursOff",
+            "type": "number"
+          },
+          {
+            "name": "minUT",
+            "type": "number"
+          },
+          {
+            "name": "minDT",
+            "type": "number"
+          },
+          {
+            "name": "StUpCost",
+            "type": "number"
+          },
+          {
+            "name": "InitialOn",
+            "type": "number"
+          },
+          {
+            "name": "fuel2",
+            "type": "integer"
+          },
+          {
+            "name": "HeatRate2",
+            "type": "number"
+          }
+        ],
+        "primaryKey": [
+          "g"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "technology",
+          "generator"
+        ],
+        "encoding": {
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        }
+      }
+    },
+    {
+      "name": "pGenDataInputDefault",
+      "path": "supply/pGenDataInputDefault.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          },
+          {
+            "name": "Life",
+            "type": "integer"
+          },
+          {
+            "name": "UnitSize",
+            "type": "string"
+          },
+          {
+            "name": "BuildLimitperYear",
+            "type": "integer"
+          },
+          {
+            "name": "DescreteCap",
+            "type": "integer"
+          },
+          {
+            "name": "HeatRate",
+            "type": "number"
+          },
+          {
+            "name": "Capex",
+            "type": "number"
+          },
+          {
+            "name": "FOMperMW",
+            "type": "number"
+          },
+          {
+            "name": "VOM",
+            "type": "number"
+          },
+          {
+            "name": "ReserveCost",
+            "type": "number"
+          },
+          {
+            "name": "MinGenShareAllHours",
+            "type": "number"
+          },
+          {
+            "name": "RampUpRate",
+            "type": "number"
+          },
+          {
+            "name": "RampDnRate",
+            "type": "number"
+          },
+          {
+            "name": "OverLoadFactor",
+            "type": "number"
+          },
+          {
+            "name": "ResLimShare",
+            "type": "number"
+          },
+          {
+            "name": "MinGenCommitment",
+            "type": "number"
+          },
+          {
+            "name": "HoursOn",
+            "type": "integer"
+          },
+          {
+            "name": "HoursOff",
+            "type": "integer"
+          },
+          {
+            "name": "minUT",
+            "type": "integer"
+          },
+          {
+            "name": "minDT",
+            "type": "integer"
+          },
+          {
+            "name": "StUpCost",
+            "type": "number"
+          },
+          {
+            "name": "InitialOn",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": [
+          "z",
+          "tech",
+          "fuel"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "technology"
+        ],
+        "encoding": {
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        }
+      }
+    },
+    {
+      "name": "pStorageDataInput",
+      "path": "supply/pStorageDataInput.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "g",
+            "type": "string"
+          },
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          },
+          {
+            "name": "Linked plant",
+            "type": "string"
+          },
+          {
+            "name": "Status",
+            "type": "integer"
+          },
+          {
+            "name": "StYr",
+            "type": "integer"
+          },
+          {
+            "name": "RetrYr",
+            "type": "integer"
+          },
+          {
+            "name": "Life",
+            "type": "integer"
+          },
+          {
+            "name": "Capacity",
+            "type": "number"
+          },
+          {
+            "name": "UnitSize",
+            "type": "number"
+          },
+          {
+            "name": "BuildLimitperYear",
+            "type": "number"
+          },
+          {
+            "name": "CapacityMWh",
+            "type": "number"
+          },
+          {
+            "name": "DescreteCap",
+            "type": "integer"
+          },
+          {
+            "name": "Efficiency",
+            "type": "number"
+          },
+          {
+            "name": "Capex",
+            "type": "number"
+          },
+          {
+            "name": "FOMperMW",
+            "type": "number"
+          },
+          {
+            "name": "VOM",
+            "type": "number"
+          },
+          {
+            "name": "ReserveCost",
+            "type": "number"
+          },
+          {
+            "name": "CapexMWh",
+            "type": "number"
+          },
+          {
+            "name": "FixedOMMWh",
+            "type": "number"
+          },
+          {
+            "name": "VOMMWh",
+            "type": "number"
+          },
+          {
+            "name": "MinGenShareAllHours",
+            "type": "number"
+          },
+          {
+            "name": "HeatRate",
+            "type": "number"
+          },
+          {
+            "name": "RampUpRate",
+            "type": "number"
+          },
+          {
+            "name": "RampDnRate",
+            "type": "number"
+          },
+          {
+            "name": "OverLoadFactor",
+            "type": "number"
+          },
+          {
+            "name": "ResLimShare",
+            "type": "number"
+          },
+          {
+            "name": "HoursOn",
+            "type": "number"
+          },
+          {
+            "name": "HoursOff",
+            "type": "number"
+          },
+          {
+            "name": "minUT",
+            "type": "number"
+          },
+          {
+            "name": "minDT",
+            "type": "number"
+          },
+          {
+            "name": "StUpCost",
+            "type": "number"
+          },
+          {
+            "name": "InitialOn",
+            "type": "integer"
+          },
+          {
+            "name": "MinGenCommitment",
+            "type": "number"
+          }
+        ],
+        "primaryKey": [
+          "g"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "technology",
+          "generator"
+        ],
+        "encoding": {
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          },
+          "generator": {
+            "type": "rows",
+            "field": "g",
+            "source": "pGenDataInput.gen | pStorageDataInput.gen"
+          }
+        }
+      }
+    },
+    {
+      "name": "pStorageDataInputDefault",
+      "path": "supply/pStorageDataInputDefault.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿zone",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          },
+          {
+            "name": "Life",
+            "type": "integer"
+          },
+          {
+            "name": "UnitSize",
+            "type": "string"
+          },
+          {
+            "name": "BuildLimitperYear",
+            "type": "string"
+          },
+          {
+            "name": "DescreteCap",
+            "type": "string"
+          },
+          {
+            "name": "Efficiency",
+            "type": "number"
+          },
+          {
+            "name": "Capex",
+            "type": "number"
+          },
+          {
+            "name": "FOMperMW",
+            "type": "integer"
+          },
+          {
+            "name": "VOM",
+            "type": "integer"
+          },
+          {
+            "name": "ReserveCost",
+            "type": "integer"
+          },
+          {
+            "name": "CapexMWh",
+            "type": "integer"
+          },
+          {
+            "name": "FixedOMMWh",
+            "type": "number"
+          },
+          {
+            "name": "VOMMWh",
+            "type": "number"
+          },
+          {
+            "name": "MinGenShareAllHours",
+            "type": "number"
+          },
+          {
+            "name": "HeatRate",
+            "type": "number"
+          },
+          {
+            "name": "RampUpRate",
+            "type": "number"
+          },
+          {
+            "name": "RampDnRate",
+            "type": "number"
+          },
+          {
+            "name": "OverLoadFactor",
+            "type": "number"
+          },
+          {
+            "name": "ResLimShare",
+            "type": "number"
+          },
+          {
+            "name": "HoursOn",
+            "type": "string"
+          },
+          {
+            "name": "HoursOff",
+            "type": "string"
+          },
+          {
+            "name": "minUT",
+            "type": "string"
+          },
+          {
+            "name": "minDT",
+            "type": "string"
+          },
+          {
+            "name": "StUpCost",
+            "type": "string"
+          },
+          {
+            "name": "InitialOn",
+            "type": "string"
+          },
+          {
+            "name": "MinGenCommitment",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "fuel"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "fuel"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "technology"
+        ],
+        "encoding": {
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "fuel": {
+            "type": "rows",
+            "field": "fuel",
+            "source": "pTechFuel.fuel"
+          }
+        }
+      }
+    },
+    {
+      "name": "pVREProfile",
+      "path": "supply/pVREProfile.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "d",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "tech"
+            ],
+            "reference": {
+              "resource": "pTechFuel",
+              "fields": [
+                "tech"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "t",
+          "technology"
+        ],
+        "encoding": {
+          "q": {
+            "type": "rows",
+            "field": "q",
+            "source": "pHours.q"
+          },
+          "d": {
+            "type": "rows",
+            "field": "d",
+            "source": "pHours.d"
+          },
+          "technology": {
+            "type": "rows",
+            "field": "tech",
+            "source": "pTechFuel.tech"
+          },
+          "t": {
+            "type": "columns",
+            "pattern": "tN",
+            "source": "pHours.t"
+          }
+        },
+        "allowed_transformations": [
+          "wide_times_to_long(t,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "vre_profile"
+        }
+      }
+    },
+    {
+      "name": "pVREgenProfile",
+      "path": "supply/pVREgenProfile.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "g",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "d",
+            "type": "string"
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "t",
+          "generator",
+          "q",
+          "d"
+        ],
+        "encoding": {
+          "q": {
+            "type": "rows",
+            "field": "q",
+            "source": "pHours.q"
+          },
+          "d": {
+            "type": "rows",
+            "field": "d",
+            "source": "pHours.d"
+          },
+          "generator": {
+            "type": "rows",
+            "field": "g",
+            "source": "pGenDataInput.gen | pStorageDataInput.gen"
+          },
+          "t": {
+            "type": "columns",
+            "pattern": "tN",
+            "source": "pHours.t"
+          }
+        },
+        "allowed_transformations": [
+          "wide_times_to_long(t,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "vre_profile"
+        }
+      }
+    },
+    {
+      "name": "pExtTransferLimit",
+      "path": "trade/pExtTransferLimit.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿Internal zone",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "Internal zone"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year",
+          "z"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)",
+          "wide_to_long(z,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "z": {
+            "type": "columns",
+            "source": "zcmap.z"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "transfer_limit",
+          "unit": "MW"
+        }
+      }
+    },
+    {
+      "name": "pLossFactorInternal",
+      "path": "trade/pLossFactorInternal.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "zone1",
+            "type": "string"
+          },
+          {
+            "name": "zone2",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "zone1"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "zone2"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "loss_factor"
+        }
+      }
+    },
+    {
+      "name": "pMaxAnnualExternalTradeShare",
+      "path": "trade/pMaxAnnualExternalTradeShare.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "y",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": [
+          "y"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "y"
+            ],
+            "reference": {
+              "resource": "y",
+              "fields": [
+                "y"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year",
+          "z"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "z": {
+            "type": "columns",
+            "source": "zcmap.z"
+          }
+        },
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)",
+          "wide_to_long(z,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "trade_share"
+        }
+      }
+    },
+    {
+      "name": "pMinImport",
+      "path": "trade/pMinImport.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿zone1",
+            "type": "string"
+          },
+          {
+            "name": "zone2",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "zone2"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "import_limit",
+          "unit": "MW"
+        }
+      }
+    },
+    {
+      "name": "pNewTransmission",
+      "path": "trade/pNewTransmission.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "From",
+            "type": "string"
+          },
+          {
+            "name": "To",
+            "type": "string"
+          },
+          {
+            "name": "EarliestEntry",
+            "type": "integer"
+          },
+          {
+            "name": "MaximumNumOfLines",
+            "type": "integer"
+          },
+          {
+            "name": "CapacityPerLine",
+            "type": "number"
+          },
+          {
+            "name": "CostPerLine",
+            "type": "number"
+          },
+          {
+            "name": "Life",
+            "type": "integer"
+          },
+          {
+            "name": "Status",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": [
+          "From",
+          "To"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "From"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "To"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "corridor"
+        ]
+      }
+    },
+    {
+      "name": "pTradePrice",
+      "path": "trade/pTradePrice.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "zext",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "d",
+            "type": "string"
+          },
+          {
+            "name": "y",
+            "type": "integer"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "y"
+            ],
+            "reference": {
+              "resource": "y",
+              "fields": [
+                "y"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "t",
+          "q"
+        ],
+        "encoding": {
+          "q": {
+            "type": "rows",
+            "field": "q",
+            "source": "pHours.q"
+          },
+          "d": {
+            "type": "rows",
+            "field": "d",
+            "source": "pHours.d"
+          },
+          "t": {
+            "type": "columns",
+            "pattern": "tN",
+            "source": "pHours.t"
+          }
+        },
+        "allowed_transformations": [
+          "wide_times_to_long(t,value)"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "trade_price",
+          "unit": "USD/MWh"
+        }
+      }
+    },
+    {
+      "name": "pTransferLimit",
+      "path": "trade/pTransferLimit.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿From",
+            "type": "string"
+          },
+          {
+            "name": "To",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "To"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "From"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
+          "year",
+          "q",
+          "corridor"
+        ],
+        "allowed_transformations": [
+          "wide_years_to_long(year,value)"
+        ],
+        "encoding": {
+          "year": {
+            "type": "columns",
+            "pattern": "YYYY"
+          },
+          "q": {
+            "type": "rows",
+            "field": "q",
+            "source": "pHours.q"
+          }
+        },
+        "value": {
+          "type": "number",
+          "semantics": "transfer_limit",
+          "unit": "MW"
+        }
+      }
+    },
+    {
+      "name": "zext",
+      "path": "trade/zext.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "z"
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "z"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "y",
+      "path": "y.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "y",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": [
+          "y"
+        ],
+        "foreignKeys": []
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "t"
+        ]
+      }
+    },
+    {
+      "name": "zcmap",
+      "path": "zcmap.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "z",
+            "type": "string"
+          },
+          {
+            "name": "c",
+            "type": "string"
+          }
+        ],
+        "primaryKey": [
+          "z"
+        ],
+        "foreignKeys": []
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pTechFuel",
+      "path": "../../resources/pTechFuel.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          },
+          {
+            "name": "HourlyVariation",
+            "type": "integer"
+          },
+          {
+            "name": "RETechnology",
+            "type": "integer"
+          },
+          {
+            "name": "FuelIndex",
+            "type": "integer"
+          }
+        ],
+        "primaryKey": [
+          "tech",
+          "fuel"
+        ],
+        "foreignKeys": []
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "technology"
+        ]
+      }
+    }
+  ]
+}

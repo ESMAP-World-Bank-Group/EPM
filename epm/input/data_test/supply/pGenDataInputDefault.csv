@@ -1,4 +1,4 @@
-zone,tech,fuel,Life,UnitSize,BuildLimitperYear,DescreteCap,HeatRate,Capex,FOMperMW,VOM,ReserveCost,MinGenShareAllHours,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,MinGenCommitment,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn
+z,tech,fuel,Life,UnitSize,BuildLimitperYear,DescreteCap,HeatRate,Capex,FOMperMW,VOM,ReserveCost,MinGenShareAllHours,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,MinGenCommitment,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn
 Angola,BiomassPlant,Biomass,30,,0,0,12.5,2,100000,2.5,0,,1,1,0,0.05,0,0,0,0,0,0,0
 Angola,CCGT,Gas,30,,0,0,6.4,0.9,30000,2,0,,1,1,0,0.05,0.6,0,0,4,6,2000,0
 Angola,ICE,Diesel,25,,0,0,9,1.2,36000,7.5,0,,1,1,0,0.2,0,0,0,0,0,0,0
