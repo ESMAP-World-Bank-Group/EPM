@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import shutil
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
@@ -530,6 +531,16 @@ def postprocess_csv(csv_path: Path, output_root: Path, extras_root: Path, repo_r
             df = df.rename(columns=rename_dict)
             changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
     
+    elif file_name == "pFuelPrice.csv":
+        rename_dict = {}
+        if len(df.columns) > 0:
+            rename_dict[df.columns[0]] = "country"
+        if len(df.columns) > 1:
+            rename_dict[df.columns[1]] = "fuel"
+        if rename_dict:
+            df = df.rename(columns=rename_dict)
+            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
+    
     # Write back
     try:
         df.to_csv(csv_path, index=False, na_rep="")
@@ -683,6 +694,43 @@ def merge_storage_from_gen_to_storage(output_root: Path, repo_root: Path) -> Non
         print(f"  [Storage merge] Failed: {e}")
         import traceback
         traceback.print_exc()
+
+
+def copy_cplex_folder(output_root: Path, repo_root: Path) -> None:
+    """Copy CPLEX folder from data_test to output directory."""
+    source_cplex_dir = repo_root / "epm" / "input" / "data_test" / "cplex"
+    target_cplex_dir = output_root / "cplex"
+    
+    if not source_cplex_dir.exists():
+        print(f"  [CPLEX] Source folder not found at {source_cplex_dir}")
+        return
+    
+    try:
+        if target_cplex_dir.exists():
+            shutil.rmtree(target_cplex_dir)
+        shutil.copytree(source_cplex_dir, target_cplex_dir)
+        cplex_files = list(target_cplex_dir.glob("*.opt"))
+        print(f"  [CPLEX] Copied {len(cplex_files)} CPLEX option files to {target_cplex_dir}")
+    except Exception as e:
+        print(f"  [CPLEX] Failed to copy CPLEX folder: {e}")
+        import traceback
+        traceback.print_exc()
+
+
+def copy_psettings_files(output_root: Path, repo_root: Path) -> None:
+    """Copy pSettings.csv from data_test to output directory."""
+    source_file = repo_root / "epm" / "input" / "data_test" / "pSettings.csv"
+    target_file = output_root / "pSettings.csv"
+    
+    if not source_file.exists():
+        print(f"  [pSettings] pSettings.csv not found at {source_file}")
+        return
+    
+    try:
+        shutil.copy2(source_file, target_file)
+        print(f"  [pSettings] Copied pSettings.csv to {output_root}")
+    except Exception as e:
+        print(f"  [pSettings] Failed to copy pSettings.csv: {e}")
 
 
 def copy_and_expand_default_files(output_root: Path, repo_root: Path) -> None:
@@ -911,7 +959,15 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) 
     # Merge Storage rows from pGenDataInput to pStorageDataInput (after all post-processing)
     merge_storage_from_gen_to_storage(output_root, repo_root)
     
-    # Copy and expand default files (last step)
+    # Copy CPLEX folder from data_test
+    print(f"\n[Post-processing] Copying CPLEX folder...")
+    copy_cplex_folder(output_root, repo_root)
+    
+    # Copy pSettings files from data_test
+    print(f"\n[Post-processing] Copying pSettings files...")
+    copy_psettings_files(output_root, repo_root)
+    
+    # Copy and expand default files
     print(f"\n[Post-processing] Copying and expanding default files...")
     copy_and_expand_default_files(output_root, repo_root)
     
