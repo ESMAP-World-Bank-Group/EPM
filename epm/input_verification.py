@@ -439,7 +439,10 @@ def _check_vre_profile(gams, db):
         if records is None or records.empty:
             return
         if (records["value"] > 1).any():
-            msg = "Error: Capacity factor cannot be greater than 1 in pVREProfile."
+            first_idx = (records["value"] > 1).idxmax()
+            first_row = records.loc[first_idx]
+            row_info = ", ".join([f"{col}={first_row[col]}" for col in records.columns if col != "value"])
+            msg = f"Error: Capacity factor > 1 in pVREProfile: {row_info}, value={first_row['value']:.6f}."
             gams.printLog(msg)
             raise ValueError(msg)
         gams.printLog("Success: All pVREProfile values are valid.")
