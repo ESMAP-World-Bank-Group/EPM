@@ -261,6 +261,9 @@ def _default_log(message: str) -> None:
 # Preferred column order for merged files
 COLUMN_ORDER = ['c', 'z', 'tech', 'f', 'g', 'y', 'uni', 'techfuel']
 
+# Final column order for restructured files
+FINAL_COLUMN_ORDER = ['c', 'z', 'attribute', 'y', 'tech', 'f', 'techfuel']
+
 
 def _reorder_columns(df: pd.DataFrame, preferred_order: List[str] = COLUMN_ORDER) -> pd.DataFrame:
     """
@@ -1224,6 +1227,172 @@ def organize_output_files(
     return kept_count, moved_count
 
 
+def restructure_and_sort_csv(
+    input_path: str,
+    techfuel_processing_order: Optional[List[str]] = None,
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Restructure CSV file with proper column order and sorting.
+    
+    Column order: c, z, attribute, y, tech, f, techfuel, [other columns like uni], value
+    Sort by: all columns except value, with techfuel being the last sort column
+    (respecting the order from pTechFuelProcessing.csv)
+    
+    Parameters
+    ----------
+    input_path : str
+        Path to input CSV file
+    techfuel_processing_order : list, optional
+        List of Processing names in order from pTechFuelProcessing.csv
+    log_func : callable
+        Logging function (default: print)
+    
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    file_name = os.path.basename(input_path)
+    
+    if not os.path.exists(input_path):
+        return False
+    
+    df = pd.read_csv(input_path)
+    if df.empty:
+        return False
+    
+    # File-specific column ordering
+    existing_cols = list(df.columns)
+    
+    if file_name == 'pDispatchComplete.csv':
+        # pDispatchComplete: c, z, y, q, d, t, uni, value
+        priority_cols = ['c', 'z', 'y', 'q', 'd', 't', 'uni']
+        other_cols = [col for col in existing_cols if col not in priority_cols and col != 'value']
+        final_order = priority_cols + other_cols + ['value']
+    else:
+        # Default: c, z, attribute, y, tech, f, techfuel, [other columns], value
+        base_order = ['c', 'z', 'attribute', 'y', 'tech', 'f', 'techfuel']
+        other_cols = [col for col in existing_cols if col not in base_order and col != 'value']
+        final_order = base_order + other_cols + ['value']
+    
+    # Only include columns that exist
+    final_order = [col for col in final_order if col in existing_cols]
+    # Add any remaining columns at the end
+    remaining_cols = [col for col in existing_cols if col not in final_order]
+    final_order.extend(remaining_cols)
+    
+    # Reorder columns
+    df = df[final_order]
+    
+    # Sort by all columns except value, with techfuel being the last sort column
+    sort_cols = [col for col in df.columns if col != 'value']
+    
+    # Handle file-specific sorting
+    if file_name == 'pPlantMerged.csv':
+        # pPlantMerged: c, z, attribute, y, then techfuel
+        if techfuel_processing_order and 'techfuel' in df.columns:
+            # Remove techfuel, tech, f from sort_cols
+            for col in ['techfuel', 'tech', 'f']:
+                if col in sort_cols:
+                    sort_cols.remove(col)
+            
+            # Create techfuel sort mapping
+            techfuel_order_map = {name: idx for idx, name in enumerate(techfuel_processing_order)}
+            df['_techfuel_sort'] = df['techfuel'].map(techfuel_order_map)
+            df['_techfuel_sort'] = df['_techfuel_sort'].fillna(len(techfuel_processing_order) + 1000)
+            
+            # Build sort order: c, z, attribute, y, then techfuel (exclude g and uni)
+            priority_cols = ['c', 'z', 'attribute', 'y']
+            sort_cols_with_techfuel = [col for col in priority_cols if col in df.columns] + ['_techfuel_sort']
+            
+            df = df.sort_values(by=sort_cols_with_techfuel, kind='stable')
+            df = df.drop(columns=['_techfuel_sort'])
+            log_func(f"[output_treatment]   {file_name}: restructured and sorted")
+        else:
+            df = df.sort_values(by=sort_cols)
+    
+    elif file_name == 'pDispatchComplete.csv':
+        # pDispatchComplete: c, z, y, q, d, t, then uni (following techfuel Processing order)
+        # Note: t should be sorted numerically (t1, t2, ... t10) not alphabetically
+        if techfuel_processing_order and 'uni' in df.columns:
+            # Convert 't' column to numeric for proper sorting
+            if 't' in df.columns:
+                df['_t_sort'] = df['t'].astype(str).str.extract(r'(\d+)', expand=False).astype(float)
+                df['_t_sort'] = pd.to_numeric(df['_t_sort'], errors='coerce')
+                df['_t_sort'] = df['_t_sort'].fillna(df['t'].astype(str).str.len() * 1000)
+            else:
+                df['_t_sort'] = 0
+            
+            # Remove uni and t from sort_cols
+            for col in ['uni', 't']:
+                if col in sort_cols:
+                    sort_cols.remove(col)
+            
+            # Create mapping for uni values that are in techfuel_processing_order
+            techfuel_order_map = {name: idx for idx, name in enumerate(techfuel_processing_order)}
+            df['_uni_sort'] = df['uni'].map(techfuel_order_map)
+            df['_uni_sort'] = df['_uni_sort'].fillna(len(techfuel_processing_order) + 1000)
+            
+            # Build sort order: c, z, y, q, d, t (numeric), then uni
+            priority_cols = ['c', 'z', 'y', 'q', 'd']
+            other_cols = [col for col in sort_cols if col not in priority_cols]
+            sort_cols_with_uni = priority_cols + ['_t_sort'] + other_cols + ['_uni_sort']
+            sort_cols_with_uni = [col for col in sort_cols_with_uni if col in df.columns or col in ['_t_sort', '_uni_sort']]
+            
+            df = df.sort_values(by=sort_cols_with_uni, kind='stable')
+            df = df.drop(columns=['_uni_sort', '_t_sort'])
+            log_func(f"[output_treatment]   {file_name}: restructured and sorted")
+        else:
+            # Regular sort - handle t numerically
+            if 't' in df.columns:
+                df['_t_sort'] = df['t'].astype(str).str.extract(r'(\d+)', expand=False).astype(float)
+                df['_t_sort'] = pd.to_numeric(df['_t_sort'], errors='coerce')
+                df['_t_sort'] = df['_t_sort'].fillna(df['t'].astype(str).str.len() * 1000)
+                if 't' in sort_cols:
+                    sort_cols.remove('t')
+                    sort_cols.append('_t_sort')
+                df = df.sort_values(by=sort_cols, kind='stable')
+                df = df.drop(columns=['_t_sort'])
+            else:
+                df = df.sort_values(by=sort_cols)
+    
+    # If techfuel_processing_order is provided and techfuel column exists, use it for sorting
+    elif techfuel_processing_order and 'techfuel' in df.columns:
+        # Create mapping for techfuel sort order
+        techfuel_order_map = {name: idx for idx, name in enumerate(techfuel_processing_order)}
+        df['_techfuel_sort'] = df['techfuel'].map(techfuel_order_map)
+        
+        # Check for unmapped values
+        unmapped = df[df['_techfuel_sort'].isna()]['techfuel'].unique()
+        if len(unmapped) > 0:
+            log_func(f"[output_treatment]   {file_name}: WARNING - {len(unmapped)} unmapped techfuel values: {list(unmapped)[:5]}")
+        
+        df['_techfuel_sort'] = df['_techfuel_sort'].fillna(len(techfuel_processing_order) + 1000)
+        
+        # Remove techfuel, tech, and f from sort_cols (redundant with techfuel)
+        for col in ['techfuel', 'tech', 'f']:
+            if col in sort_cols:
+                sort_cols.remove(col)
+        
+        # Sort by other columns first, then techfuel (Processing order)
+        sort_cols_with_techfuel = sort_cols + ['_techfuel_sort']
+        df = df.sort_values(by=sort_cols_with_techfuel, kind='stable')
+        df = df.drop(columns=['_techfuel_sort'])
+    elif not (file_name in ['pPlantMerged.csv', 'pDispatchComplete.csv']):
+        # Regular sort for other files - ensure techfuel is last if it exists
+        if 'techfuel' in sort_cols:
+            sort_cols.remove('techfuel')
+            sort_cols.append('techfuel')
+        df = df.sort_values(by=sort_cols)
+    
+    # Save back to file
+    df.to_csv(input_path, index=False)
+    log_func(f"[output_treatment]   {file_name}: restructured and sorted")
+    
+    return True
+
+
 def merge_plant_with_generator_techfuel(
     input_path: str,
     generator_techfuel_df: pd.DataFrame,
@@ -1468,6 +1637,11 @@ def run_output_treatment(
             input_path = os.path.join(output_dir, f"{input_name}.csv")
             output_path = os.path.join(output_dir, f"{output_name}.csv")
             aggregate_plant_to_techfuel(input_path, output_path, generator_techfuel_df, log_func=log_func)
+            
+            # Process the aggregated file with tech-fuel filling and Processing column
+            # (same treatment as other TechFuel files in STEP 3)
+            if techfuel_df is not None and not techfuel_df.empty and os.path.exists(output_path):
+                fill_techfuel_combinations(output_path, techfuel_df, techfuel_mapping=techfuel_mapping, log_func=log_func)
     else:
         log_func("")
         log_func("[output_treatment] STEP 6: Skipping plant-to-techfuel aggregation (no generator_techfuel_df provided)")
@@ -1563,10 +1737,41 @@ def run_output_treatment(
         log_func("-" * 60)
 
     # ---------------------------------------------------------
-    # 9. Organize output files (move non-essential to 'other' subdir)
+    # 9. Restructure and sort CSV files (final column order and sorting)
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 9: Organizing output files")
+    log_func("[output_treatment] STEP 9: Restructuring and sorting CSV files")
+    log_func("-" * 60)
+    
+    # Load techfuel processing order from pTechFuelProcessing.csv
+    # Preserve the exact order as it appears in the file (first occurrence order)
+    # Using dict.fromkeys() to preserve order (same pattern as postprocessing/utils.py)
+    techfuel_processing_order = None
+    try:
+        if os.path.exists(TECHFUEL_PROCESSING_PATH):
+            df_processing = pd.read_csv(TECHFUEL_PROCESSING_PATH, comment='#')
+            # Use dict.fromkeys() to preserve order of first occurrence
+            techfuel_processing_order = list(dict.fromkeys(df_processing['Processing']))
+            log_func(f"[output_treatment]   Loaded {len(techfuel_processing_order)} unique Processing names for sorting")
+    except Exception as e:
+        log_func(f"[output_treatment]   WARNING: Could not load techfuel processing order: {e}")
+    
+    # Apply restructuring to primary output files
+    files_to_restructure = PRIMARY_OUTPUT_FILES + ESSENTIAL_FILES
+    restructured_count = 0
+    
+    for file_name in files_to_restructure:
+        csv_path = os.path.join(output_dir, f"{file_name}.csv")
+        if restructure_and_sort_csv(csv_path, techfuel_processing_order, log_func=log_func):
+            restructured_count += 1
+    
+    log_func(f"[output_treatment]   Restructured {restructured_count} files")
+
+    # ---------------------------------------------------------
+    # 10. Organize output files (move non-essential to 'other' subdir)
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 10: Organizing output files")
     log_func("-" * 60)
 
     kept_count, moved_count = organize_output_files(output_dir, log_func=log_func)
