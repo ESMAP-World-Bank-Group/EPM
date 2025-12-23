@@ -29,7 +29,6 @@ pVREgenProfile,pVREgenProfile,supply,4
 pExtTransferLimit,pExtTransferLimit,trade,4
 pLossFactorInternal,pLossFactor,trade,2
 pMaxAnnualExternalTradeShare,pMaxExchangeShare,trade,1
-pMaxPriceImportShare,pMaxPriceImportShare,trade,1
 pMinImport,pMinImport,trade,1
 pNewTransmission,pNewTransmission,trade,2
 pTradePrice,pTradePrice,trade,4

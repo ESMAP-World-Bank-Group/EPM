@@ -1,1314 +1,755 @@
-"""Convert a legacy EPM GDX file into the newer CSV layout used by prepare-data.
+"""Convert a legacy EPM GDX file into the newer CSV layout using datapackage.json schema.
 
-How it works (summary):
-- Reads a legacy GDX with the GAMS transfer API and a mapping table (`symbol_mapping.csv`)
-  that aligns old GDX symbol names to the expected CSV names.
-- For each symbol in `symbol_mapping.csv`, reads the GDX data and optionally unstacks a
-  specified column to create wide-format CSV files. Writes to `{folder}/{csv_symbol}.csv`.
-  Optional symbols missing in the GDX are written as empty stubs.
-- Any extra GDX symbols not covered by the mapping are dumped to `output/data/extras/`
-  for inspection.
-- Run from the CLI (`python legacy_to_new_format.py --gdx ... --mapping ...`) to batch-convert
-  a GDX; defaults point to the sample inputs/outputs in this folder.
+Minimal, schema-driven implementation. All logic is driven by datapackage.json.
+No hard-coded variable-specific logic.
 """
 
 from __future__ import annotations
 
 import argparse
-import difflib
-import shutil
+import json
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 
 import pandas as pd
 
 try:
     import gams.transfer as gt
-except ImportError as err:  # pragma: no cover - runtime dependency
+except ImportError as err:
     raise ImportError("Install the GAMS Python API before running this script.") from err
 
 # --------------------------------------------------------------------------- #
-# User-editable defaults
+# Configuration
 # --------------------------------------------------------------------------- #
 SCRIPT_DIR = Path(__file__).resolve().parent
-# Repo root two levels up from pre-analysis/notebooks/legacy_to_new_format
 REPO_ROOT = SCRIPT_DIR.parents[2]
 DEFAULT_GDX_PATH = SCRIPT_DIR / "input" / "input_epm_Turkiye_v8.gdx"
 DEFAULT_MAPPING_PATH = SCRIPT_DIR / "symbol_mapping.csv"
 DEFAULT_OUTPUT_BASE = SCRIPT_DIR / "output"
 DEFAULT_TARGET_FOLDER = "data"
 
+# Cache for datapackage resources
+_DATAPACKAGE_CACHE: Optional[Dict[str, Dict]] = None
 
-# CSV layout is built from symbol_mapping.csv at runtime
-CSV_LAYOUT: List[Dict] = []
-
-OPTIONAL_SYMBOLS = {
-    "pAvailability",
-    "pAvailabilityDefault",
-    "pAvailabilityH2",
-    "pCSPData",
-    "pCapexTrajectories",
-    "pCapexTrajectoriesDefault",
-    "pCapexTrajectoryH2",
-    "pCarbonPrice",
-    "pDemandData",
-    "pDemandForecast",
-    "pDemandProfile",
-    "pEmissionsCountry",
-    "pEmissionsTotal",
-    "pEnergyEfficiencyFactor",
-    "pExtTransferLimit",
-    "pExternalH2",
-    "pFuelCarbonContent",
-    "pFuelDataH2",
-    "pFuelPrice",
-    "pGenDataInputDefault",
-    "pH2DataExcel",
-    "pHours",
-    "pLossFactorInternal",
-    "pMaxFuellimit",
-    "pMaxPriceImportShare",
-    "pMinImport",
-    "pNewTransmission",
-    "pPlanningReserveMargin",
-    "pSpinningReserveReqCountry",
-    "pSpinningReserveReqSystem",
-    "pStorageDataInput",
-    "pTradePrice",
-    "pTransferLimit",
-    "pVREProfile",
-    "pVREgenProfile",
-    "zext",
-    "sRelevant",
-}
 
 # --------------------------------------------------------------------------- #
-# Helpers
+# Core Functions
 # --------------------------------------------------------------------------- #
-def format_header_table(df_gdx_records: pd.DataFrame, spec: dict, csv_symbol: str = "", gdx_symbol: str = "") -> pd.DataFrame:
-    """Transform GDX records into CSV format by unstacking a specific column.
-    
-    This function takes GDX records (which have all dimensions as columns plus a value column)
-    and unstacks the column at the specified index to become CSV column headers (wide format).
-    
-    Args:
-        df_gdx_records: DataFrame from GDX records (all dimensions + value column)
-        spec: Layout specification dict with header (containing column index)
-        csv_symbol: CSV symbol name (for error messages)
-        gdx_symbol: GDX symbol name (for error messages)
+
+def parse_datapackage(repo_root: Path) -> Dict[str, Dict]:
+    """Load and parse datapackage.json into resource map.
     
     Returns:
-        DataFrame in CSV format with index columns + unstacked header column
+        Dict mapping resource name to resource info (path, format, dimensions, encoding, field_names, schema)
     """
-    # Detect value column if present
+    global _DATAPACKAGE_CACHE
+    if _DATAPACKAGE_CACHE is not None:
+        return _DATAPACKAGE_CACHE
+    
+    datapackage_path = repo_root / "epm" / "input" / "datapackage.json"
+    if not datapackage_path.exists():
+        return {}
+    
+    try:
+        with open(datapackage_path, "r") as f:
+            datapackage = json.load(f)
+        
+        resources_map = {}
+        for resource in datapackage.get("resources", []):
+            resource_name = resource.get("name", "")
+            if not resource_name:
+                continue
+            
+            schema = resource.get("schema", {})
+            fields = schema.get("fields", [])
+            field_names = [field.get("name") for field in fields if field.get("name")]
+            
+            custom = resource.get("custom", {})
+            format_type = custom.get("format", "long")
+            dimensions = custom.get("dimensions", [])
+            encoding = custom.get("encoding", {})
+            
+            resources_map[resource_name] = {
+                "path": resource.get("path", f"{resource_name}.csv"),
+                "format": format_type,
+                "dimensions": dimensions,
+                "encoding": encoding,
+                "field_names": field_names,
+                "schema": schema,
+            }
+        
+        _DATAPACKAGE_CACHE = resources_map
+        return resources_map
+    except Exception as e:
+        print(f"Failed to load datapackage.json: {e}")
+        return {}
+
+
+def format_values_with_pattern(values: List, pattern: str) -> List[str]:
+    """Format extracted values according to pattern.
+    
+    Args:
+        values: Raw values from source
+        pattern: Pattern string (e.g., "tN", "QN", "YYYY")
+    
+    Returns:
+        Formatted values as strings
+    """
+    if not pattern:
+        return sorted([str(v) for v in values])
+    
+    if "tN" in pattern or ("t" in pattern.lower() and "N" in pattern.upper()):
+        numeric_values = []
+        for v in values:
+            v_str = str(v)
+            if v_str.startswith("t") and v_str[1:].isdigit():
+                numeric_values.append(int(v_str[1:]))
+            elif v_str.isdigit():
+                numeric_values.append(int(v_str))
+        if numeric_values:
+            return [f"t{t}" for t in sorted(numeric_values)]
+    
+    elif "Q" in pattern.upper() and "N" in pattern.upper():
+        numeric_values = [int(v) for v in values if str(v).isdigit() or isinstance(v, (int, float))]
+        if numeric_values:
+            return [f"Q{q}" for q in sorted(numeric_values)]
+    
+    return sorted([str(v) for v in values])
+
+
+def extract_dimension_values(encoding: Dict, dimension: str, output_root: Path, repo_root: Path) -> List[str]:
+    """Extract dimension values from source CSV files based on encoding.
+    
+    Args:
+        encoding: Encoding dict from datapackage.json
+        dimension: Name of the dimension
+        output_root: Root directory for CSV outputs
+        repo_root: Repository root path
+    
+    Returns:
+        List of dimension values as strings
+    """
+    dim_encoding = encoding.get(dimension, {})
+    if not dim_encoding:
+        return []
+    
+    pattern = dim_encoding.get("pattern", "")
+    source = dim_encoding.get("source", "")
+    
+    if source:
+        parts = source.split(".")
+        if len(parts) == 2:
+            source_resource, source_field = parts
+            resources_map = parse_datapackage(repo_root)
+            
+            if source_resource in resources_map:
+                source_path = output_root / resources_map[source_resource]["path"]
+                if source_path.exists():
+                    try:
+                        df_source = pd.read_csv(source_path)
+                        if source_field in df_source.columns:
+                            values = df_source[source_field].dropna().unique().tolist()
+                            return format_values_with_pattern(values, pattern)
+                    except Exception:
+                        pass
+    
+    # Fallback: try to infer from dimension name
+    resources_map = parse_datapackage(repo_root)
+    potential_resources = [dimension]
+    if dimension == "year":
+        potential_resources = ["y", "year"]
+    
+    for resource_name in potential_resources:
+        if resource_name in resources_map:
+            source_path = output_root / resources_map[resource_name]["path"]
+            if source_path.exists():
+                try:
+                    df_source = pd.read_csv(source_path)
+                    if dimension in df_source.columns:
+                        values = df_source[dimension].dropna().unique().tolist()
+                        return format_values_with_pattern(values, pattern)
+                    elif len(df_source.columns) > 0:
+                        if dimension == "year" and "y" in df_source.columns:
+                            values = df_source["y"].dropna().unique().tolist()
+                            return format_values_with_pattern(values, pattern)
+                        else:
+                            values = df_source.iloc[:, 0].dropna().unique().tolist()
+                            return format_values_with_pattern(values, pattern)
+                except Exception:
+                    pass
+    
+    return []
+
+
+def create_empty_dataframe(resource_info: Dict, output_root: Path, repo_root: Path) -> pd.DataFrame:
+    """Create empty DataFrame with structure from datapackage.json schema.
+    
+    Args:
+        resource_info: Resource information from datapackage
+        output_root: Root directory for CSV outputs
+        repo_root: Repository root path
+    
+    Returns:
+        DataFrame with appropriate structure
+    """
+    field_names = resource_info.get("field_names", [])
+    format_type = resource_info.get("format", "long")
+    dimensions = resource_info.get("dimensions", [])
+    encoding = resource_info.get("encoding", {})
+    schema = resource_info.get("schema", {})
+    
+    if not field_names:
+        return pd.DataFrame()
+    
+    fields_dict = {f["name"]: f.get("type", "string") for f in schema.get("fields", [])}
+    
+    if format_type == "long":
+        row_data = {}
+        for field_name in field_names:
+            field_type = fields_dict.get(field_name, "string")
+            row_data[field_name] = [0] if field_type in ("integer", "number") else [""]
+        return pd.DataFrame(row_data)
+    
+    elif format_type == "wide":
+        # Identify which dimensions become columns (wide format) vs rows (index columns)
+        column_dimensions = set()
+        dimension_to_field = {}  # Map dimension name to field name
+        
+        for dim, dim_encoding in encoding.items():
+            if dim_encoding.get("type") == "columns":
+                column_dimensions.add(dim)
+            # Map dimension to its field name
+            field_name = dim_encoding.get("field")
+            if field_name:
+                dimension_to_field[dim] = field_name
+        
+        # Also check if dimension name directly matches a field name
+        for dim in dimensions:
+            if dim in field_names:
+                dimension_to_field[dim] = dim
+        
+        # Index columns: fields that are NOT mapped to column-type dimensions
+        index_cols = []
+        for fname in field_names:
+            # Skip value columns
+            if fname.lower() in ("value", "val"):
+                continue
+            
+            # Check if this field maps to a column dimension
+            is_column_dim = False
+            for dim in column_dimensions:
+                # Check if dimension maps to this field
+                if dimension_to_field.get(dim) == fname:
+                    is_column_dim = True
+                    break
+            
+            if not is_column_dim:
+                index_cols.append(fname)
+        
+        df = pd.DataFrame(columns=index_cols)
+        if index_cols:
+            df.loc[0] = [""] * len(index_cols)
+        else:
+            df.loc[0] = {}
+        
+        # Add wide columns only for column-type dimensions
+        for dim in dimensions:
+            dim_encoding = encoding.get(dim, {})
+            if dim_encoding.get("type") == "columns":
+                dim_values = extract_dimension_values(encoding, dim, output_root, repo_root)
+                for dim_value in dim_values:
+                    df[str(dim_value)] = None
+        
+        return df
+    
+    df = pd.DataFrame(columns=field_names)
+    df.loc[0] = [""] * len(field_names)
+    return df
+
+
+def transform_gdx_to_dataframe(
+    gdx_records: pd.DataFrame,
+    resource_info: Dict,
+    gdx_symbol: str,
+    header_col_index: Optional[int] = None,
+    csv_symbol: str = ""
+) -> pd.DataFrame:
+    """Transform GDX records to CSV format based on datapackage.json schema or header_cols.
+    
+    Args:
+        gdx_records: DataFrame from GDX records
+        resource_info: Resource information from datapackage
+        gdx_symbol: GDX symbol name (for error messages)
+        header_col_index: 0-indexed column index to unstack (from mapping file, takes priority)
+        csv_symbol: CSV symbol name (for error messages)
+    
+    Returns:
+        DataFrame in CSV format
+    """
     value_col = None
     for candidate in ("value", "Value"):
-        if candidate in df_gdx_records.columns:
+        if candidate in gdx_records.columns:
             value_col = candidate
             break
     
-    # All columns except the value column are dimension columns from GDX
-    gdx_dimension_cols = [col for col in df_gdx_records.columns if col != value_col]
+    gdx_dimension_cols = [col for col in gdx_records.columns if col != value_col]
     
-    # Get the column index to unstack (should be a single index in spec["header"])
-    if not spec["header"]:
-        # No unstacking: return data as-is
+    # Priority 1: Use header_cols from mapping file if provided (for non-empty files)
+    if header_col_index is not None:
+        # Validate header_col_index is within bounds
+        if header_col_index >= len(gdx_dimension_cols):
+            symbol_info = f" (CSV: '{csv_symbol}', GDX: '{gdx_symbol}')" if csv_symbol or gdx_symbol else ""
+            raise IndexError(
+                f"header_cols index {header_col_index} is out of bounds for {len(gdx_dimension_cols)} dimension columns"
+                f"{symbol_info}. "
+                f"Available dimension columns (0-indexed): {list(range(len(gdx_dimension_cols)))} "
+                f"with names: {gdx_dimension_cols}"
+            )
+        
+        # Columns before header_col_index become CSV index columns
+        csv_index_cols = gdx_dimension_cols[:header_col_index]
+        # Column at header_col_index becomes header (unstacked)
+        header_col = gdx_dimension_cols[header_col_index]
+        
         if value_col:
-            return df_gdx_records.rename(columns={value_col: "value"}).reset_index(drop=True)
-        return df_gdx_records.reset_index(drop=True)
+            # Unstack: specific column → CSV column headers
+            pivot = gdx_records.pivot_table(
+                index=csv_index_cols if csv_index_cols else None,
+                columns=header_col,
+                values=value_col,
+                aggfunc="first",
+                observed=False,
+            )
+            pivot.columns = [str(col) for col in pivot.columns]
+            return pivot.reset_index().reset_index(drop=True)
+        else:
+            return gdx_records.reset_index(drop=True)
     
-    header_col_index = spec["header"][0]  # 0-indexed column index to unstack
+    # Priority 2: Use datapackage.json schema (fallback for empty files or when header_cols not specified)
+    format_type = resource_info.get("format", "long")
+    dimensions = resource_info.get("dimensions", [])
+    field_names = resource_info.get("field_names", [])
     
-    # Validate header_col_index is within bounds
-    if header_col_index >= len(gdx_dimension_cols):
-        symbol_info = f" (CSV: '{csv_symbol}', GDX: '{gdx_symbol}')" if csv_symbol or gdx_symbol else ""
-        raise IndexError(
-            f"header_cols index {header_col_index} is out of bounds for {len(gdx_dimension_cols)} dimension columns"
-            f"{symbol_info}. "
-            f"Available dimension columns (0-indexed): {list(range(len(gdx_dimension_cols)))} "
-            f"with names: {gdx_dimension_cols}"
-        )
+    if format_type == "wide" and dimensions:
+        # Determine which dimension to unstack based on field order
+        # Find the first dimension in field_names that appears in dimensions
+        unstack_dim = None
+        for fname in field_names:
+            if fname in dimensions:
+                unstack_dim = fname
+                break
+        
+        if unstack_dim and unstack_dim in gdx_dimension_cols:
+            # Unstack this dimension
+            index_cols = [col for col in gdx_dimension_cols if col != unstack_dim]
+            if value_col:
+                pivot = gdx_records.pivot_table(
+                    index=index_cols if index_cols else None,
+                    columns=unstack_dim,
+                    values=value_col,
+                    aggfunc="first",
+                    observed=False,
+                )
+                pivot.columns = [str(col) for col in pivot.columns]
+                return pivot.reset_index()
+            else:
+                return gdx_records.reset_index(drop=True)
     
-    # Columns before header_col_index become CSV index columns
-    csv_index_cols = gdx_dimension_cols[:header_col_index]
-    # Column at header_col_index becomes header (unstacked)
-    header_col = gdx_dimension_cols[header_col_index]
-    
+    # Long format or no unstacking needed
     if value_col:
-        # Unstack: specific column → CSV column headers
-        pivot = df_gdx_records.pivot_table(
-            index=csv_index_cols if csv_index_cols else None,
-            columns=header_col,
-            values=value_col,
-            aggfunc="first",
-            observed=False,
-        )
-        pivot.columns = [col if isinstance(col, str) else "_".join(map(str, col)) for col in pivot.columns]
-        return pivot.reset_index().reset_index(drop=True)
-    
-    # No value column: return data as-is
-    return df_gdx_records.reset_index(drop=True)
+        return gdx_records.rename(columns={value_col: "value"}).reset_index(drop=True)
+    return gdx_records.reset_index(drop=True)
 
 
-def postprocess_pGenDataInput(csv_path: Path, extras_root: Path, repo_root: Path) -> None:
-    """Apply optional post-processing rules to pGenDataInput CSV file.
+def populate_wide_dimensions(
+    df: pd.DataFrame,
+    resource_info: Dict,
+    output_root: Path,
+    repo_root: Path
+) -> pd.DataFrame:
+    """Fill missing wide format columns from declared sources.
     
-    Rules applied:
-    - Rename first column to "gen"
-    - Find and rename fuel, tech, zone columns
-    - Reorder columns: gen, zone, tech, fuel, then others
-    - Apply lookup mappings from extras folder
+    Args:
+        df: DataFrame to populate
+        resource_info: Resource information from datapackage
+        output_root: Root directory for CSV outputs
+        repo_root: Repository root path
     
-    All operations are optional and fail gracefully.
-    Reads from CSV file and writes back to the same file.
+    Returns:
+        DataFrame with missing columns added
     """
-    try:
-        df = pd.read_csv(csv_path)
-    except Exception as e:
-        print(f"  [pGenDataInput] Failed to read {csv_path}: {e}")
-        return
+    format_type = resource_info.get("format", "long")
+    dimensions = resource_info.get("dimensions", [])
+    encoding = resource_info.get("encoding", {})
     
-    if df.empty or len(df.columns) == 0:
-        return
+    if format_type != "wide" or not dimensions:
+        return df
     
-    # Rename first column to "gen"
-    first_col = df.columns[0]
-    if first_col != "gen":
-        df = df.rename(columns={first_col: "gen"})
+    for dim in dimensions:
+        dim_values = extract_dimension_values(encoding, dim, output_root, repo_root)
+        for dim_value in dim_values:
+            dim_value_str = str(dim_value)
+            if dim_value_str not in df.columns:
+                df[dim_value_str] = None
     
-    # Find fuel column (case-insensitive, could be fuel, fuel1, Fuel, etc.)
-    fuel_col = None
-    for col in df.columns:
-        col_lower = col.lower()
-        if col_lower == "fuel" or col_lower.startswith("fuel"):
-            fuel_col = col
-            break
+    return df
+
+
+def rename_columns_to_schema(df: pd.DataFrame, resource_info: Dict) -> pd.DataFrame:
+    """Rename columns to match datapackage.json field names.
     
-    # Find tech column (could be tech or type)
-    tech_col = None
-    for col in df.columns:
-        col_lower = col.lower()
-        if col_lower == "tech" or col_lower == "type":
-            tech_col = col
-            break
+    For wide format, only renames index columns (not dimension value columns).
     
-    # Find zone column
-    zone_col = None
-    for col in df.columns:
-        if col.lower() == "zone":
-            zone_col = col
-            break
+    Args:
+        df: DataFrame to rename
+        resource_info: Resource information from datapackage
     
-    # Rename columns to standard names
+    Returns:
+        DataFrame with renamed columns
+    """
+    field_names = resource_info.get("field_names", [])
+    format_type = resource_info.get("format", "long")
+    dimensions = resource_info.get("dimensions", [])
+    encoding = resource_info.get("encoding", {})
+    
+    if not field_names:
+        return df
+    
     rename_dict = {}
-    if zone_col and zone_col != "zone":
-        rename_dict[zone_col] = "zone"
-        zone_col = "zone"
-    if tech_col and tech_col != "tech":
-        rename_dict[tech_col] = "tech"
-        tech_col = "tech"
-    if fuel_col and fuel_col != "fuel":
-        rename_dict[fuel_col] = "fuel"
-        fuel_col = "fuel"
+    current_cols = list(df.columns)
+    
+    if format_type == "wide":
+        # Identify which dimensions become columns vs rows (same logic as create_empty_dataframe)
+        column_dimensions = set()
+        dimension_to_field = {}
+        
+        for dim, dim_encoding in encoding.items():
+            if dim_encoding.get("type") == "columns":
+                column_dimensions.add(dim)
+            field_name = dim_encoding.get("field")
+            if field_name:
+                dimension_to_field[dim] = field_name
+        
+        for dim in dimensions:
+            if dim in field_names:
+                dimension_to_field[dim] = dim
+        
+        # Index field names: fields that are NOT mapped to column-type dimensions
+        index_field_names = []
+        for fname in field_names:
+            if fname.lower() in ("value", "val"):
+                continue
+            is_column_dim = False
+            for dim in column_dimensions:
+                if dimension_to_field.get(dim) == fname:
+                    is_column_dim = True
+                    break
+            if not is_column_dim:
+                index_field_names.append(fname)
+        
+        def is_dimension_value(col_name: str) -> bool:
+            """Check if column name represents a dimension value (e.g., 't1', '2024', 'Q1')."""
+            col_str = str(col_name)
+            # Check if it's exactly a dimension name
+            if col_str in dimensions:
+                return True
+            # Check if it matches dimension value patterns
+            for dim in dimensions:
+                dim_encoding = encoding.get(dim, {})
+                if dim_encoding.get("type") == "columns":
+                    # This is a column dimension, check if col_name matches its pattern
+                    if dim == "year" and col_str.isdigit():
+                        return True
+                    if dim == "t" and col_str.startswith("t") and col_str[1:].isdigit():
+                        return True
+                    if dim in ("q", "quarter") and col_str.startswith("Q") and col_str[1:].isdigit():
+                        return True
+                    if col_str.startswith(dim) and len(col_str) > len(dim):
+                        suffix = col_str[len(dim):]
+                        if suffix.isdigit() or suffix.isalpha():
+                            return True
+            return False
+        
+        index_col_idx = 0
+        for col_name in current_cols:
+            if col_name in index_field_names:
+                continue
+            if is_dimension_value(col_name):
+                continue
+            if index_col_idx < len(index_field_names):
+                expected_name = index_field_names[index_col_idx]
+                if col_name != expected_name:
+                    rename_dict[col_name] = expected_name
+                index_col_idx += 1
+    else:
+        for col_idx, col_name in enumerate(current_cols):
+            if col_idx < len(field_names):
+                expected_name = field_names[col_idx]
+                if col_name != expected_name:
+                    rename_dict[col_name] = expected_name
+    
     if rename_dict:
         df = df.rename(columns=rename_dict)
     
-    # Load expected column order from pGenDataInputHeader
-    header_file = repo_root / "epm" / "resources" / "pGenDataInputHeader.csv"
-    header_cols = []
-    try:
-        if header_file.exists():
-            header_df = pd.read_csv(header_file)
-            header_cols = header_df.iloc[:, 0].tolist()
-            # Remove header row name if present
-            if len(header_cols) > 0 and header_cols[0] == "pGenDataInputHeader":
-                header_cols = header_cols[1:]
-            print(f"  [pGenDataInput] Loaded {len(header_cols)} columns from pGenDataInputHeader.csv")
-            
-            # Remove columns not in header (keep gen, zone, tech, fuel)
-            columns_to_keep = ["gen"]
-            if zone_col:
-                columns_to_keep.append(zone_col)
-            if tech_col:
-                columns_to_keep.append(tech_col)
-            if fuel_col:
-                columns_to_keep.append(fuel_col)
-            columns_to_keep.extend(header_cols)
-            
-            columns_to_remove = [col for col in df.columns if col not in columns_to_keep]
-            if columns_to_remove:
-                df = df.drop(columns=columns_to_remove)
-                print(f"  [pGenDataInput] Removed {len(columns_to_remove)} columns not in pGenDataInputHeader: {', '.join(columns_to_remove)}")
-        else:
-            print(f"  [pGenDataInput] pGenDataInputHeader.csv not found at {header_file}")
-    except Exception as e:
-        print(f"  [pGenDataInput] Failed to load pGenDataInputHeader.csv: {e}")
-    
-    # Build column order: gen, zone, tech, fuel, then others in header order
-    ordered_cols = ["gen"]
-    if zone_col:
-        if zone_col not in ordered_cols:
-            ordered_cols.append(zone_col)
-        print(f"  [pGenDataInput] Found zone column: {zone_col}")
-    else:
-        print(f"  [pGenDataInput] Zone column not found (searched for 'zone')")
-    
-    if tech_col:
-        if tech_col not in ordered_cols:
-            ordered_cols.append(tech_col)
-        print(f"  [pGenDataInput] Found tech column: {tech_col}")
-    else:
-        print(f"  [pGenDataInput] Tech column not found (searched for 'tech' or 'type')")
-    
-    if fuel_col:
-        if fuel_col not in ordered_cols:
-            ordered_cols.append(fuel_col)
-        print(f"  [pGenDataInput] Found fuel column: {fuel_col}")
-    else:
-        print(f"  [pGenDataInput] Fuel column not found (searched for 'fuel' or 'fuel*')")
-    
-    # Add remaining columns in header order, then any others
-    for col in header_cols:
-        if col in df.columns and col not in ordered_cols:
-            ordered_cols.append(col)
-    
-    # Add any remaining columns not yet included
-    for col in df.columns:
-        if col not in ordered_cols:
-            ordered_cols.append(col)
-    
-    print(f"  [pGenDataInput] Column order: {', '.join(ordered_cols)}")
-    
-    # Reorder columns
-    df = df[ordered_cols]
-    
-    # Apply lookup mappings from extras folder
-    # Zone mapping from pZoneIndex
-    if zone_col:
-        zone_file = extras_root / "pZoneIndex.csv"
-        try:
-            if zone_file.exists():
-                zone_lookup = pd.read_csv(zone_file)
-                if len(zone_lookup.columns) >= 2:
-                    zone_map = dict(zip(zone_lookup.iloc[:, 1], zone_lookup.iloc[:, 0]))
-                    mapped_series = df[zone_col].map(zone_map)
-                    mapped_count = mapped_series.notna().sum()
-                    df[zone_col] = mapped_series.where(mapped_series.notna(), df[zone_col])
-                    print(f"  [pGenDataInput] Applied zone mapping from pZoneIndex.csv ({mapped_count}/{len(df)} values mapped)")
-                else:
-                    print(f"  [pGenDataInput] pZoneIndex.csv has insufficient columns ({len(zone_lookup.columns)} < 2)")
-            else:
-                print(f"  [pGenDataInput] pZoneIndex.csv not found at {zone_file}")
-        except Exception as e:
-            print(f"  [pGenDataInput] Failed to apply zone mapping: {e}")
-    
-    # Tech mapping from pTechDataExcel
-    if tech_col:
-        tech_file = extras_root / "pTechDataExcel.csv"
-        try:
-            if tech_file.exists():
-                tech_lookup = pd.read_csv(tech_file)
-                # Only keep Assigned Value in the second column
-                tech_lookup = tech_lookup[tech_lookup[tech_lookup.columns[1]] == "Assigned Value"]
-                
-                if len(tech_lookup.columns) >= 1:
-                    tech_map = dict(zip(tech_lookup.iloc[:, 2], tech_lookup.iloc[:, 0]))
-                    mapped_series = df[tech_col].map(tech_map)
-                    mapped_count = mapped_series.notna().sum()
-                    df[tech_col] = mapped_series.where(mapped_series.notna(), df[tech_col])
-                    print(f"  [pGenDataInput] Applied tech mapping from pTechDataExcel.csv ({mapped_count}/{len(df)} values mapped)")
-                else:
-                    print(f"  [pGenDataInput] pTechDataExcel.csv has no columns")
-            else:
-                print(f"  [pGenDataInput] pTechDataExcel.csv not found at {tech_file}")
-        except Exception as e:
-            print(f"  [pGenDataInput] Failed to apply tech mapping: {e}")
-    
-    # Fuel mapping from ftfindex
-    if fuel_col:
-        fuel_file = extras_root / "ftfindex.csv"
-        try:
-            if fuel_file.exists():
-                fuel_lookup = pd.read_csv(fuel_file)
-                if len(fuel_lookup.columns) >= 1:
-                    fuel_map = dict(zip(fuel_lookup.iloc[:, 2], fuel_lookup.iloc[:, 0]))
-                    mapped_series = df[fuel_col].map(fuel_map)
-                    mapped_count = mapped_series.notna().sum()
-                    df[fuel_col] = mapped_series.where(mapped_series.notna(), df[fuel_col])
-                    print(f"  [pGenDataInput] Applied fuel mapping from ftfindex.csv ({mapped_count}/{len(df)} values mapped)")
-                else:
-                    print(f"  [pGenDataInput] ftfindex.csv has no columns")
-            else:
-                print(f"  [pGenDataInput] ftfindex.csv not found at {fuel_file}")
-        except Exception as e:
-            print(f"  [pGenDataInput] Failed to apply fuel mapping: {e}")
-    
-    # Write back to CSV file
-    try:
-        df.to_csv(csv_path, index=False, na_rep="")
-    except Exception as e:
-        print(f"  [pGenDataInput] Failed to write {csv_path}: {e}")
+    return df
 
 
-def postprocess_csv(csv_path: Path, output_root: Path, extras_root: Path, repo_root: Path) -> None:
-    """Apply post-processing to a single CSV file."""
-    try:
-        df = pd.read_csv(csv_path)
-    except Exception:
-        return
-    
-    if df.empty:
-        return
-    
-    file_name = csv_path.name
-    folder = csv_path.parent.name if csv_path.parent != output_root else ""
-    file_path_str = f"{folder}/{file_name}" if folder else file_name
-    
-    changes = []
-    
-    # Remove element_text column
-    if "element_text" in df.columns:
-        df = df.drop(columns=["element_text"])
-        changes.append("removed element_text")
-    
-    # Apply file-specific rules (rename columns by position)
-    if file_name == "pCarbonPrice.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "year"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
-    
-    elif file_name == "pEmissionsTotal.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "year"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
-    
-    elif file_name == "pDemandForecast.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "zone"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "type"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pDemandProfile.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "zone"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "season"
-        if len(df.columns) > 2:
-            rename_dict[df.columns[2]] = "daytype"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pHours.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "season"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "daytype"
-        if len(df.columns) > 2:
-            rename_dict[df.columns[2]] = "year"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pSpinningReserveReqSystem.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "year"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
-    
-    elif file_name == "pMaxAnnualExternalTradeShare.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "year"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
-    
-    elif file_name == "pAvailabilityCustom.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "gen"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→gen")
-    
-    elif file_name == "pCapexTrajectoriesCustom.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "gen"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→gen")
-    
-    elif file_name == "pStorageDataInput.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "gen"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "Linked plants"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-        
-        additional_renames = {}
-        if "Capacity" in df.columns:
-            additional_renames["Capacity"] = "CapacityMWh"
-        if "Capex" in df.columns:
-            additional_renames["Capex"] = "CapexMWh"
-        if "FixedOM" in df.columns:
-            additional_renames["FixedOM"] = "FixedOMMWh"
-        if "VOMMWh" in df.columns:
-            additional_renames["VOMMWh"] = "VOM"
-        if additional_renames:
-            df = df.rename(columns=additional_renames)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in additional_renames.items())}")
-    
-    elif file_name == "pVREProfile.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "zone"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "tech"
-        if len(df.columns) > 2:
-            rename_dict[df.columns[2]] = "season"
-        if len(df.columns) > 3:
-            rename_dict[df.columns[3]] = "daytype"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pExtTransferLimit.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "zone"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "zext"
-        if len(df.columns) > 2:
-            rename_dict[df.columns[2]] = "season"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pLossFactorInternal.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "From"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "To"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pTradePrice.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "zone"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "season"
-        if len(df.columns) > 2:
-            rename_dict[df.columns[2]] = "daytype"
-        if len(df.columns) > 3:
-            rename_dict[df.columns[3]] = "year"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "y.csv":
-        if len(df.columns) > 0:
-            rename_dict = {df.columns[0]: "year"}
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {list(rename_dict.keys())[0]}→year")
-    
-    elif file_name == "zcmap.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "zone"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "country"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    elif file_name == "pFuelPrice.csv":
-        rename_dict = {}
-        if len(df.columns) > 0:
-            rename_dict[df.columns[0]] = "country"
-        if len(df.columns) > 1:
-            rename_dict[df.columns[1]] = "fuel"
-        if rename_dict:
-            df = df.rename(columns=rename_dict)
-            changes.append(f"renamed: {', '.join(f'{k}→{v}' for k, v in rename_dict.items())}")
-    
-    # Write back
-    try:
-        df.to_csv(csv_path, index=False, na_rep="")
-        if changes:
-            print(f"  [{file_name}] {', '.join(changes)}")
-    except Exception:
-        pass
-
-
-def merge_storage_from_gen_to_storage(output_root: Path, repo_root: Path) -> None:
-    """Merge Storage rows from pGenDataInput into pStorageDataInput."""
-    pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
-    pStorageDataInput_path = output_root / "supply" / "pStorageDataInput.csv"
-    
-    print(f"[Post-processing] Merging Storage rows from pGenDataInput to pStorageDataInput")
-    
-    if not pGenDataInput_path.exists():
-        print(f"  [Storage merge] pGenDataInput.csv not found at {pGenDataInput_path}")
-        return
-    
-    if not pStorageDataInput_path.exists():
-        print(f"  [Storage merge] pStorageDataInput.csv not found at {pStorageDataInput_path}")
-        return
-    
-    try:
-        # Load both files
-        df_gen = pd.read_csv(pGenDataInput_path)
-        df_storage = pd.read_csv(pStorageDataInput_path)
-        
-        print(f"  [Storage merge] Loaded pGenDataInput: {len(df_gen)} rows, pStorageDataInput: {len(df_storage)} rows")
-        
-        if df_gen.empty:
-            print(f"  [Storage merge] pGenDataInput is empty, nothing to merge")
-            return
-        
-        if "tech" not in df_gen.columns:
-            print(f"  [Storage merge] No 'tech' column in pGenDataInput")
-            return
-        
-        # Find rows where tech contains "Storage" or "Sto" but exclude "STO HY" (reservoir)
-        tech_lower = df_gen["tech"].astype(str).str.lower()
-        storage_mask = tech_lower.str.contains("storage|sto", na=False, regex=True) & ~tech_lower.str.contains("sto hy|storage hy|reservoir", na=False, regex=True)
-        storage_rows = df_gen[storage_mask].copy()
-        
-        if storage_rows.empty:
-            print(f"  [Storage merge] No Storage rows found in pGenDataInput (searched for 'storage' or 'sto' in tech column)")
-            return
-        
-        print(f"  [Storage merge] Found {len(storage_rows)} Storage rows in pGenDataInput")
-        if "gen" in storage_rows.columns:
-            storage_gens = storage_rows["gen"].astype(str).tolist()
-            print(f"  [Storage merge] Storage gen values: {', '.join(storage_gens[:10])}{'...' if len(storage_gens) > 10 else ''}")
-        
-        # Merge: keep existing values in pStorageDataInput when gen matches
-        if "gen" not in df_storage.columns:
-            print(f"  [Storage merge] No 'gen' column in pStorageDataInput, cannot merge")
-            return
-        
-        if "gen" not in storage_rows.columns:
-            print(f"  [Storage merge] No 'gen' column in Storage rows, cannot merge")
-            return
-        
-        # Convert gen to string for consistent matching
-        df_storage["gen"] = df_storage["gen"].astype(str)
-        storage_rows["gen"] = storage_rows["gen"].astype(str)
-        
-        # Get gens that already exist in pStorageDataInput
-        existing_gens = set(df_storage["gen"])
-        print(f"  [Storage merge] pStorageDataInput has {len(existing_gens)} existing gen values")
-        
-        # Separate existing and new rows
-        existing_rows = storage_rows[storage_rows["gen"].isin(existing_gens)]
-        new_rows = storage_rows[~storage_rows["gen"].isin(existing_gens)]
-        
-        # Merge existing rows: combine all columns, keep pStorageDataInput values when duplicate
-        if len(existing_rows) > 0:
-            existing_gens_list = existing_rows["gen"].tolist()
-            print(f"  [Storage merge] Merging {len(existing_rows)} existing rows: {', '.join(existing_gens_list[:10])}{'...' if len(existing_gens_list) > 10 else ''}")
-            
-            # Set gen as index for merging
-            df_storage_indexed = df_storage.set_index("gen")
-            existing_rows_indexed = existing_rows.set_index("gen")
-            
-            # For each existing gen, add new columns from pGenDataInput
-            # Keep existing values in pStorageDataInput (don't overwrite)
-            for gen in existing_gens_list:
-                if gen in existing_rows_indexed.index:
-                    for col in existing_rows_indexed.columns:
-                        if col not in df_storage_indexed.columns:
-                            # New column - add it
-                            df_storage_indexed[col] = None
-                            df_storage_indexed.loc[gen, col] = existing_rows_indexed.loc[gen, col]
-                        else:
-                            # Column exists - only update if pStorageDataInput value is empty/null
-                            if pd.isna(df_storage_indexed.loc[gen, col]) or df_storage_indexed.loc[gen, col] == "":
-                                val = existing_rows_indexed.loc[gen, col]
-                                if not pd.isna(val) and val != "":
-                                    df_storage_indexed.loc[gen, col] = val
-            
-            df_storage = df_storage_indexed.reset_index()
-        
-        # Add new rows
-        if len(new_rows) > 0:
-            print(f"  [Storage merge] Adding {len(new_rows)} new rows to pStorageDataInput")
-            new_gens = new_rows["gen"].tolist()
-            print(f"  [Storage merge] New gen values: {', '.join(new_gens[:10])}{'...' if len(new_gens) > 10 else ''}")
-            df_storage = pd.concat([df_storage, new_rows], ignore_index=True)
-        
-        print(f"  [Storage merge] Merged: pStorageDataInput now has {len(df_storage)} rows")
-        
-        # Load pStorageDataHeader for column ordering
-        header_file = repo_root / "epm" / "resources" / "pStorageDataHeader.csv"
-        header_cols = []
-        try:
-            if header_file.exists():
-                header_df = pd.read_csv(header_file)
-                header_cols = header_df.iloc[:, 0].tolist()
-                if len(header_cols) > 0 and header_cols[0] == "pStorageDataHeader":
-                    header_cols = header_cols[1:]
-                print(f"  [Storage merge] Loaded {len(header_cols)} columns from pStorageDataHeader.csv")
-            else:
-                print(f"  [Storage merge] pStorageDataHeader.csv not found at {header_file}")
-        except Exception as e:
-            print(f"  [Storage merge] Failed to load pStorageDataHeader.csv: {e}")
-        
-        # Reorder columns: gen, zone, tech, fuel, Linked plants, then header order
-        ordered_cols = []
-        priority_cols = ["gen", "zone", "tech", "fuel", "Linked plants"]
-        for col in priority_cols:
-            if col in df_storage.columns and col not in ordered_cols:
-                ordered_cols.append(col)
-        
-        for col in header_cols:
-            if col in df_storage.columns and col not in ordered_cols:
-                ordered_cols.append(col)
-        
-        for col in df_storage.columns:
-            if col not in ordered_cols:
-                ordered_cols.append(col)
-        
-        df_storage = df_storage[ordered_cols]
-        df_storage.to_csv(pStorageDataInput_path, index=False, na_rep="")
-        print(f"  [Storage merge] Reordered columns in pStorageDataInput: {', '.join(ordered_cols[:10])}{'...' if len(ordered_cols) > 10 else ''}")
-        
-        # Remove Storage rows from pGenDataInput
-        df_gen = df_gen[~storage_mask]
-        df_gen.to_csv(pGenDataInput_path, index=False, na_rep="")
-        print(f"  [Storage merge] Removed {len(storage_rows)} Storage rows from pGenDataInput (now has {len(df_gen)} rows)")
-        
-    except Exception as e:
-        print(f"  [Storage merge] Failed: {e}")
-        import traceback
-        traceback.print_exc()
-
-
-def copy_cplex_folder(output_root: Path, repo_root: Path) -> None:
-    """Copy CPLEX folder from data_test to output directory."""
-    source_cplex_dir = repo_root / "epm" / "input" / "data_test" / "cplex"
-    target_cplex_dir = output_root / "cplex"
-    
-    if not source_cplex_dir.exists():
-        print(f"  [CPLEX] Source folder not found at {source_cplex_dir}")
-        return
-    
-    try:
-        if target_cplex_dir.exists():
-            shutil.rmtree(target_cplex_dir)
-        shutil.copytree(source_cplex_dir, target_cplex_dir)
-        cplex_files = list(target_cplex_dir.glob("*.opt"))
-        print(f"  [CPLEX] Copied {len(cplex_files)} CPLEX option files to {target_cplex_dir}")
-    except Exception as e:
-        print(f"  [CPLEX] Failed to copy CPLEX folder: {e}")
-        import traceback
-        traceback.print_exc()
-
-
-def copy_psettings_files(output_root: Path, repo_root: Path) -> None:
-    """Copy pSettings.csv from data_test to output directory."""
-    source_file = repo_root / "epm" / "input" / "data_test" / "pSettings.csv"
-    target_file = output_root / "pSettings.csv"
-    
-    if not source_file.exists():
-        print(f"  [pSettings] pSettings.csv not found at {source_file}")
-        return
-    
-    try:
-        shutil.copy2(source_file, target_file)
-        print(f"  [pSettings] Copied pSettings.csv to {output_root}")
-    except Exception as e:
-        print(f"  [pSettings] Failed to copy pSettings.csv: {e}")
-
-
-def copy_and_expand_default_files(output_root: Path, repo_root: Path) -> None:
-    """Copy default files from data_test and expand for all zones in zcmap."""
-    data_test_dir = repo_root / "epm" / "input" / "data_test" / "supply"
-    output_supply_dir = output_root / "supply"
-    
-    # Read zcmap to get all zones
-    zcmap_path = output_root / "zcmap.csv"
-    if not zcmap_path.exists():
-        print(f"  [Default files] zcmap.csv not found at {zcmap_path}")
-        return
-    
-    try:
-        zcmap_df = pd.read_csv(zcmap_path)
-        if "zone" not in zcmap_df.columns:
-            print(f"  [Default files] No 'zone' column in zcmap.csv")
-            return
-        all_zones = zcmap_df["zone"].astype(str).tolist()
-        print(f"  [Default files] Found {len(all_zones)} zones in zcmap: {', '.join(all_zones[:10])}{'...' if len(all_zones) > 10 else ''}")
-    except Exception as e:
-        print(f"  [Default files] Failed to read zcmap.csv: {e}")
-        return
-    
-    # Files to copy and expand
-    default_files = [
-        "pCapexTrajectoriesDefault.csv",
-        "pAvailabilityDefault.csv",
-        "pGenDataInputDefault.csv"
-    ]
-    
-    for file_name in default_files:
-        source_path = data_test_dir / file_name
-        target_path = output_supply_dir / file_name
-        
-        if not source_path.exists():
-            print(f"  [Default files] {file_name} not found at {source_path}")
-            continue
-        
-        try:
-            df = pd.read_csv(source_path)
-            if df.empty:
-                print(f"  [Default files] {file_name} is empty")
-                continue
-            
-            if "zone" not in df.columns:
-                print(f"  [Default files] No 'zone' column in {file_name}")
-                continue
-            
-            # Get first zone as reference
-            reference_zone = df["zone"].iloc[0]
-            print(f"  [Default files] Using '{reference_zone}' as reference zone for {file_name}")
-            
-            # Get all rows for reference zone
-            ref_rows = df[df["zone"] == reference_zone].copy()
-            if ref_rows.empty:
-                print(f"  [Default files] No rows found for reference zone '{reference_zone}' in {file_name}")
-                continue
-            
-            # Create expanded dataframe
-            expanded_rows = []
-            for zone in all_zones:
-                zone_rows = ref_rows.copy()
-                zone_rows["zone"] = zone
-                expanded_rows.append(zone_rows)
-            
-            expanded_df = pd.concat(expanded_rows, ignore_index=True)
-            expanded_df.to_csv(target_path, index=False, na_rep="")
-            print(f"  [Default files] Expanded {file_name}: {len(ref_rows)} rows × {len(all_zones)} zones = {len(expanded_df)} rows")
-            
-        except Exception as e:
-            print(f"  [Default files] Failed to process {file_name}: {e}")
-            import traceback
-            traceback.print_exc()
-
-
-def validate_tech_fuel_combinations(output_root: Path, repo_root: Path) -> None:
-    """Validate tech-fuel combinations in pGenDataInput and pStorageDataInput against pTechFuel.csv.
-    
-    Checks unique combinations and suggests corrections based on string similarity.
-    """
-    pTechFuel_path = repo_root / "epm" / "resources" / "pTechFuel.csv"
-    
-    if not pTechFuel_path.exists():
-        print(f"  [Tech-Fuel validation] pTechFuel.csv not found")
-        return
-    
-    try:
-        # Load valid tech-fuel combinations
-        pTechFuel_df = pd.read_csv(pTechFuel_path)
-        if len(pTechFuel_df.columns) < 2:
-            return
-        
-        valid_techs = set(pTechFuel_df.iloc[:, 0].astype(str).str.strip())
-        valid_fuels = set(pTechFuel_df.iloc[:, 1].astype(str).str.strip())
-        valid_combinations = set(
-            (str(row.iloc[0]).strip(), str(row.iloc[1]).strip())
-            for _, row in pTechFuel_df.iterrows()
-        )
-        
-        # Files to check
-        files_to_check = [
-            ("pGenDataInput", output_root / "supply" / "pGenDataInput.csv"),
-            ("pStorageDataInput", output_root / "supply" / "pStorageDataInput.csv"),
-        ]
-        
-        all_invalid = []
-        
-        for file_name, file_path in files_to_check:
-            if not file_path.exists():
-                continue
-            
-            try:
-                df = pd.read_csv(file_path)
-                if df.empty or "tech" not in df.columns or "fuel" not in df.columns:
-                    continue
-                
-                # Get unique tech-fuel combinations
-                df_clean = df[["tech", "fuel"]].copy()
-                df_clean["tech"] = df_clean["tech"].astype(str).str.strip()
-                df_clean["fuel"] = df_clean["fuel"].astype(str).str.strip()
-                df_clean = df_clean[(df_clean["tech"] != "") & (df_clean["tech"] != "nan") & 
-                                   (df_clean["fuel"] != "") & (df_clean["fuel"] != "nan")]
-                
-                unique_combinations = set(zip(df_clean["tech"], df_clean["fuel"]))
-                invalid_combinations = [(tech, fuel) for tech, fuel in unique_combinations 
-                                       if (tech, fuel) not in valid_combinations]
-                
-                if invalid_combinations:
-                    all_invalid.append((file_name, invalid_combinations))
-                    
-            except Exception:
-                continue
-        
-        # Report and suggest corrections
-        if all_invalid:
-            for file_name, invalid_combinations in all_invalid:
-                for tech, fuel in sorted(invalid_combinations):
-                    # Find closest tech match
-                    closest_tech = None
-                    if tech:
-                        matches = difflib.get_close_matches(tech, valid_techs, n=1, cutoff=0.6)
-                        if matches:
-                            closest_tech = matches[0]
-                    
-                    # Find closest fuel match
-                    closest_fuel = None
-                    if fuel:
-                        matches = difflib.get_close_matches(fuel, valid_fuels, n=1, cutoff=0.6)
-                        if matches:
-                            closest_fuel = matches[0]
-                    
-                    # Check if fuel is valid
-                    fuel_is_valid = fuel in valid_fuels
-                    
-                    # Build suggestion message
-                    suggestion_parts = []
-                    
-                    # First, try to find a valid combination with suggested tech
-                    suggested_tech = closest_tech
-                    suggested_fuel = None
-                    if suggested_tech:
-                        # Check if suggested tech + current fuel is valid
-                        if fuel_is_valid and (suggested_tech, fuel) in valid_combinations:
-                            suggested_fuel = fuel
-                        else:
-                            # Try to find a valid fuel for the suggested tech
-                            valid_fuels_for_tech = [f for t, f in valid_combinations if t == suggested_tech]
-                            if valid_fuels_for_tech:
-                                closest_valid_fuel = difflib.get_close_matches(fuel, valid_fuels_for_tech, n=1, cutoff=0.6)
-                                if closest_valid_fuel:
-                                    suggested_fuel = closest_valid_fuel[0]
-                    
-                    # Build suggestion text
-                    if suggested_tech:
-                        suggestion_parts.append(f"tech: '{suggested_tech}'")
-                        
-                        if suggested_fuel:
-                            if suggested_fuel == fuel:
-                                suggestion_parts.append("and fuel is valid")
-                            else:
-                                suggestion_parts.append(f"and fuel should be replaced by '{suggested_fuel}'")
-                        else:
-                            if fuel_is_valid:
-                                suggestion_parts.append("and fuel is valid")
-                            elif closest_fuel:
-                                suggestion_parts.append(f"and fuel should be replaced by '{closest_fuel}'")
-                            else:
-                                suggestion_parts.append("and fuel is invalid (no suggestion)")
-                    else:
-                        if fuel_is_valid:
-                            suggestion_parts.append("fuel is valid but tech is invalid (no suggestion)")
-                        elif closest_fuel:
-                            suggestion_parts.append(f"fuel should be replaced by '{closest_fuel}' (tech suggestion unavailable)")
-                        else:
-                            suggestion_parts.append("no suggestion available")
-                    
-                    suggestion = ". Suggest replacement of " + " and ".join(suggestion_parts) if suggestion_parts else ". No suggestion available"
-                    
-                    print(f"  Found in {file_name} tech: '{tech}' - fuel: '{fuel}'{suggestion}.")
-        else:
-            print(f"  [Tech-Fuel validation] All combinations valid ✓")
-            
-    except Exception:
-        pass
-
-
-def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path) -> None:
-    """Apply post-processing rules to exported CSV files.
-    
-    This function is called after all CSV files have been exported.
-    It applies symbol-specific post-processing rules.
-    """
-    # Post-process pGenDataInput (has special logic)
-    pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
-    if pGenDataInput_path.exists():
-        print(f"[Post-processing] Applying rules to pGenDataInput.csv")
-        postprocess_pGenDataInput(pGenDataInput_path, extras_root, repo_root)
-    
-    # Post-process all other CSV files
-    for csv_file in output_root.rglob("*.csv"):
-        if csv_file.name == "pGenDataInput.csv":
-            continue
-        postprocess_csv(csv_file, output_root, extras_root, repo_root)
-    
-    # Merge Storage rows from pGenDataInput to pStorageDataInput (after all post-processing)
-    merge_storage_from_gen_to_storage(output_root, repo_root)
-    
-    # Copy CPLEX folder from data_test
-    print(f"\n[Post-processing] Copying CPLEX folder...")
-    copy_cplex_folder(output_root, repo_root)
-    
-    # Copy pSettings files from data_test
-    print(f"\n[Post-processing] Copying pSettings files...")
-    copy_psettings_files(output_root, repo_root)
-    
-    # Copy and expand default files
-    print(f"\n[Post-processing] Copying and expanding default files...")
-    copy_and_expand_default_files(output_root, repo_root)
-    
-    # Validate tech-fuel combinations (final validation step)
-    print(f"\n[Post-processing] Validating tech-fuel combinations...")
-    validate_tech_fuel_combinations(output_root, repo_root)
-
-
-def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
-    """Fetch GDX symbol and transform it to CSV format according to spec.
-    
-    This is the main transformation function that converts GDX data to CSV format.
-    Sets and parameters are treated the same - no special handling.
+def load_resource_csv(
+    resource_name: str,
+    resource_info: Dict,
+    gdx_container: gt.Container,
+    gdx_symbol: str,
+    output_root: Path,
+    repo_root: Path,
+    header_col_index: Optional[int] = None
+) -> pd.DataFrame:
+    """Load CSV from GDX or create empty from schema.
     
     Args:
-        container: GDX container with loaded symbols
-        gdx_symbol: GDX symbol name to fetch from container
-        csv_symbol: CSV symbol name (for error messages and reference)
-        spec: Layout specification dict defining the transformation rules
+        resource_name: Resource name (CSV symbol)
+        resource_info: Resource information from datapackage
+        gdx_container: GDX container
+        gdx_symbol: GDX symbol name
+        output_root: Root directory for CSV outputs
+        repo_root: Repository root path
+        header_col_index: 0-indexed column index to unstack (from mapping file)
     
     Returns:
-        DataFrame in CSV format, or None if GDX symbol not found/empty
+        DataFrame in CSV format
     """
-    if gdx_symbol not in container:
-        return None
-    gdx_records = container[gdx_symbol].records
-    if gdx_records is None:
-        return None
-    df_gdx_data = gdx_records.copy()
+    if gdx_symbol in gdx_container:
+        gdx_records = gdx_container[gdx_symbol].records
+        if gdx_records is not None and not gdx_records.empty:
+            df = transform_gdx_to_dataframe(
+                gdx_records.copy(), 
+                resource_info, 
+                gdx_symbol,
+                header_col_index=header_col_index,
+                csv_symbol=resource_name
+            )
+            df = populate_wide_dimensions(df, resource_info, output_root, repo_root)
+            return df
     
-    # If header_cols is specified, unstack that column; otherwise return data as-is
-    if spec.get("header"):
-        return format_header_table(df_gdx_data, spec, csv_symbol=csv_symbol, gdx_symbol=gdx_symbol)
-    
-    # No unstacking: return data as-is (with value column renamed if present)
-    for candidate in ("value", "Value"):
-        if candidate in df_gdx_data.columns:
-            return df_gdx_data.rename(columns={candidate: "value"}).reset_index(drop=True)
-    return df_gdx_data.reset_index(drop=True)
+    # Create empty from schema
+    return create_empty_dataframe(resource_info, output_root, repo_root)
 
 
-def fallback_frame(container: gt.Container, gdx_symbol: str) -> Optional[pd.DataFrame]:
-    """Export GDX symbol as-is (no transformation) for symbols not in CSV_LAYOUT.
-    
-    Used for extra GDX symbols that don't have a CSV layout specification.
+def write_csv(df: pd.DataFrame, resource_info: Dict, output_root: Path) -> None:
+    """Write DataFrame to CSV at resource path.
     
     Args:
-        container: GDX container with loaded symbols
-        gdx_symbol: GDX symbol name to export
-    
-    Returns:
-        DataFrame with GDX records as-is, or None if not found/empty
+        df: DataFrame to write
+        resource_info: Resource information from datapackage
+        output_root: Root directory for CSV outputs
     """
-    if gdx_symbol not in container:
-        return None
-    gdx_records = container[gdx_symbol].records
-    if gdx_records is None:
-        return None
-    return gdx_records.copy().reset_index(drop=True)
-
-
-def empty_frame_from_spec() -> pd.DataFrame:
-    """Return an empty DataFrame used for optional placeholders."""
-    return pd.DataFrame()
-
-
-def load_symbol_mapping(mapping_path: Path) -> pd.DataFrame:
-    """Load symbol mapping from CSV file.
+    csv_path = output_root / resource_info["path"]
+    csv_path.parent.mkdir(parents=True, exist_ok=True)
     
-    The mapping file defines how CSV symbol names map to GDX symbol names,
-    along with folder and header_cols configuration.
+    df = rename_columns_to_schema(df, resource_info)
+    df.to_csv(csv_path, index=False, na_rep="")
+
+
+def load_symbol_mapping(mapping_path: Path) -> Dict[str, Dict]:
+    """Load GDX symbol to CSV symbol mapping with header_cols information.
     
     Args:
-        mapping_path: Path to symbol_mapping.csv file
+        mapping_path: Path to symbol_mapping.csv
     
     Returns:
-        DataFrame with columns: csv_symbol, gdx_symbol, folder, header_cols
+        Dict mapping CSV symbol to dict with 'gdx_symbol' and 'header_cols' (0-indexed, or None)
     """
     if not mapping_path.exists():
-        raise FileNotFoundError(f"Missing mapping table: {mapping_path}. Populate it before continuing.")
-
-    symbol_mapping_df = pd.read_csv(mapping_path)
-    required_cols = {"csv_symbol", "gdx_symbol", "folder", "header_cols"}
-    if required_cols - set(symbol_mapping_df.columns):
-        raise ValueError(f"symbol_mapping.csv must contain columns: {', '.join(required_cols)}")
-
-    symbol_mapping_df = symbol_mapping_df.fillna("").drop_duplicates(subset="csv_symbol", keep="last")
-    # Use csv_symbol as fallback if gdx_symbol is empty
-    symbol_mapping_df["gdx_symbol"] = symbol_mapping_df["gdx_symbol"].replace("", pd.NA)
-    symbol_mapping_df["gdx_symbol"] = symbol_mapping_df["gdx_symbol"].fillna(symbol_mapping_df["csv_symbol"])
+        return {}
     
-    return symbol_mapping_df
-
-
-def build_csv_layout(symbol_mapping_df: pd.DataFrame) -> List[Dict]:
-    """Build CSV_LAYOUT from symbol_mapping DataFrame.
+    df = pd.read_csv(mapping_path)
+    if "csv_symbol" not in df.columns or "gdx_symbol" not in df.columns:
+        return {}
     
-    Args:
-        symbol_mapping_df: DataFrame with csv_symbol, gdx_symbol, folder, header_cols
-    
-    Returns:
-        List of layout specification dictionaries
-    """
-    layout = []
-    for row in symbol_mapping_df.itertuples():
-        # Construct path from folder and csv_symbol
-        if row.folder:
-            relative_path = f"{row.folder}/{row.csv_symbol}.csv"
-        else:
-            relative_path = f"{row.csv_symbol}.csv"
+    mapping = {}
+    for _, row in df.iterrows():
+        csv_symbol = str(row["csv_symbol"]).strip()
+        if not csv_symbol:
+            continue
+        
+        gdx_symbol = str(row.get("gdx_symbol", csv_symbol)).strip()
         
         # Parse header_cols (can be empty string, NaN, or integer)
-        header_cols = row.header_cols
-        if pd.isna(header_cols) or header_cols == "":
-            header_index = None
-        else:
+        header_cols = row.get("header_cols", "")
+        header_index = None
+        if pd.notna(header_cols) and str(header_cols).strip() != "":
             try:
                 header_index = int(header_cols)
             except (ValueError, TypeError):
                 header_index = None
         
-        layout.append({
-            "primary_symbol": row.csv_symbol,
-            "gdx_symbol": row.gdx_symbol,
-            "relative_path": relative_path,
-            "header": [header_index] if header_index is not None else [],
-        })
+        mapping[csv_symbol] = {
+            "gdx_symbol": gdx_symbol,
+            "header_cols": header_index,
+        }
     
-    return layout
+    return mapping
 
 
-def resolve_paths(
-    gdx_path: Path,
-    mapping_path: Path,
-    output_base: Path,
-    target_folder: str,
-) -> Tuple[Path, Path, Path, Path]:
-    """Validate and build output paths."""
-    if not gdx_path.exists():
-        raise FileNotFoundError(f"Update GDX path to point to your legacy file. Missing: {gdx_path}")
-
-    export_root = (output_base / target_folder).resolve()
-    expected_root = (SCRIPT_DIR / "output").resolve()
-    try:
-        export_root.relative_to(expected_root)
-    except ValueError as exc:
-        raise ValueError("Choose TARGET_FOLDER inside the ./output directory.") from exc
-
-    export_root.mkdir(parents=True, exist_ok=True)
-    extras_root = export_root / "extras"
-    extras_root.mkdir(parents=True, exist_ok=True)
-    return gdx_path.resolve(), mapping_path.resolve(), export_root, extras_root
-
-
-# --------------------------------------------------------------------------- #
-# Core conversion
-# --------------------------------------------------------------------------- #
-def convert_legacy_gdx(
+def convert_gdx_to_csv(
     gdx_path: Path,
     mapping_path: Path,
     output_root: Path,
-    extras_root: Path,
-    overwrite: bool = True,
-) -> Dict[str, List]:
-    """Convert a legacy GDX file to CSV outputs following CSV_LAYOUT specification.
-    
-    Main conversion function that:
-    1. Loads GDX file and symbol mapping
-    2. For each CSV_LAYOUT entry, transforms GDX symbol → CSV format
-    3. Writes CSV files to output_root
-    4. Exports extra GDX symbols (not in CSV_LAYOUT) to extras_root
+    repo_root: Path,
+    overwrite: bool = True
+) -> Dict:
+    """Main conversion function.
     
     Args:
         gdx_path: Path to input GDX file
-        mapping_path: Path to symbol_mapping.csv (CSV → GDX symbol mapping)
+        mapping_path: Path to symbol_mapping.csv
         output_root: Root directory for CSV outputs
-        extras_root: Directory for extra GDX symbols not in CSV_LAYOUT
+        repo_root: Repository root path
         overwrite: Whether to overwrite existing CSV files
     
     Returns:
-        Dictionary with conversion summary, errors, and statistics
+        Dictionary with conversion summary
     """
-    # Load symbol mapping and build CSV_LAYOUT
-    symbol_mapping_df = load_symbol_mapping(mapping_path)
-    csv_layout = build_csv_layout(symbol_mapping_df)
-
-    # Load GDX file
+    resources_map = parse_datapackage(repo_root)
+    if not resources_map:
+        print("No resources found in datapackage.json")
+        return {}
+    
+    symbol_mapping = load_symbol_mapping(mapping_path)
+    
     gdx_container = gt.Container()
     gdx_container.read(str(gdx_path))
-    loaded_gdx_symbols = set(gdx_container.data.keys())
-
-    summary: List[Dict] = []
-    extras_written: List[Dict] = []
-    skipped: List[Path] = []
-    missing_in_gdx: List[Tuple[str, str]] = []
-    optional_stubbed: List[Tuple[str, str]] = []
-    empty_in_gdx: List[Tuple[str, str]] = []
-    used_gdx_symbols: set[str] = set()
-
-    # Process each CSV_LAYOUT entry
-    for entry in csv_layout:
-        csv_symbol = entry["primary_symbol"]
-        gdx_symbol = entry["gdx_symbol"]
-
-        # Transform GDX data to CSV format
-        df_csv_data = build_frame(gdx_container, gdx_symbol, csv_symbol, entry)
-        stubbed_optional = False
-        if df_csv_data is None:
-            # GDX symbol not found - check if optional
-            if csv_symbol in OPTIONAL_SYMBOLS:
-                df_csv_data = empty_frame_from_spec()
-                stubbed_optional = True
-                optional_stubbed.append((csv_symbol, gdx_symbol))
-            else:
-                missing_in_gdx.append((csv_symbol, gdx_symbol))
-                continue
+    
+    summary = []
+    created_resources = set()
+    
+    for resource_name, resource_info in resources_map.items():
+        if resource_name == "pSettings":
+            continue
+        
+        csv_path = output_root / resource_info["path"]
+        if not overwrite and csv_path.exists():
+            continue
+        
+        # Get mapping info (gdx_symbol and header_cols)
+        mapping_info = symbol_mapping.get(resource_name, {})
+        if isinstance(mapping_info, str):
+            # Backward compatibility: if it's just a string, treat as gdx_symbol
+            gdx_symbol = mapping_info
+            header_col_index = None
         else:
-            df_csv_data = df_csv_data.copy()
-
-        if not stubbed_optional and df_csv_data.empty:
-            empty_in_gdx.append((csv_symbol, gdx_symbol))
-
-        csv_target_path = output_root / Path(entry["relative_path"])
-        csv_target_path.parent.mkdir(parents=True, exist_ok=True)
-
-        # Skip exporting pSettings.csv
-        if csv_symbol == "pSettings":
-            continue
+            gdx_symbol = mapping_info.get("gdx_symbol", resource_name)
+            header_col_index = mapping_info.get("header_cols")
         
-        if not overwrite and csv_target_path.exists():
-            skipped.append(csv_target_path)
-            continue
-
-        df_csv_data.to_csv(csv_target_path, index=False, na_rep="")
+        df = load_resource_csv(
+            resource_name,
+            resource_info,
+            gdx_container,
+            gdx_symbol,
+            output_root,
+            repo_root,
+            header_col_index=header_col_index
+        )
         
-        # Add to summary (pSettings is already skipped above)
-        summary.append(
-            {
-                "csv_symbol": csv_symbol,
-                "gdx_symbol": gdx_symbol,
-                "rows": len(df_csv_data),
-                "path": csv_target_path.relative_to(output_root).as_posix(),
-            }
-        )
-
-        if not stubbed_optional:
-            used_gdx_symbols.add(gdx_symbol)
-
-    # Export extra GDX symbols (not in CSV_LAYOUT) to extras folder
-    extras_candidates = sorted(loaded_gdx_symbols - used_gdx_symbols)
-    for gdx_symbol in extras_candidates:
-        df_extra = fallback_frame(gdx_container, gdx_symbol)
-        if df_extra is None:
-            continue
-        extras_target_path = extras_root / f"{gdx_symbol}.csv"
-        if not overwrite and extras_target_path.exists():
-            skipped.append(extras_target_path)
-            continue
-        df_extra.to_csv(extras_target_path, index=False, na_rep="")
-        extras_written.append(
-            {
-                "csv_symbol": "",
-                "gdx_symbol": gdx_symbol,
-                "rows": len(df_extra),
-                "path": extras_target_path.relative_to(output_root).as_posix(),
-            }
-        )
-
+        write_csv(df, resource_info, output_root)
+        created_resources.add(resource_name)
+        
+        summary.append({
+            "resource": resource_name,
+            "gdx_symbol": gdx_symbol,
+            "rows": len(df),
+            "columns": len(df.columns),
+            "path": resource_info["path"],
+        })
+    
+    # Export extra GDX symbols
+    used_gdx_symbols = set()
+    for mapping_info in symbol_mapping.values():
+        if isinstance(mapping_info, dict):
+            used_gdx_symbols.add(mapping_info.get("gdx_symbol", ""))
+        else:
+            # Backward compatibility
+            used_gdx_symbols.add(mapping_info)
+    extras_root = output_root / ".legacy"
+    extras_root.mkdir(parents=True, exist_ok=True)
+    
+    extras = []
+    for gdx_symbol in gdx_container.data.keys():
+        if gdx_symbol not in used_gdx_symbols:
+            try:
+                gdx_records = gdx_container[gdx_symbol].records
+                if gdx_records is not None:
+                    extras_path = extras_root / f"{gdx_symbol}.csv"
+                    gdx_records.to_csv(extras_path, index=False)
+                    extras.append(gdx_symbol)
+            except Exception:
+                pass
+    
     return {
         "summary": summary,
-        "extras_written": extras_written,
-        "skipped": skipped,
-        "missing_in_gdx": missing_in_gdx,
-        "optional_stubbed": optional_stubbed,
-        "empty_in_gdx": empty_in_gdx,
+        "extras": extras,
+        "created_resources": created_resources,
     }
 
 
-def print_report(results: Dict[str, List], output_root: Path) -> None:
-    """Emit a concise report mirroring the notebook prints."""
-    missing_in_gdx = results["missing_in_gdx"]
-    optional_stubbed = results["optional_stubbed"]
-    empty_in_gdx = results["empty_in_gdx"]
-    extras_written = results["extras_written"]
-    skipped = results["skipped"]
+def print_report(results: Dict, output_root: Path) -> None:
+    """Print conversion summary report."""
+    summary = results.get("summary", [])
+    extras = results.get("extras", [])
+    
+    print(f"\n{'='*60}")
+    print(f"Conversion Summary")
+    print(f"{'='*60}")
+    print(f"Total resources converted: {len(summary)}")
+    print(f"Extra GDX symbols exported: {len(extras)}")
+    print(f"\nOutput directory: {output_root}")
+    
+    if summary:
+        print(f"\nConverted resources:")
+        for item in summary[:10]:
+            print(f"  {item['resource']:30} {item['rows']:6} rows, {item['columns']:3} cols -> {item['path']}")
+        if len(summary) > 10:
+            print(f"  ... and {len(summary) - 10} more")
+    
+    if extras:
+        print(f"\nExtra GDX symbols (exported to extras/):")
+        for symbol in extras[:10]:
+            print(f"  {symbol}")
+        if len(extras) > 10:
+            print(f"  ... and {len(extras) - 10} more")
 
-    if missing_in_gdx:
-        formatted = ", ".join(f"{csv} (expected '{gdx}')" for csv, gdx in sorted(missing_in_gdx))
-        print("Symbols missing in GDX:", formatted)
-    if optional_stubbed:
-        formatted = ", ".join(f"{csv} (stubbed as '{gdx}')" for csv, gdx in sorted(optional_stubbed))
-        print("Optional symbols absent in GDX; wrote empty CSV:", formatted)
-    if empty_in_gdx:
-        formatted = ", ".join(f"{csv} (mapped to '{gdx}')" for csv, gdx in sorted(empty_in_gdx))
-        print("Symbols present in GDX but empty:", formatted)
-    if extras_written:
-        print("Extras written:")
-        for item in extras_written:
-            print(f"  - {item['gdx_symbol']} -> {item['path']}")
-    if skipped:
-        print("Skipped existing files (re-run with --overwrite to replace them):")
-        for path in skipped:
-            print(f"  - {path.relative_to(output_root)}")
 
-
-# --------------------------------------------------------------------------- #
-# CLI
-# --------------------------------------------------------------------------- #
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Convert a legacy EPM GDX into the new CSV layout.")
-    parser.add_argument("--gdx", type=Path, default=DEFAULT_GDX_PATH, help="Path to the legacy .gdx file.")
-    parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING_PATH, help="CSV mapping table (csv_symbol,gdx_symbol).")
-    parser.add_argument("--output-base", type=Path, default=DEFAULT_OUTPUT_BASE, help="Base output directory (default: ./output).")
-    parser.add_argument("--target-folder", type=str, default=DEFAULT_TARGET_FOLDER, help="Subfolder under output-base for exports.")
-    parser.add_argument("--overwrite", action="store_true", default=True, help="Overwrite existing CSVs (default: True).")
-    parser.add_argument("--no-overwrite", dest="overwrite", action="store_false", help="Skip existing files instead of replacing.")
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(description="Convert legacy GDX to CSV using datapackage.json schema")
+    parser.add_argument("--gdx", type=Path, default=DEFAULT_GDX_PATH, help="Path to input GDX file")
+    parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING_PATH, help="Path to symbol_mapping.csv")
+    parser.add_argument("--output-base", type=Path, default=DEFAULT_OUTPUT_BASE, help="Base output directory")
+    parser.add_argument("--target-folder", type=str, default=DEFAULT_TARGET_FOLDER, help="Target folder name")
+    parser.add_argument("--overwrite", action="store_true", default=True, help="Overwrite existing files")
     return parser.parse_args()
 
 
 def main() -> None:
+    """Main entry point."""
     args = parse_args()
-
-    gdx_path, mapping_path, export_root, extras_root = resolve_paths(
-        args.gdx, args.mapping, args.output_base, args.target_folder
-    )
-
-    results = convert_legacy_gdx(
-        gdx_path=gdx_path,
-        mapping_path=mapping_path,
-        output_root=export_root,
-        extras_root=extras_root,
+    
+    if not args.gdx.exists():
+        raise FileNotFoundError(f"GDX file not found: {args.gdx}")
+    
+    output_root = (args.output_base / args.target_folder).resolve()
+    output_root.mkdir(parents=True, exist_ok=True)
+    
+    results = convert_gdx_to_csv(
+        gdx_path=args.gdx,
+        mapping_path=args.mapping,
+        output_root=output_root,
+        repo_root=REPO_ROOT,
         overwrite=args.overwrite,
     )
-
-    print_report(results, export_root)
-    print(f"\nExports written under: {export_root}")
     
-    # Apply post-processing to exported CSV files
-    print("\n[Post-processing] Starting post-processing of exported files...")
-    apply_postprocessing(export_root, extras_root, REPO_ROOT)
+    print_report(results, output_root)
 
 
 if __name__ == "__main__":
     main()
+
