@@ -1,5 +1,7 @@
 Fuel,value
 Coal,0.1031
+DomesticCoal,0.1031
+ImportedCoal,0.1031
 Gas,0.0592
 Water,0
 Solar,0
