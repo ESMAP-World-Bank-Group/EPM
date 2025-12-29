@@ -109,11 +109,12 @@ class NamedJ:
 def _with_assessment_suffix(scenario_name, suffix):
     """
     Append a sensitivity suffix while preserving project assessment markers (anything after '@').
+    Uses '~' as the sensitivity separator to distinguish from assessment '@'.
     """
     if '@' in scenario_name:
         base, assessment = scenario_name.split('@', 1)
-        return f"{base}_{suffix}@{assessment}"
-    return f"{scenario_name}_{suffix}"
+        return f"{base}~{suffix}@{assessment}"
+    return f"{scenario_name}~{suffix}"
 
 
 def _get_sensitivity_folder(base_path):
@@ -485,8 +486,8 @@ def perform_sensitivity(sensitivity, s):
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name]['pSettings'] = path_file
+        s[f'baseline~{name}'] = s['baseline'].copy()
+        s[f'baseline~{name}']['pSettings'] = path_file
 
         #----------------------------------------
 
@@ -499,8 +500,8 @@ def perform_sensitivity(sensitivity, s):
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name]['pSettings'] = path_file
+        s[f'baseline~{name}'] = s['baseline'].copy()
+        s[f'baseline~{name}']['pSettings'] = path_file
 
         #----------------------------------------
 
@@ -513,8 +514,8 @@ def perform_sensitivity(sensitivity, s):
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name]['pSettings'] = path_file
+        s[f'baseline~{name}'] = s['baseline'].copy()
+        s[f'baseline~{name}']['pSettings'] = path_file
     
     param = 'ExternalExchange'
     if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
@@ -549,8 +550,8 @@ def perform_sensitivity(sensitivity, s):
         df.to_csv(path_file, index=False)
 
         # Put in the scenario dir
-        s[name] = s['baseline'].copy()
-        s[name]['pGenDataInput'] = path_file
+        s[f'baseline~{name}'] = s['baseline'].copy()
+        s[f'baseline~{name}']['pGenDataInput'] = path_file
 
     param = 'RemoveCandidateFuel'
     if param in sensitivity and not (isinstance(sensitivity[param], float) and math.isnan(sensitivity[param])):
@@ -598,7 +599,7 @@ def perform_sensitivity(sensitivity, s):
 
                 val_name = str(val).replace('.', '')
                 suffix = f"{k}_{val_name}"
-                scenario_name = f'{param}_{suffix}'
+                scenario_name = f'baseline~{param}~{suffix}'
                 path_file = _generate_sensitivity_filepath(s['baseline'][param], suffix)
                 df.to_csv(path_file, index=False)
 
@@ -613,7 +614,7 @@ def perform_sensitivity(sensitivity, s):
         if not (df[param].diff().dropna() == 1).all():
             t = pd.Series(range(df['y'].min(), df['y'].max() + 1, 1))
 
-            name = f'{param}_full'
+            name = f'baseline~{param}~full'
             path_file = _generate_sensitivity_filepath(s['baseline'][param], 'full')
             t.to_csv(path_file, index=False)
 
@@ -625,7 +626,7 @@ def perform_sensitivity(sensitivity, s):
         if len(df) > 2:
             t = pd.Series([df['y'].min(), df['y'].max()])
 
-            name = f'{param}_reduced'
+            name = f'baseline~{param}~reduced'
             path_file = _generate_sensitivity_filepath(s['baseline'][param], 'reduced')
             t.to_csv(path_file, index=False)
 
@@ -651,7 +652,7 @@ def perform_sensitivity(sensitivity, s):
             for val in demand_forecast_sensi:
                 df = pd.read_csv(s[scenario][param])
 
-                cols = [i for i in df.columns if i not in ['zone', 'type']]
+                cols = [i for i in df.columns if i not in ['z', 'type']]
                 df[cols] = df[cols].astype(float)
                 df.loc[:, cols] *= (1 + val)
 
@@ -704,7 +705,7 @@ def perform_sensitivity(sensitivity, s):
         cols = [i for i in df.columns if i not in ['zone', 'q', 'd', 't']]
         df.loc[:, cols] = 1 / 24
 
-        name = f'{param}_flat'
+        name = f'baseline~{param}~flat'
         path_file = _generate_sensitivity_filepath(s['baseline'][param], 'flat')
         df.to_csv(path_file, index=False)
 
@@ -723,7 +724,7 @@ def perform_sensitivity(sensitivity, s):
                                                                               i not in ['zone', 'tech', 'fuel']]] = val
 
             val_name = str(val).replace('.', '')
-            scenario_name = f'{param}_{val_name}'
+            scenario_name = f'baseline~{param}~{val_name}'
             path_file = _generate_sensitivity_filepath(s['baseline'][param], val_name)
             df.to_csv(path_file, index=False)
 
@@ -739,7 +740,7 @@ def perform_sensitivity(sensitivity, s):
         cols = [i for i in df.columns if i not in ['zone', 'tech', 'fuel']]
         df.loc[:, cols] = 1
 
-        scenario_name = f'{param}_flat'
+        scenario_name = f'baseline~{param}~flat'
         path_file = _generate_sensitivity_filepath(s['baseline'][param], 'flat')
         df.to_csv(path_file, index=False)
 
@@ -754,11 +755,11 @@ def perform_sensitivity(sensitivity, s):
         for val in fuel_price_sensi:
             df = pd.read_csv(s['baseline'][param])
 
-            cols = [i for i in df.columns if i not in ['country', 'fuel']]
+            cols = [i for i in df.columns if i not in ['c', 'fuel']]
             df.loc[:, cols] *= (1 + val)
 
             val_name = str(val).replace('.', '')
-            scenario_name = f'{param}_{val_name}'
+            scenario_name = f'baseline~{param}~{val_name}'
             path_file = _generate_sensitivity_filepath(s['baseline'][param], val_name)
             df.to_csv(path_file, index=False)
 
@@ -776,7 +777,7 @@ def perform_sensitivity(sensitivity, s):
             df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
 
             val_name = str(val).replace('.', '')
-            scenario_name = f'{parameter}_{param}_{val_name}'
+            scenario_name = f'baseline~{parameter}~{param}~{val_name}'
             path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_{val_name}')
             df.to_csv(path_file, index=False)
 
@@ -792,7 +793,7 @@ def perform_sensitivity(sensitivity, s):
         # Remove any built limitation per year
         df.loc[df.loc[:, 'Status'] == 3, param] = df.loc[df.loc[:, 'Status'] == 3, 'Capacity']
 
-        scenario_name = f'{parameter}_{param}_removed'
+        scenario_name = f'baseline~{parameter}~{param}~removed'
         path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_removed')
         df.to_csv(path_file, index=False)
 
@@ -805,7 +806,7 @@ def perform_sensitivity(sensitivity, s):
 
         df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['fuel'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
 
-        scenario_name = f'{parameter}_{param}_reduced'
+        scenario_name = f'baseline~{parameter}~{param}~reduced'
         path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_reduced')
         df.to_csv(path_file, index=False)
 
@@ -819,7 +820,7 @@ def perform_sensitivity(sensitivity, s):
         # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
         df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
 
-        scenario_name = f'{param}_5years'
+        scenario_name = f'baseline~{param}~5years'
         path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_5years')
         df.to_csv(path_file, index=False)
 
@@ -833,11 +834,11 @@ def perform_sensitivity(sensitivity, s):
 
         for val in capacity_factor_sensi:
             df = pd.read_csv(s['baseline'][param])
-            cols = [i for i in df.columns if i not in ['zone', 'tech', 'q', 'd']]
+            cols = [i for i in df.columns if i not in ['z', 'tech', 'q', 'd']]
             df[cols] = (df[cols] * (1 + val)).clip(upper=1)
 
             val_name = str(val).replace('.', '')
-            scenario_name = f'{param}_{val_name}'
+            scenario_name = f'baseline~{param}~{val_name}'
             path_file = _generate_sensitivity_filepath(s['baseline'][param], val_name)
             df.to_csv(path_file, index=False)
 

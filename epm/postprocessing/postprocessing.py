@@ -79,6 +79,8 @@ heatmap_plot = _wrap_plot_function(heatmap_plot)
 make_line_plot = _wrap_plot_function(make_line_plot)
 #make_automatic_map = _wrap_plot_function(make_automatic_map)
 
+
+
 # Used to not load all the parameters in epm_results.gdx for memory purpose
 KEYS_RESULTS = {
     # 1. Capacity expansion
@@ -191,7 +193,7 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': False,
+    'capacity': True,
     'costs': False,
     'energy': False,
     'dispatch': False,
@@ -814,6 +816,34 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
     # Process results
     RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
         FOLDER, keys_results=keys_results)
+
+    # Beautify scenario names selectively (sensitivity only, keep assessment unchanged)
+    from .assessment import _beautify_scenario_name
+    
+    for key, df in epm_results.items():
+        if 'scenario' not in df.columns:
+            continue
+        
+        def beautify_selective(scenario_name):
+            # If scenario has '@' (assessment), split and beautify only the part before '@'
+            if '@' in scenario_name:
+                base_part, assessment_part = scenario_name.split('@', 1)
+                # Only beautify if base part has '~' (sensitivity)
+                if '~' in base_part:
+                    beautified_base = _beautify_scenario_name(base_part)
+                    return f"{beautified_base}@{assessment_part}"
+                else:
+                    # No sensitivity, keep assessment as-is
+                    return scenario_name
+            # If scenario has '~' (sensitivity) but no '@', beautify it
+            elif '~' in scenario_name:
+                return _beautify_scenario_name(scenario_name)
+            # Otherwise, keep as-is (e.g., 'baseline')
+            else:
+                return scenario_name
+        
+        epm_results[key] = df.copy()
+        epm_results[key]['scenario'] = df['scenario'].apply(beautify_selective)
 
     set_default_fuel_order(dict_specs.get('techfuel_order'))
 
@@ -2036,7 +2066,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             counterfactual_names = [s for s in all_scenarios if '@' in s]
 
             # Build pairs: {base_scenario: [list of counterfactual scenarios]}
-            # e.g., baseline_NoBiomass@rehabilitation pairs with baseline_NoBiomass
+            # e.g., baseline~NoBiomass@rehabilitation pairs with baseline~NoBiomass
             scenario_pairs = {}
             for counterfactual in counterfactual_names:
                 base_name = counterfactual.split('@')[0]
