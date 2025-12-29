@@ -111,6 +111,7 @@ KEYS_RESULTS = {
     # 6. Interconnections
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
+    'pNetImport',
     # 7. Emissions
     'pEmissionsZone', 'pEmissionsIntensityZone',
     # 10. Metrics
@@ -1786,9 +1787,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
                         df_percentage = df_percentage.reset_index()
                         
-                        # Keeping for interconnection figures
-                        df_exchange_percentage = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
-                        
                         filename = os.path.join(subfolders['3_energy'], f'{figure_name}Percentage-{scenario}.pdf')
                         
                         make_stacked_barplot(df_percentage, 
@@ -1945,6 +1943,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
                     
+                    # Compute energy mix in percentage by fuel by zone for scenario_reference
+                    df_percentage = df_energyfuelfull[df_energyfuelfull['scenario'] == scenario_reference].copy()
+                    df_percentage = df_percentage.drop(columns=['scenario'])
+                    df_percentage = df_percentage.set_index(['zone', 'year', 'fuel']).squeeze()
+                    df_percentage = df_percentage / df_percentage.groupby(['zone', 'year']).sum()
+                    df_percentage = df_percentage.reset_index()
+                    
+                    # Filter for exchange data (Imports, Exports)
+                    df_exchange_percentage = df_percentage.loc[df_percentage['fuel'].isin(['Exports', 'Imports']), :]
+                    
                     net_exchange = df_exchange_percentage.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
                     net_exchange.columns.name = None
                     net_exchange['Exports'] = net_exchange.get('Exports', 0)
@@ -1962,6 +1970,42 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         y_column='year',
                         value_column='value'
                     )
+
+                # 4.1.1 Stacked bar plot of imports/exports by zone
+                figure_name = 'NetImportsZoneStackedBar'
+                if is_figure_active(figure_name) and 'pNetImport' in epm_results:
+                    df_netimport = epm_results['pNetImport'].copy()
+                    df_netimport = df_netimport[df_netimport['scenario'].isin(selected_scenarios)]
+
+                    for zone in df_netimport['zone'].unique():
+                        df_zone = df_netimport[df_netimport['zone'] == zone].copy()
+                        # If isExternal is External then add Ext. to attribute
+                        df_zone['attribute'] = df_zone['attribute'].apply(lambda x: x + ' Ext.' if x == 'External' else x)
+                        # Remove isExternal column
+                        df_zone = df_zone.drop(columns=['isExternal'])
+                        
+                        if df_zone.empty:
+                            continue
+                        
+                        filename = os.path.join(
+                            subfolders['4_interconnection'],
+                            f'{figure_name}-{zone}.pdf'
+                        )
+                                                
+                        make_stacked_barplot(
+                            df_zone,
+                            filename,
+                            {},
+                            column_subplot='year',
+                            column_xaxis='scenario',
+                            column_stacked='attribute',
+                            column_value='value',
+                            format_y=make_auto_yaxis_formatter("GWh"),
+                            rotation=45,
+                            annotate=False,
+                            show_total=True,
+                            title=f'Net Imports/Exports by Scenario - {zone} (GWh)'
+                        )
 
                 # 4.2 Exchange between zones (energy)
                 figure_name = 'InterconnectionExchangeHeatmap'
