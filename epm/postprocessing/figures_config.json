@@ -1,0 +1,88 @@
+{
+  "categories": {
+    "summary": {
+      "enabled": true,
+      "figures": {
+        "SummaryHeatmap": true
+      }
+    },
+    "capacity": {
+      "enabled": true,
+      "figures": {
+        "CapacityMixSystemEvolutionScenarios": true,
+        "CapacityMixSystemEvolutionScenariosRelative": true,
+        "CapacityMixEvolutionZone": true,
+        "CapacityMixZoneScenarios": true,
+        "CapacityMixZoneScenariosRelative": true,
+        "NewCapacityZoneInstalledTimeline": true,
+        "NewCapacitySystemInstalledTimeline": true
+      }
+    },
+    "costs": {
+      "enabled": false,
+      "figures": {
+        "NPVCostSystemScenarios": true,
+        "NPVCostSystemScenariosRelative": true,
+        "NPVCostZoneScenarios": true,
+        "NPVCostZoneScenariosRelative": true,
+        "NPVCostMWhZoneScenarios": true,
+        "NPVCostMWhZoneScenariosRelative": true,
+        "CostSystemEvolutionScenarios": true,
+        "CostSystemEvolutionScenariosRelative": true,
+        "CostZoneEvolution": true,
+        "CostZoneEvolutionPercentage": true,
+        "CostZoneScenarios": true,
+        "CostMWhZoneEvolution": true,
+        "CostMWhZoneEvolutionPercentage": true,
+        "CostMWhZoneScenariosYear": true,
+        "CostMWhZoneIni": true,
+        "GenCostMWhZoneIni": true,
+        "GenCostMWhZoneEvolution": true,
+        "CapexZoneEvolution": true,
+        "PriceBaselineByZone": true
+      }
+    },
+    "energy": {
+      "enabled": false,
+      "figures": {
+        "EnergyMixSystemEvolutionScenarios": true,
+        "EnergyMixSystemEvolutionScenariosRelative": true,
+        "EnergyMixZoneEvolution": true,
+        "EnergyMixZoneScenarios": true,
+        "EnergyPlants": true,
+        "EnergyPlantZoneTop10": true
+      }
+    },
+    "dispatch": {
+      "enabled": false,
+      "figures": {
+        "DispatchZoneMaxLoadDay": false,
+        "DispatchZoneMaxLoadSeason": false,
+        "DispatchZoneFullSeason": true,
+        "DispatchSystemMaxLoadDay": false,
+        "DispatchSystemMaxLoadSeason": false
+      }
+    },
+    "interconnection": {
+      "enabled": false,
+      "figures": {
+        "NetImportsZoneEvolution": true,
+        "NetImportsZoneEvolutionZoneEvolutionShare": true,
+        "InterconnectionExchangeHeatmap": true,
+        "InterconnectionUtilizationHeatmap": true
+      }
+    },
+    "maps": {
+      "enabled": false,
+      "figures": {
+        "TransmissionCapacityMap": false,
+        "TransmissionCapacityMapEvolution": false,
+        "TransmissionUtilizationMap": false,
+        "TransmissionUtilizationMapEvolution": false,
+        "NetExportsMap": true,
+        "InteractiveMap": true
+      }
+    }
+  }
+}
+

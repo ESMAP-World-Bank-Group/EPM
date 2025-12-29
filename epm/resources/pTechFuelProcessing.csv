@@ -25,4 +25,10 @@ pvwsto,Solar,PV+Storage,orange
 STOPV,Solar,Solar Thermal,darkkhaki
 Storage,Battery,Battery,darkkhaki
 Storage,Water,PSH,blue
-ImportTransmission,Import,Import,thistle
+ImportTransmission,Imports,Imports,tan
+EnergyBalance,Imports,Imports,tan
+EnergyBalance,Imports External,ImportsExternal,bisque
+EnergyBalance,Exports,Exports,pink
+EnergyBalance,Exports External,ExportsExternal,purple
+EnergyBalance,UnmetDemand,UnmetDemand,red
+EnergyBalance,Surplus,Surplus,brown

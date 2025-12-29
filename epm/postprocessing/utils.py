@@ -680,6 +680,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     tech_fuel_outputs = [
         'pEnergyTechFuel',
         'pEnergyTechFuelCountry',
+        'pEnergyTechFuelComplete',
         'pCapacityTechFuel',
         'pCapacityTechFuelCountry',
         'pNewCapacityTechFuel',
