@@ -2,62 +2,8 @@
   "profile": "data-package",
   "name": "epm-input-schema",
   "title": "EPM Model Input Data Schema",
-  "description": "Generic input schema for Energy Planning Model (EPM) input files",
+  "description": "Canonical schema for Energy Planning Model (EPM) input datasets packaged as a Frictionless Data Package. Each dataset is a resource (typically a CSV) described by a logical schema and optional layout metadata. Resources represent measures indexed by one or more dimension fields (e.g., zones, seasons, technologies, fuels). Dimension fields reference dedicated dimension resources via foreign keys (e.g., z→zcmap.z, c→zcamp.c, y→y.y, q/t/d→pHours, f/tech→pTechFuel). Some resources are stored in wide form: one dimension (usually year) is encoded in column headers; these resources declare `custom.format: \"wide\"`, `custom.dimensions: [<dimension>]`, and `custom.encoding.<dimension>.type: \"columns\"` (with `year` columns matching YYYY). The resource `schema` always describes the normalized long structure expected for processing: identifier dimension fields + the wide dimension field (year as integer when used) + a numeric `value` measure (with semantics and unit in `custom.value`).",
   "resources": [
-    {
-      "name": "config",
-      "path": "config.csv",
-      "format": "csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "metadata",
-            "type": "string"
-          },
-          {
-            "name": "paramNames",
-            "type": "string"
-          },
-          {
-            "name": "file",
-            "type": "string"
-          }
-        ],
-        "primaryKey": [
-          "metadata"
-        ]
-      },
-      "custom": {
-        "format": "long"
-      }
-    },
-    {
-      "name": "pSettings",
-      "path": "pSettings.csv",
-      "format": "csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "\ufeffParameter",
-            "type": "string"
-          },
-          {
-            "name": "Abbreviation",
-            "type": "string"
-          },
-          {
-            "name": "Value",
-            "type": "number"
-          }
-        ],
-        "primaryKey": [
-          "\ufeffParameter"
-        ]
-      },
-      "custom": {
-        "format": "long"
-      }
-    },
     {
       "name": "zcmap",
       "path": "zcmap.csv",
@@ -72,9 +18,6 @@
             "name": "c",
             "type": "string"
           }
-        ],
-        "primaryKey": [
-          "z"
         ],
         "foreignKeys": []
       },
@@ -92,9 +35,6 @@
             "name": "y",
             "type": "integer"
           }
-        ],
-        "primaryKey": [
-          "y"
         ],
         "foreignKeys": []
       },
@@ -118,6 +58,14 @@
           {
             "name": "d",
             "type": "string"
+          },
+          {
+            "name": "t",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ]
       },
@@ -126,19 +74,96 @@
         "dimensions": [
           "t"
         ],
-        "encoding": {
-          "t": {
-            "type": "columns"
-          }
-        },
-        "allowed_transformations": [
-          "wide_times_to_long(t,value)"
-        ],
         "value": {
           "type": "number",
           "semantics": "hours",
           "unit": "hours"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 't' is encoded in the column headers. The logical processing form is long format with columns: q, d, t, value (where value is numeric)."
+      }
+    },
+    {
+      "name": "pTechFuel",
+      "path": "../../resources/pTechFuel.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "tech",
+            "type": "string"
+          },
+          {
+            "name": "fuel",
+            "type": "string"
+          },
+          {
+            "name": "HourlyVariation",
+            "type": "integer"
+          },
+          {
+            "name": "RETechnology",
+            "type": "integer"
+          },
+          {
+            "name": "FuelIndex",
+            "type": "integer"
+          }
+        ],
+        "foreignKeys": []
+      },
+      "custom": {
+        "format": "long",
+        "dimensions": [
+          "technology"
+        ]
+      }
+    },
+    {
+      "name": "config",
+      "path": "config.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "metadata",
+            "type": "string"
+          },
+          {
+            "name": "paramNames",
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "type": "string"
+          }
+        ]
+      },
+      "custom": {
+        "format": "long"
+      }
+    },
+    {
+      "name": "pSettings",
+      "path": "pSettings.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "﻿Parameter",
+            "type": "string"
+          },
+          {
+            "name": "Abbreviation",
+            "type": "string"
+          },
+          {
+            "name": "Value",
+            "type": "number"
+          }
+        ]
+      },
+      "custom": {
+        "format": "long"
       }
     },
     {
@@ -154,6 +179,14 @@
           {
             "name": "type",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -175,19 +208,11 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "demand_forecast"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: z, type, year, value (where value is numeric)."
       }
     },
     {
@@ -207,6 +232,14 @@
           {
             "name": "d",
             "type": "string"
+          },
+          {
+            "name": "t",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -220,6 +253,39 @@
                 "z"
               ]
             }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "d"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "d"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "t"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "t"
+              ]
+            }
           }
         ]
       },
@@ -228,29 +294,11 @@
         "dimensions": [
           "t"
         ],
-        "encoding": {
-          "q": {
-            "type": "rows",
-            "field": "q",
-            "source": "pHours.q"
-          },
-          "d": {
-            "type": "rows",
-            "field": "d",
-            "source": "pHours.d"
-          },
-          "t": {
-            "type": "columns",
-            "source": "pHours.t"
-          }
-        },
-        "allowed_transformations": [
-          "wide_times_to_long(t,value)"
-        ],
         "value": {
           "type": "number",
           "semantics": "normalized_demand"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 't' is encoded in the column headers. The logical processing form is long format with columns: z, q, d, t, value (where value is numeric)."
       }
     },
     {
@@ -274,6 +322,14 @@
           {
             "name": "y",
             "type": "string"
+          },
+          {
+            "name": "t",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -298,40 +354,53 @@
                 "y"
               ]
             }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "d"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "d"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "t"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "t"
+              ]
+            }
           }
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "t",
-          "q",
-          "d"
-        ],
-        "encoding": {
-          "q": {
-            "type": "rows",
-            "field": "q",
-            "source": "pHours.q"
-          },
-          "d": {
-            "type": "rows",
-            "field": "d",
-            "source": "pHours.d"
-          },
-          "t": {
-            "type": "columns",
-            "source": "pHours.t"
-          }
-        },
-        "allowed_transformations": [
-          "wide_times_to_long(t,value)"
+          "t"
         ],
         "value": {
           "type": "number",
           "semantics": "demand",
           "unit": "MW"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 't' is encoded in the column headers. The logical processing form is long format with columns: z, q, d, y, t, value (where value is numeric)."
       }
     },
     {
@@ -354,7 +423,6 @@
         "encoding": {
           "d": {
             "type": "rows",
-            "field": "d",
             "source": "pHours.d"
           }
         }
@@ -365,26 +433,27 @@
       "path": "load/pEnergyEfficiencyFactor.csv",
       "format": "csv",
       "schema": {
-        "fields": []
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
+          }
+        ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
           "year"
         ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          }
-        },
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
         "value": {
           "type": "number",
           "semantics": "efficiency_multiplier"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: identifier fields, year, value (where value is numeric)."
       }
     },
     {
@@ -518,9 +587,6 @@
             "type": "number"
           }
         ],
-        "primaryKey": [
-          "g"
-        ],
         "foreignKeys": [
           {
             "fields": [
@@ -566,12 +632,10 @@
         "encoding": {
           "technology": {
             "type": "rows",
-            "field": "tech",
             "source": "pTechFuel.tech"
           },
           "fuel": {
             "type": "rows",
-            "field": "fuel",
             "source": "pTechFuel.fuel"
           }
         }
@@ -680,11 +744,6 @@
             "type": "integer"
           }
         ],
-        "primaryKey": [
-          "z",
-          "tech",
-          "fuel"
-        ],
         "foreignKeys": [
           {
             "fields": [
@@ -729,12 +788,10 @@
         "encoding": {
           "technology": {
             "type": "rows",
-            "field": "tech",
             "source": "pTechFuel.tech"
           },
           "fuel": {
             "type": "rows",
-            "field": "fuel",
             "source": "pTechFuel.fuel"
           }
         }
@@ -749,35 +806,27 @@
           {
             "name": "g",
             "type": "string"
+          },
+          {
+            "name": "quarter",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
-        ],
-        "primaryKey": [
-          "g"
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "quarter",
-          "generator"
-        ],
-        "encoding": {
-          "quarter": {
-            "type": "columns"
-          },
-          "generator": {
-            "type": "rows",
-            "field": "g",
-            "source": "pGenDataInput.gen | pStorageDataInput.gen"
-          }
-        },
-        "allowed_transformations": [
-          "wide_quarters_to_long(quarter,value)"
+          "quarter"
         ],
         "value": {
           "type": "number",
           "semantics": "availability"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'quarter' is encoded in the column headers. The logical processing form is long format with columns: g, quarter, value (where value is numeric)."
       }
     },
     {
@@ -787,7 +836,7 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffzone",
+            "name": "﻿zone",
             "type": "string"
           },
           {
@@ -797,6 +846,14 @@
           {
             "name": "fuel",
             "type": "string"
+          },
+          {
+            "name": "quarter",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -838,31 +895,13 @@
       "custom": {
         "format": "wide",
         "dimensions": [
-          "quarter",
-          "technology"
-        ],
-        "encoding": {
-          "quarter": {
-            "type": "columns"
-          },
-          "technology": {
-            "type": "rows",
-            "field": "tech",
-            "source": "pTechFuel.tech"
-          },
-          "fuel": {
-            "type": "rows",
-            "field": "fuel",
-            "source": "pTechFuel.fuel"
-          }
-        },
-        "allowed_transformations": [
-          "wide_quarters_to_long(quarter,value)"
+          "quarter"
         ],
         "value": {
           "type": "number",
           "semantics": "availability"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'quarter' is encoded in the column headers. The logical processing form is long format with columns: ﻿zone, tech, fuel, quarter, value (where value is numeric)."
       }
     },
     {
@@ -874,36 +913,27 @@
           {
             "name": "g",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
-        ],
-        "primaryKey": [
-          "g"
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "year",
-          "generator"
+          "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          },
-          "generator": {
-            "type": "rows",
-            "field": "g",
-            "source": "pGenDataInput.gen | pStorageDataInput.gen"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "availability_change"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: g, year, value (where value is numeric)."
       }
     },
     {
@@ -923,45 +953,27 @@
           {
             "name": "d",
             "type": "string"
+          },
+          {
+            "name": "t",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "t",
-          "generator",
-          "q",
-          "d"
-        ],
-        "encoding": {
-          "q": {
-            "type": "rows",
-            "field": "q",
-            "source": "pHours.q"
-          },
-          "d": {
-            "type": "rows",
-            "field": "d",
-            "source": "pHours.d"
-          },
-          "generator": {
-            "type": "rows",
-            "field": "g",
-            "source": "pGenDataInput.gen | pStorageDataInput.gen"
-          },
-          "t": {
-            "type": "columns",
-            "source": "pHours.t"
-          }
-        },
-        "allowed_transformations": [
-          "wide_times_to_long(t,value)"
+          "t"
         ],
         "value": {
           "type": "number",
           "semantics": "vre_profile"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 't' is encoded in the column headers. The logical processing form is long format with columns: g, q, d, t, value (where value is numeric)."
       }
     },
     {
@@ -985,6 +997,14 @@
           {
             "name": "d",
             "type": "string"
+          },
+          {
+            "name": "t",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -1009,43 +1029,52 @@
                 "tech"
               ]
             }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "d"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "d"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "t"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "t"
+              ]
+            }
           }
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "t",
-          "technology"
-        ],
-        "encoding": {
-          "q": {
-            "type": "rows",
-            "field": "q",
-            "source": "pHours.q"
-          },
-          "d": {
-            "type": "rows",
-            "field": "d",
-            "source": "pHours.d"
-          },
-          "technology": {
-            "type": "rows",
-            "field": "tech",
-            "source": "pTechFuel.tech"
-          },
-          "t": {
-            "type": "columns",
-            "source": "pHours.t"
-          }
-        },
-        "allowed_transformations": [
-          "wide_times_to_long(t,value)"
+          "t"
         ],
         "value": {
           "type": "number",
           "semantics": "vre_profile"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 't' is encoded in the column headers. The logical processing form is long format with columns: z, tech, q, d, t, value (where value is numeric)."
       }
     },
     {
@@ -1055,8 +1084,16 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffgen",
+            "name": "﻿gen",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ]
       },
@@ -1065,19 +1102,11 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "capex_multiplier"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: ﻿gen, year, value (where value is numeric)."
       }
     },
     {
@@ -1087,7 +1116,7 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffzone",
+            "name": "﻿zone",
             "type": "string"
           },
           {
@@ -1097,6 +1126,14 @@
           {
             "name": "fuel",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -1138,32 +1175,13 @@
       "custom": {
         "format": "wide",
         "dimensions": [
-          "year",
-          "technology"
+          "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          },
-          "technology": {
-            "type": "rows",
-            "field": "tech",
-            "source": "pTechFuel.tech"
-          },
-          "fuel": {
-            "type": "rows",
-            "field": "fuel",
-            "source": "pTechFuel.fuel"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "capex_multiplier"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: ﻿zone, tech, fuel, year, value (where value is numeric)."
       }
     },
     {
@@ -1179,6 +1197,14 @@
           {
             "name": "fuel",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -1211,25 +1237,12 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          },
-          "fuel": {
-            "type": "rows",
-            "field": "fuel",
-            "source": "pTechFuel.fuel"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "fuel_price",
           "unit": "USD/MMBtu"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: c, fuel, year, value (where value is numeric)."
       }
     },
     {
@@ -1239,7 +1252,7 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffgen",
+            "name": "﻿gen",
             "type": "string"
           },
           {
@@ -1423,9 +1436,6 @@
             "type": "number"
           }
         ],
-        "primaryKey": [
-          "g"
-        ],
         "foreignKeys": [
           {
             "fields": [
@@ -1471,17 +1481,14 @@
         "encoding": {
           "technology": {
             "type": "rows",
-            "field": "tech",
             "source": "pTechFuel.tech"
           },
           "fuel": {
             "type": "rows",
-            "field": "fuel",
             "source": "pTechFuel.fuel"
           },
           "generator": {
             "type": "rows",
-            "field": "g",
             "source": "pGenDataInput.gen | pStorageDataInput.gen"
           }
         }
@@ -1494,7 +1501,7 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffzone",
+            "name": "﻿zone",
             "type": "string"
           },
           {
@@ -1650,55 +1657,13 @@
         "encoding": {
           "technology": {
             "type": "rows",
-            "field": "tech",
             "source": "pTechFuel.tech"
           },
           "fuel": {
             "type": "rows",
-            "field": "fuel",
             "source": "pTechFuel.fuel"
           }
         }
-      }
-    },
-    {
-      "name": "pTechFuel",
-      "path": "../../resources/pTechFuel.csv",
-      "format": "csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "tech",
-            "type": "string"
-          },
-          {
-            "name": "fuel",
-            "type": "string"
-          },
-          {
-            "name": "HourlyVariation",
-            "type": "integer"
-          },
-          {
-            "name": "RETechnology",
-            "type": "integer"
-          },
-          {
-            "name": "FuelIndex",
-            "type": "integer"
-          }
-        ],
-        "primaryKey": [
-          "tech",
-          "fuel"
-        ],
-        "foreignKeys": []
-      },
-      "custom": {
-        "format": "long",
-        "dimensions": [
-          "technology"
-        ]
       }
     },
     {
@@ -1715,9 +1680,6 @@
             "name": "value",
             "type": "number"
           }
-        ],
-        "primaryKey": [
-          "c"
         ],
         "foreignKeys": [
           {
@@ -1751,10 +1713,15 @@
           {
             "name": "c",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
-        ],
-        "primaryKey": [
-          "c"
         ],
         "foreignKeys": [
           {
@@ -1775,9 +1742,31 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
+        "value": {
+          "type": "number",
+          "semantics": "spinning_reserve_requirement"
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: c, year, value (where value is numeric)."
+      }
+    },
+    {
+      "name": "pSpinningReserveReqSystem",
+      "path": "reserve/pSpinningReserveReqSystem.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
+          }
+        ]
+      },
+      "custom": {
+        "format": "long",
         "encoding": {
           "year": {
             "type": "columns",
@@ -1791,29 +1780,6 @@
       }
     },
     {
-      "name": "pSpinningReserveReqSystem",
-      "path": "reserve/pSpinningReserveReqSystem.csv",
-      "format": "csv",
-      "schema": {
-        "fields": [
-          {
-            "name": "Year",
-            "type": "integer"
-          },
-          {
-            "name": "MW",
-            "type": "integer"
-          }
-        ],
-        "primaryKey": [
-          "Year"
-        ]
-      },
-      "custom": {
-        "format": "long"
-      }
-    },
-    {
       "name": "zext",
       "path": "trade/zext.csv",
       "format": "csv",
@@ -1823,9 +1789,6 @@
             "name": "zext",
             "type": "string"
           }
-        ],
-        "primaryKey": [
-          "zext"
         ]
       },
       "custom": {
@@ -1839,19 +1802,67 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffInternal zone",
+            "name": "z",
             "type": "string"
+          },
+          {
+            "name": "zext",
+            "type": "string"
+          },
+          {
+            "name": "q",
+            "type": "string"
+          },
+          {
+            "name": "Import-Export",
+            "type": "string",
+            "constraints": {
+              "enum": [
+                "Import",
+                "Export"
+              ]
+            }
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
           {
             "fields": [
-              "Internal zone"
+              "z"
             ],
             "reference": {
               "resource": "zcmap",
               "fields": [
                 "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "zext"
+            ],
+            "reference": {
+              "resource": "zext",
+              "fields": [
+                "zext"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
               ]
             }
           }
@@ -1860,28 +1871,14 @@
       "custom": {
         "format": "wide",
         "dimensions": [
-          "year",
-          "z"
+          "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)",
-          "wide_to_long(z,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          },
-          "z": {
-            "type": "columns",
-            "source": "zcmap.z"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "transfer_limit",
           "unit": "MW"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: z, zext, q, Import-Export, year, value (where value is numeric)."
       }
     },
     {
@@ -1897,6 +1894,14 @@
           {
             "name": "zone2",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -1929,19 +1934,11 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "loss_factor"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: zone1, zone2, year, value (where value is numeric)."
       }
     },
     {
@@ -1953,35 +1950,51 @@
           {
             "name": "y",
             "type": "integer"
+          },
+          {
+            "name": "c",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
-        "primaryKey": ["y"],
         "foreignKeys": [
           {
-            "fields": ["y"],
+            "fields": [
+              "y"
+            ],
             "reference": {
               "resource": "y",
-              "fields": ["y"]
+              "fields": [
+                "y"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "c"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "c"
+              ]
             }
           }
         ]
       },
       "custom": {
         "format": "wide",
-        "dimensions": ["c"],
-        "encoding": {
-          "c": {
-            "type": "columns",
-            "source": "zcmap.c"
-          }
-        },
-        "allowed_transformations": [
-          "wide_to_long(c,value)"
+        "dimensions": [
+          "c"
         ],
         "value": {
           "type": "number",
           "semantics": "trade_share"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'c' is encoded in the column headers. The logical processing form is long format with columns: y, c, value (where value is numeric)."
       }
     },
     {
@@ -1991,18 +2004,37 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffzone1",
+            "name": "z1",
             "type": "string"
           },
           {
-            "name": "zone2",
+            "name": "z2",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
           {
             "fields": [
-              "zone2"
+              "z1"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "z2"
             ],
             "reference": {
               "resource": "zcmap",
@@ -2018,20 +2050,12 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "import_limit",
           "unit": "MW"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: z1, z2, year, value (where value is numeric)."
       }
     },
     {
@@ -2041,11 +2065,11 @@
       "schema": {
         "fields": [
           {
-            "name": "From",
+            "name": "z1",
             "type": "string"
           },
           {
-            "name": "To",
+            "name": "z2",
             "type": "string"
           },
           {
@@ -2073,14 +2097,10 @@
             "type": "integer"
           }
         ],
-        "primaryKey": [
-          "From",
-          "To"
-        ],
         "foreignKeys": [
           {
             "fields": [
-              "From"
+              "z1"
             ],
             "reference": {
               "resource": "zcmap",
@@ -2091,7 +2111,7 @@
           },
           {
             "fields": [
-              "To"
+              "z2"
             ],
             "reference": {
               "resource": "zcmap",
@@ -2130,6 +2150,14 @@
           {
             "name": "y",
             "type": "integer"
+          },
+          {
+            "name": "t",
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -2143,39 +2171,53 @@
                 "y"
               ]
             }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "d"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "d"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "t"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "t"
+              ]
+            }
           }
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "t",
-          "q"
-        ],
-        "encoding": {
-          "q": {
-            "type": "rows",
-            "field": "q",
-            "source": "pHours.q"
-          },
-          "d": {
-            "type": "rows",
-            "field": "d",
-            "source": "pHours.d"
-          },
-          "t": {
-            "type": "columns",
-            "source": "pHours.t"
-          }
-        },
-        "allowed_transformations": [
-          "wide_times_to_long(t,value)"
+          "t"
         ],
         "value": {
           "type": "number",
           "semantics": "trade_price",
           "unit": "USD/MWh"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 't' is encoded in the column headers. The logical processing form is long format with columns: zext, q, d, y, t, value (where value is numeric)."
       }
     },
     {
@@ -2185,77 +2227,17 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffFrom",
+            "name": "z1",
             "type": "string"
           },
           {
-            "name": "To",
+            "name": "z2",
             "type": "string"
           },
           {
             "name": "q",
             "type": "string"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "fields": [
-              "To"
-            ],
-            "reference": {
-              "resource": "zcmap",
-              "fields": [
-                "z"
-              ]
-            }
           },
-          {
-            "fields": [
-              "From"
-            ],
-            "reference": {
-              "resource": "zcmap",
-              "fields": [
-                "z"
-              ]
-            }
-          }
-        ]
-      },
-      "custom": {
-        "format": "wide",
-        "dimensions": [
-          "year",
-          "q",
-          "corridor"
-        ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          },
-          "q": {
-            "type": "rows",
-            "field": "q",
-            "source": "pHours.q"
-          }
-        },
-        "value": {
-          "type": "number",
-          "semantics": "transfer_limit",
-          "unit": "MW"
-        }
-      }
-    },
-    {
-      "name": "pCarbonPrice",
-      "path": "constraint/pCarbonPrice.csv",
-      "format": "csv",
-      "schema": {
-        "fields": [
           {
             "name": "year",
             "type": "integer"
@@ -2265,8 +2247,69 @@
             "type": "number"
           }
         ],
-        "primaryKey": [
+        "foreignKeys": [
+          {
+            "fields": [
+              "z1"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "z2"
+            ],
+            "reference": {
+              "resource": "zcmap",
+              "fields": [
+                "z"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          }
+        ]
+      },
+      "custom": {
+        "format": "wide",
+        "dimensions": [
           "year"
+        ],
+        "value": {
+          "type": "number",
+          "semantics": "transfer_limit",
+          "unit": "MW"
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: ﻿From, z2, q, year, value (where value is numeric)."
+      }
+    },
+    {
+      "name": "pCarbonPrice",
+      "path": "constraint/pCarbonPrice.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "name": "y",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
+          }
         ]
       },
       "custom": {
@@ -2282,10 +2325,15 @@
           {
             "name": "c",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
-        ],
-        "primaryKey": [
-          "c"
         ],
         "foreignKeys": [
           {
@@ -2306,26 +2354,12 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)",
-          "wide_to_long(c,value)"
-        ],
-        "encoding": {
-          "c": {
-            "type": "rows",
-            "field": "c",
-            "source": "zcmap.c"
-          },
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "emissions",
           "unit": "tCO2"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: c, year, value (where value is numeric)."
       }
     },
     {
@@ -2342,9 +2376,6 @@
             "name": "value",
             "type": "string"
           }
-        ],
-        "primaryKey": [
-          "y"
         ],
         "foreignKeys": [
           {
@@ -2380,6 +2411,14 @@
           {
             "name": "fuel",
             "type": "string"
+          },
+          {
+            "name": "year",
+            "type": "integer"
+          },
+          {
+            "name": "value",
+            "type": "number"
           }
         ],
         "foreignKeys": [
@@ -2412,25 +2451,12 @@
         "dimensions": [
           "year"
         ],
-        "allowed_transformations": [
-          "wide_years_to_long(year,value)"
-        ],
-        "encoding": {
-          "year": {
-            "type": "columns",
-            "pattern": "YYYY"
-          },
-          "fuel": {
-            "type": "rows",
-            "field": "fuel",
-            "source": "pTechFuel.fuel"
-          }
-        },
         "value": {
           "type": "number",
           "semantics": "fuel_limit",
           "unit": "MMBtu"
-        }
+        },
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: z, fuel, year, value (where value is numeric)."
       }
     },
     {
@@ -2443,9 +2469,6 @@
             "name": "paramNames",
             "type": "string"
           }
-        ],
-        "primaryKey": [
-          "paramNames"
         ]
       },
       "custom": {
@@ -2459,16 +2482,13 @@
       "schema": {
         "fields": [
           {
-            "name": "\ufeffparameter",
+            "name": "﻿parameter",
             "type": "string"
           },
           {
             "name": "sensitivity",
             "type": "string"
           }
-        ],
-        "primaryKey": [
-          "\ufeffparameter"
         ]
       },
       "custom": {

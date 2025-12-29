@@ -20,7 +20,7 @@ import json
 import difflib
 import shutil
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 import pandas as pd
 
@@ -309,6 +309,71 @@ def postprocess_pGenDataInput(csv_path: Path, extras_root: Path, repo_root: Path
         print(f"  [pGenDataInput] Failed to write {csv_path}: {e}")
 
 
+def _rename_reference_files(output_root: Path) -> None:
+    """Manually rename reference files for dimension mapping.
+    
+    Renames:
+    - zcmap.csv: first column → "z", second column → "c"
+    - y.csv: column → "y"
+    - pHours.csv: ensure columns are named "q" and "d" (after its treatment)
+    
+    Args:
+        output_root: Root directory for CSV outputs
+    """
+    # Rename zcmap.csv
+    zcmap_path = output_root / "zcmap.csv"
+    if zcmap_path.exists():
+        try:
+            df = pd.read_csv(zcmap_path)
+            if not df.empty and len(df.columns) >= 2:
+                rename_dict = {}
+                if df.columns[0] != "z":
+                    rename_dict[df.columns[0]] = "z"
+                if df.columns[1] != "c":
+                    rename_dict[df.columns[1]] = "c"
+                if rename_dict:
+                    df = df.rename(columns=rename_dict)
+                    df.to_csv(zcmap_path, index=False, na_rep="")
+                    print(f"  [Reference files] Renamed zcmap.csv: {', '.join(f'{old}→{new}' for old, new in rename_dict.items())}")
+        except Exception as e:
+            print(f"  [Reference files] Failed to rename zcmap.csv: {e}")
+    
+    # Rename y.csv
+    y_path = output_root / "y.csv"
+    if y_path.exists():
+        try:
+            df = pd.read_csv(y_path)
+            if not df.empty and len(df.columns) >= 1:
+                if df.columns[0] != "y":
+                    df = df.rename(columns={df.columns[0]: "y"})
+                    df.to_csv(y_path, index=False, na_rep="")
+                    print(f"  [Reference files] Renamed y.csv: {df.columns[0]}→y")
+        except Exception as e:
+            print(f"  [Reference files] Failed to rename y.csv: {e}")
+    
+    # Ensure pHours.csv has "q" and "d" columns (after its treatment in postprocess_csv)
+    # Note: pHours.csv is processed by postprocess_csv which removes YYYY columns and duplicates
+    # We need to ensure the remaining columns are named "q" and "d"
+    phours_path = output_root / "pHours.csv"
+    if phours_path.exists():
+        try:
+            df = pd.read_csv(phours_path)
+            if not df.empty and len(df.columns) >= 2:
+                rename_dict = {}
+                # First column should be "q" (season/quarter)
+                if df.columns[0] != "q":
+                    rename_dict[df.columns[0]] = "q"
+                # Second column should be "d" (daytype)
+                if len(df.columns) > 1 and df.columns[1] != "d":
+                    rename_dict[df.columns[1]] = "d"
+                if rename_dict:
+                    df = df.rename(columns=rename_dict)
+                    df.to_csv(phours_path, index=False, na_rep="")
+                    print(f"  [Reference files] Renamed pHours.csv: {', '.join(f'{old}→{new}' for old, new in rename_dict.items())}")
+        except Exception as e:
+            print(f"  [Reference files] Failed to rename pHours.csv: {e}")
+
+
 def postprocess_csv(csv_path: Path, output_root: Path, extras_root: Path, repo_root: Path) -> None:
     """Apply post-processing to a single CSV file."""
     try:
@@ -361,15 +426,250 @@ def postprocess_csv(csv_path: Path, output_root: Path, extras_root: Path, repo_r
         pass
 
 
-def rename_columns_from_datapackage(output_root: Path, repo_root: Path) -> None:
-    """Rename columns in all CSV files to match datapackage.json schema field names.
+def build_dimension_value_mapping(output_root: Path, repo_root: Path) -> Dict[str, Set[str]]:
+    """Build dimension value mapping from reference files.
     
-    For wide format files, only renames index columns (not time dimension columns).
-    Maps columns by position to field names from datapackage.json schema.
+    Extracts dimension values from manually renamed reference files:
+    - z, c from zcmap.csv
+    - y from y.csv
+    - q, d, t from pHours.csv (after treatment)
+    - zext, f, tech from other files
     
     Args:
         output_root: Root directory for CSV outputs
         repo_root: Repository root path
+    
+    Returns:
+        Dictionary mapping dimension type to set of values found
+    """
+    dimension_mapping: Dict[str, Set[str]] = {
+        "z": set(),
+        "c": set(),
+        "y": set(),
+        "q": set(),
+        "d": set(),
+        "t": set(),
+        "zext": set(),
+        "f": set(),
+        "tech": set(),
+    }
+    
+    # Extract z and c from zcmap.csv
+    zcmap_path = output_root / "zcmap.csv"
+    if zcmap_path.exists():
+        try:
+            df = pd.read_csv(zcmap_path)
+            if "z" in df.columns:
+                dimension_mapping["z"].update(df["z"].dropna().astype(str).str.strip().unique())
+            if "c" in df.columns:
+                dimension_mapping["c"].update(df["c"].dropna().astype(str).str.strip().unique())
+        except Exception as e:
+            print(f"  [Dimension mapping] Failed to load zcmap.csv: {e}")
+    
+    # Extract y from y.csv
+    y_path = output_root / "y.csv"
+    if y_path.exists():
+        try:
+            df = pd.read_csv(y_path)
+            if "y" in df.columns:
+                dimension_mapping["y"].update(df["y"].dropna().astype(str).str.strip().unique())
+        except Exception as e:
+            print(f"  [Dimension mapping] Failed to load y.csv: {e}")
+    
+    # Extract q, d, and t from pHours.csv (after treatment)
+    phours_path = output_root / "pHours.csv"
+    if phours_path.exists():
+        try:
+            df = pd.read_csv(phours_path)
+            if "q" in df.columns:
+                dimension_mapping["q"].update(df["q"].dropna().astype(str).str.strip().unique())
+            if "d" in df.columns:
+                dimension_mapping["d"].update(df["d"].dropna().astype(str).str.strip().unique())
+            if "t" in df.columns:
+                dimension_mapping["t"].update(df["t"].dropna().astype(str).str.strip().unique())
+        except Exception as e:
+            print(f"  [Dimension mapping] Failed to load pHours.csv: {e}")
+    
+    # Scan other files for zext, f, tech columns
+    for csv_file in output_root.rglob("*.csv"):
+        # Skip reference files already processed
+        if csv_file.name in ("zcmap.csv", "y.csv", "pHours.csv"):
+            continue
+        
+        try:
+            df = pd.read_csv(csv_file)
+            if df.empty:
+                continue
+            
+            # Check for zext column
+            if "zext" in df.columns:
+                dimension_mapping["zext"].update(df["zext"].dropna().astype(str).str.strip().unique())
+            
+            # Check for f or fuel column
+            if "f" in df.columns:
+                dimension_mapping["f"].update(df["f"].dropna().astype(str).str.strip().unique())
+            elif "fuel" in df.columns:
+                dimension_mapping["f"].update(df["fuel"].dropna().astype(str).str.strip().unique())
+            
+            # Check for tech column
+            if "tech" in df.columns:
+                dimension_mapping["tech"].update(df["tech"].dropna().astype(str).str.strip().unique())
+        except Exception:
+            # Skip files that can't be read
+            continue
+    
+    # Remove empty sets and log results
+    non_empty = {k: v for k, v in dimension_mapping.items() if v}
+    if non_empty:
+        print(f"  [Dimension mapping] Extracted dimension values:")
+        for dim_type, values in sorted(non_empty.items()):
+            print(f"    {dim_type}: {len(values)} unique value(s)")
+    
+    return dimension_mapping
+
+
+def validate_column_rename(
+    old_name: str,
+    new_name: str,
+    column_values: pd.Series,
+    dimension_mapping: Dict[str, Set[str]],
+    dimension_type: Optional[str] = None,
+    verbose: bool = False,
+) -> bool:
+    """Validate if a column rename is consistent with expected dimension values.
+    
+    Args:
+        old_name: Current column name
+        new_name: Proposed new column name
+        column_values: Actual values in the column
+        dimension_mapping: Dimension value mapping from build_dimension_value_mapping()
+        dimension_type: Expected dimension type (e.g., "z", "d", "t", "q", "y", "zext", "f", "tech")
+        verbose: If True, print validation details
+    
+    Returns:
+        True if rename is valid, False otherwise
+    """
+    # Special handling for "value" column: must be numeric
+    if new_name.lower() == "value":
+        try:
+            # Try to convert to numeric - if it fails, it's not a value column
+            numeric_values = pd.to_numeric(column_values.dropna(), errors='coerce')
+            if numeric_values.notna().any():
+                # At least some values are numeric
+                non_numeric_count = numeric_values.isna().sum()
+                if non_numeric_count == 0:
+                    if verbose:
+                        print(f"      [Validation] '{old_name}'→'{new_name}': ✓ Valid (all values are numeric)")
+                    return True
+                else:
+                    if verbose:
+                        print(f"      [Validation] '{old_name}'→'{new_name}': ✗ Failed ({non_numeric_count} non-numeric values found)")
+                    return False
+            else:
+                if verbose:
+                    print(f"      [Validation] '{old_name}'→'{new_name}': ✗ Failed (no numeric values found)")
+                return False
+        except Exception:
+            if verbose:
+                print(f"      [Validation] '{old_name}'→'{new_name}': ✗ Failed (cannot validate as numeric)")
+            return False
+    
+    # Special handling for "y" column: must match XXXX format (4-digit year) only
+    if new_name.lower() in ("y", "year"):
+        actual_values = column_values.dropna().astype(str).str.strip()
+        # Check if all values are 4-digit years
+        all_yyyy = actual_values.str.len().eq(4).all() and actual_values.str.isdigit().all()
+        if all_yyyy:
+            if verbose:
+                sample_values = sorted(actual_values.unique())[:5]
+                print(f"      [Validation] '{old_name}'→'{new_name}': ✓ Valid (YYYY format: {', '.join(sample_values)}{'...' if len(actual_values.unique()) > 5 else ''})")
+            return True
+        else:
+            if verbose:
+                sample_values = sorted(actual_values.unique())[:5]
+                print(f"      [Validation] '{old_name}'→'{new_name}': ✗ Failed (not all values are 4-digit years, found: {', '.join(sample_values)}{'...' if len(actual_values.unique()) > 5 else ''})")
+            return False
+    
+    # If dimension_type is provided, check if column values match expected dimension values
+    if dimension_type and dimension_type in dimension_mapping:
+        expected_values = dimension_mapping[dimension_type]
+        if expected_values:
+            # Get unique non-null values from column
+            actual_values = set(column_values.dropna().astype(str).str.strip().unique())
+            # Check if all actual values are in expected values (or at least most of them)
+            if actual_values:
+                match_ratio = len(actual_values & expected_values) / len(actual_values)
+                # Allow some tolerance - at least 80% of values should match
+                is_valid = match_ratio >= 0.8
+                if verbose:
+                    matched = actual_values & expected_values
+                    unmatched = actual_values - expected_values
+                    print(f"      [Validation] '{old_name}'→'{new_name}': {'✓ Valid' if is_valid else '✗ Failed'} (match: {len(matched)}/{len(actual_values)}, expected set: {sorted(list(expected_values))[:10]}{'...' if len(expected_values) > 10 else ''})")
+                    if unmatched and verbose:
+                        print(f"        Unmatched values: {sorted(list(unmatched))[:5]}{'...' if len(unmatched) > 5 else ''}")
+                return is_valid
+    
+    # If renaming to a known dimension field, validate values match that dimension's set
+    dimension_field_map = {
+        "z": "z",
+        "zone": "z",
+        "c": "c",
+        "country": "c",
+        "y": "y",
+        "year": "y",
+        "q": "q",
+        "season": "q",
+        "quarter": "q",
+        "d": "d",
+        "daytype": "d",
+        "day": "d",
+        "zext": "zext",
+        "f": "f",
+        "fuel": "f",
+        "tech": "tech",
+        "technology": "tech",
+    }
+    
+    if new_name.lower() in dimension_field_map:
+        dim_type = dimension_field_map[new_name.lower()]
+        if dim_type in dimension_mapping:
+            expected_values = dimension_mapping[dim_type]
+            if expected_values:
+                actual_values = set(column_values.dropna().astype(str).str.strip().unique())
+                if actual_values:
+                    match_ratio = len(actual_values & expected_values) / len(actual_values)
+                    is_valid = match_ratio >= 0.8
+                    if verbose:
+                        matched = actual_values & expected_values
+                        unmatched = actual_values - expected_values
+                        print(f"      [Validation] '{old_name}'→'{new_name}': {'✓ Valid' if is_valid else '✗ Failed'} (match: {len(matched)}/{len(actual_values)}, expected set: {sorted(list(expected_values))[:10]}{'...' if len(expected_values) > 10 else ''})")
+                        if unmatched and verbose:
+                            print(f"        Unmatched values: {sorted(list(unmatched))[:5]}{'...' if len(unmatched) > 5 else ''}")
+                    return is_valid
+            else:
+                if verbose:
+                    print(f"      [Validation] '{old_name}'→'{new_name}': ✗ Failed (no expected values found for dimension '{dim_type}')")
+                return False
+    
+    # For other fields without specific validation, reject by default (safer)
+    if verbose:
+        print(f"      [Validation] '{old_name}'→'{new_name}': ✗ Failed (no validation rule for this field)")
+    return False
+
+
+def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimension_mapping: Dict[str, Set[str]]) -> None:
+    """Rename columns in all CSV files to match datapackage.json schema field names.
+    
+    Only renames columns that are explicitly defined in datapackage.json schema.
+    Does not rename additional columns that aren't in the schema.
+    
+    For wide format files, only renames index columns (not dimension value columns).
+    Validates renames using dimension mapping before applying.
+    
+    Args:
+        output_root: Root directory for CSV outputs
+        repo_root: Repository root path
+        dimension_mapping: Dimension value mapping from build_dimension_value_mapping()
     """
     resources_map = load_datapackage_resources(repo_root)
     if not resources_map:
@@ -403,67 +703,212 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path) -> None:
             format_type = resource_info.get("format", "long")
             dimensions = resource_info.get("dimensions", [])
             
-            # Build rename mapping
+            # Build rename mapping - only rename columns that are in the defined set
             rename_dict = {}
             current_cols = list(df.columns)
+            field_names_set = set(field_names)
             
             if format_type == "wide":
-                # For wide format: only rename index columns (not dimension value columns)
+                # For wide format: only rename index columns (not dimension value columns or value field)
                 dimensions_set = set(dimensions)
-                
-                # Identify index field names (fields that are NOT dimensions)
-                # These will become index columns in the CSV
-                index_field_names = [fname for fname in field_names if fname not in dimensions_set]
+                # Exclude "value" from index fields - it's created during transformation, not renamed
+                index_field_names = [fname for fname in field_names 
+                                    if fname not in dimensions_set and fname != "value"]
+                index_field_names_set = set(index_field_names)
                 
                 # Helper function to check if a column is a dimension value column
                 def is_dimension_value_column(col_name: str, dimensions: List[str]) -> bool:
-                    """Check if column name represents a dimension value (e.g., '2024', 't1', 'Q1', 'corridor1')."""
+                    """Check if column name represents a dimension value by checking against dimension mapping."""
                     col_str = str(col_name)
                     # Check if it's exactly a dimension name (shouldn't happen, but check anyway)
                     if col_str in dimensions:
                         return True
-                    # Check if it matches dimension value patterns
+                    # Check if column name matches dimension values from reference resources
                     for dim in dimensions:
-                        # Year dimension: numeric values like "2024", "2025"
-                        if dim == "year" and col_str.isdigit():
+                        # Get dimension values from mapping
+                        dim_values = dimension_mapping.get(dim, set())
+                        # Check if column name is in the dimension values
+                        if col_str in dim_values:
                             return True
-                        # Time dimension: values like "t1", "t2", "t24"
-                        if dim == "t" and (col_str.startswith("t") and col_str[1:].isdigit()):
+                        # For "year" dimension, also check if it's a 4-digit integer
+                        if dim == "year" and col_str.isdigit() and len(col_str) == 4:
                             return True
-                        # Quarter dimension: values like "Q1", "Q2", "Q3", "Q4"
-                        if dim in ("q", "quarter") and (col_str.startswith("Q") and col_str[1:].isdigit()):
-                            return True
-                        # Other dimensions: check if column starts with dimension name + number/letter
-                        # (e.g., "corridor1", "zone1", etc.)
-                        if col_str.startswith(dim) and len(col_str) > len(dim):
-                            suffix = col_str[len(dim):]
-                            if suffix.isdigit() or suffix.isalpha():
-                                return True
                     return False
                 
-                # Map index columns by position (skip dimension value columns)
-                index_col_idx = 0
-                for col_name in current_cols:
-                    # Skip if column already matches expected field name
-                    if col_name in index_field_names:
-                        continue
-                    # Skip if column is a dimension value column (e.g., "2024", "t1", "Q1")
-                    if is_dimension_value_column(col_name, dimensions):
+                # Helper function to score a potential match
+                def score_column_match(col_name: str, expected_name: str, col_values: set, ref_values: set) -> float:
+                    """Score how well a column matches an expected field name.
+                    
+                    Returns:
+                        Score from 0.0 to 1.0, where 1.0 is perfect match
+                    """
+                    # Exact name match gets highest score
+                    if col_name.lower() == expected_name.lower():
+                        return 1.0
+                    
+                    # If no reference values, can't score based on values
+                    if not ref_values:
+                        return 0.0
+                    
+                    # Score based on value matching
+                    if not col_values:
+                        return 0.0
+                    
+                    # Perfect match: all column values are in reference values
+                    if col_values.issubset(ref_values):
+                        return 0.9
+                    
+                    # Partial match: calculate ratio
+                    intersection = col_values & ref_values
+                    if intersection:
+                        match_ratio = len(intersection) / len(col_values)
+                        # Require at least 80% match to be considered
+                        if match_ratio >= 0.8:
+                            return 0.7 + (match_ratio - 0.8) * 0.2  # Scale 0.8-1.0 to 0.7-0.9
+                    
+                    return 0.0
+                
+                # For wide format: iterate through index field names in schema order
+                print(f"  [Column rename] {resource_name}: Processing {len(index_field_names)} index field(s) in schema order")
+                for expected_name in index_field_names:
+                    if expected_name in current_cols:
+                        # Already exists with correct name, skip
                         continue
                     
-                    # Map this column to the corresponding field name
-                    if index_col_idx < len(index_field_names):
-                        expected_name = index_field_names[index_col_idx]
-                        if col_name != expected_name:
-                            rename_dict[col_name] = expected_name
-                        index_col_idx += 1
+                    print(f"    Looking for column matching '{expected_name}'...")
+                    
+                    # First, try exact name match (case-insensitive)
+                    exact_match = None
+                    for col_name in current_cols:
+                        if col_name.lower() == expected_name.lower():
+                            if col_name not in index_field_names_set and col_name not in rename_dict.values():
+                                if not is_dimension_value_column(col_name, dimensions):
+                                    exact_match = col_name
+                                    break
+                    
+                    if exact_match:
+                        # Validate the exact match
+                        if validate_column_rename(exact_match, expected_name, df[exact_match], dimension_mapping, verbose=True):
+                            rename_dict[exact_match] = expected_name
+                            print(f"    ✓ Matched '{exact_match}'→'{expected_name}' (exact name match)")
+                            continue
+                    
+                    # If no exact match, try value-based matching with scoring
+                    ref_values = dimension_mapping.get(expected_name, set())
+                    best_match = None
+                    best_score = 0.0
+                    
+                    for col_name in current_cols:
+                        # Skip dimension value columns
+                        if is_dimension_value_column(col_name, dimensions):
+                            continue
+                        
+                        # Skip if column already renamed or already matches a field name
+                        if col_name in index_field_names_set or col_name in rename_dict.values():
+                            continue
+                        
+                        # Calculate match score
+                        col_values = set(df[col_name].dropna().astype(str).str.strip().unique())
+                        score = score_column_match(col_name, expected_name, col_values, ref_values)
+                        
+                        if score > best_score:
+                            # Validate before considering it
+                            if validate_column_rename(col_name, expected_name, df[col_name], dimension_mapping, verbose=False):
+                                best_match = col_name
+                                best_score = score
+                    
+                    if best_match and best_score >= 0.7:
+                        rename_dict[best_match] = expected_name
+                        match_type = "exact name" if best_score == 1.0 else f"value match (score: {best_score:.2f})"
+                        print(f"    ✓ Matched '{best_match}'→'{expected_name}' ({match_type})")
+                    else:
+                        print(f"    ✗ No matching column found for '{expected_name}'")
             else:
-                # For long format: map all columns by position
-                for col_idx, col_name in enumerate(current_cols):
-                    if col_idx < len(field_names):
-                        expected_name = field_names[col_idx]
-                        if col_name != expected_name:
-                            rename_dict[col_name] = expected_name
+                # For long format: iterate through field names in schema order
+                # For each field name, try to find a matching column
+                print(f"  [Column rename] {resource_name}: Processing {len(field_names)} field(s) in schema order")
+                
+                # Helper function to score a potential match
+                def score_column_match(col_name: str, expected_name: str, col_values: set, ref_values: set) -> float:
+                    """Score how well a column matches an expected field name.
+                    
+                    Returns:
+                        Score from 0.0 to 1.0, where 1.0 is perfect match
+                    """
+                    # Exact name match gets highest score
+                    if col_name.lower() == expected_name.lower():
+                        return 1.0
+                    
+                    # If no reference values, can't score based on values
+                    if not ref_values:
+                        return 0.0
+                    
+                    # Score based on value matching
+                    if not col_values:
+                        return 0.0
+                    
+                    # Perfect match: all column values are in reference values
+                    if col_values.issubset(ref_values):
+                        return 0.9
+                    
+                    # Partial match: calculate ratio
+                    intersection = col_values & ref_values
+                    if intersection:
+                        match_ratio = len(intersection) / len(col_values)
+                        # Require at least 80% match to be considered
+                        if match_ratio >= 0.8:
+                            return 0.7 + (match_ratio - 0.8) * 0.2  # Scale 0.8-1.0 to 0.7-0.9
+                    
+                    return 0.0
+                
+                for expected_name in field_names:
+                    if expected_name in current_cols:
+                        # Already exists with correct name, skip
+                        continue
+                    
+                    print(f"    Looking for column matching '{expected_name}'...")
+                    
+                    # First, try exact name match (case-insensitive)
+                    exact_match = None
+                    for col_name in current_cols:
+                        if col_name.lower() == expected_name.lower():
+                            if col_name not in field_names_set and col_name not in rename_dict.values():
+                                exact_match = col_name
+                                break
+                    
+                    if exact_match:
+                        # Validate the exact match
+                        if validate_column_rename(exact_match, expected_name, df[exact_match], dimension_mapping, verbose=True):
+                            rename_dict[exact_match] = expected_name
+                            print(f"    ✓ Matched '{exact_match}'→'{expected_name}' (exact name match)")
+                            continue
+                    
+                    # If no exact match, try value-based matching with scoring
+                    ref_values = dimension_mapping.get(expected_name, set())
+                    best_match = None
+                    best_score = 0.0
+                    
+                    for col_name in current_cols:
+                        # Skip if column already renamed or already matches a field name
+                        if col_name in field_names_set or col_name in rename_dict.values():
+                            continue
+                        
+                        # Calculate match score
+                        col_values = set(df[col_name].dropna().astype(str).str.strip().unique())
+                        score = score_column_match(col_name, expected_name, col_values, ref_values)
+                        
+                        if score > best_score:
+                            # Validate before considering it
+                            if validate_column_rename(col_name, expected_name, df[col_name], dimension_mapping, verbose=False):
+                                best_match = col_name
+                                best_score = score
+                    
+                    if best_match and best_score >= 0.7:
+                        rename_dict[best_match] = expected_name
+                        match_type = "exact name" if best_score == 1.0 else f"value match (score: {best_score:.2f})"
+                        print(f"    ✓ Matched '{best_match}'→'{expected_name}' ({match_type})")
+                    else:
+                        print(f"    ✗ No matching column found for '{expected_name}'")
             
             # Apply renaming
             if rename_dict:
@@ -553,7 +998,7 @@ def merge_storage_from_gen_to_storage(output_root: Path, repo_root: Path) -> Non
                 df_storage = df_storage.rename(columns={first_col: "gen"})
             else:
                 print(f"  [Storage merge] No columns in pStorageDataInput, cannot merge")
-                return
+            return
         
         if "gen" not in storage_rows.columns:
             print(f"  [Storage merge] No 'gen' column in Storage rows, cannot merge")
@@ -894,7 +1339,7 @@ def validate_tech_fuel_combinations(output_root: Path, repo_root: Path) -> None:
         pass
 
 
-def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, created_csv_symbols: set[str]) -> None:
+def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, created_csv_symbols: set[str], rename_columns: bool = True) -> None:
     """Apply post-processing rules to exported CSV files.
     
     This function is called after all CSV files have been exported.
@@ -905,8 +1350,17 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, 
         output_root: Root directory for CSV outputs
         extras_root: Directory for extra GDX symbols (saved to .legacy folder)
         repo_root: Repository root path
+        rename_columns: If True, rename columns to match datapackage.json schema (default: True)
         created_csv_symbols: Set of CSV symbol names that were created during conversion
     """
+    # Manually rename reference files for dimension mapping
+    print(f"\n[Post-processing] Renaming reference files for dimension mapping...")
+    _rename_reference_files(output_root)
+    
+    # Build dimension value mapping from renamed reference files
+    print(f"\n[Post-processing] Building dimension value mapping...")
+    dimension_mapping = build_dimension_value_mapping(output_root, repo_root)
+    
     # Copy CPLEX folder from data_test
     print(f"\n[Post-processing] Copying CPLEX folder...")
     copy_cplex_folder(output_root, repo_root)
@@ -937,12 +1391,7 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, 
     else:
         print(f"  All datapackage.json files already exist ✓")
     
-    # Rename columns to match datapackage.json schema (do this before other post-processing)
-    # PAUSED: Column renaming disabled
-    # print(f"\n[Post-processing] Renaming columns to match datapackage.json schema...")
-    # rename_columns_from_datapackage(output_root, repo_root)
-    
-    # Post-process pGenDataInput (has special logic, runs after column renaming)
+    # Post-process pGenDataInput (has special logic)
     pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
     if pGenDataInput_path.exists():
         print(f"\n[Post-processing] Applying rules to pGenDataInput.csv")
@@ -957,6 +1406,13 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, 
     # Merge Storage rows from pGenDataInput to pStorageDataInput (AFTER column renaming and pGenDataInput processing)
     print(f"\n[Post-processing] Merging Storage rows from pGenDataInput to pStorageDataInput")
     merge_storage_from_gen_to_storage(output_root, repo_root)
+    
+    # Rename columns to match datapackage.json schema (LAST STEP - after all other processing)
+    if rename_columns:
+        print(f"\n[Post-processing] Renaming columns to match datapackage.json schema...")
+        rename_columns_from_datapackage(output_root, repo_root, dimension_mapping)
+    else:
+        print(f"\n[Post-processing] Skipping column renaming (--no-rename-columns specified)")
 
 
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
@@ -1022,7 +1478,7 @@ def load_datapackage_resources(repo_root: Path) -> Dict[str, Dict]:
     Uses caching to avoid reloading the file multiple times.
     
     Returns:
-        Dictionary mapping resource name to dict with 'path', 'field_names', 'format', 'dimensions', 'encoding', and 'schema'
+        Dictionary mapping resource name to dict with 'path', 'field_names', 'format', 'dimensions', 'encoding' (empty for wide resources), and 'schema'
     """
     global _DATAPACKAGE_RESOURCES_CACHE
     if _DATAPACKAGE_RESOURCES_CACHE is not None:
@@ -1049,7 +1505,9 @@ def load_datapackage_resources(repo_root: Path) -> Dict[str, Dict]:
             custom = resource.get("custom", {})
             format_type = custom.get("format", "long")  # Default to long if not specified
             dimensions = custom.get("dimensions", [])
-            encoding = custom.get("encoding", {})
+            # For wide resources, encoding is removed in new structure
+            # For long resources, keep encoding if present
+            encoding = {} if format_type == "wide" else custom.get("encoding", {})
             
             resources_map[resource_name] = {
                 "path": resource.get("path", f"{resource_name}.csv"),
@@ -1093,122 +1551,56 @@ def get_years_from_output(output_root: Path) -> List[int]:
         return []
 
 
-def _format_values_with_pattern(values: List, pattern: str, dimension: str) -> List[str]:
-    """Format extracted values according to pattern.
-    
-    Args:
-        values: Raw values from source
-        pattern: Pattern string (e.g., "tN", "QN", "YYYY")
-        dimension: Dimension name for context
-    
-    Returns:
-        Formatted values as strings
-    """
-    if not pattern:
-        # No pattern - return values as strings
-        return sorted([str(v) for v in values])
-    
-    # Apply pattern formatting
-    if "tN" in pattern or ("t" in pattern.lower() and "N" in pattern.upper()):
-        try:
-            numeric_values = sorted([int(v) for v in values if str(v).isdigit() or isinstance(v, (int, float))])
-            return [f"t{t}" for t in numeric_values]
-        except (ValueError, TypeError):
-            # Try to extract numbers from strings like "t1"
-            numeric_values = []
-            for v in values:
-                v_str = str(v)
-                if v_str.startswith("t") and v_str[1:].isdigit():
-                    numeric_values.append(int(v_str[1:]))
-                elif v_str.isdigit():
-                    numeric_values.append(int(v_str))
-            if numeric_values:
-                return [f"t{t}" for t in sorted(numeric_values)]
-    
-    elif "Q" in pattern.upper() and "N" in pattern.upper():
-        try:
-            numeric_values = sorted([int(v) for v in values if str(v).isdigit() or isinstance(v, (int, float))])
-            return [f"Q{q}" for q in numeric_values]
-        except (ValueError, TypeError):
-            pass
-    
-    # For "YYYY" pattern or no match, return as strings
-    return sorted([str(v) for v in values])
 
 
-def extract_dimension_values_from_source(output_root: Path, encoding: Dict, dimension: str, repo_root: Path) -> List[str]:
-    """Extract dimension values from source CSV files based on encoding information.
+def extract_dimension_values_from_source(output_root: Path, dimension: str, repo_root: Path) -> List[str]:
+    """Extract dimension values directly from reference resources.
     
-    Works for ANY dimension type (time, spatial, technology, etc.) - extracts from source, formats with pattern if needed.
+    Reads dimension values directly from reference CSV files without pattern formatting.
+    Uses dimension mapping: z/c -> zcmap, y -> y, q/d/t -> pHours, tech/fuel -> pTechFuel.
     
     Args:
         output_root: Root directory for CSV outputs
-        encoding: Encoding dict from datapackage.json
-        dimension: Name of the dimension (e.g., 't', 'q', 'd', 'year', 'zone', 'generator')
+        dimension: Name of the dimension (e.g., 't', 'q', 'd', 'year', 'z', 'c', 'tech', 'fuel')
         repo_root: Repository root path (to load datapackage resources)
     
     Returns:
         List of dimension values as strings
     """
-    if not encoding:
+    # Map dimensions to their source resources
+    dimension_to_resource = {
+        "z": ("zcmap", "z"),
+        "c": ("zcmap", "c"),
+        "y": ("y", "y"),
+        "year": ("y", "y"),
+        "q": ("pHours", "q"),
+        "d": ("pHours", "d"),
+        "t": ("pHours", "t"),
+        "tech": ("pTechFuel", "tech"),
+        "fuel": ("pTechFuel", "fuel"),
+        "f": ("pTechFuel", "fuel"),
+    }
+    
+    if dimension not in dimension_to_resource:
         return []
     
-    dim_encoding = encoding.get(dimension, {})
-    if not dim_encoding:
+    source_resource, source_field = dimension_to_resource[dimension]
+    resources_map = load_datapackage_resources(repo_root)
+    
+    if source_resource not in resources_map:
         return []
     
-    pattern = dim_encoding.get("pattern", "")
-    source = dim_encoding.get("source", "")
+    source_path = output_root / resources_map[source_resource]["path"]
+    if not source_path.exists():
+        return []
     
-    # Step 1: Try to extract from explicit source
-    if source:
-        parts = source.split(".")
-        if len(parts) == 2:
-            source_resource, source_field = parts
-            resources_map = load_datapackage_resources(repo_root)
-            
-            if source_resource in resources_map:
-                source_path = output_root / resources_map[source_resource]["path"]
-                if source_path.exists():
-                    try:
-                        df_source = pd.read_csv(source_path)
-                        if source_field in df_source.columns:
-                            values = df_source[source_field].dropna().unique().tolist()
-                            # Apply pattern formatting if specified
-                            return _format_values_with_pattern(values, pattern, dimension)
-                    except Exception:
-                        pass
-    
-    # Step 2: If no explicit source, try to infer from dimension name
-    # (e.g., "year" -> try "y.y", "y" -> try "y.y")
-    if not source:
-        resources_map = load_datapackage_resources(repo_root)
-        # Try common mappings: year -> y, y -> y
-        potential_resources = [dimension]
-        if dimension == "year":
-            potential_resources = ["y", "year"]
-        
-        for resource_name in potential_resources:
-            if resource_name in resources_map:
-                source_path = output_root / resources_map[resource_name]["path"]
-                if source_path.exists():
-                    try:
-                        df_source = pd.read_csv(source_path)
-                        # Try to find a column matching the dimension name
-                        if dimension in df_source.columns:
-                            values = df_source[dimension].dropna().unique().tolist()
-                            return _format_values_with_pattern(values, pattern, dimension)
-                        # Or try first column if dimension name doesn't match (e.g., y.csv has "y" column for years)
-                        elif len(df_source.columns) > 0:
-                            # For "year" dimension, try "y" column or first column
-                            if dimension == "year" and "y" in df_source.columns:
-                                values = df_source["y"].dropna().unique().tolist()
-                                return _format_values_with_pattern(values, pattern, dimension)
-                            else:
-                                values = df_source.iloc[:, 0].dropna().unique().tolist()
-                                return _format_values_with_pattern(values, pattern, dimension)
-                    except Exception:
-                        pass
+    try:
+        df_source = pd.read_csv(source_path)
+        if source_field in df_source.columns:
+            values = df_source[source_field].dropna().astype(str).str.strip().unique().tolist()
+            return sorted(values)
+    except Exception:
+        pass
     
     return []
 
@@ -1311,7 +1703,6 @@ def create_empty_dataframe_for_resource(resource_info: Dict, output_root: Path, 
     field_names = resource_info.get("field_names", [])
     format_type = resource_info.get("format", "long")
     dimensions = resource_info.get("dimensions", [])
-    encoding = resource_info.get("encoding", {})
     schema = resource_info.get("schema", {})
     
     if not field_names:
@@ -1362,7 +1753,7 @@ def create_empty_dataframe_for_resource(resource_info: Dict, output_root: Path, 
         # Add dimension columns - treat ALL dimensions uniformly
         # (year, t, q, d, zone, tech, generator, etc.)
         for dim in dimensions:
-            dim_values = extract_dimension_values_from_source(output_root, encoding, dim, repo_root)
+            dim_values = extract_dimension_values_from_source(output_root, dim, repo_root)
             if dim_values:
                 # Add columns for each dimension value
                 for dim_value in dim_values:
@@ -1711,6 +2102,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--target-folder", type=str, default=DEFAULT_TARGET_FOLDER, help="Subfolder under output-base for exports.")
     parser.add_argument("--overwrite", action="store_true", default=True, help="Overwrite existing CSVs (default: True).")
     parser.add_argument("--no-overwrite", dest="overwrite", action="store_false", help="Skip existing files instead of replacing.")
+    parser.add_argument("--rename-columns", action="store_true", default=True, help="Rename columns to match datapackage.json schema (default: True).")
+    parser.add_argument("--no-rename-columns", dest="rename_columns", action="store_false", help="Skip column renaming step.")
     return parser.parse_args()
 
 
@@ -1735,7 +2128,7 @@ def main() -> None:
     # Apply post-processing to exported CSV files
     print("\n[Post-processing] Starting post-processing of exported files...")
     created_csv_symbols = results.get("created_csv_symbols", set())
-    apply_postprocessing(export_root, extras_root, REPO_ROOT, created_csv_symbols)
+    apply_postprocessing(export_root, extras_root, REPO_ROOT, created_csv_symbols, rename_columns=args.rename_columns)
 
 
 if __name__ == "__main__":
