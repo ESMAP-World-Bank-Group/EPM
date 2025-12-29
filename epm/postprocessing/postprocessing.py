@@ -39,6 +39,7 @@ Contact:
 """
 
 import os
+import json
 import logging
 import re
 from pathlib import Path
@@ -99,6 +100,7 @@ KEYS_RESULTS = {
     'pYearlyGenCostZonePerMWh',
     # 3. Energy balance
     'pEnergyPlant', 'pEnergyTechFuel', 'pEnergyTechFuelCountry',
+    'pEnergyTechFuelComplete',
     'pEnergyBalance',
     'pUtilizationPlant', 'pUtilizationTechFuel',
     # 4. Energy dispatch
@@ -126,131 +128,51 @@ KEYS_RESULTS = {
     'pDemandEnergyZone', 'pDemandPeakZone'
 }
 
-FIGURES_ACTIVATED = {
-    
-    'SummaryHeatmap': True,
-    
-    # 1. Capacity figures
-    'CapacityMixSystemEvolutionScenarios': True,
-    'CapacityMixSystemEvolutionScenariosRelative': True,
-    'CapacityMixEvolutionZone': True,
-    'CapacityMixZoneScenarios': True,
-    'CapacityMixZoneScenariosRelative': True,
-    'NewCapacityZoneInstalledTimeline': True,
-    'NewCapacitySystemInstalledTimeline': True,
-    
-    # 2. Cost figures
-    'NPVCostSystemScenarios': True,
-    'NPVCostSystemScenariosRelative': True,
-    'NPVCostZoneScenarios': True, 
-    'NPVCostZoneScenariosRelative': True,
-    'NPVCostMWhZoneScenarios': True, 
-    'NPVCostMWhZoneScenariosRelative': True,
-    'CostSystemEvolutionScenarios': True,
-    'CostSystemEvolutionScenariosRelative': True,
-    'CostZoneEvolution': True,
-    'CostZoneEvolutionPercentage': True,
-    'CostZoneScenarios': True,
-    'CostMWhZoneEvolution': True,
-    'CostMWhZoneEvolutionPercentage': True,
-    'CostMWhZoneScenariosYear': True,
-    'CostMWhZoneIni': True,
-    'GenCostMWhZoneIni': True,
-    'GenCostMWhZoneEvolution': True,
-    'CapexZoneEvolution': True,
-    'PriceBaselineByZone': True,
-                    
-    # 3. Energy figures
-    'EnergyMixSystemEvolutionScenarios': True,
-    'EnergyMixSystemEvolutionScenariosRelative': True,
-    'EnergyMixZoneEvolution': True,
-    'EnergyMixZoneScenarios': True,
-    'EnergyPlants': True,
-    'EnergyPlantZoneTop10': True,
-    
-    # 4. Dispatch figures
-    'DispatchZoneMaxLoadDay': False,
-    'DispatchZoneMaxLoadSeason': False,
-    'DispatchZoneFullSeason': True,
-    'DispatchSystemMaxLoadDay': False,
-    'DispatchSystemMaxLoadSeason': False,
-    
-    # 5. Interconnection figures
-    'NetImportsZoneEvolution': True,
-    'NetImportsZoneEvolutionZoneEvolutionShare': True,
-    'InterconnectionExchangeHeatmap': True,
-    'InterconnectionUtilizationHeatmap': True,
 
-    # 6. Maps
-    # 'TransmissionCapacityMap': False, 
-    'TransmissionCapacityMapEvolution': False,
-    # 'TransmissionUtilizationMap': False,
-    'TransmissionUtilizationMapEvolution': False,
-    # 'NetExportsMap': True, 
+def _load_figure_config():
+    """
+    Load figure configuration from JSON file and extract the three dictionaries.
     
-    'InteractiveMap': True
-}
+    Returns
+    -------
+    tuple
+        A tuple containing (FIGURES_ACTIVATED, FIGURE_CATEGORY_ENABLED, FIGURE_CATEGORY_MAP)
+    """
+    # Get the directory where this module is located
+    module_dir = Path(__file__).parent
+    config_path = module_dir / 'figures_config.json'
+    
+    if not config_path.exists():
+        raise FileNotFoundError(
+            f"Figure configuration file not found: {config_path}\n"
+            "Please ensure figures_config.json exists in the postprocessing directory."
+        )
+    
+    with open(config_path, 'r', encoding='utf-8') as f:
+        config = json.load(f)
+    
+    # Extract the three dictionaries from the JSON structure
+    figures_activated = {}
+    figure_category_enabled = {}
+    figure_category_map = {}
+    
+    for category_name, category_data in config['categories'].items():
+        # Set category enabled status
+        figure_category_enabled[category_name] = category_data.get('enabled', True)
+        
+        # Process figures in this category
+        for figure_name, figure_enabled in category_data.get('figures', {}).items():
+            figures_activated[figure_name] = figure_enabled
+            figure_category_map[figure_name] = category_name
+    
+    return figures_activated, figure_category_enabled, figure_category_map
 
-FIGURE_CATEGORY_ENABLED = {
-    'summary': True,
-    'capacity': True,
-    'costs': False,
-    'energy': False,
-    'dispatch': False,
-    'interconnection': False,
-    'maps': False,
-}
 
-FIGURE_CATEGORY_MAP = {
-    'SummaryHeatmap': 'summary',
-    'CapacityMixSystemEvolutionScenarios': 'capacity',
-    'CapacityMixSystemEvolutionScenariosRelative': 'capacity',
-    'CapacityMixEvolutionZone': 'capacity',
-    'CapacityMixZoneScenarios': 'capacity',
-    'CapacityMixZoneScenariosRelative': 'capacity',
-    'NewCapacityZoneInstalledTimeline': 'capacity',
-    'NewCapacitySystemInstalledTimeline': 'capacity',
-    'NPVCostSystemScenarios': 'costs',
-    'NPVCostSystemScenariosRelative': 'costs',
-    'NPVCostZoneScenarios': 'costs',
-    'NPVCostZoneScenariosRelative': 'costs',
-    'NPVCostMWhZoneScenarios': 'costs',
-    'NPVCostMWhZoneScenariosRelative': 'costs',
-    'CostSystemEvolutionScenarios': 'costs',
-    'CostSystemEvolutionScenariosRelative': 'costs',
-    'CostZoneEvolution': 'costs',
-    'CostZoneEvolutionPercentage': 'costs',
-    'CostZoneScenarios': 'costs',
-    'CostMWhZoneEvolution': 'costs',
-    'CostMWhZoneEvolutionPercentage': 'costs',
-    'CostMWhZoneScenariosYear': 'costs',
-    'CostMWhZoneIni': 'costs',
-    'GenCostMWhZoneIni': 'costs',
-    'GenCostMWhZoneEvolution': 'costs',
-    'CapexZoneEvolution': 'costs',
-    'PriceBaselineByZone': 'costs',
-    'EnergyMixSystemEvolutionScenarios': 'energy',
-    'EnergyMixSystemEvolutionScenariosRelative': 'energy',
-    'EnergyMixZoneEvolution': 'energy',
-    'EnergyMixZoneScenarios': 'energy',
-    'EnergyPlants': 'energy',
-    'EnergyPlantZoneTop10': 'energy',
-    'DispatchZoneMaxLoadDay': 'dispatch',
-    'DispatchZoneMaxLoadSeason': 'dispatch',
-    'DispatchZoneFullSeason': 'dispatch',
-    'DispatchSystemMaxLoadDay': 'dispatch',
-    'DispatchSystemMaxLoadSeason': 'dispatch',
-    'NetImportsZoneEvolution': 'interconnection',
-    'NetImportsZoneEvolutionZoneEvolutionShare': 'interconnection',
-    'InterconnectionExchangeHeatmap': 'interconnection',
-    'InterconnectionUtilizationHeatmap': 'interconnection',
-    'TransmissionCapacityMap': 'maps',
-    'TransmissionCapacityMapEvolution': 'maps',
-    'TransmissionUtilizationMap': 'maps',
-    'TransmissionUtilizationMapEvolution': 'maps',
-    'NetExportsMap': 'maps',
-    'InteractiveMap': 'maps',
-}
+# Load figure configuration from JSON file
+FIGURES_ACTIVATED, FIGURE_CATEGORY_ENABLED, FIGURE_CATEGORY_MAP = _load_figure_config()
+
+# Configuration is now loaded from figures_config.json
+# To modify which figures are enabled, edit that file instead of this Python code.
 
 
 def is_figure_active(figure_name: str) -> bool:
@@ -1782,22 +1704,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
             log_info('Generating energy figures...', logger=active_logger)
             
-            # Prepare dataframes for energy
-            df_energyfuel = epm_results['pEnergyTechFuel'].copy()
-            
-            # Additionnal energy information not in pEnergyTechFuel
-            # TODO: check zext for this one
-            df_exchange = epm_results['pEnergyBalance'].copy()
-            df_exchange = df_exchange.loc[df_exchange['attribute'].isin(['Unmet demand: GWh', 'Exports exchange: GWh', 'Imports exchange: GWh'])]
-            df_exchange = df_exchange.replace({'Unmet demand: GWh': 'Unmet demand',
-                                              'Exports exchange: GWh': 'Exports',
-                                              'Imports exchange: GWh': 'Imports'})
-            # Put negative values when exports in colmun 'attribute'
-            df_exchange['value'] = df_exchange.apply(lambda row: -row['value'] if row['attribute'] == 'Exports' else row['value'], axis=1)
-            df_exchange.rename(columns={'attribute': 'fuel'}, inplace=True)
-            # Define energyfuelfull to include exchange
-            df_energyfuelfull = pd.concat([df_energyfuel, df_exchange], ignore_index=True)         
-            
+            # Use pEnergyTechFuelComplete which already includes all energy data
+            # (tech-fuel combinations + balance components like Imports, Exports, UnmetDemand)
+            df_energyfuelfull = epm_results['pEnergyTechFuelComplete'].copy()  
+                        
             # 3.1 Evolution of energy mix for the system (all zones aggregated)
             if len(selected_scenarios) < scenarios_threshold:
                 df = df_energyfuelfull.copy()
@@ -2008,10 +1918,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['4_interconnection'], f'{figure_name}.pdf')
                 
+                    # Filter df_energyfuelfull for exchange data (Imports, Exports)
+                    df_exchange = df_energyfuelfull.loc[df_energyfuelfull['fuel'].isin(['Exports', 'Imports']), :]
                     net_exchange = df_exchange[df_exchange['scenario'] == scenario_reference]
                     net_exchange = net_exchange.drop(columns=['scenario'])
-                    
-                    net_exchange = net_exchange.loc[net_exchange['fuel'].isin(['Exports', 'Imports']), :]
                     net_exchange = net_exchange.set_index(['zone', 'year', 'fuel']).squeeze().unstack('fuel')
                     net_exchange.columns.name = None
                     # If there are no exports or imports, we set them to 0 to avoid errors
