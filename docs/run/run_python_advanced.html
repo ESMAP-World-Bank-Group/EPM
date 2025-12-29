@@ -1468,6 +1468,9 @@ pVREProfile,TRUE
 <ul class="simple">
 <li><p>Modified input files are saved in a <code class="docutils literal notranslate"><span class="pre">sensitivity</span></code> folder next to the baseline input files.</p></li>
 <li><p>New scenarios are created with updated paths to the modified input files.</p></li>
+<li><p>Sensitivity scenarios use the <code class="docutils literal notranslate"><span class="pre">~</span></code> (tilde) separator in their names (e.g., <code class="docutils literal notranslate"><span class="pre">baseline~NoBiomass</span></code>, <code class="docutils literal notranslate"><span class="pre">baseline~pDemandForecast_015</span></code>).</p></li>
+<li><p>Assessment scenarios use the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> (at) separator (e.g., <code class="docutils literal notranslate"><span class="pre">baseline&#64;rehabilitation</span></code>).</p></li>
+<li><p>Combined scenarios are supported: <code class="docutils literal notranslate"><span class="pre">baseline~NoBiomass&#64;rehabilitation</span></code> (sensitivity first, then assessment).</p></li>
 <li><p>Only parameters enabled in the <code class="docutils literal notranslate"><span class="pre">sensitivity</span></code> dict are processed.</p></li>
 <li><p>This approach supports automated scenario generation for robustness checks.</p></li>
 </ul>
