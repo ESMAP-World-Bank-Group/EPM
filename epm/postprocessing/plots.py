@@ -1835,7 +1835,12 @@ def make_stacked_barplot(df, filename, dict_colors, df_errorbars=None, overlay_d
                 ax.spines['right'].set_visible(False)
                 ax.spines['top'].set_visible(False)
 
-                plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
+                # Add horizontal alignment for rotated labels to prevent overlap
+                if rotation > 0:
+                    ha = 'right' if rotation < 90 else 'center'
+                    plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation, ha=ha)
+                else:
+                    plt.setp(ax.xaxis.get_majorticklabels(), rotation=rotation)
                 # put tick label in bold
                 ax.tick_params(axis='both', which=u'both', length=0)
                 ax.set_xlabel('')

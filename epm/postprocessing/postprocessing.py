@@ -547,6 +547,32 @@ def make_automatic_dispatch(epm_results, dict_specs, folder, selected_scenarios,
                 )
 
 
+def _get_scenario_plot_params(num_scenarios, default_rotation=45, default_fonttick=12):
+    """
+    Get optimal rotation and font size for scenario labels based on number of scenarios.
+    
+    Parameters
+    ----------
+    num_scenarios : int
+        Number of scenarios to display
+    default_rotation : int, optional
+        Default rotation angle (default: 45)
+    default_fonttick : int, optional
+        Default font size (default: 12)
+        
+    Returns
+    -------
+    dict
+        Dictionary with 'rotation' and 'fonttick' keys
+    """
+    if num_scenarios > 10:
+        return {'rotation': 90, 'fonttick': 9}
+    elif num_scenarios > 6:
+        return {'rotation': 60, 'fonttick': 10}
+    else:
+        return {'rotation': default_rotation, 'fonttick': default_fonttick}
+
+
 def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
     simulations_scenarios = pd.read_csv(os.path.join(RESULTS_FOLDER, 'input_scenarios.csv'), index_col=0)
     samples_mc = pd.read_csv(os.path.join(RESULTS_FOLDER, 'samples_montecarlo.csv'), index_col=0)
@@ -936,6 +962,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['1_capacity'], f'{figure_name}.pdf')
                     
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                    
                     make_stacked_barplot(df, filename, dict_specs['colors'], 
                                             column_stacked='fuel',
                                             column_subplot='year',
@@ -943,7 +972,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             select_subplot=selected_years,
                                             format_y=make_auto_yaxis_formatter("GW"), 
-                                            rotation=45, 
+                                            rotation=plot_params['rotation'],
+                                            fonttick=plot_params['fonttick'],
                                             annotate=False,
                                             format_label="{:.0f}",
                                             title = 'Installed Capacity Mix by Fuel - System (GW)')
@@ -960,13 +990,17 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         
                         filename = os.path.join(subfolders['1_capacity'], f'{figure_name}.pdf')
                         
+                        # Get adaptive parameters for scenario x-axis
+                        plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                        
                         make_stacked_barplot(df_diff, filename, dict_specs['colors'], 
                                                   column_stacked='fuel',
                                                 column_subplot='year',
                                                 column_xaxis='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_yaxis_formatter("MW"), 
-                                                rotation=45,
+                                                rotation=plot_params['rotation'],
+                                                fonttick=plot_params['fonttick'],
                                                 annotate=False,
                                                 title='Incremental Capacity Mix vs Baseline (MW)', 
                                                 show_total=True)
@@ -1038,13 +1072,17 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     if is_figure_active(figure_name):
                         filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')        
                     
+                        # Get adaptive parameters for scenario x-axis
+                        plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                        
                         make_stacked_barplot(df, filename, dict_specs['colors'], 
                                                 column_stacked='fuel',
                                                     column_subplot='zone',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("GW"), 
-                                                    rotation=45,
+                                                    rotation=plot_params['rotation'],
+                                                    fonttick=plot_params['fonttick'],
                                                     annotate=False,
                                                     title=f'Installed Capacity Mix by Fuel - {year} (GW)')
                 
@@ -1057,7 +1095,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                             df_diff = calculate_diff(df, scenario_reference)
                             df_diff['value'] = df_diff['value'] * 1e3
                             
-                            filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')        
+                            filename = os.path.join(subfolders['1_capacity'], f'{figure_name}-{year}.pdf')
+                            
+                            # Get adaptive parameters for scenario x-axis
+                            plot_params = _get_scenario_plot_params(len(selected_scenarios))
                             
                             make_stacked_barplot(df_diff, filename, dict_specs['colors'], 
                             column_stacked='fuel',
@@ -1065,7 +1106,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                 column_xaxis='scenario',
                                 column_value='value',
                                 format_y=make_auto_yaxis_formatter("GW"), 
-                                rotation=45,
+                                rotation=plot_params['rotation'],
+                                fonttick=plot_params['fonttick'],
                                 annotate=False,
                                 title=f'Installed Capacity Mix vs Baseline - {year} (GW)')
                                                 
@@ -1274,13 +1316,17 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 figure_name = 'NPVCostSystemScenarios'
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
+                    
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
                 
                     make_stacked_barplot(df, filename, dict_specs['colors'], column_stacked='attribute',
                                             column_subplot=None,
                                             column_xaxis='scenario',
                                             column_value='value',
                                             format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45,
+                                            rotation=plot_params['rotation'],
+                                            fonttick=plot_params['fonttick'],
                                             annotate=False,
                                             title=f'Net Present System Cost by Scenario (million USD)', show_total=True)
                 
@@ -1292,12 +1338,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                         df_diff = calculate_diff(df, scenario_reference)
                         
+                        # Get adaptive parameters for scenario x-axis
+                        plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                        
                         make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
                                                 column_subplot=None,
                                                 column_xaxis='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_yaxis_formatter("m$"), 
-                                                rotation=45,
+                                                rotation=plot_params['rotation'],
+                                                fonttick=plot_params['fonttick'],
                                                 annotate=False,
                                                 title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                 show_total=True)
@@ -1320,12 +1370,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                 
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                    
                     make_stacked_barplot(df, filename, dict_specs['colors'], column_stacked='attribute',
                                             column_subplot='zone',
                                             column_xaxis='scenario',
                                             column_value='value',
                                             format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45,
+                                            rotation=plot_params['rotation'],
+                                            fonttick=plot_params['fonttick'],
                                             annotate=False,
                                             title=f'Net Present System Cost by Scenario (million USD)', show_total=True) 
                     
@@ -1337,12 +1391,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                             df_diff = calculate_diff(df, scenario_reference)
                             
+                            # Get adaptive parameters for scenario x-axis
+                            plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                            
                             make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
                                                     column_subplot='zone',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("m$"), 
-                                                    rotation=45,
+                                                    rotation=plot_params['rotation'],
+                                                    fonttick=plot_params['fonttick'],
                                                     annotate=False,
                                                     title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                     show_total=True)  
@@ -1364,12 +1422,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                 
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                    
                     make_stacked_barplot(df, filename, dict_specs['colors'], column_stacked='attribute',
                                             column_subplot='zone',
                                             column_xaxis='scenario',
                                             column_value='value',
                                             format_y=make_auto_yaxis_formatter("$/MWh"), 
-                                            rotation=45,
+                                            rotation=plot_params['rotation'],
+                                            fonttick=plot_params['fonttick'],
                                             annotate=False,
                                             title='Discounted Cost per Scenario (USD/MWh)', show_total=True) 
                     
@@ -1381,12 +1443,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                             df_diff = calculate_diff(df, scenario_reference)
                             
+                            # Get adaptive parameters for scenario x-axis
+                            plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                            
                             make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
                                                     column_subplot='zone',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("$/MWh"), 
-                                                    rotation=45,
+                                                    rotation=plot_params['rotation'],
+                                                    fonttick=plot_params['fonttick'],
                                                     annotate=False,
                                                     title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
                                                     show_total=True)
@@ -1409,6 +1475,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                     
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                    
                     make_stacked_barplot(df, filename, dict_specs['colors'], 
                                             column_stacked='attribute',
                                             column_subplot='year',
@@ -1416,7 +1485,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             select_subplot=selected_years,
                                             format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45, 
+                                            rotation=plot_params['rotation'],
+                                            fonttick=plot_params['fonttick'],
                                             annotate=False,
                                             format_label="{:.0f}",
                                             show_total=True,
@@ -1431,13 +1501,17 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     if is_figure_active(figure_name):
                         filename = os.path.join(subfolders['2_cost'], f'{figure_name}.pdf')
                         
+                        # Get adaptive parameters for scenario x-axis
+                        plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                        
                         make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
                                                 column_subplot='year',
                                                 column_xaxis='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_yaxis_formatter("m$"), 
                                                 format_label="{:.0f}",
-                                                rotation=45,
+                                                rotation=plot_params['rotation'],
+                                                fonttick=plot_params['fonttick'],
                                                 annotate=True,
                                                 title='Incremental System Cost vs. Baseline (million USD)', 
                                                 show_total=True)
@@ -1501,6 +1575,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     df = df.loc[df.scenario.isin(selected_scenarios)]
                     df = df.loc[(df.year == max(df['year'].unique()))]
 
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+
                     make_stacked_barplot(
                         df,
                         filename,
@@ -1510,7 +1587,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='scenario',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter("m$"),
-                        rotation=45,
+                        rotation=plot_params['rotation'],
+                        fonttick=plot_params['fonttick'],
                         annotate=False,
                         show_total=True,
                         title=f'Cost Composition by Zone in {year} (million USD)'
@@ -1558,6 +1636,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     df = df.loc[df.scenario.isin(selected_scenarios)]
                     df = df.loc[(df.year == max(df['year'].unique()))]
 
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+
                     make_stacked_barplot(
                         df,
                         filename,
@@ -1567,7 +1648,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='scenario',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter("$/MWh"),
-                        rotation=45,
+                        rotation=plot_params['rotation'],
+                        fonttick=plot_params['fonttick'],
                         annotate=False,
                         show_total=True,
                         title=f'Cost Composition by Zone in {year} (USD/MWh)'
@@ -1726,6 +1808,9 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 if is_figure_active(figure_name):
                     filename = os.path.join(subfolders['3_energy'], f'{figure_name}.pdf')
                     
+                    # Get adaptive parameters for scenario x-axis
+                    plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                    
                     make_stacked_barplot(df, filename, dict_specs['colors'], 
                                             column_stacked='fuel',
                                             column_subplot='year',
@@ -1733,7 +1818,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             select_subplot=selected_years,
                                             format_y=make_auto_yaxis_formatter("GWh"), 
-                                            rotation=45, 
+                                            rotation=plot_params['rotation'],
+                                            fonttick=plot_params['fonttick'],
                                             show_total=False,
                                             format_label="{:.0f}",
                                             title = 'System Energy Generation Mix by Fuel (GWh)',
@@ -1748,11 +1834,16 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     if is_figure_active(figure_name):
                         filename = os.path.join(subfolders['3_energy'], f'{figure_name}.pdf')
                         
+                        # Get adaptive parameters for scenario x-axis
+                        plot_params = _get_scenario_plot_params(len(selected_scenarios))
+                        
                         make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='fuel',
                                                 column_subplot='year',
                                                 column_xaxis='scenario',
                                                 column_value='value',
-                                                format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
+                                                format_y=make_auto_yaxis_formatter("GWh"),
+                                                rotation=plot_params['rotation'],
+                                                fonttick=plot_params['fonttick'],
                                                 annotate=False,
                                                 title='Incremental Energy Generation Mix vs Baseline (GWh)', show_total=True)
             
@@ -1812,7 +1903,10 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
                     # TODO: percentage ?
                     if is_figure_active(figure_name):
-                        filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{year}.pdf')        
+                        filename = os.path.join(subfolders['3_energy'], f'{figure_name}-{year}.pdf')
+                    
+                        # Get adaptive parameters for scenario x-axis
+                        plot_params = _get_scenario_plot_params(len(selected_scenarios))
                     
                         make_stacked_barplot(df, filename, dict_specs['colors'], 
                                                 column_stacked='fuel',
@@ -1820,7 +1914,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("GWh"), 
-                                                    rotation=45,
+                                                    rotation=plot_params['rotation'],
+                                                    fonttick=plot_params['fonttick'],
                                                     annotate=False,
                                                     title=f'Energy Mix by Fuel - {year} (GWh)')
 
