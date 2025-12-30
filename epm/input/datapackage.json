@@ -178,7 +178,13 @@
           },
           {
             "name": "type",
-            "type": "string"
+            "type": "string",
+            "constraints": {
+              "enum": [
+                "Peak",
+                "Energy"
+              ]
+            }
           },
           {
             "name": "year",
@@ -412,6 +418,19 @@
           {
             "name": "d",
             "type": "string"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "d"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "d"
+              ]
+            }
           }
         ]
       },
@@ -808,25 +827,38 @@
             "type": "string"
           },
           {
-            "name": "quarter",
+            "name": "q",
             "type": "string"
           },
           {
             "name": "value",
             "type": "number"
           }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          }
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "quarter"
+          "q"
         ],
         "value": {
           "type": "number",
           "semantics": "availability"
         },
-        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'quarter' is encoded in the column headers. The logical processing form is long format with columns: g, quarter, value (where value is numeric)."
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'q' is encoded in the column headers. The logical processing form is long format with columns: g, q, value (where value is numeric)."
       }
     },
     {
@@ -836,7 +868,7 @@
       "schema": {
         "fields": [
           {
-            "name": "﻿zone",
+            "name": "z",
             "type": "string"
           },
           {
@@ -848,7 +880,7 @@
             "type": "string"
           },
           {
-            "name": "quarter",
+            "name": "q",
             "type": "string"
           },
           {
@@ -889,19 +921,30 @@
                 "fuel"
               ]
             }
+          },
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
           }
         ]
       },
       "custom": {
         "format": "wide",
         "dimensions": [
-          "quarter"
+          "q"
         ],
         "value": {
           "type": "number",
           "semantics": "availability"
         },
-        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'quarter' is encoded in the column headers. The logical processing form is long format with columns: ﻿zone, tech, fuel, quarter, value (where value is numeric)."
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'q' is encoded in the column headers. The logical processing form is long format with columns: ﻿zone, tech, fuel, q, value (where value is numeric)."
       }
     },
     {
@@ -961,6 +1004,41 @@
           {
             "name": "value",
             "type": "number"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "fields": [
+              "q"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "q"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "d"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "d"
+              ]
+            }
+          },
+          {
+            "fields": [
+              "t"
+            ],
+            "reference": {
+              "resource": "pHours",
+              "fields": [
+                "t"
+              ]
+            }
           }
         ]
       },
@@ -1116,7 +1194,7 @@
       "schema": {
         "fields": [
           {
-            "name": "﻿zone",
+            "name": "z",
             "type": "string"
           },
           {
@@ -1501,7 +1579,7 @@
       "schema": {
         "fields": [
           {
-            "name": "﻿zone",
+            "name": "z",
             "type": "string"
           },
           {
@@ -2161,6 +2239,17 @@
           }
         ],
         "foreignKeys": [
+          {
+            "fields": [
+              "zext"
+            ],
+            "reference": {
+              "resource": "zext",
+              "fields": [
+                "zext"
+              ]
+            }
+          },
           {
             "fields": [
               "y"
