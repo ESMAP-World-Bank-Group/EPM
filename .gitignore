@@ -31,6 +31,10 @@
 .vscode
 /.idea/
 
+
+# Untracked folders (ignored anywhere in project)
+**/_untracked/
+
 # Project-specific outputs
 /epm/cplex.opt
 epm/output/*
