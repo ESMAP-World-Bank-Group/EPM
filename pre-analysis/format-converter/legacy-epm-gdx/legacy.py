@@ -490,6 +490,24 @@ def build_dimension_value_mapping(output_root: Path, repo_root: Path) -> Dict[st
         except Exception as e:
             print(f"  [Dimension mapping] Failed to load pHours.csv: {e}")
     
+    # Extract tech and fuel from pTechFuel.csv using datapackage.json path
+    resources_map = load_datapackage_resources(repo_root)
+    if "pTechFuel" in resources_map:
+        pTechFuel_rel_path = resources_map["pTechFuel"]["path"]
+        # Resolve path relative to epm/input/ (where datapackage.json is)
+        pTechFuel_path = (repo_root / "epm" / "input" / pTechFuel_rel_path).resolve()
+        
+        if pTechFuel_path.exists():
+            try:
+                df = pd.read_csv(pTechFuel_path)
+                if "tech" in df.columns:
+                    dimension_mapping["tech"].update(df["tech"].dropna().astype(str).str.strip().unique())
+                if "fuel" in df.columns:
+                    dimension_mapping["f"].update(df["fuel"].dropna().astype(str).str.strip().unique())
+                print(f"  [Dimension mapping] Loaded pTechFuel.csv: {len(dimension_mapping['tech'])} tech, {len(dimension_mapping['f'])} fuel values")
+            except Exception as e:
+                print(f"  [Dimension mapping] Failed to load pTechFuel.csv: {e}")
+    
     # Scan other files for zext, f, tech columns
     for csv_file in output_root.rglob("*.csv"):
         # Skip reference files already processed
@@ -671,6 +689,10 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
         repo_root: Repository root path
         dimension_mapping: Dimension value mapping from build_dimension_value_mapping()
     """
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Renaming columns to match datapackage.json schema")
+    print(f"{'=' * 70}")
+    
     resources_map = load_datapackage_resources(repo_root)
     if not resources_map:
         print("  [Column rename] No resources found in datapackage.json")
@@ -702,6 +724,8 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
             
             format_type = resource_info.get("format", "long")
             dimensions = resource_info.get("dimensions", [])
+            foreign_key_fields = resource_info.get("foreign_key_fields", set())  # Get fields with foreignKeys
+            foreign_key_ref_map = resource_info.get("foreign_key_ref_map", {})  # Maps field name -> reference field name
             
             # Build rename mapping - only rename columns that are in the defined set
             rename_dict = {}
@@ -715,6 +739,9 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
                 index_field_names = [fname for fname in field_names 
                                     if fname not in dimensions_set and fname != "value"]
                 index_field_names_set = set(index_field_names)
+                
+                # Filter foreignKey fields to only those that are index fields
+                index_foreign_key_fields = foreign_key_fields & index_field_names_set
                 
                 # Helper function to check if a column is a dimension value column
                 def is_dimension_value_column(col_name: str, dimensions: List[str]) -> bool:
@@ -770,12 +797,28 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
                 
                 # For wide format: iterate through index field names in schema order
                 print(f"  [Column rename] {resource_name}: Processing {len(index_field_names)} index field(s) in schema order")
+                
+                # Show foreignKey fields found and their reference value counts (for index fields only)
+                if index_foreign_key_fields:
+                    fk_list = sorted(index_foreign_key_fields)
+                    ref_counts = []
+                    for fk_field in fk_list:
+                        ref_values = dimension_mapping.get(fk_field, set())
+                        ref_counts.append(f"{fk_field}({len(ref_values)})")
+                    print(f"  [Column rename] {resource_name}: Found {len(index_foreign_key_fields)} foreignKey index field(s): {', '.join(fk_list)}")
+                    print(f"  [Column rename] {resource_name}: Reference value counts: {', '.join(ref_counts)}")
+                
                 for expected_name in index_field_names:
-                    if expected_name in current_cols:
-                        # Already exists with correct name, skip
-                        continue
+                    # Check if column already exists (case-insensitive)
+                    existing_col = None
+                    for col in current_cols:
+                        if col.lower() == expected_name.lower():
+                            existing_col = col
+                            break
                     
-                    print(f"    Looking for column matching '{expected_name}'...")
+                    if existing_col:
+                        # Already exists with correct name (case may differ), skip
+                        continue
                     
                     # First, try exact name match (case-insensitive)
                     exact_match = None
@@ -787,14 +830,29 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
                                     break
                     
                     if exact_match:
-                        # Validate the exact match
-                        if validate_column_rename(exact_match, expected_name, df[exact_match], dimension_mapping, verbose=True):
+                        # Only validate if it's a foreignKey field
+                        if expected_name in index_foreign_key_fields:
+                            if validate_column_rename(exact_match, expected_name, df[exact_match], dimension_mapping, verbose=True):
+                                rename_dict[exact_match] = expected_name
+                                print(f"    ✓ Matched '{exact_match}'→'{expected_name}' (exact name match)")
+                                continue
+                        else:
+                            # Non-foreignKey field, just rename without validation
                             rename_dict[exact_match] = expected_name
                             print(f"    ✓ Matched '{exact_match}'→'{expected_name}' (exact name match)")
                             continue
                     
-                    # If no exact match, try value-based matching with scoring
-                    ref_values = dimension_mapping.get(expected_name, set())
+                    # Only try value-based matching for fields with foreignKeys (GAMS sets)
+                    if expected_name not in index_foreign_key_fields:
+                        # Non-foreignKey field with no exact match, silently skip
+                        continue
+                    
+                    # For foreignKey fields, try value-based matching
+                    # Use reference field name for dimension lookup (e.g., z1 -> z)
+                    ref_field_name = foreign_key_ref_map.get(expected_name, expected_name)
+                    ref_values = dimension_mapping.get(ref_field_name, set())
+                    ref_info = f" ({len(ref_values)} reference values)" if ref_values else ""
+                    print(f"    Looking for '{expected_name}'{ref_info}...")
                     best_match = None
                     best_score = 0.0
                     
@@ -827,6 +885,16 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
                 # For long format: iterate through field names in schema order
                 # For each field name, try to find a matching column
                 print(f"  [Column rename] {resource_name}: Processing {len(field_names)} field(s) in schema order")
+                
+                # Show foreignKey fields found and their reference value counts
+                if foreign_key_fields:
+                    fk_list = sorted(foreign_key_fields)
+                    ref_counts = []
+                    for fk_field in fk_list:
+                        ref_values = dimension_mapping.get(fk_field, set())
+                        ref_counts.append(f"{fk_field}({len(ref_values)})")
+                    print(f"  [Column rename] {resource_name}: Found {len(foreign_key_fields)} foreignKey field(s): {', '.join(fk_list)}")
+                    print(f"  [Column rename] {resource_name}: Reference value counts: {', '.join(ref_counts)}")
                 
                 # Helper function to score a potential match
                 def score_column_match(col_name: str, expected_name: str, col_values: set, ref_values: set) -> float:
@@ -862,11 +930,16 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
                     return 0.0
                 
                 for expected_name in field_names:
-                    if expected_name in current_cols:
-                        # Already exists with correct name, skip
-                        continue
+                    # Check if column already exists (case-insensitive)
+                    existing_col = None
+                    for col in current_cols:
+                        if col.lower() == expected_name.lower():
+                            existing_col = col
+                            break
                     
-                    print(f"    Looking for column matching '{expected_name}'...")
+                    if existing_col:
+                        # Already exists with correct name (case may differ), skip
+                        continue
                     
                     # First, try exact name match (case-insensitive)
                     exact_match = None
@@ -877,14 +950,29 @@ def rename_columns_from_datapackage(output_root: Path, repo_root: Path, dimensio
                                 break
                     
                     if exact_match:
-                        # Validate the exact match
-                        if validate_column_rename(exact_match, expected_name, df[exact_match], dimension_mapping, verbose=True):
+                        # Only validate if it's a foreignKey field
+                        if expected_name in foreign_key_fields:
+                            if validate_column_rename(exact_match, expected_name, df[exact_match], dimension_mapping, verbose=True):
+                                rename_dict[exact_match] = expected_name
+                                print(f"    ✓ Matched '{exact_match}'→'{expected_name}' (exact name match)")
+                                continue
+                        else:
+                            # Non-foreignKey field, just rename without validation
                             rename_dict[exact_match] = expected_name
                             print(f"    ✓ Matched '{exact_match}'→'{expected_name}' (exact name match)")
                             continue
                     
-                    # If no exact match, try value-based matching with scoring
-                    ref_values = dimension_mapping.get(expected_name, set())
+                    # Only try value-based matching for fields with foreignKeys (GAMS sets)
+                    if expected_name not in foreign_key_fields:
+                        # Non-foreignKey field with no exact match, silently skip
+                        continue
+                    
+                    # For foreignKey fields, try value-based matching
+                    # Use reference field name for dimension lookup (e.g., z1 -> z)
+                    ref_field_name = foreign_key_ref_map.get(expected_name, expected_name)
+                    ref_values = dimension_mapping.get(ref_field_name, set())
+                    ref_info = f" ({len(ref_values)} reference values)" if ref_values else ""
+                    print(f"    Looking for '{expected_name}'{ref_info}...")
                     best_match = None
                     best_score = 0.0
                     
@@ -998,7 +1086,7 @@ def merge_storage_from_gen_to_storage(output_root: Path, repo_root: Path) -> Non
                 df_storage = df_storage.rename(columns={first_col: "gen"})
             else:
                 print(f"  [Storage merge] No columns in pStorageDataInput, cannot merge")
-            return
+                return
         
         if "gen" not in storage_rows.columns:
             print(f"  [Storage merge] No 'gen' column in Storage rows, cannot merge")
@@ -1354,31 +1442,45 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, 
         created_csv_symbols: Set of CSV symbol names that were created during conversion
     """
     # Manually rename reference files for dimension mapping
-    print(f"\n[Post-processing] Renaming reference files for dimension mapping...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Renaming reference files for dimension mapping")
+    print(f"{'=' * 70}")
     _rename_reference_files(output_root)
     
     # Build dimension value mapping from renamed reference files
-    print(f"\n[Post-processing] Building dimension value mapping...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Building dimension value mapping")
+    print(f"{'=' * 70}")
     dimension_mapping = build_dimension_value_mapping(output_root, repo_root)
     
     # Copy CPLEX folder from data_test
-    print(f"\n[Post-processing] Copying CPLEX folder...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Copying CPLEX folder")
+    print(f"{'=' * 70}")
     copy_cplex_folder(output_root, repo_root)
     
     # Copy pSettings files from data_test
-    print(f"\n[Post-processing] Copying pSettings files...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Copying pSettings files")
+    print(f"{'=' * 70}")
     copy_psettings_files(output_root, repo_root)
     
     # Copy and expand default files
-    print(f"\n[Post-processing] Copying and expanding default files...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Copying and expanding default files")
+    print(f"{'=' * 70}")
     copy_and_expand_default_files(output_root, repo_root)
     
     # Validate tech-fuel combinations (final validation step)
-    print(f"\n[Post-processing] Validating tech-fuel combinations...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Validating tech-fuel combinations")
+    print(f"{'=' * 70}")
     validate_tech_fuel_combinations(output_root, repo_root)
     
     # Ensure all datapackage.json files exist
-    print(f"\n[Post-processing] Ensuring all datapackage.json files exist...")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Ensuring all datapackage.json files exist")
+    print(f"{'=' * 70}")
     created_stubs = ensure_all_datapackage_files_exist(output_root, repo_root, created_csv_symbols)
     if created_stubs:
         print(f"  Created {len(created_stubs)} missing files:")
@@ -1394,7 +1496,9 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, 
     # Post-process pGenDataInput (has special logic)
     pGenDataInput_path = output_root / "supply" / "pGenDataInput.csv"
     if pGenDataInput_path.exists():
-        print(f"\n[Post-processing] Applying rules to pGenDataInput.csv")
+        print(f"\n{'=' * 70}")
+        print(f"[Post-processing] Applying rules to pGenDataInput.csv")
+        print(f"{'=' * 70}")
         postprocess_pGenDataInput(pGenDataInput_path, extras_root, repo_root)
     
     # Post-process all other CSV files (generic cleanup only)
@@ -1404,15 +1508,18 @@ def apply_postprocessing(output_root: Path, extras_root: Path, repo_root: Path, 
         postprocess_csv(csv_file, output_root, extras_root, repo_root)
     
     # Merge Storage rows from pGenDataInput to pStorageDataInput (AFTER column renaming and pGenDataInput processing)
-    print(f"\n[Post-processing] Merging Storage rows from pGenDataInput to pStorageDataInput")
+    print(f"\n{'=' * 70}")
+    print(f"[Post-processing] Merging Storage rows from pGenDataInput to pStorageDataInput")
+    print(f"{'=' * 70}")
     merge_storage_from_gen_to_storage(output_root, repo_root)
     
     # Rename columns to match datapackage.json schema (LAST STEP - after all other processing)
     if rename_columns:
-        print(f"\n[Post-processing] Renaming columns to match datapackage.json schema...")
         rename_columns_from_datapackage(output_root, repo_root, dimension_mapping)
     else:
-        print(f"\n[Post-processing] Skipping column renaming (--no-rename-columns specified)")
+        print(f"\n{'=' * 70}")
+        print(f"[Post-processing] Skipping column renaming (--no-rename-columns specified)")
+        print(f"{'=' * 70}")
 
 
 def build_frame(container: gt.Container, gdx_symbol: str, csv_symbol: str, spec: dict) -> Optional[pd.DataFrame]:
@@ -1478,7 +1585,7 @@ def load_datapackage_resources(repo_root: Path) -> Dict[str, Dict]:
     Uses caching to avoid reloading the file multiple times.
     
     Returns:
-        Dictionary mapping resource name to dict with 'path', 'field_names', 'format', 'dimensions', 'encoding' (empty for wide resources), and 'schema'
+        Dictionary mapping resource name to dict with 'path', 'field_names', 'format', 'dimensions', 'encoding' (empty for wide resources), 'schema', and 'foreign_key_fields'
     """
     global _DATAPACKAGE_RESOURCES_CACHE
     if _DATAPACKAGE_RESOURCES_CACHE is not None:
@@ -1502,6 +1609,22 @@ def load_datapackage_resources(repo_root: Path) -> Dict[str, Dict]:
             fields = schema.get("fields", [])
             field_names = [field.get("name") for field in fields if field.get("name")]
             
+            # Extract foreignKeys to identify which fields are GAMS sets
+            foreign_keys = schema.get("foreignKeys", [])
+            # Build set of field names that have foreignKeys and map to reference field names
+            foreign_key_fields = set()
+            foreign_key_ref_map = {}  # Maps field name -> reference field name (for dimension lookup)
+            for fk in foreign_keys:
+                fk_fields = fk.get("fields", [])
+                foreign_key_fields.update(fk_fields)
+                # Get reference field names for dimension lookup
+                ref_fields = fk.get("reference", {}).get("fields", [])
+                if fk_fields and ref_fields:
+                    for i, field_name in enumerate(fk_fields):
+                        # Map field name to reference field name (e.g., z1 -> z)
+                        ref_field = ref_fields[i] if i < len(ref_fields) else ref_fields[0]
+                        foreign_key_ref_map[field_name] = ref_field
+            
             custom = resource.get("custom", {})
             format_type = custom.get("format", "long")  # Default to long if not specified
             dimensions = custom.get("dimensions", [])
@@ -1516,6 +1639,8 @@ def load_datapackage_resources(repo_root: Path) -> Dict[str, Dict]:
                 "dimensions": dimensions,
                 "encoding": encoding,
                 "schema": schema,  # Keep full schema for field type info
+                "foreign_key_fields": foreign_key_fields,  # Fields that have foreignKeys
+                "foreign_key_ref_map": foreign_key_ref_map,  # Maps field name -> reference field name for dimension lookup
             }
         
         _DATAPACKAGE_RESOURCES_CACHE = resources_map
@@ -2100,10 +2225,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING_PATH, help="CSV mapping table (csv_symbol,gdx_symbol).")
     parser.add_argument("--output-base", type=Path, default=DEFAULT_OUTPUT_BASE, help="Base output directory (default: ./output).")
     parser.add_argument("--target-folder", type=str, default=DEFAULT_TARGET_FOLDER, help="Subfolder under output-base for exports.")
-    parser.add_argument("--overwrite", action="store_true", default=True, help="Overwrite existing CSVs (default: True).")
-    parser.add_argument("--no-overwrite", dest="overwrite", action="store_false", help="Skip existing files instead of replacing.")
-    parser.add_argument("--rename-columns", action="store_true", default=True, help="Rename columns to match datapackage.json schema (default: True).")
-    parser.add_argument("--no-rename-columns", dest="rename_columns", action="store_false", help="Skip column renaming step.")
+    parser.add_argument("--no-overwrite", dest="overwrite", action="store_false", default=True, help="Skip existing files instead of replacing (default: overwrite).")
+    parser.add_argument("--no-rename-columns", dest="rename_columns", action="store_false", default=True, help="Skip column renaming step (default: columns are renamed).")
     return parser.parse_args()
 
 
