@@ -19,7 +19,7 @@
       }
     },
     "costs": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "NPVCostSystemScenarios": true,
         "NPVCostSystemScenariosRelative": true,
@@ -43,7 +43,7 @@
       }
     },
     "energy": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "EnergyMixSystemEvolutionScenarios": true,
         "EnergyMixSystemEvolutionScenariosRelative": true,
@@ -54,7 +54,7 @@
       }
     },
     "dispatch": {
-      "enabled": false,
+      "enabled": true,
       "figures": {
         "DispatchZoneMaxLoadDay": false,
         "DispatchZoneMaxLoadSeason": false,

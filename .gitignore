@@ -84,8 +84,6 @@ pre-analysis/**/output/*
 **/assessment/
 **/montecarlo/
 
-
-
 # Input data
 epm/input/*
 !epm/input/data_test/
