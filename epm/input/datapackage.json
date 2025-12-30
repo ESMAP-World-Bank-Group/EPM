@@ -2082,7 +2082,7 @@
       "schema": {
         "fields": [
           {
-            "name": "z1",
+            "name": "z",
             "type": "string"
           },
           {
@@ -2101,7 +2101,7 @@
         "foreignKeys": [
           {
             "fields": [
-              "z1"
+              "z"
             ],
             "reference": {
               "resource": "zcmap",
@@ -2133,7 +2133,7 @@
           "semantics": "import_limit",
           "unit": "MW"
         },
-        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: z1, z2, year, value (where value is numeric)."
+        "notes": "Resource is stored in wide format (custom.format='wide'). The dimension 'year' is encoded in the column headers. The logical processing form is long format with columns: z, z2, year, value (where value is numeric)."
       }
     },
     {
@@ -2143,7 +2143,7 @@
       "schema": {
         "fields": [
           {
-            "name": "z1",
+            "name": "z",
             "type": "string"
           },
           {
@@ -2178,7 +2178,7 @@
         "foreignKeys": [
           {
             "fields": [
-              "z1"
+              "z"
             ],
             "reference": {
               "resource": "zcmap",
@@ -2316,7 +2316,7 @@
       "schema": {
         "fields": [
           {
-            "name": "z1",
+            "name": "z",
             "type": "string"
           },
           {
@@ -2339,7 +2339,7 @@
         "foreignKeys": [
           {
             "fields": [
-              "z1"
+              "z"
             ],
             "reference": {
               "resource": "zcmap",
