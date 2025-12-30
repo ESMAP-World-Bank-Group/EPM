@@ -1,0 +1,67 @@
+uni_0,uni_1,value
+PV,Assigned Value,6.0
+PV,Construction Period (years),1.0
+PV,Hourly Variation? (Yes/No),1.0
+PV,RE Technology (Yes/No),1.0
+CSP,Assigned Value,14.0
+CSP,Construction Period (years),3.0
+CSP,RE Technology (Yes/No),1.0
+GasCCS,Assigned Value,19.0
+GasCCS,Construction Period (years),1.0
+CoalCCS,Assigned Value,18.0
+CoalCCS,Construction Period (years),1.0
+PHP,Assigned Value,23.0
+PHP,Construction Period (years),4.0
+PHP,RE Technology (Yes/No),1.0
+pvwsto,Assigned Value,15.0
+pvwsto,Construction Period (years),1.0
+pvwsto,Hourly Variation? (Yes/No),1.0
+pvwsto,RE Technology (Yes/No),1.0
+GT,Assigned Value,1.0
+GT,Construction Period (years),2.0
+CCGT,Assigned Value,2.0
+CCGT,Construction Period (years),2.5
+COAL,Assigned Value,3.0
+COAL,Construction Period (years),7.0
+STO HY,Assigned Value,4.0
+STO HY,Construction Period (years),4.0
+STO HY,RE Technology (Yes/No),1.0
+ONSHORE,Assigned Value,5.0
+ONSHORE,Construction Period (years),2.0
+ONSHORE,Hourly Variation? (Yes/No),1.0
+ONSHORE,RE Technology (Yes/No),1.0
+BIOGAS,Assigned Value,7.0
+BIOGAS,Construction Period (years),2.0
+BIOGAS,RE Technology (Yes/No),1.0
+INT,Assigned Value,8.0
+INT,Construction Period (years),2.0
+CHP,Assigned Value,9.0
+CHP,Construction Period (years),2.5
+ICE,Assigned Value,10.0
+ICE,Construction Period (years),1.0
+BIOMAS,Assigned Value,11.0
+BIOMAS,Construction Period (years),2.0
+BIOMAS,RE Technology (Yes/No),1.0
+ROR,Assigned Value,12.0
+ROR,Construction Period (years),2.0
+ROR,Hourly Variation? (Yes/No),1.0
+ROR,RE Technology (Yes/No),1.0
+ST,Assigned Value,13.0
+ST,Construction Period (years),4.0
+STOPV,Assigned Value,16.0
+STOPV,Construction Period (years),1.0
+STOPV,RE Technology (Yes/No),1.0
+STORAGE,Assigned Value,17.0
+STORAGE,Construction Period (years),1.0
+CCGTH2,Assigned Value,20.0
+CCGTH2,Construction Period (years),1.0
+CCGTH2,RE Technology (Yes/No),1.0
+GEO,Assigned Value,21.0
+GEO,Construction Period (years),2.0
+GEO,RE Technology (Yes/No),1.0
+NUC,Assigned Value,22.0
+NUC,Construction Period (years),6.0
+OFFSHORE,Assigned Value,24.0
+OFFSHORE,Construction Period (years),2.0
+OFFSHORE,Hourly Variation? (Yes/No),1.0
+OFFSHORE,RE Technology (Yes/No),1.0

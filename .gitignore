@@ -91,6 +91,9 @@ epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
 
+!epm/input/data_turkiye/
+!epm/input/data_turkiye/**
+
 !epm/input/datapackage.json
 !epm/input/validate.py
 
