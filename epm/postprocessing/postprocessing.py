@@ -191,7 +191,7 @@ FIGURES_ACTIVATED = {
 
 FIGURE_CATEGORY_ENABLED = {
     'summary': True,
-    'capacity': True,
+    'capacity': True,           
     'costs': True,
     'energy': True,
     'dispatch': True,
