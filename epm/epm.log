@@ -1,19 +1,47 @@
-2025-12-22 16:44:39,553 - INFO - Starting EPM workflow
-2025-12-22 16:44:39,553 - INFO - Config file: config.csv
-2025-12-22 16:44:39,553 - INFO - Folder input: data_sapp
-2025-12-22 16:44:39,553 - INFO - modeltype: None
-2025-12-22 16:44:39,553 - INFO - Scenarios file: None
-2025-12-22 16:44:39,553 - INFO - Sensitivity: True
-2025-12-22 16:44:39,553 - INFO - MonteCarlo: False
-2025-12-22 16:44:39,553 - INFO - MonteCarlo samples: 10
-2025-12-22 16:44:39,553 - INFO - Monte Carlo uncertainties file: None
-2025-12-22 16:44:39,553 - INFO - Reduced output: False
-2025-12-22 16:44:39,553 - INFO - Reduced definition csv: False
-2025-12-22 16:44:39,553 - INFO - Selected scenarios: None
-2025-12-22 16:44:39,553 - INFO - Simple: None
-2025-12-22 16:44:39,553 - INFO - Simulation label: None
-2025-12-22 16:44:39,553 - INFO - Debug flag: False
-2025-12-22 16:44:39,601 - INFO - Sensitivity analysis: {'pSettings': '1', 'y': nan, 'pDemandForecast': '0.1&', 'pDemandProfile': nan, 'pAvailabilityDefault': nan, 'pCapexTrajectoriesDefault': nan, 'pFuelPrice': nan, 'ResLimShare': nan, 'BuildLimitperYear': nan, 'pVREProfile': nan, 'delayedHydro_alt': '1', 'delayedTransmission': '1'}
-2025-12-22 16:44:39,885 - INFO - Prepared 5 scenario(s): baseline, pSettings_CO2backstop_500, baseline_pDemandForecast_01, delayedHydro_alt_3years, delayedTransmission_2years
-2025-12-22 16:44:39,885 - INFO - Folder ready: output\sensitivity_run_20251222_164439
-2025-12-22 16:44:43,762 - INFO - Command to execute: gams 'C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms' 'LogOption 4' 'LogFile baseline_main.log' '--BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms' '--REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms' '--READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms' '--DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms' '--HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms' '--FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp' '--pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pSettings.csv' '--y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y.csv' '--zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap.csv' '--pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv' '--ftfindex C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/ftfindex.csv' '--pFuelCarbonContent C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pFuelCarbonContent.csv' '--pTechData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\resources/pTechData.csv' '--pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv' '--pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast.csv' '--pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv' '--sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/srelevant.csv' '--pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv' '--pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelCustom.csv' '--pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataExcelDefaultRampHydro.csv' '--pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv' '--pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv' '--pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv' '--pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv' '--pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefaultCCDR.csv' '--pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv' '--pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv' '--pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfileROR.csv' '--pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv' '--pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorDataExcel.csv' '--pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv' '--pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv' '--pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv' '--pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv' '--pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv' '--pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv' '--pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv' '--zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv' '--pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv' '--pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactor.csv' '--pMaxPriceImportShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxPriceImportShare.csv' '--pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxExchangeShare.csv' '--pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv' '--pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pNewTransmission.csv' '--pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv' '--pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv' '--pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv' '--pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv' '--pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv' '--pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv' '--pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv' '--solvemode 2' '--trace 0' '--reportshort 0' '--modeltype rmip'
+2026-01-05 11:11:23,915 - INFO - Starting EPM workflow
+2026-01-05 11:11:23,924 - INFO - Config file: config.csv
+2026-01-05 11:11:23,924 - INFO - Folder input: data_test
+2026-01-05 11:11:23,924 - INFO - modeltype: None
+2026-01-05 11:11:23,924 - INFO - Scenarios file: None
+2026-01-05 11:11:23,924 - INFO - Sensitivity: False
+2026-01-05 11:11:23,926 - INFO - MonteCarlo: False
+2026-01-05 11:11:23,926 - INFO - MonteCarlo samples: 10
+2026-01-05 11:11:23,926 - INFO - Monte Carlo uncertainties file: None
+2026-01-05 11:11:23,926 - INFO - Reduced output: False
+2026-01-05 11:11:23,926 - INFO - Reduced definition csv: False
+2026-01-05 11:11:23,926 - INFO - Selected scenarios: None
+2026-01-05 11:11:23,926 - INFO - Simple: None
+2026-01-05 11:11:23,926 - INFO - Simulation label: None
+2026-01-05 11:11:23,926 - INFO - Debug flag: False
+2026-01-05 11:11:23,926 - INFO - Project folder: output\simulations_run_20251223_054555
+2026-01-05 11:11:23,926 - INFO - EPM does not run again but use the existing simulation within the folder
+2026-01-05 11:11:23,926 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251223_054555 for postprocessing.
+2026-01-05 11:11:23,930 - INFO - Starting postprocessing for folder: output\simulations_run_20251223_054555
+2026-01-05 11:11:23,930 - INFO - Postprocessing started for output\simulations_run_20251223_054555
+2026-01-05 11:11:23,930 - INFO - Processing simulation results from output\simulations_run_20251223_054555
+2026-01-05 11:11:30,150 - WARNING - pInterchangeExternalImports not in epm_results.keys().
+2026-01-05 11:11:30,151 - WARNING - pInterchangeExternalExports not in epm_results.keys().
+2026-01-05 11:11:43,574 - INFO - Loaded 53 processed result tables
+2026-01-05 11:11:43,590 - INFO - Generating summary...
+2026-01-05 11:11:43,606 - WARNING - No pInterchangeExternalExports in epm_results
+2026-01-05 11:11:43,622 - WARNING - No pInterchangeExternalImports in epm_results
+2026-01-05 11:11:44,041 - INFO - Generating detailed summary by Power Plant...
+2026-01-05 11:11:44,368 - INFO - Generating heatmap summary...
+2026-01-05 11:11:48,584 - INFO - Creating folders for figures...
+2026-01-05 11:11:48,586 - INFO - Generating capacity figures...
+2026-01-05 11:11:48,586 - INFO - Generating cost figures...
+2026-01-05 11:11:48,683 - INFO - Generating energy figures...
+2026-01-05 11:11:48,729 - INFO - Generating energy dispatch figures...
+2026-01-05 11:11:48,732 - INFO - Generating interconnection figures...
+2026-01-05 11:11:48,732 - INFO - Generating interactive map figures...
+2026-01-05 11:11:48,734 - INFO - Generating map for scenario AltDem_10
+2026-01-05 11:11:48,917 - INFO - Generating map for scenario baseline
+2026-01-05 11:11:49,076 - INFO - Generating map for scenario CO2500_AltDem_10
+2026-01-05 11:11:49,315 - INFO - Generating map for scenario CO2_500
+2026-01-05 11:11:49,557 - INFO - Generating map for scenario CO2_500_Int_2y
+2026-01-05 11:11:49,809 - INFO - Generating map for scenario Int_2y
+2026-01-05 11:11:49,998 - INFO - Generating map for scenario Int_2y_AltDem_10
+2026-01-05 11:11:50,207 - INFO - Generating project economic assessment figures...
+2026-01-05 11:11:50,207 - INFO - No scenario pairs detected for project assessment.
+2026-01-05 11:12:42,171 - INFO - Postprocessing completed for folder: output\simulations_run_20251223_054555
+2026-01-05 11:12:42,176 - INFO - EPM workflow completed

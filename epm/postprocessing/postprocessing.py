@@ -593,7 +593,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                 column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
                                 dict_scenarios=None,
                                 format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+                                annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
 
     df_cost_summary = epm_results['pYearlyCostsZone'].copy()
     # df_cost_summary = df_cost_summary.loc[df_cost_summary.attribute.isin(['Total Annual Cost by Zone: $m'])]
@@ -670,7 +670,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
                                     dict_scenarios=None,
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
 
 
         filename = f'{folder_comparison}/AnnualCost_montecarlo_{year}.png'
@@ -683,7 +683,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
                                     dict_scenarios=None,
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
 
     zones = epm_results['pYearlyCostsZone']['zone'].unique()
     for zone in zones:
@@ -708,7 +708,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
                                     dict_scenarios=None,
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
 
         filename = f'{folder_comparison}/AnnualCost_montecarlo_{zone}.png'
         
@@ -723,7 +723,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
                                     dict_scenarios=None,
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
+                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None)
 
         filename = f'{folder_comparison}/DemandSupply_montecarlo_{zone}.png'
 
@@ -738,7 +738,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     column_value='value', select_subplot=None, stacked_grouping=None, order_scenarios=None,
                                     dict_scenarios=None,
                                     format_y=lambda y, _: '{:.0f} GWh'.format(y), order_stacked=None, cap=2,
-                                    annotate=False, show_total=False, fonttick=12, rotation=45, title=None, juxtaposed=True)
+                                    annotate=False, show_total=False, fonttick=12, rotation=90, title=None, juxtaposed=True)
 
 
 def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
@@ -936,7 +936,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             select_subplot=selected_years,
                                             format_y=make_auto_yaxis_formatter("GW"), 
-                                            rotation=45, 
+                                            rotation=90, 
                                             annotate=False,
                                             format_label="{:.0f}",
                                             title = 'Installed Capacity Mix by Fuel - System (GW)')
@@ -959,7 +959,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 column_xaxis='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_yaxis_formatter("MW"), 
-                                                rotation=45,
+                                                rotation=90,
                                                 annotate=False,
                                                 title='Incremental Capacity Mix vs Baseline (MW)', 
                                                 show_total=True)
@@ -994,7 +994,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='year',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("GW"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     title=f'Installed Capacity Mix by Fuel - {scenario} (GW)'
                                                     )                     
@@ -1012,7 +1012,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_subplot='zone',
                                                     column_xaxis='year',
                                                     column_value='value',
-                                                    format_y=make_auto_yaxis_formatter("%"), rotation=45,
+                                                    format_y=make_auto_yaxis_formatter("%"), rotation=90,
                                                     annotate=False,
                                                     title=f'Capacity Mix Shares by Zone - {scenario} (%)'
                                                     ) 
@@ -1037,7 +1037,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("GW"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     title=f'Installed Capacity Mix by Fuel - {year} (GW)')
                 
@@ -1058,7 +1058,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                 column_xaxis='scenario',
                                 column_value='value',
                                 format_y=make_auto_yaxis_formatter("GW"), 
-                                rotation=45,
+                                rotation=90,
                                 annotate=False,
                                 title=f'Installed Capacity Mix vs Baseline - {year} (GW)')
                                                 
@@ -1274,7 +1274,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             column_value='value',
                                             format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45,
+                                            rotation=90,
                                             annotate=False,
                                             title=f'Net Present System Cost by Scenario (million USD)', show_total=True)
                 
@@ -1291,7 +1291,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 column_xaxis='scenario',
                                                 column_value='value',
                                                 format_y=make_auto_yaxis_formatter("m$"), 
-                                                rotation=45,
+                                                rotation=90,
                                                 annotate=False,
                                                 title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                 show_total=True)
@@ -1319,7 +1319,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             column_value='value',
                                             format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45,
+                                            rotation=90,
                                             annotate=False,
                                             title=f'Net Present System Cost by Scenario (million USD)', show_total=True) 
                     
@@ -1336,7 +1336,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("m$"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                     show_total=True)  
@@ -1363,7 +1363,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             column_value='value',
                                             format_y=make_auto_yaxis_formatter("$/MWh"), 
-                                            rotation=45,
+                                            rotation=90,
                                             annotate=False,
                                             title='Discounted Cost per Scenario (USD/MWh)', show_total=True) 
                     
@@ -1380,7 +1380,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("$/MWh"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
                                                     show_total=True)
@@ -1410,7 +1410,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_xaxis='scenario',
                                             select_subplot=selected_years,
                                             format_y=make_auto_yaxis_formatter("m$"), 
-                                            rotation=45, 
+                                            rotation=90, 
                                             annotate=False,
                                             format_label="{:.0f}",
                                             show_total=True,
@@ -1431,7 +1431,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 column_value='value',
                                                 format_y=make_auto_yaxis_formatter("m$"), 
                                                 format_label="{:.0f}",
-                                                rotation=45,
+                                                rotation=90,
                                                 annotate=True,
                                                 title='Incremental System Cost vs. Baseline (million USD)', 
                                                 show_total=True)
@@ -1456,7 +1456,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='year',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("m$"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     show_total=True,
                                                     title=f'Annual Cost Breakdown by Zone – {scenario} (million USD)'
@@ -1479,7 +1479,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                         column_xaxis='year',
                                                         column_value='value',
                                                         format_y=make_auto_yaxis_formatter("%"), 
-                                                        rotation=45,
+                                                        rotation=90,
                                                         annotate=False,
                                                         title=f'Cost Structure Shares by Zone – {scenario} (%)'
                                                         ) 
@@ -1504,7 +1504,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='scenario',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter("m$"),
-                        rotation=45,
+                        rotation=90,
                         annotate=False,
                         show_total=True,
                         title=f'Cost Composition by Zone in {year} (million USD)'
@@ -1536,7 +1536,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                             column_xaxis='year',
                             column_value='value',
                             format_y=make_auto_yaxis_formatter("$/MWh"),
-                            rotation=45,
+                            rotation=90,
                             annotate=False,
                             show_total=True,
                             title=f'Annual Cost Breakdown by Zone – {scenario} (USD/MWh)'
@@ -1561,7 +1561,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='scenario',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter("$/MWh"),
-                        rotation=45,
+                        rotation=90,
                         annotate=False,
                         show_total=True,
                         title=f'Cost Composition by Zone in {year} (USD/MWh)'
@@ -1590,7 +1590,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='zone',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter('$/MWh'),
-                        rotation=45,
+                        rotation=90,
                         annotate=False,
                         show_total=True,
                         title=f'Cost Composition by Zone in {year_ini} – {scenario_reference} (USD/MWh)'
@@ -1624,7 +1624,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='zone',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter('$/MWh'),
-                        rotation=45,
+                        rotation=90,
                         annotate=False,
                         show_total=True,
                         title=f'Generation Cost Composition by Zone in {first_year} – {scenario_reference} (USD/MWh)'
@@ -1653,7 +1653,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='year',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter('$/MWh'),
-                        rotation=45,
+                        rotation=90,
                         annotate=False,
                         show_total=True,
                         title=f'Generation Cost Composition by Zone – {scenario_reference} (USD/MWh)'
@@ -1682,7 +1682,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='year',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("m$"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     title=f'Annual Capex by Zone – {scenario} (million USD)'
                                                     )   
@@ -1747,7 +1747,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 column_subplot='year',
                                                 column_xaxis='scenario',
                                                 column_value='value',
-                                                format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
+                                                format_y=make_auto_yaxis_formatter("GWh"), rotation=90,
                                                 annotate=False,
                                                 title='Incremental Energy Generation Mix vs Baseline (GWh)', show_total=True)
             
@@ -1769,7 +1769,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_subplot='zone',
                                                     column_xaxis='year',
                                                     column_value='value',
-                                                    format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
+                                                    format_y=make_auto_yaxis_formatter("GWh"), rotation=90,
                                                     annotate=False,
                                                     title=f'Energy Mix by Fuel - {scenario} (GWh)'
                                                     )                     
@@ -1787,7 +1787,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                         column_subplot=None,
                                                         column_xaxis='year',
                                                         column_value='value',
-                                                        format_y=make_auto_yaxis_formatter("GWh"), rotation=45,
+                                                        format_y=make_auto_yaxis_formatter("GWh"), rotation=90,
                                                         annotate=False,
                                                         title=f'Energy Mix by Fuel - {zone} - {scenario} (GWh)'
                                                         )
@@ -1809,7 +1809,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_subplot='zone',
                                                     column_xaxis='year',
                                                     column_value='value',
-                                                    format_y=make_auto_yaxis_formatter("%"), rotation=45,
+                                                    format_y=make_auto_yaxis_formatter("%"), rotation=90,
                                                     annotate=False,
                                                     title=f'Energy Mix Shares by Zone - {scenario} (%)'
                                                     ) 
@@ -1832,7 +1832,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     column_xaxis='scenario',
                                                     column_value='value',
                                                     format_y=make_auto_yaxis_formatter("GWh"), 
-                                                    rotation=45,
+                                                    rotation=90,
                                                     annotate=False,
                                                     title=f'Energy Mix by Fuel - {year} (GWh)')
 
@@ -1867,7 +1867,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         column_xaxis='scenario',
                         column_value='value',
                         format_y=make_auto_yaxis_formatter("GWh"),
-                        rotation=45,
+                        rotation=90,
                         annotate=False,
                         title=f'Top 10 Plants - {zone} (GWh)'
                     ) 
@@ -1948,8 +1948,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         title=f"Net Imports by Zone over Time - {scenario_reference} [GWh]",
                         x_column='zone',
                         y_column='year',
-                        value_column='value',
-                        annot_kws={"size": 10}
+                        value_column='value'
                     )
                     
                 figure_name = 'NetImportsZoneEvolutionZoneEvolutionShare'
@@ -2184,7 +2183,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_subplot=None,
                                             column_xaxis='base_scenario',
                                             column_value='diff',
-                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=45,
+                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=90,
                                             annotate=False,
                                             title='Project Cost Impact by Component (million USD)', show_total=True)
                     log_info(f'System cost assessment figures generated successfully: {filename}', logger=active_logger)
@@ -2219,7 +2218,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_subplot=None,
                                             column_xaxis='base_scenario',
                                             column_value='diff',
-                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=45,
+                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=90,
                                             annotate=False,
                                             title=f'Additional Energy with the Project {year}', show_total=True)
                     log_info(f'Energy assessment figures generated successfully: {filename}', logger=active_logger)
@@ -2254,7 +2253,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                             column_subplot=None,
                                             column_xaxis='base_scenario',
                                             column_value='diff',
-                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=45,
+                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=90,
                                             annotate=False,
                                             title=f'Additional Capacity with the Project {year}', show_total=True)
                     log_info(f'Capacity assessment figures generated successfully: {filename}', logger=active_logger)

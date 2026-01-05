@@ -2592,7 +2592,7 @@ def heatmap_difference_plot(
     ax.xaxis.set_label_position('top')
     ax.xaxis.tick_top()
     ax.set_xticklabels(ax.get_xticklabels(), rotation=0, fontsize=9)
-    ax.set_yticklabels(ax.get_yticklabels(), rotation=90)
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
     bold_markers = (
         'NPV of system cost',
         'Capacity - Total',
