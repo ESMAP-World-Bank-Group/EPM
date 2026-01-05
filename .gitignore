@@ -75,7 +75,7 @@ pre-analysis/**/output/*
 !pre-analysis/hydro/input/utility
 
 # Sensitivity and assessment analysis artifacts (generated input files)
-**/sensitivity/
+!**/sensitivity/
 **/assessment/
 **/montecarlo/
 
