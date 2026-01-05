@@ -82,7 +82,7 @@ pre-analysis/**/output/*
 
 
 # Input data
-epm/input/*
+!epm/input/*
 !epm/input/data_test/
 !epm/input/data_test/**
 # Exclude generated folders within data_test
