@@ -35,7 +35,7 @@ except ImportError as err:  # pragma: no cover - runtime dependency
 SCRIPT_DIR = Path(__file__).resolve().parent
 # Repo root two levels up from pre-analysis/notebooks/legacy_to_new_format
 REPO_ROOT = SCRIPT_DIR.parents[2]
-DEFAULT_GDX_PATH = SCRIPT_DIR / "input" / "input_epm_Turkiye_v8.gdx"
+DEFAULT_GDX_PATH = SCRIPT_DIR / "input" / "WB_EPM_8_5_WAPP_251022.gdx"
 DEFAULT_MAPPING_PATH = SCRIPT_DIR / "symbol_mapping.csv"
 DEFAULT_OUTPUT_BASE = SCRIPT_DIR / "output"
 DEFAULT_TARGET_FOLDER = "data"

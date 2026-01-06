@@ -1543,8 +1543,8 @@ def _reshape_price(df: pd.DataFrame) -> pd.DataFrame:
 def _build_fuel_colors() -> Tuple[Dict[str, str], List[str], Dict[str, str]]:
     """Build fuel color lookup, ordering, and mapping from resources tables."""
 
-    # Resources tables live in epm/resources
-    resources_dir = Path(__file__).resolve().parent.parent.parent / "resources"
+    # Resources tables live in epm/resources/postprocess
+    resources_dir = Path(__file__).resolve().parent.parent.parent / "resources" / "postprocess"
     colors_path = resources_dir / "colors.csv"
     techfuel_path = resources_dir / "pTechFuelProcessing.csv"
 

@@ -109,7 +109,7 @@ PLANT_FILES = [
 
 # Path to pTechFuelProcessing.csv (relative to epm/ folder)
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'pTechFuelProcessing.csv')
+TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'postprocess', 'pTechFuelProcessing.csv')
 
 # Files to fill with all cost components: (file_name, cost_component_column_name)
 # The cost component column is either 'uni' or 'sumhdr' depending on the file

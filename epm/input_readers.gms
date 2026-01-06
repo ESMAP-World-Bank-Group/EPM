@@ -40,8 +40,8 @@ $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
-$if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch_month_days.csv
-$if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch_map_ts.csv
+$if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
+$if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
 
 * LOAD DATA
 $if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
@@ -67,10 +67,10 @@ $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
 $if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
 
 * RESOURCES (shared across all input folders)
-$if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/pSettingsHeader.csv
-$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_RESOURCES%/pGenDataInputHeader.csv
-$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_RESOURCES%/pStorageDataHeader.csv
-$if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/pH2Header.csv
+$if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/headers/pSettingsHeader.csv
+$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_RESOURCES%/headers/pGenDataInputHeader.csv
+$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_RESOURCES%/headers/pStorageDataHeader.csv
+$if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/headers/pH2Header.csv
 
 $if not set pTechFuel $set pTechFuel %FOLDER_RESOURCES%/pTechFuel.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelCarbonContent.csv
@@ -82,7 +82,7 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %FOLDER_INP
 
 * TRADE
 $if not set zext $set zext %FOLDER_INPUT%/trade/zext.csv
-$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/pTransmissionHeader.csv
+$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/headers/pTransmissionHeader.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
