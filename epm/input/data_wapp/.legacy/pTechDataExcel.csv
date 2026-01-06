@@ -1,0 +1,47 @@
+uni_0,uni_1,value
+Coal,Assigned Value,3.0
+Coal,Construction Period (years),7.0
+PV,Assigned Value,6.0
+PV,Construction Period (years),1.0
+PV,Hourly Variation? (Yes/No),1.0
+PV,RE Technology (Yes/No),1.0
+Wind,Assigned Value,5.0
+Wind,Construction Period (years),2.0
+Wind,Hourly Variation? (Yes/No),1.0
+Wind,RE Technology (Yes/No),1.0
+CSP,Assigned Value,14.0
+CSP,Construction Period (years),3.0
+CSP,RE Technology (Yes/No),1.0
+Biomas,Assigned Value,11.0
+Biomas,Construction Period (years),2.0
+Biomas,RE Technology (Yes/No),1.0
+pvwsto,Assigned Value,15.0
+pvwsto,Construction Period (years),1.0
+pvwsto,Hourly Variation? (Yes/No),1.0
+pvwsto,RE Technology (Yes/No),1.0
+GT,Assigned Value,1.0
+GT,Construction Period (years),2.0
+CCGT,Assigned Value,2.0
+CCGT,Construction Period (years),2.5
+STO HY,Assigned Value,4.0
+STO HY,Construction Period (years),4.0
+STO HY,RE Technology (Yes/No),1.0
+BIOGAS,Assigned Value,7.0
+BIOGAS,Construction Period (years),2.0
+BIOGAS,RE Technology (Yes/No),1.0
+INT,Assigned Value,8.0
+INT,Construction Period (years),2.0
+CHP,Assigned Value,9.0
+CHP,Construction Period (years),2.5
+ICE,Assigned Value,10.0
+ICE,Construction Period (years),1.0
+ROR,Assigned Value,12.0
+ROR,Construction Period (years),2.0
+ROR,RE Technology (Yes/No),1.0
+ST,Assigned Value,13.0
+ST,Construction Period (years),4.0
+STOPV,Assigned Value,16.0
+STOPV,Construction Period (years),1.0
+STOPV,RE Technology (Yes/No),1.0
+STORAGE,Assigned Value,17.0
+STORAGE,Construction Period (years),1.0

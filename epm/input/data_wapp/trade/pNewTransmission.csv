@@ -1,0 +1,25 @@
+z,z2,Life,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine
+Benin,Togo,30,2028,20,100,18
+Benin,Burkina,30,2028,20,100,21
+Ghana,Burkina,30,2028,20,100,22.2
+Senegal,Gambia,30,2028,20,100,24
+Senegal,Mali,30,2028,20,100,24
+Burkina,Mali,30,2028,20,100,33.4
+Ghana,IvoryCoast,30,2029,20,100,41
+Togo,Ghana,30,2028,20,100,45
+Niger,Benin,30,2028,20,100,52
+Nigeria,Niger,30,2028,20,100,60.10909091
+Burkina,IvoryCoast,30,2028,20,100,69.6
+IvoryCoast,Mali,30,2028,20,100,69.6
+Guinea,Sierra Leone,30,2030,1,200,90
+Liberia,Sierra Leone,30,2030,1,200,90
+Mauritania_grid,Mali,30,2029,20,100,102
+Mauritania_grid,Mauritania_Nema,30,2029,20,100,102
+Nigeria,Benin,30,2028,20,100,102.8
+Guinea,IvoryCoast,30,2028,20,100,136
+Guinea,Mali,30,2028,20,100,136
+GuineaBissau,Gambia,30,2028,20,100,136
+GuineaBissau,Guinea,30,2028,20,100,136
+IvoryCoast,Liberia,30,2028,20,100,136
+Senegal,Guinea,30,2028,20,100,136
+Senegal,Mauritania_grid,30,2028,20,100,136
