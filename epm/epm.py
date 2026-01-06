@@ -684,7 +684,7 @@ def launch_epm_multi_scenarios(config='config.csv',
     if not montecarlo:
         with Pool(cpu) as pool:
             metrics_results.extend(
-                pool.starmap(
+                 pool.starmap(
                     launch_epm_multiprocess,
                     [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace) for k in s.keys()],
                 )

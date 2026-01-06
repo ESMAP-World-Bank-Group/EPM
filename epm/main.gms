@@ -167,8 +167,11 @@ Parameter
    pTechFuel(tech<,f<,pTechFuelHeader)                    'Technology-fuel specifications'
    pGenDataInput(*,z,tech,f,pGenDataInputHeader)       'Generator data from Excel input'
    pGenDataInputDefault(z,tech,f,pGenDataInputHeader)    'Default generator data by zone/tech/fuel'
+   pGenDataInputGeneric(tech,f,pGenDataInputHeader)     'Generic generator data by tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y)                 'Default CAPEX trajectories'
+   pCapexTrajectoriesGeneric(tech,f,y)                   'Generic CAPEX trajectories by tech/fuel'
    pCapexTrajectories(g,y)                               'Generator CAPEX trajectories'
+   pAvailabilityGeneric(tech,f)                        'Generic availability factors by tech/fuel'
    pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
@@ -252,6 +255,7 @@ $load pGenDataInputHeader, pTechFuel, pStorageDataHeader,
 $load g<pGenDataInput.Dim1
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
+$load pGenDataInputGeneric pAvailabilityGeneric pCapexTrajectoriesGeneric
 $load pSettings
 
 * Load demand data

@@ -75,6 +75,11 @@ $if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/headers/pH2Header.csv
 $if not set pTechFuel $set pTechFuel %FOLDER_RESOURCES%/pTechFuel.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelCarbonContent.csv
 
+* GENERIC DEFAULTS (tech-fuel level, applied when zone-specific defaults are missing)
+$if not set pGenDataInputGeneric $set pGenDataInputGeneric %FOLDER_RESOURCES%/pGenDataInputGeneric.csv
+$if not set pAvailabilityGeneric $set pAvailabilityGeneric %FOLDER_RESOURCES%/pAvailabilityGeneric.csv
+$if not set pCapexTrajectoriesGeneric $set pCapexTrajectoriesGeneric %FOLDER_RESOURCES%/pCapexTrajectoriesGeneric.csv
+
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
 $if not set pSpinningReserveReqCountry $set pSpinningReserveReqCountry %FOLDER_INPUT%/reserve/pSpinningReserveReqCountry.csv
@@ -288,6 +293,15 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
+    file: %pGenDataInputGeneric%
+    name: pGenDataInputGeneric
+    indexColumns: [1,2]
+    valueSubstitutions: {0: EPS}
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
     file: %pAvailability%
     name: pAvailabilityInput
     valueSubstitutions: {0: EPS}
@@ -302,6 +316,15 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     valueSubstitutions: {0: EPS}
     header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pAvailabilityGeneric%
+    name: pAvailabilityGeneric
+    indexColumns: [1, 2]
+    valueColumns: [3]
+    valueSubstitutions: {0: EPS}
     type: par
 
 - CSVReader:
@@ -351,6 +374,15 @@ $onEmbeddedCode Connect:
     name: pCapexTrajectoriesDefault
     valueSubstitutions: {0: EPS}
     indexColumns: [1, 2, 3]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pCapexTrajectoriesGeneric%
+    name: pCapexTrajectoriesGeneric
+    valueSubstitutions: {0: EPS}
+    indexColumns: [1, 2]
     header: [1]
     type: par
     
