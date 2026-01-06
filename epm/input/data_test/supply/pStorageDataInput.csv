@@ -1,4 +1,4 @@
-g,z,tech,fuel,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
 Generic_BESS_Angola,Angola,Storage,Battery,,3,2035,,,200000,,100,10000000,,0.9,0.1,,,,180,0,0,,,,,,,,,,,,,
 Generic_BESS_Burundi,Burundi,Storage,Battery,,3,2035,,,3000,,6,10000000,,0.9,0.1,,,,180,0,0,,,,,,,,,,,,,
 Generic_BESS_CAF,CAR,Storage,Battery,,3,2035,,,1000,,4,10000000,,0.9,0.1,,,,180,0,0,,,,,,,,,,,,,

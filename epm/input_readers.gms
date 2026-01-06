@@ -65,6 +65,7 @@ $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 * OTHER SUPPLY OPTIONS
 $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
 $if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
+$if not set pStorageDataInputDefault $set pStorageDataInputDefault %FOLDER_INPUT%/supply/pStorageDataInputDefault.csv
 
 * RESOURCES (shared across all input folders)
 $if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/headers/pSettingsHeader.csv
@@ -79,6 +80,7 @@ $if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelC
 $if not set pGenDataInputGeneric $set pGenDataInputGeneric %FOLDER_RESOURCES%/pGenDataInputGeneric.csv
 $if not set pAvailabilityGeneric $set pAvailabilityGeneric %FOLDER_RESOURCES%/pAvailabilityGeneric.csv
 $if not set pCapexTrajectoriesGeneric $set pCapexTrajectoriesGeneric %FOLDER_RESOURCES%/pCapexTrajectoriesGeneric.csv
+$if not set pStorageDataInputGeneric $set pStorageDataInputGeneric %FOLDER_RESOURCES%/pStorageDataInputGeneric.csv
 
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
@@ -413,6 +415,24 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pStorageDataInputDefault%
+    name: pStorageDataInputDefault
+    indexColumns: [1,2,3]
+    valueSubstitutions: {0: EPS}
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pStorageDataInputGeneric%
+    name: pStorageDataInputGeneric
+    indexColumns: [1,2]
+    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
 

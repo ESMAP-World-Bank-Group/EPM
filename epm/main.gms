@@ -176,6 +176,8 @@ Parameter
    
 * Storage data
    pStorageDataInput(*,z,tech,f,pStorageDataHeader)          'Storage unit specifications'
+   pStorageDataInputDefault(z,tech,f,pStorageDataHeader)     'Default storage data by zone/tech/fuel'
+   pStorageDataInputGeneric(tech,f,pStorageDataHeader)       'Generic storage data by tech/fuel'
    
 * CSP and technology data
    pCSPData(g,pCSPDataHeader,pStorageDataHeader)           'Concentrated solar power data'
@@ -267,7 +269,7 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 $load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
-$load pStorageDataInput pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
 * Load trade data

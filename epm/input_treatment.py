@@ -58,6 +58,7 @@ YEARLY_OUTPUT = [
 ZONE_RESTRICTED_PARAMS = {
     "pGenDataInput": ("z",),
     "pGenDataInputDefault": ("z",),
+    "pStorageDataInputDefault": ("z",),
     "pAvailabilityDefault": ("z",),
     "pCapexTrajectoriesDefault": ("z",),
     "pDemandForecast": ("z",),
@@ -87,6 +88,8 @@ COLUMN_RENAME_MAP = {
     'pPlanningReserveMargin': {'uni': 'c'},
     'pTechFuel': {'tech': 'tech', 'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
+    "pStorageDataInputDefault": {"uni": "pStorageDataHeader", 'fuel': 'f'},
+    "pStorageDataInputGeneric": {"uni": "pStorageDataHeader", 'fuel': 'f'},
     'pTechData': {'Technology': 'tech'},
     "pVREGenProfile": {"uni": "t"}
 }
@@ -211,6 +214,18 @@ def load_generic_defaults(db: gt.Container, log_func=None):
             log_func("[generic_defaults] pCapexTrajectoriesGeneric exists but is empty.")
     elif log_func:
         log_func("[generic_defaults] pCapexTrajectoriesGeneric not found in database.")
+    
+    if "pStorageDataInputGeneric" in db:
+        records = db["pStorageDataInputGeneric"].records
+        if records is not None and not records.empty:
+            result['storagedata'] = records.copy()
+            if log_func:
+                n_tech_fuel = records[["tech", "f"]].drop_duplicates().shape[0] if "f" in records.columns else records[["tech", "fuel"]].drop_duplicates().shape[0]
+                log_func(f"[generic_defaults] pStorageDataInputGeneric loaded: {n_tech_fuel} tech-fuel combinations.")
+        elif log_func:
+            log_func("[generic_defaults] pStorageDataInputGeneric exists but is empty.")
+    elif log_func:
+        log_func("[generic_defaults] pStorageDataInputGeneric not found in database.")
     
     return result
 
@@ -1933,6 +1948,30 @@ def run_input_treatment(gams,
                         n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
                         gams.printLog(f"[input_treatment][generic] Enriched pCapexTrajectoriesDefault with {n_combos} tech-fuel combination(s) from generic.")
 
+        # Enrich pStorageDataInputDefault
+        # GAMS-loaded generic data is already in long format: (tech, f, pStorageDataHeader, value)
+        if "storagedata" in generic and "pStorageDataInputDefault" in db:
+            storagedata_default = db["pStorageDataInputDefault"].records
+            # Get required (zone, tech, fuel) from pStorageDataInput instead of pGenDataInput
+            stor_records = db["pStorageDataInput"].records
+            if stor_records is not None and not stor_records.empty:
+                stor_required = stor_records[["z", "tech", "f"]].drop_duplicates()
+                if storagedata_default is not None and not storagedata_default.empty:
+                    storagedata_keys = storagedata_default[["z", "tech", "f"]].drop_duplicates()
+                    merged = stor_required.merge(storagedata_keys, on=["z", "tech", "f"], how="left", indicator=True)
+                    missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
+                    
+                    if not missing.empty:
+                        generic_storagedata = generic["storagedata"]  # Already has (tech, f, pStorageDataHeader, value)
+                        # Join missing combinations with generic values
+                        to_add = missing.merge(generic_storagedata, on=["tech", "f"], how="inner")
+                        if not to_add.empty:
+                            updated = pd.concat([storagedata_default, to_add], ignore_index=True)
+                            db.data["pStorageDataInputDefault"].setRecords(updated)
+                            _write_back(db, "pStorageDataInputDefault")
+                            n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                            gams.printLog(f"[input_treatment][generic] Enriched pStorageDataInputDefault with {n_combos} tech-fuel combination(s) from generic.")
+
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
     # Normalize generator column for pGenDataInput (rename 'uni' -> 'g' if needed).
@@ -2040,6 +2079,10 @@ def run_input_treatment(gams,
     # Complete Generator Data
     _step("Overwrite NaN values for pGenDataInput")
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
+    
+    # Complete Storage Data
+    _step("Overwrite NaN values for pStorageDataInput")
+    overwrite_nan_values(db, "pStorageDataInput", "pStorageDataInputDefault", "pStorageDataHeader")
     
     _step("Set missing StYr for existing generators")
     set_missing_styr_for_existing(db)
