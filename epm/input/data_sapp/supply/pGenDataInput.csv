@@ -1,4 +1,4 @@
-﻿gen,zone,tech,fuel,StYr,RetrYr,Capacity,Status,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life,BuildLimitperYear,DescreteCap,fuel2,HeatRate2,MinUtilization,RETech,UnitSize,
+﻿g,z,tech,fuel,StYr,RetrYr,Capacity,Status,MinLimitShare,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life,BuildLimitperYear,DescreteCap,fuel2,HeatRate2,MinUtilization,RETech,UnitSize,
 Acacia_TH_ZAF,South_Africa,OCGT,HFO,1976,2026,171,1,,11.26101378,,,,,,,,0,,,0,,0,0,0,0,
 Afrochine_PV_ZWE,Zimbabwe,PV,Solar,2026,2060,100,2,,0,,,,,,,,,,600,0,,0,0,1,0,
 Aggreko_IPP_ICE_MWI,Malawi,ICE,Diesel,2000,2019,0,1,,,,,,,,,0,0,,0,0,,0,0,0,0,

@@ -1,4 +1,4 @@
-﻿gen,zone,tech,fuel,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+﻿g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
 DrakensbergPH_HY_ZAF,South_Africa,Storage,Water,,1,1985,,,,,,7000,,0.98,,,,,0,,,,,,,,,,,,,,,
 Golomoti_BESS,Malawi,Storage,Battery,,1,2022,,,,,,10,,0.9,,,,,180,,,,,,,,,,,,,,,
 Ingula_HY_ZAF,South_Africa,Storage,Water,,1,2017,,,,,,9324,,0.98,,,,,0,,,,,,,,,,,,,,,

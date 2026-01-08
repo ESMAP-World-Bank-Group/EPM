@@ -218,8 +218,8 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
         zcmap_df = zcmap.copy()
 
     # Support both 'z'/'zone' and 'c'/'country' column names
-    zone_col = 'zone' if 'zone' in zcmap_df.columns else 'z'
-    country_col = 'country' if 'country' in zcmap_df.columns else 'c'
+    zone_col = 'Zone' if 'Zone' in zcmap_df.columns else 'z'
+    country_col = 'Country' if 'Country' in zcmap_df.columns else 'c'
 
     # Add country codes for both zones (start and end)
     zcmap_df = zcmap_df.set_index(zone_col)
@@ -278,7 +278,7 @@ Note: Runs automatically in postprocessing.py for multi-zone models.
         if os.path.exists(zcmap_path):
             zcmap_df = pd.read_csv(zcmap_path)
             # Support both 'z'/'zone' column names
-            zone_col = 'zone' if 'zone' in zcmap_df.columns else 'z'
+            zone_col = 'Zone' if 'Zone' in zcmap_df.columns else 'z'
             selected_zones = zcmap_df[zone_col].unique().tolist()
             print(f"Using all zones from zcmap: {selected_zones}")
         else:

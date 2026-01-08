@@ -1,4 +1,4 @@
-﻿zone,tech,fuel,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
+﻿z,tech,fuel,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,FOMperMW,VOM,ReserveCost,Capex,Life
 South_Africa,ST ,Coal,,0.33,0.33,0,0.05,45000,3,0,,30
 Angola,ST ,Coal,,0.33,0.33,0,0.05,45000,3,0,,30
 Botswana,ST ,Coal,,0.33,0.33,0,0.05,45000,3,0,,30
