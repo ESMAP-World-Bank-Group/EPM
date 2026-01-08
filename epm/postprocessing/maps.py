@@ -82,6 +82,7 @@ def _read_geojson_mapping(path):
 
     return pd.read_csv(io.StringIO(clean_text))
 
+
 def create_zonemap(zone_map, map_geojson_to_epm):
     """
     Convert zone map to the correct coordinate reference system (CRS) and extract centroids.

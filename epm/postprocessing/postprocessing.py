@@ -49,6 +49,7 @@ import pandas as pd
 from .utils import *
 from .plots import *
 from .maps import make_automatic_map
+from .create_geojson import create_geojson_for_tableau
 from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
@@ -2088,6 +2089,22 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 6. Interconnection Maps
             # ------------------------------------------------------------------------------------
             if nbr_zones > 1:
+                # Generate Tableau GeoJSON - always runs for multi-zone models
+                try:
+                    zcmap_df = epm_results['pZoneCountry'][['zone', 'country']].drop_duplicates()
+                    selected_zones = list(epm_results['pCapacityTechFuel']['zone'].unique())
+
+                    create_geojson_for_tableau(
+                        geojson_to_epm=dict_specs['geojson_to_epm'],
+                        zcmap=zcmap_df,
+                        selected_zones=selected_zones,
+                        output_path=RESULTS_FOLDER,
+                        dict_specs=dict_specs
+                    )
+                    log_info('Generated Tableau GeoJSON file: linestring_countries.geojson', logger=active_logger)
+                except Exception as e:
+                    log_warning(f'Could not generate Tableau GeoJSON: {e}', logger=active_logger)
+
                 if (
                     'pAnnualTransmissionCapacity' in epm_results
                     and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
