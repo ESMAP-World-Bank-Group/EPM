@@ -1218,7 +1218,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     column_value='value',
                     format_y=make_auto_yaxis_formatter("MW"),
                     column_stacked='fuel',
-                    annotation_source='annotation_label',
+                    annotation_source=None,
                     annotation_template="{category}: {value:.0f} MW",
                     title=f'Installed Capacity System - {scenario} [MW]'
                 )
