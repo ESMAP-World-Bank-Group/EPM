@@ -40,8 +40,8 @@ $if not set pSettings $set pSettings %FOLDER_INPUT%/pSettings.csv
 $if not set zcmap $set zcmap %FOLDER_INPUT%/zcmap.csv
 $if not set y $set y %FOLDER_INPUT%/y.csv
 $if not set pHours $set pHours %FOLDER_INPUT%/pHours.csv
-$if not set pDays $set pDays %FOLDER_INPUT%/static/dispatch_month_days.csv
-$if not set mapTS $set mapTS %FOLDER_INPUT%/static/dispatch_map_ts.csv
+$if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
+$if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
 
 * LOAD DATA
 $if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
@@ -64,16 +64,23 @@ $if not set pFuelPrice $set pFuelPrice %FOLDER_INPUT%/supply/pFuelPrice.csv
 
 * OTHER SUPPLY OPTIONS
 $if not set pCSPData $set pCSPData %FOLDER_INPUT%/supply/pCSPData.csv
-$if not set pStorageDataInput $set pStorDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
+$if not set pStorageDataInput $set pStorageDataInput %FOLDER_INPUT%/supply/pStorageDataInput.csv
+$if not set pStorageDataInputDefault $set pStorageDataInputDefault %FOLDER_INPUT%/supply/pStorageDataInputDefault.csv
 
 * RESOURCES (shared across all input folders)
-$if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/pSettingsHeader.csv
-$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_RESOURCES%/pGenDataInputHeader.csv
-$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_RESOURCES%/pStorageDataHeader.csv
-$if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/pH2Header.csv
+$if not set pSettingsHeader $set pSettingsHeader %FOLDER_RESOURCES%/headers/pSettingsHeader.csv
+$if not set pGenDataInputHeader $set pGenDataInputHeader %FOLDER_RESOURCES%/headers/pGenDataInputHeader.csv
+$if not set pStorageDataHeader $set pStorageDataHeader %FOLDER_RESOURCES%/headers/pStorageDataHeader.csv
+$if not set pH2Header $set pH2Header %FOLDER_RESOURCES%/headers/pH2Header.csv
 
 $if not set pTechFuel $set pTechFuel %FOLDER_RESOURCES%/pTechFuel.csv
 $if not set pFuelCarbonContent $set pFuelCarbonContent %FOLDER_RESOURCES%/pFuelCarbonContent.csv
+
+* GENERIC DEFAULTS (tech-fuel level, applied when zone-specific defaults are missing)
+$if not set pGenDataInputGeneric $set pGenDataInputGeneric %FOLDER_RESOURCES%/pGenDataInputGeneric.csv
+$if not set pAvailabilityGeneric $set pAvailabilityGeneric %FOLDER_RESOURCES%/pAvailabilityGeneric.csv
+$if not set pCapexTrajectoriesGeneric $set pCapexTrajectoriesGeneric %FOLDER_RESOURCES%/pCapexTrajectoriesGeneric.csv
+$if not set pStorageDataInputGeneric $set pStorageDataInputGeneric %FOLDER_RESOURCES%/pStorageDataInputGeneric.csv
 
 * RESERVE
 $if not set pPlanningReserveMargin $set pPlanningReserveMargin %FOLDER_INPUT%/reserve/pPlanningReserveMargin.csv
@@ -82,10 +89,9 @@ $if not set pSpinningReserveReqSystem $set pSpinningReserveReqSystem %FOLDER_INP
 
 * TRADE
 $if not set zext $set zext %FOLDER_INPUT%/trade/zext.csv
-$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/pTransmissionHeader.csv
+$if not set pTransmissionHeader $set pTransmissionHeader %FOLDER_RESOURCES%/headers/pTransmissionHeader.csv
 $if not set pExtTransferLimit $set pExtTransferLimit %FOLDER_INPUT%/trade/pExtTransferLimit.csv
 $if not set pLossFactorInternal $set pLossFactorInternal %FOLDER_INPUT%/trade/pLossFactorInternal.csv
-$if not set pMaxPriceImportShare $set pMaxPriceImportShare %FOLDER_INPUT%/trade/pMaxPriceImportShare.csv
 $if not set pMaxAnnualExternalTradeShare $set pMaxAnnualExternalTradeShare %FOLDER_INPUT%/trade/pMaxAnnualExternalTradeShare.csv
 $if not set pMinImport $set pMinImport %FOLDER_INPUT%/trade/pMinImport.csv
 $if not set pNewTransmission $set pNewTransmission %FOLDER_INPUT%/trade/pNewTransmission.csv
@@ -289,6 +295,15 @@ $onEmbeddedCode Connect:
 
 - CSVReader:
     trace: %TRACE%
+    file: %pGenDataInputGeneric%
+    name: pGenDataInputGeneric
+    indexColumns: [1,2]
+    valueSubstitutions: {0: EPS}
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
     file: %pAvailability%
     name: pAvailabilityInput
     valueSubstitutions: {0: EPS}
@@ -303,6 +318,15 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     valueSubstitutions: {0: EPS}
     header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pAvailabilityGeneric%
+    name: pAvailabilityGeneric
+    indexColumns: [1, 2]
+    valueColumns: [3]
+    valueSubstitutions: {0: EPS}
     type: par
 
 - CSVReader:
@@ -354,6 +378,15 @@ $onEmbeddedCode Connect:
     indexColumns: [1, 2, 3]
     header: [1]
     type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pCapexTrajectoriesGeneric%
+    name: pCapexTrajectoriesGeneric
+    valueSubstitutions: {0: EPS}
+    indexColumns: [1, 2]
+    header: [1]
+    type: par
     
 - CSVReader:
     file: %pFuelPrice%
@@ -382,6 +415,24 @@ $onEmbeddedCode Connect:
     indexSubstitutions: {.nan: ""}
     valueSubstitutions: {0: .nan}
     indexColumns: [1,2,3,4]
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pStorageDataInputDefault%
+    name: pStorageDataInputDefault
+    indexColumns: [1,2,3]
+    valueSubstitutions: {0: EPS}
+    header: [1]
+    type: par
+
+- CSVReader:
+    trace: %TRACE%
+    file: %pStorageDataInputGeneric%
+    name: pStorageDataInputGeneric
+    indexColumns: [1,2]
+    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
 
@@ -456,22 +507,11 @@ $onEmbeddedCode Connect:
     indexColumns: [1,2,3,4]
     header: [1]
     type: par
-    
 
 - CSVReader:
     trace: %TRACE%
     file: %pMaxAnnualExternalTradeShare%
     name: pMaxAnnualExternalTradeShare
-    indexColumns: [1]
-    header: [1]
-    type: par
-
-- CSVReader:
-    trace: %TRACE%
-    file: %pMaxPriceImportShare%
-    name: pMaxPriceImportShare
-    indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
     indexColumns: [1]
     header: [1]
     type: par

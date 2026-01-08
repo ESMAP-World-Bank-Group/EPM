@@ -39,6 +39,8 @@ Contact:
 """
 
 import os
+from pathlib import Path
+
 import gams.transfer as gt
 import numpy as np
 import pandas as pd
@@ -56,6 +58,7 @@ YEARLY_OUTPUT = [
 ZONE_RESTRICTED_PARAMS = {
     "pGenDataInput": ("z",),
     "pGenDataInputDefault": ("z",),
+    "pStorageDataInputDefault": ("z",),
     "pAvailabilityDefault": ("z",),
     "pCapexTrajectoriesDefault": ("z",),
     "pDemandForecast": ("z",),
@@ -65,26 +68,30 @@ ZONE_RESTRICTED_PARAMS = {
 }
 
 COLUMN_RENAME_MAP = {
-    "pGenDataInput": {"uni": "pGenDataInputHeader", "gen": "g", "Zone": "z", 'fuel': 'f'},
-    "pGenDataInputDefault": {"uni": "pGenDataInputHeader", "gen": "g", "Zone": "z", 'fuel': 'f'},
-    "pAvailabilityInput": {"uni": "q", "gen": "g"},
-    "pAvailability": {"uni": "q", "gen": "g"},
-    "pAvailabilityDefault": {"uni": "q", "Zone": "z"},
-    "pEvolutionAvailability": {"uni": "y", "gen": "g"},
-    "pCapexTrajectoriesDefault": {"uni": "y", "Zone": "z"},
-    "pDemandForecast": {"uni": "y", "Zone": "z"},
+    "pGenDataInput": {"uni": "pGenDataInputHeader", 'fuel': 'f'},
+    "pGenDataInputDefault": {"uni": "pGenDataInputHeader", 'fuel': 'f'},
+    "pGenDataInputGeneric": {"uni": "pGenDataInputHeader", 'fuel': 'f'},
+    "pAvailabilityInput": {"uni": "q"},
+    "pAvailability": {"uni": "q"},
+    "pAvailabilityDefault": {"uni": "q"},
+    "pAvailabilityGeneric": {'fuel': 'f'},
+    "pEvolutionAvailability": {"uni": "y"},
+    "pCapexTrajectoriesDefault": {"uni": "y"},
+    "pCapexTrajectoriesGeneric": {"uni": "y", 'fuel': 'f'},
+    "pDemandForecast": {"uni": "y"},
     "pNewTransmission": {"From": "z", "To": "z2", "uni": "pTransmissionHeader"},
-    "zcmap": {"Country": "c", "Zone": "z"},
     "pSettings": {"Abbreviation": "pSettingsHeader"},
-    "pDemandForecast": {'type': 'pe', 'uni': 'y', 'Zone': 'z'},
+    "pDemandForecast": {'type': 'pe', 'uni': 'y'},
     "pTransferLimit": {"From": "z", "To": "z2", "uni": "y"},
-    "pHours": {'season': 'q', 'daytype': 'd', 'uni': 't'},
-    "pLossFactorInternal": {"Zone1": "z", "Zone2": "z2", "uni": "y"},
+    "pHours": {'uni': 't'},
+    "pLossFactorInternal": {"zone1": "z", "zone2": "z2", "uni": "y"},
     'pPlanningReserveMargin': {'uni': 'c'},
     'pTechFuel': {'tech': 'tech', 'fuel': 'f'},
     "pStorageDataInput": {'gen_0': 'g', 'uni_2': 'pStorageDataHeader'},
+    "pStorageDataInputDefault": {"uni": "pStorageDataHeader", 'fuel': 'f'},
+    "pStorageDataInputGeneric": {"uni": "pStorageDataHeader", 'fuel': 'f'},
     'pTechData': {'Technology': 'tech'},
-    "pVREGenProfile": {"gen": "g", "uni": "t"}
+    "pVREGenProfile": {"uni": "t"}
 }
 
 
@@ -162,6 +169,65 @@ def filter_inputs_to_allowed_zones(
         db.data[param_name].setRecords(filtered)
         if write_back is not None:
             write_back(param_name)
+
+
+def load_generic_defaults(db: gt.Container, log_func=None):
+    """Load generic (tech, fuel) defaults from GAMS database.
+    
+    These are read by input_readers.gms from resources/pGenDataInputGeneric.csv etc.
+    Returns dict with keys: 'gendata', 'availability', 'capex' or empty if missing.
+    """
+    result = {}
+    
+    if "pGenDataInputGeneric" in db:
+        records = db["pGenDataInputGeneric"].records
+        if records is not None and not records.empty:
+            result['gendata'] = records.copy()
+            if log_func:
+                n_tech_fuel = records[["tech", "f"]].drop_duplicates().shape[0] if "f" in records.columns else records[["tech", "fuel"]].drop_duplicates().shape[0]
+                log_func(f"[generic_defaults] pGenDataInputGeneric loaded: {n_tech_fuel} tech-fuel combinations.")
+        elif log_func:
+            log_func("[generic_defaults] pGenDataInputGeneric exists but is empty.")
+    elif log_func:
+        log_func("[generic_defaults] pGenDataInputGeneric not found in database.")
+    
+    if "pAvailabilityGeneric" in db:
+        records = db["pAvailabilityGeneric"].records
+        if records is not None and not records.empty:
+            result['availability'] = records.copy()
+            if log_func:
+                n_tech_fuel = records[["tech", "f"]].drop_duplicates().shape[0] if "f" in records.columns else records[["tech", "fuel"]].drop_duplicates().shape[0]
+                log_func(f"[generic_defaults] pAvailabilityGeneric loaded: {n_tech_fuel} tech-fuel combinations.")
+        elif log_func:
+            log_func("[generic_defaults] pAvailabilityGeneric exists but is empty.")
+    elif log_func:
+        log_func("[generic_defaults] pAvailabilityGeneric not found in database.")
+    
+    if "pCapexTrajectoriesGeneric" in db:
+        records = db["pCapexTrajectoriesGeneric"].records
+        if records is not None and not records.empty:
+            result['capex'] = records.copy()
+            if log_func:
+                n_tech_fuel = records[["tech", "f"]].drop_duplicates().shape[0] if "f" in records.columns else records[["tech", "fuel"]].drop_duplicates().shape[0]
+                log_func(f"[generic_defaults] pCapexTrajectoriesGeneric loaded: {n_tech_fuel} tech-fuel combinations.")
+        elif log_func:
+            log_func("[generic_defaults] pCapexTrajectoriesGeneric exists but is empty.")
+    elif log_func:
+        log_func("[generic_defaults] pCapexTrajectoriesGeneric not found in database.")
+    
+    if "pStorageDataInputGeneric" in db:
+        records = db["pStorageDataInputGeneric"].records
+        if records is not None and not records.empty:
+            result['storagedata'] = records.copy()
+            if log_func:
+                n_tech_fuel = records[["tech", "f"]].drop_duplicates().shape[0] if "f" in records.columns else records[["tech", "fuel"]].drop_duplicates().shape[0]
+                log_func(f"[generic_defaults] pStorageDataInputGeneric loaded: {n_tech_fuel} tech-fuel combinations.")
+        elif log_func:
+            log_func("[generic_defaults] pStorageDataInputGeneric exists but is empty.")
+    elif log_func:
+        log_func("[generic_defaults] pStorageDataInputGeneric not found in database.")
+    
+    return result
 
 
 def run_input_treatment(gams,
@@ -1729,7 +1795,183 @@ def run_input_treatment(gams,
                 f"[input_treatment][interpolate] Linear interpolation performed on {param_name} to match model years {target_range}."
             )
             _write_back(db, param_name)
+
+    def _apply_generic_capex_interpolated(db: gt.Container):
+        """Add capex trajectories for generators missing them, interpolated to model years.
         
+        Generic data is already in long format (tech, f, y, value) from GAMS.
+        This handles interpolation to model years.
+        Must run AFTER defaults pipeline to catch any remaining gaps.
+        """
+        generic = load_generic_defaults(db, gams.printLog)
+        if not generic or "capex" not in generic:
+            return
+        
+        if "pCapexTrajectories" not in db:
+            return
+        records = db["pCapexTrajectories"].records
+        if records is None or records.empty:
+            return
+        
+        gen_records = db["pGenDataInput"].records
+        if gen_records is None or gen_records.empty:
+            return
+
+        # Get model years
+        if "y" not in db or db["y"].records is None:
+            return
+        model_years = [int(y) for y in db["y"].records.iloc[:, 0].tolist()]
+
+        # Build (g -> tech, fuel) mapping
+        gen_meta = gen_records[["g", "tech", "f"]].drop_duplicates(subset=["g"])
+
+        # Find generators missing capex trajectories
+        existing_gens = set(records["g"].unique())
+        all_gens = set(gen_meta["g"].unique())
+        missing_gens = all_gens - existing_gens
+
+        if not missing_gens:
+            return
+
+        # Generic capex is already in long format: (tech, f, y, value)
+        generic_long = generic["capex"].copy()
+        generic_long["y"] = generic_long["y"].astype(int)
+
+        # Join generators with generic values
+        gen_with_generic = gen_meta.merge(generic_long, on=["tech", "f"], how="left")
+
+        # Interpolate to model years for each missing generator
+        new_rows = []
+        for g in missing_gens:
+            gen_data = gen_with_generic[gen_with_generic["g"] == g].dropna(subset=["value"])
+            if gen_data.empty:
+                continue
+            gen_data = gen_data.sort_values("y")
+            years = gen_data["y"].to_numpy()
+            values = gen_data["value"].to_numpy()
+            if len(years) < 2:
+                interp_values = np.full(len(model_years), values[0] if len(values) > 0 else 1.0)
+            else:
+                interp_values = np.interp(model_years, years, values)
+            for y, v in zip(model_years, interp_values):
+                new_rows.append({"g": g, "y": str(y), "value": v})
+
+        if new_rows:
+            new_df = pd.DataFrame(new_rows)
+            updated = pd.concat([records, new_df], ignore_index=True)
+            db.data["pCapexTrajectories"].setRecords(updated)
+            _write_back(db, "pCapexTrajectories")
+            gams.printLog(f"[input_treatment][generic] Added interpolated capex for {len(missing_gens)} generator(s).")
+
+    def _enrich_defaults_with_generic(db: gt.Container):
+        """Add generic (tech,fuel) records to *Default tables for missing combinations.
+        
+        Generic data is read by GAMS from resources/ and is already in long format.
+        This must run BEFORE prepare_generatorbased_parameter to avoid validation errors.
+        """
+        generic = load_generic_defaults(db, gams.printLog)
+        if not generic:
+            return
+        
+        gen_records = db["pGenDataInput"].records
+        if gen_records is None or gen_records.empty:
+            return
+        
+        # Get required (zone, tech, fuel) from pGenDataInput
+        required = gen_records[["z", "tech", "f"]].drop_duplicates()
+        
+        # Enrich pGenDataInputDefault
+        # GAMS-loaded generic data is already in long format: (tech, f, pGenDataInputHeader, value)
+        if "gendata" in generic and "pGenDataInputDefault" in db:
+            gendata_default = db["pGenDataInputDefault"].records
+            if gendata_default is not None and not gendata_default.empty:
+                gendata_keys = gendata_default[["z", "tech", "f"]].drop_duplicates()
+                merged = required.merge(gendata_keys, on=["z", "tech", "f"], how="left", indicator=True)
+                missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
+                
+                if not missing.empty:
+                    generic_gendata = generic["gendata"]  # Already has (tech, f, pGenDataInputHeader, value)
+                    # Join missing combinations with generic values
+                    to_add = missing.merge(generic_gendata, on=["tech", "f"], how="inner")
+                    if not to_add.empty:
+                        updated = pd.concat([gendata_default, to_add], ignore_index=True)
+                        db.data["pGenDataInputDefault"].setRecords(updated)
+                        _write_back(db, "pGenDataInputDefault")
+                        n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                        gams.printLog(f"[input_treatment][generic] Enriched pGenDataInputDefault with {n_combos} tech-fuel combination(s) from generic.")
+        
+        # Enrich pAvailabilityDefault
+        # GAMS-loaded generic data is (tech, f, value) - single annual value
+        if "availability" in generic and "pAvailabilityDefault" in db:
+            avail_default = db["pAvailabilityDefault"].records
+            if avail_default is not None and not avail_default.empty:
+                avail_keys = avail_default[["z", "tech", "f"]].drop_duplicates()
+                merged = required.merge(avail_keys, on=["z", "tech", "f"], how="left", indicator=True)
+                missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
+                
+                if not missing.empty:
+                    generic_avail = generic["availability"]  # (tech, f, value)
+                    # Get seasons from existing default (q column in long format)
+                    seasons = avail_default["q"].unique().tolist() if "q" in avail_default.columns else ["Q1"]
+                    
+                    # Join missing combinations with generic values, expand to all seasons
+                    to_add = missing.merge(generic_avail, on=["tech", "f"], how="inner")
+                    if not to_add.empty:
+                        new_records = []
+                        for _, row in to_add.iterrows():
+                            for q in seasons:
+                                new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"], 
+                                                  "q": q, "value": row["value"]})
+                        if new_records:
+                            new_df = pd.DataFrame(new_records)
+                            updated = pd.concat([avail_default, new_df], ignore_index=True)
+                            db.data["pAvailabilityDefault"].setRecords(updated)
+                            _write_back(db, "pAvailabilityDefault")
+                            gams.printLog(f"[input_treatment][generic] Enriched pAvailabilityDefault with {len(to_add)} tech-fuel combination(s) from generic.")
+        
+        # Enrich pCapexTrajectoriesDefault
+        # GAMS-loaded generic data is already in long format: (tech, f, y, value)
+        if "capex" in generic and "pCapexTrajectoriesDefault" in db:
+            capex_default = db["pCapexTrajectoriesDefault"].records
+            if capex_default is not None and not capex_default.empty:
+                capex_keys = capex_default[["z", "tech", "f"]].drop_duplicates()
+                merged = required.merge(capex_keys, on=["z", "tech", "f"], how="left", indicator=True)
+                missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
+                
+                if not missing.empty:
+                    generic_capex = generic["capex"]  # Already has (tech, f, y, value)
+                    to_add = missing.merge(generic_capex, on=["tech", "f"], how="inner")
+                    if not to_add.empty:
+                        updated = pd.concat([capex_default, to_add], ignore_index=True)
+                        db.data["pCapexTrajectoriesDefault"].setRecords(updated)
+                        _write_back(db, "pCapexTrajectoriesDefault")
+                        n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                        gams.printLog(f"[input_treatment][generic] Enriched pCapexTrajectoriesDefault with {n_combos} tech-fuel combination(s) from generic.")
+
+        # Enrich pStorageDataInputDefault
+        # GAMS-loaded generic data is already in long format: (tech, f, pStorageDataHeader, value)
+        if "storagedata" in generic and "pStorageDataInputDefault" in db:
+            storagedata_default = db["pStorageDataInputDefault"].records
+            # Get required (zone, tech, fuel) from pStorageDataInput instead of pGenDataInput
+            stor_records = db["pStorageDataInput"].records
+            if stor_records is not None and not stor_records.empty:
+                stor_required = stor_records[["z", "tech", "f"]].drop_duplicates()
+                if storagedata_default is not None and not storagedata_default.empty:
+                    storagedata_keys = storagedata_default[["z", "tech", "f"]].drop_duplicates()
+                    merged = stor_required.merge(storagedata_keys, on=["z", "tech", "f"], how="left", indicator=True)
+                    missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
+                    
+                    if not missing.empty:
+                        generic_storagedata = generic["storagedata"]  # Already has (tech, f, pStorageDataHeader, value)
+                        # Join missing combinations with generic values
+                        to_add = missing.merge(generic_storagedata, on=["tech", "f"], how="inner")
+                        if not to_add.empty:
+                            updated = pd.concat([storagedata_default, to_add], ignore_index=True)
+                            db.data["pStorageDataInputDefault"].setRecords(updated)
+                            _write_back(db, "pStorageDataInputDefault")
+                            n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                            gams.printLog(f"[input_treatment][generic] Enriched pStorageDataInputDefault with {n_combos} tech-fuel combination(s) from generic.")
+
     # Create a GAMS workspace and database
     db = gt.Container(gams.db)
     # Normalize generator column for pGenDataInput (rename 'uni' -> 'g' if needed).
@@ -1830,9 +2072,17 @@ def run_input_treatment(gams,
     _step("Monitor hydro capex")
     monitor_hydro_capex(db, auto_fill_missing_capex)
     
+    # Enrich *Default tables with generic (tech,fuel) before validation
+    _step("Enrich defaults with generic")
+    _enrich_defaults_with_generic(db)
+    
     # Complete Generator Data
     _step("Overwrite NaN values for pGenDataInput")
     overwrite_nan_values(db, "pGenDataInput", "pGenDataInputDefault", "pGenDataInputHeader")
+    
+    # Complete Storage Data
+    _step("Overwrite NaN values for pStorageDataInput")
+    overwrite_nan_values(db, "pStorageDataInput", "pStorageDataInputDefault", "pStorageDataHeader")
     
     _step("Set missing StYr for existing generators")
     set_missing_styr_for_existing(db)
@@ -1870,6 +2120,10 @@ def run_input_treatment(gams,
                                                                                                 
     _step("Fill pCapexTrajectories with defaults")
     fill_default_value(db, "pCapexTrajectories", default_df)
+
+    # Apply interpolated capex for any remaining generators (handles year interpolation)
+    _step("Apply generic capex (interpolated)")
+    _apply_generic_capex_interpolated(db)
 
     gams.printLog("-" * 60)
     gams.printLog("[input_treatment] completed")

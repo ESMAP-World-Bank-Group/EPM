@@ -107,6 +107,9 @@ python epm.py --input_folder input/your_data_folder --sensitivity
 
 - Modified input files are saved in a `sensitivity` folder next to the baseline input files.
 - New scenarios are created with updated paths to the modified input files.
+- Sensitivity scenarios use the `~` (tilde) separator in their names (e.g., `baseline~NoBiomass`, `baseline~pDemandForecast_015`).
+- Assessment scenarios use the `@` (at) separator (e.g., `baseline@rehabilitation`).
+- Combined scenarios are supported: `baseline~NoBiomass@rehabilitation` (sensitivity first, then assessment).
 - Only parameters enabled in the `sensitivity` dict are processed.
 - This approach supports automated scenario generation for robustness checks.
 

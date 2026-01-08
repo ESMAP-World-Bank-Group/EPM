@@ -1,10 +1,7 @@
 ﻿parameter,sensitivity
 pSettings,
 y,
-<<<<<<< HEAD
-pDemandForecast,0.1&0.2
-=======
-pDemandForecast,
+pDemandForecast,0.1&-0.1
 TradePrice,
 >>>>>>> origin/main
 pDemandProfile,
@@ -15,9 +12,15 @@ ResLimShare,
 BuildLimitperYear,
 pVREProfile,
 <<<<<<< HEAD
+<<<<<<< HEAD
 interco,1.00
 =======
 interco,TRUE
 ExternalExchange,
 >>>>>>> origin/main
 RemoveGenericTechnologies,
+=======
+interco,
+ExternalExchange,
+RemoveGenericTechnologies,
+>>>>>>> main

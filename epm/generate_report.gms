@@ -82,6 +82,7 @@ set dsH2hdr /
 
 set zgmap(z,g); option zgmap<gzmap;
 set zH2map(z,hh); option zH2map<h2zmap;
+set isExternal / Internal, External /;
 
 set capexComponent /
   Generation,
@@ -106,10 +107,12 @@ set genCostCmp /
 /;
 
 set fEnergyBalance /
-  UnmetDemand,
-  Surplus,
-  Imports,
-  Exports
+  "UnmetDemand",
+  "Surplus",
+  "Imports",
+  "Imports External",
+  "Exports",
+  "Exports External"
 /;
 
 Parameters
@@ -249,6 +252,7 @@ Parameters
   pInterchangeExternalImports(zext, z, y)                 'Annual imports [GWh] from external zone zext to zone z'
   pInterconUtilizationExternalExports(z, zext, y)         'External export line utilization [%] zone z to zext'
   pInterconUtilizationExternalImports(zext, z, y)         'External import line utilization [%] zext to zone z'
+  pNetImport(z, *, y, isExternal)                    'Net import [GWh] from zAll to z by year (positive = import, negative = export)'
 
 * ============================================================
 * 7. EMISSIONS
@@ -837,10 +841,10 @@ pEnergyFuelCountry(c,f,y) = sum(zcmap(z,c), pEnergyFuel(z,f,y));
 pEnergyFuelComplete(z,f,y) = pEnergyFuel(z,f,y);
 pEnergyFuelComplete(z,"UnmetDemand",y) = sum((q,d,t), vUSE.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyFuelComplete(z,"Surplus",y) = sum((q,d,t), vSurplus.l(z,q,d,t,y)*pHours(q,d,t))/1e3;
-pEnergyFuelComplete(z,"Imports",y) = (sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))
-                                     + sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
-pEnergyFuelComplete(z,"Exports",y) = -(sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))
-                                      + sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t)))/1e3;
+pEnergyFuelComplete(z,"Imports",y) = sum((sTopology(Zd,z),q,d,t), vFlow.l(Zd,z,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Imports External",y) = sum((zext,q,d,t), vYearlyImportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Exports",y) = -sum((sTopology(z,Zd),q,d,t), vFlow.l(z,Zd,q,d,t,y)*pHours(q,d,t))/1e3;
+pEnergyFuelComplete(z,"Exports External",y) = -sum((zext,q,d,t), vYearlyExportExternal.l(z,zext,q,d,t,y)*pHours(q,d,t))/1e3;
 
 pEnergyTechFuel(z,tech,f,y) = sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut.l(g,f,q,d,t,y)*pHours(q,d,t))/1e3;
 pEnergyTechFuelCountry(c,tech,f,y) = sum(zcmap(z,c), pEnergyTechFuel(z,tech,f,y));
@@ -1022,6 +1026,7 @@ pReserveMarginCountry(c,"ReserveMargin",y)$(pReserveMarginCountry(c,"TotalFirmCa
 pInterchange(sTopology(z, z2), y) =
   sum((q, d, t), vFlow.l(z, z2, q, d, t, y) * pHours(q, d, t)) / 1e3;
 
+
 * Utilization of interconnection throughout modeling horizon [%]
 pInterconUtilization(sTopology(z, z2), y)$pInterchange(z, z2, y) =
   1e3 * pInterchange(z, z2, y)
@@ -1082,6 +1087,7 @@ pCongestionShare(sTopology(z, z2), y) =
 * ---------------------------------------------------------
 
 set thrd / Imports, Exports /;
+set isExternal / Internal, External /;
 
 * Hourly interchange with external zones [MW]
 pHourlyInterchangeExternal(z, y, q, d, "Imports", t) =
@@ -1116,6 +1122,26 @@ pHourlyInterchangeExternalCountry(c, y, q, d, thrd, t) =
 
 pYearlyInterchangeExternalCountry(c, thrd, y) =
   sum(zcmap(z, c), pYearlyInterchangeExternal(z, thrd, y));
+
+* ---------------------------------------------------------
+* Net import by zone and source zone type
+* ---------------------------------------------------------
+* Calculates net import (imports - exports) for each zone from
+* every other zone, distinguishing between internal and external zones.
+* Positive values indicate net imports, negative values indicate net exports.
+* ---------------------------------------------------------
+
+* Net import from internal zones
+* pInterchange(z, z2, y) represents flow from z to z2
+* Net import from z2 to z = -pInterchange(z, z2, y) when sTopology(z, z2) exists
+* If only reverse direction exists, use pInterchange(z2, z, y) directly
+pNetImport(z, z2, y, "Internal")$sTopology(z, z2) = -pInterchange(z, z2, y) / 1e3;
+pNetImport(z, z2, y, "Internal")$(sTopology(z2, z) and not sTopology(z, z2)) = pInterchange(z2, z, y) / 1e3;
+
+* Net import from external zones
+* Net import from zext to z = imports from zext - exports to zext
+pNetImport(z, zext, y, "External") =
+  pInterchangeExternalImports(zext, z, y) - pInterchangeExternalExports(z, zext, y) / 1e3;
 
 * ============================================================
 * 7. EMISSIONS
@@ -1370,6 +1396,7 @@ embeddedCode Connect:
         "pInterchange",
         "pInterconUtilization",
         "pCongestionShare",
+        "pNetImport",
         
         "pEmissionsZone",
         "pEmissionsIntensityZone",
@@ -1433,6 +1460,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCongestionShare,
       pHourlyInterchangeExternal, pYearlyInterchangeExternal, pYearlyInterchangeExternalCountry, pHourlyInterchangeExternalCountry,
       pInterchangeExternalExports, pInterchangeExternalImports, pInterconUtilizationExternalExports, pInterconUtilizationExternalImports,
+      pNetImport,
 * 6. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone, pEmissionsCountrySummary, pEmissionsIntensityCountry,
       pEmissionMarginalCosts, pEmissionMarginalCostsCountry,

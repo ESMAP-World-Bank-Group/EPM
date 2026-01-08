@@ -13,5 +13,6 @@ PyYAML
 rasterio
 entsoe-py
 pycountry
+mcp
 # Optional (Monte Carlo analysis only):
 # chaospy==4.3.18

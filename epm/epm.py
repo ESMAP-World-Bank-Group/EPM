@@ -355,7 +355,8 @@ def launch_epm(scenario,
                folder_input=None,
                dict_montecarlo=None,
                prefix='',  # 'simulation_'
-               debug=False
+               debug=False,
+               trace=False
                ):
     """
     Launch the EPM model with the given scenario
@@ -424,6 +425,9 @@ def launch_epm(scenario,
     if debug:
         command.append("--DEBUG 1")
 
+    if trace:
+        command.append("--TRACE 1")
+
     command_str = " ".join(shlex.quote(part) for part in command)
     logger.info("Command to execute: %s", command_str)
 
@@ -447,9 +451,9 @@ def launch_epm(scenario,
 
 
 def launch_epm_multiprocess(df, scenario_name, path_gams, folder_input=None,
-                            modeltype='MIP', dict_montecarlo=None, debug=False):
+                            modeltype='MIP', dict_montecarlo=None, debug=False, trace=False):
     return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
-                      dict_montecarlo=dict_montecarlo, debug=debug, **path_gams, modeltype=modeltype)
+                      dict_montecarlo=dict_montecarlo, debug=debug, trace=trace, **path_gams, modeltype=modeltype)
 
 
 def launch_epm_multi_scenarios(config='config.csv',
@@ -467,7 +471,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                simple=None,
                                simulation_label=None,
                                modeltype='MIP',
-                               debug=False):
+                               debug=False,
+                               trace=False):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -485,6 +490,8 @@ def launch_epm_multi_scenarios(config='config.csv',
         Folder where data input files are stored
     debug: bool, optional, default False
         When True, passes ``--DEBUG 1`` to the GAMS command line.
+    trace: bool, optional, default False
+        When True, passes ``--TRACE 1`` to the GAMS command line.
     simulation_label: str, optional, default None
         Custom name for the simulation output folder that overrides the timestamp-based name.
 
@@ -677,9 +684,9 @@ def launch_epm_multi_scenarios(config='config.csv',
     if not montecarlo:
         with Pool(cpu) as pool:
             metrics_results.extend(
-                pool.starmap(
+                 pool.starmap(
                     launch_epm_multiprocess,
-                    [(s[k], k, path_gams, folder_input, modeltype, None, debug) for k in s.keys()],
+                    [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace) for k in s.keys()],
                 )
             )
     else:
@@ -691,7 +698,7 @@ def launch_epm_multi_scenarios(config='config.csv',
             metrics_results.extend(
                 pool.starmap(
                     launch_epm_multiprocess,
-                    [(s[k], k, path_gams, folder_input, modeltype, None, debug) for k in s.keys()],
+                    [(s[k], k, path_gams, folder_input, modeltype, None, debug, trace) for k in s.keys()],
                 )
             )
         # Modify config file to ensure limited output saved
@@ -700,7 +707,7 @@ def launch_epm_multi_scenarios(config='config.csv',
                 pool.starmap(
                     launch_epm_multiprocess,
                     [
-                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo, debug)
+                        (scenarios_montecarlo[k], k, path_gams, folder_input, modeltype, dict_montecarlo, debug, trace)
                         for k in scenarios_montecarlo.keys()
                     ],
                 )
@@ -890,6 +897,13 @@ def main(test_args=None):
         help="Enable verbose DEBUG mode for GAMS (passes --DEBUG 1 to the solver)"
     )
 
+    parser.add_argument(
+        "--trace",
+        action="store_true",
+        default=False,
+        help="Enable TRACE mode for GAMS (passes --TRACE 1 to the solver)"
+    )
+
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
         args = parser.parse_args(test_args)
@@ -920,6 +934,7 @@ def main(test_args=None):
         logger.info("Simple: %s", args.simple)
         logger.info("Simulation label: %s", args.simulation_label)
         logger.info("Debug flag: %s", args.debug)
+        logger.info("Trace flag: %s", args.trace)
         
         if args.sensitivity:
             sensitivity = os.path.join(folder_input, 'sensitivity.csv')
@@ -951,7 +966,8 @@ def main(test_args=None):
                                                         simple=args.simple,
                                                         simulation_label=args.simulation_label,
                                                         modeltype=args.modeltype,
-                                                        debug=args.debug)
+                                                        debug=args.debug,
+                                                        trace=args.trace)
         else:
             logger.info("Project folder: %s", args.postprocess)
             logger.info("EPM does not run again but use the existing simulation within the folder")

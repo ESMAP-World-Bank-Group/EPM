@@ -39,20 +39,25 @@ make_stacked_barplot = _wrap_plot_function(_make_stacked_barplot)
 def _beautify_scenario_name(name: str) -> str:
     """
     Convert internal scenario names to readable display labels.
+    Beautifies sensitivity scenarios (containing '~').
+    Does NOT handle '@' - callers should split on '@' first if needed.
 
     Examples:
         'baseline' -> 'baseline'
-        'baseline_NoBiomass' -> 'NoBiomass'
-        'baseline_pDemandForecast_015' -> 'HighDemand(+15%)'
-        'baseline_pDemandForecast_-015' -> 'LowDemand(-15%)'
-        'baseline_TradePrice_015' -> 'HighTradePrice(+15%)'
-        'baseline_TradePrice_-015' -> 'LowTradePrice(-15%)'
-        'baseline_NoWind' -> 'NoWind'
+        'baseline~NoBiomass' -> 'NoBiomass'
+        'baseline~pDemandForecast_015' -> 'HighDemand(+15%)'
+        'baseline~pDemandForecast_-015' -> 'LowDemand(-15%)'
+        'baseline~TradePrice_015' -> 'HighTradePrice(+15%)'
+        'baseline~TradePrice_-015' -> 'LowTradePrice(-15%)'
+        'baseline~NoWind' -> 'NoWind'
     """
     import re
 
-    # Remove 'baseline_' prefix if present
-    if name.startswith('baseline_'):
+    # Remove 'baseline~' prefix if present (sensitivity scenarios use ~ separator)
+    if name.startswith('baseline~'):
+        name = name[len('baseline~'):]
+    # Also handle legacy 'baseline_' prefix for backward compatibility
+    elif name.startswith('baseline_'):
         name = name[len('baseline_'):]
 
     # Handle pDemandForecast patterns

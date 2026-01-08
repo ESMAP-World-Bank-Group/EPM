@@ -1,4 +1,4 @@
-gen,zone,tech,fuel,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,DescreteCap,HeatRate,Capex,FOMperMW,VOM,ReserveCost,MinLimitShare,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,MinGenCommitment,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,fuel2,HeatRate2
+g,z,tech,fuel,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,DescreteCap,HeatRate,Capex,FOMperMW,VOM,ReserveCost,MinLimitShare,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,MinGenCommitment,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,fuel2,HeatRate2
 Lauca,Angola,ROR,Water,1,2017,,,2070,,,,,,,,,,,,,,,,,,,,,,
 Abeche 2,Chad,OCGT,Diesel,3,2030,,,13.5,,13.5,,,,,,,,,,,,,,,,,,,,
 Cambambe,Angola,ReservoirHydro,Water,1,2016,,,960,,,,,,,,,,,,,,,,,,,,,,

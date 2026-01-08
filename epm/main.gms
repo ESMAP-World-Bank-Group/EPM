@@ -167,12 +167,17 @@ Parameter
    pTechFuel(tech<,f<,pTechFuelHeader)                    'Technology-fuel specifications'
    pGenDataInput(*,z,tech,f,pGenDataInputHeader)       'Generator data from Excel input'
    pGenDataInputDefault(z,tech,f,pGenDataInputHeader)    'Default generator data by zone/tech/fuel'
+   pGenDataInputGeneric(tech,f,pGenDataInputHeader)     'Generic generator data by tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y)                 'Default CAPEX trajectories'
+   pCapexTrajectoriesGeneric(tech,f,y)                   'Generic CAPEX trajectories by tech/fuel'
    pCapexTrajectories(g,y)                               'Generator CAPEX trajectories'
+   pAvailabilityGeneric(tech,f)                        'Generic availability factors by tech/fuel'
    pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
    pStorageDataInput(*,z,tech,f,pStorageDataHeader)          'Storage unit specifications'
+   pStorageDataInputDefault(z,tech,f,pStorageDataHeader)     'Default storage data by zone/tech/fuel'
+   pStorageDataInputGeneric(tech,f,pStorageDataHeader)       'Generic storage data by tech/fuel'
    
 * CSP and technology data
    pCSPData(g,pCSPDataHeader,pStorageDataHeader)           'Concentrated solar power data'
@@ -252,6 +257,7 @@ $load pGenDataInputHeader, pTechFuel, pStorageDataHeader,
 $load g<pGenDataInput.Dim1
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
+$load pGenDataInputGeneric pAvailabilityGeneric pCapexTrajectoriesGeneric
 $load pSettings
 
 * Load demand data
@@ -263,7 +269,7 @@ $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPri
 $load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
-$load pStorageDataInput pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
 * Load trade data
@@ -277,11 +283,12 @@ $load pH2Header, pH2DataExcel pAvailabilityH2 pFuelDataH2 pCAPEXTrajectoryH2 pEx
 * Close the GDX file after loading all required data
 $gdxIn
 
+$if not errorfree $abort CONNECT ERROR in input_readers.gms
+
+*-------------------------------------------------------------------------------------
 * $gdxunload afterReading.gdx 
 $if %DEBUG%==1 $log Debug mode active: exporting loading input to input_loaded.gdx
-$if %DEBUG%==1 execute_unload $gdxunload input_loaded.gdx ;
-
-$if not errorfree $abort CONNECT ERROR in input_readers.gms
+$if %DEBUG%==1 $gdxunload input_loaded.gdx
 
 
 *-------------------------------------------------------------------------------------
@@ -356,7 +363,7 @@ $offMulti
 *-------------------------------------------------------------------------------------
 
 $if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 execute_unload $gdxunload input_treated.gdx ;
+$if %DEBUG%==1 $gdxunload input_treated.gdx 
 
 $if not errorFree $abort Data errors.
 

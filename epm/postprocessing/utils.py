@@ -123,10 +123,10 @@ _log_error = log_error
 _EPM_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _RESOURCES_DIR = os.path.join(_EPM_DIR, 'resources')
 
-TECHFUEL_PROCESSING = os.path.join(_RESOURCES_DIR, 'pTechFuelProcessing.csv')
-COLORS = os.path.join(_RESOURCES_DIR, 'colors.csv')
-GEOJSON = os.path.join(_RESOURCES_DIR, 'zones.geojson')
-GEOJSON_TO_EPM = os.path.join(_RESOURCES_DIR, 'geojson_to_epm.csv')
+TECHFUEL_PROCESSING = os.path.join(_RESOURCES_DIR, 'postprocess', 'pTechFuelProcessing.csv')
+COLORS = os.path.join(_RESOURCES_DIR, 'postprocess', 'colors.csv')
+GEOJSON = os.path.join(_RESOURCES_DIR, 'postprocess', 'zones.geojson')
+GEOJSON_TO_EPM = os.path.join(_RESOURCES_DIR, 'postprocess', 'geojson_to_epm.csv')
 
 TOLERANCE = 1e-2
 
@@ -681,6 +681,7 @@ def process_epm_results(epm_results, dict_specs, keys=None, scenarios_rename=Non
     tech_fuel_outputs = [
         'pEnergyTechFuel',
         'pEnergyTechFuelCountry',
+        'pEnergyTechFuelComplete',
         'pCapacityTechFuel',
         'pCapacityTechFuelCountry',
         'pNewCapacityTechFuel',
