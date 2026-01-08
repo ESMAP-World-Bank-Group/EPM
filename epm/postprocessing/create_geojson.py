@@ -270,11 +270,7 @@ Note: Runs automatically in postprocessing.py for multi-zone models.
     if os.path.isabs(args.zcmap) or os.path.exists(args.zcmap):
         zcmap_path = args.zcmap
     else:
-<<<<<<< HEAD
         zcmap_path = os.path.join( '..', 'input', args.folder, args.zcmap)
-=======
-        zcmap_path = os.path.join('epm', 'input', args.folder, args.zcmap)
->>>>>>> main
 
     # If zones not specified, read them from zcmap
     selected_zones = args.zones
@@ -292,11 +288,7 @@ Note: Runs automatically in postprocessing.py for multi-zone models.
         print(f"Generating Tableau GeoJSON for zones: {selected_zones}")
 
     # Output path is same as input folder
-<<<<<<< HEAD
     output_path = os.path.join( '..', 'input', args.folder)
-=======
-    output_path = os.path.join('epm', 'input', args.folder)
->>>>>>> main
 
     # Ensure output directory exists
     if not os.path.exists(output_path):
