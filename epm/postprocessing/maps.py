@@ -44,7 +44,7 @@ import re
 import folium
 import geopandas as gpd
 from .utils import *
-from .plots import subplot_pie, make_fuel_dispatchplot, plot_pie_on_ax
+from .plots import subplot_pie, make_fuel_dispatchplot
 
 
 _GEOJSON_HEADER = "Geojson,EPM,region,country,division"
