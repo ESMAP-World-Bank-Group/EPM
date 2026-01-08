@@ -44,7 +44,7 @@ import re
 import folium
 import geopandas as gpd
 from .utils import *
-from .plots import subplot_pie, make_fuel_dispatchplot
+from .plots import subplot_pie, make_fuel_dispatchplot, plot_pie_on_ax
 
 
 _GEOJSON_HEADER = "Geojson,EPM,region,country,division"
@@ -445,22 +445,28 @@ def make_overall_map(zone_map, dict_colors, centers, year, region, scenario, fil
     return 0
 
 
-def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, year, region, scenario, filename,
-                          map_epm_to_geojson, index='fuel', list_reduced_size=None, figsize=(10, 6), percent_cap=25,
+
+
+def make_capacity_mix_map(epm_results, dict_specs, colors = None, year = '2025', region=None, scenario='baseline', filename=None, graphs_folder=None, 
+                          index='fuel', list_reduced_size=None, figsize=(10, 6), percent_cap=25,
                           bbox_to_anchor=(0.5, -0.1), loc='center left', min_size=0.5, max_size =2.5, pie_sizing=True):
     """
     Plots a capacity mix map with pie charts overlaid on a regional map.
 
     Parameters:
     - zone_map: GeoDataFrame containing the map regions.
-    - CapacityMix_scen: DataFrame containing the capacity mix data per zone.
-    - fuels_list: List of fuels to include in the plot.
+    - pCapacityTechFuel: DataFrame containing the capacity mix data per zone.
+    - dict_colors: List of fuels to include in the plot.
     - centers: Dictionary mapping zones to their center coordinates.
     - year: The target year for the plot.
-    - region_name: Name of the region for the title.
+    - region: Name of the region for the title.
     - scenario: Scenario name for the title.
+    - filename: Path to save the plot. If None, the plot is shown instead.
+    - map_epm_to_geojson: Dictionary mapping EPM zone names to GeoJSON names
     - graphs_folder: Path where the plot will be saved.
-    - selected_scenario: The specific scenario being plotted.
+    - percent_cap: Percentage threshold for displaying pie chart labels.
+    - bbox_to_anchor: Legend positioning.
+    - scenario: The specific scenario being plotted.
     - geojson_names: List of country names in the GeoJSON file.
     - model_names: List of country names used in the model.
     - list_reduced_size: List of zones where pie size should be reduced.
@@ -476,21 +482,36 @@ def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, yea
     # Remove axes for a clean map
     ax.set_aspect('equal')
     ax.set_axis_off()
-    ax.set_title(f'Capacity mix - {region} \n {scenario} - {year}', loc='center')
+    if region is not None:
+        ax.set_title(f'Capacity mix - {region} \n {scenario} - {year}', loc='center')
+    else:
+        ax.set_title(f'Capacity mix - SAPP \n {scenario} - {year}', loc='center')
+    try:
+        zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
+        zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
 
+    except Exception as e:
+        log_error(
+            'Error when creating zone geojson for automated map graphs. This may be caused by a problem when specifying a mapping between EPM zone names, and GEOJSON zone names.\n Edit the `geojson_to_epm.csv` file in the `resources` folder.')
+        raise  # Re-raise the exception for debuggings
+
+    pCapacityTechFuel = epm_results['pCapacityTechFuel'].copy()
+    CapacityByFuel  = epm_results['pCapacityFuelCountry'].copy()
     # Compute pie sizes for each zone
     region_sizes = zone_map.copy()
     region_sizes['area'] = region_sizes.geometry.area
     region_sizes['Name'] = region_sizes['ADMIN'].replace(map_epm_to_geojson)
 
-    def calculate_pie_size(zone, CapacityByFuel):
+    def calculate_pie_size(zone):
         """Calculate pie chart size based on region area."""
         # area = region_sizes.loc[region_sizes['Name'] == zone, 'area'].values[0]
         # normalized_area = (area - region_sizes['area'].min()) / (region_sizes['area'].max() - region_sizes['area'].min())
+        # Calculate areas based on capacity
         area = pCapacityTechFuel[(pCapacityTechFuel['zone'] == zone) & (pCapacityTechFuel['year'] == year)].value.sum()
         normalized_area = (area - CapacityByFuel.groupby('zone').value.sum().min()) / (CapacityByFuel.groupby('zone').value.sum().max() - CapacityByFuel.groupby('zone').value.sum().min())
         return min_size + normalized_area * (max_size - min_size)
-
+    
+    
     handles, labels = [], []
     # Plot pie charts for each zone
     for zone in pCapacityTechFuel['zone'].unique():
@@ -511,16 +532,17 @@ def make_capacity_mix_map(zone_map, pCapacityTechFuel, dict_colors, centers, yea
         size = [0.03, 0.07]
         if pie_sizing:
             if list_reduced_size is not None:
-                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone, pCapacityTechFuel)
+                pie_size = 0.7 if zone in list_reduced_size else calculate_pie_size(zone)
             else:
-                pie_size = calculate_pie_size(zone, pCapacityTechFuel)
+                pie_size = calculate_pie_size(zone)
         else:
             pie_size = None
 
         # Create inset pie chart
         ax_pie = fig.add_axes([loc[0] - 0.45 * size[0], loc[1] - 0.5 * size[1], size[0], size[1]])
-        colors = [dict_colors[f] for f in CapacityMix_plot[index]]
-        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index, percent_cap, colors, None, radius= pie_size)
+        if colors is None:
+            color_list = [colors[f] for f in CapacityMix_plot[index]]
+        h, l = plot_pie_on_ax(ax_pie, CapacityMix_plot, index, percent_cap, color_list, None, radius= pie_size)
         ax_pie.set_axis_off()
 
         for handle, label in zip(h, l):

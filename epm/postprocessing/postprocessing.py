@@ -47,7 +47,7 @@ import pandas as pd
 # Relave imports as it's a submodule
 from .utils import *
 from .plots import *
-from .maps import make_automatic_map
+from .maps import make_automatic_map, make_capacity_mix_map
 from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
@@ -2070,6 +2070,19 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                             FIGURES_ACTIVATED,
                             figure_is_active=is_figure_active,
                         )
+            """zone_map, geojson_to_epm = get_json_data(epm_results=epm_results, dict_specs=dict_specs)
+            zone_map, centers = create_zonemap(zone_map, map_geojson_to_epm=geojson_to_epm)
+
+            make_capacity_mix_map(zone_map= zone_map,
+                    pCapacityTechFuel=epm_results['pCapacityTechFuel'],
+                    dict_colors=dict_specs.get('colors', {}),
+                    centers=centers,
+                    year=2025,
+                    region=dict_specs.get('region_name', 'Region'),
+                    scenario='baseline',
+                    filename=filename_cm,
+                    map_epm_to_geojson=geojson_to_epm)"""
+          
 
             
             

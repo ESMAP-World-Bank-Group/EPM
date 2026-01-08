@@ -1,47 +1,157 @@
-2026-01-05 11:11:23,915 - INFO - Starting EPM workflow
-2026-01-05 11:11:23,924 - INFO - Config file: config.csv
-2026-01-05 11:11:23,924 - INFO - Folder input: data_test
-2026-01-05 11:11:23,924 - INFO - modeltype: None
-2026-01-05 11:11:23,924 - INFO - Scenarios file: None
-2026-01-05 11:11:23,924 - INFO - Sensitivity: False
-2026-01-05 11:11:23,926 - INFO - MonteCarlo: False
-2026-01-05 11:11:23,926 - INFO - MonteCarlo samples: 10
-2026-01-05 11:11:23,926 - INFO - Monte Carlo uncertainties file: None
-2026-01-05 11:11:23,926 - INFO - Reduced output: False
-2026-01-05 11:11:23,926 - INFO - Reduced definition csv: False
-2026-01-05 11:11:23,926 - INFO - Selected scenarios: None
-2026-01-05 11:11:23,926 - INFO - Simple: None
-2026-01-05 11:11:23,926 - INFO - Simulation label: None
-2026-01-05 11:11:23,926 - INFO - Debug flag: False
-2026-01-05 11:11:23,926 - INFO - Project folder: output\simulations_run_20251223_054555
-2026-01-05 11:11:23,926 - INFO - EPM does not run again but use the existing simulation within the folder
-2026-01-05 11:11:23,926 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251223_054555 for postprocessing.
-2026-01-05 11:11:23,930 - INFO - Starting postprocessing for folder: output\simulations_run_20251223_054555
-2026-01-05 11:11:23,930 - INFO - Postprocessing started for output\simulations_run_20251223_054555
-2026-01-05 11:11:23,930 - INFO - Processing simulation results from output\simulations_run_20251223_054555
-2026-01-05 11:11:30,150 - WARNING - pInterchangeExternalImports not in epm_results.keys().
-2026-01-05 11:11:30,151 - WARNING - pInterchangeExternalExports not in epm_results.keys().
-2026-01-05 11:11:43,574 - INFO - Loaded 53 processed result tables
-2026-01-05 11:11:43,590 - INFO - Generating summary...
-2026-01-05 11:11:43,606 - WARNING - No pInterchangeExternalExports in epm_results
-2026-01-05 11:11:43,622 - WARNING - No pInterchangeExternalImports in epm_results
-2026-01-05 11:11:44,041 - INFO - Generating detailed summary by Power Plant...
-2026-01-05 11:11:44,368 - INFO - Generating heatmap summary...
-2026-01-05 11:11:48,584 - INFO - Creating folders for figures...
-2026-01-05 11:11:48,586 - INFO - Generating capacity figures...
-2026-01-05 11:11:48,586 - INFO - Generating cost figures...
-2026-01-05 11:11:48,683 - INFO - Generating energy figures...
-2026-01-05 11:11:48,729 - INFO - Generating energy dispatch figures...
-2026-01-05 11:11:48,732 - INFO - Generating interconnection figures...
-2026-01-05 11:11:48,732 - INFO - Generating interactive map figures...
-2026-01-05 11:11:48,734 - INFO - Generating map for scenario AltDem_10
-2026-01-05 11:11:48,917 - INFO - Generating map for scenario baseline
-2026-01-05 11:11:49,076 - INFO - Generating map for scenario CO2500_AltDem_10
-2026-01-05 11:11:49,315 - INFO - Generating map for scenario CO2_500
-2026-01-05 11:11:49,557 - INFO - Generating map for scenario CO2_500_Int_2y
-2026-01-05 11:11:49,809 - INFO - Generating map for scenario Int_2y
-2026-01-05 11:11:49,998 - INFO - Generating map for scenario Int_2y_AltDem_10
-2026-01-05 11:11:50,207 - INFO - Generating project economic assessment figures...
-2026-01-05 11:11:50,207 - INFO - No scenario pairs detected for project assessment.
-2026-01-05 11:12:42,171 - INFO - Postprocessing completed for folder: output\simulations_run_20251223_054555
-2026-01-05 11:12:42,176 - INFO - EPM workflow completed
+2026-01-05 16:49:07,016 - INFO - Starting EPM workflow
+2026-01-05 16:49:07,354 - INFO - Config file: config.csv
+2026-01-05 16:49:07,367 - INFO - Folder input: data_test
+2026-01-05 16:49:07,379 - INFO - modeltype: None
+2026-01-05 16:49:07,399 - INFO - Scenarios file: None
+2026-01-05 16:49:07,409 - INFO - Sensitivity: False
+2026-01-05 16:49:07,423 - INFO - MonteCarlo: False
+2026-01-05 16:49:07,439 - INFO - MonteCarlo samples: 10
+2026-01-05 16:49:07,452 - INFO - Monte Carlo uncertainties file: None
+2026-01-05 16:49:07,465 - INFO - Reduced output: False
+2026-01-05 16:49:07,484 - INFO - Reduced definition csv: False
+2026-01-05 16:49:07,498 - INFO - Selected scenarios: None
+2026-01-05 16:49:07,509 - INFO - Simple: None
+2026-01-05 16:49:07,522 - INFO - Simulation label: None
+2026-01-05 16:49:07,532 - INFO - Debug flag: False
+2026-01-05 16:49:07,543 - INFO - Project folder: output\simulations_run_20251223_054555
+2026-01-05 16:49:07,556 - INFO - EPM does not run again but use the existing simulation within the folder
+2026-01-05 16:49:07,571 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20251223_054555 for postprocessing.
+2026-01-05 16:49:07,598 - INFO - Starting postprocessing for folder: output\simulations_run_20251223_054555
+2026-01-05 16:49:07,606 - INFO - Postprocessing started for output\simulations_run_20251223_054555
+2026-01-05 16:49:07,615 - INFO - Processing simulation results from output\simulations_run_20251223_054555
+2026-01-05 16:49:22,493 - WARNING - pInterchangeExternalExports not in epm_results.keys().
+2026-01-05 16:49:22,495 - WARNING - pInterchangeExternalImports not in epm_results.keys().
+2026-01-05 16:49:35,357 - INFO - Loaded 53 processed result tables
+2026-01-05 16:49:35,371 - INFO - Generating summary...
+2026-01-05 16:49:35,396 - WARNING - No pInterchangeExternalExports in epm_results
+2026-01-05 16:49:35,398 - WARNING - No pInterchangeExternalImports in epm_results
+2026-01-05 16:49:35,533 - INFO - Generating detailed summary by Power Plant...
+2026-01-05 16:49:35,693 - INFO - Generating heatmap summary...
+2026-01-05 16:49:39,796 - INFO - Creating folders for figures...
+2026-01-05 16:49:39,800 - INFO - Generating capacity figures...
+2026-01-05 16:52:17,607 - INFO - Generating cost figures...
+2026-01-05 16:53:26,529 - WARNING - Failed to generate Annual Cost Breakdown by Zone – Int_2y (million USD): 2
+2026-01-05 16:53:30,976 - WARNING - Failed to generate Annual Cost Breakdown by Zone – Int_2y_AltDem_10 (million USD): 2
+2026-01-05 16:53:35,491 - WARNING - Failed to generate Annual Cost Breakdown by Zone – baseline (million USD): 2
+2026-01-05 16:55:02,713 - INFO - Generating energy figures...
+2026-01-05 16:58:57,421 - INFO - Generating energy dispatch figures...
+2026-01-05 20:54:44,555 - INFO - Generating interconnection figures...
+2026-01-05 20:54:47,160 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\NetImportsZoneEvolutionZoneEvolutionShare.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,171 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2025.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,173 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2028.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,173 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2030.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,177 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2032.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,179 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2035.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,180 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2038.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,180 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionExchangeHeatmap-baseline-2040.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,188 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2025.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,188 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2032.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,188 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2035.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,188 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2030.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,188 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2038.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,196 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2040.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,196 - WARNING - Failed to generate output\simulations_run_20251223_054555\img\4_interconnection\InterconnectionUtilizationHeatmap-baseline-2028.pdf: heatmap_plot() got an unexpected keyword argument 'annot_kws'
+2026-01-05 20:54:47,196 - INFO - Generating interactive map figures...
+2026-01-05 20:54:47,202 - INFO - Generating map for scenario AltDem_10
+2026-01-05 20:54:49,786 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_AltDem_10.pdf
+2026-01-05 20:54:52,426 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_AltDem_10.pdf
+2026-01-05 20:57:08,612 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2025.html
+2026-01-05 20:57:10,143 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2025.html
+2026-01-05 20:59:29,733 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2030.html
+2026-01-05 20:59:31,288 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2030.html
+2026-01-05 21:01:47,853 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2035.html
+2026-01-05 21:01:49,700 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2035.html
+2026-01-05 21:04:05,068 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2040.html
+2026-01-05 21:04:06,747 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_AltDem_10_2040.html
+2026-01-05 21:04:06,748 - INFO - Generating map for scenario baseline
+2026-01-05 21:04:09,254 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_baseline.pdf
+2026-01-05 21:04:13,189 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_baseline.pdf
+2026-01-05 21:06:22,880 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2025.html
+2026-01-05 21:06:24,637 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2025.html
+2026-01-05 21:08:42,205 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2030.html
+2026-01-05 21:08:43,958 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2030.html
+2026-01-05 21:10:55,824 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2035.html
+2026-01-05 21:10:57,487 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2035.html
+2026-01-05 21:13:05,043 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2040.html
+2026-01-05 21:13:07,041 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_baseline_2040.html
+2026-01-05 21:13:07,041 - INFO - Generating map for scenario CO2500_AltDem_10
+2026-01-05 21:13:09,519 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_CO2500_AltDem_10.pdf
+2026-01-05 21:13:12,052 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_CO2500_AltDem_10.pdf
+2026-01-05 21:15:20,856 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2025.html
+2026-01-05 21:15:22,335 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2025.html
+2026-01-05 21:17:36,792 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2030.html
+2026-01-05 21:17:38,962 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2030.html
+2026-01-05 21:20:14,539 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2035.html
+2026-01-05 21:20:16,703 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2035.html
+2026-01-05 21:22:47,514 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2040.html
+2026-01-05 21:22:49,680 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2500_AltDem_10_2040.html
+2026-01-05 21:22:49,680 - INFO - Generating map for scenario CO2_500
+2026-01-05 21:22:52,456 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_CO2_500.pdf
+2026-01-05 21:22:55,452 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_CO2_500.pdf
+2026-01-05 21:25:20,366 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2025.html
+2026-01-05 21:25:22,052 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2025.html
+2026-01-05 21:27:42,880 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2030.html
+2026-01-05 21:27:44,698 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2030.html
+2026-01-05 21:29:57,495 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2035.html
+2026-01-05 21:29:59,774 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2035.html
+2026-01-05 21:32:35,385 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2040.html
+2026-01-05 21:32:37,636 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_2040.html
+2026-01-05 21:32:37,636 - INFO - Generating map for scenario CO2_500_Int_2y
+2026-01-05 21:32:40,682 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_CO2_500_Int_2y.pdf
+2026-01-05 21:32:43,944 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_CO2_500_Int_2y.pdf
+2026-01-05 21:35:02,371 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2025.html
+2026-01-05 21:35:04,008 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2025.html
+2026-01-05 21:37:10,839 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2030.html
+2026-01-05 21:37:12,421 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2030.html
+2026-01-05 21:39:38,495 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2035.html
+2026-01-05 21:39:40,296 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2035.html
+2026-01-05 21:41:57,702 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2040.html
+2026-01-05 21:41:59,498 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_CO2_500_Int_2y_2040.html
+2026-01-05 21:41:59,498 - INFO - Generating map for scenario Hydro_3y
+2026-01-05 21:42:02,052 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_Hydro_3y.pdf
+2026-01-05 21:42:05,101 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_Hydro_3y.pdf
+2026-01-05 21:44:08,107 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2025.html
+2026-01-05 21:44:09,629 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2025.html
+2026-01-05 21:46:17,650 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2030.html
+2026-01-05 21:46:19,651 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2030.html
+2026-01-05 21:48:31,755 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2035.html
+2026-01-05 21:48:33,301 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2035.html
+2026-01-05 21:50:54,165 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2040.html
+2026-01-05 21:50:56,215 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_2040.html
+2026-01-05 21:50:56,215 - INFO - Generating map for scenario Hydro_3y_AltDem_10
+2026-01-05 21:50:59,068 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_Hydro_3y_AltDem_10.pdf
+2026-01-05 21:51:01,596 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_Hydro_3y_AltDem_10.pdf
+2026-01-05 21:53:16,118 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2025.html
+2026-01-05 21:53:17,616 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2025.html
+2026-01-05 21:55:38,076 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2030.html
+2026-01-05 21:55:39,782 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2030.html
+2026-01-05 21:58:01,280 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2035.html
+2026-01-05 21:58:03,113 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2035.html
+2026-01-05 22:00:14,841 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2040.html
+2026-01-05 22:00:16,534 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Hydro_3y_AltDem_10_2040.html
+2026-01-05 22:00:16,536 - INFO - Generating map for scenario Int_2y
+2026-01-05 22:00:18,896 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_Int_2y.pdf
+2026-01-05 22:00:21,804 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_Int_2y.pdf
+2026-01-05 22:02:43,953 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2025.html
+2026-01-05 22:02:45,876 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2025.html
+2026-01-05 22:05:18,223 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2030.html
+2026-01-05 22:05:19,924 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2030.html
+2026-01-05 22:22:17,474 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2035.html
+2026-01-05 22:22:19,439 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2035.html
+2026-01-05 22:24:31,497 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2040.html
+2026-01-05 22:24:33,461 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_2040.html
+2026-01-05 22:24:33,461 - INFO - Generating map for scenario Int_2y_AltDem_10
+2026-01-05 22:24:36,211 - INFO - Saved transmission capacity map: output\simulations_run_20251223_054555\img\6_maps\TransmissionCapacityMapEvolution_Int_2y_AltDem_10.pdf
+2026-01-05 22:24:38,879 - INFO - Saved transmission utilization map: output\simulations_run_20251223_054555\img\6_maps\TransmissionUtilizationMapEvolution_Int_2y_AltDem_10.pdf
+2026-01-05 22:27:05,866 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2025.html
+2026-01-05 22:27:07,373 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2025.html
+2026-01-05 22:29:15,223 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2030.html
+2026-01-05 22:29:16,794 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2030.html
+2026-01-05 22:31:35,643 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2035.html
+2026-01-05 22:31:37,639 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2035.html
+2026-01-05 22:33:49,877 - INFO - Saving interactive energy map to output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2040.html
+2026-01-05 22:33:51,678 - INFO - Saved interactive map: output\simulations_run_20251223_054555\img\6_maps\InteractiveMap_Int_2y_AltDem_10_2040.html
+2026-01-05 22:33:51,678 - INFO - Generating project economic assessment figures...
+2026-01-05 22:33:51,678 - INFO - No scenario pairs detected for project assessment.
+2026-01-05 22:35:09,103 - INFO - Postprocessing completed for folder: output\simulations_run_20251223_054555
+2026-01-05 22:35:09,119 - INFO - EPM workflow completed
