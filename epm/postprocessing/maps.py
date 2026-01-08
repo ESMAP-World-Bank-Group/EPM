@@ -141,13 +141,9 @@ def get_json_data(epm_results=None, selected_zones=None, dict_specs=None, geojso
         - zone_map (gpd.GeoDataFrame): Processed zone map including divided regions.
         - geojson_to_epm (dict): Updated mapping of GeoJSON names to EPM zones.
     """
-    assert ((dict_specs is not None) or (geojson_to_epm is not None)), "Mapping zone names from geojson to EPM must be provided either under dict_specs or under geojson_to_epm"
-
+    # If neither dict_specs nor geojson_to_epm is provided, load default specs
     if dict_specs is None:
-        if 'postprocessing' in os.getcwd():
-            dict_specs = read_plot_specs(folder='')
-        else:
-            dict_specs = read_plot_specs(folder='postprocessing')
+        dict_specs = read_plot_specs()
     if geojson_to_epm is None:
         geojson_to_epm = dict_specs['geojson_to_epm']
     else:
