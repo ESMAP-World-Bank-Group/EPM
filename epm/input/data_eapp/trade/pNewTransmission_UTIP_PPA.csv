@@ -1,2 +1,10 @@
 From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
-Uganda,Tanzania,2030,1,1000,591.3,40,2
+Uganda,Tanzania,2030,1,200,591.3,40,2
+Uganda,Tanzania,2032,1,100,0,38,2
+Uganda,Tanzania,2034,1,100,0,36,2
+Uganda,Tanzania,2036,1,100,0,34,2
+Uganda,Tanzania,2038,1,100,0,32,2
+Uganda,Tanzania,2040,1,100,0,30,2
+Uganda,Tanzania,2042,1,100,0,28,2
+Uganda,Tanzania,2044,1,100,0,26,2
+Uganda,Tanzania,2046,1,100,0,24,2
