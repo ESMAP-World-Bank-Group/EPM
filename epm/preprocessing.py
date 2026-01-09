@@ -859,7 +859,7 @@ def perform_sensitivity(sensitivity, s):
     param = 'delayedTransmission'
     if sensitivity.get(param) and not math.isnan(float(sensitivity[param])):  # testing implications of delayed transmission projects
         df = pd.read_csv(s['baseline']['pNewTransmission'])
-        print(df.head())
+
         # Add 2 years delay to all transmission projects starting in 2030
         df.loc[(df['EarliestEntry'] > 2026), 'EarliestEntry'] += 2
 

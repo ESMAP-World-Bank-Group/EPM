@@ -1,7 +1,7 @@
 ﻿parameter,sensitivity
-pSettings,1
+pSettings,
 y,
-pDemandForecast,0.1&
+pDemandForecast,
 pDemandProfile,
 pAvailabilityDefault,
 pCapexTrajectoriesDefault,
