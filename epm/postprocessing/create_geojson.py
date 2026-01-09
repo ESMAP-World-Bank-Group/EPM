@@ -216,10 +216,9 @@ def create_geojson_for_tableau(geojson_to_epm, zcmap, selected_zones, folder='ta
     else:
         # Already a DataFrame
         zcmap_df = zcmap.copy()
-
     # Support both 'z'/'zone' and 'c'/'country' column names
-    zone_col = 'Zone' if 'Zone' in zcmap_df.columns else 'z'
-    country_col = 'Country' if 'Country' in zcmap_df.columns else 'c'
+    zone_col = 'zone' if 'zone' in zcmap_df.columns else 'z'
+    country_col = 'country' if 'country' in zcmap_df.columns else 'c'
 
     # Add country codes for both zones (start and end)
     zcmap_df = zcmap_df.set_index(zone_col)

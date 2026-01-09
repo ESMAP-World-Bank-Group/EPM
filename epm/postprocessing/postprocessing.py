@@ -2014,7 +2014,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         x_column='zone',
                         y_column='year',
                         value_column='value',
-                        annot_kws={"size": 10}
                     )
 
                 # 4.1.1 Stacked bar plot of imports/exports by zone
@@ -2091,7 +2090,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                         x_column='zone',
                                         y_column='z2',
                                         value_column='value',
-                                        annot_kws={"size": 10}
                                     )
                                     
                 figure_name = 'InterconnectionUtilizationHeatmap'
@@ -2128,8 +2126,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                         title=title,
                                         x_column='zone',
                                         y_column='z2',
-                                        value_column='value',
-                                        annot_kws={"size": 10}
+                                        value_column='value'
                                     )
                 
             # ------------------------------------------------------------------------------------

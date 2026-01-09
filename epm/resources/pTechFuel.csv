@@ -5,6 +5,7 @@ CCGT,LNG,0,0,15
 CSPPlant,CSP,0,1,10
 ICE,Diesel,0,0,12
 ICE,HFO,0,0,7
+ICE,Gas,0,0,2
 ImportTransmission,Import,0,0,6
 Nuclear,Uranium,0,0,14
 OCGT,Diesel,0,0,12
@@ -22,6 +23,7 @@ ST,DomesticCoal,0,0,1
 ST,ImportedCoal,0,0,1
 ST,Lignite,0,0,13
 ST,Geothermal,0,1,16
+ST,Biomass,0,1,1
 STOPV,Solar,0,1,4
 Storage,Battery,0,0,11
 Storage,Water,0,0,3
