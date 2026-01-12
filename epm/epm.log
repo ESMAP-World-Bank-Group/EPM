@@ -1,68 +1,81 @@
-2026-01-12 10:31:00,915 - INFO - Starting EPM workflow
-2026-01-12 10:31:00,915 - INFO - Config file: config.csv
-2026-01-12 10:31:00,915 - INFO - Folder input: data_test
-2026-01-12 10:31:00,915 - INFO - modeltype: None
-2026-01-12 10:31:00,915 - INFO - Scenarios file: None
-2026-01-12 10:31:00,915 - INFO - Sensitivity: False
-2026-01-12 10:31:00,931 - INFO - MonteCarlo: False
-2026-01-12 10:31:00,931 - INFO - MonteCarlo samples: 10
-2026-01-12 10:31:00,931 - INFO - Monte Carlo uncertainties file: None
-2026-01-12 10:31:00,931 - INFO - Reduced output: False
-2026-01-12 10:31:00,931 - INFO - Reduced definition csv: False
-2026-01-12 10:31:00,931 - INFO - Selected scenarios: None
-2026-01-12 10:31:00,931 - INFO - Simple: None
-2026-01-12 10:31:00,931 - INFO - Simulation label: None
-2026-01-12 10:31:00,931 - INFO - Debug flag: False
-2026-01-12 10:31:00,931 - INFO - Trace flag: False
-2026-01-12 10:31:00,931 - INFO - Project folder: output\simulations_run_20260109_104001
-2026-01-12 10:31:00,931 - INFO - EPM does not run again but use the existing simulation within the folder
-2026-01-12 10:31:00,931 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260109_104001 for postprocessing.
-2026-01-12 10:31:00,931 - INFO - Starting postprocessing for folder: output\simulations_run_20260109_104001
-2026-01-12 10:31:00,931 - INFO - Postprocessing started for output\simulations_run_20260109_104001
-2026-01-12 10:31:00,931 - INFO - Processing simulation results from output\simulations_run_20260109_104001
-2026-01-12 10:31:03,523 - WARNING - pInterchangeExternalImports not in epm_results.keys().
-2026-01-12 10:31:03,523 - WARNING - pInterchangeExternalExports not in epm_results.keys().
-2026-01-12 10:31:05,611 - INFO - Loaded 55 processed result tables
-2026-01-12 10:31:06,148 - INFO - Generating summary...
-2026-01-12 10:31:06,164 - WARNING - No pInterchangeExternalExports in epm_results
-2026-01-12 10:31:06,164 - WARNING - No pInterchangeExternalImports in epm_results
-2026-01-12 10:31:06,244 - INFO - Generating detailed summary by Power Plant...
-2026-01-12 10:31:06,291 - INFO - Generating heatmap summary...
-2026-01-12 10:31:07,368 - INFO - Creating folders for figures...
-2026-01-12 10:31:07,368 - INFO - Generating capacity figures...
-2026-01-12 10:31:29,940 - INFO - Generating cost figures...
-2026-01-12 10:31:54,148 - INFO - Generating energy figures...
-2026-01-12 10:32:34,141 - INFO - Generating energy dispatch figures...
-2026-01-12 10:33:12,427 - INFO - Generating interconnection figures...
-2026-01-12 10:34:00,186 - INFO - Generated Tableau GeoJSON file: linestring_countries.geojson
-2026-01-12 10:34:00,188 - INFO - Generating interactive map figures...
-2026-01-12 10:34:00,189 - INFO - Generating map for scenario delayedHydro
-2026-01-12 10:34:04,801 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2025.pdf
-2026-01-12 10:34:54,456 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2025.html
-2026-01-12 10:34:55,618 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2025.html
-2026-01-12 10:35:00,344 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2030.pdf
-2026-01-12 10:35:44,125 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2030.html
-2026-01-12 10:35:45,347 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2030.html
-2026-01-12 10:35:49,761 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2035.pdf
-2026-01-12 10:36:34,000 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2035.html
-2026-01-12 10:36:35,263 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2035.html
-2026-01-12 10:36:39,940 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2040.pdf
-2026-01-12 10:37:32,280 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2040.html
-2026-01-12 10:37:33,700 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2040.html
-2026-01-12 10:37:33,702 - INFO - Generating map for scenario delayedTransmission
-2026-01-12 10:37:39,309 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2025.pdf
-2026-01-12 10:38:26,575 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2025.html
-2026-01-12 10:38:27,668 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2025.html
-2026-01-12 10:38:32,737 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2030.pdf
-2026-01-12 10:39:20,472 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2030.html
-2026-01-12 10:39:21,819 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2030.html
-2026-01-12 10:39:26,586 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2035.pdf
-2026-01-12 10:40:19,002 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2035.html
-2026-01-12 10:40:20,313 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2035.html
-2026-01-12 10:40:25,852 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2040.pdf
-2026-01-12 10:41:16,034 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2040.html
-2026-01-12 10:41:17,022 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2040.html
-2026-01-12 10:41:17,022 - INFO - Generating project economic assessment figures...
-2026-01-12 10:41:17,022 - INFO - No scenario pairs detected for project assessment.
-2026-01-12 10:42:09,438 - INFO - Postprocessing completed for folder: output\simulations_run_20260109_104001
-2026-01-12 10:42:09,456 - INFO - EPM workflow completed
+2026-01-12 12:49:00,417 - INFO - Starting EPM workflow
+2026-01-12 12:49:00,419 - INFO - Config file: config.csv
+2026-01-12 12:49:00,419 - INFO - Folder input: data_test
+2026-01-12 12:49:00,419 - INFO - modeltype: None
+2026-01-12 12:49:00,422 - INFO - Scenarios file: None
+2026-01-12 12:49:00,422 - INFO - Sensitivity: False
+2026-01-12 12:49:00,422 - INFO - MonteCarlo: False
+2026-01-12 12:49:00,422 - INFO - MonteCarlo samples: 10
+2026-01-12 12:49:00,422 - INFO - Monte Carlo uncertainties file: None
+2026-01-12 12:49:00,422 - INFO - Reduced output: False
+2026-01-12 12:49:00,422 - INFO - Reduced definition csv: False
+2026-01-12 12:49:00,422 - INFO - Selected scenarios: None
+2026-01-12 12:49:00,422 - INFO - Simple: None
+2026-01-12 12:49:00,422 - INFO - Simulation label: None
+2026-01-12 12:49:00,424 - INFO - Debug flag: False
+2026-01-12 12:49:00,424 - INFO - Trace flag: False
+2026-01-12 12:49:00,424 - INFO - Project folder: output\simulations_run_20260109_104001
+2026-01-12 12:49:00,424 - INFO - EPM does not run again but use the existing simulation within the folder
+2026-01-12 12:49:00,424 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260109_104001 for postprocessing.
+2026-01-12 12:49:00,424 - INFO - Starting postprocessing for folder: output\simulations_run_20260109_104001
+2026-01-12 12:49:00,426 - INFO - Postprocessing started for output\simulations_run_20260109_104001
+2026-01-12 12:49:00,426 - INFO - Processing simulation results from output\simulations_run_20260109_104001
+2026-01-12 12:49:04,887 - WARNING - pInterchangeExternalExports not in epm_results.keys().
+2026-01-12 12:49:04,887 - WARNING - pInterchangeExternalImports not in epm_results.keys().
+2026-01-12 12:49:08,318 - INFO - Loaded 55 processed result tables
+2026-01-12 12:49:09,160 - INFO - Generating summary...
+2026-01-12 12:49:09,176 - WARNING - No pInterchangeExternalExports in epm_results
+2026-01-12 12:49:09,176 - WARNING - No pInterchangeExternalImports in epm_results
+2026-01-12 12:49:09,255 - INFO - Generating detailed summary by Power Plant...
+2026-01-12 12:49:09,303 - INFO - Generating heatmap summary...
+2026-01-12 12:49:12,529 - INFO - Creating folders for figures...
+2026-01-12 12:49:12,544 - INFO - Generating capacity figures...
+2026-01-12 12:50:30,772 - INFO - Generating cost figures...
+2026-01-12 12:52:02,185 - INFO - Generating energy figures...
+2026-01-12 12:54:37,514 - INFO - Generating energy dispatch figures...
+2026-01-12 12:56:58,586 - INFO - Generating interconnection figures...
+2026-01-12 12:57:38,091 - INFO - Generated Tableau GeoJSON file: linestring_countries.geojson
+2026-01-12 12:57:38,092 - INFO - Generating interactive map figures...
+2026-01-12 12:57:38,093 - INFO - Generating map for scenario baseline
+2026-01-12 12:57:43,090 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_baseline_2025.pdf
+2026-01-12 12:58:22,710 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2025.html
+2026-01-12 12:58:23,437 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2025.html
+2026-01-12 12:58:27,920 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_baseline_2030.pdf
+2026-01-12 12:59:09,443 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2030.html
+2026-01-12 12:59:10,333 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2030.html
+2026-01-12 12:59:15,390 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_baseline_2035.pdf
+2026-01-12 13:00:03,867 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2035.html
+2026-01-12 13:00:05,528 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2035.html
+2026-01-12 13:00:17,504 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_baseline_2040.pdf
+2026-01-12 13:01:26,701 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2040.html
+2026-01-12 13:01:28,093 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_baseline_2040.html
+2026-01-12 13:01:28,095 - INFO - Generating map for scenario delayedHydro
+2026-01-12 13:01:37,995 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2025.pdf
+2026-01-12 13:02:58,370 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2025.html
+2026-01-12 13:02:59,780 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2025.html
+2026-01-12 13:03:09,500 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2030.pdf
+2026-01-12 13:04:33,662 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2030.html
+2026-01-12 13:04:35,486 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2030.html
+2026-01-12 13:04:46,560 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2035.pdf
+2026-01-12 13:06:07,961 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2035.html
+2026-01-12 13:06:09,754 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2035.html
+2026-01-12 13:06:19,923 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedHydro_2040.pdf
+2026-01-12 13:07:42,776 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2040.html
+2026-01-12 13:07:44,065 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedHydro_2040.html
+2026-01-12 13:07:44,065 - INFO - Generating map for scenario delayedTransmission
+2026-01-12 13:07:51,405 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2025.pdf
+2026-01-12 13:08:48,855 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2025.html
+2026-01-12 13:08:50,387 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2025.html
+2026-01-12 13:09:00,145 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2030.pdf
+2026-01-12 13:10:20,849 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2030.html
+2026-01-12 13:10:22,155 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2030.html
+2026-01-12 13:10:31,775 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2035.pdf
+2026-01-12 13:11:57,943 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2035.html
+2026-01-12 13:11:59,768 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2035.html
+2026-01-12 13:12:09,755 - INFO - Saved net exports map: output\simulations_run_20260109_104001\img\6_maps\NetExportsMap_delayedTransmission_2040.pdf
+2026-01-12 13:13:28,218 - INFO - Saving interactive energy map to output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2040.html
+2026-01-12 13:13:29,816 - INFO - Saved interactive map: output\simulations_run_20260109_104001\img\6_maps\InteractiveMap_delayedTransmission_2040.html
+2026-01-12 13:13:29,818 - INFO - Generating project economic assessment figures...
+2026-01-12 13:13:29,819 - INFO - No scenario pairs detected for project assessment.
+2026-01-12 13:14:43,320 - INFO - Postprocessing completed for folder: output\simulations_run_20260109_104001
+2026-01-12 13:14:43,338 - INFO - EPM workflow completed
