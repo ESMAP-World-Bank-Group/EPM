@@ -8,7 +8,7 @@ pHours,pHours.csv
 pDemandProfile,load/pDemandProfile.csv
 pDemandData,load/pDemandData.csv
 pDemandForecast,load/pDemandForecast_sapp_adapted.csv
-sRelevant,load/srelevant.csv
+sRelevant,load/sRelevant.csv
 pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 pGenDataInput,supply/pGenDataInput.csv
 pGenDataInputDefault,supply/pGenDataInputDefault.csv
