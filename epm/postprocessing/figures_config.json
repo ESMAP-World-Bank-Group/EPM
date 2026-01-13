@@ -19,7 +19,7 @@
       }
     },
     "costs": {
-      "enabled": true,
+      "enabled": false,
       "figures": {
         "NPVCostSystemScenarios": true,
         "NPVCostSystemScenariosRelative": true,
@@ -43,7 +43,7 @@
       }
     },
     "energy": {
-      "enabled": true,
+      "enabled": false,
       "figures": {
         "EnergyMixSystemEvolutionScenarios": true,
         "EnergyMixSystemEvolutionScenariosRelative": true,
@@ -64,7 +64,7 @@
       }
     },
     "interconnection": {
-      "enabled": true,
+      "enabled": false,
       "figures": {
         "NetImportsZoneEvolution": true,
         "NetImportsZoneEvolutionZoneEvolutionShare": true,
@@ -74,7 +74,7 @@
       }
     },
     "maps": {
-      "enabled": true,
+      "enabled": false,
       "figures": {
         "TransmissionCapacityMap": false,
         "TransmissionCapacityMapEvolution": false,
