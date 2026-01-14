@@ -13,7 +13,7 @@ Annual energy and peak demand forecast by zone (Unit: GWh and MW),pDemandForecas
 List of representative daytypes used in demand sampling (Unit: unitless),sRelevant,load/sRelevant.csv
 Demand-side efficiency multipliers by year (Unit: per-unit multiplier),pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 ,SUPPLY,
-"Custom generator entries overriding defaults (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInput,supply/pGenDataInput.csv
+"Custom generator entries overriding defaults (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInput,supply/sensitivity/pGenDataInput_delayedHydro_alt_3years.csv
 "Default generator dataset by zone and technology (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInputDefault,supply/pGenDataInputDefault.csv
 Custom seasonal availability factors for generators (Unit: per-unit availability),pAvailability,supply/pAvailabilityCustom.csv
 Default seasonal availability factors for generators (Unit: per-unit availability),pAvailabilityDefault,supply/pAvailabilityDefault.csv
