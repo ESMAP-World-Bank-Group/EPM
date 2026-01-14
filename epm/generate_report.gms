@@ -1429,6 +1429,46 @@ endEmbeddedCode
 * Additional outputs which can be included in epmresults according to the modelers' needs: pPVwSTOBalance,pPVwSTOComponents, pSolarValueZone, pSolarCost, pCapacityTechFuel, pUtilizationTech
 
 $ifThenI.reportshort %REPORTSHORT% == 0
+* Standard reporting - parameters used in Python postprocessing
+    execute_unload 'epmresults',
+      pSettings, pGeneratorTechFuel, pZoneCountry,
+      pDemandEnergyZone, pDemandPeakZone,
+* 1. CAPACITY
+      pCapacityPlant, pCapacityTechFuel, pCapacityTechFuelCountry,
+      pNewCapacityTechFuel, pNewCapacityTechFuelCountry,
+      pAnnualTransmissionCapacity, pNewTransmissionCapacity,
+* 2. COSTS
+      pCostsPlant, pCapexInvestmentComponent, pCapexInvestmentPlant,
+      pPrice, pYearlyPrice,
+      pYearlyCostsZone, pYearlyCostsCountry, pYearlyCostsSystem,
+      pCostsZone, pCostsSystem, pCostsSystemPerMWh, pCostsZonePerMWh, pCostsCountryPerMWh,
+      pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
+      pYearlyGenCostZonePerMWh,
+* 3. ENERGY BALANCE
+      pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelCountry, pEnergyTechFuelComplete,
+      pEnergyBalance,
+      pUtilizationPlant, pUtilizationTechFuel,
+* 4. ENERGY DISPATCH
+      pDispatchPlant, pDispatch, pDispatchTechFuel,
+* 5. RESERVES
+      pReserveSpinningPlantZone, pReserveSpinningPlantCountry, pReserveMarginCountry,
+* 6. INTERCONNECTIONS
+      pInterchange, pInterconUtilization, pCongestionShare,
+      pInterchangeExternalExports, pInterchangeExternalImports, pNetImport,
+* 7. EMISSIONS
+      pEmissionsZone, pEmissionsIntensityZone,
+* 8. METRICS
+      pPlantAnnualLCOE,
+      pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
+      pYearlyCostsZonePerMWh, pYearlyCostsCountryPerMWh, pYearlyCostsSystemPerMWh,
+* 9. SOLVER PARAMETERS
+      pSolverParameters
+;
+$elseIfI.reportshort %REPORTSHORT% == 1
+*  Limited reporting is used
+    execute_unload 'epmresults', pYearlyCostsZone, pYearlyCostsZoneFull, pEnergyBalance
+    ;
+$elseIfI.reportshort %REPORTSHORT% == 2
 * Extensive reporting is used
     execute_unload 'epmresults',
       pSettings, pGeneratorTechFuel, pZoneCountry,
@@ -1441,7 +1481,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pAnnualTransmissionCapacity, pNewTransmissionCapacity,
       pCapacitySummary, pCapacitySummaryCountry,
 * 2. COSTS
-      pCostsPlant, 
+      pCostsPlant,
       pCapexInvestment, pCapexInvestmentPlant, pCapexInvestmentTransmission, pCapexInvestmentComponent,
       pPrice, pImportCostsInternal, pExportRevenuesInternal, pCongestionRevenues, pTradeSharedBenefits,
       pYearlyCostsZone, pYearlyDiscountedWeightedCostsZone, pYearlyCostsCountry, pCostsZone, pCostsSystem, pCostsSystemPerMWh, pYearlyCostsSystem,
@@ -1455,35 +1495,31 @@ $ifThenI.reportshort %REPORTSHORT% == 0
 * 5. RESERVES
       pReserveSpinningPlantZone, pReserveSpinningFuelZone, pReserveSpinningTechFuelZone, pReserveSpinningPlantCountry, pReserveSpinningTechFuelCountry,
       pReserveMargin, pReserveMarginCountry,
-* 5. INTERCONNECTIONS
+* 6. INTERCONNECTIONS
       pInterchange, pInterconUtilization, pLossesTransmission, pInterchangeCountry, pLossesTransmissionCountry,
       pCongestionShare,
       pHourlyInterchangeExternal, pYearlyInterchangeExternal, pYearlyInterchangeExternalCountry, pHourlyInterchangeExternalCountry,
       pInterchangeExternalExports, pInterchangeExternalImports, pInterconUtilizationExternalExports, pInterconUtilizationExternalImports,
       pNetImport,
-* 6. EMISSIONS
+* 7. EMISSIONS
       pEmissionsZone, pEmissionsIntensityZone, pEmissionsCountrySummary, pEmissionsIntensityCountry,
       pEmissionMarginalCosts, pEmissionMarginalCostsCountry,
-* 7. PRICES
+* 8. PRICES
       pYearlyPrice, pYearlyPriceExport, pYearlyPriceImport, pYearlyPriceHub,
       pYearlyPriceCountry, pYearlyPriceExportCountry, pYearlyPriceImportCountry,
-* 8. SPECIAL TECHNOLOGIES
+* 9. SPECIAL TECHNOLOGIES
       pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
-* 9. METRICS
+* 10. METRICS
       pPlantAnnualLCOE, pCostsZonePerMWh, pCostsCountryPerMWh,
       pYearlyGenCostZonePerMWh,
       pYearlyCostsZonePerMWh, pYearlyCostsCountryPerMWh, pYearlyCostsSystemPerMWh,
       pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
-* 10. modeltype PARAMETERS
+* 11. SOLVER PARAMETERS
       pSolverParameters,
-* 11. ADDITIONAL OUTPUTS
+* 12. ADDITIONAL OUTPUTS
       pVarCost, pCapacityCredit
 ;
-$elseIfI.reportshort %REPORTSHORT% == 1
-*  Limited reporting is used
-    execute_unload 'epmresults', pYearlyCostsZone, pYearlyCostsZoneFull, pEnergyBalance
-    ;
 $endIf.reportshort
 
 * ---------------------------------------------------------
