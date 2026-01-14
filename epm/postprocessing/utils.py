@@ -150,7 +150,7 @@ UNIT = {
 RENAME_COLUMNS = {'c': 'country', 'c_0': 'country', 'y': 'year', 'v': 'value', 's': 'scenario', 'uni': 'attribute',
                   'z': 'zone', 'z_0': 'zone', 'g': 'generator', 'gen': 'generator',
                   'f': 'fuel', 'q': 'season', 'd': 'day', 't': 't', 'sumhdr': 'attribute', 'genCostCmp': 'attribute',
-                  'uni_1': 'tech', 'uni_2': 'fuel', 'y_3': 'year'}
+                  'uni_1': 'tech', 'uni_2': 'fuel', 'y_3': 'year', 'uni_0': 'attribute'}
 TYPE_COLUMNS  = {'year': int, 'season': str, 'day': str, 'tech': str, 'fuel': str}
 
 

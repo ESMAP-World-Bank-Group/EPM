@@ -172,7 +172,7 @@ Parameters
   pYearlyDiscountedWeightedCostsZone(z, *, y)   'Discounted weighted annual cost [million USD] by zone and year'
   pCostsZone(z, *)                               'Total cost [million USD] by zone and cost category'
   pYearlyCostsCountry(c, *, y)                   'Annual cost summary [million USD] by country and year'
-  pYearlyCostsSystem
+  pYearlyCostsSystem(sumhdr, y)
   pCostsSystem(*)                                'System-level cost summary [million USD], weighted and discounted'
   pCostsSystemPerMWh(*)                          'System-level cost summary [$ / MWh], weighted and discounted'
   pYearlySystemCostEnergyBasis(y)                'System cost energy denominator [MWh] by year'

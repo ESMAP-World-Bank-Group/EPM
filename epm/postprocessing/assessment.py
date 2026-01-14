@@ -399,6 +399,359 @@ def make_assessment_npv_comparison(
         )
 
 
+def make_assessment_cost_template_csv(
+    epm_results,
+    folder,
+    scenario_pairs,
+    dict_specs=None,
+    trade_attrs=None,
+    reserve_attrs=None,
+):
+    """
+    Export a single cost assessment CSV in wide format for investment analysis.
+
+    Output structure (single file per project):
+    ```
+    EPM System Cost Comparison: Project vs Baseline (values in million USD)
+    BASELINE = without project | PROJECT = with project | DIFFERENCE = PROJECT - BASELINE
+    Positive difference = project INCREASES system cost | Negative = project REDUCES system cost
+
+    Scenario   | Cost Category (M$)     | 2025 | 2030 | ... | NPV
+    -----------|------------------------|------|------|-----|------
+    BASELINE   | Investment costs       | 100  | 120  | ... | 450
+    BASELINE   | Fixed O&M costs        | 25   | 28   | ... | 100
+    BASELINE   | Variable O&M costs     | 15   | 18   | ... | 60
+    BASELINE   | Fuel costs             | 80   | 85   | ... | 320
+    BASELINE   | Trade costs            | 10   | 12   | ... | 40
+    BASELINE   | Unmet demand costs     | 0    | 0    | ... | 0
+    BASELINE   | Unmet reserve costs    | 5    | 3    | ... | 15
+    BASELINE   | TOTAL                  | 235  | 266  | ... | 985
+               |                        |      |      |     |
+    PROJECT    | ...                    |      |      |     |
+    ...
+    DIFFERENCE | ...                    |      |      |     |
+    ```
+
+    Also generates a stacked bar chart showing cost differences by component.
+    """
+    if "baseline" not in scenario_pairs:
+        return
+
+    if "pYearlyCostsSystem" not in epm_results:
+        log_warning("pYearlyCostsSystem not found in results; skipping assessment CSV export.")
+        return
+
+    # Define cost category order and mapping for cleaner names
+    cost_category_order = [
+        "Investment costs",
+        "Fixed O&M costs",
+        "Variable O&M costs",
+        "Fuel costs",
+        "Trade costs",
+        "Unmet demand costs",
+        "Unmet reserve costs",
+    ]
+
+    # Mapping from raw GAMS attribute names to clean category names
+    # Raw names from generate_report.gms sumhdr set
+    category_mapping = {
+        # Investment
+        "Investment costs: $m": "Investment costs",
+        # O&M (note: GAMS uses "Fixed O&M" not "Fixed O&M costs")
+        "Fixed O&M: $m": "Fixed O&M costs",
+        "Variable O&M: $m": "Variable O&M costs",
+        # Other operational
+        "Startup costs: $m": "Variable O&M costs",  # Merge startup into variable O&M
+        "Fuel costs: $m": "Fuel costs",
+        "Spinning reserve costs: $m": "Fixed O&M costs",  # Merge into fixed O&M
+        "Transmission costs: $m": "Fixed O&M costs",  # Merge into fixed O&M
+        # Trade
+        "Import costs with external zones: $m": "Trade costs",
+        "Export revenues with external zones: $m": "Trade costs",
+        "Import costs with internal zones: $m": "Trade costs",
+        "Export revenues with internal zones: $m": "Trade costs",
+        "Trade costs: $m": "Trade costs",  # If already aggregated
+        # Unmet demand
+        "Unmet demand costs: $m": "Unmet demand costs",
+        "Excess generation: $m": "Unmet demand costs",
+        "VRE curtailment: $m": "Unmet demand costs",
+        # Unmet reserves (will be aggregated by _simplify_attributes if reserve_attrs provided)
+        "Unmet country spinning reserve costs: $m": "Unmet reserve costs",
+        "Unmet country planning reserve costs: $m": "Unmet reserve costs",
+        "Unmet country CO2 backstop cost: $m": "Unmet reserve costs",
+        "Unmet system planning reserve costs: $m": "Unmet reserve costs",
+        "Unmet system spinning reserve costs: $m": "Unmet reserve costs",
+        "Unmet system CO2 backstop cost: $m": "Unmet reserve costs",
+        "Unmet reserve costs: $m": "Unmet reserve costs",  # If already aggregated
+    }
+
+    df_yearly = epm_results["pYearlyCostsSystem"].copy()
+
+    if reserve_attrs:
+        df_yearly = _simplify_attributes(df_yearly, "Unmet reserve costs: $m", reserve_attrs)
+    if trade_attrs:
+        df_yearly = _simplify_attributes(df_yearly, "Trade costs: $m", trade_attrs)
+
+    df_yearly = df_yearly.loc[df_yearly["attribute"] != "NPV of system cost: $m"]
+
+    # Apply category mapping
+    df_yearly["attribute"] = df_yearly["attribute"].map(
+        lambda x: category_mapping.get(x, x)
+    )
+
+    # Remove any remaining ": $m" suffix for unmapped attributes
+    df_yearly["attribute"] = df_yearly["attribute"].str.replace(": $m", "", regex=False)
+
+    # Aggregate by category (mapping may have grouped multiple raw attrs into one)
+    df_yearly = df_yearly.groupby(
+        [c for c in df_yearly.columns if c != "value"],
+        as_index=False,
+        observed=False,
+    )["value"].sum()
+
+    # Get NPV data for the final column
+    df_npv_all = None
+    if "pCostsSystem" in epm_results:
+        df_npv_all = epm_results["pCostsSystem"].copy()
+        df_npv_all = df_npv_all.loc[df_npv_all["attribute"] != "NPV of system cost: $m"]
+        if reserve_attrs:
+            df_npv_all = _simplify_attributes(df_npv_all, "Unmet reserve costs: $m", reserve_attrs)
+        if trade_attrs:
+            df_npv_all = _simplify_attributes(df_npv_all, "Trade costs: $m", trade_attrs)
+        # Apply same category mapping
+        df_npv_all["attribute"] = df_npv_all["attribute"].map(
+            lambda x: category_mapping.get(x, x)
+        )
+        # Remove any remaining ": $m" suffix
+        df_npv_all["attribute"] = df_npv_all["attribute"].str.replace(": $m", "", regex=False)
+        # Aggregate by category
+        df_npv_all = df_npv_all.groupby(
+            [c for c in df_npv_all.columns if c != "value"],
+            as_index=False,
+            observed=False,
+        )["value"].sum()
+
+    for scenario_cf in scenario_pairs["baseline"]:
+        df_base = df_yearly[df_yearly["scenario"] == "baseline"].copy()
+        df_cf = df_yearly[df_yearly["scenario"] == scenario_cf].copy()
+
+        if df_base.empty or df_cf.empty:
+            continue
+
+        project_name = scenario_cf.split("@")[1] if "@" in scenario_cf else scenario_cf
+
+        # Pivot to wide format: rows=attribute, columns=year
+        df_base_wide = df_base.pivot_table(
+            index="attribute",
+            columns="year",
+            values="value",
+            aggfunc="sum",
+            fill_value=0,
+        )
+        df_cf_wide = df_cf.pivot_table(
+            index="attribute",
+            columns="year",
+            values="value",
+            aggfunc="sum",
+            fill_value=0,
+        )
+
+        # Ensure both have the same columns (years)
+        all_years = sorted(set(df_base_wide.columns) | set(df_cf_wide.columns))
+        for yr in all_years:
+            if yr not in df_base_wide.columns:
+                df_base_wide[yr] = 0
+            if yr not in df_cf_wide.columns:
+                df_cf_wide[yr] = 0
+        df_base_wide = df_base_wide[all_years]
+        df_cf_wide = df_cf_wide[all_years]
+
+        # Reindex to standard category order (only include categories present in data)
+        all_categories = [c for c in cost_category_order if c in df_base_wide.index or c in df_cf_wide.index]
+
+        df_base_wide = df_base_wide.reindex(all_categories, fill_value=0)
+        df_cf_wide = df_cf_wide.reindex(all_categories, fill_value=0)
+
+        # Compute difference (project - baseline)
+        df_diff_wide = df_cf_wide - df_base_wide
+
+        # Add NPV column if available
+        if df_npv_all is not None:
+            npv_base = df_npv_all[df_npv_all["scenario"] == "baseline"].copy()
+            npv_cf = df_npv_all[df_npv_all["scenario"] == scenario_cf].copy()
+
+            npv_base_dict = npv_base.groupby("attribute")["value"].sum().to_dict()
+            npv_cf_dict = npv_cf.groupby("attribute")["value"].sum().to_dict()
+
+            df_base_wide["NPV"] = df_base_wide.index.map(lambda x: npv_base_dict.get(x, 0))
+            df_cf_wide["NPV"] = df_cf_wide.index.map(lambda x: npv_cf_dict.get(x, 0))
+            df_diff_wide["NPV"] = df_cf_wide["NPV"] - df_base_wide["NPV"]
+
+        # Add total row to each section
+        df_base_wide.loc["TOTAL"] = df_base_wide.sum()
+        df_cf_wide.loc["TOTAL"] = df_cf_wide.sum()
+        df_diff_wide.loc["TOTAL"] = df_diff_wide.sum()
+
+        # Add scenario labels and reset index
+        df_base_wide = df_base_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
+        df_cf_wide = df_cf_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
+        df_diff_wide = df_diff_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
+
+        df_base_wide.insert(0, "Scenario", "BASELINE")
+        df_cf_wide.insert(0, "Scenario", "PROJECT")
+        df_diff_wide.insert(0, "Scenario", "DIFFERENCE")
+
+        # Create empty separator row
+        cols = df_base_wide.columns.tolist()
+        separator = pd.DataFrame([[""] * len(cols)], columns=cols)
+
+        # Combine data sections
+        df_combined = pd.concat(
+            [
+                df_base_wide,
+                separator,
+                df_cf_wide,
+                separator,
+                df_diff_wide,
+            ],
+            ignore_index=True,
+        )
+
+        # Build metadata header lines (will be written before the CSV data)
+        metadata_lines = [
+            f"# EPM System Cost Comparison: {project_name} vs Baseline",
+            "# Values in million USD (M$)",
+            "#",
+            "# Scenarios:",
+            "#   BASELINE = System costs WITHOUT the project",
+            "#   PROJECT  = System costs WITH the project",
+            "#   DIFFERENCE = PROJECT - BASELINE",
+            "#",
+            "# Interpretation:",
+            "#   Positive difference = project INCREASES system cost",
+            "#   Negative difference = project REDUCES system cost (savings)",
+            "#",
+        ]
+
+        # Save CSV with metadata header
+        filename = os.path.join(folder, f"AssessmentCostTemplate_{project_name}.csv")
+        with open(filename, "w", encoding="utf-8") as f:
+            # Write metadata as comment lines
+            for line in metadata_lines:
+                f.write(line + "\n")
+            # Write data table
+            df_combined.to_csv(f, index=False)
+
+        # Generate stacked bar chart for cost differences
+        if dict_specs is not None:
+            _make_cost_diff_stacked_bar(
+                df_diff_wide,
+                dict_specs,
+                folder,
+                project_name,
+            )
+
+
+def _make_cost_diff_stacked_bar(df_diff, dict_specs, folder, project_name):
+    """
+    Generate a stacked bar chart showing cost differences by component over years.
+
+    Positive bars (above zero) = project increases costs
+    Negative bars (below zero) = project reduces costs (savings)
+    """
+    # Exclude TOTAL row
+    df_plot = df_diff[df_diff["Cost Category (M$)"] != "TOTAL"].copy()
+
+    if df_plot.empty:
+        return
+
+    # Get unique categories (avoid duplicates)
+    categories = df_plot["Cost Category (M$)"].unique().tolist()
+    year_cols = [c for c in df_plot.columns if c not in ["Scenario", "Cost Category (M$)", "NPV"]]
+
+    if not year_cols:
+        return
+
+    # Create figure
+    _, ax = plt.subplots(figsize=(max(8, len(year_cols) * 1.2), 6))
+
+    x = np.arange(len(year_cols))
+    width = 0.6
+
+    # Get colors from dict_specs or use defaults
+    colors = dict_specs.get("colors", {})
+    default_colors = plt.cm.Set2(np.linspace(0, 1, len(categories)))
+
+    # Separate positive and negative values for proper stacking
+    bottom_pos = np.zeros(len(year_cols))
+    bottom_neg = np.zeros(len(year_cols))
+
+    # Track which categories have been added to legend
+    legend_added = set()
+
+    for i, category in enumerate(categories):
+        row = df_plot[df_plot["Cost Category (M$)"] == category]
+        if row.empty:
+            continue
+        values = row[year_cols].values.flatten()
+        color = colors.get(category, default_colors[i])
+
+        # Split into positive and negative
+        pos_values = np.where(values > 0, values, 0)
+        neg_values = np.where(values < 0, values, 0)
+
+        # Add label only once per category
+        label = category if category not in legend_added else None
+
+        if np.any(pos_values != 0):
+            ax.bar(x, pos_values, width, bottom=bottom_pos, label=label, color=color)
+            bottom_pos += pos_values
+            if label:
+                legend_added.add(category)
+                label = None  # Don't add again for negative
+
+        if np.any(neg_values != 0):
+            ax.bar(x, neg_values, width, bottom=bottom_neg, label=label, color=color)
+            bottom_neg += neg_values
+            if label:
+                legend_added.add(category)
+
+    # Add zero line
+    ax.axhline(y=0, color="black", linewidth=0.8)
+
+    # Add total annotation on each bar
+    totals = df_diff[df_diff["Cost Category (M$)"] == "TOTAL"][year_cols].values.flatten()
+    for i, total in enumerate(totals):
+        y_pos = total if total >= 0 else total
+        va = "bottom" if total >= 0 else "top"
+        offset = 5 if total >= 0 else -5
+        ax.annotate(
+            f"{total:+,.0f}",
+            xy=(i, y_pos),
+            ha="center",
+            va=va,
+            fontsize=9,
+            fontweight="bold",
+            xytext=(0, offset),
+            textcoords="offset points",
+        )
+
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Cost Difference (M$)")
+    ax.set_title(f"System Cost Difference: {project_name} vs Baseline\n(Positive = higher cost with project)")
+    ax.set_xticks(x)
+    ax.set_xticklabels(year_cols, rotation=45 if len(year_cols) > 6 else 0)
+    ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1), fontsize=9)
+
+    # Format y-axis
+    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f"{x:,.0f}"))
+
+    plt.tight_layout()
+    filename = os.path.join(folder, f"AssessmentCostDiffStacked_{project_name}.pdf")
+    plt.savefig(filename, bbox_inches="tight")
+    plt.close()
+
+
 def make_assessment_capacity_diff(
     epm_results, dict_specs, folder, scenario_pairs
 ):
