@@ -181,6 +181,7 @@ function ScenarioBuilderContent() {
               </label>
               <input
                 type="text"
+                data-tutorial="scenario-name"
                 value={formData.name}
                 onChange={(e) => updateFormData('name', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500"
@@ -230,7 +231,7 @@ function ScenarioBuilderContent() {
               </div>
             </div>
 
-            <div>
+            <div data-tutorial="zones-select">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Zones to Include
               </label>
@@ -256,7 +257,7 @@ function ScenarioBuilderContent() {
             </div>
 
             {/* General Files Section */}
-            <div className="pt-4 border-t">
+            <div data-tutorial="inline-files" className="pt-4 border-t">
               <InlineFileSection category="general" title="General Settings Files" />
             </div>
           </div>
@@ -275,7 +276,7 @@ function ScenarioBuilderContent() {
                 Please select zones in the General step first.
               </div>
             ) : (
-              <div className="space-y-4">
+              <div data-tutorial="demand-form" className="space-y-4">
                 {/* Info about auto-generation */}
                 {formData.demand.length > 0 && (
                   <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
@@ -381,7 +382,7 @@ function ScenarioBuilderContent() {
             </div>
 
             {/* Supply Files Sections */}
-            <div className="space-y-4">
+            <div data-tutorial="supply-files" className="space-y-4">
               <InlineFileSection category="supply_generation" title="Generation Data" />
               <InlineFileSection category="supply_storage" title="Storage Data" />
               <InlineFileSection category="supply_costs" title="Cost Data" />
@@ -394,7 +395,7 @@ function ScenarioBuilderContent() {
       case 3: // Economics
         return (
           <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
+            <div data-tutorial="economics-form" className="grid grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   WACC (%)
@@ -464,7 +465,7 @@ function ScenarioBuilderContent() {
               Enable or disable model features
             </p>
 
-            <div className="space-y-4">
+            <div data-tutorial="features-toggles" className="space-y-4">
               {[
                 { key: 'enable_capacity_expansion', label: 'Capacity Expansion', desc: 'Allow new capacity investments' },
                 { key: 'enable_transmission_expansion', label: 'Transmission Expansion', desc: 'Allow new interconnection investments' },
@@ -502,7 +503,7 @@ function ScenarioBuilderContent() {
 
       case 5: // Review
         return (
-          <div className="space-y-6">
+          <div data-tutorial="review-summary" className="space-y-6">
             <div className="bg-gray-50 rounded-lg p-4">
               <h4 className="font-medium text-gray-900 mb-3">Scenario Summary</h4>
               <dl className="grid grid-cols-2 gap-4 text-sm">
@@ -623,7 +624,7 @@ function ScenarioBuilderContent() {
   return (
     <div className="flex min-h-[calc(100vh-4rem)]">
       {/* Sidebar */}
-      <div className="sticky top-16 h-[calc(100vh-4rem)] flex-shrink-0">
+      <div data-tutorial="sidebar" className="sticky top-16 h-[calc(100vh-4rem)] flex-shrink-0">
         <DataFilesSidebar onCategoryClick={handleCategoryClick} />
       </div>
 
@@ -631,7 +632,7 @@ function ScenarioBuilderContent() {
       <div className="flex-1 p-6">
         <div className="max-w-3xl mx-auto">
           {/* Progress Steps */}
-          <div className="mb-8">
+          <div data-tutorial="step-indicator" className="mb-8">
             <div className="flex items-center justify-between">
               {STEPS.map((step, index) => (
                 <div key={step} className="flex items-center">
@@ -687,6 +688,7 @@ function ScenarioBuilderContent() {
               </button>
             ) : (
               <button
+                data-tutorial="run-button"
                 onClick={handleSubmit}
                 disabled={submitting || !formData.name}
                 className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"

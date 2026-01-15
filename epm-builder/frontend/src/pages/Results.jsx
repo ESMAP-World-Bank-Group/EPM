@@ -98,7 +98,7 @@ function Results() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div data-tutorial="results-header" className="bg-white rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Results</h1>
@@ -114,7 +114,7 @@ function Results() {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-sm">
+      <div data-tutorial="results-tabs" className="bg-white rounded-lg shadow-sm">
         <div className="border-b border-gray-200">
           <nav className="flex -mb-px">
             {['capacity', 'generation', 'files'].map((tab) => (

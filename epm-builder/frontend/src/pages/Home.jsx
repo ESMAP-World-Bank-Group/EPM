@@ -33,7 +33,7 @@ function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
+      <div data-tutorial="hero" className="bg-white rounded-lg shadow-sm p-8 mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">
           EPM Scenario Builder
         </h1>
@@ -44,6 +44,7 @@ function Home() {
         </p>
         <Link
           to="/builder"
+          data-tutorial="create-btn"
           className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700"
         >
           Create New Scenario
@@ -54,7 +55,7 @@ function Home() {
       </div>
 
       {/* Recent Jobs */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
+      <div data-tutorial="recent-runs" className="bg-white rounded-lg shadow-sm p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Runs</h2>
 
         {loading ? (

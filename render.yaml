@@ -2,7 +2,7 @@ services:
   - type: web
     name: epm-builder-frontend
     runtime: static
-    rootDir: frontend
+    rootDir: epm-builder/frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     envVars:
