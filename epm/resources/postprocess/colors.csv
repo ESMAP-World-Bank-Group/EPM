@@ -23,7 +23,7 @@ Onshore Wind,skyblue,,,,,,Wind,skyblue
 Offshore Wind,lightblue,,,,,,Wind,lightblue
 PV,khaki,,,,,,Solar,khaki
 Pumped-Hydro,mediumblue,,,,,,Water,mediumblue
-Reservoir,cadetblue,,,,,,Water,cadetblue
+Reservoir,teal,,,,,,Water,cadetblue
 ROR,lightsteelblue,,,,,,Water,lightsteelblue
 Biomass,seagreen,,,,,,Biomass,seagreen
 Battery,slateblue,,,,,,Battery,slateblue
@@ -32,7 +32,7 @@ Battery 8h,mediumpurple,,,,,,Battery,mediumpurple
 Nuclear,yellowgreen,,,,,,Uranium,yellowgreen (same base intentionally reused)
 Import,gray,,,,,,Trade,gray
 Trade,darkgray,,,,,,Trade,darkgray
-Reservoir-Water,cadetblue,,,,,,,
+Reservoir-Water,teal,,,,,,,
 ROR-Water,lightsteelblue,,,,,,,
 # Fuels,,,,,,,,
 Coal,dimgray,,,,,,,
@@ -56,7 +56,7 @@ Exports,green,,,,,,,
 Generation,firebrick,,,,,,,
 Imports,thistle,,,,,,,
 Net exchange,purple,,,,,,,
-Storage Charge,pink,,,,,,,
+Storage Charge,crimson,,,,,,,
 StorageEnergy,darkgreen,,,,,,,
 Transmission,cyan,,,,,,,
 Unmet demand,firebrick,,,,,,,
@@ -106,7 +106,7 @@ Onshore Wind,darkturquoise,,,,,,,
 Offshore Wind,paleturquoise,,,,,,,
 PV,orange,,,,,,,
 Pumped-Hydro,cornflowerblue,,,,,,,
-Reservoir,darkblue,,,,,,,
+Reservoir,teal,,,,,,,
 ROR,lightskyblue,,,,,,,
 Biomass,green,,,,,,,
 Battery,darkkhaki,,,,,,,
@@ -137,7 +137,7 @@ Exports,lime,,,,,,,
 Generation,firebrick,,,,,,,
 Imports,thistle,,,,,,,
 Net exchange,purple,,,,,,,
-Storage Charge,pink,,,,,,,
+Storage Charge,crimson,,,,,,,
 StorageEnergy,darkgreen,,,,,,,
 Transmission,purple,,,,,,,
 Unmet demand,firebrick,,,,,,,
@@ -195,7 +195,7 @@ Exports,green,,,,,,,
 Generation,firebrick,,,,,,,
 Imports,thistle,,,,,,,
 Net exchange,purple,,,,,,,
-Storage Charge,pink,,,,,,,
+Storage Charge,crimson,,,,,,,
 StorageEnergy,darkgreen,,,,,,,
 Transmission,purple,,,,,,,
 Unmet demand,firebrick,,,,,,,
