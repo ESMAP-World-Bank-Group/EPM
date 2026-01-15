@@ -191,6 +191,7 @@ ipython_config.py
 
 # Environments
 .env
+!epm-builder/frontend/.env.production
 .venv
 env/
 venv/
