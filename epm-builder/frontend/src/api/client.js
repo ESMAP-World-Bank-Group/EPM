@@ -1,12 +1,10 @@
 import axios from 'axios'
 
-// Get API base URL from environment, with automatic HTTPS upgrade for production
-let apiBase = import.meta.env.VITE_API_BASE || '/api'
+// API base URL from environment - set in .env.production for deployment
+const apiBase = import.meta.env.VITE_API_BASE || '/api'
 
-// Ensure HTTPS in production (fix for mixed content errors)
-if (typeof window !== 'undefined' && window.location.protocol === 'https:' && apiBase.startsWith('http://')) {
-  apiBase = apiBase.replace('http://', 'https://')
-}
+// Debug: log the API base URL (remove after fixing)
+console.log('API Base URL:', apiBase)
 
 const api = axios.create({
   baseURL: apiBase,
