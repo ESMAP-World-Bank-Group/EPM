@@ -1,4 +1,4 @@
-# EPM Scenario Builder MVP
+# EPM User Interface MVP
 
 A web-based interface for the Electricity Planning Model (EPM), inspired by [TransitionZero's Scenario Builder](https://www.transitionzero.org/products/scenario-builder).
 

@@ -1,5 +1,5 @@
 """
-Pydantic models for EPM Scenario Builder API.
+Pydantic models for EPM User Interface API.
 
 These schemas define the structure of requests and responses for the API.
 """

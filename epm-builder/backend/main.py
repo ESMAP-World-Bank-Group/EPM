@@ -1,5 +1,5 @@
 """
-EPM Scenario Builder - FastAPI Backend
+EPM User Interface - FastAPI Backend
 
 Main application entry point for the EPM web interface.
 """
@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes import scenarios, jobs, results, templates, uploads
 
 app = FastAPI(
-    title="EPM Scenario Builder",
+    title="EPM User Interface",
     description="Web interface for the Electricity Planning Model",
     version="0.1.0"
 )
@@ -44,7 +44,7 @@ app.include_router(uploads.router, prefix="/api/uploads", tags=["uploads"])
 @app.get("/")
 async def root():
     return {
-        "name": "EPM Scenario Builder API",
+        "name": "EPM User Interface API",
         "version": "0.1.0",
         "docs": "/docs"
     }

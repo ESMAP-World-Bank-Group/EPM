@@ -20,7 +20,7 @@ function App() {
               <div className="flex items-center">
                 <Link to="/" data-tutorial="nav-logo" className="flex items-center">
                   <span className="text-xl font-bold text-primary-600">EPM</span>
-                  <span className="ml-2 text-gray-600">Scenario Builder</span>
+                  <span className="ml-2 text-gray-600">User Interface</span>
                 </Link>
               </div>
               <div className="flex items-center space-x-4">

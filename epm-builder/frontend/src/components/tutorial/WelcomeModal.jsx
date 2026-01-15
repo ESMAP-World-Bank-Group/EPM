@@ -54,7 +54,7 @@ function WelcomeModal() {
           {/* Content */}
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-3">
-              Welcome to EPM Scenario Builder
+              Welcome to EPM User Interface
             </h2>
             <p className="text-gray-600 leading-relaxed">
               Plan electricity system expansions with the World Bank's Electricity Planning Model.

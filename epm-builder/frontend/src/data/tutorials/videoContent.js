@@ -3,7 +3,7 @@ export const videos = {
   overview: {
     id: 'overview',
     title: 'EPM Overview',
-    description: 'Introduction to EPM Scenario Builder and its capabilities',
+    description: 'Introduction to EPM User Interface and its capabilities',
     duration: 120, // seconds
     // Placeholder URL - replace with actual video
     url: '',
@@ -49,7 +49,7 @@ export const videos = {
         content: 'Upload your customized CSV'
       }
     ],
-    relatedTour: 'scenarioBuilder'
+    relatedTour: 'dataSetup'
   },
   results: {
     id: 'results',

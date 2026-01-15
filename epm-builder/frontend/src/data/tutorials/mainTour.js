@@ -2,13 +2,13 @@
 export const mainTour = {
   id: 'main',
   name: 'Quick Start Tour',
-  description: 'Learn the basics of EPM Scenario Builder',
+  description: 'Learn the basics of EPM User Interface',
   startRoute: '/',
   steps: [
     // Home page steps
     {
       target: '[data-tutorial="hero"]',
-      title: 'Welcome to EPM Scenario Builder',
+      title: 'Welcome to EPM User Interface',
       content: 'This tool helps you plan electricity system expansions using the World Bank\'s Electricity Planning Model (EPM). Let\'s take a quick tour!',
       placement: 'bottom',
       disableBeacon: true
