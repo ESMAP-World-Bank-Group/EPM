@@ -12,13 +12,13 @@ import {
   setWelcomeSeen
 } from '../../utils/tutorialStorage'
 import { mainTour } from '../../data/tutorials/mainTour'
-import { scenarioBuilderTour } from '../../data/tutorials/scenarioBuilderTour'
+import { dataSetupTour } from '../../data/tutorials/scenarioBuilderTour'
 
 export const TutorialContext = createContext(null)
 
 const TOURS = {
   main: mainTour,
-  scenarioBuilder: scenarioBuilderTour
+  dataSetup: dataSetupTour
 }
 
 // Custom tooltip styles matching Tailwind primary color

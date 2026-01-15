@@ -1,3 +1,3 @@
 export { mainTour } from './mainTour'
-export { scenarioBuilderTour } from './scenarioBuilderTour'
+export { dataSetupTour } from './scenarioBuilderTour'
 export { videos, videoList } from './videoContent'

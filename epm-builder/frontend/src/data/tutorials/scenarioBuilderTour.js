@@ -1,8 +1,8 @@
-// Deep-dive tour for the Scenario Builder page
-export const scenarioBuilderTour = {
-  id: 'scenarioBuilder',
-  name: 'Scenario Builder Guide',
-  description: 'Detailed guide for building scenarios',
+// Deep-dive tour for the Scenario Builder page - Data setup walkthrough
+export const dataSetupTour = {
+  id: 'dataSetup',
+  name: 'Data Setup Guide',
+  description: 'Step-by-step guide for configuring model inputs',
   startRoute: '/builder',
   steps: [
     {
@@ -63,4 +63,4 @@ export const scenarioBuilderTour = {
   ]
 }
 
-export default scenarioBuilderTour
+export default dataSetupTour
