@@ -108,6 +108,13 @@ docs/_build/
 
 !requirements.txt
 
+# EPM-Builder (backend + frontend)
+epm-builder/frontend/node_modules/
+epm-builder/frontend/dist/
+epm-builder/frontend/.vite/
+epm-builder/backend/__pycache__/
+epm-builder/backend/**/__pycache__/
+
 # macOS
 *.DS_Store
 
