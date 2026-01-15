@@ -17,19 +17,12 @@ app = FastAPI(
     version="0.1.0"
 )
 
-# Configure CORS for frontend (dev + production)
-origins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://epm-builder-frontend.onrender.com",  # Render frontend (MVP)
-]
-if os.getenv("FRONTEND_URL"):
-    origins.append(os.getenv("FRONTEND_URL"))
-
+# CORS configuration - allow all origins for MVP
+# TODO: Restrict origins in production
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,  # Must be False when using "*"
     allow_methods=["*"],
     allow_headers=["*"],
 )
