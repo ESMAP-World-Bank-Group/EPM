@@ -21,6 +21,7 @@ app = FastAPI(
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://epm-builder-frontend.onrender.com",  # Render frontend (MVP)
 ]
 if os.getenv("FRONTEND_URL"):
     origins.append(os.getenv("FRONTEND_URL"))
