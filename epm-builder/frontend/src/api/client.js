@@ -14,36 +14,36 @@ const api = axios.create({
 })
 
 // Templates
-export const getTemplates = () => api.get('/templates')
+export const getTemplates = () => api.get('/templates/')
 
 // Scenarios
-export const createScenario = (data) => api.post('/scenarios', data)
-export const getScenario = (id) => api.get(`/scenarios/${id}`)
-export const listScenarios = () => api.get('/scenarios')
+export const createScenario = (data) => api.post('/scenarios/', data)
+export const getScenario = (id) => api.get(`/scenarios/${id}/`)
+export const listScenarios = () => api.get('/scenarios/')
 
 // Jobs
-export const createJob = (scenarioId) => api.post('/jobs', { scenario_id: scenarioId })
-export const getJob = (id) => api.get(`/jobs/${id}`)
-export const listJobs = () => api.get('/jobs')
+export const createJob = (scenarioId) => api.post('/jobs/', { scenario_id: scenarioId })
+export const getJob = (id) => api.get(`/jobs/${id}/`)
+export const listJobs = () => api.get('/jobs/')
 
 // Results
-export const getResults = (jobId) => api.get(`/results/${jobId}`)
-export const listResultFiles = (jobId) => api.get(`/results/${jobId}/files`)
+export const getResults = (jobId) => api.get(`/results/${jobId}/`)
+export const listResultFiles = (jobId) => api.get(`/results/${jobId}/files/`)
 
 // Uploads
-export const getUploadSchema = () => api.get('/uploads/schema')
+export const getUploadSchema = () => api.get('/uploads/schema/')
 export const uploadCSV = (file, sessionId = null, category = null) => {
   const formData = new FormData()
   formData.append('file', file)
   if (sessionId) formData.append('session_id', sessionId)
   if (category) formData.append('category', category)
-  return api.post('/uploads', formData, {
+  return api.post('/uploads/', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }
   })
 }
-export const listSessionUploads = (sessionId) => api.get(`/uploads/${sessionId}`)
-export const deleteUpload = (sessionId, filename) => api.delete(`/uploads/${sessionId}/${filename}`)
-export const deleteSession = (sessionId) => api.delete(`/uploads/${sessionId}`)
+export const listSessionUploads = (sessionId) => api.get(`/uploads/${sessionId}/`)
+export const deleteUpload = (sessionId, filename) => api.delete(`/uploads/${sessionId}/${filename}/`)
+export const deleteSession = (sessionId) => api.delete(`/uploads/${sessionId}/`)
 export const previewUpload = (sessionId, filepath, rows = 5) =>
   api.get(`/uploads/${sessionId}/preview/${filepath}`, { params: { rows } })
 
