@@ -234,6 +234,7 @@ function DataInputPanel({ sessionId, onSessionCreate, onFilesChange }) {
             key={category}
             name={meta.label}
             color={meta.color}
+            icon={category}
             fileCount={fileList.length}
             customCount={customCount}
             isExpanded={expandedCategories[category]}

@@ -1,3 +1,5 @@
+import { getCategoryIcon } from '../icons/CategoryIcons'
+
 const COLOR_CLASSES = {
   gray: { bg: 'bg-gray-100', text: 'text-gray-700', border: 'border-gray-200' },
   green: { bg: 'bg-green-100', text: 'text-green-700', border: 'border-green-200' },
@@ -12,6 +14,7 @@ const COLOR_CLASSES = {
 function CategorySection({
   name,
   color = 'gray',
+  icon,  // category key for icon lookup (e.g., 'demand', 'supply_generation')
   fileCount = 0,
   customCount = 0,
   children,
@@ -19,6 +22,7 @@ function CategorySection({
   onToggle,
 }) {
   const colorClasses = COLOR_CLASSES[color] || COLOR_CLASSES.gray
+  const IconComponent = icon ? getCategoryIcon(icon) : null
 
   return (
     <div className={`border rounded-lg overflow-hidden mb-3 ${colorClasses.border}`}>
@@ -28,15 +32,29 @@ function CategorySection({
         className={`w-full px-4 py-3 flex items-center justify-between ${colorClasses.bg} hover:opacity-90 transition-opacity text-left`}
       >
         <div className="flex items-center space-x-3">
-          <svg
-            className={`h-5 w-5 ${colorClasses.text} transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+          {IconComponent ? (
+            <IconComponent className={`h-5 w-5 ${colorClasses.text}`} />
+          ) : (
+            <svg
+              className={`h-5 w-5 ${colorClasses.text} transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
           <span className={`font-semibold ${colorClasses.text}`}>{name}</span>
+          {IconComponent && (
+            <svg
+              className={`h-4 w-4 ${colorClasses.text} transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
         </div>
         <div className="flex items-center space-x-2">
           <span className="text-xs text-gray-500">

@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTemplates, createScenario, createJob } from '../api/client'
-import DataInputPanel from '../components/forms/DataInputPanel'
+import { DataFilesProvider, useDataFiles } from '../context/DataFilesContext'
+import DataFilesSidebar from '../components/layout/DataFilesSidebar'
+import InlineFileSection from '../components/forms/InlineFileSection'
 
-const STEPS = ['General', 'Data Files', 'Demand', 'Supply', 'Economics', 'Features', 'Review']
+// Steps without "Data Files" - it's now the sidebar
+const STEPS = ['General', 'Demand', 'Supply', 'Economics', 'Features', 'Review']
 
-function ScenarioBuilder() {
+function ScenarioBuilderContent() {
   const navigate = useNavigate()
   const [currentStep, setCurrentStep] = useState(0)
   const [templates, setTemplates] = useState(null)
@@ -13,8 +16,13 @@ function ScenarioBuilder() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
 
-  const [uploadSessionId, setUploadSessionId] = useState(null)
-  const [uploadedFiles, setUploadedFiles] = useState([])
+  const {
+    sessionId,
+    setSessionId,
+    uploadedFiles,
+    getStepForCategory,
+    setGeneratedFile,
+  } = useDataFiles()
 
   const [formData, setFormData] = useState({
     name: '',
@@ -50,6 +58,45 @@ function ScenarioBuilder() {
   useEffect(() => {
     loadTemplates()
   }, [])
+
+  // Update form data when session changes
+  useEffect(() => {
+    if (sessionId) {
+      setFormData(prev => ({
+        ...prev,
+        upload_session_id: sessionId
+      }))
+    }
+  }, [sessionId])
+
+  // Mark demand file as "generated" when demand form has data
+  useEffect(() => {
+    if (formData.demand.length > 0) {
+      // Generate preview data for the demand forecast
+      const years = [2025, 2030, 2035, 2040, 2045, 2050]
+      const headers = ['z', 'type', ...years.map(String)]
+      const data = []
+
+      formData.demand.forEach(d => {
+        const baseYear = formData.start_year
+        const energyRow = [d.zone, 'Energy']
+        const peakRow = [d.zone, 'Peak']
+
+        years.forEach(year => {
+          const yearsFromBase = year - baseYear
+          const energyValue = Math.round(d.base_year_energy_gwh * Math.pow(1 + d.annual_growth_rate, yearsFromBase))
+          const peakValue = Math.round(d.base_year_peak_mw * Math.pow(1 + d.annual_growth_rate, yearsFromBase))
+          energyRow.push(energyValue.toString())
+          peakRow.push(peakValue.toString())
+        })
+
+        data.push(energyRow)
+        data.push(peakRow)
+      })
+
+      setGeneratedFile('pDemandForecast.csv', { headers, data, total_preview_rows: data.length, has_more: false })
+    }
+  }, [formData.demand, formData.start_year, setGeneratedFile])
 
   const loadTemplates = async () => {
     try {
@@ -87,16 +134,9 @@ function ScenarioBuilder() {
     }))
   }
 
-  const handleUploadSessionCreate = (sessionId) => {
-    setUploadSessionId(sessionId)
-    setFormData(prev => ({
-      ...prev,
-      upload_session_id: sessionId
-    }))
-  }
-
-  const handleUploadedFilesChange = (files) => {
-    setUploadedFiles(files)
+  const handleCategoryClick = (category) => {
+    const step = getStepForCategory(category)
+    setCurrentStep(step)
   }
 
   const handleSubmit = async () => {
@@ -214,24 +254,20 @@ function ScenarioBuilder() {
                 ))}
               </div>
             </div>
+
+            {/* General Files Section */}
+            <div className="pt-4 border-t">
+              <InlineFileSection category="general" title="General Settings Files" />
+            </div>
           </div>
         )
 
-      case 1: // Data Files
-        return (
-          <DataInputPanel
-            sessionId={uploadSessionId}
-            onSessionCreate={handleUploadSessionCreate}
-            onFilesChange={handleUploadedFilesChange}
-          />
-        )
-
-      case 2: // Demand
+      case 1: // Demand
         return (
           <div className="space-y-6">
             <p className="text-sm text-gray-600">
-              Configure demand for selected zones. For MVP, we use simplified growth rates.
-              You can upload detailed demand data via CSV.
+              Configure demand for selected zones. Fill in the form below to auto-generate demand forecasts,
+              or upload custom CSV files.
             </p>
 
             {formData.zones.length === 0 ? (
@@ -240,6 +276,18 @@ function ScenarioBuilder() {
               </div>
             ) : (
               <div className="space-y-4">
+                {/* Info about auto-generation */}
+                {formData.demand.length > 0 && (
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 rounded-full bg-purple-500 mr-2"></span>
+                      <span className="text-sm text-purple-800">
+                        <strong>pDemandForecast.csv</strong> will be auto-generated from your inputs below
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 {formData.zones.map((zone) => {
                   const demandEntry = formData.demand.find(d => d.zone === zone) || {
                     zone,
@@ -298,15 +346,20 @@ function ScenarioBuilder() {
                 })}
               </div>
             )}
+
+            {/* Demand Files Section */}
+            <div className="pt-4 border-t">
+              <InlineFileSection category="demand" title="Demand Data Files" />
+            </div>
           </div>
         )
 
-      case 3: // Supply
+      case 2: // Supply
         return (
           <div className="space-y-6">
             <p className="text-sm text-gray-600">
               The model includes the existing generator fleet from the template data.
-              You can upload custom generator data in the "Data Files" step.
+              Upload custom files below to override specific supply parameters.
             </p>
 
             <div className="bg-gray-50 rounded-lg p-4">
@@ -327,34 +380,18 @@ function ScenarioBuilder() {
               </div>
             </div>
 
-            {uploadedFiles.some(f => f.category === 'supply') ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <div className="flex items-center">
-                  <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-sm text-green-800">
-                    Custom supply data uploaded: {uploadedFiles.filter(f => f.category === 'supply').map(f => f.filename).join(', ')}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                </svg>
-                <p className="mt-2 text-sm text-gray-600">
-                  No custom supply data uploaded
-                </p>
-                <p className="text-xs text-gray-400 mt-1">
-                  The model will use the template generator fleet
-                </p>
-              </div>
-            )}
+            {/* Supply Files Sections */}
+            <div className="space-y-4">
+              <InlineFileSection category="supply_generation" title="Generation Data" />
+              <InlineFileSection category="supply_storage" title="Storage Data" />
+              <InlineFileSection category="supply_costs" title="Cost Data" />
+              <InlineFileSection category="supply_renewables" title="Renewables Data" />
+              <InlineFileSection category="transmission" title="Transmission & Trade" />
+            </div>
           </div>
         )
 
-      case 4: // Economics
+      case 3: // Economics
         return (
           <div className="space-y-6">
             <div className="grid grid-cols-2 gap-6">
@@ -412,42 +449,58 @@ function ScenarioBuilder() {
                 <p className="text-xs text-gray-500 mt-1">Set &gt; 0 to enable carbon pricing</p>
               </div>
             </div>
+
+            {/* Emissions Files Section */}
+            <div className="pt-4 border-t">
+              <InlineFileSection category="emissions" title="Emissions & Carbon Files" />
+            </div>
           </div>
         )
 
-      case 5: // Features
+      case 4: // Features
         return (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <p className="text-sm text-gray-600 mb-4">
               Enable or disable model features
             </p>
 
-            {[
-              { key: 'enable_capacity_expansion', label: 'Capacity Expansion', desc: 'Allow new capacity investments' },
-              { key: 'enable_transmission_expansion', label: 'Transmission Expansion', desc: 'Allow new interconnection investments' },
-              { key: 'enable_storage', label: 'Battery Storage', desc: 'Include grid-scale storage' },
-              { key: 'enable_hydrogen', label: 'Hydrogen Production', desc: 'Model hydrogen production' },
-              { key: 'apply_carbon_price', label: 'Carbon Pricing', desc: 'Apply carbon price to emissions' },
-              { key: 'apply_co2_constraint', label: 'CO2 Constraint', desc: 'Apply emissions cap' },
-              { key: 'enable_economic_retirement', label: 'Economic Retirement', desc: 'Allow plant retirement on economic grounds' },
-            ].map(({ key, label, desc }) => (
-              <label key={key} className="flex items-start space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={formData.features[key]}
-                  onChange={(e) => updateNestedFormData('features', key, e.target.checked)}
-                  className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                />
-                <div>
-                  <div className="font-medium text-gray-900">{label}</div>
-                  <div className="text-sm text-gray-500">{desc}</div>
-                </div>
-              </label>
-            ))}
+            <div className="space-y-4">
+              {[
+                { key: 'enable_capacity_expansion', label: 'Capacity Expansion', desc: 'Allow new capacity investments' },
+                { key: 'enable_transmission_expansion', label: 'Transmission Expansion', desc: 'Allow new interconnection investments' },
+                { key: 'enable_storage', label: 'Battery Storage', desc: 'Include grid-scale storage' },
+                { key: 'enable_hydrogen', label: 'Hydrogen Production', desc: 'Model hydrogen production' },
+                { key: 'apply_carbon_price', label: 'Carbon Pricing', desc: 'Apply carbon price to emissions' },
+                { key: 'apply_co2_constraint', label: 'CO2 Constraint', desc: 'Apply emissions cap' },
+                { key: 'enable_economic_retirement', label: 'Economic Retirement', desc: 'Allow plant retirement on economic grounds' },
+              ].map(({ key, label, desc }) => (
+                <label key={key} className="flex items-start space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={formData.features[key]}
+                    onChange={(e) => updateNestedFormData('features', key, e.target.checked)}
+                    className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  />
+                  <div>
+                    <div className="font-medium text-gray-900">{label}</div>
+                    <div className="text-sm text-gray-500">{desc}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            {/* Policy, Reserves, Hydrogen Files */}
+            <div className="pt-4 border-t space-y-4">
+              <InlineFileSection category="policy" title="Policy & Targets Files" />
+              <InlineFileSection category="reserves" title="Reserve Requirements Files" />
+              {formData.features.enable_hydrogen && (
+                <InlineFileSection category="hydrogen" title="Hydrogen System Files" />
+              )}
+            </div>
           </div>
         )
 
-      case 6: // Review
+      case 5: // Review
         return (
           <div className="space-y-6">
             <div className="bg-gray-50 rounded-lg p-4">
@@ -482,19 +535,7 @@ function ScenarioBuilder() {
 
             {/* Data Files Summary */}
             <div className="bg-gray-50 rounded-lg p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-medium text-gray-900">Data Files</h4>
-                <button
-                  onClick={() => setCurrentStep(1)}
-                  className="text-sm text-primary-600 hover:text-primary-700 font-medium flex items-center"
-                >
-                  <svg className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  Edit
-                </button>
-              </div>
-
+              <h4 className="font-medium text-gray-900 mb-3">Data Files</h4>
               {uploadedFiles.length > 0 ? (
                 <div className="space-y-2">
                   <div className="flex items-center text-sm">
@@ -522,6 +563,17 @@ function ScenarioBuilder() {
                     Default
                   </span>
                   <span className="text-gray-500">Using template data for all inputs</span>
+                </div>
+              )}
+
+              {/* Generated files indicator */}
+              {formData.demand.length > 0 && (
+                <div className="mt-2 flex items-center text-sm">
+                  <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-700 mr-2">
+                    <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-purple-500"></span>
+                    Generated
+                  </span>
+                  <span className="text-gray-500">pDemandForecast.csv from form inputs</span>
                 </div>
               )}
             </div>
@@ -569,83 +621,102 @@ function ScenarioBuilder() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
-      {/* Progress Steps */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between">
-          {STEPS.map((step, index) => (
-            <div key={step} className="flex items-center">
-              <button
-                onClick={() => setCurrentStep(index)}
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  index === currentStep
-                    ? 'bg-primary-600 text-white'
-                    : index < currentStep
-                    ? 'bg-primary-100 text-primary-600'
-                    : 'bg-gray-100 text-gray-400'
-                }`}
-              >
-                {index + 1}
-              </button>
-              <span className={`ml-2 text-sm hidden sm:inline ${
-                index === currentStep ? 'text-primary-600 font-medium' : 'text-gray-500'
-              }`}>
-                {step}
-              </span>
-              {index < STEPS.length - 1 && (
-                <div className={`w-8 sm:w-16 h-0.5 mx-2 ${
-                  index < currentStep ? 'bg-primary-300' : 'bg-gray-200'
-                }`} />
-              )}
+    <div className="flex min-h-[calc(100vh-4rem)]">
+      {/* Sidebar */}
+      <div className="sticky top-16 h-[calc(100vh-4rem)] flex-shrink-0">
+        <DataFilesSidebar onCategoryClick={handleCategoryClick} />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 p-6">
+        <div className="max-w-3xl mx-auto">
+          {/* Progress Steps */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between">
+              {STEPS.map((step, index) => (
+                <div key={step} className="flex items-center">
+                  <button
+                    onClick={() => setCurrentStep(index)}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                      index === currentStep
+                        ? 'bg-primary-600 text-white'
+                        : index < currentStep
+                        ? 'bg-primary-100 text-primary-600'
+                        : 'bg-gray-100 text-gray-400'
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                  <span className={`ml-2 text-sm hidden sm:inline ${
+                    index === currentStep ? 'text-primary-600 font-medium' : 'text-gray-500'
+                  }`}>
+                    {step}
+                  </span>
+                  {index < STEPS.length - 1 && (
+                    <div className={`w-8 sm:w-12 h-0.5 mx-2 ${
+                      index < currentStep ? 'bg-primary-300' : 'bg-gray-200'
+                    }`} />
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Form Content */}
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">{STEPS[currentStep]}</h2>
+            {renderStepContent()}
+          </div>
+
+          {/* Navigation */}
+          <div className="flex justify-between">
+            <button
+              onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+              disabled={currentStep === 0}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+
+            {currentStep < STEPS.length - 1 ? (
+              <button
+                onClick={() => setCurrentStep(currentStep + 1)}
+                className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                disabled={submitting || !formData.name}
+                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              >
+                {submitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Creating...
+                  </>
+                ) : (
+                  'Run Scenario'
+                )}
+              </button>
+            )}
+          </div>
         </div>
       </div>
-
-      {/* Form Content */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">{STEPS[currentStep]}</h2>
-        {renderStepContent()}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex justify-between">
-        <button
-          onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-          disabled={currentStep === 0}
-          className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Previous
-        </button>
-
-        {currentStep < STEPS.length - 1 ? (
-          <button
-            onClick={() => setCurrentStep(currentStep + 1)}
-            className="px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700"
-          >
-            Next
-          </button>
-        ) : (
-          <button
-            onClick={handleSubmit}
-            disabled={submitting || !formData.name}
-            className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-          >
-            {submitting ? (
-              <>
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Creating...
-              </>
-            ) : (
-              'Run Scenario'
-            )}
-          </button>
-        )}
-      </div>
     </div>
+  )
+}
+
+// Wrapper component that provides the DataFiles context
+function ScenarioBuilder() {
+  return (
+    <DataFilesProvider>
+      <ScenarioBuilderContent />
+    </DataFilesProvider>
   )
 }
 
