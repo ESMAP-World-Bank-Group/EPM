@@ -7,5 +7,5 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE
-        value: https://compact-nissy-modelling-assistant-3106933b.koyeb.app/api
+        value: https://compact-nissy-modelling-assistant-3106933b.koyeb.app
     autoDeploy: true
