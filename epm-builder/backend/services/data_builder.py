@@ -6,6 +6,7 @@ Uses data_test as a template and modifies specific files based on user input.
 """
 
 import csv
+import os
 import shutil
 import uuid
 from pathlib import Path
@@ -13,11 +14,34 @@ from typing import Any
 
 from routes.uploads import copy_session_files_to_scenario
 
-# Path to EPM root
-EPM_ROOT = Path(__file__).parent.parent.parent.parent / "epm"
-TEMPLATE_FOLDER = EPM_ROOT / "input" / "data_test"
-# Store runs in EPM's input folder so epm.py can find them
-RUNS_FOLDER = EPM_ROOT / "input"
+# =============================================================================
+# MVP DEPLOYMENT CONFIGURATION
+# =============================================================================
+# For MVP, we use a local copy of template data bundled with the backend.
+# In production, this should be replaced with:
+#   - Database-backed configuration
+#   - Volume mounts to actual EPM data
+#   - Or environment variable pointing to data location
+#
+# To switch between MVP and local development:
+#   - MVP (Docker): Uses data/mvp_template/ inside the backend
+#   - Local dev: Set EPM_DATA_PATH env var to point to actual EPM folder
+# =============================================================================
+
+# Check for environment override (for local development)
+if os.getenv("EPM_DATA_PATH"):
+    # Local development: use actual EPM folder
+    EPM_ROOT = Path(os.getenv("EPM_DATA_PATH"))
+    TEMPLATE_FOLDER = EPM_ROOT / "input" / "data_test"
+    RESOURCES_FOLDER = EPM_ROOT / "resources"
+    RUNS_FOLDER = EPM_ROOT / "input"
+else:
+    # MVP deployment: use bundled data
+    MVP_DATA_ROOT = Path(__file__).parent.parent / "data" / "mvp_template"
+    TEMPLATE_FOLDER = MVP_DATA_ROOT / "data_test"
+    RESOURCES_FOLDER = MVP_DATA_ROOT / "resources"
+    # Store runs in a temp folder for MVP (ephemeral)
+    RUNS_FOLDER = Path(__file__).parent.parent / "runs"
 
 
 def ensure_runs_folder():
@@ -353,7 +377,7 @@ def get_template_data() -> dict:
                 data["default_years"].append(int(row["y"]))
 
     # Read technologies from resources
-    tech_file = EPM_ROOT / "resources" / "pTechFuel.csv"
+    tech_file = RESOURCES_FOLDER / "pTechFuel.csv"
     if tech_file.exists():
         with open(tech_file, "r", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)

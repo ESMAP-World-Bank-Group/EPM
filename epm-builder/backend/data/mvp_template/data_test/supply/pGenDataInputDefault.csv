@@ -1,0 +1,17 @@
+z,tech,fuel,Life,UnitSize,BuildLimitperYear,DescreteCap,HeatRate,Capex,FOMperMW,VOM,ReserveCost,MinGenShareAllHours,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,MinGenCommitment,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn
+Angola,BiomassPlant,Biomass,30,,0,0,12.5,2,100000,2.5,0,,1,1,0,0.05,0,0,0,0,0,0,0
+Angola,CCGT,Gas,30,,0,0,6.4,0.9,30000,2,0,,1,1,0,0.05,0.6,0,0,4,6,2000,0
+Angola,ICE,Diesel,25,,0,0,9,1.2,36000,7.5,0,,1,1,0,0.2,0,0,0,0,0,0,0
+Angola,ICE,Gas,25,,0,0,9,1.2,36000,7.5,0,,1,1,0,0.2,0,0,0,0,0,0,0
+Angola,ICE,HFO,25,,0,0,9,1.2,36000,7.5,0,,1,1,0,0.2,0,0,0,0,0,0,0
+Angola,OCGT,Diesel,30,,0,0,9.9,0.8,20000,4.4,0,,1,1,0,0.2,0.3,0,0,3,4,1000,0
+Angola,OCGT,Gas,30,,0,0,9,0.8,20000,4,0,,1,1,0,0.2,0.3,0,0,3,4,1000,0
+Angola,OCGT,HFO,30,,0,0,9.9,0.8,20000,4.4,0,,1,1,0,0.2,0.3,0,0,3,4,1000,0
+Angola,OffshoreWind,Wind,30,,0,0,,3,70000,0,0,,,,,,0,0,0,0,0,0,0
+Angola,OnshoreWind,Wind,30,,0,0,,1.3,40000,0,0,,,,,,0,0,0,0,0,0,0
+Angola,PV,Solar,25,,0,0,,0.8,15000,0,0,,,,,,0,0,0,0,0,0,0
+Angola,ReservoirHydro,Water,50,,0,0,,3.3,50000,0.5,0,,1,1,0,0.45,0,0,0,0,0,0,0
+Angola,ROR,Water,50,,0,0,,2.8,40000,0.5,0,,1,1,0,0.4,0,0,0,0,0,0,0
+Angola,ST ,Coal,30,,0,0,8.5,2,60000,3,0,,0.5,0.5,0,0,0.3,0,0,0,0,0,0
+Angola,ST ,Lignite,30,,0,0,10.3,2,60000,3,0,,0.5,0.5,0,0,0.55,0,0,0,0,0,0
+Angola,Storage,Battery,20,,0,0,,0.3,40000,0,0,,1,1,0,,0,0,0,0,0,0,0
