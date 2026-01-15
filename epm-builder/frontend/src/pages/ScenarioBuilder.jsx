@@ -596,14 +596,14 @@ function ScenarioBuilderContent() {
               </div>
             </div>
 
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <div className="flex">
-                <svg className="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                <svg className="w-5 h-5 text-amber-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
-                <div className="text-sm text-blue-800">
-                  <strong>Ready to run.</strong> The scenario will be created and EPM will start
-                  optimizing. This may take several minutes depending on the model size.
+                <div className="text-sm text-amber-800">
+                  <strong>MVP Version.</strong> This is a user interface demo only. The EPM optimization
+                  model is not connected. Full functionality will be available in a future release.
                 </div>
               </div>
             </div>
@@ -625,7 +625,12 @@ function ScenarioBuilderContent() {
     <div className="flex min-h-[calc(100vh-4rem)]">
       {/* Sidebar */}
       <div data-tutorial="sidebar" className="sticky top-16 h-[calc(100vh-4rem)] flex-shrink-0">
-        <DataFilesSidebar onCategoryClick={handleCategoryClick} />
+        <DataFilesSidebar
+          onCategoryClick={handleCategoryClick}
+          onRunScenario={handleSubmit}
+          isRunDisabled={!formData.name}
+          isSubmitting={submitting}
+        />
       </div>
 
       {/* Main Content */}
@@ -687,24 +692,37 @@ function ScenarioBuilderContent() {
                 Next
               </button>
             ) : (
-              <button
-                data-tutorial="run-button"
-                onClick={handleSubmit}
-                disabled={submitting || !formData.name}
-                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-              >
-                {submitting ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <div className="relative group">
+                <button
+                  data-tutorial="run-button"
+                  disabled={true}
+                  className="px-6 py-2 bg-gray-400 text-white rounded-md cursor-not-allowed flex items-center"
+                >
+                  {submitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Creating...
+                    </>
+                  ) : (
+                    'Run Scenario'
+                  )}
+                </button>
+                {/* MVP Tooltip */}
+                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
+                  <div className="flex items-center">
+                    <svg className="w-4 h-4 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
-                    Creating...
-                  </>
-                ) : (
-                  'Run Scenario'
-                )}
-              </button>
+                    MVP Version - UI only, EPM model not connected
+                  </div>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                    <div className="border-4 border-transparent border-t-gray-800"></div>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>

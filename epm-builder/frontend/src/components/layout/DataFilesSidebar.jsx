@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { useDataFiles } from '../../context/DataFilesContext'
 import { getCategoryIcon } from '../icons/CategoryIcons'
 
-function DataFilesSidebar({ onCategoryClick }) {
+function DataFilesSidebar({ onCategoryClick, onRunScenario, isRunDisabled, isSubmitting }) {
   const { schema, loading, getCategoryCounts, getTotalCustomCount, getFileStatus } = useDataFiles()
   const [expandedCategory, setExpandedCategory] = useState(null)
+  const [showMvpTooltip, setShowMvpTooltip] = useState(false)
 
   if (loading) {
     return (
@@ -29,6 +30,14 @@ function DataFilesSidebar({ onCategoryClick }) {
   const counts = getCategoryCounts()
   const totalCustom = getTotalCustomCount()
   const { files: fileSchema, categories: categoryMeta } = schema
+
+  // Calculate category consistency status (green if has files, always green for MVP since template provides defaults)
+  const getCategoryStatus = (category) => {
+    const count = counts[category] || { total: 0, custom: 0 }
+    // For MVP, all categories are "ready" since template data provides defaults
+    // Custom files just override the defaults
+    return count.total > 0 ? 'ready' : 'empty'
+  }
 
   const handleCategoryClick = (category) => {
     if (expandedCategory === category) {
@@ -61,6 +70,7 @@ function DataFilesSidebar({ onCategoryClick }) {
           const IconComponent = getCategoryIcon(category)
           const isExpanded = expandedCategory === category
           const fileList = Object.entries(files)
+          const categoryStatus = getCategoryStatus(category)
 
           return (
             <div key={category} className="mb-1">
@@ -70,6 +80,13 @@ function DataFilesSidebar({ onCategoryClick }) {
                 className="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors text-left group"
               >
                 <div className="flex items-center space-x-2 min-w-0">
+                  {/* Status indicator */}
+                  <span
+                    className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                      categoryStatus === 'ready' ? 'bg-green-500' : 'bg-gray-300'
+                    }`}
+                    title={categoryStatus === 'ready' ? 'Template data available' : 'No data'}
+                  />
                   <IconComponent className="h-4 w-4 text-gray-500 flex-shrink-0" />
                   <span className="text-sm text-gray-700 truncate">{meta.label}</span>
                 </div>
@@ -164,6 +181,51 @@ function DataFilesSidebar({ onCategoryClick }) {
             <span>Generated</span>
           </div>
         </div>
+
+        {/* Run Scenario Button */}
+        {onRunScenario && (
+          <div className="mt-4 relative">
+            <button
+              onClick={onRunScenario}
+              disabled={true}
+              onMouseEnter={() => setShowMvpTooltip(true)}
+              onMouseLeave={() => setShowMvpTooltip(false)}
+              className="w-full px-4 py-2 bg-gray-400 text-white rounded-md cursor-not-allowed flex items-center justify-center"
+            >
+              {isSubmitting ? (
+                <>
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Creating...
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Run Scenario
+                </>
+              )}
+            </button>
+            {/* MVP Tooltip */}
+            {showMvpTooltip && (
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg whitespace-nowrap z-50">
+                <div className="flex items-center">
+                  <svg className="w-4 h-4 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                  MVP Version - UI only, EPM model not connected
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 -mt-1">
+                  <div className="border-4 border-transparent border-t-gray-800"></div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
