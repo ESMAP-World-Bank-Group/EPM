@@ -33,9 +33,9 @@ class ForceHTTPSRedirectMiddleware(BaseHTTPMiddleware):
 app = FastAPI(
     title="EPM User Interface",
     description="Web interface for the Electricity Planning Model",
-    version="0.1.0",
-    # Disable automatic redirect for trailing slashes to avoid HTTP redirect issue
-    redirect_slashes=False
+    version="0.1.0"
+    # Note: redirect_slashes is True by default. The ForceHTTPSRedirectMiddleware
+    # handles converting http:// redirects to https:// when behind Koyeb/Cloudflare
 )
 
 # Add HTTPS redirect fix middleware (must be added before CORS)
