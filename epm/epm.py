@@ -437,7 +437,28 @@ def launch_epm(scenario,
         rslt = subprocess.run(command, cwd=cwd)
 
     if rslt.returncode != 0:
-        raise RuntimeError('GAMS Error: check GAMS logs file ')
+        logfile_path = Path(cwd) / logfile
+        error_msg = f"GAMS Error (return code {rslt.returncode}) for scenario '{scenario_name}'\n"
+        error_msg += f"Log file: {logfile_path}\n"
+
+        # Try to extract the last lines from the log file to show the actual error
+        if logfile_path.exists():
+            try:
+                with open(logfile_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    lines = f.readlines()
+                    # Get last 30 lines or all if fewer
+                    tail_lines = lines[-30:] if len(lines) > 30 else lines
+                    # Look for error indicators in the log
+                    error_lines = [l for l in lines if '****' in l or 'Error' in l or 'error' in l]
+                    if error_lines:
+                        error_msg += "\nErrors found in log:\n" + "".join(error_lines[-10:])
+                    error_msg += "\nLast lines of log:\n" + "".join(tail_lines[-15:])
+            except Exception as e:
+                error_msg += f"\n(Could not read log file: {e})"
+        else:
+            error_msg += "\n(Log file not found - GAMS may have failed before creating it)"
+
+        raise RuntimeError(error_msg)
 
     metrics = _log_solver_metrics_for_scenario(Path(cwd) / logfile, scenario_name) or {}
 

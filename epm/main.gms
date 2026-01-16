@@ -290,27 +290,24 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 $if %DEBUG%==1 $log Debug mode active: exporting loading input to input_loaded.gdx
 $if %DEBUG%==1 $gdxunload input_loaded.gdx
 
-
 *-------------------------------------------------------------------------------------
 * Merge storage units from pStorageDataInput into generator structures
 * This ensures all units (generators + storage) are in set g and have consistent data
 *-------------------------------------------------------------------------------------
+$onMulti
 
-* Merge storage into gmap so storage units have zone/tech/fuel mappings
-gmap(g,z,tech,f)$pStorageDataInput(g,z,tech,f,'Status') = yes;
+$onEmbeddedCode Python:
+import sys, os
 
-* Fill pGenDataInput with storage data for common fields
-* This ensures pGenData(g,header) includes storage units
-* Loop over pGenDataInputHeader and copy values where header exists in both sets
-loop(pGenDataInputHeader,
-    pGenDataInput(g,z,tech,f,pGenDataInputHeader)$pStorageDataInput(g,z,tech,f,'Status')
-        = sum(pStorageDataHeader$sameas(pStorageDataHeader,pGenDataInputHeader),
-              pStorageDataInput(g,z,tech,f,pStorageDataHeader));
-);
+gms_dir = os.path.normpath(r"%modeldir%/")
+if gms_dir not in sys.path:
+    sys.path.insert(0, gms_dir)
 
-$if %DEBUG%==1 $log Debug mode active: exporting loading input to input_test.gdx
-$if %DEBUG%==1 $gdxunload input_test.gdx
+from input_treatment import merge_storage_into_gendata
+merge_storage_into_gendata(gams)
+$offEmbeddedCode
 
+$offMulti
 *-------------------------------------------------------------------------------------
 
 * Make input verification

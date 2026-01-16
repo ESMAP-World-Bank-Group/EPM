@@ -1074,6 +1074,7 @@ eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$((fEnableCSP) and FD(q,d,t))..
 * Tracks storage energy capacity builds/retirements.
 * ------------------------------
 
+* TODO: Why is it defined for all generators (g) rather than just storage (st)?
 * Limits total installed storage capacity to predefined technical data from pStorageData and CSP-related capacity from pCSPData. Only applies if storage is included (fEnableStorage).
 eCapacityStorLimit(g,y)$fEnableStorage..
    vCapStor(g,y) =l= pStorageData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
