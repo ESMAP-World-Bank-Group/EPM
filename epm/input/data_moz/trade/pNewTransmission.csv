@@ -1,0 +1,4 @@
+From,To,EarliestEntry,MaximumNumOfLines,CapacityPerLine,CostPerLine,Life,Status
+Mozal,Mozambique_South,2030,2,1000,500,30,3
+Mozambique_Central,Mozambique_South,2030,2,400,180,30,3
+Mozambique_North,Mozambique_Central,2030,2,400,180,30,3

@@ -44,7 +44,7 @@ $if not set pDays $set pDays %FOLDER_RESOURCES%/dispatch/dispatch_month_days.csv
 $if not set mapTS $set mapTS %FOLDER_RESOURCES%/dispatch/dispatch_map_ts.csv
 
 * LOAD DATA
-$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast.csv
+$if not set pDemandForecast $set pDemandForecast %FOLDER_INPUT%/load/pDemandForecast_sapp_adapted.csv
 $if not set pDemandProfile $set pDemandProfile %FOLDER_INPUT%/load/pDemandProfile.csv
 $if not set pDemandData $set pDemandData %FOLDER_INPUT%/load/pDemandData.csv
 $if not set sRelevant $set sRelevant %FOLDER_INPUT%/load/sRelevant.csv

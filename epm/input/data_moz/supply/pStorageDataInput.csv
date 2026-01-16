@@ -1,0 +1,4 @@
+﻿g,z,tech,f,Linked plant,Status,StYr,RetrYr,Life,Capacity,UnitSize,BuildLimitperYear,CapacityMWh,DescreteCap,Efficiency,Capex,FOMperMW,VOM,ReserveCost,CapexMWh,FixedOMMWh,VOMMWh,MinGenShareAllHours,HeatRate,RampUpRate,RampDnRate,OverLoadFactor,ResLimShare,HoursOn,HoursOff,minUT,minDT,StUpCost,InitialOn,MinGenCommitment
+New_BESS_MOZ_CE,Mozambique_Central,Storage,Battery,,3,2027,2047,,4000,,100,10000000,,0.9,,,,,180,,,,,,,,,,,,,,,
+New_BESS_MOZ_NO,Mozambique_North,Storage,Battery,,3,2027,2047,,2000,,100,10000000,,0.9,,,,,180,,,,,,,,,,,,,,,
+New_BESS_MOZ_SO,Mozambique_South,Storage,Battery,,3,2027,2047,,4000,,100,10000000,,0.9,,,,,180,,,,,,,,,,,,,,,
