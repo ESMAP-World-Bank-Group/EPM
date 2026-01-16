@@ -308,6 +308,9 @@ loop(pGenDataInputHeader,
               pStorageDataInput(g,z,tech,f,pStorageDataHeader));
 );
 
+$if %DEBUG%==1 $log Debug mode active: exporting loading input to input_test.gdx
+$if %DEBUG%==1 $gdxunload input_test.gdx
+
 *-------------------------------------------------------------------------------------
 
 * Make input verification
