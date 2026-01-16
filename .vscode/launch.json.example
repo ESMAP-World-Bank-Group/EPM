@@ -29,6 +29,17 @@
             "args": ["--folder_input", "data_test", "--simple", "--debug", "--simulation_label", "simulations_test"]
         },
         {
+            "name": "EPM: Debug & Country Mode",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simple", "--debug", 
+                     "--simulation_label", "simulations_test",
+                     "--country", "Angola"]
+        },
+        {
             "name": "EPM: Postprocess Only",
             "type": "debugpy",
             "request": "launch",
