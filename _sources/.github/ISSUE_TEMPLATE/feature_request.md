@@ -2,7 +2,7 @@
 name: Feature Request
 about: Request a new feature or enhancement
 title: "[Feature] "
-labels: claude-task
+labels: enhancement
 assignees: ''
 ---
 
