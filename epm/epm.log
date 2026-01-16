@@ -1,94 +1,25 @@
-2026-01-16 15:35:25,275 - INFO - Starting EPM workflow
-2026-01-16 15:35:25,286 - INFO - Config file: config.csv
-2026-01-16 15:35:25,286 - INFO - Folder input: data_test
-2026-01-16 15:35:25,286 - INFO - modeltype: None
-2026-01-16 15:35:25,286 - INFO - Scenarios file: None
-2026-01-16 15:35:25,286 - INFO - Sensitivity: False
-2026-01-16 15:35:25,286 - INFO - MonteCarlo: False
-2026-01-16 15:35:25,286 - INFO - MonteCarlo samples: 10
-2026-01-16 15:35:25,286 - INFO - Monte Carlo uncertainties file: None
-2026-01-16 15:35:25,286 - INFO - Reduced output: False
-2026-01-16 15:35:25,286 - INFO - Reduced definition csv: False
-2026-01-16 15:35:25,286 - INFO - Selected scenarios: None
-2026-01-16 15:35:25,286 - INFO - Simple: None
-2026-01-16 15:35:25,286 - INFO - Simulation label: None
-2026-01-16 15:35:25,294 - INFO - Debug flag: False
-2026-01-16 15:35:25,295 - INFO - Trace flag: False
-2026-01-16 15:35:25,296 - INFO - Project folder: C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260116_144333
-2026-01-16 15:35:25,296 - INFO - EPM does not run again but use the existing simulation within the folder
-2026-01-16 15:35:25,297 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260116_144333 for postprocessing.
-2026-01-16 15:35:25,298 - INFO - Starting postprocessing for folder: C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260116_144333
-2026-01-16 15:35:25,298 - INFO - Postprocessing started for C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260116_144333
-2026-01-16 15:35:25,298 - INFO - Processing simulation results from C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260116_144333
-2026-01-16 15:35:29,643 - INFO - Loaded 57 processed result tables
-2026-01-16 15:35:29,690 - INFO - Generating summary...
-2026-01-16 15:35:29,732 - INFO - Generating detailed summary by Power Plant...
-2026-01-16 15:35:29,754 - INFO - Generating heatmap summary...
-2026-01-16 15:35:30,895 - INFO - Creating folders for figures...
-2026-01-16 15:35:30,898 - INFO - Generating capacity figures...
-2026-01-16 15:35:37,017 - INFO - Generating cost figures...
-2026-01-16 15:35:56,453 - INFO - Generating energy figures...
-2026-01-16 15:36:05,776 - INFO - Generating energy dispatch figures...
-2026-01-16 15:36:19,247 - INFO - Generating interconnection figures...
-2026-01-16 15:36:23,006 - WARNING - Failed to generate Net Imports/Exports by Scenario - Mozambique_North (GWh): 'numpy.float64' object has no attribute 'unstack'
-2026-01-16 15:36:37,148 - INFO - Generated Tableau GeoJSON file: linestring_countries.geojson
-2026-01-16 15:36:37,150 - INFO - Generating interactive map figures...
-2026-01-16 15:36:37,150 - INFO - Generating map for scenario baseline
-2026-01-16 15:36:37,992 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260116_144333\img\6_maps\TransmissionCapacityMapEvolution_baseline.pdf
-2026-01-16 15:36:38,557 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260116_144333\img\6_maps\TransmissionUtilizationMapEvolution_baseline.pdf
-2026-01-16 15:36:39,205 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260116_144333\img\6_maps\TransmissionCapacityMap_baseline_2025.pdf
-2026-01-16 15:36:39,950 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260116_144333\img\6_maps\TransmissionUtilizationMap_baseline_2025.pdf
-2026-01-16 15:36:40,809 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260116_144333\img\6_maps\NetExportsMap_baseline_2025.pdf
-2026-01-16 15:36:40,927 - ERROR - EPM workflow failed
+2026-01-16 16:39:20,481 - INFO - Starting EPM workflow
+2026-01-16 16:39:20,481 - INFO - Config file: input_scenarios.csv
+2026-01-16 16:39:20,481 - INFO - Folder input: data_sapp
+2026-01-16 16:39:20,481 - INFO - modeltype: None
+2026-01-16 16:39:20,481 - INFO - Scenarios file: None
+2026-01-16 16:39:20,481 - INFO - Sensitivity: False
+2026-01-16 16:39:20,481 - INFO - MonteCarlo: False
+2026-01-16 16:39:20,481 - INFO - MonteCarlo samples: 10
+2026-01-16 16:39:20,481 - INFO - Monte Carlo uncertainties file: None
+2026-01-16 16:39:20,481 - INFO - Reduced output: False
+2026-01-16 16:39:20,481 - INFO - Reduced definition csv: False
+2026-01-16 16:39:20,481 - INFO - Selected scenarios: None
+2026-01-16 16:39:20,481 - INFO - Simple: None
+2026-01-16 16:39:20,481 - INFO - Simulation label: None
+2026-01-16 16:39:20,481 - INFO - Debug flag: False
+2026-01-16 16:39:20,481 - INFO - Trace flag: False
+2026-01-16 16:39:20,505 - ERROR - Missing required columns ['file'] in C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\input_scenarios.csv.
+2026-01-16 16:39:20,506 - ERROR - EPM workflow failed
 Traceback (most recent call last):
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexes\base.py", line 3812, in get_loc
-    return self._engine.get_loc(casted_key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pandas/_libs/index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas/_libs/index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7088, in pandas._libs.hashtable.PyObjectHashTable.get_item
-  File "pandas/_libs/hashtable_class_helper.pxi", line 7096, in pandas._libs.hashtable.PyObjectHashTable.get_item
-KeyError: 'Mozambique_North'
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\Users\wb590499\Documents\Projects\EPM\epm/epm.py", line 997, in main
-    postprocess_output(folder, reduced_output=args.reduced_output, scenario_reference=scenario_reference,
-  File "C:\Users\wb590499\Documents\Projects\EPM\epm\postprocessing\postprocessing.py", line 2158, in postprocess_output
-    make_automatic_map(
-  File "C:\Users\wb590499\Documents\Projects\EPM\epm\postprocessing\maps.py", line 1762, in make_automatic_map
-    create_interactive_map(zone_map, centers, transmission_data, epm_results['pEnergyBalance'], year, selected_scenario, filename,
-  File "C:\Users\wb590499\Documents\Projects\EPM\epm\postprocessing\maps.py", line 1536, in create_interactive_map
-    row2 = transmission_data.loc[(z2, z)]
-           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexing.py", line 1185, in __getitem__
-    return self._getitem_tuple(key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexing.py", line 1369, in _getitem_tuple
-    return self._getitem_lowerdim(tup)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexing.py", line 1066, in _getitem_lowerdim
-    section = self._getitem_axis(key, axis=i)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexing.py", line 1432, in _getitem_axis
-    return self._get_label(key, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexing.py", line 1382, in _get_label
-    return self.obj.xs(label, axis=axis)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\generic.py", line 4315, in xs
-    loc, new_index = index._get_loc_level(key, level=0)
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexes\multi.py", line 3309, in _get_loc_level
-    indexer = self._get_level_indexer(key, level=level)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexes\multi.py", line 3410, in _get_level_indexer
-    idx = self._get_loc_single_level_index(level_index, key)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexes\multi.py", line 2999, in _get_loc_single_level_index
-    return level_index.get_loc(key)
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\site-packages\pandas\core\indexes\base.py", line 3819, in get_loc
-    raise KeyError(key) from err
-KeyError: 'Mozambique_North'
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm/epm.py", line 954, in main
+    folder, result = launch_epm_multi_scenarios(config=args.config,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm/epm.py", line 534, in launch_epm_multi_scenarios
+    raise ValueError(f"Missing required columns {missing_columns} in {os.path.abspath(config_path)}.") from None
+ValueError: Missing required columns ['file'] in C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\input_scenarios.csv.

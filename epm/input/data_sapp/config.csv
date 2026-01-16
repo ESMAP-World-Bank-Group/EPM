@@ -2,9 +2,9 @@ metadata,paramNames,file
 modeltype type (MIP or RMIP),modeltype,RMIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
 ,GENERAL,
-Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings_alt.csv
-Planning horizon years (Unit: year),y,y_alt.csv
-Mapping between model zones and countries (Unit: unitless),zcmap,zcmap_alt.csv
+Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
+Planning horizon years (Unit: year),y,y.csv
+Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
 ,LOAD,
 "Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile.csv
@@ -13,7 +13,7 @@ Annual energy and peak demand forecast by zone (Unit: GWh and MW),pDemandForecas
 List of representative daytypes used in demand sampling (Unit: unitless),sRelevant,load/sRelevant.csv
 Demand-side efficiency multipliers by year (Unit: per-unit multiplier),pEnergyEfficiencyFactor,load/pEnergyEfficiencyFactor.csv
 ,SUPPLY,
-"Custom generator entries overriding defaults (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInput,supply/sensitivity/pGenDataInput_delayedHydro_alt_3years.csv
+"Custom generator entries overriding defaults (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInput,supply/pGenDataInput.csv
 "Default generator dataset by zone and technology (Unit: varies; capacity in MW, cost in USD/MW)",pGenDataInputDefault,supply/pGenDataInputDefault.csv
 Custom seasonal availability factors for generators (Unit: per-unit availability),pAvailability,supply/pAvailabilityCustom.csv
 Default seasonal availability factors for generators (Unit: per-unit availability),pAvailabilityDefault,supply/pAvailabilityDefault.csv
