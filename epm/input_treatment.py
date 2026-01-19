@@ -235,12 +235,13 @@ def merge_storage_into_gendata(gams):
     Merge storage units from pStorageDataInput into pGenDataInput and gmap.
 
     This function:
-    1. Adds active storage units to the gmap set (g,z,tech,f mapping)
+    1. Adds all storage units to the gmap set (g,z,tech,f mapping)
     2. Copies values from pStorageDataInput to pGenDataInput for headers
        that exist in both pGenDataInputHeader and pStorageDataHeader sets
 
     This ensures all units (generators + storage) have consistent data
-    in pGenDataInput and gmap for downstream processing.
+    in pGenDataInput and gmap for downstream processing. Status filtering
+    is handled later in the input treatment pipeline.
 
     Args:
         gams: GAMS embedded code object with db attribute
@@ -301,22 +302,15 @@ def merge_storage_into_gendata(gams):
                 gen_header_col = col
                 break
 
-    # Get active storage units (Status != 0)
-    status_rows = storage_records[storage_records[storage_header_col] == "Status"]
-    active_storage = status_rows[status_rows["value"] != 0]
-
-    if active_storage.empty:
-        gams.printLog("[storage_merge] No active storage units found.")
-        return
-
-    # Create list of active storage keys (g, z, tech, f)
-    active_keys = list(zip(
-        active_storage[g_col],
-        active_storage["z"],
-        active_storage["tech"],
-        active_storage["f"]
+    # Get all unique storage units (g, z, tech, f)
+    storage_keys = storage_records[[g_col, "z", "tech", "f"]].drop_duplicates()
+    storage_keys_list = list(zip(
+        storage_keys[g_col],
+        storage_keys["z"],
+        storage_keys["tech"],
+        storage_keys["f"]
     ))
-    active_keys_set = set(active_keys)
+    storage_keys_set = set(storage_keys_list)
 
     # --- Update gmap set with storage units ---
     if "gmap" in db:
@@ -327,15 +321,15 @@ def merge_storage_into_gendata(gams):
             gmap_g_col = "g" if "g" in gmap_records.columns else g_col
 
         # Build new gmap entries for storage units
-        gmap_new = pd.DataFrame(active_keys, columns=[gmap_g_col, "z", "tech", "f"])
+        gmap_new = pd.DataFrame(storage_keys_list, columns=[gmap_g_col, "z", "tech", "f"])
         if gmap_records is not None and not gmap_records.empty:
             gmap_merged = pd.concat([gmap_records, gmap_new], ignore_index=True)
             gmap_merged = gmap_merged.drop_duplicates(subset=[gmap_g_col, "z", "tech", "f"])
         else:
             gmap_merged = gmap_new
         db.data["gmap"].setRecords(gmap_merged)
-        db.write(gams.db, ["gmap"])
-        gams.printLog(f"[storage_merge] Added {len(active_keys)} storage unit(s) to gmap.")
+        db.write(gams.db, ["gmap"], eps_to_zero=False)
+        gams.printLog(f"[storage_merge] Added {len(storage_keys_list)} storage unit(s) to gmap.")
 
     # --- Update pGenDataInput with storage data ---
     # Build new records for pGenDataInput using the same column names as gen_records
@@ -343,16 +337,14 @@ def merge_storage_into_gendata(gams):
     for hdr in common_headers:
         hdr_data = storage_records[storage_records[storage_header_col] == hdr]
         for _, row in hdr_data.iterrows():
-            key = (row[g_col], row["z"], row["tech"], row["f"])
-            if key in active_keys_set:
-                new_records.append({
-                    g_col: row[g_col],
-                    "z": row["z"],
-                    "tech": row["tech"],
-                    "f": row["f"],
-                    gen_header_col: hdr,
-                    "value": row["value"]
-                })
+            new_records.append({
+                g_col: row[g_col],
+                "z": row["z"],
+                "tech": row["tech"],
+                "f": row["f"],
+                gen_header_col: hdr,
+                "value": row["value"]
+            })
 
     if not new_records:
         gams.printLog("[storage_merge] No records to merge into pGenDataInput.")
@@ -372,9 +364,9 @@ def merge_storage_into_gendata(gams):
         merged = new_df
 
     db.data["pGenDataInput"].setRecords(merged)
-    db.write(gams.db, ["pGenDataInput"])
+    db.write(gams.db, ["pGenDataInput"], eps_to_zero=False)
 
-    n_storage = len(active_keys_set)
+    n_storage = len(storage_keys_set)
     n_headers = len(common_headers)
     gams.printLog(
         f"[storage_merge] Merged {n_storage} storage unit(s) "
