@@ -86,19 +86,19 @@ make_automatic_map = _wrap_plot_function(make_automatic_map)
 # Used to not load all the parameters in epm_results.gdx for memory purpose
 KEYS_RESULTS = {
     # 1. Capacity expansion
-    'pCapacityPlant', 
+    'pCapacityPlant',
     'pCapacityTechFuel', 'pCapacityTechFuelCountry',
     'pNewCapacityTechFuel', 'pNewCapacityTechFuelCountry',
     'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
     'pPrice', 'pYearlyPrice',
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
-    'pCostsPlant',  
+    'pCostsPlant',
     'pYearlyCostsZone', 'pYearlyCostsCountry',
     'pYearlyCostsSystem',
     'pCostsZone', 'pCostsSystem', 'pCostsSystemPerMWh',
     'pCostsZonePerMWh', 'pCostsCountryPerMWh',
-    'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption', 'pFuelConsumptionCountry',
+    'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption',
     'pYearlyGenCostZonePerMWh',
     # 3. Energy balance
     'pEnergyPlant', 'pEnergyTechFuel', 'pEnergyTechFuelCountry',
@@ -119,13 +119,6 @@ KEYS_RESULTS = {
     # 10. Metrics
     'pPlantAnnualLCOE',
     'pCostsZonePerMWh',
-    'pCostsCountryPerMWh',
-    'pDiscountedDemandZoneMWh',
-    'pDiscountedDemandCountryMWh',
-    'pDiscountedDemandSystemMWh',
-    'pYearlyCostsZonePerMWh',
-    'pYearlyCostsCountryPerMWh',
-    'pYearlyCostsSystemPerMWh',
     # 11. Other
     'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry',
     'pDemandEnergyZone', 'pDemandPeakZone'
