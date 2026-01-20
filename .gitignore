@@ -38,6 +38,7 @@
 # Project-specific outputs
 /epm/cplex.opt
 epm/output/*
+epm/postprocessing/*
 !epm/output/tableau/
 epm/output/tableau/scenarios/*
 !epm/output/tableau/scenarios/.gitkeep
