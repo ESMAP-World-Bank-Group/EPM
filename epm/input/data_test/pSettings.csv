@@ -35,14 +35,14 @@ Use less detailed demand definition,fUseSimplifiedDemand,1
 Fractional tolerance around system peak load used to identify hours considered ‘near-peak,sPeakLoadProximityThreshold,
 ,,
 PLANNING RESERVES,,
-Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,1
-Apply planning reserve constraint,fApplyPlanningReserveConstraint,1
-"System planning reserve margin, %",sReserveMarginPct,0.1
+Include transmission lines when assessing country planning reserves,fCountIntercoForReserves,0
+Apply planning reserve constraint,fApplyPlanningReserveConstraint,0
+"System planning reserve margin, %",sReserveMarginPct,0
 ,,
 SPINNING RESERVES,,
-Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,1
+Apply country spinning reserve contraints,fApplyCountrySpinReserveConstraint,0
 Apply system spinning reserve contraints,fApplySystemSpinReserveConstraint,0
-"Spinning (country and system) reserve needs for VRE, %",sVREForecastErrorPct,0.15
+"Spinning (country and system) reserve needs for VRE, %",sVREForecastErrorPct,0
 "Contribution of transmission lines to country spinning reserves need, %",sIntercoReserveContributionPct,0
 ,,
 H2,,
@@ -60,12 +60,12 @@ Apply max capital constraint,fApplyCapitalConstraint,0
 ,,
 PLANTS,,
 Apply min generation for all hours,fApplyMinGenShareAllHours,0
-Apply ramp constraints,fApplyRampConstraint,0
+Apply ramp constraints,fApplyRampConstraint,1
 Apply min generation constraint (only dispatch),fApplyMinGenCommitment,0
 Include minimum up/down time constraints (only dispatch),fApplyMUDT,0
 Apply startup cost (only dispatch),fApplyStartupCost,0
 ,,
 INPUT TREATMENTS,,
-Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,1
-Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,1
-Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,1
+Auto-fill missing hydro availability,EPM_FILL_HYDRO_AVAILABILITY,0
+Auto-fill missing hydro CAPEX,EPM_FILL_HYDRO_CAPEX,0
+Auto-fill ROR profiles from pAvailability,EPM_FILL_ROR_FROM_AVAILABILITY,0

@@ -1,7 +1,7 @@
 ﻿parameter,sensitivity
 pSettings,
 y,
-pDemandForecast,0.1&-0.1
+pDemandForecast,
 TradePrice,
 pDemandProfile,
 pAvailabilityDefault,
