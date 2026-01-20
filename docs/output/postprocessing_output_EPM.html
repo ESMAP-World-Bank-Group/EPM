@@ -1333,7 +1333,7 @@ title="Print to PDF"
 <h2>Tips<a class="headerlink" href="#tips" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Large CSVs can be slimmed down using <code class="docutils literal notranslate"><span class="pre">reduce_definition_csv</span></code> in <code class="docutils literal notranslate"><span class="pre">postprocessing.py</span></code> (keeps first, middle, last year).</p></li>
-<li><p>When <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">1</span></code>, only <code class="docutils literal notranslate"><span class="pre">pYearlyCostsZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsZoneFull</span></code>, and <code class="docutils literal notranslate"><span class="pre">pEnergyBalance</span></code> are exported; the tables below assume the default detailed reporting.</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">1</span></code>, only <code class="docutils literal notranslate"><span class="pre">pCosts</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsFull</span></code>, and <code class="docutils literal notranslate"><span class="pre">pEnergyBalance</span></code> are exported; the tables below assume the default detailed reporting.</p></li>
 </ul>
 </section>
 <section id="capacity">
@@ -1417,7 +1417,7 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pAnnualTransmissionCapacity</p></td>
+<tr class="row-even"><td><p>pTransmissionCapacity</p></td>
 <td><p>Total available transmission capacity [MW] between internal zones</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
@@ -1476,7 +1476,7 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pPrice</p></td>
+<tr class="row-odd"><td><p>pHourlyPrice</p></td>
 <td><p>Marginal cost [USD/MWh] by zone, time, and year</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
@@ -1501,32 +1501,32 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyCostsZone</p></td>
+<tr class="row-even"><td><p>pCosts</p></td>
 <td><p>Annual cost summary [million USD] by zone and year</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pYearlyCostsCountry</p></td>
+<tr class="row-odd"><td><p>pCostsCountry</p></td>
 <td><p>Annual cost summary [million USD] by country and year</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostsZone</p></td>
+<tr class="row-even"><td><p>pNetPresentCost</p></td>
 <td><p>Total cost [million USD] by zone and cost category</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pCostsSystem</p></td>
+<tr class="row-odd"><td><p>pNetPresentCostSystem</p></td>
 <td><p>System-level cost summary [million USD], weighted and discounted</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostsSystemPerMWh</p></td>
+<tr class="row-even"><td><p>pNetPresentCostSystemPerMWh</p></td>
 <td><p>System-level cost summary [USD/MWh], weighted and discounted</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pYearlyCostsSystem</p></td>
+<tr class="row-odd"><td><p>pCostsSystem</p></td>
 <td><p>Annual system cost summary [million USD] by cost category and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
@@ -1850,37 +1850,37 @@ title="Print to PDF"
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>pYearlyPrice</p></td>
+<tr class="row-even"><td><p>pPrice</p></td>
 <td><p>Demand-weighted average electricity price [USD/MWh] by zone and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pYearlyPriceExport</p></td>
+<tr class="row-odd"><td><p>pPriceExport</p></td>
 <td><p>Flow-weighted average export price [USD/MWh] by zone and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyPriceImport</p></td>
+<tr class="row-even"><td><p>pPriceImport</p></td>
 <td><p>Flow-weighted average import price [USD/MWh] by zone and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pYearlyPriceHub</p></td>
+<tr class="row-odd"><td><p>pPriceHub</p></td>
 <td><p>Flow-weighted hub price [USD/MWh] by zone and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyPriceCountry</p></td>
+<tr class="row-even"><td><p>pPriceCountry</p></td>
 <td><p>Demand-weighted average electricity price [USD/MWh] by country and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-odd"><td><p>pYearlyPriceExportCountry</p></td>
+<tr class="row-odd"><td><p>pPriceExportCountry</p></td>
 <td><p>Flow-weighted average export price [USD/MWh] by country and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyPriceImportCountry</p></td>
+<tr class="row-even"><td><p>pPriceImportCountry</p></td>
 <td><p>Flow-weighted average import price [USD/MWh] by country and year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
@@ -1968,12 +1968,12 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-odd"><td><p>pCostsZonePerMWh</p></td>
+<tr class="row-odd"><td><p>pNetPresentCostPerMWh</p></td>
 <td><p>Zone discounted average cost by component [USD/MWh]</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes</p></td>
 </tr>
-<tr class="row-even"><td><p>pCostsCountryPerMWh</p></td>
+<tr class="row-even"><td><p>pNetPresentCostCountryPerMWh</p></td>
 <td><p>Country discounted average cost by component [USD/MWh]</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>
@@ -1993,7 +1993,7 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>No</p></td>
 </tr>
-<tr class="row-even"><td><p>pYearlyCostsSystemPerMWh</p></td>
+<tr class="row-even"><td><p>pCostsSystemPerMWh</p></td>
 <td><p>System average cost [USD/MWh] by year</p></td>
 <td><p>Yes</p></td>
 <td><p>No</p></td>

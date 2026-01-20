@@ -22,7 +22,7 @@ These symbols are always included in the GDX dump and are also written to CSV by
 | `pNewCapacityFuelCountry`     | New capacity builds by fuel and country (MW).                           | Yes            | Yes (default) |
 | `pCapacitySummary`            | Summary capacity balance by zone and year (existing, new, retirements). | Yes            | Yes (default) |
 | `pCapacitySummaryCountry`     | Summary capacity balance aggregated to the country level.               | Yes            | Yes (default) |
-| `pAnnualTransmissionCapacity` | Total available annual transfer capacity between zones (MW).            | Yes            | Yes (default) |
+| `pTransmissionCapacity`       | Total available transfer capacity between zones (MW).                   | Yes            | Yes (default) |
 | `pNewTransmissionCapacity`    | Incremental transfer capacity required on each interconnector (MW).     | Yes            | Yes (default) |
 
 ### Costs and Investment
@@ -34,11 +34,11 @@ These symbols are always included in the GDX dump and are also written to CSV by
 | `pCapexInvestmentPlant`        | Capital spending allocated to individual plants (M$).                     | Yes            | Yes (default) |
 | `pCapexInvestmentTransmission` | Capital spending on transmission assets (M$).                             | Yes            | Yes (default) |
 | `pCostsPlant`                  | Operating costs per plant including fixed, variable, and fuel costs (M$). | Yes            | Yes (default) |
-| `pCostsSystem`                 | Total discounted system cost components (M$).                             | Yes            | Yes (default) |
-| `pCostsSystemPerMWh`           | System cost normalized by energy basis ($/MWh).                           | Yes            | Yes (default) |
-| `pYearlyCostsZone`             | Annual cost breakdown by zone and cost attribute (M$).                    | Yes            | Yes (default) |
-| `pYearlyCostsCountry`          | Annual cost breakdown aggregated to the country level (M$).               | Yes            | Yes (default) |
-| `pPrice`                       | Marginal price signal by zone and period ($/MWh).                         | Yes            | Yes (default) |
+| `pNetPresentCostSystem`        | Total discounted system cost components (M$).                             | Yes            | Yes (default) |
+| `pNetPresentCostSystemPerMWh`  | System cost normalized by energy basis ($/MWh).                           | Yes            | Yes (default) |
+| `pCosts`                       | Annual cost breakdown by zone and cost attribute (M$).                    | Yes            | Yes (default) |
+| `pCostsCountry`                | Annual cost breakdown aggregated to the country level (M$).               | Yes            | Yes (default) |
+| `pHourlyPrice`                 | Marginal price signal by zone and period ($/MWh).                         | Yes            | Yes (default) |
 
 ### Fuel Inputs
 
@@ -95,10 +95,10 @@ These symbols are always included in the GDX dump and are also written to CSV by
 
 ### Financial Metrics
 
-| Variable           | Description                                           | epmresults.gdx | CSV export    |
-| ------------------ | ----------------------------------------------------- | -------------- | ------------- |
-| `pPlantAnnualLCOE` | Levelized cost of electricity for each plant ($/MWh). | Yes            | Yes (default) |
-| `pCostsZonePerMWh` | Average total system cost per zone ($/MWh).           | Yes            | Yes (default) |
+| Variable                | Description                                           | epmresults.gdx | CSV export    |
+| ----------------------- | ----------------------------------------------------- | -------------- | ------------- |
+| `pPlantAnnualLCOE`      | Levelized cost of electricity for each plant ($/MWh). | Yes            | Yes (default) |
+| `pNetPresentCostPerMWh` | Average total system cost per zone ($/MWh).           | Yes            | Yes (default) |
 
 ### Reference Tables
 
@@ -121,11 +121,11 @@ The following symbols are written to `epmresults.gdx` when detailed reporting is
 - **Interconnection detail** (`pLossesTransmission`, `pLossesTransmissionCountry`, `pHourlyInterchangeExternal`, `pHourlyInterchangeExternalCountry`, `pYearlyInterchangeExternal`, `pYearlyInterchangeExternalCountry`, `pInterchangeExternalExports`, `pInterchangeExternalImports`, `pInterconUtilizationExternalExports`, `pInterconUtilizationExternalImports`) - Detailed cross-border and external interchange metrics, including losses and utilization splits. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Trade cost breakdown** (`pImportCostsInternal`, `pExportRevenuesInternal`, `pTradeSharedBenefits`, `pCongestionRevenues`) - Decomposition of trade-related monetary flows. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Emissions detail** (`pEmissionsCountrySummary`, `pEmissionsIntensityCountry`, `pEmissionMarginalCosts`, `pEmissionMarginalCostsCountry`) - Country summaries and marginal emission costs. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
-- **Price detail** (`pYearlyPrice`, `pYearlyPriceExport`, `pYearlyPriceImport`, `pYearlyPriceHub`, `pYearlyPriceCountry`, `pYearlyPriceExportCountry`, `pYearlyPriceImportCountry`) - Annual price blocks by hub, import, export, and country aggregation. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
+- **Price detail** (`pPrice`, `pPriceExport`, `pPriceImport`, `pPriceHub`, `pPriceCountry`, `pPriceExportCountry`, `pPriceImportCountry`) - Annual price blocks by hub, import, export, and country aggregation. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 - **Technology specific balances** (`pCSPBalance`, `pCSPComponents`, `pPVwSTOBalance`, `pPVwSTOComponents`, `pStorageBalance`, `pStorageComponents`, `pSolarPower`, `pSolarEnergyZone`, `pSolarValueZone`, `pSolarCost`) - Detailed tracking for CSP, PV with storage, and storage technologies. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
-- **System metrics** (`pCostsCountryPerMWh`, `pCostsZonePerMWh`, `pDiscountedDemandCountryMWh`, `pDiscountedDemandZoneMWh`, `pYearlyCostsSystemPerMWh`, `pYearlyCostsSystem`, `pCostsZone`, `pVarCost`, `pSolverParameters`) - Additional summary indicators and modeltype diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
+- **System metrics** (`pNetPresentCostCountryPerMWh`, `pNetPresentCostPerMWh`, `pDiscountedDemandCountryMWh`, `pDiscountedDemandZoneMWh`, `pCostsSystemPerMWh`, `pCostsSystem`, `pNetPresentCost`, `pVarCost`, `pSolverParameters`) - Additional summary indicators and modeltype diagnostics. Available in `epmresults.gdx` only; convert manually if a CSV is needed.
 
 ## Tips
 
 - Large CSVs can be slimmed down using `reduce_definition_csv` in `postprocessing.py` (keeps first, middle, last year).
-- When `REPORTSHORT = 1`, only `pYearlyCostsZone`, `pYearlyCostsZoneFull`, and `pEnergyBalance` are exported; the tables above assume the default detailed reporting.
+- When `REPORTSHORT = 1`, only `pCosts`, `pCostsFull`, and `pEnergyBalance` are exported; the tables above assume the default detailed reporting.

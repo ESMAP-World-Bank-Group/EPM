@@ -1386,8 +1386,8 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pAnnualTransmissionCapacity</span></code></p></td>
-<td><p>Total available annual transfer capacity between zones (MW).</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pTransmissionCapacity</span></code></p></td>
+<td><p>Total available transfer capacity between zones (MW).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
@@ -1435,27 +1435,27 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pCostsSystem</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pNetPresentCostSystem</span></code></p></td>
 <td><p>Total discounted system cost components (M$).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pCostsSystemPerMWh</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pNetPresentCostSystemPerMWh</span></code></p></td>
 <td><p>System cost normalized by energy basis ($/MWh).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pYearlyCostsZone</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pCosts</span></code></p></td>
 <td><p>Annual cost breakdown by zone and cost attribute (M$).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pYearlyCostsCountry</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">pCostsCountry</span></code></p></td>
 <td><p>Annual cost breakdown aggregated to the country level (M$).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pPrice</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pHourlyPrice</span></code></p></td>
 <td><p>Marginal price signal by zone and period ($/MWh).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
@@ -1678,7 +1678,7 @@ title="Print to PDF"
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pCostsZonePerMWh</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">pNetPresentCostPerMWh</span></code></p></td>
 <td><p>Average total system cost per zone ($/MWh).</p></td>
 <td><p>Yes</p></td>
 <td><p>Yes (default)</p></td>
@@ -1725,16 +1725,16 @@ title="Print to PDF"
 <li><p><strong>Interconnection detail</strong> (<code class="docutils literal notranslate"><span class="pre">pLossesTransmission</span></code>, <code class="docutils literal notranslate"><span class="pre">pLossesTransmissionCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pHourlyInterchangeExternal</span></code>, <code class="docutils literal notranslate"><span class="pre">pHourlyInterchangeExternalCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyInterchangeExternal</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyInterchangeExternalCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pInterchangeExternalExports</span></code>, <code class="docutils literal notranslate"><span class="pre">pInterchangeExternalImports</span></code>, <code class="docutils literal notranslate"><span class="pre">pInterconUtilizationExternalExports</span></code>, <code class="docutils literal notranslate"><span class="pre">pInterconUtilizationExternalImports</span></code>) - Detailed cross-border and external interchange metrics, including losses and utilization splits. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 <li><p><strong>Trade cost breakdown</strong> (<code class="docutils literal notranslate"><span class="pre">pImportCostsInternal</span></code>, <code class="docutils literal notranslate"><span class="pre">pExportRevenuesInternal</span></code>, <code class="docutils literal notranslate"><span class="pre">pTradeSharedBenefits</span></code>, <code class="docutils literal notranslate"><span class="pre">pCongestionRevenues</span></code>) - Decomposition of trade-related monetary flows. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 <li><p><strong>Emissions detail</strong> (<code class="docutils literal notranslate"><span class="pre">pEmissionsCountrySummary</span></code>, <code class="docutils literal notranslate"><span class="pre">pEmissionsIntensityCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pEmissionMarginalCosts</span></code>, <code class="docutils literal notranslate"><span class="pre">pEmissionMarginalCostsCountry</span></code>) - Country summaries and marginal emission costs. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
-<li><p><strong>Price detail</strong> (<code class="docutils literal notranslate"><span class="pre">pYearlyPrice</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceExport</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceImport</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceHub</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceExportCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyPriceImportCountry</span></code>) - Annual price blocks by hub, import, export, and country aggregation. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
+<li><p><strong>Price detail</strong> (<code class="docutils literal notranslate"><span class="pre">pPrice</span></code>, <code class="docutils literal notranslate"><span class="pre">pPriceExport</span></code>, <code class="docutils literal notranslate"><span class="pre">pPriceImport</span></code>, <code class="docutils literal notranslate"><span class="pre">pPriceHub</span></code>, <code class="docutils literal notranslate"><span class="pre">pPriceCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pPriceExportCountry</span></code>, <code class="docutils literal notranslate"><span class="pre">pPriceImportCountry</span></code>) - Annual price blocks by hub, import, export, and country aggregation. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 <li><p><strong>Technology specific balances</strong> (<code class="docutils literal notranslate"><span class="pre">pCSPBalance</span></code>, <code class="docutils literal notranslate"><span class="pre">pCSPComponents</span></code>, <code class="docutils literal notranslate"><span class="pre">pPVwSTOBalance</span></code>, <code class="docutils literal notranslate"><span class="pre">pPVwSTOComponents</span></code>, <code class="docutils literal notranslate"><span class="pre">pStorageBalance</span></code>, <code class="docutils literal notranslate"><span class="pre">pStorageComponents</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarPower</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarEnergyZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarValueZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolarCost</span></code>) - Detailed tracking for CSP, PV with storage, and storage technologies. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
-<li><p><strong>System metrics</strong> (<code class="docutils literal notranslate"><span class="pre">pCostsCountryPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsZonePerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandCountryMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandZoneMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsSystemPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsSystem</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pVarCost</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolverParameters</span></code>) - Additional summary indicators and modeltype diagnostics. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
+<li><p><strong>System metrics</strong> (<code class="docutils literal notranslate"><span class="pre">pNetPresentCostCountryPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pNetPresentCostPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandCountryMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pDiscountedDemandZoneMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsSystemPerMWh</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsSystem</span></code>, <code class="docutils literal notranslate"><span class="pre">pNetPresentCost</span></code>, <code class="docutils literal notranslate"><span class="pre">pVarCost</span></code>, <code class="docutils literal notranslate"><span class="pre">pSolverParameters</span></code>) - Additional summary indicators and modeltype diagnostics. Available in <code class="docutils literal notranslate"><span class="pre">epmresults.gdx</span></code> only; convert manually if a CSV is needed.</p></li>
 </ul>
 </section>
 <section id="tips">
 <h2>Tips<a class="headerlink" href="#tips" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Large CSVs can be slimmed down using <code class="docutils literal notranslate"><span class="pre">reduce_definition_csv</span></code> in <code class="docutils literal notranslate"><span class="pre">postprocessing.py</span></code> (keeps first, middle, last year).</p></li>
-<li><p>When <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">1</span></code>, only <code class="docutils literal notranslate"><span class="pre">pYearlyCostsZone</span></code>, <code class="docutils literal notranslate"><span class="pre">pYearlyCostsZoneFull</span></code>, and <code class="docutils literal notranslate"><span class="pre">pEnergyBalance</span></code> are exported; the tables above assume the default detailed reporting.</p></li>
+<li><p>When <code class="docutils literal notranslate"><span class="pre">REPORTSHORT</span> <span class="pre">=</span> <span class="pre">1</span></code>, only <code class="docutils literal notranslate"><span class="pre">pCosts</span></code>, <code class="docutils literal notranslate"><span class="pre">pCostsFull</span></code>, and <code class="docutils literal notranslate"><span class="pre">pEnergyBalance</span></code> are exported; the tables above assume the default detailed reporting.</p></li>
 </ul>
 </section>
 </section>
