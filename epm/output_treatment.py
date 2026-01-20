@@ -18,10 +18,10 @@ Description:
     9. Merging related files into consolidated CSVs (long format):
        - pTechFuelMerged
        - pPlantMerged
-       - pYearlyCostsMerged
+       - pCostsMerged
        - pTransmissionMerged
        - pYearlyZoneMerged
-       - pCostsSystemMerged
+       - pNetPresentCostSystemMerged
     10. Adding country column to zone-based files
     11. Organizing files (essential in main dir, others in 'other/' subdir)
 
@@ -114,14 +114,14 @@ TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'postprocess',
 # Files to fill with all cost components: (file_name, cost_component_column_name)
 # The cost component column is either 'uni' or 'sumhdr' depending on the file
 COST_COMPONENT_FILES = [
-    ('pYearlyCostsZone', 'uni'),
-    ('pYearlyCostsZonePerMWh', 'sumhdr'),
-    ('pCostsZonePerMWh', 'sumhdr'),
-    ('pYearlyCostsCountryPerMWh', 'sumhdr'),
+    ('pCosts', 'uni'),
+    ('pCostsPerMWh', 'sumhdr'),
+    ('pNetPresentCostPerMWh', 'sumhdr'),
     ('pCostsCountryPerMWh', 'sumhdr'),
-    ('pYearlyDiscountedWeightedCostsZone', 'uni'),
-    ('pCostsSystem', 'uni'),
-    ('pCostsSystemPerMWh', 'uni'),
+    ('pNetPresentCostCountryPerMWh', 'sumhdr'),
+    ('pDiscountedWeightedCosts', 'uni'),
+    ('pNetPresentCostSystem', 'uni'),
+    ('pNetPresentCostSystemPerMWh', 'uni'),
 ]
 
 # All cost components from sumhdr set in generate_report.gms
@@ -185,13 +185,13 @@ PLANT_MERGE_FILES = [
     'pCapexInvestmentPlant',
 ]
 
-# YearlyCosts zone files to merge (dimensions: z, uni, y, value)
-# These will be merged into pYearlyCostsMerged.csv (long format)
-YEARLY_COSTS_MERGE_FILES = [
-    'pYearlyCostsZone',
-    'pYearlyDiscountedWeightedCostsZoneCumulated',
-    'pCostsZonePerMWh',
-    'pYearlyGenCostZonePerMWh',
+# Costs zone files to merge (dimensions: z, uni, y, value)
+# These will be merged into pCostsMerged.csv (long format)
+COSTS_MERGE_FILES = [
+    'pCosts',
+    'pDiscountedWeightedCostsCumulated',
+    'pNetPresentCostPerMWh',
+    'pGenCostsPerMWh',
 ]
 
 # Transmission/interconnection files to merge (dimensions: z, z2, y, value)
@@ -199,7 +199,7 @@ YEARLY_COSTS_MERGE_FILES = [
 TRANSMISSION_MERGE_FILES = [
     'pInterchange',
     'pInterconUtilization',
-    'pAnnualTransmissionCapacity',
+    'pTransmissionCapacity',
     'pAdditionalTransmissionCapacity',
     'pNewTransmissionCapacity',
     'pCongestionShare',
@@ -215,11 +215,11 @@ YEARLY_ZONE_MERGE_FILES = [
     'pEmissionsIntensityZone',
 ]
 
-# System-level cost files to merge (dimensions: uni, value or y, value)
-# These will be merged into pCostsSystemMerged.csv (long format)
-SYSTEM_COSTS_MERGE_FILES = [
-    'pCostsSystem',
-    'pCostsSystemPerMWh',
+# System-level NPV cost files to merge (dimensions: uni, value or y, value)
+# These will be merged into pNetPresentCostSystemMerged.csv (long format)
+SYSTEM_NPV_COSTS_MERGE_FILES = [
+    'pNetPresentCostSystem',
+    'pNetPresentCostSystemPerMWh',
 ]
 
 # CAPEX investment component files to merge (dimensions: z, uni, y, value)
@@ -232,7 +232,7 @@ CAPEX_INVESTMENT_MERGE_FILES = [
 # Files to include in pSummary.csv (unified summary format)
 # Each file will be transformed to have columns: c, z, attribute, resolution, y, value
 SUMMARY_FILES = [
-    'pCostsSystemMerged',
+    'pNetPresentCostSystemMerged',
     'pTransmissionMerged',
     'pTechFuelMerged',
     'pYearlyZoneMerged',
@@ -248,10 +248,10 @@ SUMMARY_FILES = [
 PRIMARY_OUTPUT_FILES = [
     'pTechFuelMerged',
     'pPlantMerged',
-    'pYearlyCostsMerged',
+    'pCostsMerged',
     'pTransmissionMerged',
     'pYearlyZoneMerged',
-    'pCostsSystemMerged',
+    'pNetPresentCostSystemMerged',
     'pCapexInvestmentMerged',
     'pDispatchComplete',
     'pSummary',
@@ -260,6 +260,7 @@ PRIMARY_OUTPUT_FILES = [
 # Essential standalone files (not merged but needed for analysis)
 ESSENTIAL_FILES = [
     # Prices
+    'pHourlyPrice',
     'pPrice',
     # Settings
     'pSettings',
@@ -279,7 +280,7 @@ def _default_log(message: str) -> None:
 COLUMN_ORDER = ['c', 'z', 'tech', 'f', 'g', 'y', 'uni', 'techfuel']
 
 # Final column order for restructured files
-FINAL_COLUMN_ORDER = ['c', 'z', 'attribute', 'y', 'tech', 'f', 'techfuel']
+FINAL_COLUMN_ORDER = ['c', 'z', 'attribute', 'y', 'tech', 'f', 'techfuel', 'uni']
 
 
 def _reorder_columns(df: pd.DataFrame, preferred_order: List[str] = COLUMN_ORDER) -> pd.DataFrame:
@@ -1187,8 +1188,8 @@ def create_summary_csv(
     """
     Create pSummary.csv by concatenating all merged files into a unified format.
 
-    The output has a consistent structure with columns: c, z, attribute, resolution, y, value
-    where the 'resolution' column contains contextual information depending on the source:
+    The output has a consistent structure with columns: c, z, attribute, uni, y, value
+    where the 'uni' column contains contextual information depending on the source:
     - System costs: cost component (e.g., "Fuel costs: $m")
     - TechFuel data: techfuel name (e.g., "ST-Coal", "PV")
     - Transmission data: destination zone (e.g., "Serbia")
@@ -1223,41 +1224,36 @@ def create_summary_csv(
             continue
 
         # Transform based on file type
-        if file_name == 'pCostsSystemMerged':
-            # System-level: add c, z placeholders, uni -> resolution, no year
+        if file_name == 'pNetPresentCostSystemMerged':
+            # System-level: add c, z placeholders, no year
             df['c'] = 'System'
             df['z'] = 'System'
             df['y'] = ''
-            df['resolution'] = df['uni']  # cost component in resolution
-            df = df.drop(columns=['uni'], errors='ignore')
+            # uni already contains cost component
 
         elif file_name == 'pTransmissionMerged':
-            # Transmission: uni (z2) goes to resolution
-            df['resolution'] = df['uni']  # destination zone
-            df = df.drop(columns=['uni', 'isExternal'], errors='ignore')
+            # Transmission: uni already contains z2 (destination zone)
+            df = df.drop(columns=['isExternal'], errors='ignore')
 
         elif file_name == 'pTechFuelMerged':
-            # TechFuel: techfuel goes to resolution
-            df['resolution'] = df['techfuel']
+            # TechFuel: techfuel goes to uni
+            df['uni'] = df['techfuel']
             df = df.drop(columns=['tech', 'f', 'techfuel'], errors='ignore')
 
         elif file_name == 'pYearlyZoneMerged':
-            # Zone-level: resolution is empty
-            df['resolution'] = ''
+            # Zone-level: uni is empty
+            df['uni'] = ''
 
         else:
-            # Generic: try to use 'uni' or 'techfuel' for resolution if available
+            # Generic: try to use 'techfuel' for uni if available
             if 'techfuel' in df.columns:
-                df['resolution'] = df['techfuel']
+                df['uni'] = df['techfuel']
                 df = df.drop(columns=['tech', 'f', 'techfuel'], errors='ignore')
-            elif 'uni' in df.columns:
-                df['resolution'] = df['uni']
-                df = df.drop(columns=['uni'], errors='ignore')
-            else:
-                df['resolution'] = ''
+            elif 'uni' not in df.columns:
+                df['uni'] = ''
 
         # Select and order final columns
-        final_cols = ['c', 'z', 'attribute', 'resolution', 'y', 'value']
+        final_cols = ['c', 'z', 'attribute', 'uni', 'y', 'value']
         df = df[[c for c in final_cols if c in df.columns]]
 
         dfs.append(df)
@@ -1401,7 +1397,7 @@ def restructure_and_sort_csv(
             df['_techfuel_sort'] = df['techfuel'].map(techfuel_order_map)
             df['_techfuel_sort'] = df['_techfuel_sort'].fillna(len(techfuel_processing_order) + 1000)
             
-            # Build sort order: c, z, attribute, y, then techfuel (exclude g and uni)
+            # Build sort order: c, z, attribute, y, then techfuel (exclude g and resolution)
             priority_cols = ['c', 'z', 'attribute', 'y']
             sort_cols_with_techfuel = [col for col in priority_cols if col in df.columns] + ['_techfuel_sort']
             
@@ -1781,14 +1777,34 @@ def run_output_treatment(
                 df_plant_merged.to_csv(plant_merged_path, index=False)
                 log_func(f"[output_treatment]   pPlantMerged.csv: added techfuel column")
 
-    # Merge YearlyCosts zone files (z, uni, y) -> long format
+
+    # Merge Costs zone files (z, uni, y) -> long format
     merge_csv_files_long(
-        output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged',
+        output_dir, COSTS_MERGE_FILES, 'pCostsMerged',
         normalize_cost_component_cols=True, log_func=log_func
     )
 
     # Merge Transmission/interconnection files (z, z2, y) -> long format
     merge_csv_files_long(output_dir, TRANSMISSION_MERGE_FILES, 'pTransmissionMerged', log_func=log_func)
+
+    # Post-process pTransmissionMerged: standardize column names
+    # - Merge z2 into uni (some files have z2, some have uni for destination zone)
+    # - Drop isExternal column (not needed in merged output)
+    transmission_merged_path = os.path.join(output_dir, 'pTransmissionMerged.csv')
+    if os.path.exists(transmission_merged_path):
+        df_trans = pd.read_csv(transmission_merged_path)
+        # If both z2 and uni exist, merge them into uni
+        if 'z2' in df_trans.columns and 'uni' in df_trans.columns:
+            df_trans['uni'] = df_trans['uni'].fillna(df_trans['z2'])
+            df_trans = df_trans.drop(columns=['z2'])
+        # If only z2 exists, rename to uni
+        elif 'z2' in df_trans.columns:
+            df_trans = df_trans.rename(columns={'z2': 'uni'})
+        # Drop isExternal column if present
+        if 'isExternal' in df_trans.columns:
+            df_trans = df_trans.drop(columns=['isExternal'])
+        df_trans.to_csv(transmission_merged_path, index=False)
+        log_func(f"[output_treatment]   pTransmissionMerged.csv: standardized columns (z2 -> uni, dropped isExternal)")
 
     # Merge Yearly zone files (demand, emissions) (z, y) -> long format
     merge_csv_files_long(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)
@@ -1798,9 +1814,10 @@ def run_output_treatment(
     
     # List of files to add: (file_name, attribute_name)
     files_to_add = [
-        ('pYearlyCostsZone', 'YearlyCostsZone'),
-        ('pYearlyCostsZonePerMWh', 'YearlyCostsZonePerMWh'),
-        ('pYearlyGenCostZonePerMWh', 'YearlyGenCostZonePerMWh'),
+        ('pCosts', 'Costs'),
+        ('pCostsPerMWh', 'CostsPerMWh'),
+        ('pGenCostsPerMWh', 'GenCostsPerMWh'),
+        ('pPrice', 'Price'),
         ('pCapexInvestmentComponent', 'CapexInvestmentComponent'),
         ('pCapexInvestmentComponentCumulated', 'CapexInvestmentComponentCumulated'),
     ]
@@ -1809,8 +1826,8 @@ def run_output_treatment(
         file_path = os.path.join(output_dir, f"{file_name}.csv")
         add_total_to_yearly_zone_merged(file_path, attribute_name, yearly_zone_merged_path, log_func=log_func)
 
-    # Merge System costs files -> long format
-    merge_csv_files_long(output_dir, SYSTEM_COSTS_MERGE_FILES, 'pCostsSystemMerged', log_func=log_func)
+    # Merge System NPV costs files -> long format
+    merge_csv_files_long(output_dir, SYSTEM_NPV_COSTS_MERGE_FILES, 'pNetPresentCostSystemMerged', log_func=log_func)
 
     # Merge CAPEX investment component files -> long format
     merge_csv_files_long(output_dir, CAPEX_INVESTMENT_MERGE_FILES, 'pCapexInvestmentMerged', log_func=log_func)

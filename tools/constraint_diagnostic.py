@@ -154,11 +154,11 @@ class ConstraintDiagnostic:
         """Analyze electricity prices for anomalies."""
         print("\n[1/8] Checking electricity prices...")
 
-        if "pPrice" not in self.data:
-            print("  Skipping: pPrice not found in GDX")
+        if "pHourlyPrice" not in self.data:
+            print("  Skipping: pHourlyPrice not found in GDX")
             return
 
-        df = self.data["pPrice"].copy()
+        df = self.data["pHourlyPrice"].copy()
 
         # Rename value column if needed
         if "value" in df.columns:
@@ -411,7 +411,7 @@ class ConstraintDiagnostic:
         """Check cost components for anomalies."""
         print("\n[8/8] Checking cost components...")
 
-        cost_params = ["pCostsSystem", "pYearlyCostsZone", "pCostsZone"]
+        cost_params = ["pNetPresentCostSystem", "pCosts", "pNetPresentCost"]
 
         for param_name in cost_params:
             if param_name in self.data:

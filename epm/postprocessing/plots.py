@@ -2638,7 +2638,7 @@ def make_heatmap_plot(
     Build a scenario-comparison heatmap summarising core system metrics.
 
     The summary includes, in order:
-        1. Discounted system costs (``pCostsSystem``), with the NPV column shown first.
+        1. Discounted system costs (``pNetPresentCostSystem``), with the NPV column shown first.
         2. Total installed capacity in the final model year.
         3. New capacity additions by fuel in the final model year.
         4. Total available transmission capacity in the final year (no double counting).
@@ -2742,8 +2742,8 @@ def make_heatmap_plot(
 
     frames = []
 
-    # 1. Discounted system costs (pCostsSystem)
-    costs_system = _get_dataframe('pCostsSystem')
+    # 1. Discounted system costs (pNetPresentCostSystem)
+    costs_system = _get_dataframe('pNetPresentCostSystem')
     if costs_system is not None:
         costs_system = _merge_attribute_group(costs_system, TRADE_ATTRS, "Trade costs")
         costs_system = _merge_attribute_group(costs_system, RESERVE_ATTRS, "Reserve costs")
@@ -2806,8 +2806,8 @@ def make_heatmap_plot(
 
     # 4. Transmission capacity (no double counting) in final year
     # optional argument for 1-zone model
-    if 'pAnnualTransmissionCapacity' in epm_results.keys():
-        transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
+    if 'pTransmissionCapacity' in epm_results.keys():
+        transmission_all = _get_dataframe('pTransmissionCapacity')
         if transmission_all is not None:
             transmission_year = _resolve_year(transmission_all)
             transmission = transmission_all.copy()

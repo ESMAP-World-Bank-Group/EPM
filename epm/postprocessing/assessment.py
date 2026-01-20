@@ -254,7 +254,7 @@ def make_assessment_cost_diff(
     Uses the same data basis as the CostSystemEvolution figure (yearly system
     costs aggregated across zones) to keep visuals consistent.
     """
-    df = epm_results["pYearlyCostsZone"].copy()
+    df = epm_results["pCosts"].copy()
 
     if reserve_attrs:
         df = _simplify_attributes(df, "Unmet reserve costs: $m", reserve_attrs)
@@ -302,7 +302,7 @@ def make_assessment_npv_comparison(
     - AssessmentNPVComparison_AllPairs.pdf: All pairs (including sensitivity scenarios)
     - AssessmentNPVComparison_{project}.pdf: Only baseline pairs (one per project)
     """
-    df = epm_results["pCostsSystem"].copy()
+    df = epm_results["pNetPresentCostSystem"].copy()
 
     # Remove NPV row to avoid double counting (same as postprocessing.py)
     df = df.loc[df["attribute"] != "NPV of system cost: $m"]
@@ -437,8 +437,8 @@ def make_assessment_cost_template_csv(
     if "baseline" not in scenario_pairs:
         return
 
-    if "pYearlyCostsSystem" not in epm_results:
-        log_warning("pYearlyCostsSystem not found in results; skipping assessment CSV export.")
+    if "pCostsSystem" not in epm_results:
+        log_warning("pCostsSystem not found in results; skipping assessment CSV export.")
         return
 
     # Define cost category order and mapping for cleaner names
@@ -485,7 +485,7 @@ def make_assessment_cost_template_csv(
         "Unmet reserve costs: $m": "Unmet reserve costs",  # If already aggregated
     }
 
-    df_yearly = epm_results["pYearlyCostsSystem"].copy()
+    df_yearly = epm_results["pCostsSystem"].copy()
 
     if reserve_attrs:
         df_yearly = _simplify_attributes(df_yearly, "Unmet reserve costs: $m", reserve_attrs)
@@ -512,7 +512,7 @@ def make_assessment_cost_template_csv(
     # Get NPV data for the final column
     df_npv_all = None
     if "pCostsSystem" in epm_results:
-        df_npv_all = epm_results["pCostsSystem"].copy()
+        df_npv_all = epm_results["pNetPresentCostSystem"].copy()
         df_npv_all = df_npv_all.loc[df_npv_all["attribute"] != "NPV of system cost: $m"]
         if reserve_attrs:
             df_npv_all = _simplify_attributes(df_npv_all, "Unmet reserve costs: $m", reserve_attrs)
@@ -959,7 +959,7 @@ def make_assessment_heatmap(
     rows = []
 
     # 1. NPV of system cost difference
-    costs_system = _get_dataframe('pCostsSystem')
+    costs_system = _get_dataframe('pNetPresentCostSystem')
     if costs_system is not None:
         npv_label = 'NPV of system cost: $m'
         reserve_attrs = [
@@ -1033,8 +1033,8 @@ def make_assessment_heatmap(
                 rows.append((f'New capacity - {fuel} (MW)', diffs))
 
     # 4. Transmission capacity in final year
-    if 'pAnnualTransmissionCapacity' in epm_results:
-        transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
+    if 'pTransmissionCapacity' in epm_results:
+        transmission_all = _get_dataframe('pTransmissionCapacity')
         if transmission_all is not None:
             trans_year = _resolve_year(transmission_all)
             transmission = transmission_all.copy()

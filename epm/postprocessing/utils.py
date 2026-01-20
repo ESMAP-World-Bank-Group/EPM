@@ -135,7 +135,7 @@ NAME_COLUMNS = {
     'pDispatchTechFuel': 'fuel',
     'pDispatchPlant': 'fuel',
     'pDispatch': 'attribute',
-    'pYearlyCostsZone': 'attribute',
+    'pCosts': 'attribute',
     'pCapacityTechFuel': 'fuel',
     'pEnergyTechFuel': 'fuel',
     'pDispatchReserve':'attribute',
@@ -784,36 +784,36 @@ def generate_summary(epm_results, folder):
 
     # 1. Costs
 
-    if 'pCostsSystem' in epm_results.keys():
-        t = epm_results['pCostsSystem'].copy()
+    if 'pNetPresentCostSystem' in epm_results.keys():
+        t = epm_results['pNetPresentCostSystem'].copy()
         t = ensure_columns(t, source_type='system')
-        summary.update({'pCostsSystem': t})
+        summary.update({'pNetPresentCostSystem': t})
     else:
-        log_warning('No pCostsSystem in epm_results')
+        log_warning('No pNetPresentCostSystem in epm_results')
 
-    if 'pCostsSystemPerMWh' in epm_results.keys():
-        t = epm_results['pCostsSystemPerMWh'].copy()
+    if 'pNetPresentCostSystemPerMWh' in epm_results.keys():
+        t = epm_results['pNetPresentCostSystemPerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         t = ensure_columns(t, source_type='system')
-        summary.update({'pCostsSystemPerMWh': t})
+        summary.update({'pNetPresentCostSystemPerMWh': t})
     else:
-        log_warning('No pCostsZonePerMWh in epm_results')
+        log_warning('No pNetPresentCostSystemPerMWh in epm_results')
 
-    if 'pCostsZonePerMWh' in epm_results.keys():
-        t = epm_results['pCostsZonePerMWh'].copy()
+    if 'pNetPresentCostPerMWh' in epm_results.keys():
+        t = epm_results['pNetPresentCostPerMWh'].copy()
         t['attribute'] = t['attribute'].str.replace('$m', '$/MWh', regex=False)
         t = ensure_columns(t)
-        summary.update({'pCostsZonePerMWh': t})
+        summary.update({'pNetPresentCostPerMWh': t})
     else:
-        log_warning('No pCostsZonePerMWh in epm_results')
+        log_warning('No pNetPresentCostPerMWh in epm_results')
 
-    if 'pYearlyCostsZone' in epm_results.keys():
-        t = epm_results['pYearlyCostsZone'].copy()
+    if 'pCosts' in epm_results.keys():
+        t = epm_results['pCosts'].copy()
         t = t[t['value'] > 1e-2]
         t = ensure_columns(t)
-        summary.update({'pYearlyCostsZone': t})
+        summary.update({'pCosts': t})
     else:
-        log_warning('No pYearlyCostsZone in epm_results')
+        log_warning('No pCosts in epm_results')
 
     # 2. Capacity
 
@@ -837,14 +837,14 @@ def generate_summary(epm_results, folder):
     else:
         log_warning('No pNewCapacityTechFuel in epm_results')
 
-    if 'pAnnualTransmissionCapacity' in epm_results.keys():
-        t = epm_results['pAnnualTransmissionCapacity'].copy()
-        t['attribute'] = 'Annual Transmission Capacity: MW'
+    if 'pTransmissionCapacity' in epm_results.keys():
+        t = epm_results['pTransmissionCapacity'].copy()
+        t['attribute'] = 'Transmission Capacity: MW'
         t.rename(columns={'z2': 'resolution'}, inplace=True)
         t = ensure_columns(t)
-        summary.update({'pAnnualTransmissionCapacity': t})
+        summary.update({'pTransmissionCapacity': t})
     else:
-        log_warning('No pAnnualTransmissionCapacity in epm_results')
+        log_warning('No pTransmissionCapacity in epm_results')
 
     if 'pNewTransmissionCapacity' in epm_results.keys():
         t = epm_results['pNewTransmissionCapacity'].copy()
@@ -945,13 +945,13 @@ def generate_summary(epm_results, folder):
 
     # 8. Prices
 
-    if 'pYearlyPrice' in epm_results.keys():
-        t = epm_results['pYearlyPrice'].copy()
+    if 'pPrice' in epm_results.keys():
+        t = epm_results['pPrice'].copy()
         t['attribute'] = 'Price: $/MWh'
         t = ensure_columns(t)
-        summary.update({'pYearlyPrice': t})
+        summary.update({'pPrice': t})
     else:
-        log_warning('No pYearlyPrice in epm_results')
+        log_warning('No pPrice in epm_results')
 
 
     # Concatenate all dataframes in the summary dictionary

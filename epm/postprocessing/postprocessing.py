@@ -91,17 +91,17 @@ KEYS_RESULTS = {
     'pCapacityPlant',
     'pCapacityTechFuel',
     'pNewCapacityTechFuel',
-    'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
+    'pTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
-    'pPrice', 'pYearlyPrice',
+    'pHourlyPrice', 'pPrice',
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
     'pCostsPlant',
-    'pYearlyCostsZone', 'pYearlyCostsZonePerMWh',
-    'pYearlyCostsSystem',
-    'pCostsZone', 'pCostsSystem', 'pCostsSystemPerMWh',
-    'pCostsZonePerMWh',
+    'pCosts', 'pCostsPerMWh',
+    'pCostsSystem',
+    'pNetPresentCost', 'pNetPresentCostSystem', 'pNetPresentCostSystemPerMWh',
+    'pNetPresentCostPerMWh',
     'pFuelCosts', 'pFuelConsumption',
-    'pYearlyGenCostZonePerMWh', 
+    'pGenCostsPerMWh',
     # 3. Energy balance
     'pEnergyPlant', 'pEnergyTechFuel',
     'pEnergyTechFuelComplete',
@@ -501,7 +501,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
         return not any(sample in col for sample in samples_mc_substrings)
     original_scenarios = [c for c in simulations_scenarios.columns if is_not_subset(c)]
 
-    df_summary = epm_results['pCostsSystem'].copy()
+    df_summary = epm_results['pNetPresentCostSystem'].copy()
     df_summary = df_summary.loc[df_summary.attribute.isin(['NPV of system cost: $m'])]
     df_summary_baseline = df_summary.loc[df_summary.scenario.isin(original_scenarios)]
     df_summary_baseline = df_summary_baseline.drop(columns=['attribute']).set_index('scenario')
@@ -519,7 +519,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                 format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                 annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-    df_cost_summary = epm_results['pYearlyCostsZone'].copy()
+    df_cost_summary = epm_results['pCosts'].copy()
     # df_cost_summary = df_cost_summary.loc[df_cost_summary.attribute.isin(['Total Annual Cost by Zone: $m'])]
     df_cost_summary_baseline = df_cost_summary.loc[df_cost_summary.scenario.isin(original_scenarios)]
     df_cost_summary['scenario_mapping'] = df_cost_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -533,7 +533,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
                         # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
                         ]
-    df_cost_summary_no_trade = epm_results['pYearlyCostsZoneFull'].copy()
+    df_cost_summary_no_trade = epm_results['pCostsFull'].copy()
     df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.attribute.isin(costs_notrade)]
     df_cost_summary_baseline_notrade = df_cost_summary_no_trade.loc[(df_cost_summary_no_trade.scenario.isin(original_scenarios))]
     df_cost_summary_no_trade['scenario_mapping'] = df_cost_summary_no_trade.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -576,7 +576,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
         .reset_index()
     )  # adding elements which only have error bars
 
-    years = sorted(epm_results['pYearlyCostsZone']['year'].unique())
+    years = sorted(epm_results['pCosts']['year'].unique())
 
     n = len(years)
     middle_index = n // 2
@@ -609,7 +609,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                     annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-    zones = epm_results['pYearlyCostsZone']['zone'].unique()
+    zones = epm_results['pCosts']['zone'].unique()
     for zone in zones:
         # Only interested in subset of years
         df_cost_summary_baseline = df_cost_summary_baseline.loc[df_cost_summary_baseline.year.isin(years)]
@@ -756,7 +756,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
     keys_results = KEYS_RESULTS
     if montecarlo:
-        keys_results = {'pCostsSystem', 'pYearlyCostsZone', 'pYearlyCostsZoneFull', 'pEnergyBalance'}
+        keys_results = {'pNetPresentCostSystem', 'pCosts', 'pCostsFull', 'pEnergyBalance'}
 
     # Process results
     RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
@@ -1049,8 +1049,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         )
 
                         df_transmission_zone = pd.DataFrame()
-                        if 'pAnnualTransmissionCapacity' in epm_results:
-                            df_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                        if 'pTransmissionCapacity' in epm_results:
+                            df_transmission = epm_results['pTransmissionCapacity'].copy()
                             if 'scenario' in df_transmission.columns:
                                 df_transmission = df_transmission[df_transmission['scenario'] == scenario]
                             else:
@@ -1123,7 +1123,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 df_generation_system = df_generation_system[
                     df_generation_system['scenario'] == scenario
                 ].copy()
-                if df_generation_system.empty and 'pAnnualTransmissionCapacity' not in epm_results:
+                if df_generation_system.empty and 'pTransmissionCapacity' not in epm_results:
                     continue
 
                 if not df_generation_system.empty:
@@ -1133,8 +1133,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
 
                 df_transmission_system = pd.DataFrame()
-                if 'pAnnualTransmissionCapacity' in epm_results:
-                    df_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                if 'pTransmissionCapacity' in epm_results:
+                    df_transmission = epm_results['pTransmissionCapacity'].copy()
                     if 'scenario' in df_transmission.columns:
                         df_transmission = df_transmission[df_transmission['scenario'] == scenario]
                     else:
@@ -1199,7 +1199,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
              
             figure_name = 'PriceBaselineByZone'
             if is_figure_active(figure_name):
-                df_price = epm_results['pYearlyPrice'].copy()    
+                df_price = epm_results['pPrice'].copy()    
                 df_price = df_price[df_price['scenario'] == scenario_reference]
                 df_price = (
                     df_price[['year', 'zone', 'value']]
@@ -1219,7 +1219,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             
             # 2.0 Total system cost
             if len(selected_scenarios) < scenarios_threshold:
-                df = epm_results['pCostsSystem'].copy()
+                df = epm_results['pNetPresentCostSystem'].copy()
                 # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
                 df = df.loc[df.attribute != 'NPV of system cost: $m']
                 # Group reserve cost attributes into one unique attribute and sum the value
@@ -1272,7 +1272,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 show_total=True)
 
                 
-                df = epm_results['pCostsZone'].copy()
+                df = epm_results['pNetPresentCost'].copy()
                 # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
                 df = df.loc[df.attribute != 'NPV of system cost: $m']
                 # Group reserve cost attributes into one unique attribute and sum the value
@@ -1324,7 +1324,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                     show_total=True)  
                 
-                df = epm_results['pCostsZonePerMWh'].copy()
+                df = epm_results['pNetPresentCostPerMWh'].copy()
                 # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
                 df = df.loc[df.attribute != 'NPV of system cost: $m']
                 # Group reserve cost attributes into one unique attribute and sum the value
@@ -1376,7 +1376,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
                                                     show_total=True)
                             
-            df_costzone = epm_results['pYearlyCostsZone'].copy()
+            df_costzone = epm_results['pCosts'].copy()
             # Group reserve cost attributes into one unique attribute and sum the value
             df_costzone = simplify_attributes(df_costzone, "Unmet reserve costs: $m", RESERVE_ATTRS)
             # Group trade components into one unique attribute and sum the value
@@ -1514,7 +1514,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
  
             # Equivalent cost figures expressed in USD/MWh
-            df_costzone_mwh = epm_results['pYearlyCostsZonePerMWh'].copy()
+            df_costzone_mwh = epm_results['pCostsPerMWh'].copy()
             df_costzone_mwh = simplify_attributes(df_costzone_mwh, "Unmet reserve costs: $m", RESERVE_ATTRS)
             df_costzone_mwh = simplify_attributes(df_costzone_mwh, "Trade costs: $m", TRADE_ATTRS)
             df_costzone_mwh['attribute'] = df_costzone_mwh['attribute'].str.replace(': $m', '', regex=False)
@@ -1604,7 +1604,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
             
             figure_name = 'GenCostMWhZoneIni'
-            df_gen_cost_zone = epm_results['pYearlyGenCostZonePerMWh'].copy()
+            df_gen_cost_zone = epm_results['pGenCostsPerMWh'].copy()
             df_gen_cost_zone['attribute'] = df_gen_cost_zone['attribute'].str.replace(': $m', '', regex=False)
 
             if nbr_zones > 1 and scenario_reference in df_gen_cost_zone['scenario'].unique():
@@ -2101,8 +2101,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     log_warning(f'Could not generate Tableau GeoJSON: {e}', logger=active_logger)
 
                 if (
-                    'pAnnualTransmissionCapacity' in epm_results
-                    and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
+                    'pTransmissionCapacity' in epm_results
+                    and epm_results['pTransmissionCapacity'].zone.nunique() > 0
                 ):
 
                         log_info('Generating interactive map figures...', logger=active_logger)
