@@ -1437,6 +1437,7 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pCapacityPlant, pCapacityTechFuel,
       pNewCapacityTechFuel,
       pTransmissionCapacity, pNewTransmissionCapacity,
+      pStorageComponents,
 * 2. COSTS
       pCostsPlant, pCapexInvestmentComponent, pCapexInvestmentPlant,
       pHourlyPrice, pPrice,

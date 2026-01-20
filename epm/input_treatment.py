@@ -1607,7 +1607,112 @@ def run_input_treatment(gams,
                     f"[input_treatment][defaults] Added StYr={default_styr} for {len(added_gens)} existing generator(s) "
                     f"(Status=1): {', '.join(sorted(added_gens))}."
                 )
-                
+
+
+    def compute_storage_capacity_from_duration(db: gt.Container):
+        """
+        Compute CapacityMWh from Capacity * StorageDuration when StorageDuration is specified.
+
+        When a storage unit has StorageDuration filled but CapacityMWh is empty/NaN,
+        this function calculates CapacityMWh = Capacity * StorageDuration.
+        """
+        param_name = "pStorageDataInput"
+        if param_name not in db:
+            return
+        records = db[param_name].records
+        if records is None or records.empty:
+            return
+
+        # Detect header and value columns (check various possible column names)
+        header_col = None
+        for candidate in ("pStorageDataHeader", "uni_2"):
+            if candidate in records.columns:
+                header_col = candidate
+                break
+        value_col = "value" if "value" in records.columns else None
+        # Generator column may be 'g' (after rename) or 'uni' (before rename)
+        gen_col = None
+        for candidate in ("g", "uni"):
+            if candidate in records.columns:
+                gen_col = candidate
+                break
+        if header_col is None or value_col is None or gen_col is None:
+            gams.printLog(f"[input_treatment][storage] Skipped: columns not found. Available: {list(records.columns)}")
+            return
+
+        records = records.copy()
+
+        # Get Capacity values per generator
+        capacity_rows = records.loc[records[header_col] == "Capacity"].copy()
+        capacity_rows["CapacityNum"] = pd.to_numeric(capacity_rows[value_col], errors="coerce")
+        capacity_map = dict(zip(capacity_rows[gen_col], capacity_rows["CapacityNum"]))
+
+        # Get StorageDuration values per generator
+        duration_rows = records.loc[records[header_col] == "StorageDuration"].copy()
+        duration_rows["DurationNum"] = pd.to_numeric(duration_rows[value_col], errors="coerce")
+        duration_map = dict(zip(duration_rows[gen_col], duration_rows["DurationNum"]))
+
+        # Get CapacityMWh rows
+        capmwh_mask = records[header_col] == "CapacityMWh"
+        capmwh_rows = records.loc[capmwh_mask].copy()
+        capmwh_rows["CapMWhNum"] = pd.to_numeric(capmwh_rows[value_col], errors="coerce")
+
+        # Find generators with StorageDuration but missing/NaN CapacityMWh
+        gens_with_duration = {g for g, d in duration_map.items() if pd.notna(d) and d > 0}
+        gens_with_capmwh = set(capmwh_rows.loc[capmwh_rows["CapMWhNum"].notna() & (capmwh_rows["CapMWhNum"] > 0), gen_col])
+
+        gens_to_compute = gens_with_duration - gens_with_capmwh
+
+        gams.printLog(f"[input_treatment][storage] gens_with_duration: {gens_with_duration}")
+        gams.printLog(f"[input_treatment][storage] gens_with_capmwh: {gens_with_capmwh}")
+        gams.printLog(f"[input_treatment][storage] gens_to_compute: {gens_to_compute}")
+
+        if not gens_to_compute:
+            return
+
+        updated = False
+        new_rows = []
+        computed_gens = []
+
+        for g_val in sorted(gens_to_compute):
+            capacity = capacity_map.get(g_val)
+            duration = duration_map.get(g_val)
+
+            if pd.isna(capacity) or pd.isna(duration) or capacity <= 0 or duration <= 0:
+                continue
+
+            computed_mwh = capacity * duration
+
+            # Check if CapacityMWh row exists for this generator
+            existing_mask = capmwh_mask & (records[gen_col] == g_val)
+            if existing_mask.any():
+                # Update existing row
+                records.loc[existing_mask, value_col] = computed_mwh
+            else:
+                # Create new row
+                template = records.loc[records[gen_col] == g_val]
+                if template.empty:
+                    continue
+                new_row = template.iloc[0].copy()
+                new_row[header_col] = "CapacityMWh"
+                new_row[value_col] = computed_mwh
+                new_rows.append(new_row)
+
+            computed_gens.append((g_val, capacity, duration, computed_mwh))
+            updated = True
+
+        if new_rows:
+            records = pd.concat([records, pd.DataFrame(new_rows)], ignore_index=True)
+
+        if updated:
+            db.data[param_name].setRecords(records)
+            _write_back(db, param_name)
+            for g_val, cap, dur, mwh in computed_gens:
+                gams.printLog(
+                    f"[input_treatment][storage] Computed CapacityMWh={mwh} for {g_val} "
+                    f"(Capacity={cap} * StorageDuration={dur})."
+                )
+
 
     def expand_to_years(db: gt.Container, df: pd.DataFrame, year_set_name: str = "y"):
         """
@@ -2227,7 +2332,10 @@ def run_input_treatment(gams,
     # Complete Storage Data
     _step("Overwrite NaN values for pStorageDataInput")
     overwrite_nan_values(db, "pStorageDataInput", "pStorageDataInputDefault", "pStorageDataHeader")
-    
+
+    _step("Compute CapacityMWh from StorageDuration")
+    compute_storage_capacity_from_duration(db)
+
     _step("Set missing StYr for existing generators")
     set_missing_styr_for_existing(db)
 
