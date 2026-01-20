@@ -432,7 +432,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                     param = 'pAvailabilityDefault'
                     availability_default = pd.read_csv(s[name][param], index_col=[0, 1, 2]).copy()
                     # availability_default.columns = availability_default.columns.astype(float)
-                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'fuel']]
+                    cols = [i for i in availability_default.columns if i not in ['zone', 'type', 'f']]
                     tech_list = ['ROR', 'ReservoirHydro']
                     if 'ALL' in affected_zones:
                         mask = availability_default.index.get_level_values('tech').isin(tech_list)
@@ -451,11 +451,11 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                     availability_custom = pd.read_csv(s[name][param], index_col=[0]).copy()
 
                     gendata = pd.read_csv(s[name][param_to_merge], index_col=[0,1,2,3]).copy()
-                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'fuel']]
+                    gendata = gendata.reset_index()[['gen', 'zone', 'tech', 'f']]
                     availability_custom = availability_custom.reset_index().merge(gendata, on=['gen'], how='left')
-                    availability_custom.set_index(['gen', 'zone', 'tech', 'fuel'], inplace=True)
+                    availability_custom.set_index(['gen', 'zone', 'tech', 'f'], inplace=True)
 
-                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'fuel']]
+                    cols = [i for i in availability_custom.columns if i not in ['zone', 'type', 'f']]
                     if 'ALL' in affected_zones:
                         mask = availability_custom.index.get_level_values('tech').isin(tech_list)
 
@@ -464,7 +464,7 @@ def create_scenarios_montecarlo(samples, s, zone_mapping):
                                (availability_custom.index.get_level_values('tech').isin(tech_list))
 
                     availability_custom.loc[mask, cols] *= (1 + val)
-                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'fuel'], axis=0)
+                    availability_custom = availability_custom.droplevel(['zone', 'tech', 'f'], axis=0)
 
                     save_new_dataframe(availability_custom, scenarios_montecarlo, param, val, name=name_scenario)
 
@@ -565,7 +565,7 @@ def perform_sensitivity(sensitivity, s):
             for fuel in fuels_to_remove:
                 df = pd.read_csv(s[scenario]['pGenDataInput'])
                 # For fuel that matches (case-insensitive) and Status is 2 or 3, set Status to 0 (candidate generators become unavailable)
-                mask = (df['fuel'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
+                mask = (df['f'].str.lower() == fuel.lower()) & df['Status'].isin([2, 3])
                 df.loc[mask, 'Status'] = 0
 
                 scenario_name = _with_assessment_suffix(scenario, f"No{fuel}")
@@ -684,7 +684,7 @@ def perform_sensitivity(sensitivity, s):
         for scenario in base_scenarios:
             for val in trade_price_sensi:
                 df = pd.read_csv(s[scenario]['pTradePrice'])
-                cols = [c for c in df.columns if c not in ['zext', 'q', 'daytype', 'y']]
+                cols = [c for c in df.columns if c not in ['zext', 'q', 'd', 'y']]
                 df[cols] = df[cols].astype(float)
                 df.loc[:, cols] *= (1 + val)
 
@@ -720,8 +720,8 @@ def perform_sensitivity(sensitivity, s):
         for val in availability_sensi:
             df = pd.read_csv(s['baseline'][param])
 
-            df.loc[df['fuel'].isin(['Coal', 'Gas', 'Diesel', 'HFO', 'LFO']), [i for i in df.columns if
-                                                                              i not in ['zone', 'tech', 'fuel']]] = val
+            df.loc[df['f'].isin(['Coal', 'Gas', 'Diesel', 'HFO', 'LFO']), [i for i in df.columns if
+                                                                              i not in ['zone', 'tech', 'f']]] = val
 
             val_name = str(val).replace('.', '')
             scenario_name = f'baseline~{param}~{val_name}'
@@ -737,7 +737,7 @@ def perform_sensitivity(sensitivity, s):
 
         df = pd.read_csv(s['baseline'][param])
 
-        cols = [i for i in df.columns if i not in ['zone', 'tech', 'fuel']]
+        cols = [i for i in df.columns if i not in ['zone', 'tech', 'f']]
         df.loc[:, cols] = 1
 
         scenario_name = f'baseline~{param}~flat'
@@ -755,7 +755,7 @@ def perform_sensitivity(sensitivity, s):
         for val in fuel_price_sensi:
             df = pd.read_csv(s['baseline'][param])
 
-            cols = [i for i in df.columns if i not in ['c', 'fuel']]
+            cols = [i for i in df.columns if i not in ['c', 'f']]
             df.loc[:, cols] *= (1 + val)
 
             val_name = str(val).replace('.', '')
@@ -774,7 +774,7 @@ def perform_sensitivity(sensitivity, s):
         for val in reslimshare_sensi:
 
             df = pd.read_csv(s['baseline'][parameter])
-            df.loc[df['fuel'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
+            df.loc[df['f'].isin(['Coal', 'Gas', 'HFO', 'LFO', 'Import']), param] *= (1 + val)
 
             val_name = str(val).replace('.', '')
             scenario_name = f'baseline~{parameter}~{param}~{val_name}'
@@ -804,7 +804,7 @@ def perform_sensitivity(sensitivity, s):
         # For gen with Candidate name, status 3, fuel Solar, Wind, Battery, divide the BuildLimitperYear by 2
         df = pd.read_csv(s['baseline'][parameter])
 
-        df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['fuel'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
+        df.loc[(df['gen'].str.contains('Candidate')) & (df['Status'] == 3) & (df['f'].isin(['Solar', 'Wind', 'Battery'])), param] /= 2
 
         scenario_name = f'baseline~{parameter}~{param}~reduced'
         path_file = _generate_sensitivity_filepath(s['baseline'][parameter], f'{param}_reduced')
@@ -818,7 +818,7 @@ def perform_sensitivity(sensitivity, s):
     if sensitivity.get(param) and not math.isnan(sensitivity[param]):  # testing implications of delayed hydro projects
         df = pd.read_csv(s['baseline']['pGenDataInput'])
         # Add 5 years delay to all fuel Water projects more than 1 GW Capacity if status is 2 or 3
-        df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
+        df.loc[(df['f'] == 'Water') & (df['Capacity'] > 1000) & (df['Status'].isin([2, 3])), 'StYr'] += 5
 
         scenario_name = f'baseline~{param}~5years'
         path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_5years')
