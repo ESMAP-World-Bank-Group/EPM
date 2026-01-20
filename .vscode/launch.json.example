@@ -1,0 +1,88 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "EPM: Basic Run",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simulation_label", "simulations_test"]
+        },
+        {
+            "name": "EPM: Simple (Relaxed)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simple", "--simulation_label", "simulations_test"]
+        },
+        {
+            "name": "EPM: Debug Mode",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simple", "--debug", "--simulation_label", "simulations_test"]
+        },
+        {
+            "name": "EPM: Debug & Country Mode",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simple", "--debug", 
+                     "--simulation_label", "simulations_test",
+                     "--country", "Angola"]
+        },
+        {
+            "name": "EPM: Postprocess Only",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--postprocess", "output/simulations_test"]
+        },
+        {
+            "name": "EPM: Scenarios",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--scenarios", "--simulation_label", "simulations_test"]
+        },
+        {
+            "name": "EPM: Sensitivity",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simple", "--sensitivity", "--simulation_label", "simulations_test"]
+        },
+        {
+            "name": "EPM: Project Assessment",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--generator_assessment", "Nachtigal Amont"]
+        },
+        {
+            "name": "EPM: Interco Assessment",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--interco_assessment", "Cameroon-CAR"]
+        }
+    ]
+}

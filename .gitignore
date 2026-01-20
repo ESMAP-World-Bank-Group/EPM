@@ -28,7 +28,8 @@
 *.zip
 
 # IDE / Editor configs
-.vscode
+.vscode/
+!.vscode/launch.json.example
 /.idea/
 
 

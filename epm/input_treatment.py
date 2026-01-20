@@ -230,6 +230,150 @@ def load_generic_defaults(db: gt.Container, log_func=None):
     return result
 
 
+def merge_storage_into_gendata(gams):
+    """
+    Merge storage units from pStorageDataInput into pGenDataInput and gmap.
+
+    This function:
+    1. Adds all storage units to the gmap set (g,z,tech,f mapping)
+    2. Copies values from pStorageDataInput to pGenDataInput for headers
+       that exist in both pGenDataInputHeader and pStorageDataHeader sets
+
+    This ensures all units (generators + storage) have consistent data
+    in pGenDataInput and gmap for downstream processing. Status filtering
+    is handled later in the input treatment pipeline.
+
+    Args:
+        gams: GAMS embedded code object with db attribute
+    """
+    db = gt.Container(gams.db)
+
+    # Check required parameters exist
+    if "pStorageDataInput" not in db or "pGenDataInput" not in db:
+        gams.printLog("[storage_merge] Skipped: pStorageDataInput or pGenDataInput missing.")
+        return
+
+    if "pGenDataInputHeader" not in db or "pStorageDataHeader" not in db:
+        gams.printLog("[storage_merge] Skipped: header sets missing.")
+        return
+
+    storage_records = db["pStorageDataInput"].records
+    gen_records = db["pGenDataInput"].records
+
+    if storage_records is None or storage_records.empty:
+        gams.printLog("[storage_merge] Skipped: pStorageDataInput is empty.")
+        return
+
+    # Detect generator column name (could be 'g' or 'uni')
+    g_col = "g" if "g" in storage_records.columns else "uni"
+
+    # Get header sets
+    gen_headers_df = db["pGenDataInputHeader"].records
+    storage_headers_df = db["pStorageDataHeader"].records
+
+    if gen_headers_df is None or storage_headers_df is None:
+        gams.printLog("[storage_merge] Skipped: header sets are empty.")
+        return
+
+    # Extract header values (first column, whatever it's named)
+    gen_headers = set(gen_headers_df.iloc[:, 0].tolist())
+    storage_headers = set(storage_headers_df.iloc[:, 0].tolist())
+
+    # Find common headers
+    common_headers = gen_headers & storage_headers
+
+    if not common_headers:
+        gams.printLog("[storage_merge] No common headers between generator and storage data.")
+        return
+
+    # Identify the header column name in storage records
+    storage_header_col = "pStorageDataHeader"
+    if storage_header_col not in storage_records.columns:
+        for col in storage_records.columns:
+            if col not in [g_col, "z", "tech", "f", "value"]:
+                storage_header_col = col
+                break
+
+    # Identify the header column name in gen records
+    gen_header_col = "pGenDataInputHeader"
+    if gen_records is not None and gen_header_col not in gen_records.columns:
+        for col in gen_records.columns:
+            if col not in [g_col, "z", "tech", "f", "value"]:
+                gen_header_col = col
+                break
+
+    # Get all unique storage units (g, z, tech, f)
+    storage_keys = storage_records[[g_col, "z", "tech", "f"]].drop_duplicates()
+    storage_keys_list = list(zip(
+        storage_keys[g_col],
+        storage_keys["z"],
+        storage_keys["tech"],
+        storage_keys["f"]
+    ))
+    storage_keys_set = set(storage_keys_list)
+
+    # --- Update gmap set with storage units ---
+    if "gmap" in db:
+        gmap_records = db["gmap"].records
+        # Detect gmap column name
+        gmap_g_col = g_col
+        if gmap_records is not None and not gmap_records.empty:
+            gmap_g_col = "g" if "g" in gmap_records.columns else g_col
+
+        # Build new gmap entries for storage units
+        gmap_new = pd.DataFrame(storage_keys_list, columns=[gmap_g_col, "z", "tech", "f"])
+        if gmap_records is not None and not gmap_records.empty:
+            gmap_merged = pd.concat([gmap_records, gmap_new], ignore_index=True)
+            gmap_merged = gmap_merged.drop_duplicates(subset=[gmap_g_col, "z", "tech", "f"])
+        else:
+            gmap_merged = gmap_new
+        db.data["gmap"].setRecords(gmap_merged)
+        db.write(gams.db, ["gmap"], eps_to_zero=False)
+        gams.printLog(f"[storage_merge] Added {len(storage_keys_list)} storage unit(s) to gmap.")
+
+    # --- Update pGenDataInput with storage data ---
+    # Build new records for pGenDataInput using the same column names as gen_records
+    new_records = []
+    for hdr in common_headers:
+        hdr_data = storage_records[storage_records[storage_header_col] == hdr]
+        for _, row in hdr_data.iterrows():
+            new_records.append({
+                g_col: row[g_col],
+                "z": row["z"],
+                "tech": row["tech"],
+                "f": row["f"],
+                gen_header_col: hdr,
+                "value": row["value"]
+            })
+
+    if not new_records:
+        gams.printLog("[storage_merge] No records to merge into pGenDataInput.")
+        return
+
+    # Merge with existing pGenDataInput records
+    new_df = pd.DataFrame(new_records)
+
+    if gen_records is not None and not gen_records.empty:
+        merged = pd.concat([gen_records, new_df], ignore_index=True)
+        # Drop duplicates, keeping the last (storage) values for overlapping entries
+        merged = merged.drop_duplicates(
+            subset=[g_col, "z", "tech", "f", gen_header_col],
+            keep="last"
+        )
+    else:
+        merged = new_df
+
+    db.data["pGenDataInput"].setRecords(merged)
+    db.write(gams.db, ["pGenDataInput"], eps_to_zero=False)
+
+    n_storage = len(storage_keys_set)
+    n_headers = len(common_headers)
+    gams.printLog(
+        f"[storage_merge] Merged {n_storage} storage unit(s) "
+        f"with {n_headers} common header(s) into pGenDataInput."
+    )
+
+
 def run_input_treatment(gams,
                         fill_missing_hydro_availability: bool = False,
                         fill_missing_hydro_capex: bool = False):

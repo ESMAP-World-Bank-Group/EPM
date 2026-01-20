@@ -290,24 +290,24 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 $if %DEBUG%==1 $log Debug mode active: exporting loading input to input_loaded.gdx
 $if %DEBUG%==1 $gdxunload input_loaded.gdx
 
-
 *-------------------------------------------------------------------------------------
 * Merge storage units from pStorageDataInput into generator structures
 * This ensures all units (generators + storage) are in set g and have consistent data
 *-------------------------------------------------------------------------------------
+$onMulti
 
-* Merge storage into gmap so storage units have zone/tech/fuel mappings
-gmap(g,z,tech,f)$pStorageDataInput(g,z,tech,f,'Status') = yes;
+$onEmbeddedCode Python:
+import sys, os
 
-* Fill pGenDataInput with storage data for common fields
-* This ensures pGenData(g,header) includes storage units
-* Loop over pGenDataInputHeader and copy values where header exists in both sets
-loop(pGenDataInputHeader,
-    pGenDataInput(g,z,tech,f,pGenDataInputHeader)$pStorageDataInput(g,z,tech,f,'Status')
-        = sum(pStorageDataHeader$sameas(pStorageDataHeader,pGenDataInputHeader),
-              pStorageDataInput(g,z,tech,f,pStorageDataHeader));
-);
+gms_dir = os.path.normpath(r"%modeldir%/")
+if gms_dir not in sys.path:
+    sys.path.insert(0, gms_dir)
 
+from input_treatment import merge_storage_into_gendata
+merge_storage_into_gendata(gams)
+$offEmbeddedCode
+
+$offMulti
 *-------------------------------------------------------------------------------------
 
 * Make input verification
@@ -715,6 +715,12 @@ vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 
 * Set the upper limit for new generation builds per year, accounting for the annual build limit and year weighting
 vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+
+* Force committed generators (status=2) to be built at their start year.
+* Unlike candidates, committed generators are not optional - they must be built.
+* They remain in ng(g) so their CAPEX is included in total cost (unlike existing generators).
+* Note: BuildLimitperYear is ignored for committed generators - full capacity is built at StYr.
+vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");

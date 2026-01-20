@@ -280,10 +280,10 @@ $onEmbeddedCode Connect:
     file: %pGenDataInput%
     name: pGenDataInput
     indexColumns: [1,2,3,4]
+    valueSubstitutions: {0: EPS}
     header: [1]
     type: par
 
-    
 - CSVReader:
     trace: %TRACE%
     file: %pGenDataInputDefault%
@@ -413,7 +413,7 @@ $onEmbeddedCode Connect:
     file: %pStorageDataInput%
     name: pStorageDataInput
     indexSubstitutions: {.nan: ""}
-    valueSubstitutions: {0: .nan}
+    valueSubstitutions: {0: EPS}
     indexColumns: [1,2,3,4]
     header: [1]
     type: par

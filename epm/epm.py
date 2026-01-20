@@ -437,7 +437,28 @@ def launch_epm(scenario,
         rslt = subprocess.run(command, cwd=cwd)
 
     if rslt.returncode != 0:
-        raise RuntimeError('GAMS Error: check GAMS logs file ')
+        logfile_path = Path(cwd) / logfile
+        error_msg = f"GAMS Error (return code {rslt.returncode}) for scenario '{scenario_name}'\n"
+        error_msg += f"Log file: {logfile_path}\n"
+
+        # Try to extract the last lines from the log file to show the actual error
+        if logfile_path.exists():
+            try:
+                with open(logfile_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    lines = f.readlines()
+                    # Get last 30 lines or all if fewer
+                    tail_lines = lines[-30:] if len(lines) > 30 else lines
+                    # Look for error indicators in the log
+                    error_lines = [l for l in lines if '****' in l or 'Error' in l or 'error' in l]
+                    if error_lines:
+                        error_msg += "\nErrors found in log:\n" + "".join(error_lines[-10:])
+                    error_msg += "\nLast lines of log:\n" + "".join(tail_lines[-15:])
+            except Exception as e:
+                error_msg += f"\n(Could not read log file: {e})"
+        else:
+            error_msg += "\n(Log file not found - GAMS may have failed before creating it)"
+
+        raise RuntimeError(error_msg)
 
     metrics = _log_solver_metrics_for_scenario(Path(cwd) / logfile, scenario_name) or {}
 
@@ -472,7 +493,8 @@ def launch_epm_multi_scenarios(config='config.csv',
                                simulation_label=None,
                                modeltype='MIP',
                                debug=False,
-                               trace=False):
+                               trace=False,
+                               country=None):
     """
     Launch the EPM model with multiple scenarios based on scenarios_specification
 
@@ -537,7 +559,40 @@ def launch_epm_multi_scenarios(config='config.csv',
     config = config.dropna()
     # Normalize path
     config = normalize_path(config)
-    
+
+    # Filter zcmap by country if specified
+    if country is not None:
+        zcmap_param = 'zcmap'
+        if zcmap_param in config.index:
+            zcmap_path = os.path.join(folder_input, config[zcmap_param])
+            df_zcmap = pd.read_csv(zcmap_path)
+            df_filtered = df_zcmap[df_zcmap['c'] == country]
+            if df_filtered.empty:
+                raise ValueError(f"No zones found for country '{country}' in {zcmap_path}")
+
+            # Write filtered zcmap to sensitivity folder
+            folder_sensi = os.path.join(folder_input, 'sensitivity')
+            if not os.path.exists(folder_sensi):
+                os.mkdir(folder_sensi)
+            filtered_path = os.path.join(folder_sensi, f'zcmap_{country}.csv')
+            df_filtered.to_csv(filtered_path, index=False)
+
+            # Update config to point to filtered file
+            config.at[zcmap_param] = os.path.relpath(filtered_path, folder_input)
+            logger.info("Filtered zcmap to country '%s': %d zones", country, len(df_filtered))
+
+            # Disable interconnected mode if only one zone remains
+            if len(df_filtered) == 1 and 'pSettings' in config.index:
+                settings_path = os.path.join(folder_input, config['pSettings'])
+                df_settings = pd.read_csv(settings_path)
+                mask = df_settings['Abbreviation'] == 'fEnableInternalExchange'
+                if mask.any():
+                    df_settings.loc[mask, 'Value'] = 0
+                    settings_filtered_path = os.path.join(folder_sensi, f'pSettings_{country}.csv')
+                    df_settings.to_csv(settings_filtered_path, index=False)
+                    config.at['pSettings'] = os.path.relpath(settings_filtered_path, folder_input)
+                    logger.info("Disabled interconnected mode (fEnableInternalExchange=0) for single-zone country")
+
     if modeltype is not None:
         config.at['modeltype'] = modeltype
 
@@ -904,6 +959,13 @@ def main(test_args=None):
         help="Enable TRACE mode for GAMS (passes --TRACE 1 to the solver)"
     )
 
+    parser.add_argument(
+        "--country",
+        type=str,
+        default=None,
+        help="Filter zones to include only those belonging to this country (filters zcmap)"
+    )
+
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
         args = parser.parse_args(test_args)
@@ -935,7 +997,8 @@ def main(test_args=None):
         logger.info("Simulation label: %s", args.simulation_label)
         logger.info("Debug flag: %s", args.debug)
         logger.info("Trace flag: %s", args.trace)
-        
+        logger.info("Country filter: %s", args.country)
+
         if args.sensitivity:
             sensitivity = os.path.join(folder_input, 'sensitivity.csv')
             if not os.path.exists(sensitivity):
@@ -967,7 +1030,8 @@ def main(test_args=None):
                                                         simulation_label=args.simulation_label,
                                                         modeltype=args.modeltype,
                                                         debug=args.debug,
-                                                        trace=args.trace)
+                                                        trace=args.trace,
+                                                        country=args.country)
         else:
             logger.info("Project folder: %s", args.postprocess)
             logger.info("EPM does not run again but use the existing simulation within the folder")

@@ -57,6 +57,7 @@ from .assessment import (
     make_assessment_energy_mix_diff,
     make_assessment_heatmap,
     make_assessment_npv_comparison,
+    make_assessment_cost_template_csv,
 )
 
 
@@ -79,8 +80,7 @@ make_fuel_dispatchplot = _wrap_plot_function(make_fuel_dispatchplot)
 make_heatmap_plot = _wrap_plot_function(make_heatmap_plot)
 heatmap_plot = _wrap_plot_function(heatmap_plot)
 make_line_plot = _wrap_plot_function(make_line_plot)
-#make_automatic_map = _wrap_plot_function(make_automatic_map)
-
+make_automatic_map = _wrap_plot_function(make_automatic_map)
 
 
 # Used to not load all the parameters in epm_results.gdx for memory purpose
@@ -95,6 +95,7 @@ KEYS_RESULTS = {
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
     'pCostsPlant',  
     'pYearlyCostsZone', 'pYearlyCostsCountry',
+    'pYearlyCostsSystem',
     'pCostsZone', 'pCostsSystem', 'pCostsSystemPerMWh',
     'pCostsZonePerMWh', 'pCostsCountryPerMWh',
     'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption', 'pFuelConsumptionCountry',
@@ -2226,6 +2227,13 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 make_assessment_cost_diff(
                     epm_results,
                     dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs,
+                    trade_attrs=TRADE_ATTRS,
+                    reserve_attrs=RESERVE_ATTRS
+                )
+                make_assessment_cost_template_csv(
+                    epm_results,
                     subfolders['7_comparison'],
                     scenario_pairs,
                     trade_attrs=TRADE_ATTRS,
