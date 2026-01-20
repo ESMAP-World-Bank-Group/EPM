@@ -1,182 +1,117 @@
-2026-01-17 13:13:40,793 - INFO - Starting EPM workflow
-2026-01-17 13:13:40,813 - INFO - Config file: config.csv
-2026-01-17 13:13:40,813 - INFO - Folder input: data_test
-2026-01-17 13:13:40,813 - INFO - modeltype: None
-2026-01-17 13:13:40,815 - INFO - Scenarios file: None
-2026-01-17 13:13:40,815 - INFO - Sensitivity: False
-2026-01-17 13:13:40,816 - INFO - MonteCarlo: False
-2026-01-17 13:13:40,816 - INFO - MonteCarlo samples: 10
-2026-01-17 13:13:40,818 - INFO - Monte Carlo uncertainties file: None
-2026-01-17 13:13:40,818 - INFO - Reduced output: False
-2026-01-17 13:13:40,819 - INFO - Reduced definition csv: False
-2026-01-17 13:13:40,819 - INFO - Selected scenarios: None
-2026-01-17 13:13:40,819 - INFO - Simple: None
-2026-01-17 13:13:40,819 - INFO - Simulation label: None
-2026-01-17 13:13:40,819 - INFO - Debug flag: False
-2026-01-17 13:13:40,819 - INFO - Trace flag: False
-2026-01-17 13:13:40,819 - INFO - Project folder: C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260114_194913
-2026-01-17 13:13:40,819 - INFO - EPM does not run again but use the existing simulation within the folder
-2026-01-17 13:13:40,819 - INFO - Find folder C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913 for postprocessing.
-2026-01-17 13:13:40,822 - INFO - Starting postprocessing for folder: C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260114_194913
-2026-01-17 13:13:40,822 - INFO - Postprocessing started for C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260114_194913
-2026-01-17 13:13:40,822 - INFO - Processing simulation results from C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260114_194913
-2026-01-17 13:13:48,099 - WARNING - pInterchangeExternalImports not in epm_results.keys().
-2026-01-17 13:13:48,099 - WARNING - pInterchangeExternalExports not in epm_results.keys().
-2026-01-17 13:13:56,747 - INFO - Loaded 55 processed result tables
-2026-01-17 13:13:58,945 - INFO - Created folder C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260114_194913\img
-2026-01-17 13:13:58,945 - INFO - Generating summary...
-2026-01-17 13:13:58,969 - WARNING - No pInterchangeExternalExports in epm_results
-2026-01-17 13:13:58,969 - WARNING - No pInterchangeExternalImports in epm_results
-2026-01-17 13:13:59,099 - INFO - Generating detailed summary by Power Plant...
-2026-01-17 13:13:59,236 - INFO - Generating heatmap summary...
-2026-01-17 13:14:01,512 - INFO - Creating folders for figures...
-2026-01-17 13:14:01,525 - INFO - Generating capacity figures...
-2026-01-17 13:15:30,910 - INFO - Generating cost figures...
-2026-01-17 13:16:15,985 - WARNING - Failed to generate Annual Cost Breakdown by Zone – delayedTransmission_AltDem (million USD): 2
-2026-01-17 13:17:05,047 - INFO - Generating energy figures...
-2026-01-17 13:19:30,330 - INFO - Generating energy dispatch figures...
-2026-01-17 13:25:49,629 - INFO - Generating interconnection figures...
-2026-01-17 13:26:27,986 - INFO - Generated Tableau GeoJSON file: linestring_countries.geojson
-2026-01-17 13:26:27,986 - INFO - Generating interactive map figures...
-2026-01-17 13:26:27,986 - INFO - Generating map for scenario AltDem
-2026-01-17 13:26:28,942 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMapEvolution_AltDem.pdf
-2026-01-17 13:26:30,261 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMapEvolution_AltDem.pdf
-2026-01-17 13:26:30,738 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_AltDem_2025.pdf
-2026-01-17 13:26:31,276 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_AltDem_2025.pdf
-2026-01-17 13:26:38,942 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_AltDem_2025.pdf
-2026-01-17 13:27:23,892 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2025.html
-2026-01-17 13:27:24,551 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2025.html
-2026-01-17 13:27:25,122 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_AltDem_2030.pdf
-2026-01-17 13:27:26,150 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_AltDem_2030.pdf
-2026-01-17 13:27:33,517 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_AltDem_2030.pdf
-2026-01-17 13:28:15,298 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2030.html
-2026-01-17 13:28:15,966 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2030.html
-2026-01-17 13:28:16,417 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_AltDem_2035.pdf
-2026-01-17 13:28:16,860 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_AltDem_2035.pdf
-2026-01-17 13:28:23,041 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_AltDem_2035.pdf
-2026-01-17 13:29:06,217 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2035.html
-2026-01-17 13:29:06,967 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2035.html
-2026-01-17 13:29:07,461 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_AltDem_2040.pdf
-2026-01-17 13:29:07,924 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_AltDem_2040.pdf
-2026-01-17 13:29:14,527 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_AltDem_2040.pdf
-2026-01-17 13:29:57,519 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2040.html
-2026-01-17 13:29:58,187 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_AltDem_2040.html
-2026-01-17 13:29:58,187 - INFO - Generating map for scenario baseline
-2026-01-17 13:29:59,050 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMapEvolution_baseline.pdf
-2026-01-17 13:30:00,335 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMapEvolution_baseline.pdf
-2026-01-17 13:30:00,717 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_baseline_2025.pdf
-2026-01-17 13:30:01,145 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_baseline_2025.pdf
-2026-01-17 13:30:08,073 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_baseline_2025.pdf
-2026-01-17 13:30:53,892 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2025.html
-2026-01-17 13:30:54,544 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2025.html
-2026-01-17 13:30:55,054 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_baseline_2030.pdf
-2026-01-17 13:30:55,568 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_baseline_2030.pdf
-2026-01-17 13:31:06,771 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_baseline_2030.pdf
-2026-01-17 13:31:54,256 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2030.html
-2026-01-17 13:31:55,351 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2030.html
-2026-01-17 13:31:56,204 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_baseline_2035.pdf
-2026-01-17 13:31:56,782 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_baseline_2035.pdf
-2026-01-17 13:32:04,039 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_baseline_2035.pdf
-2026-01-17 13:32:51,273 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2035.html
-2026-01-17 13:32:52,011 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2035.html
-2026-01-17 13:32:52,500 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_baseline_2040.pdf
-2026-01-17 13:32:52,983 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_baseline_2040.pdf
-2026-01-17 13:33:00,561 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_baseline_2040.pdf
-2026-01-17 13:33:46,316 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2040.html
-2026-01-17 13:33:46,970 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_baseline_2040.html
-2026-01-17 13:33:46,970 - INFO - Generating map for scenario delayedHydro
-2026-01-17 13:33:47,896 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMapEvolution_delayedHydro.pdf
-2026-01-17 13:33:49,187 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMapEvolution_delayedHydro.pdf
-2026-01-17 13:33:49,659 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_2025.pdf
-2026-01-17 13:33:50,079 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_2025.pdf
-2026-01-17 13:33:56,434 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_2025.pdf
-2026-01-17 13:34:42,298 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2025.html
-2026-01-17 13:34:43,052 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2025.html
-2026-01-17 13:34:43,491 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_2030.pdf
-2026-01-17 13:34:43,915 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_2030.pdf
-2026-01-17 13:34:51,487 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_2030.pdf
-2026-01-17 13:35:37,909 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2030.html
-2026-01-17 13:35:38,597 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2030.html
-2026-01-17 13:35:39,105 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_2035.pdf
-2026-01-17 13:35:39,676 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_2035.pdf
-2026-01-17 13:35:46,836 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_2035.pdf
-2026-01-17 13:36:35,312 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2035.html
-2026-01-17 13:36:36,212 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2035.html
-2026-01-17 13:36:37,120 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_2040.pdf
-2026-01-17 13:36:38,020 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_2040.pdf
-2026-01-17 13:36:47,277 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_2040.pdf
-2026-01-17 13:37:32,421 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2040.html
-2026-01-17 13:37:33,090 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_2040.html
-2026-01-17 13:37:33,090 - INFO - Generating map for scenario delayedHydro_AltDem
-2026-01-17 13:37:34,364 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMapEvolution_delayedHydro_AltDem.pdf
-2026-01-17 13:37:35,158 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMapEvolution_delayedHydro_AltDem.pdf
-2026-01-17 13:37:35,501 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_AltDem_2025.pdf
-2026-01-17 13:37:35,890 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_AltDem_2025.pdf
-2026-01-17 13:37:42,451 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_AltDem_2025.pdf
-2026-01-17 13:38:25,233 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2025.html
-2026-01-17 13:38:25,883 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2025.html
-2026-01-17 13:38:26,336 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_AltDem_2030.pdf
-2026-01-17 13:38:26,763 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_AltDem_2030.pdf
-2026-01-17 13:38:34,830 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_AltDem_2030.pdf
-2026-01-17 13:39:18,535 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2030.html
-2026-01-17 13:39:19,212 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2030.html
-2026-01-17 13:39:19,663 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_AltDem_2035.pdf
-2026-01-17 13:39:20,132 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_AltDem_2035.pdf
-2026-01-17 13:39:26,537 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_AltDem_2035.pdf
-2026-01-17 13:40:10,828 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2035.html
-2026-01-17 13:40:11,491 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2035.html
-2026-01-17 13:40:12,005 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedHydro_AltDem_2040.pdf
-2026-01-17 13:40:12,474 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedHydro_AltDem_2040.pdf
-2026-01-17 13:40:18,851 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedHydro_AltDem_2040.pdf
-2026-01-17 13:41:04,247 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2040.html
-2026-01-17 13:41:04,948 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedHydro_AltDem_2040.html
-2026-01-17 13:41:04,948 - INFO - Generating map for scenario delayedTransmission
-2026-01-17 13:41:05,792 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMapEvolution_delayedTransmission.pdf
-2026-01-17 13:41:06,737 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMapEvolution_delayedTransmission.pdf
-2026-01-17 13:41:07,285 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_2025.pdf
-2026-01-17 13:41:07,718 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_2025.pdf
-2026-01-17 13:41:16,310 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_2025.pdf
-2026-01-17 13:42:00,377 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2025.html
-2026-01-17 13:42:00,984 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2025.html
-2026-01-17 13:42:01,395 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_2030.pdf
-2026-01-17 13:42:01,767 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_2030.pdf
-2026-01-17 13:42:09,084 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_2030.pdf
-2026-01-17 13:42:54,013 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2030.html
-2026-01-17 13:42:54,743 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2030.html
-2026-01-17 13:42:55,297 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_2035.pdf
-2026-01-17 13:42:55,805 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_2035.pdf
-2026-01-17 13:43:02,436 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_2035.pdf
-2026-01-17 13:43:47,896 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2035.html
-2026-01-17 13:43:48,622 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2035.html
-2026-01-17 13:43:50,017 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_2040.pdf
-2026-01-17 13:43:50,876 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_2040.pdf
-2026-01-17 13:44:01,263 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_2040.pdf
-2026-01-17 13:44:48,760 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2040.html
-2026-01-17 13:44:49,466 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_2040.html
-2026-01-17 13:44:49,466 - INFO - Generating map for scenario delayedTransmission_AltDem
-2026-01-17 13:44:50,849 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMapEvolution_delayedTransmission_AltDem.pdf
-2026-01-17 13:44:51,833 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMapEvolution_delayedTransmission_AltDem.pdf
-2026-01-17 13:44:52,146 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_AltDem_2025.pdf
-2026-01-17 13:44:52,603 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_AltDem_2025.pdf
-2026-01-17 13:45:01,590 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_AltDem_2025.pdf
-2026-01-17 13:45:45,328 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2025.html
-2026-01-17 13:45:45,946 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2025.html
-2026-01-17 13:45:46,387 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_AltDem_2030.pdf
-2026-01-17 13:45:46,776 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_AltDem_2030.pdf
-2026-01-17 13:45:53,849 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_AltDem_2030.pdf
-2026-01-17 13:46:45,431 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2030.html
-2026-01-17 13:46:46,064 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2030.html
-2026-01-17 13:46:46,530 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_AltDem_2035.pdf
-2026-01-17 13:46:47,470 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_AltDem_2035.pdf
-2026-01-17 13:46:55,399 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_AltDem_2035.pdf
-2026-01-17 13:47:45,373 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2035.html
-2026-01-17 13:47:46,193 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2035.html
-2026-01-17 13:47:46,705 - INFO - Saved transmission capacity map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionCapacityMap_delayedTransmission_AltDem_2040.pdf
-2026-01-17 13:47:47,739 - INFO - Saved transmission utilization map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\TransmissionUtilizationMap_delayedTransmission_AltDem_2040.pdf
-2026-01-17 13:47:55,642 - INFO - Saved net exports map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\NetExportsMap_delayedTransmission_AltDem_2040.pdf
-2026-01-17 13:48:45,060 - INFO - Saving interactive energy map to C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2040.html
-2026-01-17 13:48:45,846 - INFO - Saved interactive map: C:\Users\wb590499\Documents\Projects\EPM\epm\output\simulations_run_20260114_194913\img\6_maps\InteractiveMap_delayedTransmission_AltDem_2040.html
-2026-01-17 13:48:45,846 - INFO - Generating project economic assessment figures...
-2026-01-17 13:48:45,846 - INFO - No scenario pairs detected for project assessment.
-2026-01-17 13:49:22,075 - INFO - Postprocessing completed for folder: C:\Users\wb590499\Documents\Projects\EPM\epm/output/simulations_run_20260114_194913
-2026-01-17 13:49:22,089 - INFO - EPM workflow completed
+2026-01-20 11:25:42,571 - INFO - Starting EPM workflow
+2026-01-20 11:25:42,581 - INFO - Config file: config.csv
+2026-01-20 11:25:42,581 - INFO - Folder input: data_sapp
+2026-01-20 11:25:42,581 - INFO - modeltype: None
+2026-01-20 11:25:42,581 - INFO - Scenarios file: None
+2026-01-20 11:25:42,581 - INFO - Sensitivity: True
+2026-01-20 11:25:42,581 - INFO - MonteCarlo: False
+2026-01-20 11:25:42,581 - INFO - MonteCarlo samples: 10
+2026-01-20 11:25:42,581 - INFO - Monte Carlo uncertainties file: None
+2026-01-20 11:25:42,581 - INFO - Reduced output: False
+2026-01-20 11:25:42,581 - INFO - Reduced definition csv: False
+2026-01-20 11:25:42,581 - INFO - Selected scenarios: None
+2026-01-20 11:25:42,581 - INFO - Simple: None
+2026-01-20 11:25:42,581 - INFO - Simulation label: None
+2026-01-20 11:25:42,581 - INFO - Debug flag: False
+2026-01-20 11:25:42,581 - INFO - Trace flag: False
+2026-01-20 11:25:42,581 - INFO - Country filter: None
+2026-01-20 11:25:42,593 - INFO - Sensitivity analysis: {'pSettings': nan, 'y': nan, 'pDemandForecast': nan, 'pDemandProfile': nan, 'pAvailabilityDefault': nan, 'pCapexTrajectoriesDefault': nan, 'pFuelPrice': nan, 'ResLimShare': nan, 'BuildLimitperYear': nan, 'pVREProfile': nan, 'delayedHydro_alt': 1.0, 'delayedTransmission': 1.0}
+2026-01-20 11:25:42,683 - INFO - Prepared 3 scenario(s): baseline, delayedHydro_alt_3years, delayedTransmission_2years
+2026-01-20 11:25:42,685 - INFO - Folder ready: output\sensitivity_run_20260120_112542
+2026-01-20 11:25:49,688 - INFO - Command to execute: gams 'C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms' 'LogOption 4' 'LogFile baseline_main.log' '--BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms' '--REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms' '--READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms' '--DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms' '--HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms' '--FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp' '--modeltype RMIP' '--cplexfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\cplex/cplex_baseline.opt' '--pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pSettings_alt.csv' '--y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y_alt.csv' '--zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap_alt.csv' '--pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv' '--pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv' '--pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv' '--pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast_sapp_adapted.csv' '--sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/sRelevant.csv' '--pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv' '--pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataInput.csv' '--pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataInputDefault.csv' '--pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv' '--pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv' '--pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv' '--pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv' '--pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefault.csv' '--pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv' '--pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv' '--pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfile.csv' '--pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv' '--pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorageDataInput.csv' '--pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv' '--pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv' '--pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv' '--pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv' '--pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv' '--pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv' '--pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv' '--zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv' '--pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv' '--pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactorInternal.csv' '--pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxAnnualExternalTradeShare.csv' '--pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv' '--pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pNewTransmission.csv' '--pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv' '--pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv' '--pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv' '--pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv' '--pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv' '--pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv' '--pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv'
+2026-01-20 11:26:09,073 - INFO - Command to execute: gams 'C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms' 'LogOption 4' 'LogFile delayedHydro_alt_3years_main.log' '--BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms' '--REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms' '--READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms' '--DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms' '--HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms' '--FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp' '--modeltype RMIP' '--cplexfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\cplex/cplex_baseline.opt' '--pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pSettings_alt.csv' '--y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y_alt.csv' '--zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap_alt.csv' '--pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv' '--pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv' '--pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv' '--pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast_sapp_adapted.csv' '--sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/sRelevant.csv' '--pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv' '--pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply\sensitivity\pGenDataInput_delayedHydro_alt_3years.csv' '--pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataInputDefault.csv' '--pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv' '--pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv' '--pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv' '--pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv' '--pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefault.csv' '--pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv' '--pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv' '--pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfile.csv' '--pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv' '--pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorageDataInput.csv' '--pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv' '--pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv' '--pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv' '--pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv' '--pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv' '--pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv' '--pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv' '--zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv' '--pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv' '--pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactorInternal.csv' '--pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxAnnualExternalTradeShare.csv' '--pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv' '--pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pNewTransmission.csv' '--pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv' '--pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv' '--pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv' '--pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv' '--pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv' '--pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv' '--pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv'
+2026-01-20 11:26:12,154 - INFO - Command to execute: gams 'C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms' 'LogOption 4' 'LogFile delayedTransmission_2years_main.log' '--BASE_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\base.gms' '--REPORT_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_report.gms' '--READER_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\input_readers.gms' '--DEMAND_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\generate_demand.gms' '--HYDROGEN_FILE C:\Users\wb590499\Documents\Projects\EPM\epm\hydrogen_module.gms' '--FOLDER_INPUT C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp' '--modeltype RMIP' '--cplexfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\cplex/cplex_baseline.opt' '--pSettings C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pSettings_alt.csv' '--y C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\y_alt.csv' '--zcmap C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\zcmap_alt.csv' '--pHours C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\pHours.csv' '--pDemandProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandProfile.csv' '--pDemandData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandData.csv' '--pDemandForecast C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pDemandForecast_sapp_adapted.csv' '--sRelevant C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/sRelevant.csv' '--pEnergyEfficiencyFactor C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\load/pEnergyEfficiencyFactor.csv' '--pGenDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataInput.csv' '--pGenDataInputDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pGenDataInputDefault.csv' '--pAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityCustom.csv' '--pAvailabilityDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pAvailabilityDefault.csv' '--pEvolutionAvailability C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pEvolutionAvailability.csv' '--pCapexTrajectories C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesCustom.csv' '--pCapexTrajectoriesDefault C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCapexTrajectoriesDefault.csv' '--pCSPData C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pCSPData.csv' '--pFuelPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pFuelPrice.csv' '--pVREgenProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREgenProfile.csv' '--pVREProfile C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pVREProfile.csv' '--pStorageDataInput C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\supply/pStorageDataInput.csv' '--pPlanningReserveMargin C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pPlanningReserveMargin.csv' '--pSpinningReserveReqCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqCountry.csv' '--pSpinningReserveReqSystem C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\reserve/pSpinningReserveReqSystem.csv' '--pEmissionsTotal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsTotal.csv' '--pEmissionsCountry C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pEmissionsCountry.csv' '--pMaxFuellimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pMaxFuellimit.csv' '--pCarbonPrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\constraint/pCarbonPrice.csv' '--zext C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/zext.csv' '--pExtTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pExtTransferLimit.csv' '--pLossFactorInternal C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pLossFactorInternal.csv' '--pMaxAnnualExternalTradeShare C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMaxAnnualExternalTradeShare.csv' '--pMinImport C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pMinImport.csv' '--pNewTransmission C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade\sensitivity\delayedTransmission_2years.csv' '--pTradePrice C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTradePrice.csv' '--pTransferLimit C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\trade/pTransferLimit.csv' '--pH2DataExcel C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pH2DataExcel.csv' '--pAvailabilityH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pAvailabilityH2.csv' '--pCapexTrajectoryH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pCapexTrajectoryH2.csv' '--pExternalH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pExternalH2.csv' '--pFuelDataH2 C:\Users\wb590499\Documents\Projects\EPM\epm\input\data_sapp\h2/pFuelDataH2.csv'
+2026-01-20 11:26:15,091 - ERROR - EPM workflow failed
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 51, in starmapstar
+    return list(itertools.starmap(args[0], args[1]))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm\epm.py", line 476, in launch_epm_multiprocess
+    return launch_epm(df, scenario_name=scenario_name, folder_input=folder_input,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm\epm.py", line 461, in launch_epm
+    raise RuntimeError(error_msg)
+RuntimeError: GAMS Error (return code 2) for scenario 'baseline'
+Log file: C:\Users\wb590499\Documents\Projects\EPM\epm\output\sensitivity_run_20260120_112542\baseline\baseline_main.log
+
+Errors found in log:
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(277) 4 Mb 17 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(278) 4 Mb 18 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(281) 4 Mb 19 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+*** Error 343 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(286) 4 Mb 20 Errors
+*** Status: Compilation error(s)
+
+Last lines of log:
+    GDXIN  file not open - ignore rest of line
+--- main.gms(278) 4 Mb 18 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(281) 4 Mb 19 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+***
+*** Abort CONNECT ERROR in input_readers.gms
+***
+*** Error 343 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    Abort triggered by above statement
+--- main.gms(286) 4 Mb 20 Errors
+*** Status: Compilation error(s)
+--- Job main.gms Stop 01/20/26 11:26:08 elapsed 0:00:16.967
+
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm/epm.py", line 1017, in main
+    folder, result = launch_epm_multi_scenarios(config=args.config,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\wb590499\Documents\Projects\EPM\epm/epm.py", line 742, in launch_epm_multi_scenarios
+    pool.starmap(
+  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 375, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\wb590499\.conda\envs\epm_env\Lib\multiprocessing\pool.py", line 774, in get
+    raise self._value
+RuntimeError: GAMS Error (return code 2) for scenario 'baseline'
+Log file: C:\Users\wb590499\Documents\Projects\EPM\epm\output\sensitivity_run_20260120_112542\baseline\baseline_main.log
+
+Errors found in log:
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(277) 4 Mb 17 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(278) 4 Mb 18 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(281) 4 Mb 19 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+*** Error 343 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+--- main.gms(286) 4 Mb 20 Errors
+*** Status: Compilation error(s)
+
+Last lines of log:
+    GDXIN  file not open - ignore rest of line
+--- main.gms(278) 4 Mb 18 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+--- main.gms(281) 4 Mb 19 Errors
+*** Error 502 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    GDXIN  file not open - ignore rest of line
+***
+*** Abort CONNECT ERROR in input_readers.gms
+***
+*** Error 343 in C:\Users\wb590499\Documents\Projects\EPM\epm\main.gms
+    Abort triggered by above statement
+--- main.gms(286) 4 Mb 20 Errors
+*** Status: Compilation error(s)
+--- Job main.gms Stop 01/20/26 11:26:08 elapsed 0:00:16.967
+
