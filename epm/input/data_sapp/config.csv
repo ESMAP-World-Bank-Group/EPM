@@ -2,9 +2,9 @@ metadata,paramNames,file
 modeltype type (MIP or RMIP),modeltype,RMIP
 Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
 ,GENERAL,
-Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
-Planning horizon years (Unit: year),y,y.csv
-Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv
+Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings_alt.csv
+Planning horizon years (Unit: year),y,y_alt.csv
+Mapping between model zones and countries (Unit: unitless),zcmap,zcmap_alt.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
 ,LOAD,
 "Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile.csv
