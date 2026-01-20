@@ -1434,18 +1434,18 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pSettings, pGeneratorTechFuel, pZoneCountry,
       pDemandEnergyZone, pDemandPeakZone,
 * 1. CAPACITY
-      pCapacityPlant, pCapacityTechFuel, pCapacityTechFuelCountry,
-      pNewCapacityTechFuel, pNewCapacityTechFuelCountry,
+      pCapacityPlant, pCapacityTechFuel,
+      pNewCapacityTechFuel,
       pAnnualTransmissionCapacity, pNewTransmissionCapacity,
 * 2. COSTS
       pCostsPlant, pCapexInvestmentComponent, pCapexInvestmentPlant,
       pPrice, pYearlyPrice,
-      pYearlyCostsZone, pYearlyCostsCountry, pYearlyCostsSystem,
-      pCostsZone, pCostsSystem, pCostsSystemPerMWh, pCostsZonePerMWh, pCostsCountryPerMWh,
-      pFuelCosts, pFuelCostsCountry, pFuelConsumption, pFuelConsumptionCountry,
+      pYearlyCostsZone, pYearlyCostsSystem,
+      pCostsZone, pCostsSystem, pCostsSystemPerMWh, pCostsZonePerMWh,
+      pFuelCosts, pFuelConsumption,
       pYearlyGenCostZonePerMWh,
 * 3. ENERGY BALANCE
-      pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelCountry, pEnergyTechFuelComplete,
+      pEnergyPlant, pEnergyTechFuel, pEnergyTechFuelComplete,
       pEnergyBalance,
       pUtilizationPlant, pUtilizationTechFuel,
 * 4. ENERGY DISPATCH
@@ -1459,8 +1459,8 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pEmissionsZone, pEmissionsIntensityZone,
 * 8. METRICS
       pPlantAnnualLCOE,
-      pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,
-      pYearlyCostsZonePerMWh, pYearlyCostsCountryPerMWh, pYearlyCostsSystemPerMWh,
+      pDiscountedDemandZoneMWh, pDiscountedDemandSystemMWh,
+      pYearlyCostsZonePerMWh, pYearlyCostsSystemPerMWh,
 * 9. SOLVER PARAMETERS
       pSolverParameters
 ;
@@ -1511,7 +1511,7 @@ $elseIfI.reportshort %REPORTSHORT% == 2
       pCSPBalance, pCSPComponents, pPVwSTOBalance, pPVwSTOComponents, pStorageBalance, pStorageComponents,
       pSolarPower, pSolarEnergyZone, pSolarValueZone, pSolarCost,
 * 10. METRICS
-      pPlantAnnualLCOE, pCostsZonePerMWh, pCostsCountryPerMWh,
+      pPlantAnnualLCOE, pCostsZonePerMWh,
       pYearlyGenCostZonePerMWh,
       pYearlyCostsZonePerMWh, pYearlyCostsCountryPerMWh, pYearlyCostsSystemPerMWh,
       pDiscountedDemandZoneMWh, pDiscountedDemandCountryMWh, pDiscountedDemandSystemMWh,

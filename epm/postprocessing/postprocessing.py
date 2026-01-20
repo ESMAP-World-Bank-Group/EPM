@@ -84,32 +84,34 @@ make_automatic_map = _wrap_plot_function(make_automatic_map)
 
 
 # Used to not load all the parameters in epm_results.gdx for memory purpose
+# Note: Country-level aggregates (e.g., pCapacityTechFuelCountry) are computed
+# from zone-level data using pZoneCountry mapping in generate_summary()
 KEYS_RESULTS = {
     # 1. Capacity expansion
     'pCapacityPlant',
-    'pCapacityTechFuel', 'pCapacityTechFuelCountry',
-    'pNewCapacityTechFuel', 'pNewCapacityTechFuelCountry',
+    'pCapacityTechFuel',
+    'pNewCapacityTechFuel',
     'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
     'pPrice', 'pYearlyPrice',
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
     'pCostsPlant',
-    'pYearlyCostsZone', 'pYearlyCostsCountry',
+    'pYearlyCostsZone', 'pYearlyCostsZonePerMWh',
     'pYearlyCostsSystem',
     'pCostsZone', 'pCostsSystem', 'pCostsSystemPerMWh',
-    'pCostsZonePerMWh', 'pCostsCountryPerMWh',
-    'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption',
-    'pYearlyGenCostZonePerMWh',
+    'pCostsZonePerMWh',
+    'pFuelCosts', 'pFuelConsumption',
+    'pYearlyGenCostZonePerMWh', 
     # 3. Energy balance
-    'pEnergyPlant', 'pEnergyTechFuel', 'pEnergyTechFuelCountry',
+    'pEnergyPlant', 'pEnergyTechFuel',
     'pEnergyTechFuelComplete',
     'pEnergyBalance',
     'pUtilizationPlant', 'pUtilizationTechFuel',
     # 4. Energy dispatch
     'pDispatchPlant', 'pDispatch', 'pDispatchTechFuel',
     # 5. Reserves
-    'pReserveSpinningPlantZone', 'pReserveSpinningPlantCountry',
-    'pReserveMarginCountry',
+    'pReserveSpinningPlantZone',
+    'pReserveMargin',
     # 6. Interconnections
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
@@ -118,7 +120,6 @@ KEYS_RESULTS = {
     'pEmissionsZone', 'pEmissionsIntensityZone',
     # 10. Metrics
     'pPlantAnnualLCOE',
-    'pCostsZonePerMWh',
     # 11. Other
     'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry',
     'pDemandEnergyZone', 'pDemandPeakZone'
