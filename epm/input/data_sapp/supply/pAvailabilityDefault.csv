@@ -5,7 +5,7 @@ South_Africa,CCGT,Gas,0.85,0.85,0.85,0.85
 South_Africa,ICE,Diesel,0.85,0.85,0.85,0.85
 South_Africa,ICE,HFO,0.85,0.85,0.85,0.85
 South_Africa,OCGT,HFO,0.85,0.85,0.85,0.85
-South_Africa,ST,Uranium,0.9,0.9,0.9,0.9
+South_Africa,Nuclear,Uranium,0.9,0.9,0.9,0.9
 South_Africa,ST,Biomass,0.85,0.85,0.85,0.85
 South_Africa,CCGT,LNG,0.85,0.85,0.85,0.85
 South_Africa,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -23,7 +23,7 @@ Angola,CCGT,Gas,0.85,0.85,0.85,0.85
 Angola,ICE,Diesel,0.85,0.85,0.85,0.85
 Angola,ICE,HFO,0.85,0.85,0.85,0.85
 Angola,OCGT,HFO,0.85,0.85,0.85,0.85
-Angola,ST,Uranium,0.9,0.9,0.9,0.9
+Angola,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Angola,ST,Biomass,0.85,0.85,0.85,0.85
 Angola,CCGT,LNG,0.85,0.85,0.85,0.85
 Angola,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -41,7 +41,7 @@ Botswana,CCGT,Gas,0.85,0.85,0.85,0.85
 Botswana,ICE,Diesel,0.85,0.85,0.85,0.85
 Botswana,ICE,HFO,0.85,0.85,0.85,0.85
 Botswana,OCGT,HFO,0.85,0.85,0.85,0.85
-Botswana,ST,Uranium,0.9,0.9,0.9,0.9
+Botswana,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Botswana,ST,Biomass,0.85,0.85,0.85,0.85
 Botswana,CCGT,LNG,0.85,0.85,0.85,0.85
 Botswana,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -59,7 +59,7 @@ DRC,CCGT,Gas,0.85,0.85,0.85,0.85
 DRC,ICE,Diesel,0.85,0.85,0.85,0.85
 DRC,ICE,HFO,0.85,0.85,0.85,0.85
 DRC,OCGT,HFO,0.85,0.85,0.85,0.85
-DRC,ST,Uranium,0.9,0.9,0.9,0.9
+DRC,Nuclear,Uranium,0.9,0.9,0.9,0.9
 DRC,ST,Biomass,0.85,0.85,0.85,0.85
 DRC,CCGT,LNG,0.85,0.85,0.85,0.85
 DRC,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -78,7 +78,7 @@ DRC_South,CCGT,Gas,0.85,0.85,0.85,0.85
 DRC_South,ICE,Diesel,0.85,0.85,0.85,0.85
 DRC_South,ICE,HFO,0.85,0.85,0.85,0.85
 DRC_South,OCGT,HFO,0.85,0.85,0.85,0.85
-DRC_South,ST,Uranium,0.9,0.9,0.9,0.9
+DRC_South,Nuclear,Uranium,0.9,0.9,0.9,0.9
 DRC_South,ST,Biomass,0.85,0.85,0.85,0.85
 DRC_South,CCGT,LNG,0.85,0.85,0.85,0.85
 DRC_South,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -97,7 +97,7 @@ Eswatini,CCGT,Gas,0.85,0.85,0.85,0.85
 Eswatini,ICE,Diesel,0.85,0.85,0.85,0.85
 Eswatini,ICE,HFO,0.85,0.85,0.85,0.85
 Eswatini,OCGT,HFO,0.85,0.85,0.85,0.85
-Eswatini,ST,Uranium,0.9,0.9,0.9,0.9
+Eswatini,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Eswatini,ST,Biomass,0.85,0.85,0.85,0.85
 Eswatini,CCGT,LNG,0.85,0.85,0.85,0.85
 Eswatini,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -115,7 +115,7 @@ Lesotho,CCGT,Gas,0.85,0.85,0.85,0.85
 Lesotho,ICE,Diesel,0.85,0.85,0.85,0.85
 Lesotho,ICE,HFO,0.85,0.85,0.85,0.85
 Lesotho,OCGT,HFO,0.85,0.85,0.85,0.85
-Lesotho,ST,Uranium,0.9,0.9,0.9,0.9
+Lesotho,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Lesotho,ST,Biomass,0.85,0.85,0.85,0.85
 Lesotho,CCGT,LNG,0.85,0.85,0.85,0.85
 Lesotho,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -133,7 +133,7 @@ Malawi,CCGT,Gas,0.85,0.85,0.85,0.85
 Malawi,ICE,Diesel,0.85,0.85,0.85,0.85
 Malawi,ICE,HFO,0.85,0.85,0.85,0.85
 Malawi,OCGT,HFO,0.85,0.85,0.85,0.85
-Malawi,ST,Uranium,0.9,0.9,0.9,0.9
+Malawi,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Malawi,ST,Biomass,0.85,0.85,0.85,0.85
 Malawi,CCGT,LNG,0.85,0.85,0.85,0.85
 Malawi,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -151,7 +151,7 @@ Mozambique,CCGT,Gas,0.85,0.85,0.85,0.85
 Mozambique,ICE,Diesel,0.85,0.85,0.85,0.85
 Mozambique,ICE,HFO,0.85,0.85,0.85,0.85
 Mozambique,OCGT,HFO,0.85,0.85,0.85,0.85
-Mozambique,ST,Uranium,0.9,0.9,0.9,0.9
+Mozambique,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Mozambique,ST,Biomass,0.85,0.85,0.85,0.85
 Mozambique,CCGT,LNG,0.85,0.85,0.85,0.85
 Mozambique,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -169,7 +169,7 @@ Namibia,CCGT,Gas,0.85,0.85,0.85,0.85
 Namibia,ICE,Diesel,0.85,0.85,0.85,0.85
 Namibia,ICE,HFO,0.85,0.85,0.85,0.85
 Namibia,OCGT,HFO,0.85,0.85,0.85,0.85
-Namibia,ST,Uranium,0.9,0.9,0.9,0.9
+Namibia,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Namibia,ST,Biomass,0.85,0.85,0.85,0.85
 Namibia,CCGT,LNG,0.85,0.85,0.85,0.85
 Namibia,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -188,7 +188,7 @@ Tanzania,ICE,Diesel,0.85,0.85,0.85,0.85
 Tanzania,ICE,HFO,0.85,0.85,0.85,0.85
 Tanzania,ICE,Gas,0.85,0.85,0.85,0.85
 Tanzania,OCGT,HFO,0.85,0.85,0.85,0.85
-Tanzania,ST,Uranium,0.9,0.9,0.9,0.9
+Tanzania,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Tanzania,ST,Biomass,0.85,0.85,0.85,0.85
 Tanzania,CCGT,LNG,0.85,0.85,0.85,0.85
 Tanzania,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -206,7 +206,7 @@ Zambia,CCGT,Gas,0.85,0.85,0.85,0.85
 Zambia,ICE,Diesel,0.85,0.85,0.85,0.85
 Zambia,ICE,HFO,0.85,0.85,0.85,0.85
 Zambia,OCGT,HFO,0.85,0.85,0.85,0.85
-Zambia,ST,Uranium,0.9,0.9,0.9,0.9
+Zambia,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Zambia,ST,Biomass,0.85,0.85,0.85,0.85
 Zambia,CCGT,LNG,0.85,0.85,0.85,0.85
 Zambia,OCGT,LNG,0.85,0.85,0.85,0.85
@@ -224,7 +224,7 @@ Zimbabwe,CCGT,Gas,0.85,0.85,0.85,0.85
 Zimbabwe,ICE,Diesel,0.85,0.85,0.85,0.85
 Zimbabwe,ICE,HFO,0.85,0.85,0.85,0.85
 Zimbabwe,OCGT,HFO,0.85,0.85,0.85,0.85
-Zimbabwe,ST,Uranium,0.9,0.9,0.9,0.9
+Zimbabwe,Nuclear,Uranium,0.9,0.9,0.9,0.9
 Zimbabwe,ST,Biomass,0.85,0.85,0.85,0.85
 Zimbabwe,CCGT,LNG,0.85,0.85,0.85,0.85
 Zimbabwe,OCGT,LNG,0.85,0.85,0.85,0.85
