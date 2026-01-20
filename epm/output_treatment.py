@@ -229,6 +229,15 @@ CAPEX_INVESTMENT_MERGE_FILES = [
     'pCapexInvestmentComponentCumulated',
 ]
 
+# Files to include in pSummary.csv (unified summary format)
+# Each file will be transformed to have columns: c, z, attribute, resolution, y, value
+SUMMARY_FILES = [
+    'pCostsSystemMerged',
+    'pTransmissionMerged',
+    'pTechFuelMerged',
+    'pYearlyZoneMerged',
+]
+
 # =============================================================================
 # FILES TO KEEP IN MAIN OUTPUT DIRECTORY
 # =============================================================================
@@ -245,6 +254,7 @@ PRIMARY_OUTPUT_FILES = [
     'pCostsSystemMerged',
     'pCapexInvestmentMerged',
     'pDispatchComplete',
+    'pSummary',
 ]
 
 # Essential standalone files (not merged but needed for analysis)
@@ -1169,6 +1179,102 @@ def add_country_to_zone_file(
     return True
 
 
+def create_summary_csv(
+    output_dir: str,
+    summary_files: Optional[List[str]] = None,
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Create pSummary.csv by concatenating all merged files into a unified format.
+
+    The output has a consistent structure with columns: c, z, attribute, resolution, y, value
+    where the 'resolution' column contains contextual information depending on the source:
+    - System costs: cost component (e.g., "Fuel costs: $m")
+    - TechFuel data: techfuel name (e.g., "ST-Coal", "PV")
+    - Transmission data: destination zone (e.g., "Serbia")
+    - Zone data: empty (no sub-breakdown)
+
+    Parameters
+    ----------
+    output_dir : str
+        Path to the directory containing merged CSV files
+    summary_files : list, optional
+        List of merged file names to include. If None, uses SUMMARY_FILES.
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    if summary_files is None:
+        summary_files = SUMMARY_FILES
+
+    dfs = []
+    for file_name in summary_files:
+        csv_path = os.path.join(output_dir, f"{file_name}.csv")
+        if not os.path.exists(csv_path):
+            log_func(f"[output_treatment]   {file_name}: not found, skipping")
+            continue
+
+        df = pd.read_csv(csv_path)
+        if df.empty:
+            continue
+
+        # Transform based on file type
+        if file_name == 'pCostsSystemMerged':
+            # System-level: add c, z placeholders, uni -> resolution, no year
+            df['c'] = 'System'
+            df['z'] = 'System'
+            df['y'] = ''
+            df['resolution'] = df['uni']  # cost component in resolution
+            df = df.drop(columns=['uni'], errors='ignore')
+
+        elif file_name == 'pTransmissionMerged':
+            # Transmission: uni (z2) goes to resolution
+            df['resolution'] = df['uni']  # destination zone
+            df = df.drop(columns=['uni', 'isExternal'], errors='ignore')
+
+        elif file_name == 'pTechFuelMerged':
+            # TechFuel: techfuel goes to resolution
+            df['resolution'] = df['techfuel']
+            df = df.drop(columns=['tech', 'f', 'techfuel'], errors='ignore')
+
+        elif file_name == 'pYearlyZoneMerged':
+            # Zone-level: resolution is empty
+            df['resolution'] = ''
+
+        else:
+            # Generic: try to use 'uni' or 'techfuel' for resolution if available
+            if 'techfuel' in df.columns:
+                df['resolution'] = df['techfuel']
+                df = df.drop(columns=['tech', 'f', 'techfuel'], errors='ignore')
+            elif 'uni' in df.columns:
+                df['resolution'] = df['uni']
+                df = df.drop(columns=['uni'], errors='ignore')
+            else:
+                df['resolution'] = ''
+
+        # Select and order final columns
+        final_cols = ['c', 'z', 'attribute', 'resolution', 'y', 'value']
+        df = df[[c for c in final_cols if c in df.columns]]
+
+        dfs.append(df)
+        log_func(f"[output_treatment]   {file_name}: {len(df)} rows")
+
+    if not dfs:
+        log_func("[output_treatment]   pSummary.csv: WARNING - no files found to merge")
+        return False
+
+    summary_df = pd.concat(dfs, ignore_index=True)
+    output_path = os.path.join(output_dir, "pSummary.csv")
+    summary_df.to_csv(output_path, index=False)
+    log_func(f"[output_treatment]   pSummary.csv: created ({len(summary_df)} rows from {len(dfs)} files)")
+
+    return True
+
+
 def cleanup_output_files(
     output_dir: str,
     keep_files: Optional[List[str]] = None,
@@ -1762,6 +1868,15 @@ def run_output_treatment(
             restructured_count += 1
     
     log_func(f"[output_treatment]   Restructured {restructured_count} files")
+
+    # ---------------------------------------------------------
+    # 9b. Create summary CSV (all merged files in unified format)
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 9b: Creating summary CSV")
+    log_func("-" * 60)
+
+    create_summary_csv(output_dir, log_func=log_func)
 
     # ---------------------------------------------------------
     # 10. Clean up output files (delete non-essential files)
