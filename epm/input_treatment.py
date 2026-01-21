@@ -2146,13 +2146,23 @@ def run_input_treatment(gams,
         # GAMS-loaded generic data is already in long format: (tech, f, pGenDataInputHeader, value)
         if "gendata" in generic and "pGenDataInputDefault" in db:
             gendata_default = db["pGenDataInputDefault"].records
-            if gendata_default is not None and not gendata_default.empty:
+            generic_gendata = generic["gendata"]  # Already has (tech, f, pGenDataInputHeader, value)
+
+            if gendata_default is None or gendata_default.empty:
+                # pGenDataInputDefault is empty - create it entirely from generic data
+                to_add = required.merge(generic_gendata, on=["tech", "f"], how="inner")
+                if not to_add.empty:
+                    db.data["pGenDataInputDefault"].setRecords(to_add)
+                    _write_back(db, "pGenDataInputDefault")
+                    n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                    gams.printLog(f"[input_treatment][generic] Created pGenDataInputDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
+            else:
+                # pGenDataInputDefault has data - only add missing combinations
                 gendata_keys = gendata_default[["z", "tech", "f"]].drop_duplicates()
                 merged = required.merge(gendata_keys, on=["z", "tech", "f"], how="left", indicator=True)
                 missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
-                
+
                 if not missing.empty:
-                    generic_gendata = generic["gendata"]  # Already has (tech, f, pGenDataInputHeader, value)
                     # Join missing combinations with generic values
                     to_add = missing.merge(generic_gendata, on=["tech", "f"], how="inner")
                     if not to_add.empty:
@@ -2160,36 +2170,59 @@ def run_input_treatment(gams,
                         db.data["pGenDataInputDefault"].setRecords(updated)
                         _write_back(db, "pGenDataInputDefault")
                         n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
-                        gams.printLog(f"[input_treatment][generic] Enriched pGenDataInputDefault with {n_combos} tech-fuel combination(s) from generic.")
+                        gams.printLog(f"[input_treatment][generic] Enriched pGenDataInputDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
         
         # Enrich pAvailabilityDefault
         # GAMS-loaded generic data is (tech, f, value) - single annual value
-        if "availability" in generic and "pAvailabilityDefault" in db:
+        # Get seasons from pHours
+        seasons_from_hours = []
+        if "pHours" in db:
+            phours_records = db["pHours"].records
+            if phours_records is not None and not phours_records.empty:
+                q_col = "q" if "q" in phours_records.columns else phours_records.columns[0]
+                seasons_from_hours = phours_records[q_col].unique().tolist()
+
+        if "availability" in generic and "pAvailabilityDefault" in db and seasons_from_hours:
             avail_default = db["pAvailabilityDefault"].records
-            if avail_default is not None and not avail_default.empty:
+            generic_avail = generic["availability"]  # (tech, f, value)
+
+            if avail_default is None or avail_default.empty:
+                # pAvailabilityDefault is empty - create it entirely from generic data
+                to_add = required.merge(generic_avail, on=["tech", "f"], how="inner")
+                if not to_add.empty:
+                    new_records = []
+                    for _, row in to_add.iterrows():
+                        for q in seasons_from_hours:
+                            new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"],
+                                              "q": q, "value": row["value"]})
+                    if new_records:
+                        new_df = pd.DataFrame(new_records)
+                        db.data["pAvailabilityDefault"].setRecords(new_df)
+                        _write_back(db, "pAvailabilityDefault")
+                        n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                        gams.printLog(f"[input_treatment][generic] Created pAvailabilityDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
+            else:
+                # pAvailabilityDefault has data - only add missing combinations
                 avail_keys = avail_default[["z", "tech", "f"]].drop_duplicates()
                 merged = required.merge(avail_keys, on=["z", "tech", "f"], how="left", indicator=True)
                 missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
-                
+
                 if not missing.empty:
-                    generic_avail = generic["availability"]  # (tech, f, value)
-                    # Get seasons from existing default (q column in long format)
-                    seasons = avail_default["q"].unique().tolist() if "q" in avail_default.columns else ["Q1"]
-                    
                     # Join missing combinations with generic values, expand to all seasons
                     to_add = missing.merge(generic_avail, on=["tech", "f"], how="inner")
                     if not to_add.empty:
                         new_records = []
                         for _, row in to_add.iterrows():
-                            for q in seasons:
-                                new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"], 
+                            for q in seasons_from_hours:
+                                new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"],
                                                   "q": q, "value": row["value"]})
                         if new_records:
                             new_df = pd.DataFrame(new_records)
                             updated = pd.concat([avail_default, new_df], ignore_index=True)
                             db.data["pAvailabilityDefault"].setRecords(updated)
                             _write_back(db, "pAvailabilityDefault")
-                            gams.printLog(f"[input_treatment][generic] Enriched pAvailabilityDefault with {len(to_add)} tech-fuel combination(s) from generic.")
+                            n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                            gams.printLog(f"[input_treatment][generic] Enriched pAvailabilityDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
         
         # Enrich pCapexTrajectoriesDefault
         # GAMS-loaded generic data is already in long format: (tech, f, y, value)
