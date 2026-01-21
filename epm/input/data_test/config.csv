@@ -33,6 +33,7 @@ System-wide spinning reserve requirement (Unit: MW),pSpinningReserveReqSystem,re
 System-level annual emissions cap (Unit: tCO2),pEmissionsTotal,constraint/pEmissionsTotal.csv
 Country-level annual emissions caps (Unit: tCO2),pEmissionsCountry,constraint/pEmissionsCountry.csv
 Maximum fuel consumption limits by zone and fuel (Unit: MMBtu),pMaxFuellimit,constraint/pMaxFuellimit.csv
+Maximum generation by zone-tech-fuel for phase-out scenarios (Unit: GWh),pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv
 Carbon pricing trajectory (Unit: USD/tCO2),pCarbonPrice,constraint/pCarbonPrice.csv
 ,TRADE,
 External trading zones (Unit: unitless),zext,trade/zext.csv

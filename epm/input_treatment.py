@@ -51,8 +51,9 @@ YEARLY_OUTPUT = [
     'pDemandForecast',
     'pCapexTrajectories',
     'pExtTransferLimit',
-    'pTransferLimit', 
-    'pFuelPrice'
+    'pTransferLimit',
+    'pFuelPrice',
+    'pMaxGenerationByFuel'
 ]
 
 ZONE_RESTRICTED_PARAMS = {
