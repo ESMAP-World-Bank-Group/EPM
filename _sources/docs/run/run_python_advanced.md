@@ -113,7 +113,56 @@ python epm.py --input_folder input/your_data_folder --sensitivity
 - Only parameters enabled in the `sensitivity` dict are processed.
 - This approach supports automated scenario generation for robustness checks.
 
-## C. Monte-Carlo analysis (ongoing development)
+## C. Single-Country Runs with Border Prices
+
+For detailed country-level analysis, you can run a two-step workflow:
+
+1. **Regional run** with `--focus_country` to extract border prices
+2. **Single-country run** using those prices as fixed external inputs
+
+### Step 1: Run Regional Model with Focus Country
+
+```bash
+python epm.py --folder_input data_test --focus_country DRC
+```
+
+This runs the full regional model and generates single-country input files in `folder_input`:
+
+```text
+input/data_test/
+├── config_drc.csv                    # Modified config for single-country run
+└── single_country_drc/
+    ├── zcmap_drc.csv                 # Only DRC zones
+    ├── zext_drc.csv                  # Neighbors as external zones
+    ├── pTradePrice_drc.csv           # Border prices from pHourlyPrice
+    ├── pExtTransferLimit_drc.csv     # Cross-border capacities
+    └── pTransferLimit_drc.csv        # Internal transmission only
+```
+
+### Step 2: Run Single-Country Model
+
+```bash
+python epm.py --folder_input data_test --config config_drc.csv
+```
+
+The single-country model treats neighboring countries as external zones with fixed prices from the regional run.
+
+### How It Works
+
+- **Neighbors identified** from both `pTransferLimit.csv` (existing) and `pNewTransmission.csv` (candidate lines)
+- **Border prices** extracted from `pHourlyPrice` output, pivoted to `pTradePrice` format
+- **Multi-zone countries** supported (e.g., DRC includes both `DRC` and `DRC_South` zones)
+- **Price interpolation** handled automatically by input treatment for missing years
+
+### CLI Reference
+
+| Argument          | Description                                                      |
+|-------------------|------------------------------------------------------------------|
+| `--focus_country` | Country code to generate single-country inputs for (e.g., `DRC`) |
+
+---
+
+## D. Monte-Carlo analysis (ongoing development)
 
 EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.
 

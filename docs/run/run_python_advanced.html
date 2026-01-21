@@ -1287,8 +1287,35 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#c-monte-carlo-analysis-ongoing-development">
-   C. Monte-Carlo analysis (ongoing development)
+  <a class="reference internal nav-link" href="#c-single-country-runs-with-border-prices">
+   C. Single-Country Runs with Border Prices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-run-regional-model-with-focus-country">
+     Step 1: Run Regional Model with Focus Country
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2-run-single-country-model">
+     Step 2: Run Single-Country Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-it-works">
+     How It Works
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cli-reference">
+     CLI Reference
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#d-monte-carlo-analysis-ongoing-development">
+   D. Monte-Carlo analysis (ongoing development)
   </a>
  </li>
 </ul>
@@ -1476,8 +1503,65 @@ pVREProfile,TRUE
 </ul>
 </section>
 </section>
-<section id="c-monte-carlo-analysis-ongoing-development">
-<h2>C. Monte-Carlo analysis (ongoing development)<a class="headerlink" href="#c-monte-carlo-analysis-ongoing-development" title="Permalink to this heading">#</a></h2>
+<section id="c-single-country-runs-with-border-prices">
+<h2>C. Single-Country Runs with Border Prices<a class="headerlink" href="#c-single-country-runs-with-border-prices" title="Permalink to this heading">#</a></h2>
+<p>For detailed country-level analysis, you can run a two-step workflow:</p>
+<ol class="arabic simple">
+<li><p><strong>Regional run</strong> with <code class="docutils literal notranslate"><span class="pre">--focus_country</span></code> to extract border prices</p></li>
+<li><p><strong>Single-country run</strong> using those prices as fixed external inputs</p></li>
+</ol>
+<section id="step-1-run-regional-model-with-focus-country">
+<h3>Step 1: Run Regional Model with Focus Country<a class="headerlink" href="#step-1-run-regional-model-with-focus-country" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--focus_country<span class="w"> </span>DRC
+</pre></div>
+</div>
+<p>This runs the full regional model and generates single-country input files in <code class="docutils literal notranslate"><span class="pre">folder_input</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>input/data_test/
+├── config_drc.csv                    # Modified config for single-country run
+└── single_country_drc/
+    ├── zcmap_drc.csv                 # Only DRC zones
+    ├── zext_drc.csv                  # Neighbors as external zones
+    ├── pTradePrice_drc.csv           # Border prices from pHourlyPrice
+    ├── pExtTransferLimit_drc.csv     # Cross-border capacities
+    └── pTransferLimit_drc.csv        # Internal transmission only
+</pre></div>
+</div>
+</section>
+<section id="step-2-run-single-country-model">
+<h3>Step 2: Run Single-Country Model<a class="headerlink" href="#step-2-run-single-country-model" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>epm.py<span class="w"> </span>--folder_input<span class="w"> </span>data_test<span class="w"> </span>--config<span class="w"> </span>config_drc.csv
+</pre></div>
+</div>
+<p>The single-country model treats neighboring countries as external zones with fixed prices from the regional run.</p>
+</section>
+<section id="how-it-works">
+<h3>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Neighbors identified</strong> from both <code class="docutils literal notranslate"><span class="pre">pTransferLimit.csv</span></code> (existing) and <code class="docutils literal notranslate"><span class="pre">pNewTransmission.csv</span></code> (candidate lines)</p></li>
+<li><p><strong>Border prices</strong> extracted from <code class="docutils literal notranslate"><span class="pre">pHourlyPrice</span></code> output, pivoted to <code class="docutils literal notranslate"><span class="pre">pTradePrice</span></code> format</p></li>
+<li><p><strong>Multi-zone countries</strong> supported (e.g., DRC includes both <code class="docutils literal notranslate"><span class="pre">DRC</span></code> and <code class="docutils literal notranslate"><span class="pre">DRC_South</span></code> zones)</p></li>
+<li><p><strong>Price interpolation</strong> handled automatically by input treatment for missing years</p></li>
+</ul>
+</section>
+<section id="cli-reference">
+<h3>CLI Reference<a class="headerlink" href="#cli-reference" title="Permalink to this heading">#</a></h3>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Argument</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--focus_country</span></code></p></td>
+<td><p>Country code to generate single-country inputs for (e.g., <code class="docutils literal notranslate"><span class="pre">DRC</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<hr class="docutils" />
+<section id="d-monte-carlo-analysis-ongoing-development">
+<h2>D. Monte-Carlo analysis (ongoing development)<a class="headerlink" href="#d-monte-carlo-analysis-ongoing-development" title="Permalink to this heading">#</a></h2>
 <p>EPM allows you to run Monte Carlo simulations to test how uncertainties (like fuel prices or demand) affect your results. This feature currently works only via the Python interface and is still under development.</p>
 <p>What the code does is:</p>
 <ul class="simple">
@@ -1631,8 +1715,35 @@ Example file: <a class="reference external" href="https://github.com/ESMAP-World
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#c-monte-carlo-analysis-ongoing-development">
-   C. Monte-Carlo analysis (ongoing development)
+  <a class="reference internal nav-link" href="#c-single-country-runs-with-border-prices">
+   C. Single-Country Runs with Border Prices
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-run-regional-model-with-focus-country">
+     Step 1: Run Regional Model with Focus Country
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2-run-single-country-model">
+     Step 2: Run Single-Country Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#how-it-works">
+     How It Works
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cli-reference">
+     CLI Reference
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#d-monte-carlo-analysis-ongoing-development">
+   D. Monte-Carlo analysis (ongoing development)
   </a>
  </li>
 </ul>
