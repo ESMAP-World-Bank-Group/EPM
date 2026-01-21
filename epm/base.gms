@@ -203,6 +203,7 @@ Parameters
    fEnableCapacityExpansion
    fApplyRampConstraint           'Enable ramping constraints'
    fApplyFuelConstraint           'Enable fuel availability limits'
+   fApplyGenerationPhaseout       'Enable max generation by fuel constraint (phase-out)'
    fApplyCapitalConstraint        'Enable total capital constraint'
    fEnableCSP                     'Enable CSP features'
    fEnableStorage                 'Enable storage operations'
@@ -418,6 +419,7 @@ Equations
 * ------------------------------
    eFuel(z,f,y)                   'Fuel consumption accounting'
    eFuelLimit(c,f,y)              'Fuel availability constraint'
+   eMaxGenerationByFuel(z,tech,f,y) 'Maximum annual generation by zone-tech-fuel [GWh]'
 
 * ------------------------------
 * Ramp and reserve constraints
@@ -477,6 +479,7 @@ Equations
    eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
+   eStorageFixedDuration(g,y)          'Fixed storage duration when specified'
    eStorageHourTransition
    eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
    eStorageSOCInitDispatch
@@ -777,6 +780,10 @@ eFuel(zfmap(z,f),y)..
 eFuelLimit(c,f,y)$(fApplyFuelConstraint and pMaxFuelLimit(c,f,y) > 0)..
    sum((zcmap(z,c),zfmap(z,f)), vFuel(z,f,y)) =l= pMaxFuelLimit(c,f,y)*1e6;
 
+* Phase-out constraint: limits annual generation by zone-technology-fuel combination
+eMaxGenerationByFuel(z,tech,f,y)$(fApplyGenerationPhaseout and pMaxGenerationByFuel(z,tech,f,y))..
+   sum((gzmap(g,z),gtechmap(g,tech),gfmap(g,f),q,d,t), vPwrOut(g,f,q,d,t,y)*pHours(q,d,t))/1e3 =l= pMaxGenerationByFuel(z,tech,f,y);
+
 * Applies the minimum output requirement per capacity share.
 eMinGen(g,q,d,t,y)$((fApplyMinGenShareAllHours and pGenData(g,"MinGenShareAllHours") > 0) and FD(q,d,t))..
     sum(gfmap(g,f), vPwrOut(g,f,q,d,t,y)) =g= vCap(g,y)*pGenData(g,"MinGenShareAllHours");
@@ -979,6 +986,10 @@ eSOCUpperBound(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
 eStorageCapMinConstraint(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vCapStor(st,y) =g= vCap(st,y);
 
+* Enforces fixed storage duration when StorageDuration parameter is specified
+eStorageFixedDuration(st,y)$(fEnableStorage and pStorageData(st,"StorageDuration"))..
+   vCapStor(st,y) =e= vCap(st,y) * pStorageData(st,"StorageDuration");
+
 * Charging power ≤ power capacity
 eChargeCapacityLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorInj(st,q,d,t,y) =l= vCap(st,y);
@@ -1074,6 +1085,7 @@ eCSPStorageInitialBalance(cs,q,d,sFirstHour(t),y)$((fEnableCSP) and FD(q,d,t))..
 * Tracks storage energy capacity builds/retirements.
 * ------------------------------
 
+* TODO: Why is it defined for all generators (g) rather than just storage (st)?
 * Limits total installed storage capacity to predefined technical data from pStorageData and CSP-related capacity from pCSPData. Only applies if storage is included (fEnableStorage).
 eCapacityStorLimit(g,y)$fEnableStorage..
    vCapStor(g,y) =l= pStorageData(g,"CapacityMWh") + pCSPData(g,"Storage","CapacityMWh");
@@ -1209,6 +1221,7 @@ Model PA /
    
    eVREProfile
    eFuelLimit
+   eMaxGenerationByFuel
    eCapitalConstraint
    eZonalEmissions
    eEmissionsCountry
@@ -1234,6 +1247,7 @@ Model PA /
    
    eSOCUpperBound
    eStorageCapMinConstraint
+   eStorageFixedDuration
    eChargeCapacityLimit
    eChargeLimitWithPVProfile
    eChargeRampDownLimit

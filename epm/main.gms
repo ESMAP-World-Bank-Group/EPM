@@ -167,12 +167,17 @@ Parameter
    pTechFuel(tech<,f<,pTechFuelHeader)                    'Technology-fuel specifications'
    pGenDataInput(*,z,tech,f,pGenDataInputHeader)       'Generator data from Excel input'
    pGenDataInputDefault(z,tech,f,pGenDataInputHeader)    'Default generator data by zone/tech/fuel'
+   pGenDataInputGeneric(tech,f,pGenDataInputHeader)     'Generic generator data by tech/fuel'
    pCapexTrajectoriesDefault(z,tech,f,y)                 'Default CAPEX trajectories'
+   pCapexTrajectoriesGeneric(tech,f,y)                   'Generic CAPEX trajectories by tech/fuel'
    pCapexTrajectories(g,y)                               'Generator CAPEX trajectories'
+   pAvailabilityGeneric(tech,f)                        'Generic availability factors by tech/fuel'
    pAvailabilityDefault(z,tech,f,q)                      'Default availability factors'
    
 * Storage data
    pStorageDataInput(*,z,tech,f,pStorageDataHeader)          'Storage unit specifications'
+   pStorageDataInputDefault(z,tech,f,pStorageDataHeader)     'Default storage data by zone/tech/fuel'
+   pStorageDataInputGeneric(tech,f,pStorageDataHeader)       'Generic storage data by tech/fuel'
    
 * CSP and technology data
    pCSPData(g,pCSPDataHeader,pStorageDataHeader)           'Concentrated solar power data'
@@ -180,6 +185,7 @@ Parameter
 * Fuel data
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
    pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
+   pMaxGenerationByFuel(z,tech,f,y)                      'Max annual generation by zone-tech-fuel [GWh]'
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
 * Storage and transmission
@@ -252,6 +258,7 @@ $load pGenDataInputHeader, pTechFuel, pStorageDataHeader,
 $load g<pGenDataInput.Dim1
 $load pGenDataInput gmap
 $load pGenDataInputDefault pAvailabilityDefault pCapexTrajectoriesDefault
+$load pGenDataInputGeneric pAvailabilityGeneric pCapexTrajectoriesGeneric
 $load pSettings
 
 * Load demand data
@@ -260,10 +267,10 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
-$load pStorageDataInput pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
+$load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
 $load pPlanningReserveMargin  
 
 * Load trade data
@@ -284,24 +291,24 @@ $if not errorfree $abort CONNECT ERROR in input_readers.gms
 $if %DEBUG%==1 $log Debug mode active: exporting loading input to input_loaded.gdx
 $if %DEBUG%==1 $gdxunload input_loaded.gdx
 
-
 *-------------------------------------------------------------------------------------
 * Merge storage units from pStorageDataInput into generator structures
 * This ensures all units (generators + storage) are in set g and have consistent data
 *-------------------------------------------------------------------------------------
+$onMulti
 
-* Merge storage into gmap so storage units have zone/tech/fuel mappings
-gmap(g,z,tech,f)$pStorageDataInput(g,z,tech,f,'Status') = yes;
+$onEmbeddedCode Python:
+import sys, os
 
-* Fill pGenDataInput with storage data for common fields
-* This ensures pGenData(g,header) includes storage units
-* Loop over pGenDataInputHeader and copy values where header exists in both sets
-loop(pGenDataInputHeader,
-    pGenDataInput(g,z,tech,f,pGenDataInputHeader)$pStorageDataInput(g,z,tech,f,'Status')
-        = sum(pStorageDataHeader$sameas(pStorageDataHeader,pGenDataInputHeader),
-              pStorageDataInput(g,z,tech,f,pStorageDataHeader));
-);
+gms_dir = os.path.normpath(r"%modeldir%/")
+if gms_dir not in sys.path:
+    sys.path.insert(0, gms_dir)
 
+from input_treatment import merge_storage_into_gendata
+merge_storage_into_gendata(gams)
+$offEmbeddedCode
+
+$offMulti
 *-------------------------------------------------------------------------------------
 
 * Make input verification
@@ -356,8 +363,7 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 $gdxunload input_treated.gdx 
+$gdxunload input_treated.gdx 
 
 $if not errorFree $abort Data errors.
 
@@ -463,6 +469,7 @@ fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
+fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
 fEnableCSP                         = pSettings("fEnableCSP");
 fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");
@@ -708,7 +715,15 @@ vCap.up(g,y) = pGenData(g,"Capacity");
 vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 
 * Set the upper limit for new generation builds per year, accounting for the annual build limit and year weighting
-vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+* Exclude committed generators - they use Capacity directly, not BuildLimitperYear
+vBuild.up(ng,y)$(not gstatusmap(ng,'committed')) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+
+* Force committed generators (status=2) to be built at their start year.
+* Unlike candidates, committed generators are not optional - they must be built.
+* They remain in ng(g) so their CAPEX is included in total cost (unlike existing generators).
+* Note: BuildLimitperYear is ignored for committed generators - full capacity is built at StYr.
+vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
+vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");

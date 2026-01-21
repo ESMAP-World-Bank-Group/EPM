@@ -4,7 +4,7 @@ Cplex file in the folder_input/cplex dir,cplexfile,cplex/cplex_baseline.opt
 ,GENERAL,
 Global model switches and financial defaults (Unit: parameter-specific),pSettings,pSettings.csv
 Planning horizon years (Unit: year),y,y.csv
-Mapping between model zones and countries (Unit: unitless),zcmap,zcmap.csv
+Mapping between model zones and countries (Unit: unitless),zcmap,single_country_drc/zcmap_drc.csv
 Representative hours per timeslice for weighting (Unit: hours),pHours,pHours.csv
 ,LOAD,
 "Normalized demand profile by season, daytype, and hour (Unit: per-unit share)",pDemandProfile,load/pDemandProfile.csv
@@ -33,17 +33,16 @@ System-wide spinning reserve requirement (Unit: MW),pSpinningReserveReqSystem,re
 System-level annual emissions cap (Unit: tCO2),pEmissionsTotal,constraint/pEmissionsTotal.csv
 Country-level annual emissions caps (Unit: tCO2),pEmissionsCountry,constraint/pEmissionsCountry.csv
 Maximum fuel consumption limits by zone and fuel (Unit: MMBtu),pMaxFuellimit,constraint/pMaxFuellimit.csv
-Maximum generation by zone-tech-fuel for phase-out scenarios (Unit: GWh),pMaxGenerationByFuel,constraint/pMaxGenerationByFuel.csv
 Carbon pricing trajectory (Unit: USD/tCO2),pCarbonPrice,constraint/pCarbonPrice.csv
 ,TRADE,
-External trading zones (Unit: unitless),zext,trade/zext.csv
-Seasonal import and export limits with external zones (Unit: MW),pExtTransferLimit,trade/pExtTransferLimit.csv
+External trading zones (Unit: unitless),zext,single_country_drc/zext_drc.csv
+Seasonal import and export limits with external zones (Unit: MW),pExtTransferLimit,single_country_drc/pExtTransferLimit_drc.csv
 Internal network loss factors by corridor (Unit: per-unit loss share),pLossFactorInternal,trade/pLossFactorInternal.csv
 Maximum share of annual demand supplied by external trade (Unit: per-unit share),pMaxAnnualExternalTradeShare,trade/pMaxAnnualExternalTradeShare.csv
 Minimum transfer requirement between zones (Unit: MW),pMinImport,trade/pMinImport.csv
 "Candidate interconnection projects (Unit: varies; capacity in MW, cost in USD million)",pNewTransmission,trade/pNewTransmission.csv
-Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,trade/pTradePrice.csv
-Internal transmission capacity limits (Unit: MW),pTransferLimit,trade/pTransferLimit.csv
+Border price for imports and exports by external zone (Unit: USD/MWh),pTradePrice,single_country_drc/pTradePrice_drc.csv
+Internal transmission capacity limits (Unit: MW),pTransferLimit,single_country_drc/pTransferLimit_drc.csv
 ,H2,
 "Hydrogen asset data (Unit: varies; capacity in MW, cost in USD/MW)",pH2DataExcel,h2/pH2DataExcel.csv
 Hydrogen technology availability factors (Unit: per-unit availability),pAvailabilityH2,h2/pAvailabilityH2.csv

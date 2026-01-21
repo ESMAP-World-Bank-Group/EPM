@@ -49,6 +49,7 @@ import pandas as pd
 from .utils import *
 from .plots import *
 from .maps import make_automatic_map
+from .create_geojson import create_geojson_for_tableau
 from .assessment import (
     make_assessment_capacity_diff,
     make_assessment_cost_diff,
@@ -56,6 +57,7 @@ from .assessment import (
     make_assessment_energy_mix_diff,
     make_assessment_heatmap,
     make_assessment_npv_comparison,
+    make_assessment_cost_template_csv,
 )
 
 
@@ -78,36 +80,38 @@ make_fuel_dispatchplot = _wrap_plot_function(make_fuel_dispatchplot)
 make_heatmap_plot = _wrap_plot_function(make_heatmap_plot)
 heatmap_plot = _wrap_plot_function(heatmap_plot)
 make_line_plot = _wrap_plot_function(make_line_plot)
-#make_automatic_map = _wrap_plot_function(make_automatic_map)
-
+make_automatic_map = _wrap_plot_function(make_automatic_map)
 
 
 # Used to not load all the parameters in epm_results.gdx for memory purpose
+# Note: Country-level aggregates (e.g., pCapacityTechFuelCountry) are computed
+# from zone-level data using pZoneCountry mapping in generate_summary()
 KEYS_RESULTS = {
     # 1. Capacity expansion
-    'pCapacityPlant', 
-    'pCapacityTechFuel', 'pCapacityTechFuelCountry',
-    'pNewCapacityTechFuel', 'pNewCapacityTechFuelCountry',
-    'pAnnualTransmissionCapacity', 'pNewTransmissionCapacity',
+    'pCapacityPlant',
+    'pCapacityTechFuel',
+    'pNewCapacityTechFuel',
+    'pTransmissionCapacity', 'pNewTransmissionCapacity',
     # 2. Cost
-    'pPrice', 'pYearlyPrice',
+    'pHourlyPrice', 'pPrice',
     'pCapexInvestmentComponent', 'pCapexInvestmentPlant',
-    'pCostsPlant',  
-    'pYearlyCostsZone', 'pYearlyCostsCountry',
-    'pCostsZone', 'pCostsSystem', 'pCostsSystemPerMWh',
-    'pCostsZonePerMWh', 'pCostsCountryPerMWh',
-    'pFuelCosts', 'pFuelCostsCountry', 'pFuelConsumption', 'pFuelConsumptionCountry',
-    'pYearlyGenCostZonePerMWh',
+    'pCostsPlant',
+    'pCosts', 'pCostsPerMWh',
+    'pCostsSystem',
+    'pNetPresentCost', 'pNetPresentCostSystem', 'pNetPresentCostSystemPerMWh',
+    'pNetPresentCostPerMWh',
+    'pFuelCosts', 'pFuelConsumption',
+    'pGenCostsPerMWh',
     # 3. Energy balance
-    'pEnergyPlant', 'pEnergyTechFuel', 'pEnergyTechFuelCountry',
+    'pEnergyPlant', 'pEnergyTechFuel',
     'pEnergyTechFuelComplete',
     'pEnergyBalance',
     'pUtilizationPlant', 'pUtilizationTechFuel',
     # 4. Energy dispatch
     'pDispatchPlant', 'pDispatch', 'pDispatchTechFuel',
     # 5. Reserves
-    'pReserveSpinningPlantZone', 'pReserveSpinningPlantCountry',
-    'pReserveMarginCountry',
+    'pReserveSpinningPlantZone',
+    'pReserveMargin',
     # 6. Interconnections
     'pInterchange', 'pInterconUtilization', 'pCongestionShare',
     'pInterchangeExternalExports', 'pInterchangeExternalImports',
@@ -116,17 +120,11 @@ KEYS_RESULTS = {
     'pEmissionsZone', 'pEmissionsIntensityZone',
     # 10. Metrics
     'pPlantAnnualLCOE',
-    'pCostsZonePerMWh',
-    'pCostsCountryPerMWh',
-    'pDiscountedDemandZoneMWh',
-    'pDiscountedDemandCountryMWh',
-    'pDiscountedDemandSystemMWh',
-    'pYearlyCostsZonePerMWh',
-    'pYearlyCostsCountryPerMWh',
-    'pYearlyCostsSystemPerMWh',
     # 11. Other
     'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry',
-    'pDemandEnergyZone', 'pDemandPeakZone'
+    'pDemandEnergyZone', 'pDemandPeakZone',
+    # 12. Year weights and discount factors (for assessment template)
+    'pWeightYear', 'pRR'
 }
 
 
@@ -505,7 +503,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
         return not any(sample in col for sample in samples_mc_substrings)
     original_scenarios = [c for c in simulations_scenarios.columns if is_not_subset(c)]
 
-    df_summary = epm_results['pCostsSystem'].copy()
+    df_summary = epm_results['pNetPresentCostSystem'].copy()
     df_summary = df_summary.loc[df_summary.attribute.isin(['NPV of system cost: $m'])]
     df_summary_baseline = df_summary.loc[df_summary.scenario.isin(original_scenarios)]
     df_summary_baseline = df_summary_baseline.drop(columns=['attribute']).set_index('scenario')
@@ -523,7 +521,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                 format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                 annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-    df_cost_summary = epm_results['pYearlyCostsZone'].copy()
+    df_cost_summary = epm_results['pCosts'].copy()
     # df_cost_summary = df_cost_summary.loc[df_cost_summary.attribute.isin(['Total Annual Cost by Zone: $m'])]
     df_cost_summary_baseline = df_cost_summary.loc[df_cost_summary.scenario.isin(original_scenarios)]
     df_cost_summary['scenario_mapping'] = df_cost_summary.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -537,7 +535,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                         "VRE curtailment: $m", "Import costs wiht external zones: $m", "Export revenues with external zones: $m",
                         # "Import costs with internal zones: $m", "Export revenues with internal zones: $m"
                         ]
-    df_cost_summary_no_trade = epm_results['pYearlyCostsZoneFull'].copy()
+    df_cost_summary_no_trade = epm_results['pCostsFull'].copy()
     df_cost_summary_no_trade = df_cost_summary_no_trade.loc[df_cost_summary_no_trade.attribute.isin(costs_notrade)]
     df_cost_summary_baseline_notrade = df_cost_summary_no_trade.loc[(df_cost_summary_no_trade.scenario.isin(original_scenarios))]
     df_cost_summary_no_trade['scenario_mapping'] = df_cost_summary_no_trade.apply(lambda row: next(c for c in original_scenarios if c in row['scenario']), axis=1)
@@ -580,7 +578,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
         .reset_index()
     )  # adding elements which only have error bars
 
-    years = sorted(epm_results['pYearlyCostsZone']['year'].unique())
+    years = sorted(epm_results['pCosts']['year'].unique())
 
     n = len(years)
     middle_index = n // 2
@@ -613,7 +611,7 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
                                     format_y=lambda y, _: '{:.0f} m$'.format(y), order_stacked=None, cap=2,
                                     annotate=False, show_total=False, fonttick=12, rotation=45, title=None)
 
-    zones = epm_results['pYearlyCostsZone']['zone'].unique()
+    zones = epm_results['pCosts']['zone'].unique()
     for zone in zones:
         # Only interested in subset of years
         df_cost_summary_baseline = df_cost_summary_baseline.loc[df_cost_summary_baseline.year.isin(years)]
@@ -671,7 +669,8 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
 
 def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                        plot_dispatch=True, scenario_reference='baseline', graphs_folder='img',
-                       montecarlo=False, reduce_definition_csv=False, logger=None):
+                       montecarlo=False, reduce_definition_csv=False, logger=None,
+                       focus_country=None, folder_input=None):
     
     active_logger = logger or logging.getLogger("epm.postprocess")
     previous_logger = get_default_logger()
@@ -760,11 +759,25 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
 
     keys_results = KEYS_RESULTS
     if montecarlo:
-        keys_results = {'pCostsSystem', 'pYearlyCostsZone', 'pYearlyCostsZoneFull', 'pEnergyBalance'}
+        keys_results = {'pNetPresentCostSystem', 'pCosts', 'pCostsFull', 'pEnergyBalance'}
 
     # Process results
     RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
         FOLDER, keys_results=keys_results)
+
+    # Generate single-country inputs if focus_country is specified
+    if focus_country and folder_input:
+        from .single_country import generate_single_country_inputs
+        log_info(f"Generating single-country inputs for: {focus_country}", logger=active_logger)
+        hourly_price_df = epm_results.get('pHourlyPrice')
+        generate_single_country_inputs(
+            folder_input=Path(folder_input),
+            folder_output=Path(RESULTS_FOLDER),
+            country=focus_country,
+            hourly_price_df=hourly_price_df,
+            scenario_reference=scenario_reference
+        )
+        log_info(f"Single-country inputs generated for: {focus_country}", logger=active_logger)
 
     # Beautify scenario names selectively (sensitivity only, keep assessment unchanged)
     from .assessment import _beautify_scenario_name
@@ -1053,8 +1066,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                         )
 
                         df_transmission_zone = pd.DataFrame()
-                        if 'pAnnualTransmissionCapacity' in epm_results:
-                            df_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                        if 'pTransmissionCapacity' in epm_results:
+                            df_transmission = epm_results['pTransmissionCapacity'].copy()
                             if 'scenario' in df_transmission.columns:
                                 df_transmission = df_transmission[df_transmission['scenario'] == scenario]
                             else:
@@ -1127,7 +1140,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 df_generation_system = df_generation_system[
                     df_generation_system['scenario'] == scenario
                 ].copy()
-                if df_generation_system.empty and 'pAnnualTransmissionCapacity' not in epm_results:
+                if df_generation_system.empty and 'pTransmissionCapacity' not in epm_results:
                     continue
 
                 if not df_generation_system.empty:
@@ -1137,8 +1150,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
 
                 df_transmission_system = pd.DataFrame()
-                if 'pAnnualTransmissionCapacity' in epm_results:
-                    df_transmission = epm_results['pAnnualTransmissionCapacity'].copy()
+                if 'pTransmissionCapacity' in epm_results:
+                    df_transmission = epm_results['pTransmissionCapacity'].copy()
                     if 'scenario' in df_transmission.columns:
                         df_transmission = df_transmission[df_transmission['scenario'] == scenario]
                     else:
@@ -1203,7 +1216,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
              
             figure_name = 'PriceBaselineByZone'
             if is_figure_active(figure_name):
-                df_price = epm_results['pYearlyPrice'].copy()    
+                df_price = epm_results['pPrice'].copy()    
                 df_price = df_price[df_price['scenario'] == scenario_reference]
                 df_price = (
                     df_price[['year', 'zone', 'value']]
@@ -1223,7 +1236,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             
             # 2.0 Total system cost
             if len(selected_scenarios) < scenarios_threshold:
-                df = epm_results['pCostsSystem'].copy()
+                df = epm_results['pNetPresentCostSystem'].copy()
                 # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
                 df = df.loc[df.attribute != 'NPV of system cost: $m']
                 # Group reserve cost attributes into one unique attribute and sum the value
@@ -1276,7 +1289,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                 show_total=True)
 
                 
-                df = epm_results['pCostsZone'].copy()
+                df = epm_results['pNetPresentCost'].copy()
                 # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
                 df = df.loc[df.attribute != 'NPV of system cost: $m']
                 # Group reserve cost attributes into one unique attribute and sum the value
@@ -1328,7 +1341,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     title='Additional System Cost vs. Baseline (NPV, million USD)', 
                                                     show_total=True)  
                 
-                df = epm_results['pCostsZonePerMWh'].copy()
+                df = epm_results['pNetPresentCostPerMWh'].copy()
                 # Remove rows with attribute == 'NPV of system cost: $m' to avoid double counting
                 df = df.loc[df.attribute != 'NPV of system cost: $m']
                 # Group reserve cost attributes into one unique attribute and sum the value
@@ -1380,7 +1393,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                                                     title='Additional Cost per Scenario vs. Baseline (USD/MWh)', 
                                                     show_total=True)
                             
-            df_costzone = epm_results['pYearlyCostsZone'].copy()
+            df_costzone = epm_results['pCosts'].copy()
             # Group reserve cost attributes into one unique attribute and sum the value
             df_costzone = simplify_attributes(df_costzone, "Unmet reserve costs: $m", RESERVE_ATTRS)
             # Group trade components into one unique attribute and sum the value
@@ -1518,7 +1531,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
  
             # Equivalent cost figures expressed in USD/MWh
-            df_costzone_mwh = epm_results['pYearlyCostsZonePerMWh'].copy()
+            df_costzone_mwh = epm_results['pCostsPerMWh'].copy()
             df_costzone_mwh = simplify_attributes(df_costzone_mwh, "Unmet reserve costs: $m", RESERVE_ATTRS)
             df_costzone_mwh = simplify_attributes(df_costzone_mwh, "Trade costs: $m", TRADE_ATTRS)
             df_costzone_mwh['attribute'] = df_costzone_mwh['attribute'].str.replace(': $m', '', regex=False)
@@ -1608,7 +1621,7 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     )
             
             figure_name = 'GenCostMWhZoneIni'
-            df_gen_cost_zone = epm_results['pYearlyGenCostZonePerMWh'].copy()
+            df_gen_cost_zone = epm_results['pGenCostsPerMWh'].copy()
             df_gen_cost_zone['attribute'] = df_gen_cost_zone['attribute'].str.replace(': $m', '', regex=False)
 
             if nbr_zones > 1 and scenario_reference in df_gen_cost_zone['scenario'].unique():
@@ -2088,9 +2101,25 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             # 6. Interconnection Maps
             # ------------------------------------------------------------------------------------
             if nbr_zones > 1:
+                # Generate Tableau GeoJSON - always runs for multi-zone models
+                try:
+                    zcmap_df = epm_results['pZoneCountry'][['zone', 'country']].drop_duplicates()
+                    selected_zones = list(epm_results['pCapacityTechFuel']['zone'].unique())
+
+                    create_geojson_for_tableau(
+                        geojson_to_epm=dict_specs['geojson_to_epm'],
+                        zcmap=zcmap_df,
+                        selected_zones=selected_zones,
+                        output_path=RESULTS_FOLDER,
+                        dict_specs=dict_specs
+                    )
+                    log_info('Generated Tableau GeoJSON file: linestring_countries.geojson', logger=active_logger)
+                except Exception as e:
+                    log_warning(f'Could not generate Tableau GeoJSON: {e}', logger=active_logger)
+
                 if (
-                    'pAnnualTransmissionCapacity' in epm_results
-                    and epm_results['pAnnualTransmissionCapacity'].zone.nunique() > 0
+                    'pTransmissionCapacity' in epm_results
+                    and epm_results['pTransmissionCapacity'].zone.nunique() > 0
                 ):
 
                         log_info('Generating interactive map figures...', logger=active_logger)
@@ -2152,6 +2181,13 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                 make_assessment_cost_diff(
                     epm_results,
                     dict_specs,
+                    subfolders['7_comparison'],
+                    scenario_pairs,
+                    trade_attrs=TRADE_ATTRS,
+                    reserve_attrs=RESERVE_ATTRS
+                )
+                make_assessment_cost_template_csv(
+                    epm_results,
                     subfolders['7_comparison'],
                     scenario_pairs,
                     trade_attrs=TRADE_ATTRS,

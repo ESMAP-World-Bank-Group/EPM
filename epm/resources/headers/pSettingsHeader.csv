@@ -37,6 +37,7 @@ fApplySystemCo2Constraint
 sMinRenewableSharePct
 sRenewableTargetYear
 fApplyFuelConstraint
+fApplyGenerationPhaseout
 fApplyCapitalConstraint
 sMaxCapitalInvestment
 fApplyMinGenShareAllHours

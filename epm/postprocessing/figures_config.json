@@ -7,7 +7,7 @@
       }
     },
     "capacity": {
-      "enabled": true,
+      "enabled": false,
       "figures": {
         "CapacityMixSystemEvolutionScenarios": true,
         "CapacityMixSystemEvolutionScenariosRelative": true,

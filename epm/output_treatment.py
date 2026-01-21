@@ -18,10 +18,10 @@ Description:
     9. Merging related files into consolidated CSVs (long format):
        - pTechFuelMerged
        - pPlantMerged
-       - pYearlyCostsMerged
+       - pCostsMerged
        - pTransmissionMerged
        - pYearlyZoneMerged
-       - pCostsSystemMerged
+       - pNetPresentCostSystemMerged
     10. Adding country column to zone-based files
     11. Organizing files (essential in main dir, others in 'other/' subdir)
 
@@ -109,19 +109,19 @@ PLANT_FILES = [
 
 # Path to pTechFuelProcessing.csv (relative to epm/ folder)
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'pTechFuelProcessing.csv')
+TECHFUEL_PROCESSING_PATH = os.path.join(_SCRIPT_DIR, 'resources', 'postprocess', 'pTechFuelProcessing.csv')
 
 # Files to fill with all cost components: (file_name, cost_component_column_name)
 # The cost component column is either 'uni' or 'sumhdr' depending on the file
 COST_COMPONENT_FILES = [
-    ('pYearlyCostsZone', 'uni'),
-    ('pYearlyCostsZonePerMWh', 'sumhdr'),
-    ('pCostsZonePerMWh', 'sumhdr'),
-    ('pYearlyCostsCountryPerMWh', 'sumhdr'),
+    ('pCosts', 'uni'),
+    ('pCostsPerMWh', 'sumhdr'),
+    ('pNetPresentCostPerMWh', 'sumhdr'),
     ('pCostsCountryPerMWh', 'sumhdr'),
-    ('pYearlyDiscountedWeightedCostsZone', 'uni'),
-    ('pCostsSystem', 'uni'),
-    ('pCostsSystemPerMWh', 'uni'),
+    ('pNetPresentCostCountryPerMWh', 'sumhdr'),
+    ('pDiscountedWeightedCosts', 'uni'),
+    ('pNetPresentCostSystem', 'uni'),
+    ('pNetPresentCostSystemPerMWh', 'uni'),
 ]
 
 # All cost components from sumhdr set in generate_report.gms
@@ -185,13 +185,13 @@ PLANT_MERGE_FILES = [
     'pCapexInvestmentPlant',
 ]
 
-# YearlyCosts zone files to merge (dimensions: z, uni, y, value)
-# These will be merged into pYearlyCostsMerged.csv (long format)
-YEARLY_COSTS_MERGE_FILES = [
-    'pYearlyCostsZone',
-    'pYearlyDiscountedWeightedCostsZone',
-    'pCostsZonePerMWh',
-    'pYearlyGenCostZonePerMWh',
+# Costs zone files to merge (dimensions: z, uni, y, value)
+# These will be merged into pCostsMerged.csv (long format)
+COSTS_MERGE_FILES = [
+    'pCosts',
+    'pDiscountedWeightedCostsCumulated',
+    'pNetPresentCostPerMWh',
+    'pGenCostsPerMWh',
 ]
 
 # Transmission/interconnection files to merge (dimensions: z, z2, y, value)
@@ -199,9 +199,11 @@ YEARLY_COSTS_MERGE_FILES = [
 TRANSMISSION_MERGE_FILES = [
     'pInterchange',
     'pInterconUtilization',
-    'pAnnualTransmissionCapacity',
+    'pTransmissionCapacity',
     'pAdditionalTransmissionCapacity',
+    'pNewTransmissionCapacity',
     'pCongestionShare',
+    'pNetImport',
 ]
 
 # Yearly zone files to merge (dimensions: z, y, value)
@@ -213,11 +215,27 @@ YEARLY_ZONE_MERGE_FILES = [
     'pEmissionsIntensityZone',
 ]
 
-# System-level cost files to merge (dimensions: uni, value or y, value)
-# These will be merged into pCostsSystemMerged.csv (long format)
-SYSTEM_COSTS_MERGE_FILES = [
-    'pCostsSystem',
-    'pCostsSystemPerMWh',
+# System-level NPV cost files to merge (dimensions: uni, value or y, value)
+# These will be merged into pNetPresentCostSystemMerged.csv (long format)
+SYSTEM_NPV_COSTS_MERGE_FILES = [
+    'pNetPresentCostSystem',
+    'pNetPresentCostSystemPerMWh',
+]
+
+# CAPEX investment component files to merge (dimensions: z, uni, y, value)
+# These will be merged into pCapexInvestmentMerged.csv (long format)
+CAPEX_INVESTMENT_MERGE_FILES = [
+    'pCapexInvestmentComponent',
+    'pCapexInvestmentComponentCumulated',
+]
+
+# Files to include in pSummary.csv (unified summary format)
+# Each file will be transformed to have columns: c, z, attribute, resolution, y, value
+SUMMARY_FILES = [
+    'pNetPresentCostSystemMerged',
+    'pTransmissionMerged',
+    'pTechFuelMerged',
+    'pYearlyZoneMerged',
 ]
 
 # =============================================================================
@@ -230,22 +248,22 @@ SYSTEM_COSTS_MERGE_FILES = [
 PRIMARY_OUTPUT_FILES = [
     'pTechFuelMerged',
     'pPlantMerged',
-    'pYearlyCostsMerged',
+    'pCostsMerged',
     'pTransmissionMerged',
     'pYearlyZoneMerged',
-    'pCostsSystemMerged',
+    'pNetPresentCostSystemMerged',
+    'pCapexInvestmentMerged',
     'pDispatchComplete',
+    'pSummary',
 ]
 
 # Essential standalone files (not merged but needed for analysis)
 ESSENTIAL_FILES = [
     # Prices
+    'pHourlyPrice',
     'pPrice',
     # Settings
     'pSettings',
-    # Investment components
-    'pCapexInvestmentComponent',
-    'pCapexInvestmentComponentCumulated',
 ]
 
 
@@ -262,7 +280,7 @@ def _default_log(message: str) -> None:
 COLUMN_ORDER = ['c', 'z', 'tech', 'f', 'g', 'y', 'uni', 'techfuel']
 
 # Final column order for restructured files
-FINAL_COLUMN_ORDER = ['c', 'z', 'attribute', 'y', 'tech', 'f', 'techfuel']
+FINAL_COLUMN_ORDER = ['c', 'z', 'attribute', 'y', 'tech', 'f', 'techfuel', 'uni']
 
 
 def _reorder_columns(df: pd.DataFrame, preferred_order: List[str] = COLUMN_ORDER) -> pd.DataFrame:
@@ -1162,17 +1180,107 @@ def add_country_to_zone_file(
     return True
 
 
-def organize_output_files(
+def create_summary_csv(
+    output_dir: str,
+    summary_files: Optional[List[str]] = None,
+    log_func: Callable[[str], None] = _default_log
+) -> bool:
+    """
+    Create pSummary.csv by concatenating all merged files into a unified format.
+
+    The output has a consistent structure with columns: c, z, attribute, uni, y, value
+    where the 'uni' column contains contextual information depending on the source:
+    - System costs: cost component (e.g., "Fuel costs: $m")
+    - TechFuel data: techfuel name (e.g., "ST-Coal", "PV")
+    - Transmission data: destination zone (e.g., "Serbia")
+    - Zone data: empty (no sub-breakdown)
+
+    Parameters
+    ----------
+    output_dir : str
+        Path to the directory containing merged CSV files
+    summary_files : list, optional
+        List of merged file names to include. If None, uses SUMMARY_FILES.
+    log_func : callable
+        Logging function (default: print)
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise
+    """
+    if summary_files is None:
+        summary_files = SUMMARY_FILES
+
+    dfs = []
+    for file_name in summary_files:
+        csv_path = os.path.join(output_dir, f"{file_name}.csv")
+        if not os.path.exists(csv_path):
+            log_func(f"[output_treatment]   {file_name}: not found, skipping")
+            continue
+
+        df = pd.read_csv(csv_path)
+        if df.empty:
+            continue
+
+        # Transform based on file type
+        if file_name == 'pNetPresentCostSystemMerged':
+            # System-level: add c, z placeholders, no year
+            df['c'] = 'System'
+            df['z'] = 'System'
+            df['y'] = ''
+            # uni already contains cost component
+
+        elif file_name == 'pTransmissionMerged':
+            # Transmission: uni already contains z2 (destination zone)
+            df = df.drop(columns=['isExternal'], errors='ignore')
+
+        elif file_name == 'pTechFuelMerged':
+            # TechFuel: techfuel goes to uni
+            df['uni'] = df['techfuel']
+            df = df.drop(columns=['tech', 'f', 'techfuel'], errors='ignore')
+
+        elif file_name == 'pYearlyZoneMerged':
+            # Zone-level: uni is empty
+            df['uni'] = ''
+
+        else:
+            # Generic: try to use 'techfuel' for uni if available
+            if 'techfuel' in df.columns:
+                df['uni'] = df['techfuel']
+                df = df.drop(columns=['tech', 'f', 'techfuel'], errors='ignore')
+            elif 'uni' not in df.columns:
+                df['uni'] = ''
+
+        # Select and order final columns
+        final_cols = ['c', 'z', 'attribute', 'uni', 'y', 'value']
+        df = df[[c for c in final_cols if c in df.columns]]
+
+        dfs.append(df)
+        log_func(f"[output_treatment]   {file_name}: {len(df)} rows")
+
+    if not dfs:
+        log_func("[output_treatment]   pSummary.csv: WARNING - no files found to merge")
+        return False
+
+    summary_df = pd.concat(dfs, ignore_index=True)
+    output_path = os.path.join(output_dir, "pSummary.csv")
+    summary_df.to_csv(output_path, index=False)
+    log_func(f"[output_treatment]   pSummary.csv: created ({len(summary_df)} rows from {len(dfs)} files)")
+
+    return True
+
+
+def cleanup_output_files(
     output_dir: str,
     keep_files: Optional[List[str]] = None,
-    other_subdir: str = 'other',
     log_func: Callable[[str], None] = _default_log
 ) -> Tuple[int, int]:
     """
-    Organize output files by moving non-essential CSVs to a subdirectory.
+    Clean up output files by deleting non-essential CSVs.
 
     Files in keep_files list stay in the main directory, all other CSV files
-    are moved to the 'other' subdirectory.
+    are deleted.
 
     Parameters
     ----------
@@ -1181,50 +1289,37 @@ def organize_output_files(
     keep_files : list, optional
         List of file names (without .csv extension) to keep in main directory.
         If None, uses PRIMARY_OUTPUT_FILES + ESSENTIAL_FILES.
-    other_subdir : str
-        Name of subdirectory for other files (default: 'other')
     log_func : callable
         Logging function (default: print)
 
     Returns
     -------
     tuple
-        (kept_count, moved_count) - number of files kept and moved
+        (kept_count, deleted_count) - number of files kept and deleted
     """
-    import shutil
-
     if keep_files is None:
         keep_files = PRIMARY_OUTPUT_FILES + ESSENTIAL_FILES
 
     # Create set of files to keep (with .csv extension)
     keep_set = {f"{name}.csv" for name in keep_files}
 
-    # Create other subdirectory if needed
-    other_dir = os.path.join(output_dir, other_subdir)
-
     # Find all CSV files in output directory
     csv_files = [f for f in os.listdir(output_dir) if f.endswith('.csv')]
 
     kept_count = 0
-    moved_count = 0
+    deleted_count = 0
 
     for csv_file in sorted(csv_files):
         if csv_file in keep_set:
             kept_count += 1
             log_func(f"[output_treatment]   KEEP: {csv_file}")
         else:
-            # Create other directory only when we have files to move
-            if not os.path.exists(other_dir):
-                os.makedirs(other_dir)
-                log_func(f"[output_treatment]   Created subdirectory: {other_subdir}/")
+            file_path = os.path.join(output_dir, csv_file)
+            os.remove(file_path)
+            deleted_count += 1
+            log_func(f"[output_treatment]   DELETE: {csv_file}")
 
-            src_path = os.path.join(output_dir, csv_file)
-            dst_path = os.path.join(other_dir, csv_file)
-            shutil.move(src_path, dst_path)
-            moved_count += 1
-            log_func(f"[output_treatment]   MOVE: {csv_file} -> {other_subdir}/")
-
-    return kept_count, moved_count
+    return kept_count, deleted_count
 
 
 def restructure_and_sort_csv(
@@ -1302,7 +1397,7 @@ def restructure_and_sort_csv(
             df['_techfuel_sort'] = df['techfuel'].map(techfuel_order_map)
             df['_techfuel_sort'] = df['_techfuel_sort'].fillna(len(techfuel_processing_order) + 1000)
             
-            # Build sort order: c, z, attribute, y, then techfuel (exclude g and uni)
+            # Build sort order: c, z, attribute, y, then techfuel (exclude g and resolution)
             priority_cols = ['c', 'z', 'attribute', 'y']
             sort_cols_with_techfuel = [col for col in priority_cols if col in df.columns] + ['_techfuel_sort']
             
@@ -1682,14 +1777,34 @@ def run_output_treatment(
                 df_plant_merged.to_csv(plant_merged_path, index=False)
                 log_func(f"[output_treatment]   pPlantMerged.csv: added techfuel column")
 
-    # Merge YearlyCosts zone files (z, uni, y) -> long format
+
+    # Merge Costs zone files (z, uni, y) -> long format
     merge_csv_files_long(
-        output_dir, YEARLY_COSTS_MERGE_FILES, 'pYearlyCostsMerged',
+        output_dir, COSTS_MERGE_FILES, 'pCostsMerged',
         normalize_cost_component_cols=True, log_func=log_func
     )
 
     # Merge Transmission/interconnection files (z, z2, y) -> long format
     merge_csv_files_long(output_dir, TRANSMISSION_MERGE_FILES, 'pTransmissionMerged', log_func=log_func)
+
+    # Post-process pTransmissionMerged: standardize column names
+    # - Merge z2 into uni (some files have z2, some have uni for destination zone)
+    # - Drop isExternal column (not needed in merged output)
+    transmission_merged_path = os.path.join(output_dir, 'pTransmissionMerged.csv')
+    if os.path.exists(transmission_merged_path):
+        df_trans = pd.read_csv(transmission_merged_path)
+        # If both z2 and uni exist, merge them into uni
+        if 'z2' in df_trans.columns and 'uni' in df_trans.columns:
+            df_trans['uni'] = df_trans['uni'].fillna(df_trans['z2'])
+            df_trans = df_trans.drop(columns=['z2'])
+        # If only z2 exists, rename to uni
+        elif 'z2' in df_trans.columns:
+            df_trans = df_trans.rename(columns={'z2': 'uni'})
+        # Drop isExternal column if present
+        if 'isExternal' in df_trans.columns:
+            df_trans = df_trans.drop(columns=['isExternal'])
+        df_trans.to_csv(transmission_merged_path, index=False)
+        log_func(f"[output_treatment]   pTransmissionMerged.csv: standardized columns (z2 -> uni, dropped isExternal)")
 
     # Merge Yearly zone files (demand, emissions) (z, y) -> long format
     merge_csv_files_long(output_dir, YEARLY_ZONE_MERGE_FILES, 'pYearlyZoneMerged', log_func=log_func)
@@ -1699,9 +1814,10 @@ def run_output_treatment(
     
     # List of files to add: (file_name, attribute_name)
     files_to_add = [
-        ('pYearlyCostsZone', 'YearlyCostsZone'),
-        ('pYearlyCostsZonePerMWh', 'YearlyCostsZonePerMWh'),
-        ('pYearlyGenCostZonePerMWh', 'YearlyGenCostZonePerMWh'),
+        ('pCosts', 'Costs'),
+        ('pCostsPerMWh', 'CostsPerMWh'),
+        ('pGenCostsPerMWh', 'GenCostsPerMWh'),
+        ('pPrice', 'Price'),
         ('pCapexInvestmentComponent', 'CapexInvestmentComponent'),
         ('pCapexInvestmentComponentCumulated', 'CapexInvestmentComponentCumulated'),
     ]
@@ -1710,8 +1826,11 @@ def run_output_treatment(
         file_path = os.path.join(output_dir, f"{file_name}.csv")
         add_total_to_yearly_zone_merged(file_path, attribute_name, yearly_zone_merged_path, log_func=log_func)
 
-    # Merge System costs files -> long format
-    merge_csv_files_long(output_dir, SYSTEM_COSTS_MERGE_FILES, 'pCostsSystemMerged', log_func=log_func)
+    # Merge System NPV costs files -> long format
+    merge_csv_files_long(output_dir, SYSTEM_NPV_COSTS_MERGE_FILES, 'pNetPresentCostSystemMerged', log_func=log_func)
+
+    # Merge CAPEX investment component files -> long format
+    merge_csv_files_long(output_dir, CAPEX_INVESTMENT_MERGE_FILES, 'pCapexInvestmentMerged', log_func=log_func)
 
     # ---------------------------------------------------------
     # 8. Add country column to all zone-based files
@@ -1768,14 +1887,23 @@ def run_output_treatment(
     log_func(f"[output_treatment]   Restructured {restructured_count} files")
 
     # ---------------------------------------------------------
-    # 10. Organize output files (move non-essential to 'other' subdir)
+    # 9b. Create summary CSV (all merged files in unified format)
     # ---------------------------------------------------------
     log_func("")
-    log_func("[output_treatment] STEP 10: Organizing output files")
+    log_func("[output_treatment] STEP 9b: Creating summary CSV")
     log_func("-" * 60)
 
-    kept_count, moved_count = organize_output_files(output_dir, log_func=log_func)
-    log_func(f"[output_treatment]   Summary: {kept_count} files kept, {moved_count} files moved to 'other/'")
+    create_summary_csv(output_dir, log_func=log_func)
+
+    # ---------------------------------------------------------
+    # 10. Clean up output files (delete non-essential files)
+    # ---------------------------------------------------------
+    log_func("")
+    log_func("[output_treatment] STEP 10: Cleaning up output files")
+    log_func("-" * 60)
+
+    kept_count, deleted_count = cleanup_output_files(output_dir, log_func=log_func)
+    log_func(f"[output_treatment]   Summary: {kept_count} files kept, {deleted_count} files deleted")
 
     log_func("")
     log_func("=" * 60)

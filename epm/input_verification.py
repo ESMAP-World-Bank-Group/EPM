@@ -44,7 +44,7 @@ from types import SimpleNamespace
 import gams.transfer as gt
 import pandas as pd
 
-from input_treatment import apply_debug_column_renames, filter_inputs_to_allowed_zones
+from input_treatment import apply_debug_column_renames, filter_inputs_to_allowed_zones, load_generic_defaults
 
 ESSENTIAL_INPUT = [
     "y",
@@ -163,12 +163,19 @@ def run_input_verification(gams):
     _step("Storage data")
     _check_storage_data(gams, db)
     gams.printLog("[input_verification] Storage data completed.")
+    _step("Storage defaults")
+    _check_storage_defaults(gams, db)
+    gams.printLog("[input_verification] Storage defaults completed.")
+    _step("Missing storage default combinations")
+    _warn_missing_storage_default_combinations(gams, db)
     _step("Generation defaults")
     _check_generation_defaults(gams, db)
     gams.printLog("[input_verification] Generation defaults completed.")
     _step("Missing generation default combinations")
     _warn_missing_generation_default_combinations(gams, db)
+    _step("Missing availability default combinations")
     _warn_missing_availability_default_combinations(gams, db)
+    _step("Warning missing build limits")
     _warn_missing_build_limits(gams, db)
 
     gams.printLog("=" * 60)
@@ -1051,6 +1058,106 @@ def _check_storage_data(gams, db):
         raise
 
 
+def _check_storage_defaults(gams, db):
+    """Warn when pStorageDataInputDefault lacks zones present in pStorageDataInput."""
+    try:
+        if "pStorageDataInputDefault" not in db:
+            gams.printLog("[input_verification][storage_defaults] pStorageDataInputDefault not found in database.")
+            return
+        default_param = db["pStorageDataInputDefault"]
+        records = default_param.records
+        if records is None or records.empty:
+            gams.printLog("[input_verification][storage_defaults] pStorageDataInputDefault is empty.")
+            return
+        stor_records = db["pStorageDataInput"].records
+        if stor_records is None or stor_records.empty:
+            return
+        zones_to_include = set(stor_records['z'].unique())
+        fuel_col = 'f' if 'f' in records.columns else 'fuel'
+        for fuel, group in records.groupby(fuel_col, observed=False):
+            zones = set(group['z'].unique())
+            missing = zones_to_include - zones
+            if missing:
+                gams.printLog(
+                    f"Warning: The following zones are declared in pStorageDataInput but are not specified in pStorageDataInputDefault for fuel {fuel}: {missing}."
+                )
+    except ValueError:
+        raise
+    except Exception:
+        gams.printLog('Unexpected error in pStorageDataInputDefault coverage')
+        raise
+
+
+def _warn_missing_storage_default_combinations(gams, db):
+    """Warn when a (zone, tech, fuel) tuple in pStorageDataInput is absent in defaults."""
+    try:
+        if "pStorageDataInputDefault" not in db:
+            return
+        default_records = db["pStorageDataInputDefault"].records
+        stor_records = db["pStorageDataInput"].records
+        if stor_records is None or stor_records.empty:
+            return
+
+        required = (
+            stor_records[['z', 'tech', 'f']]
+            .dropna(subset=['z', 'tech', 'f'])
+            .drop_duplicates()
+        )
+        required_set = set(map(tuple, required.to_records(index=False)))
+
+        # Check zone-specific defaults
+        available_set = set()
+        if default_records is not None and not default_records.empty:
+            fuel_col = 'f' if 'f' in default_records.columns else 'fuel'
+            available = (
+                default_records[['z', 'tech', fuel_col]]
+                .dropna(subset=['z', 'tech', fuel_col])
+                .drop_duplicates()
+                .rename(columns={fuel_col: 'f'})
+            )
+            available_set = set(map(tuple, available.to_records(index=False)))
+
+        missing = required_set - available_set
+
+        # Check generic defaults coverage
+        generic = load_generic_defaults(db, gams.printLog)
+        generic_tech_fuel = set()
+        if "storagedata" in generic:
+            gdf = generic["storagedata"]
+            if "fuel" in gdf.columns:
+                gdf = gdf.rename(columns={"fuel": "f"})
+            generic_tech_fuel = set(zip(gdf["tech"], gdf["f"]))
+
+        # Separate: covered by generic vs truly missing
+        covered_by_generic = []
+        truly_missing = []
+        for z, tech, f in sorted(missing):
+            if (tech, f) in generic_tech_fuel:
+                covered_by_generic.append((z, tech, f))
+            else:
+                truly_missing.append((z, tech, f))
+
+        # Log info for generic-covered combinations
+        if covered_by_generic:
+            preview = covered_by_generic[:10]
+            more = f" (showing {len(preview)} of {len(covered_by_generic)})" if len(covered_by_generic) > 10 else ""
+            gams.printLog(
+                f"Info: {len(covered_by_generic)} storage (zone, tech, fuel) combination(s) will be filled by generic defaults{more}: {preview}"
+            )
+
+        # Warn for truly missing combinations
+        if truly_missing:
+            preview = truly_missing[:10]
+            more = f" (showing {len(preview)} of {len(truly_missing)})" if len(truly_missing) > 10 else ""
+            gams.printLog(
+                f"Warning: pStorageDataInputDefault lacks entries for {len(truly_missing)} (zone, tech, fuel) combination(s) "
+                f"not covered by generic defaults{more}: {preview}. This may create unexpected results."
+            )
+    except Exception:
+        gams.printLog('Unexpected error when checking pStorageDataInputDefault combinations')
+        raise
+
+
 def _check_generation_defaults(gams, db):
     """Warn when pGenDataInputDefault lacks zones present in pGenDataInput."""
     try:
@@ -1081,35 +1188,61 @@ def _warn_missing_generation_default_combinations(gams, db):
     try:
         default_records = db["pGenDataInputDefault"].records
         gen_records = db["pGenDataInput"].records
-        if (
-            default_records is None
-            or default_records.empty
-            or gen_records is None
-            or gen_records.empty
-        ):
+        if gen_records is None or gen_records.empty:
             return
+
         required = (
             gen_records[['z', 'tech', 'f']]
             .dropna(subset=['z', 'tech', 'f'])
             .drop_duplicates()
         )
-        available = (
-            default_records[['z', 'tech', 'f']]
-            .dropna(subset=['z', 'tech', 'f'])
-            .drop_duplicates()
-        )
         required_set = set(map(tuple, required.to_records(index=False)))
-        available_set = set(map(tuple, available.to_records(index=False)))
+
+        # Check zone-specific defaults
+        available_set = set()
+        if default_records is not None and not default_records.empty:
+            available = (
+                default_records[['z', 'tech', 'f']]
+                .dropna(subset=['z', 'tech', 'f'])
+                .drop_duplicates()
+            )
+            available_set = set(map(tuple, available.to_records(index=False)))
+
         missing = required_set - available_set
-        if missing:
-            missing_list = sorted(missing)
-            preview = missing_list[:10]
-            more = ""
-            if len(missing_list) > len(preview):
-                more = f" (showing {len(preview)} of {len(missing_list)})"
+
+        # Check generic defaults coverage
+        generic = load_generic_defaults(db, gams.printLog)
+        generic_tech_fuel = set()
+        if "gendata" in generic:
+            gdf = generic["gendata"]
+            if "fuel" in gdf.columns:
+                gdf = gdf.rename(columns={"fuel": "f"})
+            generic_tech_fuel = set(zip(gdf["tech"], gdf["f"]))
+
+        # Separate: covered by generic vs truly missing
+        covered_by_generic = []
+        truly_missing = []
+        for z, tech, f in sorted(missing):
+            if (tech, f) in generic_tech_fuel:
+                covered_by_generic.append((z, tech, f))
+            else:
+                truly_missing.append((z, tech, f))
+
+        # Log info for generic-covered combinations
+        if covered_by_generic:
+            preview = covered_by_generic[:10]
+            more = f" (showing {len(preview)} of {len(covered_by_generic)})" if len(covered_by_generic) > 10 else ""
             gams.printLog(
-                "Warning: pGenDataInputDefault lacks entries for the following (zone, tech, fuel) combinations "
-                f"present in pGenDataInput{more}: {preview}. No errors will be raised, but this may create unexpected results."
+                f"Info: {len(covered_by_generic)} (zone, tech, fuel) combination(s) will be filled by generic defaults{more}: {preview}"
+            )
+
+        # Warn for truly missing combinations
+        if truly_missing:
+            preview = truly_missing[:10]
+            more = f" (showing {len(preview)} of {len(truly_missing)})" if len(truly_missing) > 10 else ""
+            gams.printLog(
+                f"Warning: pGenDataInputDefault lacks entries for {len(truly_missing)} (zone, tech, fuel) combination(s) "
+                f"not covered by generic defaults{more}: {preview}. This may create unexpected results."
             )
     except Exception:
         gams.printLog('Unexpected error when checking pGenDataInputDefault combinations')
@@ -1121,25 +1254,9 @@ def _warn_missing_availability_default_combinations(gams, db):
     try:
         avail_defaults = db["pAvailabilityDefault"].records
         gen_records = db["pGenDataInput"].records
-        if (
-            avail_defaults is None
-            or avail_defaults.empty
-            or gen_records is None
-            or gen_records.empty
-        ):
+        if gen_records is None or gen_records.empty:
             gams.printLog(
-                "[input_verification][availability] Skipping pAvailabilityDefault coverage check: table missing or empty."
-            )
-            return
-
-        zone_col_defaults = "z" if "z" in avail_defaults.columns else None
-        fuel_col_defaults = "f" if "f" in avail_defaults.columns else ("fuel" if "fuel" in avail_defaults.columns else None)
-        tech_col_defaults = "tech" if "tech" in avail_defaults.columns else None
-
-        if zone_col_defaults is None or fuel_col_defaults is None or tech_col_defaults is None:
-            gams.printLog(
-                "[input_verification][availability] Skipping coverage check: pAvailabilityDefault lacks required columns "
-                f"(have {list(avail_defaults.columns)}; need zone/z, tech, fuel/f)."
+                "[input_verification][availability] Skipping pAvailabilityDefault coverage check: pGenDataInput empty."
             )
             return
 
@@ -1148,27 +1265,61 @@ def _warn_missing_availability_default_combinations(gams, db):
             .dropna(subset=["z", "tech", "f"])
             .drop_duplicates()
         )
-        available = (
-            avail_defaults[[zone_col_defaults, tech_col_defaults, fuel_col_defaults]]
-            .dropna(subset=[zone_col_defaults, tech_col_defaults, fuel_col_defaults])
-            .drop_duplicates()
-            .rename(columns={zone_col_defaults: "z", tech_col_defaults: "tech", fuel_col_defaults: "f"})
-        )
-
         required_set = set(map(tuple, required.to_records(index=False)))
-        available_set = set(map(tuple, available.to_records(index=False)))
+
+        # Check zone-specific defaults
+        available_set = set()
+        if avail_defaults is not None and not avail_defaults.empty:
+            zone_col = "z" if "z" in avail_defaults.columns else None
+            fuel_col = "f" if "f" in avail_defaults.columns else ("fuel" if "fuel" in avail_defaults.columns else None)
+            tech_col = "tech" if "tech" in avail_defaults.columns else None
+
+            if zone_col and fuel_col and tech_col:
+                available = (
+                    avail_defaults[[zone_col, tech_col, fuel_col]]
+                    .dropna(subset=[zone_col, tech_col, fuel_col])
+                    .drop_duplicates()
+                    .rename(columns={zone_col: "z", tech_col: "tech", fuel_col: "f"})
+                )
+                available_set = set(map(tuple, available.to_records(index=False)))
+
         missing = required_set - available_set
-        if missing:
-            missing_list = sorted(missing)
-            preview = missing_list[:10]
-            more = ""
-            if len(missing_list) > len(preview):
-                more = f" (showing {len(preview)} of {len(missing_list)})"
+
+        # Check generic defaults coverage (logging done by load_generic_defaults)
+        generic = load_generic_defaults(db, gams.printLog)
+        generic_tech_fuel = set()
+        if "availability" in generic:
+            gdf = generic["availability"]
+            if "fuel" in gdf.columns:
+                gdf = gdf.rename(columns={"fuel": "f"})
+            generic_tech_fuel = set(zip(gdf["tech"], gdf["f"]))
+
+        # Separate: covered by generic vs truly missing
+        covered_by_generic = []
+        truly_missing = []
+        for z, tech, f in sorted(missing):
+            if (tech, f) in generic_tech_fuel:
+                covered_by_generic.append((z, tech, f))
+            else:
+                truly_missing.append((z, tech, f))
+
+        # Log info for generic-covered combinations
+        if covered_by_generic:
+            preview = covered_by_generic[:10]
+            more = f" (showing {len(preview)} of {len(covered_by_generic)})" if len(covered_by_generic) > 10 else ""
             gams.printLog(
-                "Warning: pAvailabilityDefault lacks entries for the following (zone, tech, fuel) combinations "
-                f"present in pGenDataInput{more}: {preview}. No errors will be raised, but this may create unexpected results."
+                f"Info: {len(covered_by_generic)} (zone, tech, fuel) availability combination(s) will be filled by generic defaults{more}: {preview}"
             )
-        else:
+
+        # Warn for truly missing combinations
+        if truly_missing:
+            preview = truly_missing[:10]
+            more = f" (showing {len(preview)} of {len(truly_missing)})" if len(truly_missing) > 10 else ""
+            gams.printLog(
+                f"Warning: pAvailabilityDefault lacks entries for {len(truly_missing)} (zone, tech, fuel) combination(s) "
+                f"not covered by generic defaults{more}: {preview}. This may create unexpected results."
+            )
+        elif not missing:
             gams.printLog("[input_verification][availability] pAvailabilityDefault covers all (zone, tech, fuel) combinations present in pGenDataInput.")
     except Exception:
         gams.printLog("Unexpected error when checking pAvailabilityDefault combinations")
