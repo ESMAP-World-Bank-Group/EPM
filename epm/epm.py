@@ -966,6 +966,15 @@ def main(test_args=None):
         help="Filter zones to include only those belonging to this country (filters zcmap)"
     )
 
+    parser.add_argument(
+        "--focus_country",
+        type=str,
+        default=None,
+        help="Generate single-country inputs for this country after regional run. "
+             "Creates config_<country>.csv and single_country_<country>/ folder "
+             "with border prices from pHourlyPrice."
+    )
+
     # If test_args is provided (for testing), use it instead of parsing from the command line
     if test_args:
         args = parser.parse_args(test_args)
@@ -998,6 +1007,7 @@ def main(test_args=None):
         logger.info("Debug flag: %s", args.debug)
         logger.info("Trace flag: %s", args.trace)
         logger.info("Country filter: %s", args.country)
+        logger.info("Focus country: %s", args.focus_country)
 
         if args.sensitivity:
             sensitivity = os.path.join(folder_input, 'sensitivity.csv')
@@ -1060,8 +1070,9 @@ def main(test_args=None):
         logger.info("Starting postprocessing for folder: %s", folder)
         postprocess_output(folder, reduced_output=args.reduced_output, scenario_reference=scenario_reference,
                            selected_scenario=args.plot_selected_scenarios, plot_dispatch=args.plot_dispatch,
-                           graphs_folder=args.graphs_folder, montecarlo=args.montecarlo, 
-                           reduce_definition_csv=args.reduce_definition_csv, logger=logger)
+                           graphs_folder=args.graphs_folder, montecarlo=args.montecarlo,
+                           reduce_definition_csv=args.reduce_definition_csv, logger=logger,
+                           focus_country=args.focus_country, folder_input=folder_input)
         logger.info("Postprocessing completed for folder: %s", folder)
 
         # Zip the folder if it exists
