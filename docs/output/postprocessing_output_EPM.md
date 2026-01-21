@@ -10,7 +10,7 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 ## Tips
 
 - Large CSVs can be slimmed down using `reduce_definition_csv` in `postprocessing.py` (keeps first, middle, last year).
-- When `REPORTSHORT = 1`, only `pYearlyCostsZone`, `pYearlyCostsZoneFull`, and `pEnergyBalance` are exported; the tables below assume the default detailed reporting.
+- When `REPORTSHORT = 1`, only `pCosts`, `pCostsFull`, and `pEnergyBalance` are exported; the tables below assume the default detailed reporting.
 
 ## 1. CAPACITY
 
@@ -30,7 +30,7 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | pNewCapacityTech            | Newly added capacity \[MW\] by technology and zone                  | Yes            | No         |
 | pNewCapacityFuelCountry     | Newly added capacity \[MW\] by fuel and country                     | Yes            | Yes        |
 | pNewCapacityTechCountry     | Newly added capacity \[MW\] by technology and country               | Yes            | No         |
-| pAnnualTransmissionCapacity | Total available transmission capacity \[MW\] between internal zones | Yes            | Yes        |
+| pTransmissionCapacity       | Total available transmission capacity \[MW\] between internal zones | Yes            | Yes        |
 | pNewTransmissionCapacity    | Additional transmission capacity \[MW\] between internal zones      | Yes            | Yes        |
 | pCapacitySummary            | Summary of capacity indicators \[MW\] by zone and year              | Yes            | Yes        |
 | pCapacitySummaryCountry     | Summary of capacity indicators \[MW\] by country and year           | Yes            | Yes        |
@@ -44,17 +44,17 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | pCapexInvestmentPlant        | CAPEX investment \[USD\] by plant and component                      | Yes            | Yes        |
 | pCapexInvestmentTransmission | Transmission CAPEX \[USD\] by line and year                          | Yes            | Yes        |
 | pCapexInvestmentComponent    | Annual CAPEX investment \[USD\] by component and zone                | Yes            | Yes        |
-| pPrice                       | Marginal cost \[USD/MWh\] by zone, time, and year                    | Yes            | Yes        |
+| pHourlyPrice                 | Marginal cost \[USD/MWh\] by zone, time, and year                    | Yes            | Yes        |
 | pImportCostsInternal         | Import costs with internal zones \[USD\] by zone and year            | Yes            | No         |
 | pExportRevenuesInternal      | Export revenues with internal zones \[USD\] by zone and year         | Yes            | No         |
 | pCongestionRevenues          | Congestion rents \[USD\] from saturated internal lines by year       | Yes            | No         |
 | pTradeSharedBenefits         | Congestion rents shared equally between zones \[USD\]                | Yes            | No         |
-| pYearlyCostsZone             | Annual cost summary \[million USD\] by zone and year                 | Yes            | Yes        |
-| pYearlyCostsCountry          | Annual cost summary \[million USD\] by country and year              | Yes            | Yes        |
-| pCostsZone                   | Total cost \[million USD\] by zone and cost category                 | Yes            | No         |
-| pCostsSystem                 | System-level cost summary \[million USD\], weighted and discounted   | Yes            | Yes        |
-| pCostsSystemPerMWh           | System-level cost summary \[USD/MWh\], weighted and discounted       | Yes            | Yes        |
-| pYearlyCostsSystem           | Annual system cost summary \[million USD\] by cost category and year | Yes            | No         |
+| pCosts                       | Annual cost summary \[million USD\] by zone and year                 | Yes            | Yes        |
+| pCostsCountry                | Annual cost summary \[million USD\] by country and year              | Yes            | Yes        |
+| pNetPresentCost              | Total cost \[million USD\] by zone and cost category                 | Yes            | No         |
+| pNetPresentCostSystem        | System-level cost summary \[million USD\], weighted and discounted   | Yes            | Yes        |
+| pNetPresentCostSystemPerMWh  | System-level cost summary \[USD/MWh\], weighted and discounted       | Yes            | Yes        |
+| pCostsSystem                 | Annual system cost summary \[million USD\] by cost category and year | Yes            | No         |
 | pFuelCosts                   | Annual fuel costs \[million USD\] by fuel, zone, and year            | Yes            | Yes        |
 | pFuelCostsCountry            | Annual fuel costs \[million USD\] by fuel, country, and year         | Yes            | Yes        |
 | pFuelConsumption             | Annual fuel consumption \[MMBtu\] by fuel, zone, and year            | Yes            | No         |
@@ -130,15 +130,15 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 
 ## 8. PRICES
 
-| Variable                  | Description                                                               | epmresults.gdx | CSV export |
-| ------------------------- | ------------------------------------------------------------------------- | -------------- | ---------- |
-| pYearlyPrice              | Demand-weighted average electricity price \[USD/MWh\] by zone and year    | Yes            | No         |
-| pYearlyPriceExport        | Flow-weighted average export price \[USD/MWh\] by zone and year           | Yes            | No         |
-| pYearlyPriceImport        | Flow-weighted average import price \[USD/MWh\] by zone and year           | Yes            | No         |
-| pYearlyPriceHub           | Flow-weighted hub price \[USD/MWh\] by zone and year                      | Yes            | No         |
-| pYearlyPriceCountry       | Demand-weighted average electricity price \[USD/MWh\] by country and year | Yes            | No         |
-| pYearlyPriceExportCountry | Flow-weighted average export price \[USD/MWh\] by country and year        | Yes            | No         |
-| pYearlyPriceImportCountry | Flow-weighted average import price \[USD/MWh\] by country and year        | Yes            | No         |
+| Variable              | Description                                                               | epmresults.gdx | CSV export |
+| --------------------- | ------------------------------------------------------------------------- | -------------- | ---------- |
+| pPrice                | Demand-weighted average electricity price \[USD/MWh\] by zone and year    | Yes            | No         |
+| pPriceExport          | Flow-weighted average export price \[USD/MWh\] by zone and year           | Yes            | No         |
+| pPriceImport          | Flow-weighted average import price \[USD/MWh\] by zone and year           | Yes            | No         |
+| pPriceHub             | Flow-weighted hub price \[USD/MWh\] by zone and year                      | Yes            | No         |
+| pPriceCountry         | Demand-weighted average electricity price \[USD/MWh\] by country and year | Yes            | No         |
+| pPriceExportCountry   | Flow-weighted average export price \[USD/MWh\] by country and year        | Yes            | No         |
+| pPriceImportCountry   | Flow-weighted average import price \[USD/MWh\] by country and year        | Yes            | No         |
 
 ## 9. SPECIAL TECHNOLOGIES
 
@@ -160,12 +160,12 @@ Unless stated otherwise, the columns `epmresults.gdx` and `CSV export` indicate 
 | Variable                    | Description                                                      | epmresults.gdx | CSV export |
 | --------------------------- | ---------------------------------------------------------------- | -------------- | ---------- |
 | pPlantAnnualLCOE            | Plant-level LCOE \[USD/MWh\] by year                             | Yes            | Yes        |
-| pCostsZonePerMWh            | Zone discounted average cost by component \[USD/MWh\]            | Yes            | Yes        |
-| pCostsCountryPerMWh         | Country discounted average cost by component \[USD/MWh\]         | Yes            | No         |
+| pNetPresentCostPerMWh       | Zone discounted average cost by component \[USD/MWh\]            | Yes            | Yes        |
+| pNetPresentCostCountryPerMWh| Country discounted average cost by component \[USD/MWh\]         | Yes            | No         |
 | pDiscountedDemandZoneMWh    | Discounted electricity demand denominator \[MWh\] by zone        | Yes            | No         |
 | pDiscountedDemandCountryMWh | Discounted electricity demand denominator \[MWh\] by country     | Yes            | No         |
 | pDiscountedDemandSystemMWh  | Discounted electricity demand denominator \[MWh\] for the system | Yes            | No         |
-| pYearlyCostsSystemPerMWh     | System average cost \[USD/MWh\] by year                          | Yes            | No         |
+| pCostsSystemPerMWh          | System average cost \[USD/MWh\] by year                          | Yes            | No         |
 
 ## 11. modeltype PARAMETERS
 

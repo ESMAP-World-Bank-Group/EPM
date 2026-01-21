@@ -477,6 +477,7 @@ Equations
    eNetChargeBalance(g,q,d,t,y)    'Net storage discharge minus charge'
    eSOCUpperBound(g,q,d,t,y)       'State of charge upper bound'
    eStorageCapMinConstraint(g,q,d,t,y) 'Minimum storage energy duration'
+   eStorageFixedDuration(g,y)          'Fixed storage duration when specified'
    eStorageHourTransition
    eStorageDayWrap(g,q,d,t,AT,y) 'Dispatch-only wrap using previous chronological hour'
    eStorageSOCInitDispatch
@@ -979,6 +980,10 @@ eSOCUpperBound(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
 eStorageCapMinConstraint(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vCapStor(st,y) =g= vCap(st,y);
 
+* Enforces fixed storage duration when StorageDuration parameter is specified
+eStorageFixedDuration(st,y)$(fEnableStorage and pStorageData(st,"StorageDuration"))..
+   vCapStor(st,y) =e= vCap(st,y) * pStorageData(st,"StorageDuration");
+
 * Charging power ≤ power capacity
 eChargeCapacityLimit(st,q,d,t,y)$(fEnableStorage and FD(q,d,t))..
    vStorInj(st,q,d,t,y) =l= vCap(st,y);
@@ -1235,6 +1240,7 @@ Model PA /
    
    eSOCUpperBound
    eStorageCapMinConstraint
+   eStorageFixedDuration
    eChargeCapacityLimit
    eChargeLimitWithPVProfile
    eChargeRampDownLimit

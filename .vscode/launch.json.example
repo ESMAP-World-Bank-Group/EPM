@@ -83,6 +83,17 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/epm",
             "args": ["--folder_input", "data_test", "--interco_assessment", "Cameroon-CAR"]
+        },
+        {
+            "name": "EPM: Focus Country (DRC)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/epm/epm.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/epm",
+            "args": ["--folder_input", "data_test", "--simple",
+                     "--focus_country", "DRC",
+                     "--simulation_label", "simulations_test"]
         }
     ]
 }

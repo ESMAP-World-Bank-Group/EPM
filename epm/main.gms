@@ -362,8 +362,7 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 $gdxunload input_treated.gdx 
+$gdxunload input_treated.gdx 
 
 $if not errorFree $abort Data errors.
 
@@ -714,13 +713,15 @@ vCap.up(g,y) = pGenData(g,"Capacity");
 vBuild.fx(eg,y)$(pGenData(eg,"StYr") <= sStartYear.val) = 0;
 
 * Set the upper limit for new generation builds per year, accounting for the annual build limit and year weighting
-vBuild.up(ng,y) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
+* Exclude committed generators - they use Capacity directly, not BuildLimitperYear
+vBuild.up(ng,y)$(not gstatusmap(ng,'committed')) = pGenData(ng,"BuildLimitperYear")*pWeightYear(y);
 
 * Force committed generators (status=2) to be built at their start year.
 * Unlike candidates, committed generators are not optional - they must be built.
 * They remain in ng(g) so their CAPEX is included in total cost (unlike existing generators).
 * Note: BuildLimitperYear is ignored for committed generators - full capacity is built at StYr.
 vBuild.lo(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
+vBuild.up(ng,y)$(gstatusmap(ng,'committed') and (pGenData(ng,"StYr") = y.val)) = pGenData(ng,"Capacity");
 
 * Define the upper limit for additional transmission capacity, subject to high transfer allowance
 vNewTransmissionLine.up(sTopology(z,z2),y)$fAllowTransferExpansion = symmax(pNewTransmission,z,z2,"MaximumNumOfLines");

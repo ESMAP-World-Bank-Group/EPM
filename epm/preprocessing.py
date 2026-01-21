@@ -928,41 +928,108 @@ def perform_assessment(generator_assessment, s):
     return s
 
 
+def _merge_input_files(baseline_path: Path, project_path: Path, output_path: Path) -> Path:
+    """
+    Merge a project delta file into a baseline input file.
+    Works for both pGenDataInput and pStorageDataInput.
+
+    - Existing records (matching g,z,tech,f): overwritten with project values
+    - New records: added
+
+    Parameters
+    ----------
+    baseline_path : Path
+        Path to the baseline CSV file
+    project_path : Path
+        Path to the project delta CSV file
+    output_path : Path
+        Path where the merged file will be written
+
+    Returns
+    -------
+    Path
+        Path to the merged output file
+    """
+    baseline_df = pd.read_csv(baseline_path)
+    project_df = pd.read_csv(project_path)
+
+    # Handle column name variations (g vs gen)
+    g_col = 'g' if 'g' in baseline_df.columns else 'gen'
+    if g_col not in project_df.columns:
+        alt_col = 'gen' if g_col == 'g' else 'g'
+        if alt_col in project_df.columns:
+            project_df = project_df.rename(columns={alt_col: g_col})
+
+    # Primary key for matching
+    key_cols = [g_col, 'z', 'tech', 'f']
+
+    merged = pd.concat([baseline_df, project_df], ignore_index=True)
+    merged = merged.drop_duplicates(subset=key_cols, keep='last')
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    merged.to_csv(output_path, index=False)
+    return output_path
+
+
 def perform_project_assessment(project_assessment, s):
     """
-    Build assessment scenarios using an existing pGenDataInput variant (suffix or filename).
-    Always looks for the project file relative to baseline's pGenDataInput location.
+    Build assessment scenarios using delta project files.
+
+    Supports multiple projects (space-separated):
+        --project_assessment "ers epbih ephzhb"
+
+    For each project, merges:
+        - pGenDataInput_{project}.csv into baseline pGenDataInput
+        - pStorageDataInput_{project}.csv into baseline pStorageDataInput (if exists)
+
+    Parameters
+    ----------
+    project_assessment : str
+        Space-separated list of project names (suffixes).
+        Example: "ers epbih ephzhb"
+    s : dict
+        Scenario dictionary
+
+    Returns
+    -------
+    dict
+        Updated scenario dictionary with new project assessment scenarios
     """
-    try:
-        new_s = {}
-        # Always use baseline path to find the project assessment file
-        baseline_path = Path(s['baseline']['pGenDataInput'])
-        baseline_dir = baseline_path.parent
+    new_s = {}
+    baseline_path = Path(s['baseline']['pGenDataInput'])
+    baseline_dir = baseline_path.parent
+    assessment_folder = _get_assessment_folder(baseline_path)
 
-        if Path(project_assessment).is_absolute():
-            candidate = Path(project_assessment)
-        else:
-            if project_assessment.endswith(".csv"):
-                candidate = baseline_dir / project_assessment
-            else:
-                suffix = project_assessment
-                if not suffix.startswith('_'):
-                    suffix = f"_{suffix}"
-                candidate_name = f"{baseline_path.stem}{suffix}{baseline_path.suffix}"
-                candidate = baseline_dir / candidate_name
+    # Support multiple projects (space-separated)
+    projects = project_assessment.split()
 
-        if not candidate.exists():
-            raise FileNotFoundError(f"Project assessment file {candidate.resolve()} not found.")
+    for project in projects:
+        suffix = project if project.startswith('_') else f"_{project}"
+        label = project.strip('_') or "project"
 
-        label = candidate.stem.replace('pGenDataInput', '').strip('_') or "project"
+        # Find delta files
+        gen_project = baseline_dir / f"pGenDataInput{suffix}.csv"
+        storage_project = baseline_dir / f"pStorageDataInput{suffix}.csv"
+
+        if not gen_project.exists():
+            raise FileNotFoundError(f"Project file {gen_project.resolve()} not found.")
 
         for scenario in list(s.keys()):
             scenario_name = f"{scenario}@{label}"
             new_s[scenario_name] = s[scenario].copy()
-            new_s[scenario_name]['pGenDataInput'] = str(candidate)
 
-    except Exception:
-        raise KeyError('Error in project_assessment features')
+            # Merge pGenDataInput
+            current_gen = Path(s[scenario]['pGenDataInput'])
+            merged_gen = assessment_folder / f"pGenDataInput_merged_{label}.csv"
+            _merge_input_files(current_gen, gen_project, merged_gen)
+            new_s[scenario_name]['pGenDataInput'] = str(merged_gen)
+
+            # Merge pStorageDataInput (if delta exists)
+            if storage_project.exists() and 'pStorageDataInput' in s[scenario]:
+                current_storage = Path(s[scenario]['pStorageDataInput'])
+                merged_storage = assessment_folder / f"pStorageDataInput_merged_{label}.csv"
+                _merge_input_files(current_storage, storage_project, merged_storage)
+                new_s[scenario_name]['pStorageDataInput'] = str(merged_storage)
 
     s.update(new_s)
     return s

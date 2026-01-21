@@ -254,7 +254,7 @@ def make_assessment_cost_diff(
     Uses the same data basis as the CostSystemEvolution figure (yearly system
     costs aggregated across zones) to keep visuals consistent.
     """
-    df = epm_results["pYearlyCostsZone"].copy()
+    df = epm_results["pCosts"].copy()
 
     if reserve_attrs:
         df = _simplify_attributes(df, "Unmet reserve costs: $m", reserve_attrs)
@@ -302,7 +302,7 @@ def make_assessment_npv_comparison(
     - AssessmentNPVComparison_AllPairs.pdf: All pairs (including sensitivity scenarios)
     - AssessmentNPVComparison_{project}.pdf: Only baseline pairs (one per project)
     """
-    df = epm_results["pCostsSystem"].copy()
+    df = epm_results["pNetPresentCostSystem"].copy()
 
     # Remove NPV row to avoid double counting (same as postprocessing.py)
     df = df.loc[df["attribute"] != "NPV of system cost: $m"]
@@ -437,8 +437,8 @@ def make_assessment_cost_template_csv(
     if "baseline" not in scenario_pairs:
         return
 
-    if "pYearlyCostsSystem" not in epm_results:
-        log_warning("pYearlyCostsSystem not found in results; skipping assessment CSV export.")
+    if "pCostsSystem" not in epm_results:
+        log_warning("pCostsSystem not found in results; skipping assessment CSV export.")
         return
 
     # Define cost category order and mapping for cleaner names
@@ -447,6 +447,7 @@ def make_assessment_cost_template_csv(
         "Fixed O&M costs",
         "Variable O&M costs",
         "Fuel costs",
+        "Carbon costs",
         "Trade costs",
         "Unmet demand costs",
         "Unmet reserve costs",
@@ -465,6 +466,8 @@ def make_assessment_cost_template_csv(
         "Fuel costs: $m": "Fuel costs",
         "Spinning reserve costs: $m": "Fixed O&M costs",  # Merge into fixed O&M
         "Transmission costs: $m": "Fixed O&M costs",  # Merge into fixed O&M
+        # Carbon
+        "Carbon costs: $m": "Carbon costs",
         # Trade
         "Import costs with external zones: $m": "Trade costs",
         "Export revenues with external zones: $m": "Trade costs",
@@ -485,7 +488,7 @@ def make_assessment_cost_template_csv(
         "Unmet reserve costs: $m": "Unmet reserve costs",  # If already aggregated
     }
 
-    df_yearly = epm_results["pYearlyCostsSystem"].copy()
+    df_yearly = epm_results["pCostsSystem"].copy()
 
     if reserve_attrs:
         df_yearly = _simplify_attributes(df_yearly, "Unmet reserve costs: $m", reserve_attrs)
@@ -512,7 +515,7 @@ def make_assessment_cost_template_csv(
     # Get NPV data for the final column
     df_npv_all = None
     if "pCostsSystem" in epm_results:
-        df_npv_all = epm_results["pCostsSystem"].copy()
+        df_npv_all = epm_results["pNetPresentCostSystem"].copy()
         df_npv_all = df_npv_all.loc[df_npv_all["attribute"] != "NPV of system cost: $m"]
         if reserve_attrs:
             df_npv_all = _simplify_attributes(df_npv_all, "Unmet reserve costs: $m", reserve_attrs)
@@ -587,10 +590,76 @@ def make_assessment_cost_template_csv(
             df_cf_wide["NPV"] = df_cf_wide.index.map(lambda x: npv_cf_dict.get(x, 0))
             df_diff_wide["NPV"] = df_cf_wide["NPV"] - df_base_wide["NPV"]
 
-        # Add total row to each section
-        df_base_wide.loc["TOTAL"] = df_base_wide.sum()
-        df_cf_wide.loc["TOTAL"] = df_cf_wide.sum()
-        df_diff_wide.loc["TOTAL"] = df_diff_wide.sum()
+        # Add total rows to each section: one excluding carbon, one including
+        carbon_row = "Carbon costs"
+        all_cost_rows = list(df_base_wide.index)  # Capture before adding totals
+        non_carbon_rows = [idx for idx in all_cost_rows if idx != carbon_row]
+
+        # TOTAL (excl. Carbon) - sum all rows except Carbon costs
+        df_base_wide.loc["TOTAL (excl. Carbon)"] = df_base_wide.loc[non_carbon_rows].sum()
+        df_cf_wide.loc["TOTAL (excl. Carbon)"] = df_cf_wide.loc[non_carbon_rows].sum()
+        df_diff_wide.loc["TOTAL (excl. Carbon)"] = df_diff_wide.loc[non_carbon_rows].sum()
+
+        # TOTAL - sum all cost rows including carbon
+        df_base_wide.loc["TOTAL"] = df_base_wide.loc[all_cost_rows].sum()
+        df_cf_wide.loc["TOTAL"] = df_cf_wide.loc[all_cost_rows].sum()
+        df_diff_wide.loc["TOTAL"] = df_diff_wide.loc[all_cost_rows].sum()
+
+        # Compute Total CAPEX row (generation + storage + transmission) if available
+        capex_base_row = None
+        capex_cf_row = None
+        capex_diff_row = None
+        if "pCapexInvestmentComponent" in epm_results:
+            df_capex = epm_results["pCapexInvestmentComponent"].copy()
+
+            # Aggregate across zones and components (system-level total CAPEX)
+            capex_grouping = [c for c in df_capex.columns if c not in ["value", "zone", "attribute"]]
+            df_capex_agg = df_capex.groupby(
+                capex_grouping, as_index=False, observed=False
+            )["value"].sum()
+
+            # Get base and project CAPEX
+            capex_base = df_capex_agg[df_capex_agg["scenario"] == "baseline"].copy()
+            capex_cf = df_capex_agg[df_capex_agg["scenario"] == scenario_cf].copy()
+
+            if not capex_base.empty and not capex_cf.empty:
+                # Sum by year (value is in USD, convert to M$)
+                capex_base_by_year = (capex_base.groupby("year")["value"].sum() / 1e6).to_dict()
+                capex_cf_by_year = (capex_cf.groupby("year")["value"].sum() / 1e6).to_dict()
+
+                # Build CAPEX row values for each year
+                capex_base_values = pd.Series({yr: capex_base_by_year.get(yr, 0) for yr in all_years})
+                capex_cf_values = pd.Series({yr: capex_cf_by_year.get(yr, 0) for yr in all_years})
+                capex_diff_values = capex_cf_values - capex_base_values
+
+                # Compute NPV of CAPEX if we have discount factors
+                if df_npv_all is not None and "pCapexInvestmentComponent" in epm_results:
+                    # Use discounted values - sum capex * discount factor * weight
+                    # For simplicity, just sum the yearly values (NPV would need proper discounting)
+                    capex_base_npv = capex_base_values.sum()
+                    capex_cf_npv = capex_cf_values.sum()
+                else:
+                    capex_base_npv = capex_base_values.sum()
+                    capex_cf_npv = capex_cf_values.sum()
+
+                # Add to dataframes as first row (before Investment costs)
+                capex_base_row = capex_base_values.copy()
+                capex_base_row["NPV"] = capex_base_npv
+                capex_cf_row = capex_cf_values.copy()
+                capex_cf_row["NPV"] = capex_cf_npv
+                capex_diff_row = capex_diff_values.copy()
+                capex_diff_row["NPV"] = capex_cf_npv - capex_base_npv
+
+                # Insert as first row in each dataframe
+                df_base_wide.loc["Total CAPEX"] = capex_base_row
+                df_cf_wide.loc["Total CAPEX"] = capex_cf_row
+                df_diff_wide.loc["Total CAPEX"] = capex_diff_row
+
+                # Reorder to put Total CAPEX first
+                new_order = ["Total CAPEX"] + [idx for idx in df_base_wide.index if idx != "Total CAPEX"]
+                df_base_wide = df_base_wide.reindex(new_order)
+                df_cf_wide = df_cf_wide.reindex(new_order)
+                df_diff_wide = df_diff_wide.reindex(new_order)
 
         # Add scenario labels and reset index
         df_base_wide = df_base_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
@@ -633,13 +702,145 @@ def make_assessment_cost_template_csv(
             "#",
         ]
 
+        # Get year weights from EPM results (pWeightYear) if available
+        # Otherwise fall back to computing from year differences
+        year_weights = {}
+        if "pWeightYear" in epm_results:
+            weight_df = epm_results["pWeightYear"].copy()
+            year_col = "y" if "y" in weight_df.columns else "year"
+            # Select baseline scenario (same across all scenarios)
+            if "scenario" in weight_df.columns:
+                weight_df = weight_df[weight_df["scenario"] == "baseline"]
+            for _, row in weight_df.iterrows():
+                year_weights[int(row[year_col])] = row["value"]
+
+        # Fallback: compute weights from year differences
+        if not year_weights:
+            for i, y in enumerate(all_years):
+                if i < len(all_years) - 1:
+                    year_weights[y] = all_years[i + 1] - y
+                else:
+                    year_weights[y] = all_years[-1] - all_years[-2] if len(all_years) > 1 else 1
+
+        # Get discount factors from EPM results (pRR) if available
+        discount_factors = {}
+        if "pRR" in epm_results:
+            discount_df = epm_results["pRR"].copy()
+            year_col = "y" if "y" in discount_df.columns else "year"
+            # Select baseline scenario (same across all scenarios)
+            if "scenario" in discount_df.columns:
+                discount_df = discount_df[discount_df["scenario"] == "baseline"]
+            for _, row in discount_df.iterrows():
+                discount_factors[int(row[year_col])] = row["value"]
+
+        # --- Compute GHG Emissions rows to add below TOTAL ---
+        em_base_row = None
+        em_cf_row = None
+        em_diff_row = None
+        if "pEmissionsZone" in epm_results:
+            df_emissions = epm_results["pEmissionsZone"].copy()
+
+            # Aggregate across zones (system-level)
+            emissions_grouping = [c for c in df_emissions.columns if c not in ["value", "zone"]]
+            df_emissions = df_emissions.groupby(
+                emissions_grouping, as_index=False, observed=False
+            )["value"].sum()
+
+            # Get base and project emissions
+            em_base = df_emissions[df_emissions["scenario"] == "baseline"].copy()
+            em_cf = df_emissions[df_emissions["scenario"] == scenario_cf].copy()
+
+            if not em_base.empty and not em_cf.empty:
+                # Pivot to get emissions by year
+                em_base_by_year = em_base.groupby("year")["value"].sum().to_dict()
+                em_cf_by_year = em_cf.groupby("year")["value"].sum().to_dict()
+
+                # Compute cumulative emissions (weighted sum)
+                def _compute_cumulative(emissions_by_year):
+                    total = 0.0
+                    for y in all_years:
+                        val = emissions_by_year.get(y, 0)
+                        weight = year_weights.get(y, 1)
+                        total += val * weight
+                    return total
+
+                cum_base = _compute_cumulative(em_base_by_year)
+                cum_cf = _compute_cumulative(em_cf_by_year)
+
+                # Build emission rows (same structure as cost rows)
+                em_base_row = {"Scenario": "BASELINE", "Cost Category (M$)": "GHG Emissions (Mt CO2)"}
+                em_cf_row = {"Scenario": "PROJECT", "Cost Category (M$)": "GHG Emissions (Mt CO2)"}
+                em_diff_row = {"Scenario": "DIFFERENCE", "Cost Category (M$)": "GHG Emissions (Mt CO2)"}
+
+                for yr in all_years:
+                    em_base_row[yr] = em_base_by_year.get(yr, 0)
+                    em_cf_row[yr] = em_cf_by_year.get(yr, 0)
+                    em_diff_row[yr] = em_cf_by_year.get(yr, 0) - em_base_by_year.get(yr, 0)
+
+                # Add cumulative column (labeled same as NPV column position)
+                em_base_row["NPV"] = cum_base
+                em_cf_row["NPV"] = cum_cf
+                em_diff_row["NPV"] = cum_cf - cum_base
+
+        # Insert emissions rows after TOTAL in each section
+        if em_base_row is not None:
+            # Find TOTAL row indices and insert emissions after each
+            cols = df_combined.columns.tolist()
+
+            # Rebuild df_combined with emissions after each TOTAL
+            rows_list = df_combined.to_dict('records')
+            new_rows = []
+            for row in rows_list:
+                new_rows.append(row)
+                if row.get("Cost Category (M$)") == "TOTAL":
+                    scenario = row.get("Scenario")
+                    if scenario == "BASELINE":
+                        new_rows.append(em_base_row)
+                    elif scenario == "PROJECT":
+                        new_rows.append(em_cf_row)
+                    elif scenario == "DIFFERENCE":
+                        new_rows.append(em_diff_row)
+
+            df_combined = pd.DataFrame(new_rows, columns=cols)
+
         # Save CSV with metadata header
         filename = os.path.join(folder, f"AssessmentCostTemplate_{project_name}.csv")
         with open(filename, "w", encoding="utf-8") as f:
             # Write metadata as comment lines
             for line in metadata_lines:
                 f.write(line + "\n")
-            # Write data table
+
+            # Write year weights and NPV weights first (aligned with years)
+            f.write("# Model Parameters\n")
+            f.write("# Year Weight (pWeightYear) - number of years each model year represents\n")
+            f.write("# NPV Weight (pRR) - discount factor × year weight for NPV calculation\n")
+            f.write("# GHG Emissions use cumulative sum (yearly value × year weight), not discounted NPV\n")
+            f.write("#\n")
+
+            # Build parameters table with same column structure
+            params_rows = []
+            # Year weights row
+            weight_row = {"Scenario": "", "Cost Category (M$)": "Year Weight"}
+            for yr in all_years:
+                weight_row[yr] = year_weights.get(yr, "")
+            weight_row["NPV"] = ""
+            params_rows.append(weight_row)
+
+            # NPV weight row (discount factor × year weight, always include even if empty)
+            npv_weight_row = {"Scenario": "", "Cost Category (M$)": "NPV Weight"}
+            for yr in all_years:
+                npv_weight_row[yr] = discount_factors.get(yr, "")
+            npv_weight_row["NPV"] = ""
+            params_rows.append(npv_weight_row)
+
+            df_params = pd.DataFrame(params_rows, columns=df_combined.columns.tolist())
+            df_params.to_csv(f, index=False)
+
+            f.write("\n")
+            f.write("# Cost and Emissions Data\n")
+            f.write("#\n")
+
+            # Write cost data table (now includes emissions after each TOTAL)
             df_combined.to_csv(f, index=False)
 
         # Generate stacked bar chart for cost differences
@@ -659,8 +860,8 @@ def _make_cost_diff_stacked_bar(df_diff, dict_specs, folder, project_name):
     Positive bars (above zero) = project increases costs
     Negative bars (below zero) = project reduces costs (savings)
     """
-    # Exclude TOTAL row
-    df_plot = df_diff[df_diff["Cost Category (M$)"] != "TOTAL"].copy()
+    # Exclude TOTAL rows
+    df_plot = df_diff[~df_diff["Cost Category (M$)"].isin(["TOTAL", "TOTAL (excl. Carbon)"])].copy()
 
     if df_plot.empty:
         return
@@ -959,7 +1160,7 @@ def make_assessment_heatmap(
     rows = []
 
     # 1. NPV of system cost difference
-    costs_system = _get_dataframe('pCostsSystem')
+    costs_system = _get_dataframe('pNetPresentCostSystem')
     if costs_system is not None:
         npv_label = 'NPV of system cost: $m'
         reserve_attrs = [
@@ -1033,8 +1234,8 @@ def make_assessment_heatmap(
                 rows.append((f'New capacity - {fuel} (MW)', diffs))
 
     # 4. Transmission capacity in final year
-    if 'pAnnualTransmissionCapacity' in epm_results:
-        transmission_all = _get_dataframe('pAnnualTransmissionCapacity')
+    if 'pTransmissionCapacity' in epm_results:
+        transmission_all = _get_dataframe('pTransmissionCapacity')
         if transmission_all is not None:
             trans_year = _resolve_year(transmission_all)
             transmission = transmission_all.copy()

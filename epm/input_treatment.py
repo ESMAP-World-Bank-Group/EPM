@@ -378,11 +378,21 @@ def run_input_treatment(gams,
                         fill_missing_hydro_availability: bool = False,
                         fill_missing_hydro_capex: bool = False):
 
-    def _write_back(db: gt.Container, param_name: str):
+    def _write_back(db: gt.Container, param_name: str, eps_to_zero: bool = True):
         """Copy updates back to whatever database the caller provided.
 
         A full model run hands in a real gams.GamsDatabase, while our debug path
         only supplies a gt.Container. We support both without needing the GAMS runtime.
+
+        Parameters
+        ----------
+        db : gt.Container
+            The working container with updated records.
+        param_name : str
+            The parameter name to write back.
+        eps_to_zero : bool, optional
+            If False, preserve EPS (epsilon) values instead of converting to zero.
+            Default is True for backward compatibility.
         """
         target_db = gams.db
         records = db[param_name].records
@@ -421,7 +431,7 @@ def run_input_treatment(gams,
 
         symbol = target_db[param_name]
         symbol.clear()
-        db.write(target_db, [param_name])
+        db.write(target_db, [param_name], eps_to_zero=eps_to_zero)
 
         gams.printLog(
             f"[input_treatment] {param_name}: {prev_count} -> {new_count} row(s)."
@@ -1420,12 +1430,12 @@ def run_input_treatment(gams,
         return param_df
 
 
-    def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFrame, fillna=1):
+    def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFrame, fillna=1, eps_to_zero: bool = True):
         """
         Fills missing values in a GAMS parameter with default values.
 
-        This function modifies an existing parameter in a GAMS database by merging it 
-        with a default DataFrame, ensuring that missing values are filled with a specified 
+        This function modifies an existing parameter in a GAMS database by merging it
+        with a default DataFrame, ensuring that missing values are filled with a specified
         default value.
 
         Parameters:
@@ -1438,6 +1448,9 @@ def run_input_treatment(gams,
             A DataFrame containing default values to be added if missing.
         fillna : int or float, optional
             The value to use for filling NaNs in the "value" column (default is 1).
+        eps_to_zero : bool, optional
+            If False, preserve EPS (epsilon) values instead of converting to zero.
+            Default is True for backward compatibility.
 
         Returns:
         --------
@@ -1451,7 +1464,7 @@ def run_input_treatment(gams,
         - Duplicate records (except for "value") are dropped, keeping the first occurrence.
         - NaN values in the "value" column are filled with `fillna`.
         """
-        
+
         if default_df is None or default_df.empty:
             gams.printLog(f"[input_treatment] {param_name}: no defaults to apply.")
             return
@@ -1460,19 +1473,19 @@ def run_input_treatment(gams,
 
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
-        
+
         # Concatenate the original parameter data with the default DataFrame
         param_df = pd.concat([param_df, default_df], axis=0)
-        
+
         # Remove duplicate entries based on all columns except "value"
         param_df = param_df.drop_duplicates(subset=[col for col in param_df.columns if col != 'value'], keep='first')
-        
+
         # Fill missing values in the "value" column with the specified default value
         param_df['value'] = param_df['value'].fillna(fillna)
-                
+
         # Update the parameter in the GAMS database with the modified DataFrame
         db.data[param_name].setRecords(param_df)
-        _write_back(db, param_name)
+        _write_back(db, param_name, eps_to_zero=eps_to_zero)
 
 
     def warn_missing_availability(gams, db: gt.Container):
@@ -1607,7 +1620,112 @@ def run_input_treatment(gams,
                     f"[input_treatment][defaults] Added StYr={default_styr} for {len(added_gens)} existing generator(s) "
                     f"(Status=1): {', '.join(sorted(added_gens))}."
                 )
-                
+
+
+    def compute_storage_capacity_from_duration(db: gt.Container):
+        """
+        Compute CapacityMWh from Capacity * StorageDuration when StorageDuration is specified.
+
+        When a storage unit has StorageDuration filled but CapacityMWh is empty/NaN,
+        this function calculates CapacityMWh = Capacity * StorageDuration.
+        """
+        param_name = "pStorageDataInput"
+        if param_name not in db:
+            return
+        records = db[param_name].records
+        if records is None or records.empty:
+            return
+
+        # Detect header and value columns (check various possible column names)
+        header_col = None
+        for candidate in ("pStorageDataHeader", "uni_2"):
+            if candidate in records.columns:
+                header_col = candidate
+                break
+        value_col = "value" if "value" in records.columns else None
+        # Generator column may be 'g' (after rename) or 'uni' (before rename)
+        gen_col = None
+        for candidate in ("g", "uni"):
+            if candidate in records.columns:
+                gen_col = candidate
+                break
+        if header_col is None or value_col is None or gen_col is None:
+            gams.printLog(f"[input_treatment][storage] Skipped: columns not found. Available: {list(records.columns)}")
+            return
+
+        records = records.copy()
+
+        # Get Capacity values per generator
+        capacity_rows = records.loc[records[header_col] == "Capacity"].copy()
+        capacity_rows["CapacityNum"] = pd.to_numeric(capacity_rows[value_col], errors="coerce")
+        capacity_map = dict(zip(capacity_rows[gen_col], capacity_rows["CapacityNum"]))
+
+        # Get StorageDuration values per generator
+        duration_rows = records.loc[records[header_col] == "StorageDuration"].copy()
+        duration_rows["DurationNum"] = pd.to_numeric(duration_rows[value_col], errors="coerce")
+        duration_map = dict(zip(duration_rows[gen_col], duration_rows["DurationNum"]))
+
+        # Get CapacityMWh rows
+        capmwh_mask = records[header_col] == "CapacityMWh"
+        capmwh_rows = records.loc[capmwh_mask].copy()
+        capmwh_rows["CapMWhNum"] = pd.to_numeric(capmwh_rows[value_col], errors="coerce")
+
+        # Find generators with StorageDuration but missing/NaN CapacityMWh
+        gens_with_duration = {g for g, d in duration_map.items() if pd.notna(d) and d > 0}
+        gens_with_capmwh = set(capmwh_rows.loc[capmwh_rows["CapMWhNum"].notna() & (capmwh_rows["CapMWhNum"] > 0), gen_col])
+
+        gens_to_compute = gens_with_duration - gens_with_capmwh
+
+        gams.printLog(f"[input_treatment][storage] gens_with_duration: {gens_with_duration}")
+        gams.printLog(f"[input_treatment][storage] gens_with_capmwh: {gens_with_capmwh}")
+        gams.printLog(f"[input_treatment][storage] gens_to_compute: {gens_to_compute}")
+
+        if not gens_to_compute:
+            return
+
+        updated = False
+        new_rows = []
+        computed_gens = []
+
+        for g_val in sorted(gens_to_compute):
+            capacity = capacity_map.get(g_val)
+            duration = duration_map.get(g_val)
+
+            if pd.isna(capacity) or pd.isna(duration) or capacity <= 0 or duration <= 0:
+                continue
+
+            computed_mwh = capacity * duration
+
+            # Check if CapacityMWh row exists for this generator
+            existing_mask = capmwh_mask & (records[gen_col] == g_val)
+            if existing_mask.any():
+                # Update existing row
+                records.loc[existing_mask, value_col] = computed_mwh
+            else:
+                # Create new row
+                template = records.loc[records[gen_col] == g_val]
+                if template.empty:
+                    continue
+                new_row = template.iloc[0].copy()
+                new_row[header_col] = "CapacityMWh"
+                new_row[value_col] = computed_mwh
+                new_rows.append(new_row)
+
+            computed_gens.append((g_val, capacity, duration, computed_mwh))
+            updated = True
+
+        if new_rows:
+            records = pd.concat([records, pd.DataFrame(new_rows)], ignore_index=True)
+
+        if updated:
+            db.data[param_name].setRecords(records)
+            _write_back(db, param_name)
+            for g_val, cap, dur, mwh in computed_gens:
+                gams.printLog(
+                    f"[input_treatment][storage] Computed CapacityMWh={mwh} for {g_val} "
+                    f"(Capacity={cap} * StorageDuration={dur})."
+                )
+
 
     def expand_to_years(db: gt.Container, df: pd.DataFrame, year_set_name: str = "y"):
         """
@@ -2028,13 +2146,23 @@ def run_input_treatment(gams,
         # GAMS-loaded generic data is already in long format: (tech, f, pGenDataInputHeader, value)
         if "gendata" in generic and "pGenDataInputDefault" in db:
             gendata_default = db["pGenDataInputDefault"].records
-            if gendata_default is not None and not gendata_default.empty:
+            generic_gendata = generic["gendata"]  # Already has (tech, f, pGenDataInputHeader, value)
+
+            if gendata_default is None or gendata_default.empty:
+                # pGenDataInputDefault is empty - create it entirely from generic data
+                to_add = required.merge(generic_gendata, on=["tech", "f"], how="inner")
+                if not to_add.empty:
+                    db.data["pGenDataInputDefault"].setRecords(to_add)
+                    _write_back(db, "pGenDataInputDefault")
+                    n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                    gams.printLog(f"[input_treatment][generic] Created pGenDataInputDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
+            else:
+                # pGenDataInputDefault has data - only add missing combinations
                 gendata_keys = gendata_default[["z", "tech", "f"]].drop_duplicates()
                 merged = required.merge(gendata_keys, on=["z", "tech", "f"], how="left", indicator=True)
                 missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
-                
+
                 if not missing.empty:
-                    generic_gendata = generic["gendata"]  # Already has (tech, f, pGenDataInputHeader, value)
                     # Join missing combinations with generic values
                     to_add = missing.merge(generic_gendata, on=["tech", "f"], how="inner")
                     if not to_add.empty:
@@ -2042,53 +2170,87 @@ def run_input_treatment(gams,
                         db.data["pGenDataInputDefault"].setRecords(updated)
                         _write_back(db, "pGenDataInputDefault")
                         n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
-                        gams.printLog(f"[input_treatment][generic] Enriched pGenDataInputDefault with {n_combos} tech-fuel combination(s) from generic.")
+                        gams.printLog(f"[input_treatment][generic] Enriched pGenDataInputDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
         
         # Enrich pAvailabilityDefault
         # GAMS-loaded generic data is (tech, f, value) - single annual value
-        if "availability" in generic and "pAvailabilityDefault" in db:
+        # Get seasons from pHours
+        seasons_from_hours = []
+        if "pHours" in db:
+            phours_records = db["pHours"].records
+            if phours_records is not None and not phours_records.empty:
+                q_col = "q" if "q" in phours_records.columns else phours_records.columns[0]
+                seasons_from_hours = phours_records[q_col].unique().tolist()
+
+        if "availability" in generic and "pAvailabilityDefault" in db and seasons_from_hours:
             avail_default = db["pAvailabilityDefault"].records
-            if avail_default is not None and not avail_default.empty:
+            generic_avail = generic["availability"]  # (tech, f, value)
+
+            if avail_default is None or avail_default.empty:
+                # pAvailabilityDefault is empty - create it entirely from generic data
+                to_add = required.merge(generic_avail, on=["tech", "f"], how="inner")
+                if not to_add.empty:
+                    new_records = []
+                    for _, row in to_add.iterrows():
+                        for q in seasons_from_hours:
+                            new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"],
+                                              "q": q, "value": row["value"]})
+                    if new_records:
+                        new_df = pd.DataFrame(new_records)
+                        db.data["pAvailabilityDefault"].setRecords(new_df)
+                        _write_back(db, "pAvailabilityDefault")
+                        n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                        gams.printLog(f"[input_treatment][generic] Created pAvailabilityDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
+            else:
+                # pAvailabilityDefault has data - only add missing combinations
                 avail_keys = avail_default[["z", "tech", "f"]].drop_duplicates()
                 merged = required.merge(avail_keys, on=["z", "tech", "f"], how="left", indicator=True)
                 missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
-                
+
                 if not missing.empty:
-                    generic_avail = generic["availability"]  # (tech, f, value)
-                    # Get seasons from existing default (q column in long format)
-                    seasons = avail_default["q"].unique().tolist() if "q" in avail_default.columns else ["Q1"]
-                    
                     # Join missing combinations with generic values, expand to all seasons
                     to_add = missing.merge(generic_avail, on=["tech", "f"], how="inner")
                     if not to_add.empty:
                         new_records = []
                         for _, row in to_add.iterrows():
-                            for q in seasons:
-                                new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"], 
+                            for q in seasons_from_hours:
+                                new_records.append({"z": row["z"], "tech": row["tech"], "f": row["f"],
                                                   "q": q, "value": row["value"]})
                         if new_records:
                             new_df = pd.DataFrame(new_records)
                             updated = pd.concat([avail_default, new_df], ignore_index=True)
                             db.data["pAvailabilityDefault"].setRecords(updated)
                             _write_back(db, "pAvailabilityDefault")
-                            gams.printLog(f"[input_treatment][generic] Enriched pAvailabilityDefault with {len(to_add)} tech-fuel combination(s) from generic.")
+                            n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                            gams.printLog(f"[input_treatment][generic] Enriched pAvailabilityDefault with {n_combos} (zone, tech, fuel) combination(s) from generic.")
         
         # Enrich pCapexTrajectoriesDefault
         # GAMS-loaded generic data is already in long format: (tech, f, y, value)
         if "capex" in generic and "pCapexTrajectoriesDefault" in db:
             capex_default = db["pCapexTrajectoriesDefault"].records
-            if capex_default is not None and not capex_default.empty:
+            generic_capex = generic["capex"]  # Already has (tech, f, y, value)
+
+            if capex_default is None or capex_default.empty:
+                # pCapexTrajectoriesDefault is empty - create it entirely from generic data
+                # for all required (zone, tech, fuel) combinations
+                to_add = required.merge(generic_capex, on=["tech", "f"], how="inner")
+                if not to_add.empty:
+                    db.data["pCapexTrajectoriesDefault"].setRecords(to_add)
+                    _write_back(db, "pCapexTrajectoriesDefault", eps_to_zero=False)
+                    n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                    gams.printLog(f"[input_treatment][generic] Created pCapexTrajectoriesDefault with {n_combos} tech-fuel combination(s) from generic.")
+            else:
+                # pCapexTrajectoriesDefault has data - only add missing combinations
                 capex_keys = capex_default[["z", "tech", "f"]].drop_duplicates()
                 merged = required.merge(capex_keys, on=["z", "tech", "f"], how="left", indicator=True)
                 missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
-                
+
                 if not missing.empty:
-                    generic_capex = generic["capex"]  # Already has (tech, f, y, value)
                     to_add = missing.merge(generic_capex, on=["tech", "f"], how="inner")
                     if not to_add.empty:
                         updated = pd.concat([capex_default, to_add], ignore_index=True)
                         db.data["pCapexTrajectoriesDefault"].setRecords(updated)
-                        _write_back(db, "pCapexTrajectoriesDefault")
+                        _write_back(db, "pCapexTrajectoriesDefault", eps_to_zero=False)
                         n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
                         gams.printLog(f"[input_treatment][generic] Enriched pCapexTrajectoriesDefault with {n_combos} tech-fuel combination(s) from generic.")
 
@@ -2227,7 +2389,10 @@ def run_input_treatment(gams,
     # Complete Storage Data
     _step("Overwrite NaN values for pStorageDataInput")
     overwrite_nan_values(db, "pStorageDataInput", "pStorageDataInputDefault", "pStorageDataHeader")
-    
+
+    _step("Compute CapacityMWh from StorageDuration")
+    compute_storage_capacity_from_duration(db)
+
     _step("Set missing StYr for existing generators")
     set_missing_styr_for_existing(db)
 
