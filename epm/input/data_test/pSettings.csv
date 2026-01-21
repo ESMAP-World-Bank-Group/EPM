@@ -55,7 +55,7 @@ Apply system CO2 constraints,fApplySystemCo2Constraint,0
 Minimum share of RE  (%),sMinRenewableSharePct,0
 RE share target year,sRenewableTargetYear,
 Apply fuel constraints,fApplyFuelConstraint,0
-Apply generation phase-out constraint,fApplyGenerationPhaseout,1
+Apply generation phase-out constraint,fApplyGenerationPhaseout,0
 Apply max capital constraint,fApplyCapitalConstraint,0
 "Total maximum capital investments, $ billion",sMaxCapitalInvestment,
 ,,
