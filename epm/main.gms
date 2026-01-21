@@ -362,8 +362,7 @@ $offMulti
 
 *-------------------------------------------------------------------------------------
 
-$if %DEBUG%==1 $log Debug mode active: exporting treated input to input_treated.gdx
-$if %DEBUG%==1 $gdxunload input_treated.gdx 
+$gdxunload input_treated.gdx 
 
 $if not errorFree $abort Data errors.
 

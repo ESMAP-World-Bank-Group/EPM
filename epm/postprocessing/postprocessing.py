@@ -122,7 +122,9 @@ KEYS_RESULTS = {
     'pPlantAnnualLCOE',
     # 11. Other
     'pSolverParameters', 'pGeneratorTechFuel', 'pZoneCountry',
-    'pDemandEnergyZone', 'pDemandPeakZone'
+    'pDemandEnergyZone', 'pDemandPeakZone',
+    # 12. Year weights and discount factors (for assessment template)
+    'pWeightYear', 'pRR'
 }
 
 

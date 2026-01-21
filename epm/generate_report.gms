@@ -492,18 +492,39 @@ pCostsPlant(z, g, "Spinning Reserve Cost: $m", y)$gzmap(g, z) =
 * hydrogen entries later on.
 * ---------------------------------------------------------
 
-pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g))) =
+* Generation CAPEX - with capex trajectories (dc)
+pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g)) and dc(g)) =
   1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
-pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g))) =
+* Generation CAPEX - without capex trajectories (ndc) - use trajectory = 1
+pCapexInvestmentPlant(zgmap(z,g), "Generation", y)$((not st(g)) and ndc(g)) =
+  1e6 * vBuild.l(g, y) * pGenData(g, "Capex");
+
+* Storage CAPEX - with capex trajectories (dc)
+pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g)) and dc(g)) =
   1e3 * vBuildStor.l(g, y) * pStorageData(g, "CapexMWh") * pCapexTrajectories(g, y) +
   1e6 * vBuild.l(g, y) * pGenData(g, "Capex") * pCapexTrajectories(g, y);
 
-pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$cs(g) =
+* Storage CAPEX - without capex trajectories (ndc) - use trajectory = 1
+pCapexInvestmentPlant(zgmap(z,g), "StorageEnergy", y)$((st(g)) and (not cs(g)) and ndc(g)) =
+  1e3 * vBuildStor.l(g, y) * pStorageData(g, "CapexMWh") +
+  1e6 * vBuild.l(g, y) * pGenData(g, "Capex");
+
+* CSP Thermal Field CAPEX - with capex trajectories (dc)
+pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$(cs(g) and dc(g)) =
   1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3 * pCapexTrajectories(g, y);
 
-pCapexInvestmentPlant(zgmap(z,g), "CSPStorage", y)$cs(g) =
+* CSP Thermal Field CAPEX - without capex trajectories (ndc) - use trajectory = 1
+pCapexInvestmentPlant(zgmap(z,g), "CSPThermalField", y)$(cs(g) and ndc(g)) =
+  1e3 * vBuildTherm.l(g, y) * pCSPData(g, "Thermal Field", "CapexMWh") * 1e3;
+
+* CSP Storage CAPEX - with capex trajectories (dc)
+pCapexInvestmentPlant(zgmap(z,g), "CSPStorage", y)$(cs(g) and dc(g)) =
   1e3 * vBuildStor.l(g, y) * pCSPData(g, "Storage", "CapexMWh") * pCapexTrajectories(g, y);
+
+* CSP Storage CAPEX - without capex trajectories (ndc) - use trajectory = 1
+pCapexInvestmentPlant(zgmap(z,g), "CSPStorage", y)$(cs(g) and ndc(g)) =
+  1e3 * vBuildStor.l(g, y) * pCSPData(g, "Storage", "CapexMWh");
 
 * Derive zonal totals per component (generation-related ones come from plants)
 pCapexInvestmentComponent(z, capexComponentPlant, y) =
@@ -1463,7 +1484,9 @@ $ifThenI.reportshort %REPORTSHORT% == 0
       pDiscountedDemandZoneMWh, pDiscountedDemandSystemMWh,
       pCostsPerMWh, pCostsSystemPerMWh,
 * 9. SOLVER PARAMETERS
-      pSolverParameters
+      pSolverParameters,
+* 10. YEAR WEIGHTS AND DISCOUNT FACTORS
+      pWeightYear, pRR
 ;
 $elseIfI.reportshort %REPORTSHORT% == 1
 *  Limited reporting is used
@@ -1519,7 +1542,9 @@ $elseIfI.reportshort %REPORTSHORT% == 2
 * 11. SOLVER PARAMETERS
       pSolverParameters,
 * 12. ADDITIONAL OUTPUTS
-      pVarCost, pCapacityCredit
+      pVarCost, pCapacityCredit,
+* 13. YEAR WEIGHTS AND DISCOUNT FACTORS
+      pWeightYear, pRR
 ;
 $endIf.reportshort
 

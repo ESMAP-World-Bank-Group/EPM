@@ -378,11 +378,21 @@ def run_input_treatment(gams,
                         fill_missing_hydro_availability: bool = False,
                         fill_missing_hydro_capex: bool = False):
 
-    def _write_back(db: gt.Container, param_name: str):
+    def _write_back(db: gt.Container, param_name: str, eps_to_zero: bool = True):
         """Copy updates back to whatever database the caller provided.
 
         A full model run hands in a real gams.GamsDatabase, while our debug path
         only supplies a gt.Container. We support both without needing the GAMS runtime.
+
+        Parameters
+        ----------
+        db : gt.Container
+            The working container with updated records.
+        param_name : str
+            The parameter name to write back.
+        eps_to_zero : bool, optional
+            If False, preserve EPS (epsilon) values instead of converting to zero.
+            Default is True for backward compatibility.
         """
         target_db = gams.db
         records = db[param_name].records
@@ -421,7 +431,7 @@ def run_input_treatment(gams,
 
         symbol = target_db[param_name]
         symbol.clear()
-        db.write(target_db, [param_name])
+        db.write(target_db, [param_name], eps_to_zero=eps_to_zero)
 
         gams.printLog(
             f"[input_treatment] {param_name}: {prev_count} -> {new_count} row(s)."
@@ -1420,12 +1430,12 @@ def run_input_treatment(gams,
         return param_df
 
 
-    def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFrame, fillna=1):
+    def fill_default_value(db: gt.Container, param_name: str, default_df: pd.DataFrame, fillna=1, eps_to_zero: bool = True):
         """
         Fills missing values in a GAMS parameter with default values.
 
-        This function modifies an existing parameter in a GAMS database by merging it 
-        with a default DataFrame, ensuring that missing values are filled with a specified 
+        This function modifies an existing parameter in a GAMS database by merging it
+        with a default DataFrame, ensuring that missing values are filled with a specified
         default value.
 
         Parameters:
@@ -1438,6 +1448,9 @@ def run_input_treatment(gams,
             A DataFrame containing default values to be added if missing.
         fillna : int or float, optional
             The value to use for filling NaNs in the "value" column (default is 1).
+        eps_to_zero : bool, optional
+            If False, preserve EPS (epsilon) values instead of converting to zero.
+            Default is True for backward compatibility.
 
         Returns:
         --------
@@ -1451,7 +1464,7 @@ def run_input_treatment(gams,
         - Duplicate records (except for "value") are dropped, keeping the first occurrence.
         - NaN values in the "value" column are filled with `fillna`.
         """
-        
+
         if default_df is None or default_df.empty:
             gams.printLog(f"[input_treatment] {param_name}: no defaults to apply.")
             return
@@ -1460,19 +1473,19 @@ def run_input_treatment(gams,
 
         # Retrieve parameter data from the GAMS database as a pandas DataFrame
         param_df = db[param_name].records
-        
+
         # Concatenate the original parameter data with the default DataFrame
         param_df = pd.concat([param_df, default_df], axis=0)
-        
+
         # Remove duplicate entries based on all columns except "value"
         param_df = param_df.drop_duplicates(subset=[col for col in param_df.columns if col != 'value'], keep='first')
-        
+
         # Fill missing values in the "value" column with the specified default value
         param_df['value'] = param_df['value'].fillna(fillna)
-                
+
         # Update the parameter in the GAMS database with the modified DataFrame
         db.data[param_name].setRecords(param_df)
-        _write_back(db, param_name)
+        _write_back(db, param_name, eps_to_zero=eps_to_zero)
 
 
     def warn_missing_availability(gams, db: gt.Container):
@@ -2182,18 +2195,29 @@ def run_input_treatment(gams,
         # GAMS-loaded generic data is already in long format: (tech, f, y, value)
         if "capex" in generic and "pCapexTrajectoriesDefault" in db:
             capex_default = db["pCapexTrajectoriesDefault"].records
-            if capex_default is not None and not capex_default.empty:
+            generic_capex = generic["capex"]  # Already has (tech, f, y, value)
+
+            if capex_default is None or capex_default.empty:
+                # pCapexTrajectoriesDefault is empty - create it entirely from generic data
+                # for all required (zone, tech, fuel) combinations
+                to_add = required.merge(generic_capex, on=["tech", "f"], how="inner")
+                if not to_add.empty:
+                    db.data["pCapexTrajectoriesDefault"].setRecords(to_add)
+                    _write_back(db, "pCapexTrajectoriesDefault", eps_to_zero=False)
+                    n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
+                    gams.printLog(f"[input_treatment][generic] Created pCapexTrajectoriesDefault with {n_combos} tech-fuel combination(s) from generic.")
+            else:
+                # pCapexTrajectoriesDefault has data - only add missing combinations
                 capex_keys = capex_default[["z", "tech", "f"]].drop_duplicates()
                 merged = required.merge(capex_keys, on=["z", "tech", "f"], how="left", indicator=True)
                 missing = merged[merged["_merge"] == "left_only"][["z", "tech", "f"]]
-                
+
                 if not missing.empty:
-                    generic_capex = generic["capex"]  # Already has (tech, f, y, value)
                     to_add = missing.merge(generic_capex, on=["tech", "f"], how="inner")
                     if not to_add.empty:
                         updated = pd.concat([capex_default, to_add], ignore_index=True)
                         db.data["pCapexTrajectoriesDefault"].setRecords(updated)
-                        _write_back(db, "pCapexTrajectoriesDefault")
+                        _write_back(db, "pCapexTrajectoriesDefault", eps_to_zero=False)
                         n_combos = to_add[["z", "tech", "f"]].drop_duplicates().shape[0]
                         gams.printLog(f"[input_treatment][generic] Enriched pCapexTrajectoriesDefault with {n_combos} tech-fuel combination(s) from generic.")
 
