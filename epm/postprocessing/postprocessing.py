@@ -669,7 +669,8 @@ def postprocess_montecarlo(epm_results, RESULTS_FOLDER, GRAPHS_FOLDER):
 
 def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                        plot_dispatch=True, scenario_reference='baseline', graphs_folder='img',
-                       montecarlo=False, reduce_definition_csv=False, logger=None):
+                       montecarlo=False, reduce_definition_csv=False, logger=None,
+                       focus_country=None, folder_input=None):
     
     active_logger = logger or logging.getLogger("epm.postprocess")
     previous_logger = get_default_logger()
@@ -763,6 +764,20 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
     # Process results
     RESULTS_FOLDER, dict_specs, epm_results = process_simulation_results(
         FOLDER, keys_results=keys_results)
+
+    # Generate single-country inputs if focus_country is specified
+    if focus_country and folder_input:
+        from .single_country import generate_single_country_inputs
+        log_info(f"Generating single-country inputs for: {focus_country}", logger=active_logger)
+        hourly_price_df = epm_results.get('pHourlyPrice')
+        generate_single_country_inputs(
+            folder_input=Path(folder_input),
+            folder_output=Path(RESULTS_FOLDER),
+            country=focus_country,
+            hourly_price_df=hourly_price_df,
+            scenario_reference=scenario_reference
+        )
+        log_info(f"Single-country inputs generated for: {focus_country}", logger=active_logger)
 
     # Beautify scenario names selectively (sensitivity only, keep assessment unchanged)
     from .assessment import _beautify_scenario_name
