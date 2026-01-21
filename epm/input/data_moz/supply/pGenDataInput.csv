@@ -14,8 +14,8 @@ RessanoGarciaGigawatt_TH_MOZ,Mozambique_South,OCGT,Gas,2016,2066,120,1,,9.990938
 CahoraBassa2_HY_MOZ,Mozambique_Central,ReservoirHydro,Water,2000,2060,1375,1,,,,,,0.4,,,0,0,50,,0,,0,0,0,0
 Temane_TH_MOZ,Mozambique_South,OCGT,Gas,2000,2055,1,1,,10.41544727,,,,,,,,0,,,0,7,11.11544727,0.45,0,0
 Temane2_TH_MOZ,Mozambique_South,OCGT,Gas,2014,2064,9.2,1,,10.41544727,,,,,,,,0,,,0,7,11.11544727,0.45,0,0
-Lurio_HY_MOZ,Mozambique_North,ReservoirHydro,Water,2030,2110,120,2,,,,,,0.406440138,,,0,4.248837209,50,0,0,,0,0,0,0
-MozMGTPEDMSasolGT_TH_MOZ,Mozambique_South,CCGT,Gas,2028,2058,450,2,,9,,,,,,,0,1.25,,420,0,7,9.7,0.05,0,0
+Lurio_HY_MOZ,Mozambique_North,ReservoirHydro,Water,2030,2110,120,2,,,,,,0.406440138,,,0,4.248837209,50,120,0,,0,0,0,0
+MozMGTPEDMSasolGT_TH_MOZ,Mozambique_South,CCGT,Gas,2028,2058,450,2,,9,,,,,,,0,1.25,,450,0,7,9.7,0.05,0,0
 MphandaNkuwa_HY_MOZ,Mozambique_Central,ReservoirHydro,Water,2032,2112,1500,2,,,,,,0.406440138,,,0,4.436550388,50,1500,0,,0,0,0,0
 Lichinga_PV_MOZ,Mozambique_North,PV,Solar,2028,2058,30,3,,0,1,1,,,,,,,,30,,,,,,
 CuambaII_PV_MOZ,Mozambique_North,PV,Solar,2028,2058,30,3,,0,1,1,,,,,,,,30,,,,,,
