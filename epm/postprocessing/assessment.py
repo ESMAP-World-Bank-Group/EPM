@@ -590,10 +590,20 @@ def make_assessment_cost_template_csv(
             df_cf_wide["NPV"] = df_cf_wide.index.map(lambda x: npv_cf_dict.get(x, 0))
             df_diff_wide["NPV"] = df_cf_wide["NPV"] - df_base_wide["NPV"]
 
-        # Add total row to each section
-        df_base_wide.loc["TOTAL"] = df_base_wide.sum()
-        df_cf_wide.loc["TOTAL"] = df_cf_wide.sum()
-        df_diff_wide.loc["TOTAL"] = df_diff_wide.sum()
+        # Add total rows to each section: one excluding carbon, one including
+        carbon_row = "Carbon costs"
+        all_cost_rows = list(df_base_wide.index)  # Capture before adding totals
+        non_carbon_rows = [idx for idx in all_cost_rows if idx != carbon_row]
+
+        # TOTAL (excl. Carbon) - sum all rows except Carbon costs
+        df_base_wide.loc["TOTAL (excl. Carbon)"] = df_base_wide.loc[non_carbon_rows].sum()
+        df_cf_wide.loc["TOTAL (excl. Carbon)"] = df_cf_wide.loc[non_carbon_rows].sum()
+        df_diff_wide.loc["TOTAL (excl. Carbon)"] = df_diff_wide.loc[non_carbon_rows].sum()
+
+        # TOTAL - sum all cost rows including carbon
+        df_base_wide.loc["TOTAL"] = df_base_wide.loc[all_cost_rows].sum()
+        df_cf_wide.loc["TOTAL"] = df_cf_wide.loc[all_cost_rows].sum()
+        df_diff_wide.loc["TOTAL"] = df_diff_wide.loc[all_cost_rows].sum()
 
         # Compute Total CAPEX row (generation + storage + transmission) if available
         capex_base_row = None
@@ -652,9 +662,9 @@ def make_assessment_cost_template_csv(
                 df_diff_wide = df_diff_wide.reindex(new_order)
 
         # Add scenario labels and reset index
-        df_base_wide = df_base_wide.reset_index().rename(columns={"index": "Cost Category (M$)"})
-        df_cf_wide = df_cf_wide.reset_index().rename(columns={"index": "Cost Category (M$)"})
-        df_diff_wide = df_diff_wide.reset_index().rename(columns={"index": "Cost Category (M$)"})
+        df_base_wide = df_base_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
+        df_cf_wide = df_cf_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
+        df_diff_wide = df_diff_wide.reset_index().rename(columns={"attribute": "Cost Category (M$)"})
 
         df_base_wide.insert(0, "Scenario", "BASELINE")
         df_cf_wide.insert(0, "Scenario", "PROJECT")
@@ -800,11 +810,11 @@ def make_assessment_cost_template_csv(
             for line in metadata_lines:
                 f.write(line + "\n")
 
-            # Write year weights and discount factors first (aligned with years)
+            # Write year weights and NPV weights first (aligned with years)
             f.write("# Model Parameters\n")
-            f.write("# Year weights (pWeightYear) - number of years each model year represents\n")
-            f.write("# Discount factors (pRR) - present value factor for each year\n")
-            f.write("# GHG Emissions use cumulative sum (yearly value * year weight), not discounted NPV\n")
+            f.write("# Year Weight (pWeightYear) - number of years each model year represents\n")
+            f.write("# NPV Weight (pRR) - discount factor × year weight for NPV calculation\n")
+            f.write("# GHG Emissions use cumulative sum (yearly value × year weight), not discounted NPV\n")
             f.write("#\n")
 
             # Build parameters table with same column structure
@@ -816,12 +826,12 @@ def make_assessment_cost_template_csv(
             weight_row["NPV"] = ""
             params_rows.append(weight_row)
 
-            # Discount factors row (always include, even if empty)
-            discount_row = {"Scenario": "", "Cost Category (M$)": "Discount Factor"}
+            # NPV weight row (discount factor × year weight, always include even if empty)
+            npv_weight_row = {"Scenario": "", "Cost Category (M$)": "NPV Weight"}
             for yr in all_years:
-                discount_row[yr] = discount_factors.get(yr, "")
-            discount_row["NPV"] = ""
-            params_rows.append(discount_row)
+                npv_weight_row[yr] = discount_factors.get(yr, "")
+            npv_weight_row["NPV"] = ""
+            params_rows.append(npv_weight_row)
 
             df_params = pd.DataFrame(params_rows, columns=df_combined.columns.tolist())
             df_params.to_csv(f, index=False)
@@ -850,8 +860,8 @@ def _make_cost_diff_stacked_bar(df_diff, dict_specs, folder, project_name):
     Positive bars (above zero) = project increases costs
     Negative bars (below zero) = project reduces costs (savings)
     """
-    # Exclude TOTAL row
-    df_plot = df_diff[df_diff["Cost Category (M$)"] != "TOTAL"].copy()
+    # Exclude TOTAL rows
+    df_plot = df_diff[~df_diff["Cost Category (M$)"].isin(["TOTAL", "TOTAL (excl. Carbon)"])].copy()
 
     if df_plot.empty:
         return
