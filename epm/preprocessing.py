@@ -847,7 +847,7 @@ def perform_sensitivity(sensitivity, s):
         # Add 3 years delay to all fuel Water projects more than 400 MW Capacity if status is 2 or 3
         df.loc[(df['fuel'] == 'Water') & (df['Capacity'] > 400) & (df['Status'].isin([2, 3])), 'StYr'] += 3
         
-        scenario_name = f'{param}_3years'
+        scenario_name = f'{param}'
         path_file = _generate_sensitivity_filepath(s['baseline']['pGenDataInput'], f'{param}_3years')
         df.to_csv(path_file, index=False)
 
@@ -867,7 +867,7 @@ def perform_sensitivity(sensitivity, s):
         folder_sensi = os.path.join(os.path.dirname(s['baseline']['pNewTransmission']), 'sensitivity')
         if not os.path.exists(folder_sensi):
             os.mkdir(folder_sensi)
-        scenario_name = f'{param}_2years'
+        scenario_name = f'{param}'
         path_file = os.path.basename(s['baseline']['pNewTransmission']).replace('pNewTransmission', scenario_name)
         path_file = os.path.join(folder_sensi, path_file)
         # Write the modified file
