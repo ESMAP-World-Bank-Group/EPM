@@ -879,7 +879,9 @@ def main(test_args=None):
         "--project_assessment",
         type=str,
         default=None,
-        help="Suffix or filename for an alternate pGenDataInput (default: None). Example: --project_assessment rehabilitation"
+        help="Space-separated project names for assessment scenarios. Creates individual scenarios "
+             "(baseline@project) for each project, plus a combined scenario (baseline@all) when "
+             "multiple projects specified. Example: --project_assessment 'ers epbih ephzhb'"
     )
     
     parser.add_argument(

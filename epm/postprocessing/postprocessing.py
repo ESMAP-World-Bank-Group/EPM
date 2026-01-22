@@ -2191,7 +2191,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     subfolders['7_comparison'],
                     scenario_pairs,
                     trade_attrs=TRADE_ATTRS,
-                    reserve_attrs=RESERVE_ATTRS
+                    reserve_attrs=RESERVE_ATTRS,
+                    interpolate_years=True
                 )
                 make_assessment_capacity_diff(
                     epm_results,
