@@ -779,6 +779,7 @@ def make_assessment_cost_template_csv(
         if interpolate_years and len(milestone_years) > 1:
             metadata_lines.extend([
                 "# Year Interpolation: ENABLED",
+                f"#   Milestone years actually simulated: {' '.join(map(str, sorted(milestone_years)))}",
                 "#   Intermediate years use FORWARD-FILL from next milestone year",
                 "#   Yearly values are for inspection only",
                 "#   NPV column uses model's original discount factors (unchanged)",
@@ -815,6 +816,20 @@ def make_assessment_cost_template_csv(
                 discount_df = discount_df[discount_df["scenario"] == "baseline"]
             for _, row in discount_df.iterrows():
                 milestone_discount_factors[int(row[year_col])] = row["value"]
+
+        # Derive discount rate (DR) from pRR values using ratio of consecutive years
+        # Use 2nd and 3rd milestone years (first year has pRR=1.0 as special case)
+        # Formula: pRR(y2)/pRR(y3) = (1+DR)^((w2+w3)/2) => DR = (pRR(y2)/pRR(y3))^(2/(w2+w3)) - 1
+        derived_discount_rate = None
+        sorted_milestones = sorted(milestone_years)
+        if len(sorted_milestones) >= 3 and milestone_discount_factors:
+            y2, y3 = sorted_milestones[1], sorted_milestones[2]
+            pRR_y2 = milestone_discount_factors.get(y2)
+            pRR_y3 = milestone_discount_factors.get(y3)
+            w2 = milestone_year_weights.get(y2, 1)
+            w3 = milestone_year_weights.get(y3, 1)
+            if pRR_y2 and pRR_y3 and pRR_y3 > 0 and (w2 + w3) > 0:
+                derived_discount_rate = (pRR_y2 / pRR_y3) ** (2.0 / (w2 + w3)) - 1
 
         # For interpolated years, expand weights and discount factors
         if interpolate_years and len(milestone_years) > 1:
@@ -1007,10 +1022,28 @@ def make_assessment_cost_template_csv(
 
             # Write year weights and discount factors first (aligned with years)
             f.write("# Model Parameters\n")
-            f.write("# Year Weight (pWeightYear) - number of years each model year represents\n")
-            f.write("# Discount Factor (pRR) - present value factor for each year\n")
-            f.write("# NPV calculation uses: value × pWeightYear × pRR\n")
-            f.write("# GHG Emissions use cumulative sum (yearly value × year weight), not discounted NPV\n")
+            if derived_discount_rate is not None:
+                f.write(f"# Discount Rate (DR) = {derived_discount_rate*100:.1f}%\n")
+            f.write("# Year Weight (pWeightYear) - number of years each milestone year represents\n")
+            f.write("# Discount Factor (pRR) - present value factor using mid-period discounting\n")
+            # Add example calculation for the second milestone year with actual dates
+            if len(sorted_milestones) >= 2 and derived_discount_rate is not None:
+                y1, y2 = sorted_milestones[0], sorted_milestones[1]
+                w1 = milestone_year_weights.get(y1, 1)
+                w2 = milestone_year_weights.get(y2, 1)
+                pRR_y2 = milestone_discount_factors.get(y2)
+                if pRR_y2:
+                    # Calculate the mid-point of the period represented by y2
+                    period_start = int(y1 + w1)  # First year of y2's period
+                    period_end = int(period_start + w2 - 1)  # Last year of y2's period
+                    mid_point = (period_start + period_end) / 2
+                    years_from_base = mid_point - y1
+                    dr_plus_1 = 1 + derived_discount_rate
+                    f.write(f"#   Year {y2} represents period {period_start}-{period_end} (mid-point: {mid_point:.1f})\n")
+                    f.write(f"#   pRR({y2}) = 1 / (1 + DR)^({mid_point:.1f} - {y1}) = 1 / {dr_plus_1:.2f}^{years_from_base:.1f} = {pRR_y2:.2f}\n")
+            f.write("#   For interpolated years the discount factor of the representative milestone is used\n")
+            f.write("# NPV calculation uses: value * pWeightYear * pRR\n")
+            f.write("# GHG Emissions use cumulative sum (yearly value * year weight) not discounted NPV\n")
             f.write("#\n")
 
             # Build parameters table with same column structure
