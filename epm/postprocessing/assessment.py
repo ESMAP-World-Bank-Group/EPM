@@ -91,6 +91,93 @@ def _beautify_scenario_name(name: str) -> str:
     return name
 
 
+def _get_model_year_weights(epm_results: dict, scenario: str = "baseline") -> dict:
+    """
+    Extract year weights (pWeightYear) from EPM results.
+
+    Returns a dict mapping year -> weight (number of years each milestone represents).
+    """
+    year_weights = {}
+    if "pWeightYear" in epm_results:
+        weight_df = epm_results["pWeightYear"].copy()
+        year_col = "y" if "y" in weight_df.columns else "year"
+        if "scenario" in weight_df.columns:
+            weight_df = weight_df[weight_df["scenario"] == scenario]
+        for _, row in weight_df.iterrows():
+            year_weights[int(row[year_col])] = row["value"]
+    return year_weights
+
+
+def _get_model_discount_factors(epm_results: dict, scenario: str = "baseline") -> dict:
+    """
+    Extract discount factors (pRR) from EPM results.
+
+    Returns a dict mapping year -> discount factor.
+    """
+    discount_factors = {}
+    if "pRR" in epm_results:
+        discount_df = epm_results["pRR"].copy()
+        year_col = "y" if "y" in discount_df.columns else "year"
+        if "scenario" in discount_df.columns:
+            discount_df = discount_df[discount_df["scenario"] == scenario]
+        for _, row in discount_df.iterrows():
+            discount_factors[int(row[year_col])] = row["value"]
+    return discount_factors
+
+
+def _derive_discount_rate(
+    milestone_years: list,
+    year_weights: dict,
+    discount_factors: dict,
+) -> float | None:
+    """
+    Derive discount rate (DR) from pRR values using ratio of consecutive years.
+
+    Uses 2nd and 3rd milestone years (first year has pRR=1.0 as special case).
+    Formula: pRR(y2)/pRR(y3) = (1+DR)^((w2+w3)/2)
+             => DR = (pRR(y2)/pRR(y3))^(2/(w2+w3)) - 1
+
+    Returns the derived discount rate or None if it cannot be computed.
+    """
+    sorted_milestones = sorted(milestone_years)
+    if len(sorted_milestones) >= 3 and discount_factors:
+        y2, y3 = sorted_milestones[1], sorted_milestones[2]
+        pRR_y2 = discount_factors.get(y2)
+        pRR_y3 = discount_factors.get(y3)
+        w2 = year_weights.get(y2, 1)
+        w3 = year_weights.get(y3, 1)
+        if pRR_y2 and pRR_y3 and pRR_y3 > 0 and (w2 + w3) > 0:
+            return (pRR_y2 / pRR_y3) ** (2.0 / (w2 + w3)) - 1
+    return None
+
+
+def _load_carbon_prices() -> tuple[dict, dict]:
+    """
+    Load carbon price projections from resources files.
+
+    Returns a tuple of (carbon_price_low, carbon_price_high) dicts mapping year -> price ($/tCO2).
+    """
+    resources_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources')
+    carbon_price_high = {}
+    carbon_price_low = {}
+
+    try:
+        df_high = pd.read_csv(os.path.join(resources_dir, 'pCarbonPrice_high.csv'))
+        for _, row in df_high.iterrows():
+            carbon_price_high[int(row['y'])] = row['value']
+    except FileNotFoundError:
+        pass
+
+    try:
+        df_low = pd.read_csv(os.path.join(resources_dir, 'pCarbonPrice_low.csv'))
+        for _, row in df_low.iterrows():
+            carbon_price_low[int(row['y'])] = row['value']
+    except FileNotFoundError:
+        pass
+
+    return carbon_price_low, carbon_price_high
+
+
 def _compute_pairwise_differences(
     df: pd.DataFrame,
     scenario_pairs: dict[str, Iterable[str]],
@@ -492,23 +579,7 @@ def make_assessment_cost_template_csv(
         return
 
     # Load carbon price projections from resources for carbon cost calculations
-    resources_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'resources')
-    carbon_price_high = {}
-    carbon_price_low = {}
-
-    try:
-        df_high = pd.read_csv(os.path.join(resources_dir, 'pCarbonPrice_high.csv'))
-        for _, row in df_high.iterrows():
-            carbon_price_high[int(row['y'])] = row['value']
-    except FileNotFoundError:
-        pass  # File not available, skip carbon cost calculations
-
-    try:
-        df_low = pd.read_csv(os.path.join(resources_dir, 'pCarbonPrice_low.csv'))
-        for _, row in df_low.iterrows():
-            carbon_price_low[int(row['y'])] = row['value']
-    except FileNotFoundError:
-        pass  # File not available, skip carbon cost calculations
+    carbon_price_low, carbon_price_high = _load_carbon_prices()
 
     # Define cost category order and mapping for cleaner names
     cost_category_order = [
@@ -786,17 +857,9 @@ def make_assessment_cost_template_csv(
                 "#",
             ])
 
-        # Get year weights from EPM results (pWeightYear) if available
-        # Otherwise fall back to computing from year differences
-        milestone_year_weights = {}
-        if "pWeightYear" in epm_results:
-            weight_df = epm_results["pWeightYear"].copy()
-            year_col = "y" if "y" in weight_df.columns else "year"
-            # Select baseline scenario (same across all scenarios)
-            if "scenario" in weight_df.columns:
-                weight_df = weight_df[weight_df["scenario"] == "baseline"]
-            for _, row in weight_df.iterrows():
-                milestone_year_weights[int(row[year_col])] = row["value"]
+        # Get year weights and discount factors from EPM results
+        milestone_year_weights = _get_model_year_weights(epm_results)
+        milestone_discount_factors = _get_model_discount_factors(epm_results)
 
         # Fallback: compute weights from year differences for milestone years
         if not milestone_year_weights:
@@ -806,30 +869,10 @@ def make_assessment_cost_template_csv(
                 else:
                     milestone_year_weights[y] = milestone_years[-1] - milestone_years[-2] if len(milestone_years) > 1 else 1
 
-        # Get discount factors from EPM results (pRR) if available
-        milestone_discount_factors = {}
-        if "pRR" in epm_results:
-            discount_df = epm_results["pRR"].copy()
-            year_col = "y" if "y" in discount_df.columns else "year"
-            # Select baseline scenario (same across all scenarios)
-            if "scenario" in discount_df.columns:
-                discount_df = discount_df[discount_df["scenario"] == "baseline"]
-            for _, row in discount_df.iterrows():
-                milestone_discount_factors[int(row[year_col])] = row["value"]
-
-        # Derive discount rate (DR) from pRR values using ratio of consecutive years
-        # Use 2nd and 3rd milestone years (first year has pRR=1.0 as special case)
-        # Formula: pRR(y2)/pRR(y3) = (1+DR)^((w2+w3)/2) => DR = (pRR(y2)/pRR(y3))^(2/(w2+w3)) - 1
-        derived_discount_rate = None
-        sorted_milestones = sorted(milestone_years)
-        if len(sorted_milestones) >= 3 and milestone_discount_factors:
-            y2, y3 = sorted_milestones[1], sorted_milestones[2]
-            pRR_y2 = milestone_discount_factors.get(y2)
-            pRR_y3 = milestone_discount_factors.get(y3)
-            w2 = milestone_year_weights.get(y2, 1)
-            w3 = milestone_year_weights.get(y3, 1)
-            if pRR_y2 and pRR_y3 and pRR_y3 > 0 and (w2 + w3) > 0:
-                derived_discount_rate = (pRR_y2 / pRR_y3) ** (2.0 / (w2 + w3)) - 1
+        # Derive discount rate from pRR values
+        derived_discount_rate = _derive_discount_rate(
+            milestone_years, milestone_year_weights, milestone_discount_factors
+        )
 
         # For interpolated years, expand weights and discount factors
         if interpolate_years and len(milestone_years) > 1:
@@ -945,17 +988,18 @@ def make_assessment_cost_template_csv(
                 carbon_cost_high_cf_row[yr] = em_cf_val * price_high
                 carbon_cost_high_diff_row[yr] = (em_cf_val - em_base_val) * price_high
 
-            # Compute NPV using milestone weights and discount factors (to match model)
+            # Compute discounted NPV using year weights and discount factors
+            # Works for both interpolation mode (weight=1 per year) and milestone mode
             cum_low_base = 0.0
             cum_low_cf = 0.0
             cum_high_base = 0.0
             cum_high_cf = 0.0
 
-            for yr in milestone_years:
-                em_base_val = em_base_by_milestone.get(yr, 0)  # Mt CO2
-                em_cf_val = em_cf_by_milestone.get(yr, 0)  # Mt CO2
-                weight = milestone_year_weights.get(yr, 1)
-                discount = milestone_discount_factors.get(yr, 1)
+            for yr in all_years:
+                em_base_val = em_base_by_year.get(yr, 0)  # Mt CO2
+                em_cf_val = em_cf_by_year.get(yr, 0)  # Mt CO2
+                weight = year_weights.get(yr, 1)
+                discount = discount_factors.get(yr, 1.0)
                 price_low = carbon_price_low.get(yr, 0)  # $/tCO2
                 price_high = carbon_price_high.get(yr, 0)  # $/tCO2
 
@@ -965,7 +1009,7 @@ def make_assessment_cost_template_csv(
                 cost_high_base = em_base_val * price_high
                 cost_high_cf = em_cf_val * price_high
 
-                # Cumulative (discounted NPV: value * year weight * discount factor)
+                # Discounted NPV: value * year weight * discount factor
                 cum_low_base += cost_low_base * weight * discount
                 cum_low_cf += cost_low_cf * weight * discount
                 cum_high_base += cost_high_base * weight * discount
@@ -1025,22 +1069,18 @@ def make_assessment_cost_template_csv(
             if derived_discount_rate is not None:
                 f.write(f"# Discount Rate (DR) = {derived_discount_rate*100:.1f}%\n")
             f.write("# Year Weight (pWeightYear) - number of years each milestone year represents\n")
-            f.write("# Discount Factor (pRR) - present value factor using mid-period discounting\n")
-            # Add example calculation for the second milestone year with actual dates
+            f.write("# Discount Factor (pRR) - discounts to mid-point of each year's period\n")
+            # Add simple example for the second milestone year
             if len(sorted_milestones) >= 2 and derived_discount_rate is not None:
                 y1, y2 = sorted_milestones[0], sorted_milestones[1]
                 w1 = milestone_year_weights.get(y1, 1)
                 w2 = milestone_year_weights.get(y2, 1)
                 pRR_y2 = milestone_discount_factors.get(y2)
                 if pRR_y2:
-                    # Calculate the mid-point of the period represented by y2
-                    period_start = int(y1 + w1)  # First year of y2's period
-                    period_end = int(period_start + w2 - 1)  # Last year of y2's period
-                    mid_point = (period_start + period_end) / 2
-                    years_from_base = mid_point - y1
-                    dr_plus_1 = 1 + derived_discount_rate
-                    f.write(f"#   Year {y2} represents period {period_start}-{period_end} (mid-point: {mid_point:.1f})\n")
-                    f.write(f"#   pRR({y2}) = 1 / (1 + DR)^({mid_point:.1f} - {y1}) = 1 / {dr_plus_1:.2f}^{years_from_base:.1f} = {pRR_y2:.2f}\n")
+                    # Years from base = cumulative years before + half of current weight
+                    years_before = w1
+                    exponent = years_before - 1 + w2 / 2
+                    f.write(f"#   Example: pRR({y2}) = 1 / 1.{int(derived_discount_rate*100):02d}^{exponent:.1f} = {pRR_y2:.2f}\n")
             f.write("#   For interpolated years the discount factor of the representative milestone is used\n")
             f.write("# NPV calculation uses: value * pWeightYear * pRR\n")
             f.write("# GHG Emissions use cumulative sum (yearly value * year weight) not discounted NPV\n")
@@ -1545,66 +1585,90 @@ def make_assessment_heatmap(
                 diffs = [_compute_pair_diff(comp_df, base, cf, scale=1e-6) for base, cf in pair_info]
                 rows.append((f'CAPEX - {comp} (M$)', diffs))
 
-    # 7. Cumulative CO2 emissions
+    # 7. Cumulative CO2 emissions (weighted by pWeightYear)
     emissions_all = _get_dataframe('pEmissionsZone')
     if emissions_all is not None:
         emissions_year = _resolve_year(emissions_all)
         emissions = _filter_zone(emissions_all)
         emissions_cum = emissions[emissions['year'] <= emissions_year]
-        diffs = [_compute_pair_diff(emissions_cum, base, cf) for base, cf in pair_info]
+
+        # Get model year weights for proper cumulative calculation
+        year_weights = _get_model_year_weights(epm_results)
+        discount_factors = _get_model_discount_factors(epm_results)
+
+        # Fallback: compute weights from year differences if not available
+        milestone_years = sorted(emissions_cum['year'].unique())
+        if not year_weights:
+            for i, y in enumerate(milestone_years):
+                if i < len(milestone_years) - 1:
+                    year_weights[int(y)] = int(milestone_years[i + 1] - y)
+                else:
+                    year_weights[int(y)] = int(milestone_years[-1] - milestone_years[-2]) if len(milestone_years) > 1 else 1
+
+        def _compute_weighted_emission_diff(df: pd.DataFrame, base: str, cf: str) -> float:
+            """Compute weighted cumulative emission difference between scenarios."""
+            df_base = df[df['scenario'] == base].copy()
+            df_cf = df[df['scenario'] == cf].copy()
+
+            base_by_year = df_base.groupby('year')['value'].sum() if not df_base.empty else pd.Series(dtype=float)
+            cf_by_year = df_cf.groupby('year')['value'].sum() if not df_cf.empty else pd.Series(dtype=float)
+
+            all_years = sorted(set(base_by_year.index) | set(cf_by_year.index))
+            total = 0.0
+            for y in all_years:
+                val_base = base_by_year.get(y, 0)
+                val_cf = cf_by_year.get(y, 0)
+                weight = year_weights.get(int(y), 1)
+                total += (val_cf - val_base) * weight
+            return total
+
+        diffs = [_compute_weighted_emission_diff(emissions_cum, base, cf) for base, cf in pair_info]
         rows.append((f'Cumulative CO2 emissions {emissions_year} (Mt)', diffs))
 
-        # 8. NPV of emission value at $75/tCO2 with 5% discount rate
-        # Compute year-by-year differences and apply NPV discounting
-        discount_rate = 0.05
-        carbon_price = 75  # $/tCO2
+        # 8. NPV of carbon cost using model's pWeightYear and pRR
+        # Load carbon prices from resources (same as cost template)
+        carbon_price_low, carbon_price_high = _load_carbon_prices()
 
-        def _compute_npv_emission_value(df: pd.DataFrame, base: str, cf: str) -> float:
-            """Compute NPV of emission difference between scenarios."""
+        # Derive discount rate for label
+        derived_dr = _derive_discount_rate(milestone_years, year_weights, discount_factors)
+        dr_label = f"{derived_dr*100:.0f}%" if derived_dr else "model DR"
+
+        def _compute_npv_carbon_cost(df: pd.DataFrame, base: str, cf: str, carbon_prices: dict) -> float:
+            """Compute NPV of carbon cost difference using model's pWeightYear and pRR."""
             df_base = df[df['scenario'] == base].copy()
             df_cf = df[df['scenario'] == cf].copy()
 
             if df_base.empty and df_cf.empty:
                 return 0.0
 
-            # Aggregate by year
             base_by_year = df_base.groupby('year')['value'].sum() if not df_base.empty else pd.Series(dtype=float)
             cf_by_year = df_cf.groupby('year')['value'].sum() if not df_cf.empty else pd.Series(dtype=float)
 
-            # Get all years and sort
             all_years = sorted(set(base_by_year.index) | set(cf_by_year.index))
-            if not all_years:
-                return 0.0
-
-            start_year = min(all_years)
-
-            # Compute year weights (years each model year represents)
-            year_weights = {}
-            for i, y in enumerate(all_years):
-                if i < len(all_years) - 1:
-                    year_weights[y] = all_years[i + 1] - y
-                else:
-                    year_weights[y] = all_years[-1] - all_years[-2] if len(all_years) > 1 else 1
-
             npv = 0.0
             for y in all_years:
-                val_base = base_by_year.get(y, 0)
-                val_cf = cf_by_year.get(y, 0)
+                val_base = base_by_year.get(y, 0)  # Mt CO2
+                val_cf = cf_by_year.get(y, 0)  # Mt CO2
                 diff = val_cf - val_base  # Mt CO2
 
-                # Value in M$ (Mt * $/t = M$)
-                value = diff * carbon_price
+                weight = year_weights.get(int(y), 1)
+                discount = discount_factors.get(int(y), 1.0)
+                price = carbon_prices.get(int(y), 0)  # $/tCO2
 
-                # Apply discounting for each year in the period
-                weight = year_weights[y]
-                for offset in range(weight):
-                    discount_factor = 1 / ((1 + discount_rate) ** (y - start_year + offset))
-                    npv += value * discount_factor / weight
+                # Carbon cost = Emissions (Mt) * Price ($/t) = M$
+                # NPV = cost * weight * discount
+                npv += diff * price * weight * discount
 
             return npv
 
-        diffs_npv = [_compute_npv_emission_value(emissions, base, cf) for base, cf in pair_info]
-        rows.append(('NPV Emission value (M$, $75/tCO2, 5%)', diffs_npv))
+        # Add carbon cost rows using low and high prices
+        if carbon_price_low:
+            diffs_low = [_compute_npv_carbon_cost(emissions, base, cf, carbon_price_low) for base, cf in pair_info]
+            rows.append((f'NPV Carbon Cost Low (M$ {dr_label})', diffs_low))
+
+        if carbon_price_high:
+            diffs_high = [_compute_npv_carbon_cost(emissions, base, cf, carbon_price_high) for base, cf in pair_info]
+            rows.append((f'NPV Carbon Cost High (M$ {dr_label})', diffs_high))
 
     if not rows:
         log_warning("No data available to build the assessment heatmap.")
