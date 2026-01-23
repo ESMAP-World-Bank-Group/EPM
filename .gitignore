@@ -27,6 +27,9 @@
 *.grib
 *.zip
 
+# Claude working files
+.claude/work/
+
 # IDE / Editor configs
 .vscode/
 !.vscode/launch.json.example
@@ -216,3 +219,4 @@ celerybeat.pid
 .dmypy.json
 dmypy.json
 .pyre/
+.claude/

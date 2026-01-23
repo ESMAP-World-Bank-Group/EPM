@@ -185,6 +185,7 @@ Parameter
 * Fuel data
    pFuelCarbonContent(f)                                 'Carbon content by fuel (tCO2/MMBtu)'
    pMaxFuellimit(c,f,y)                                  'Fuel limit in MMBTU*1e6 (million) by country'
+   pMaxGenerationByFuel(z,tech,f,y)                      'Max annual generation by zone-tech-fuel [GWh]'
    pFuelPrice(c,f,y)                                     'Fuel price forecasts'
 
 * Storage and transmission
@@ -266,7 +267,7 @@ $load pDemandData pDemandForecast pDemandProfile pEnergyEfficiencyFactor sReleva
 $load pFuelCarbonContent pCarbonPrice pEmissionsCountry pEmissionsTotal pFuelPrice
 
 * Load constraints and technical data
-$load pMaxFuellimit pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
+$load pMaxFuellimit pMaxGenerationByFuel pTransferLimit pLossFactorInternal pVREProfile pVREgenProfile pAvailabilityInput pEvolutionAvailability
 * Use $loadM to merge storage units into set g (first dimension of pStorageDataInput)
 $loadM g<pStorageDataInput.Dim1
 $load pStorageDataInput pStorageDataInputDefault pStorageDataInputGeneric pCSPData pCapexTrajectories pSpinningReserveReqCountry pSpinningReserveReqSystem 
@@ -468,6 +469,7 @@ fCountIntercoForReserves           = pSettings("fCountIntercoForReserves");
 * --- Settings: Policy and operational switches
 fApplyMinGenShareAllHours      = pSettings("fApplyMinGenShareAllHours");
 fApplyFuelConstraint               = pSettings("fApplyFuelConstraint");
+fApplyGenerationPhaseout           = pSettings("fApplyGenerationPhaseout");
 fApplyCapitalConstraint            = pSettings("fApplyCapitalConstraint");
 fEnableCSP                         = pSettings("fEnableCSP");
 fEnableCapacityExpansion           = pSettings("fEnableCapacityExpansion");

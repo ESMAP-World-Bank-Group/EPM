@@ -2219,20 +2219,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
             else:
                 log_info('No scenario pairs detected for project assessment.', logger=active_logger)
 
-            # Generate dispatch difference plots for each pair
-            if False:
-                for scenario_base, counterfactuals in scenario_pairs.items():
-                    if scenario_base not in selected_scenarios:
-                        continue
-                    for scenario_counterfactual in counterfactuals:
-                        make_assessment_dispatch_diff(
-                            epm_results,
-                            dict_specs,
-                            subfolders['7_comparison'],
-                            scenario_base,
-                            scenario_counterfactual
-                        )
-
             # Generate cost and capacity assessment figures
             if scenario_pairs:
                 make_assessment_cost_diff(
@@ -2248,7 +2234,8 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     subfolders['7_comparison'],
                     scenario_pairs,
                     trade_attrs=TRADE_ATTRS,
-                    reserve_attrs=RESERVE_ATTRS
+                    reserve_attrs=RESERVE_ATTRS,
+                    interpolate_years=True
                 )
                 make_assessment_capacity_diff(
                     epm_results,
@@ -2276,144 +2263,6 @@ def postprocess_output(FOLDER, reduced_output=False, selected_scenario='all',
                     reserve_attrs=RESERVE_ATTRS
                 )
 
-            if False:
-                #----------------------- Project Economic Assessment -----------------------
-                # Difference between scenarios with and without a project
-                log_info('Generating project economic assessment figures...', logger=active_logger)
-                
-                # TODO: Create folder_assessment
-                
-                # Cost assessment figures
-                base_scenarios = df[~df['scenario'].str.contains('_wo_')].copy()
-                wo_scenarios = df[df['scenario'].str.contains('_wo_')].copy()
-                wo_scenarios['base_scenario'] = wo_scenarios['scenario'].str.extract(r'^(.*)_wo_')[0]
-                wo_scenarios['removed'] = wo_scenarios['scenario'].str.extract(r'_wo_(.*)')[0]
-                valid_bases = wo_scenarios['base_scenario'].unique()
-                base_scenarios = base_scenarios[base_scenarios['scenario'].isin(valid_bases)]
-                
-                if not base_scenarios.empty:
-                    df_diff = pd.merge(
-                        base_scenarios,
-                        wo_scenarios,
-                        left_on=['scenario', 'attribute'],
-                        right_on=['base_scenario', 'attribute'],
-                        suffixes=('', '_wo')
-                    )
-                    df_diff['diff'] = df_diff['value'] - df_diff['value_wo']
-                    df_diff = df_diff[['scenario', 'removed', 'attribute', 'diff']]
-                    df_diff = df_diff.rename(columns={'scenario': 'base_scenario'})
-                    filename = f'{folder_comparison}/AssessmentCostStackedBarPlotRelative.pdf'
-                    make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='attribute',
-                                            column_subplot=None,
-                                            column_xaxis='base_scenario',
-                                            column_value='diff',
-                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=90,
-                                            annotate=False,
-                                            title='Project Cost Impact by Component (million USD)', show_total=True)
-                    log_info(f'System cost assessment figures generated successfully: {filename}', logger=active_logger)
-
-                # Energy assessment figures
-                df = df_energyfuel.copy()
-                year = max(df['year'].unique())
-                df = df.loc[df['year'] == year]
-                df = df.drop(columns=['year'])
-                df = df.set_index(['scenario', 'zone', 'fuel']).squeeze().reset_index()
-                df = df.groupby(['scenario', 'fuel'], as_index=False)['value'].sum()
-                base_scenarios = df[~df['scenario'].str.contains('_wo_')].copy()
-                wo_scenarios = df[df['scenario'].str.contains('_wo_')].copy()
-                wo_scenarios['base_scenario'] = wo_scenarios['scenario'].str.extract(r'^(.*)_wo_')[0]
-                wo_scenarios['removed'] = wo_scenarios['scenario'].str.extract(r'_wo_(.*)')[0]
-                valid_bases = wo_scenarios['base_scenario'].unique()
-                base_scenarios = base_scenarios[base_scenarios['scenario'].isin(valid_bases)]
-                if not base_scenarios.empty:
-                    df_diff = pd.merge(
-                        base_scenarios,
-                        wo_scenarios,
-                        left_on=['scenario', 'fuel'],
-                        right_on=['base_scenario', 'fuel'],
-                        suffixes=('', '_wo')
-                    )
-                    df_diff['diff'] = df_diff['value'] - df_diff['value_wo']
-                    df_diff = df_diff[['scenario', 'removed', 'fuel', 'diff']]
-                    df_diff = df_diff.rename(columns={'scenario': 'base_scenario'})
-                    
-                    filename = f'{folder_comparison}/AssessmentEnergyStackedBarPlotRelative_{year}.pdf'
-                    make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='fuel',
-                                            column_subplot=None,
-                                            column_xaxis='base_scenario',
-                                            column_value='diff',
-                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=90,
-                                            annotate=False,
-                                            title=f'Additional Energy with the Project {year}', show_total=True)
-                    log_info(f'Energy assessment figures generated successfully: {filename}', logger=active_logger)
-                
-                # Capacity assessment figures
-                df = df_capacityfuel.copy()
-                year = max(df['year'].unique())
-                df = df.loc[df['year'] == year]
-                df = df.drop(columns=['year'])
-                df = df.set_index(['scenario', 'zone', 'fuel']).squeeze().reset_index()
-                df = df.groupby(['scenario', 'fuel'], as_index=False)['value'].sum()
-                base_scenarios = df[~df['scenario'].str.contains('_wo_')].copy()
-                wo_scenarios = df[df['scenario'].str.contains('_wo_')].copy()
-                wo_scenarios['base_scenario'] = wo_scenarios['scenario'].str.extract(r'^(.*)_wo_')[0]
-                wo_scenarios['removed'] = wo_scenarios['scenario'].str.extract(r'_wo_(.*)')[0]
-                valid_bases = wo_scenarios['base_scenario'].unique()
-                base_scenarios = base_scenarios[base_scenarios['scenario'].isin(valid_bases)]
-                if not base_scenarios.empty:
-                    df_diff = pd.merge(
-                        base_scenarios,
-                        wo_scenarios,
-                        left_on=['scenario', 'fuel'],
-                        right_on=['base_scenario', 'fuel'],
-                        suffixes=('', '_wo')
-                    )
-                    df_diff['diff'] = df_diff['value'] - df_diff['value_wo']
-                    df_diff = df_diff[['scenario', 'removed', 'fuel', 'diff']]
-                    df_diff = df_diff.rename(columns={'scenario': 'base_scenario'})
-                    
-                    filename = f'{folder_comparison}/AssessmentCapacityStackedBarPlotRelative_{year}.pdf'
-                    make_stacked_barplot(df_diff, filename, dict_specs['colors'], column_stacked='fuel',
-                                            column_subplot=None,
-                                            column_xaxis='base_scenario',
-                                            column_value='diff',
-                                            format_y=lambda y, _: '{:,.0f}'.format(y), rotation=90,
-                                            annotate=False,
-                                            title=f'Additional Capacity with the Project {year}', show_total=True)
-                    log_info(f'Capacity assessment figures generated successfully: {filename}', logger=active_logger)
-    # Filter for imports and exports from pDispatch
-    df_plot = filter_dataframe(epm_results['pDispatch'], {'attribute': ['Imports', 'Exports']})
-
-# Create combined x-axis column from season, day, time multi-index
-    df_plot = df_plot.copy()
-    df_plot['qdt'] = (df_plot['season'].astype(str) + '|' + 
-        df_plot['day'].astype(str) + '|' + 
-        df_plot['t'].astype(str))
-
-# Select years and maintain order
-    years_target = [2025, 2030, 2035, 2040]
-    df_plot = df_plot[df_plot['year'].isin(years_target)]
-    df_plot = df_plot[['scenario','zone', 'year','qdt', 'value']]
-
-# Create ordered x-axis values (q, d, t sorted)
-    """x_order = (df_plot[['season', 'day', 't', 'qdt']]
-                .drop_duplicates()
-                .sort_values(['season', 'day', 't'])['qdt']
-                .tolist())"""
-
-# Generate stacked bar plot with 3 subplots
-    
-    make_stacked_barplot(
-        df_plot,
-        os.path.join(subfolders['5_dispatch'], 'InterconnectionDispatch2025_2035.pdf'),
-        dict_specs['colors'],
-        column_stacked='zone',
-        column_subplot='year',
-        column_xaxis='qdt',
-        column_value='value',
-        format_y=make_auto_yaxis_formatter('GWh'),
-        rotation=90,
-        annotate=False,
-        title='Interconnection Dispatch (Imports/Exports) for Selected Years (GWh)',
-        #x_order=x_order 
-)                
+    log_info(f"Postprocessing finished for {FOLDER}", logger=active_logger)
+    set_default_logger(previous_logger)
+    set_utils_logger(previous_logger)
